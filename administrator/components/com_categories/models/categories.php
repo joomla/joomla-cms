@@ -20,38 +20,35 @@ jimport('joomla.application.component.modellist');
 class CategoriesModelCategories extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	public $_context = 'com_categories';
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * @since	1.6
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication();
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$context	= $this->context;
 
-		$extension = $app->getUserStateFromRequest($this->_context.'.filter.extension', 'extension');
+		$extension = $app->getUserStateFromRequest($this->context.'.filter.extension', 'extension');
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.',$extension);
 		// extract the component name
 		$this->setState('filter.component', $parts[0]);
 		// extract the optional section name
-		$this->setState('filter.section', (count($parts)>1)?$parts[1]:null);
+		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-		if (!empty($extension)) $this->_context.=".$extension";
+		if (!empty($extension)) {
+			$context .= '.'.$extension;
+		}
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$access = $app->getUserStateFromRequest($context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
 		// List state information.

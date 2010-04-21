@@ -20,13 +20,6 @@ jimport('joomla.application.component.modellist');
 class MenusModelMenus extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_menus.menus';
-
-	/**
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return	string	An SQL query

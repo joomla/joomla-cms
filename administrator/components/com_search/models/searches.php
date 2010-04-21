@@ -22,13 +22,6 @@ jimport('joomla.application.component.modellist');
 class SearchModelSearches extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_searches.searches';
-
-	/**
 	 * Method to auto-populate the model state.
 	 */
 	protected function populateState()
@@ -37,10 +30,10 @@ class SearchModelSearches extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$showResults = $app->getUserStateFromRequest($this->_context.'.filter.results', 'filter_results', null, 'int');
+		$showResults = $app->getUserStateFromRequest($this->context.'.filter.results', 'filter_results', null, 'int');
 		$this->setState('filter.results', $showResults);
 
 		// Load the parameters.

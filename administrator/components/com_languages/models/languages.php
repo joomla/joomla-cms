@@ -20,13 +20,6 @@ jimport('joomla.application.component.modellist');
 class LanguagesModelLanguages extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_languages.languages';
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * This method should only be called once per instantiation and is designed
@@ -42,10 +35,10 @@ class LanguagesModelLanguages extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
 		// Load the parameters.

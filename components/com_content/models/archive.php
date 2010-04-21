@@ -38,35 +38,35 @@ class ContentModelArchive extends ContentModelArticles
 		parent::populateState();
 
 		// Add archive properties
-		$params = $this->_state->params;
-		
+		$params = $this->state->params;
+
 		// Filter on archived articles
 		$this->setState('filter.published', -1);
-		
+
 		// Filter on month, year
 		$this->setState('filter.month', JRequest::getInt('month'));
 		$this->setState('filter.year', JRequest::getInt('year'));
-		
+
 		// Optional filter text
 		$this->setState('list.filter', JRequest::getString('filter-search'));
-		
+
 		// Get list limit
 		$app =& JFactory::getApplication();
 		$itemid = JRequest::getInt('Itemid', 0);
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'));
 		$this->setState('list.limit', $limit);
-	}	
-	
+	}
+
 	/**
 	 * @return	JDatabaseQuery
 	 */
 	function getListQuery()
 	{
 		// Set the archive ordering
-		$params = $this->_state->params;
+		$params = $this->state->params;
 		$articleOrderby = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
-		
+
 		// No category ordering
 		$categoryOrderby = '';
 		$secondary = ContentHelperQuery::orderbySecondary($articleOrderby, $articleOrderDate) . ', ';
@@ -77,26 +77,26 @@ class ContentModelArchive extends ContentModelArticles
 		$this->setState('list.direction', '');
 		// Create a new query object.
 		$query = parent::getListQuery();
-		
+
 		// Add routing for archive
 		$query->select(' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug');
 		$query->select(' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug');
-		
+
 		// Filter on month, year
 		// First, get the date field
 		$queryDate = ContentHelperQuery::getQueryDate($articleOrderDate);
-		
+
 		if ($month = $this->getState('filter.month')) {
 			$query->where('MONTH('. $queryDate . ') = ' . $month);
 		}
-		
+
 		if ($year = $this->getState('filter.year')) {
 			$query->where('YEAR('. $queryDate . ') = ' . $year);
 		}
-		
+
 		return $query;
 	}
-	
+
 	/**
 	 * Method to get the archived article list
 	 *

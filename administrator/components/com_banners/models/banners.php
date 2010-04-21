@@ -19,16 +19,10 @@ jimport('joomla.application.component.modellist');
 class BannersModelBanners extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_banners.banners';
-	/**
 	 * Categories data
 	 * @var		array
 	 */
-	protected $_categories;
+	protected $categories;
 
 	/**
 	 * Method to auto-populate the model state.
@@ -39,16 +33,16 @@ class BannersModelBanners extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_state', '', 'string');
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id', '');
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
-		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', '');
+		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.
@@ -171,15 +165,15 @@ class BannersModelBanners extends JModelList
 
 		// Add the list ordering clause.
 		$orderCol = $this->getState('list.ordering', 'ordering');
-		$app->setUserState($this->_context . '.'.$orderCol.'.orderdirn',$this->getState('list.direction', 'ASC'));
+		$app->setUserState($this->context . '.'.$orderCol.'.orderdirn',$this->getState('list.direction', 'ASC'));
 		if ($orderCol=='ordering') {
-			$query->order($db->getEscaped('category_title').' '.$db->getEscaped($app->getUserState($this->_context . '.category_title.orderdirn','ASC')));
+			$query->order($db->getEscaped('category_title').' '.$db->getEscaped($app->getUserState($this->context . '.category_title.orderdirn','ASC')));
 		}
 		$query->order($db->getEscaped($orderCol).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		if ($orderCol=='category_title') {
-			$query->order($db->getEscaped('ordering').' '.$db->getEscaped($app->getUserState($this->_context . '.ordering.orderdirn','ASC')));
+			$query->order($db->getEscaped('ordering').' '.$db->getEscaped($app->getUserState($this->context . '.ordering.orderdirn','ASC')));
 		}
-		$query->order($db->getEscaped('state').' '.$db->getEscaped($app->getUserState($this->_context . '.state.orderdirn','ASC')));
+		$query->order($db->getEscaped('state').' '.$db->getEscaped($app->getUserState($this->context . '.state.orderdirn','ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -189,7 +183,7 @@ class BannersModelBanners extends JModelList
 	 */
 	function &getCategories()
 	{
-		if (!isset($this->_categories))
+		if (!isset($this->categories))
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
@@ -199,8 +193,8 @@ class BannersModelBanners extends JModelList
 			$query->where('state>=0');
 			$query->group('catid');
 			$db->setQuery((string)$query);
-			$this->_categories = $db->loadObjectList('catid');
+			$this->categories = $db->loadObjectList('catid');
 		}
-		return $this->_categories;
+		return $this->categories;
 	}
 }

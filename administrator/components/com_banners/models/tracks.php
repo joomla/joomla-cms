@@ -19,15 +19,10 @@ jimport('joomla.application.component.modellist');
 class BannersModelTracks extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_banners.tracks';
-	/**
 	 *
 	 */
-	protected $_basename;
+	protected $basename;
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -37,19 +32,19 @@ class BannersModelTracks extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$type = $app->getUserStateFromRequest($this->_context.'.filter.type', 'filter_type');
+		$type = $app->getUserStateFromRequest($this->context.'.filter.type', 'filter_type');
 		$this->setState('filter.type', $type);
 
-		$begin = $app->getUserStateFromRequest($this->_context.'.filter.begin', 'filter_begin', '', 'string');
+		$begin = $app->getUserStateFromRequest($this->context.'.filter.begin', 'filter_begin', '', 'string');
 		$this->setState('filter.begin', $begin);
 
-		$end = $app->getUserStateFromRequest($this->_context.'.filter.end', 'filter_end', '', 'string');
+		$end = $app->getUserStateFromRequest($this->context.'.filter.end', 'filter_end', '', 'string');
 		$this->setState('filter.end', $end);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id', '');
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
-		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', '');
+		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.
@@ -216,7 +211,7 @@ class BannersModelTracks extends JModelList
 	 */
 	public function getBaseName()
 	{
-		if(!isset($this->_basename))
+		if(!isset($this->basename))
 		{
 			$app = &JFactory::getApplication();
 			$basename = $this->getState('basename');
@@ -289,9 +284,9 @@ class BannersModelTracks extends JModelList
 			{
 				$basename = str_replace('__END__','',$basename);
 			}
-			$this->_basename = $basename;
+			$this->basename = $basename;
 		}
-		return $this->_basename;
+		return $this->basename;
 	}
 	/**
 	 * Get the category name
@@ -371,9 +366,9 @@ class BannersModelTracks extends JModelList
 	 */
 	public function getContent()
 	{
-		if (!isset($this->_content)) {
-			$this->_content = '';
-			$this->_content.=
+		if (!isset($this->content)) {
+			$this->content = '';
+			$this->content.=
 			'"'.str_replace('"','""',JText::_('COM_BANNERS_HEADING_NAME')).'","'.
 				str_replace('"','""',JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
 				str_replace('"','""',JText::_('JGRID_HEADING_CATEGORY')).'","'.
@@ -382,7 +377,7 @@ class BannersModelTracks extends JModelList
 				str_replace('"','""',JText::_('JDATE')).'"'."\n";
 
 			foreach($this->getItems() as $item) {
-				$this->_content.=
+				$this->content.=
 				'"'.str_replace('"','""',$item->name).'","'.
 					str_replace('"','""',$item->client_name).'","'.
 					str_replace('"','""',$item->category_title).'","'.
@@ -395,7 +390,7 @@ class BannersModelTracks extends JModelList
 				$files = array();
 				$files['track']=array();
 				$files['track']['name'] = $this->getBasename() . '.csv';
-				$files['track']['data'] = $this->_content;
+				$files['track']['data'] = $this->content;
 				$files['track']['time'] = time();
 				$ziproot = JPATH_ROOT . '/tmp/' . uniqid('banners_tracks_') . '.zip';
 				// run the packager
@@ -417,9 +412,9 @@ class BannersModelTracks extends JModelList
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 					return false;
 				}
-				$this->_content = file_get_contents($ziproot);
+				$this->content = file_get_contents($ziproot);
 			}
 		}
-		return $this->_content;
+		return $this->content;
 	}
 }

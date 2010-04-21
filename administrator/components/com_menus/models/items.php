@@ -19,13 +19,6 @@ jimport('joomla.application.component.modellist');
 class MenusModelItems extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_menus.items';
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * @return	void
@@ -34,22 +27,22 @@ class MenusModelItems extends JModelList
 	{
 		$app = JFactory::getApplication('administrator');
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$access = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$parentId = $app->getUserStateFromRequest($this->_context.'.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$parentId = $app->getUserStateFromRequest($this->context.'.filter.parent_id', 'filter_parent_id', 0, 'int');
 		$this->setState('filter.parent_id',	$parentId);
 
-		$level = $app->getUserStateFromRequest($this->_context.'.filter.level', 'filter_level', 0, 'int');
+		$level = $app->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
+		$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
 		$this->setState('filter.menutype', $menuType);
 
 		// Component parameters.

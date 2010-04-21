@@ -19,13 +19,6 @@ jimport('joomla.application.component.modellist');
 class WeblinksModelWeblinks extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_weblinks.weblinks';
-
-	/**
 	 * Method to auto-populate the model state.
 	 */
 	protected function populateState()
@@ -34,16 +27,16 @@ class WeblinksModelWeblinks extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', null, 'int');
+		$accessId = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
+		$published = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '', 'string');
 		$this->setState('filter.state', $published);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id', '');
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
 		// Load the parameters.

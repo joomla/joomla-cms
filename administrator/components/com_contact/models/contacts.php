@@ -19,13 +19,6 @@ jimport('joomla.application.component.modellist');
 class ContactModelContacts extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	public $_context = 'com_contact.contacts';
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * @since	1.6
@@ -34,16 +27,16 @@ class ContactModelContacts extends JModelList
 	{
 		$app = JFactory::getApplication();
 
-		$search = $app->getUserStateFromRequest($this->_context.'.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$access = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.category_id', 'filter_category_id');
+		$categoryId = $app->getUserStateFromRequest($this->context.'.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
 		// List state information.
@@ -142,7 +135,7 @@ class ContactModelContacts extends JModelList
 			// Add the list ordering clause.
 			$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).', ordering '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		}
-		
+
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}

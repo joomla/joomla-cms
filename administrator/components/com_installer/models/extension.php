@@ -29,14 +29,17 @@ class InstallerModel extends JModelList
 	 * @param	int The number of records
 	 * @return	array
 	 */
-	protected function _getList($query, $limitstart = 0, $limit = 0) {
-		$ordering = $this->getState('list.ordering');
-		$search = $this->getState('filter.search');
+	protected function _getList($query, $limitstart = 0, $limit = 0)
+	{
+		$ordering	= $this->getState('list.ordering');
+		$search		= $this->getState('filter.search');
+		$db			= $this->getDbo();
+
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
-			$this->_db->setQuery($query);
-			$result = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$result = $db->loadObjectList();
 			$lang = JFactory::getLanguage();
-			$this->_translate($result);
+			$this->translate($result);
 			if (!empty($search)) {
 				foreach($result as $i=>$item) {
 					if (!preg_match("/$search/i", $item->name)) {
@@ -46,17 +49,16 @@ class InstallerModel extends JModelList
 			}
 			JArrayHelper::sortObjects($result, $this->getState('list.ordering'), $this->getState('list.direction') == 'desc' ? -1 : 1);
 			$total = count($result);
-			$this->_cache[$this->getStoreId('getTotal')] = $total;
+			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
 				$limitstart = 0;
 				$this->setState('list.start', 0);
 			}
 			return array_slice($result, $limitstart, $limit ? $limit : null);
-		}
-		else {
-			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
+		} else {
+			$query->order($db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
 			$result = parent::_getList($query, $limitstart, $limit);
-			$this->_translate($result);
+			$this->translate($result);
 			return $result;
 		}
 	}
@@ -67,7 +69,7 @@ class InstallerModel extends JModelList
 	 * @param	array The array of objects
 	 * @return	array The array of translated objects
 	 */
-	private function _translate(&$items)
+	private function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 		foreach($items as &$item) {

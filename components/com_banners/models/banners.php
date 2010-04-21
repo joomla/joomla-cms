@@ -23,8 +23,6 @@ JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_banners/table
  */
 class BannersModelBanners extends JModelList
 {
-	protected $_items;
-
 	/**
 	 * Method to get a store id based on model configuration state.
 	 *
@@ -105,12 +103,12 @@ class BannersModelBanners extends JModelList
 						$keyword=trim($keyword);
 						$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
 
-						$condition2="a.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
+						$condition2="a.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
 						if ($cid) {
-							$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
+							$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
 						}
 						if ($catid) {
-							$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$this->_db->getEscaped($keyword) . "[[:>:]]'";
+							$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
 						}
 						$temp[]="($condition1) AND ($condition2)";
 					}
@@ -124,16 +122,16 @@ class BannersModelBanners extends JModelList
 
 	function &getItems()
 	{
-		if (!isset($this->_items)) {
-			$this->_items = &parent::getItems();
+		if (!isset($this->cache['items'])) {
+			$this->cache['items'] = parent::getItems();
 
-			foreach ($this->_items as &$item) {
+			foreach ($this->cache['items'] as &$item) {
 				$parameters = new JRegistry;
 				$parameters->loadJSON($item->params);
 				$item->params = $parameters->toObject();
 			}
 		}
-		return $this->_items;
+		return $this->cache['items'];
 	}
 	/**
 	 * Makes impressions on a list of banners
@@ -152,9 +150,9 @@ class BannersModelBanners extends JModelList
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
 			$query->where('id = '.(int)$id);
-			$this->_db->setQuery((string)$query);
-			if (!$this->_db->query()) {
-				JError::raiseError(500, $this->_db->getErrorMsg());
+			$db->setQuery((string)$query);
+			if (!$db->query()) {
+				JError::raiseError(500, $db->getErrorMsg());
 			}
 
 			// track impressions
@@ -175,13 +173,13 @@ class BannersModelBanners extends JModelList
 				$query->from('#__banner_tracks');
 				$query->where('track_type=1');
 				$query->where('banner_id='.(int) $id);
-				$query->where('track_date='.$this->_db->Quote($trackDate));
+				$query->where('track_date='.$db->Quote($trackDate));
 
-				$this->_db->setQuery((string)$query);
-				if (!$this->_db->query()) {
-					JError::raiseError(500, $this->_db->getErrorMsg());
+				$db->setQuery((string)$query);
+				if (!$db->query()) {
+					JError::raiseError(500, $db->getErrorMsg());
 				}
-				$count = $this->_db->loadResult();
+				$count = $db->loadResult();
 
 				$query->clear();
 				if ($count) {
@@ -190,19 +188,19 @@ class BannersModelBanners extends JModelList
 					$query->set('`count` = (`count` + 1)');
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
-					$query->where('track_date='.$this->_db->Quote($trackDate));
+					$query->where('track_date='.$db->Quote($trackDate));
 				} else {
 					// insert new count
 					$query->insert('#__banner_tracks');
 					$query->set('`count` = 1');
 					$query->set('track_type=1');
 					$query->set('banner_id='.(int)$id);
-					$query->set('track_date='.$this->_db->Quote($trackDate));
+					$query->set('track_date='.$db->Quote($trackDate));
 				}
 
-				$this->_db->setQuery((string)$query);
-				if (!$this->_db->query()) {
-					JError::raiseError(500, $this->_db->getErrorMsg());
+				$db->setQuery((string)$query);
+				if (!$db->query()) {
+					JError::raiseError(500, $db->getErrorMsg());
 				}
 			}
 		}

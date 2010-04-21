@@ -34,13 +34,6 @@ class ContactModelCategory extends JModelList
 	protected $_parent = null;
 
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_contact.category';
-
-	/**
 	 * The category that applies.
 	 *
 	 * @access	protected
@@ -191,7 +184,7 @@ class ContactModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
-		
+
 		return $this->_item;
 	}
 
@@ -224,7 +217,7 @@ class ContactModelCategory extends JModelList
 		}
 		return $this->_leftsibling;
 	}
-	
+
 	function &getRightSibling()
 	{
 		if(!is_object($this->_item))

@@ -27,9 +27,9 @@ class MessagesControllerMessage extends JControllerForm
 	 *
 	 * @return	boolean
 	 */
-	protected function _allowSave($data, $key = 'message_id')
+	protected function allowSave($data, $key = 'message_id')
 	{
-		return parent::_allowSave($data, $key);
+		return parent::allowSave($data, $key);
 	}
 
 	/**

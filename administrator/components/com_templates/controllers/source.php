@@ -43,7 +43,7 @@ class TemplatesControllerSource extends JController
 	 *
 	 * @return	boolean
 	 */
-	protected function _allowEdit()
+	protected function allowEdit()
 	{
 		return JFactory::getUser()->authorise('core.edit', 'com_templates');
 	}
@@ -58,9 +58,9 @@ class TemplatesControllerSource extends JController
 	 *
 	 * @return	boolean
 	 */
-	protected function _allowSave()
+	protected function allowSave()
 	{
-		return $this->_allowEdit();
+		return $this->allowEdit();
 	}
 
 	/**
@@ -102,7 +102,7 @@ class TemplatesControllerSource extends JController
 		$context	= 'com_templates.edit.source';
 
 		// Access check.
-		if (!$this->_allowEdit()) {
+		if (!$this->allowEdit()) {
 			return JError::raiseWarning(403, 'JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED');
 		}
 
@@ -151,7 +151,7 @@ class TemplatesControllerSource extends JController
 		$model		= $this->getModel();
 
 		// Access check.
-		if (!$this->_allowSave()) {
+		if (!$this->allowSave()) {
 			return JError::raiseWarning(403, 'JERROR_SAVE_NOT_PERMITTED');
 		}
 

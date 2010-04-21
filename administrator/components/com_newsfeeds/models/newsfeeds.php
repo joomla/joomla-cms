@@ -20,13 +20,6 @@ jimport('joomla.application.component.modellist');
 class NewsfeedsModelNewsfeeds extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var	string
-	 */
-	protected $_context = 'com_newsfeeds.newsfeeds';
-
-	/**
 	 * Method to auto-populate the model state.
 	 */
 	protected function populateState()
@@ -35,16 +28,16 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', null, 'int');
+		$accessId = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '', 'string');
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'catid', null, 'int');
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'catid', null, 'int');
 		$this->setState('filter.category_id', $categoryId);
 
 		// Load the parameters.

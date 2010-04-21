@@ -20,13 +20,6 @@ jimport('joomla.application.component.modellist');
 class ModulesModelModules extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var	string
-	 */
-	protected $_context = 'com_modules.modules';
-
-	/**
 	 * Method to auto-populate the model state.
 	 */
 	protected function populateState()
@@ -35,22 +28,22 @@ class ModulesModelModules extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', null, 'int');
+		$accessId = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_state', '', 'string');
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$position = $app->getUserStateFromRequest($this->_context.'.filter.position', 'filter_position', '', 'string');
+		$position = $app->getUserStateFromRequest($this->context.'.filter.position', 'filter_position', '', 'string');
 		$this->setState('filter.position', $position);
 
-		$module = $app->getUserStateFromRequest($this->_context.'.filter.module', 'filter_module', '', 'string');
+		$module = $app->getUserStateFromRequest($this->context.'.filter.module', 'filter_module', '', 'string');
 		$this->setState('filter.module', $module);
 
-		$clientId = $app->getUserStateFromRequest($this->_context.'.filter.client_id', 'filter_client_id', 0, 'int');
+		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.
@@ -98,10 +91,10 @@ class ModulesModelModules extends JModelList
 		if ($ordering == 'name') {
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
-			$this->_translate($result);
+			$this->translate($result);
 			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1);
 			$total = count($result);
-			$this->_cache[$this->getStoreId('getTotal')] = $total;
+			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
 				$limitstart = 0;
 				$this->setState('list.start', 0);
@@ -117,7 +110,7 @@ class ModulesModelModules extends JModelList
 				$query->order('ordering ASC');
 			}
 			$result = parent::_getList($query, $limitstart, $limit);
-			$this->_translate($result);
+			$this->translate($result);
 			return $result;
 		}
 	}
@@ -128,11 +121,11 @@ class ModulesModelModules extends JModelList
 	 * @param	array The array of objects
 	 * @return	array The array of translated objects
 	 */
-	private function _translate(&$items)
+	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
-		foreach($items as &$item) {
+		foreach($items as $item) {
 			$extension = $item->module;
 			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
 				$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)

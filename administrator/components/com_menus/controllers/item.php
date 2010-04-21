@@ -19,22 +19,6 @@ jimport( 'joomla.application.component.controllerform' );
 class MenusControllerItem extends JControllerForm
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		// Register proxy tasks.
-		$this->registerTask('save2copy',	'save');
-		$this->registerTask('save2new',		'save');
-		$this->registerTask('apply',		'save');
-	}
-
-	/**
 	 * Dummy method to redirect back to standard controller
 	 *
 	 * @return	void
@@ -61,7 +45,7 @@ class MenusControllerItem extends JControllerForm
 		$app->setUserState('com_menus.edit.item.link',	null);
 
 		// Check if we are adding for a particular menutype
-		$menuType = $app->getUserStateFromRequest($this->_context.'.filter.menutype', 'menutype', 'mainmenu');
+		$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
 
 		// Redirect to the edit screen.
 		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType, false));
@@ -332,7 +316,7 @@ class MenusControllerItem extends JControllerForm
 				//	$app->setUserState('com_menus.edit.item.link',	null);
 		//}
 
-		$this->type=$type;
+		$this->type = $type;
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 	}
 
@@ -346,8 +330,8 @@ class MenusControllerItem extends JControllerForm
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Item');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Item');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
@@ -355,13 +339,10 @@ class MenusControllerItem extends JControllerForm
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
 		// Attempt to run the batch operation.
-		if ($model->batch($vars, $cid))
-		{
+		if ($model->batch($vars, $cid)) {
 			$this->setMessage(JText::_('COM_MENUS_BATCH_SUCCESS'));
 			return true;
-		}
-		else
-		{
+		} else {
 			$this->setMessage(JText::_(JText::sprintf('COM_MENUS_ERROR_BATCH_FAILED', $model->getError())));
 			return false;
 		}

@@ -35,14 +35,6 @@ class WeblinksModelCategory extends JModelList
 	protected $_parent = null;
 
 	/**
-	 * Model context string.
-	 *
-	 * @access	protected
-	 * @var		string
-	 */
-	protected $_context = 'com_weblinks.category';
-
-	/**
 	 * The category that applies.
 	 *
 	 * @access	protected
@@ -124,7 +116,7 @@ class WeblinksModelCategory extends JModelList
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		return $query;
 	}
-	
+
 
 	/**
 	 * Method to auto-populate the model state.
@@ -139,7 +131,7 @@ class WeblinksModelCategory extends JModelList
 	protected function populateState()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_weblinks');
 
 		// List state information
@@ -199,10 +191,10 @@ class WeblinksModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
-		
+
 		return $this->_item;
 	}
-	
+
 	/**
 	 * Get the parent categorie.
 	 *
@@ -232,7 +224,7 @@ class WeblinksModelCategory extends JModelList
 		}
 		return $this->_leftsibling;
 	}
-	
+
 	function &getRightSibling()
 	{
 		if(!is_object($this->_item))

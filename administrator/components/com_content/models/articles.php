@@ -19,13 +19,6 @@ jimport('joomla.application.component.modellist');
 class ContentModelArticles extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_content.articles';
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * @since	1.6
@@ -35,16 +28,16 @@ class ContentModelArticles extends JModelList
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', 0, 'int');
+		$access = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$categoryId = $app->getUserStateFromRequest($this->_context.'.filter.category_id', 'filter_category_id');
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
 		// List state information.

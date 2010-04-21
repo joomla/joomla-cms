@@ -20,13 +20,6 @@ jimport('joomla.application.component.modellist');
 class PluginsModelPlugins extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var	string
-	 */
-	protected $_context = 'com_plugins.plugins';
-
-	/**
 	 * Method to auto-populate the model state.
 	 */
 	protected function populateState()
@@ -35,16 +28,16 @@ class PluginsModelPlugins extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->_context.'.filter.search', 'filter_search');
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $app->getUserStateFromRequest($this->_context.'.filter.access', 'filter_access', null, 'int');
+		$accessId = $app->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$state = $app->getUserStateFromRequest($this->_context.'.filter.state', 'filter_state', '', 'string');
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$folder = $app->getUserStateFromRequest($this->_context.'.filter.folder', 'filter_folder', null, 'cmd');
+		$folder = $app->getUserStateFromRequest($this->context.'.filter.folder', 'filter_folder', null, 'cmd');
 		$this->setState('filter.folder', $folder);
 
 		// Load the parameters.
@@ -92,7 +85,7 @@ class PluginsModelPlugins extends JModelList
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
-			$this->_translate($result);
+			$this->translate($result);
 			if (!empty($search)) {
 				foreach($result as $i=>$item) {
 					if (!preg_match("/$search/i", $item->name)) {
@@ -102,7 +95,7 @@ class PluginsModelPlugins extends JModelList
 			}
 			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1);
 			$total = count($result);
-			$this->_cache[$this->getStoreId('getTotal')] = $total;
+			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
 				$limitstart = 0;
 				$this->setState('list.start', 0);
@@ -118,7 +111,7 @@ class PluginsModelPlugins extends JModelList
 			}
 			$query->order($this->_db->nameQuote($ordering) . ' ' . $this->getState('list.direction'));
 			$result = parent::_getList($query, $limitstart, $limit);
-			$this->_translate($result);
+			$this->translate($result);
 			return $result;
 		}
 	}
@@ -129,7 +122,7 @@ class PluginsModelPlugins extends JModelList
 	 * @param	array The array of objects
 	 * @return	array The array of translated objects
 	 */
-	private function _translate(&$items)
+	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 		foreach($items as &$item) {

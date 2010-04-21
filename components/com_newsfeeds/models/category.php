@@ -35,13 +35,6 @@ class NewsfeedsModelCategory extends JModelList
 	protected $_parent = null;
 
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_newfeeds.category';
-
-	/**
 	 * The category that applies.
 	 *
 	 * @access	protected
@@ -134,7 +127,7 @@ class NewsfeedsModelCategory extends JModelList
 	protected function populateState()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_newsfeeds');
 
 		// List state information
@@ -197,10 +190,10 @@ class NewsfeedsModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
-		
+
 		return $this->_item;
 	}
-	
+
 	/**
 	 * Get the parent categorie.
 	 *
@@ -230,7 +223,7 @@ class NewsfeedsModelCategory extends JModelList
 		}
 		return $this->_leftsibling;
 	}
-	
+
 	function &getRightSibling()
 	{
 		if(!is_object($this->_item))

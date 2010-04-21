@@ -22,31 +22,10 @@ jimport('joomla.filesystem.folder');
 class InstallerModelWarnings extends JModelList
 {
 	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
-	 *
-	 * @since	1.6
-	 */
-	protected function populateState()
-	{
-	}
-	/**
 	 * Extension Type
 	 * @var	string
 	 */
-	var $_type = 'warnings';
-
-	/**
-	 * Overridden constructor
-	 */
-	function __construct()
-	{
-		// Call the parent constructor
-		parent::__construct();
-	}
+	var $type = 'warnings';
 
 	/**
 	 * Return the byte value of a particular string
@@ -54,7 +33,8 @@ class InstallerModelWarnings extends JModelList
 	 * @return int size in bytes
 	 * @since 1.6
 	 */
-	function return_bytes($val) {
+	function return_bytes($val)
+	{
 		$val = trim($val);
 		$last = strtolower($val{strlen($val)-1});
 		switch($last) {
