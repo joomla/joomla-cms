@@ -128,7 +128,7 @@ class JInstallerModule extends JAdapterInstance
 			$client = &JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false)
 			{
-				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Unknown client type').' ['.$client->name.']');
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT', JText::_($this->route), $client->name));
 				return false;
 			}
 			$basePath = $client->path;
@@ -160,7 +160,7 @@ class JInstallerModule extends JAdapterInstance
 			$this->parent->setPath('extension_root', $basePath.DS.'modules'.DS.$element);
 		}
 		else {
-			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('No module file specified'));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE', JText::_($this->route)));
 			return false;
 		}
 
@@ -179,7 +179,7 @@ class JInstallerModule extends JAdapterInstance
 		catch(JException $e)
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_($this->route), $db->stderr(true)));
 			return false;
 		}
 		$id = $db->loadResult();
@@ -211,7 +211,7 @@ class JInstallerModule extends JAdapterInstance
 			{
 				// overwrite is set
 				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
-				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('Another module is already using directory').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_DIRECTORY', JText::_($this->route), $this->parent->getPath('extension_root')));
 				return false;
 			}
 		}
@@ -265,7 +265,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
-				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_CREATE_DIRECTORY', JText::_($this->route), $this->parent->getPath('extension_root')));
 				return false;
 			}
 		}
@@ -310,7 +310,7 @@ class JInstallerModule extends JAdapterInstance
 			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
 			if (!$row->store()) {
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.$db->stderr(true));
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_($this->route), $db->stderr(true)));
 				return false;
 			}
 		}
@@ -332,7 +332,7 @@ class JInstallerModule extends JAdapterInstance
 			if (!$row->store())
 			{
 				// Install failed, roll back changes
-				$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.$db->stderr(true));
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_($this->route), $db->stderr(true)));
 				return false;
 			}
 
@@ -352,7 +352,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_SQL_ERROR', JText::_($this->route), $db->stderr(true)));
 			return false;
 		}
 
@@ -373,7 +373,7 @@ class JInstallerModule extends JAdapterInstance
 		if (!$this->parent->copyManifest(-1))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Module').' '.JText::_($this->route).': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_COPY_SETUP'));
 			return false;
 		}
 
@@ -486,7 +486,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('Module').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_MOD_DISCOVER_STORE_DETAILS'));
 			return false;
 		}
 	}
@@ -505,7 +505,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			JError::raiseWarning(101, JText::_('Module').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}
 	}
@@ -530,7 +530,7 @@ class JInstallerModule extends JAdapterInstance
 		$row = & JTable::getInstance('extension');
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
-			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'));
 			return false;
 		}
 
@@ -538,7 +538,7 @@ class JInstallerModule extends JAdapterInstance
 		// Because that is not a good idea...
 		if ($row->protected)
 		{
-			JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCOREMODULE', $row->name)."<br />".JText::_('WARNCOREMODULE2'));
+			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_WARNCOREMODULE', $row->name));
 			return false;
 		}
 
@@ -548,7 +548,7 @@ class JInstallerModule extends JAdapterInstance
 		$client = &JApplicationHelper::getClientInfo($row->client_id);
 		if ($client === false)
 		{
-			$this->parent->abort(JText::_('Module').' '.JText::_('Uninstall').': '.JText::_('Unknown client type').' ['.$row->client_id.']');
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_UNKNOWN_CLIENT', $row->client_id));
 			return false;
 		}
 		$this->parent->setPath('extension_root', $client->path.DS.'modules'.DS.$element);
@@ -598,7 +598,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
-			JError::raiseWarning(100, 'Module Uninstall: Package manifest file invalid or not found');
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
 			return false;
 		}
 
@@ -613,7 +613,7 @@ class JInstallerModule extends JAdapterInstance
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
-			JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)));
 			$retval = false;
 		}
 
@@ -651,7 +651,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 			catch(JException $e)
 			{
-				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
+				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
 			}
 
@@ -665,7 +665,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 			catch (JException $e)
 			{
-				JError::raiseWarning(100, JText::_('Module').' '.JText::_('Uninstall').': '.$db->stderr(true));
+				JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_EXCEPTION', $db->stderr(true)));
 				$retval = false;
 			}
 		}
