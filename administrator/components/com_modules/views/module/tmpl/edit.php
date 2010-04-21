@@ -47,6 +47,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php echo $this->form->getInput('title'); ?>
 
 			<?php echo $this->form->getLabel('position'); ?>
+			<?php echo $this->form->getInput('custom_position'); ?>
 			<?php echo $this->form->getInput('position'); ?>
 
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>

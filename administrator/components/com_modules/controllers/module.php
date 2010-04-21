@@ -57,7 +57,22 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
-	 * Override parent cancel method to reset the add module state.
+	 * Override parent _allowSave method.
+	 */
+	protected function _allowSave(&$data, $key = 'id')
+	{
+		// use custom position if selected
+		if (empty($data['position'])) {
+			$data['position'] = $data['custom_position'];
+		}
+		
+		unset($data['custom_position']);
+		
+		return parent::_allowSave($data, $key);
+	}
+	
+	/**
+	 * Override parent save method.
 	 */
 	public function save()
 	{
