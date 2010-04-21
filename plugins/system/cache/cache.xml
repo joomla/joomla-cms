@@ -12,10 +12,10 @@
 	<files>
 		<filename plugin="cache">cache.php</filename>
 	</files>
-	
+
 	<config>
 	<fields name="params">
-	
+
 			<fieldset name="basic">
 		<field	name="browsercache" type="radio"
 			default="0"
@@ -28,7 +28,7 @@
 				value="1">JYes</option>
 		</field>
 		</fieldset>
-		
+
 	</fields>
 	</config>
 </install>

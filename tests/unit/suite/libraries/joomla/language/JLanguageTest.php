@@ -53,18 +53,18 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$langNotEqual = 'es-ES';
 
 		$lang = new JLanguage('');
-		
+
 		$listEqual = $lang->getInstance($langEqual);
 		$this->assertObjectHasAttribute('metadata', $listEqual);
 		$this->assertObjectNotHasAttribute('name', $listEqual);
 
 		$this->assertTrue($listEqual->exists($langEqual));
 		$this->assertFalse($listEqual->exists($langNotEqual));
-				
+
 		$listNotEqual = $lang->getInstance($langNotEqual);
 		$this->assertObjectHasAttribute('metadata', $listNotEqual);
 		$this->assertObjectNotHasAttribute('name', $listNotEqual);
-		
+
 		$this->assertTrue($listNotEqual->exists($langEqual));
     }
 
@@ -516,7 +516,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 				'1',
 				$lang->isRTL()
 		);
-		
+
     }
 
     /**
@@ -707,7 +707,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     {
 		// This method returns a list of known languages
 		$basePath = '../../administrator/';
-		
+
 		$option1 = array(
 		    'name' => 'English (United Kingdom)',
 		    'tag' => 'en-GB',

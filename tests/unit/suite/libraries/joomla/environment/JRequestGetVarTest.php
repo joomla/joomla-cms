@@ -63,7 +63,7 @@ class JRequestTest_GetVar extends PHPUnit_Framework_TestCase
 			}
 		}
 
-		
+
 		/*
 		 * Get the variable and check the value.
 		 */

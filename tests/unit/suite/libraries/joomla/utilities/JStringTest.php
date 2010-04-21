@@ -55,15 +55,15 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	static public function strlenData() {
 		return JStringTest_DataSet::$strlenTests;
 	}
-	
+
 	static public function str_ireplaceData() {
 		return JStringTest_DataSet::$str_ireplaceTests;
 	}
-	
+
 	static public function str_splitData() {
 		return JStringTest_DataSet::$str_splitTests;
 	}
-	
+
 	static public function strcasecmpData() {
 		return JStringTest_DataSet::$strcasecmpTests;
 	}
@@ -71,51 +71,51 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	static public function strcspnData() {
 		return JStringTest_DataSet::$strcspnTests;
 	}
-	
+
 	static public function stristrData() {
 		return JStringTest_DataSet::$stristrTests;
 	}
-	
+
 	static public function strrevData() {
 		return JStringTest_DataSet::$strrevTests;
-	}	
-	
+	}
+
 	static public function strspnData() {
 		return JStringTest_DataSet::$strspnTests;
-	}	
+	}
 
 	static public function substr_replaceData() {
 		return JStringTest_DataSet::$substr_replaceTests;
-	}	
+	}
 
 	static public function ltrimData() {
 		return JStringTest_DataSet::$ltrimTests;
-	}	
-	
+	}
+
 	static public function rtrimData() {
 		return JStringTest_DataSet::$rtrimTests;
-	}	
-	
+	}
+
 	static public function trimData() {
 		return JStringTest_DataSet::$trimTests;
-	}	
-	
+	}
+
 	static public function ucfirstData() {
 		return JStringTest_DataSet::$ucfirstTests;
-	}	
-		
+	}
+
 	static public function ucwordsData() {
 		return JStringTest_DataSet::$ucwordsTests;
-	}	
-	
+	}
+
 	static public function transcodeData() {
 		return JStringTest_DataSet::$transcodeTests;
-	}	
-	
+	}
+
 	static public function validData() {
 		return JStringTest_DataSet::$validTests;
-	}	
-	
+	}
+
 	/**
 	 * @group String
 	 * @covers JString::strpos
@@ -191,7 +191,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	public function testStr_ireplace($search, $replace, $subject, $count, $expect)
 	{
 		$actual = JString::str_ireplace($search, $replace, $subject, $count);
-		$this->assertEquals($expect, $actual);		
+		$this->assertEquals($expect, $actual);
 	}
 
 	/**

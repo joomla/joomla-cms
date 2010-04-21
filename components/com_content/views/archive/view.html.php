@@ -23,23 +23,23 @@ class ContentViewArchive extends JView
 	protected $item = null;
 	protected $items = null;
 	protected $pagination = null;
-	
+
 	function display($tpl = null)
 	{
 		$app =& JFactory::getApplication();
 		$user		= &JFactory::getUser();
-		
+
 		$state 		= $this->get('State');
 		$items 		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
-		
+
 		$pathway	= &$app->getPathway();
 		$document	= &JFactory::getDocument();
 
 		// Get the page/component configuration
 		$params =& $state->params;
-		
-		foreach ($items as $item) 
+
+		foreach ($items as $item)
 		{
 			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
@@ -98,11 +98,11 @@ class ContentViewArchive extends JView
 		$this->assignRef('user', $user);
 		$this->assignRef('pagination', $pagination);
 
-		$this->_prepareDocument();		
-		
+		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Prepares the document
 	 */
@@ -122,13 +122,13 @@ class ContentViewArchive extends JView
 		} else {
 			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE'));
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
-		$this->document->setTitle($title);		
+		$this->document->setTitle($title);
 	}
 }
 ?>

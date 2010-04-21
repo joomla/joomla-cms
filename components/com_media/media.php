@@ -19,7 +19,7 @@ $acl = & JFactory::getACL();
 		//{
 		//	$acl->addACL('com_media', 'popup', 'users', $ranks[$i]);
 		//}
-		
+
 // Make sure the user is authorized to view this page
 $user = & JFactory::getUser();
 $app	= &JFactory::getApplication();

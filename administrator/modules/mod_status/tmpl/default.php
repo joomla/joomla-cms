@@ -26,7 +26,7 @@ $output = array();
 
 // Print the back-end logged in users.
 	$output[] = "<span class=\"loggedin-users\">".$count. " " . JText::_('MOD_STATUS_BACKEND_USERS') . "</span>";
-	
+
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) {
 	$output = array_reverse($output);

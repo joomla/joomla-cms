@@ -26,7 +26,7 @@ class ContentViewArticle extends JView
 	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
-		
+
 		if($this->_layout == 'pagebreak')
 		{
 			$eName	= JRequest::getVar('e_name');
@@ -37,7 +37,7 @@ class ContentViewArticle extends JView
 			parent::display($tpl);
 			return;
 		}
-		
+
 		$state	= $this->get('State');
 		$item	= $this->get('Item');
 		$form	= $this->get('Form');

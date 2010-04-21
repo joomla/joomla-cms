@@ -97,7 +97,7 @@ JHtml::_('behavior.formvalidation');
 
 				<?php echo $this->form->getLabel('state'); ?>
 				<?php echo $this->form->getInput('state'); ?>
-				
+
 				<?php echo $this->form->getLabel('cid'); ?>
 				<?php echo $this->form->getInput('cid'); ?>
 
@@ -112,7 +112,7 @@ JHtml::_('behavior.formvalidation');
 
 				<?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?>
-		
+
 				<?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?>
 				<div class="clr"> </div>

@@ -47,7 +47,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-		
+
 			<field name="show_cat_num_articles" type="list"
 				label="JGLOBAL_NUMBER_CATEGORY_ITEMS_LABEL"
 				description="JGLOBAL_NUMBER_CATEGORY_ITEMS_DESC"

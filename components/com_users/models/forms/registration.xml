@@ -4,7 +4,7 @@
 	<fieldset name="default"
 		label="USERS REGISTRATION DEFAULT LABEL"
 	>
-	
+
 		<field name="name" type="text"
 			description="Users_Register_Name_Desc"
 			filter="string"

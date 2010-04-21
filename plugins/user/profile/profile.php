@@ -98,7 +98,7 @@ class plgUserProfile extends JPlugin
 		} else {
 			$form->removeField('aboutme', 'profile');
 		}
-		
+
 		return true;
 	}
 

@@ -60,7 +60,7 @@ class JHtmlTest extends JoomlaTestCase
 
 		// now we test with a class that will be found in the expected file
 		JHtml::addIncludePath(array(JPATH_BASE.'/tests/unit/suite/libraries/joomla/html/htmltests'));
-		
+
 		$this->assertThat(
 			JHtml::_('mocktest.method1', 'argument1', 'argument2'),
 			$this->equalTo('JHtml Mock Called')
@@ -136,7 +136,7 @@ class JHtmlTest extends JoomlaTestCase
 			JHtml::register('prefix.file.missingtestfunction', array($registered, 'missingFunction')),
 			$this->isFalse(),
 			'If function is missing, we do not register'
-		);		
+		);
 		JHtml::unregister('prefix.file.testfunction');
 		JHtml::unregister('prefix.file.missingtestfunction');
 	}
@@ -156,13 +156,13 @@ class JHtmlTest extends JoomlaTestCase
 			JHtml::unregister('prefix.file.testfunction'),
 			$this->isTrue(),
 			'Function did not unregister'
-		);		
+		);
 
 		$this->assertThat(
 			JHtml::unregister('prefix.file.testkeynotthere'),
 			$this->isFalse(),
 			'Unregister return true when it should have failed'
-		);		
+		);
 
 	}
 
@@ -195,7 +195,7 @@ class JHtmlTest extends JoomlaTestCase
 			)
 
 		);
-	} 
+	}
 
 	/**
 	 * @todo Implement testLink().
@@ -359,7 +359,7 @@ class JHtmlTest extends JoomlaTestCase
 			)
 
 		);
-	} 
+	}
 
 
 	/**
@@ -496,7 +496,7 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'.$extension.'/'.$element.'/css/');
 		rmdir(JPATH_ROOT .'/media/'.$extension.'/'.$element);
 		rmdir(JPATH_ROOT .'/media/'.$extension);
-		
+
 		$this->assertThat(
 			JHtml::stylesheet($extension.'/'.$element.'/'.$cssfilename, null, true, true),
 			$this->equalTo(JURI::root(true).'/media/'.$extension.'/css/'.$element.'/'.$cssfilename),

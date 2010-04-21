@@ -32,7 +32,7 @@ function WeblinksBuildRoute(&$query)
 	$menu = &JSite::getMenu();
 	$params = JComponentHelper::getParams('com_weblinks');
 	$advanced = $params->get('sef_advanced_link', 0);
-	
+
 	if (empty($query['Itemid'])) {
 		$menuItem = &$menu->getActive();
 	}
@@ -53,7 +53,7 @@ function WeblinksBuildRoute(&$query)
 	}
 
 	// are we dealing with an weblink that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == intval($query['id']))) {	
+	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -73,7 +73,7 @@ function WeblinksBuildRoute(&$query)
 			$category = $categories->get($catid);
 			$path = $category->getPath();
 			$path = array_reverse($path);
-		
+
 			$array = array();
 			foreach($path as $id)
 			{
@@ -149,7 +149,7 @@ function WeblinksParseRoute($segments)
 	// From the categories view, we can only jump to a category.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
 	$category = JCategories::getInstance('Weblinks')->get($id);
-			
+
 	$categories = $category->getChildren();
 	$found = 0;
 	foreach($segments as $segment)

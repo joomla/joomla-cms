@@ -14,7 +14,7 @@ class JDispatcherStub extends JDispatcher
 	 */
 	public function __construct()
 	{
-	
+
 	}
 
 	/**
@@ -29,7 +29,7 @@ class JDispatcherStub extends JDispatcher
 	/**
 	 * Set the observers listening to us
 	 * @param The value to set _observers to
-	 */	
+	 */
 	public function setObservers($observers)
 	{
 		$this->_observers = $observers;

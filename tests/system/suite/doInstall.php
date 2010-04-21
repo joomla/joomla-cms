@@ -53,7 +53,7 @@ class DoInstall extends SeleniumJoomlaTestCase
         } catch (Exception $e) {}
         sleep(1);
     }
-    
+
     echo "Finish installation\n";
     $this->click("link=Next");
     $this->waitForPageToLoad("30000");
@@ -71,7 +71,7 @@ class DoInstall extends SeleniumJoomlaTestCase
     $this->click("//li[@id='toolbar-save']/a/span");
     $this->waitForPageToLoad("30000");
 	$this->doAdminLogout();
-	
+
   }
 }
 ?>

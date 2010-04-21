@@ -38,15 +38,15 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('title'); ?>
 
 			<?php echo $this->form->getLabel('client_id'); ?>
-			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />		
+			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 
 
 			<?php echo $this->form->getLabel('home'); ?>
 			<?php echo $this->form->getInput('home'); ?>
 		<div class="clr"></div>
 			<?php if ($this->item->id) : ?>
-				<?php echo $this->form->getLabel('id'); ?>	
-				<input type="text" size="35" value="<?php  echo ($text = (string) JText::_($this->item->id)); ?>" class="readonly" readonly="readonly" />			
+				<?php echo $this->form->getLabel('id'); ?>
+				<input type="text" size="35" value="<?php  echo ($text = (string) JText::_($this->item->id)); ?>" class="readonly" readonly="readonly" />
 
 			<?php endif; ?>
 		</fieldset>

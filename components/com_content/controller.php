@@ -33,16 +33,16 @@ class ContentController extends JController
 		JRequest::setVar('view', $vName);
 
 		$user = &JFactory::getUser();
-		
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && 
+
+		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' &&
 			(($vName = 'category' && JRequest::getVar('layout') != 'blog') || $vName = 'archive' ))) {
 			$cachable = false;
 		}
 
 		$safeurlparams = array('catid'=>'INT','id'=>'INT','cid'=>'ARRAY','year'=>'INT','month'=>'INT','limit'=>'INT','limitstart'=>'INT',
 			'showall'=>'INT','return'=>'BASE64','filter'=>'STRING','filter_order'=>'CMD','filter_order_Dir'=>'CMD','filter-search'=>'STRING','print'=>'BOOLEAN');
-			
-			parent::display($cachable,$safeurlparams);		
+
+			parent::display($cachable,$safeurlparams);
 
 	}
 

@@ -37,9 +37,9 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 	 * tests the firing of the update event with no arguments
 	 */
 	public function testUpdateNoArgs() {
-		// get a mock for the 
+		// get a mock for the
 		$observable = $this->getMock('Observable', array('attach'));
-		
+
 		// we expect that the attach method of our mock object will be called
 		// because when we instantiate an observer it needs something observable
 		// to attach itself to
@@ -56,7 +56,7 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 		$args = array(
 			'event' => 'myEvent'
 		);
-		
+
 		// we call update and assert that it returns true (the value from the stub)
 		$this->assertThat(
 			$object->update($args),
@@ -74,7 +74,7 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 			$object->calls[0]['args'],
 			$this->equalTo(array())
 		);
-		
+
 		// only once
 		$this->assertThat(
 			count($object->calls),
@@ -86,9 +86,9 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 	 * tests the firing of the update event with one argument
 	 */
 	public function testUpdateOneArg() {
-		// get a mock for the 
+		// get a mock for the
 		$observable = $this->getMock('Observable', array('attach'));
-		
+
 		// we expect that the attach method of our mock object will be called
 		// because when we instantiate an observer it needs something observable
 		// to attach itself to
@@ -104,7 +104,7 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 		// we setup the arguments to pass to update and call it.
 		$args = array('myFirstArgument');
 		$args['event'] = 'myEvent';
-		
+
 		// we call update and assert that it returns true (the value from the stub)
 		$this->assertThat(
 			$object->update($args),
@@ -122,21 +122,21 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 			$object->calls[0]['args'],
 			$this->equalTo(array('myFirstArgument'))
 		);
-		
+
 		// only once
 		$this->assertThat(
 			count($object->calls),
 			$this->equalTo(1)
 		);
 	}
-	
+
 	/**
 	 * tests the firing of the update event with multiple arguments
 	 */
 	public function testUpdateMultipleArgs() {
-		// get a mock for the 
+		// get a mock for the
 		$observable = $this->getMock('Observable', array('attach'));
-		
+
 		// we expect that the attach method of our mock object will be called
 		// because when we instantiate an observer it needs something observable
 		// to attach itself to
@@ -152,7 +152,7 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 		// we setup the arguments to pass to update and call it.
 		$args = array('myFirstArgument', 5);
 		$args['event'] = 'myEvent';
-		
+
 		// we call update and assert that it returns true (the value from the stub)
 		$this->assertThat(
 			$object->update($args),
@@ -170,7 +170,7 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 			$object->calls[0]['args'],
 			$this->equalTo(array('myFirstArgument', 5))
 		);
-		
+
 		// only once
 		$this->assertThat(
 			count($object->calls),
@@ -182,9 +182,9 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 	 * tests the firing of an event that does not exist
 	 */
 	public function testUpdateBadEvent() {
-		// get a mock for the 
+		// get a mock for the
 		$observable = $this->getMock('Observable', array('attach'));
-		
+
 		// we expect that the attach method of our mock object will be called
 		// because when we instantiate an observer it needs something observable
 		// to attach itself to
@@ -200,7 +200,7 @@ class JEventTest extends PHPUnit_Framework_TestCase {
 		// we setup the arguments to pass to update and call it.
 		$args = array('myFirstArgument');
 		$args['event'] = 'myNonExistentEvent';
-		
+
 		// we call update and assert that it returns null (the value from the stub)
 		$this->assertThat(
 			$object->update($args),

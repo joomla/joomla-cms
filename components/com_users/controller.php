@@ -64,7 +64,7 @@ class UsersController extends JController
 						// Redirect to login page.
 						$app = & JFactory::getApplication();
 						$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
-					}			
+					}
 					$model = & $this->getModel($vName);
 					break;
 
@@ -72,7 +72,7 @@ class UsersController extends JController
 				case 'login':
 					$model = & $this->getModel($vName);
 					break;
-					
+
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
 					$user = & JFactory::getUser();
@@ -81,10 +81,10 @@ class UsersController extends JController
 						$app = & JFactory::getApplication();
 						$app->redirect(JRoute::_('index.php?option=com_users&view=profile', false));
 					}
-					
+
 					$model = & $this->getModel($vName);
 					break;
-					
+
 				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
 					$user = & JFactory::getUser();
@@ -93,18 +93,18 @@ class UsersController extends JController
 						$app = & JFactory::getApplication();
 						$app->redirect(JRoute::_('index.php?option=com_users&view=profile', false));
 					}
-					
+
 					$model = & $this->getModel($vName);
 					break;
-					
+
 				case 'reset':
 					$model = & $this->getModel($vName);
 					break;
-					
+
 				case 'profile':
 					$model = & $this->getModel($vName);
 					break;
-					
+
 				default:
 					$model = &$this->getModel('Login');
 					break;

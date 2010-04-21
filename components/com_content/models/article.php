@@ -112,7 +112,7 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived))) 
+				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived)))
 				{
 					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
 				}

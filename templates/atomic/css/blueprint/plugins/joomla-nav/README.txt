@@ -1,13 +1,13 @@
 h1. Blueprint CSS Joomla Nav Plugin Readme
 
-This plugin is a derivative of the Blueprint tabs plugin. 
+This plugin is a derivative of the Blueprint tabs plugin.
 
-h2. Usage: 
+h2. Usage:
 
 # Upload the screen.css file to a new directory on your server (preferably joomla-nav/)
-# Include the plugin file in the @<head/>@ of your webpage. 
+# Include the plugin file in the @<head/>@ of your webpage.
 <link rel="stylesheet" href="tabsplugin/screen.css" type="text/css" media="screen,projection">
-# Add the class @"tabs"@ to your list. An example: 
+# Add the class @"tabs"@ to your list. An example:
 <pre>
 <ul class='tabs'>
 	<li><a href='#text1'>Tab 1</a></li>
@@ -16,9 +16,9 @@ h2. Usage:
 </ul>
 </pre>
 
-h2. More options: 
+h2. More options:
 
-You can add a label to your list by adding the class @"label"@ to the first item. This item should not have a link in it. 
+You can add a label to your list by adding the class @"label"@ to the first item. This item should not have a link in it.
 <pre>
 <ul class='tabs'>
 	<li class='label'>This is a "label":</li>
@@ -28,7 +28,7 @@ You can add a label to your list by adding the class @"label"@ to the first item
 </ul>
 </pre>
 
-You can mark the currently selected item with the class @"selected"@. 
+You can mark the currently selected item with the class @"selected"@.
 <pre>
 <ul class='tabs'>
 	<li><a href='#text1' class='selected'>Tab 1</a></li>
@@ -37,6 +37,6 @@ You can mark the currently selected item with the class @"selected"@.
 </ul>
 </pre>
 
-h2. Demo: 
+h2. Demo:
 
 View a demo at "blueprintcss.org":http://blueprintcss.org/demos/tabs.html

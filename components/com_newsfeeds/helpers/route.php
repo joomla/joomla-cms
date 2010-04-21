@@ -23,7 +23,7 @@ jimport('joomla.application.categories');
  * @since 1.5
  */
 abstract class NewsfeedsHelperRoute
-{ 
+{
 	protected static $lookup;
 	/**
 	 * @param	int	The route of the newsfeed
@@ -42,7 +42,7 @@ abstract class NewsfeedsHelperRoute
 			if(!$category)
 			{
 				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished	
+				//TODO Throw error that the category either not exists or is unpublished
 			}
 			$needles['category'] = array_reverse($category->getPath());
 			$needles['categories'] = $needles['category'];

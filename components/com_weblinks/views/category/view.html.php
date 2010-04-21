@@ -39,7 +39,7 @@ class WeblinksViewCategory extends JView
 		$children	= &$this->get('Children');
 		$parent 	= &$this->get('Parent');
 		$pagination	= &$this->get('Pagination');
-		
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -79,7 +79,7 @@ class WeblinksViewCategory extends JView
 			$item->params = clone($params);
 			$item->params->merge($temp);
 		}
-		
+
 		$children = array($category->id => $children);
 
 		$this->assignRef('maxLevel',	$params->get('maxLevel', -1));
@@ -114,7 +114,7 @@ class WeblinksViewCategory extends JView
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
 			$this->params->def('page_heading', JText::_('COM_WEBLINKS_DEFAULT_PAGE_TITLE'));
-		} 
+		}
 		$id = (int) @$menu->query['id'];
 		if($menu && $menu->query['view'] != 'weblink' && $id != $this->category->id)
 		{
@@ -132,14 +132,14 @@ class WeblinksViewCategory extends JView
 				$pathway->addItem($title, $link);
 			}
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
-			
+
 		// Add alternate feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{

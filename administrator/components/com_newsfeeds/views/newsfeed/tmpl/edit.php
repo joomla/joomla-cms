@@ -95,7 +95,7 @@ JHtml::_('behavior.keepalive');
 		<?php endforeach; ?>
 
 	</fieldset>
-	
+
 	<?php echo JHtml::_('sliders.end'); ?>
 </div>
 

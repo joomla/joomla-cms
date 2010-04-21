@@ -131,7 +131,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="image" type="imagelistr" directory="/images" 
+		<field name="image" type="imagelistr" directory="/images"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 		>
 		</field>

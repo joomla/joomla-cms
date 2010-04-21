@@ -804,7 +804,7 @@ fieldset label {
 	float: left;
 	clear: left;
 	margin: 5px 5px 2px 0;
-	
+
 }
 fieldset ul {
 	margin: 0;
@@ -816,7 +816,7 @@ form label {
 fieldset input,
 fieldset textarea,
 fieldset select,
-fieldset img, 
+fieldset img,
 fieldset button {
 	float: left;
 	width: auto;
@@ -837,7 +837,7 @@ fieldset#filter-bar label {
 }
 
 
-/* 
+/*
 fieldset#user-groups,
 fieldset.adminform,
 fieldset.adminform-legacy {
@@ -973,7 +973,7 @@ label#batch-access-lbl {
 }
 
 
-/* 
+/*
 label#jform_description-lbl {
 	padding: 10px 0;
 }
@@ -985,12 +985,12 @@ fieldset.adminform.long label {
 }
 
 fieldset.adminform.long input {
-	
+
 
 }
-	
+
 div#menu-assignment {
-	height: 300px; 
+	height: 300px;
 	overflow: auto;
 	clear:left;
 }
@@ -2723,8 +2723,8 @@ a.icon-16-menu span img {
 
 
 
-	
-	
+
+
 /* -- COMPONENT STYLES ------------------------------ */
 div.message {
 	text-align: center;
@@ -3233,7 +3233,7 @@ table#acl-config td {
 }
 
 table#acl-config th.acl-groups {
-	padding-left: 8px;	
+	padding-left: 8px;
 }
 table#acl-config td select {
 	float:none;

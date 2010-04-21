@@ -97,9 +97,9 @@ class ContentHelperQuery
 
 		return $orderby;
 	}
-	
+
 	function getQueryDate($orderDate) {
-	
+
 		switch ($orderDate)
 		{
 			case 'modified' :
@@ -142,12 +142,12 @@ class ContentHelperQuery
 
 	/**
 	 * Method to order the intro articles array for ordering
-	 * down the columns instead of across. 
-	 * The layout always lays the introtext articles out across columns. 
+	 * down the columns instead of across.
+	 * The layout always lays the introtext articles out across columns.
 	 * Array is reordered so that, when articles are displayed in index order
 	 * across columns in the layout, the result is that the
 	 * desired article ordering is achieved down the columns.
-	 * 
+	 *
 	 * @access	public
 	 * @param	array	$articles	Array of intro text articles
 	 * @param	integer	$numColumns	Number of columns in the layout
@@ -158,12 +158,12 @@ class ContentHelperQuery
 	{
 		$count = count($articles);
 		// just return the same array if there is nothing to change
-		if ($numColumns == 1 || !is_array($articles) || $count  <= $numColumns) 
+		if ($numColumns == 1 || !is_array($articles) || $count  <= $numColumns)
 		{
 			$return = $articles;
 		}
 		// we need to re-order the intro articles array
-		else 
+		else
 		{
 			// layout the articles in column order
 			$maxRows = ceil($count / $numColumns);

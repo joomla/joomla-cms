@@ -22,7 +22,7 @@ function myTestHandler($returnArgs = false, $returnValue = '12345') {
 class myTestClassHandler
 {
 	public static $observables = array();
-	
+
 	public function __construct($observable)
 	{
 		self::$observables[] = $observable;

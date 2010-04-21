@@ -109,7 +109,7 @@ $userId	= $user->get('id');
 
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 								(<?php echo '<span>'.JText::_('JFIELD_ALIAS_LABEL') . ':</span> ' . $this->escape($item->alias) ;?>)</p>
-								
+
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.');?>

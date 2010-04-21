@@ -120,7 +120,7 @@ class plgSystemDebug extends JPlugin
 				echo '<pre>'.JText::_('JNONE').'</pre>';
 			}
 		}
-		
+
 		if ($this->params->get('language_files', 1)) {
 			echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_LOADED').'</h4>';
 			echo '<ul>';

@@ -16,4 +16,4 @@ class JFormFieldCalendarInspector extends JFormFieldCalendar
 	{
 		parent::getInput();
 	}
-} 
+}

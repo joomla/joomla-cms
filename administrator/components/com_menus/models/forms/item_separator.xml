@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fields name="params">
-		<fieldset name="menu-options" 
+		<fieldset name="menu-options"
 			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 			description=""
 		>

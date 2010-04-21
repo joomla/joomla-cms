@@ -87,7 +87,7 @@ class JFormFieldModulePosition extends JFormFieldList
 		}
 		$positions = array_unique($positions);
 		sort($positions);
-		
+
 		$options[] = JHtml::_('select.option', '', JText::_('COM_MODULES_OPTION_SELECT_POSITION'));
 
 		foreach ($positions as $position) {
@@ -96,7 +96,7 @@ class JFormFieldModulePosition extends JFormFieldList
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
-		
+
 		// Add javascript for custom position selection
 		JFactory::getDocument()->addScriptDeclaration('
 			function setModulePosition(el) {

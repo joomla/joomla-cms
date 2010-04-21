@@ -33,7 +33,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
-		
+
 		$this->_root	= $options['cachebase'];
 
 		$cloptions = array(
@@ -91,9 +91,9 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 
 	public function getAll()
-	{	
+	{
 		parent::getAll();
-		
+
 		$path=$this->_root;
 		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($path);
@@ -218,7 +218,7 @@ class JCacheStorageCachelite extends JCacheStorage
 		$test = self::$CacheLiteInstance;
 		$sucess1 = self::$CacheLiteInstance->_cleanDir($this->_root.DS,false, 'old');
 	    if (!($dh = opendir($this->_root.DS))) {
-            return false; 
+            return false;
         }
 		    while ($file = readdir($dh)) {
             if (($file != '.') && ($file != '..') && ($file != '.svn')) {
@@ -226,7 +226,7 @@ class JCacheStorageCachelite extends JCacheStorage
                     if (is_dir($file2)) {
                         $result = ($result and (self::$CacheLiteInstance->_cleanDir($file2.DS, false, 'old')));
                     }
-                
+
             }
 		    }
         $sucess = $sucess1 and $result;
@@ -240,7 +240,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @since	1.6
 	 */
 	public static function test()
-	{	
+	{
 		if(file_exists('Cache/Lite.php'))
 		{
 			include_once('Cache/Lite.php');

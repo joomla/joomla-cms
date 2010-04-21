@@ -20,15 +20,15 @@ jimport('joomla.application.component.modelform');
  * @since		1.6
  */
 abstract class JModelAdmin extends JModelForm
-{	
+{
 	protected $_msgprefix = null;
-	
+
 	protected $_option = null;
-	
+
 	protected $_item = null;
-	
+
 	protected $_context = null;
-	
+
 	/**
 	 * Constructor.
 	 *
@@ -41,7 +41,7 @@ abstract class JModelAdmin extends JModelForm
 
 		$this->_msgprefix = strtoupper(str_replace('.', '_', $this->_context));
 	}
-	
+
 	/**
 	 * Method to checkin a row.
 	 *
@@ -94,7 +94,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 /**				// Access checks.
  * TODO repair this check
- 
+
 				if ($table->catid) {
 					$allow = $user->authorise('core.edit.state', $this->_context.(int) $table->catid);
 				}
@@ -267,7 +267,7 @@ die;*/
 		$cache->clean();
 
 		return true;
-	}	
-	
+	}
+
 	abstract function _orderConditions($table = null);
 }

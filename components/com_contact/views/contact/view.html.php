@@ -147,11 +147,11 @@ class ContactViewContact extends JView
 		$this->assignRef('params',		$params);
 		$this->assignRef('return',		$return);
 
-		$this->_prepareDocument();		
-		
+		$this->_prepareDocument();
+
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Prepares the document
 	 */
@@ -187,14 +187,14 @@ class ContactViewContact extends JView
 				$pathway->addItem($title, $link);
 			}
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
-		
+
 	}
 }
 

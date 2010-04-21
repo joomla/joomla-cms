@@ -28,7 +28,7 @@ class WeblinksController extends JController
 	 * @since	1.5
 	 */
 	function display()
-	{	
+	{
 		$cachable = true;
 		// Get the document object.
 		$document = &JFactory::getDocument();
@@ -36,13 +36,13 @@ class WeblinksController extends JController
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'categories');
 		JRequest::setVar('view', $vName);
-				
+
 		$user = &JFactory::getUser();
 		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'categories')) {
 			$cachable = false;
 		}
 		$safeurlparams = array('id'=>'INT','limit'=>'INT','limitstart'=>'INT','filter_order'=>'CMD','filter_order_Dir'=>'CMD');
-		
+
 		parent::display($cachable,$safeurlparams);
 	}
 }

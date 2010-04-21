@@ -27,34 +27,34 @@ class ContactController extends JController
 	 */
 	function display()
 	{
-		
+
 		$cachable = true;
-		
+
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'categories');
-			
+
 		// Workaround for the item view
-		if ($vName == 'contact')		
-		{	
+		if ($vName == 'contact')
+		{
 			$document = &JFactory::getDocument();
 			$vFormat	= $document->getType();
 			$view 		= $this->getView($vName, $vFormat);
 			$modelCat	= $this->getModel('category');
 			$view->setModel($modelCat);
 		}
-		
+
 		$user = &JFactory::getUser();
-		
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' && 
+
+		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' &&
 			($vName = 'category' || ($vName = 'contact' && JRequest::getVar('task') == 'submit' )))) {
 			$cachable = false;
 		}
-		
+
 		$safeurlparams = array('id'=>'INT','catid'=>'INT','limit'=>'INT','limitstart'=>'INT',
 			'filter_order'=>'CMD','filter_order_Dir'=>'CMD');
-			
+
 			parent::display($cachable,$safeurlparams);
-		
+
 	}
 
 	/**

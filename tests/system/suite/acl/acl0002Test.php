@@ -17,11 +17,11 @@ class Acl0002Test extends SeleniumJoomlaTestCase
 	  	$this->doAdminLogin();
 	  	$salt = mt_rand();
 		$groupName = 'My Test Group'.$salt;
-		$this->createGroup($groupName, 'Administrator');		
+		$this->createGroup($groupName, 'Administrator');
 		$levelName = 'My Test Level'.$salt;
 		$this->createLevel($levelName,$groupName);
 		sleep(1);
 		$this->deleteLevel();
-		$this->doAdminLogout();			
+		$this->doAdminLogout();
   }
 }

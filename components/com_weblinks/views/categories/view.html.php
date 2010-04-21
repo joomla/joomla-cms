@@ -81,7 +81,7 @@ class WeblinksViewCategories extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_WEBLINKS_DEFAULT_PAGE_TITLE')); 
+			$this->params->def('page_heading', JText::_('COM_WEBLINKS_DEFAULT_PAGE_TITLE'));
 		}
 		$title = $this->params->get('page_title');
 		if (empty($title)) {

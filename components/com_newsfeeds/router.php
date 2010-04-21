@@ -32,7 +32,7 @@ function NewsfeedsBuildRoute(&$query)
 	$menu = &JSite::getMenu();
 	$params = JComponentHelper::getParams('com_newsfeeds');
 	$advanced = $params->get('sef_advanced_link', 0);
-	
+
 	if (empty($query['Itemid'])) {
 		$menuItem = &$menu->getActive();
 	}
@@ -73,7 +73,7 @@ function NewsfeedsBuildRoute(&$query)
 			$category = $categories->get($catid);
 			$path = $category->getPath();
 			$path = array_reverse($path);
-			
+
 			$array = array();
 			foreach($path as $id)
 			{
@@ -154,7 +154,7 @@ function NewsfeedsParseRoute($segments)
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
 	$categories = array(JCategories::getInstance('Newsfeeds')->get($id));
 	$vars['catid'] = $id;
-	$vars['id'] = $id;		
+	$vars['id'] = $id;
 	$found = 0;
 	foreach($segments as $segment)
 	{

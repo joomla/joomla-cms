@@ -46,12 +46,12 @@ class UsersViewLogin extends JView
 		$this->assignRef('user',	$user);
 		$this->assignRef('form',	$form);
 		$this->assignRef('params',	$params);
-		
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Prepares the document
 	 */
@@ -70,9 +70,9 @@ class UsersViewLogin extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', $login ? JText::_('Users_Login_Pathway_Login') : JText::_('Users_Login_Pathway_Logout')); 
+			$this->params->def('page_heading', $login ? JText::_('Users_Login_Pathway_Login') : JText::_('Users_Login_Pathway_Logout'));
 		}
-		
+
 		$title = $this->params->get('page_title', $this->params->get('page_heading'));
 		if (empty($title))
 		{

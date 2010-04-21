@@ -71,7 +71,7 @@ class CacheModelCache extends JModel
 		$this->setState('list.limit', $limit);
 	}
 
-	
+
 	/**
 	 * Method to get cache data
 	 *
@@ -86,7 +86,7 @@ class CacheModelCache extends JModel
 			$data = $cache->getAll();
 			if ($data != false) {$this->_data = $data;} else {$this->_data = array();}
 		}
-		
+
 		return $this->_data;
 	}
 

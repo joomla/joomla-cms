@@ -3,7 +3,7 @@
 <form>
 	<fieldset>
 		<field name="id" type="text"
-			label="JGLOBAL_FIELD_ID_LABEL" 
+			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
@@ -84,7 +84,7 @@
 			maxlength="50"
 			onchange="setModulePosition(this);"
 		/>
-		
+
 		<field name="custom_position" type="text"
 			maxlength="50"
 			size="35"

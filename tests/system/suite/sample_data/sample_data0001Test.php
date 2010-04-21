@@ -17,7 +17,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 	function testModuleOrder()
 	{
 		$this->setUp();
-		$this->gotoAdmin();		
+		$this->gotoAdmin();
 		$this->doAdminLogin();
 		print("Open up category manager" . "\n");
 		$this->click("link=Category Manager");
@@ -37,7 +37,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 	function testMenuItems()
 	{
 		$this->setUp();
-		$this->gotoAdmin();		
+		$this->gotoAdmin();
 		$this->doAdminLogin();
 		print("Go to front end" . "\n");
 		$this->gotoSite();

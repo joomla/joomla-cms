@@ -51,24 +51,24 @@ class JCacheStorageApc extends JCacheStorage
 	 * @since	1.6
 	 */
 	public function getAll()
-	{	
+	{
 		parent::getAll();
 
 		$allinfo = apc_cache_info('user');
 		$keys = $allinfo['cache_list'];
 		$secret = $this->_hash;
-		
+
 		$data = array();
 
 		foreach ($keys as $key) {
-				
+
 			$name=$key['info'];
 			$namearr=explode('-',$name);
-				
+
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
-					
+
 				$group = $namearr[2];
-					
+
 				if (!isset($data[$group])) {
 					$item = new JCacheStorageHelper();
 				} else {
@@ -76,13 +76,13 @@ class JCacheStorageApc extends JCacheStorage
 				}
 
 				$item->updateSize($key['mem_size']/1024,$group);
-					
+
 				$data[$group] = $item;
-					
+
 			}
 		}
 
-			
+
 		return $data;
 	}
 
@@ -172,7 +172,7 @@ class JCacheStorageApc extends JCacheStorage
 	{
 		return extension_loaded('apc');
 	}
-	
+
 	/**
 	 * Lock cached item - override parent as this is more efficient
 	 *
@@ -183,16 +183,16 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function lock($id,$group,$locktime)
-	{	
+	{
 		$returning = new stdClass();
 		$returning->locklooped = false;
-				
+
 		$looptime = $locktime * 10;
-		
+
 		$cache_id = $this->_getCacheId($id, $group).'_lock';
-			
+
 		$data_lock = apc_add( $cache_id, 1, $locktime );
-				
+
 		if ( $data_lock === FALSE ) {
 
 			$lock_counter = 0;
@@ -210,13 +210,13 @@ class JCacheStorageApc extends JCacheStorage
 				$data_lock = apc_add( $cache_id, 1, $locktime );
 				$lock_counter++;
 			}
-			
+
 		}
 			$returning->locked = $data_lock;
-		return $returning;	
-		
+		return $returning;
+
 	}
-	
+
 	/**
 	 * Unlock cached item - override parent for cacheid compatibility with lock
 	 *
@@ -227,11 +227,11 @@ class JCacheStorageApc extends JCacheStorage
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function unlock($id,$group=null)
-	{	
+	{
 		$unlock = false;
-		
+
 		$cache_id = $this->_getCacheId($id, $group).'_lock';
-		
+
 		$unlock = apc_delete($cache_id);
 		return $unlock;
 	}

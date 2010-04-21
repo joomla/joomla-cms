@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 class plgContentLoadmodule extends JPlugin
-{  
+{
 	static $test = 0;
 	/**
 	* Plugin that loads module positions within content
@@ -26,7 +26,7 @@ class plgContentLoadmodule extends JPlugin
 		if (strpos($article->text, 'loadposition') === false) {
 			return true;
 		}
-		
+
 		if (self::$test == 1) return;
 
 		// expression to search for
@@ -42,14 +42,14 @@ class plgContentLoadmodule extends JPlugin
 			$output = $this->_load($match[1], $style);
 			$article->text = str_replace($match[0], $output, $article->text);
 		}
-		
+
 		self::$test = 1;
 	}
 
 	protected function _load($position, $style = 'none')
-	
-	{	
-		
+
+	{
+
 		//if (isset(self::$test[$position]) && self::$test[$position] == 1) return;
 		$document	= &JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');
@@ -62,7 +62,7 @@ class plgContentLoadmodule extends JPlugin
 		}
 		$output = ob_get_clean();
 		//self::$test[$position] = 1;
-		
+
 		return $output;
 	}
 }

@@ -49,7 +49,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		}
 		return $cache_content;
 	}
-	
+
 	 /**
 	 * Get all cached data
 	 *
@@ -57,24 +57,24 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @since	1.6
 	 */
 	public function getAll()
-	{	
+	{
 		parent::getAll();
-		
+
 		$keys = eaccelerator_list_keys();
 
         $secret = $this->_hash;
-        $data = array();		
+        $data = array();
 
 		foreach ($keys as $key) {
 			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 			$name = ltrim($key['name'], ':');
-			
+
 			$namearr=explode('-',$name);
-			
+
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
-			
+
 			$group = $namearr[2];
-			
+
 			if (!isset($data[$group])) {
 			$item = new JCacheStorageHelper();
 			} else {
@@ -82,16 +82,16 @@ class JCacheStorageEaccelerator extends JCacheStorage
 			}
 
 			$item->updateSize($key['size']/1024,$group);
-			
+
 			$data[$group] = $item;
-			
+
 			}
 		}
-	
-					
+
+
 		return $data;
 	}
-	
+
 	/**
 	 * Store the data to by id and group
 	 *
@@ -139,8 +139,8 @@ class JCacheStorageEaccelerator extends JCacheStorage
         $secret = $this->_hash;
         foreach ($keys as $key) {
         /* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
-		$key['name'] = ltrim($key['name'], ':'); 
-		
+		$key['name'] = ltrim($key['name'], ':');
+
         if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
 					eaccelerator_rm($key['name']);
         }
@@ -168,7 +168,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
 
-	
+
 	/**
 	 * Lock cached item
 	 *
@@ -179,16 +179,16 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function lock($id,$group,$locktime)
-	{			
+	{
 		$returning = new stdClass();
 		$returning->locklooped = false;
-				
+
 		$looptime = $locktime * 10;
-		
+
 		$cache_id = $this->_getCacheId($id, $group);
-		
+
 		$data_lock = eaccelerator_lock($cache_id);
-				
+
 		if ( $data_lock === false ) {
 
 			$lock_counter = 0;
@@ -206,13 +206,13 @@ class JCacheStorageEaccelerator extends JCacheStorage
 				$data_lock = eaccelerator_lock($cache_id);
 				$lock_counter++;
 			}
-			
+
 		}
 		$returning->locked = $data_lock;
-		
-		return $returning;	
+
+		return $returning;
 	}
-	
+
 	/**
 	 * Unlock cached item
 	 *
@@ -226,5 +226,5 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		$cache_id = $this->_getCacheId($id, $group);
 		return eaccelerator_unlock($cache_id);
 	}
-	
+
 }

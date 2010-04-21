@@ -38,7 +38,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevel != 0) :
 				<dd><?php echo $item->numitems; ?></dd>
 			</dl>
 		<?php endif; ?>
-		
+
 		<?php if(count($item->getChildren()) > 0) :
 			$this->items[$item->id] = $item->getChildren();
 			$this->parent = $item;

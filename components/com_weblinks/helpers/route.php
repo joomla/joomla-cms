@@ -23,7 +23,7 @@ jimport('joomla.application.categories');
  * @since 1.5
  */
 abstract class WeblinksHelperRoute
-{ 
+{
 	protected static $lookup;
 	/**
 	 * @param	int	The route of the weblink

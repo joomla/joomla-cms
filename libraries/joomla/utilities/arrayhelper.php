@@ -246,7 +246,7 @@ class JArrayHelper
 	 *
 	 * @static
 	 * @param	array			$arr		An array of objects
-	 * @param	string|array	$k			The key or a array of key to sort on 
+	 * @param	string|array	$k			The key or a array of key to sort on
 	 * @param	int|array		$direction	Direction or an array of direction to sort in [1 = Ascending] [-1 = Descending]
 	 * @return	array						The sorted array of objects
 	 * @since	1.5

@@ -34,25 +34,25 @@ JHtml::_('behavior.formvalidation');
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id); ?></legend>
 				<?php echo $this->form->getLabel('name'); ?>
 				<?php echo $this->form->getInput('name'); ?>
-				
+
 				<?php echo $this->form->getLabel('contact'); ?>
 				<?php echo $this->form->getInput('contact'); ?>
-				
+
 				<?php echo $this->form->getLabel('email'); ?>
 				<?php echo $this->form->getInput('email'); ?>
-				
+
 				<?php echo $this->form->getLabel('state'); ?>
 				<?php echo $this->form->getInput('state'); ?>
-				
+
 				<?php echo $this->form->getLabel('purchase_type'); ?>
 				<?php echo $this->form->getInput('purchase_type'); ?>
-				
+
 				<?php echo $this->form->getLabel('track_impressions'); ?>
 				<?php echo $this->form->getInput('track_impressions'); ?>
-				
+
 				<?php echo $this->form->getLabel('track_clicks'); ?>
 				<?php echo $this->form->getInput('track_clicks'); ?>
-				
+
 				<?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?>
 

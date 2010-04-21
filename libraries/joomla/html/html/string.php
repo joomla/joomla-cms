@@ -20,7 +20,7 @@ class JHtmlString
 	/**
 	 * Truncates text blocks over the specified character limit and closes
 	 * all open HTML tags. The behavior will not truncate an individual
-	 * word, it will find the first space that is within the limit and 
+	 * word, it will find the first space that is within the limit and
 	 * truncate at that point. This method is UTF-8 safe.
 	 *
 	 * @static
@@ -75,7 +75,7 @@ class JHtmlString
 			}
 			$text = $tmp.'...';
 		}
-		
+
 		return $text;
 	}
 

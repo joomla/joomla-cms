@@ -28,7 +28,7 @@ class CategoriesHelper
 		if ($extension == 'com_categories') {
 			return;
 		}
-		
+
 		$parts = explode('.',$extension);
 		$component = $parts[0];
 		if (count($parts)>1)

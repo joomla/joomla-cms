@@ -21,8 +21,8 @@ jimport('joomla.application.component.helper');
  */
 abstract class JModuleHelper
 {
-	
-	
+
+
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
@@ -128,7 +128,7 @@ abstract class JModuleHelper
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
-		
+
 		$option = JRequest::getCmd('option');
 		$app	= &JFactory::getApplication();
 
@@ -157,8 +157,8 @@ abstract class JModuleHelper
 			||	$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false)
 			||	$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
 
-		
-			
+
+
 			$content = '';
 			ob_start();
 			require $path;
@@ -269,20 +269,20 @@ abstract class JModuleHelper
 		$nullDate = $db->getNullDate();
 		$query->where('(m.publish_up = '.$db->Quote($nullDate).' OR m.publish_up <= '.$db->Quote($now).')');
 		$query->where('(m.publish_down = '.$db->Quote($nullDate).' OR m.publish_down >= '.$db->Quote($now).')');
-		
+
 		$clientid = (int) $app->getClientId();
-		
+
 		$query->where('m.access IN ('.$groups.')');
 		$query->where('m.client_id = '. $clientid);
 		if (isset($Itemid)) {
 			$query->where('(mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)');
 		}
 		$query->order('position, ordering');
-		
+
 		$cacheid = serialize(array($Itemid,$groups,$clientid));
-		
+
 		$db->setQuery($query);
-		
+
 		$cache = JFactory::getCache ('com_modules', 'callback' );
 		$modules = $cache->get(array($db,'loadObjectList'),null,$cacheid,false);
 
@@ -337,18 +337,18 @@ abstract class JModuleHelper
 
 		return $clean;
 	}
-	
-	
+
+
 	/**
 	* Module cache helper
-	* 
+	*
 	* Caching modes:
-	* to be set in XML: 
+	* to be set in XML:
 	* 'static' - one cache file for all pages with the same module parameters
 	* 'oldstatic' - 1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
-	* 'itemid' - changes on itemid change, 
-	* to be called from inside the module: 
-	* 'safeuri' - id created from $cacheparams->modeparams array, 
+	* 'itemid' - changes on itemid change,
+	* to be called from inside the module:
+	* 'safeuri' - id created from $cacheparams->modeparams array,
 	* 'id' - module sets own cache id's
 	*
 	* @static
@@ -356,27 +356,27 @@ abstract class JModuleHelper
 	* @param	object	$moduleparams module parameters
 	* @param	object	$cacheparams module cache parameters - id or url parameters, depending on the module cache mode
 	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	* 
+	*
 	* @since	1.6
 	*/
 	public static function ModuleCache ($module, $moduleparams, $cacheparams) {
-		
-		if(!isset ($cacheparams->modeparams))$cacheparams->modeparams=null;	
+
+		if(!isset ($cacheparams->modeparams))$cacheparams->modeparams=null;
 		if(!isset ($cacheparams->cachegroup)) $cacheparams->cachegroup = $module->module;
-		
+
 		if (!is_array($cacheparams->methodparams)) $cacheparams->methodparams = array($cacheparams->methodparams);
-		
+
 		$user = &JFactory::getUser();
 		$cache = &JFactory::getCache($cacheparams->cachegroup,'callback');
 		$conf = &JFactory::getConfig();
-		
+
 		// turn cache off for internal callers if parameters are set to off and for all loged in users
 		if($moduleparams->get('owncache', null) == 0  || $conf->get('caching') == 0 || $user->get('id')) $cache->setCaching = false ;
-		
-		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60)); 
-		
+
+		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60));
+
 		switch ($cacheparams->cachemode) {
-			
+
 			case 'id':
 				$ret = $cache->get(array($cacheparams->class, $cacheparams->method),$cacheparams->methodparams,$cacheparams->modeparams,true);
 				break;
@@ -393,15 +393,15 @@ abstract class JModuleHelper
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
 				$ret = $cache->get(array($cacheparams->class,$cacheparams->method),$cacheparams->methodparams,$module->id. $user->get('aid', 0).$secureid,true);
 				break;
-			
+
 			case 'static':
 				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->module.md5(serialize($cacheparams->methodparams)) ,true);
 				break;
-				
+
 			case 'oldstatic':  // provided for backward compatibility, not really usefull
 				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0),true);
 				break;
-			
+
 			case 'itemid':
 			default:
 				$ret = $cache->get(array($cacheparams->class,$cacheparams->method), $cacheparams->methodparams , $module->id. $user->get('aid', 0).JRequest::getVar('Itemid',null,'default','INT'), true);

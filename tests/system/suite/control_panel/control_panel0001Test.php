@@ -22,7 +22,7 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		$this->gotoSite();
 		$this->doFrontEndLogin();
-		$this->gotoSite();		
+		$this->gotoSite();
 		$this->doFrontEndLogout();
 		$this->gotoAdmin();
 		echo "Check that top menu options are visible.\n";

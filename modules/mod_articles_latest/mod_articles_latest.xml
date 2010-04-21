@@ -34,7 +34,7 @@
 					default="5"
 					label="MOD_LATEST_NEWS_FIELD_COUNT_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_COUNT_DESC" />
-					
+
 				<field
 					name="ordering"
 					type="list"
@@ -48,7 +48,7 @@
 					<option
 						value="mc_dsc">MOD_LATEST_NEWS_VALUE_RECENT_TOUCHED</option>
 				</field>
-				
+
 				<field
 					name="user_id"
 					type="list"
@@ -62,13 +62,13 @@
 					<option
 						value="not_me">MOD_LATEST_NEWS_VALUE_NOTADDED_BY_ME</option>
 				</field>
-				
+
 				<field
 					name="spacer1"
 					type="spacer"
 					hr="true"
 					/>
-					
+
 				<field
 					name="show_front"
 					type="radio"
@@ -80,7 +80,7 @@
 					<option
 						value="0">JHIDE</option>
 				</field>
-				
+
 				<field
 					name="catid"
 					type="category"
@@ -89,7 +89,7 @@
 					label="MOD_LATEST_NEWS_FIELD_CATEGORY_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
 			</fieldset>
-			
+
 			<fieldset
 				name="advanced">
 				<field
@@ -97,14 +97,14 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-					
+
 				<field
 					name="moduleclass_sfx"
 					type="text"
 					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-					
+
 				<field
 					name="cache"
 					type="list"
@@ -116,7 +116,7 @@
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-				
+
 				<field
 					name="cache_time"
 					type="text"

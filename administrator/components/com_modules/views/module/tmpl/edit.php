@@ -40,9 +40,9 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JOPTION_REQUIRED');?>	</legend>
-		
+
 	<!-- Module metadata -->
-		
+
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
 
@@ -73,7 +73,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<?php echo $this->form->getLabel('publish_up'); ?>
 			<?php echo $this->form->getInput('publish_up'); ?>
-			
+
 			<?php echo $this->form->getLabel('publish_down'); ?>
 			<?php echo $this->form->getInput('publish_down'); ?>
 			<?php endif; ?>
@@ -82,17 +82,17 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php echo $this->form->getInput('language'); ?>
 
 			<?php if ($this->item->id) : ?>
-				<?php echo $this->form->getLabel('id'); ?>	
+				<?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?>
 			<?php endif; ?>
-			
+
 			<?php echo $this->form->getLabel('module'); ?>
 			<?php echo $this->form->getInput('module'); ?>
 			<input type="text" size="35" value="<?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_(MODULES_ERR_XML);?>" class="readonly" readonly="readonly" />
 
-			
+
 			<?php echo $this->form->getLabel('client_id'); ?>
-			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />		
+			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 
 			<br class="clr" />
 	<?php if ($this->item->xml) : ?>
@@ -105,7 +105,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php else : ?>
 				<?php echo JText::_('COM_MODULES_ERR_XML'); ?>
 			<?php endif; ?>
-			<br class="clr" />		
+			<br class="clr" />
 		</fieldset>
 	</div>
 

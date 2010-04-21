@@ -29,7 +29,7 @@ class JFormFieldSearch extends JFormField
 	 *
 	 * @return	string		The field input.
 	 */
-	protected function getInput() 
+	protected function getInput()
 	{
 		$html = '';
 		$html.= '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="' . $this->value . '" title="' . JText::_('JSEARCH_FILTER') . '" onchange="this.form.submit();" />';

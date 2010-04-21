@@ -105,7 +105,7 @@ abstract class QuickIconHelper
 					'image' => 'icon-48-language.png',
 					'text' => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
 				)
-				
+
 			);
 		}
 

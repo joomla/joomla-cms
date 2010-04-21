@@ -33,7 +33,7 @@ class ContentModelArticle extends JModelAdmin
 		$this->_item = 'article';
 		$this->_option = 'com_content';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -316,7 +316,7 @@ class ContentModelArticle extends JModelAdmin
 
 		return true;
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

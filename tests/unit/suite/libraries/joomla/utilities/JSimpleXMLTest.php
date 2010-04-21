@@ -37,7 +37,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 		JSimpleXMLTest::$actualError['info'] = $error->get('info');
 		return false;
 	}
-	
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -67,7 +67,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 	{
 		$this->setErrorhandlers($this->savedErrorState);
 	}
-	
+
 	/**
 	 * Test cases for loadString
 	 *

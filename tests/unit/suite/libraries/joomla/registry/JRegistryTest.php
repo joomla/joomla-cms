@@ -442,7 +442,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('huh'),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 		// test merge with zero and blank value
 		$json1 = '{"param1":1, "param2":"value2"}';
 		$json2 = '{"param1":2, "param2":"", "param3":0, "param4":-1, "param5":1}';

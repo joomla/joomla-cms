@@ -30,10 +30,10 @@ require_once dirname(__FILE__).DS.'helper.php';
 						case 'article':
 							if ($params->get('show_on_article_page', 1)) {
 								$idbase = JRequest::getInt('catid');
-							} 
+							}
 							break;
 					}
-				} 
+				}
 				break;
 			case 'normal':
 			default:
@@ -47,7 +47,7 @@ $cacheid = md5(serialize(array ($idbase,$module->module)));
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'id';
-$cacheparams->class = 'modArticlesCategoryHelper';	
+$cacheparams->class = 'modArticlesCategoryHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = $cacheid;

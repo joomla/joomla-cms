@@ -191,7 +191,7 @@
 			type="hidden"
 			filter="unset"/>
 	</fieldset>
-	
+
 	<fields name="params">
 	</fields>
 </form>

@@ -37,29 +37,29 @@ $# Changing en_GB to en-GB in sample_data.sql
  + Add magic __get method to JDate.
 
 21-Apr-2010 Jean-Marie Simonet
-$ Refactoring ini/keys in libraries/J/Installer/component 
+$ Refactoring ini/keys in libraries/J/Installer/component
 $ Refactoring ini/keys in libraries/J/Installer/file
 $ Refactoring ini/keys in libraries/J/Installer/language
 $ Refactoring ini/keys in libraries/J/Installer/library
 $ Refactoring ini/keys in libraries/J/Installer/module
 # Fixing logout -which also fixes mod_logged- (Thank you Dennis!)
 # Fixing Toggle menu item selection in com_modules
-+ Adding custom positions for modules (Thanks Dennis) 
++ Adding custom positions for modules (Thanks Dennis)
 
 
 20-Apr-2010 Mark Dexter
-# Fix PHP notice in mod_logged 
+# Fix PHP notice in mod_logged
 ^ Change name of component parameter from show_page_title to show_page_heading
 # Fixed parameters in content views (Angie Radtke)
-# Make global content parameters consistent with layouts, fix language tags 
+# Make global content parameters consistent with layouts, fix language tags
 # Fix parameter merge for content single category menu items
 # Fix param and language bugs in featured view
-# Fix parameter priority for single article view 
+# Fix parameter priority for single article view
 # Fix issue where an existing featured article could not be saved (Elin Waring)
 
 20-Apr-2010 Andrew Eddie
  ^ Rename JModel _populateState to populateState, _getStoreId to getStoreId, _getListQuery to getListQuery.
- 
+
 20-Apr-2010 Christophe Demko
 ^+ Enhancing pluralisation of strings
 
@@ -106,7 +106,7 @@ $ Refactoring ini/keys in libraries/J/form
 $ Refactoring ini/keys in libraries/J/html + some, WIP
 
 17-Apr-2010 Mark Dexter
-# Change condition in JRegistry merge method to be consistent with get method 
+# Change condition in JRegistry merge method to be consistent with get method
 
 17-Apr-2010 Jean-Marie Simonet
 # Fixed [20169]. (Thanks Andrea]
@@ -277,7 +277,7 @@ $ Refactoring com_redirect ini/keys
 
 01-Apr-2010 Jean-Marie Simonet
 ^$ Creating JSITE and JADMINISTRATOR keys in main ini file. Globally consolidated all keys with same value to these new keys.
-- Removed xmlrpc library + some 
+- Removed xmlrpc library + some
 
 31-Mar-2010 Mark Dexter
 ^ Implement parameters in Archived Articles menu item
@@ -290,7 +290,7 @@ $ Refactoring com_redirect ini/keys
 $ Refactored com_installer ini/keys
 
 30-Mar-2010 Mark Dexter
-# Fix PHP undefined var notice in New Menu Item 
+# Fix PHP undefined var notice in New Menu Item
 
 30-Mar-2010 Sam Moffat
  + Added wincache session handler for IIS, thanks to Ruslan from Microsoft
@@ -449,7 +449,7 @@ $+ Normalised banners language field + sql + sample data
 $ Finalized com_cpanel keys/inis
 
 06-Mar-2010 Mark Dexter
-# Fix problem where JSite was changing JComponentHelper::getParams results 
+# Fix problem where JSite was changing JComponentHelper::getParams results
 
 06-Mar-2010 Hannes Papenberg
 # Added complete manifest files to each core component - Thanks Edgars Piru�ka
@@ -473,7 +473,7 @@ $ Refactored com_login ini/keys + some
 # Correcting bugs in JFieldCheckbox
 
 04-March-2010 Jean-Marie Simonet
-$^ Refactored com_templates ini/keys 
+$^ Refactored com_templates ini/keys
 $^ Refactored tpl_milkyway ini/keys
 
 03-March-2010 Mark Dexter
@@ -504,7 +504,7 @@ $^ Refactored com_newsfeeds ini/keys + some JCommon.
 
 26-Feb-2010 Mark Dexter
 # Add CSS for multi-column blog display (Angie Radtke)
-^ Fix up ordering and other parameters for category blog menu item 
+^ Fix up ordering and other parameters for category blog menu item
 ^ Make global, menu item, and article parameters consistent in content
 ^ Fix up language tags for parameters
 # Fix multi-column bug in frontpage blog
@@ -623,7 +623,7 @@ $ Translating Menu Item Type in Menu Manager: Menu items.
 ^ Updated en-GB.xml back
 
 14-Feb-2010 Jean-Marie Simonet
-^ $ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys. 
+^ $ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys.
 ^ Changing editors-xtd name. Updating more ini keys. Loading translation in Manage View.
 + Adding xx-XX frontend language for testing purposes.
 
@@ -701,7 +701,7 @@ $ Translating Menu Item Type in Menu Manager: Menu items.
 
 08-Feb-2010 Andrew Eddie
  # Fix bug in JRegistry::setValue - documented as returning the old value, however, the behaviour is to return the set value. Changing this kills JParameter::def.
- 
+
 07-Feb-2010 Hannes Papenberg
 ^ Consolidated a few translation strings in en-GB.ini and removed the en-GB.ini.old.ini in frontend
 # Fixed required fields in profile plugin - Thanks Matrikular!
@@ -749,7 +749,7 @@ $ Translating Menu Item Type in Menu Manager: Menu items.
 ^ Adding readonly attribute on some jform fields
 
 04-Feb-2010 Christophe Demko
-# Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist 
+# Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist
 
 04-Feb-2010 Jean-Marie Simonet
 ^ Refactored user plugins ini keys.
@@ -782,7 +782,7 @@ $ Translating Menu Item Type in Menu Manager: Menu items.
 + - Added parameters to mod_popular - Thanks Jonnathan!
 $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 
-02-Feb-2010 Jean-Marie Simonet 
+02-Feb-2010 Jean-Marie Simonet
 ^ Customized enabled/published ini keys/values for modules and plugins
 ^ Refactored ini keys in authentication plugins
 
@@ -799,7 +799,7 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 # Fixed com_search view
 # Fixed routing in content search plugins
 
-01-Feb-2010 Jean-Marie Simonet 
+01-Feb-2010 Jean-Marie Simonet
 ^ Refactored com_plugins ini keys + some
 ^ Refactored (again ;) ) tinymce ini keys to standard
 ^ Refactored ini keys in content plugins + some
@@ -869,7 +869,7 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 25-Jan-2010 Louis Landry
  ^ Moved testing infrastructure from the /testing/ folder into the trunk.
 
-25-Jan-2010 Jean-Marie Simonet 
+25-Jan-2010 Jean-Marie Simonet
 ^ Refactored TinyMCE ini keys
 
 24-Jan-2010 Hannes Papenberg
@@ -877,7 +877,7 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 + Added subgroup support for JForm forms
 + Added ability to extend user edit screen with parameters and additional fields
 
-23-Jan-2010 Christophe Demko & Jean-Marie Simonet 
+23-Jan-2010 Christophe Demko & Jean-Marie Simonet
 ^ Refactored plugins language load
 
 23-Jan-2010 Hannes Papenberg
@@ -889,7 +889,7 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 - Removed JHTMLImage::system()
 ^ Deprecated JHTMLImage::site() and JHTMLImage::administrator()
 ^ Changed JHTML::image() to support relative paths to images
-^ Changed all system images to be overrideable 
+^ Changed all system images to be overrideable
 ^ moved system images from /images /media/system and from components to /media/images folder
 
 21-Jan-2010 Christophe Demko
@@ -987,7 +987,7 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
 
 13-Jan-2010 Hannes Papenberg
 # Fixed JFormFieldUsergroup - Thanks Christopher Demko!
-^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)! 
+^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)!
 
 12-Jan-2010 Mark Dexter
 # Improvements to contact parameters (Elin Waring)
@@ -1077,13 +1077,13 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
 - Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
 ^ Set a default date format for JFormFieldCalendar
 # Fixed JElementComponentLayouts. Its now using the new #__template_styles table
- 
+
 02-Jan-2010 Ron Severdia
 # Fixed bug in CSS for ACL, general CSS cleanup & reformat
 # Visual cleanup on borders and login page
 
 01-Jan-2010 Mark Dexter
-# Fix bug where article global parameters were not showing 
+# Fix bug where article global parameters were not showing
 
 29-Dec-2009 Mark Dexter
 # Add correct initial Article parameters in joomla.sql

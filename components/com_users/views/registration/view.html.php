@@ -50,12 +50,12 @@ class UsersViewRegistration extends JView
 		$this->assignRef('form',	$form);
 		$this->assignRef('data',	$data);
 		$this->assignRef('params',	$params);
-		
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Prepares the document
 	 */
@@ -72,9 +72,9 @@ class UsersViewRegistration extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('Users_Registration')); 
+			$this->params->def('page_heading', JText::_('Users_Registration'));
 		}
-		
+
 		$title = $this->params->get('page_title', $this->params->get('page_heading'));
 		if (empty($title))
 		{

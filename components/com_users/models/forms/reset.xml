@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset name="default">
-	
+
 		<field name="username" type="text"
 			class="required"
 			description="Users_Resend_Username_Desc"

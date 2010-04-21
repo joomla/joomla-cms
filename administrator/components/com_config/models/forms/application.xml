@@ -52,7 +52,7 @@
 			<option
 				value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="memcache_compress"
 			type="radio"
@@ -65,7 +65,7 @@
 			<option
 				value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="memcache_server_host"
 			type="text"
@@ -74,7 +74,7 @@
 			description="COM_CONFIG_FIELD_MEMCACHE_HOST_DESC"
 			filter="string"
 			size="25" />
-			
+
 		<field
 			name="memcache_server_port"
 			type="text"

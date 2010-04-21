@@ -32,11 +32,11 @@ class ContactModelCategories extends JModel
 	 * @var		string
 	 */
 	protected $_extension = 'com_contact';
-	
+
 	private $_parent = null;
-	
+
 	private $_items = null;
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -108,10 +108,10 @@ class ContactModelCategories extends JModel
 				$this->_items = false;
 			}
 		}
-		
+
 		return $this->_items;
 	}
-	
+
 	public function getParent()
 	{
 		if(!is_object($this->_parent))

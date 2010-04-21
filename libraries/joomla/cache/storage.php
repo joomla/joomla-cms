@@ -28,8 +28,8 @@ class JCacheStorage extends JObject
 	public $_language;
 	public $_application;
 	public $_hash;
-	
-	
+
+
 	/**
 	* Constructor
 	*
@@ -52,7 +52,7 @@ class JCacheStorage extends JObject
 		} else {
 			$this->_threshold = $this->_now - $this->_lifetime;
 		}
-		
+
 	}
 
 	/**
@@ -65,9 +65,9 @@ class JCacheStorage extends JObject
 	 * @since	1.5
 	 */
 	public static function getInstance($handler, $options = array())
-	{	
+	{
 		JCacheStorage::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage');
-		
+
 		static $now = null;
 		if (is_null($now)) {
 			$now = time();
@@ -80,10 +80,10 @@ class JCacheStorage extends JObject
         if(!isset($storage)) {
             $storage = $conf->get('cache_handler', 'file');
         }
-		
+
 		$class = 'JCacheStorage'.ucfirst($handler);
 		if (!class_exists($class))
-		{	
+		{
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
 			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler).'.php')) {
@@ -108,10 +108,10 @@ class JCacheStorage extends JObject
 	 * @since	1.5
 	 */
 	public function get($id, $group, $checkTime)
-	{	
+	{
 		return false;
 	}
-	
+
 	/**
 	 * Get all cached data
 	 *
@@ -119,7 +119,7 @@ class JCacheStorage extends JObject
 	 * @since	1.6
 	 */
 	public function getAll()
-	{	
+	{
 			if (!class_exists('JCacheStorageHelper', false)) {
 			require_once JPATH_ROOT.DS.'libraries'.DS.'joomla'.DS.'cache'.DS.'storage'.DS.'helpers'.DS.'helper.php';
 		}
@@ -189,7 +189,7 @@ class JCacheStorage extends JObject
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Lock cached item
 	 *
@@ -203,7 +203,7 @@ class JCacheStorage extends JObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Unlock cached item
 	 *
@@ -216,7 +216,7 @@ class JCacheStorage extends JObject
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Get a cache_id string from an id/group pair
 	 *
@@ -226,12 +226,12 @@ class JCacheStorage extends JObject
 	 * @since	1.6
 	 */
 	protected function _getCacheId($id, $group)
-	{	
+	{
 		$name	= md5($this->_application.'-'.$id.'-'.$this->_language);
 		$this->rawname = $this->_hash.'-'.$name;
 		return $this->_hash.'-cache-'.$group.'-'.$name;
 	}
-	
+
 	/**
 	 * Add a directory where JCacheStorage should search for handlers. You may
 	 * either pass a string or an array of directories.
@@ -240,7 +240,7 @@ class JCacheStorage extends JObject
 	 * @return	array	An array with directory elements
 	 * @since	1.6
 	 */
-	
+
 	public static function addIncludePath($path='')
 	{
 		static $paths;

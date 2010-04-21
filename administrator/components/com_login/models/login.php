@@ -48,7 +48,7 @@ class LoginModelLogin extends JModel
 		if (empty($return)) {
 			$return = 'index.php';
 		}
-		
+
 		$this->setState('return', $return);
 	}
 }

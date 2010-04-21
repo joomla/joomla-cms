@@ -51,7 +51,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php if ($this->item->extension_id) : ?>
 				<?php echo $this->form->getLabel('extension_id'); ?>
-				<?php echo $this->form->getInput('extension_id'); ?>	
+				<?php echo $this->form->getInput('extension_id'); ?>
 			<?php endif; ?>
 
 			<br class="clr" />

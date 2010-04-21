@@ -25,7 +25,7 @@ class JStringTest_DataSet {
 		array('на карте с',	'на карте', 0,  0),
 		array('на карте с',	'на каррте', 0,  false),
 		array('на карте с',	'на карте', 2,  false),
-		array('missing',	'sing', false,  3)		
+		array('missing',	'sing', false,  3)
 	);
 
 	static public $strrposTests = array(
@@ -57,7 +57,7 @@ class JStringTest_DataSet {
 	static public $strlenTests = array(
 		array('Joomla! Rocks', 13)
 	);
-	
+
 	static public $str_ireplaceTests = array(
 		array('Pig', 'cow', 'the pig jumped', false, 'the cow jumped'),
 		array('Pig', 'cow', 'the pig jumped', true, 'the cow jumped'),
@@ -65,38 +65,38 @@ class JStringTest_DataSet {
 		array(array('PIG', 'JUMPED'), array('cow', 'hopped'), true,  'the pig jumped over the pig', 'the cow hopped over the cow'),
 		array('шил', 'биш', 'Би шил идэй чадна', true,  'Би биш идэй чадна')
 	);
-	
+
 	static public $str_splitTests = array(
 		array('string', 1, array('s','t','r','i','n','g')),
 		array('string', 2, array('st','ri','ng')),
 		array('волн', 3, array('вол','н')),
 		array('волн', 1, array('в','о','л','н'))
 	);
-	
+
 	static public $strcasecmpTests = array (
 		array('THIS IS STRING1', 'this is string1', 0),
 		array('this is string1', 'this is string2', -1),
 		array('this is string2', 'this is string1', 1),
 		array('бгдпт', 'бгдпт', 0)
 	);
-	
+
 	static public $strcspnTests = array (
 		array('subject <a> string <a>', '<>', false, false, 8),
 		array('Би шил {123} идэй {456} чадна', '}{', null, false, 7),
 		array('Би шил {123} идэй {456} чадна', '}{', 13, 10, 5)
 	);
-	
+
 	static public $stristrTests = array (
 		array('haystack', 'needle', false),
 		array('before match, after match', 'match', 'match, after match'),
 		array('Би шил идэй чадна', 'шил', 'шил идэй чадна')
 	);
-	
+
 	static public $strrevTests = array (
 		array('abc def', 'fed cba'),
 		array('Би шил', 'лиш иБ')
 	);
-	
+
 	static public $strspnTests = array (
 		array('321 Main Street', '0123456789', false, false, 3),
 		array('A321 Main Street', '0123456789', 0, false, 0),
@@ -121,7 +121,7 @@ class JStringTest_DataSet {
 		array("\x09Би шил\x0A", "\x09\x0A", "Би шил\x0A"),
 		array('1234abc', '0123456789', 'abc')
 	);
-	
+
 	static public $rtrimTests = array (
 		array('abc def   ', null, 'abc def'),
 		array('Би шил ', null, 'Би шил'),
@@ -130,7 +130,7 @@ class JStringTest_DataSet {
 		array("\x09Би шил\x0A", "\x09\x0A", "\x09Би шил"),
 		array('1234abc', 'abc', '01234')
 	);
-	
+
 	static public $trimTests = array (
 		array('  abc def   ', null, 'abc def'),
 		array('   Би шил ', null, 'Би шил'),
@@ -139,25 +139,25 @@ class JStringTest_DataSet {
 		array("\x09Би шил\x0A", "\x09\x0A", "Би шил"),
 		array('1234abc56789', '0123456789', 'abc')
 	);
-	
+
 	static public $ucfirstTests = array (
-		array('george', 'George'), 
-		array('мога', 'Мога'), 
+		array('george', 'George'),
+		array('мога', 'Мога'),
 		array('ψυχοφθόρα', 'Ψυχοφθόρα')
 	);
-	
+
 	static public $ucwordsTests = array (
-		array('george washington', 'George Washington'), 
+		array('george washington', 'George Washington'),
 		array("george\r\nwashington", "George\r\nWashington"),
-		array('мога', 'Мога'), 
+		array('мога', 'Мога'),
 		array('αβγ δεζ', 'Αβγ Δεζ'),
 		array('åbc öde', 'Åbc Öde')
 	);
-	
+
 	static public $transcodeTests = array (
-		array('Åbc Öde €100', 'UTF-8', 'ISO-8859-1', "\xc5bc \xd6de EUR100") 
+		array('Åbc Öde €100', 'UTF-8', 'ISO-8859-1', "\xc5bc \xd6de EUR100")
 	);
-	
+
 	static public $validTests = array (
 		array('george Мога Ž Ψυχοφθόρα ฉันกินกระจกได้ 我能吞下玻璃而不伤身体 ', true),
 		array("\xFF ABC", false),

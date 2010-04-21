@@ -34,7 +34,7 @@ class BannersModelBanner extends JModelAdmin
 		$this->_item = 'banner';
 		$this->_option = 'com_banners';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -198,7 +198,7 @@ class BannersModelBanner extends JModelAdmin
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to stick records.
 	 *
@@ -239,7 +239,7 @@ class BannersModelBanner extends JModelAdmin
 
 		return true;
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

@@ -34,7 +34,7 @@
 					default="0"
 					label="MOD_WEBLINKS_FIELD_CATEGORY_LABEL"
 					description="MOD_WEBLINKS_FIELD_CATEGORY_DESC" />
-				<field 
+				<field
 					name="count"
 					type="text"
 					default="5"
@@ -110,7 +110,7 @@
 					<option
 						value="0">JNO</option>
 				</field>
-				
+
 				<field
 					name="count_clicks"
 					type="List"

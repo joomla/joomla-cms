@@ -46,17 +46,17 @@ class UsersViewReset extends JView
 		}
 
 		$params = &$state->params;
-		
+
 		// Push the data into the view.
 		$this->assignRef('form',	$form);
 		$this->assignRef('data',	$data);
 		$this->assignRef('params',	$params);
-		
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Prepares the document
 	 */
@@ -73,9 +73,9 @@ class UsersViewReset extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('Users_Reset')); 
+			$this->params->def('page_heading', JText::_('Users_Reset'));
 		}
-		
+
 		$title = $this->params->get('page_title', $this->params->get('page_heading'));
 		if (empty($title))
 		{

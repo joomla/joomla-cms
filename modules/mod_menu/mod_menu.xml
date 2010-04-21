@@ -37,7 +37,7 @@
 					size="5"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
 					description="MOD_MENU_FIELD_STARTLEVEL_DESC" />
-		
+
 				<field
 					name="endLevel"
 					type="text"
@@ -45,13 +45,13 @@
 					size="5"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
 					description="MOD_MENU_FIELD_ENDLEVEL_DESC" />
-		
+
 				<field
 					name="spacer1"
 					type="spacer"
 					hr="true"
 					/>
-		
+
 				<field
 					name="showAllChildren"
 					type="radio"
@@ -64,7 +64,7 @@
 						value="1">JYES</option>
 				</field>
 			</fieldset>
-		
+
 			<fieldset
 				name="advanced">
 				<field
@@ -73,40 +73,40 @@
 					default=""
 					label="MOD_MENU_FIELD_TAG_ID_LABEL"
 					description="MOD_MENU_FIELD_TAG_ID_DESC" />
-		
+
 				<field
 					name="class_sfx"
 					type="text"
 					default=""
 					label="MOD_MENU_FIELD_CLASS_LABEL"
 					description="MOD_MENU_FIELD_CLASS_DESC" />
-		
+
 				<field
 					name="window_open"
 					type="text"
 					default=""
 					label="MOD_MENU_FIELD_TARGET_LABEL"
 					description="MOD_MENU_FIELD_TARGET_DESC" />
-		
+
 				<field
 					name="spacer2"
 					type="spacer"
 					hr="true"
 					/>
-		
+
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-		
+
 				<field
 					name="moduleclass_sfx"
 					type="text"
 					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-		
+
 								<field
 					name="cache"
 					type="list"

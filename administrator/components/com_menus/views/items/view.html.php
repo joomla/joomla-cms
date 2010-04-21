@@ -44,27 +44,27 @@ class MenusViewItems extends JView
 		$this->assignRef('state',		$state);
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
-		
+
 		$this->ordering = array();
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($items as $i => &$item)
 		{
 			$this->ordering[$item->parent_id][] = $item->id;
-			
+
 			// item type text
 			switch ($item->type) {
 				case 'url':
 					$value = JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
 					break;
-	
+
 				case 'alias':
 					$value = JText::_('COM_MENUS_TYPE_ALIAS');
 					break;
-	
+
 				case 'separator':
 					$value = JText::_('COM_MENUS_TYPE_SEPARATOR');
 					break;
-					
+
 				case 'component':
 				default:
 					// load language
@@ -72,9 +72,9 @@ class MenusViewItems extends JView
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, null, false, false)
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, $lang->getDefault(), false, false);
-					
+
 					$value = JText::_($item->componentname);
-					
+
 					parse_str($item->link, $vars);
 					if (isset($vars['view'])) {
 						// Attempt to load the view xml file.
@@ -82,9 +82,9 @@ class MenusViewItems extends JView
 						if (is_file($file) && $xml = simplexml_load_file($file)) {
 							// Look for the first view node off of the root node.
 							if ($view = $xml->xpath('view[1]')) {
-								if (!empty($view[0]['title'])) {									
+								if (!empty($view[0]['title'])) {
 									$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
-									
+
 									// Attempt to load the layout xml file.
 									$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
 									if (is_file($file) && $xml = simplexml_load_file($file)) {
@@ -107,7 +107,7 @@ class MenusViewItems extends JView
 							$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
 						}
 					}
-					break;	
+					break;
 			}
 			$items[$i]->item_type = $value;
 		}

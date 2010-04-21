@@ -65,12 +65,12 @@ class ModulesControllerModule extends JControllerForm
 		if (empty($data['position'])) {
 			$data['position'] = $data['custom_position'];
 		}
-		
+
 		unset($data['custom_position']);
-		
+
 		return parent::_allowSave($data, $key);
 	}
-	
+
 	/**
 	 * Override parent save method.
 	 */

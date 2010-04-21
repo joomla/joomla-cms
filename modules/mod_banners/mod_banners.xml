@@ -42,27 +42,27 @@
 					<option
 						value="2">MOD_BANNERS_VALUE_NEWWINDOWWITHOUTBROWSERNAVIGATION</option>
 				</field>
-		
+
 				<field
 					name="spacer1"
 					type="spacer"
 					hr="true"
 					/>
-		
+
 				<field
 					name="count"
 					type="text"
 					default="1"
 					label="MOD_BANNERS_FIELD_COUNT_LABEL"
 					description="MOD_BANNERS_FIELD_COUNT_DESC" />
-		
+
 				<field
 					name="cid"
 					type="bannerclient"
 					default=""
 					label="MOD_BANNERS_FIELD_BANNERCLIENT_LABEL"
 					description="MOD_BANNERS_FIELD_BANNERCLIENT_DESC" />
-		
+
 				<field
 					name="catid"
 					type="category"
@@ -70,7 +70,7 @@
 					default=""
 					label="MOD_BANNERS_FIELD_CATEGORY_LABEL"
 					description="MOD_BANNERS_FIELD_CATEGORY_DESC" />
-		
+
 				<field
 					name="tag_search"
 					type="radio"
@@ -93,13 +93,13 @@
 					<option
 						value="random">MOD_BANNERS_VALUE_STICKYRANDOMISE</option>
 				</field>
-		
+
 				<field
 					name="spacer2"
 					type="spacer"
 					hr="true"
 					/>
-		
+
 				<field
 					name="header_text"
 					type="textarea"
@@ -108,7 +108,7 @@
 					default=""
 					label="MOD_BANNERS_FIELD_HEADER_LABEL"
 					description="MOD_BANNERS_FIELD_HEADER_DESC" />
-		
+
 				<field
 					name="footer_text"
 					type="textarea"
@@ -125,14 +125,14 @@
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-		
+
 				<field
 					name="moduleclass_sfx"
 					type="text"
 					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-		
+
 				<field
 					name="cache"
 					type="list"
@@ -144,7 +144,7 @@
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-		
+
 				<field
 					name="cache_time"
 					type="text"

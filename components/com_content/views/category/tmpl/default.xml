@@ -78,7 +78,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_cat_num_articles" type="list"
 				label="JGLOBAL_NUMBER_CATEGORY_ITEMS_LABEL"
 				description="JGLOBAL_NUMBER_CATEGORY_ITEMS_DESC"
@@ -112,7 +112,7 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-	
+
 			</field>
                <field name="list_show_title" type="list"
 				description="JGLOBAL_LIST_TITLE_DESC"
@@ -132,13 +132,13 @@
 				<option value="modified">Modified</option>
 				<option value="published">JPUBLISHED</option>
 			</field>
-			
+
 			<field name="date_format" type="text"
 				description="JGLOBAL_Date_Format_Desc"
 				label="JGLOBAL_Date_Format_Label"
 				size="15"
 			/>
-			
+
              <field name="list_show_hits" type="list"
 				description="JGLOBAL_LIST_HITS_DESC"
 				label="JGLOBAL_LIST_HITS_LABEL"

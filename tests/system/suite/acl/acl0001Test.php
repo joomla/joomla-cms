@@ -64,7 +64,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->select("//table[@id='acl-config']/tbody/tr[6]/td[6]/select", "label=Allow");
 		echo "Saving Article Administrator article permissions\n";
 		$this->click("xpath=/html/body/form/fieldset/div/button[contains(text(),'Save')]");
-		//	
+		//
 		//	---- No confirmation message exists ----
 		//
 		echo "Allow Article Administrator" . $saltGroup . " back end access, deny admin access\n";

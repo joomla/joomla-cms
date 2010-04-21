@@ -864,7 +864,7 @@ INSERT  INTO `#__modules_menu` VALUES
 --
 -- Dumping data for table `#__newsfeeds`
 --
-INSERT IGNORE INTO `#__newsfeeds`  
+INSERT IGNORE INTO `#__newsfeeds`
 VALUES
 (28, 1, 'Joomla! Announcements', 'joomla-announcements', 'http://www.joomla.org/announcements.feed?type=rss', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en-GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 0, '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (28, 2, 'New Joomla! Extensions', 'new-joomla-extensions', 'http://feeds.joomla.org/JoomlaExtensions', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en-GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 0, '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),

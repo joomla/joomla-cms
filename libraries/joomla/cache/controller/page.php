@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheControllerPage extends JCacheController 
+class JCacheControllerPage extends JCacheController
 {
 	/**
 	 * ID property for the cache page object.
@@ -34,7 +34,7 @@ class JCacheControllerPage extends JCacheController
 	 * @since	1.6
 	 */
 	private $group;
-	
+
 	/**
 	 * Cache lock test
 	 *
@@ -42,7 +42,7 @@ class JCacheControllerPage extends JCacheController
 	 * @since	1.6
 	 */
 	private $_locktest = null;
-	
+
 	/**
 	* Constructor
 	*
@@ -61,8 +61,8 @@ class JCacheControllerPage extends JCacheController
 	 * @since	1.5
 	 */
 	public function get($id=false, $group='page', $wrkarounds=true)
-	{	
-		
+	{
+
 		// Initialise variables.
 		$data = false;
 
@@ -85,24 +85,24 @@ class JCacheControllerPage extends JCacheController
 
 		// We got a cache hit... set the etag header and echo the page data
 		$data = $this->cache->get($id, $group);
-		
+
 		$this->_locktest = new stdClass;
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
-		
-		if ($data === false) 
+
+		if ($data === false)
 		{
 			$this->_locktest = $this->cache->lock($id,null);
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true) $data = $this->cache->get($id);
-		
+
 		}
-		
+
 		if ($data !== false) {
-			
+
 			if ($wrkarounds === true) {
 				echo JCache::getWorkarounds($data);
 			}
-			
+
 			$this->_setEtag($id);
 			if ($this->_locktest->locked == true) $this->cache->unlock($id);
 			return $data;
@@ -121,8 +121,8 @@ class JCacheControllerPage extends JCacheController
 	 * @since	1.5
 	 */
 	public function store($wrkarounds=true)
-	{	
-		
+	{
+
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
 
@@ -134,7 +134,7 @@ class JCacheControllerPage extends JCacheController
 
 		// Only attempt to store if page data exists
 		if ($data) {
-			
+
 			$data = $wrkarounds==false ? $data : JCache::setWorkarounds($data);
 			if ($this->_locktest->locked == false) $this->_locktest = $this->cache->lock($id,null);
 			return $this->cache->store($data, $id, $group);
@@ -151,7 +151,7 @@ class JCacheControllerPage extends JCacheController
 	 * @since	1.5
 	 */
 	private function _makeId()
-	{	
+	{
 		//return md5(JRequest::getURI());
 		return JCache::makeId();
 	}

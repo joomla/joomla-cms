@@ -117,8 +117,8 @@
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
-				</field>		
-				
+				</field>
+
 				<field
 					name="register-require_aboutme"
 					type="radio"
@@ -129,7 +129,7 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
-				
+
 				<field name="profile-require-user" type="spacer"
 					label="PLG_USER_PROFILE_FIELD_NAME_PROFILE_REQUIRE_USER"
 				/>
@@ -221,8 +221,8 @@
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
-				</field>		
-				
+				</field>
+
 				<field
 					name="profile-require_aboutme"
 					type="radio"

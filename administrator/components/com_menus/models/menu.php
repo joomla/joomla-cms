@@ -156,12 +156,12 @@ class MenusModelMenu extends JModelForm
 		}
 
 		$this->setState('menu.id', $table->id);
-		
+
 		// Clear the component's cache
 		$cache = JFactory::getCache('com_modules');
 		$cache->clean();
 		$cache->clean('mod_menu');
-		
+
 		return true;
 	}
 
@@ -190,7 +190,7 @@ class MenusModelMenu extends JModelForm
 				return false;
 			}
 		}
-		
+
 		// Clear the component's cache
 		$cache = JFactory::getCache('com_modules');
 		$cache->clean();

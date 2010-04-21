@@ -100,7 +100,7 @@
 				label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 				message="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_MESSAGE"
 				size="30"
-			/>			
+			/>
 			<field
 				name="aboutme"
 				type="textarea"
@@ -110,7 +110,7 @@
 				cols="30"
 				rows="5"
 				filter="safehtml"
-			/>			
+			/>
 		</fieldset>
 	</fields>
 </form>

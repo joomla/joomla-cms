@@ -39,7 +39,7 @@ class NewsfeedsViewCategory extends JView
 		$children	= &$this->get('Children');
 		$parent 	= &$this->get('Parent');
 		$pagination	= &$this->get('Pagination');
-		
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -55,7 +55,7 @@ class NewsfeedsViewCategory extends JView
 		{
 			//TODO Raise error for missing parent category here
 		}
-		
+
 		// Check whether category access level allows access.
 		$user	= &JFactory::getUser();
 		$groups	= $user->authorisedLevels();
@@ -108,7 +108,7 @@ class NewsfeedsViewCategory extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE')); 
+			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 		$id = (int) @$menu->query['id'];
 		if($menu && $menu->query['view'] != 'newsfeed' && $id != $this->category->id)
@@ -127,7 +127,7 @@ class NewsfeedsViewCategory extends JView
 				$pathway->addItem($title, $link);
 			}
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{

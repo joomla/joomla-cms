@@ -4,7 +4,7 @@
 	<fieldset>
 		<field
 			name="extension_id"
-			label="JGLOBAL_FIELD_ID_LABEL" 
+			label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC"
 			type="text"
 			default="0"

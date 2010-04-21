@@ -378,7 +378,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	/**
 	 * Magic method to check for PHP Notice whenever the waitForPageToLoad command is invoked
 	 * To suppress the check, use waitForPageToLoad('3000', false);
-	 * 
+	 *
 	 * @param string $command
 	 * @param array $arguments
 	 * @return results of waitForPageToLoad method
@@ -400,11 +400,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 		return $return;
 	}
-	
+
 	/**
-	 * Function to extract our test file information from the $e stack trace. 
+	 * Function to extract our test file information from the $e stack trace.
 	 * Makes the error reporting more readable, since it filters out all of the PHPUnit files.
-	 * 
+	 *
 	 * @param PHPUnit_Framework_AssertionFailedError $e
 	 * @return string with selected files based on path
 	 */
@@ -416,7 +416,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		foreach ($trace as $traceLine) {
 			$file = str_replace('\\', '/', $traceLine['file']);
 			if (stripos($file, $path) !== false) {
-				$message .= "\n" . $traceLine['file'] . '(' . $traceLine['line'] . '): ' . 
+				$message .= "\n" . $traceLine['file'] . '(' . $traceLine['line'] . '): ' .
 					$traceLine['class'] . $traceLine['type'] . $traceLine['function'] ;
 			}
 		}

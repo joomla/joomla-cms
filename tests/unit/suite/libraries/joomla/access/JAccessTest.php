@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @package		JoomlaFramework
  */
-                
+
  //Complusoft JoomlaTeam - Support: JoomlaTeam@Complusoft.es
 require_once JPATH_BASE.'/libraries/joomla/access/access.php';
 require_once JPATH_BASE.'/tests/unit/JoomlaDatabaseTestCase.php';
@@ -30,7 +30,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 * @access protected
 	 */
 	protected function setUp() {
-	  $this->object = new JAccess;  
+	  $this->object = new JAccess;
         }
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
@@ -83,7 +83,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
             $this->assertTrue($access->check('42','core.create',3));
             $this->assertTrue($access->check('42','core.delete',3));
             $this->assertTrue($access->check('42','core.edit',3));
-            $this->assertTrue($access->check('42','core.edit.state',3));    
+            $this->assertTrue($access->check('42','core.edit.state',3));
         }
 
 
@@ -112,7 +112,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 			$string1,
 			$this->equalTo((string)$ObjArrayJrules)
 		);
-        
+
 	}
 
         public function testGetUsersByGroup() {
@@ -173,13 +173,13 @@ class JAccessTest extends JoomlaDatabaseTestCase {
                         1       => 2,
                         2       => 3
 		);
-               
-                
+
+
                 $this->assertThat(
 			$array1,
 			$this->equalTo($access->getAuthorisedViewLevels(42))
 		);
-                
+
                 $array2 = array(
                     0       => 1
                 );
@@ -187,7 +187,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 			$array2,
 			$this->equalTo($access->getAuthorisedViewLevels(50))
 		);
-               
+
 
 
 	}
@@ -227,9 +227,9 @@ class JAccessTest extends JoomlaDatabaseTestCase {
                         'title'       => "JAction_Edit_State",
                         'description' => "JAction_Edit_State_Component_Desc"
 		);
-               
-                
-               
+
+
+
 
 		$obj= $access->getActions('com_banners', 'component');
                 $arraystdClass =  (array)$obj[0];
@@ -263,11 +263,11 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 			$this->equalTo($arraystdClass)
 		);
 
-                
+
                 $this->assertThat(
 			$array7 = array(),
 			$this->equalTo($access->getActions('com_complusoft', 'component'))
 		);
-               
+
         }
 }

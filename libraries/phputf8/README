@@ -41,10 +41,10 @@ http://sourceforge.net/tracker/?group_id=142846&atid=753843
 
 In the VERY WORST case, you can email me: hfuecks gmail com - I tend to be slow to respond though so be warned.
 
-Important Note: when reporting bugs, please provide the following 
+Important Note: when reporting bugs, please provide the following
 information;
 
-PHP version, whether the iconv extension is loaded (in PHP5 it's 
+PHP version, whether the iconv extension is loaded (in PHP5 it's
 there by default), whether the mbstring extension is loaded. The
 following PHP script can be used to determine this information;
 
@@ -76,7 +76,7 @@ http://dev.splitbrain.org/view/darcs/dokuwiki/inc/utf8.php
 and phputf8. Although Dokuwiki is released under GPL, its UTF-8
 library is released under LGPL, hence no conflict with phputf8
 
-+Henri Sivonen (http://hsivonen.iki.fi/php-utf8/ / 
++Henri Sivonen (http://hsivonen.iki.fi/php-utf8/ /
 http://hsivonen.iki.fi/php-utf8/) has also given permission for his
 code to be released under the terms of the LGPL. He ported a Unicode / UTF-8
 converter from the Mozilla codebase to PHP, which is re-used in phputf8

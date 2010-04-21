@@ -49,7 +49,7 @@
 		size="30"
 		validate="email"
 	/>
-	
+
 	<field
 			name="block"
 			type="radio"
@@ -90,7 +90,7 @@
 			readonly="true"
 			>
 	</field>
-	
+
 	</fieldset>
 	<field name="groups" type="hidden" />
 
@@ -106,7 +106,7 @@
 			>
 				<option value="">JOption_Use_Default</option>
 			</field>
-	
+
 			<field name="language" type="language"
 				client="site"
 				description="Users_Option_Frontend_Language_Desc"
@@ -114,21 +114,21 @@
 			>
 				<option value="">JOption_Use_Default</option>
 			</field>
-	
+
 			<field name="editor" type="editors"
 				description="Users_Option_Editor_Desc"
 				label="Users_Option_Editor_Label"
 			>
 				<option value="">JOption_Use_Default</option>
 			</field>
-	
+
 			<field name="helpsite" type="helpsite"
 				label="Users_Option_Helpsite_Label"
 				description="Users_Option_Helpsite_Desc"
 			>
 				<option value="">JOption_Use_Default</option>
 			</field>
-	
+
 			<field name="timezone" type="timezone"
 				label="Users_Option_Timezone_Label"
 				description="Users_Option_Timezone_Desc"

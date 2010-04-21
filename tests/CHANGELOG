@@ -48,7 +48,7 @@ $ -> Language fix or change
 
 15-Apr-2010 Mark Dexter
 # Fix up some changed language strings
-# Fix doFrontendLogin to use config 
+# Fix doFrontendLogin to use config
 + Add test for edit icons in front page and article layouts
 
 12-Apr-2010 Mark Dexter
@@ -68,7 +68,7 @@ $ -> Language fix or change
 # Minor fixes to control panel tests for changed wording on menus
 
 27-Mar-2010 Mark Dexter
-# Fix bug in doInstall.php 
+# Fix bug in doInstall.php
 
 26-Mar-2010 Mark Dexter
 # Change menu0001Test.php to reflect new id in Module Edit
@@ -189,6 +189,6 @@ $ -> Language fix or change
 
 24-Sep-2009 Andrew Eddie
  + Added 1.6 unittest scaffolding.
- 
+
 24-Sep-2009 Mark Dexter
  ^ Added basic functional tests to test admin menu choices

@@ -64,12 +64,12 @@ defined('_JEXEC') or die;
 
 			<div id="search">
 				<jdoc:include type="modules" name="user4" />
-				<jdoc:include type="modules" name="position-12" />				
+				<jdoc:include type="modules" name="position-12" />
 			</div>
 
 			<div id="pathway">
 				<jdoc:include type="modules" name="breadcrumb" />
-				<jdoc:include type="modules" name="position-2" />				
+				<jdoc:include type="modules" name="position-2" />
 			</div>
 
 			<div class="clr"></div>
@@ -85,7 +85,7 @@ defined('_JEXEC') or die;
 					<div id="area">
 						<div id="leftcolumn">
 						<?php if ($this->countModules('left')
-								or $this->countModules('position-7')	
+								or $this->countModules('position-7')
 						) : ?>
 							<jdoc:include type="modules" name="left" style="rounded" />
 							<jdoc:include type="modules" name="position-7" style="rounded" />
@@ -93,13 +93,13 @@ defined('_JEXEC') or die;
 						</div>
 
 						<?php if ($this->countModules('left')
-									or $this->countModules('position-7') 						
+									or $this->countModules('position-7')
 						) : ?>
 						<div id="maincolumn">
 						<?php else: ?>
 						<div id="maincolumn_full">
 						<?php endif; ?>
-							<?php if ($this->countModules('user1')  or  $this->countModules('user2') 
+							<?php if ($this->countModules('user1')  or  $this->countModules('user2')
 							or ($this->countModules('position-9')  or  $this->countModules('position-10') ) ) : ?>hello
 								<table class="nopad user1user2">
 									<tr valign="top">
@@ -109,7 +109,7 @@ defined('_JEXEC') or die;
 												<jdoc:include type="modules" name="position-9" style="xhtml" />
 											</td>
 										<?php endif; ?>
-										<?php if ($this->countModules('user1') or $this->countModules('position-9') 
+										<?php if ($this->countModules('user1') or $this->countModules('position-9')
 										and $this->countModules('user2') or $this->countModules('position-10')) : ?>
 											<td class="greyline">&nbsp;</td>
 										<?php endif; ?>
@@ -135,10 +135,10 @@ defined('_JEXEC') or die;
 										<jdoc:include type="modules" name="position-8"  style="xhtml" />
 										<jdoc:include type="modules" name="position-11"  style="xhtml" />
 										</td>
-									<?php if (($this->countModules('right') or 
+									<?php if (($this->countModules('right') or
 											$this->countModules('position-3') or
-											$this->countModules('position-4') 
-											)																						
+											$this->countModules('position-4')
+											)
 									and JRequest::getCmd('layout') != 'form') : ?>
 										<td class="greyline">&nbsp;</td>
 										<td width="170">
@@ -169,16 +169,16 @@ defined('_JEXEC') or die;
 		<div id="footer">
 			<div id="footer_l">
 				<div id="footer_r">
-					<p id="syndicate"> 
+					<p id="syndicate">
 						<jdoc:include type="modules" name="syndicate" style="xtml" />
 						<jdoc:include type="modules" name="position-14" style="xtml" />
 					</p>
 					<p id="power_by">
-						<?php 
-						$joomla = '<a href="http://www.joomla.org">Joomla!</a>'; 
+						<?php
+						$joomla = '<a href="http://www.joomla.org">Joomla!</a>';
 						echo JText::sprintf('TPL_RHUK_MILKYWAY_POWERED', $joomla);
-						$XHTML = '<a href="http://validator.w3.org/check/referer">XHTML</a>'; 
-						$CSS = '<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>'; 
+						$XHTML = '<a href="http://validator.w3.org/check/referer">XHTML</a>';
+						$CSS = '<a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>';
 						echo JText::sprintf('TPL_RHUK_MILKYWAY_VALID', $XHTML, $CSS) ?>
 					</p>
 				</div>

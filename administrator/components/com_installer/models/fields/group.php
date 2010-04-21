@@ -29,7 +29,7 @@ class JFormFieldGroup extends JFormField
 	 *
 	 * @return	string		The field input.
 	 */
-	protected function getInput() 
+	protected function getInput()
 	{
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		$options = array();

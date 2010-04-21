@@ -45,7 +45,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		//get the newsfeed
 		$newsfeed = &$this->get('data');
-		
+
 		$temp = new JRegistry();
 		$temp->loadJSON($newsfeed->params);
 		$params->merge($temp);
@@ -85,7 +85,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		$this->assignRef('params'  , $params  );
 		$this->assignRef('newsfeed', $newsfeed);
-		
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
@@ -108,7 +108,7 @@ class NewsfeedsViewNewsfeed extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE')); 
+			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 		if($menu && $menu->query['view'] != 'newsfeed')
 		{
@@ -126,7 +126,7 @@ class NewsfeedsViewNewsfeed extends JView
 				$pathway->addItem($title, $link);
 			}
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{

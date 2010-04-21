@@ -32,11 +32,11 @@ class WeblinksModelCategories extends JModel
 	 * @var		string
 	 */
 	protected $_extension = 'com_weblinks';
-	
+
 	private $_parent = null;
-	
+
 	private $_items = null;
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -79,7 +79,7 @@ class WeblinksModelCategories extends JModel
 
 		return parent::getStoreId($id);
 	}
-	
+
 	/**
 	 * redefine the function an add some properties to make the styling more easy
 	 *
@@ -108,10 +108,10 @@ class WeblinksModelCategories extends JModel
 				$this->_items = false;
 			}
 		}
-		
+
 		return $this->_items;
 	}
-	
+
 	public function getParent()
 	{
 		if(!is_object($this->_parent))

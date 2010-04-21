@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 
 <ul class="menu<?php echo $params->get('tag_id'); ?>"><?php
 foreach ($list as $i => &$item) :
-	
+
 	$id = '';
 	if($item->id == $active_id)
 	{
@@ -30,7 +30,7 @@ foreach ($list as $i => &$item) :
 		$class .= 'active ';
 	}
 	$class = ' class="'.$class.'item'.$item->id.'"';
-	
+
 	echo '<li'.$id.$class.'>';
 
 	// Render the menu item.

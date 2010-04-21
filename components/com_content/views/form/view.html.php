@@ -85,9 +85,9 @@ class ContentViewForm extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('Content_Form_Edit_Article')); 
+			$this->params->def('page_heading', JText::_('Content_Form_Edit_Article'));
 		}
-		
+
 		$title = $this->params->def('page_title', JText::_('Content_Form_Edit_Article'));
 		$this->document->setTitle($title);
 

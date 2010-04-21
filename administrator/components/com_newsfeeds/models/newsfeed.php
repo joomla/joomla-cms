@@ -34,7 +34,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		$this->_item = 'newsfeed';
 		$this->_option = 'com_newsfeeds';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */

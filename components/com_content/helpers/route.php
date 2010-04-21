@@ -22,7 +22,7 @@ jimport('joomla.application.categories');
  * @since 1.5
  */
 abstract class ContentHelperRoute
-{ 
+{
 	protected static $lookup;
 	/**
 	 * @param	int	The route of the content item
@@ -59,7 +59,7 @@ abstract class ContentHelperRoute
 		{
 			return;
 		}
-		
+
 		if($catid instanceof JCategoryNode)
 		{
 			$catids = array_reverse($catid->getPath());
@@ -74,7 +74,7 @@ abstract class ContentHelperRoute
 			$category = $categories->get((int)$catid);
 			if(!$category)
 			{
-				return $link;	
+				return $link;
 			}
 			$catids = array_reverse($category->getPath());
 		}

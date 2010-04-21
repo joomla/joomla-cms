@@ -9,7 +9,7 @@
 
 			<field name="aliasoptions" type="menuitem"
 				description="COM_MENUS_ITEM_FIELD_ALIAS_DESC"
-				label="JFIELD_ALIAS_LABEL" 
+				label="JFIELD_ALIAS_LABEL"
 				required="true" />
 
 		</fieldset>

@@ -18,7 +18,7 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-		
+
 
 		<field
 			id="show_feed_description"
@@ -32,7 +32,7 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-		
+
 
 		<field
 			id="show_item_description"
@@ -57,7 +57,7 @@
 			label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
 	</fieldset>
-	
+
 	<fieldset
 		name="category"
 		label="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_LABEL"
@@ -116,7 +116,7 @@
 		</field>
 
 		<field
-		name="spacer1" 
+		name="spacer1"
 		type="spacer"
 		hr="true"
 		/>
@@ -133,17 +133,17 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-		
-			<field 
-			name="show_description_image" 
-			type="radio" 
-			default="1" 
-			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_LABEL" 
+
+			<field
+			name="show_description_image"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_DESC">
 	 			<option value="0">JHIDE</option>
 	 			<option value="1">JSHOW</option>
 	 	</field>
-	 	
+
 	 		<field
 			name="display_num"
 			type="list"
@@ -161,27 +161,27 @@
 				<option value="100">J100</option>
 				<option value="0">JALL</option>
 		</field>
-		
-		<field 
-			name="show_pagination_limit" 
-			type="radio" 
-			default="1" 
-			label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL" 
+
+		<field
+			name="show_pagination_limit"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		
-		<field 
-			name="show_pagination" 
-			type="radio" 
-			default="1" 
-			label="COM_NEWSFEEDS_FIELD_PAGINATION_LABEL" 
+
+		<field
+			name="show_pagination"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_PAGINATION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_PAGINATION_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		
+
 			<field
 				name="show_pagination_results"
 				type="radio"

@@ -39,7 +39,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$this->_item = 'category';
 		$this->_option = 'com_categories';
 	}
-	
+
 	/**
 	 * Returns a Table object, always creating it
 	 *
@@ -413,7 +413,7 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function _batchCopy($value, $pks)
 	{
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

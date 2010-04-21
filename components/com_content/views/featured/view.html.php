@@ -69,7 +69,7 @@ class ContentViewFeatured extends JView
 			if ($item->parent_alias == 'root') {
 				$item->parent_slug = null;
 			}
-			
+
 			$item->event = new stdClass();
 
 			$dispatcher =& JDispatcher::getInstance();
@@ -150,9 +150,9 @@ class ContentViewFeatured extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE')); 
+			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE'));
 		}
-		
+
 		$title = $this->params->get('page_title', '');
 		if (empty($title))
 		{

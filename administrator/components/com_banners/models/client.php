@@ -34,7 +34,7 @@ class BannersModelClient extends JModelAdmin
 		$this->_item = 'client';
 		$this->_option = 'com_banners';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -206,7 +206,7 @@ class BannersModelClient extends JModelAdmin
 
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

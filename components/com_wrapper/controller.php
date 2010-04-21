@@ -25,14 +25,14 @@ class WrapperController extends JController
 	 * Display the view
 	 */
 	function display()
-	{	
+	{
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'wrapper');
 		JRequest::setVar('view', $vName);
-				
-		parent::display($cachable,array('Itemid'=>'INT'));	
-		
+
+		parent::display($cachable,array('Itemid'=>'INT'));
+
 	}
 }

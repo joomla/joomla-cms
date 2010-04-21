@@ -24,7 +24,7 @@ function ContactBuildRoute(&$query){
 	$menu = &JSite::getMenu();
 	$params = JComponentHelper::getParams('com_contact');
 	$advanced = $params->get('sef_advanced_link', 0);
-	
+
 	if (empty($query['Itemid'])) {
 		$menuItem = &$menu->getActive();
 	} else {
@@ -44,7 +44,7 @@ function ContactBuildRoute(&$query){
 	};
 
 	// are we dealing with a contact that is attached to a menu item?
-	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == intval($query['id']))) {	
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == intval($query['id']))) {
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -65,10 +65,10 @@ function ContactBuildRoute(&$query){
 			if(!$category)
 			{
 				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished	
+				//TODO Throw error that the category either not exists or is unpublished
 			}
 			$path = array_reverse($category->getPath());
-			
+
 			$array = array();
 			foreach($path as $id)
 			{
@@ -149,7 +149,7 @@ function ContactParseRoute($segments)
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
 	$categories = JCategories::getInstance('Contact')->get($id)->getChildren();
 	$vars['catid'] = $id;
-	$vars['id'] = $id;		
+	$vars['id'] = $id;
 	$found = 0;
 	foreach($segments as $segment)
 	{

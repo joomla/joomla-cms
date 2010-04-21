@@ -32,7 +32,7 @@ class JNode extends JObject
 	/**
 	 * Constructor
 	 */
-	function __construct() 
+	function __construct()
 	{
 		return true;
 	}
@@ -44,9 +44,9 @@ class JNode extends JObject
 	 *
 	 * @param JNode the child to be added
 	 */
-	function addChild(&$child) 
+	function addChild(&$child)
 	{
-		if ($child instanceof Jnode) 
+		if ($child instanceof Jnode)
 		{
 			$child->setParent($this);
 		}
@@ -59,16 +59,16 @@ class JNode extends JObject
 	 *
 	 * @param JNode|null the parent to be setted
 	 */
-	function setParent(&$parent) 
+	function setParent(&$parent)
 	{
-		if ($parent instanceof JNode || is_null($parent)) 
+		if ($parent instanceof JNode || is_null($parent))
 		{
 			$hash = spl_object_hash($this);
-			if (!is_null($this->_parent)) 
+			if (!is_null($this->_parent))
 			{
 				unset($this->_parent->children[$hash]);
 			}
-			if (!is_null($parent)) 
+			if (!is_null($parent))
 			{
 				$parent->_children[$hash] = & $this;
 			}
@@ -81,7 +81,7 @@ class JNode extends JObject
 	 *
 	 * @return array the children
 	 */
-	function &getChildren() 
+	function &getChildren()
 	{
 		return $this->_children;
 	}
@@ -91,7 +91,7 @@ class JNode extends JObject
 	 *
 	 * @return JNode|null the parent
 	 */
-	function &getParent() 
+	function &getParent()
 	{
 		return $this->_parent;
 	}
@@ -101,7 +101,7 @@ class JNode extends JObject
 	 *
 	 * @return bool
 	 */
-	function hasChildren() 
+	function hasChildren()
 	{
 		return count($this->_children);
 	}
@@ -111,7 +111,7 @@ class JNode extends JObject
 	 *
 	 * @return bool
 	 */
-	function hasParent() 
+	function hasParent()
 	{
 		return $this->getParent() != null;
 	}

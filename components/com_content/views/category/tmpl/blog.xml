@@ -44,7 +44,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_description" type="list"
 				description="JGLOBAL_Show_Category_Description_Desc"
 				label="JGLOBAL_Show_Category_Description_Label"

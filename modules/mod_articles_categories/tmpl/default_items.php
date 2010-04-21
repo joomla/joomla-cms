@@ -14,7 +14,7 @@ foreach ($list as $item) : ?>
 	<li>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
 		<?php echo $item->title;?></a>
-		<?php 
+		<?php
 		if($params->get('show_description', 0))
 		{
 			echo JHTML::_('content.prepare',$item->description, $item->getParams());

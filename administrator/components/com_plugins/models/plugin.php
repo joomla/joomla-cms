@@ -23,7 +23,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * Item cache.
 	 */
 	private $_cache = array();
-	
+
 	protected $_context = 'com_plugins';
 
 	/**
@@ -39,7 +39,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$this->_item = 'plugin';
 		$this->_option = 'com_plugins';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -265,7 +265,7 @@ class PluginsModelPlugin extends JModelAdmin
 
 		return true;
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

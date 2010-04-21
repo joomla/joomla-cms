@@ -39,7 +39,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-new']/a/span");
 		$this->waitForPageToLoad("60000");
 		echo "wait 2 seconds\n";
-		sleep(2);		
+		sleep(2);
 		echo "Select the menu item type\n";
 		$this->click("//input[@value='Select']");
 
@@ -74,7 +74,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		sleep(2);
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Navigate to Module Manager and add new menu module\n";
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
@@ -94,7 +94,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Select Menu module\n";
 		$this->click("link=Menu");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Fill in menu name and info\n";
 
 		$this->type("jform_title", "Functional Test Menu");
@@ -103,7 +103,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Save menu\n";
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Navigate to Front End and make sure new menu is there\n";
 		$this->gotoSite();
 		$this->assertTrue($this->isTextPresent("Functional Test Menu"));
@@ -113,11 +113,11 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("link=Functional Test Menu Item");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Australian Parks"));
-		
+
 		echo "Navigate to back end\n";
 		$this->click("link=Site Administrator");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Navigate to Module Manager and delete new menu module\n";
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
@@ -128,26 +128,26 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("toggle");
 		$this->click("//li[@id='toolbar-trash']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Navigate to Menu Item Manager and delete new menu item\n";
 		$this->click("link=Functional Test Menu");
 		$this->waitForPageToLoad("30000");
 		$this->click("toggle");
 		$this->click("//li[@id='toolbar-trash']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Navigate to Menu Manager and delete new menu\n";
 		$this->click("//ul[@id='submenu']/li[1]/a");
 		$this->waitForPageToLoad("30000");
 		$this->click("cb6");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Navigate to front end and make sure menu is not shown\n";
 		$this->gotoSite();
 		$this->assertFalse($this->isTextPresent("Functional Test Menu"));
 		$this->assertFalse($this->isElementPresent("link=Functional Test Menu Item"));
-		
+
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		echo "Finished testMenuItemAdd()\n";

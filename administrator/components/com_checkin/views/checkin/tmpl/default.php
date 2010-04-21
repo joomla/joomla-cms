@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 	foreach ($this->tables as $table => $count): ?>
 		<tr class="row<?php echo $k; ?>">
 			<td>
-				<?php 
+				<?php
 				echo JText::sprintf('COM_CHECKIN_CHECKING',$table); ?>
 			</td>
 

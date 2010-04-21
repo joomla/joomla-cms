@@ -46,7 +46,7 @@ function submitbutton(task) {
 			<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink.'.$this->item->id)): ?>
 				<?php echo $this->form->getLabel('state'); ?>
 				<?php echo $this->form->getInput('state'); ?>
-				<br />				
+				<br />
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('description'); ?>

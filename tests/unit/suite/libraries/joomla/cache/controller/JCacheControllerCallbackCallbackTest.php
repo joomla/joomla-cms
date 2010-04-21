@@ -30,7 +30,7 @@ class JCacheControllerCallbackTest_Callback extends PHPUnit_Extensions_OutputTes
 	}
 
 	public function testCallbackFunction() {
-/*		
+/*
 $cache =& JCache::getInstance('callback', array('storage'=>'mock'));
 		$arg1 = 'e1';
 		$arg2 = 'e2';

@@ -34,8 +34,8 @@ class NewsfeedsViewCategories extends JView
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$parent		= $this->get('Parent');
-		
-		
+
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
@@ -53,9 +53,9 @@ class NewsfeedsViewCategories extends JView
 		}
 
 		$params = &$state->params;
-		
+
 		$items = array($parent->id => $items);
-		
+
 		$this->assignRef('maxLevel',	$params->get('maxLevel', -1));
 		$this->assignRef('params',		$params);
 		$this->assignRef('parent',		$parent);

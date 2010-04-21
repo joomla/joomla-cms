@@ -120,12 +120,12 @@ class plgUserJoomla extends JPlugin
 		$my 		= &JFactory::getUser();
 		$session 	= &JFactory::getSession();
 		$app 		= &JFactory::getApplication();
-		
+
 		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user')) {
 			return true;
 		}
-		
+
 		// Check to see if we're deleting the current session
 		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId()) {
 			// Hit the user last visit field

@@ -16,8 +16,8 @@ defined('JPATH_BASE') or die;
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheControllerView extends JCacheController 
-{	
+class JCacheControllerView extends JCacheController
+{
 	/**
 	* Constructor
 	*
@@ -27,7 +27,7 @@ class JCacheControllerView extends JCacheController
 	{
 		parent::__construct($options);
 	}
-	
+
 	/**
 	 * Get the cached view data
 	 *
@@ -39,50 +39,50 @@ class JCacheControllerView extends JCacheController
 	 * @since	1.5
 	 */
 
-	
+
 	public function get(&$view, $method, $id=false, $wrkarounds=true)
 	{
-		
+
 
 		// If an id is not given generate it from the request
 		if ($id == false) {
 			$id = $this->_makeId($view, $method);
 		}
-		
-		$data = false;		
+
+		$data = false;
 		$data = $this->cache->get($id);
-		
+
 		$locktest = new stdClass;
 		$locktest->locked = null;
 		$locktest->locklooped = null;
-		
-		if ($data === false) 
+
+		if ($data === false)
 		{
 			$locktest = $this->cache->lock($id,null);
 			// if the loop is completed and returned true the means the lock has been set
 			// if looped is true try to get the cached data again; it could exist now
 			if ($locktest->locked == true && $locktest->locklooped == true) $data = $this->cache->get($id);
-			// false means that locking is either turned off or maxtime has been exceeeded, execute the view	
-		
+			// false means that locking is either turned off or maxtime has been exceeeded, execute the view
+
 		}
 
 		if ($data !== false) {
 			$data		= unserialize($data);
-				
+
 			if ($wrkarounds === true) {
 				echo JCache::getWorkarounds($data);
 			}
-				
+
 			else {  // no workarounds, all data is stored in one piece
 				echo (isset($data)) ? $data : null;
 			}
-			
+
 			if ($locktest->locked == true) $this->cache->unlock($id);
-			
+
 			return true;
 		}
 
-		
+
 		/*
 		 * No hit so we have to execute the view
 		 */
@@ -90,7 +90,7 @@ class JCacheControllerView extends JCacheController
 		{
 			// if previous lock failed try again
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id,null);
-			
+
 			// Capture and echo output
 			ob_start();
 			ob_implicit_flush(false);
@@ -110,7 +110,7 @@ class JCacheControllerView extends JCacheController
 
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
-			
+
 			if ($locktest->locked == true) $this->cache->unlock($id);
 		}
 		return false;

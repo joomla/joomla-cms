@@ -151,7 +151,7 @@
 		/>
 
 		<field name="checked_out_time" type="hidden"
-			filter="unset" 
+			filter="unset"
 		/>
 
 		<field name="ordering" type="ordering"
@@ -243,7 +243,7 @@
 				label="JField_Metadata_Robots_Label"
 				size="20"
 			/>
-	
+
 			<field name="rights" type="text"
 				description="JField_Metadata_Rights_Desc"
 				label="JField_Metadata_Rights_Label"
@@ -483,7 +483,7 @@
 
 	<fields name="email_form">
 		<fieldset name="email_form" label="Contact_Email_Form_Label">
-	
+
 		<field name="show_email_form" type="list"
 			description="Contact_Email_Show_Form_Desc"
 			label="Contact_Email_Show_Form_Label"
@@ -551,9 +551,8 @@
 			description="Contact_Email_Redirect_DESC"
 			label="Contact_Email_Redirect_LABEL"
 			size="30"
-		/>	
-		
+		/>
+
 		</fieldset>
 	</fields>
 </form>
-	

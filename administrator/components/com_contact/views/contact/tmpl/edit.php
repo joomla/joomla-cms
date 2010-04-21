@@ -105,7 +105,7 @@ JHtml::_('behavior.formvalidation');
 
 						<?php echo $this->form->getLabel('webpage'); ?>
 						<?php echo $this->form->getInput('webpage'); ?>
-						
+
 						<?php echo $this->form->getLabel('sortname1'); ?>
 						<?php echo $this->form->getInput('sortname1'); ?>
 
@@ -114,7 +114,7 @@ JHtml::_('behavior.formvalidation');
 
 						<?php echo $this->form->getLabel('sortname3'); ?>
 						<?php echo $this->form->getInput('sortname3'); ?>
-						
+
 			</fieldset>
 
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_FIELDSET_OPTIONS'), 'display-options'); ?>

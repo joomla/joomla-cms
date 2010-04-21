@@ -20,15 +20,15 @@ jimport('joomla.application.component.modeladmin');
 class WeblinksModelWeblink extends JModelAdmin
 {
 	protected $_context = 'com_weblinks';
-	
+
 	function __construct($config = array())
 	{
 		parent::__construct($config);
-		
+
 		$this->_item = 'weblink';
 		$this->_option = 'com_weblinks';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -240,7 +240,7 @@ class WeblinksModelWeblink extends JModelAdmin
 			//$table->modified_by	= $user->get('id');
 		}
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

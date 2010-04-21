@@ -25,6 +25,6 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo JHtml::_('content.prepare', $this->params->get('categories_desc')); ?>
 <?php endif; ?>
 <?php
-echo $this->loadTemplate('items'); 
+echo $this->loadTemplate('items');
 ?>
 </div>

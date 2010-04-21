@@ -91,7 +91,7 @@ $n = count($this->items);
 					}
 				?>
 			</p>
-	
+
 			<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
 				<p>
 				<?php echo nl2br($item->description); ?>

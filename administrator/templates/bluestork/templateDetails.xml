@@ -64,7 +64,7 @@
 					<option
 						value="1">JENABLED</option>
 				</field>
-		
+
 				<field
 					name="textBig"
 					type="list"
@@ -76,7 +76,7 @@
 					<option
 						value="1">JENABLED</option>
 				</field>
-		
+
 				<field
 					name="highContrast"
 					type="list"
@@ -88,7 +88,7 @@
 					<option
 						value="1">JENABLED</option>
 				</field>
-		
+
 			</fieldset>
 		</fields>
 	</config>

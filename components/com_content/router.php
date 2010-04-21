@@ -8,7 +8,7 @@
  defined('_JEXEC') or die;
 
 jimport('joomla.application.categories');
- 
+
 /**
  * Build the route for the com_content component
  *
@@ -24,7 +24,7 @@ function ContentBuildRoute(&$query)
 	$menu = &JSite::getMenu();
 	$params = JComponentHelper::getParams('com_content');
 	$advanced = $params->get('sef_advanced_link', 0);
-	
+
 
 	if (empty($query['Itemid'])) {
 		$menuItem = &$menu->getActive();
@@ -68,10 +68,10 @@ function ContentBuildRoute(&$query)
 			if(!$category)
 			{
 				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished	
+				//TODO Throw error that the category either not exists or is unpublished
 			}
 			$path = array_reverse($category->getPath());
-			
+
 			$array = array();
 			foreach($path as $id)
 			{
@@ -100,7 +100,7 @@ function ContentBuildRoute(&$query)
 		unset($query['id']);
 		unset($query['catid']);
 	}
-			
+
 	if (isset($query['year']))
 	{
 		if (!empty($query['Itemid'])) {
@@ -177,11 +177,11 @@ function ContentParseRoute($segments)
 			if(!$category)
 			{
 				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished	
+				//TODO Throw error that the category either not exists or is unpublished
 			}
 			$categories = $category->getChildren();
 			$vars['catid'] = $id;
-			$vars['id'] = $id;		
+			$vars['id'] = $id;
 			$found = 0;
 			foreach($segments as $segment)
 			{

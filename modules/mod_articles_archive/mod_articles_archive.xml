@@ -36,7 +36,7 @@
 
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL" 
+					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
 				<field name="moduleclass_sfx" type="text"
@@ -54,7 +54,7 @@
 
 				<field name="cache_time" type="text"
 					default="900"
-					label="COM_MODULES_FIELD_CACHE_TIME_LABEL" 
+					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 				<field
 					name="cachemode"

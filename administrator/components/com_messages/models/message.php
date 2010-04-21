@@ -34,7 +34,7 @@ class MessagesModelMessage extends JModelAdmin
 		$this->_item = 'message';
 		$this->_option = 'com_messages';
 	}
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 */
@@ -225,10 +225,10 @@ class MessagesModelMessage extends JModelAdmin
 
 		return true;
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();
-		return $condition;	
+		return $condition;
 	}
 }

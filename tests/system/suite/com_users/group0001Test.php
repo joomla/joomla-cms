@@ -13,10 +13,10 @@ class Group0001Test extends SeleniumJoomlaTestCase
 	function testCreatDeleteGroup()
 	{
   	$this->setUp();
-	$this->gotoAdmin();  	
+	$this->gotoAdmin();
   	$this->doAdminLogin();
     $this->click("link=Groups");
-    $this->waitForPageToLoad("30000");  	
+    $this->waitForPageToLoad("30000");
 	echo "Create new group Article Administrator\n";
     $this->click("link=New");
     $this->waitForPageToLoad("30000");
@@ -29,8 +29,8 @@ class Group0001Test extends SeleniumJoomlaTestCase
         $this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
-    }  	
-    echo "Delete Article Administrator group.\n";	
+    }
+    echo "Delete Article Administrator group.\n";
     $this->type("filter_search", "Test Group".$saltGroup);
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
@@ -43,7 +43,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     	array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
 	$this->doAdminLogout();
-	$this->countErrors();  	 
+	$this->countErrors();
   }
 }
 ?>

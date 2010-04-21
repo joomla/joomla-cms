@@ -62,7 +62,7 @@ class JDispatcherTest extends JoomlaTestCase {
 		$dispatcher->expects($this->once())
 			->method('attach')
 			->with($this->equalTo(array('event' => 'testEvent', 'handler' => 'myTestHandler')));
-		
+
 		$dispatcher->register('testEvent', 'myTestHandler');
 	}
 
@@ -71,7 +71,7 @@ class JDispatcherTest extends JoomlaTestCase {
 	 */
 	public function testRegisterWithClass() {
 		$dispatcher = $this->getMock('JDispatcher', array('attach'));
-		
+
 		// attach should get called once with an object of our observer class
 		$dispatcher->expects($this->once())
 			->method('attach')
@@ -79,16 +79,16 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		// we reset $observables so we have a known state
 		myTestClassHandler::$observables = array();
-		
+
 		// we perform out register
 		$dispatcher->register('testEvent', 'myTestClassHandler');
-		
+
 		// we assert that we were registered with a JDispatcher
 		$this->assertThat(
 			myTestClassHandler::$observables[0],
 			$this->isInstanceOf('JDispatcher')
 		);
-		
+
 		// and that we were instantiated only once
 		$this->assertThat(
 			count(myTestClassHandler::$observables[0]),
@@ -124,7 +124,7 @@ class JDispatcherTest extends JoomlaTestCase {
 			count(self::$errors[0]->getMessage()),
 			$this->equalTo(1)
 		);
-		
+
 		$this->setErrorHandlers($this->savedErrorState);
 	}
 
@@ -141,7 +141,7 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		$dispatcher->setMethods($methods);
 		$dispatcher->setObservers($observers);
-		
+
 		// perform our trigger
 		$this->assertThat(
 			$dispatcher->trigger('myEvent'),
@@ -155,7 +155,7 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		// perform our trigger with parameters
 		$this->assertThat(
-			$dispatcher->trigger('myEvent', array('hello', 'goodbye')), 
+			$dispatcher->trigger('myEvent', array('hello', 'goodbye')),
 			$this->equalTo(array('goodbye'))
 		);
 
@@ -179,7 +179,7 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		$dispatcher->setMethods($methods);
 		$dispatcher->setObservers($observers);
-		
+
 		// perform our trigger
 		$this->assertThat(
 			$dispatcher->trigger('myEvent', 'This is not an array'),
@@ -212,14 +212,14 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		$dispatcher->setMethods($methods);
 		$dispatcher->setObservers($observers);
-		
+
 		// perform our trigger and test the result
 		$this->assertThat(
 			$dispatcher->trigger('myEvent'),
 			$this->equalTo(array('testTriggerClass'))
 		);
 	}
-	
+
 	/**
 	 * Trigger an event that will not be handled because an observer is missing
 	 * (i.e. the entry is registered in methods, but the actual observer doesn't exist in the array)
@@ -234,12 +234,12 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		$dispatcher->setMethods($methods);
 		$dispatcher->setObservers($observers);
-		
+
 		// perform our trigger and test the result
 		$this->assertThat(
 			$dispatcher->trigger('myEvent'),
 			$this->equalTo(array())
 		);
 	}
-	
+
 }

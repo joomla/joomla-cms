@@ -58,12 +58,12 @@ class UsersViewProfile extends JView
 		$this->assignRef('data',	$data);
 		$this->assignRef('profile',	$profile);
 		$this->assignRef('params',	$params);
-		
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
-	
+
 	/**
 	 * Prepares the document
 	 */
@@ -82,9 +82,9 @@ class UsersViewProfile extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $user->name));
 		} else {
-			$this->params->def('page_heading', JText::_('Users_Profile')); 
+			$this->params->def('page_heading', JText::_('Users_Profile'));
 		}
-		
+
 		$title = $this->params->get('page_title', $this->params->get('page_heading'));
 		if (empty($title))
 		{

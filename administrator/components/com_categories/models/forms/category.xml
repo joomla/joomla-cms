@@ -6,7 +6,7 @@
 		type="text"
 		default="0"
 		required="true"
-		label="JGLOBAL_FIELD_ID_LABEL" 
+		label="JGLOBAL_FIELD_ID_LABEL"
 		description ="JGLOBAL_FIELD_ID_DESC"
 		class="readonly"
 		readonly="true"/>
@@ -196,7 +196,7 @@
 	<fields name="params">
 		<fieldset
 			name="basic">
-	
+
 			<field
 				name="target"
 				type="componentlayout"
@@ -204,7 +204,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="categories"
 				/>
-				
+
 			<field
 				name="image"
 				type="imagelist"

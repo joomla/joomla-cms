@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<thead>
 		<tr>
 			<th>
-				<?php 
+				<?php
 				if($params->get('name', 1)) {
 					echo JText::_('MOD_LOGGED_NAME');
 				} else {
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 				endif; ?>
 			</td>
 			<td class="center">
-				<?php 
+				<?php
 					if($user->client_id) {
 						echo JText::_('JADMINISTRATOR');
 					} else {

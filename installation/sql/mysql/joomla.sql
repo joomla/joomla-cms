@@ -232,7 +232,7 @@ CREATE TABLE `#__contact_details` (
   `featured` tinyint(3) unsigned NOT NULL default '0' COMMENT 'Set if article is featured.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',  
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
@@ -241,7 +241,7 @@ CREATE TABLE `#__contact_details` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
-  KEY `idx_xreference` (`xreference`)  
+  KEY `idx_xreference` (`xreference`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
@@ -746,7 +746,7 @@ CREATE TABLE `#__newsfeeds` (
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-  
+
   PRIMARY KEY  (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
@@ -755,7 +755,7 @@ CREATE TABLE `#__newsfeeds` (
   KEY `idx_createdby` (`created_by`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
- 
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------

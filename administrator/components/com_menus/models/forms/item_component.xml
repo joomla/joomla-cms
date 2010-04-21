@@ -11,17 +11,17 @@
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
 				default="" />
-	
+
 			<field name="menu-anchor_css" type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
 				default="" />
-	
+
 			<field name="menu_image" type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC"
 				default="" />
-	
+
 			<field name="show_page_heading" type="radio"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
@@ -30,30 +30,30 @@
 				<option value="0" class="no">JNO</option>
 				<option value="1" class="yes">JYES</option>
 			</field>
-	
+
 			<field name="page_title" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
 				default="" />
-	
+
 			<field name="page_heading" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
 				default="" />
-	
+
 			<field name="pageclass_sfx" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
 				default="" />
-	
+
 			<field name="menu-meta_description" type="textarea"
 				label="JFIELD_META_DESCRIPTION_LABEL" description="COM_MENUS_ITEM_FIELD_META_DESCRIPTION_DESC"
 				default="" rows="3" cols="40" />
-	
+
 			<field name="menu-meta_keywords" type="textarea"
 				label="JFIELD_META_KEYWORDS_LABEL" description="COM_MENUS_ITEM_FIELD_META_KEYWORDS_DESC"
 				default="" rows="3" cols="40" />
-	
+
 			<field name="robots" type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
 				default=""
@@ -65,7 +65,7 @@
 				<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
 				<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
 			</field>
-	
+
 			<field name="secure" type="radio"
 				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
 				default="0" filter="integer"
@@ -74,7 +74,7 @@
 				<option value="1">JON</option>
 				<option value="0">COM_MENUS_FIELD_VALUE_IGNORE
 				</option>
-	
+
 			</field>
 		</fieldset>
 
