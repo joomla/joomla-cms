@@ -121,7 +121,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Make sure that we have an admin element
 		if ( ! $this->manifest->administration)
 		{
-			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
+			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
 			return false;
 		}
 
@@ -150,10 +150,10 @@ class JInstallerComponent extends JAdapterInstance
 				// overwrite is set
 				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				if (file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
-					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_site').'"');
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')));
 				}
 				else { // if the admin exists say that
-					JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('Another component is already using directory').': "'.$this->parent->getPath('extension_administrator').'"');
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN', $this->parent->getPath('extension_administrator')));
 				}
 				return false;
 			}
@@ -201,7 +201,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_site').'"');
+				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_SITE', $this->parent->getPath('extension_site')));
 				return false;
 			}
 		}
@@ -220,7 +220,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_administrator').'"');
+				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator')));
 				// Install failed, rollback any changes
 				$this->parent->abort();
 				return false;
@@ -275,7 +275,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could_not_copy_PHP_install_file'));
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_PHP_INSTALL'));
 					return false;
 				}
 			}
@@ -295,7 +295,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could_not_copy_PHP_uninstall_file'));
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_PHP_UNINSTALL'));
 					return false;
 				}
 			}
@@ -312,7 +312,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Could not copy PHP manifest file.'));
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_MANIFEST'));
 					return false;
 				}
 			}
@@ -335,7 +335,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_SQL_ERROR', $db->stderr(true)));
 			return false;
 		}
 
@@ -362,7 +362,7 @@ class JInstallerComponent extends JAdapterInstance
 				{
 					if (com_install() === false)
 					{
-						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
+						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
 						return false;
 					}
 				}
@@ -402,7 +402,7 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 
@@ -423,7 +423,7 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$this->parent->copyManifest())
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_COPY_SETUP'));
 			return false;
 		}
 
@@ -531,7 +531,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Make sure that we have an admin element
 		if ( ! $this->manifest->administration)
 		{
-			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('The XML file did not contain an administration element'));
+			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_ADMIN_ELEMENT'));
 			return false;
 		}
 
@@ -583,7 +583,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_site')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_site').'"');
+				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_SITE', $this->parent->getPath('extension_site')));
 				return false;
 			}
 		}
@@ -602,7 +602,7 @@ class JInstallerComponent extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_administrator')))
 			{
-				JError::raiseWarning(1, JText::_('Component').' '.JText::_('Update').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_administrator').'"');
+				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UPDATE_FAILED_TO_CREATE_DIRECTORY_ADMIN', $this->parent->getPath('extension_administrator')));
 				// Install failed, rollback any changes
 				$this->parent->abort();
 				return false;
@@ -656,7 +656,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could_not_copy_PHP_install_file'));
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_PHP_INSTALL'));
 					return false;
 				}
 			}
@@ -676,7 +676,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could_not_copy_PHP_uninstall_file'));
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_PHP_UNINSTALL'));
 					return false;
 				}
 			}
@@ -693,7 +693,7 @@ class JInstallerComponent extends JAdapterInstance
 				if (!$this->parent->copyFiles(array ($path)))
 				{
 					// Install failed, rollback changes
-					$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('Could not copy PHP manifest file.'));
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_MANIFEST'));
 					return false;
 				}
 			}
@@ -715,7 +715,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_UPDATE_SQL_ERROR', $db->stderr(true)));
 			return false;
 		}
 
@@ -781,7 +781,7 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_UPDATE_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 
@@ -790,7 +790,7 @@ class JInstallerComponent extends JAdapterInstance
 		if (!$this->parent->copyManifest())
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Update').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_UPDATE_COPY_SETUP'));
 			return false;
 		}
 
@@ -828,14 +828,14 @@ class JInstallerComponent extends JAdapterInstance
 		// This should give us the necessary information to proceed.
 		$row = & JTable::getInstance('extension');
 		if (!$row->load((int) $id)) {
-			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORUNKOWNEXTENSION'));
 			return false;
 		}
 
 		// Is the component we are trying to uninstall a core one?
 		// Because that is not a good idea...
 		if ($row->protected) {
-			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::sprintf('WARNCORECOMPONENT', $row->name)."<br />".JText::_('WARNCORECOMPONENT2'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_WARNCORECOMPONENT'));
 			return false;
 		}
 
@@ -865,7 +865,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->_removeAdminMenus($row);
 
 			// Raise a warning
-			JError::raiseWarning(100, JText::_('ERRORREMOVEMANUALLY'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_ERRORREMOVEMANUALLY'));
 
 			// Return
 			return false;
@@ -936,7 +936,7 @@ class JInstallerComponent extends JAdapterInstance
 				{
 					if (com_uninstall() === false)
 					{
-						JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('Custom Uninstall script unsuccessful'));
+						JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_CUSTOM'));
 						$retval = false;
 					}
 				}
@@ -966,7 +966,7 @@ class JInstallerComponent extends JAdapterInstance
 		if ($utfresult === false)
 		{
 			// Install failed, rollback changes
-			JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_SQL_ERROR', $db->stderr(true)));
 			$retval = false;
 		}
 
@@ -1000,7 +1000,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				if (!JFolder::delete($this->parent->getPath('extension_site')))
 				{
-					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('UNABLE_TO_REMOVE_THE_COMPONENT_SITE_DIRECTORY'));
+					JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_SITE'));
 					$retval = false;
 				}
 			}
@@ -1010,7 +1010,7 @@ class JInstallerComponent extends JAdapterInstance
 			{
 				if (!JFolder::delete($this->parent->getPath('extension_administrator')))
 				{
-					JError::raiseWarning(100, JText::_('Component').' '.JText::_('Uninstall').': '.JText::_('UNABLE_TO_REMOVE_THE_COMPONENT_ADMIN_DIRECTORY'));
+					JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_FAILED_REMOVE_DIRECTORY_ADMIN'));
 					$retval = false;
 				}
 			}
@@ -1024,7 +1024,7 @@ class JInstallerComponent extends JAdapterInstance
 		else
 		{
 			// No component option defined... cannot delete what we don't know about
-			JError::raiseWarning(100, 'Component Uninstall: Option field empty, cannot remove files');
+			JError::raiseWarning(100, 'JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION');
 			return false;
 		}
 	}
@@ -1098,7 +1098,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 				// Install failed, rollback changes
-				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 				return false;
 			}
 
@@ -1124,7 +1124,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			if (!$table->setLocation(1, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 				// Install failed, rollback changes
-				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 				return false;
 			}
 
@@ -1187,7 +1187,7 @@ class JInstallerComponent extends JAdapterInstance
 			$table = &JTable::getInstance('menu');
 			if (!$table->setLocation($parent_id, 'last-child') || !$table->bind($data) || !$table->check() || !$table->store()) {
 				// Install failed, rollback changes
-				$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.$db->stderr(true));
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 				return false;
 			}
 
@@ -1315,7 +1315,7 @@ class JInstallerComponent extends JAdapterInstance
 		try {
 			$this->parent->extension->store();
 		} catch(JException $e) {
-			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
 			return false;
 		}
 
@@ -1363,7 +1363,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Make sure that we have an admin element
 		if ( ! $this->manifest->administration) {
-			JError::raiseWarning(1, JText::_('Component').' '.JText::_('Install').': '.JText::_('The XML file did not contain an administration element'));
+			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_COMP_INSTALL_ADMIN_ELEMENT'));
 			return false;
 		}
 
@@ -1425,7 +1425,7 @@ class JInstallerComponent extends JAdapterInstance
 		$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
 		if ($utfresult === false) {
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('SQLERRORORFILE')." ".$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_SQL_ERROR', $db->stderr(true)));
 			return false;
 		}
 
@@ -1451,7 +1451,7 @@ class JInstallerComponent extends JAdapterInstance
 				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install_script');
 				if (function_exists('com_install')) {
 					if (com_install() === false) {
-						$this->parent->abort(JText::_('Component').' '.JText::_('Install').': '.JText::_('Custom install routine failure'));
+						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
 						return false;
 					}
 				}
@@ -1515,7 +1515,7 @@ class JInstallerComponent extends JAdapterInstance
 		try {
 			return $this->parent->extension->store();
 		} catch(JException $e) {
-			JError::raiseWarning(101, JText::_('Component').' '.JText::_('Refresh Manifest Cache').': '.JText::_('Failed to store extension details'));
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}
 	}

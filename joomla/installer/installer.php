@@ -1396,7 +1396,7 @@ class JInstaller extends JAdapter
 		else
 		{
 			// No xml files were found in the install folder
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('JLIB_INSTALLER_ERRORXMLSETUP'));
+			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('JLIB_INSTALLER_ERROR_XMLSETUP'));
 			return false;
 		}
 	}
