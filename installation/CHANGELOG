@@ -34,6 +34,8 @@ $ -> Language fix or change
 $ Refactoring ini/keys in libraries/J/Installer/component 
 $ Refactoring ini/keys in libraries/J/Installer/file
 $ Refactoring ini/keys in libraries/J/Installer/language
+$ Refactoring ini/keys in libraries/J/Installer/library
+
 
 20-Apr-2010 Mark Dexter
 # Fix PHP notice in mod_logged 
