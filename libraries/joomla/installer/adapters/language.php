@@ -410,7 +410,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$element = $extension->get('element');
 		if (empty($element))
 		{
-			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('Element is empty, cannot uninstall files'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_ELEMENT_EMPTY'));
 			return false;
 		}
 
@@ -422,13 +422,13 @@ class JInstallerLanguage extends JAdapterInstance
 		// check it exists
 		if (!JFolder::exists($path))
 		{
-			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('Language path is empty, cannot uninstall files'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'));
 			return false;
 		}
 
 		if (!JFolder::delete($path))
 		{
-			JError::raiseWarning(100, JText::_('Language').' '.JText::_('Uninstall').': '.JText::_('UNABLE_TO_REMOVE_LANGUAGE_DIRECTORY'));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'));
 			return false;
 		}
 
@@ -506,7 +506,7 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		catch(JException $e)
 		{
-			JError::raiseWarning(101, JText::_('Language').' '.JText::_('Discover Install').': '.JText::_('Failed to store extension details'));
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'));
 			return false;
 		}
 		return $this->parent->extension->get('extension_id');
