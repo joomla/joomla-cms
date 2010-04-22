@@ -207,47 +207,47 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     }
 
    /**
-     * @todo Implement testPluralSuffixes().
+     * @todo Implement testPluralSuffices().
      */
-    public function testPluralSuffixes()
+    public function testPluralSuffices()
     {
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
 				array("0"),
-				$lang->pluralSuffixes(0)
+				$lang->getpluralSuffices(0)
 		);
 		$this->assertEquals(
 				array("1"),
-				$lang->pluralSuffixes(1)
+				$lang->getPluralSuffices(1)
 		);
 		$this->assertEquals(
 				array("MORE"),
-				$lang->pluralSuffixes(5)
+				$lang->getPluralSuffices(5)
 		);
     }
 
     /**
-     * @todo Implement testGetPluralSuffixes().
+     * @todo Implement testGetPluralSufficesCallback().
      */
-    public function testGetPluralSuffixes()
+    public function testGetPluralSufficesCallback()
     {
 		$lang = new JLanguage('');
-		$this->assertTrue(is_callable($lang->getPluralSuffixes()));
+		$this->assertTrue(is_callable($lang->getPluralSufficesCallback()));
     }
 
     /**
-     * @todo Implement testSetPluralSuffixes().
+     * @todo Implement testSetPluralSufficesCallback().
      */
-    public function testSetPluralSuffixes()
+    public function testSetPluralSufficesCallback()
     {
 		$function1 = 'phpinfo';
 		$function2 = 'print';
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getPluralSuffixes()));
-		$this->assertTrue(is_callable($lang->setPluralSuffixes($function1)));
-		$get = $lang->getPluralSuffixes();
+		$this->assertTrue(is_callable($lang->getPluralSufficesCallback()));
+		$this->assertTrue(is_callable($lang->setPluralSufficesCallback($function1)));
+		$get = $lang->getPluralSufficesCallback();
 		$this->assertEquals(
 				$function1,
 				$get
@@ -257,7 +257,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 				$get
 		);
 		// set -> $function2: set returns $function1 and get retuns $function2
-		$set = $lang->setPluralSuffixes($function2);
+		$set = $lang->setPluralSufficesCallback($function2);
 		$this->assertEquals(
 				$function1,
 				$set
@@ -268,50 +268,50 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertEquals(
 				$function2,
-				$lang->getPluralSuffixes()
+				$lang->getPluralSufficesCallback()
 		);
 		$this->assertNotEquals(
 				$function1,
-				$lang->getPluralSuffixes()
+				$lang->getPluralSufficesCallback()
 		);
     }
 
    /**
      * @todo Implement testIgnoreSearchWords().
      */
-    public function testIgnoreSearchWords()
+    public function testgetIgnoreSearchWords()
     {
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
 				array("and", "in", "on"),
-				$lang->ignoreSearchWords()
+				$lang->getIgnoreSearchWords()
 		);
     }
 
     /**
      * @todo Implement testGetIgnoreSearchWords().
      */
-    public function testGetIgnoreSearchWords()
+    public function testGetIgnoreSearchWordsCallback()
     {
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getIgnoreSearchWords()));
+		$this->assertTrue(is_callable($lang->getIgnoreSearchWordsCallback()));
     }
 
     /**
-     * @todo Implement testSetIgnoreSearchWords().
+     * @todo Implement testSetIgnoreSearchWordsCallback().
      */
-    public function testSetIgnoreSearchWords()
+    public function testSetIgnoreSearchWordsCallback()
     {
 		$function1 = 'phpinfo';
 		$function2 = 'print';
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getIgnoreSearchWords()));
+		$this->assertTrue(is_callable($lang->getIgnoreSearchWordsCallback()));
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(is_callable($lang->setIgnoreSearchWords($function1)));
-		$get = $lang->getIgnoreSearchWords();
+		$this->assertTrue(is_callable($lang->setIgnoreSearchWordsCallback($function1)));
+		$get = $lang->getIgnoreSearchWordsCallback();
 		$this->assertEquals(
 				$function1,
 				$get
@@ -321,7 +321,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 				$get
 		);
 		// set -> $function2: set returns $function1 and get retuns $function2
-		$set = $lang->setIgnoreSearchWords($function2);
+		$set = $lang->setIgnoreSearchWordsCallback($function2);
 		$this->assertEquals(
 				$function1,
 				$set
@@ -332,11 +332,11 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertEquals(
 				$function2,
-				$lang->getIgnoreSearchWords()
+				$lang->getIgnoreSearchWordsCallback()
 		);
 		$this->assertNotEquals(
 				$function1,
-				$lang->getIgnoreSearchWords()
+				$lang->getIgnoreSearchWordsCallback()
 		);
     }
 

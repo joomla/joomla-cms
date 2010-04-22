@@ -19,7 +19,7 @@ abstract class xx_XXLocalise {
 	 * @return	array  An array of potential suffixes.
 	 * @since	1.6
 	 */
-	public static function pluralSuffixes($count) {
+	public static function getPluralSuffices($count) {
 		if ($count == 0) {
 			$return =  array('0');
 		}
@@ -40,7 +40,7 @@ abstract class xx_XXLocalise {
 	 * @return	array  An array of ignored search words.
 	 * @since	1.6
 	 */
-	public static function ignoreSearchWords() {
+	public static function getIgnoreSearchWords() {
 		$search_ignore = array();
 		$search_ignore[] = "and";
 		$search_ignore[] = "in";
