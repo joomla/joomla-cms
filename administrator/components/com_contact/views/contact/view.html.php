@@ -48,16 +48,16 @@ class ContactViewContact extends JView
 
 		$this->form->bind($this->item);
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', true);
 
@@ -77,8 +77,7 @@ class ContactViewContact extends JView
 
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('contact.cancel','JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();

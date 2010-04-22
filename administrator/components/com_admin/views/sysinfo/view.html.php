@@ -52,7 +52,7 @@ class AdminViewSysinfo extends JView
 		$this->php_info		= $this->get('PhpInfo');
 		$this->directory		= $this->get('directory');
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		$this->_setSubMenu();
 		parent::display($tpl);
 	}
@@ -74,7 +74,7 @@ class AdminViewSysinfo extends JView
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
 		JToolBarHelper::help('screen.system.info');

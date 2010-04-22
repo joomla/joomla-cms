@@ -35,14 +35,16 @@ class ContentViewFeatured extends JView
 			return false;
 		}
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Display the toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
 

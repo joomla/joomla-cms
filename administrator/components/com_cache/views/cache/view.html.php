@@ -34,11 +34,16 @@ class CacheViewCache extends JView
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
-	protected function _setToolbar()
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
+	 */
+	protected function addToolbar()
 	{
 		$user = JFactory::getUser();
 		$condition = ($this->client->name == 'site');

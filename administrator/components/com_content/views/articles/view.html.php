@@ -35,14 +35,16 @@ class ContentViewArticles extends JView
 			return false;
 		}
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Display the toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$state	= $this->get('State');
 		$canDo	= ContentHelper::getActions($state->get('filter.category_id'));
@@ -64,10 +66,8 @@ class ContentViewArticles extends JView
 			}
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-
 			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
-		}
-		else if ($canDo->get('core.edit.state')) {
+		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
 		}
 		if ($canDo->get('core.admin')) {

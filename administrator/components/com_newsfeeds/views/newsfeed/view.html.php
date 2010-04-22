@@ -19,19 +19,18 @@ jimport('joomla.application.component.view');
  */
 class NewsfeedsViewNewsfeed extends JView
 {
-	protected $state;
 	protected $item;
 	protected $form;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->form		= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -40,22 +39,18 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		// Bind the record to the form.
-		$form->bind($item);
+		$this->form->bind($this->item);
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
-
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', true);
 
@@ -67,9 +62,7 @@ class NewsfeedsViewNewsfeed extends JView
 		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'));
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit'))
-		{
-
+		if (!$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('newsfeed.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('newsfeed.save', 'JTOOLBAR_SAVE');
 			JToolBarHelper::addNew('newsfeed.save2new', 'JTOOLBAR_SAVE_AND_NEW');
@@ -79,11 +72,9 @@ class NewsfeedsViewNewsfeed extends JView
 			JToolBarHelper::custom('newsfeed.save2copy', 'copy.png', 'copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
-
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('newsfeed.cancel','JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 

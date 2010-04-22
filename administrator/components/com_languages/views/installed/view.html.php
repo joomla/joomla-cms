@@ -62,15 +62,15 @@ class LanguagesViewInstalled extends JView
 		$this->rows			= $this->get('Data');
 		$this->state		= $this->get('State');
 
-		$this->_setToolBar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_LANGS_VIEW_INSTALLED_TITLE'), 'langmanager.png');
 		JToolBarHelper::makeDefault('installed.publish','JTOOLBAR_DEFAULT');

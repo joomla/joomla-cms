@@ -24,19 +24,23 @@ class CacheViewPurge extends JView
 {
 	public function display($tpl = null)
 	{
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
-	protected function _setToolbar()
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
+	 */
+	protected function addToolbar()
 	{
 		JSubMenuHelper::addEntry(JText::_('COM_CACHE_BACK_CACHE_MANAGER'), 'index.php?option=com_cache', false);
 
 		JToolBarHelper::title(JText::_('COM_CACHE_MANAGER').' - '.JText::_('COM_CACHE_PURGE_CACHE_ADMIN'), 'purge.png');
 		JToolBarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
 		JToolBarHelper::divider();
-		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
-		{
+		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
 			JToolBarHelper::preferences('com_cache');
 			JToolBarHelper::divider();
 		}

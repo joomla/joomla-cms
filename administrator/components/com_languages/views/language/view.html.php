@@ -42,15 +42,15 @@ class LanguagesViewLanguage extends JView
 		$this->form->bind($this->item);
 
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);

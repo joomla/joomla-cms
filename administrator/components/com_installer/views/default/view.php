@@ -32,8 +32,7 @@ class InstallerViewDefault extends JView
 
 		// Are there messages to display ?
 		$showMessage	= false;
-		if (is_object($state))
-		{
+		if (is_object($state)) {
 			$message1		= $state->get('message');
 			$message2		= $state->get('extension_message');
 			$showMessage	= ($message1 || $message2);
@@ -43,18 +42,18 @@ class InstallerViewDefault extends JView
 		$this->assignRef('state',		$state);
 
 		JHtml::_('behavior.tooltip');
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
+
 	/**
-	 * Display the toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
-		/*
-		 * Set toolbar items for the page
-		 */
 		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
 
 		if ($canDo->get('core.admin')) {

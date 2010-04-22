@@ -38,15 +38,15 @@ class UsersViewLevels extends JView
 		}
 
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Add the page title and toolbar.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= UsersHelper::getActions();
 

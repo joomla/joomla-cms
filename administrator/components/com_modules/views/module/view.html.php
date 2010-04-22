@@ -22,18 +22,18 @@ jimport('joomla.application.component.view');
  */
 class ModulesViewModule extends JView
 {
-	protected $state;
-	protected $item;
 	protected $form;
+	protected $item;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$itemForm	= $this->get('Form');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -42,22 +42,18 @@ class ModulesViewModule extends JView
 		}
 
 		// Bind the record to the form.
-		$itemForm->bind($item);
+		$this->form->bind($this->item);
 
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('form',		$itemForm);
-
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', true);
 
@@ -71,8 +67,7 @@ class ModulesViewModule extends JView
 		JToolBarHelper::title( JText::_('COM_MODULES_MANAGER_MODULE').' '.JText::_($this->item->module));
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit'))
-		{
+		if (!$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('module.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('module.save', 'JTOOLBAR_SAVE');
 			JToolBarHelper::addNew('module.save2new', 'JTOOLBAR_SAVE_AND_NEW');
@@ -83,8 +78,7 @@ class ModulesViewModule extends JView
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 

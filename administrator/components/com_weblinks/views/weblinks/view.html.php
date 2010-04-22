@@ -38,14 +38,16 @@ class WeblinksViewWeblinks extends JView
 			return false;
 		}
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
 

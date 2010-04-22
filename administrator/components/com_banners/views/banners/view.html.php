@@ -40,15 +40,17 @@ class BannersViewBanners extends JView
 			return false;
 		}
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		require_once JPATH_COMPONENT .'/models/fields/bannerclient.php';
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar.
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
@@ -72,8 +74,7 @@ class BannersViewBanners extends JView
 		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'banners.delete','JTOOLBAR_EMPTY_TRASH');
-		}
-		else if ($canDo->get('core.edit.state')) {
+		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('banners.trash','JTOOLBAR_TRASH');
 		}
 		if ($canDo->get('core.admin')) {

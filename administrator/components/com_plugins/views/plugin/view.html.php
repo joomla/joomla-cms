@@ -19,18 +19,18 @@ jimport('joomla.application.component.view');
  */
 class PluginsViewPlugin extends JView
 {
-	protected $state;
 	protected $item;
 	protected $form;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$itemForm	= $this->get('Form');
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->form		= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -39,20 +39,18 @@ class PluginsViewPlugin extends JView
 		}
 
 		// Bind the record to the form.
-		$itemForm->bind($item);
+		$this->form->bind($this->item);
 
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('form',		$itemForm);
-
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', true);
 
@@ -62,8 +60,7 @@ class PluginsViewPlugin extends JView
 		JToolBarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGIN').' '.JText::_($this->item->name));
 
 		// If not checked out, can save the item.
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('plugin.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('plugin.save', 'JTOOLBAR_SAVE');
 		}

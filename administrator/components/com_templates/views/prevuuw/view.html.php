@@ -53,15 +53,16 @@ class TemplatesViewPrevuuw extends JView
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar.
+	 * Add the page title and toolbar.
+	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER'), 'thememanager');
 		JToolBarHelper::custom('edit', 'back.png', 'back_f2.png', 'Back', false, false);

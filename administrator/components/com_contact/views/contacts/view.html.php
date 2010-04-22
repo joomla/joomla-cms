@@ -47,14 +47,16 @@ class ContactViewContacts extends JView
 			$item->order_dn = true;
 		}
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$state = $this->get('state');
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'generic.png');
@@ -67,8 +69,7 @@ class ContactViewContacts extends JView
 		JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
 		if ($state->get('filter.published') == -2) {
 			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_EMPTY_TRASH');
-		}
-		else {
+		} else {
 			JToolBarHelper::trash('contacts.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();

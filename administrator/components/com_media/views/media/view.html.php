@@ -99,13 +99,18 @@ class MediaViewMedia extends JView
 		$this->assign('folders', $this->get('folderTree'));
 
 		// Set the toolbar
-		$this->_setToolBar();
+		$this->addToolbar();
 
 		parent::display($tpl);
 		echo JHtml::_('behavior.keepalive');
 	}
 
-	function _setToolBar()
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
+	 */
+	protected function addToolbar()
 	{
 		// Get the toolbar object instance
 		$bar = &JToolBar::getInstance('toolbar');

@@ -24,21 +24,22 @@ class InstallerViewDiscover extends InstallerViewDefault
 	{
 
 		// Get data from the model
-		$state		= &$this->get('State');
-		$items		= &$this->get('Items');
-		$pagination	= &$this->get('Pagination');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
 		$this->assignRef('items',		$items);
 		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}
+
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
 		/*
@@ -48,6 +49,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 		JToolBarHelper::custom('discover.refresh', 'refresh', 'refresh','COM_INSTALLER_TOOLBAR_DISCOVER',false,false);
 		JToolBarHelper::custom('discover.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false,false);
 		JToolBarHelper::divider();
-		parent::_setToolbar();
+		parent::addToolbar();
 	}
 }

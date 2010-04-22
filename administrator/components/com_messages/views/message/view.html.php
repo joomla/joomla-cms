@@ -19,16 +19,15 @@ jimport( 'joomla.application.component.view');
  */
 class MessagesViewMessage extends JView
 {
-	protected $state;
-	protected $item;
 	protected $form;
+	protected $item;
+	protected $state;
 
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -37,20 +36,18 @@ class MessagesViewMessage extends JView
 		}
 
 		// Bind the record to the form.
-		$form->bind($item);
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
+		$this->form->bind($this->item);
 
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Setup the Toolbar.
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		if ($this->getLayout() == 'edit') {
 			JToolBarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'inbox.png');

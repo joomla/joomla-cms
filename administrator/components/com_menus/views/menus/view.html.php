@@ -18,15 +18,20 @@ jimport('joomla.application.component.view');
  */
 class MenusViewMenus extends JView
 {
+	protected $items;
+	protected $modules;
+	protected $pagination;
+	protected $state;
+
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$modules	= $this->get('Modules');
-		$pagination	= $this->get('Pagination');
+		$this->items		= $this->get('Items');
+		$this->modules		= $this->get('Modules');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -34,21 +39,16 @@ class MenusViewMenus extends JView
 			return false;
 		}
 
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('modules',		$modules);
-		$this->assignRef('pagination',	$pagination);
-
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Add the page title and toolbar.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
 

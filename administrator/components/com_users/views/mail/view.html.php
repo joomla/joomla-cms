@@ -33,16 +33,16 @@ class UsersViewMail extends JView
 		// Get data from the model
 		$this->form = $this->get('Form');
 
-		$this->_setToolBar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', 1);
 

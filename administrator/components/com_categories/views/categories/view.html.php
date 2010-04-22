@@ -43,14 +43,16 @@ class CategoriesViewCategories extends JView
 			$this->ordering[$item->parent_id][] = $item->id;
 		}
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Display the toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$component	= $this->state->get('filter.component');
 		$section	= $this->state->get('filter.section');
@@ -80,8 +82,7 @@ class CategoriesViewCategories extends JView
 		}
 		if ($this->state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
-		}
-		else {
+		} else {
 			JToolBarHelper::trash('categories.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();

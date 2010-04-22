@@ -43,16 +43,16 @@ class BannersViewBanner extends JView
 		$this->form->bind($this->item);
 		$this->form->bind($this->item->params);
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', true);
 
@@ -64,8 +64,7 @@ class BannersViewBanner extends JView
 		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'));
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit'))
-		{
+		if (!$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('banner.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('banner.save', 'JTOOLBAR_SAVE');
 			JToolBarHelper::addNew('banner.save2new', 'JTOOLBAR_SAVE_AND_NEW');
@@ -76,8 +75,7 @@ class BannersViewBanner extends JView
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('banner.cancel','JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 

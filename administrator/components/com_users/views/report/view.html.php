@@ -40,15 +40,15 @@ class UsersViewReport extends JView
 		$this->setLayout($state->get('report.type'));
 
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Add the page title and toolbar.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('Users_View_Report_Title'), 'user');
 		JToolBarHelper::help('screen.users.report','JTOOLBAR_HELP');

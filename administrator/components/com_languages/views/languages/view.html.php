@@ -39,15 +39,15 @@ class LanguagesViewLanguages extends JView
 		}
 
 		parent::display($tpl);
-		$this->_setToolbar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_LANGS_VIEW_LANGUAGES_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');

@@ -41,16 +41,16 @@ class UsersViewLevel extends JView
 		// Bind the record to the form.
 		$this->form->bind($this->item);
 
-		$this->_setToolbar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Add the page title and toolbar.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', 1);
 

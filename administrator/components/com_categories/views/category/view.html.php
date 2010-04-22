@@ -42,15 +42,15 @@ class CategoriesViewCategory extends JView
 
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);
-		$this->_setToolBar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Add the page title and toolbar.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
 		$user		= &JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
@@ -58,10 +58,8 @@ class CategoriesViewCategory extends JView
 
 		JToolBarHelper::title(JText::_($isNew ? 'Categories_Category_Add_Title' : 'Categories_Category_Edit_Title'), 'category-add');
 
-
 		// If not checked out, can save the item.
-		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'))
-		{
+		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id')) {
 			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('category.save', 'JToolbar_Save');
 			JToolBarHelper::addNew('category.save2new', 'JToolbar_Save_and_new');
@@ -74,11 +72,10 @@ class CategoriesViewCategory extends JView
 
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('category.cancel','JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('category.cancel', 'JToolbar_Close');
 		}
-			JToolBarHelper::divider();
-			JToolBarHelper::help('screen.categories.edit','JTOOLBAR_HELP');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('screen.categories.edit','JTOOLBAR_HELP');
 	}
 }

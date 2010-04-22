@@ -18,14 +18,18 @@ jimport('joomla.application.component.view');
  */
 class MenusViewMenu extends JView
 {
+	protected $form;
+	protected $item;
+	protected $state;
+
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->form	= $this->get('Form');
+		$this->item	= $this->get('Item');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -33,24 +37,21 @@ class MenusViewMenu extends JView
 			return false;
 		}
 
-		$form->bind($item);
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
+		$this->form->bind($this->item);
 
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);
-		$this->_setToolBar();
+		$this->addToolbar();
 	}
 
 	/**
-	 * Build the default toolbar.
+	 * Add the page title and toolbar.
 	 *
-	 * @return	void
+	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
+		JRequest::setVar('hidemainmenu', true);
+
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'));
 
@@ -64,8 +65,7 @@ class MenusViewMenu extends JView
 		}
 		if ($isNew) {
 			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();

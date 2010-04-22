@@ -60,7 +60,7 @@ class AdminViewHelp extends JView
 		$this->lang_tag				= $this->get('LangTag');
 		$this->latest_version_check	= $this->get('LatestVersionCheck');
 
-		$this->_setToolBar();
+		$this->addToolbar();
 		parent::display($tpl);
 	}
 	/**
@@ -68,7 +68,7 @@ class AdminViewHelp extends JView
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolBar()
+	protected function addToolbar()
 	{
 		JToolBarHelper::title(JText::_('COM_ADMIN_HELP'), 'help_header.png');
 	}

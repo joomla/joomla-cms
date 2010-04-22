@@ -22,9 +22,9 @@ class InstallerViewUpdate extends InstallerViewDefault
 	function display($tpl=null)
 	{
 		// Get data from the model
-		$state		= &$this->get('State');
-		$items		= &$this->get('Items');
-		$pagination	= &$this->get('Pagination');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$pagination	= $this->get('Pagination');
 
 		$paths = new stdClass();
 		$paths->first = '';
@@ -36,21 +36,20 @@ class InstallerViewUpdate extends InstallerViewDefault
 
 		parent::display($tpl);
 	}
+
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
-		/*
-		 * Set toolbar items for the page
-		 */
+
 		JToolBarHelper::custom('update.update', 'config', 'config', 'COM_INSTALLER_TOOLBAR_UPDATE', true, false);
 		JToolBarHelper::custom('update.find', 'refresh', 'refresh','COM_INSTALLER_TOOLBAR_FIND_UPDATES',false,false);
 		JToolBarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false,false);
 		JToolBarHelper::divider();
-		parent::_setToolbar();
+		parent::addToolbar();
 	}
 }

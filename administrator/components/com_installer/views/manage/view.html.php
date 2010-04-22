@@ -23,9 +23,9 @@ class InstallerViewManage extends InstallerViewDefault
 	protected $pagination;
 	protected $form;
 	protected $state;
+
 	function display($tpl=null)
 	{
-
 		// Get data from the model
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
@@ -33,8 +33,7 @@ class InstallerViewManage extends InstallerViewDefault
 		$form		= $this->get('Form');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -48,12 +47,13 @@ class InstallerViewManage extends InstallerViewDefault
 		// Display the view
 		parent::display($tpl);
 	}
+
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
 	 */
-	protected function _setToolbar()
+	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
 		/*
@@ -70,6 +70,6 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolBarHelper::deleteList('', 'manage.remove','JTOOLBAR_UNINSTALL');
 			JToolBarHelper::divider();
 		}
-		parent::_setToolbar();
+		parent::addToolbar();
 	}
 }
