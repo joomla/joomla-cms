@@ -125,7 +125,7 @@ class JText
 		if (count($args) > 1) {
 			// Try the key from the language plural potential suffixes
 			$found = false;
-			$suffixes = $lang->pluralSuffixes((int)$args[1]);
+			$suffixes = $lang->getPluralSuffices((int)$args[1]);
 			foreach ($suffixes as $suffix) {
 				$key = $args[0].'_'.$suffix;
 				if ($lang->hasKey($key)) {

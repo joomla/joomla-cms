@@ -127,20 +127,20 @@ class JLanguage extends JObject
 	protected $transliterator = null;
 
 	/**
-	 * Name of the pluralSuffixesFunc function for this language
+	 * Name of the pluralSufficesCallback function for this language
 	 *
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $pluralSuffixesFunc = null;
+	protected $pluralSufficesCallback = null;
 
 	/**
-	 * Name of the ignoreSearchWordsFunc function for this language
+	 * Name of the ignoreSearchWordsCallback function for this language
 	 *
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $ignoreSearchWordsFunc = null;
+	protected $ignoreSearchWordsCallback = null;
 
 	/**
 	 * Constructor activating the default information of the language
@@ -183,15 +183,15 @@ class JLanguage extends JObject
 			}
 		}
 		if (class_exists($class)) {
-			// Class exists. Try to find a pluralSuffixes method, a transliterate method and an ignoreSearchWords method
-			if (method_exists($class, 'pluralSuffixes')) {
-				$this->pluralSuffixesFunc = array($class, 'pluralSuffixes');
+			// Class exists. Try to find a pluralSuffices method, a transliterate method and an ignoreSearchWords method
+			if (method_exists($class, 'getPluralSuffices')) {
+				$this->pluralSufficesCallback = array($class, 'getPluralSuffices');
 			}
 			if (method_exists($class, 'transliterate')) {
 				$this->transliterator = array($class, 'transliterate');
 			}
-			if (method_exists($class, 'ignoreSearchWords')) {
-				$this->ignoreSearchWordsFunc = array($class, 'ignoreSearchWords');
+			if (method_exists($class, 'getIgnoreSearchWords')) {
+				$this->ignoreSearchWordsCallback = array($class, 'getIgnoreSearchWords');
 			}
 		}
 
@@ -306,17 +306,17 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * pluralSuffixes function
+	 * pluralSuffices function
 	 *
-	 * This method return an array of suffixes for plural rules
+	 * This method return an array of suffices for plural rules
 	 *
 	 * @param	int	$count	The count number
-	 * @return	array	The array of suffixes
+	 * @return	array	The array of suffices
 	 * @since	1.6
 	 */
-	public function pluralSuffixes($count) {
-		if ($this->pluralSuffixesFunc !== null) {
-			return call_user_func($this->pluralSuffixesFunc, $count);
+	public function getPluralSuffices($count) {
+		if ($this->pluralSufficesCallback !== null) {
+			return call_user_func($this->pluralSufficesCallback, $count);
 		}
 		else {
 			return array((string)$count);
@@ -324,38 +324,38 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Getter for pluralSuffixes function
+	 * Getter for pluralSufficesCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function getPluralSuffixes() {
-		return $this->pluralSuffixesFunc;
+	public function getPluralSufficesCallback() {
+		return $this->pluralSufficesCallback;
 	}
 
 	/**
-	 * Set the pluralSuffixes function
+	 * Set the pluralSuffices function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function setPluralSuffixes($function) {
-		$previous = $this->pluralSuffixesFunc;
-		$this->pluralSuffixesFunc = $function;
+	public function setPluralSufficesCallback($function) {
+		$previous = $this->pluralSufficesCallback;
+		$this->pluralSufficesCallback = $function;
 		return $previous;
 	}
 
 	/**
-	 * ignoreSearchWords function
+	 * getIgnoreSearchWords function
 	 *
 	 * This method return an array of ignored search words
 	 *
 	 * @return	array	The array of ignored search words
 	 * @since	1.6
 	 */
-	public function ignoreSearchWords() {
-		if ($this->ignoreSearchWordsFunc !== null) {
-			return call_user_func($this->ignoreSearchWordsFunc);
+	public function getIgnoreSearchWords() {
+		if ($this->ignoreSearchWordsCallback !== null) {
+			return call_user_func($this->ignoreSearchWordsCallback);
 		}
 		else {
 			return array();
@@ -363,13 +363,13 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Getter for ignoreSearchWords function
+	 * Getter for ignoreSearchWordsCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function getIgnoreSearchWords() {
-		return $this->ignoreSearchWordsFunc;
+	public function getIgnoreSearchWordsCallback() {
+		return $this->ignoreSearchWordsCallback;
 	}
 
 	/**
@@ -378,9 +378,9 @@ class JLanguage extends JObject
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function setIgnoreSearchWords($function) {
-		$previous = $this->ignoreSearchWordsFunc;
-		$this->ignoreSearchWordsFunc = $function;
+	public function setIgnoreSearchWordsCallback($function) {
+		$previous = $this->ignoreSearchWordsCallback;
+		$this->ignoreSearchWordsCallback = $function;
 		return $previous;
 	}
 
