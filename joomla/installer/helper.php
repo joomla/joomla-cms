@@ -49,9 +49,8 @@ class JInstallerHelper
 		// Open the remote server socket for reading
 		$inputHandle = @ fopen($url, "r");
 		$error = strstr($php_errormsg,'failed to open stream:');
-		if (!$inputHandle)
-		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error);
+		if (!$inputHandle) {
+			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
 			return false;
 		}
 
