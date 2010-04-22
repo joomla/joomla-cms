@@ -39,6 +39,7 @@ $ Refactoring ini/keys in libraries/J/Installer/pack and plugin + some
 $ Standardize Show, Hide, Hits
 # Bug fix in feed.php (Thanks Dennis)
 # More Bug fixes concerning feeds in com_contents
+$ Refactoring ini/keys in libraries/J/Installer/template + helper
 
 22-Apr-2010 Andrew Eddie
  ^ Refactoring of internal property names in the MVC classes.

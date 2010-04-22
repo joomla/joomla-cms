@@ -51,7 +51,7 @@ class JInstallerHelper
 		$error = strstr($php_errormsg,'failed to open stream:');
 		if (!$inputHandle)
 		{
-			JError::raiseWarning(42, JText::_('SERVER_CONNECT_FAILED').', '.$error);
+			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error);
 			return false;
 		}
 
@@ -81,7 +81,7 @@ class JInstallerHelper
 			$contents .= fread($inputHandle, 4096);
 			if ($contents == false)
 			{
-				JError::raiseWarning(44, 'Failed reading network resource: '.$php_errormsg);
+				JError::raiseWarning(44, JText::sprintf('JLIB_INSTALLER_ERROR_FAILED_READING_NETWORK_RESOURCES', $php_errormsg));
 				return false;
 			}
 		}
@@ -185,7 +185,7 @@ class JInstallerHelper
 
 		if ( ! count($files))
 		{
-			JError::raiseWarning(1, JText::_('ERRORNOTFINDXMLSETUPFILE'));
+			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
 			return false;
 		}
 
@@ -208,7 +208,7 @@ class JInstallerHelper
 			return $type;
 		}
 
-		JError::raiseWarning(1, JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
+		JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
 		// Free up memory.
 		unset ($xml);
 		return false;
