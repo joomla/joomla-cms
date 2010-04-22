@@ -19,18 +19,18 @@ jimport('joomla.application.component.view');
  */
 class TemplatesViewStyle extends JView
 {
-	protected $state;
 	protected $item;
 	protected $form;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$itemForm	= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
+		$this->form		= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -39,11 +39,7 @@ class TemplatesViewStyle extends JView
 		}
 
 		// Bind the record to the form.
-		$itemForm->bind($item);
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('form',		$itemForm);
+		$this->form->bind($this->item);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -68,8 +64,7 @@ class TemplatesViewStyle extends JView
 		);
 
 		// If not checked out, can save the item.
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('style.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('style.save','JTOOLBAR_SAVE');
 			JToolBarHelper::addNew('style.save2new', 'JTOOLBAR_SAVE_AND_NEW');
@@ -82,8 +77,7 @@ class TemplatesViewStyle extends JView
 
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('style.cancel','JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();

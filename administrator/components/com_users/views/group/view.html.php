@@ -19,18 +19,18 @@ jimport('joomla.application.component.view');
  */
 class UsersViewGroup extends JView
 {
-	protected $state;
-	protected $item;
 	protected $form;
+	protected $item;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->state	= $this->get('State');
+		$this->item		= $this->get('Item');
+		$this->form		= $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -39,11 +39,7 @@ class UsersViewGroup extends JView
 		}
 
 		// Bind the record to the form.
-		$form->bind($item);
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
+		$this->form->bind($this->item);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -64,8 +60,7 @@ class UsersViewGroup extends JView
 
 		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Group_Title' : 'Users_View_Edit_Group_Title'), 'groups-add');
 
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('group.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('group.save','JTOOLBAR_SAVE');
 			JToolBarHelper::addNew('group.save2new', 'JToolbar_Save_and_new');
@@ -77,8 +72,7 @@ class UsersViewGroup extends JView
 
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('group.cancel');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('group.cancel', 'JToolbar_Close');
 		}
 

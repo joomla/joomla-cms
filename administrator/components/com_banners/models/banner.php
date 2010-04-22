@@ -37,6 +37,10 @@ class BannersModelBanner extends JModelAdmin
 
 	/**
 	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
 	 */
 	protected function populateState()
 	{

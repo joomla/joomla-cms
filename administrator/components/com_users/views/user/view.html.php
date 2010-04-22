@@ -15,44 +15,35 @@ jimport('joomla.application.component.view');
  */
 class UsersViewUser extends JView
 {
-	public $state;
-	public $item;
-	public $form;
-	public $groups;
-	public $grouplist;
-	public $group_id;
+	protected $form;
+	protected $item;
+	protected $grouplist;
+	protected $groups;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$form		= $this->get('Form');
-		$groupList	= $this->get('Groups');
-		$groups		= $this->get('AssignedGroups');
+		$this->form			= $this->get('Form');
+		$this->item			= $this->get('Item');
+		$this->grouplist	= $this->get('Groups');
+		$this->groups		= $this->get('AssignedGroups');
+		$this->state		= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		$form->bind($item);
-		$form->setValue('password',		null);
-		$form->setValue('password2',	null);
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('item',		$item);
-		$this->assignRef('form',		$form);
-		$this->assignRef('grouplist',	$groupList);
-		$this->assignRef('groups',		$groups);
+		$this->form->bind($this->item);
+		$this->form->setValue('password',		null);
+		$this->form->setValue('password2',	null);
 
 		parent::display($tpl);
 		$this->_setToolbar();
-
 	}
 
 	/**
@@ -72,8 +63,7 @@ class UsersViewUser extends JView
 		JToolBarHelper::addNew('user.save2new', 'JToolbar_Save_and_new');
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('user.cancel','JTOOLBAR_CANCEL');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('user.cancel', 'JToolbar_Close');
 		}
 		JToolBarHelper::divider();

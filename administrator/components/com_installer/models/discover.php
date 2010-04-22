@@ -26,11 +26,12 @@ class InstallerModelDiscover extends InstallerModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * This method should only be called once per instantiation and is designed
-	 * to be called on the first call to the getState() method unless the model
-	 * configuration flag to ignore the request is set.
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
 	 */
-	protected function populateState() {
+	protected function populateState()
+	{
 		$app = JFactory::getApplication();
 		$this->setState('message',$app->getUserState('com_installer.message'));
 		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));

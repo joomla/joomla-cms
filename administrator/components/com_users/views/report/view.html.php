@@ -18,6 +18,9 @@ jimport('joomla.application.component.view');
  */
 class UsersViewReport extends JView
 {
+	protected $data;
+	protected $state;
+
 	/**
 	 * Display the view
 	 *
@@ -25,20 +28,16 @@ class UsersViewReport extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$data		= $this->get('Data');
+		$this->data		= $this->get('Data');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->setLayout($state->get('report.type'));
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('data',	$data);
 
 		parent::display($tpl);
 		$this->_setToolbar();

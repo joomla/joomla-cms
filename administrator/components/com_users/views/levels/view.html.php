@@ -18,24 +18,24 @@ jimport('joomla.application.component.view');
  */
 class UsersViewLevels extends JView
 {
+	protected $items;
+	protected $pagination;
+	protected $state;
+
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 		$this->_setToolbar();
@@ -52,23 +52,19 @@ class UsersViewLevels extends JView
 
 		JToolBarHelper::title(JText::_('Users_View_Levels_Title'), 'levels');
 
-		if ($canDo->get('core.create'))
-		{
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
 		}
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
-		if ($canDo->get('core.delete'))
-		{
+		if ($canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'level.delete','JTOOLBAR_TRASH');
 		}
 
 		JToolBarHelper::divider();
 
-		if ($canDo->get('core.admin'))
-		{
+		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_users');
 		}
 		JToolBarHelper::divider();

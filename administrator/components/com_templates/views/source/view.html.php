@@ -19,10 +19,11 @@ jimport('joomla.application.component.view');
  */
 class TemplatesViewSource extends JView
 {
-	protected $state;
-	protected $source;
-	protected $template;
 	protected $form;
+	protected $ftp;
+	protected $source;
+	protected $state;
+	protected $template;
 
 	/**
 	 * Display the view
@@ -32,11 +33,11 @@ class TemplatesViewSource extends JView
 		jimport('joomla.client.helper');
 
 		// Initialise variables.
-		$state		= $this->get('State');
-		$template	= $this->get('Template');
-		$source		= $this->get('Source');
-		$form		= $this->get('Form');
-		$ftp		= JClientHelper::setCredentialsFromRequest('ftp');
+		$this->form		= $this->get('Form');
+		$this->ftp		= JClientHelper::setCredentialsFromRequest('ftp');
+		$this->source	= $this->get('Source');
+		$this->state	= $this->get('State');
+		$this->template	= $this->get('Template');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -45,13 +46,7 @@ class TemplatesViewSource extends JView
 		}
 
 		// Bind the record to the form.
-		$form->bind($source);
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('source',		$source);
-		$this->assignRef('template',	$template);
-		$this->assignRef('form',		$form);
-		$this->assignRef('ftp',			$ftp);
+		$this->form->bind($this->source);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -70,8 +65,7 @@ class TemplatesViewSource extends JView
 		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_EDIT_FILE'));
 
 		// If not checked out, can save the item.
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('source.apply');
 			JToolBarHelper::save('source.save');
 		}
