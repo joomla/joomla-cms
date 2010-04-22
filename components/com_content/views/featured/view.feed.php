@@ -32,7 +32,7 @@ class ContentViewFeatured extends JView
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
-		$rows		= & $this->get('Data');
+		$rows		= & $this->get('Items');
 		foreach ($rows as $row)
 		{
 			// strip html from feed item title

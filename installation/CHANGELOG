@@ -31,6 +31,7 @@ $ -> Language fix or change
 $ Refactoring ini/keys in libraries/J/Installer/pack and plugin + some
 # Bug fix in login.php
 $ Standardize Show, Hide, Hits
+# Bug fix in feed.php (Thanks Dennis)
 
 22-Apr-2010 Andrew Eddie
  ^ Refactoring of internal property names in the MVC classes.

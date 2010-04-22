@@ -29,7 +29,7 @@ class ContentViewCategory extends JView
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
 		$category	= & $this->get('Category');
-		$rows		= & $this->get('Articles');
+		$rows		= & $this->get('Items');
 
 		$doc->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->id, $cagtegory->sectionid));
 
