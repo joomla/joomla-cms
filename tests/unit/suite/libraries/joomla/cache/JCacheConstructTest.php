@@ -29,7 +29,7 @@ class JCacheTest_Construct extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testConstruct($type) {
-		$class = 'JCache'.ucfirst($type);
+		$class = 'JCacheController'.ucfirst($type);
 		$cache =& JCache::getInstance($type);
 		$this -> assertTrue(($cache instanceof $class),
 			'Expecting= '.$class.' Returned= '.get_class($cache)

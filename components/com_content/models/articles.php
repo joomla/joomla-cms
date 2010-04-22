@@ -48,20 +48,12 @@ class ContentModelArticles extends JModelList
 		$this->setState('list.direction', $value);
 
 		$params = $app->getParams();
-		$menuParams = new JRegistry();
-		if (JSite::getMenu()->getActive())
-		{
-			$menuParams = new JRegistry();
-			$menuParams->loadJSON(JSite::getMenu()->getActive()->params);
-		}
-		$mergedParams = clone $menuParams;
-		$mergedParams->merge($params);
-		$this->setState('params', $mergedParams);
+		$this->setState('params', $params);
 
 		$this->setState('filter.published', 1);
 
 		// process show_noauth parameter
-		if (!$mergedParams->get('show_noauth'))
+		if (!$params->get('show_noauth'))
 		{
 			$this->setState('filter.access', true);
 		}

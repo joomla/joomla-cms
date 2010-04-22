@@ -46,7 +46,8 @@ class InstallerModelDiscover extends InstallerModel
 	 * @return JDatabaseQuery the database query
 	 */
 	protected function getListQuery() {
-		$query = new JDatabaseQuery;
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__extensions');
 		$query->where('state=-1');

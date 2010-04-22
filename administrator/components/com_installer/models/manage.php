@@ -32,13 +32,13 @@ class InstallerModelManage extends InstallerModel {
 	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
-		$this->setState('message',$app->getUserState('com_installer.message'));
-		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
+		$this->setState($this->_context.'.message',$app->getUserState('com_installer.message'));
+		$this->setState($this->_context.'.extension_message',$app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message','');
 		$app->setUserState('com_installer.extension_message','');
 		$data = JRequest::getVar('filters');
 		if (empty($data)) {
-			$data = $app->getUserState('com_installer.manage.data');
+			$data = $app->getUserState('com_installer.manage.data', array());
 		}
 		else {
 			$app->setUserState('com_installer.manage.data', $data);

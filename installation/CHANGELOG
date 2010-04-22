@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Apr-2010 Hannes Papenberg
+# Fixed JDispatcherTest
+# Fixed JCacheConstructTest
+# Fixed Parameters in ContentModelAtricles
+# Fixed some bugs in com_installer
+
 22-Apr-2010 Jean-Marie Simonet
 $ Refactoring ini/keys in libraries/J/Installer/pack and plugin + some
 # Bug fix in login.php

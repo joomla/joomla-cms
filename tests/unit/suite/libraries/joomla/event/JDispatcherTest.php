@@ -117,7 +117,7 @@ class JDispatcherTest extends JoomlaTestCase {
 
 		$this->assertThat(
 			self::$errors[0]->getMessage(),
-			$this->equalTo('JDispatcher::register: Event handler not recognized.')
+			$this->equalTo('JLIB_EVENT_ERROR_DISPATCHER')
 		);
 
 		$this->assertThat(
