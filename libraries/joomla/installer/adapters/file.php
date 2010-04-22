@@ -81,7 +81,7 @@ class JInstallerFile extends JAdapterInstance
 		//Check if the extension by the same name is already installed
 		if ($this->extensionExistsInSystem($name)) {
 			// Package with same name already exists
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_SAME_NAME', JText::_($this->route)));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_SAME_NAME'));
 			return false;
 		}
 
@@ -328,7 +328,7 @@ class JInstallerFile extends JAdapterInstance
 			$db->Query();
 		} catch(JException $e) {
 			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_($this->route), $db->stderr(true)));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 		$id = $db->loadResult();

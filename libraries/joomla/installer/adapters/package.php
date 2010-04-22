@@ -72,7 +72,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('No package file specified'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_PACK'));
 			return false;
 		}
 
@@ -88,7 +88,7 @@ class JInstallerPackage extends JAdapterInstance
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
 			{
-				$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('FAILED_TO_CREATE_DIRECTORY').': "'.$this->parent->getPath('extension_root').'"');
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_CREATE_DIRECTORY', $this->parent->getPath('extension_root')));
 				return false;
 			}
 		}
@@ -129,14 +129,14 @@ class JInstallerPackage extends JAdapterInstance
 				$tmpInstaller = new JInstaller();
 				if (!$tmpInstaller->install($package['dir']))
 				{
-					$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There was an error installing an extension:') . basename($file));
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', basename($file)));
 					return false;
 				}
 			}
 		}
 		else
 		{
-			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('There were no files to install!').print_r($this->manifest->files->children(), true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES', print_r($this->manifest->files->children(), true)));
 			return false;
 		}
 
@@ -164,7 +164,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.$db->stderr(true));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
 
@@ -182,7 +182,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('Package').' '.JText::_('Install').': '.JText::_('COULD_NOT_COPY_SETUP_FILE'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP'));
 			return false;
 		}
 		return true;
@@ -219,7 +219,7 @@ class JInstallerPackage extends JAdapterInstance
 			// If we cannot load the xml file return false
 			if (!$xml)
 			{
-				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Could not load manifest file'));
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
 				return false;
 			}
 
@@ -230,7 +230,7 @@ class JInstallerPackage extends JAdapterInstance
 			 */
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
-				JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('Invalid manifest file'));
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
 				return false;
 			}
 
@@ -243,10 +243,7 @@ class JInstallerPackage extends JAdapterInstance
 				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id))
 				{
 					$error = true;
-					JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.
-//							JText::_('There was an error removing an extension!') . ' ' .
-							JText::_('This extension may have already been uninstalled or might not have been uninstall properly') .': ' .
-							basename($extension->filename));
+					JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)));
 					//$this->parent->abort(JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('There was an error removing an extension, try reinstalling:') . basename($extension->filename));
 					//return false;
 				}
@@ -257,14 +254,12 @@ class JInstallerPackage extends JAdapterInstance
 				JFile::delete($manifestFile);
 			}
 			else {
-				JError::raiseWarning(100, JText::_('Package'). ' ' . JText::_('Uninstall'). ': '.
-					JText::_('Errors were detected, manifest file not removed!'));
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
 			}
 		}
 		else
 		{
-			JError::raiseWarning(100, JText::_('Package').' '.JText::_('Uninstall').': '.
-				JText::_('Manifest File invalid or not found') . $id);
+			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_NOTFOUND_MANIFEST', $id));
 			return false;
 		}
 

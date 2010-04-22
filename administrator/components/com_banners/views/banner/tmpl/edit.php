@@ -85,7 +85,7 @@ JHtml::_('behavior.formvalidation');
 				<div class="clr"> </div>
 		</fieldset>
 		<fieldset class="adminform">
-		<legend><?php echo JText::_('Banners_Banner_Details') ?></legend>
+		<legend><?php echo JText::_('COM_BANNERS_BANNER_DETAILS') ?></legend>
 		<div id="image">
 			<?php foreach($this->form->getFieldset('image') as $field): ?>
 				<?php if (!$field->hidden): ?>

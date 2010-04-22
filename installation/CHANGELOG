@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Apr-2010 Jean-Marie Simonet
+$ Refactoring ini/keys in libraries/J/Installer/pack and plugin + some
+# Bug fix in login.php
+
 22-Apr-2010 Andrew Eddie
  ^ Reactoring of internal property names in the MVC classes.
 
