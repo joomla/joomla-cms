@@ -40,9 +40,9 @@
 			label="Front-end User Params"
 			description="TIPFRONTENDUSERPARAMS">
 			<option
-				value="0">Hide</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">Show</option>
+				value="1">JSHOW</option>
 		</field>
 	</fieldset>
 

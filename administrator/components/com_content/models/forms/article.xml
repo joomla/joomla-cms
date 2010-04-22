@@ -146,16 +146,16 @@
 				label="JGLOBAL_Show_Intro_Label" description="JGLOBAL_Show_Intro_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_category" type="list"
 				label="JGLOBAL_Show_Category_Label" description="JGLOBAL_Show_Category_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_category" type="list"
@@ -186,56 +186,56 @@
 				label="JGLOBAL_Show_Author_Label" description="JGLOBAL_Show_Author_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_create_date" type="list"
 				label="JGLOBAL_Show_Create_Date_Label" description="JGLOBAL_Show_Create_Date_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_modify_date" type="list"
 				label="JGLOBAL_Show_Modify_Date_Label" description="JGLOBAL_Show_Modify_Date_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_publish_date" type="list"
 				label="JGLOBAL_Show_Publish_Date_Label" description="JGLOBAL_Show_Publish_Date_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_readmore" type="list"
 				label="JGLOBAL_Show_Readmore_Label" description="JGLOBAL_Show_Readmore_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_print_icon" type="list"
 				label="JGLOBAL_Show_Print_Icon_Label" description="JGLOBAL_Show_Print_Icon_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_email_icon" type="list"
 				label="JGLOBAL_Show_Email_Icon_Label" description="JGLOBAL_Show_Email_Icon_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_hits" type="list"
@@ -260,16 +260,16 @@
 				label="JGLOBAL_Allow_Ratings_Label" description="JGLOBAL_Allow_Ratings_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="article-allow_comments" type="list"
 				label="JGLOBAL_Allow_Comments_Label" description="JGLOBAL_Allow_Comments_Desc"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
 

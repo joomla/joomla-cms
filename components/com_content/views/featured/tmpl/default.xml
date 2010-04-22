@@ -179,8 +179,8 @@
 				label="JGLOBAL_Show_Intro_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_category" type="list"
@@ -189,8 +189,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_category" type="list"
@@ -209,8 +209,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_parent_category" type="list"
@@ -229,8 +229,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_author" type="list"
@@ -239,8 +239,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_create_date" type="list"
@@ -249,8 +249,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_modify_date" type="list"
@@ -259,8 +259,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_publish_date" type="list"
@@ -269,8 +269,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_item_navigation" type="list"
@@ -278,8 +278,8 @@
 				label="JGLOBAL_Show_Navigation_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_readmore" type="list"
@@ -298,8 +298,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_print_icon" type="list"
@@ -308,8 +308,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_email_icon" type="list"
@@ -318,8 +318,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_hits" type="list"
@@ -328,8 +328,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 </fieldset>
 		<fieldset name="integration"

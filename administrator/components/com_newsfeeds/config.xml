@@ -189,9 +189,9 @@
 				label="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_DESC">
 				<option
-					value="0">Hide</option>
+					value="0">JHIDE</option>
 				<option
-					value="1">Show</option>
+					value="1">JSHOW</option>
 			</field>
 
 		<field

@@ -60,10 +60,10 @@
 				label="JGLOBAL_Filter_Field_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="hide">Hide</option>
+				<option value="hide">JHIDE</option>
 				<option value="title">Title</option>
 				<option value="author">JAUTHOR</option>
-				<option value="hits">Hits</option>
+				<option value="hits">JGLOBAL_HITS</option>
 			</field>
 
 		</fieldset>
@@ -78,8 +78,8 @@
 				label="JGLOBAL_Show_Category_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_category" type="list"
@@ -96,8 +96,8 @@
 				label="JGLOBAL_Show_Title_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="link_titles" type="list"
@@ -114,8 +114,8 @@
 				label="JGLOBAL_Show_Intro_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_author" type="list"
@@ -123,8 +123,8 @@
 				label="JGLOBAL_Show_Author_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_create_date" type="list"
@@ -132,8 +132,8 @@
 				label="JGLOBAL_Show_Create_Date_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_modify_date" type="list"
@@ -141,8 +141,8 @@
 				label="JGLOBAL_Show_Modify_Date_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_publish_date" type="list"
@@ -150,8 +150,8 @@
 				label="JGLOBAL_Show_Publish_Date_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 
@@ -160,8 +160,8 @@
 				label="JGLOBAL_Show_Navigation_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_readmore" type="list"
@@ -178,8 +178,8 @@
 				label="JGLOBAL_Show_Hits_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">Hide</option>
-				<option value="1">Show</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
 

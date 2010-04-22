@@ -111,9 +111,9 @@
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
 					<option
-						value="0">Hide</option>
+						value="0">JHIDE</option>
 					<option
-						value="1">Show</option>
+						value="1">JSHOW</option>
 				</field>
 
 				<field

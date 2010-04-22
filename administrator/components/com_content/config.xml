@@ -400,7 +400,7 @@
 				<option value="hide">JHIDE</option>
 				<option value="title">Title</option>
 				<option value="author">JAUTHOR</option>
-				<option value="hits">Hits</option>
+				<option value="hits">JGLOBAL_HITS</option>
 		</field>
 
 		<field
