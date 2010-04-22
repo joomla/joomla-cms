@@ -189,7 +189,7 @@ class JModelList extends JModel
 	 * @param	string	An optional direction (asc|desc).
 	 * @since	1.6
 	 */
-	protected function populateState($ordering = null, $direction)
+	protected function populateState($ordering = null, $direction = null)
 	{
 		// If the context is set, assume that stateful lists are used.
 		if ($this->context) {
