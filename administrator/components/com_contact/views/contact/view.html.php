@@ -19,16 +19,18 @@ jimport('joomla.application.component.view');
  */
 class ContactViewContact extends JView
 {
+	protected $form;
+	protected $item;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	function display($tpl = null)
 	{
-		$app	= &JFactory::getApplication();
-		$state		= $this->get('state');
-		$item		= $this->get('item');
-		$form		= $this->get('form');
+		$this->form		= $this->get('form');
+		$this->item		= $this->get('item');
+		$this->state	= $this->get('state');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -38,21 +40,16 @@ class ContactViewContact extends JView
 
 		// Bind the label to the form.
 		// First, unpack the email_form options from the params
-		$item->set('email_form', new JObject());
-		foreach ($form->getGroup('email_form') as $thisField) {
-			$item->email_form->set($thisField->name, $item->params->get($thisField->name));
-			$item->params->set($thisField->name, null);
+		$this->item->set('email_form', new JObject());
+		foreach ($this->form->getGroup('email_form') as $thisField) {
+			$this->item->email_form->set($thisField->name, $this->item->params->get($thisField->name));
+			$this->item->params->set($thisField->name, null);
 		}
 
-		$form->bind($item);
+		$this->form->bind($this->item);
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
 		$this->_setToolbar();
 		parent::display($tpl);
-		JRequest::setVar('hidemainmenu', true);
-
 	}
 
 	/**
@@ -62,7 +59,9 @@ class ContactViewContact extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$user		= &JFactory::getUser();
+		JRequest::setVar('hidemainmenu', true);
+
+		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		JRequest::setVar('hidemainmenu', 1);

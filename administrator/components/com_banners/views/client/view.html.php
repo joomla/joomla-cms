@@ -19,18 +19,19 @@ jimport('joomla.application.component.view');
  */
 class BannersViewClient extends JView
 {
-	protected $state;
-	protected $item;
 	protected $form;
+	protected $item;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		// Initialise variables.
+		$this->form	= $this->get('Form');
+		$this->item	= $this->get('Item');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -39,11 +40,7 @@ class BannersViewClient extends JView
 		}
 
 		// Bind the record to the form.
-		$form->bind($item);
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
+		$this->form->bind($this->item);
 
 		$this->_setToolbar();
 		parent::display($tpl);

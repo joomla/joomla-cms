@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::core();
 
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 <?php if (empty($this->items)) : ?>
 	<p> <?php echo JText::_('COM_CONTACT_NO_ARTICLES'); ?>	 </p>
@@ -35,11 +37,11 @@ JHtml::core();
 				<?php echo JText::_('Num'); ?>
 			</th>
 			<th class="item-title">
-				<?php echo JHtml::_('grid.sort',  'Name', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHtml::_('grid.sort',  'Name', 'a.name', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_position')) : ?>
 			<th class="item-position">
-				<?php echo JHtml::_('grid.sort',  'Position', 'a.con_position', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHtml::_('grid.sort',  'Position', 'a.con_position', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_email')) : ?>
@@ -129,7 +131,7 @@ JHtml::core();
 	</div>
 	<?php endif; ?>
 
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 </form>
 <?php endif; ?>

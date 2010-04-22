@@ -51,28 +51,16 @@ class AdminViewHelp extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Get the values
-		$help_url = & $this->get('HelpURL');
-		$full_help_url = & $this->get('FullHelpURL');
-		$help_search = & $this->get('HelpSearch');
-		$page = & $this->get('Page');
-		$toc = & $this->get('Toc');
-		$lang_tag = & $this->get('LangTag');
-		$latest_version_check = & $this->get('LatestVersionCheck');
+		// Initialise variables.
+		$this->help_url				= $this->get('HelpURL');
+		$this->full_help_url		= $this->get('FullHelpURL');
+		$this->help_search			= $this->get('HelpSearch');
+		$this->page					= $this->get('Page');
+		$this->toc					= $this->get('Toc');
+		$this->lang_tag				= $this->get('LangTag');
+		$this->latest_version_check	= $this->get('LatestVersionCheck');
 
-		// Assign values to the view
-		$this->assignRef('help_url', $help_url);
-		$this->assignRef('full_help_url', $full_help_url);
-		$this->assignRef('help_search', $help_search);
-		$this->assignRef('page', $page);
-		$this->assignRef('toc', $toc);
-		$this->assignRef('lang_tag', $lang_tag);
-		$this->assignRef('latest_version_check', $latest_version_check);
-
-		// Setup the toolbar
 		$this->_setToolBar();
-
-		// Display the view
 		parent::display($tpl);
 	}
 	/**

@@ -9,6 +9,9 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=discover');?>" method="post" name="adminForm">
 	<?php if ($this->showMessage) : ?>
@@ -25,14 +28,14 @@ defined('_JEXEC') or die;
 			<tr>
 				<th width="10"><?php echo JText::_('COM_INSTALLER_HEADING_NUM'); ?></th>
 				<th width="20"><input type="checkbox" name="toggle" value="" onclick="checkAll(this)" /></th>
-				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
-				<th class="center"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
+				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
+				<th class="center"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
 				<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
 				<th width="10%" class="center"><?php echo JText::_('JDATE'); ?></th>
-				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
-				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $listDirn, $listOrder); ?></th>
 				<th width="15%" class="center"><?php echo JText::_('JAUTHOR'); ?></th>
-				<th width="10"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?></th>
+				<th width="10"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?></th>
 			</tr>
 		</thead>
 		<tfoot><tr><td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td></tr>
@@ -64,7 +67,7 @@ defined('_JEXEC') or die;
 
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHTML::_('form.token'); ?>
 </form>

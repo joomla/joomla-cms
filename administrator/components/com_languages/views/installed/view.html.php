@@ -20,14 +20,9 @@ jimport('joomla.application.component.view');
 class LanguagesViewInstalled extends JView
 {
 	/**
-	 * @var array languages information
+	 * @var object client object
 	 */
-	protected $rows=null;
-
-	/**
-	 * @var object pagination information
-	 */
-	protected $pagination=null;
+	protected $client = null;
 
 	/**
 	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
@@ -35,20 +30,24 @@ class LanguagesViewInstalled extends JView
 	protected $ftp = null;
 
 	/**
-	 * @var object client object
+	 * @var string option name
 	 */
-	protected $client = null;
+	protected $option = null;
+
+	/**
+	 * @var object pagination information
+	 */
+	protected $pagination=null;
+
+	/**
+	 * @var array languages information
+	 */
+	protected $rows=null;
 
 	/**
 	 * @var object user object
 	 */
 	protected $user = null;
-
-	/**
-	 * @var string option name
-	 */
-	protected $option = null;
-
 
 	/**
 	 * Display the view
@@ -57,23 +56,13 @@ class LanguagesViewInstalled extends JView
 	{
 		// Get data from the model
 
-		$state		= $this->get('State');
-		$rows		= $this->get('Data');
-		$pagination = $this->get('Pagination');
-		$ftp		= $this->get('Ftp');
-		$option		= $this->get('Option');
+		$this->ftp			= $this->get('Ftp');
+		$this->option		= $this->get('Option');
+		$this->pagination	= $this->get('Pagination');
+		$this->rows			= $this->get('Data');
+		$this->state		= $this->get('State');
 
-		// Assign data to the view
-		$this->assignRef('state',		$state);
-		$this->assignRef('rows',		$rows);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('ftp',			$ftp);
-		$this->assignRef('option',		$option);
-
-		// Set the toolbar and the submenu
 		$this->_setToolBar();
-
-		// Display the view
 		parent::display($tpl);
 	}
 	/**

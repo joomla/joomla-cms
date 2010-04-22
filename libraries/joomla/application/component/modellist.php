@@ -195,17 +195,17 @@ class JModelList extends JModel
 		if ($this->context) {
 			$app = JFactory::getApplication();
 
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-			$this->setState('list.limit', $limit);
+			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+			$this->setState('list.limit', $value);
 
-			$limitstart = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
-			$this->setState('list.start', $limitstart);
+			$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
+			$this->setState('list.start', $value);
 
-			$orderCol = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
-			$this->setState('list.ordering', $orderCol);
+			$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
+			$this->setState('list.ordering', $value);
 
-			$orderDirn = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
-			$this->setState('list.direction', $orderDirn);
+			$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
+			$this->setState('list.direction', $value);
 		} else {
 			$this->setState('list.start', 0);
 			$this->state->set('list.limit', 0);

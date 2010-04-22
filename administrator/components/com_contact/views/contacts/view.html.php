@@ -19,9 +19,9 @@ jimport('joomla.application.component.view');
  */
 class ContactViewContacts extends JView
 {
-	public $state;
 	public $items;
 	public $pagination;
+	public $state;
 
 	/**
 	 * Display the view
@@ -30,25 +30,23 @@ class ContactViewContacts extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('state');
-		$items		= $this->get('items');
-		$pagination	= $this->get('pagination');
+		$this->items		= $this->get('items');
+		$this->pagination	= $this->get('pagination');
+		$this->state		= $this->get('state');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
+
 		// Preprocess the list of items to find ordering divisions.
 		// TODO: Complete the ordering stuff with nested sets
-		foreach ($items as $i => &$item)
-		{
+		foreach ($this->items as &$item) {
 			$item->order_up = true;
 			$item->order_dn = true;
 		}
-		$this->assignRef('state',			$state);
-		$this->assignRef('items',			$items);
-		$this->assignRef('pagination',		$pagination);
+
 		$this->_setToolbar();
 		parent::display($tpl);
 	}

@@ -144,8 +144,8 @@ class WeblinksModelCategory extends JModelList
 		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
 		$this->setState('list.ordering', $orderCol);
 
-		$orderDirn	=  JRequest::getCmd('filter_order_Dir', 'ASC');
-		$this->setState('list.direction', $orderDirn);
+		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		$this->setState('list.direction', $listOrder);
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);

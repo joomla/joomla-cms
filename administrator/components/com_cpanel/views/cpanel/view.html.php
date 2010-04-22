@@ -23,7 +23,7 @@ jimport('joomla.application.module.helper');
  */
 class CpanelViewCpanel extends JView
 {
-	public $modules = null;
+	protected $modules = null;
 
 	public function display($tpl = null)
 	{
@@ -38,9 +38,7 @@ class CpanelViewCpanel extends JView
 		JRequest::setVar('tmpl', 'cpanel');
 
 		// Display the cpanel modules
-		$modules	= &JModuleHelper::getModules('cpanel');
-
-		$this->assignRef('modules', $modules);
+		$this->modules = JModuleHelper::getModules('cpanel');
 
 		parent::display($tpl);
 	}

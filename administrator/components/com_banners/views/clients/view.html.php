@@ -19,30 +19,25 @@ jimport('joomla.application.component.view');
  */
 class BannersViewClients extends JView
 {
-	protected $state;
 	protected $items;
 	protected $pagination;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
-		$params		= JComponentHelper::getParams('com_banners');
+		// Initialise variables.
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('params',		$params);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -53,9 +48,8 @@ class BannersViewClients extends JView
 	 */
 	protected function _setToolbar()
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'banners.php';
+		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
-		$state	= $this->get('State');
 		$canDo	= BannersHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'generic.png');
@@ -70,11 +64,11 @@ class BannersViewClients extends JView
 			JToolBarHelper::custom('clients.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::custom('clients.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
-			if ($state->get('filter.published') != 2) {
+			if ($this->state->get('filter.published') != 2) {
 				JToolBarHelper::archiveList('clients.archive','JTOOLBAR_ARCHIVE');
 			}
 		}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {

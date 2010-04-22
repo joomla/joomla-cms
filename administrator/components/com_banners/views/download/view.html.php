@@ -25,13 +25,15 @@ class BannersViewDownload extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$form		= &$this->get('Form');
+		// Initialise variables.
+		$this->form	= $this->get('Form');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-		$this->form = &$form;
+
 		parent::display($tpl);
 	}
 }

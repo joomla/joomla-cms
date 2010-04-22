@@ -19,55 +19,24 @@ jimport('joomla.application.component.view');
  */
 class LanguagesViewLanguages extends JView
 {
-	/**
-	 * @var array languages information
-	 */
-	protected $rows=null;
-
-	/**
-	 * @var object pagination information
-	 */
-	protected $pagination=null;
-
-	/**
-	 * @var boolean|JExeption True, if FTP settings should be shown, or an exeption
-	 */
-	protected $ftp = null;
-
-	/**
-	 * @var object client object
-	 */
-	protected $client = null;
-
-	/**
-	 * @var object user object
-	 */
-	protected $user = null;
-
-	/**
-	 * @var string option name
-	 */
-	protected $option = null;
-
+	protected $items;
+	protected $pagination;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		$this->assignRef('state',			$state);
-		$this->assignRef('items',			$items);
-		$this->assignRef('pagination',		$pagination);
 
 		parent::display($tpl);
 		$this->_setToolbar();
@@ -82,14 +51,13 @@ class LanguagesViewLanguages extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_LANGS_VIEW_LANGUAGES_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
-				JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
-				JToolBarHelper::divider();
+		JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
+		JToolBarHelper::divider();
 		JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
 		JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
 		if ($this->state->get('filter.published') == -2) {
 			JToolBarHelper::deleteList('', 'languages.delete', 'JToolbar_Empty_trash');
-		}
-		else {
+		} else {
 			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
 		}
 		JToolBarHelper::divider();

@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 JHtml::core();
 
 $n = count($this->items);
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -38,11 +40,11 @@ $n = count($this->items);
 				<?php echo JText::_('COM_WEBLINKS_NUM'); ?>
 			</th>
 			<th class="title">
-					<?php echo JHtml::_('grid.sort',  'COM_WEBLINKS_GRID_SORT', 'title', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_WEBLINKS_GRID_SORT', 'title', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_link_hits')) : ?>
 			<th class="hits">
-					<?php echo JHtml::_('grid.sort',  'JGLOBAL_HITS', 'hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort',  'JGLOBAL_HITS', 'hits', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 		</tr>
@@ -118,7 +120,7 @@ $n = count($this->items);
 		</div>
 	<?php endif; ?>
 
-		<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 </form>
 <?php endif; ?>

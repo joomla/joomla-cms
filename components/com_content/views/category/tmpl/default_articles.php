@@ -15,7 +15,8 @@ JHtml::_('behavior.tooltip');
 JHtml::core();
 
 $n = count($this->items);
-
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -49,22 +50,22 @@ $n = count($this->items);
 	<?php //echo $this->params->get('list_show_title'); ?>
 		<?php if ($this->params->get('list_show_title',1)) : ?>
 		<th class="list-title" id="tableOrdering">
-			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')) ; ?>
+			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $listDirn, $listOrder) ; ?>
 		</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_date',1)) : ?>
 			<th class="list-date" id="tableOrdering2">
-				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_author',1)) : ?>
 			<th class="list-author" id="tableOrdering3">
-				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_hits',1)) : ?>
 			<th class="list-hits" id="tableOrdering4">
-				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 	</tr></thead>

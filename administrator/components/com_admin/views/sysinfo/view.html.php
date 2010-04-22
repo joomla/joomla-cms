@@ -45,31 +45,15 @@ class AdminViewSysinfo extends JView
 	 */
 	function display($tpl = null)
 	{
-		// Get the values
-		$php_settings = & $this->get('PhpSettings');
-		$config = & $this->get('config');
-		$info = & $this->get('info');
-		$php_info = & $this->get('PhpInfo');
-		$directory = & $this->get('directory');
-		// Has to be removed (present in the config)
-		//$editor = & $this->get('editor');
+		// Initialise variables.
+		$this->php_settings	= $this->get('PhpSettings');
+		$this->config			= $this->get('config');
+		$this->info			= $this->get('info');
+		$this->php_info		= $this->get('PhpInfo');
+		$this->directory		= $this->get('directory');
 
-		// Assign values to the view
-		$this->assignRef('php_settings', $php_settings);
-		$this->assignRef('config', $config);
-		$this->assignRef('info', $info);
-		$this->assignRef('php_info', $php_info);
-		$this->assignRef('directory', $directory);
-		// Has to be removed (present in the config)
-		//$this->assignRef('editor', $editor);
-
-		// Setup the toobar
 		$this->_setToolbar();
-
-		// Setup the menu
 		$this->_setSubMenu();
-
-		// Display the view
 		parent::display($tpl);
 	}
 
@@ -84,6 +68,7 @@ class AdminViewSysinfo extends JView
 		$document = &JFactory::getDocument();
 		$document->setBuffer($contents, 'modules', 'submenu');
 	}
+
 	/**
 	 * Setup the Toolbar
 	 *

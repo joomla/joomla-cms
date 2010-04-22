@@ -12,18 +12,11 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/modellist.php';
  */
 class JModelListTest extends PHPUnit_Framework_TestCase {
 	/**
-	 * @var	JModelList
-	 * @access protected
-	 */
-	protected $object;
-
-	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access protected
 	 */
-	protected function setUp() {
+	protected function setUp()
+	{
 		/* Need to build Mock class for database access
 		 * as this causes errors currently:
 		 *
@@ -37,13 +30,15 @@ class JModelListTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @access protected
 	 */
-	protected function tearDown() {
+	protected function tearDown()
+	{
 	}
 
 	/**
 	 * @todo Implement testGetItems().
 	 */
-	public function testGetItems() {
+	public function testGetItems()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -51,7 +46,8 @@ class JModelListTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testGetPagination().
 	 */
-	public function testGetPagination() {
+	public function testGetPagination()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -59,9 +55,9 @@ class JModelListTest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testGetTotal().
 	 */
-	public function testGetTotal() {
+	public function testGetTotal()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>

@@ -16,56 +16,36 @@ jimport('joomla.application.component.view');
  */
 class ContentViewArticle extends JView
 {
-	protected $state;
 	protected $item;
 	protected $form;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
-
-		if($this->_layout == 'pagebreak')
-		{
-			$eName	= JRequest::getVar('e_name');
-			$eName	= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
-			$document =& JFactory::getDocument();
+		if ($this->_layout == 'pagebreak') {
+			$eName		= JRequest::getVar('e_name');
+			$eName		= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
+			$document	= JFactory::getDocument();
 			$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
 			$this->assignRef('eName', $eName);
 			parent::display($tpl);
 			return;
 		}
 
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->form		= $this->get('Form');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Convert dates from UTC
-//		$offset	= $app->getCfg('offset');
-//		if (intval($item->created)) {
-//			$item->created = JHTML::_('date',$item->created, '%Y-%m-%d %H:%M:%S', $offset);
-//		}
-//		if (intval($item->publish_up)) {
-//			$item->publish_up = JHTML::_('date',$item->publish_up, '%Y-%m-%d %H:%M:%S', $offset);
-//		}
-//		if (intval($item->publish_down)) {
-//			$item->publish_down = JHTML::_('date',$item->publish_down, '%Y-%m-%d %H:%M:%S', $offset);
-//		}
-
-		$form->bind($item);
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
+		$this->form->bind($this->item);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -85,11 +65,8 @@ class ContentViewArticle extends JView
 
 		JToolBarHelper::title(JText::_('Content_Page_'.($checkedOut ? 'View_Article' : ($isNew ? 'Add_Article' : 'Edit_Article'))), 'article-add.png');
 
-
-
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit'))
-		{
+		if (!$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('article.apply', 'JToolbar_Apply');
 			JToolBarHelper::save('article.save', 'JToolbar_Save');
 			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JToolbar_Save_and_new', false);
@@ -101,8 +78,7 @@ class ContentViewArticle extends JView
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('article.cancel', 'JToolbar_Cancel');
-		}
-		else {
+		} else {
 			JToolBarHelper::cancel('article.cancel', 'JToolbar_Close');
 		}
 

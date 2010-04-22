@@ -19,18 +19,18 @@ jimport('joomla.application.component.view');
  */
 class CategoriesViewCategories extends JView
 {
-	protected $state;
 	protected $items;
 	protected $pagination;
+	protected $state;
 
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -39,14 +39,9 @@ class CategoriesViewCategories extends JView
 		}
 
 		// Preprocess the list of items to find ordering divisions.
-		foreach ($items as $i => &$item)
-		{
+		foreach ($this->items as &$item) {
 			$this->ordering[$item->parent_id][] = $item->id;
 		}
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
 
 		$this->_setToolbar();
 		parent::display($tpl);
@@ -57,9 +52,8 @@ class CategoriesViewCategories extends JView
 	 */
 	protected function _setToolbar()
 	{
-		$state = $this->get('State');
-		$component	= $state->get('filter.component');
-		$section	= $state->get('filter.section');
+		$component	= $this->state->get('filter.component');
+		$section	= $this->state->get('filter.section');
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = &JFactory::getLanguage();
@@ -81,10 +75,10 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
 		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 		JToolBarHelper::divider();
-		if ($state->get('filter.published') != 2) {
+		if ($this->state->get('filter.published') != 2) {
 			JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
 		}
-		if ($state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
+		if ($this->state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else {
@@ -94,6 +88,5 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.categories','JTOOLBAR_HELP');
-
 	}
 }

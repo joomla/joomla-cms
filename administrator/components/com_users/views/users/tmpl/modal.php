@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 $function = 'jSelectUser_'.JRequest::getVar('field');
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
 	<fieldset class="filter">
@@ -37,13 +39,13 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 		<thead>
 			<tr>
 				<th class="left">
-					<?php echo JHtml::_('grid.sort', 'Users_Heading_Name', 'a.name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Users_Heading_Name', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="25%">
-					<?php echo JHtml::_('grid.sort', 'Users_Heading_UserName', 'a.username', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Users_Heading_UserName', 'a.username', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="25%">
-					<?php echo JHtml::_('grid.sort', 'Users_Heading_Groups', 'a.group_names', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'Users_Heading_Groups', 'a.group_names', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -75,7 +77,7 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 	</table>
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->state->get('list.ordering'); ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->state->get('list.direction'); ?>" />
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

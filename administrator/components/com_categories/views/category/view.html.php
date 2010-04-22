@@ -19,14 +19,18 @@ jimport('joomla.application.component.view');
  */
 class CategoriesViewCategory extends JView
 {
+	protected $form;
+	protected $item;
+	protected $state;
+
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$form		= $this->get('Form');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -34,11 +38,7 @@ class CategoriesViewCategory extends JView
 			return false;
 		}
 
-		$form->bind($item);
-
-		$this->assignRef('state',	$state);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
+		$this->form->bind($this->item);
 
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);

@@ -16,36 +16,29 @@ require_once JPATH_BASE.'/libraries/joomla/application/component/controllerform.
  * This test class will get the suffix '2' until
  * merged with the controller/JControllerFormTest.php
  */
-class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
-	/**
-	 * @var	JControllerForm
-	 * @access protected
-	 */
-	protected $object;
-
+class JControllerFormTest2 extends PHPUnit_Framework_TestCase
+{
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access protected
 	 */
-	protected function setUp() {
-		//$this->object = new JControllerForm;
+	protected function setUp()
+	{
 	}
 
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @access protected
 	 */
-	protected function tearDown() {
+	protected function tearDown()
+	{
 	}
 
 	/**
 	 * @todo Implement testGetModel().
 	 */
-	public function testGetModel() {
+	public function testGetModel()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -53,7 +46,8 @@ class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testDisplay().
 	 */
-	public function testDisplay() {
+	public function testDisplay()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -61,7 +55,8 @@ class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testAdd().
 	 */
-	public function testAdd() {
+	public function testAdd()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -69,7 +64,8 @@ class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testEdit().
 	 */
-	public function testEdit() {
+	public function testEdit()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -77,7 +73,8 @@ class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testCancel().
 	 */
-	public function testCancel() {
+	public function testCancel()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -85,9 +82,9 @@ class JControllerFormTest2 extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testSave().
 	 */
-	public function testSave() {
+	public function testSave()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
-?>
