@@ -46,7 +46,7 @@ class JAuthentication extends JObservable
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
 		if (!$isLoaded) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JAuthentication::__construct: Could not load authentication libraries.'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_USER_ERROR_AUTHENTICATION_LIBRARIES'));
 		}
 	}
 
@@ -110,7 +110,7 @@ class JAuthentication extends JObservable
 			}
 			else {
 				// bail here if the plugin can't be created
-				JError::raiseWarning(50,'JAuthentication::authenticate: '. JText::_('Failed to load plugin') .': '. $className);
+				JError::raiseWarning(50, JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className));
 				continue;
 			}
 

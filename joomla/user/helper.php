@@ -53,7 +53,7 @@ class JUserHelper
 
 			// If the group does not exist, return an exception.
 			if (!$title) {
-				return new JException(JText::_('Access_Usergroup_Invalid'));
+				return new JException(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
 			}
 
 			// Add the group data to the user object.
@@ -250,7 +250,7 @@ class JUserHelper
 		}
 		else
 		{
-			JError::raiseWarning("SOME_ERROR_CODE", JText::_('UNABLE TO FIND A USER WITH GIVEN ACTIVATION STRING'));
+			JError::raiseWarning("SOME_ERROR_CODE", JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'));
 			return false;
 		}
 
