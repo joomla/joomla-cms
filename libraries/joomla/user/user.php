@@ -184,7 +184,7 @@ class JUser extends JObject
 		if (!is_numeric($identifier)) {
 			jimport('joomla.user.helper');
 			if (!$id = JUserHelper::getUserId($identifier)) {
-				JError::raiseWarning('SOME_ERROR_CODE', 'JUser::_load: User '.$identifier.' does not exist');
+				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier));
 				$retval = false;
 				return $retval;
 			}
@@ -424,7 +424,7 @@ class JUser extends JObject
 			}
 
 			if ($array['password'] != $array['password2']) {
-					$this->setError(JText::_('PASSWORD DO NOT MATCH.'));
+					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 					return false;
 			}
 
@@ -455,7 +455,7 @@ class JUser extends JObject
 			// Updating an existing user
 			if (!empty($array['password'])) {
 				if ($array['password'] != $array['password2']) {
-					$this->setError(JText::_('PASSWORD DO NOT MATCH.'));
+					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
 					return false;
 				}
 
@@ -486,7 +486,7 @@ class JUser extends JObject
 
 		// Bind the array
 		if (!$this->setProperties($array)) {
-			$this->setError("Unable to bind array to user object");
+			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
 			return false;
 		}
 
@@ -617,7 +617,7 @@ class JUser extends JObject
 
 		// Load the JUserModel object based on the user id or throw a warning.
 		if (!$table->load($id)) {
-			JError::raiseWarning('SOME_ERROR_CODE', 'JUser::_load: Unable to load user with id: '.$id);
+			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id));
 			return false;
 		}
 
