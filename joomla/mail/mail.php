@@ -69,7 +69,7 @@ class JMail extends PHPMailer
 	{
 		if (($this->Mailer == 'mail') && ! function_exists('mail'))
 		{
-			return JError::raiseNotice(500, JText::_('MAIL_FUNCTION_DISABLED'));
+			return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
 		}
 
 		@$result = parent::Send();
@@ -104,7 +104,7 @@ class JMail extends PHPMailer
 			$this->From = JMailHelper::cleanLine($from);
 		// If it is neither, we throw a warning
 		} else {
-			JError::raiseWarning(0, "JMail::  Invalid E-Mail Sender: $from", "JMail::setSender($from)");
+			JError::raiseWarning(0, JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from));
 		}
 	}
 
@@ -366,11 +366,10 @@ class JMail extends PHPMailer
 	 */
 	public function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
-		$subject = JText::_('USER_SUBMITTED') ." '". $type ."'";
+		$subject = JText::sprintf('JLIB_MAIL_USER_SUBMITTED', $type);
 
-		$message = sprintf (JText::_('MAIL_MSG_ADMIN'), $adminName, $type, $title, $author,
-			$url, $url, 'administrator', $type);
-		$message .= JText::_('MAIL_MSG') ."\n";
+		$message = sprintf (JText::_('JLIB_MAIL_MSG_ADMIN'), $adminName, $type, $title, $author, $url, $url, 'administrator', $type);
+		$message .= JText::_('JLIB_MAIL_MSG') ."\n";
 
 		$this->addRecipient($adminEmail);
 		$this->setSubject($subject);
