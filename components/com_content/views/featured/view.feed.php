@@ -39,11 +39,12 @@ class ContentViewFeatured extends JView
 			$title = $this->escape($row->title);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
+			// Compute the article slug
+			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
+			
 			// url link to article
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid), false);
 			
-			// Compute the article slug
-			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// strip html from feed item description text
 			// TODO: Only pull fulltext if necessary (actually, just get the necessary fields).
