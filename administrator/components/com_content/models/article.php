@@ -296,11 +296,12 @@ class ContentModelArticle extends JModelAdmin
 				foreach ($pks as $i => $pk) {
 					$tuples[] = '('.$pk.', '.(int)($i + 1).')';
 				}
-
-				$this->_db->setQuery(
-					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
-					' VALUES '.implode(',', $tuples)
+				if ($isNew){
+					$this->_db->setQuery(
+						'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+						' VALUES '.implode(',', $tuples)
 				);
+				}
 				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;

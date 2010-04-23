@@ -136,6 +136,36 @@
 			<option
 				value="1">JYES</option>
 		</field>
+		<field name="created" type="calendar" label="JGLOBAL_FIELD_Created_Label"
+			description="JGLOBAL_FIELD_Created_Desc" class="inputbox" size="16"
+			format="%Y-%m-%d %H:%M:%S" filter="server_utc" />
+
+		<field name="created_by" type="user"
+			label="JGLOBAL_FIELD_Created_by_Label" description="JGLOBAL_FIELD_CREATED_BY_Desc" />
+
+		<field name="created_by_alias" type="text"
+			label="JGLOBAL_FIELD_Created_by_alias_Label" description="JGLOBAL_FIELD_Created_by_alias_Desc"
+			class="inputbox" size="20" />
+
+		<field name="modified" type="text" class="readonly"
+			label="JGLOBAL_FIELD_Modified_Label" description="JGLOBAL_FIELD_Modified_Desc"
+			size="16" readonly="true" filter="unset" />
+
+		<field name="modified_by" type="hidden" filter="unset" />
+
+		<field name="checked_out" type="hidden" filter="unset" />
+
+		<field name="checked_out_time" type="hidden" filter="unset" />
+
+		<field name="publish_up" type="calendar"
+			label="JGLOBAL_FIELD_Publish_up_Label" description="JGLOBAL_FIELD_Publish_up_Desc"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
+			filter="server_utc" />
+
+		<field name="publish_down" type="calendar"
+			label="JGLOBAL_FIELD_Publish_down_Label" description="JGLOBAL_FIELD_Publish_down_Desc"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
+			filter="server_utc" />
 
 	</fieldset>
 
@@ -158,7 +188,37 @@
 			<option
 				value="3">JBrowserTarget_Modal</option>
 		</field>
+	</fields>
 
+		<field name="metakey" type="textarea"
+			label="JField_Meta_Keywords_Label" description="JField_Meta_Keywords_Desc"
+			class="inputbox" rows="3" cols="30" />
+
+		<field name="metadesc" type="textarea"
+			label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
+			class="inputbox" rows="3" cols="30" />
+			<fields name="metadata">
+	<fieldset name="metadata">	
+		<field name="robots" type="list"
+			label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
+		</field>
+
+		<field name="author" type="text"
+			label="JAUTHOR" description="JField_Metadata_Author_Desc"
+			size="20" />
+
+		<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC" required="" filter="string"
+			cols="30" rows="2" />
+	</fieldset>
+			
 		<field
 			name="count_clicks"
 			type="list"

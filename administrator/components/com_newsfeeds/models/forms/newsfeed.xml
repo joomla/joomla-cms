@@ -43,16 +43,16 @@
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
 
 		<field name="numarticles" type="Text" class="inputbox"
-			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUMFEEDS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUMFEEDS_DESC" required="true" />
+			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			description="COM_NEWSFEED_FIELD_NUM_ARTICLES_DESC" required="true" />
 
 		<field name="cache_time" type="Text" class="inputbox"
 			default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
-			description="COM_NEWSFEEDS_FIELD_CACHETIME_DESC"
+			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			required="true" />
 
 		<field name="ordering" type="ordering" class="inputbox"
-			label="COM_NEWSFEEDS_FIELD_ORDERING_LABEL" description="COM_NEWSFEEDS_FIELD_ORDERING_DESC" />
+			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL" description="COM_NEWSFEEDS_FIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"
 			default="1" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
@@ -65,16 +65,42 @@
 			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_RTL
 			</option>
 		</field>
+		<field name="created" type="calendar" label="JGLOBAL_FIELD_CREATED_LABEL"
+			description="JGLOBAL_FIELD_Created_Desc" class="inputbox" size="16"
+			format="%Y-%m-%d %H:%M:%S" filter="server_utc" />
+
+		<field name="created_by" type="user"
+			label="JGLOBAL_FIELD_Created_by_Label" description="JGLOBAL_FIELD_Created_by_Desc" />
+
+		<field name="created_by_alias" type="text"
+			label="JGLOBAL_FIELD_Created_by_alias_Label" description="JGLOBAL_FIELD_Created_by_alias_Desc"
+			class="inputbox" size="20" />
+
+		<field name="modified" type="text" class="readonly"
+			label="JGLOBAL_FIELD_Modified_Label" description="JGLOBAL_FIELD_Modified_Desc"
+			size="16" readonly="true" filter="unset" />
+
+		<field name="modified_by" type="hidden" filter="unset" />
 
 
 		<field name="checked_out" type="Text" class="inputbox"
-			size="6" label="NEWSFEEDS_CHECKEDOUT_LABEL" description="NEWSFEEDS_CHECKEDOUT_DESC"
+			size="6" label="JGLOBAL_FIELD_CHECKEDOUT_LABEL" description="JGLOBAL_FIELD_CHECKEDOUT_DESC"
 			readonly="true" filter="unset" />
 
 		<field name="checked_out_time" type="Text" class="inputbox"
-			size="6" label="NEWSFEEDS_CHECKEDOUT_TIME_LABEL"
-			description="NEWSFEEDS_CHECKEDOUT_TIME_DESC" readonly="true"
+			size="6" label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
+			description="JGLOBAL_FIELD_CHECKEDOUT_TIME_DESC" readonly="true"
 			filter="unset" />
+
+		<field name="publish_up" type="calendar"
+			label="JGLOBAL_FIELD_Publish_up_Label" description="JGLOBAL_FIELD_Publish_up_Desc"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
+			filter="server_utc" />
+
+		<field name="publish_down" type="calendar"
+			label="JGLOBAL_FIELD_Publish_down_Label" description="JGLOBAL_FIELD_Publish_down_Desc"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
+			filter="server_utc" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
@@ -84,7 +110,14 @@
 		>
 			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
+		<field name="metakey" type="textarea"
+			label="JField_Meta_Keywords_Label" description="JField_Meta_Keywords_Desc"
+			class="inputbox" rows="3" cols="30" />
 
+		<field name="metadesc" type="textarea"
+			label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
+			class="inputbox" rows="3" cols="30" />
+		
 	</fieldset>
 
 	<fieldset name="params" label="COM_NEWSFEEDS_FIELD_OPTIONS">
@@ -176,5 +209,38 @@
 		<field name="feed_word_count" type="text" size="6"
 			default="0" label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
+	</fieldset>
+	<fieldset name="metadata">
+		<field name="metakey" type="textarea"
+			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
+			class="inputbox" rows="3" cols="30" />
+
+		<field name="metadesc" type="textarea"
+			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
+			class="inputbox" rows="3" cols="30" />
+		
+		<fields name="metadata">
+
+			<field name="robots" type="list"
+				label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
+			</field>
+
+			<field name="author" type="text"
+				label="JAUTHOR" description="JField_Metadata_Author_Desc"
+				size="20" />
+	
+			<field name="rights" type="text" label="JFIELD_META_RIGHTS_LABEL"
+				description="JFIELD_META_RIGHTS_DESC" required="" filter="string"
+				cols="30" rows="2" />
+
+
+		</fields>
 	</fieldset>
 </form>

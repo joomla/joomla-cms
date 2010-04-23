@@ -68,11 +68,11 @@ JHtml::_('behavior.keepalive');
 </div>
 
 <div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 		<?php echo JHtml::_('sliders.panel',JText::_('COM_NEWSFEEDS_FIELD_OPTIONS'), 'newsfeeds-options'); ?>
 
-	<fieldset class="panelform">
+			<fieldset class="panelform">
 
 			<?php echo $this->form->getLabel('numarticles'); ?>
 			<?php echo $this->form->getInput('numarticles'); ?>
@@ -95,7 +95,51 @@ JHtml::_('behavior.keepalive');
 		<?php endforeach; ?>
 
 	</fieldset>
+		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
+		<fieldset class="panelform">
+
+			<?php echo $this->form->getLabel('created_by'); ?>
+			<?php echo $this->form->getInput('created_by'); ?>
+
+			<?php echo $this->form->getLabel('created_by_alias'); ?>
+			<?php echo $this->form->getInput('created_by_alias'); ?>
+
+			<?php echo $this->form->getLabel('created'); ?>
+			<?php echo $this->form->getInput('created'); ?>
+
+			<?php echo $this->form->getLabel('publish_up'); ?>
+			<?php echo $this->form->getInput('publish_up'); ?>
+
+			<?php echo $this->form->getLabel('publish_down'); ?>
+			<?php echo $this->form->getInput('publish_down'); ?>
+
+			<?php echo $this->form->getLabel('modified'); ?>
+			<?php echo $this->form->getInput('modified'); ?>
+
+			<?php echo $this->form->getLabel('version'); ?>
+			<?php echo $this->form->getInput('version'); ?>
+
+		</fieldset>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA'), 'meta-options'); ?>
+				<fieldset class="panelform">
+
+					<?php echo $this->form->getLabel('metadesc'); ?>
+					<?php echo $this->form->getInput('metadesc'); ?>
+
+					<?php echo $this->form->getLabel('metakey'); ?>
+					<?php echo $this->form->getInput('metakey'); ?>
+
+					<?php foreach($this->form->getGroup('metadata') as $field): ?>
+						<?php echo $field->label; ?>
+						<?php echo $field->input; ?>
+					<?php endforeach; ?>
+
+					<?php echo $this->form->getLabel('xreference'); ?>
+					<?php echo $this->form->getInput('xreference'); ?>
+				</fieldset>
+	
 	<?php echo JHtml::_('sliders.end'); ?>
 </div>
 

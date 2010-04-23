@@ -135,7 +135,22 @@ class WeblinksTableWeblink extends JTable
 			$registry->loadArray($this->params);
 			$this->params = (string)$registry;
 		}
-
+			$date	= JFactory::getDate();
+			$user	= JFactory::getUser();
+			if ($this->id) {
+				// Existing item
+				$this->modified		= $date->toMySQL();
+				$this->modified_by	= $user->get('id');
+				} else {
+				// New article. An article created and created_by field can be set by the user,
+				// so we don't touch either of these if they are set.
+				if (!intval($this->created)) {
+					$this->created = $date->toMySQL();
+				}
+				if (empty($this->created_by)) {
+					$this->created_by = $user->get('id');
+				}
+				}	
 		// Attempt to store the user data.
 		return parent::store($updateNulls);
 	}
@@ -183,7 +198,21 @@ class WeblinksTableWeblink extends JTable
 		if (trim(str_replace('-','',$this->alias)) == '') {
 			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
-
+		// clean up keywords -- eliminate extra spaces between phrases
+		// and cr (\r) and lf (\n) characters from string
+		if (!empty($this->metakey)) {
+			// only process if not empty
+			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
+			$keys = explode(',', $after_clean); // create array using commas as delimiter
+			$clean_keys = array();
+			foreach($keys as $key) {
+				if (trim($key)) {  // ignore blank keywords
+					$clean_keys[] = trim($key);
+				}
+			}
+			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+		}
 		return true;
 	}
 

@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Apr-2010 Mark Dexter
+^ Added UI for new fields in contacts, newsfeeds, weblinks (Elin Waring)
+^ Added publish_up and publish_down checks to models (Elin Waring) 
+
 23-Apr-2010 Jean-Marie Simonet
 # Bug fix + new string
 $ Refactoring ini/keys in libraries/J/Installer/
