@@ -32,6 +32,7 @@ $ -> Language fix or change
 $ Refactoring ini/keys in libraries/J/Installer/
 # Bug fix in com_languages (Thank you Dennis)
 $ Refactored com_languages keys + added strings
+$ Refactoring ini/keys in libraries/J/mail, plugin, registry, session + some
 
 23-Apr-2010 Christophe Demko
 ^ renaming some functions in JLanguage and JText relative to 'plural' and 'ignored search words' function

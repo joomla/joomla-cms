@@ -49,7 +49,7 @@ abstract class JRegistryFormat
 				if (is_file($path)) {
 					require_once $path;
 				} else {
-					throw new JException(JText::_('Unable to load format class'), 500, E_ERROR);
+					throw new JException(JText::_('JLIB_REGISTRY_EXCEPTION_LOAD_FORMAT_CLASS'), 500, E_ERROR);
 				}
 			}
 

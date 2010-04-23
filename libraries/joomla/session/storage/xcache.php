@@ -28,7 +28,7 @@ class JSessionStorageXcache extends JSessionStorage
 	function __construct($options = array())
 	{
 		if (!$this->test()) {
-			return JError::raiseError(404, "The xcache extension isn't available");
+			return JError::raiseError(404, JText::_('JLIB_SESSION_XCACHE_EXTENSION_NOT_AVAILABLE'));
 		}
 
 		parent::__construct($options);
