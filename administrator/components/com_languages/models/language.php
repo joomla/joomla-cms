@@ -8,7 +8,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * Languages Component Language Model
@@ -17,7 +17,7 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_languages
  * @since		1.5
  */
-class LanguagesModelLanguage extends JModelForm
+class LanguagesModelLanguage extends JModelAdmin
 {
 	/**
 	 * Override to get the table
@@ -197,5 +197,11 @@ class LanguagesModelLanguage extends JModelForm
 		}
 
 		return true;
+	}
+	
+	function _orderConditions($table = null)
+	{
+		$condition = array();
+		return $condition;
 	}
 }

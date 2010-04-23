@@ -10,8 +10,8 @@
 
 		<field name="lang_code" type="text"
 			class="inputbox"
-			description="COM_LANGS_FIELD_LANG_CODE_DESC"
-			label="COM_LANGS_FIELD_LANG_CODE_LABEL"
+			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
+			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
 			maxlength="7"
 			required="true"
 			size="10"
@@ -19,8 +19,8 @@
 
 		<field name="title" type="text"
 			class="inputbox"
-			description="COM_LANGS_FIELD_TITLE_DESC"
-			label="COM_LANGS_FIELD_TITLE_LABEL"
+			description="COM_LANGUAGES_FIELD_TITLE_DESC"
+			label="COM_LANGUAGES_FIELD_TITLE_LABEL"
 			maxlength="50"
 			required="true"
 			size="40"
@@ -28,31 +28,31 @@
 
 		<field name="title_native" type="text"
 			class="inputbox"
-			description="COM_LANGS_FIELD_TITLE_NATIVE_DESC"
-			label="COM_LANGS_FIELD_TITLE_NATIVE_LABEL"
+			description="COM_LANGUAGES_FIELD_TITLE_NATIVE_DESC"
+			label="COM_LANGUAGES_FIELD_TITLE_NATIVE_LABEL"
 			maxlength="50"
 			size="40"
 		/>
 
 		<field name="alias" type="text"
 			class="inputbox"
-			description="COM_LANGS_FIELD_ALIAS_DESC"
-			label="COM_LANGS_FIELD_ALIAS_LABEL"
+			description="COM_LANGUAGES_FIELD_ALIAS_DESC"
+			label="COM_LANGUAGES_FIELD_ALIAS_LABEL"
 			size="40"
 		/>
 
 		<field name="description" type="textarea"
 			class="inputbox"
 			cols="80"
-			description="COM_LANGS_FIELD_DESCRIPTION_DESC"
-			label="COM_LANGS_FIELD_DESCRIPTION_LABEL"
+			description="COM_LANGUAGES_FIELD_DESCRIPTION_DESC"
+			label="COM_LANGUAGES_FIELD_DESCRIPTION_LABEL"
 			rows="5"
 		/>
 
 		<field name="published" type="list"
 			class="inputbox"
 			default="1"
-			description="COM_LANGS_FIELD_PUBLISHED_DESC"
+			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
 			label="JPUBLISHED"
 			size="1"
 		>

@@ -264,7 +264,7 @@ class LanguagesModelInstalled extends JModelList
 			}
 		}
 		else {
-			$this->setError(JText::_('COM_LANGS_ERR_NO_LANGUAGE_SELECTED'));
+			$this->setError(JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 			return false;
 		}
 		return true;

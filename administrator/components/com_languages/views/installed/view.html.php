@@ -72,7 +72,7 @@ class LanguagesViewInstalled extends JView
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_LANGS_VIEW_INSTALLED_TITLE'), 'langmanager.png');
+		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
 		JToolBarHelper::makeDefault('installed.publish','JTOOLBAR_DEFAULT');
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_languages');

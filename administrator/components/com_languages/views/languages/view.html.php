@@ -49,14 +49,14 @@ class LanguagesViewLanguages extends JView
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_LANGS_VIEW_LANGUAGES_TITLE'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'generic.png');
 		JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
 		JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
 		JToolBarHelper::divider();
 		JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
 		JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
 		if ($this->state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'languages.delete', 'JToolbar_Empty_trash');
+			JToolBarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} else {
 			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
 		}

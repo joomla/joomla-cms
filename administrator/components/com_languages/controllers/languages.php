@@ -21,7 +21,7 @@ class LanguagesControllerLanguages extends JControllerAdmin
 	 * Proxy for getModel
 	 * @since	1.6
 	 */
-	function &getModel($name = 'Languages', $prefix = 'LanguagesModel')
+	function &getModel($name = 'Language', $prefix = 'LanguagesModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
