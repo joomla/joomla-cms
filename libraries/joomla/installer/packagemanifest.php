@@ -46,7 +46,7 @@ class JPackageManifest extends JObject
 
 		if( ! $xml)
 		{
-			$this->_errors[] = 'Failed to load XML File: '.$xmlfile;
+			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
 			return false;
 		}
 		else

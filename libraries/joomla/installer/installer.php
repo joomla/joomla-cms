@@ -318,13 +318,13 @@ class JInstaller extends JAdapter
 		}
 		else
 		{
-			$this->abort(JText::_('Install path does not exist'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
 			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
-			$this->abort(JText::_('Unable to detect manifest file'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 			return false;
 		}
 
@@ -373,12 +373,12 @@ class JInstaller extends JAdapter
 			$this->extension =& JTable::getInstance('extension');
 			if (!$this->extension->load($eid))
 			{
-				$this->abort(JText::_('Failed to load extension details'));
+				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
 				return false;
 			}
 			if ($this->extension->state != -1)
 			{
-				$this->abort(JText::_('Extension is already installed'));
+				$this->abort(JText::_('JLIB_INSTALLER_ABORT_ALREADYINSTALLED'));
 				return false;
 			}
 
@@ -413,7 +413,7 @@ class JInstaller extends JAdapter
 				}
 				else
 				{
-					$this->abort(JText::_('Method not supported for this extension type'));
+					$this->abort(JText::_('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED'));
 					return false;
 				}
 			}
@@ -421,7 +421,7 @@ class JInstaller extends JAdapter
 		}
 		else
 		{
-			$this->abort(JText::_('Extension is not a valid'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_EXTENSIONNOTVALID'));
 			return false;
 		}
 	}
@@ -468,11 +468,11 @@ class JInstaller extends JAdapter
 			$this->setPath('source', $path);
 		}
 		else {
-			$this->abort(JText::_('Update path does not exist'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
 		}
 
 		if (!$this->setupInstall()) {
-			return $this->abort(JText::_('Unable to detect manifest file'));
+			return $this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
 		}
 
 		$type = (string)$this->manifest->attributes()->type;
@@ -543,12 +543,12 @@ class JInstaller extends JAdapter
 			$this->extension =& JTable::getInstance('extension');
 			if (!$this->extension->load($eid))
 			{
-				$this->abort(JText::_('Failed to load extension details'));
+				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
 				return false;
 			}
 			if ($this->extension->state == -1)
 			{
-				$this->abort(JText::_('Refresh Manifest Cache failed').': '.JText::_('Extension is not currently installed'));
+				$this->abort(JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
 				return false;
 			}
 
@@ -569,7 +569,7 @@ class JInstaller extends JAdapter
 				}
 				else
 				{
-					$this->abort(JText::_('Method not supported for this extension type').': '. $this->extension->type);
+					$this->abort(JText::sprintf('JLIB_INSTALLER_ABORT_METHODNOTSUPPORTED_TYPE', $this->extension->type));
 					return false;
 				}
 			}
@@ -577,7 +577,7 @@ class JInstaller extends JAdapter
 		}
 		else
 		{
-			$this->abort(JText::_('Refresh Manifest Cache failed').': '.JText::_('Extension not valid'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE_VALID'));
 			return false;
 		}
 	}
@@ -649,7 +649,7 @@ class JInstaller extends JAdapter
 			$db->setQuery($query->data());
 			if (!$db->query())
 			{
-				JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL_ERROR')." ".$db->stderr(true));
+				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 				return false;
 			}
 		}
@@ -697,7 +697,7 @@ class JInstaller extends JAdapter
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
 				{
-					JError::raiseWarning(1,'JInstaller::installer: '. JText::_('SQL File not found').' '. $sqlfile);
+					JError::raiseWarning(1,JText::sprintf('JLIB_INSTALLER_ERROR_SQL_FILENOTFOUND', $sqlfile));
 					return false;
 				}
 				$buffer = file_get_contents($sqlfile);
@@ -705,7 +705,7 @@ class JInstaller extends JAdapter
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
 				{
-					JError::raiseWarning(1, 'JInstaller::installer: '. JText::_('SQL File Buffer Read Error'));
+					JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'));
 					return false;
 				}
 
@@ -727,7 +727,7 @@ class JInstaller extends JAdapter
 						$db->setQuery($query);
 						if (!$db->query())
 						{
-							JError::raiseWarning(1, 'JInstaller::install: '.JText::_('SQL Error')." ".$db->stderr(true));
+							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
 							return false;
 						}
 					}
@@ -843,7 +843,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$newdir.'"');
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
 					return false;
 				}
 			}
@@ -953,7 +953,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$newdir.'"');
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
 					return false;
 				}
 			}
@@ -1034,7 +1034,7 @@ class JInstaller extends JAdapter
 
 				if (!JFolder::create($newdir))
 				{
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::_('FAILED_TO_CREATE_DIRECTORY').' "'.$newdir.'"');
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir));
 					return false;
 				}
 			}
@@ -1122,7 +1122,7 @@ class JInstaller extends JAdapter
 					 * The source file does not exist.  Nothing to copy so set an error
 					 * and return false.
 					 */
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('File does not exist', $filesource));
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_NO_FILE', $filesource));
 					return false;
 				}
 				elseif (file_exists($filedest) && !$overwrite)
@@ -1138,7 +1138,7 @@ class JInstaller extends JAdapter
 					 * The destination file already exists and the overwrite flag is false.
 					 * Set an error and return false.
 					 */
-					JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('WARNSAME', $filedest));
+					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FILE_EXISTS', $filedest));
 					return false;
 				}
 				else
@@ -1148,7 +1148,7 @@ class JInstaller extends JAdapter
 					{
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
 						{
-							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy folder to', $filesource, $filedest));
+							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest));
 							return false;
 						}
 
@@ -1158,7 +1158,7 @@ class JInstaller extends JAdapter
 					{
 						if (!(JFile::copy($filesource, $filedest,null)))
 						{
-							JError::raiseWarning(1, 'JInstaller::install: '.JText::sprintf('Failed to copy file to', $filesource, $filedest));
+							JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest));
 							return false;
 						}
 
@@ -1390,13 +1390,13 @@ class JInstaller extends JAdapter
 			}
 
 			// None of the xml files found were valid install files
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('ERRORNOTFINDJOOMLAXMLSETUPFILE'));
+			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'));
 			return false;
 		}
 		else
 		{
 			// No xml files were found in the install folder
-			JError::raiseWarning(1, 'JInstaller::install: '.JText::_('JLIB_INSTALLER_ERROR_XMLSETUP'));
+			JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'));
 			return false;
 		}
 	}
