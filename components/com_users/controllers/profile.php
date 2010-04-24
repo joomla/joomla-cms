@@ -136,7 +136,7 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task) {
+		switch ($this->getTask()) {
 			case 'apply':
 				// Check out the profile.
 				$app->setUserState('com_users.edit.profile.id', $return);
