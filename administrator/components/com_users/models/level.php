@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 jimport('joomla.access.helper');
 
 /**
@@ -18,37 +18,8 @@ jimport('joomla.access.helper');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelLevel extends JModelForm
+class UsersModelLevel extends JModelAdmin
 {
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since	1.6
-	 */
-	protected function populateState()
-	{
-		$app = JFactory::getApplication('administrator');
-
-		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_users.edit.level.id'))) {
-			$pk = (int) JRequest::getInt('id');
-		}
-		$this->setState('level.id', $pk);
-
-		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_users');
-		$this->setState('params', $params);
-	}
-
-	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-	}
-
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -70,36 +41,14 @@ class UsersModelLevel extends JModelForm
 	 *
 	 * @return	mixed	Object on success, false on failure.
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('level.id');
-		$false	= false;
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Attempt to load the row.
-		$return = $table->load($pk);
-
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
-		}
-
-		// Prime required properties.
-		if (empty($table->id))
-		{
-			// Prepare data for a new record.
-		}
-
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$result = parent::getItem($pk);
 
 		// Convert the params field to an array.
-		$value->rules = json_decode($value->rules);
+		$result->rules = json_decode($result->rules);
 
-		return $value;
+		return $result;
 	}
 
 	/**
@@ -113,10 +62,8 @@ class UsersModelLevel extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Get the form.
-		try {
-			$form = parent::getForm('com_users.level', 'level', array('control' => 'jform'));
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = parent::getForm('com_users.level', 'level', array('control' => 'jform'));
+		if (empty($form)) {
 			return false;
 		}
 
@@ -129,51 +76,6 @@ class UsersModelLevel extends JModelForm
 		}
 
 		return $form;
-	}
-
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
-	 */
-	public function save($data)
-	{
-		// Initialise variables;
-		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('level.id');
-		$isNew		= true;
-
-		// Load the row if saving an existing record.
-		if ($pk > 0) {
-			$table->load($pk);
-			$isNew = false;
-		}
-
-		// Bind the data.
-		if (!$table->bind($data)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Prepare the row for saving
-		$this->_prepareTable($table);
-
-		// Check the data.
-		if (!$table->check()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		$this->setState('level.id', $table->id);
-
-		return true;
 	}
 
 	/**

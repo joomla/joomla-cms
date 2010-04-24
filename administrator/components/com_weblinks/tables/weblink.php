@@ -18,98 +18,6 @@ defined('_JEXEC') or die;
 class WeblinksTableWeblink extends JTable
 {
 	/**
-	 * Primary Key
-	 *
-	 * @var int
-	 */
-	public $id = null;
-
-	/**
-	 * @var int
-	 */
-	public $catid = null;
-
-	/**
-	 * @var int
-	 */
-	public $sid = null;
-
-	/**
-	 * @var string
-	 */
-	public $title = null;
-
-	/**
-	 * @var string
-	 */
-	public $alias = null;
-
-	/**
-	 * @var string
-	 */
-	public $url = null;
-
-	/**
-	 * @var string
-	 */
-	public $description = null;
-
-	/**
-	 * @var datetime
-	 */
-	public $date = null;
-
-	/**
-	 * @var int
-	 */
-	public $hits = null;
-
-	/**
-	 * @var int
-	 */
-	public $state = null;
-
-	/**
-	 * @var boolean
-	 */
-	public $checked_out = 0;
-
-	/**
-	 * @var time
-	 */
-	public $checked_out_time = 0;
-
-	/**
-	 * @var int
-	 */
-	public $ordering = null;
-
-	/**
-	 * @var int
-	 */
-	public $archived = null;
-
-	/**
-	 * @var int
-	 */
-	public $approved = null;
-
-	/**
-	 * @var int
-	 */
-	public $access = null;
-
-	/**
-	 * @var string
-	 */
-	public $params = null;
-
-	/**
-	 * @var string
-	 */
-	public $language = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param JDatabase A database connector object
@@ -120,37 +28,56 @@ class WeblinksTableWeblink extends JTable
 	}
 
 	/**
+	 * Overloaded bind function to pre-process the params.
+	 *
+	 * @param	array		Named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @see		JTable:bind
+	 * @since	1.5
+	 */
+	public function bind($array, $ignore = '')
+	{
+		if (isset($array['params']) && is_array($array['params'])) {
+			$registry = new JRegistry();
+			$registry->loadArray($array['params']);
+			$array['params'] = (string)$registry;
+		}
+
+		if (isset($array['metadata']) && is_array($array['metadata'])) {
+			$registry = new JRegistry();
+			$registry->loadArray($array['metadata']);
+			$array['metadata'] = (string)$registry;
+		}
+		return parent::bind($array, $ignore);
+	}
+
+
+	/**
 	 * Overload the store method for the Weblinks table.
 	 *
-	 * @param	boolean		$updateNulls	Toggle whether null values should be updated.
-	 * @return	boolean		True on success, false on failure.
+	 * @param	boolean	Toggle whether null values should be updated.
+	 * @return	boolean	True on success, false on failure.
 	 * @since	1.6
 	 */
 	public function store($updateNulls = false)
 	{
-		// Transform the params field
-		if (is_array($this->params))
-		{
-			$registry = new JRegistry();
-			$registry->loadArray($this->params);
-			$this->params = (string)$registry;
+		$date	= JFactory::getDate();
+		$user	= JFactory::getUser();
+		if ($this->id) {
+			// Existing item
+			$this->modified		= $date->toMySQL();
+			$this->modified_by	= $user->get('id');
+			} else {
+			// New article. An article created and created_by field can be set by the user,
+			// so we don't touch either of these if they are set.
+			if (!intval($this->created)) {
+				$this->created = $date->toMySQL();
+			}
+			if (empty($this->created_by)) {
+				$this->created_by = $user->get('id');
+			}
 		}
-			$date	= JFactory::getDate();
-			$user	= JFactory::getUser();
-			if ($this->id) {
-				// Existing item
-				$this->modified		= $date->toMySQL();
-				$this->modified_by	= $user->get('id');
-				} else {
-				// New article. An article created and created_by field can be set by the user,
-				// so we don't touch either of these if they are set.
-				if (!intval($this->created)) {
-					$this->created = $date->toMySQL();
-				}
-				if (empty($this->created_by)) {
-					$this->created_by = $user->get('id');
-				}
-				}	
+
 		// Attempt to store the user data.
 		return parent::store($updateNulls);
 	}
@@ -167,7 +94,7 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		/** check for valid name */
+		// check for valid name
 		if (trim($this->title) == '') {
 			$this->setError(JText::_('COM_WEBLINKS_ERR_TABLES_TITLE'));
 			return false;

@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * User model.
@@ -17,37 +17,8 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelUser extends JModelForm
+class UsersModelUser extends JModelAdmin
 {
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since	1.6
-	 */
-	protected function populateState()
-	{
-		$app = JFactory::getApplication('administrator');
-
-		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_users.edit.user.id'))) {
-			$pk = (int) JRequest::getInt('id');
-		}
-		$this->setState('user.id', $pk);
-
-		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_users');
-		$this->setState('params', $params);
-	}
-
-	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-	}
-
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -69,47 +40,18 @@ class UsersModelUser extends JModelForm
 	 *
 	 * @return	mixed	Object on success, false on failure.
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('user.id');
-		$false	= false;
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Attempt to load the row.
-		$return = $table->load($pk);
-
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
-		}
-
-		// Prime required properties.
-		if (empty($table->id))
-		{
-			// Prepare data for a new record.
-		}
-
-		// Convert to the JObject before adding other data.
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-		$value->profile = new JObject;
+		$result = parent::getItem($pk);
 
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= &JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserProfileData', array($table->id, &$value));
+		$results = $dispatcher->trigger('onPrepareUserProfileData', array($result->id, &$result));
 
-		// Convert the params field to an array.
-		$registry = new JRegistry;
-		$registry->loadJSON($value->params);
-		$value->params = $registry->toArray();
-
-		return $value;
+		return $result;
 	}
 
 	/**
@@ -123,10 +65,8 @@ class UsersModelUser extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Get the form.
-		try {
-			$form = parent::getForm('com_users.user', 'user', array('control' => 'jform'));
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = parent::getForm('com_users.user', 'user', array('control' => 'jform'));
+		if (empty($form)) {
 			return false;
 		}
 
@@ -201,7 +141,7 @@ class UsersModelUser extends JModelForm
 		}
 
 		// Prepare the row for saving.
-		$this->_prepareTable($table);
+		$this->prepareTable($table);
 
 		// Check the data.
 		if (!$table->check())

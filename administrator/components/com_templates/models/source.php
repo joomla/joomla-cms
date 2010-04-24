@@ -62,10 +62,8 @@ class TemplatesModelSource extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Get the form.
-		try {
-			$form = parent::getForm('com_templates.source', 'source', array('control' => 'jform'));
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = parent::getForm('com_templates.source', 'source', array('control' => 'jform'));
+		if (empty($form)) {
 			return false;
 		}
 

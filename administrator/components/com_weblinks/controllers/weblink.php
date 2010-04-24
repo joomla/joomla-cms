@@ -23,8 +23,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * Method override to check if you can add a new record.
 	 *
 	 * @param	array	An array of input data.
-	 *
 	 * @return	boolean
+	 * @since	1.6
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -53,8 +53,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 *
 	 * @param	array	An array of input data.
 	 * @param	string	The name of the key for the primary key.
-	 *
 	 * @return	boolean
+	 * @since	1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{

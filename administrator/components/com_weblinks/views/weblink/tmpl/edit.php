@@ -28,9 +28,9 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
-<div class="width-60 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK') : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id); ?></legend>
+	<div class="width-60 fltlft">
+		<fieldset class="adminform">
+			<legend><?php echo empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK') : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id); ?></legend>
 
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
@@ -63,28 +63,12 @@ JHtml::_('behavior.formvalidation');
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
 
-	</fieldset>
-</div>
-<div class="width-40 fltrt">
+		</fieldset>
+	</div>
+	<div class="width-40 fltrt">
 		<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_OPTIONS'), 'newsfeeds-options'); ?>
-
-	<fieldset class="panelform">
-
-		<?php foreach($this->form->getGroup('params') as $field): ?>
-			<?php if ($field->hidden): ?>
-				<?php echo $field->input; ?>
-			<?php else: ?>
-
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-
-			<?php endif; ?>
-		<?php endforeach; ?>
-
-	</fieldset>
-	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 		<fieldset class="panelform">
 
@@ -111,26 +95,12 @@ JHtml::_('behavior.formvalidation');
 
 		</fieldset>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA'), 'meta-options'); ?>
-				<fieldset class="panelform">
+		<?php echo $this->loadTemplate('params'); ?>
 
-					<?php echo $this->form->getLabel('metadesc'); ?>
-					<?php echo $this->form->getInput('metadesc'); ?>
+		<?php echo $this->loadTemplate('metadata'); ?>
 
-					<?php echo $this->form->getLabel('metakey'); ?>
-					<?php echo $this->form->getInput('metakey'); ?>
-
-					<?php foreach($this->form->getGroup('metadata') as $field): ?>
-						<?php echo $field->label; ?>
-						<?php echo $field->input; ?>
-					<?php endforeach; ?>
-
-					<?php echo $this->form->getLabel('xreference'); ?>
-					<?php echo $this->form->getInput('xreference'); ?>
-				</fieldset>
-	
-</div>
-<div class="clr"></div>
+	</div>
+	<div class="clr"></div>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

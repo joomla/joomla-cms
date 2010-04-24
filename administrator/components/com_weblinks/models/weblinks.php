@@ -59,8 +59,8 @@ class WeblinksModelWeblinks extends JModelList
 	 * ordering requirements.
 	 *
 	 * @param	string		$id	A prefix for the store id.
-	 *
 	 * @return	string		A store id.
+	 * @since	1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -77,6 +77,7 @@ class WeblinksModelWeblinks extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
+	 * @since	1.6
 	 */
 	protected function getListQuery()
 	{
@@ -137,8 +138,7 @@ class WeblinksModelWeblinks extends JModelList
 			}
 		}
 
-		if($this->getState('list.ordering', 'a.ordering') == 'a.ordering')
-		{
+		if($this->getState('list.ordering', 'a.ordering') == 'a.ordering') {
 			$query->order('category_title, '.$db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		} else {
 			// Add the list ordering clause.

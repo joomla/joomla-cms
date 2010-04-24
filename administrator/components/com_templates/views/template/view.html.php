@@ -49,6 +49,7 @@ class TemplatesViewTemplate extends JView
 	 */
 	protected function addToolbar()
 	{
+		JRequest::setVar('hidemainmenu', true);
 		$user		= JFactory::getUser();
 		$canDo		= TemplatesHelper::getActions();
 

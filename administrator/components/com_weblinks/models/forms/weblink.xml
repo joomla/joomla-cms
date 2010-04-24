@@ -1,144 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
+	<!--
+		$Id$
+	-->
 <form>
 	<fieldset>
-		<field
-			name="id"
-			type="text"
-			default="0"
-			required="true"
-			readonly="true"
-			class="readonly" />
+		<field name="id" type="text" default="0" required="true"
+			readonly="true" class="readonly" />
 
-		<field
-			name="title"
-			type="text"
-			class="inputbox"
-			default=""
-			size="40"
-			label="COM_WEBLINKS_FIELD_TITLE_LABEL"
-			description="COM_WEBLINKS_FIELD_TITLE_DESC"
-			required="true" />
+		<field name="title" type="text" class="inputbox"
+			default="" size="40" label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
-		<field
-			name="alias"
-			type="text"
-			class="inputbox"
-			default=""
-			size="40"
-			label="COM_WEBLINKS_FIELD_ALIAS_LABEL"
+		<field name="alias" type="text" class="inputbox"
+			default="" size="40" label="COM_WEBLINKS_FIELD_ALIAS_LABEL"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
 
-		<field
-			name="catid"
-			type="category"
-			extension="com_weblinks"
-			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
-			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
-			class="inputbox">
+		<field name="catid" type="category" extension="com_weblinks"
+			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
+			class="inputbox"
+		>
 			<option>JOPTION_NO_CATEGORY</option>
 		</field>
 
-		<field
-			name="url"
-			type="text"
-			class="inputbox"
-			default=""
-			size="40"
-			label="COM_WEBLINKS_FIELD_URL_LABEL"
+		<field name="url" type="text" class="inputbox"
+			default="" size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" />
 
-		<field
-			name="description"
-			type="editor"
-			buttons="readmore,pagebreak"
-			class="inputbox"
-			default=""
-			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"
-			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
+		<field name="description" type="editor" buttons="readmore,pagebreak"
+			class="inputbox" default=""
+			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 
-		<field
-			name="date"
-			type="Date"
-			class="inputbox"
-			default=""
-			label="Weblinks_Date_Label"
-			description="Weblinks_Date_Desc"
+		<field name="date" type="Date" class="inputbox"
+			default="" label="Weblinks_Date_Label" description="Weblinks_Date_Desc"
 			filter="safehtml" />
 
-		<field
-			name="hits"
-			type="Text"
-			class="inputbox"
-			default=""
-			size="6"
-			label="Weblinks_Hits_Label"
-			description="Weblinks_HITS_Desc"
-			readonly="true"
-			filter="unset" />
+		<field name="hits" type="Text" class="inputbox"
+			default="" size="6" label="Weblinks_Hits_Label"
+			description="Weblinks_HITS_Desc" readonly="true" filter="unset" />
 
-		<field
-			name="state"
-			type="list"
-			label="COM_WEBLINKS_FIELD_STATE_LABEL"
-			description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="inputbox"
-			size="1"
-			default="1">
-			<option
-				value="1">JPUBLISHED</option>
-			<option
-				value="0">JUNPUBLISHED</option>
-			<option
-				value="-1">COM_WEBLINKS_FIELD_VALUE_REPORTED</option>
-			<option
-				value="-2">JTRASH</option>
+		<field name="state" type="list"
+			label="COM_WEBLINKS_FIELD_STATE_LABEL" description="COM_WEBLINKS_FIELD_STATE_DESC"
+			class="inputbox" size="1" default="1"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="-1">COM_WEBLINKS_FIELD_VALUE_REPORTED
+			</option>
+			<option value="-2">JTRASH</option>
 		</field>
 
-		<field
-			name="ordering"
-			type="Ordering"
-			class="inputbox"
-			default=""
-			label="COM_WEBLINKS_FIELD_ORDERING_LABEL"
+		<field name="ordering" type="Ordering" class="inputbox"
+			default="" label="COM_WEBLINKS_FIELD_ORDERING_LABEL"
 			description="COM_WEBLINKS_FIELD_ORDERING_DESC" />
 
-		<field
-			name="access"
-			type="accesslevel"
-			label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC"
-			class="inputbox"
-			size="1"
+		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1"
 			default="" />
 
-		<field
-			name="language"
-			type="contentlanguage"
-			label="JFIELD_LANGUAGE_LABEL"
-			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox"
-			default="">
-			<option
-				value="">JOPTION_DEFAULT_LANGUAGE</option>
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
+			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC" class="inputbox"
+			default=""
+		>
+			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
-		<field
-			id="approved"
-			name="approved"
-			type="radio"
-			class="inputbox"
-			default=""
-			label="WEBLINKS_APPROVED_LABEL"
-			description="Weblinks_Approved_Desc">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+		<field id="approved" name="approved" type="radio"
+			class="inputbox" default="" label="WEBLINKS_APPROVED_LABEL"
+			description="Weblinks_Approved_Desc"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
-		<field name="created" type="calendar" label="JGLOBAL_FIELD_Created_Label"
-			description="JGLOBAL_FIELD_Created_Desc" class="inputbox" size="16"
-			format="%Y-%m-%d %H:%M:%S" filter="server_utc" />
+		<field name="created" type="calendar"
+			label="JGLOBAL_FIELD_Created_Label" description="JGLOBAL_FIELD_Created_Desc"
+			class="inputbox" size="16" format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
 
 		<field name="created_by" type="user"
 			label="JGLOBAL_FIELD_Created_by_Label" description="JGLOBAL_FIELD_CREATED_BY_Desc" />
@@ -167,29 +103,6 @@
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
 			filter="server_utc" />
 
-	</fieldset>
-
-	<fields
-		name="params"
-		>
-
-		<field
-			name="target"
-			type="list"
-			default="0"
-			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
-			description="COM_WEBLINKS_FIELD_TARGET_DESC">
-			<option
-				value="0">JBrowserTarget_Parent</option>
-			<option
-				value="1">JBrowserTarget_New</option>
-			<option
-				value="2">JBrowserTarget_Popup</option>
-			<option
-				value="3">JBrowserTarget_Modal</option>
-		</field>
-	</fields>
-
 		<field name="metakey" type="textarea"
 			label="JField_Meta_Keywords_Label" description="JField_Meta_Keywords_Desc"
 			class="inputbox" rows="3" cols="30" />
@@ -197,40 +110,54 @@
 		<field name="metadesc" type="textarea"
 			label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
 			class="inputbox" rows="3" cols="30" />
-			<fields name="metadata">
-	<fieldset name="metadata">	
-		<field name="robots" type="list"
-			label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JGLOBAL_INDEX_FOLLOW</option>
-			<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
-			<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
-		</field>
 
-		<field name="author" type="text"
-			label="JAUTHOR" description="JField_Metadata_Author_Desc"
-			size="20" />
+		<field name="xreference" type="text"
+			label="JField_XReference_Label" description="JField_XReference_Desc"
+			class="inputbox" size="20" />
 
-		<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
-			description="JFIELD_META_RIGHTS_DESC" required="" filter="string"
-			cols="30" rows="2" />
 	</fieldset>
-			
-		<field
-			name="count_clicks"
-			type="list"
-			default="0"
-			label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
-			description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
-			<option
-				value="">JGLOBAL_USE_GLOBAL</option>
-			<option
-				value="0">JNo</option>
-			<option
-				value="1">JYes</option>
-		</field>
+
+	<fields name="params">
+		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
+			<field name="target" type="list" default="0"
+				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
+			>
+				<option value="0">JBrowserTarget_Parent</option>
+				<option value="1">JBrowserTarget_New</option>
+				<option value="2">JBrowserTarget_Popup</option>
+				<option value="3">JBrowserTarget_Modal</option>
+			</field>
+
+			<field name="count_clicks" type="list" default=""
+				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
+				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
+			</field>
+		</fieldset>
+	</fields>
+
+	<fields name="metadata">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA">
+			<field name="robots" type="list"
+				label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
+			</field>
+
+			<field name="author" type="text" label="JAUTHOR"
+				description="JField_Metadata_Author_Desc" size="20" />
+
+			<field name="rights" type="textarea"
+				label="JFIELD_META_RIGHTS_LABEL" description="JFIELD_META_RIGHTS_DESC"
+				required="" filter="string" cols="30" rows="2" />
+		</fieldset>
 	</fields>
 </form>

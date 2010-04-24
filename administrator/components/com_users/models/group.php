@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+jimport('joomla.application.component.modeladmin');
 
 /**
  * User group model.
@@ -17,37 +17,8 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersModelGroup extends JModelForm
+class UsersModelGroup extends JModelAdmin
 {
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since	1.6
-	 */
-	protected function populateState()
-	{
-		$app = JFactory::getApplication('administrator');
-
-		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_users.edit.group.id'))) {
-			$pk = (int) JRequest::getInt('id');
-		}
-		$this->setState('group.id', $pk);
-
-		// Load the parameters.
-		$params = JComponentHelper::getParams('com_users');
-		$this->setState('params', $params);
-	}
-
-	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-	}
-
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -63,42 +34,6 @@ class UsersModelGroup extends JModelForm
 	}
 
 	/**
-	 * Method to get a single record.
-	 *
-	 * @param	integer	The id of the primary key.
-	 *
-	 * @return	mixed	Object on success, false on failure.
-	 */
-	public function &getItem($pk = null)
-	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('group.id');
-		$false	= false;
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Attempt to load the row.
-		$return = $table->load($pk);
-
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
-		}
-
-		// Prime required properties.
-		if (empty($table->id))
-		{
-			// Prepare data for a new record.
-		}
-
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-
-		return $value;
-	}
-
-	/**
 	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
@@ -109,10 +44,8 @@ class UsersModelGroup extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Get the form.
-		try {
-			$form = parent::getForm('com_users.group', 'group', array('control' => 'jform'));
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = parent::getForm('com_users.group', 'group', array('control' => 'jform'));
+		if (empty($form)) {
 			return false;
 		}
 
@@ -159,7 +92,7 @@ class UsersModelGroup extends JModelForm
 		}
 
 		// Prepare the row for saving.
-		$this->_prepareTable($table);
+		$this->prepareTable($table);
 
 		// Check the data.
 		if (!$table->check())

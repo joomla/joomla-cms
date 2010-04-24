@@ -11,7 +11,7 @@
  * @static
  * @package		Joomla.Administrator
  * @subpackage	com_weblinks
- * @since		1.5
+ * @since		1.6
  */
 class JHtmlWeblink
 {
