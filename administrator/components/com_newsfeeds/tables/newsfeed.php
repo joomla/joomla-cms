@@ -17,81 +17,6 @@ defined('_JEXEC') or die;
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
-	 * @var int Primary key
-	 */
-	public $id = null;
-
-	/**
-	 * @var int
-	 */
-	public $catid = null;
-
-	/**
-	 * @var string
-	 */
-	public $name = null;
-
-	/**
-	 * @var string
-	 */
-	public $alias = null;
-
-	/**
-	 * @var string
-	 */
-	public $link = null;
-
-	/**
-	 * @var string
-	 */
-	public $filename = null;
-
-	/**
-	 * @var int
-	 */
-	public $published = null;
-
-	/**
-	 * @var int
-	 */
-	public $numarticles = null;
-
-	/**
-	 * @var int
-	 */
-	public $cache_time = null;
-
-	/**
-	 * @var int
-	 */
-	public $checked_out = 0;
-
-	/**
-	 * @var time
-	 */
-	public $checked_out_time = 0;
-
-	/**
-	 * @var int
-	 */
-	public $ordering = null;
-
-	/**
-	 * @var int
-	 */
-	public $rtl = 0;
-
-	/**
-	 * @var int
-	 */
-	public $access = 0;
-
-	/**
-	 * @var string
-	 */
-	public $language = 'en-GB';
-
-	/**
 	 * Constructor
 	 *
 	 * @param JDatabase A database connector object
@@ -106,21 +31,15 @@ class NewsfeedsTableNewsfeed extends JTable
 	 *
 	 * @param	array		Named array
 	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see JTable:bind
-	 * @since 1.5
+	 * @see		JTable:bind
+	 * @since	1.5
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
+		if (isset($array['params']) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;
-		}
-			if (isset($array['attribs']) && is_array($array['attribs'])) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['attribs']);
-			$array['attribs'] = (string)$registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
@@ -147,7 +66,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$this->setError(JText::_('COM_NEWSFEED_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
-		
+
 		if (empty($this->alias)) {
 			$this->alias = $this->name;
 		}
@@ -208,5 +127,5 @@ class NewsfeedsTableNewsfeed extends JTable
 
 		return parent::store($updateNulls);
 	}
-	
+
 }

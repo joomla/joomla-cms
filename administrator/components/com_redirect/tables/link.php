@@ -19,40 +19,11 @@ defined('_JEXEC') or die('Invalid Request.');
 class RedirectTableLink extends JTable
 {
 	/**
-	 * @var int
-	 */
-	public $id = null;
-	/**
-	 * @var varchar
-	 */
-	public $old_url = null;
-	/**
-	 * @var varchar
-	 */
-	public $new_url = null;
-	/**
-	 * @var varchar
-	 */
-	public $comment = null;
-	/**
-	 * @var int unsigned
-	 */
-	public $published = null;
-	/**
-	 * @var int unsigned
-	 */
-	public $created_date = null;
-	/**
-	 * @var int unsigned
-	 */
-	public $updated_date = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param	object	Database object
 	 * @return	void
-	 * @since	1.0
+	 * @since	1.6
 	 */
 	public function __construct(&$db)
 	{
@@ -63,6 +34,7 @@ class RedirectTableLink extends JTable
 	 * Overloaded check function
 	 *
 	 * @return boolean
+	 * @since	1.6
 	 */
 	public function check()
 	{

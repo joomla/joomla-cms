@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!--
-		$Id$
+		$Id: newsfeed.xml 16386 2010-04-23 10:58:05Z dextercowley
+		$
 	-->
 <form>
 	<fieldset>
 		<field name="id" type="text" default="0" required="true"
-			readonly="true" class="readonly"
-			label="JGLOBAL_FIELD_ID_LABEL" 	description ="JGLOBAL_FIELD_ID_DESC"
-			 />
+			readonly="true" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC" />
 
 		<field name="name" type="text" label="JFIELD_TITLE_LABEL"
 			description="JFIELD_TITLE_DESC" class="inputbox" size="30"
@@ -44,7 +44,8 @@
 
 		<field name="numarticles" type="Text" class="inputbox"
 			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
-			description="COM_NEWSFEED_FIELD_NUM_ARTICLES_DESC" required="true" />
+			description="COM_NEWSFEED_FIELD_NUM_ARTICLES_DESC"
+			required="true" />
 
 		<field name="cache_time" type="Text" class="inputbox"
 			default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
@@ -62,12 +63,13 @@
 			</option>
 			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
 			</option>
-			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_RTL
+			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
 			</option>
 		</field>
-		<field name="created" type="calendar" label="JGLOBAL_FIELD_CREATED_LABEL"
-			description="JGLOBAL_FIELD_Created_Desc" class="inputbox" size="16"
-			format="%Y-%m-%d %H:%M:%S" filter="server_utc" />
+		<field name="created" type="calendar"
+			label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_Created_Desc"
+			class="inputbox" size="16" format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
 
 		<field name="created_by" type="user"
 			label="JGLOBAL_FIELD_Created_by_Label" description="JGLOBAL_FIELD_Created_by_Desc" />
@@ -84,13 +86,14 @@
 
 
 		<field name="checked_out" type="Text" class="inputbox"
-			size="6" label="JGLOBAL_FIELD_CHECKEDOUT_LABEL" description="JGLOBAL_FIELD_CHECKEDOUT_DESC"
-			readonly="true" filter="unset" />
+			size="6" label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
+			description="JGLOBAL_FIELD_CHECKEDOUT_DESC" readonly="true"
+			filter="unset" />
 
 		<field name="checked_out_time" type="Text" class="inputbox"
 			size="6" label="JGLOBAL_FIELD_CHECKEDOUT_TIME_LABEL"
-			description="JGLOBAL_FIELD_CHECKEDOUT_TIME_DESC" readonly="true"
-			filter="unset" />
+			description="JGLOBAL_FIELD_CHECKEDOUT_TIME_DESC"
+			readonly="true" filter="unset" />
 
 		<field name="publish_up" type="calendar"
 			label="JGLOBAL_FIELD_Publish_up_Label" description="JGLOBAL_FIELD_Publish_up_Desc"
@@ -117,109 +120,109 @@
 		<field name="metadesc" type="textarea"
 			label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
 			class="inputbox" rows="3" cols="30" />
-		
+
+		<field name="xreference" type="text"
+			label="JField_XReference_Label" description="JField_XReference_Desc"
+			class="inputbox" size="20" />
+
 	</fieldset>
 
-	<fieldset name="params" label="COM_NEWSFEEDS_FIELD_OPTIONS">
+	<fields name="params">
+		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
 
-		<field name="show_headings" type="list"
-			label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_headings" type="list"
+				label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
+				description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="show_name" type="list"
-			label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_name" type="list"
+				label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
+				description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="show_articles" type="list"
-			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_articles" type="list"
+				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
+				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="show_link" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL" description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_link" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="spacer1" type="spacer" hr="true" />
+			<field name="spacer1" type="spacer" hr="true" />
 
-		<field name="show_cat_description" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_cat_description" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="show_cat_items" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_cat_items" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="spacer2" type="spacer" hr="true" />
+			<field name="spacer2" type="spacer" hr="true" />
 
-		<field name="show_feed_image" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_feed_image" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="show_feed_description" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_feed_description" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="show_item_description" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			<field name="show_item_description" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
-		<field name="feed_word_count" type="text" size="6"
-			default="0" label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
-			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
-	</fieldset>
-	<fieldset name="metadata">
-		<field name="metakey" type="textarea"
-			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
-			class="inputbox" rows="3" cols="30" />
+			<field name="feed_word_count" type="text" size="6"
+				default="0" label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
+		</fieldset>
+	</fields>
 
-		<field name="metadesc" type="textarea"
-			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
-			class="inputbox" rows="3" cols="30" />
-		
-		<fields name="metadata">
+	<fields name="metadata">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA">
 
 			<field name="robots" type="list"
 				label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
@@ -232,15 +235,12 @@
 				<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
 			</field>
 
-			<field name="author" type="text"
-				label="JAUTHOR" description="JField_Metadata_Author_Desc"
-				size="20" />
-	
-			<field name="rights" type="text" label="JFIELD_META_RIGHTS_LABEL"
-				description="JFIELD_META_RIGHTS_DESC" required="" filter="string"
-				cols="30" rows="2" />
+			<field name="author" type="text" label="JAUTHOR"
+				description="JField_Metadata_Author_Desc" size="20" />
 
-
-		</fields>
-	</fieldset>
+			<field name="rights" type="text"
+				label="JFIELD_META_RIGHTS_LABEL" description="JFIELD_META_RIGHTS_DESC"
+				required="" filter="string" cols="30" rows="2" />
+		</fieldset>
+	</fields>
 </form>

@@ -26,6 +26,8 @@ class RedirectViewLinks extends JView
 
 	/**
 	 * Display the view
+	 *
+	 * @since	1.6
 	 */
 	public function display($tpl = null)
 	{

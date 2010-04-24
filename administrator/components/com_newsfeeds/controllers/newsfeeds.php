@@ -19,8 +19,6 @@ jimport('joomla.application.component.controlleradmin');
  */
 class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 {
-	protected $_context = 'com_newsfeeds';
-
 	/**
 	 * Proxy for getModel.
 	 */

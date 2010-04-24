@@ -26,31 +26,9 @@ class NewsfeedsController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
-		// Get the document object.
-		$document	= JFactory::getDocument();
+		parent::display();
 
-		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'newsfeeds');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
-
-		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			// Get the model for the view.
-			$model = &$this->getModel($vName);
-
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->assignRef('document', $document);
-
-			$view->display();
-
-			// Load the submenu.
-			NewsfeedsHelper::addSubmenu($vName);
-		}
+		// Load the submenu.
+		NewsfeedsHelper::addSubmenu(JRequest::getWord('view', 'newsfeeds'));
 	}
 }
