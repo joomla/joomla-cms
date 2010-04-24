@@ -60,14 +60,22 @@ class NewsfeedsViewNewsfeeds extends JView
 			JToolBarHelper::editList('newsfeed.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('newsfeeds.publish', 'publish.png', 'publish_f2.png', 'JToolbar_Publish', true);
-			JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JToolbar_Unpublish', true);
-			JToolBarHelper::divider();
-			if ($state->get('filter.published') != -1) {
-				JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
+			if ($state->get('filter.state') != 2){
+				JToolBarHelper::divider();
+				JToolBarHelper::custom('newsfeeds.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+				JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			}
+			if ($state->get('filter.state') != -1 ) {
+				JToolBarHelper::divider();
+				if ($state->get('filter.state') != 2) {
+					JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
+				}
+				else if ($state->get('filter.state') == 2) {
+					JToolBarHelper::unarchiveList('newsfeeds.publish', 'JTOOLBAR_UNARCHIVE');
+				}
+			}	
 		}
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'newsfeeds.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('newsfeeds.trash','JTOOLBAR_TRASH');

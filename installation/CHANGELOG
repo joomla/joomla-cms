@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Apr-2010 Jean-Marie Simonet
 $ Simplified a string/code to avoid some language issues
+# Implementing Unarchive and Empty Trash buttons. Some standardization.
 
 24-Apr-2010 Andrew Eddie
  # Refactor param and metadata handling in weblink and newsfeed edit forms.

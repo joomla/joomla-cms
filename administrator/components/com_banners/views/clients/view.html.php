@@ -61,14 +61,21 @@ class BannersViewClients extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('client.edit','JTOOLBAR_EDIT');
 		}
-		JToolBarHelper::divider();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('clients.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('clients.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::divider();
-			if ($this->state->get('filter.published') != 2) {
-				JToolBarHelper::archiveList('clients.archive','JTOOLBAR_ARCHIVE');
+			if ($this->state->get('filter.published') != 2){
+				JToolBarHelper::divider();
+				JToolBarHelper::custom('clients.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+				JToolBarHelper::custom('clients.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			}
+			if ($this->state->get('filter.published') != -1 ) {
+				JToolBarHelper::divider();
+				if ($this->state->get('filter.published') != 2) {
+					JToolBarHelper::archiveList('clients.archive','JTOOLBAR_ARCHIVE');
+				}
+				else if ($this->state->get('filter.published') == 2) {
+					JToolBarHelper::unarchiveList('clients.publish', 'JTOOLBAR_UNARCHIVE');
+				}
+			}	
 		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');

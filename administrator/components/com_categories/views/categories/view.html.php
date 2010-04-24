@@ -73,12 +73,19 @@ class CategoriesViewCategories extends JView
 		);
 		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
 		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
-		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
-		JToolBarHelper::divider();
-		if ($this->state->get('filter.published') != 2) {
-			JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
+		if ($this->state->get('filter.published') != 2){
+			JToolBarHelper::divider();
+			JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+		}
+		if ($this->state->get('filter.published') != -1 ) {
+				JToolBarHelper::divider();
+				if ($this->state->get('filter.published') != 2) {
+					JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
+				}
+				else if ($this->state->get('filter.published') == 2) {
+					JToolBarHelper::unarchiveList('categories.publish', 'JTOOLBAR_UNARCHIVE');
+				}
 		}
 		if ($this->state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');

@@ -56,14 +56,21 @@ class ContentViewArticles extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::custom('article.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
-		JToolBarHelper::divider();
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
-			if ($state->get('filter.published') != -1) {
+			if ($state->get('filter.published') != 2){
 				JToolBarHelper::divider();
-				JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
+				JToolBarHelper::custom('articles.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+				JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			}
+			if ($state->get('filter.published') != -1 ) {
+				JToolBarHelper::divider();
+				if ($state->get('filter.published') != 2) {
+					JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
+				}
+				else if ($state->get('filter.published') == 2) {
+					JToolBarHelper::unarchiveList('articles.publish', 'JTOOLBAR_UNARCHIVE');
+				}
+			}	
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
