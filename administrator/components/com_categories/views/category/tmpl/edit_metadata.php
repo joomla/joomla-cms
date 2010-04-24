@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 ?>
-
-
 <?php echo $this->form->getLabel('metadesc'); ?>
 <?php echo $this->form->getInput('metadesc'); ?>
 

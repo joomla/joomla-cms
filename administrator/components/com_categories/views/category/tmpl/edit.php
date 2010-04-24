@@ -78,8 +78,8 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo JHtml::_('sliders.panel',JText::_('CATEGORIES_FIELDSET_RULES'), 'meta-rules'); ?>
 			<fieldset>
-					<?php echo $this->form->getLabel('rules'); ?>
-					<?php echo $this->form->getInput('rules'); ?>
+				<?php echo $this->form->getLabel('rules'); ?>
+				<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>
 
 			<?php echo JHtml::_('sliders.panel',JText::_('CATEGORIES_FIELDSET_METADATA'), 'meta-options'); ?>

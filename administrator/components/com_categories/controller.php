@@ -35,8 +35,7 @@ class CategoriesController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
+		if ($view = &$this->getView($vName, $vFormat)) {
 			// Get the model for the view.
 			$model = &$this->getModel($vName);
 
@@ -50,7 +49,7 @@ class CategoriesController extends JController
 			$view->display();
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'categories.php';
+			require_once JPATH_COMPONENT.'/helpers/categories.php';
 			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 		}
 	}
