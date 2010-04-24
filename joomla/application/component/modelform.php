@@ -132,7 +132,7 @@ class JModelForm extends JModel
 			$this->preprocessForm($form);
 		} catch (Exception $e) {
 			$this->setError($e->getMessage());
-			$false = false;
+			return false;
 		}
 
 		// Store the form for later.

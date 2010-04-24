@@ -47,6 +47,12 @@ class JController extends JObject
 	protected $_basePath = null;
 
 	/**
+	 * @var string	The default view for the display method.
+	 * @since	1.6
+	 */
+	protected $default_view;
+
+	/**
 	 * The mapped task that was performed.
 	 *
 	 * @var	string
@@ -306,6 +312,14 @@ class JController extends JObject
 		} else {
 			$this->_setPath('view', $this->_basePath.'/views');
 		}
+
+		// Set the default view.
+		if (array_key_exists('default_view', $config)) {
+			$this->default_view	= $config['default_view'];
+		} else if (empty($this->default_view)) {
+			$this->default_view = $this->getName();
+		}
+
 	}
 
 	/**
@@ -451,10 +465,9 @@ class JController extends JObject
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$document = JFactory::getDocument();
-
+		$document	= JFactory::getDocument();
 		$viewType	= $document->getType();
-		$viewName	= JRequest::getCmd('view', $this->getName());
+		$viewName	= JRequest::getCmd('view', $this->default_view);
 		$viewLayout	= JRequest::getCmd('layout', 'default');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path'=>$this->_basePath));
