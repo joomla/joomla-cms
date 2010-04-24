@@ -19,22 +19,6 @@ jimport('joomla.application.component.modeladmin');
  */
 class MessagesModelMessage extends JModelAdmin
 {
-	protected $_context = 'com_messages';
-
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->_item = 'message';
-		$this->_option = 'com_messages';
-	}
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -65,6 +49,7 @@ class MessagesModelMessage extends JModelAdmin
 	 * @param	string	A prefix for the table class name. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	JTable	A database object
+	 * @since	1.6
 	*/
 	public function getTable($type = 'Message', $prefix = 'MessagesTable', $config = array())
 	{
@@ -75,62 +60,45 @@ class MessagesModelMessage extends JModelAdmin
 	 * Method to get a single record.
 	 *
 	 * @param	integer	The id of the primary key.
-	 *
 	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('message.id');
-		$false	= false;
+		if ($item = parent::getItem($pk)) {
+			// Prime required properties.
+			if (empty($item->id)) {
+				// Prepare data for a new record.
+				if ($replyId = $this->getState('reply.id')) {
+					// If replying to a message, preload some data.
+					$db		= $this->getDbo();
+					$query	= $db->getQuery(true);
 
-		// Get a row instance.
-		$table = $this->getTable();
+					$query->select('subject, user_id_from');
+					$query->from('#__messages');
+					$query->where('message_id = '.(int) $replyId);
+					$message = $db->setQuery($query)->loadObject();
 
-		// Attempt to load the row.
-		$return = $table->load($pk);
+					if ($error = $db->getErrorMsg()) {
+						$this->setError($error);
+						return false;
+					}
 
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
-		}
-
-		// Convert to the JObject before adding other data.
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-
-		// Prime required properties.
-		if (empty($table->id)) {
-			// Prepare data for a new record.
-			if ($replyId = $this->getState('reply.id')) {
-				// If replying to a message, preload some data.
-				$db		= $this->getDbo();
-				$query	= $db->getQuery(true);
-
-				$query->select('subject, user_id_from');
-				$query->from('#__messages');
-				$query->where('message_id = '.(int) $replyId);
-				$message = $db->setQuery($query)->loadObject();
-
-				if ($error = $db->getErrorMsg()) {
-					$this->setError($error);
-					return false;
+					$item->set('user_id_to', $message->user_id_from);
+					$re = JText::_('COM_MESSAGES_RE');
+					if (stripos($message->subject, $re) !== 0) {
+						$item->set('subject', $re.$message->subject);
+					}
 				}
-
-				$value->set('user_id_to', $message->user_id_from);
-				$re = JText::_('COM_MESSAGES_RE');
-				if (stripos($message->subject, $re) !== 0) {
-					$value->set('subject', $re.$message->subject);
+			} else {
+				// Get the user name for an existing messasge.
+				if ($item->user_id_from && $fromUser = new JUser($item->user_id_from)) {
+					$item->set('from_user_name', $fromUser->name);
 				}
-			}
-		} else {
-			// Get the user name for an existing messasge.
-			if ($table->user_id_from && $fromUser = new JUser($table->user_id_from)) {
-				$value->set('from_user_name', $fromUser->name);
 			}
 		}
 
-		return $value;
+		return $item;
 	}
 
 	/**
@@ -144,10 +112,8 @@ class MessagesModelMessage extends JModelAdmin
 		$app	= JFactory::getApplication();
 
 		// Get the form.
-		try {
-			$form = parent::getForm('com_messages.message', 'message', array('control' => 'jform'));
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = parent::getForm('com_messages.message', 'message', array('control' => 'jform'));
+		if (empty($form)) {
 			return false;
 		}
 
@@ -228,11 +194,5 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		return true;
-	}
-
-	function _orderConditions($table = null)
-	{
-		$condition = array();
-		return $condition;
 	}
 }

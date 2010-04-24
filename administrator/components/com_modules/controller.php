@@ -26,31 +26,9 @@ class ModulesController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/modules.php';
 
-		// Get the document object.
-		$document	= JFactory::getDocument();
+		parent::display();
 
-		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'modules');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
-
-		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			// Get the model for the view.
-			$model = &$this->getModel($vName);
-
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->assignRef('document', $document);
-
-			$view->display();
-
-			// Load the submenu.
-			ModulesHelper::addSubmenu($vName);
-		}
+		// Load the submenu.
+		ModulesHelper::addSubmenu(JRequest::getWord('view', 'modules'));
 	}
 }

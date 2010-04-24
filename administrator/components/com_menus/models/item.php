@@ -22,27 +22,6 @@ require_once JPATH_COMPONENT.'/helpers/menus.php';
 class MenusModelItem extends JModelAdmin
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context	= 'com_menus.item';
-
-	/**
-	 * Constructor.
-	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
-
-		$this->_item = 'item';
-		$this->_option = 'com_menus';
-	}
-
-	/**
 	 * Auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -79,7 +58,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Load the parameters.
-		$params	= &JComponentHelper::getParams('com_menus');
+		$params	= JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
 	}
 
@@ -429,10 +408,8 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Get the form.
-		try {
-			$form = parent::getForm('com_menus.item', 'item', array('control' => 'jform'), true);
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = parent::getForm('com_menus.item', 'item', array('control' => 'jform'), true);
+		if (empty($form)) {
 			return false;
 		}
 
@@ -696,8 +673,6 @@ class MenusModelItem extends JModelAdmin
 				// If an XML file was found in the component, load it first.
 				// We need to qualify the full path to avoid collisions with component file names.
 
-				//$form = parent::getForm($formFile, $formName, $formOptions, true);
-
 				if ($form->loadFile($formFile, false, '/metadata') == false) {
 					throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
 				}
@@ -835,11 +810,5 @@ class MenusModelItem extends JModelAdmin
 		$cache->clean('mod_menu');
 
 		return true;
-	}
-
-	function _orderConditions($table = null)
-	{
-		$condition = array();
-		return $condition;
 	}
 }
