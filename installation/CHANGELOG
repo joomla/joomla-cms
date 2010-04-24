@@ -40,6 +40,9 @@ $ Simplified a string/code to avoid some language issues
  ^ Refactor and expand implementation of JModelAdmin.
  ^ Added 2nd director separator arguement to JPath::check (to pass to JPath::clean).
  # Fixed return value of JPath::check (was not returning the cleaned path).
+ ^ Refactored JController protected property and method names into PEAR standard (removed leading underscore).
+ + Added tests for JController.
+ ^ Changed computation of methods in JController constructor to use PHP's ReflectionClass.
 
 23-Apr-2010 Mark Dexter
 ^ Added UI for new fields in contacts, newsfeeds, weblinks (Elin Waring)
