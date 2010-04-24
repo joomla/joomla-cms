@@ -93,14 +93,11 @@ class LanguagesModelLanguage extends JModelAdmin
 	public function getForm()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Get the form.
 		$form = parent::getForm('com_languages.language', 'language', array('control' => 'jform'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		if (empty($form)) {
 			return false;
 		}
 
@@ -198,7 +195,7 @@ class LanguagesModelLanguage extends JModelAdmin
 
 		return true;
 	}
-	
+
 	function _orderConditions($table = null)
 	{
 		$condition = array();

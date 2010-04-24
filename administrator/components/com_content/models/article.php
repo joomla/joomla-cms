@@ -18,42 +18,44 @@ jimport('joomla.application.component.modeladmin');
  */
 class ContentModelArticle extends JModelAdmin
 {
-	protected $_context = 'com_content';
-
 	/**
-	 * Constructor.
+	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param	object	A record object.
+	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since	1.6
 	 */
-	public function __construct($config = array())
+	protected function canDelete($record)
 	{
-		parent::__construct($config);
-
-		$this->_item = 'article';
-		$this->_option = 'com_content';
+		$user = JFactory::getUser();
+		
+		return $user->authorise('core.delete', 'com_content.article.'.(int) $record->id);
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * Method to test whether a record can be deleted.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
+	 * @param	object	A record object.
+	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function canEditState($record)
 	{
-		$app = JFactory::getApplication('administrator');
+		$user = JFactory::getUser();
+		
+		return $user->authorise('core.edit.state', 'com_content.article.'.(int) $record->id);
+	}
 
-		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_content.edit.article.id'))) {
-			$pk = (int) JRequest::getInt('id');
-		}
-		$this->setState('article.id', $pk);
-
-		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_content');
-		$this->setState('params', $params);
+	/**
+	 * Prepare and sanitise the table data prior to saving.
+	 *
+	 * @param	JTable	A JTable object.
+	 * @since	1.6
+	 */
+	protected function prepareTable($table)
+	{
+		// Increment the content version number.
+		$table->version++;
 	}
 
 	/**
@@ -76,46 +78,23 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return	mixed	Object on success, false on failure.
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int)$this->getState('article.id');
-		$false	= false;
+		if ($item = parent::getItem($pk)) {
+			// Convert the params field to an array.
+			$registry = new JRegistry;
+			$registry->loadJSON($item->attribs);
+			$item->attribs = $registry->toArray();
 
-		// Get a row instance.
-		$table = &$this->getTable();
+			// Convert the params field to an array.
+			$registry = new JRegistry;
+			$registry->loadJSON($item->metadata);
+			$item->metadata = $registry->toArray();
 
-		// Attempt to load the row.
-		$return = $table->load($pk);
-
-		// Check for a table object error.
-		if ($return === false && $table->getError()) {
-			$this->setError($table->getError());
-			return $false;
+			$item->articletext = trim($item->fulltext) ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
 
-		// Prime required properties.
-		if (empty($table->id))
-		{
-			// Prepare data for a new record.
-		}
-
-		// Convert to the JObject before adding other data.
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
-
-		// Convert the params field to an array.
-		$registry = new JRegistry;
-		$registry->loadJSON($table->attribs);
-		$value->attribs = $registry->toArray();
-
-		// Convert the params field to an array.
-		$registry = new JRegistry;
-		$registry->loadJSON($table->metadata);
-		$value->metadata = $registry->toArray();
-
-		$value->articletext = trim($value->fulltext) ? $value->introtext . "<hr id=\"system-readmore\" />" . $value->fulltext : $value->introtext;
-
-		return $value;
+		return $item;
 	}
 
 	/**
@@ -131,21 +110,15 @@ class ContentModelArticle extends JModelAdmin
 
 		// Get the form.
 		$form = parent::getForm('com_content.article', 'article', array('control' => 'jform'));
-
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
+		if (empty($form)) {
 			return false;
 		}
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
-		{
+		if ($this->getState('article.id')) {
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
+		} else {
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
@@ -170,79 +143,14 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
-		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
-		$isNew		= true;
-
-		// Include the content plugins for the onSave events.
-		JPluginHelper::importPlugin('content');
-
-		// Load the row if saving an existing record.
-		if ($pk > 0) {
-			$table->load($pk);
-			$isNew = false;
+		if (parent::save($data)) {
+			if (isset($data['featured'])) {
+				$this->featured($this->getState('article.id'), $data['featured']);
+			}
+			return true;
 		}
 
-		// Bind the data.
-		if (!$table->bind($data)) {
-			$this->setError(JText::sprintf('JERROR_TABLE_BIND_FAILED', $table->getError()));
-			return false;
-		}
-
-		// Bind the rules.
-		if (isset($data['rules']))
-		{
-			$rules = new JRules($data['rules']);
-			$table->setRules($rules);
-		}
-
-		// Prepare the row for saving
-		$this->_prepareTable($table);
-
-		// Check the data.
-		if (!$table->check()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Increment the content version number.
-		$table->version++;
-
-		// Trigger the onBeforeContentSave event.
-		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
-		if (in_array(false, $result, true)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-		if ($isNew){
-		$this->featured($table->id, $data['featured']);
-		}
-		// Clean the cache.
-		$cache = JFactory::getCache('com_content');
-		$cache->clean();
-
-		// Trigger the onAfterContentSave event.
-		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
-
-		$this->setState('article.id', $table->id);
-
-		return true;
-	}
-
-	/**
-	 * Prepare and sanitise the table prior to saving.
-	 */
-	protected function _prepareTable(&$table)
-	{
-		// TODO.
+		return false;
 	}
 
 	/**
@@ -266,8 +174,7 @@ class ContentModelArticle extends JModelAdmin
 
 		$table = $this->getTable('Featured', 'ContentTable');
 
-		try
-		{
+		try {
 			$this->_db->setQuery(
 				'UPDATE #__content AS a' .
 				' SET a.featured = '.(int) $value.
@@ -278,8 +185,7 @@ class ContentModelArticle extends JModelAdmin
 			}
 
 			// Adjust the mapping table.
-			if ($value == 0)
-			{
+			if ($value == 0) {
 				// Unfeaturing.
 				$this->_db->setQuery(
 					'DELETE FROM #__content_frontpage' .
@@ -288,9 +194,7 @@ class ContentModelArticle extends JModelAdmin
 				if (!$this->_db->query()) {
 					throw new Exception($this->_db->getErrorMsg());
 				}
-			}
-			else
-			{
+			} else {
 				// Featuring.
 				$tuples = array();
 				foreach ($pks as $i => $pk) {
@@ -307,9 +211,7 @@ class ContentModelArticle extends JModelAdmin
 					return false;
 				}
 			}
-		}
-		catch (Exception $e)
-		{
+		} catch (Exception $e) {
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -322,7 +224,14 @@ class ContentModelArticle extends JModelAdmin
 		return true;
 	}
 
-	function _orderConditions($table = null)
+	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param	object	A record object.
+	 * @return	array	An array of conditions to add to add to ordering queries.
+	 * @since	1.6
+	 */
+	protected function getReorderConditions($table = null)
 	{
 		$condition = array();
 		$condition[] = 'catid = '.(int) $table->catid;

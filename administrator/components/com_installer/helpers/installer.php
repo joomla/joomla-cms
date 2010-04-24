@@ -22,7 +22,7 @@ class InstallerHelper
 	 *
 	 * @param	string	The name of the active view.
 	 */
-	public static function addSubmenu($vName)
+	public static function addSubmenu($vName = 'install')
 	{
 		JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_INSTALL'),

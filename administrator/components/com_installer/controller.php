@@ -24,7 +24,7 @@ class InstallerController extends JController
 	 */
 	function display()
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'installer.php';
+		require_once JPATH_COMPONENT.'/helpers/installer.php';
 
 		// Get the document object.
 		$document = JFactory::getDocument();

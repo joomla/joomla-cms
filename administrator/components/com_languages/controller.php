@@ -18,37 +18,22 @@ defined('_JEXEC') or die;
 class LanguagesController extends JController
 {
 	/**
+	 * @var		string	The default view.
+	 * @since	1.6
+	 */
+	protected $default_view = 'installed';
+
+	/**
 	 * task to display the view
 	 */
 	function display()
 	{
-		// Get the document object.
-		$document = &JFactory::getDocument();
+		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'installed');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
+		parent::display();
 
-		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			// Get the model for the view.
-			$model = &$this->getModel($vName);
-
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->assignRef('document', $document);
-
-			$view->display();
-
-			// Load the submenu.
-			require_once JPATH_COMPONENT.DS.'helpers'.DS.'languages.php';
-			LanguagesHelper::addSubmenu($vName);
-		}
+		// Load the submenu.
+		LanguagesHelper::addSubmenu(JRequest::getWord('view', 'installed'));
 	}
 
 	/**
@@ -59,13 +44,10 @@ class LanguagesController extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 		$model = & $this->getModel('languages');
-		if ($model->publish())
-		{
+		if ($model->publish()) {
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
 			$type = 'message';
-		}
-		else
-		{
+		} else {
 			$msg = & $this->getError();
 			$type = 'error';
 		}
