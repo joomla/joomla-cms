@@ -23,7 +23,7 @@ class BannersControllerBanners extends JControllerAdmin
 	 * @var		string	The prefix to use with controller messages.
 	 * @since	1.6
 	 */
-	protected $_msgprefix = 'COM_BANNERS_BANNERS';
+	protected $text_prefix = 'COM_BANNERS_BANNERS';
 
 	/**
 	 * Constructor.

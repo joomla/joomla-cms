@@ -17,66 +17,6 @@ defined('_JEXEC') or die;
  */
 class ContactTableContact extends JTable
 {
-	/** @var int Primary key */
-	public $id = null;
-	/** @var string */
-	public $name = null;
-	/** @var string */
-	public $alias = null;
-	/** @var string */
-	public $con_position = null;
-	/** @var string */
-	public $address = null;
-	/** @var string */
-	public $suburb = null;
-	/** @var string */
-	public $state = null;
-	/** @var string */
-	public $country = null;
-	/** @var string */
-	public $postcode = null;
-	/** @var string */
-	public $telephone = null;
-	/** @var string */
-	public $fax = null;
-	/** @var string */
-	public $misc = null;
-	/** @var string */
-	public $image = null;
-	/** @var string */
-	public $imagepos = null;
-	/** @var string */
-	public $email_to = null;
-	/** @var int */
-	public $default_con = null;
-	/** @var int */
-	public $published = null;
-	/** @var int */
-	public $checked_out = 0;
-	/** @var datetime */
-	public $checked_out_time = 0;
-	/** @var int */
-	public $ordering = null;
-	/** @var string */
-	public $params = null;
-	/** @var int A link to a registered user */
-	public $user_id = null;
-	/** @var int A link to a category */
-	public $catid = null;
-	/** @var int */
-	public $access = null;
-	/** @var string Mobile phone number(s) */
-	public $mobile = null;
-	/** @var string */
-	public $webpage = null;
-	/** @var string */
-	public $sortname1 = null;
-	/** @var string */
-	public $sortname2 = null;
-	/** @var string */
-	public $sortname3 = null;
-	/** @var string */
-	public $language = null;
 	/**
 	 * Constructor
 	 *
@@ -88,39 +28,35 @@ class ContactTableContact extends JTable
 		parent::__construct('#__contact_details', 'id', $db);
 	}
 
+	/**
+	 * Overloaded bind function
+	 *
+	 * @param	array		Named array
+	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @since	1.6
+	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
+		if (isset($array['params']) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
-		}
-			if (isset($array['attribs']) && is_array($array['attribs'])) {
-			$registry = new JRegistry();
-			$registry->loadArray($array['attribs']);
-			$array['attribs'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string)$registry;
+			$array['metadata'] = (string) $registry;
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
 	/**
-	 * Overloaded check method to ensure data integrity.
-	 *
-	 * @return	boolean	True on success.
-	 */
-
-	/**
-	 * Overriden JTable::store to set modified data and user id.
+	 * Stores a contact
 	 *
 	 * @param	boolean	True to update fields even if they are null.
-	 * @return	boolean	True on success.
+	 * @return	boolean	True on success, false on failure.
 	 * @since	1.6
 	 */
 	public function store($updateNulls = false){
@@ -131,7 +67,7 @@ class ContactTableContact extends JTable
 			$registry->loadArray($this->params);
 			$this->params = (string)$registry;
 		}
-		
+
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
 		if ($this->id) {
@@ -228,6 +164,5 @@ class ContactTableContact extends JTable
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
 		return true;
-	}	
-		
+	}
 }

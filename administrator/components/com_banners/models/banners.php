@@ -19,92 +19,36 @@ jimport('joomla.application.component.modellist');
 class BannersModelBanners extends JModelList
 {
 	/**
-	 * Categories data
-	 * @var		array
-	 */
-	protected $categories;
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * Method to get the maximum ordering value for each category.
 	 *
 	 * @since	1.6
 	 */
-	protected function populateState()
+	function &getCategoryOrders()
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication('administrator');
-
-		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
-
-		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
-		$this->setState('filter.category_id', $categoryId);
-
-		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
-		$this->setState('filter.client_id', $clientId);
-
-		// Load the parameters.
-		$params = JComponentHelper::getParams('com_banners');
-		$this->setState('params', $params);
-
-		// List state information.
-		parent::populateState('name', 'asc');
-	}
-
-	/**
-	 * Returns a reference to the a Table object, always creating it.
-	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	*/
-	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param	string		$id	A prefix for the store id.
-	 *
-	 * @return	string		A store id.
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.category_id');
-
-		return parent::getStoreId($id);
+		if (!isset($this->cache['categoryorders'])) {
+			$db		= $this->getDbo();
+			$query	= $db->getQuery(true);
+			$query->select('MAX(ordering) as `max`, catid');
+			$query->select('catid');
+			$query->from('#__banners');
+			$query->group('catid');
+			$db->setQuery($query);
+			$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
+		}
+		return $this->cache['categoryorders'];
 	}
 
 	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
+	 * @since	1.6
 	 */
 	protected function getListQuery()
 	{
-		// Get the application object
-		$app = &JFactory::getApplication();
-
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		// Initialise variables.
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -137,8 +81,7 @@ class BannersModelBanners extends JModelList
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
 			$query->where('a.state = '.(int) $published);
-		}
-		else if ($published === '') {
+		} else if ($published === '') {
 			$query->where('(a.state IN (0, 1))');
 		}
 
@@ -159,46 +102,90 @@ class BannersModelBanners extends JModelList
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			}
-			else
-			{
+			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->getState('list.ordering', 'ordering');
-		$app->setUserState($this->context . '.'.$orderCol.'.orderdirn',$this->getState('list.direction', 'ASC'));
-		if ($orderCol=='ordering') {
-			$query->order($db->getEscaped('category_title').' '.$db->getEscaped($app->getUserState($this->context . '.category_title.orderdirn','ASC')));
+		$orderCol	= $this->state->get('list.ordering');
+		$orderDirn	= $this->state->get('list.direction');
+		if ($orderCol == 'ordering' || $orderCol == 'category_title') {
+			$orderCol = 'category_title '.$orderDirn.', ordering';
 		}
-		$query->order($db->getEscaped($orderCol).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
-		if ($orderCol=='category_title') {
-			$query->order($db->getEscaped('ordering').' '.$db->getEscaped($app->getUserState($this->context . '.ordering.orderdirn','ASC')));
-		}
-		$query->order($db->getEscaped('state').' '.$db->getEscaped($app->getUserState($this->context . '.state.orderdirn','ASC')));
+		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
+
 	/**
-	 * method to give information about categories
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param	string		$id	A prefix for the store id.
+	 * @return	string		A store id.
+	 * @since	1.6
 	 */
-	function &getCategories()
+	protected function getStoreId($id = '')
 	{
-		if (!isset($this->categories))
-		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
-			$query->select('MAX(ordering) as `max`');
-			$query->select('catid');
-			$query->from('#__banners');
-			$query->where('state>=0');
-			$query->group('catid');
-			$db->setQuery((string)$query);
-			$this->categories = $db->loadObjectList('catid');
-		}
-		return $this->categories;
+		// Compile the store id.
+		$id	.= ':'.$this->getState('filter.search');
+		$id	.= ':'.$this->getState('filter.access');
+		$id	.= ':'.$this->getState('filter.state');
+		$id	.= ':'.$this->getState('filter.category_id');
+
+		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Returns a reference to the a Table object, always creating it.
+	 *
+	 * @param	type	The table type to instantiate
+	 * @param	string	A prefix for the table class name. Optional.
+	 * @param	array	Configuration array for model. Optional.
+	 * @return	JTable	A database object
+	 * @since	1.6
+	 */
+	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
+	{
+		return JTable::getInstance($type, $prefix, $config);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
+	 */
+	protected function populateState()
+	{
+		// Initialise variables.
+		$app = JFactory::getApplication('administrator');
+
+		// Load the filter state.
+		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$this->setState('filter.state', $state);
+
+		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
+		$this->setState('filter.category_id', $categoryId);
+
+		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
+		$this->setState('filter.client_id', $clientId);
+
+		// Load the parameters.
+		$params = JComponentHelper::getParams('com_banners');
+		$this->setState('params', $params);
+
+		// List state information.
+		parent::populateState('name', 'asc');
 	}
 }

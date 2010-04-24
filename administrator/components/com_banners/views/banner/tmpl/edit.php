@@ -49,18 +49,13 @@ JHtml::_('behavior.formvalidation');
 				document.id('alt').setStyle('display', 'block');
 			}
 		});
-		if(document.id('jform_type0').checked==true)
-		{
+		if(document.id('jform_type0').checked==true) {
 			document.id('jform_type0').fireEvent('click');
-		}
-		else
-		{
+		} else {
 			document.id('jform_type1').fireEvent('click');
 		}
 		document.id('jform_image_url').fireEvent('change');
 	});
-
-
 // -->
 </script>
 
@@ -80,7 +75,6 @@ JHtml::_('behavior.formvalidation');
 
 				<?php echo $this->form->getLabel('catid'); ?>
 				<?php echo $this->form->getInput('catid'); ?>
-
 
 				<div class="clr"> </div>
 		</fieldset>

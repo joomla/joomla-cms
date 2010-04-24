@@ -38,14 +38,6 @@ class ContactViewContact extends JView
 			return false;
 		}
 
-		// Bind the label to the form.
-		// First, unpack the email_form options from the params
-		$this->item->set('email_form', new JObject());
-		foreach ($this->form->getGroup('email_form') as $thisField) {
-			$this->item->email_form->set($thisField->name, $this->item->params->get($thisField->name));
-			$this->item->params->set($thisField->name, null);
-		}
-
 		$this->form->bind($this->item);
 
 		$this->addToolbar();

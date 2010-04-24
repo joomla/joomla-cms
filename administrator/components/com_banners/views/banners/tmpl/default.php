@@ -133,16 +133,14 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
 				<td class="order">
-					<?php if ($item->state >=0):?>
-						<?php if ($canChange && $listOrder=='ordering') : ?>
-							<span><?php echo $this->pagination->orderUpIcon($i, $listOrder=='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid]->max, $listOrder=='asc' ? 'banners.orderup' : 'banners.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $listOrder!='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid]->max, $listOrder=='asc' ? 'banners.orderdown' : 'banners.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-							<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
-							<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
-						<?php else : ?>
-							<?php echo $item->ordering; ?>
-						<?php endif; ?>
-					<?php endif;?>
+					<?php if ($canChange && $listOrder == 'ordering') : ?>
+						<span><?php echo $this->pagination->orderUpIcon($i, $listOrder=='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid], $listOrder=='asc' ? 'banners.orderup' : 'banners.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $listOrder!='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid], $listOrder=='asc' ? 'banners.orderdown' : 'banners.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
+					<?php else : ?>
+						<?php echo $item->ordering; ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>

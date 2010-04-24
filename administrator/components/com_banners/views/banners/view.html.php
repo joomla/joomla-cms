@@ -19,6 +19,7 @@ jimport('joomla.application.component.view');
  */
 class BannersViewBanners extends JView
 {
+	protected $categories;
 	protected $items;
 	protected $pagination;
 	protected $state;
@@ -29,7 +30,7 @@ class BannersViewBanners extends JView
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->categories	= $this->get('Categories');
+		$this->categories	= $this->get('CategoryOrders');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
