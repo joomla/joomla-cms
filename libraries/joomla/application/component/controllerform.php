@@ -374,7 +374,8 @@ class JControllerForm extends JController
 		}
 
 		// Validate the posted data.
-		$form = $model->getForm();
+		// Sometimes the form needs some posted data, such as for plugins and modules.
+		$form = $model->getForm($data);
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;
