@@ -22,6 +22,12 @@ jimport('joomla.application.component.controller');
 class ConfigController extends JController
 {
 	/**
+	 * @var		string	The default view.
+	 * @since	1.6
+	 */
+	protected $default_view = 'application';
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @since	1.6
@@ -37,10 +43,8 @@ class ConfigController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			if ($vName != 'close')
-			{
+		if ($view = $this->getView($vName, $vFormat)) {
+			if ($vName != 'close') {
 				// Get the model for the view.
 				$model = &$this->getModel($vName);
 

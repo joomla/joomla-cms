@@ -58,16 +58,14 @@ class ConfigModelComponent extends JModelForm
 		}
 
 		// Get the form.
-		try {
-			$form = parent::getForm(
+		$form = parent::getForm(
 				'com_config.component',
 				'config',
 				array('control' => 'jform'),
 				false,
 				'/config'
 			);
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		if (empty($form)) {
 			return false;
 		}
 

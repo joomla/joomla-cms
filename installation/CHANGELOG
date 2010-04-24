@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Apr-2010 Andrew Eddie
+ # Refactor param and metadata handling in weblink and newsfeed edit forms.
+ # Fix bug saving options in a newsfeed.
+ ^ Hide admin menu when in com_templates template view.
+ ^ Add ability to set default view in JController.
+ ^ Refactor backend master controllers to use parent display method where possible.
+ ^ Refactor and expand implementation of JModelAdmin.
+
 23-Apr-2010 Mark Dexter
 ^ Added UI for new fields in contacts, newsfeeds, weblinks (Elin Waring)
 ^ Added publish_up and publish_down checks to models (Elin Waring) 
