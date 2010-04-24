@@ -120,7 +120,7 @@ class UsersControllerUser extends JControllerForm
 		}
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->_task)
+		switch ($this->getTask())
 		{
 			case 'apply':
 				// Set the row data in the session.

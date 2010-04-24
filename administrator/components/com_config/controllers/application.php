@@ -104,7 +104,7 @@ class ConfigControllerApplication extends JController
 		$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
 
 		// Set the redirect based on the task.
-		switch ($this->_task)
+		switch ($this->getTask())
 		{
 			case 'apply':
 				$this->setRedirect('index.php?option=com_config', $message);
