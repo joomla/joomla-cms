@@ -278,7 +278,7 @@ abstract class JFactory
 		if ($contents) {
 			return $simplepie;
 		} else {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_LOADING_FEED_DATA'));
+			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'));
 		}
 
 		return false;
@@ -312,7 +312,7 @@ abstract class JFactory
 				break;
 
 			case 'dom':
-				JError::raiseWarning('SOME_ERROR_CODE', 'DommitDocument is deprecated.  Use DomDocument instead');
+				JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_DOMIT'));
 				$doc = null;
 				break;
 
@@ -350,7 +350,7 @@ abstract class JFactory
 
 		if (empty($xml)) {
 			// There was an error
-			JError::raiseWarning(100, JText::_('Failed loading XML file'));
+			JError::raiseWarning(100, JText::_('JLIB_UTIL_ERROR_XML_LOAD'));
 
 			if ($isFile) {
 				JError::raiseWarning(100, $data);
@@ -532,7 +532,7 @@ abstract class JFactory
 		}
 
 		if ($db->getErrorNum() > 0) {
-			JError::raiseError(500 , 'JDatabase::getInstance: Could not connect to database <br />' . 'joomla.library:'.$db->getErrorNum().' - '.$db->getErrorMsg());
+			JError::raiseError(500 , JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
 		}
 
 		$db->debug($debug);
