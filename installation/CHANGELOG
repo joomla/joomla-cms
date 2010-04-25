@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 25-Apr-2010 Jean-Marie Simonet
 $ Added some strings in frontend main ini
+$ Refactored error.php strings
 
 24-Apr-2010 Jean-Marie Simonet
 $ Simplified a string/code to avoid some language issues
