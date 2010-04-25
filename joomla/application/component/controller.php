@@ -265,7 +265,11 @@ class JController extends JObject
 		$this->redirect		= null;
 		$this->taskMap		= array();
 
-		// Get the new public methods in this class using reflection.
+
+		// Determine the methods to exclude from the base class.
+		$xMethods = get_class_methods('JController');
+
+		// Get the public methods in this class using reflection.
 		$r			= new ReflectionClass($this);
 		$rName		= $r->getName();
 		$rMethods	= $r->getMethods(ReflectionMethod::IS_PUBLIC);
@@ -274,7 +278,7 @@ class JController extends JObject
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
-			if ($rMethod->getDeclaringClass()->getName() === $rName || $mName == 'display') {
+			if (!in_array($mName, $xMethods) || $mName == 'display') {
 				$this->methods[] = strtolower($mName);
 				// Auto register the methods as tasks.
 				$this->taskMap[strtolower($mName)] = $mName;
