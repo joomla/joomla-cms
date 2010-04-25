@@ -338,7 +338,7 @@ class JController extends JObject
 	 *
 	 * @param	string			The path type (e.g. 'model', 'view'.
 	 * @param	string|array	The directory or stream to search.
-	 * @return	void
+	 * @return	JController		This object to support chaining.
 	 * @since	1.6				Replaces _addPath.
 	 */
 	protected function addPath($type, $path)
@@ -358,17 +358,20 @@ class JController extends JObject
 			// add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Add one or more view paths to the controller's stack, in LIFO order.
 	 *
 	 * @param	string|array The directory (string), or list of directories (array) to add.
-	 * @return	void
+	 * @return	JController		This object to support chaining.
 	 */
 	public function addViewPath($path)
 	{
 		$this->addPath('view', $path);
+		return $this;
 	}
 
 	/**
@@ -469,8 +472,9 @@ class JController extends JObject
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param	boolean	If true, the view output will be cached
-	 * @param	array	An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @return	JController		This object to support chaining.
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -519,15 +523,15 @@ class JController extends JObject
 		} else {
 			$view->display();
 		}
+
+		return $this;
 	}
 
 	/**
 	 * Execute a task by triggering a method in the derived class.
 	 *
-	 * @param	string The task to perform. If no matching task is found, the
-	 * '__default' task is executed, if defined.
-	 * @return	mixed|false The value returned by the called method, false in
-	 * error case.
+	 * @param	string The task to perform. If no matching task is found, the '__default' task is executed, if defined.
+	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @since	1.5
 	 */
 	public function execute($task)
@@ -553,7 +557,6 @@ class JController extends JObject
 		} else {
 			return JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
-
 	}
 
 	/**
@@ -697,21 +700,22 @@ class JController extends JObject
 	/**
 	 * Register the default task to perform if a mapping is not found.
 	 *
-	 * @param	string The name of the method in the derived class to perform if a named task is not found.
-	 * @return	void
+	 * @param	string		The name of the method in the derived class to perform if a named task is not found.
+	 * @return	JController	This object to support chaining.
 	 * @since	1.5
 	 */
 	public function registerDefaultTask($method)
 	{
 		$this->registerTask('__default', $method);
+		return $this;
 	}
 
 	/**
 	 * Register (map) a task to a method in the class.
 	 *
-	 * @param	string	The task.
-	 * @param	string	The name of the method in the derived class to perform for this task.
-	 * @return	void
+	 * @param	string		The task.
+	 * @param	string		The name of the method in the derived class to perform for this task.
+	 * @return	JController	This object to support chaining.
 	 * @since	1.5
 	 */
 	public function registerTask($task, $method)
@@ -719,6 +723,7 @@ class JController extends JObject
 		if (in_array(strtolower($method), $this->methods)) {
 			$this->taskMap[strtolower($task)] = $method;
 		}
+		return $this;
 	}
 
 	/**
@@ -772,10 +777,10 @@ class JController extends JObject
 	/**
 	 * Set a URL for browser redirection.
 	 *
-	 * @param	string URL to redirect to.
-	 * @param	string	Message to display on redirect. Optional, defaults to value set internally by controller, if any.
-	 * @param	string	Message type. Optional, defaults to 'message'.
-	 * @return	void
+	 * @param	string 		URL to redirect to.
+	 * @param	string		Message to display on redirect. Optional, defaults to value set internally by controller, if any.
+	 * @param	string		Message type. Optional, defaults to 'message'.
+	 * @return	JController	This object to support chaining.
 	 * @since	1.5
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
@@ -788,5 +793,7 @@ class JController extends JObject
 
 		// Ensure the type is not overwritten by a previous call to setMessage.
 		$this->messageType	= ($type === null || empty($this->messageType)) ? 'message' : $type;
+
+		return $this;
 	}
 }
