@@ -41,7 +41,16 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__construct()
 	{
-		$controller = new TestController;
+		$controller = new TestTestController;
+		$this->assertThat(
+			$controller->getTasks(),
+			$this->equalTo(
+				array(
+					'task5', 'task1', 'task2', 'display'
+				)
+			),
+			'Line:'.__LINE__.' The available tasks should be the public tasks in _all_ the derived classes after controller plus "display".'
+		);
 	}
 
 	/**

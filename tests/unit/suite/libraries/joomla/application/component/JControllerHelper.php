@@ -33,3 +33,8 @@ class TestController extends JController
 	private function _task4() {}
 
 }
+
+class TestTestController extends TestController
+{
+	public function task5() {}
+}
