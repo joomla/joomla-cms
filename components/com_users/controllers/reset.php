@@ -54,10 +54,8 @@ class UsersControllerReset extends UsersController
 			// Go back to the request form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		}
-		// The request failed.
-		elseif ($return === false)
-		{
+		} elseif ($return === false) {
+			// The request failed.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getResetRoute();
 			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
@@ -67,10 +65,8 @@ class UsersControllerReset extends UsersController
 			$message = JText::sprintf('COM_USERS_RESET_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
 			return false;
-		}
-		// The request succeeded.
-		else
-		{
+		} else {
+			// The request succeeded.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getResetRoute();
 			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
@@ -94,8 +90,8 @@ class UsersControllerReset extends UsersController
 		// Check the request token.
 		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
 
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('User', 'UsersModel');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('User', 'UsersModel');
 		$data	= JRequest::getVar('jform', array(), 'request', 'array');
 
 		// Confirm the password reset request.
@@ -119,10 +115,8 @@ class UsersControllerReset extends UsersController
 			// Go back to the confirm form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		}
-		// Confirm failed.
-		elseif ($return === false)
-		{
+		} elseif ($return === false) {
+			// Confirm failed.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getResetRoute();
 			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
@@ -132,10 +126,8 @@ class UsersControllerReset extends UsersController
 			$message = JText::sprintf('COM_USERS_RESET_CONFIRM_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
 			return false;
-		}
-		// Confirm succeeded.
-		else
-		{
+		} else {
+			// Confirm succeeded.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getResetRoute();
 			$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
@@ -157,8 +149,8 @@ class UsersControllerReset extends UsersController
 		// Check for request forgeries
 		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('User', 'UsersModel');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('User', 'UsersModel');
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Complete the password reset request.
