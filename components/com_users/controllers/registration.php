@@ -16,18 +16,17 @@ require_once(JPATH_COMPONENT.'/controller.php');
  *
  * @package		Joomla.Site
  * @subpackage	com_users
- * @version		1.0
+ * @since		1.6
  */
 class UsersControllerRegistration extends UsersController
 {
 	/**
 	 * Method to activate a user.
 	 *
-	 * @access	public
 	 * @return	boolean		True on success, false on failure.
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function activate()
+	public function activate()
 	{
 		$user		= JFactory::getUser();
 		$uParams	= JComponentHelper::getParams('com_users');
@@ -44,7 +43,7 @@ class UsersControllerRegistration extends UsersController
 			return false;
 		}
 
-		$model = &$this->getModel('Registration', 'UsersModel');
+		$model = $this->getModel('Registration', 'UsersModel');
 		$token = JRequest::getVar('token', null, 'request', 'alnum');
 
 		// Check that the token is in a valid format.
@@ -73,11 +72,10 @@ class UsersControllerRegistration extends UsersController
 	/**
 	 * Method to register a member.
 	 *
-	 * @access	public
 	 * @return	boolean		True on success, false on failure.
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function register()
+	public function register()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
@@ -90,7 +88,7 @@ class UsersControllerRegistration extends UsersController
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
-		$form	= &$model->getForm();
+		$form	= $model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;

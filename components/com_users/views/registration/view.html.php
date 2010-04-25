@@ -16,22 +16,21 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Site
  * @subpackage	com_users
- * @version		1.0
+ * @since		1.6
  */
 class UsersViewRegistration extends JView
 {
 	/**
 	 * Method to display the view.
 	 *
-	 * @access	public
-	 * @param	string	$tpl	The template file to include
-	 * @since	1.0
+	 * @param	string	The template file to include
+	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Get the view data.
-		$form	= &$this->get('Form');
-		$data	= &$this->get('Data');
+		$form	= $this->get('Form');
+		$data	= $this->get('Data');
 		$state	= $this->get('State');
 		$params	= $state->get('params');
 
@@ -51,15 +50,17 @@ class UsersViewRegistration extends JView
 		$this->assignRef('data',	$data);
 		$this->assignRef('params',	$params);
 
-		$this->_prepareDocument();
+		$this->prepareDocument();
 
 		parent::display($tpl);
 	}
 
 	/**
-	 * Prepares the document
+	 * Prepares the document.
+	 *
+	 * @since	1.6
 	 */
-	protected function _prepareDocument()
+	protected function prepareDocument()
 	{
 		$app		= &JFactory::getApplication();
 		$menus		= &JSite::getMenu();
@@ -68,16 +69,14 @@ class UsersViewRegistration extends JView
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
-		{
+		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
 			$this->params->def('page_heading', JText::_('COM_USERS_Registration'));
 		}
 
 		$title = $this->params->get('page_title', $this->params->get('page_heading'));
-		if (empty($title))
-		{
+		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);

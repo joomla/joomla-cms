@@ -14,30 +14,27 @@ defined('_JEXEC') or die;
  *
  * @package		Joomla.Site
  * @subpackage	com_users
- * @version		1.0
+ * @since		1.6
  */
 class UsersHelperRoute
 {
 	/**
 	 * Method to get the menu items for the component.
 	 *
-	 * @access	public
 	 * @return	array		An array of menu items.
-	 * @since	1.0
-	 * @static
+	 * @since	1.6
 	 */
-	function &getItems()
+	public static function &getItems()
 	{
 		static $items;
 
 		// Get the menu items for this component.
-		if (!isset($items))
-		{
+		if (!isset($items)) {
 			// Include the site app in case we are loading this from the admin.
-			require_once JPATH_SITE.DS.'includes'.DS.'application.php';
+			require_once JPATH_SITE.'/includes/application.php';
 
-			$menu	= &JSite::getMenu();
-			$com	= &JComponentHelper::getComponent('com_users');
+			$menu	= JSite::getMenu();
+			$com	= JComponentHelper::getComponent('com_users');
 			$items	= $menu->getItems('component_id', $com->id);
 
 			// If no items found, set to empty array.
@@ -52,15 +49,14 @@ class UsersHelperRoute
 	/**
 	 * Method to get a route configuration for the login view.
 	 *
-	 * @access	public
 	 * @return	mixed		Integer menu id on success, null on failure.
-	 * @since	1.0
+	 * @since	1.6
 	 * @static
 	 */
-	function getLoginRoute()
+	public static function getLoginRoute()
 	{
 		// Get the items.
-		$items	= &UsersHelperRoute::getItems();
+		$items	= self::getItems();
 		$itemid	= null;
 
 		// Search for a suitable menu id.
@@ -77,15 +73,13 @@ class UsersHelperRoute
 	/**
 	 * Method to get a route configuration for the profile view.
 	 *
-	 * @access	public
 	 * @return	mixed		Integer menu id on success, null on failure.
-	 * @since	1.0
-	 * @static
+	 * @since	1.6
 	 */
-	function getProfileRoute()
+	public static function getProfileRoute()
 	{
 		// Get the items.
-		$items	= &UsersHelperRoute::getItems();
+		$items	= self::getItems();
 		$itemid	= null;
 
 		// Search for a suitable menu id.
@@ -104,15 +98,13 @@ class UsersHelperRoute
 	/**
 	 * Method to get a route configuration for the registration view.
 	 *
-	 * @access	public
 	 * @return	mixed		Integer menu id on success, null on failure.
-	 * @since	1.0
-	 * @static
+	 * @since	1.6
 	 */
-	function getRegistrationRoute()
+	public static function getRegistrationRoute()
 	{
 		// Get the items.
-		$items	= &UsersHelperRoute::getItems();
+		$items	= self::getItems();
 		$itemid	= null;
 
 		// Search for a suitable menu id.
@@ -129,15 +121,13 @@ class UsersHelperRoute
 	/**
 	 * Method to get a route configuration for the remind view.
 	 *
-	 * @access	public
 	 * @return	mixed		Integer menu id on success, null on failure.
-	 * @since	1.0
-	 * @static
+	 * @since	1.6
 	 */
-	function getRemindRoute()
+	public static function getRemindRoute()
 	{
 		// Get the items.
-		$items	= &UsersHelperRoute::getItems();
+		$items	= self::getItems();
 		$itemid	= null;
 
 		// Search for a suitable menu id.
@@ -154,15 +144,13 @@ class UsersHelperRoute
 	/**
 	 * Method to get a route configuration for the resend view.
 	 *
-	 * @access	public
 	 * @return	mixed		Integer menu id on success, null on failure.
-	 * @since	1.0
-	 * @static
+	 * @since	1.6
 	 */
-	function getResendRoute()
+	public static function getResendRoute()
 	{
 		// Get the items.
-		$items	= &UsersHelperRoute::getItems();
+		$items	= self::getItems();
 		$itemid	= null;
 
 		// Search for a suitable menu id.
@@ -179,15 +167,13 @@ class UsersHelperRoute
 	/**
 	 * Method to get a route configuration for the reset view.
 	 *
-	 * @access	public
 	 * @return	mixed		Integer menu id on success, null on failure.
-	 * @since	1.0
-	 * @static
+	 * @since	1.6
 	 */
 	function getResetRoute()
 	{
 		// Get the items.
-		$items	= &UsersHelperRoute::getItems();
+		$items	= self::getItems();
 		$itemid	= null;
 
 		// Search for a suitable menu id.

@@ -16,18 +16,17 @@ jimport('joomla.application.component.view');
  *
  * @package		Joomla.Site
  * @subpackage	com_users
- * @version		1.0
+ * @since		1.6
  */
 class UsersViewProfile extends JView
 {
 	/**
 	 * Method to display the view.
 	 *
-	 * @access	public
 	 * @param	string	$tpl	The template file to include
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Get the view data.
 		$form		= &$this->get('Form');
@@ -66,6 +65,8 @@ class UsersViewProfile extends JView
 
 	/**
 	 * Prepares the document
+	 *
+	 * @since	1.6
 	 */
 	protected function _prepareDocument()
 	{

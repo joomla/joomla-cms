@@ -17,35 +17,17 @@ jimport('joomla.event.dispatcher');
  *
  * @package		Joomla.Site
  * @subpackage	com_users
- * @version		1.0
+ * @version		1.5
  */
-
 class UsersModelRemind extends JModelForm
 {
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since	1.6
-	 */
-	protected function populateState()
-	{
-		// Get the application object.
-		$app	= &JFactory::getApplication();
-		$params	= &$app->getParams('com_users');
-
-		// Load the parameters.
-		$this->setState('params', $params);
-	}
-
 	/**
 	 * Method to get the username remind request form.
 	 *
 	 * @return	object	JForm object on success, JException on failure.
-	 * @since	1.0
+	 * @since	1.6
 	 */
-	function &getForm()
+	public function getForm()
 	{
 		// Get the form.
 		$form = parent::getForm('com_users.remind', 'remind', array('control' => 'jform'));
@@ -54,7 +36,7 @@ class UsersModelRemind extends JModelForm
 		}
 
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= &JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the form preparation event.
@@ -67,12 +49,32 @@ class UsersModelRemind extends JModelForm
 		}
 
 		return $form;
-
 	}
-	function processRemindRequest($data)
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @since	1.6
+	 */
+	protected function populateState()
+	{
+		// Get the application object.
+		$app	= JFactory::getApplication();
+		$params	= $app->getParams('com_users');
+
+		// Load the parameters.
+		$this->setState('params', $params);
+	}
+
+	/**
+	 * @since	1.6
+	 */
+	public function processRemindRequest($data)
 	{
 		// Get the form.
-		$form = &$this->getRemindForm();
+		$form = $this->getForm();
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -115,7 +117,7 @@ class UsersModelRemind extends JModelForm
 			return false;
 		}
 
-		$config	= &JFactory::getConfig();
+		$config	= JFactory::getConfig();
 
 		// Assemble the login link.
 		$itemid = UsersHelperRoute::getLoginRoute();
@@ -131,24 +133,19 @@ class UsersModelRemind extends JModelForm
 		$data['link_text']	= JRoute::_($link, false, $mode);
 		$data['link_html']	= JRoute::_($link, true, $mode);
 
-		// Load the mail template.
-		jimport('joomla.utilities.simpletemplate');
-		$template = new JSimpleTemplate();
-
-		if (!$template->load('users.username.remind.request')) {
-			return new JException(JText::_('COM_USERS_REMIND_MAIL_TEMPLATE_NOT_FOUND'), 500);
-		}
-
-		// Push in the email template variables.
-		$template->bind($data);
-
-		// Get the email information.
-		$toEmail	= $user->email;
-		$subject	= $template->getTitle();
-		$message	= $template->getHtml();
+		$subject = JText::sprintf(
+			'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT',
+			$data['sitename']
+		);
+		$body = JText::sprintf(
+			'COM_USERS_EMAIL_USERNAME_REMINDER_BODY',
+			$data['sitename'],
+			$data['username'],
+			$data['link_text']
+		);
 
 		// Send the password reset request e-mail.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $toEmail, $subject, $message);
+		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true) {
@@ -157,6 +154,4 @@ class UsersModelRemind extends JModelForm
 
 		return true;
 	}
-
-
 }

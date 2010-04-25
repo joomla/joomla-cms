@@ -134,7 +134,7 @@ class UsersModelRegistration extends JModelForm
 		unset($data->password2);
 
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= &JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the data preparation event.
@@ -167,7 +167,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= &JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('users');
 
 		// Trigger the form preparation event.
@@ -260,7 +260,7 @@ class UsersModelRegistration extends JModelForm
 		if ($params->get('useractivation'))
 		{
 			// Set the link to activate the user account.
-			$uri = &JURI::getInstance();
+			$uri = JURI::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base.JRoute::_('index.php?option=com_users&task=registration.activate&token='.$data['activation'], false);
 
