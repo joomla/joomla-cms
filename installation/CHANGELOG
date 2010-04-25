@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Apr-2010 Andrew Eddie
  # Fixed error when saving an editor-xtd plugin.
+ # Fixed [#20210] Change User modal doesn't work.
 
 25-Apr-2010 Jean-Marie Simonet
 $ Added some strings in frontend main ini
