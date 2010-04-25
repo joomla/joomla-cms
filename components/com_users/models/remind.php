@@ -100,18 +100,18 @@ class UsersModelRemind extends JModelForm
 
 		// Check for an error.
 		if ($db->getErrorNum()) {
-			return new JException(JText::sprintf('USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+			return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
 		}
 
 		// Check for a user.
 		if (empty($user)) {
-			$this->setError(JText::_('USERS_USER_NOT_FOUND'));
+			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
 		}
 
 		// Make sure the user isn't blocked.
 		if ($user->block) {
-			$this->setError(JText::_('USERS_USER_BLOCKED'));
+			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 			return false;
 		}
 
@@ -136,7 +136,7 @@ class UsersModelRemind extends JModelForm
 		$template = new JSimpleTemplate();
 
 		if (!$template->load('users.username.remind.request')) {
-			return new JException(JText::_('USERS_REMIND_MAIL_TEMPLATE_NOT_FOUND'), 500);
+			return new JException(JText::_('COM_USERS_REMIND_MAIL_TEMPLATE_NOT_FOUND'), 500);
 		}
 
 		// Push in the email template variables.
@@ -152,7 +152,7 @@ class UsersModelRemind extends JModelForm
 
 		// Check for an error.
 		if ($return !== true) {
-			return new JException(JText::_('USERS_MAIL_FAILED'), 500);
+			return new JException(JText::_('COM_USERS_MAIL_FAILED'), 500);
 		}
 
 		return true;

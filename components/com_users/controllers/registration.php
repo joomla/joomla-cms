@@ -29,8 +29,8 @@ class UsersControllerRegistration extends UsersController
 	 */
 	function activate()
 	{
-		$user		= &JFactory::getUser();
-		$uParams	= &JComponentHelper::getParams('com_users');
+		$user		= JFactory::getUser();
+		$uParams	= JComponentHelper::getParams('com_users');
 
 		// If the user is logged in, return them back to the homepage.
 		if ($user->get('id')) {
@@ -57,16 +57,15 @@ class UsersControllerRegistration extends UsersController
 		$return = $model->activate($token);
 
 		// Check for errors.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Redirect back to the homepage.
-			$this->setMessage(JText::sprintf('USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect('index.php');
 			return false;
 		}
 
 		// Redirect to the login screen.
-		$this->setMessage(JText::_('USERS_REGISTRATION_SAVE_SUCCESS'));
+		$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		return true;
 	}
@@ -84,30 +83,27 @@ class UsersControllerRegistration extends UsersController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Registration', 'UsersModel');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Registration', 'UsersModel');
 
 		// Get the member data.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
 		$form	= &$model->getForm();
-		if (!$form)
-		{
+		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
 		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false)
-		{
+		if ($data === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
 				} else {
@@ -127,13 +123,12 @@ class UsersControllerRegistration extends UsersController
 		$return	= $model->register($data);
 
 		// Check for errors.
-		if ($return === false)
-		{
+		if ($return === false) {
 			// Save the data in the session.
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('USERS_REGISTRATION_SAVE_SUCCESS', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_SUCCESS', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
 			return false;
 		}
@@ -142,7 +137,7 @@ class UsersControllerRegistration extends UsersController
 		$app->setUserState('com_users.registration.data', null);
 
 		// Redirect to the profile screen.
-		$this->setMessage(JText::_('USERS_REGISTRATION_SAVE_SUCCESS'));
+		$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
 
 		return true;

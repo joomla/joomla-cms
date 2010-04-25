@@ -9,7 +9,7 @@
 			class="validate-username"
 			field="id"
 			filter="username"
-			label="Users_Login_Username_Label"
+			label="COM_USERS_LOGIN_USERNAME_LABEL"
 			required="true"
 			size="25"
 			validate="username"
@@ -18,7 +18,7 @@
 		<field name="password" type="password"
 			class="validate-password"
 			filter="raw"
-			label="Users_Login_Password_Label"
+			label="COM_USERS_LOGIN_PASSWORD_LABEL"
 			required="required"
 			size="25"
 		/>
