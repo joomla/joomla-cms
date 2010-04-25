@@ -52,11 +52,11 @@ class JFormFieldUser extends JFormField
 
 		// Build the script.
 		$script = array();
-		$script[] = '	function jSelectUser_'.$this->id.'(id, title, el) {';
-		$script[] = '		var old_id = document.getElementById('.$this->id.'_id).value;';
+		$script[] = '	function jSelectUser_'.$this->id.'(id, title) {';
+		$script[] = '		var old_id = document.getElementById("'.$this->id.'_id").value;';
 		$script[] = '		if (old_id != id) {';
-		$script[] = '			document.getElementById('.$this->id.'_id).value = id;';
-		$script[] = '			document.getElementById('.$this->id.'_name).value = title;';
+		$script[] = '			document.getElementById("'.$this->id.'_id").value = id;';
+		$script[] = '			document.getElementById("'.$this->id.'_name").value = title;';
 		$script[] = '			'.$onchange;
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
@@ -73,14 +73,14 @@ class JFormFieldUser extends JFormField
 			$table->username = JText::_('JLIB_FORM_SELECT_USER');
 		}
 
-		// The current user display field.
+		// Create a dummy text field with the user name.
 		$html[] = '<div class="fltlft">';
-		$html[] = '	<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
+		$html[] = '	<input type="text" id="'.$this->id.'_name"' .
 					' value="'.htmlspecialchars($table->username, ENT_COMPAT, 'UTF-8').'"' .
 					' disabled="disabled"'.$attr.' />';
 		$html[] = '</div>';
 
-		// The user select button.
+		// Create the user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
 		$html[] = '		<a class="modal_'.$this->id.'" title="'.JText::_('JLIB_FORM_CHANGE_USER').'"' .
@@ -90,7 +90,7 @@ class JFormFieldUser extends JFormField
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
-		// The active user id field.
+		// Create the real field, hidden, that stored the user id.
 		$html[] = '<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.(int) $this->value.'" />';
 
 		return implode("\n", $html);
