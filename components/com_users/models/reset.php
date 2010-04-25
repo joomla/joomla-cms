@@ -261,7 +261,7 @@ class UsersModelReset extends JModelForm
 		$config	= JFactory::getConfig();
 
 		// Get the form.
-		$form = $this->getResetRequestForm();
+		$form = $this->getForm();
 
 		// Check for an error.
 		if (JError::isError($form)) {
@@ -327,27 +327,20 @@ class UsersModelReset extends JModelForm
 		$data['link_html']	= JRoute::_($link, true, $mode);
 		$data['token']		= $token;
 
-		// Load the mail template.
-		jimport('joomla.utilities.simpletemplate');
-		$template = new JSimpleTemplate();
+		$subject = JText::sprintf(
+			'COM_USERS_EMAIL_PASSWORD_RESET_SUBJECT',
+			$data['sitename']
+		);
 
-		if (!$template->load('users.password.reset.request')) {
-			return new JException(JText::_('COM_USERS_RESET_MAIL_TEMPLATE_NOT_FOUND'), 500);
-		}
-
-		//$subject	= JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TITLE', $sitename);
-		//$body		= JText::sprintf('PASSWORD_RESET_CONFIRMATION_EMAIL_TEXT', $sitename, $token, $url);
-
-		// Push in the email template variables.
-		$template->bind($data);
-
-		// Get the email information.
-		$toEmail	= $user->email;
-		$subject	= $template->getTitle();
-		$message	= $template->getHtml();
+		$body = JText::sprintf(
+			'COM_USERS_EMAIL_PASSWORD_RESET_BODY',
+			$data['sitename'],
+			$data['token'],
+			$data['link_text']
+		);
 
 		// Send the password reset request e-mail.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $toEmail, $subject, $message);
+		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $message);
 
 		// Check for an error.
 		if ($return !== true) {

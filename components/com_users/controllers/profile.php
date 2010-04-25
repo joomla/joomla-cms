@@ -21,7 +21,7 @@ require_once(JPATH_COMPONENT.'/controller.php');
 class UsersControllerProfile extends UsersController
 {
 	/**
-	 * Method to check out a member for editing and redirect to the edit form.
+	 * Method to check out a user for editing and redirect to the edit form.
 	 *
 	 * @since	1.6
 	 */
@@ -31,7 +31,7 @@ class UsersControllerProfile extends UsersController
 		$user	= JFactory::getUser();
 		$userId	= (int) $user->get('id');
 
-		// Get the previous member id (if any) and the current member id.
+		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
 		$memberId	= (int) JRequest::getInt('member_id', null, '', 'array');
 

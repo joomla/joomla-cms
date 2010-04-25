@@ -31,7 +31,7 @@ class UsersControllerReset extends UsersController
 		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('User', 'UsersModel');
+		$model	= $this->getModel('Reset', 'UsersModel');
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Submit the password reset request.

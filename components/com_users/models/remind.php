@@ -77,16 +77,16 @@ class UsersModelRemind extends JModelForm
 		$form = $this->getForm();
 
 		// Check for an error.
-		if (JError::isError($form)) {
-			return $form;
+		if (empty($form)) {
+			return false;
 		}
 
 		// Validate the data.
 		$data = $this->validate($form, $data);
 
 		// Check the validator results.
-		if (JError::isError($data) || $data === false) {
-			return $data;
+		if (empty($data)) {
+			return false;
 		}
 
 		// Find the user id for the given e-mail address.
@@ -102,7 +102,8 @@ class UsersModelRemind extends JModelForm
 
 		// Check for an error.
 		if ($db->getErrorNum()) {
-			return new JException(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+			return false;
 		}
 
 		// Check for a user.
@@ -149,7 +150,8 @@ class UsersModelRemind extends JModelForm
 
 		// Check for an error.
 		if ($return !== true) {
-			return new JException(JText::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(JText::_('COM_USERS_MAIL_FAILED'), 500);
+			return false;
 		}
 
 		return true;

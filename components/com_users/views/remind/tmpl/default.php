@@ -40,7 +40,6 @@ JHtml::_('behavior.formvalidation');
 	<button type="submit"><?php echo JText::_('BUTTON_SUBMIT'); ?></button>
 
 	<input type="hidden" name="option" value="com_users" />
-	<input type="hidden" name="task" value="member.remind" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 </div>
