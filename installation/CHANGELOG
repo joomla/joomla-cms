@@ -34,6 +34,7 @@ $ -> Language fix or change
  # Fixed [#19778] processResetRequest and other related email and process problems in frontend com_users.
  ^ Added chaining support to several JController methods.
  + Added Beez2
+ # Fixed [#19440] User Manager > Users: Last Visit Date shows no time.
  
 25-Apr-2010 Jean-Marie Simonet
 $ Added some strings in frontend main ini
