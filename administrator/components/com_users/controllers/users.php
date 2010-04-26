@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * Users list controller class.
@@ -17,13 +17,20 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersControllerUsers extends JController
+class UsersControllerUsers extends JControllerAdmin
 {
+	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_USERS_USERS';
+
 	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
 	 * @see		JController
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -32,16 +39,10 @@ class UsersControllerUsers extends JController
 		$this->registerTask('block',		'changeBlock');
 		$this->registerTask('unblock',		'changeBlock');
 	}
-
-	/**
-	 * Display is not supported by this class.
-	 */
-	public function display()
-	{
-	}
-
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'User', $prefix = 'UsersModel')
 	{
@@ -51,40 +52,8 @@ class UsersControllerUsers extends JController
 
 	/**
 	 * Method to remove a record.
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
-		}
-		elseif (in_array($user->id, $ids)) {
-			JError::raiseWarning(500, JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
-		}
-		else {
-			// Get the model.
-			$model = $this->getModel();
-
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			}
-			else {
-				$this->setMessage(JText::plural('COM_USERS_N_USERS_DELETED', count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_users&view=users');
-	}
-
-	/**
-	 * Method to remove a record.
+	 *
+	 * @since	1.6
 	 */
 	public function changeBlock()
 	{
@@ -99,9 +68,7 @@ class UsersControllerUsers extends JController
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
@@ -118,6 +85,8 @@ class UsersControllerUsers extends JController
 
 	/**
 	 * Method to remove a record.
+	 *
+	 * @since	1.6
 	 */
 	public function activate()
 	{
@@ -129,18 +98,14 @@ class UsersControllerUsers extends JController
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
-		}
-		else
-		{
+		} else {
 			// Get the model.
 			$model = $this->getModel();
 
 			// Change the state of the records.
 			if (!$model->activate($ids)) {
 				JError::raiseWarning(500, $model->getError());
-			}
-			else
-			{
+			} else {
 				$this->setMessage(JText::sprintf('Users_N_Users_Activated', count($ids)));
 			}
 		}
@@ -152,6 +117,7 @@ class UsersControllerUsers extends JController
 	 * Method to run batch opterations.
 	 *
 	 * @return	void
+	 * @since	1.6
 	 */
 	function batch()
 	{
@@ -174,8 +140,7 @@ class UsersControllerUsers extends JController
 		}
 
 		// Attempt to run the batch operation.
-		if (!$model->batch($vars, $cid))
-		{
+		if (!$model->batch($vars, $cid)) {
 			// Batch operation failed, go back to the users list and display a notice.
 			$message = JText::sprintf('USERS_USER_BATCH_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=users', $message, 'error');

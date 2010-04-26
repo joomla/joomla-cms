@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * User groups list controller class.
@@ -17,51 +17,22 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersControllerGroups extends JController
+class UsersControllerGroups extends JControllerAdmin
 {
 	/**
-	 * Display is not supported by this class.
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
 	 */
-	public function display()
-	{
-	}
+	protected $text_prefix = 'COM_USERS_GROUPS';
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Group', $prefix = 'UsersModel')
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
-	}
-
-	/**
-	 * Method to remove a record.
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
-		}
-		else {
-			// Get the model.
-			$model = $this->getModel();
-
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			} else {
-				$this->setMessage(JText::plural('COM_USERS_N_GROUPS_DELETED', count($ids)));
-			}
-		}
-
-		$this->setRedirect(JRoute::_('index.php?option=com_users&view=groups', false));
 	}
 }
