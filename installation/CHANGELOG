@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Apr-2010 Jean-Marie Simonet
+$ Started refactoring com_users back-end in/keys
+^ Moved Beez language file to core folder
+
 26-Apr-2010 Andrew Eddie
  # Fixed error when saving an editor-xtd plugin.
  # Fixed [#20210] Change User modal doesn't work.

@@ -21,7 +21,7 @@ class UsersControllerMail extends JController
 	public function send()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = &$this->getModel('Mail');
 		if ($model->send()) {
@@ -37,7 +37,7 @@ class UsersControllerMail extends JController
 	public function cancel()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		$this->setRedirect('index.php');
 	}
 }

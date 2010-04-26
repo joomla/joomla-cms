@@ -11,16 +11,16 @@
 		<field name="title" type="text"
 			class="inputbox"
 			default=""
-			description="Users_Group_Title_Desc"
-			label="Users_Group_Title"
+			description="COM_USERS_GROUP_FIELD_TITLE_DESC"
+			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
 			size="40"
 		/>
 
 		<field name="parent_id" type="usergroup"
 			class="inputbox"
 			default=""
-			description="Users_Group_Parent_Desc"
-			label="Users_Group_Parent"
+			description="COM_USERS_GROUP_FIELD_PARENT_DESC"
+			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
 			required="true"
 		/>
 

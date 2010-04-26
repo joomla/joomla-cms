@@ -9,16 +9,16 @@
 	<fieldset name="user_details">
 	<field name="name" type="text"
 		class="inputbox"
-		description="Users_User_Name_Desc"
-		label="Users_User_Name_Label"
+		description="COM_USERS_USER_FIELD_NAME_DESC"
+		label="COM_USERS_USER_FIELD_NAME_LABEL"
 		required="true"
 		size="30"
 	/>
 
 	<field name="username" type="text"
 		class="inputbox"
-		description="Users_User_UserName_Desc"
-		label="Users_User_UserName_Label"
+		description="COM_USERS_USER_FIELD_USERNAME_DESC"
+		label="COM_USERS_USER_FIELD_USERNAME_LABEL"
 		required="true"
 		size="30"
 	/>
@@ -26,25 +26,25 @@
 	<field name="password" type="password"
 		autocomplete="off"
 		class="inputbox"
-		description="Users_User_Password_Desc"
+		description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 		filter="raw"
-		label="Users_User_Password_Label"
+		label="COM_USERS_USER_FIELD_PASSWORD_LABEL"
 		size="30"
 	/>
 
 	<field name="password2" type="password"
 		autocomplete="off"
 		class="inputbox"
-		description="Users_User_Password2_Desc"
+		description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 		filter="raw"
-		label="Users_User_Password2_Label"
+		label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 		size="30"
 	/>
 
 	<field name="email" type="text"
 		class="inputbox validate-email"
-		description="Users_User_Email_Desc"
-		label="Users_User_Email_Label"
+		description="COM_USERS_USER_FIELD_EMAIL_DESC"
+		label="COM_USERS_USER_FIELD_EMAIL_LABEL"
 		required="true"
 		size="30"
 		validate="email"
@@ -54,7 +54,7 @@
 			name="block"
 			type="radio"
 			default="0"
-			label="USERS_USER_BLOCK_LABEL"
+			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 			description="USERS_USER_BLOCK_DESC">
 			<option
 				value="0">JNO</option>
@@ -65,8 +65,8 @@
 			name="sendEmail"
 			type="radio"
 			default="0"
-			label="USERS_USER_SENDEMAIL_LABEL"
-			description="USERS_USER_SENDEMAIL_DESC">
+			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
+			description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
 			<option
 				value="0">JNO</option>
 			<option
@@ -101,39 +101,39 @@
 
 			<field name="admin_language" type="language"
 				client="administrator"
-				description="Users_Option_Backend_Language_Desc"
-				label="Users_Option_Backend_Language_Label"
+				description="COM_USERS_USER_FIELD_VALUE_BACKEND_LANGUAGE_DESC"
+				label="COM_USERS_USER_FIELD_VALUE_BACKEND_LANGUAGE_LABEL"
 			>
-				<option value="">JOption_Use_Default</option>
+				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="language" type="language"
 				client="site"
-				description="Users_Option_Frontend_Language_Desc"
-				label="Users_Option_Frontend_Language_Label"
+				description="COM_USERS_USER_FIELD_VALUE_FRONTEND_LANGUAGE_DESC"
+				label="COM_USERS_USER_FIELD_VALUE_FRONTEND_LANGUAGE_LABEL"
 			>
-				<option value="">JOption_Use_Default</option>
+				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="editor" type="editors"
-				description="Users_Option_Editor_Desc"
-				label="Users_Option_Editor_Label"
+				description="COM_USERS_USER_FIELD_VALUE_EDITOR_DESC"
+				label="COM_USERS_USER_FIELD_VALUE_EDITOR_LABEL"
 			>
-				<option value="">JOption_Use_Default</option>
+				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="helpsite" type="helpsite"
-				label="Users_Option_Helpsite_Label"
-				description="Users_Option_Helpsite_Desc"
+				label="COM_USERS_USER_FIELD_VALUE_HELPSITE_LABEL"
+				description="COM_USERS_USER_FIELD_VALUE_HELPSITE_DESC"
 			>
-				<option value="">JOption_Use_Default</option>
+				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="timezone" type="timezone"
-				label="Users_Option_Timezone_Label"
-				description="Users_Option_Timezone_Desc"
+				label="COM_USERS_USER_FIELD_VALUE_TIMEZONE_LABEL"
+				description="COM_USERS_USER_FIELD_VALUE_TIMEZONE_DESC"
 			>
-				<option value="">JOption_Use_Default</option>
+				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 		</fieldset>
 	</fields>

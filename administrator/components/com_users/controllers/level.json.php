@@ -112,7 +112,7 @@ class UsersLevelResponse
 		{
 			// Prepare the error response.
 			$this->error	= true;
-			$this->header	= JText::_('USERS_LEVEL_HEADER_ERROR');
+			$this->header	= JText::_('COM_USERS_LEVEL_HEADER_ERROR');
 			$this->message	= $state->getMessage();
 		}
 		else

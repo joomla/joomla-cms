@@ -29,7 +29,7 @@ class UsersControllerConfig extends JController
 	public function import()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the configuration values from the Request.
 		$string = JRequest::getVar('configString', '', 'post', 'string', JREQUEST_ALLOWHTML);
@@ -54,7 +54,7 @@ class UsersControllerConfig extends JController
 		// Handle the response.
 		if ($return === false)
 		{
-			$message = JText::sprintf('USERS_CONFIG_IMPORT_FAILED', $model->getError());
+			$message = JText::sprintf('COM_USERS_CONFIG_IMPORT_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=config&layout=import&tmpl=component', $message, 'notice');
 			return false;
 		}
@@ -74,7 +74,7 @@ class UsersControllerConfig extends JController
 	public function export()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the component configuration values.
 		$app	= JFactory::getApplication();
@@ -105,14 +105,14 @@ class UsersControllerConfig extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Save the configuration.
 		$model	= &$this->getModel('Config');
 		$return	= $model->save();
 
 		if ($return === false) {
-			$message = JText::sprintf('USERS_CONFIG_SAVE_FAILED', $model->getError());
+			$message = JText::sprintf('COM_USERS_CONFIG_SAVE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=config&tmpl=component', $message, 'notice');
 			return false;
 		}

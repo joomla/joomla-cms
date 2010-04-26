@@ -4,37 +4,37 @@
 	<fieldset>
 
 		<field name="recurse" type="checkbox"
-			description="Users_Mail_Recurse_Desc"
-			label="Users_Mail_Recurse"
+			description="COM_USERS_MAIL_FIELD_RECURSE_DESC"
+			label="COM_USERS_MAIL_FIELD_RECURSE_LABEL"
 			value="1"
 		/>
 
 		<field name="mode" type="checkbox"
-			description="Users_Mail_Send_In_HTML_Mode_Desc"
-			label="Users_Mail_Send_In_HTML_Mode"
+			description="COM_USERS_MAIL_FIELD_SEND_IN_HTML_MODE_DESC"
+			label="COM_USERS_MAIL_FIELD_SEND_IN_HTML_MODE_LABEL"
 			value="1"
 		/>
 
 		<field name="group" type="usergroup"
 			default="0"
-			description="Users_Mail_Group_Desc"
-			label="Users_Mail_Group"
+			description="COM_USERS_MAIL_FIELD_GROUP_DESC"
+			label="COM_USERS_MAIL_FIELD_GROUP_LABEL"
 			size="10"
 		>
-			<option value="0">Users_Mail_All_Users_Groups</option>
+			<option value="0">COM_USERS_MAIL_FIELD_VALUE_ALL_USERS_GROUPS</option>
 		</field>
 
 		<field name="bcc" type="checkbox"
 			default="1"
-			description="Users_Mail_Send_as_Blind_Carbon_Copy"
-			label="Users_Mail_Recipients_as_BCC"
+			description="COM_USERS_MAIL_FIELD_SEND_AS_BLIND_CARBON_COPY_DESC"
+			label="COM_USERS_MAIL_FIELD_SEND_AS_BLIND_CARBON_COPY_LABEL"
 			value="1"
 		/>
 
 		<field name="subject" type="text"
 			class="inputbox"
-			description="Users_Mail_Subject_Desc"
-			label="Users_Mail_Subject"
+			description="COM_USERS_MAIL_FIELD_SUBJECT_DESC"
+			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
 			maxlength="150"
 			size="30"
 		/>
@@ -42,8 +42,8 @@
 		<field name="message" type="textarea"
 			class="inputbox"
 			cols="70"
-			description="Users_Mail_Message_Desc"
-			label="Users_Mail_Message"
+			description="COM_USERS_MAIL_FIELD_MESSAGE_DESC"
+			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
 			rows="20"
 		/>
 	</fieldset>

@@ -32,7 +32,7 @@ class UsersControllerLevel extends JControllerForm
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('JError_No_items_selected'));
+			JError::raiseWarning(500, JText::_('COM_USERS_NO_LEVELS_SELECTED'));
 		}
 		else {
 			// Get the model.
@@ -43,7 +43,7 @@ class UsersControllerLevel extends JControllerForm
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
-				$this->setMessage(JText::sprintf('COM_USERS_N_LEVELS_DELETED', count($ids)));
+				$this->setMessage(JText::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}
 		}
 

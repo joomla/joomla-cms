@@ -25,17 +25,17 @@ class UsersHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Users_Submenu_Users'),
+			JText::_('COM_USERS_SUBMENU_USERS'),
 			'index.php?option=com_users&view=users',
 			$vName == 'users'
 		);
 		JSubMenuHelper::addEntry(
-			JText::_('Users_Submenu_Groups'),
+			JText::_('COM_USERS_SUBMENU_GROUPS'),
 			'index.php?option=com_users&view=groups',
 			$vName == 'groups'
 		);
 		JSubMenuHelper::addEntry(
-			JText::_('Users_Submenu_Levels'),
+			JText::_('COM_USERS_SUBMENU_LEVELS'),
 			'index.php?option=com_users&view=levels',
 			$vName == 'levels'
 		);
@@ -86,8 +86,8 @@ class UsersHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '0', JText::_('Users_Activated'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('Users_Unactivated'));
+		$options[]	= JHtml::_('select.option', '0', JText::_('COM_USERS_ACTIVATED'));
+		$options[]	= JHtml::_('select.option', '1', JText::_('COM_USERS_UNACTIVATED'));
 
 		return $options;
 	}
