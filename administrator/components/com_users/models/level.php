@@ -27,6 +27,7 @@ class UsersModelLevel extends JModelAdmin
 	 * @param	string	A prefix for the table class name. Optional.
 	 * @param	array	Configuration array for model. Optional.
 	 * @return	JTable	A database object
+	 * @since	1.6
 	*/
 	public function getTable($type = 'Viewlevel', $prefix = 'JTable', $config = array())
 	{
@@ -38,8 +39,8 @@ class UsersModelLevel extends JModelAdmin
 	 * Method to get a single record.
 	 *
 	 * @param	integer	The id of the primary key.
-	 *
 	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
 	 */
 	public function getItem($pk = null)
 	{
@@ -55,6 +56,7 @@ class UsersModelLevel extends JModelAdmin
 	 * Method to get the record form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
+	 * @since	1.6
 	 */
 	public function getForm()
 	{
@@ -73,57 +75,10 @@ class UsersModelLevel extends JModelAdmin
 		// Bind the form data if present.
 		if (!empty($data)) {
 			$form->bind($data);
+		} else {
+			$form->bind($this->getItem());
 		}
 
 		return $form;
-	}
-
-	/**
-	 * Method to delete rows.
-	 *
-	 * @param	array	An array of item ids.
-	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 */
-	public function delete(&$pks)
-	{
-		// Typecast variable.
-		$pks = (array) $pks;
-		$user = JFactory::getUser();
-
-		// Get a row instance.
-		$table = &$this->getTable();
-
-		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
-		{
-			if ($table->load($pk))
-			{
-				// Access checks.
-				$allow = $user->authorise('core.edit.state', 'com_users');
-
-				if ($allow)
-				{
-					if (!$table->delete($pk))
-					{
-						$this->setError($table->getError());
-						return false;
-					}
-				}
-				else
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
-				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
 	}
 }

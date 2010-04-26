@@ -35,9 +35,6 @@ class MessagesViewMessage extends JView
 			return false;
 		}
 
-		// Bind the record to the form.
-		$this->form->bind($this->item);
-
 		parent::display($tpl);
 		$this->addToolbar();
 	}

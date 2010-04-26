@@ -24,7 +24,7 @@ class BannersModelClient extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_CLIENT';
-	
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
@@ -60,7 +60,7 @@ class BannersModelClient extends JModelAdmin
 			return $user->authorise('core.edit.state', 'com_banners');
 		}
 	}
-	
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -98,6 +98,8 @@ class BannersModelClient extends JModelAdmin
 		// Bind the form data if present.
 		if (!empty($data)) {
 			$form->bind($data);
+		} else {
+			$form->bind($this->getItem());
 		}
 
 		return $form;

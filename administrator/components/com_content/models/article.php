@@ -28,7 +28,7 @@ class ContentModelArticle extends JModelAdmin
 	protected function canDelete($record)
 	{
 		$user = JFactory::getUser();
-		
+
 		return $user->authorise('core.delete', 'com_content.article.'.(int) $record->id);
 	}
 
@@ -42,7 +42,7 @@ class ContentModelArticle extends JModelAdmin
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
-		
+
 		return $user->authorise('core.edit.state', 'com_content.article.'.(int) $record->id);
 	}
 
@@ -129,6 +129,8 @@ class ContentModelArticle extends JModelAdmin
 		// Bind the form data if present.
 		if (!empty($data)) {
 			$form->bind($data);
+		} else {
+			$form->bind($this->getItem());
 		}
 
 		return $form;

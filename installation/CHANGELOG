@@ -41,7 +41,9 @@ $ Started refactoring com_users back-end in/keys
  # Fixed [#19440] User Manager > Users: Last Visit Date shows no time.
  # Fixed [#18260] Finish Publishing Date - No validation - com_content. Also fixed in banner, contact, module, newsfeed, and weblink table classes.
  # Fixed [#20235] Publish up and publish down dates cannot be reset once defined (tests added).
- 
+ # Fixed [#18265] minor validation error in com_content
+ # Fixed [#19704] User details cleared when adding new user fails (also fixed in all other affected components).
+
 25-Apr-2010 Jean-Marie Simonet
 $ Added some strings in frontend main ini
 $ Refactored error.php strings

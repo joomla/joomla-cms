@@ -38,7 +38,6 @@ class UsersViewUser extends JView
 			return false;
 		}
 
-		$this->form->bind($this->item);
 		$this->form->setValue('password',		null);
 		$this->form->setValue('password2',	null);
 

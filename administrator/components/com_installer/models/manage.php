@@ -58,8 +58,8 @@ class InstallerModelManage extends InstallerModel
 	 * @return	boolean True on success
 	 * @since	1.5
 	 */
-	function publish($eid = array(), $value = 1) {
-
+	function publish($eid = array(), $value = 1)
+	{
 		// Initialise variables.
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit.state', 'com_installer')) {
@@ -177,8 +177,7 @@ class InstallerModelManage extends InstallerModel
 				// There was an error in uninstalling the package
 				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $row->type);
 				$result = false;
-			}
-			else {
+			} else {
 
 				// Package uninstalled sucessfully
 				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $row->type);
@@ -242,8 +241,8 @@ class InstallerModelManage extends InstallerModel
 	 * @return	mixed	JForm object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function getForm() {
-
+	public function getForm()
+	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
@@ -258,13 +257,16 @@ class InstallerModelManage extends InstallerModel
 			$this->setError($form->getMessage());
 			return false;
 		}
-
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_installer.manage.data', array());
+
 		// Bind the form data if present.
 		if (!empty($data)) {
 			$form->bind($data);
+		} else {
+			$form->bind($this->getItem());
 		}
+
 		return $form;
 	}
 }

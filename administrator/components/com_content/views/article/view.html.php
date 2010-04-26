@@ -45,7 +45,7 @@ class ContentViewArticle extends JView
 			return false;
 		}
 
-		$this->form->bind($this->item);
+		//$this->form->bind($this->item);
 
 		$this->addToolbar();
 		parent::display($tpl);

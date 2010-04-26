@@ -38,8 +38,6 @@ class CategoriesViewCategory extends JView
 			return false;
 		}
 
-		$this->form->bind($this->item);
-
 		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);
 		$this->addToolbar();

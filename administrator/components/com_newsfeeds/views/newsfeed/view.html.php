@@ -38,9 +38,6 @@ class NewsfeedsViewNewsfeed extends JView
 			return false;
 		}
 
-		// Bind the record to the form.
-		$this->form->bind($this->item);
-
 		$this->addToolbar();
 		parent::display($tpl);
 	}

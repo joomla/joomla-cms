@@ -38,9 +38,6 @@ class LanguagesViewLanguage extends JView
 			return false;
 		}
 
-		// Bind the label to the form.
-		$this->form->bind($this->item);
-
 		parent::display($tpl);
 		$this->addToolbar();
 	}

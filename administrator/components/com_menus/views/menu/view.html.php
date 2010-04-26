@@ -37,8 +37,6 @@ class MenusViewMenu extends JView
 			return false;
 		}
 
-		$this->form->bind($this->item);
-
 		parent::display($tpl);
 		$this->addToolbar();
 	}
