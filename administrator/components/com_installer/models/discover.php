@@ -97,9 +97,10 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * @since	1.6
 	 */
-	function discover_install() {
+	function discover_install()
+	{
 		$app = JFactory::getApplication();
-		$installer =& JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 		$eid = JRequest::getVar('cid',0);
 		if (is_array($eid) || $eid) {
 			if (!is_array($eid)) {
