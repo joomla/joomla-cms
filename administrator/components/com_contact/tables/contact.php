@@ -140,6 +140,15 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
 			return false;
 		}
+
+		// Check the publish down date is not earlier than publish up.
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+			// Swap the dates.
+			$temp = $this->publish_up;
+			$this->publish_up = $this->publish_down;
+			$this->publish_down = $temp;
+		}
+
 		return true;
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string

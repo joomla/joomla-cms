@@ -20,7 +20,8 @@ jimport('joomla.database.tableasset');
 class JTableContent extends JTable
 {
 	/**
-	 * @param database A database connector object
+	 * @param	database	A database connector object
+	 * @since	1.0
 	 */
 	function __construct(&$db)
 	{
@@ -33,6 +34,7 @@ class JTableContent extends JTable
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return	string
+	 * @since	1.6
 	 */
 	protected function _getAssetName()
 	{
@@ -55,12 +57,13 @@ class JTableContent extends JTable
 	 * Get the parent asset id for the record
 	 *
 	 * @return	int
+	 * @since	1.6
 	 */
 	protected function _getAssetParentId()
 	{
 		// Initialise variables.
 		$assetId = null;
-		$db		= $this->getDbo();
+		$db = $this->getDbo();
 
 		// This is a article under a category.
 		if ($this->catid) {
@@ -104,8 +107,8 @@ class JTableContent extends JTable
 	 *
 	 * @param	array		$hash named array
 	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see JTable:bind
-	 * @since 1.5
+	 * @see		JTable:bind
+	 * @since	1.5
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -172,6 +175,14 @@ class JTableContent extends JTable
 		if (empty($this->introtext) && empty($this->fulltext)) {
 			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
 			return false;
+		}
+
+		// Check the publish down date is not earlier than publish up.
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+			// Swap the dates.
+			$temp = $this->publish_up;
+			$this->publish_up = $this->publish_down;
+			$this->publish_down = $temp;
 		}
 
 		// clean up keywords -- eliminate extra spaces between phrases
@@ -303,6 +314,7 @@ class JTableContent extends JTable
 	 * Converts record to XML
 	 *
 	 * @param	boolean	Map foreign keys to text values
+	 * @since	1.5
 	 */
 	function toXML($mapKeysToText=false)
 	{

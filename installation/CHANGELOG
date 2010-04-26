@@ -39,6 +39,7 @@ $ Started refactoring com_users back-end in/keys
  ^ Added chaining support to several JController methods.
  + Added Beez2
  # Fixed [#19440] User Manager > Users: Last Visit Date shows no time.
+ # Fixed [#18260] Finish Publishing Date - No validation - com_content. Also fixed in banner, contact, module, newsfeed, and weblink table classes.
  
 25-Apr-2010 Jean-Marie Simonet
 $ Added some strings in frontend main ini

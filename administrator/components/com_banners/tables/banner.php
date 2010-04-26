@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -13,65 +13,15 @@ defined('_JEXEC') or die;
  *
  * @package		Joomla.Framework
  * @subpackage	com_banners
- * @since		1.6
+ * @since		1.5
  */
 class BannersTableBanner extends JTable
 {
-	/** @var int */
-	var $id				= null;
-	/** @var int */
-	var $cid				= null;
-	/** @var int */
-	var $type				= 0;
-	/** @var string */
-	var $name				= '';
-	/** @var string */
-	var $alias				= '';
-	/** @var int */
-	var $imptotal			= 0;
-	/** @var int */
-	var $impmade			= 0;
-	/** @var int */
-	var $clicks				= 0;
-	/** @var string */
-	var $clickurl			= '';
-	/** @var int */
-	var $state				= null;
-	/** @var int */
-	var $catid				= null;
-	/** @var string */
-	var $description		= null;
-	/** @var int */
-	var $sticky				= null;
-	/** @var int */
-	var $ordering			= null;
-	/** @var string */
-	var $metakey		= null;
-	/** @var string */
-	var $params				= null;
-	/** @var int */
-	var $own_prefix			= 0;
-	/** @var string */
-	var $metakey_prefix	= null;
-	/** @var int */
-	var $purchase_type		= 0;
-	/** @var int */
-	var $track_clicks		= 0;
-	/** @var int */
-	var $track_impressions	= 0;
-	/** @var int */
-	var $checked_out		= 0;
-	/** @var date */
-	var $checked_out_time	= 0;
-	/** @var date */
-	var $publish_up			= null;
-	/** @var date */
-	var $publish_down		= null;
-	/** @var date creation date */
-	var $created			= null;
-	/** @var date reset date */
-	var $reset			= null;
-
+	/**
+	 * Constructor
+	 *
+	 * @since	1.5
+	 */
 	function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
@@ -91,9 +41,9 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return boolean
-	 * @see JTable::check
-	 * @since 1.5
+	 * @return	boolean
+	 * @see		JTable::check
+	 * @since	1.5
 	 */
 	function check()
 	{
@@ -108,12 +58,19 @@ class BannersTableBanner extends JTable
 			$this->alias = JApplication::stringURLSafe($this->name);
 		}
 
+		// Check the publish down date is not earlier than publish up.
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+			// Swap the dates.
+			$temp = $this->publish_up;
+			$this->publish_up = $this->publish_down;
+			$this->publish_down = $temp;
+		}
+
 		// Set ordering
-		if($this->state<0) {
+		if ($this->state < 0) {
 			// Set ordering to 0 if state is archived or trashed
 			$this->ordering = 0;
-		}
-		elseif(empty($this->ordering)) {
+		} else if (empty($this->ordering)) {
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder('`catid`=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}

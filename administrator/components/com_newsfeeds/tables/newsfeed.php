@@ -61,7 +61,8 @@ class NewsfeedsTableNewsfeed extends JTable
 			$this->setError(JText::_('Newsfeed_must_have_title'));
 			return false;
 		}
-		/** check for valid name */
+
+		// Check for valid name.
 		if (trim($this->name) == '') {
 			$this->setError(JText::_('COM_NEWSFEED_WARNING_PROVIDE_VALID_NAME'));
 			return false;
@@ -71,10 +72,18 @@ class NewsfeedsTableNewsfeed extends JTable
 			$this->alias = $this->name;
 		}
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '')
-		{
+		if (trim(str_replace('-','',$this->alias)) == '') {
 			$this->alias = JFactory::getDate()->toFormat("%Y-%m-%d-%H-%M-%S");
 		}
+
+		// Check the publish down date is not earlier than publish up.
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+			// Swap the dates.
+			$temp = $this->publish_up;
+			$this->publish_up = $this->publish_down;
+			$this->publish_down = $temp;
+		}
+
 		// clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey)) {
@@ -97,6 +106,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
+
 		return true;
 	}
 	/**
