@@ -1,8 +1,8 @@
 <?php
-
-
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Table
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -41,10 +41,17 @@ class JTableModule extends JTable
 	public function check()
 	{
 		// check for valid name
-		if (trim($this->title) == '')
-		{
+		if (trim($this->title) == '') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
 			return false;
+		}
+
+		// Check the publish down date is not earlier than publish up.
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+			// Swap the dates.
+			$temp = $this->publish_up;
+			$this->publish_up = $this->publish_down;
+			$this->publish_down = $temp;
 		}
 
 		return true;
@@ -60,8 +67,7 @@ class JTableModule extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (is_array($array['params']))
-		{
+		if (is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;
