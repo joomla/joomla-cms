@@ -1109,23 +1109,27 @@ class JForm
 
 			// Convert a date to UTC based on the server timezone offset.
 			case 'SERVER_UTC':
-				if (intval($value)) {
+				if (intval($value) > 0) {
 					// Get the server timezone setting.
 					$offset	= JFactory::getConfig()->get('offset');
 
 					// Return a MySQL formatted datetime string in UTC.
 					$return = JFactory::getDate($value, $offset)->toMySQL();
+				} else {
+					$return = '';
 				}
 				break;
 
 			// Convert a date to UTC based on the user timezone offset.
 			case 'USER_UTC':
-				if (intval($value)) {
+				if (intval($value) > 0) {
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset	= $user->getParam('timezone', JFactory::getConfig()->get('offset'));
 
 					// Return a MySQL formatted datetime string in UTC.
 					$return = JFactory::getDate($value, $offset)->toMySQL();
+				} else {
+					$return = '';
 				}
 				break;
 
