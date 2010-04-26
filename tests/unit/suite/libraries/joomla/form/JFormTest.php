@@ -387,6 +387,30 @@ class JFormTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The default strict filter should be correctly applied.'
 		);
 
+		$this->assertThat(
+			$form->filterField($form->findField('server_utc'), 'foo'),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' A non-date for a server_utc filter should return nothing.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('server_utc'), ''),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' An empty date for a server_utc filter should return nothing.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('user_utc'), 'foo'),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' A non-date for a user_utc filter should return nothing.'
+		);
+
+		$this->assertThat(
+			$form->filterField($form->findField('user_utc'), ''),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' An empty date for a user_utc filter should return nothing.'
+		);
+
 		$this->markTestIncomplete('Need to deal with SERVER_UTC and USER_UTC filters');
 
 	/*

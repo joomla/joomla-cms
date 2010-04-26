@@ -59,13 +59,13 @@ class JFormDataHelper
 			name="safehtml" filter="safehtml" />
 
 		<field
-			name="server_utc" filter="2009-01-01 00:00:00" />
+			name="server_utc" filter="server_utc" />
 
 		<field
 			name="unset" filter="unset" />
 
 		<field
-			name="user_utc" filter="2009-01-01 00:00:00" />
+			name="user_utc" filter="user_utc" />
 
 		<field
 			name="word" filter="word" />
