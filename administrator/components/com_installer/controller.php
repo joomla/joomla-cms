@@ -39,13 +39,12 @@ class InstallerController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
-		{
+		if ($view = $this->getView($vName, $vFormat)) {
 			$ftp	= JClientHelper::setCredentialsFromRequest('ftp');
 			$view->assignRef('ftp', $ftp);
 
 			// Get the model for the view.
-			$model = &$this->getModel($vName);
+			$model = $this->getModel($vName);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);

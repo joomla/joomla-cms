@@ -167,8 +167,7 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Check if there was a problem uploading the file.
-		if ($userfile['error'] || $userfile['size'] < 1)
-		{
+		if ($userfile['error'] || $userfile['size'] < 1) {
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'));
 			return false;
 		}
