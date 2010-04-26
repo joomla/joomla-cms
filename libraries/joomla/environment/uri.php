@@ -672,30 +672,32 @@ class JURI extends JObject
 	{
 		$path = explode('/', preg_replace('#(/+)#', '/', $path));
 
-		for ($i = 0; $i < count($path); $i ++)
+		for ($i = 0, $n = count($path); $i < $n; $i ++)
 		{
-			if ($path[$i] == '.')
+			if ($path[$i] == '.' OR $path[$i] == '..')
 			{
-				unset ($path[$i]);
-				$path = array_values($path);
-				$i --;
-			}
-			elseif ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != '')))
-			{
-				unset ($path[$i]);
-				unset ($path[$i -1]);
-				$path = array_values($path);
-				$i -= 2;
-			}
-			elseif ($path[$i] == '..' AND $i == 1 AND $path[0] == '')
-			{
-				unset ($path[$i]);
-				$path = array_values($path);
-				$i --;
-			}
-			else
-			{
-				continue;
+				if($path[$i] == '.')
+				{
+					unset ($path[$i]);
+					$path = array_values($path);
+					$i --;
+					$n --;
+				}
+				elseif ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != '')))
+				{
+					unset ($path[$i]);
+					unset ($path[$i -1]);
+					$path = array_values($path);
+					$i -= 2;
+					$n -= 2;
+				}
+				elseif ($path[$i] == '..' AND $i == 1 AND $path[0] == '')
+				{
+					unset ($path[$i]);
+					$path = array_values($path);
+					$i --;
+					$n --;
+				}
 			}
 		}
 

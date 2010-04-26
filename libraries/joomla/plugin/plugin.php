@@ -77,7 +77,7 @@ abstract class JPlugin extends JEvent
 		if (isset($config['type'])) {
 			$this->_type = $config['type'];
 		}
-		$events = get_class_methods($this);
+		$events = array_diff(get_class_methods($this), get_class_methods('JPlugin'));
 		foreach($events as $event)
 		{
 			$method = array('event' => $event, 'handler' => array($this, 'onFireEvent'));

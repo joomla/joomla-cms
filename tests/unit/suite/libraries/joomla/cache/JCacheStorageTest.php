@@ -127,6 +127,7 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 	public function testGetInstance( $handler, $options, $expClass)
 	{
 		$this->object = JCacheStorage::getInstance($handler, $options);
+		$config = &JFactory::getConfig();
 		$this->assertThat(
 			$this->object,
 			$this->isInstanceOf($expClass)
@@ -145,10 +146,10 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertThat(
 			$this->object->_lifetime,
-			$this->equalTo(empty($options['lifetime']) ? 60 : $options['lifetime'])
+			$this->equalTo(empty($options['lifetime']) ? $config->get('lifetime') : $options['lifetime'])
 		);
 		$this->assertLessThan(
-			15,
+			$config->get('lifetime'),
 			abs($this->object->_now - time())
 		);
 	}

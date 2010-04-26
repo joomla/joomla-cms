@@ -58,7 +58,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 			'simple' => array(
 				'output',
 				array(),
-				'JCacheOutput',
+				'JCacheControllerOutput',
 			),
 			'complexOutput' => array(
 				'output',
@@ -68,7 +68,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				'JCacheOutput',
+				'JCacheControllerOutput',
 			),
 			'complexPage' => array(
 				'page',
@@ -78,7 +78,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				'JCachePage',
+				'JCacheControllerPage',
 			),
 			'complexView' => array(
 				'view',
@@ -88,7 +88,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				'JCacheView',
+				'JCacheControllerView',
 			),
 			'complexCallback' => array(
 				'callback',
@@ -98,7 +98,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				'JCacheCallback',
+				'JCacheControllerCallback',
 			),
 		);
 	}
@@ -192,10 +192,10 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object = JCache::getInstance($handler, $options);
 
-		$caching = $this->object->_options['caching'];
+		$caching = $this->object->options['caching'];
 		$this->object->setCaching(!$caching);
 		$this->assertThat(
-			$this->object->_options['caching'],
+			$this->object->options['caching'],
 			$this->equalTo(!$caching)
 		);
 	}
@@ -221,7 +221,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				1111,
+				15*60,
 			),
 			'complexPage' => array(
 				'page',
@@ -231,7 +231,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				1111,
+				15*60,
 			),
 			'complexView' => array(
 				'view',
@@ -241,7 +241,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				1111,
+				15*60,
 			),
 			'complexCallback' => array(
 				'callback',
@@ -251,7 +251,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				1111,
+				15*60,
 			),
 		);
 	}
@@ -271,7 +271,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		$this->object = JCache::getInstance($handler, $options);
 		$this->object->setLifeTime($lifetime);
 		$this->assertThat(
-			$this->object->_options['lifetime'],
+			$this->object->options['lifetime'],
 			$this->equalTo($lifetime)
 		);
 	}

@@ -128,25 +128,28 @@ class JRegistry
 		// Initialise variables.
 		$result = $default;
 
+		if(!strpos($path, '.'))
+		{
+			return (isset($this->data->$path) && $this->data->$path !== null && $this->data->$path !== '') ? $this->data->$path : $default;
+		}
 		// Explode the registry path into an array
-		if ($nodes = explode('.', $path)) {
-			// Initialize the current node to be the registry root.
-			$node = $this->data;
+		$nodes = explode('.', $path);
 
-			// Traverse the registry to find the correct node for the result.
-			for ($i = 0,$n = count($nodes); $i < $n; $i++) {
-				if (isset($node->$nodes[$i])) {
-					$node = $node->$nodes[$i];
-				} else {
-					break;
-				}
-
-				if ($i+1 == $n) {
-					if ($node !== null && $node !== '') {
-						$result = $node;
-					}
-				}
+		// Initialize the current node to be the registry root.
+		$node = $this->data;
+		$found = false;
+		// Traverse the registry to find the correct node for the result.
+		foreach ($nodes as $n) {
+			if (isset($node->$n)) {
+				$node = $node->$n;
+				$found = true;
+			} else {
+				$found = false;
+				break;
 			}
+		}
+		if ($found && $node !== null && $node !== '') {
+			$result = $node;
 		}
 
 		return $result;
@@ -214,14 +217,12 @@ class JRegistry
 	{
 		if (is_object($object)) {
 			foreach (get_object_vars($object) as $k => $v) {
-				if (substr($k, 0,1) != '_' || $k == '_name') {
-					if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v)) {
-						$this->data->$k = new stdClass();
-						$this->bindData($this->data->$k, $v);
-					}
-					else {
-						$this->data->$k = $v;
-					}
+				if (is_scalar($v))
+				{
+					$this->data->$k = $v;
+				} elseif (is_object($v) || (is_array($v) && JArrayHelper::isAssociative($v))) {
+					$this->data->$k = new stdClass();
+					$this->bindData($this->data->$k, $v);
 				}
 			}
 		}

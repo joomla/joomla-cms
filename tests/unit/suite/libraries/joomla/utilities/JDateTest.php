@@ -91,7 +91,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertThat(
 			$expectedTime,
-			$this->equalTo($jdate->format('D m/d/Y H:i'))
+			$this->equalTo($jdate->format('D m/d/Y H:i', true))
 		);
 	}
 
@@ -722,7 +722,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->setTimezone(new DateTimeZone($tz));
 		$this->assertThat(
-			$this->object->format('r'),
+			$this->object->format('r', true),
 			$this->equalTo($expected)
 		);
 	}
@@ -779,7 +779,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object->setOffset($offset);
 		$this->assertThat(
-			$this->object->format('r'),
+			$this->object->format('r', true),
 			$this->equalTo($expected)
 		);
 	}

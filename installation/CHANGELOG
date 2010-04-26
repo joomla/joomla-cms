@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Nov-2010 Hannes Papenberg
+# Performance Improvements in JMenuSite, JObservable, JURI, JError, JDispatcher, JFilterinput, JPluginHelper, JPlugin, JRegistry
+# Fixed errors in JControllerTest, JControllerFormTest, JCacheStorageTest, JCacheTest, JTableContentTest, JUserTest, JDateTest
+
 26-Apr-2010 Jean-Marie Simonet
 $ Started refactoring com_users back-end in/keys
 ^ Moved Beez language file to core folder

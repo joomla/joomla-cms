@@ -40,7 +40,7 @@ class JControllerFormTest extends PHPUnit_Framework_TestCase
 		$object = new MincesControllerMince(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path'	=> 'null'
+				'base_path'	=> JPATH_BASE.'/component/com_foobar'
 			)
 		);
 
@@ -81,7 +81,7 @@ class JControllerFormTest extends PHPUnit_Framework_TestCase
 		$object = new MiniesControllerMiny(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path'	=> 'null'
+				'base_path'	=> JPATH_BASE.'/component/com_foobar'
 			)
 		);
 
@@ -100,7 +100,7 @@ class JControllerFormTest extends PHPUnit_Framework_TestCase
 		$object = new MintsControllerMint(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path'	=> 'null'
+				'base_path'	=> JPATH_BASE.'/component/com_foobar'
 			)
 		);
 
@@ -122,7 +122,7 @@ class JControllerFormTest extends PHPUnit_Framework_TestCase
 		$object = new MintsControllerMint(
 			array(
 				// Neutralise a JPATH_COMPONENT not defined error.
-				'base_path'	=> 'null'
+				'base_path'	=> JPATH_BASE.'/component/com_foobar'
 			)
 		);
 		/*

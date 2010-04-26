@@ -48,20 +48,17 @@ class JMenuSite extends JMenu
 			foreach ($menus as &$menu) {
 				// Get parent information.
 				$parent_tree = array();
-				if (($parent = $menu->parent_id) && (isset($menus[$parent])) &&
-					(is_object($menus[$parent])) && (isset($menus[$parent]->route)) && isset($menus[$parent]->tree)) {
-					$parent_tree  = $menus[$parent]->tree;
+				if (isset($menus[$menu->parent_id])) {
+					$parent_tree  = $menus[$menu->parent_id]->tree;
 				}
 
 				// Create tree.
-				array_push($parent_tree, $menu->id);
+				$parent_tree[] = $menu->id;
 				$menu->tree = $parent_tree;
 
 				// Create the query array.
 				$url = str_replace('index.php?', '', $menu->link);
-				if (strpos($url, '&amp;') !== false) {
-					$url = str_replace('&amp;','&',$url);
-				}
+				$url = str_replace('&amp;','&',$url);
 
 				parse_str($url, $menu->query);
 			}

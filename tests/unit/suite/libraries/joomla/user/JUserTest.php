@@ -95,7 +95,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 				false,
 				array(
 					'code' => 'SOME_ERROR_CODE',
-					'msg' => 'JUser::_load: User nobody does not exist',
+					'msg' => 'JLIB_USER_ERROR_ID_NOT_EXISTS',
 					'info' => ''
 				),
 			),

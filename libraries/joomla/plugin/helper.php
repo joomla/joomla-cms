@@ -34,21 +34,21 @@ abstract class JPluginHelper
 		$plugins	= self::_load();
 
 		// Find the correct plugin(s) to return.
-		for ($i = 0, $t = count($plugins); $i < $t; $i++)
+		if(!$plugin)
 		{
-			// Are we loading a single plugin or a group?
-			if (is_null($plugin))
+			foreach($plugins as $p)
 			{
 				// Is this the right plugin?
-				if ($plugins[$i]->type == $type) {
-					$result[] = $plugins[$i];
+				if ($p->type == $type) {
+					$result[] = $p;
 				}
 			}
-			else
+		} else {
+			foreach($plugins as $p)
 			{
 				// Is this plugin in the right group?
-				if ($plugins[$i]->type == $type && $plugins[$i]->name == $plugin) {
-					$result = $plugins[$i];
+				if ($p->type == $type && $p->name == $plugin) {
+					$result = $p;
 					break;
 				}
 			}
@@ -82,20 +82,36 @@ abstract class JPluginHelper
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
-		$results = null;
+		static $loaded = Array();
 
-		// Load the plugins from the database.
-		$plugins = self::_load();
-
-		// Get the specified plugin(s).
-		for ($i = 0, $t = count($plugins); $i < $t; $i++) {
-			if ($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
-				self::_import($plugins[$i], $autocreate, $dispatcher);
-				$results = true;
-			}
+		// check for the default args, if so we can optimise cheaply
+		$defaults = false;
+		if(is_null($plugin) && $autocreate == true && is_null($dispatcher)) {
+			$defaults = true;
 		}
 
-		return $results;
+		if(!isset($loaded[$type]) || !$defaults) {
+			$results = null;
+
+			// Load the plugins from the database.
+			$plugins = self::_load();
+
+			// Get the specified plugin(s).
+			for ($i = 0, $t = count($plugins); $i < $t; $i++) {
+				if ($plugins[$i]->type == $type && ($plugins[$i]->name == $plugin ||  $plugin === null)) {
+					self::_import($plugins[$i], $autocreate, $dispatcher);
+					$results = true;
+				}
+ 			}
+
+			// bail out early if we're not using default args
+			if(!$defaults) {
+				return $results;
+			}
+			$loaded[$type] = $results;
+		}
+
+		return $loaded[$type];
 	}
 
 	/**

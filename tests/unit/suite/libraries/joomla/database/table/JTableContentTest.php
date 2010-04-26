@@ -31,7 +31,7 @@ class JTableContentTest extends PHPUnit_Framework_TestCase
 	public function testCheck()
 	{
 		// Mock the database table class.
-		$dbStub = $this->getMock( 'JDatabase', array('getTableFields'));
+		$dbStub = $this->getMock( 'JDatabaseMySQL', array('getTableFields'));
         $dbStub->expects($this->any())
 			->method('getTableFields')
 			->will($this->returnValue(array()));
