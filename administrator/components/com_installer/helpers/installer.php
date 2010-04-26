@@ -1,11 +1,13 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -50,10 +52,12 @@ class InstallerHelper
 			$vName == 'warnings'
 		);
 	}
+
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return	JObject
+	 * @since	1.6
 	 */
 	public static function getActions()
 	{

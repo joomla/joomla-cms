@@ -8,7 +8,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
+include_once dirname(__FILE__).'/../default/view.php';
 
 /**
  * Extension Manager Update View
@@ -19,20 +19,20 @@ include_once dirname(__FILE__).DS.'..'.DS.'default'.DS.'view.php';
  */
 class InstallerViewUpdate extends InstallerViewDefault
 {
+	/**
+	 * @since	1.6
+	 */
 	function display($tpl=null)
 	{
 		// Get data from the model
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
 
 		$paths = new stdClass();
 		$paths->first = '';
 
 		$this->assignRef('paths', $paths);
-		$this->assignRef('state', $this->get('state'));
-		$this->assignRef('items',		$items);
-		$this->assignRef('pagination',	$pagination);
 
 		parent::display($tpl);
 	}

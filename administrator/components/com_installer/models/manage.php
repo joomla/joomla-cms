@@ -1,12 +1,13 @@
 <?php
-
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 // Import library dependencies
@@ -19,7 +20,8 @@ require_once dirname(__FILE__) . '/extension.php';
  * @subpackage	com_installer
  * @since		1.5
  */
-class InstallerModelManage extends InstallerModel {
+class InstallerModelManage extends InstallerModel
+{
 	protected $_context = 'com_installer.manage';
 
 	/**
@@ -39,8 +41,7 @@ class InstallerModelManage extends InstallerModel {
 		$data = JRequest::getVar('filters');
 		if (empty($data)) {
 			$data = $app->getUserState('com_installer.manage.data', array());
-		}
-		else {
+		} else {
 			$app->setUserState('com_installer.manage.data', $data);
 		}
 		$this->setState('filter.search', isset($data['search']['expr']) ? $data['search']['expr'] : '');
@@ -52,11 +53,10 @@ class InstallerModelManage extends InstallerModel {
 	}
 
 	/**
-	 * Enable/Disable an extension
+	 * Enable/Disable an extension.
 	 *
-	 * @static
-	 * @return boolean True on success
-	 * @since 1.0
+	 * @return	boolean True on success
+	 * @since	1.5
 	 */
 	function publish($eid = array(), $value = 1) {
 
@@ -74,10 +74,10 @@ class InstallerModelManage extends InstallerModel {
 			}
 
 			// Get a database connector
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 
 			// Get a table object for the extension type
-			$table = & JTable::getInstance('Extension');
+			$table = JTable::getInstance('Extension');
 
 			// Enable the extension in the table and store it in the database
 			foreach($eid as $id) {
@@ -96,23 +96,25 @@ class InstallerModelManage extends InstallerModel {
 	}
 
 	/**
-	 * Refreshes the cached manifest information for an extension
-	 * @param int extension identifier (key in #__extensions)
-	 * @return boolean result of refresh
-	 * @since 1.6
+	 * Refreshes the cached manifest information for an extension.
+	 *
+	 * @param	int		extension identifier (key in #__extensions)
+	 * @return	boolean	result of refresh
+	 * @since	1.6
 	 */
-	function refresh($eid) {
+	function refresh($eid)
+	{
 		if (!is_array($eid)) {
 			$eid = array($eid => 0);
 		}
 
 		// Get a database connector
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
-		$installer = & JInstaller::getInstance();
-		$row = & JTable::getInstance('extension');
+		$installer = JInstaller::getInstance();
+		$row = JTable::getInstance('extension');
 		$result = 0;
 
 		// Uninstall the chosen extensions
@@ -125,12 +127,12 @@ class InstallerModelManage extends InstallerModel {
 	/**
 	 * Remove (uninstall) an extension
 	 *
-	 * @static
 	 * @param	array	An array of identifiers
 	 * @return	boolean	True on success
-	 * @since 1.0
+	 * @since	1.5
 	 */
-	function remove($eid = array()) {
+	function remove($eid = array())
+	{
 		// Initialise variables.
 		$user = JFactory::getUser();
 		if ($user->authorise('core.delete', 'com_installer')) {
@@ -151,8 +153,8 @@ class InstallerModelManage extends InstallerModel {
 
 			// Get an installer object for the extension type
 			jimport('joomla.installer.installer');
-			$installer = & JInstaller::getInstance();
-			$row = & JTable::getInstance('extension');
+			$installer = JInstaller::getInstance();
+			$row = JTable::getInstance('extension');
 
 			// Uninstall the chosen extensions
 			foreach($eid as $id) {
@@ -182,7 +184,7 @@ class InstallerModelManage extends InstallerModel {
 				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $row->type);
 				$result = true;
 			}
-			$app = & JFactory::getApplication();
+			$app = JFactory::getApplication();
 			$app->enqueueMessage($msg);
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
@@ -198,9 +200,11 @@ class InstallerModelManage extends InstallerModel {
 	/**
 	 * Method to get the database query
 	 *
-	 * @return JDatabaseQuery the database query
+	 * @return	JDatabaseQuery	The database query
+	 * @since	1.6
 	 */
-	protected function getListQuery() {
+	protected function getListQuery()
+	{
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client');
 		$group = $this->getState('filter.group');
@@ -236,20 +240,21 @@ class InstallerModelManage extends InstallerModel {
 	 * Method to get the row form.
 	 *
 	 * @return	mixed	JForm object on success, false on failure.
+	 * @since	1.6
 	 */
 	public function getForm() {
 
 		// Initialise variables.
-		$app = & JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Get the form.
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = & JForm::getInstance('com_installer.manage', 'manage', array('control' => 'filters', 'event' => 'onPrepareForm'));
+		$form = JForm::getInstance('com_installer.manage', 'manage', array('control' => 'filters', 'event' => 'onPrepareForm'));
 
 		// Check for an error.
-		if (JError::isError($form)) {
+		if ($form == false) {
 			$this->setError($form->getMessage());
 			return false;
 		}

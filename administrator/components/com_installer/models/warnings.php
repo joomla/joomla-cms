@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +19,7 @@ jimport('joomla.filesystem.folder');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_installer
- * @since		1.5
+ * @since		1.6
  */
 class InstallerModelWarnings extends JModelList
 {
@@ -28,9 +30,10 @@ class InstallerModelWarnings extends JModelList
 	var $type = 'warnings';
 
 	/**
-	 * Return the byte value of a particular string
-	 * @param string String optionally with G, M or K suffix
-	 * @return int size in bytes
+	 * Return the byte value of a particular string.
+	 *
+	 * @param	string	String optionally with G, M or K suffix
+	 * @return	int		size in bytes
 	 * @since 1.6
 	 */
 	function return_bytes($val)
@@ -51,7 +54,9 @@ class InstallerModelWarnings extends JModelList
 	}
 
 	/**
-	 * Load the data
+	 * Load the data.
+	 *
+	 * @since	1.6
 	 */
 	function getItems()
 	{

@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_installer
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,10 +18,8 @@ jimport('joomla.updater.update');
 
 /**
  * @package		Joomla.Administrator
- *
- * @package		Joomla
  * @subpackage	com_installer
- * @since		1.5
+ * @since		1.6
  */
 class InstallerModelUpdate extends JModelList
 {
@@ -43,32 +43,39 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Method to get the database query
 	 *
-	 * @return JDatabaseQuery the database query
+	 * @return	JDatabaseQuery	The database query
+	 * @since	1.6
 	 */
 	protected function getListQuery()
 	{
-		$query = new JDatabaseQuery;
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__updates');
 		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
+
 		return $query;
 	}
 
 	/**
-	 * Finds updates for an extension
-	 * @param int Extension identifier to look for
-	 * @return boolean Result
+	 * Finds updates for an extension.
+	 *
+	 * @param	int		Extension identifier to look for
+	 * @return	boolean Result
+	 * @since	1.6
 	 */
 	public function findUpdates($eid=0)
 	{
-		$updater =& JUpdater::getInstance();
+		$updater = JUpdater::getInstance();
 		$results = $updater->findUpdates($eid);
 		return true;
 	}
 
 	/**
-	 * Removes all of the updates from the table
-	 * @return boolean result of operation
+	 * Removes all of the updates from the table.
+	 *
+	 * @return	boolean result of operation
+	 * @since	1.6
 	 */
 	public function purge()
 	{
@@ -86,9 +93,12 @@ class InstallerModelUpdate extends JModelList
 	}
 
 	/**
-	 * Update function
-	 * Sets the "result" state with the result of the operation
-	 * @param Array[int] List of updates to apply
+	 * Update function.
+	 *
+	 * Sets the "result" state with the result of the operation.
+	 *
+	 * @param	Array[int] List of updates to apply
+	 * @since	1.6
 	 */
 	public function update($uids)
 	{
@@ -108,9 +118,11 @@ class InstallerModelUpdate extends JModelList
 	}
 
 	/**
-	 * Handles the actual update installation
-	 * @param JUpdate an update definition
-	 * @return boolean Result of install
+	 * Handles the actual update installation.
+	 *
+	 * @param	JUpdate	An update definition
+	 * @return	boolean	Result of install
+	 * @since	1.6
 	 */
 	private function install($update)
 	{
@@ -166,7 +178,7 @@ class InstallerModelUpdate extends JModelList
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
-			$config =& JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path').DS.$package['packagefile'];
 		}
 
