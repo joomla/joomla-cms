@@ -59,9 +59,6 @@ w
 	 */
 	public static function isError(& $object)
 	{
-		if (!is_object($object)) {
-			return false;
-		}
 		// supports PHP 5 exception handling
 		return $object INSTANCEOF Exception;
 	}
