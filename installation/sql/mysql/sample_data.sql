@@ -891,8 +891,8 @@ INSERT INTO `#__social_threads` VALUES
 --
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-(4, 'rhuk_milkyway', 0, 0, 'rhuk_milkyway Green', '{"colorVariation":"green","backgroundVariation":"green","widthStyle":"fmax"}'),
-(5, 'rhuk_milkyway', 0, 0, 'rhuk_milkyway Red', '{"colorVariation":"orange","backgroundVariation":"orange","widthStyle":"small"}');
+(100, 'rhuk_milkyway', 0, 0, 'rhuk_milkyway Green', '{"colorVariation":"green","backgroundVariation":"green","widthStyle":"fmax"}'),
+(111, 'rhuk_milkyway', 0, 0, 'rhuk_milkyway Red', '{"colorVariation":"orange","backgroundVariation":"orange","widthStyle":"small"}');
 
 
 

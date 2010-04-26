@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed [#18567] When trying to create an account from the front end.
  # Fixed [#19778] processResetRequest and other related email and process problems in frontend com_users.
  ^ Added chaining support to several JController methods.
+ + Added Beez2
  
 25-Apr-2010 Jean-Marie Simonet
 $ Added some strings in frontend main ini
