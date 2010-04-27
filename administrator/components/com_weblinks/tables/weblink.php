@@ -77,7 +77,22 @@ class WeblinksTableWeblink extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
-
+			$date	= JFactory::getDate();
+			$user	= JFactory::getUser();
+			if ($this->id) {
+				// Existing item
+				$this->modified		= $date->toMySQL();
+				$this->modified_by	= $user->get('id');
+				} else {
+				// New weblink. A weblink created and created_by field can be set by the user,
+				// so we don't touch either of these if they are set.
+				if (!intval($this->created)) {
+					$this->created = $date->toMySQL();
+				}
+				if (empty($this->created_by)) {
+					$this->created_by = $user->get('id');
+				}
+				}	
 		// Attempt to store the user data.
 		return parent::store($updateNulls);
 	}

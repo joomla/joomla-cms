@@ -17,12 +17,43 @@
 		<fields name="params">
 
 			<fieldset name="basic">
+
 				<field name="search_limit" type="text"
 					default="50"
-					description="PLG_SEARCH_NEWSFEEDS_FIELD_SEARCHLIMIT_DESC"
-					label="PLG_SEARCH_NEWSFEEDS_FIELD_SEARCHLIMIT_LABEL"
+					description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
+					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					size="5"
 				/>
+				<field name="spacer1" type="spacer"
+					hr="true"
+				/>
+
+				<field name="search_content" type="radio"
+					default="0"
+					description="JFIELD_PLG_SEARCH_ALL_DESC"
+					label="JFIELD_PLG_SEARCH_ALL_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+
+				<field name="search_uncategorised" type="radio"
+					default="0"
+					description="JFIELD_PLG_SEARCH_UNCATEGORIZED_DESC"
+					label="JFIELD_PLG_SEARCH_UNCATEGORIZED_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
+
+				<field name="search_archived" type="radio"
+					default="0"
+					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
+					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>	
 			</fieldset>
 
 		</fields>

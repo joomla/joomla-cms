@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -13,7 +13,7 @@ jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
- * Supports an HTML select list of newsfeeds
+ * Supports an HTML select list of plugins
  *
  * @package		Joomla.Administrator
  * @subpackage	com_newsfeeds
@@ -50,23 +50,24 @@ class JFormFieldOrdering extends JFormField
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		// Get some field values from the form.
-		$newsfeedId	= (int) $this->form->getValue('id');
-		$categoryId	= (int) $this->form->getValue('catid');
-
+		$pluginId	= (int) $this->form->getValue('extension_id');
+		$folder	=  $this->form->getValue('folder');
+		$db = JFactory::getDbo();
+		
 		// Build the query for the ordering list.
-		$query = 'SELECT ordering AS ordering, name AS text' .
-				' FROM #__newsfeeds' .
-				' WHERE catid = ' . (int) $categoryId .
+		$query = 'SELECT ordering AS ordering, name AS text, type AS type, folder AS folder, extension_id AS extension_id' .
+				' FROM #__extensions' .
+				' WHERE (type =' .$db->Quote(plugin). 'AND folder='. $db->Quote($folder) . ')'.
 				' ORDER BY ordering';
 
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true') {
-			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $newsfeedId ? 0 : 1);
-			$html[] = '<input type="hidden" name="'.$this->name.'" ordering="'.$this->ordering.'"/>';
+			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $pluginId ? 0 : 1);
+			$html[] = '<input type="hidden"'.'value="'.$this->ordering.'"/>';
 		}
 		// Create a regular list.
 		else {
-			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $newsfeedId ? 0 : 1);
+			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->ordering, $pluginId ? 0 : 1);
 		}
 
 		return implode($html);

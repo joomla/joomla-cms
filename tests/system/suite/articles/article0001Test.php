@@ -22,25 +22,25 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
-		echo "Go to front end and check that Designers and Developers is shown" . "\n";
+		echo "Go to front end and check that Professionals is shown" . "\n";
 		$this->gotoSite();
-		$this->assertTrue($this->isTextPresent("Designers and Developers"));
+		$this->assertTrue($this->isTextPresent("Professionals"));
 
 		echo "Go to back end and unpublish" . "\n";
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		$this->type("filter_search", "Designers and Developers");
+		$this->type("filter_search", "Professionals");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("//img[@alt='Published']");
 		$this->waitForPageToLoad("30000");
 
-		echo "Go to front end and check that Designers and Developers is not shown" . "\n";
+		echo "Go to front end and check that Professionals is not shown" . "\n";
 		$this->gotoSite();
-		$this->assertFalse($this->isTextPresent("Designers and Developers"));
+		$this->assertFalse($this->isTextPresent("Professionals"));
 
-		echo "Go to back end and publish Designers and Developers" . "\n";
+		echo "Go to back end and publish Professionals" . "\n";
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -58,21 +58,21 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
-		echo "Go to back end and unpublish Designers and Developers" . "\n";
+		echo "Go to back end and unpublish Professionals" . "\n";
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		$this->type("filter_search", "Designers and Developers");
+		$this->type("filter_search", "Professionals");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("//img[@alt='Published']");
 		$this->waitForPageToLoad("30000");
 
-		echo "Go to front end and check that Designers and Developers is not shown" . "\n";
+		echo "Go to front end and check that Professionals is not shown" . "\n";
 		$this->gotoSite();
-		$this->assertFalse($this->isTextPresent("Designers and Developers"));
+		$this->assertFalse($this->isTextPresent("Professionals"));
 
-		echo "Go to back end and publish Designers and Developers" . "\n";
+		echo "Go to back end and publish Professionals" . "\n";
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -80,9 +80,9 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->click("//img[@alt='Unpublished']");
 		$this->waitForPageToLoad("30000");
 
-		echo "Go to front end and check that Designers and Developers is shown" . "\n";
+		echo "Go to front end and check that Professionals is shown" . "\n";
 		$this->gotoSite();
-		$this->assertTrue($this->isTextPresent("Designers and Developers"));
+		$this->assertTrue($this->isTextPresent("Professionals"));
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 	}

@@ -62,11 +62,11 @@ class WeblinksViewWeblinks extends JView
 			JToolBarHelper::editList('weblink.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.edit.state')) {
-			if ($state->get('filter.state') != 2){
+
 				JToolBarHelper::divider();
 				JToolBarHelper::custom('weblinks.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
 				JToolBarHelper::custom('weblinks.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
-			}
+			
 			if ($state->get('filter.state') != -1 ) {
 				JToolBarHelper::divider();
 				if ($state->get('filter.state') != 2) {

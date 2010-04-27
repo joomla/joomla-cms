@@ -39,8 +39,8 @@ class PluginsModelPlugin extends JModelAdmin
 			$folder		= $item->folder;
 			$element	= $item->element;
 		} else {
-			$folder		= JArrayHelper::getValue($data, 'folder');
-			$element	= JArrayHelper::getValue($data, 'element');
+			$folder		= JArrayHelper::getValue($data, 'folder', '', 'word');
+			$element	= JArrayHelper::getValue($data, 'element', '', 'word');
 		}
 
 		// These variables are used to add data from the plugin XML files.

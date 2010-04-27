@@ -23,7 +23,7 @@
 				JPUBLISHED</option>
 			<option value="0">
 				JUNPUBLISHED</option>
-			<option value="-1">
+			<option value="2">
 				JARCHIVED</option>
 			<option value="-2">
 				JTRASHED</option>

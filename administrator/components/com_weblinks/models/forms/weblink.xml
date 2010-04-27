@@ -38,15 +38,25 @@
 			default="" size="6" label="Weblinks_Hits_Label"
 			description="Weblinks_HITS_Desc" readonly="true" filter="unset" />
 
-		<field name="state" type="list"
-			label="COM_WEBLINKS_FIELD_STATE_LABEL" description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="inputbox" size="1" default="1"
-		>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="-1">COM_WEBLINKS_FIELD_VALUE_REPORTED
-			</option>
-			<option value="-2">JTRASH</option>
+
+		<field
+			name="state"
+			type="list"
+			label="COM_WEBLINKS_FIELD_STATE_LABEL"
+			description="COM_WEBLINKS_FIELD_STATE_DESC"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">JPUBLISHED</option>
+			<option
+				value="0">JUNPUBLISHED</option>
+			<option
+				value="2">JARCHIVED</option>				
+			<option
+				value="-3">COM_WEBLINKS_FIELD_VALUE_REPORTED</option>
+			<option
+				value="-2">JTRASH</option>
 		</field>
 
 		<field name="ordering" type="Ordering" class="inputbox"
@@ -114,7 +124,23 @@
 		<field name="xreference" type="text"
 			label="JField_XReference_Label" description="JField_XReference_Desc"
 			class="inputbox" size="20" />
+		<field name="robots" type="list"
+			label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc" >
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
+		</field>	
 
+		<field name="author" type="text"
+			label="JAUTHOR" description="JField_Metadata_Author_Desc"
+			size="20" />
+
+		<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
+			description="JFIELD_META_RIGHTS_DESC" required="" filter="string"
+			cols="30" rows="2" />
 	</fieldset>
 
 	<fields name="params">

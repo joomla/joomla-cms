@@ -27,6 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Apr-2010 Mark Dexter
+# Make sure archive is consisently value = 2 (Elin Waring)
+# Update search plugins (Elin Waring)
+# Sample data fixes (Elin Waring)
+# String for templates view (Elin Waring)
+# ACL for editing template files; mark the link to the template view (Elin Waring)
+# Fix order in components (Elin Waring)
+
 27-Apr-2010 Jean-Marie Simonet
 $ Refactoring com_users back-end in/keys
 

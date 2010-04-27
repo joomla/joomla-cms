@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
+$canDo	= TemplatesHelper::getActions();
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
@@ -26,21 +27,36 @@ JHtml::_('behavior.modal');
 			<ul>
 				<li>
 					<?php $id = $this->files['main']['index']->id; ?>
+					<?php if ($canDo->get('core.edit')) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_MAIN');?></a>
+					<?php endif; ?>	
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_MAIN');?>
+					<?php if ($canDo->get('core.edit')) : ?>
+						</a>
+					<?php endif; ?>		
 				</li>
 				<?php if ($this->files['main']['error']->exists) : ?>
 				<li>
 					<?php $id = $this->files['main']['error']->id; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_ERROR');?></a>
+					<?php if ($canDo->get('core.edit')) : ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
+					<?php endif; ?>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_ERROR');?>
+					<?php if ($canDo->get('core.edit')) : ?>
+						</a>
+					<?php endif; ?>						
 				</li>
 				<?php endif; ?>
 				<?php if ($this->files['main']['print']->exists) : ?>
 				<li>
 					<?php $id = $this->files['main']['print']->id; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?></a>
+					<?php if ($canDo->get('core.edit')) : ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
+					<?php endif; ?>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?>
+					<?php if ($canDo->get('core.edit')) : ?>
+						</a>
+					<?php endif; ?>						
 				</li>
 				<?php endif; ?>
 			</ul>
@@ -58,8 +74,14 @@ JHtml::_('behavior.modal');
 			<ul>
 				<?php foreach ($this->files['css'] as $file) : ?>
 				<li>
+					<?php if ($canDo->get('core.edit')) : ?>				
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$file->id);?>">
-						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_EDIT_CSS', $file->name);?></a>
+					<?php endif; ?>
+					
+						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_EDIT_CSS', $file->name);?>
+					<?php if ($canDo->get('core.edit')) : ?>
+					</a>
+					<?php endif; ?>
 				</li>
 				<?php endforeach; ?>
 			</ul>

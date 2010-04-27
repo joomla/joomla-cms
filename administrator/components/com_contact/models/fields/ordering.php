@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: ordering.php 15576 2010-03-25 12:43:26Z louis $
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -13,10 +13,10 @@ jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 
 /**
- * Supports an HTML select list of newsfeeds
+ * Supports an HTML select list of contacts
  *
  * @package		Joomla.Administrator
- * @subpackage	com_newsfeeds
+ * @subpackage	com_contact
  * @since		1.6
  */
 class JFormFieldOrdering extends JFormField
@@ -50,23 +50,23 @@ class JFormFieldOrdering extends JFormField
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		// Get some field values from the form.
-		$newsfeedId	= (int) $this->form->getValue('id');
+		$contactId	= (int) $this->form->getValue('id');
 		$categoryId	= (int) $this->form->getValue('catid');
 
 		// Build the query for the ordering list.
-		$query = 'SELECT ordering AS ordering, name AS text' .
-				' FROM #__newsfeeds' .
+		$query = 'SELECT ordering AS value, name AS text' .
+				' FROM #__contact_details' .
 				' WHERE catid = ' . (int) $categoryId .
 				' ORDER BY ordering';
 
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true') {
-			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $newsfeedId ? 0 : 1);
-			$html[] = '<input type="hidden" name="'.$this->name.'" ordering="'.$this->ordering.'"/>';
+			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $contactId ? 0 : 1);
+			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
 		}
 		// Create a regular list.
 		else {
-			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $newsfeedId ? 0 : 1);
+			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $contactId ? 0 : 1);
 		}
 
 		return implode($html);

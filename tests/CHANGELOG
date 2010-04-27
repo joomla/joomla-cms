@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Apr-2010 Mark Dexter
 # Fix up system tests for language changes (Matt Thomas)
 ^ Add doInstall to TestSuite
+# Fix acl001 for branch language change
 
 20-Apr-2010 Mark Dexter
 ^ Add __call method in SeleniumJoomlaTestCase to check for PHP notices

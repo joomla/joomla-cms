@@ -29,9 +29,12 @@
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
-			<option value="-1">JARCHIVED</option>
+			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASH</option>
 		</field>
+		<field name="ordering" type="ordering" class="inputbox"
+
+			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="cid" type="bannerclient"
 			label="COM_BANNERS_FIELD_CLIENT_LABEL" description="COM_BANNERS_FIELD_CLIENT_DESC" />

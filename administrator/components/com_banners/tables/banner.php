@@ -191,7 +191,7 @@ class BannersTableBanner extends JTable
 	 *
 	 * @param	mixed	An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published, -1=archived, -2=trashed]
+	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
 	 * @param	integer The user id of the user performing the operation.
 	 * @return	boolean	True on success.
 	 * @since	1.6
