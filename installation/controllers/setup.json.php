@@ -53,7 +53,7 @@ class JInstallationControllerSetup extends JController
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('vars', array(), 'post', 'array');
+		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
 		$model = & $this->getModel('Setup');
@@ -86,7 +86,7 @@ class JInstallationControllerSetup extends JController
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
 
 		// Get the posted config options.
-		$vars = JRequest::getVar('vars', array(), 'post', 'array');
+		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
 		$model = & $this->getModel('Setup');

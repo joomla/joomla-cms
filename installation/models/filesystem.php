@@ -36,14 +36,14 @@ class JInstallationModelFilesystem extends JModel
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
-		@$ftp = & JFTP::getInstance($options->get('ftpHost'), $options->get('ftpPort'), array('type' => FTP_BINARY));
+		@$ftp = & JFTP::getInstance($options->get('ftp_host'), $options->get('ftp_port'), array('type' => FTP_BINARY));
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
-			$this->setError(JText::_('NOCONNECT'));
+			$this->setError('tutu'.$options->get('ftp_host').$options->get('ftp_port').JText::_('NOCONNECT'));
 			return false;
 		}
-		if (!$ftp->login($options->get('ftpUser'), $options->get('ftpPassword'))) {
+		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass'))) {
 			$this->setError(JText::_('NOLOGIN'));
 			return false;
 		}
@@ -128,14 +128,14 @@ class JInstallationModelFilesystem extends JModel
 		jimport('joomla.client.ftp');
 
 		// Connect and login to the FTP server.
-		@$ftp = & JFTP::getInstance($options->get('ftpHost'), $options->get('ftpPort'));
+		@$ftp = & JFTP::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
-			$this->setError(JText::_('NOCONNECT'));
+			$this->setError('coucou'.JText::_('NOCONNECT'));
 			return false;
 		}
-		if (!$ftp->login($options->get('ftpUser'), $options->get('ftpPassword'))) {
+		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass'))) {
 			$ftp->quit();
 			$this->setError(JText::_('NOLOGIN'));
 			return false;
@@ -143,7 +143,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Since the root path will be trimmed when it gets saved to configuration.php,
 		// we want to test with the same value as well.
-		$root = rtrim($options->get('ftpRoot'), '/');
+		$root = rtrim($options->get('ftp_root'), '/');
 
 		// Verify PWD function
 		if ($ftp->pwd() === false) {
@@ -286,7 +286,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Verify connection
 		if (!$ftp->isConnected()) {
-			$this->setError(JText::_('NOCONNECT'));
+			$this->setError('kiki'.JText::_('NOCONNECT'));
 			return false;
 		}
 
@@ -410,7 +410,7 @@ class JInstallationModelFilesystem extends JModel
 		}
 
 		// Do NOT use ftp if it is not enabled
-		if (empty($options->ftpEnable)) {
+		if (empty($options->ftp_enable)) {
 			$ftpFlag = false;
 		}
 
@@ -418,8 +418,8 @@ class JInstallationModelFilesystem extends JModel
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$client = & JFTP::getInstance($options['ftpHost'], $options['ftpPort']);
-			$client->login($options['ftpUser'], $options['ftpPassword']);
+			$client = & JFTP::getInstance($options['ftp_host'], $options['ftp_port']);
+			$client->login($options['ftp_user'], $options['ftp_pass']);
 
 			//Translate path for the FTP account
 			$path = JPath::clean($ftpRoot."/".$folder);
@@ -461,12 +461,12 @@ class JInstallationModelFilesystem extends JModel
 	{
 		$app	= &JFactory::getApplication();
 		$arr = array();
-		$arr['ftp_enable'] = $vars['ftpEnable'];
-		$arr['ftp_user'] = $vars['ftpUser'];
-		$arr['ftp_pass'] = $vars['ftpPassword'];
-		$arr['ftp_root'] = $vars['ftpRoot'];
-		$arr['ftp_host'] = $vars['ftpHost'];
-		$arr['ftp_port'] = $vars['ftpPort'];
+		$arr[ftp_enable] = $vars['ftp_enable'];
+		$arr['ftp_user'] = $vars['ftp_user'];
+		$arr['ftp_pass'] = $vars['ftp_pass'];
+		$arr['ftp_root'] = $vars['ftp_root'];
+		$arr['ftp_host'] = $vars['ftp_host'];
+		$arr['ftp_port'] = $vars['ftp_port'];
 
 		$app->setCfg($arr, 'config');
 	}
@@ -481,7 +481,7 @@ class JInstallationModelFilesystem extends JModel
 		$ftpRoot = $app->getCfg('ftp_root');
 
 		// Do NOT use ftp if it is not enabled
-		if ($app->getCfg('ftp_enable') != 1)
+		if ($app->getCfg(ftp_enable) != 1)
 		{
 			$ftpFlag = false;
 		}

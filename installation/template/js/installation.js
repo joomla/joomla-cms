@@ -45,7 +45,7 @@ Install.detectFtpRoot = function(el) {
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
-		data: {'task':'setup.detectFtpRoot', 'format':'json'},
+		data: {'task':'setup.detectFtpRoot', 'protocol':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {
 			var r = JSON.decode(response);
@@ -53,7 +53,7 @@ Install.detectFtpRoot = function(el) {
 			{
 				Joomla.replaceTokens(r.token)
 				if (r.error == false) {
-					document.id('ftproot').set('value', r.data.root);
+					document.id('jform_ftp_root').set('value', r.data.root);
 				}
 			}
 			el.set('disabled', '');
@@ -70,7 +70,7 @@ Install.verifyFtpSettings = function(el) {
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
-		data: {'task':'setup.verifyFtpSettings', 'format':'json'},
+		data: {'task':'setup.verifyFtpSettings', 'protocol':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {
 			var r = JSON.decode(response);
