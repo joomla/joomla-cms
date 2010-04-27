@@ -47,12 +47,14 @@ class JFormFieldSpacer extends JFormField
 	 */
 	protected function getLabel()
 	{
+		echo '<div class="clr"></div>';
 		if ((string) $this->element['hr'] == 'true') {
 			return '<hr />';
 		}
 		else {
 			return parent::getLabel();
 		}
+		echo '<div class="clr"></div>';
 	}
 
 }
