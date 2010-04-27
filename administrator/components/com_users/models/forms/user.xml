@@ -55,7 +55,7 @@
 			type="radio"
 			default="0"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			description="USERS_USER_BLOCK_DESC">
+			description="COM_USERS_USER_FIELD_BLOCK_DESC">
 			<option
 				value="0">JNO</option>
 			<option
@@ -76,8 +76,8 @@
 			name="registerDate"
 			type="text"
 			class="readonly"
-			label="USERS_USER_REGISTERDATE_LABEL"
-			description="USERS_USER_REGISTERDATE_DESC"
+			label="COM_USERS_USER_FIELD_REGISTERDATE_LABEL"
+			description="COM_USERS_USER_FIELD_REGISTERDATE_DESC"
 			readonly="true"
 			>
 	</field>
@@ -85,8 +85,8 @@
 			name="lastvisitDate"
 			type="text"
 			class="readonly"
-			label="USERS_USER_REGISTERDATE_LABEL"
-			description="USERS_USER_REGISTERDATE_DESC"
+			label="COM_USERS_USER_FIELD_LASTVISIT_LABEL"
+			description="COM_USERS_USER_FIELD_LASTVISIT_DESC"
 			readonly="true"
 			>
 	</field>
@@ -101,37 +101,37 @@
 
 			<field name="admin_language" type="language"
 				client="administrator"
-				description="COM_USERS_USER_FIELD_VALUE_BACKEND_LANGUAGE_DESC"
-				label="COM_USERS_USER_FIELD_VALUE_BACKEND_LANGUAGE_LABEL"
+				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
+				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="language" type="language"
 				client="site"
-				description="COM_USERS_USER_FIELD_VALUE_FRONTEND_LANGUAGE_DESC"
-				label="COM_USERS_USER_FIELD_VALUE_FRONTEND_LANGUAGE_LABEL"
+				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
+				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="editor" type="editors"
-				description="COM_USERS_USER_FIELD_VALUE_EDITOR_DESC"
-				label="COM_USERS_USER_FIELD_VALUE_EDITOR_LABEL"
+				description="COM_USERS_USER_FIELD_EDITOR_DESC"
+				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="helpsite" type="helpsite"
-				label="COM_USERS_USER_FIELD_VALUE_HELPSITE_LABEL"
-				description="COM_USERS_USER_FIELD_VALUE_HELPSITE_DESC"
+				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
+				description="COM_USERS_USER_FIELD_HELPSITE_DESC"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
 			<field name="timezone" type="timezone"
-				label="COM_USERS_USER_FIELD_VALUE_TIMEZONE_LABEL"
-				description="COM_USERS_USER_FIELD_VALUE_TIMEZONE_DESC"
+				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
+				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

@@ -56,16 +56,16 @@ class UsersViewLevel extends JView
 		$isNew	= ($this->item->id == 0);
 		$canDo		= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_($isNew ? 'Users_View_New_Level_Title' : 'Users_View_Edit_Level_Title'), 'levels-add');
+		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
 
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('level.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('level.save','JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('level.save2new', 'JToolbar_Save_and_new');
+			JToolBarHelper::addNew('level.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
+			JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		if (empty($this->item->id))  {

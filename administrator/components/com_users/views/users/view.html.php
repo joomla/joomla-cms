@@ -51,7 +51,7 @@ class UsersViewUsers extends JView
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Users_View_Users_Title'), 'user');
+		JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'USERS_TOOLBAR_ACTIVATE', true);

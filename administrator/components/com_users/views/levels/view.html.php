@@ -50,7 +50,7 @@ class UsersViewLevels extends JView
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Users_View_Levels_Title'), 'levels');
+		JToolBarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
 
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('level.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);

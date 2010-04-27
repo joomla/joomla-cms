@@ -18,16 +18,16 @@ $listDirn	= $this->state->get('list.direction');
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm">
 	<fieldset class="filter">
 		<div class="left">
-			<label for="filter_search"><?php echo JText::_('JSearch_Filter'); ?>:</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('Users_Search_in_name'); ?>" />
-			<button type="submit"><?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+			<label for="filter_search"><?php echo JText::_('JSEARCH_FILTER'); ?>:</label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('COM_USERS_SEARCH_IN_NAME'); ?>" />
+			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="right">
 			<ol>
 				<li>
 					<label for="filter_group_id">
-						<?php echo JText::_('Users_Filter_User_Group'); ?>
+						<?php echo JText::_('COM_USERS_FILTER_USER_GROUP'); ?>
 					</label>
 					<?php echo JHtml::_('access.usergroup', 'filter_group_id', $this->state->get('filter.group_id'), 'onchange="this.form.submit()"'); ?>
 				</li>
@@ -39,13 +39,13 @@ $listDirn	= $this->state->get('list.direction');
 		<thead>
 			<tr>
 				<th class="left">
-					<?php echo JHtml::_('grid.sort', 'Users_Heading_Name', 'a.name', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="25%">
-					<?php echo JHtml::_('grid.sort', 'Users_Heading_UserName', 'a.username', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="25%">
-					<?php echo JHtml::_('grid.sort', 'Users_Heading_Groups', 'a.group_names', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'a.group_names', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>

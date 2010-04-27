@@ -69,7 +69,7 @@ class UsersModelMail extends JModelAdmin
 
 		// Check for a message body and subject
 		if (!$message_body || !$subject) {
-			$this->setError(JText::_('Users_Mail_Please_fill_in_the_form_correctly'));
+			$this->setError(JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
 			return false;
 		}
 
@@ -94,7 +94,7 @@ class UsersModelMail extends JModelAdmin
 
 		// Check to see if there are any users in this group before we continue
 		if (!count($rows)) {
-			$this->setError(JText::_('Users_Mail_No_users_could_be_found_in_this_group'));
+			$this->setError(JText::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
 			return false;
 		}
 
@@ -124,7 +124,7 @@ class UsersModelMail extends JModelAdmin
 			$this->setError($rs->getError());
 			return false;
 		} elseif (empty($rs)) {
-			$this->setError(JText::_('Users_Mail_The_mail_could_not_be_sent'));
+			$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 			return false;
 		} else {
 			// Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
@@ -136,7 +136,7 @@ class UsersModelMail extends JModelAdmin
 			$data['recurse']=$recurse;
 			$data['bcc']=$bcc;
 			$data['message']=$message_body;
-			$app->enqueueMessage(JText::sprintf('Users_Mail_Email_Sent_To', count($rows)),'message');
+			$app->enqueueMessage(JText::sprintf('COM_USERS_MAIL_EMAIL_SENT_TO', count($rows)),'message');
 			$app->setUserState('com_users.display.mail.data', $data);
 			return true;
 		}

@@ -131,7 +131,7 @@ class UsersModelGroup extends JModelAdmin
 				} else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 			} else {
 				$this->setError($table->getError());

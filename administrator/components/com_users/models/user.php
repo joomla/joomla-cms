@@ -228,7 +228,7 @@ class UsersModelUser extends JModelAdmin
 				} else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Delete_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 			} else {
 				$this->setError($table->getError());
@@ -264,7 +264,7 @@ class UsersModelUser extends JModelAdmin
 			if ($value == 1 && $pk == $user->get('id')) {
 				// Cannot block yourself.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('Users_Error_Cannot_block_self'));
+				JError::raiseWarning(403, JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
 			} else if ($table->load($pk)) {
 				$old	= $table->getProperties();
@@ -302,7 +302,7 @@ class UsersModelUser extends JModelAdmin
 				} else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -358,7 +358,7 @@ class UsersModelUser extends JModelAdmin
 				} else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JError_Core_Edit_State_not_permitted'));
+					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -377,7 +377,7 @@ class UsersModelUser extends JModelAdmin
 	{
 		// Ensure there are selected users to operate on.
 		if (empty($user_ids)) {
-			$this->setError(JText::_('USERS_USERS_NOT_SELECTED'));
+			$this->setError(JText::_('COM_USERS_NO_USERS_SELECTED'));
 			return false;
 		} else if (!empty($config)) {
 			// Only run operations if a config array is present.
@@ -385,7 +385,7 @@ class UsersModelUser extends JModelAdmin
 			$group_id = JArrayHelper::getValue($config, 'group_id', 0, 'int');
 
 			if ($group_id < 1) {
-				$this->setError(JText::_('USERS_INVALID_GROUP'));
+				$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
 				return false;
 			}
 

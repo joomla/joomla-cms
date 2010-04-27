@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<div class="width-100">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Users_Usergroup_Details');?></legend>
+			<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS');?></legend>
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
 
@@ -43,7 +43,7 @@ JHtml::_('behavior.formvalidation');
 
 	<div class="width-50">
 		<fieldset id="user-groups">
-			<legend><?php echo JText::_('Users_Actions_Available');?></legend>
+			<legend><?php echo JText::_('COM_USERS_ACTIONS_AVAILABLE');?></legend>
 			<?php //echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
 		</fieldset>
 	</div>

@@ -50,7 +50,7 @@ class UsersViewReport extends JView
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('Users_View_Report_Title'), 'user');
+		JToolBarHelper::title(JText::_('COM_USERS_VIEW_REPORT_TITLE'), 'user');
 		JToolBarHelper::help('screen.users.report','JTOOLBAR_HELP');
 	}
 }

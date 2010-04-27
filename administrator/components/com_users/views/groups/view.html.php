@@ -51,7 +51,7 @@ class UsersViewGroups extends JView
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolBarHelper::title(JText::_('Users_View_Groups_Title'), 'groups');
+		JToolBarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'groups');
 
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('group.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);

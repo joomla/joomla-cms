@@ -19,11 +19,11 @@ defined('_JEXEC') or die;
 		}
 		// do field validation
 		if (form.jform_subject.value == ""){
-			alert("<?php echo JText::_('Users_Mail_Please_fill_in_the_subject', true); ?>");
+			alert("<?php echo JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true); ?>");
 		} else if (getSelectedValue('adminForm','jform[group]') < 0){
-			alert("<?php echo JText::_('Users_Mail_Please_select_a_group', true); ?>");
+			alert("<?php echo JText::_('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true); ?>");
 		} else if (form.jform_message.value == ""){
-			alert("<?php echo JText::_('Users_Mail_Please_fill_in_the_message', true); ?>");
+			alert("<?php echo JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true); ?>");
 		} else {
 			submitform(pressbutton);
 		}
@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 
 	<div class="width-30 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Users_Mail_Details'); ?></legend>
+			<legend><?php echo JText::_('COM_USERS_MAIL_DETAILS'); ?></legend>
 
 			<?php echo $this->form->getLabel('recurse'); ?>
 			<?php echo $this->form->getInput('recurse'); ?>
@@ -53,7 +53,7 @@ defined('_JEXEC') or die;
 
 	<div class="width-70 fltrt">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Users_Mail_Message'); ?></legend>
+			<legend><?php echo JText::_('COM_USERS_MAIL_MESSAGE'); ?></legend>
 
 			<?php echo $this->form->getLabel('subject'); ?>
 			<?php echo $this->form->getInput('subject'); ?>

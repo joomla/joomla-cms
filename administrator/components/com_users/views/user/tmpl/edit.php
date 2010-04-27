@@ -34,7 +34,7 @@ $fieldsets = $this->form->getFieldsets();
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="user-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('Users_User_Account_Details'); ?></legend>
+			<legend><?php echo JText::_('COM_USERS_USER_ACCOUNT_DETAILS'); ?></legend>
 			<?php foreach($this->form->getFieldset('user_details') as $field) :?>
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
@@ -66,7 +66,7 @@ $fieldsets = $this->form->getFieldsets();
 		<?php echo JHTML::_('sliders.end'); ?>
 
 		<fieldset id="user-groups">
-			<legend><?php echo JText::_('Users_Assigned_Groups'); ?></legend>
+			<legend><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
 				<?php if ($this->grouplist) :
 					echo $this->loadTemplate('groups');
 				endif; ?>

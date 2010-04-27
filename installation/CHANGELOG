@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Apr-2010 Jean-Marie Simonet
+$ Refactoring com_users back-end in/keys
+
 27-Apr-2010 Christophe Demko
 # Fixed [#18561] Ftp find path and verify setting in installation
 

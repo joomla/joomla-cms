@@ -5,40 +5,40 @@
 			name="allowUserRegistration"
 			type="radio"
 			default="1"
-			label="Allow User Registration"
-			description="TIPALLOWUSERREG">
+			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
+			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="new_usertype"
 			type="usergroup"
 			default="2"
-			label="New User Registration Type"
-			description="TIPNEWUSERTYPE">
+			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
+			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
 		</field>
 
 		<field
 			name="useractivation"
 			type="radio"
 			default="1"
-			label="New User Account Activation"
-			description="TIPIFYESUSERMAILEDLINK">
+			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
+			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="frontend_userparams"
 			type="radio"
 			default="1"
-			label="Front-end User Params"
-			description="TIPFRONTENDUSERPARAMS">
+			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
+			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
 			<option
 				value="0">JHIDE</option>
 			<option
@@ -48,15 +48,15 @@
 
  	<fieldset
 		name="massmail"
-		label="Users_Mail"
-		description="Users_Mail_Desc">
+		label="COM_USERS_MASS_MAIL"
+		description="COM_USERS_MASS_MAIL_DESC">
 
 		<field
  			name="mailSubjectPrefix"
  			type="text"
  			default=""
-			label="Users_Mail_Subject_Prefix"
-			description="Users_Mail_Subject_Prefix_Desc"
+			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
+			description="COM_USERS_CONFIG__FIELD_SUBJECT_PREFIX_DESC"
 		/>
 
  		<field
@@ -65,49 +65,49 @@
  			default=""
  			rows="5"
  			cols="30"
-			label="Users_Mail_Mailbody_Suffix"
-			description="Users_Mail_Mailbody_Suffix_Desc"
+			label="COM_USERS_CONFIG__FIELD_MAILBODY_SUFFIX_LABEL"
+			description="COM_USERS_CONFIG__FIELD_MAILBODY_SUFFIX_DESC"
 		/>
 
 	</fieldset>
 
 	<fieldset
 		name="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			component="com_users"
 			section="component">
 			<action
 				name="core.admin"
-				title="JAction_Admin"
-				description="JAction_Manage_Component_Desc" />
+				title="JACTION_ADMIN"
+				description="JACTION_MANAGE_COMPONENT_DESC" />
 			<action
 				name="core.manage"
-				title="JAction_Manage"
-				description="JAction_Manage_Component_Desc" />
+				title="JACTION_MANAGE"
+				description="JACTION_MANAGE_COMPONENT_DESC" />
 			<action
 				name="core.create"
-				title="JAction_Create"
-				description="JAction_Create_Component_Desc" />
+				title="JACTION_CREATE"
+				description="JACTION_CREATE_COMPONENT_DESC" />
 			<action
 				name="core.delete"
-				title="JAction_Delete"
-				description="JAction_Delete_Component_Desc" />
+				title="JACTION_DELETE"
+				description="JACTION_DELETE_COMPONENT_DESC" />
 			<action
 				name="core.edit"
-				title="JAction_Edit"
-				description="JAction_Edit_Component_Desc" />
+				title="JACTION_EDIT"
+				description="JACTION_EDIT_COMPONENT_DESC" />
 			<action
 				name="core.edit.state"
-				title="JAction_Edit_State"
-				description="JAction_Edit_State_Component_Desc" />
+				title="JACTION_EDIT_STATE"
+				description="JACTION_EDIT_STATE_COMPONENT_DESC" />
 		</field>
 	</fieldset>
 </config>

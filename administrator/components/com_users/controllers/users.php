@@ -76,7 +76,11 @@ class UsersControllerUsers extends JControllerAdmin
 			if (!$model->block($ids, $value)) {
 				JError::raiseWarning(500, $model->getError());
 			} else {
-				$this->setMessage(JText::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
+				if ($value == 1){
+					$this->setMessage(JText::plural('COM_USERS_N_USERS_BLOCKED', count($ids)));
+				} else if ($value == 0){
+					$this->setMessage(JText::plural('COM_USERS_N_USERS_UNBLOCKED', count($ids)));
+				}
 			}
 		}
 
