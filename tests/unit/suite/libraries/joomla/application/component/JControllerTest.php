@@ -106,7 +106,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$paths['test'][0],
-			$this->equalTo(dirname(__FILE__).'\foobar/'),
+			$this->equalTo(dirname(__FILE__).DS.'foobar/'),
 			'Line:'.__LINE__.' The path type should be present, clean and with a trailing slash.'
 		);
 	}
@@ -136,7 +136,7 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$paths['view'][0],
-			$this->equalTo(dirname(__FILE__).'\views/'),
+			$this->equalTo(dirname(__FILE__).DS.'views/'),
 			'Line:'.__LINE__.' The path type should be present, clean and with a trailing slash.'
 		);
 	}
