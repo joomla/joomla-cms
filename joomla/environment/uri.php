@@ -676,7 +676,7 @@ class JURI extends JObject
 		{
 			if ($path[$i] == '.' OR $path[$i] == '..')
 			{
-				if($path[$i] == '.')
+				if(($path[$i] == '.') OR ($path[$i] == '..' AND $i == 1 AND $path[0] == ''))
 				{
 					unset ($path[$i]);
 					$path = array_values($path);
@@ -690,13 +690,6 @@ class JURI extends JObject
 					$path = array_values($path);
 					$i -= 2;
 					$n -= 2;
-				}
-				elseif ($path[$i] == '..' AND $i == 1 AND $path[0] == '')
-				{
-					unset ($path[$i]);
-					$path = array_values($path);
-					$i --;
-					$n --;
 				}
 			}
 		}

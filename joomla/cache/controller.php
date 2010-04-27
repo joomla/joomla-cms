@@ -22,7 +22,7 @@ defined('JPATH_BASE') or die;
 class JCacheController
 
 {
-	protected $cache;
+	public $cache;
 	public $options;
 
 	/**
@@ -76,7 +76,7 @@ class JCacheController
 			}
 		}
 
-		return new $class($options);
+		return new $class($options); 
 	}
 
 	/**
@@ -88,6 +88,7 @@ class JCacheController
 	 */
 	public function setCaching($enabled)
 	{
+		$this->options['caching'] = (bool) $enabled;
 		$this->cache->setCaching($enabled);
 	}
 

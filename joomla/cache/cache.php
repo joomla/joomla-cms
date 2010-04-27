@@ -32,7 +32,6 @@ class JCache extends JObject
 {
 
 	public $_handler;
-	private static $_storage;
 	public $_options;
 
 
@@ -49,7 +48,7 @@ class JCache extends JObject
 
 		$this->_options = array(
 			'cachebase'		=> $conf->get('cache_path',JPATH_ROOT.DS.'cache'),
-			'lifetime'		=> $conf->get('cachetime') * 60,	// minutes to seconds
+			'lifetime'		=> $conf->get('cachetime'),	// minutes to seconds
 			'language'		=> $conf->get('language','en-GB'),
 			'storage'		=> $conf->get('cache_handler', 'file'),
 			'defaultgroup'=>'default',
@@ -371,19 +370,13 @@ class JCache extends JObject
 	 * @return object A JCacheStorage object
 	 * @since	1.5
 	 */
-	private function _getStorage()
+	public function _getStorage()
 	{
-		// this is often used so cache this during execution in static variable
-		if (self::$_storage) {
-			return self::$_storage;
-		}
-
 		if (is_a($this->_handler, 'JCacheStorage')) {
 			return $this->_handler;
 		}
 
 		$this->_handler = &JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		self::$_storage = $this->_handler;
 		return $this->_handler;
 	}
 
