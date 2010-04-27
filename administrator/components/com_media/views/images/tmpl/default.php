@@ -25,7 +25,7 @@ echo $params->get('image_path', 'images');?>/';
 			<button type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP') ?>"><?php echo JText::_('COM_MEDIA_UP') ?></button>
 		</div>
 		<div class="fltrt">
-			<button type="button" onclick="ImageManager.onok(); window.parent.SqueezeBox.close();"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
+			<button type="button" onclick="<?php if ($this->state->get('field.id')):?>window.parent.jInsertFieldValue(document.id('f_url').value,'<?php echo $this->state->get('field.id');?>');<?php else:?>ImageManager.onok();<?php endif;?>window.parent.SqueezeBox.close();"><?php echo JText::_('COM_MEDIA_INSERT') ?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
 		</div>
 	</fieldset>
@@ -36,6 +36,7 @@ echo $params->get('image_path', 'images');?>/';
 			<tr>
 				<td><label for="f_url"><?php echo JText::_('COM_MEDIA_IMAGE_URL') ?></label></td>
 				<td><input type="text" id="f_url" value="" /></td>
+				<?php if (!$this->state->get('field.id')):?>
 				<td><label for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label></td>
 				<td>
 					<select size="1" id="f_align" title="Positioning of this image">
@@ -44,7 +45,9 @@ echo $params->get('image_path', 'images');?>/';
 						<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 					</select>
 				</td>
+				<?php endif;?>
 			</tr>
+			<?php if (!$this->state->get('field.id')):?>
 			<tr>
 				<td><label for="f_alt"><?php echo JText::_('COM_MEDIA_IMAGE_DESCRIPTION') ?></label></td>
 				<td><input type="text" id="f_alt" value="" /></td>
@@ -55,6 +58,7 @@ echo $params->get('image_path', 'images');?>/';
 				<td><label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label></td>
 				<td><input type="checkbox" id="f_caption" /></td>
 			</tr>
+			<?php endif;?>
 		</table>
 	</fieldset>
 	<input type="hidden" id="dirPath" name="dirPath" />

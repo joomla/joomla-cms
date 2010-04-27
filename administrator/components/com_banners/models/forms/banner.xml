@@ -160,7 +160,7 @@
 
 	<fieldset name="image">
 
-		<field name="url" type="media" directory="/images/banners"
+		<field name="url" type="media" directory="banners"
 			hide_none="1" label="COM_BANNERS_FIELD_IMAGE_LABEL"
 			description="COM_BANNERS_FIELD_IMAGE_DESC" />
 

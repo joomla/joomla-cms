@@ -39,6 +39,7 @@ $ -> Language fix or change
 $ Refactoring com_users back-end in/keys
 
 27-Apr-2010 Christophe Demko
+# Fixed [#20116] Administrator com_banners cannot select banner image
 # Fixed [#18510] Category Manager / New + Edit Category: Image Attribute has no Browse button
 # Fixed [#20236] Editing of template fiies is not working
 # Fixed [#18561] Ftp find path and verify setting in installation
