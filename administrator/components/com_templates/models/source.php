@@ -89,7 +89,9 @@ class TemplatesModelSource extends JModelForm
 	public function &getSource()
 	{
 		$item = new stdClass;
-
+		if (!$this->_template) {
+			$this->getTemplate();
+		}
 		if ($this->_template)
 		{
 			$fileName	= $this->getState('filename');

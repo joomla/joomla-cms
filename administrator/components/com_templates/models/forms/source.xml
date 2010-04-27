@@ -19,6 +19,7 @@
 			description="COM_TEMPLATES_FIELD_SOURCE_DESC"
 			rows="20"
 			cols="80"
+			height="600"
 			filter="raw" />
 	</fieldset>
 </form>
