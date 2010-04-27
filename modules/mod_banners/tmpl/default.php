@@ -23,12 +23,12 @@ $baseurl = JURI::base();
 		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id='. $item->id);?>
 		<?php if($item->type==1) :?>
 			<?php // Text based banners ?>
-			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->params->custom->bannercode);?>
+			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->params->custombannercode);?>
 		<?php else:?>
 			<?php $imageurl = $item->params->image->url;?>
 			<?php if (BannerHelper::isImage($imageurl)) :?>
 				<?php // Image based banner ?>
-				<?php $alt = $item->params->alt->alt;?>
+				<?php $alt = $item->params->get('alt');?>
 				<?php $alt = $alt ? $alt : $item->name ;?>
 				<?php $alt = $alt ? $alt : JText::_('MOD_BANNERS_BANNER') ;?>
 				<?php if ($item->clickurl) :?>
@@ -75,8 +75,8 @@ $baseurl = JURI::base();
 					classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
 					border="0"
-					width="<?php echo $parameters->flash->width;?>"
-					height="<?php echo $parameters->flash->height;?>"
+					width="<?php echo htmlspecialchars($item->params->get('width'));?>"
+					height="<?php echo htmlspecialchars($item->params->get('height'));?>"
 				>
 					<param name="movie" value="<?php echo $imageurl;?>" />
 					<embed
@@ -84,8 +84,8 @@ $baseurl = JURI::base();
 						loop="false"
 						pluginspage="http://www.macromedia.com/go/get/flashplayer"
 						type="application/x-shockwave-flash"
-						width="<?php echo $parameters->flash->width;?>"
-						height="<?php echo $parameters->flash->height;?>"
+						width="<?php echo htmlspecialchars($item->params->get('width'));?>"
+						height="<?php echo htmlspecialchars($item->params->get('height'));?>"
 					></embed>
 				</object>
 			<?php endif;?>

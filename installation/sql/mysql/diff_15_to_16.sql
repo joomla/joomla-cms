@@ -30,6 +30,9 @@ ALTER TABLE `jos_banner`
 
 ALTER TABLE `jos_banners`
  CHANGE COLUMN `bid` `id` INTEGER NOT NULL auto_increment;
+ 
+ALTER TABLE `jos_banner`
+ CHANGE `custombannercode` `custombannercode` varchar(2048) NOT NULL;
 
 ALTER TABLE `jos_banners`
  MODIFY COLUMN `type` INTEGER NOT NULL DEFAULT '0';

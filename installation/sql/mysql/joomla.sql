@@ -72,6 +72,7 @@ CREATE TABLE `#__banners` (
   `state` TINYINT(3) NOT NULL DEFAULT '0',
   `catid` INTEGER UNSIGNED NOT NULL DEFAULT 0,
   `description` TEXT NOT NULL,
+  `custombannercode` VARCHAR(2048) NOT NULL,
   `sticky` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
   `ordering` INTEGER NOT NULL DEFAULT 0,
   `metakey` TEXT NOT NULL,
