@@ -94,7 +94,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		echo "Navigate to Mass Mail.\n";
 		$this->click("link=Mass Mail Users");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("E-mail Groups"));
+		$this->assertTrue($this->isTextPresent("Mass Mail"));
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
 		echo "Navigate to Read Private Messages.\n";

@@ -74,7 +74,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->click("//li[@id='toolbar-delete']/a/span");
     $this->waitForPageToLoad("30000");
     try {
-    	$this->assertTrue($this->isTextPresent("COM_USERS_N_USERS_DELETED"));
+    	$this->assertTrue($this->isTextPresent("success"));
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
     	array_push($this->verificationErrors, $this->getTraceFiles($e));
     }

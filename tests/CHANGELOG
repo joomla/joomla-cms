@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Apr-2010 Mark Dexter
+# Fix up system tests for language changes (Matt Thomas)
+^ Add doInstall to TestSuite
+
 20-Apr-2010 Mark Dexter
 ^ Add __call method in SeleniumJoomlaTestCase to check for PHP notices
 ^ Add getTraceFiles method in SeleniumJoomlaTestCase to clean up error reporting

@@ -38,7 +38,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->click("//li[@id='toolbar-delete']/a/span");
     $this->waitForPageToLoad("30000");
     try {
-    	$this->assertTrue($this->isTextPresent("COM_USERS_N_GROUPS_DELETED"), 'Deleted message not shown');
+    	$this->assertTrue($this->isTextPresent("success"), 'Deleted message not shown');
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
     	array_push($this->verificationErrors, $this->getTraceFiles($e));
     }

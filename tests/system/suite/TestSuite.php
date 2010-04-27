@@ -13,6 +13,7 @@ set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATO
 
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'doInstall.php';
 require_once 'control_panel/control_panel0001Test.php';
 require_once 'control_panel/control_panel0002Test.php';
 require_once 'control_panel/control_panel0003Test.php';
@@ -38,6 +39,7 @@ class TestSuite
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite('PHPUnit Framework');
+		$suite->addTestSuite('DoInstall');
 		$suite->addTestSuite('ControlPanel0001');
 		$suite->addTestSuite('ControlPanel0002');
 		$suite->addTestSuite('ControlPanel0003');
