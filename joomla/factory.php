@@ -39,7 +39,7 @@ abstract class JFactory
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix='J')
 	{
-		if (!is_object(JFactory::$application))
+		if (!JFactory::$application)
 		{
 			jimport('joomla.application.application');
 
@@ -65,7 +65,7 @@ abstract class JFactory
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
 	{
-		if (!is_object(JFactory::$config))
+		if (!JFactory::$config)
 		{
 			if ($file === null) {
 				$file = dirname(__FILE__).DS.'config.php';
@@ -88,7 +88,7 @@ abstract class JFactory
 	 */
 	public static function getSession($options = array())
 	{
-		if (!is_object(JFactory::$session)) {
+		if (!JFactory::$session) {
 			JFactory::$session = JFactory::_createSession($options);
 		}
 
@@ -105,7 +105,7 @@ abstract class JFactory
 	 */
 	public static function getLanguage()
 	{
-		if (!is_object(JFactory::$language))
+		if (!JFactory::$language)
 		{
 			JFactory::$language = JFactory::_createLanguage();
 		}
@@ -123,7 +123,7 @@ abstract class JFactory
 	 */
 	public static function getDocument()
 	{
-		if (!is_object(JFactory::$document)) {
+		if (!JFactory::$document) {
 			JFactory::$document = JFactory::_createDocument();
 		}
 
@@ -199,7 +199,7 @@ abstract class JFactory
 	 */
 	public static function getACL()
 	{
-		if (!is_object(JFactory::$acl)) {
+		if (!JFactory::$acl) {
 			jimport('joomla.access.access');
 
 			JFactory::$acl = new JAccess();
@@ -219,7 +219,7 @@ abstract class JFactory
 	public static function getDbo()
 	{
 
-		if (!is_object(self::$database))
+		if (!self::$database)
 		{
 			//get the debug configuration setting
 			$conf = &self::getConfig();
@@ -241,7 +241,7 @@ abstract class JFactory
 	 */
 	public static function getMailer()
 	{
-		if (! is_object(JFactory::$mailer)) {
+		if (!JFactory::$mailer) {
 			JFactory::$mailer = JFactory::_createMailer();
 		}
 		$copy	= clone JFactory::$mailer;
