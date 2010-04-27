@@ -48,6 +48,9 @@ $ Refactoring com_users back-end in/keys
 
 27-Apr-2010 Hannes Papenberg
 # Performance improvement to JFactory
+# Small performance improvements ot JRegistry, JFactory::getCache()
+# Codecleanup of JURI
+# Fixed Unittests of JCache, JCacheStorage, JAccess, JTableContent
 
 26-Apr-2010 Hannes Papenberg
 # Performance Improvements in JMenuSite, JObservable, JURI, JError, JDispatcher, JFilterinput, JPluginHelper, JPlugin, JRegistry

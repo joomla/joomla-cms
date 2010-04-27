@@ -420,14 +420,12 @@ class JRegistry
 		$data = (array) $data;
 
 		foreach ($data as $k => $v) {
-			if ($k[0] != '_') {
-				if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v)) {
-					$parent->$k = new stdClass();
-					$this->bindData($parent->$k, $v);
-				}
-				else {
-					$parent->$k = $v;
-				}
+			if ((is_array($v) && JArrayHelper::isAssociative($v)) || is_object($v)) {
+				$parent->$k = new stdClass();
+				$this->bindData($parent->$k, $v);
+			}
+			else {
+				$parent->$k = $v;
 			}
 		}
 	}
@@ -445,13 +443,10 @@ class JRegistry
 		$array = array();
 
 		foreach (get_object_vars((object) $data) as $k => $v) {
-			if ($k[0] != '_') {
-				if (is_object($v)) {
-					$array[$k] = $this->asArray($v);
-				}
-				else {
-					$array[$k] = $v;
-				}
+			if (is_object($v)) {
+				$array[$k] = $this->asArray($v);
+			} else {
+				$array[$k] = $v;
 			}
 		}
 

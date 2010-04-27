@@ -145,7 +145,7 @@ class JCacheStorageEacceleratorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			$this->object->test(),
-			$this->isTrue(),
+			$this->equalTo($this->eacceleratorAvailable),
 			'Claims Eaccelerator is not loaded.'
 		);
 	}

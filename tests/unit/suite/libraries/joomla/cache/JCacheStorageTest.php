@@ -146,7 +146,7 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertThat(
 			$this->object->_lifetime,
-			$this->equalTo(empty($options['lifetime']) ? $config->get('lifetime') : $options['lifetime'])
+			$this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60)
 		);
 		$this->assertLessThan(
 			$config->get('lifetime'),
@@ -163,7 +163,7 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			$this->object->get(1, '', time()),
-			$this->isNull()
+			$this->equalTo(false)
 		);
 	}
 

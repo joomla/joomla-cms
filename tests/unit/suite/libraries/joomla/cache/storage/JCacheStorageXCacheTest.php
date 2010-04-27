@@ -127,7 +127,7 @@ class JCacheStorageXCacheTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			$this->object->test(),
-			$this->isTrue(),
+			$this->equalTo($this->xcacheAvailable),
 			'Claims xcache is not loaded.'
 		);
 	}

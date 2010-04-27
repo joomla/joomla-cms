@@ -41,7 +41,7 @@ class JCacheStorage extends JObject
 		$this->_application	= (isset($options['application'])) ? $options['application'] : null;
 		$this->_language	= (isset($options['language'])) ? $options['language'] : 'en-GB';
 		$this->_locking		= (isset($options['locking'])) ? $options['locking'] : true;
-		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime'] : $config->get('cachetime')*60;
+		$this->_lifetime	= (isset($options['lifetime'])) ? $options['lifetime']*60 : $config->get('cachetime')*60;
 		$this->_now		= (isset($options['now'])) ? $options['now'] : time();
 
 		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)

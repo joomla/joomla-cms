@@ -134,7 +134,7 @@ class JCacheStorageApcTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			$this->object->test(),
-			$this->isTrue(),
+			$this->equalTo($this->apcAvailable),
 			'Claims APC is not loaded.'
 		);
 	}

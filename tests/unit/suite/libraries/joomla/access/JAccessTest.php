@@ -50,10 +50,9 @@ class JAccessTest extends JoomlaDatabaseTestCase {
             $access2 = new JAccess();
            /* $GroupUser42 = array(
 			0	=> 1,
-			1	=> 2,
-			2	=> 6,
-			3	=> 7,
-                        4	=> 8
+			1	=> 6,
+			2	=> 7,
+            3	=> 8
 		);*/
             //"core.login.site":{"6":1,"2":1}
             //"core.login.admin":{"6":1}
@@ -65,17 +64,17 @@ class JAccessTest extends JoomlaDatabaseTestCase {
             //"core.edit.state":{"6":1}}';
             //$this->assertTrue($access2->check('78',4,234));
             $this->assertThat(
-			Null,
-			$this->equalTo($access->check('58','core.login.site',3))
-		);
+				Null,
+				$this->equalTo($access->check('58','core.login.site',3))
+				);
             $this->assertThat(
-			Null,
-			$this->equalTo($access->check('42','complusoft',3))
-		);
+				Null,
+				$this->equalTo($access->check('42','complusoft',3))
+				);
             $this->assertThat(
-			Null,
-			$this->equalTo($access->check('42','core.login.site',345))
-		);
+				true,
+				$this->equalTo($access->check('42','core.login.site',345))
+			);
             $this->assertTrue($access->check('42','core.login.site',3));
             $this->assertTrue($access->check('42','core.login.admin',3));
             $this->assertTrue($access->check('42','core.admin',3));
