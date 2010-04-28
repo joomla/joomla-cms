@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Apr-2010 Andrew Eddie
+ # Fixed [#20102] Powered By 1.5 image
+
 28-Apr-2010 Hannes Papenberg
 # Fixed some bugs in beez 2.0 and added font - Thanks Angie Radtke!
 
