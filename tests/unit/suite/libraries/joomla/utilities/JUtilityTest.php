@@ -241,16 +241,18 @@ class JUtilityTest extends JoomlaTestCase
 	public function testGetHash()
 	{
 		$expResult = MD5("This is a test");
-		$mockApplication = $this->getMock('JAplication', array('getHash'));
+		/**$mockApplication = $this->getMock('JApplication', array('getHash'), array('site'));
 		$mockApplication->expects($this->once())->method('getHash')->will(
 			$this->returnValue($expResult)
-		);
-		JFactory::$application = $mockApplication;
+		);**/
+		$temp = JFactory::$application; 
+		JFactory::$application = new JRegistry();
 
 		$this->assertThat(
-			JUtility::getHash('Test'),
+			JUtility::getHash('This is a test'),
 			$this->equalTo($expResult)
 		);
+		JFactory::$application = $temp;
 	}
 
 	/**
@@ -264,14 +266,17 @@ class JUtilityTest extends JoomlaTestCase
 			'default' => array(
 				null,
 				false,
+				1
 			),
 			'false' => array(
 				false,
 				false,
+				2
 			),
 			'true' => array(
 				true,
 				true,
+				3
 			),
 		);
 	}
@@ -285,22 +290,21 @@ class JUtilityTest extends JoomlaTestCase
 	 *
 	 * @dataProvider casesToken
 	 */
-	public function testGetToken( $data, $expResult )
+	public function testGetToken( $data, $expResult, $counter )
 	{
-		include_once JPATH_BASE . '/libraries/joomla/application/application.php';
-
-		$mockSession = $this->getMock('JSession', array('_start', 'getFormToken'));
-		$mockSession->expects(
-			$this->once())->method('getFormToken')->with($this->equalTo($expResult))->will(
-				$this->returnValue($expResult
-			)
-		);
-		JFactory::$session = $mockSession;
-
+		//include_once JPATH_BASE . '/libraries/joomla/application/application.php';
+/**		$mockSession = $this->getMock('JSession', array('_start', 'getFormToken'), array(), 'JSession'.$counter, false);
+		$mockSession
+			->expects($this->any())
+			->method('getFormToken')
+			->with($data)
+			->will($this->returnValue($expResult));**/
+		JFactory::$session = new Mock_Session;
 		$this->assertThat(
 			is_null($data)?JUtility::getToken():JUtility::getToken($data),
 			$this->equalTo($expResult)
 		);
+		JFactory::$session = null;
 	}
 
 	/**
@@ -489,3 +493,10 @@ class JUtilityTest extends JoomlaTestCase
 	}
 }
 
+class Mock_Session
+{
+	function getFormToken($data)
+	{
+		return (bool) $data;
+	}
+}
