@@ -9,13 +9,13 @@
 
 @font-face {
     font-family: 'Titillium Maps';
-    src: url("TitilliumMaps29L002.eot")
+    src: url("../fonts/TitilliumMaps29L002.eot")
     }
 @font-face {
     font-family: 'Titillium Maps';
     src:
-        url("TitilliumMaps29L002.otf") format("opentype"),
-        url("TitilliumMaps29L002.woff") format("woff")
+        url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
+        url("../fonts/TitilliumMaps29L002.woff") format("woff")
     }
 
 body
@@ -36,7 +36,7 @@ body
 a:link,
 a:visited
 {
-        color:#330000
+        color:#333
 }
 
 a:hover,
@@ -114,7 +114,8 @@ h1#logo
 
 h1#logo span
 {
-	text-transform:none
+	text-transform:none;
+
 }
 
 #line
@@ -377,6 +378,7 @@ h3.js_heading a:focus
 {
         color:#fff;
         background:#990000;
+		text-decoration:none
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
@@ -997,7 +999,7 @@ ul.tabs li a.linkopen:focus
 {
         background:#fff;
         border:solid 1px #999;
-        color:#044b63;
+        color:#333;
 }
 
 .only

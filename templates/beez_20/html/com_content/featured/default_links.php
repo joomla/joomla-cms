@@ -1,0 +1,32 @@
+<?php
+/**
+ * @version		$Id: default_links.php 15673 2010-03-29 03:21:04Z hackwar $
+ * @package		Joomla.Site
+ * @subpackage	com_content
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// no direct access
+defined('_JEXEC') or die;
+$app = JFactory::getApplication();
+$templateparams =$app->getTemplate(true)->params;
+if($templateparams->get('html5')!=1)
+{
+	require(JPATH_BASE.'/components/com_content/views/featured/tmpl/default_links.php');
+	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
+} else {
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+?>
+
+<h3><?php echo JText::_('MORE_ARTICLES'); ?></h3>
+
+<ol>
+<?php foreach ($this->link_items as &$item) : ?>
+	<li>
+		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug)); ?>">
+			<?php echo $item->title; ?></a>
+	</li>
+<?php endforeach; ?>
+</ol>
+<?php } ?>

@@ -28,7 +28,6 @@ $navposition	= $this->params->get('navposition');
 $app			= JFactory::getApplication();
 $templateparams	= $app->getTemplate(true)->params;
 ?>
-
 <?php if(!$templateparams->get('html5', 0)): ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php else: ?>
@@ -82,10 +81,13 @@ $templateparams	= $app->getTemplate(true)->params;
 			<?php endif; ?>
 
 					<div class="logoheader">
-						<h1 id="logo">Beez 2.0
+						<h1 id="logo">
 							<?php if ($logo != '-1' ): ?>
 								<img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('Logo Beez'); ?>" />
 							<?php endif;?>
+								<?php if ($logo == '-1' ): ?>
+								Beez 2.0
+							<?php endif; ?>
 							<span class="header1"><?php echo JText::_('TPL_BEEZ2_YOUR_SITE_DESCRIPTION'); ?></span>
 						</h1>
 					</div><!-- end logoheader -->
@@ -98,15 +100,15 @@ $templateparams	= $app->getTemplate(true)->params;
 					   <?php endif; ?>
 					</ul>
 
-					<h2 class="unseen">
-						<?php echo JText::_('TPL_BEEZ2_NAV_VIEW_SEARCH'); ?>
-					</h2>
 
+                   			<h2 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAV_VIEW_SEARCH'); ?></h2>
 					<h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAVIGATION'); ?></h3>
 
 					<jdoc:include type="modules" name="position-1" />
 
 					<div id="line">
+
+
 						<div id="fontsize">
 							<script type="text/javascript">
 							//<![CDATA[
@@ -119,10 +121,8 @@ $templateparams	= $app->getTemplate(true)->params;
 						</div>
 
 						<h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_SEARCH'); ?></h3>
-
-						<jdoc:include type="modules" name="searchload" />
-
-					</div>
+						<jdoc:include type="modules" name="position-0" />
+					  </div>
 
 			<?php if (!$templateparams->get('html5', 0)): ?>
 				</div><!-- end header -->

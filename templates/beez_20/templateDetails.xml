@@ -27,6 +27,7 @@
 	</files>
 
 	<positions>
+	    <position>position-0</position>
 		<position>position-1</position>
 		<position>position-2</position>
 		<position>position-3</position>
@@ -42,15 +43,17 @@
 		<position>position-13</position>
 		<position>position-14</position>
 	</positions>
-
+         <languages>
+                <language tag="en-GB">en-GB.tpl_beez_20.ini</language>
+        </languages>
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
-				<field name="wrapperSmall" type="text" default="55"
+				<field name="wrapperSmall" type="text" default="53"
 					label="TPL_BEEZ2_FIELD_WRAPPERSMALL_LABEL"
 					description="TPL_BEEZ2_FIELD_WRAPPERSMALL_DESC" />
 
-				<field name="wrapperLarge" type="text" default="76"
+				<field name="wrapperLarge" type="text" default="72"
 					label="TPL_BEEZ2_FIELD_WRAPPERLARGE_LABEL"
 					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC" />
 
@@ -58,7 +61,7 @@
 					hide_default="1" default=""
 					label="TPL_BEEZ2_FIELD_LOGO_LABEL" description="TPL_BEEZ2_FIELD_LOGO_DESC" />
 
-				<field name="navposition" type="list" default="left"
+				<field name="navposition" type="list" default="center"
 					label="TPL_BEEZ2_FIELD_NAVPOSITION_LABEL"
 					description="TPL_BEEZ2_FIELD_NAVPOSITION_DESC"
 				>
@@ -66,7 +69,7 @@
 					<option value="left">TPL_BEEZ2_OPTION_BEFORE_CONTENT</option>
 				</field>
 
-				<field name="templatecolor" type="list" default="personal"
+				<field name="templatecolor" type="list" default="nature"
 					label="TPL_BEEZ2_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ2_FIELD_TEMPLATECOLOR_DESC"
 				>

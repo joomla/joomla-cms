@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Apr-2010 Hannes Papenberg
+# Fixed some bugs in beez 2.0 and added font - Thanks Angie Radtke!
+
 28-Apr-2010 Jean-Marie Simonet
 # Loading plg_user_profile ini in User edit.
 $ Sorting com_users back-end in/keys

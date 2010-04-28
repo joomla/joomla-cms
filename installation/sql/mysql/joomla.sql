@@ -983,7 +983,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 INSERT INTO `#__template_styles` VALUES (1, 'rhuk_milkyway', '0', '1', 'Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Default', '{}');
-INSERT INTO `#__template_styles` VALUES (4, 'beez_20', '0', '0', 'Default', '{"wrapperSmall":"55","wrapperLarge":"76","logo":"-1","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO `#__template_styles` VALUES (4, 'beez_20', '0', '0', 'Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"-1","navposition":"left","templatecolor":"nature","html5":"0"}');
 
 # -------------------------------------------------------
 #

@@ -202,10 +202,7 @@ h1#logo
 #logo img
 {
         display: block;
-        position:absolute;
-        left:20px;
-        top:35px
-}
+        }
 
 #logo span
 {

@@ -80,7 +80,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->id=$module->id;
 		$modules[] = $temp;
 
-		//Hier kommt deine Liste aller Modultitel. Wie du das genau umstricken willst, musst du dann schauen
+		// list of moduletitles
 		echo '<div id="'. $area.'" class="tabouter"><ul class="tabs">';
 
 		foreach($modules as $rendermodule) {
@@ -88,7 +88,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		}
 		echo '</ul>';
 
-		//Hier haust du dann alle Modulinhalte raus
+		// modulecontent
 		foreach($modules as $rendermodule) {
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';
 			echo $rendermodule->content;
