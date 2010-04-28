@@ -31,10 +31,10 @@ $ -> Language fix or change
 # Loading plg_user_profile ini in User edit.
 $ Sorting com_users back-end in/keys
 
-
 28-Apr-2010 Andrew Eddie
  + Accepted patch [#19659] JApplication::_create session() expires sessions on each page load and creates additional load (Dennis Hermacki)
  + Accepted patch [#19660] Database session handler optimization (Dennis Hermacki)
+ # Fixed [#20231] You can save two default menu items
 
 27-Apr-2010 Mark Dexter
 # Make sure archive is consistently value = 2 (Elin Waring)

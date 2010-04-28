@@ -806,6 +806,21 @@ class MenusModelItem extends JModelAdmin
 
 		$this->setState('item.id', $table->id);
 
+		// Check if this is the home item.
+		if ($table->home) {
+			// Reset the any current home menu link.
+			$query = $db->getQuery(true);
+			$query->update('#__menu');
+			$query->set('home = 0');
+			$query->where('home = 1');
+			$query->where('id <> '.(int) $pk);
+
+			if (!$db->setQuery($query)->query()) {
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
+
 		// Clear the component's cache
 		$cache = JFactory::getCache('com_modules');
 		$cache->clean();
