@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -53,11 +53,11 @@ class JFormFieldOrdering extends JFormField
 		$pluginId	= (int) $this->form->getValue('extension_id');
 		$folder	=  $this->form->getValue('folder');
 		$db = JFactory::getDbo();
-		
+
 		// Build the query for the ordering list.
-		$query = 'SELECT ordering AS ordering, name AS text, type AS type, folder AS folder, extension_id AS extension_id' .
+		$query = 'SELECT ordering AS value, name AS text, type AS type, folder AS folder, extension_id AS extension_id' .
 				' FROM #__extensions' .
-				' WHERE (type =' .$db->Quote(plugin). 'AND folder='. $db->Quote($folder) . ')'.
+				' WHERE (type =' .$db->Quote('plugin'). 'AND folder='. $db->Quote($folder) . ')'.
 				' ORDER BY ordering';
 
 		// Create a read-only list (no name) with a hidden input to store the value.
