@@ -54,8 +54,8 @@ class UsersViewUsers extends JView
 		JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'USERS_TOOLBAR_ACTIVATE', true);
-			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'USERS_TOOLBAR_BLOCK', true);
+			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'COM_USERS_TOOLBAR_BLOCK', true);
 			JToolBarHelper::divider();
 		}
 
