@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @package		Joomla.Framework
  * @subpackage	Session
  * @since		1.5
- * @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see			http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageDatabase extends JSessionStorage
 {
@@ -28,6 +28,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param	string	The path to the session object.
 	 * @param	string	The name of the session.
 	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	public function open($save_path, $session_name)
 	{
@@ -38,6 +39,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Close the SessionHandler backend.
 	 *
 	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	public function close()
 	{
@@ -50,11 +52,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @param	string	The session identifier.
 	 * @return	string	The session data.
+	 * @since	1.5
 	 */
 	public function read($id)
 	{
 		// Get the database connection object and verify its connected.
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
 		}
@@ -74,42 +77,37 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * @param	string	The session identifier.
 	 * @param	string	The session data.
 	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	public function write($id, $data)
 	{
 		// Get the database connection object and verify its connected.
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
 		}
 
-		// Get the session data from the database table.
+		// Try to update the session data in the database table.
 		$db->setQuery(
-			'SELECT `session_id`' .
-			' FROM `#__session`' .
+			'UPDATE `#__session`' .
+			' SET `data` = '.$db->quote($data).',' .
+			'	  `time` = '.(int) time() .
 			' WHERE `session_id` = '.$db->quote($id)
 		);
-		$exists = $db->loadResult();
+		if (!$db->query()) {
+			return false;
+ 		}
 
-		// If the session exists we just need to update the data field.
-		if ($exists) {
-			$db->setQuery(
-				'UPDATE `#__session`' .
-				' SET `data` = '.$db->quote($data).',' .
-				'	`time` = '.(int) time() .
-				' WHERE `session_id` = '.$db->quote($id)
-			);
-		}
-		// If the session does not exist, we need to insert the session.
-		else {
+		if ($db->getAffectedRows()) {
+			return true;
+		} else {
+			// If the session does not exist, we need to insert the session.
 			$db->setQuery(
 				'INSERT INTO `#__session` (`session_id`, `data`, `time`)' .
 				' VALUES ('.$db->quote($id).', '.$db->quote($data).', '.(int) time().')'
 			);
+			return (boolean) $db->query();
 		}
-
-		// Write the session data to the database.
-		return (boolean) $db->query();
 	}
 
 	/**
@@ -118,11 +116,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @param	string	The session identifier.
 	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	public function destroy($id)
 	{
 		// Get the database connection object and verify its connected.
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
 		}
@@ -140,11 +139,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @param	integer	The maximum age of a session.
 	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	function gc($lifetime = 1440)
 	{
 		// Get the database connection object and verify its connected.
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		if (!$db->connected()) {
 			return false;
 		}
