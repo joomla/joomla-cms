@@ -30,12 +30,13 @@ class JInstallerTemplate extends JAdapterInstance
 	 * @param	string	$path the path where to find language files
 	 * @since	1.6
 	 */
-	public function loadLanguage($path)
+	public function loadLanguage($path=null)
 	{
 		$source = $this->parent->getPath('source');
 		if (!$source) {
 			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$this->parent->extension->element);
 		}
+		$clientId = $this->parent->extension->client_id;
 		$this->manifest = &$this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$client = (string)$this->manifest->attributes()->client;
@@ -197,13 +198,13 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		//insert record in #__template_styles
-		$query = 'INSERT INTO #__template_styles'.
-				' (template,client_id,home,title,params)'.
-				' VALUE ('.$db->Quote($row->name).','.
-		$db->Quote($clientId).',0,'.
-		$db->Quote(JText::_('Default')).','.
-		$db->Quote($row->params).
-				')';
+		$query = $db->getQuery(true);
+		$query->insert('#__template_styles');
+		$query->set('template='.$db->Quote($row->name));
+		$query->set('client_id='.$db->Quote($clientId));
+		$query->set('home=0');
+		$query->set('title='.$db->Quote(JText::_('JDEFAULT')));
+		$query->set('params='.$db->Quote($row->params));
 		$db->setQuery($query);
 		$db->query();
 		return $row->get('extension_id');
@@ -387,9 +388,27 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
+
+		$data = new JObject();
+		foreach ($manifest_details as $key => $value) {
+			$data->set($key, $value);
+		}
 		$this->parent->extension->params = $this->parent->getParams();
 
 		if ($this->parent->extension->store()) {
+
+			//insert record in #__template_styles
+			$db = &$this->parent->getDbo();
+			$query = $db->getQuery(true);
+			$query->insert('#__template_styles');
+			$query->set('template='.$db->Quote($this->parent->extension->name));
+			$query->set('client_id='.$db->Quote($this->parent->extension->client_id));
+			$query->set('home=0');
+			$query->set('title='.$db->Quote(JText::_('JDEFAULT')));
+			$query->set('params='.$db->Quote($this->parent->extension->params));
+			$db->setQuery($query);
+			$db->query();
+
 			return $this->parent->extension->get('extension_id');
 		}
 		else

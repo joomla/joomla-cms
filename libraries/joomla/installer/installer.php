@@ -1057,30 +1057,41 @@ class JInstaller extends JAdapter
 	public function getParams()
 	{
 		// Get the manifest document root element
-		$root = & $this->manifest->document;
+		// OMAR: This appears to be unused, commenting out:
+		//$root = & $this->manifest->document;
 
-		// Get the element of the tag names
-		$params = $this->manifest->params;
-		if( ! count($params->children())) {
-			// Either the tag does not exist or has no children therefore we return zero files processed.
-			return null;
-		}
+		// Getting the fieldset tags:
+		$fieldsets = $this->manifest->config->fields->fieldset;
 
-		// Process each parameter in the $params array.
-		$ini = null;
-		foreach ($params as $param)
-		{
-			if (!$name = $param->attributes()->name) {
-				continue;
+		// Creating the data collection variable:
+		$ini = array();
+
+		// Iterating through the fieldsets:
+		foreach($fieldsets as $fieldset) {
+			if( ! count($fieldset->children())) {
+				// Either the tag does not exist or has no children therefore we return zero files processed.
+				return null;
 			}
 
-			if (!$value = $param->attributes()->default) {
-				continue;
-			}
+			// Iterating through the fields and collecting the name/default values:
+			foreach ($fieldset as $field)
+			{
+				// Modified the below if statements to check against the
+				// null value since default values like "0" were casuing
+				// entire parameters to be skipped.
+				if (($name = $field->attributes()->name) === null) {
+					continue;
+				}
 
-			$ini .= $name."=".$value."\n";
+				if (($value = $field->attributes()->default) === null) {
+					continue;
+				}
+
+				$ini[(string) $name] = (string) $value;
+			}
 		}
-		return $ini;
+
+		return json_encode($ini);
 	}
 
 	/**
