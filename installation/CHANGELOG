@@ -37,6 +37,7 @@ $ -> Language fix or change
 
 29-Apr-2010 Andrew Eddie
  # Fixed [#20102] Powered By 1.5 image
+ ^ Improve permission (allow/deny) select list titles for better accessibility.
 
 28-Apr-2010 Hannes Papenberg
 # Fixed some bugs in beez 2.0 and added font - Thanks Angie Radtke!

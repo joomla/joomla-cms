@@ -117,7 +117,7 @@ JHtml::_('behavior.formvalidation');
 			</fieldset>
 		<?php endforeach; ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Access'), 'access-rules'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
 		<fieldset class="panelform">
 			<?php echo $this->form->getLabel('rules'); ?>
 			<?php echo $this->form->getInput('rules'); ?>
