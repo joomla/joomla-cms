@@ -45,6 +45,12 @@ class JControllerForm extends JController
 	protected $view_list;
 
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param	array An optional associative array of configuration settings.
@@ -57,6 +63,11 @@ class JControllerForm extends JController
 		// Guess the option as com_NameOfController
 		if (empty($this->option)) {
 			$this->option = 'com_'.strtolower($this->getName());
+		}
+
+		// Guess the JText message prefix. Defaults to the option.
+		if (empty($this->text_prefix)) {
+			$this->text_prefix = strtoupper($this->option);
 		}
 
 		// Guess the context as the suffix, eg: OptionControllerContent.
@@ -329,6 +340,7 @@ class JControllerForm extends JController
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
+		$lang		= JFactory::getLanguage();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
@@ -426,7 +438,7 @@ class JControllerForm extends JController
 			return false;
 		}
 
-		$this->setMessage(JText::_('JCONTROLLER_SAVE_SUCCESS'));
+		$this->setMessage(JText::_(($lang->hasKey($this->text_prefix.'_SAVE_SUCCESS') ? $this->text_prefix : 'JLIB_APPLICATION') .  '_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task) {
