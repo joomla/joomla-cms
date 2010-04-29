@@ -142,7 +142,7 @@ class JDate extends DateTime
 		}
 
 		// If the date is numeric assume a unix timestamp and convert it.
-		$date = is_numeric($date) ? date('c', $date) : $date;
+		$date = is_numeric($date) ? @date('c', $date) : $date;
 
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
