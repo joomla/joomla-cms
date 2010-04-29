@@ -27,7 +27,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @param	string	$path the path where to find language files
 	 * @since	1.6
 	 */
-	public function loadLanguage($path)
+	public function loadLanguage($path=null)
 	{
 		$source = $this->parent->getPath('source');
 		if (!$source) {
@@ -35,8 +35,9 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		$this->manifest = &$this->parent->getManifest();
 		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$name = strtolower((string)$this->manifest->libraryname);
 		$lang =& JFactory::getLanguage();
-		$source = $path;
+		$source = $path ? $path : JPATH_LIBRARIES . "/$name";
 			$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
