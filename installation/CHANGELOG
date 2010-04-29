@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Apr-2010 Christophe Demko
+# Fixed warning deprecated function ereg in php 5.3 libraries/joomla/client/ftp.php
+# Fixed warning date(): It is not safe to rely on the system's timezone settings (php 5.3). libraries/joomla/utilities/date.php
+
 29-Apr-2010 Andrew Eddie
  # Fixed [#20102] Powered By 1.5 image
 
