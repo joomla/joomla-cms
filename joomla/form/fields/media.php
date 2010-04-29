@@ -80,14 +80,23 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div style="float:left;">';
 		$html[] = '	<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
 					' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
-					' disabled="disabled"'.$attr.' />';
+					' readonly="readonly"'.$attr.' />';
 		$html[] = '</div>';
 
+		if (file_exists(JPATH_ROOT . '/' . $this->value)) {
+			$folder = explode ('/',$this->value);
+			array_shift($folder);
+			array_pop($folder);
+			$folder = implode('/',$folder);			
+		}
+		else {
+			$folder = (string)$this->element['directory'];
+		}
 		// The button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a class="modal" title="'.JText::_('JGLOBAL_SELECT').'"' .
-					' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&view=images&tmpl=component') . '&fieldid='.$this->id.'&folder='.(string)$this->element['directory']).'"' .
+					' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&view=images&tmpl=component') . '&fieldid='.$this->id.'&folder='.$folder).'"' .
 					' rel="{handler: \'iframe\', size: {x: 650, y: 375}}">';
 		$html[] = '			'.JText::_('JGLOBAL_SELECT').'</a>';
 		$html[] = '	</div>';
