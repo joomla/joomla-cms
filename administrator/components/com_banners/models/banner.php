@@ -101,9 +101,14 @@ class BannersModelBanner extends JModelAdmin
 		if (!empty($data)) {
 			$form->bind($data);
 		} else {
-			$form->bind($this->getItem());
+			$data = $this->getItem();
+			$data->image = $data->params['image'];
+			$data->alt = $data->params['alt'];
+			$data->flash = $data->params['flash'];
+			$data->custom = $data->params['custom'];
+			
+			$form->bind($data);
 		}
-
 		return $form;
 	}
 

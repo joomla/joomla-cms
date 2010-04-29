@@ -28,7 +28,7 @@ $baseurl = JURI::base();
 			<?php $imageurl = $item->params->image->url;?>
 			<?php if (BannerHelper::isImage($imageurl)) :?>
 				<?php // Image based banner ?>
-				<?php $alt = $item->params->get('alt');?>
+				<?php $alt = $item->params->alt->alt;?>
 				<?php $alt = $alt ? $alt : $item->name ;?>
 				<?php $alt = $alt ? $alt : JText::_('MOD_BANNERS_BANNER') ;?>
 				<?php if ($item->clickurl) :?>
@@ -40,7 +40,7 @@ $baseurl = JURI::base();
 							href="<?php echo $link; ?>" target="_blank"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
 							<img
-								src="<?php echo $baseurl;?>images/banners/<?php echo $imageurl;?>"
+								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>" />
 						</a>
 					<?php elseif ($target == 2):?>
@@ -51,7 +51,7 @@ $baseurl = JURI::base();
 								return false"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
 							<img
-								src="<?php echo $baseurl;?>images/banners/<?php echo $imageurl;?>"
+								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>" />
 						</a>
 					<?php else :?>
@@ -60,14 +60,14 @@ $baseurl = JURI::base();
 							href="<?php echo $link;?>"
 							title="<?php echo htmlspecialchars($item->name, ENT_QUOTES, 'UTF-8');?>">
 							<img
-								src="<?php echo $baseurl;?>images/banners/<?php echo $imageurl;?>"
+								src="<?php echo $baseurl . $imageurl;?>"
 								alt="<?php echo $alt;?>" />
 						</a>
 					<?php endif;?>
 				<?php else :?>
 					<?php // Just display the image if no link specified?>
 					<img
-						src="<?php echo $baseurl;?>images/banners/<?php echo $imageurl;?>"
+						src="<?php echo $baseurl . $imageurl;?>"
 						alt="<?php echo $alt;?>" />
 				<?php endif;?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) :?>

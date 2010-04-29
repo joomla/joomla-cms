@@ -159,28 +159,40 @@
 	</fieldset>
 
 	<fieldset name="image">
-
-		<field name="url" type="media" directory="banners"
-			hide_none="1" label="COM_BANNERS_FIELD_IMAGE_LABEL"
-			description="COM_BANNERS_FIELD_IMAGE_DESC" />
-
+		<fields name="image">
+			<field name="url" type="media" directory="banners"
+				hide_none="1" label="COM_BANNERS_FIELD_IMAGE_LABEL"
+				attributes=""
+				size="40"
+				description="COM_BANNERS_FIELD_IMAGE_DESC" />
+		</fields>
 	</fieldset>
 
-	<fields name="params">
-		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
-	
-			<field name="width" type="text"
+	<fieldset name="flash">
+		<fields name="flash">
+			<field name="width" type="text" default="0"
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 	
-			<field name="height" type="text"
+			<field name="height" type="text" default="0"
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
-	
+		</fields>
+	</fieldset>
+
+	<fieldset name="alt">
+		<fields name="alt">
 			<field name="alt" type="text" class="inputbox"
 				label="COM_BANNERS_FIELD_ALT_LABEL" description="COM_BANNERS_FIELD_ALT_DESC" />
-	
-		</fieldset>
-	</fields>
+		</fields>
+	</fieldset>
+
+	<fieldset name="custom">
+		<fields name="custom">
+			<field name="bannercode" type="textarea" class="inputbox"
+				rows="3" cols="30" filter="raw"
+				label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
+		</fields>
+	</fieldset>
 
 </form>
