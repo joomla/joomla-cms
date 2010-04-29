@@ -22,6 +22,12 @@ class PluginsModelPlugin extends JModelAdmin
 	protected $_cache;
 
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_PLUGINS';
+	
+	/**
 	 * Method to get the record form.
 	 *
 	 * @param	array		An optional array of source data.

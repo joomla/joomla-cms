@@ -19,12 +19,6 @@ jimport('joomla.application.component.model');
  */
 class TemplatesModelTemplate extends JModel
 {
-	/**
-	 * Cache for the template information.
-	 *
-	 * @var		object
-	 * @since	1.6
-	 */
 	protected $template = null;
 
 	/**

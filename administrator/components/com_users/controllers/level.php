@@ -20,6 +20,12 @@ jimport('joomla.application.component.controllerform');
 class UsersControllerLevel extends JControllerForm
 {
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_USERS_LEVEL';
+	
+	/**
 	 * Method to remove a record.
 	 */
 	public function delete()

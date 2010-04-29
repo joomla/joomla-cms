@@ -19,6 +19,12 @@ jimport('joomla.application.component.modeladmin');
 class ContentModelArticle extends JModelAdmin
 {
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_CONTENT';
+	
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	A record object.

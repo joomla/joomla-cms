@@ -20,6 +20,12 @@ jimport('joomla.application.component.modelform');
 class MenusModelMenu extends JModelForm
 {
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_MENUS_MENU';
+	
+	/**
 	 * Model context string.
 	 *
 	 * @var		string

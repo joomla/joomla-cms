@@ -20,6 +20,12 @@ jimport('joomla.application.component.modeladmin');
 class CategoriesModelCategory extends JModelAdmin
 {
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_CATEGORIES';
+	
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	A record object.

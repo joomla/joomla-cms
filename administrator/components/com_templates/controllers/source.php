@@ -212,7 +212,7 @@ class TemplatesControllerSource extends JController
 			return false;
 		}
 
-		$this->setMessage(JText::_('JCONTROLLER_SAVE_SUCCESS'));
+		$this->setMessage(JText::_('COM_TEMPLATES_FILE_SAVE_SUCCESS'));
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)

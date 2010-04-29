@@ -19,4 +19,14 @@ jimport('joomla.application.component.controllerform');
  */
 class UsersControllerGroup extends JControllerForm
 {
+		/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_USERS_GROUP';
+	
+	/**
+	 * @var		string	The event to trigger after saving the data.
+	 * @since	1.6
+	 */
 }
