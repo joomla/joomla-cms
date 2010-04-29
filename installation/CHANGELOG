@@ -32,6 +32,7 @@ $ Customizing Save success all over the UI
 
 29-Apr-2010 Hannes Papenberg
 # Fixed parameters in install SQL and sampledata from INI to JSON
+# Fixed errors in JFilterInput
 
 29-Apr-2010 Christophe Demko
 # Fixed [#20232] Discovery method of installing templates doesn't insert a style

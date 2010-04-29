@@ -112,12 +112,6 @@ class JRequestTest_DataSet {
 			'raw_test',  null,		'default',  'none', JREQUEST_ALLOWRAW, '<body>stuff</body>',
 			array(),
 		),
-		array(
-			'raw_test',  null,		'default',  'none', JREQUEST_ALLOWHTML, '<body>stuff</body>',
-			array(
-				array('<body>stuff</body>', 'NONE', '<body>stuff</body>', 1)
-			)
-		)
 	);
 
 	static function initSuperGlobals() {
