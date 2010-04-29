@@ -35,7 +35,7 @@ $ Customizing Save success all over the UI
 # Fixed errors in JFilterInput
 
 29-Apr-2010 Christophe Demko
-# Fixed [#20232] Discovery method of installing templates doesn't insert a style
+# Fixed [#20232] Discovery method of installing templates doesn't insert a style (thanks Omar Ramos)
 # Saving and loading image banner (thanks Jonathan cheung)
 + Add metadesc and metakey fields to the #__language table (http://groups.google.com/group/joomla-dev-cms/browse_thread/thread/828869eb50004b97)
 # Fixed warning deprecated function ereg in php 5.3 libraries/joomla/client/ftp.php
