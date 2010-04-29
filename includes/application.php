@@ -116,7 +116,7 @@ final class JSite extends JApplication
 				$table = JTable::getInstance('Language');
 				$lang = JFactory::getLanguage();
 				$table->load(array('lang_code'=>$lang->getTag()));
-				$document->setMetaData('keywords', $this->getCfg('MetaKeys').','.$table->metakey);
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys').($table->metakey ? (', '.$table->metakey):''));
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
 				if ($router->getMode() == JROUTER_MODE_SEF) {
 					$document->setBase(JURI::current());
