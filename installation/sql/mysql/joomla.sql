@@ -508,6 +508,8 @@ CREATE TABLE `#__languages` (
   `title` varchar(50) NOT NULL,
   `title_native` varchar(50) NOT NULL,
   `description` varchar(512) NOT NULL,
+  `metakey` text NOT NULL,
+  `metadesc` text NOT NULL,
   `published` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

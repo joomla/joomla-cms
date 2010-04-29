@@ -28,7 +28,7 @@ JHtml::_('behavior.formvalidation');
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_languages'); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
-	<div class="width-70 fltlft">
+	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<?php if ($this->item->lang_id) : ?>
 				<legend><?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?></legend>
@@ -48,8 +48,22 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
-
 		</fieldset>
+	</div>
+	<div class="width-40 fltrt">
+		<?php echo JHtml::_('sliders.start','language-sliders-'.$this->item->lang_code, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_LANGUAGES_GROUP_LABEL_METADATA_OPTIONS'), 'metadata'); ?>
+			<fieldset class="adminform">
+				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+					<?php if (!$field->hidden): ?>
+						<?php echo $field->label; ?>
+					<?php endif; ?>
+					<?php echo $field->input; ?>
+				<?php endforeach; ?>
+			</fieldset>
+
+		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"> </div>
 

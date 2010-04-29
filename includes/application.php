@@ -113,7 +113,10 @@ final class JSite extends JApplication
 		{
 			case 'html':
 				//set metadata
-				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
+				$table = JTable::getInstance('Language');
+				$lang = JFactory::getLanguage();
+				$table->load(array('lang_code'=>$lang->getTag()));
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys').','.$table->metakey);
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
 				if ($router->getMode() == JROUTER_MODE_SEF) {
 					$document->setBase(JURI::current());
@@ -267,7 +270,10 @@ final class JSite extends JApplication
 			$menu	= $menus->getActive();
 
 			$title = htmlspecialchars_decode($this->getCfg('sitename'));
-			$description = $this->getCfg('MetaDesc');
+			$table = JTable::getInstance('Language');
+			$lang = JFactory::getLanguage();
+			$table->load(array('lang_code'=>$lang->getTag()));
+			$description = $this->getCfg('MetaDesc').$table->metadesc;
 			$rights=$this->getCfg('MetaRights');
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu)) {

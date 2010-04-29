@@ -62,4 +62,21 @@
 			<option value="-2">JTRASH</option>
 		</field>
 	</fieldset>
+	<fieldset name="metadata">
+		<field name="metakey" type="textarea"
+			class="inputbox"
+			description="JFIELD_META_KEYWORDS_DESC"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="3"
+			cols="30"
+		/>
+
+		<field name="metadesc" type="textarea"
+			class="inputbox"
+			description="JFIELD_META_DESCRIPTION_DESC"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			rows="3"
+			cols="30"
+		/>
+	</fieldset>
 </form>
