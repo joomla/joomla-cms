@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Apr-2010 Christophe Demko & Jean-Marie Simonet
+# Fixed problems in com_banners
+
 30-Apr-2010 Andrew Eddie
  # Fixed [#20230] Filter in session impacts modals elsewhere.
  # Fixed [#20283] State Filter field in newsfeeds admin view is misbehaving.

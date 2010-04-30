@@ -83,14 +83,18 @@ class JFormFieldMedia extends JFormField
 					' readonly="readonly"'.$attr.' />';
 		$html[] = '</div>';
 
-		if (file_exists(JPATH_ROOT . '/' . $this->value)) {
+		$directory = (string)$this->element['directory'];
+		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value)) {
 			$folder = explode ('/',$this->value);
 			array_shift($folder);
 			array_pop($folder);
 			$folder = implode('/',$folder);			
 		}
+		elseif (file_exists(JPATH_ROOT . '/images/' . $directory)) {
+			$folder = $directory;
+		}
 		else {
-			$folder = (string)$this->element['directory'];
+			$folder='';
 		}
 		// The button.
 		$html[] = '<div class="button2-left">';

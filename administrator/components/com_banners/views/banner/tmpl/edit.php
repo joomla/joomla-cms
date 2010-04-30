@@ -28,33 +28,16 @@ JHtml::_('behavior.formvalidation');
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'none');
-			document.id('jform_image_url').fireEvent('change');
 		});
 		document.id('jform_type1').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'none');
-			document.id('flash').setStyle('display', 'none');
-			document.id('alt').setStyle('display', 'none');
 			document.id('custom').setStyle('display', 'block');
-		});
-		document.id('jform_image_url').addEvent('change',function(e){
-			regex=/\.swf$/;
-			if(regex.test(document.id('jform_image_url').value))
-			{
-				document.id('flash').setStyle('display', 'block');
-				document.id('alt').setStyle('display', 'none');
-			}
-			else
-			{
-				document.id('flash').setStyle('display', 'none');
-				document.id('alt').setStyle('display', 'block');
-			}
 		});
 		if(document.id('jform_type0').checked==true) {
 			document.id('jform_type0').fireEvent('click');
 		} else {
 			document.id('jform_type1').fireEvent('click');
 		}
-		document.id('jform_image_url').fireEvent('change');
 	});
 // -->
 </script>
@@ -80,6 +63,9 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 
 		<fieldset class="adminform">
+			<?php echo $this->form->getLabel('type'); ?>
+			<?php echo $this->form->getInput('type'); ?>
+
 			<legend><?php echo JText::_('COM_BANNERS_BANNER_DETAILS') ?></legend>
 			<div id="image">
 				<?php foreach($this->form->getFieldset('image') as $field): ?>
@@ -90,11 +76,10 @@ JHtml::_('behavior.formvalidation');
 				<?php endforeach; ?>
 			</div>
 
-			<?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?>
-
-			<?php echo $this->form->getLabel('cid'); ?>
-			<?php echo $this->form->getInput('cid'); ?>
+			<div id="custom">
+				<?php echo $this->form->getLabel('custombannercode'); ?>
+				<?php echo $this->form->getInput('custombannercode'); ?>
+			</div>
 
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
@@ -102,40 +87,12 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getLabel('clickurl'); ?>
 			<?php echo $this->form->getInput('clickurl'); ?>
 
-			<?php echo $this->form->getLabel('type'); ?>
-			<?php echo $this->form->getInput('type'); ?>
-
 			<?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?>
 
 			<?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?>
 			<div class="clr"> </div>
-
-			<div id="flash">
-				<?php foreach($this->form->getFieldset('flash') as $field): ?>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-				<?php endforeach; ?>
-			</div>
-			<div id="alt">
-				<?php foreach($this->form->getFieldset('alt') as $field): ?>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-				<?php endforeach; ?>
-			</div>
-			<div id="custom">
-				<?php foreach($this->form->getFieldset('custom') as $field): ?>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-				<?php endforeach; ?>
-			</div>
 
 		</fieldset>
 	</div>
@@ -152,8 +109,6 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>
 		</fieldset>
-
-	<?php echo $this->loadTemplate('params'); ?>
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="adminform">

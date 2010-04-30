@@ -98,17 +98,10 @@ class BannersModelBanner extends JModelAdmin
 		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		} else {
+		if (empty($data)) {
 			$data = $this->getItem();
-			$data->image = $data->params['image'];
-			$data->alt = $data->params['alt'];
-			$data->flash = $data->params['flash'];
-			$data->custom = $data->params['custom'];
-			
-			$form->bind($data);
 		}
+		$form->bind($data);
 		return $form;
 	}
 

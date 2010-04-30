@@ -70,6 +70,7 @@ class BannersModelBanners extends JModelList
 				'a.clickurl as clickurl,'.
 				'a.cid as cid,'.
 				'a.params as params,'.
+				'a.custombannercode as custombannercode,'.
 				'a.track_impressions as track_impressions'
 			);
 			$query->from('#__banners as a');
@@ -128,7 +129,7 @@ class BannersModelBanners extends JModelList
 			foreach ($this->cache['items'] as &$item) {
 				$parameters = new JRegistry;
 				$parameters->loadJSON($item->params);
-				$item->params = $parameters->toObject();
+				$item->params = $parameters;
 			}
 		}
 		return $this->cache['items'];

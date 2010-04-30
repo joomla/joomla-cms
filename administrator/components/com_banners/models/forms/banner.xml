@@ -23,21 +23,9 @@
 			<option>JOPTION_NO_CATEGORY</option>
 		</field>
 
-		<field name="state" type="list"
-			label="COM_BANNERS_FIELD_STATE_LABEL" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="inputbox" size="1" default="1"
-		>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASH</option>
-		</field>
 		<field name="ordering" type="ordering" class="inputbox"
 
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
-
-		<field name="cid" type="bannerclient"
-			label="COM_BANNERS_FIELD_CLIENT_LABEL" description="COM_BANNERS_FIELD_CLIENT_DESC" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox"
@@ -49,9 +37,6 @@
 		<field name="description" type="textarea" class="inputbox"
 			rows="3" cols="30" label="COM_BANNERS_FIELD_DESCRIPTION_LABEL"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
-
-		<field name="clickurl" type="text" class="inputbox"
-			label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
 
 		<field name="type" type="radio"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
@@ -77,6 +62,16 @@
 			class="inputbox" size="30" format="%Y-%m-%d %H:%M:%S"
 			filter="server_utc" />
 
+		<field name="state" type="list"
+			label="COM_BANNERS_FIELD_STATE_LABEL" description="COM_BANNERS_FIELD_STATE_DESC"
+			class="inputbox" size="1" default="1"
+		>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASH</option>
+		</field>
+
 		<field name="publish_up" type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL" description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
@@ -95,6 +90,9 @@
 
 		<field name="clicks" type="clicks" default="0"
 			label="COM_BANNERS_FIELD_CLICKS_LABEL" description="COM_BANNERS_FIELD_CLICKS_DESC" />
+
+		<field name="cid" type="bannerclient"
+			label="COM_BANNERS_FIELD_CLIENT_LABEL" description="COM_BANNERS_FIELD_CLIENT_DESC" />
 
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
@@ -158,41 +156,32 @@
 
 	</fieldset>
 
-	<fieldset name="image">
-		<fields name="image">
-			<field name="url" type="media" directory="banners"
+	<fields name="params">
+		<fieldset name="image">
+			<field name="imageurl" type="media" directory="banners"
 				hide_none="1" label="COM_BANNERS_FIELD_IMAGE_LABEL"
 				attributes=""
 				size="40"
 				description="COM_BANNERS_FIELD_IMAGE_DESC" />
-		</fields>
-	</fieldset>
-
-	<fieldset name="flash">
-		<fields name="flash">
-			<field name="width" type="text" default="0"
+			<field name="width" type="text" default=""
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 	
-			<field name="height" type="text" default="0"
+			<field name="height" type="text" default=""
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
-		</fields>
-	</fieldset>
-
-	<fieldset name="alt">
-		<fields name="alt">
 			<field name="alt" type="text" class="inputbox"
 				label="COM_BANNERS_FIELD_ALT_LABEL" description="COM_BANNERS_FIELD_ALT_DESC" />
-		</fields>
-	</fieldset>
+			<field name="clickurl" type="text" class="inputbox"
+				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
+
+		</fieldset>
+	</fields>
 
 	<fieldset name="custom">
-		<fields name="custom">
-			<field name="bannercode" type="textarea" class="inputbox"
-				rows="3" cols="30" filter="raw"
-				label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
-		</fields>
+		<field name="bannercode" type="textarea" class="inputbox"
+			rows="3" cols="30" filter="raw"
+			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 	</fieldset>
 
 </form>
