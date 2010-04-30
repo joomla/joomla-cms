@@ -27,16 +27,16 @@ class ContentHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('Content_Submenu_Articles'),
+			JText::_('COM_CONTENT_SUBMENU_ARTICLES'),
 			'index.php?option=com_content&view=articles',
 			$vName == 'articles'
 		);
 		JSubMenuHelper::addEntry(
-			JText::_('Content_Submenu_Categories'),
+			JText::_('COM_CONTENT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_content',
 			$vName == 'categories');
 		JSubMenuHelper::addEntry(
-			JText::_('Content_Submenu_Featured'),
+			JText::_('COM_CONTENT_SUBMENU_FEATURED'),
 			'index.php?option=com_content&view=featured',
 			$vName == 'featured'
 		);

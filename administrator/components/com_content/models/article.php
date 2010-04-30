@@ -176,7 +176,7 @@ class ContentModelArticle extends JModelAdmin
 		JArrayHelper::toInteger($pks);
 
 		if (empty($pks)) {
-			$this->setError(JText::_('JError_No_items_selected'));
+			$this->setError(JText::_('COM_CONTENT_NO_ARTICLE_SELECTED'));
 			return false;
 		}
 

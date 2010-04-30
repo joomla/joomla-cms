@@ -38,6 +38,7 @@ $ -> Language fix or change
 30-Apr-2010 Jean-Marie Simonet
 $ Refactored com_categories ini/keys
 $ Refactored com_users frontend ini/keys + loading plg_profile ini in front end
+$ Refactoring com_content back-end ini/keys (WIP)
 
 29-Apr-2010 Jean-Marie Simonet & Christophe Demko
 $ Customizing Save success all over the UI

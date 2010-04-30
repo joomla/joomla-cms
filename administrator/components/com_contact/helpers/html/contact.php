@@ -75,7 +75,7 @@ abstract class JHtmlContact
 		</tr>
 		<tr>
 			<td colspan="10" align="center">
-			<?php echo JText::_('CLICK_ON_ICON_TO_TOGGLE_STATE'); ?>
+			<?php echo JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'); ?>
 			</td>
 		</tr>
 		</table>

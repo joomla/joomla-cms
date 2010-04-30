@@ -35,7 +35,7 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-		<legend><?php echo JText::_('ARTICLE_DETAILS'); ?></legend>
+		<legend><?php echo JText::_('COM_CONTENT_ARTICLE_DETAILS'); ?></legend>
 
 		<?php echo $this->form->getLabel('title'); ?>
 		<?php echo $this->form->getInput('title'); ?>
@@ -68,7 +68,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-40 fltrt">
 		<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Publishing'), 'publishing-details'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 		<fieldset class="panelform">
 
@@ -117,13 +117,13 @@ JHtml::_('behavior.formvalidation');
 			</fieldset>
 		<?php endforeach; ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
 		<fieldset class="panelform">
 			<?php echo $this->form->getLabel('rules'); ?>
 			<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('Content_Fieldset_Metadata'), 'meta-options'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_METADATA'), 'meta-options'); ?>
 		<fieldset class="panelform">
 
 			<?php echo $this->form->getLabel('metadesc'); ?>

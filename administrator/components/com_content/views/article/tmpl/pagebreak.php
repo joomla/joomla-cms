@@ -39,7 +39,7 @@ defined('_JEXEC') or die;
 			<tr width="40%">
 				<td class="key" align="right">
 					<label for="title">
-						<?php echo JText::_( 'PGB PAGE TITLE' ); ?>
+						<?php echo JText::_( 'COM_CONTENT_PAGEBREAK_TITLE' ); ?>
 					</label>
 				</td>
 				<td>
@@ -49,7 +49,7 @@ defined('_JEXEC') or die;
 			<tr width="60%">
 				<td class="key" align="right">
 					<label for="alias">
-						<?php echo JText::_( 'PGB TOC ALIAS PROMPT' ); ?>
+						<?php echo JText::_( 'COM_CONTENT_PAGEBREAK_TOC' ); ?>
 					</label>
 				</td>
 				<td>
@@ -58,4 +58,4 @@ defined('_JEXEC') or die;
 			</tr>
 		</table>
 		</form>
-		<button onclick="insertPagebreak();"><?php echo JText::_( 'PGB INS PAGEBRK' ); ?></button>
+		<button onclick="insertPagebreak();"><?php echo JText::_( 'COM_CONTENT_PAGEBREAK_INSERT_BUTTON' ); ?></button>

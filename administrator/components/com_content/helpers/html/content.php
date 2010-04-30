@@ -22,8 +22,8 @@ abstract class JHtmlContent
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			0	=> array('disabled.png',	'articles.featured',	'Content_Unfeatured',	'Content_Toggle_To_Feature'),
-			1	=> array('tick.png',		'articles.unfeatured',	'Content_Featured',		'Content_Toggle_To_Unfeature'),
+			0	=> array('disabled.png',	'articles.featured',	'COM_CONTENT_UNFEATURED',	'COM_CONTENT_TOGGLE_TO_FEATURE'),
+			1	=> array('tick.png',		'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
@@ -55,7 +55,7 @@ abstract class JHtmlContent
 				<li><?php echo JHTML::_('image','admin/disabled.png', JText::_('JARCHIVED'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
 				<li><?php echo JText::_('JARCHIVED'); ?></li>
 			</ul>
-			<p class="center"><?php echo JText::_('CLICK_ON_ICON_TO_TOGGLE_STATE'); ?></p>
+			<p class="center"><?php echo JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'); ?></p>
 		</div>
 		<?php
 	}
