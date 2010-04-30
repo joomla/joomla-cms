@@ -30,6 +30,11 @@ class UsersModelUsers extends JModelList
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
+		// Adjust the context to support modal layouts.
+		if ($layout = JRequest::getVar('layout', 'default')) {
+			$this->context .= '.'.$layout;
+		}
+
 		// Load the filter state.
 		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);

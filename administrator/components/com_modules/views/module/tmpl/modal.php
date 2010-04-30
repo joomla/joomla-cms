@@ -30,15 +30,14 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			endif;
 			?>
 			submitform(task);
-		}
-		else {
+		} else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 // -->
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+<form action="<?php JRoute::_('index.php?option=com_modules&layout=modal&tmpl=component'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
 		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">

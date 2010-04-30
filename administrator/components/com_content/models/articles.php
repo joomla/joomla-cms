@@ -30,6 +30,11 @@ class ContentModelArticles extends JModelList
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
+		// Adjust the context to support modal layouts.
+		if ($layout = JRequest::getVar('layout', 'default')) {
+			$this->context .= '.'.$layout;
+		}
+
 		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Apr-2010 Andrew Eddie
+ # Fixed [#20230] Filter in session impacts modals elsewhere.
+
 30-Apr-2010 Jean-Marie Simonet
 $ Refactored com_categories ini/keys
 $ Refactored com_users frontend ini/keys + loading plg_profile ini in front end
