@@ -20,6 +20,29 @@ jimport( 'joomla.application.component.controller' );
 class LoginController extends JController
 {
 	/**
+	 * Typical view method for MVC based architecture
+	 *
+	 * This function is provide as a default implementation, in most cases
+	 * you will need to override it in your own controllers.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
+	 */
+	public function display($cachable = false, $urlparams = false)
+	{
+		// Special treatment is required for this plugin, as this view may be called
+		// after a session timeout. We must reset the view and layout prior to display
+		// otherwise an error will occur.
+
+		JRequest::setVar('view', 'login');
+		JRequest::setVar('layout', 'default');
+
+		parent::display();
+	}
+
+	/**
 	 * Method to log in a user.
 	 *
 	 * @return	void
