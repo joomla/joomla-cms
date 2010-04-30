@@ -47,7 +47,7 @@ JHtml::_('behavior.formvalidation');
 				<dt>
 					<?php echo $field->label; ?>
 					<?php if (!$field->required): ?>
-					<span class="optional"><?php echo JText::_('USERS OPTIONAL'); ?></span>
+					<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 					<?php endif; ?>
 				</dt>
 				<dd>
@@ -63,9 +63,9 @@ JHtml::_('behavior.formvalidation');
 	endforeach;
 	?>
 
-	<button type="submit" class="validate"><?php echo JText::_('REGISTER'); ?></button>
-	<?php echo JText::_('USERS OR'); ?>
-	<a href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('CANCEL'); ?>"><?php echo JText::_('CANCEL'); ?></a>
+	<button type="submit" class="validate"><?php echo JText::_('JREGISTER'); ?></button>
+	<?php echo JText::_('COM_USERS_OR'); ?>
+	<a href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('CANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
 
 	<input type="hidden" name="option" value="com_users" />
 	<input type="hidden" name="task" value="registration.register" />

@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset name="default"
-		label="USERS REGISTRATION DEFAULT LABEL"
+		label="COM_USERS_REGISTRATION_DEFAULT_LABEL"
 	>
 
 		<field name="name" type="text"

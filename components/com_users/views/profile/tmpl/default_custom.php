@@ -8,11 +8,14 @@
  * @since		1.6
  */
 defined('_JEXEC') or die;
+//load user_profile plugin language
+$lang = &JFactory::getLanguage();
+$lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 ?>
 
 <fieldset id="users-profile-custom">
 	<legend>
-		<?php echo JText::_('COM_USERS_Profile_Custom_Legend'); ?>
+		<?php echo JText::_('COM_USERS_PROFILE_CUSTOM_LEGEND'); ?>
 	</legend>
 	<dl>
 	<?php
@@ -21,7 +24,7 @@ defined('_JEXEC') or die;
 	?>
 		<dt><?php echo $field->label; ?></dt>
 		<dd>
-			<?php echo !empty($this->profile[$field->fieldname]) ? $this->profile[$field->fieldname] : JText::_('COM_USERS_Profile_Value_Not_Found'); ?>
+			<?php echo !empty($this->profile[$field->fieldname]) ? $this->profile[$field->fieldname] : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 		</dd>
 	<?php
 		endif;

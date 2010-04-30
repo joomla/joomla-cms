@@ -2,7 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset name="core"
-		label="Users_Profile_Default_Label">
+		label="COM_USERS_PROFILE_DEFAULT_LABEL">
 
 		<field name="id" type="hidden"
 			filter="integer"
