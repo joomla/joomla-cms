@@ -66,7 +66,7 @@ class CategoriesViewCategories extends JView
 
 		JToolBarHelper::title(
 			JText::sprintf(
-				'Categories_Categories_Title',
+				'COM_CATEGORIES_CATEGORIES_TITLE',
 				$this->escape(JText::_($component.($section?"_$section":'')))
 			),
 			'categories.png'

@@ -91,7 +91,7 @@ class CategoriesControllerCategory extends JController
 			if ($item->checked_out == 0) {
 				if (!$model->checkout($id)) {
 					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JError_Checkout_failed', $model->getError());
+					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
 					$this->setRedirect('index.php?option=com_categories&view=category&item_id='.$id, $message, 'error');
 					return false;
 				}
@@ -279,7 +279,7 @@ class CategoriesControllerCategory extends JController
 	 */
 	function batch()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= &JFactory::getApplication();
@@ -295,7 +295,7 @@ class CategoriesControllerCategory extends JController
 			$this->setMessage(JText::_('Categories_Batch_success'));
 			return true;
 		} else {
-			$this->setMessage(JText::_(JText::sprintf('Categories_Error_Batch_failed', $model->getError())));
+			$this->setMessage(JText::_(JText::sprintf('COM_CATEGORIES_ERROR_BATCH_FAILED', $model->getError())));
 			return false;
 		}
 	}

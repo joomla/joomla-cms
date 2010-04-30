@@ -44,7 +44,7 @@
 
 		<field name="numarticles" type="Text" class="inputbox"
 			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
-			description="COM_NEWSFEED_FIELD_NUM_ARTICLES_DESC"
+			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 			required="true" />
 
 		<field name="cache_time" type="Text" class="inputbox"
@@ -109,7 +109,7 @@
 			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="JFIELD_NEWSFEED_LANGUAGE_DESC" class="inputbox"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
 		>
 			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>

@@ -46,12 +46,12 @@ class CategoriesControllerCategories extends JControllerAdmin
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
-			$this->setMessage(JText::_('CATEGORIES_REBUILD_SUCCESS'));
+			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
 			return true;
 		}
 		else {
 			// Rebuild failed.
-			$this->setMessage(JText::sprintf('CATEGORIES_REBUILD_FAILED'));
+			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 			return false;
 		}
 	}

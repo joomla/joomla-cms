@@ -682,7 +682,7 @@ class MenusModelItem extends JModelAdmin
 				// We need to qualify the full path to avoid collisions with component file names.
 
 				if ($form->loadFile($formFile, false, '/metadata') == false) {
-					throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 				}
 			}
 
@@ -696,14 +696,14 @@ class MenusModelItem extends JModelAdmin
 			if (JFile::exists($path)) {
 				// Add the component params last of all to the existing form.
 				if (!$form->load($path, true, '/config')) {
-					throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
+					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 				}
 			}
 		}
 
 		// Load the specific type file
 		if (!$form->loadFile('item_'.$type, false, false)) {
-			throw new Exception(JText::_('JModelForm_Error_loadFile_failed'));
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Trigger the default form events.

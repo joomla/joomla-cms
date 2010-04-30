@@ -19,8 +19,8 @@
 	<field
 		name="parent_id"
 		type="categoryparent"
-		label="CATEGORIES_PARENT_LABEL"
-		description="CATEGORIES_PARENT_DESC"
+		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
+		description="COM_CATEGORIES_FIELD_PARENT_DESC"
 		class="inputbox"/>
 
 	<field
@@ -50,8 +50,8 @@
 	<field
 		name="extension"
 		type="text"
-		label="CATEGORIES_EXTENSION_LABEL"
-		description="CATEGORIES_EXTENSION_DESC"
+		label="COM_CATEGORIES_FIELD_EXTENSION_LABEL"
+		description="COM_CATEGORIES_FIELD_EXTENSION_DESC"
 		class="readonly"
 		size="40"
 		readonly="true"/>
@@ -84,8 +84,8 @@
 	<field
 		name="description"
 		type="editor"
-		label="CATEGORIES_DESCRIPTION_LABEL"
-		description="CATEGORIES_DESCRIPTION_DESC"
+		label="COM_CATEGORIES_DESCRIPTION_LABEL"
+		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
 		buttons="image,readmore,pagebreak"/>
 
@@ -175,7 +175,7 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="JFIELD_CATEGORY_LANGUAGE_DESC"
+		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
 		class="inputbox"
 		default="">
 		<option value="">JOPTION_DEFAULT_LANGUAGE</option>
@@ -210,8 +210,8 @@
 				type="imagelist"
 				directory="/images"
 				hide_default="1"
-				label="JFIELD_CATEGORY_IMAGE_LABEL"
-				description="JFIELD_CATEGORY_IMAGE_DESC" />
+				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
+				description="COM_CATEGORIES_FIELD_IMAGE_DESC" />
 		</fieldset>
 	</fields>
 

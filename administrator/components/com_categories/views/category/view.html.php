@@ -54,24 +54,24 @@ class CategoriesViewCategory extends JView
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 
-		JToolBarHelper::title(JText::_($isNew ? 'Categories_Category_Add_Title' : 'Categories_Category_Edit_Title'), 'category-add');
+		JToolBarHelper::title(JText::_($isNew ? 'COM_CATEGORIES_CATEGORY_ADD_TITLE' : 'COM_CATEGORIES_CATEGORY_EDIT_TITLE'), 'category-add');
 
 		// If not checked out, can save the item.
 		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id')) {
 			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
-			JToolBarHelper::save('category.save', 'JToolbar_Save');
-			JToolBarHelper::addNew('category.save2new', 'JToolbar_Save_and_new');
+			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::addNew('category.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
-			JToolBarHelper::custom('category.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_copy', false);
+			JToolBarHelper::custom('category.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('category.cancel','JTOOLBAR_CANCEL');
 		} else {
-			JToolBarHelper::cancel('category.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.categories.edit','JTOOLBAR_HELP');

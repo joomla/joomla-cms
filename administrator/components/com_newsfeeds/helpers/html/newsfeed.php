@@ -26,8 +26,8 @@ class JHtmlNewsfeed
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			1	=> array('tick.png',		'newsfeeds.unpublish',	'JPUBLISHED',			'JLIB_HTML_UNPUBLISH_ITEM'),
-			0	=> array('publish_x.png',	'newsfeeds.publish',		'JUNPUBLISHED',		'JLIB_HTML_PUBLISH_ITEM')
+			1	=> array('tick.png',		'newsfeeds.unpublish',	'JPUBLISHED',			'COM_NEWSFEEDS_UNPUBLISH_ITEM'),
+			0	=> array('publish_x.png',	'newsfeeds.publish',		'JUNPUBLISHED',		'COM_NEWSFEEDS_PUBLISH_ITEM')
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
