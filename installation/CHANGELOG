@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 30-Apr-2010 Andrew Eddie
  # Fixed [#20230] Filter in session impacts modals elsewhere.
+ # Fixed [#20283] State Filter field in newsfeeds admin view is misbehaving.
 
 30-Apr-2010 Jean-Marie Simonet
 $ Refactored com_categories ini/keys
