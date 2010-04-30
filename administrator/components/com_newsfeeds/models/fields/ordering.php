@@ -54,7 +54,7 @@ class JFormFieldOrdering extends JFormField
 		$categoryId	= (int) $this->form->getValue('catid');
 
 		// Build the query for the ordering list.
-		$query = 'SELECT ordering AS ordering, name AS text' .
+		$query = 'SELECT ordering AS value, name AS text' .
 				' FROM #__newsfeeds' .
 				' WHERE catid = ' . (int) $categoryId .
 				' ORDER BY ordering';
