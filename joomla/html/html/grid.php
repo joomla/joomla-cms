@@ -35,7 +35,7 @@ abstract class JHtmlGrid
 
 		// Build the title.
 		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title .= '::'.JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE_');
+		$title .= '::'.JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE');
 
 		// Build the <a> tag.
 		$bool	= ($value) ? 'true' : 'false';
