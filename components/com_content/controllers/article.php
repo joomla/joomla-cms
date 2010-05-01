@@ -142,7 +142,7 @@ class ContentControllerArticle extends JController
 				if (!$model->checkout($id))
 				{
 					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JError_Checkout_failed', $model->getError());
+					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
 					$this->setRedirect('index.php?option=com_content&view=article&item_id='.$id, $message, 'error');
 					return false;
 				}
@@ -205,7 +205,7 @@ class ContentControllerArticle extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app		= &JFactory::getApplication();
@@ -238,7 +238,7 @@ class ContentControllerArticle extends JController
 			if (!$model->checkin())
 			{
 				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 				$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
 				return false;
 			}
@@ -288,7 +288,7 @@ class ContentControllerArticle extends JController
 			$app->setUserState($context.'data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
 			return false;
 		}
@@ -297,7 +297,7 @@ class ContentControllerArticle extends JController
 		if (!$model->checkin())
 		{
 			// Check-in failed, go back to the row and display a notice.
-			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
 			return false;
 		}

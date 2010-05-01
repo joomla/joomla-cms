@@ -53,7 +53,7 @@ class ContentViewArchive extends JView
 		$form = new stdClass();
 		// Month Field
 		$months = array(
-			'' => JText::_('Month'),
+			'' => JText::_('COM_CONTENT_MONTH'),
 			'01' => JText::_('JANUARY_SHORT'),
 			'02' => JText::_('FEBRUARY_SHORT'),
 			'03' => JText::_('MARCH_SHORT'),

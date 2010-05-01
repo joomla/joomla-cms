@@ -82,12 +82,12 @@ class ContentViewArticle extends JView
 			{
 				// Redirect to login
 				$uri = JFactory::getURI();
-				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), JText::_('Content_Error_Login_to_view_article'));
+				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), JText::_('COM_CONTENT_ERROR_LOGIN_TO_VIEW_ARTICLE'));
 				return;
 			}
 			else
 			{
-				JError::raiseWarning(403, JText::_('Content_Error_Not_auth'));
+				JError::raiseWarning(403, JText::_('COM_CONTENT_ERROR_NOT_AUTHORIZATION'));
 				return;
 			}
 		}
@@ -226,7 +226,7 @@ class ContentViewArticle extends JView
 		if (!empty($this->item->page_title))
 		{
 			$article->title = $article->title . ' - ' . $article->page_title;
-			$this->document->setTitle($article->page_title . ' - ' . JText::sprintf('Page %s', $this->state->get('page.offset') + 1));
+			$this->document->setTitle($article->page_title . ' - ' . JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('page.offset') + 1));
 		}
 
 		//

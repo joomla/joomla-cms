@@ -242,7 +242,7 @@ class ContentModelForm extends JModelForm
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JError_Checkin_user_mismatch'));
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 				return false;
 			}
 

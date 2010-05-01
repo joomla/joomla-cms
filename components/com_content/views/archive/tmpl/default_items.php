@@ -30,7 +30,7 @@ $params =& $this->params;
 
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) : ?>
  <dl class="article-info">
- <dt class="article-info-term"><?php echo JText::_('CONTENT_ARTICLE_INFO'); ?></dt>
+ <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 
 <?php if ($params->get('show_category')) : ?>
@@ -39,37 +39,37 @@ $params =& $this->params;
             		$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
                     $url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)) . '">' . $title . '</a>'; ?>
             <?php if ($params->get('link_category') && $item->catslug) : ?>
-                <?php echo JText::sprintf('CONTENT_CATEGORY', $url); ?>
+                <?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
                 <?php else : ?>
-                <?php echo JText::sprintf('CONTENT_CATEGORY', $title); ?>
+                <?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
             <?php endif; ?>
         </dd>
 <?php endif; ?>
 <?php if ($params->get('show_create_date')) : ?>
         <dd class="create">
-        <?php echo JText::sprintf('CONTENT_CREATED_DATE', JHTML::_('date',$item->created, JText::_('DATE_FORMAT_LC2'))); ?>
+        <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE', JHTML::_('date',$item->created, JText::_('DATE_FORMAT_LC2'))); ?>
         </dd>
 <?php endif; ?>
 <?php if ($params->get('show_modify_date')) : ?>
         <dd class="modified">
-        <?php echo JText::sprintf('LAST_UPDATED2', JHTML::_('date',$item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
+        <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHTML::_('date',$item->modified, JText::_('DATE_FORMAT_LC2'))); ?>
         </dd>
 <?php endif; ?>
 <?php if ($params->get('show_publish_date')) : ?>
         <dd class="published">
-        <?php echo JText::sprintf('PUBLISHED_DATE', JHTML::_('date',$item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
+        <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE', JHTML::_('date',$item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
         </dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($item->author_name)) : ?>
     <dd class="createdby">
         <?php $author = $params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$item->created_by),$item->author_name) : $item->author_name; ?>
         <?php $author = ($item->created_by_alias ? $item->created_by_alias : $author); ?>
-    <?php echo JText::sprintf('Written_by', $author); ?>
+    <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
         </dd>
     <?php endif; ?>
 <?php if ($params->get('show_hits')) : ?>
         <dd class="hits">
-        <?php echo JText::sprintf('CONTENT_ARTICLE_HITS', $item->hits); ?>
+        <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
         </dd>
 <?php endif; ?>
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) :?>
@@ -96,11 +96,11 @@ $params =& $this->params;
 		<p class="readmore">
 				<a href="<?php echo $link; ?>">
 					<?php if (!$item->params->get('access-view')) :
-						echo JText::_('REGISTER_TO_READ_MORE');
+						echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
 					elseif ($readmore = $item->alternative_readmore) :
 						echo $readmore;
 					else :
-						echo JText::sprintf('READ_MORE', $this->escape($item->title));
+						echo JText::sprintf('COM_CONTENT_READ_MORE', $this->escape($item->title));
 					endif; ?></a>
 		</p>
 <?php endif; ?>

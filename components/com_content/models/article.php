@@ -116,13 +116,13 @@ class ContentModelArticle extends JModelItem
 				}
 
 				if (empty($data)) {
-					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
+					throw new Exception(JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
 				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived)))
 				{
-					throw new Exception(JText::_('Content_Error_Article_not_found'), 404);
+					throw new Exception(JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.

@@ -7,7 +7,7 @@
 			name="id"
 			type="hidden"
 			class="inputbox"
-			label="Content_Id_Label"
+			label="COM_CONTENT_ID_LABEL"
 			size="10"
 			default="0"
 			required="true"
@@ -17,8 +17,8 @@
 			id="title"
 			name="title"
 			type="text"
-			label="JField_Title_Label"
-			description="JField_Title_Desc"
+			label="JFIELD_TITLE_LABEL"
+			description="JFIELD_TITLE_DESC"
 			class="inputbox"
 			size="30"
 			required="true" />
@@ -27,8 +27,8 @@
 			id="alias"
 			name="alias"
 			type="text"
-			label="JField_Alias_Label"
-			description="JField_Alias_Desc"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			class="inputbox"
 			size="45"
 			default=""
@@ -62,8 +62,8 @@
 			id="state"
 			name="state"
 			type="list"
-			label="JField_Published_Label"
-			description="JField_Published_Desc"
+			label="JFIELD_PUBLISHED_LABEL"
+			description="JFIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
 			default="1">
@@ -86,12 +86,12 @@
 			name="catid"
 			type="category"
 			extension="com_content"
-			label="JField_Category_Label"
-			description="JField_Category_Desc"
+			label="JFIELD_CATEGORY_LABEL"
+			description="JFIELD_CATEGORY_DESC"
 			class="inputbox"
 			required="true">
 			<option
-				value="0">JOption_No_Category</option>
+				value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 
 		<field
@@ -109,8 +109,8 @@
 			id="created_by_alias"
 			name="created_by_alias"
 			type="text"
-			label="Content_Created_by_alias_Label"
-			description="Content_Created_by_alias_Desc"
+			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
+			description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
 			class="inputbox"
 			size="20"
 			default="" />
@@ -119,8 +119,8 @@
 			id="publish_up"
 			name="publish_up"
 			type="calendar"
-			label="Content_Publish_up_Label"
-			description="Content_Publish_up_Desc"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox"
 			format="%Y-%m-%d %H:%M:%S"
 			size="30"
@@ -130,8 +130,8 @@
 			id="publish_down"
 			name="publish_down"
 			type="calendar"
-			label="Content_Publish_down_Label"
-			description="Content_Publish_down_Desc"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox"
 			format="%Y-%m-%d %H:%M:%S"
 			size="30"
@@ -141,8 +141,8 @@
 			id="ordering"
 			name="ordering"
 			type="ordering"
-			label="JField_Ordering_Label"
-			description="JField_Ordering_Desc"
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC"
 			class="inputbox"
 			size="6"
 			default="0" />
@@ -150,19 +150,19 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JField_Language_Label"
-			description="JField_Language_Desc"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="">JOption_Default_Language</option>
+			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
 
 		<field
 			id="metakey"
 			name="metakey"
 			type="textarea"
-			label="JField_Meta_Keywords_Label"
-			description="JField_Meta_Keywords_Desc"
+			label="JFIELD_META_KEYWORDS_LABEL"
+			description="JFIELD_META_KEYWORDS_DESC"
 			class="inputbox"
 			rows="5"
 			cols="50"
@@ -172,8 +172,8 @@
 			id="metadesc"
 			name="metadesc"
 			type="textarea"
-			label="JField_Meta_Description_Label"
-			description="JField_Meta_Description_Desc"
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			description="JFIELD_META_DESCRIPTION_DESC"
 			class="inputbox"
 			rows="5"
 			cols="50"
@@ -183,8 +183,8 @@
 			id="access"
 			name="access"
 			type="accesslevel"
-			label="JField_Access_Label"
-			description="JField_Access_Desc"
+			label="JFIELD_ACCESS_LABEL"
+			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1"
 			default="" />
