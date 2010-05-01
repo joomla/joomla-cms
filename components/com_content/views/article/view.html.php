@@ -87,7 +87,7 @@ class ContentViewArticle extends JView
 			}
 			else
 			{
-				JError::raiseWarning(403, JText::_('COM_CONTENT_ERROR_NOT_AUTHORIZATION'));
+				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 				return;
 			}
 		}

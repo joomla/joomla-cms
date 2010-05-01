@@ -27,8 +27,8 @@ $listDirn	= $this->state->get('list.direction');
 	<fieldset class="filters">
 	<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('Content_'.$this->params->get('filter_field').'_Filter_Label').'&nbsp;'; ?></label>
-			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('Content_Filter_Search_Desc'); ?>" />
+			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&nbsp;'; ?></label>
+			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 	<?php endif; ?>
 
@@ -50,12 +50,12 @@ $listDirn	= $this->state->get('list.direction');
 	<?php //echo $this->params->get('list_show_title'); ?>
 		<?php if ($this->params->get('list_show_title',1)) : ?>
 		<th class="list-title" id="tableOrdering">
-			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $listDirn, $listOrder) ; ?>
+			<?php  echo JHTML::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
 		</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_date',1)) : ?>
 			<th class="list-date" id="tableOrdering2">
-				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $listDirn, $listOrder); ?>
+				<?php echo JHTML::_('grid.sort', 'COM_CONTENT_'.$this->params->get('show_date').'_DATE', 'a.created', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_author',1)) : ?>
@@ -111,7 +111,7 @@ $listDirn	= $this->state->get('list.direction');
 						$fullURL->setVar('return', base64_encode($returnURL));
 					?>
 					<a href="<?php echo $fullURL; ?>" class="register">
-					<?php echo JText::_( 'Register to read more...' ); ?></a>
+					<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
 				</td>
 				<?php endif; ?>
 			</tr>
@@ -138,7 +138,3 @@ $listDirn	= $this->state->get('list.direction');
 	<input type="hidden" name="limitstart" value="" />
 </form>
 <?php endif; ?>
-
-
-
-

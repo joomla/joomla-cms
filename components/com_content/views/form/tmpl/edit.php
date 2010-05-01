@@ -65,7 +65,7 @@ function submitbutton(task) {
 	</fieldset>
 
 	<fieldset>
-		<legend><?php echo JText::_('Publishing'); ?></legend>
+		<legend><?php echo JText::_('COM_CONTENT_PUBLISHING'); ?></legend>
 		<div class="formelm">
 		<?php echo $this->form->getLabel('catid'); ?>
 		<?php echo $this->form->getInput('catid'); ?>
@@ -101,7 +101,7 @@ function submitbutton(task) {
 	</fieldset>
 
 	<fieldset>
-		<legend><?php echo JText::_('Language'); ?></legend>
+		<legend><?php echo JText::_('COM_CONTENT_LANGUAGE'); ?></legend>
 		<div class="formelm_area">
 		<?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?>
@@ -109,7 +109,7 @@ function submitbutton(task) {
 	</fieldset>
 
 	<fieldset>
-		<legend><?php echo JText::_('Metadata'); ?></legend>
+		<legend><?php echo JText::_('COM_CONTENT_METADATA'); ?></legend>
 		<div class="formelm_area">
 		<?php echo $this->form->getLabel('metadesc'); ?>
 		<?php echo $this->form->getInput('metadesc'); ?>

@@ -33,6 +33,7 @@ $ -> Language fix or change
 1-May-2010 Jean-Marie Simonet
 $ Refactoring com_contents back-end ini/keys
 $ Refactoring com_contents front-end ini/keys (WIP)
+$ Completing what can be done refactoring com_contents front-end ini/keys
 
 30-Apr-2010 Christophe Demko & Jean-Marie Simonet
 # Fixed problems in com_banners

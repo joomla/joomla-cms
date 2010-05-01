@@ -19,7 +19,7 @@ if($templateparams->get('html5')!=1)
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 
-<h3><?php echo JText::_('MORE_ARTICLES'); ?></h3>
+<h3><?php echo JText::_('COM_CONTENT_MORE_ARTICLES'); ?></h3>
 
 <ol>
 <?php foreach ($this->link_items as &$item) : ?>

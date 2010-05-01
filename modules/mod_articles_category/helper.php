@@ -69,7 +69,7 @@ abstract class modArticlesCategoryHelper
 								return;
 							}
 							break;
-						case 'frontpage':
+						case 'featured':
 						default:
 							// Return right away if not on the category or article views
 							return;

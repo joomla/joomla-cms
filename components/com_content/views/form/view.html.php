@@ -85,10 +85,10 @@ class ContentViewForm extends JView
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('Content_Form_Edit_Article'));
+			$this->params->def('page_heading', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		}
 
-		$title = $this->params->def('page_title', JText::_('Content_Form_Edit_Article'));
+		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		$this->document->setTitle($title);
 
 		$pathway =& $app->getPathWay();
@@ -98,7 +98,7 @@ class ContentViewForm extends JView
 		if (!empty($this->item->page_title))
 		{
 			$article->title = $article->title .' - '. $article->page_title;
-			$this->document->setTitle($article->page_title.' - '.JText::sprintf('Page %s', $this->state->get('page.offset') + 1));
+			$this->document->setTitle($article->page_title.' - '.JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('page.offset') + 1));
 		}
 	}
 }

@@ -28,7 +28,7 @@ class ContentViewFeatured extends JView
 		$params		= &$app->getParams();
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 		$siteEmail	= $app->getCfg('mailfrom');
-		$document->link = JRoute::_('index.php?option=com_content&view=frontpage');
+		$document->link = JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
@@ -57,7 +57,7 @@ class ContentViewFeatured extends JView
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $row->created;
-			$item->category		= 'frontpage';
+			$item->category		= 'featured';
 			$item->author		= $author;
 			if ($feedEmail == 'site') {
 				$item->authorEmail = $siteEmail;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_content_form_view_default_title">
+	<layout title="COM_CONTENT_FORM_VIEW_DEFAULT_TITLE">
 		<message>
-			<![CDATA[com_content_form_view_default_desc]]>
+			<![CDATA[COM_CONTENT_FORM_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 </metadata>
