@@ -29,7 +29,7 @@ class ContentViewArticle extends JView
 			$eName		= JRequest::getVar('e_name');
 			$eName		= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
 			$document	= JFactory::getDocument();
-			$document->setTitle(JText::_('PGB ARTICLE PAGEBRK'));
+			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->assignRef('eName', $eName);
 			parent::display($tpl);
 			return;
@@ -65,23 +65,23 @@ class ContentViewArticle extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolBarHelper::title(JText::_('Content_Page_'.($checkedOut ? 'View_Article' : ($isNew ? 'Add_Article' : 'Edit_Article'))), 'article-add.png');
+		JToolBarHelper::title(JText::_('COM_CONTENT_PAGE_'.($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit')) {
-			JToolBarHelper::apply('article.apply', 'JToolbar_Apply');
-			JToolBarHelper::save('article.save', 'JToolbar_Save');
-			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JToolbar_Save_and_new', false);
+			JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('article.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JToolbar_Save_as_Copy', false);
+			JToolBarHelper::custom('article.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('article.cancel', 'JToolbar_Cancel');
+			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CANCEL');
 		} else {
-			JToolBarHelper::cancel('article.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolBarHelper::divider();

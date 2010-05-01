@@ -40,8 +40,8 @@
 			</field>
 
 			<field name="show_empty_categories" type="radio"
-				label="Show empty Categories"
-				description="Show/Hide empty(no items) categories"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -65,8 +65,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="show_cat_num_articles" type="radio"
-				label="Num Category Items"
-				description="PARAMCATITEMS"
+				label="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_LABEL"
+				description="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -105,7 +105,7 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="title">Title</option>
+				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 			</field>

@@ -25,7 +25,7 @@
 		<!-- Integration options. -->
 		<fieldset
 			name="integration"
-			label="MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL">
+			label="JGLOBAL_MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL">
 
 			<field
 				name="article-allow_ratings"
@@ -49,7 +49,7 @@
 
 		<!-- Basic options. -->
 		<fieldset name="basic"
-			label="CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
+			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
 
 		<field
 			name="show_noauth"

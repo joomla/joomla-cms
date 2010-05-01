@@ -61,7 +61,7 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="title">Title</option>
+				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 			</field>
@@ -70,7 +70,7 @@
 
 		<!-- Articles options. -->
 		<fieldset name="articles"
-			label="Content_Attribs_Article_Settings_Label"
+			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
 		>
 
 			<field name="show_category" type="list"

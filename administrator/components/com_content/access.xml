@@ -15,8 +15,8 @@
 		<action name="core.edit.state" title="COM_CATEGORY_ACCESS_EDITSTATE" description="COM_CATEGORY_ACCESS_EDITSTATE_DESC" />
 	</section>
 	<section name="article">
-		<action name="core.delete" title="CONTENT_ACCESS_DELETE" description="CONTENT_ACCESS_DELETE_DESC" />
-		<action name="core.edit" title="CONTENT_ACCESS_EDIT" description="CONTENT_ACCESS_EDIT_DESC" />
-		<action name="core.edit.state" title="CONTENT_ACCESS_EDITSTATE" description="CONTENT_ACCESS_EDITSTATE_DESC" />
+		<action name="core.delete" title="COM_CONTENT_ACCESS_DELETE" description="COM_CONTENT_ACCESS_DELETE_DESC" />
+		<action name="core.edit" title="COM_CONTENT_ACCESS_EDIT" description="COM_CONTENT_ACCESS_EDIT_DESC" />
+		<action name="core.edit.state" title="COM_CONTENT_ACCESS_EDITSTATE" description="COM_CONTENT_ACCESS_EDITSTATE_DESC" />
 	</section>
 </access>

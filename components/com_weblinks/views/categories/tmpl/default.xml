@@ -11,9 +11,9 @@
 		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL" description="">
 
 			<field name="id" type="category"
-				description="CHOOSE_CATEGORY_DESC"
+				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_weblinks"
-				label="CHOOSE_CATEGORY_LABEL"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				show_root="true"
 				required="true"
 			/>
@@ -43,8 +43,8 @@
 			</field>
 
 			<field name="show_empty_categories" type="radio"
-				label="Show empty Categories"
-				description="Show/Hide empty(no items) categories"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -68,8 +68,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="show_cat_num_articles" type="radio"
-				label="Num Category Items"
-				description="PARAMCATITEMS"
+				label="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_LABEL"
+				description="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

@@ -11,9 +11,9 @@
 		<fieldset name="request"
 		 >
 			<field name="id" type="category"
-				description="CHOOSE_CATEGORY_DESC"
+				description="COM_CONTENT_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				label="CHOOSE_CATEGORY_LABEL"
+				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				show_root="true"
 				required="true"
 			/>
@@ -43,8 +43,8 @@
 			</field>
 
 			<field name="show_empty_categories" type="radio"
-				label="Show empty Categories"
-				description="Show/Hide empty(no items) categories"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -68,8 +68,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="show_cat_num_articles" type="radio"
-				label="Num Category Items"
-				description="PARAMCATITEMS"
+				label="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_LABEL"
+				description="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -114,8 +114,8 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="created">Created</option>
-				<option value="modified">Modified</option>
+				<option value="modified">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
 			</field>
 
@@ -131,7 +131,7 @@
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="title">Title</option>
+				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 			</field>
@@ -237,7 +237,7 @@
 				label="JGLOBAL_Show_Title_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -247,7 +247,7 @@
 				label="JGLOBAL_Linked_Titles_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -266,7 +266,7 @@
 				label="JGLOBAL_Show_Category_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -276,7 +276,7 @@
 				label="JGLOBAL_Link_Category_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -286,7 +286,7 @@
 				label="JGLOBAL_Show_Parent_Category_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -296,7 +296,7 @@
 				label="JGLOBAL_Link_Parent_Category_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -306,7 +306,7 @@
 				label="JGLOBAL_Show_Author_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -316,7 +316,7 @@
 				label="JGLOBAL_Link_Author_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -326,7 +326,7 @@
 				label="JGLOBAL_Show_Create_Date_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -336,7 +336,7 @@
 				label="JGLOBAL_Show_Modify_Date_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -346,7 +346,7 @@
 				label="JGLOBAL_Show_Publish_Date_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -365,7 +365,7 @@
 				label="JGLOBAL_Show_Readmore_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -375,7 +375,7 @@
 				label="JGLOBAL_Show_Icons_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -385,7 +385,7 @@
 				label="JGLOBAL_Show_Print_Icon_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -395,7 +395,7 @@
 				label="JGLOBAL_Show_Email_Icon_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -405,7 +405,7 @@
 				label="JGLOBAL_Show_Hits_Label"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">CONTENT_BLOG_USE_ARTICLE</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>

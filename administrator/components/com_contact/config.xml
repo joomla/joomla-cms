@@ -364,7 +364,7 @@
 	</fieldset>
 
 	<fieldset name="integration"
-		label="COM_CONTACT_MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL"
+		label="JGLOBAL_MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL"
 		description=""
 	>
 

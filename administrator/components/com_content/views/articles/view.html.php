@@ -49,7 +49,7 @@ class ContentViewArticles extends JView
 		$state	= $this->get('State');
 		$canDo	= ContentHelper::getActions($state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('Content_Articles_Title'), 'article.png');
+		JToolBarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('article.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
 		}

@@ -2,15 +2,15 @@
 <config>
 	<fieldset
 		name="articles"
-		label="Content_Config_Article_Settings_Label"
-		description="Content_Config_Article_Settings_Desc">
+		label="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC">
 
 		<field
 			name="show_title"
 			type="radio"
 			default="1"
-			label="JGLOBAL_Show_Title_Label"
-			description="JGLOBAL_Show_Title_Desc">
+			label="JGLOBAL_SHOW_TITLE_LABEL"
+			description="JGLOBAL_SHOW_TITLE_DESC">
 			<option
 				value="0">JHIDE</option>
 			<option
@@ -21,20 +21,20 @@
 			name="link_titles"
 			type="radio"
 			default="1"
-			label="JGLOBAL_Linked_Titles_Label"
-			description="JGLOBAL_Linked_Titles_Desc">
+			label="JGLOBAL_LINKED_TITLES_LABEL"
+			description="JGLOBAL_LINKED_TITLES_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_intro"
 			type="radio"
 			default="1"
-			label="JGLOBAL_Show_Intro_Label"
-			description="JGLOBAL_Show_Intro_Desc">
+			label="JGLOBAL_SHOW_INTRO_LABEL"
+			description="JGLOBAL_SHOW_INTRO_DESC">
 			<option
 				value="0">JHIDE</option>
 			<option
@@ -44,8 +44,8 @@
 		<field
 			name="show_category"
 			type="radio"
-			label="JGLOBAL_Show_Category_Label"
-			description="JGLOBAL_Show_Category_Desc"
+			label="JGLOBAL_SHOW_CATEGORY_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -56,20 +56,20 @@
 		<field
 			name="link_category"
 			type="radio"
-			label="JGLOBAL_Link_Category_Label"
-			description="JGLOBAL_Link_Category_Desc"
+			label="JGLOBAL_LINK_CATEGORY_LABEL"
+			description="JGLOBAL_LINK_CATEGORY_DESC"
 			default="1">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_parent_category"
 			type="radio"
-			label="JGLOBAL_Show_Parent_Category_Label"
-			description="JGLOBAL_Show_Parent_Category_Desc"
+			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
+			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -80,8 +80,8 @@
 		<field
 			name="link_parent_category"
 			type="radio"
-			label="JGLOBAL_Link_Parent_Category_Label"
-			description="JGLOBAL_Link_Parent_Category_Desc"
+			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
+			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			default="1">
 			<option
 				value="0">JNo</option>
@@ -99,8 +99,8 @@
 		<field
 			name="show_author"
 			type="radio"
-			label="JGLOBAL_Show_Author_Label"
-			description="JGLOBAL_Show_Author_Desc"
+			label="JGLOBAL_SHOW_AUTHOR_LABEL"
+			description="JGLOBAL_SHOW_AUTHOR_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -111,20 +111,20 @@
 		<field
 			name="link_author"
 			type="radio"
-			label="JGLOBAL_Link_Author_Label"
-			description="JGLOBAL_Link_Author_Desc"
+			label="JGLOBAL_LINK_AUTHOR_LABEL"
+			description="JGLOBAL_LINK_AUTHOR_DESC"
 			default="0">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_create_date"
 			type="radio"
-			label="JGLOBAL_Show_Create_Date_Label"
-			description="JGLOBAL_Show_Create_Date_Desc"
+			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
+			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -135,8 +135,8 @@
 		<field
 			name="show_modify_date"
 			type="radio"
-			label="JGLOBAL_Show_Modify_Date_Label"
-			description="JGLOBAL_Show_Modify_Date_Desc"
+			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
+			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -147,8 +147,8 @@
 		<field
 			name="show_publish_date"
 			type="radio"
-			label="JGLOBAL_Show_Publish_Date_Label"
-			description="JGLOBAL_Show_Publish_Date_Desc"
+			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
+			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -159,8 +159,8 @@
 		<field
 			name="show_item_navigation"
 			type="radio"
-			label="JGLOBAL_Show_Navigation_Label"
-			description="JGLOBAL_Show_Navigation_Desc"
+			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
+			description="JGLOBAL_SHOW_NAVIGATION_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -171,8 +171,8 @@
 		<field
 			name="show_readmore"
 			type="radio"
-			label="JGLOBAL_Show_Readmore_Label"
-			description="JGLOBAL_Show_Readmore_Desc"
+			label="JGLOBAL_SHOW_READMORE_LABEL"
+			description="JGLOBAL_SHOW_READMORE_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -188,8 +188,8 @@
 		<field
 			name="show_icons"
 			type="radio"
-			label="JGLOBAL_Show_Icons_Label"
-			description="JGLOBAL_Show_Icons_Desc"
+			label="JGLOBAL_SHOW_ICONS_LABEL"
+			description="JGLOBAL_SHOW_ICONS_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -200,8 +200,8 @@
 		<field
 			name="show_print_icon"
 			type="radio"
-			label="JGLOBAL_Show_Print_Icon_Label"
-			description="JGLOBAL_Show_Print_Icon_Desc"
+			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
+			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -212,8 +212,8 @@
 		<field
 			name="show_email_icon"
 			type="radio"
-			label="JGLOBAL_Show_Email_Icon_Label"
-			description="JGLOBAL_Show_Email_Icon_Desc"
+			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
+			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -224,8 +224,8 @@
 		<field
 			name="show_hits"
 			type="radio"
-			label="JGLOBAL_Show_Hits_Label"
-			description="JGLOBAL_Show_Hits_Desc"
+			label="JGLOBAL_SHOW_HITS_LABEL"
+			description="JGLOBAL_SHOW_HITS_DESC"
 			default="1">
 			<option
 				value="0">JHIDE</option>
@@ -237,16 +237,16 @@
 
 	<fieldset
 		name="blog_default_parameters"
-		label="Content_Config_Blog_Settings_Label"
-		description="Content_Config_Blog_Settings_Desc"
+		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
 
 		<field
 			name="num_leading_articles"
 			type="text"
 			default="1"
-			label="JGLOBAL_Num_Leading_Articles_Label"
-			description="JGLOBAL_Num_Leading_Articles_Desc">
+			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
+			description="JGLOBAL_NUM_LEADING_ARTICLES_DESC">
 		</field>
 
 		<field
@@ -282,9 +282,9 @@
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
 			<option
-				value="0">JGLOBAL_Down</option>
+				value="0">JGLOBAL_DOWN</option>
 			<option
-				value="1">JGLOBAL_Across</option>
+				value="1">JGLOBAL_ACROSS</option>
 		</field>
 
 		<field
@@ -312,8 +312,8 @@
 
 	<fieldset
 		name="list_default_parameters"
-		label="Content_Config_List_Settings_Label"
-		description="Content_Config_List_Settings_Desc"
+		label="COM_CONTENT_CONFIG_LIST_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
 		>
 
 		<field
@@ -361,8 +361,8 @@
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC">
 				<option value="hide">JHIDE</option>
-				<option value="created">Created</option>
-				<option value="modified">Modified</option>
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
 		</field>
 
@@ -398,7 +398,7 @@
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC">
 				<option value="hide">JHIDE</option>
-				<option value="title">Title</option>
+				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 		</field>
@@ -416,8 +416,8 @@
 
 	<fieldset
 		name="categories"
-		label="Content_Config_Category_Settings_Label"
-		description="Content_Config_Category_Settings_Desc"
+		label="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
 
 		<field name="maxLevel" type="list"
@@ -455,8 +455,8 @@
 	 		name="show_description"
 	 		type="radio"
 	 		default="0"
-	 		label="JGLOBAL_Show_Category_Description_Label"
-	 		description="JGLOBAL_Show_Category_Description_Desc">
+	 		label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+	 		description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
 	 			<option value="0">JHIDE</option>
 	 			<option value="1">JSHOW</option>
 	 	</field>
@@ -465,8 +465,8 @@
 			name="show_description_image"
 			type="radio"
 			default="0"
-			label="JGLOBAL_Show_Category_Image_Label"
-			description="JGLOBAL_Show_Category_Image_Desc">
+			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
 	 			<option value="0">JHIDE</option>
 	 			<option value="1">JSHOW</option>
 	 	</field>
@@ -485,24 +485,24 @@
 			name="drill_down_layout"
 			type="radio"
 			default="0"
-			label="JGLOBAL_Drill_Down_Layout_Label"
-			description="JGLOBAL_Drill_Down_Layout_Desc">
-	 			<option value="0">List</option>
-	 			<option value="1">Blog</option>
+			label="JGLOBAL_DRILL_DOWN_LAYOUT_LABEL"
+			description="JGLOBAL_DRILL_DOWN_LAYOUT_DESC">
+	 			<option value="0">JGLOBAL_LIST</option>
+	 			<option value="1">JGLOBAL_BLOG</option>
 	 	</field>
 
 		<field
 			name="orderby_pri"
 			type="list"
 			default="none"
-			label="JGLOBAL_Category_Order_Label"
-			description="JGLOBAL_Category_Order_Desc">
+			label="JGLOBAL_CATEGORY_ORDER_LABEL"
+			description="JGLOBAL_CATEGORY_ORDER_DESC">
 			<option
-				value="none">JGLOBAL_No_Order</option>
+				value="none">JGLOBAL_NO_ORDER</option>
 			<option
-				value="alpha">JGLOBAL_Title_Alphabetical</option>
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
 			<option
-				value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 			<option
 				value="order">JGLOBAL_Category_Manager_Order</option>
 		</field>
@@ -514,75 +514,75 @@
 			label="JGLOBAL_Article_Order_Label"
 			description="JGLOBAL_Article_Order_Desc">
 			<option
-				value="rdate">JGLOBAL_Most_recent_first</option>
+				value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option
-				value="date">JGLOBAL_Oldest_first</option>
+				value="date">JGLOBAL_OLDEST_FIRST</option>
 			<option
-				value="alpha">JGLOBAL_Title_Alphabetical</option>
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
 			<option
-				value="ralpha">JGLOBAL_Title_Reverse_Alphabetical</option>
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 			<option
-				value="author">JGLOBAL_Author_Alphabetical</option>
+				value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
 			<option
-				value="rauthor">JGLOBAL_Author_Reverse_Alphabetical</option>
+				value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
 			<option
-				value="hits">JGLOBAL_Most_Hits</option>
+				value="hits">JGLOBAL_MOST_HITS</option>
 			<option
-				value="rhits">JGLOBAL_Least_Hits</option>
+				value="rhits">JGLOBAL_LEAST_HITS</option>
 			<option
-				value="order">JGLOBAL_Article_Manager_Order</option>
+				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 		</field>
 
 		<field
 			name="show_noauth"
 			type="radio"
 			default="0"
-			label="JGLOBAL_Show_Unauth_Links_Label"
-			description="JGLOBAL_Show_Unauth_Links_Desc">
+			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 	</fieldset>
 
 	<fieldset
 		name="integration"
-		label="Content_Config_Integration_Settings_Label"
-		description="Content_Config_Integration_Settings_Desc"
+		label="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
 
 		<field
 			name="article-allow_ratings"
 			type="radio"
-			label="JGLOBAL_Allow_Ratings_Label"
-			description="JGLOBAL_Allow_Ratings_Desc"
+			label="JGLOBAL_ALLOW_RATINGS_LABEL"
+			description="JGLOBAL_ALLOW_RATINGS_DESC"
 			default="0">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="article-allow_comments"
 			type="radio"
-			label="JGLOBAL_Allow_Comments_Label"
-			description="JGLOBAL_Allow_Comments_Desc"
+			label="JGLOBAL_ALLOW_COMMENTS_LABEL"
+			description="JGLOBAL_ALLOW_COMMENTS_DESC"
 			default="0">
 			<option
-				value="0">JNo</option>
+				value="0">JNO</option>
 			<option
-				value="1">JYes</option>
+				value="1">JYES</option>
 		</field>
 
 		<field
 			name="show_feed_link"
 			type="radio"
 			default="1"
-			label="JGLOBAL_Show_Feed_Link_Label"
-			description="JGLOBAL_Show_Feed_Link_Desc">
+			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+			description="JGLOBAL_SHOW_FEED_LINK_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
@@ -590,8 +590,8 @@
 		<field
 			name="feed_summary"
 			type="radio"
-			label="JGLOBAL_Feed_Summary_Label"
-			description="JGLOBAL_Feed_Summary_Desc"
+			label="JGLOBAL_FEED_SUMMARY_LABEL"
+			description="JGLOBAL_FEED_SUMMARY_DESC"
 			default="0">
 			<option
 				value="0">JGLOBAL_INTRO_TEXT</option>
@@ -603,15 +603,15 @@
 
 	<fieldset
 		name="filters"
-		label="Content_Config_Text_Filters_Label"
-		description="Content_Config_Text_Filters_Desc"
+		label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
+		description="COM_CONTENT_CONFIG_TEXT_FILTERS_DESC"
 		>
 
 		<field
 			name="filter_groups"
 			type="usergroup"
-			label="JGLOBAL_Filter_Groups_Label"
-			description="JGLOBAL_Filter_Groups_Desc"
+			label="JGLOBAL_FILTER_GROUPS_LABEL"
+			description="JGLOBAL_FILTER_GROUPS_DESC"
 			multiple="true"
 			size="10"
 			default="" />
@@ -619,44 +619,44 @@
 		<field
 			name="filter_type"
 			type="list"
-			label="JGLOBAL_Filter_Type_Label"
-			description="JGLOBAL_Filter_Type_Desc"
+			label="JGLOBAL_FILTER_TYPE_LABEL"
+			description="JGLOBAL_FILTER_TYPE_DESC"
 			class="inputbox"
 			size="1"
 			default="">
 			<option
-				value="BL">Content_Option_Black_List</option>
+				value="BL">COM_CONTENT_OPTION_BLACK_LIST</option>
 			<option
-				value="WL">Content_Option_White_List</option>
+				value="WL">COM_CONTENT_OPTION_WHITE_LIST</option>
 			<option
-				value="NH">Content_Option_No_HTML</option>
+				value="NH">COM_CONTENT_OPTION_NO_HTML</option>
 		</field>
 
 		<field
 			name="filter_tags"
 			type="text"
-			label="JGLOBAL_Filter_Tags_Label"
-			description="JGLOBAL_Filter_Tags_Desc"
+			label="JGLOBAL_FILTER_TAGS_LABEL"
+			description="JGLOBAL_FILTER_TAGS_DESC"
 			default="" />
 
 		<field
 			name="filter_attritbutes"
 			type="text"
-			label="JGLOBAL_Filter_Attributes_Label"
-			description="JGLOBAL_Filter_Attributes_Desc"
+			label="JGLOBAL_FILTER_ATTRIBUTES_LABEL"
+			description="JGLOBAL_FILTER_ATTRIBUTES_DESC"
 			default="" />
 	</fieldset>
 
 	<fieldset
 		name="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		>
 
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			class="inputbox"
 			filter="rules"
 			component="com_content"
