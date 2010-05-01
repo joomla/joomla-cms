@@ -82,11 +82,13 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
 		include_once JPATH_BASE . '/libraries/joomla/session/session.php';
 
 		$user = new JUser;
-		$mockSession = $this->getMock('JSession', array( '_start', 'get'));
+		/**$mockSession = $this->getMock('JSession', array( '_start', 'get'));
 		$mockSession->expects($this->any())->method('get')->with($this->equalTo('user'))->will(
 			$this->returnValue($user)
-		);
+		);**/
 
+		$mockSession = new Mock_SessionJAuthenticate();
+		$mockSession->set('user', $user);
 		JFactory::$session = $mockSession;
 
 		$instance1 = JAuthentication::getInstance();
@@ -168,6 +170,14 @@ class JAuthenticationTest extends JoomlaDatabaseTestCase
 			$response,
 			$this->isInstanceOf('JAuthenticationResponse')
 		);
+	}
+}
+
+class Mock_SessionJAuthenticate extends JObject
+{
+	function getFormToken($data)
+	{
+		return (bool) $data;
 	}
 }
 ?>
