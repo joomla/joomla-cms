@@ -235,7 +235,7 @@ class JEditor extends JObservable
 		$plugins = JPluginHelper::getPlugin('editors-xtd');
 
 		foreach($plugins as $plugin) {
-			if (is_array($buttons) &&  !in_array($plugin->name, $buttons)) {
+			if (is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
 
