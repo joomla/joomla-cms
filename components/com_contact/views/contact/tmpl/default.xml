@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="contact_view_default_title">
+	<layout title="COM_CONTACT_VIEW_DEFAULT_TITLE">
 		<message>
 			<![CDATA[COM_CONTACT_CONTACT_VIEW_DEFAULT_DESC]]>
 		</message>
@@ -57,7 +57,7 @@
 		</fieldset>
 
 		<!-- Basic options. -->
-		<fieldset name="params"
+		<fieldset name="params" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
 		>
 
 			<field name="show_contact_category" type="list"
@@ -265,7 +265,7 @@
 		</fieldset>
 
 		<!-- Form options. -->
-		<fieldset name="Contact_Form"
+		<fieldset name="Contact_Form" label="COM_CONTACT_MAIL_FIELDSET_LABEL"
 		>
 
 			<field name="show_email_form" type="list"

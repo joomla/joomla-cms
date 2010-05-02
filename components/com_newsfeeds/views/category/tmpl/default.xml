@@ -26,8 +26,8 @@
 <fields name="params">
 <fieldset name="basic">
 			<field name="maxLevel" type="list"
-				description="COM_CONTENT_FIELD_MAXLEVEL_DESC"
-				label="COM_CONTENT_FIELD_MAXLEVEL_LABEL"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
 				<option value="-1">JALL</option>
 				<option value="0">JNONE</option>
@@ -155,7 +155,7 @@
 			</field>
 </fieldset>
 
-<fieldset name="newsfeed">
+<fieldset name="newsfeed" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
 
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"

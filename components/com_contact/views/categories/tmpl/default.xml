@@ -28,8 +28,8 @@
 				rows="5"
 			/>
 			<field name="maxLevel" type="list"
-				description="COM_CONTENT_FIELD_MAXLEVEL_DESC"
-				label="COM_CONTENT_FIELD_MAXLEVEL_LABEL"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
 				<option value="-1">JALL</option>
 				<option value="0">JNONE</option>

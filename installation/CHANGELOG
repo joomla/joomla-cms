@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 2-May-2010 Jean-Marie Simonet
-$ Consolidating some com_categories strings
+$ Consolidating some categories, contact, newsfeeds, weblinks,content strings
 
 01-May-2010 Hannes Papenberg
 # Fixing base-tag for SEF mode without mod_rewrite
