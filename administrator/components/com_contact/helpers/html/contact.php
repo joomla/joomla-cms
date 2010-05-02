@@ -23,8 +23,8 @@ abstract class JHtmlContact
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			0	=> array('disabled.png',	'contact.featured',	'Contact_Toggle_Featured',	'Contact_Toggle_Featured'),
-			1	=> array('tick.png',		'contact.unfeatured',	'Contact_Toggle_Featured',	'Contact_Toggle_Featured'),
+			0	=> array('disabled.png',	'contact.featured',	'CONTACT_TOGGLE_FEATURED',	'CONTACT_TOGGLE_FEATURED'),
+			1	=> array('tick.png',		'contact.unfeatured',	'CONTACT_TOGGLE_FEATURED',	'CONTACT_TOGGLE_FEATURED'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
@@ -82,4 +82,3 @@ abstract class JHtmlContact
 		<?php
 	}
 }
-

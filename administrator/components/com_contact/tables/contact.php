@@ -124,7 +124,7 @@ class ContactTableContact extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('CONTACT_WARNING_SAME_NAME', $this->id));
+			$this->setError(JText::sprintf('COM_CONTACT_WARNING_SAME_NAME', $this->id));
 			return false;
 		}
 
