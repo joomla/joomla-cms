@@ -33,6 +33,8 @@ $ Refactoring com_contacts frontend ini/keys
 $ Added calendar image in front-end (Thanks Bill)
 $ Moving icons for com_contact to new folder in media/contacts/images/
 $ Correcting/consolidating strings
+^ Adding fax in contact edit
+# Correcting mod_banners [20301](thanks Phil Snell)
 
 01-May-2010 Hannes Papenberg
 # Fixing base-tag for SEF mode without mod_rewrite

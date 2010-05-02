@@ -96,6 +96,11 @@
 			label="COM_CONTACT_FIELD_INFORMATION_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_MOBILE_DESC"
 			class="inputbox" size="30" />
+			
+		<field name="fax" type="text"
+			label="COM_CONTACT_FIELD_INFORMATION_FAX_LABEL"
+			description="COM_CONTACT_FIELD_FAX_MOBILE_DESC"
+			class="inputbox" size="30" />
 
 		<field name="webpage" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"

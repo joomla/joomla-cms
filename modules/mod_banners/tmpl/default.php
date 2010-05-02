@@ -46,6 +46,7 @@ $baseurl = JURI::base();
 								alt="<?php echo $alt;?>" 
 								<?php if (!empty($width)) echo 'witdh ="'. $width.'"';?>
 								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+							/>
 						</a>
 					<?php elseif ($target == 2):?>
 						<?php // open in a popup window?>
@@ -59,6 +60,7 @@ $baseurl = JURI::base();
 								alt="<?php echo $alt;?>" 
 								<?php if (!empty($width)) echo 'witdh ="'. $width.'"';?>
 								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+							/>
 						</a>
 					<?php else :?>
 						<?php // open in parent window?>
@@ -70,6 +72,7 @@ $baseurl = JURI::base();
 								alt="<?php echo $alt;?>" 
 								<?php if (!empty($width)) echo 'witdh ="'. $width.'"';?>
 								<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+							/>						
 						</a>
 					<?php endif;?>
 				<?php else :?>
@@ -79,6 +82,7 @@ $baseurl = JURI::base();
 						alt="<?php echo $alt;?>"
 						<?php if (!empty($width)) echo 'witdh ="'. $width.'"';?>
 						<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
+					/>
 				<?php endif;?>
 			<?php elseif (BannerHelper::isFlash($imageurl)) :?>
 				<object
