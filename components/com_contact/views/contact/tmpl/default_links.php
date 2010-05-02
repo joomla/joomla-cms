@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 huhu
 
-	<?php echo JHtml::_('sliders.panel', JText::_('Contact_Links'), 'display-links'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <div class="contact-links">
 
 	<ul>

@@ -33,7 +33,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevel != 0) :
 		<?php endif; ?>
 		<?php if ($this->params->get('show_item_count') == 1) :?>
 			<dl class="contact-count"><dt>
-				<?php echo JText::_('COM_CONTACT_COUNT:'); ?></dt>
+				<?php echo JText::_('COM_CONTACT_COUNT'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>
 			</dl>
 		<?php endif; ?>

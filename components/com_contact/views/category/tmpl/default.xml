@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <metadata>
-	<layout title="com_contact_category_view_default_title">
+	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE">
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORY_VIEW_DEFAULT_DESC]]>
 		</message>
@@ -130,7 +130,7 @@
 			</field>
 </fieldset>
 
-<fieldset name="contact">
+<fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL">
 			<field name="show_name" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
@@ -316,7 +316,7 @@
 			/>
 </fieldset>
 		<!-- Form options. -->
-		<fieldset name="Contact_Form"
+		<fieldset name="Contact_Form" label="COM_CONTACT_MAIL_FIELDSET_LABEL"
 		>
 
 			<field name="show_email_form" type="list"

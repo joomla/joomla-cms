@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 2-May-2010 Jean-Marie Simonet
 $ Consolidating some categories, contact, newsfeeds, weblinks,content strings
+$ Refactoring com_contacts frontend ini/keys
 
 01-May-2010 Hannes Papenberg
 # Fixing base-tag for SEF mode without mod_rewrite

@@ -34,36 +34,36 @@ $listDirn	= $this->state->get('list.direction');
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
 			<th class="item-num">
-				<?php echo JText::_('Num'); ?>
+				<?php echo JText::_('JGLOBAL_NUM'); ?>
 			</th>
 			<th class="item-title">
-				<?php echo JHtml::_('grid.sort',  'Name', 'a.name', $listDirn, $listOrder); ?>
+				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME', 'a.name', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_position')) : ?>
 			<th class="item-position">
-				<?php echo JHtml::_('grid.sort',  'Position', 'a.con_position', $listDirn, $listOrder); ?>
+				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_POSITION', 'a.con_position', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_email')) : ?>
 			<th class="item-email">
-				<?php echo JText::_('Email'); ?>
+				<?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS'); ?>
 			</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_telephone')) : ?>
 			<th class="item-phone">
-				<?php echo JText::_('Phone'); ?>
+				<?php echo JText::_('COM_CONTACT_TELEPHONE'); ?>
 			</th>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('show_mobile')) : ?>
 			<th class="item-phone">
-				<?php echo JText::_('Mobile'); ?>
+				<?php echo JText::_('COM_CONTACT_MOBILE'); ?>
 			</th>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('show_fax')) : ?>
 			<th class="item-phone">
-				<?php echo JText::_('Fax'); ?>
+				<?php echo JText::_('COM_CONTACT_FAX'); ?>
 			</th>
 			<?php endif; ?>
 			</tr>

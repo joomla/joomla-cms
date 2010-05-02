@@ -3,7 +3,7 @@
 	<fieldset>
 		<field name="id" type="hidden"
 			default="0"
-			label="Contact_Id_Label"
+			label="COM_CONTACT_ID_LABEL"
 			readonly="true"
 			required="true"
 			size="10"

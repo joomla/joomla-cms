@@ -88,12 +88,12 @@ class ContactViewContact extends JView
 		{
 			case 1 :
 				// text
-				$params->set('marker_address',	JText::_('Address').": ");
-				$params->set('marker_email',		JText::_('Email').": ");
-				$params->set('marker_telephone',	JText::_('Telephone').": ");
-				$params->set('marker_fax',		JText::_('Fax').": ");
-				$params->set('marker_mobile',		JText::_('Mobile').": ");
-				$params->set('marker_misc',		JText::_('Information').": ");
+				$params->set('marker_address',	JText::_('COM_CONTACT_ADDRESS').": ");
+				$params->set('marker_email',		JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS').": ");
+				$params->set('marker_telephone',	JText::_('COM_CONTACT_TELEPHONE').": ");
+				$params->set('marker_fax',		JText::_('COM_CONTACT_FAX').": ");
+				$params->set('marker_mobile',		JText::_('COM_CONTACT_MOBILE').": ");
+				$params->set('marker_misc',		JText::_('COM_CONTACT_OTHER_INFORMATION').": ");
 				$params->set('marker_class',		'jicons-text');
 				break;
 
@@ -110,12 +110,12 @@ class ContactViewContact extends JView
 
 			default :
 				// icons
-				$image1 = JHTML::_('image','contacts/'.$params->get('icon_address','con_address.png'), JText::_('Address').": ", NULL, true);
-				$image2 = JHTML::_('image','contacts/'.$params->get('icon_email','emailButton.png'), JText::_('Email').": ", NULL, true);
-				$image3 = JHTML::_('image','contacts/'.$params->get('icon_telephone','con_tel.png'), JText::_('Telephone').": ", NULL, true);
-				$image4 = JHTML::_('image','contacts/'.$params->get('icon_fax','con_fax.png'), JText::_('Fax').": ", NULL, true);
-				$image5 = JHTML::_('image','contacts/'.$params->get('icon_misc','con_info.png'), JText::_('Information').": ", NULL, true);
-				$image6 = JHTML::_('image','contacts/'.$params->get('icon_mobile','con_mobile.png'), JText::_('Mobile').": ", NULL, true);
+				$image1 = JHTML::_('image','contacts/'.$params->get('icon_address','con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", NULL, true);
+				$image2 = JHTML::_('image','contacts/'.$params->get('icon_email','emailButton.png'), JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS').": ", NULL, true);
+				$image3 = JHTML::_('image','contacts/'.$params->get('icon_telephone','con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", NULL, true);
+				$image4 = JHTML::_('image','contacts/'.$params->get('icon_fax','con_fax.png'), JText::_('COM_CONTACT_FAX').": ", NULL, true);
+				$image5 = JHTML::_('image','contacts/'.$params->get('icon_misc','con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", NULL, true);
+				$image6 = JHTML::_('image','contacts/'.$params->get('icon_mobile','con_mobile.png'), JText::_('COM_CONTACT_MOBILE').": ", NULL, true);
 
 				$params->set('marker_address',	$image1);
 				$params->set('marker_email',		$image2);

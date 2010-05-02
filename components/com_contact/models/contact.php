@@ -105,7 +105,7 @@ class ContactModelContact extends JModelItem
 				}
 
 				if (empty($data)) {
-					throw new Exception(JText::_('Contact_Error_Contact_not_found'), 404);
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 

@@ -101,7 +101,7 @@ class ContactController extends JController
 		jimport('joomla.mail.helper');
 		if (!$email || !$body || (JMailHelper::isEmailAddress($email) == false))
 		{
-			$this->setError(JText::_('CONTACT_FORM_NC'));
+			$this->setError(JText::_('COM_CONTACT_FORM_NC'));
 			$this->display();
 			return false;
 		}
@@ -175,7 +175,7 @@ class ContactController extends JController
 			}
 		}
 
-		$msg = JText::_('Com_Contact_Contact_Email_Thanks');
+		$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
 		//redirect if it is set
 		if ($this->contact->params->$link)
 		{
@@ -325,7 +325,7 @@ class ContactController extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the email field
 		if (false === $this->_checkText($email, $bannedEmail)) {
-			$this->setError(JText::sprintf('MESGHASBANNEDTEXT', JText::_('Email')));
+			$this->setError(JText::sprintf('COM_CONTACT_EMAIL_BANNEDTEXT', JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS')));
 			return false;
 		}
 
@@ -336,7 +336,7 @@ class ContactController extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the subject field
 		if (false === $this->_checkText($subject, $bannedSubject)) {
-			$this->setError(JText::sprintf('MESGHASBANNEDTEXT',JText::_('Subject')));
+			$this->setError(JText::sprintf('COM_CONTACT_EMAIL_BANNEDTEXT',JText::_('COM_CONTACT_CONTACT_MESSAGE_SUBJECT')));
 			return false;
 		}
 
@@ -347,14 +347,14 @@ class ContactController extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the text field
 		if (false === $this->_checkText($body, $bannedText)) {
-			$this->setError(JText::sprintf('MESGHASBANNEDTEXT', JText::_('Message')));
+			$this->setError(JText::sprintf('COM_CONTACT_EMAIL_BANNEDTEXT', JText::_('COM_CONTACT_CONTACT_ENTER_MESSAGE')));
 			return false;
 		}
 
 		// test to ensure that only one email address is entered
 		$check = explode('@', $email);
 		if (strpos($email, ';') || strpos($email, ',') || strpos($email, ' ') || count($check) > 2) {
-			$this->setError(JText::_('YOU_CANNOT_ENTER_MORE_THAN_ONE_EMAIL_ADDRESS', true));
+			$this->setError(JText::_('COM_CONTACT_NOT_MORE_THAN_ONE_EMAIL_ADDRESS', true));
 			return false;
 		}
 
@@ -382,7 +382,4 @@ class ContactController extends JController
 		}
 		return true;
 	}
-
-
-
 }

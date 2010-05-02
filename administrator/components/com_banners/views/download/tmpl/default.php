@@ -41,7 +41,7 @@ JHtml::_('behavior.tooltip');
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 		<div class="clr"></div>
-		<button type="button" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('COM_BANNERS_SUBMIT');?></button>
+		<button type="button" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('CJSUBMIT');?></button>
 		<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_BANNERS_CANCEL');?></button>
 
 	</fieldset>
