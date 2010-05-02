@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: default.php 16021 2010-04-12 02:17:03Z infograf768 $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

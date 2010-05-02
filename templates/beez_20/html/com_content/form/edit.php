@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: edit.php 15976 2010-04-10 04:44:23Z hackwar $
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
