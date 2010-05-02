@@ -110,7 +110,7 @@ class JTableAsset extends JTableNested
 					$this->setError($error);
 				}
 				else {
-					$this->setError(JText::_('JLIB_DATABASE_ERROR_INVALIDPARENTT_ID'));
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 				}
 				return false;
 			}
