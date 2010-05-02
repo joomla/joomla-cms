@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+2-May-2010 Christophe Demko
+# Correcting a bug I have introduced on commit #16536
+
 2-May-2010 Jean-Marie Simonet
 $ Consolidating some categories, contact, newsfeeds, weblinks,content strings
 $ Refactoring com_contacts frontend ini/keys
