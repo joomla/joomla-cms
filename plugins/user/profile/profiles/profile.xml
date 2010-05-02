@@ -111,6 +111,20 @@
 				rows="5"
 				filter="safehtml"
 			/>
+			<field
+					name="tos"
+					type="radio"
+					default="0"
+					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_DESC">
+					<option	value="1">PLG_USER_PROFILE_OPTION_AGREE</option>
+			</field>
+			<field
+					name="dob"
+					type="calendar"
+					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
+				 />			
 		</fieldset>
 	</fields>
 </form>

@@ -109,9 +109,10 @@
 		<field name="misc" type="editor"
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_MISC_DESC"
-			class="inputbox" filter="safehtml" buttons="pagebreak,readmore"
+			class="inputbox" filter="safehtml" 
+			buttons="image,article"/>
 			size="30" />
-		<field name="image" type="imagelist" directory="/images"
+		<field name="image" type="media" directory="" hide_none="1"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 		>
 		</field>
@@ -136,7 +137,14 @@
 		>
 			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
 		</field>
-
+		<field name="featured" type="radio"
+			label="COM_CONTACT_FIELD_FEATURED_LABEL" 
+			description="COM_CONTACT_FIELD_FEATURED_DESC"
+			default="0"
+		>
+			<option value="0">JOFF</option>
+			<option value="1">JON</option>
+		</field>
 
 		<field name="contact_icons" type="list" default="0"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS" description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
@@ -149,32 +157,32 @@
 			</option>
 		</field>
 
-		<field name="icon_address" type="imagelist"
-			directory="/images" hide_none="1"
+		<field name="icon_address" type="media"
+			directory="" hide_none="1"
 
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" />
 
-		<field name="icon_email" type="imagelist" directory="/images"
+		<field name="icon_email" type="media" directory=""
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" />
 
-		<field name="icon_telephone" type="imagelist"
-			directory="/images" hide_none="1"
+		<field name="icon_telephone" type="media"
+			directory="" hide_none="1"
 
 			abel="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" />
 
-		<field name="icon_mobile" type="imagelist"
-			directory="/images" hide_none="1"
+		<field name="icon_mobile" type="mediat"
+			directory="" hide_none="1"
 
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" />
 
-		<field name="icon_fax" type="imagelist" directory="/images"
+		<field name="icon_fax" type="media" directory=""
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" />
 
-		<field name="icon_misc" type="imagelist" directory="/images"
+		<field name="icon_misc" type="media" 
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
 
@@ -481,10 +489,16 @@
 	<fields name="metadata">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA">
 
-			<field name="robots" type="text"
-				label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
-				size="20" />
-
+		<field name="robots" type="list"
+			label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="2">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value="4">JGLOBAL_NO_ROBOTS_TAG</option>
+		</field>
 
 			<field name="rights" type="text"
 				label="JFIELD_METADATA_RIGHTS_LABEL" description="JFIELD_METADATA_RIGHTS_DESC"

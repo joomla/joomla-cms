@@ -102,10 +102,10 @@
 			<option value="2">NEW_WINDOW_WITHOUT_BROWSER_NAVIGATION</option>
 		</field>
 
-		<field name="link_icons" type="imagelist"
+		<field name="link_icons" type="media"
 			default=""
 			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
-			directory="/images"
+			directory=""
 			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
 		/>
 	</fieldset>

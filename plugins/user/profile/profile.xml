@@ -113,7 +113,8 @@
 					type="radio"
 					default="0"
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
-					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC">
+					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC"
+				>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
@@ -124,12 +125,32 @@
 					type="radio"
 					default="0"
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
-					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC">
+					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC"
+				>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
-
+				<field
+					name="register-require_tos"
+					type="radio"
+					default="0"
+					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
+				>
+					<option	value="2">JOPTION_REQUIRED</option>
+					<option	value="1">JOPTION_OPTIONAL</option>
+					<option	value="0">JDISABLED</option>
+				</field>
+				<field
+					name="register-require_dob"
+					type="radio"
+					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_DESC">
+					<option	value="2">JOPTION_REQUIRED</option>
+					<option	value="1">JOPTION_OPTIONAL</option>
+					<option	value="0">JDISABLED</option>					
+				 </field>			
 				<field name="profile-require-user" type="spacer"
 					label="PLG_USER_PROFILE_FIELD_NAME_PROFILE_REQUIRE_USER"
 				/>
@@ -232,6 +253,27 @@
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
+				</field>
+				<field
+					name="profile-require_tos"
+					type="radio"
+					default="0"
+					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_DESC">
+					<option	value="2">JOPTION_REQUIRED</option>
+					<option	value="1">JOPTION_OPTIONAL</option>
+					<option	value="0">JDISABLED</option>
+				</field>
+				<field
+					name="profile-require_dob"
+					type="radio"
+					default="0"					
+					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
+					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
+				 >	
+					<option	value="2">JOPTION_REQUIRED</option>
+					<option	value="1">JOPTION_OPTIONAL</option>
+					<option	value="0">JDISABLED</option>				 		
 				</field>
 			</fieldset>
 

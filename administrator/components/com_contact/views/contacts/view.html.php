@@ -70,20 +70,11 @@ class ContactViewContacts extends JView
 			JToolBarHelper::editList('contact.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.edit.state')) {
-			if ($this->state->get('filter.published') != 2){
-				JToolBarHelper::divider();
-				JToolBarHelper::custom('contacts.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
-				JToolBarHelper::custom('contacts.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
-			}
-			if ($this->state->get('filter.published') != -1 ) {
-				JToolBarHelper::divider();
-				if ($this->state->get('filter.published') != 2) {
-					JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
-				}
-				else if ($this->state->get('filter.published') == 2) {
-					JToolBarHelper::unarchiveList('contacts.publish', 'JTOOLBAR_UNARCHIVE');
-				}
-			}	
+			JToolBarHelper::divider();
+			JToolBarHelper::custom('contacts.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::custom('contacts.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::divider();
+			JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
 		}
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_EMPTY_TRASH');

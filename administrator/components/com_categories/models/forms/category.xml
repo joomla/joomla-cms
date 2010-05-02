@@ -87,7 +87,8 @@
 		label="COM_CATEGORIES_DESCRIPTION_LABEL"
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
-		buttons="image,readmore,pagebreak"/>
+		filter="safehtml"
+		buttons="image,article"/>
 
 	<field
 		name="published"
@@ -207,9 +208,7 @@
 
 			<field
 				name="image"
-				type="imagelist"
-				directory="/images"
-				hide_default="1"
+				type="media"
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC" />
 		</fieldset>

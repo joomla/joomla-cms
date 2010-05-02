@@ -131,7 +131,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="image" type="imagelist" directory="/images"
+		<field name="image" type="media" 
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 		>
 		</field>
@@ -200,28 +200,28 @@
 			</option>
 		</field>
 
-		<field name="icon_address" type="imagelist" directory="/images"
+		<field name="icon_address" type="media" 
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" />
 
-		<field name="icon_email" type="imagelist" directory="/images"
+		<field name="icon_email" type="media" 
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" />
 
-		<field name="icon_telephone" type="imagelist"
-			directory="/images" hide_none="1"
+		<field name="icon_telephone" type="media"
+			 hide_none="1"
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" />
 
-		<field name="icon_mobile" type="imagelist"
-			directory="/images" hide_none="1"
+		<field name="icon_mobile" type="media"
+			 hide_none="1"
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" />
 
-		<field name="icon_fax" type="imagelist" directory="/images"
+		<field name="icon_fax" type="media" directory=""
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" />
 
-		<field name="icon_misc" type="imagelist" directory="/images"
+		<field name="icon_misc" type="media" 
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
 	</fieldset>

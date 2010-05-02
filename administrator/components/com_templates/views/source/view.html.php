@@ -63,13 +63,13 @@ class TemplatesViewSource extends JView
 
 		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_EDIT_FILE'));
 
-		// If not checked out, can save the item.
+		// Can save the item.
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::apply('source.apply');
-			JToolBarHelper::save('source.save');
+			JToolBarHelper::apply('source.apply','JTOOLBAR_APPLY');
+			JToolBarHelper::save('source.save', 'JTOOLBAR_SAVE');
 		}
 
-		JToolBarHelper::cancel('source.cancel');
+		JToolBarHelper::cancel('source.cancel','JTOOLBAR_CANCEL');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('screen.source.edit');
 	}

@@ -417,6 +417,13 @@
 			<option
 				value="0">JNO</option>
 		</field>
+		<field
+			name="MetaLanguage"
+			type="contentlanguage"
+			label="COM_CONFIG_FIELD_METALANGUAGE_LABEL"
+			description="COM_CONFIG_FIELD_METALANGUAGE_DESC"
+			filter="string" />
+		
 	</fieldset>
 
 	<fieldset

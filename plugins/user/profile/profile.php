@@ -98,7 +98,18 @@ class plgUserProfile extends JPlugin
 		} else {
 			$form->removeField('aboutme', 'profile');
 		}
-
+		// Toggle whether the tos field is required.
+		if ($this->params->get('profile-require_tos', 1) > 0) {
+			$form->setFieldAttribute('tos', 'required', $this->params->get('profile-require_tos') == 2, 'profile');
+		} else {
+			$form->removeField('tos', 'profile');
+		}		
+		// Toggle whether the dob field is required.
+		if ($this->params->get('profile-require_dob', 1) > 0) {
+			$form->setFieldAttribute('dob', 'required', $this->params->get('profile-require_dob') == 2, 'profile');
+		} else {
+			$form->removeField('dob', 'profile');
+		}
 		return true;
 	}
 
