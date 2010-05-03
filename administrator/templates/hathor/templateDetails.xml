@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<install type="template" version="1.6" client="administrator">
+	<name>hathor</name>
+	<creationDate>05/02/10</creationDate>
+	<author>Andrea Tarr</author>
+	<authorEmail>hathor@tarrconsulting.com</authorEmail>
+	<authorUrl>http://www.tarrconsulting.com</authorUrl>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.6.0</version>
+	<description>TPL_HATHOR_XML_DESCRIPTION</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>cpanel.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>login.php</filename>
+		<filename>LICENSE.txt</filename>
+		<filename>params.ini</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>language</folder>
+	</files>
+
+	<positions>
+		<position>menu</position>
+		<position>submenu</position>
+		<position>toolbar</position>
+		<position>title</position>
+		<position>status</position>
+		<position>icon</position>
+		<position>cp_shell</position>
+		<position>cpanel</position>
+		<position>debug</position>
+	</positions>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="showSiteName" type="radio" default="0" label="TPL_HATHOR_SHOW_SITE_NAME_LABEL" description="TPL_HATHOR_SHOW_SITE_NAME_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="highContrast" type="radio" default="0" label="TPL_HATHOR_HIGH_CONTRAST_COLORS_LABEL" description="TPL_HATHOR_HIGH_CONTRAST_COLORS_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="boldText" type="radio" default="0" label="TPL_HATHOR_BOLD_TEXT_LABEL" description="TPL_HATHOR_BOLD_TEXT_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="altMenu" type="radio" default="0" label="TPL_HATHOR_ALTERNATE_MENU_LABEL" description="TPL_HATHOR_ALTERNATE_MENU_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</install>

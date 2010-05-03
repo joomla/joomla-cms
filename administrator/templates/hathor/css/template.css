@@ -1,0 +1,2772 @@
+@charset "UTF-8";
+
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	templates.hathor
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.6
+ *
+ * Main CSS file for the template
+ */
+
+/**
+ * CSS Reset
+ */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	background: transparent;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+/**
+ * General styles
+ */
+html {
+	overflow-y: scroll;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	/* background-color: #f9fade; */
+	background-color: #ffffff;
+	font-size: 62.5%;
+	line-height: 1.5em;
+	height: 100%;
+	color: #2c2c2c;
+}
+
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+html,body {
+	height: 100%;
+}
+
+a,img {
+	padding: 0;
+	margin: 0;
+}
+
+img {
+	border: 0 none;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+
+h1 {
+	margin: 0;
+	padding-bottom: 8px;
+	color: #2c2c2c;
+	font-size: 1.4em;
+	font-weight: bold;
+	line-height: 2em;
+}
+
+h2 {
+	padding-top: .83em;
+	padding-bottom: .83em;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+a:link {
+	color: #054993;
+	text-decoration: none;
+}
+
+a:visited {
+	color: #054993;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* new styles */
+
+.enabled 	{ color: #005800; font-weight: bold; }
+.disabled 	{ color: #a20000; font-weight: bold; }
+p.error 	{ color: #a20000; font-weight: bold; }
+.warning 	{ color: #a20000; font-weight: bold; }
+.nowarning 	{ color: #2c2c2c; font-weight: bold; }
+.success 	{ color: #005800; font-weight: bold;}
+.allow 		{ color: #005800;}
+.deny 		{ color: #a20000;}
+.none 		{ color: #aaaaaa;}
+.pointer	{ cursor: pointer;}
+
+/* end new styles */
+
+/**
+ * Overall Styles
+ */
+#minwidth, #minwidth-body {
+	min-width: 960px;
+}
+
+#containerwrap {
+	position: relative;
+}
+
+
+#header {
+	background: #ffffff url(../images/j_logo.png) no-repeat;
+	position: relative;
+}
+
+#header h1.title {
+	font-size: 1.6em;
+	font-weight: bold;
+	color: #2c2c2c;
+	line-height: 25px;
+	margin: 0;
+	padding: 0 0 0 120px;
+}
+
+#footer {
+	padding: 10px 20px;
+	background: #ffffff;
+	border: 1px solid #c7c8b2;
+}
+
+#footer .copyright {
+	margin: 0 0 0 0;
+	text-align: center;
+}
+
+#footer .version {
+
+}
+
+#footer p {
+	font-size: 1.2em;
+}
+
+#nav {
+	background: #ffffff;
+	border: 1px solid #c7c8b2;
+}
+
+#nav .no-nav {
+	line-height: 2em;
+}
+
+#content {
+	/* background: #f9fade; */
+	background: #ffffff;
+	margin: 5px 20px 20px 20px;
+}
+
+#no-submenu {
+	border-bottom: 1px solid #c7c8b2;
+}
+
+#element-box {
+	background: #ffffff;
+	border-right: 1px solid #c7c8b2;
+	border-bottom: 1px solid #c7c8b2;
+	border-left: 1px solid #c7c8b2;
+}
+
+#element-box.login {
+	border-top: 1px solid #c7c8b2;
+}
+
+#element-box.cpanel {
+	padding: 15px;
+}
+
+/**
+ * Status layout
+ */
+#module-status {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+#module-status span {
+	display: block;
+	float: left;
+	padding: 4px 20px 0 22px;
+	font-size: 1.3em;
+}
+
+#module-status {
+	background: url(../images/mini_icon.png) 3px 5px no-repeat;
+}
+
+#module-status .preview {
+	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
+}
+
+#module-status .viewsite {
+	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
+}
+
+#module-status .unread-messages,#module-status .no-unread-messages {
+	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
+}
+
+#module-status .unread-messages a {
+	font-weight: bold;
+}
+
+#module-status .loggedin-users {
+	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
+}
+
+#module-status .logout {
+	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
+}
+
+.title-ua {
+	position: relative;
+	width: 60%;
+}
+
+/**
+ * Various Styles
+ */
+span.note {
+	display: block;
+	background: #ffffff;
+	padding: 5px;
+	color: #2c2c2c;
+}
+
+div.checkin-tick {
+	background: url(../images/admin/tick.png) 20px 50% no-repeat;
+	text-indent: -9999px;
+}
+
+/**
+ * Overlib
+ */
+.ol-foreground {
+	background-color: #ffe;
+}
+
+.ol-background {
+	background-color: #6db03c;
+}
+
+.ol-textfont {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	color: #666666;
+}
+
+.ol-captionfont {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.3em;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.ol-captionfont a {
+	color: #054993;
+	text-decoration: none;
+}
+
+.ol-closefont {
+
+}
+
+/**
+ * Subheader, toolbar, page title
+ */
+div.subheader .padding {
+	padding: 0px;
+	/* background: #f9fade; */
+	background: #ffffff;
+}
+
+div.pagetitle {
+	padding: 0 0 5px 0px;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-position: left 50%;
+	line-height: 54px;
+}
+
+.pagetitle h2 {
+	padding: 0 0 0 50px;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #2c2c2c;
+	line-height: 48px;
+	font-style: italic;
+}
+
+div.configuration {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #2c2c2c;
+	line-height: 2em;
+	padding-left: 30px;
+	margin-left: 10px;
+	background-image: url(../images/menu/icon-16-config.png);
+	background-repeat: no-repeat;
+}
+
+div.toolbar-box {
+	border-right: 1px solid #c7c8b2;
+	border-bottom: 1px solid #c7c8b2;
+	border-left: 1px solid #c7c8b2;
+	background: #ffffff;
+}
+
+div.toolbar-list {
+	float: left;
+	text-align: right;
+	padding: 0;
+}
+
+div.toolbar-list li {
+	padding: 5px 1px 5px 4px;
+	text-align: center;
+	color: #2c2c2c;
+	height: 52px;
+	list-style: none;
+	float: left;
+}
+
+div.toolbar-list li.spacer {
+	width: 10px;
+}
+
+div.toolbar-list li.divider {
+	width: 5px;
+}
+
+div.toolbar-list span {
+	float: none;
+	width: 32px;
+	height: 32px;
+	margin: 0 auto;
+	display: block;
+}
+
+div.toolbar-list a {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	border: 1px solid #f0f0f0;
+	padding: 1px 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+div.toolbar-list a:hover {
+	border-left: 1px solid #e3e4ca;
+	border-top: 1px solid #e3e4ca;
+	border-right: 1px solid #c7c8b2;
+	border-bottom: 1px solid #c7c8b2;
+	text-decoration: none;
+	background: #f9fade;
+	color: #054993;
+}
+
+/**
+ * Massmail component
+ */
+td#mm_pane {
+	width: 90%;
+}
+
+input#mm_subject {
+	width: 200px;
+}
+
+textarea#mm_message {
+	width: 100%;
+}
+
+/**
+ * Pane Slider Jpane Toggler styles
+ */
+.pane-sliders .title {
+	margin: 0;
+	padding: 2px;
+	color: #2c2c2c;
+	cursor: pointer;
+}
+
+.pane-sliders .panel {
+	border: 1px solid #c7c8b2;
+	margin-bottom: 3px;
+}
+
+.pane-sliders .panel h3 {
+	background: #f9fade;
+	color: #2c2c2c;
+}
+
+.pane-sliders .content {
+	background: #f9fade;
+}
+
+.pane-sliders .adminlist {
+	border: 0 none;
+}
+
+.pane-sliders .adminlist td {
+	border: 0 none;
+}
+
+.jpane-toggler  span {
+	background: transparent url(../images/j_arrow.png) 5px 50% no-repeat;
+	padding-left: 20px;
+}
+
+.jpane-toggler-down span {
+	background: transparent url(../images/j_arrow_down.png) 5px 50%
+		no-repeat;
+	padding-left: 20px;
+}
+
+.jpane-toggler-down {
+	border-bottom: 1px solid #c7c8b2;
+}
+
+/* for hiding the unseen panel (problems in ie including 8) */
+/* .jpane-toggler + div {display: none;} */
+
+input#jformparams_link_titles1,
+input#jformparams_show_title1,
+input#jformparams_link_category1 {
+
+}
+
+/**
+ * Tabs
+ */
+dl.tabs {
+	float: left;
+	margin: 10px 0 -1px 0;
+	z-index: 50;
+}
+
+dl.tabs dt {
+	float: left;
+	padding: 4px 10px;
+	border: 1px solid #c7c8b2;
+	margin-left: 3px;
+	background: #f9fade;
+	color: #2c2c2c;
+}
+
+dl.tabs dt.open {
+	background: #ffffff;
+	border-bottom: 1px solid #ffffff;
+	z-index: 100;
+	color: #2c2c2c;
+}
+
+dl.tabs dt.open a:visited {
+	color: #2c2c2c;
+}
+
+div.current {
+	clear: both;
+	border: 1px solid #c7c8b2;
+	padding: 10px 10px;
+	background: #ffffff;
+}
+
+div.current dd {
+	padding: 0;
+	margin: 0;
+}
+
+/* New parameter styles (check rtl) */
+
+dl#content-pane.tabs {
+	margin: 1px 0 0 0;
+}
+
+div.current label, div.current span.faux-label {
+	display: block;
+	min-width: 150px;
+	float:left;
+	clear:left;
+	margin-top: 8px;
+}
+
+div.current fieldset {
+	border: none 0;
+}
+
+div.current fieldset.radio {
+	float:left;
+}
+
+div.current fieldset.radio input {
+	clear:none;
+	min-width: 15px;
+	float:left;
+	margin: 3px 0 0 2px;
+}
+
+div.current fieldset.radio label {
+	clear:none;
+	min-width: 45px;
+	float:left;
+	margin: 3px 0 0 5px;
+}
+
+div.current input,
+div.current span.faux-input,
+div.current textarea,
+div.current select {
+	clear:none;
+	float:left;
+	margin: 3px 0 0 2px;
+}
+div.current select { margin-bottom: 15px;}
+
+div.current table#acl-config th.acl-groups {
+	text-align: left;
+}
+
+div#menu-assignment {
+	height: 300px;
+	overflow: auto;
+	clear:left;
+}
+
+div#menu-assignment h3 {
+	padding-top: 15px;
+	padding-bottom: 0;
+	margin-bottom: 0;
+	border-bottom: 1px solid #c7c8b2;
+	width: 90%;
+	clear:left;
+}
+
+div#menu-assignment ul.menu-links li.menu-link label {
+	clear:none;
+	float: left;
+	margin: 3px 0 0 5px;
+}
+div#menu-assignment ul.menu-links li.menu-link input {
+	clear: left;
+	float: left;
+}
+
+p.tab-description {
+	font-size: 1.091em;
+	margin-left: 0;
+	margin-top: 5px;
+}
+/* end new parameter styles */
+
+/**
+ * Login Settings
+ */
+#login-page form .inputbox {
+	width: 120px;
+	margin-left: 5px;
+	margin-bottom: 15px;
+}
+#login-page input, #login-page select {
+	float: right;
+	clear: none;
+}
+
+#login-page .login {
+	margin: 0 auto;
+	width: 500px;
+	margin-bottom: 100px;
+}
+
+#login-page .pagetitle h2 {
+	margin: -70px 0 30px 0;
+	font-size: 2em;
+	padding: 0;
+	background: transparent;
+}
+
+#login-page p {
+	margin: 0;
+	padding: 0;
+	margin-bottom: 1em;
+	font-size: 1.2em;
+}
+
+#login-page #header {
+	border-bottom: 1px solid #c7c8b2;
+	margin-bottom: 100px;
+}
+
+#login-page .login-inst {
+	float: left;
+	width: 35%;
+}
+
+#login-page .login-box {
+	float: right;
+	width: 63%;
+}
+
+#login-page #lock {
+	background: url(../images/j_login_lock.png) 50% 0 no-repeat;
+	width: 150px;
+	height: 137px;
+}
+
+#login-page #element-box.login {
+	background: #f9fade;
+	padding: 20px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+#login-page .button {
+	text-align: right;
+}
+
+#login-page .login-text {
+	text-align: left;
+	width: 40%;
+	float: left;
+}
+
+#form-login {
+	background: #ffffff;
+	float: right;
+	border: 1px solid #c7c8b2;
+	padding: 1.1em;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+#form-login fieldset {
+	border: none;
+}
+
+#form-login label {
+	display: block;
+	float: left;
+	clear: left;
+	width: 120px;
+	text-align: right;
+	padding: 4px;
+	color: #2c2c2c;
+	font-weight: bold;
+	font-size: 1.4em;
+	margin-bottom: 15px;
+}
+
+#form-login .button-holder { /* float: left; */
+	/* padding-left: 180px; */
+
+}
+
+#form-login div.button1 { /* float: left; */
+
+}
+
+#form-login div.button1 div.next {
+	float: left;
+}
+
+#form-login div.button1 a {
+	height: 2.2em;
+	line-height: 2.2em;
+	font-size: 1.5em;
+	font-weight: bold;
+	color: #2c2c2c;
+	cursor: default;
+	padding: 0 15px 0 15px;
+	/* padding: 0 30px 0 6px; use this if you use images */
+}
+
+.login-submit {
+	border: 0;
+	padding: 0;
+	margin: 0;
+	width: 0px;
+	height: 0px;
+}
+
+/**
+ * Cpanel Settings
+ */
+#cpanel div.icon {
+	text-align: center;
+	margin-right: 5px;
+	float: left;
+	margin-bottom: 5px;
+}
+
+#cpanel div.icon a {
+	display: block;
+	float: left;
+	border: 1px solid #f0f0f0;
+	height: 97px;
+	width: 108px;
+	color: #2c2c2c;
+	vertical-align: middle;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#cpanel div.icon a:hover,
+#cpanel div.icon a:focus {
+	border-left: 1px solid #e3e4ca;
+	border-top: 1px solid #e3e4ca;
+	border-right: 1px solid #c7c8b2;
+	border-bottom: 1px solid #c7c8b2;
+	background: #f9fade;
+	color: #054993;
+}
+
+#cpanel img {
+	padding: 10px 0;
+	margin: 0 auto;
+}
+
+#cpanel span {
+	display: block;
+	text-align: center;
+}
+
+div.cpanel-icons {
+	width: 54%;
+	float: left;
+}
+
+div.cpanel-component {
+	width: 45%;
+	float: right;
+}
+
+/**
+ * Standard Layout Styles
+ */
+
+
+div.col {
+	float: left;
+}
+
+div.col1 {
+	float: left;
+	width: 45%;
+}
+
+div.col2 {
+	float: right;
+	width: 45%;
+}
+
+	/* Avoid using the width divs. They are here for 3PD Extensions if needed
+	 * Use the specific layout divs listed after. See also the th.width entries */
+div.width-1 { width: 1%;}
+div.width-3 { width: 3%;}
+div.width-5 { width: 5%;}
+div.width-10 { width: 10%;}
+div.width-20 { width: 20%;}
+div.width-30 { width: 30%;}
+div.width-35 { width: 35%; }
+div.width-40 { width: 40%;}
+div.width-45 { width: 45%;}
+div.width-50 { width: 50%;}
+div.width-55 { width: 55%;}
+div.width-60 { width: 60%; }
+div.width-65 { width: 65%;}
+div.width-70 { width: 70%;}
+div.width-80 { width: 80%;}
+div.width-100 { width: 100%;}
+
+.clrlft { clear: left; }
+.clrrt { clear: right; }
+.fltlft { float: left; }
+.fltrt { float: right; }
+.fltnone { float: none; }
+
+
+	/* Layout Divs */
+div.main-section {
+	width: 60%;
+}
+
+div.options-section {
+	width: 40%;
+}
+
+/**
+ * Form Styles
+ */
+
+fieldset {
+	margin: 2px 10px 2px 10px;
+	border: 1px #ccc solid;
+	padding: 5px;
+	text-align: left;
+}
+
+legend {
+	color: #2c2c2c;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding-bottom: 5px;
+}
+
+fieldset p {
+	margin: 10px 0px;
+}
+
+fieldset ol, ol#property-values, fieldset ul, ul#property-values {
+	margin: 0;
+	padding: 0;
+}
+
+fieldset li, ol#property-values li, ul#property-values li {
+	list-style: none;
+	margin: 0;
+	padding: 5px;
+}
+
+/* new form fields (check rtl) */
+
+fieldset.adminform fieldset.radio,
+fieldset.panelform fieldset.radio,
+fieldset.adminform-legacy fieldset.radio  {
+	border: 0;
+	float:left;
+	padding: 0;
+	margin: 0 0 5px 0;
+	clear:right;
+}
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label,
+fieldset.adminform fieldset.radio span.faux-label,
+fieldset.panelform fieldset.radio span.faux-label {
+	min-width: 40px;
+	float:left;
+	clear:none;
+}
+
+
+fieldset.panelform-legacy label,
+fieldset.adminform-legacy label,
+fieldset.panelform-legacy span.faux-label,
+fieldset.adminform-legacy span.faux-label {
+	min-width: 150px;
+	float:left;
+
+}
+/* JParameter classes on radio button labels  */
+fieldset.panelform-legacy label.radiobtn_jno,
+fieldset.panelform-legacy label.radiobtn_jyes,
+fieldset.panelform-legacy label.radiobtn_show,
+fieldset.panelform-legacy label.radiobtn_hide,
+fieldset.panelform-legacy label.radiobtn_off,
+fieldset.panelform-legacy label.radiobtn_on {
+	min-width: 40px !important;
+	clear:none !important;
+}
+
+
+#jform_plugdesc-lbl,
+#jform_description-lbl {
+	font-weight:bold;
+	clear:both;
+	margin-top: 15px;
+}
+p.jform_desc {
+	clear:left;
+}
+
+div#jform_ordering {
+	font-size: 1.091em;
+	margin-top: 3px;
+}
+
+fieldset ul.checklist {
+	margin-left: 27px;
+}
+
+fieldset ul.checklist input,
+fieldset ul.checklist label {
+	float: none;
+}
+
+fieldset ul.checklist input:focus {
+	outline: thin dotted #333333;
+}
+
+
+/* end new form fields */
+
+fieldset#filter-bar {
+	border-top: none;
+	border-right: none;
+	border-bottom: 1px solid #c7c8b2;
+	border-left: none;
+	margin: 0;
+	padding: 5px 10px 5px 10px;
+}
+
+fieldset#filter-bar ol, fieldset#filter-bar ul {
+	border: 0;
+	list-style: none;
+	margin: 0;
+	padding: 5px 0 0;
+}
+
+fieldset#filter-bar ol li, fieldset#filter-bar ul li {
+	float: left;
+	padding: 0 5px 0 0;
+}
+
+fieldset#filter-bar ol li fieldset, fieldset#filter-bar ul li fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+fieldset#filter-bar .filter-search {
+	float: left;
+}
+
+fieldset#filter-bar .filter-select {
+	float: right;
+}
+
+fieldset#filter-bar input#search {
+	width: 10em;
+}
+
+/* .editform div.edititem,.editform>div {
+	padding: 5px;
+} */
+
+	/* Note: these visual cues should be augmented by aria */
+.invalid {
+	color: #a20000;
+	font-weight: bold;
+}
+
+	/* must be augmented by aria at the same time if changed dynamically by js
+	aria-invalid=true or aria-invalid=false */
+input.invalid {
+	border: 1px solid #a20000;
+}
+
+	/* augmented by aria in template javascript */
+input.readonly, span.faux-input {
+	border: 0;
+}
+
+input.required {
+	background-color: #ffd3af;
+}
+
+label.required:after {
+	content:" *";
+	/* content:url(../images/required.png);
+	vertical-align: middle; */
+}
+
+input.disabled {
+	background-color: #eeeeee;
+}
+
+input,select, span.faux-input {
+	font-size: 1.4em;
+	background-color: #ffffff;
+	border: 1px solid #c7c8b2;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+textarea {
+	font-size: 1.4em;
+	background-color: #ffffff;
+	border: 1px solid #c7c8b2;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+input.button {
+	cursor: pointer;
+}
+
+input:focus, select:focus, textarea:focus, option:focus,
+input:hover, select:hover, textarea:hover, option:hover {
+	background-color: #e3e4ca;
+	color: #2c2c2c;
+}
+
+label {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+span.faux-label {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+label.selectlabel {
+	position: absolute;
+	left: -1000em;
+}
+
+/**
+ * Option or Parameter styles
+ */
+
+
+/* .paramlist span.paramlist-key {
+	vertical-align: bottom;
+}
+
+.paramlist span.paramlist-value {
+	vertical-align: bottom;
+}
+
+.paramlist .toplabel label {
+	text-align: left;
+	float: none;
+	margin: 5px 0 0 10px;
+}
+
+.paramlist .toplabel input,.paramlist .toplabel textarea,.paramlist .toplabel select
+	{
+	margin: 0 0 0 10px;
+}
+
+.paramlist {
+	overflow: hidden;
+} */
+
+.paramrules {
+	padding: 10px;
+	background: #f9fade;
+}
+
+/* end from alpha2 */
+
+span.gi {
+	color: #c7c8b2;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+
+/**
+ * Admintable Styles
+ */
+table.admintable td {
+	padding: 3px;
+	font-size: 1em;
+}
+
+table.admintable td.key,table.admintable td.paramlist_key {
+	background-color: #f9fade;
+	text-align: right;
+	width: 140px;
+	color: #2c2c2c;
+	font-weight: bold;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+	font-size: 1em;
+}
+
+table.admintable td.key label, table.admintable td.paramlist_key label {
+	font-size: 1em;
+}
+
+table.admintable td.paramlist_value label {
+	font-size: 1em;
+}
+
+table.admintable input, table.admintable span.faux-input, table.admintable select {
+	font-size: 1em;
+}
+
+table.paramlist td.paramlist_description {
+	background-color: #f9fade;
+	text-align: left;
+	width: 170px;
+	color: #2c2c2c;
+	font-weight: normal;
+	border-bottom: 1px solid #e9e9e9;
+	border-right: 1px solid #e9e9e9;
+}
+
+table.admintable td.key.vtop {
+	vertical-align: top;
+}
+
+/**
+ * Admin Form Styles
+ */
+fieldset.adminform {
+	border: 1px solid #c7c8b2;
+	margin: 0 10px 10px 10px;
+}
+
+	/* Table styles are for use with tabular data */
+table.adminform {
+	background-color: #ffffff;
+	width: 100%;
+	border-collapse: collapse;
+	margin: 8px 0 10px 0;
+	margin-bottom: 15px;
+	width: 100%;
+}
+
+table.adminform.nospace {
+	margin-bottom: 0;
+}
+
+table.adminform tr.row0 {
+	background-color: #ffffff;
+}
+
+table.adminform tr.row1 {
+	background-color: #e3e4ca;
+}
+
+table.adminform th {
+	font-size: 1.4em;
+	padding: 6px 2px 4px 4px;
+	text-align: left;
+	height: 25px;
+	color: #2c2c2c;
+	background: #ffffff;
+}
+
+table.adminform td {
+	padding: 3px;
+	text-align: left;
+}
+
+table.adminform td#filter-bar {
+	text-align: left;
+}
+
+table.adminform td.helpMenu {
+	text-align: right;
+}
+
+table.adminform tr {
+	padding-left: 10px;
+	padding-right: 10px;
+	border-bottom: 1px solid #c7c8b2;
+	border-right: 1px solid #c7c8b2;
+}
+
+/**
+ * Table formating styles
+ */
+td.center,th.center {
+	text-align: center;
+}
+
+	/* Avoid using the width classes. They are here for 3PD Extensions if needed
+	 * Use the specific layout table headers listed after. See also the div.width entries */
+th.width-1 {
+	width: 1%;
+}
+
+th.width-3 {
+	width: 3%;
+}
+
+th.width-5 {
+	width: 5%;
+}
+
+th.width-10 {
+	width: 10%;
+}
+
+th.width-12 {
+	width: 12%;
+}
+
+th.width-15 {
+	width: 15%;
+}
+
+th.width-20 {
+	width: 20%;
+}
+
+th.width-25 {
+	width: 25%;
+}
+
+th.width-30 {
+	width: 30%;
+}
+
+th.width-40 {
+	width: 40%;
+}
+
+	/* Table header layout classes */
+th.row-number-col {
+	width: 3%;
+}
+
+th.checkmark-col {
+	width: 1%;
+}
+
+th.state-col {
+	width: 5%;
+}
+
+th.ordering-col {
+	width: 12%;
+}
+
+.categories th.ordering-col {
+	width: 10%;
+}
+
+.categories th.ordering-col input, .categories td.order input {
+	font-size: 1em;
+}
+
+th.category-col {
+	width: 5%;
+}
+
+th.access-col {
+	width: 10%;
+}
+
+.categories th.access-col {
+	width: 5%;
+}
+
+th.hits-col {
+	width: 5%;
+}
+
+th.id-col {
+	width: 3%;
+}
+
+th.featured-col {
+	width: 5%;
+}
+
+th.created-by-col {
+	width: 5%;
+}
+
+th.date-col {
+	width: 5%;
+}
+
+/**
+ * Adminlist Table layout
+ */
+table.adminlist {
+	width: 100%;
+	border-spacing: 1px;
+	background-color: #ffffff;
+	color: #2c2c2c;
+}
+
+table.adminlist a {
+	color: #054993;
+}
+
+table.adminlist td, table.adminlist th {
+	padding: 4px;
+	font-size: 1.2em;
+}
+
+table.adminlist thead th {
+	text-align: center;
+	background: #ffffff;
+	color: #2c2c2c;
+}
+
+table.adminlist thead a:hover {
+	text-decoration: none;
+}
+
+table.adminlist thead th img {
+	vertical-align: middle;
+}
+
+table.adminlist tbody th {
+	font-weight: bold;
+}
+
+	/* Table row styles */
+table.adminlist tr {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+table.adminlist tbody tr {
+	background: #ffffff;
+	text-align: left;
+}
+
+table.adminlist tbody tr.row1 {
+	background: #ffffff;
+}
+
+table.adminlist tbody tr.row1 td,
+table.adminlist tbody tr.row1 th {
+	border-bottom: 1px solid #c7c8b2;
+}
+
+table.adminlist tbody tr.row0:hover td,
+table.adminlist tbody tr.row1:hover td,
+table.adminlist tbody tr.row0:hover th,
+table.adminlist tbody tr.row1:hover th,
+table.adminlist tbody tr.row0:focus td,
+table.adminlist tbody tr.row1:focus td,
+table.adminlist tbody tr.row0:focus th,
+table.adminlist tbody tr.row1:focus th  {
+	background-color: #e3e4ca;
+}
+
+table.adminlist tbody tr td,
+table.adminlist tbody tr th {
+	height: 25px;
+	border-right: 1px solid #c7c8b2;
+}
+
+table.adminlist tbody tr td:last-child {
+	border-right: none;
+}
+
+table.adminlist tbody tr.row0:first-child td,
+table.adminlist tbody tr.row0:first-child th {
+	border-top: 1px solid #c7c8b2;
+}
+
+table.adminlist tbody tr.row0:last-child td,
+table.adminlist tbody tr.row0:last-child th {
+	border-bottom: 1px solid #c7c8b2;
+}
+
+table.adminlist tbody tr.row0 td,
+table.adminlist tbody tr.row0 th {
+	background: #f9fade;
+}
+
+table.adminlist tfoot tr {
+	text-align: center;
+	color: #2c2c2c;
+}
+
+	/* Table td/th styles */
+table.adminlist tfoot td,table.adminlist tfoot th {
+	background-color: #ffffff;
+	text-align: center;
+	border-top: 1px solid #c7c8b2;
+}
+
+table.adminlist td.order {
+	text-align: center;
+	white-space: nowrap;
+}
+
+table.adminlist td.order span {
+	float: left;
+	display: block;
+	width: 20px;
+	text-align: center;
+}
+
+table.adminlist td.order input {
+	text-align: center;
+	width: 3em;
+}
+/**
+ * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :
+ */
+table.adminlist td.indent-4 	{ padding-left:4px; }
+table.adminlist td.indent-19 	{ padding-left:19px; }
+table.adminlist td.indent-34 	{ padding-left:34px; }
+table.adminlist td.indent-49 	{ padding-left:49px; }
+table.adminlist td.indent-64 	{ padding-left:64px; }
+table.adminlist td.indent-79 	{ padding-left:79px; }
+table.adminlist td.indent-94 	{ padding-left:94px; }
+table.adminlist td.indent-109 	{ padding-left:109px; }
+table.adminlist td.indent-124 	{ padding-left:124px; }
+table.adminlist td.indent-139 	{ padding-left:139px; }
+
+/**
+ * Adminlist buttons
+ */
+table.adminlist tr td.btns a {
+	border: 1px solid #c7c8b2;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	background-color: #ffffff;
+	color: #2c2c2c;
+	padding: 3px 20px;
+}
+
+table.adminlist tr td.btns a:hover, table.adminlist tr td.btns a:active, table.adminlist tr td.btns a:focus {
+	background-color: #f9fade;
+	text-decoration: none;
+}
+
+/**
+ * Modal Modules styles
+ */
+ul#new-modules-list {
+	margin-left: 50px;
+	font-size: 1.4em;
+	line-height: 1.5em;
+}
+
+/**
+ * Pagination styles
+ */
+
+	/* Normal pagination styles */
+div.containerpg {
+	position: relative;
+	left: 50%;
+	float: left;
+	clear: left;
+}
+
+div.pagination {
+	position: relative;
+	left: -50%;
+	margin: 0 auto;
+	padding: .5em;
+}
+
+.pagination div.limit {
+	float: left;
+	height: 3em;
+	line-height: 3em;
+	margin: 0 10px;
+}
+
+	/* The Go submittal button */
+.pagination button {
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.6em;
+	margin-right: 20px;
+}
+
+	/* Grey out the current page number */
+.pagination .page span {
+	color: #cccccc;
+}
+
+	/* Style if pagination is part of the table (old style) */
+table.adminlist .pagination {
+	display: table;
+	padding: 0;
+	margin: 0 auto;
+	font-size: .8em;
+}
+
+table.adminlist .pagination button {
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.6em;
+	margin-right: 20px;
+}
+
+/**
+ * Utility styles
+ */
+	/* General Clearing Class */
+.clr {
+	clear: both;
+	overflow: hidden;
+	height: 0;
+}
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear:both;
+	visibility: hidden;
+}
+
+	/* stu nicholls solution for centering divs */
+.container {
+	clear: both;
+	text-decoration: none;
+}
+
+* html .container {
+	display: inline-block;
+}
+
+	/* table solution for global config */
+table.noshow {
+	width: 100%;
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+}
+
+table.noshow tr {
+	vertical-align: top;
+}
+
+table.noshow td {
+
+}
+
+table.noshow fieldset {
+	margin: 15px 7px 7px 7px;
+}
+
+/**
+ * Button styling
+ */
+#editor-xtd-buttons {
+	padding: 5px;
+}
+
+button {
+	font-size: 1.6em;
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #f9fade;
+	border: 1px solid #c7c8b2;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+button:hover,button:focus {
+	background-color: #e3e4ca;
+}
+
+.invalid {
+	color: #ff0000;
+	font-weight: bold;
+}
+
+
+/* Button 1 Type */
+.button1,.button1 div {
+	height: 1%;
+	float: right;
+}
+
+.button1 {
+	border: 1px solid #c7c8b2;
+	background: #f9fade;
+	white-space: nowrap;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+	/* Use this if you add images to the buttons such as directional arrows */
+.button1 .next {
+	/* background: transparent url(../images/j_button1_next.png) 100% 0 no-repeat;  */
+}
+
+.button1 a {
+	display: block;
+	height: 2.2em;
+	float: left;
+	line-height: 2.2em;
+	font-size: 1.3em;
+	font-weight: bold;
+	color: #2c2c2c;
+	cursor: default;
+	padding: 0 6px 0 6px;
+	/* add padding if you are using the directional images */
+	/* padding: 0 30px 0 6px; */
+}
+
+.button1 a:hover,.button1 a:focus {
+	text-decoration: none;
+	background-color: #e3e4ca;
+}
+
+	/* Button 2 Type */
+.button2-left,.button2-right {
+	float: left;
+	line-height: 1.5em;
+	font-size: 1.7em;
+	border: 1px solid #c7c8b2;
+	background-color: #f9fade;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.button2-left a,.button2-right a,.button2-left span,.button2-right span
+	{
+	display: block;
+	float: left;
+	color: #2c2c2c;
+	cursor: default;
+}
+
+	/* these are inactive buttons */
+.button2-left span,.button2-right span {
+	cursor: default;
+	color: #cccccc;
+}
+
+.button2-left .page a,.button2-right .page a,
+.button2-left .page span,.button2-right .page span,
+.button2-left .blank a,.button2-right .blank a,
+.button2-left .blank span,.button2-right .blank span
+	{
+	padding: 0 6px;
+}
+
+.page span,.blank span {
+	color: #2c2c2c;
+	font-weight: bold;
+}
+
+.button2-left a:hover,.button2-right a:hover,.button2-left a:focus,.button2-right a:focus
+	{
+	text-decoration: none;
+	background-color: #e3e4ca;
+}
+
+.button2-left a,.button2-left span {
+	padding: 0 24px 0 6px;
+}
+
+.button2-right a,.button2-right span {
+	padding: 0 6px 0 24px;
+}
+
+.button2-left {
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right {
+	float: left;
+	margin-left: 5px;
+}
+
+.button2-right .prev {
+	background-image: url(../images/j_button2_prev.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background-image: url(../images/j_button2_first.png);
+	background-position: left center;
+	background-repeat: no-repeat;
+}
+
+.button2-right.off .start {
+	background: url(../images/j_button2_first_off.png) no-repeat;
+}
+
+.button2-left .page,.button2-left .blank {
+
+}
+
+.button2-left .next {
+	background-image: url(../images/j_button2_next.png);
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+.button2-left.off .next {
+	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .end {
+	background-image: url(../images/j_arrow.png);
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+.button2-left.off .end {
+	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .image {
+	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+.button2-left .blank {
+
+}
+
+/**
+ * MCE Editor
+ */
+div.toggle-editor {
+	margin-top: -15px;
+}
+
+/**
+ * Tooltips
+ */
+.tip {
+	float: left;
+	background: #ffffff;
+	border: 1px solid #c7c8b2;
+	padding: 5px;
+	max-width: 200px;
+	z-index: 50;
+}
+
+.tip-title {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	font-weight: bold;
+	margin-top: -15px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background: url(../images/selector-arrow-std.png) no-repeat;
+}
+
+.tip-text {
+	font-size: 100%;
+	margin: 0;
+}
+
+/**
+ * Calendar
+ */
+a img.calendar {
+	width: 16px;
+	height: 16px;
+	margin-left: 3px;
+	background: url(../images/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+/**
+ * System Standard Messages
+ */
+#system-message dd.message ul {
+	background: #C3D2E5 url(../images/notice-info.png) 4px center no-repeat;
+}
+
+/**
+ * System Error Messages
+ */
+#system-message dd.error ul {
+	color: #c00;
+	background: #E6C0C0 url(../images/notice-alert.png) 4px top no-repeat;
+	border-top: 3px solid #DE7A7B;
+	border-bottom: 3px solid #DE7A7B;
+}
+
+/**
+ * System Notice Messages
+ */
+#system-message dd.notice ul {
+	color: #c00;
+	background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat;
+	border-top: 3px solid #F0DC7E;
+	border-bottom: 3px solid #F0DC7E;
+}
+
+/**
+ * Menu Icons
+ * These icons are used on the Administrator menu
+ * The classes are constructed dynamically when the menu is generated
+ */
+.icon-16-archive {
+	background-image: url(../images/menu/icon-16-archive.png);
+}
+
+.icon-16-article {
+	background-image: url(../images/menu/icon-16-article.png);
+}
+
+.icon-16-category {
+	background-image: url(../images/menu/icon-16-category.png);
+}
+
+.icon-16-checkin {
+	background-image: url(../images/menu/icon-16-checkin.png);
+}
+
+.icon-16-clear {
+	background-image: url(../images/menu/icon-16-clear.png);
+}
+
+.icon-16-component {
+	background-image: url(../images/menu/icon-16-component.png);
+}
+
+.icon-16-config {
+	background-image: url(../images/menu/icon-16-config.png);
+}
+
+.icon-16-content {
+	background-image: url(../images/menu/icon-16-content.png);
+}
+
+.icon-16-cpanel {
+	background-image: url(../images/menu/icon-16-cpanel.png);
+}
+
+.icon-16-default {
+	background-image: url(../images/menu/icon-16-default.png);
+}
+
+.icon-16-featured {
+	background-image: url(../images/menu/icon-16-frontpage.png);
+}
+
+.icon-16-groups {
+	background-image: url(../images/menu/icon-16-groups.png);
+}
+
+.icon-16-help {
+	background-image: url(../images/menu/icon-16-help.png);
+}
+
+.icon-16-help-this {
+	background-image: url(../images/menu/icon-16-help-this.png);
+}
+
+.icon-16-help-forum {
+	background-image: url(../images/menu/icon-16-help-forum.png);
+}
+
+.icon-16-help-docs {
+	background-image: url(../images/menu/icon-16-help-docs.png);
+}
+
+.icon-16-help-jed {
+	background-image: url(../images/menu/icon-16-help-jed.png);
+}
+
+.icon-16-help-jrd {
+	background-image: url(../images/menu/icon-16-help-jrd.png);
+}
+
+.icon-16-help-community {
+	background-image: url(../images/menu/icon-16-help-community.png);
+}
+
+.icon-16-help-security {
+	background-image: url(../images/menu/icon-16-help-security.png);
+}
+
+.icon-16-help-dev {
+	background-image: url(../images/menu/icon-16-help-dev.png);
+}
+
+.icon-16-help-shop {
+	background-image: url(../images/menu/icon-16-help-shop.png);
+}
+
+.icon-16-info {
+	background-image: url(../images/menu/icon-16-info.png);
+}
+
+.icon-16-install {
+	background-image: url(../images/menu/icon-16-install.png);
+}
+
+.icon-16-language {
+	background-image: url(../images/menu/icon-16-language.png);
+}
+
+.icon-16-levels {
+	background-image: url(../images/menu/icon-16-levels.png);
+}
+
+.icon-16-logout {
+	background-image: url(../images/menu/icon-16-logout.png);
+}
+
+.icon-16-maintenance {
+	background-image: url(../images/menu/icon-16-maintenance.png);
+}
+
+.icon-16-massmail {
+	background-image: url(../images/menu/icon-16-massmail.png);
+}
+
+.icon-16-media {
+	background-image: url(../images/menu/icon-16-media.png);
+}
+
+.icon-16-menu {
+	background-image: url(../images/menu/icon-16-menu.png);
+}
+
+.icon-16-menumgr {
+	background-image: url(../images/menu/icon-16-menumgr.png);
+}
+
+/* .icon-16-messages 	{ background-image: url(../images/menu/icon-16-messages.png); } */
+.icon-16-module {
+	background-image: url(../images/menu/icon-16-module.png);
+}
+
+/* .icon-16-new 		{ background-image: url(../images/menu/icon-16-new.png); } */
+.icon-16-newarticle {
+	background-image: url(../images/menu/icon-16-newarticle.png);
+}
+
+.icon-16-newcategory {
+	background-image: url(../images/menu/icon-16-newcategory.png);
+}
+
+.icon-16-newgroup {
+	background-image: url(../images/menu/icon-16-newgroup.png);
+}
+
+.icon-16-newlevel {
+	background-image: url(../images/menu/icon-16-newlevel.png);
+}
+
+.icon-16-newuser {
+	background-image: url(../images/menu/icon-16-newuser.png);
+}
+
+.icon-16-plugin {
+	background-image: url(../images/menu/icon-16-plugin.png);
+}
+
+.icon-16-purge {
+	background-image: url(../images/menu/icon-16-purge.png);
+}
+
+.icon-16-readmess {
+	background-image: url(../images/menu/icon-16-readmess.png);
+}
+
+.icon-16-section {
+	background-image: url(../images/menu/icon-16-section.png);
+}
+
+.icon-16-static {
+	background-image: url(../images/menu/icon-16-static.png);
+}
+
+.icon-16-stats {
+	background-image: url(../images/menu/icon-16-stats.png);
+}
+
+.icon-16-themes {
+	background-image: url(../images/menu/icon-16-themes.png);
+}
+
+.icon-16-trash {
+	background-image: url(../images/menu/icon-16-trash.png);
+}
+
+.icon-16-user {
+	background-image: url(../images/menu/icon-16-user.png);
+}
+
+.icon-16-delete {
+	background-image: url(../images/menu/icon-16-delete.png);
+}
+
+.icon-16-help-trans {
+	background-image: url(../images/menu/icon-16-help-trans.png);
+}
+
+.icon-16-newsfeeds {
+	background-image: url(../images/menu/icon-16-newsfeeds.png);
+}
+
+.icon-16-newsfeeds-cat {
+	background-image: url(../images/menu/icon-16-newsfeeds-cat.png);
+}
+
+.icon-16-redirect {
+	background-image: url(../images/menu/icon-16-redirect.png);
+}
+
+.icon-16-search {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+
+
+/**
+ * Toolbar icons
+ * These icons are used for the toolbar buttons
+ * The classes are constructed dynamically when the toolbar is created
+ */
+.icon-32-send {
+	background-image: url(../images/toolbar/icon-32-send.png);
+}
+
+.icon-32-delete {
+	background-image: url(../images/toolbar/icon-32-delete.png);
+}
+
+.icon-32-help {
+	background-image: url(../images/toolbar/icon-32-help.png);
+}
+
+.icon-32-cancel {
+	background-image: url(../images/toolbar/icon-32-cancel.png);
+}
+
+.icon-32-config {
+	background-image: url(../images/toolbar/icon-32-config.png);
+}
+
+.icon-32-apply {
+	background-image: url(../images/toolbar/icon-32-apply.png);
+}
+
+.icon-32-back {
+	background-image: url(../images/toolbar/icon-32-back.png);
+}
+
+.icon-32-forward {
+	background-image: url(../images/toolbar/icon-32-forward.png);
+}
+
+.icon-32-save {
+	background-image: url(../images/toolbar/icon-32-save.png);
+}
+
+.icon-32-edit {
+	background-image: url(../images/toolbar/icon-32-edit.png);
+}
+
+.icon-32-copy {
+	background-image: url(../images/toolbar/icon-32-copy.png);
+}
+
+.icon-32-move {
+	background-image: url(../images/toolbar/icon-32-move.png);
+}
+
+.icon-32-new {
+	background-image: url(../images/toolbar/icon-32-new.png);
+}
+
+.icon-32-upload {
+	background-image: url(../images/toolbar/icon-32-upload.png);
+}
+
+.icon-32-assign {
+	background-image: url(../images/toolbar/icon-32-publish.png);
+}
+
+.icon-32-html {
+	background-image: url(../images/toolbar/icon-32-html.png);
+}
+
+.icon-32-css {
+	background-image: url(../images/toolbar/icon-32-css.png);
+}
+
+.icon-32-menus {
+	background-image: url(../images/toolbar/icon-32-menu.png);
+}
+
+.icon-32-publish {
+	background-image: url(../images/toolbar/icon-32-publish.png);
+}
+
+.icon-32-unpublish {
+	background-image: url(../images/toolbar/icon-32-unpublish.png);
+}
+
+.icon-32-restore {
+	background-image: url(../images/toolbar/icon-32-revert.png);
+}
+
+.icon-32-trash {
+	background-image: url(../images/toolbar/icon-32-trash.png);
+}
+
+.icon-32-archive {
+	background-image: url(../images/toolbar/icon-32-archive.png);
+}
+
+.icon-32-unarchive {
+	background-image: url(../images/toolbar/icon-32-unarchive.png);
+}
+
+.icon-32-preview {
+	background-image: url(../images/toolbar/icon-32-preview.png);
+}
+
+.icon-32-default {
+	background-image: url(../images/toolbar/icon-32-default.png);
+}
+
+.icon-32-refresh {
+	background-image: url(../images/toolbar/icon-32-refresh.png);
+}
+
+.icon-32-save-new {
+	background-image: url(../images/toolbar/icon-32-save-new.png);
+}
+
+.icon-32-save-copy {
+	background-image: url(../images/toolbar/icon-32-save-copy.png);
+}
+.icon-32-error			{ background-image: url(../images/toolbar/icon-32-error.png); }
+.icon-32-new-style		{ background-image: url(../images/toolbar/icon-32-new-style.png); }
+.icon-32-delete-style	{ background-image: url(../images/toolbar/icon-32-delete-style.png); }
+.icon-32-purge 			{ background-image: url(../images/toolbar/icon-32-purge.png); }
+.icon-32-remove 		{ background-image: url(../images/toolbar/icon-32-remove.png); }
+
+/**
+ * Quick Icons
+ * Also knows as Header Icons
+ * These are used for the Quick Icons on the Control Panel
+ * The same classes are also assigned the Component Title
+ */
+.icon-48-generic {
+	background-image: url(../images/header/icon-48-generic.png);
+}
+
+.icon-48-checkin {
+	background-image: url(../images/header/icon-48-checkin.png);
+}
+
+.icon-48-clear {
+	background-image: url(../images/header/icon-48-clear.png);
+}
+
+.icon-48-purge {
+	background-image: url(../images/header/icon-48-purge.png);
+}
+
+.icon-48-cpanel {
+	background-image: url(../images/header/icon-48-cpanel.png);
+}
+
+.icon-48-config {
+	background-image: url(../images/header/icon-48-config.png);
+}
+
+.icon-48-groups {
+	background-image: url(../images/header/icon-48-groups.png);
+}
+
+.icon-48-groups-add {
+	background-image: url(../images/header/icon-48-groups-add.png);
+}
+
+.icon-48-levels {
+	background-image: url(../images/header/icon-48-levels.png);
+}
+
+.icon-48-levels-add {
+	background-image: url(../images/header/icon-48-levels-add.png);
+}
+
+.icon-48-module {
+	background-image: url(../images/header/icon-48-module.png);
+}
+
+.icon-48-menu {
+	background-image: url(../images/header/icon-48-menu.png);
+}
+
+.icon-48-menu-add {
+	background-image: url(../images/header/icon-48-menu-add.png);
+}
+
+.icon-48-menumgr {
+	background-image: url(../images/header/icon-48-menumgr.png);
+}
+
+.icon-48-trash {
+	background-image: url(../images/header/icon-48-trash.png);
+}
+
+.icon-48-user {
+	background-image: url(../images/header/icon-48-user.png);
+}
+
+.icon-48-user-add {
+	background-image: url(../images/header/icon-48-user-add.png);
+}
+
+.icon-48-inbox {
+	background-image: url(../images/header/icon-48-inbox.png);
+}
+
+.icon-48-msgconfig {
+	background-image: url(../images/header/icon-48-message_config.png);
+}
+
+.icon-48-langmanager {
+	background-image: url(../images/header/icon-48-language.png);
+}
+
+.icon-48-mediamanager {
+	background-image: url(../images/header/icon-48-media.png);
+}
+
+.icon-48-plugin {
+	background-image: url(../images/header/icon-48-plugin.png);
+}
+
+.icon-48-help_header {
+	background-image: url(../images/header/icon-48-help_header.png);
+}
+
+.icon-48-impressions {
+	background-image: url(../images/header/icon-48-stats.png);
+}
+
+.icon-48-browser {
+	background-image: url(../images/header/icon-48-stats.png);
+}
+
+.icon-48-searchtext {
+	background-image: url(../images/header/icon-48-stats.png);
+}
+
+.icon-48-thememanager {
+	background-image: url(../images/header/icon-48-themes.png);
+}
+
+.icon-48-writemess {
+	background-image: url(../images/header/icon-48-writemess.png);
+}
+
+.icon-48-frontpage {
+	background-image: url(../images/header/icon-48-frontpage.png);
+}
+
+.icon-48-sections {
+	background-image: url(../images/header/icon-48-section.png);
+}
+
+.icon-48-article-add {
+	background-image: url(../images/header/icon-48-article-add.png);
+}
+
+.icon-48-article-edit {
+	background-image: url(../images/header/icon-48-article-edit.png);
+}
+
+.icon-48-article {
+	background-image: url(../images/header/icon-48-article.png);
+}
+
+.icon-48-categories {
+	background-image: url(../images/header/icon-48-category.png);
+}
+
+.icon-48-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
+}
+
+.icon-48-install {
+	background-image: url(../images/header/icon-48-extension.png);
+}
+
+.icon-48-dbbackup {
+	background-image: url(../images/header/icon-48-backup.png);
+}
+
+.icon-48-dbrestore {
+	background-image: url(../images/header/icon-48-dbrestore.png);
+}
+
+.icon-48-dbquery {
+	background-image: url(../images/header/icon-48-query.png);
+}
+
+.icon-48-systeminfo {
+	background-image: url(../images/header/icon-48-info.png);
+}
+
+.icon-48-massmail {
+	background-image: url(../images/header/icon-48-massmail.png);
+}
+
+.icon-48-redirect 		{ background-image: url(../images/header/icon-48-redirect.png); }
+.icon-48-search 		{ background-image: url(../images/header/icon-48-search.png); }
+.icon-48-newsfeeds 		{ background-image: url(../images/header/icon-48-newsfeeds.png); }
+
+/**
+ * General styles
+ */
+div.message {
+	text-align: center;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.2em;
+	padding: 3px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 10px;
+	font-weight: bold;
+	color: #333;
+}
+
+.helpIndex {
+	border: 0px;
+	width: 100%;
+	height: 100%;
+	padding: 0px 0px 0px 0px;
+	overflow: auto;
+}
+
+.helpFrame {
+	border-left: 0px solid #222;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	width: 100%;
+	height: 800px;
+	padding: 0px 5px 0px 10px;
+}
+
+#treecellhelp {
+	width: 25%;
+	display: block;
+	position: relative;
+	float: left;
+	margin: 0;
+	padding: 2px;
+	overflow: hidden;
+}
+
+#datacellhelp {
+	width: 73%;
+	display: block;
+	float: left;
+	margin: 0;
+	padding: 2px 0px 0px 0px;
+}
+
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;
+}
+
+/* -- MODAL STYLES ----------- */
+
+h2.modal-title {
+	margin-left: 15px;
+	margin-bottom:0;
+	margin-top: 5px;
+	font-size: 1.5em;
+}
+
+ul.menu_types {
+	padding: 0 0 0 15px;
+	width:95%;
+	margin: 0;
+}
+ul.menu_types li,
+dl.menu_type dd ul li {
+	width: 240px;
+	list-style: none;
+	display:block;
+	float:left;
+	margin-right: 10px;
+}
+ul.menu_types li { width: 47%}
+
+dl.menu_type {
+	width: 240px;
+	margin: 0;
+	padding: 0;
+}
+dl.menu_type dt {
+	font-weight: bold;
+	font-size: 1.5em;
+	float:left;
+	margin: 13px 0 5px 0;
+	border-bottom: 1px solid #666;
+	width: 240px;
+}
+dl.menu_type dd {
+	clear:left;
+	margin: 0;
+}
+
+dl.menu_type dd a {
+	font-size: 1.2em;
+}
+
+dl.menu_type dd ul li {
+	margin: 0;
+}
+/* dl.menu_type dd ul {
+	margin-left: -40px;
+} */
+
+body.contentpane #filter-bar {
+	font-size: 80%;
+}
+body.contentpane input, body.contentpane select {
+	font-size: 120%;
+}
+
+/**
+ * User Accessibility
+ */
+
+	/* Skip to Content Structural Styling */
+#skiplinkholder a,#skiplinkholder a:link,#skiplinkholder a:visited {
+	display: block;
+	width: 99%;
+	position: absolute;
+	top: 0;
+	left: -200%;
+	z-index: 2;
+}
+
+#skiplinkholder a:focus, #skiplinkholder a:active {
+	left: 0;
+	top: 0;
+	z-index: 100;
+}
+
+#skiplinkholder p {
+	margin: 0px;
+}
+
+#skiptargetholder {
+	position: absolute;
+	left: -200%;
+}
+
+	/* Skip to Content Visual Styling */
+#skiplinkholder a, #skiplinkholder a:link, #skiplinkholder a:visited {
+	color: #ffffff;
+	background: #054993;
+	text-decoration: underline;
+	border-bottom: solid #336 2px;
+	padding: 5px;
+	font-size: 1.3em;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+	/* For elements that aren't to be seen by users unless the user does something
+	 * like clicking on a header to see the collapsed section. */
+.element-hidden, .hide {
+	display: none;
+}
+
+	/* For elements that aren't to be seen by visual users but do need to be read by screenreaders.
+	 * Cannot be used for elements that can get focus such as links and form elements */
+.element-invisible, .hidelabeltxt {
+	height: 0;
+	overflow: hidden;
+	position: absolute;
+}
+
+	/* Firefox has issues styling legend so this is a universal fix
+	for making the legend invisible (i.e. visually it's not there, but screen readers see it */
+
+legend.element-invisible {
+	position: absolute !important;
+	margin: 0;
+	padding: 0;
+	border:0;
+	margin-left: -10000px;
+	font-size: 1px;
+	height: 0;
+}
+
+fieldset.panelform {
+	border: none 0;
+}
+
+fieldset.adminform label,
+fieldset.panelform label,
+fieldset.adminform span.faux-label,
+fieldset.panelform span.faux-label {
+	line-height: 2em;
+	clear:left;
+	min-width: 12em;
+	float:left;
+	margin-left: 10px;
+}
+
+
+fieldset.adminform input, fieldset.adminform span.faux-input, fieldset.adminform textarea, fieldset.adminform select, fieldset.adminform img,
+fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform textarea, fieldset.panelform select, fieldset.panelform img {
+	float:left;
+	margin:5px 5px 5px 0;
+	width:auto;
+}
+
+fieldset.batch label {
+	line-height: 2em;
+	float:left;
+	margin-right: 10px;
+}
+
+fieldset.batch input, fieldset.batch textarea, fieldset.batch select, fieldset.batch img {
+	float:left;
+	margin:5px 25px 5px 0;
+	width:auto;
+}
+
+fieldset.batch input[type="radio"] {
+	margin-right: 5px;
+}
+
+div#jform_ordering {
+	font-size: 1.091em;
+	margin-top: 3px;
+}
+
+/* Modal accessibility */
+#min-body.body-overlayed a {
+
+}
+
+/* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
+
+a.move_up{background-image:url('../images/admin/uparrow.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_up{background-image:url('../images/admin/uparrow0.png');display:inline-block;height:16px;width:16px}
+a.move_down{background-image:url('../images/admin/downarrow.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+span.move_down{background-image:url('../images/admin/downarrow0.png');display:inline-block;height:16px;width:16px}
+a.grid_false{background-image:url('../images/admin/publish_x.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_true{background-image:url('../images/admin/tick.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+a.grid_trash{background-image:url('../images/admin/icon-16-trash.png');display:inline-block;height:16px;text-indent:-1000em;width:16px}
+
+
+/* -- ACL PANEL STYLES  ----------- */
+
+div.acl-options {
+	width: 100%;
+}
+
+/* All Tabs */
+table.aclsummary-table,
+table.aclmodify-table {
+	border-collapse: collapse;
+	width: 100%;
+	font-size: 1.091em;
+}
+td.col1 {
+	font-size: 1.091em;
+	text-align:left;
+	padding: 4px;
+}
+tr.row1 {
+	background-color: #f0f0ee;
+}
+table.aclsummary-table caption,
+table.aclmodify-table caption{
+	display:none;
+}
+
+/* Summary Tab */
+table.aclsummary-table th.col1 {
+	width:40%;
+}
+table.aclsummary-table th.col2,
+table.aclsummary-table th.col3,
+table.aclsummary-table th.col4,
+table.aclsummary-table th.col5 {
+	width:15%;
+	vertical-align: bottom;
+	text-align:center;
+}
+table.aclsummary-table td.col2,
+table.aclsummary-table th.col2,
+table.aclsummary-table td.col3,
+table.aclsummary-table th.col3,
+table.aclsummary-table td.col4,
+table.aclsummary-table th.col4,
+table.aclsummary-table td.col5,
+table.aclsummary-table th.col5,
+table.aclmodify-table td.col2,
+table.aclmodify-table th.col2 {
+	border-left: 1px solid #cbcbcb;
+}
+
+/* Icons */
+label.icon-16-allow,
+label.icon-16-deny,
+a.icon-16-allow,
+a.icon-16-deny,
+a.icon-16-allowinactive,
+a.icon-16-denyinactive {
+	display:block;
+	height: 16px;
+	width: 16px;
+	margin: 0 auto;
+}
+label.icon-16-allow {
+	background:url(../images/admin/icon-16-allow.png) no-repeat;
+	text-indent:-9999em;
+	position:relative;
+	left: 40%;
+}
+label.icon-16-deny {
+	background:url(../images/admin/icon-16-deny.png) no-repeat;
+	text-indent:-9999em;
+	position:relative;
+	left: 40%;
+}
+a.icon-16-allow {
+	background:url(../images/admin/icon-16-allow.png) no-repeat ;
+ }
+a.icon-16-deny {
+	background:url(../images/admin/icon-16-deny.png) no-repeat ;
+ }
+a.icon-16-allowinactive {
+	background:url(../images/admin/icon-16-allowinactive.png) no-repeat ;
+ }
+a.icon-16-denyinactive {
+	background:url(../images/admin/icon-16-denyinactive.png) no-repeat ;
+ }
+
+/* Create, Edit, Edit State & Delete Tabs */
+table.aclmodify-table th.col2,
+table.aclmodify-table th.col3,
+table.aclmodify-table th.col4 {
+	width:20%;
+	vertical-align: bottom;
+	text-align:center;
+}
+table.aclmodify-table select {
+	margin:1px;
+}
+
+table.aclsummary-table td label,
+table.aclmodify-table td label {
+	min-width: 20px;
+}
+
+/* ACL footer/legend */
+ul.acllegend {
+	list-style: none;
+	font-size: 1.091em;
+	padding-bottom: 10px;
+}
+ul.acllegend li {
+	display: block;
+	float: left;
+	padding-right: 20px;
+	margin: 15px 0 15px 10px;
+}
+ul.acllegend li.acl-allowed {
+	padding-left: 20px;
+	padding-right: 10px;
+	background:url(../images/admin/icon-16-allow.png) no-repeat left;
+}
+ul.acllegend li.acl-denied {
+	padding-left: 20px;
+	padding-right: 20px;
+	background:url(../images/admin/icon-16-deny.png) no-repeat left;
+}
+ul.acllegend li.acl-editgroups {
+	padding-right: 10px;
+}
+ul.acllegend li.acl-resetbtn {
+	padding-right: 0px;
+}
+
+table#acl-config {
+	width: 100%;
+	margin-top: 15px;
+}
+
+table#acl-config{
+	border: 1px solid #c7c8b2;
+}
+
+table#acl-config th,
+table#acl-config td {
+	height: 2em;
+	background: #f9fade;
+	text-align: center;
+	vertical-align: middle;
+	border-bottom: 1px solid #c7c8b2;
+}
+
+table#acl-config th.acl-groups {
+	padding-left: 8px;
+	font-weight: bold;
+	border-right: 1px solid #c7c8b2;
+}
+table#acl-config td select {
+	float:none;
+}
+
+.acl-action {
+	font-size: 1.091em;
+	margin: auto 0;
+}
+
+.acl-groups {
+	font-size: 1.091em;
+	font-weight: normal;
+}
+
+/* Disabled until verified */
+label#jform_rules-lbl {display:none;}

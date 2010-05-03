@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	templates.hathor
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.6
+ *
+ * CSS menu for Accessible Administrator menu with RTL changes
+ */
+
+/**
+ * Menu Styling
+ */
+#menu li {
+	border-right: 1px solid #FFFFFF;
+	border-left: 1px solid #D8D8D8;
+	float: right;
+}
+
+#menu a,#menu div {
+	background-position: right;
+	margin: 0 0 0 1px;
+}
+
+#menu ul {
+	background-position: right;
+}
+
+#menu ul li.node {
+	background: transparent url(../images/j_arrow_left.png) no-repeat scroll
+		left 50%;
+}
+
+#menu li ul {
+	left: auto;
+	right: 0%
+}
+
+#menu ul a {
+	padding-right: 25px;
+	padding-left: 20px;
+}
+
+/* positioning */
+#menu li ul { /* second-level lists */
+	margin-left: 0; /* reset ltr */
+	margin-right: -1000em;
+	/* using right instead of display to hide menus because display: none isn't read by screen readers */
+}
+
+#menu li ul ul { /* third-and-above-level lists */
+	margin-left: 0;
+	margin-right: -1000em;
+}
+
+#menu li:hover ul ul,#menu li.sfhover ul ul {
+	margin-left: 0;
+	margin-right: -1000em;
+}
+
+#menu li:hover ul,#menu li.sfhover ul {
+	/* lists nested under hovered list items */
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#menu li li:hover ul,#menu li li.sfhover ul {
+	margin-left: 0;
+	margin-right: 15em;
+}
+
+/**
+ * Extra positioning rules for limited noscript keyboard accessibility
+ * need the backgrounds here to keep the background as the nav background
+ * since it is overlaying other content
+ * Using margin-right instead of left so that can move back without javascript
+ * reset the margin-left from the ltr css
+ */
+/* display downlevel ul */
+#menu li a:focus+ul {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#menu li li a:focus+ul {
+	margin-left: 0;
+	margin-right: 1015em;
+}
+
+/* bring back the focus elements into view */
+#menu li li a:focus {
+	margin-left: 0;
+	margin-right: 1000em;
+}
+
+#menu li li li a:focus {
+	margin-left: 0;
+	margin-right: 2015em;
+}
+
+#menu li:hover a:focus,#menu li.sfhover a.sffocus {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#menu li li:hover a:focus+ul,#menu li li.sfhover a.sffocus+ul {
+	margin-left: 0;
+	margin-right: 15em;
+}
+
+/**
+ * Submenu styling
+ */
+#submenu a,#submenu span.nolink {
+	float: right;
+	margin-right: 0px;
+	margin-left: 8px;
+}

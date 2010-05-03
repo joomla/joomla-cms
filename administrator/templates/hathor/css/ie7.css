@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+/**
+ * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	templates.hathor
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.6
+ *
+ * CSS file for IE7
+ */
+
+/**
+ * Special Styles for Internet Explorer 7
+ */
+
+input {
+	border-width: expression(this.type == "radio" ? '0px' : this.type == "checkbox" ?
+		'0px' : '1px');
+}
+
+div.toolbar-box {
+	height: 65px;
+}
+
+div.toolbar-list span {
+	margin: 0px;
+	position: relative
+}
+
+div.toolbar-list a {
+	position: relative
+}
+
+div#subheader {
+	height: 2em;
+}
+
+#form-login .button_holder {
+/* width: 35%; */
+	}
+
+#login-page .pagetitle h2 {
+	margin: 0px;
+	padding: 0px;
+}
+
+*:first-child+html .clearfix {
+	min-height: 1px;
+}
+
+.hidelabeltxt 	{
+	position: relative;
+	text-indent:-9999em;
+}
