@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ Merge patched to cache the query building in JModelList (Christophe Demko).
  + Merge Hathor administrator template by Andrea Tarr.
  # Fixed [#20319] beez2 overides
+ ^ Merge patch [#20330] mod_status show / hide params (Phil Snell).
 
 3-May-2010 Jean-Marie Simonet
 # Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages
