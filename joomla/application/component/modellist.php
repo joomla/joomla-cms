@@ -36,6 +36,14 @@ class JModelList extends JModel
 	protected $context = null;
 
 	/**
+	 * An internal cache for the last query used.
+	 *
+	 * @var		JDatabaseQuery
+	 * @since	1.6
+	 */
+	protected $query = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param	array	An optional associative array of configuration settings.
@@ -49,6 +57,31 @@ class JModelList extends JModel
 		if (empty($this->context)) {
 			$this->context = strtolower($this->option.'.'.$this->getName());
 		}
+	}
+
+	/**
+	 * Method to cache the last query constructed.
+	 *
+	 * This method ensures that the query is contructed only once for a given state of the model.
+	 *
+	 * @return	JDatabaseQuery
+	 * @since	1.6
+	 */
+	private function _getListQuery()
+	{
+		// Capture the last store id used.
+		static $lastStoreId;
+
+		// Compute the current store id.
+		$currentStoreId = $this->getStoreId();
+
+		// If the last store id is different from the current, refresh the query.
+		if ($lastStoreId != $currentStoreId || empty($this->query)) {
+			$lastStoreId = $currentStoreId;
+			$this->query = $this->getListQuery();
+		}
+
+		return $this->query;
 	}
 
 	/**
@@ -68,7 +101,7 @@ class JModelList extends JModel
 		}
 
 		// Load the list items.
-		$query	= $this->getListQuery();
+		$query	= $this->_getListQuery();
 		$items	= $this->_getList($query, $this->getState('list.start'), $this->getState('list.limit'));
 
 		// Check for a database error.
@@ -163,7 +196,7 @@ class JModelList extends JModel
 		}
 
 		// Load the total.
-		$query = $this->getListQuery();
+		$query = $this->_getListQuery();
 		$total = (int) $this->_getListCount((string) $query);
 
 		// Check for a database error.
