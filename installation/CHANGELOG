@@ -39,6 +39,7 @@ $ -> Language fix or change
  + Merge extra fields for user profile plugin (Elin Waring)
  ^ Merge various fixes to HTML filtering of and buttons of rich textareas (Elin Waring)
  ^ Merge changes/fixes to sample data: fruit shop style fix; articles category module (Elin Waring)
+ ^ Accepted patch [#20161] Caching of plugins query + JPluginHelper refactoring to JDatabaseQuery (Dennis Hermacki)
 
 2-May-2010 Christophe Demko
 # Correcting a bug I have introduced on commit #16536
