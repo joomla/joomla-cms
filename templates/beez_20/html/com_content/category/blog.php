@@ -81,7 +81,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		$row = $counter / $this->columns ;
 
 		if($rowcount==1) : ?>
-	<div class="items-row cols-<?php echo (int) $this->columns;?> <? echo 'row-'.$row ; ?>">
+	<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row ; ?>">
 	<?php endif; ?>
 	<article class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 		<?php

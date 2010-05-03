@@ -29,7 +29,7 @@ else :
 
 <?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>
 <hgroup>
-<? endif; ?>
+<?php endif; ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
@@ -41,7 +41,7 @@ else :
 <?php endif; ?>
 <?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>
 </hgroup>
-<? endif; ?>
+<?php endif; ?>
 
 <?php if ($params->get('access-edit') ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 		<ul class="actions">
