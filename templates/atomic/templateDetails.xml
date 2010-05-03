@@ -8,9 +8,9 @@
 	<author>Ron Severdia</author>
 	<authorEmail>contact@kontentdesign.com</authorEmail>
 	<authorUrl>http://www.kontentdesign.com</authorUrl>
-	<copyright></copyright>
-	<license>GPL</license>
-	<version>0.3</version>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.6.0</version>
 	<description>This simple template is just an example of how basic
 		template elements look.</description>
 	<files>

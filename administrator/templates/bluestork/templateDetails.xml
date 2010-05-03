@@ -9,9 +9,9 @@
 	<author>Ron Severdia</author>
 	<authorEmail>contact@kontentdesign.com</authorEmail>
 	<authorUrl>http://www.kontentdesign.com</authorUrl>
-	<copyright>2009 - 2010</copyright>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<version>0.6</version>
+	<version>1.6.0</version>
 	<description>TPL_BLUESTORK_XML_DESCRIPTION</description>
 	<files>
 		<filename>index.php</filename>
