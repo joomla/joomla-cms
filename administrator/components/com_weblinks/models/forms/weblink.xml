@@ -26,7 +26,7 @@
 			default="" size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" />
 
-		<field name="description" type="editor" buttons="readmore,pagebreak"
+		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox" default=""
 			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 

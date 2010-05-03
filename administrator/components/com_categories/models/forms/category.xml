@@ -88,7 +88,8 @@
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
 		filter="safehtml"
-		buttons="image,article"/>
+		buttons="true"
+		hide="readmore,pagebreak"/>
 
 	<field
 		name="published"

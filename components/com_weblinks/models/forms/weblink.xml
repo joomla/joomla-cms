@@ -25,6 +25,8 @@
 		/>
 
 		<field name="description" type="editor"
+			buttons="true"
+			hide="pagebreak,readmore"
 			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"
 			filter="safehtml"
 			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"

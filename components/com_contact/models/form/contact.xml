@@ -139,7 +139,8 @@
 		/>
 
 		<field name="misc" type="editor"
-			buttons="pagebreak,readmore"
+			buttons="true"
+			hide="pagebreak,readmore"
 			description="Contact_Information_Misc_Desc"
 			filter="safehtml"
 			label="Contact_Information_Misc_Label"

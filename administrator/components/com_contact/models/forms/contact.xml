@@ -110,7 +110,8 @@
 			label="COM_CONTACT_FIELD_INFORMATION_MISC_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_MISC_DESC"
 			class="inputbox" filter="safehtml" 
-			buttons="image,article"/>
+			buttons="true"
+			hide="readmore,pagebreak"
 			size="30" />
 		<field name="image" type="media" directory="" hide_none="1"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"

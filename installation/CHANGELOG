@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-May-2010 Christophe Demko
+ ^ Add an xml attribute to editor field: 'hide' to specify which buttons to hide
+
 03-May-2010 Andrew Eddie
  ^ Merge fixes to media fields (Elin Waring)
  + Merge addition of featured contacts view (Elin Waring)
