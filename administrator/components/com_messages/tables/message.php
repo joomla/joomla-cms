@@ -99,13 +99,13 @@ class MessagesTableMessage extends JTable
 	function check()
 	{
 		// Check the to and from users.
-		$user = new JUser($table->user_id_from);
+		$user = new JUser($this->user_id_from);
 		if (empty($user->id)) {
 			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 			return false;
 		}
 
-		$user = new JUser($table->user_id_to);
+		$user = new JUser($this->user_id_to);
 		if (empty($user->id)) {
 			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 			return false;

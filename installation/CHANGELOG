@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+3-May-2010 Jean-Marie Simonet
+# Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages
+
 03-May-2010 Christophe Demko
  ^ Add an xml attribute to editor field: 'hide' to specify which buttons to hide
 

@@ -25,9 +25,9 @@ class JHtmlMessages extends JController
 	{
 		// Array of image, task, title, action.
 		$states	= array(
-			-2	=> array('trash.png',		'messages.unpublish',	'JTRASHED',				'COM_MESSAGES_OPTION_UNPUBLISH'),
-			1	=> array('tick.png',		'messages.unpublish',	'COM_MESSAGES_OPTION_READ',		'COM_MESSAGES_OPTION_UNPUBLISH'),
-			0	=> array('publish_x.png',	'messages.publish',		'COM_MESSAGES_OPTION_UNREAD',	'COM_MESSAGES_OPTION_PUBLISH')
+			-2	=> array('trash.png',		'messages.unpublish',	'JTRASHED',				'COM_MESSAGES_MARK_AS_UNREAD'),
+			1	=> array('tick.png',		'messages.unpublish',	'COM_MESSAGES_OPTION_READ',		'COM_MESSAGES_MARK_AS_UNREAD'),
+			0	=> array('publish_x.png',	'messages.publish',		'COM_MESSAGES_OPTION_UNREAD',	'COM_MESSAGES_MARK_AS_READ')
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
