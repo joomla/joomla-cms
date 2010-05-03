@@ -12,7 +12,7 @@
 	<version>1.6</version>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
-	<update>http://update.joomla.org/libraries/alpha</update>
+	<updateservers>http://update.joomla.org/libraries/alpha</updateservers>
 	<files folder="files">
 		<file>alpha.php</file>
 	</files>

@@ -19,22 +19,22 @@
 class Com_AlphaInstallerScript {
 
 	function install($parent) {
-		echo '<p>'. JText::_('1.6 Custom install script') . '</p>';
+		echo '<p>'. JText::_('COM_ALPHA_16_CUSTOM_INSTALL_SCRIPT') . '</p>';
 	}
 
 	function uninstall($parent) {
-		echo '<p>'. JText::_('1.6 Custom uninstall script') .'</p>';
+		echo '<p>'. JText::_('COM_ALPHA_16_CUSTOM_UNINSTALL_SCRIPT') .'</p>';
 	}
 
 	function update($parent) {
-		echo '<p>'. JText::_('1.6 Custom update script') .'</p>';
+		echo '<p>'. JText::_('COM_ALPHA_16_CUSTOM_UPDATE_SCRIPT') .'</p>';
 	}
 
 	function preflight($type, $parent) {
-		echo '<p>'. JText::sprintf('1.6 Preflight for %s', $type) .'</p>';
+		echo '<p>'. JText::sprintf('COM_ALPHA_16_CUSTOM_PREFLIGHT', $type) .'</p>';
 	}
 
 	function postflight($type, $parent) {
-		echo '<p>'. JText::sprintf('1.6 Postflight for %s', $type) .'</p>';
+		echo '<p>'. JText::sprintf('COM_ALPHA_16_CUSTOM_POSTFLIGHT', $type) .'</p>';
 	}
 }

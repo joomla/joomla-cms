@@ -36,10 +36,13 @@
 	<files>
 		<filename plugin="alpha">alpha.php</filename>
 		<folder>sql</folder>
+		<folder>language</folder>
 	</files>
+	<!-- Extension Params; deprecated 1.5 style -->
 	<params>
 		<param name="demo" type="text" default="" label="Demo Param" description="DEMOPARAMDESC" />
 	</params>
+	<!-- Languages; deprecated 1.5 style -->
 	<languages folder="language">
 		<language client="administrator" tag="en-GB">admin/en-GB.plg_system_alpha.ini</language>
 		<language client="site" tag="en-GB">site/en-GB.plg_system_alpha.ini</language>
