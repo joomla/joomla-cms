@@ -19,10 +19,6 @@ $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 
-// Get additional language strings prefixed with TPL_HATHOR
-$lang =& JFactory::getLanguage();
-$lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
-|| $lang->load('tpl_hathor', JPATH_ADMINISTRATOR.DS.'templates/hathor');
 
 
 ?>

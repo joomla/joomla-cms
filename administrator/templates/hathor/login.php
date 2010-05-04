@@ -56,7 +56,7 @@ $app = &JFactory::getApplication();
 
 		<!-- Header Logo -->
 		<div id="header">
-			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') . " " . JText::_('ADMINISTRATION') : JText::_('ADMINISTRATION'); ?></h1>
+			<h1 class="title"><?php echo $this->params->get('showSiteName') ? $app->getCfg('sitename') . " " . JText::_('JADMINISTRATION') : JText::_('JADMINISTRATION'); ?></h1>
 		</div><!-- end header -->
 
 		<!-- Content Area -->
