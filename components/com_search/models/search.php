@@ -128,11 +128,12 @@ class SearchModelSearch extends JModel
 
 			JPluginHelper::importPlugin('search');
 			$dispatcher = &JDispatcher::getInstance();
-			$results = $dispatcher->trigger('onSearch', array(
-			$this->getState('keyword'),
-			$this->getState('match'),
-			$this->getState('ordering'),
-			$areas['active']));
+			$results = $dispatcher->trigger('onContentSearch', array(
+				$this->getState('keyword'),
+				$this->getState('match'),
+				$this->getState('ordering'),
+				$areas['active'])
+			);
 
 			$rows = array();
 			foreach($results AS $result) {
@@ -193,7 +194,7 @@ class SearchModelSearch extends JModel
 
 			JPluginHelper::importPlugin('search');
 			$dispatcher = &JDispatcher::getInstance();
-			$searchareas = $dispatcher->trigger('onSearchAreas');
+			$searchareas = $dispatcher->trigger('onContentSearchAreas');
 
 			foreach ($searchareas as $area) {
 				if(is_array($area))

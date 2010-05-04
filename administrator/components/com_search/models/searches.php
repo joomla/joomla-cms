@@ -129,7 +129,7 @@ class SearchModelSearches extends JModelList
 			}
 
 			foreach ($items as &$item) {
-				$results = $app->triggerEvent('onSearch', array($item->search_term));
+				$results = $app->triggerEvent('onContentSearch', array($item->search_term));
 				$item->returns = 0;
 				foreach ($results as $result) {
 					$item->returns += count($result);

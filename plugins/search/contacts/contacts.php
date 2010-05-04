@@ -23,7 +23,7 @@ class plgSearchContacts extends JPlugin
 	/**
 	* @return array An array of search areas
 	*/
-	function onSearchAreas()
+	function onContentSearchAreas()
 	{
 		static $areas = array(
 			'contacts' => 'Contacts'
@@ -40,14 +40,14 @@ class plgSearchContacts extends JPlugin
 	* @param string mathcing option, exact|any|all
 	* @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	function onSearch($text, $phrase='', $ordering='', $areas=null)
+	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onSearchAreas()))) {
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
 				return array();
 			}
 		}
