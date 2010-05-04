@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * Example User Plugin
+ * Example Installer Plugin
  *
  * @package		Joomla
  * @subpackage	JFramework
