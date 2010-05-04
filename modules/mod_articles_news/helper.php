@@ -90,13 +90,13 @@ abstract class modArticlesNewsHelper
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results = $app->triggerEvent('onAfterDisplayTitle', array (&$item, &$params, 1));
+			$results = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
 			$item->afterDisplayTitle = trim(implode("\n", $results));
 
-			$results = $app->triggerEvent('onBeforeDisplayContent', array (&$item, &$params, 1));
+			$results = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
 			$item->beforeDisplayContent = trim(implode("\n", $results));
 		}
-//echo "<pre>";print_r($item);echo "</pre>";
+
 		return $items;
 	}
 }

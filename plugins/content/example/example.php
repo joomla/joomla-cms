@@ -33,7 +33,7 @@ class plgContentExample extends JPlugin
 	 */
 	function onPrepareContent($context, &$article, &$params, $limitstart)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 	}
 
 	/**
@@ -41,14 +41,16 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
+	 * @param	string		The context for the content passed to the plugin.
 	 * @param	object		The article object.  Note $article->text is also available
 	 * @param	object		The article params
 	 * @param	int			The 'page' number
 	 * @return	string
+	 * @since	1.6
 	 */
-	function onAfterDisplayTitle(&$article, &$params, $limitstart)
+	function onContentAfterTitle($context, &$article, &$params, $limitstart)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		return '';
 	}
@@ -58,14 +60,16 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
+	 * @param	string		The context for the content passed to the plugin.
 	 * @param	object		The article object.  Note $article->text is also available
 	 * @param	object		The article params
 	 * @param	int			The 'page' number
 	 * @return	string
+	 * @since	1.6
 	 */
-	function onBeforeDisplayContent(&$article, &$params, $limitstart)
+	function onContentBeforeDisplay($context, &$article, &$params, $limitstart)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		return '';
 	}
@@ -75,14 +79,16 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
+	 * @param	string		The context for the content passed to the plugin.
 	 * @param	object		The article object.  Note $article->text is also available
 	 * @param	object		The article params
 	 * @param	int			The 'page' number
 	 * @return	string
+	 * @since	1.6
 	 */
-	function onAfterDisplayContent(&$article, &$params, $limitstart)
+	function onContentAfterDisplay($context, &$article, &$params, $limitstart)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		return '';
 	}

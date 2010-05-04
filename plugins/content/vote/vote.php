@@ -18,11 +18,10 @@ jimport('joomla.plugin.plugin');
  */
 class plgContentVote extends JPlugin
 {
-	public function __construct(&$subject, $options = array()) {
-		parent::__construct($subject, $options);
-	}
-
-	public function onBeforeDisplayContent(&$row, &$params, $page=0)
+	/**
+	 * @since	1.6
+	 */
+	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
 		$uri = &JFactory::getURI();
 

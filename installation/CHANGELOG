@@ -44,6 +44,8 @@ $ -> Language fix or change
  # Fix issue with forms and profile in backend com_users.
  ^ Renamed onPrepareContent event to onContentPrepare.
  ^ Renamed onBeforeContentSave and onAfterContentSave events to onContentBeforeSave and onContentAfterSave.
+ ^ Renamed onAfterDisplayTitle, onBeforeDisplayContent and onAfterDisplayContent
+   to onContentAfterTitle, onContentBeforeDisplay, onContentAfterDisplay.
 
 3-May-2010 Jean-Marie Simonet
 # Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages
