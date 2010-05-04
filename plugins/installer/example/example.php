@@ -1,15 +1,10 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	JFramework
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @package		Joomla.Plugin
+ * @subpackage	Extension.Example
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access.
@@ -18,49 +13,87 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * Example Installer Plugin
+ * Example Extension Plugin
  *
- * @package		Joomla
- * @subpackage	JFramework
+ * @package		Joomla.Plugin
+ * @subpackage	Extension.Example
  * @since		1.5
  */
-class plgInstallerExample extends JPlugin
+class plgExtensionExample extends JPlugin
 {
-	function onExtensionBeforeInstall($method, $type, $manifest, $eid)
-	{
-		JError::raiseWarning(-1, 'plgInstallerExample::onExtensionBeforeInstall: Installing '. $type .' from '. $method . ($method == 'install' ? ' with manifest supplied' : ' using discovered extension ID '. $eid));
-	}
-
+	/**
+	 * Handle post extension install update sites
+	 *
+	 * @param	JInstaller	Installer object
+	 * @param	int			Extension Identifier
+	 * @since	1.6
+	 */
 	function onExtensionAfterInstall($installer, $eid)
 	{
-		JError::raiseWarning(-1, 'plgInstallerExample::onExtensionAfterInstall: '. ($eid === false ? 'Failed extension install: '. $installer->getError() : 'Extension install successful') . ($eid ? ' with new extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
-	}
-
-	function onExtensionBeforeUpdate($type, $manifest)
-	{
-		JError::raiseWarning(-1, 'plgInstallerExample::onExtensionBeforeUpdate: Updating a '. $type);
-	}
-
-	function onExtensionAfterUpdate($installer, $eid)
-	{
-		JError::raiseWarning(-1, 'plgInstallerExample::onExtensionAfterUpdate: '. ($eid === false ? 'Failed extension update: '. $installer->getError() : 'Extension update successful') . ($eid ? ' with updated extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
+		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionAfterInstall: '. ($eid === false ? 'Failed extension install: '. $installer->getError() : 'Extension install successful') . ($eid ? ' with new extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
 	}
 
 	/**
-	 * Example store user method
+	 * @since	1.6
+	 */
+	function onExtensionAfterSave()
+	{
+	}
+
+	/**
+	 * Handle extension uninstall
 	 *
-	 * Method is called before user data is stored in the database
+	 * @param	JInstaller	Installer instance
+	 * @param	int			extension id
+	 * @param	int			installation result
+	 * @since	1.6
+	 */
+	function onExtensionAfterUninstall($installer, $eid, $result)
+	{
+		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionAfterUninstall: Uninstallation of '. $eid .' was a '. ($result ? 'success' : 'failure'));
+	}
+
+	/**
+	 * After update of an extension
 	 *
-	 * @param	array		holds the old user data
-	 * @param	boolean		true if a new user is stored
+	 * @param	JInstaller	Installer object
+	 * @param	int			Extension identifier
+	 * @since	1.6
+	 */
+	function onExtensionAfterUpdate($installer, $eid)
+	{
+		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionAfterUpdate: '. ($eid === false ? 'Failed extension update: '. $installer->getError() : 'Extension update successful') . ($eid ? ' with updated extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
+	}
+
+	/**
+	 * @since	1.6
+	 */
+	function onExtensionBeforeInstall($method, $type, $manifest, $eid)
+	{
+		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionBeforeInstall: Installing '. $type .' from '. $method . ($method == 'install' ? ' with manifest supplied' : ' using discovered extension ID '. $eid));
+	}
+
+	/**
+	 * @since	1.6
+	 */
+	function onExtensionBeforeSave()
+	{
+	}
+
+	/**
+	 * @param	int			extension id
+	 * @since	1.6
 	 */
 	function onExtensionBeforeUninstall($eid)
 	{
-		JError::raiseWarning(-1, 'plgInstallerExample::onExtensionBeforeUninstall: Uninstalling '. $eid);
+		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionBeforeUninstall: Uninstalling '. $eid);
 	}
 
-	function onExtensionAfterUninstall($installer, $eid, $result)
+	/**
+	 * @since	1.6
+	 */
+	function onExtensionBeforeUpdate($type, $manifest)
 	{
-		JError::raiseWarning(-1, 'plgInstallerExample::onExtensionAfterUninstall: Uninstallation of '. $eid .' was a '. ($result ? 'success' : 'failure'));
+		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionBeforeUpdate: Updating a '. $type);
 	}
 }
