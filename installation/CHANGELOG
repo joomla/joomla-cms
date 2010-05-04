@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-May-2010 Jean-Marie Simonet
 $ Refactored ini files structure for test alphas
 $ ^ A few fixes for Hathor
+# Bug fixes
 
 04-May-2010 Andrew Eddie
  ^ Merge patched to cache the query building in JModelList (Christophe Demko).

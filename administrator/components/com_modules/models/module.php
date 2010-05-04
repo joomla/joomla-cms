@@ -408,7 +408,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Trigger the default form events.
-		parent::preprocessForm($form);
+		parent::preprocessForm($form, $data);
 	}
 
 	/**
