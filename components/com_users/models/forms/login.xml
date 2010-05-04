@@ -7,7 +7,6 @@
 
 		<field name="username" type="text"
 			class="validate-username"
-			field="id"
 			filter="username"
 			label="COM_USERS_LOGIN_USERNAME_LABEL"
 			required="true"

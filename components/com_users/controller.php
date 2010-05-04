@@ -41,10 +41,10 @@ class UsersController extends JController
 			switch ($vName) {
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
-					$user = & JFactory::getUser();
+					$user = JFactory::getUser();
 					if ($user->get('guest') != 1) {
 						// Redirect to profile page.
-						$app = & JFactory::getApplication();
+						$app = JFactory::getApplication();
 						$app->redirect(JRoute::_('index.php?option=com_users&view=profile', false));
 					}
 

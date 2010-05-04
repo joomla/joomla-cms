@@ -20,6 +20,11 @@ jimport('joomla.application.component.view');
  */
 class UsersViewProfile extends JView
 {
+	protected $data;
+	protected $form;
+	protected $params;
+	protected $state;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -29,36 +34,24 @@ class UsersViewProfile extends JView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$form		= &$this->get('Form');
-		$data		= &$this->get('Data');
-		$profile	= &$this->get('Profile');
-		$state		= $this->get('State');
-		$params		= $state->get('params');
+		$this->data		= $this->get('Data');
+		$this->form		= $this->get('Form');
+		$this->state	= $this->get('State');
+		$this->params	= $this->state->get('params');
 
 		// Check for errors.
-		if (count($errors = &$this->get('Errors'))) {
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
 
-		// Check if a member was found.
-		if (!$data->id) {
+		// Check if a user was found.
+		if (!$this->data->id) {
 			JError::raiseError(404, 'COM_USERS_PROFILE_NOT_FOUND');
 			return false;
 		}
 
-		// Bind the data to the form.
-		if ($form) {
-			$form->bind($data);
-		}
-
-		// Push the data into the view.
-		$this->assignRef('form',	$form);
-		$this->assignRef('data',	$data);
-		$this->assignRef('profile',	$profile);
-		$this->assignRef('params',	$params);
-
-		$this->_prepareDocument();
+		$this->prepareDocument();
 
 		parent::display($tpl);
 	}
@@ -68,27 +61,25 @@ class UsersViewProfile extends JView
 	 *
 	 * @since	1.6
 	 */
-	protected function _prepareDocument()
+	protected function prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$user		= &JFactory::getUser();
+		$app		= JFactory::getApplication();
+		$menus		= JSite::getMenu();
+		$user		= JFactory::getUser();
 		$login		= $user->get('guest') ? true : false;
 		$title 		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
-		{
+		if($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $user->name));
 		} else {
 			$this->params->def('page_heading', JText::_('COM_USERS_Profile'));
 		}
 
 		$title = $this->params->get('page_title', $this->params->get('page_heading'));
-		if (empty($title))
-		{
+		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);

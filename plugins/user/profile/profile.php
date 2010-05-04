@@ -7,7 +7,6 @@
 
 defined('JPATH_BASE') or die;
 
-
 /**
  * An example custom profile plugin.
  *
@@ -18,15 +17,70 @@ defined('JPATH_BASE') or die;
 class plgUserProfile extends JPlugin
 {
 	/**
-	 * @param	int $userId		The user id
-	 * @param	JForm $form
-	 *
+	 * @param	string	The context for the data
+	 * @param	int		The user id
+	 * @param	object
 	 * @return	boolean
+	 * @since	1.6
 	 */
-	function onPrepareUserProfileForm($userId, &$form)
+	function onContentPrepareData($context, $data)
 	{
+		// Check we are manipulating a valid form.
+		if (!in_array($context, array('com_users.profile', 'com_users.user'))) {
+			return true;
+		}
+
+		$userId = isset($data->id) ? $data->id : 0;
+
+		// Load the profile data from the database.
+		$db = &JFactory::getDbo();
+		$db->setQuery(
+			'SELECT profile_key, profile_value FROM #__user_profiles' .
+			' WHERE user_id = '.(int) $userId .
+			' ORDER BY ordering'
+		);
+		$results = $db->loadRowList();
+
+		// Check for a database error.
+		if ($db->getErrorNum()) {
+			$this->_subject->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Merge the profile data.
+		$data->profile = array();
+		foreach ($results as $v) {
+			$k = str_replace('profile.', '', $v[0]);
+			$data->profile[$k] = $v[1];
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param	JForm	The form to be altered.
+	 * @param	array	The associated data for the form.
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	function onContentPrepareForm($form, $data)
+	{
+		// Load user_profile plugin language
+		$lang = JFactory::getLanguage();
+		$lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
+
+		if (!($form instanceof JForm)) {
+			$this->_subject->setError('JERROR_NOT_A_FORM');
+			return false;
+		}
+
+		// Check we are manipulating a valid form.
+		if (!in_array($form->getName(), array('com_users.profile', 'com_users.user'))) {
+			return true;
+		}
+
 		// Add the profile fields to the form.
-		JForm::addFormPath(dirname(__FILE__).DS.'profiles');
+		JForm::addFormPath(dirname(__FILE__).'/profiles');
 		$form->loadFile('profile', false);
 
 		// Toggle whether the address1 field is required.
@@ -113,70 +167,7 @@ class plgUserProfile extends JPlugin
 		return true;
 	}
 
-	/**
-	 * @param	int $userId		The user id
-	 * @param	object $data
-	 *
-	 * @return	boolean
-	 */
-	function onPrepareUserProfileData($userId, &$data)
-	{
-		// Load the profile data from the database.
-		$db = &JFactory::getDbo();
-		$db->setQuery(
-			'SELECT profile_key, profile_value FROM #__user_profiles' .
-			' WHERE user_id = '.(int)$userId .
-			' ORDER BY ordering'
-		);
-		$results = $db->loadRowList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			$this->_subject->setError($db->getErrorMsg());
-			return false;
-		}
-
-		// Merge the profile data.
-		foreach ($results as $v) {
-			$k = str_replace('profile.', '', $v[0]);
-			$data->profile->$k = $v[1];
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param	int $userId		The user id
-	 * @param	array $data
-	 *
-	 * @return	boolean
-	 */
-	function onPrepareUserProfile($userId, &$data)
-	{
-		// Load the profile data from the database.
-		$db = &JFactory::getDbo();
-		$db->setQuery(
-			'SELECT profile_key, profile_value FROM #__user_profiles' .
-			' WHERE user_id = '.(int)$userId .
-			' ORDER BY ordering'
-		);
-		$results = $db->loadRowList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			$this->_subject->setError($db->getErrorMsg());
-			return false;
-		}
-
-		// Push in the profile data to display.
-		foreach ($results as $result) {
-			$data[str_replace('profile.', '', $result[0])] = $result[1];
-		}
-
-		return true;
-	}
-
-	function onAfterStoreUser($data, $isNew, $result, $error)
+	function onUserAfterSave($data, $isNew, $result, $error)
 	{
 		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
 
@@ -186,7 +177,9 @@ class plgUserProfile extends JPlugin
 			{
 				$db = &JFactory::getDbo();
 				$db->setQuery('DELETE FROM #__user_profiles WHERE user_id = '.$userId);
-				$db->query();
+				if (!$db->query()) {
+					throw new Exception($db->getErrorMsg());
+				}
 
 				$tuples = array();
 				$order	= 1;
@@ -195,7 +188,9 @@ class plgUserProfile extends JPlugin
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
-				$db->query();
+				if (!$db->query()) {
+					throw new Exception($db->getErrorMsg());
+				}
 			}
 			catch (JException $e) {
 				$this->_subject->setError($e->getMessage());

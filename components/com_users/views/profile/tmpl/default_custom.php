@@ -8,9 +8,6 @@
  * @since		1.6
  */
 defined('_JEXEC') or die;
-//load user_profile plugin language
-$lang = &JFactory::getLanguage();
-$lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 ?>
 
 <fieldset id="users-profile-custom">
@@ -24,7 +21,7 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 	?>
 		<dt><?php echo $field->label; ?></dt>
 		<dd>
-			<?php echo !empty($this->profile[$field->fieldname]) ? $this->profile[$field->fieldname] : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+			<?php echo !empty($this->data->profile[$field->fieldname]) ? $this->data->profile[$field->fieldname] : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 		</dd>
 	<?php
 		endif;

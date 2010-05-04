@@ -45,15 +45,6 @@ class UsersModelLogin extends JModelForm
 		$dispatcher	= &JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUsersLoginForm', array($this->getState('member.id'), &$form));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true)) {
-			$this->setError($dispatcher->getError());
-			return false;
-		}
-
 		// Check the session for previously entered login form data.
 		$app	= JFactory::getApplication();
 		$data	= $app->getUserState('users.login.form.data', array());
@@ -71,6 +62,15 @@ class UsersModelLogin extends JModelForm
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 		$app->setUserState('users.login.form.data', $data);
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true)) {
+			$this->setError($dispatcher->getError());
+			return false;
+		}
 
 		// Bind the form data if present.
 		if (!empty($data)) {

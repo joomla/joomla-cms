@@ -20,6 +20,10 @@ jimport('joomla.application.component.view');
  */
 class UsersViewReset extends JView
 {
+	protected $form;
+	protected $params;
+	protected $state;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -29,27 +33,15 @@ class UsersViewReset extends JView
 	function display($tpl = null)
 	{
 		// Get the view data.
-		$form	= $this->get('Form');
-		$data	= $this->get('Data');
-		$state	= $this->get('State');
+		$this->form		= $this->get('Form');
+		$this->state	= $this->get('State');
+		$this->params	= $this->state->params;
 
 		// Check for errors.
-		if (count($errors = &$this->get('Errors'))) {
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
-
-		// Bind the data to the form.
-		if ($form) {
-			$form->bind($data);
-		}
-
-		$params = &$state->params;
-
-		// Push the data into the view.
-		$this->assignRef('form',	$form);
-		$this->assignRef('data',	$data);
-		$this->assignRef('params',	$params);
 
 		$this->prepareDocument();
 
@@ -63,8 +55,8 @@ class UsersViewReset extends JView
 	 */
 	protected function prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
+		$app		= JFactory::getApplication();
+		$menus		= JSite::getMenu();
 		$title 		= null;
 
 		// Because the application sets a default page title,

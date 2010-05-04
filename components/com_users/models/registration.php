@@ -23,6 +23,12 @@ jimport('joomla.plugin.helper');
 class UsersModelRegistration extends JModelForm
 {
 	/**
+	 * @var		object	The user registration data.
+	 * @since	1.6
+	 */
+	protected $data;
+
+	/**
 	 * Method to activate a user account.
 	 *
 	 * @param	string		The activation token.
@@ -100,53 +106,55 @@ class UsersModelRegistration extends JModelForm
 	 */
 	public function getData()
 	{
-		$false	= false;
-		$data	= new stdClass();
-		$app	= JFactory::getApplication();
-		$params	= JComponentHelper::getParams('com_users');
+		if ($this->data === null) {
 
-		// Override the base user data with any data in the session.
-		$temp = (array)$app->getUserState('com_users.registration.data', array());
-		foreach ($temp as $k => $v) {
-			$data->$k = $v;
+			$this->data	= new stdClass();
+			$app	= JFactory::getApplication();
+			$params	= JComponentHelper::getParams('com_users');
+
+			// Override the base user data with any data in the session.
+			$temp = (array)$app->getUserState('com_users.registration.data', array());
+			foreach ($temp as $k => $v) {
+				$this->data->$k = $v;
+			}
+
+			// Get the groups the user should be added to after registration.
+			$this->data->groups = isset($this->data->groups) ? array_unique($this->data->groups) : array();
+
+			// Get the default new user group, Registered if not specified.
+			$system	= $params->get('new_usertype', 2);
+			$this->data->usertype = $system;
+
+			// TODO: Not sure we need all this stuff anymore. Just need to add the group to the list and we are golden.
+			// Handle the system default group.
+			if (!in_array($system, $this->data->groups)) {
+				// Add the system group to the first position.
+				array_unshift($this->data->groups, $system);
+			} else {
+				// Make sure the system group is the first item.
+				unset($this->data->groups[array_search($system, $this->data->groups)]);
+				array_unshift($this->data->groups, $system);
+			}
+
+			// Unset the passwords.
+			unset($this->data->password1);
+			unset($this->data->password2);
+
+			// Get the dispatcher and load the users plugins.
+			$dispatcher	= JDispatcher::getInstance();
+			JPluginHelper::importPlugin('users');
+
+			// Trigger the data preparation event.
+			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.registration', $this->data));
+
+			// Check for errors encountered while preparing the data.
+			if (count($results) && in_array(false, $results, true)) {
+				$this->setError($dispatcher->getError());
+				$this->data = false;
+			}
 		}
 
-		// Get the groups the user should be added to after registration.
-		$data->groups = isset($data->groups) ? array_unique($data->groups) : array();
-
-		// Get the default new user group, Registered if not specified.
-		$system	= $params->get('new_usertype', 2);
-		$data->usertype = $system;
-
-		// TODO: Not sure we need all this stuff anymore. Just need to add the group to the list and we are golden.
-		// Handle the system default group.
-		if (!in_array($system, $data->groups)) {
-			// Add the system group to the first position.
-			array_unshift($data->groups, $system);
-		} else {
-			// Make sure the system group is the first item.
-			unset($data->groups[array_search($system, $data->groups)]);
-			array_unshift($data->groups, $system);
-		}
-
-		// Unset the passwords.
-		unset($data->password1);
-		unset($data->password2);
-
-		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('users');
-
-		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onPrepareUserRegistrationData', array(&$data));
-
-		// Check for errors encountered while preparing the data.
-		if (count($results) && in_array(false, $results, true)) {
-			$this->setError($dispatcher->getError());
-			return $false;
-		}
-
-		return $data;
+		return $this->data;
 	}
 
 	/**
@@ -166,20 +174,31 @@ class UsersModelRegistration extends JModelForm
 			return false;
 		}
 
-		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('users');
-
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUserRegistrationForm', array(&$form));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true)) {
-			$this->setError($dispatcher->getError());
-			return false;
-		}
-
 		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		return $this->getData();
+	}
+
+	/**
+	 * Override preprocessForm to load the user plugin group instead of content.
+	 *
+	 * @param	object	A form object.
+	 * @param	mixed	The data expected for the form.
+	 * @throws	Exception if there is an error in the form event.
+	 * @since	1.6
+	 */
+	protected function preprocessForm(JForm $form, $data)
+	{
+		parent::preprocessForm($form, $data, 'user');
 	}
 
 	/**

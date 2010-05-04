@@ -23,27 +23,17 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset request form.
 	 *
+	 * @param	string	The name of the form.
+	 * @param	string	The name of the form XML to load (excluding suffix).
+	 * @param	array	An array of options for the form.
 	 * @return	object	JForm object on success, JException on failure.
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($formName = 'com_users.reset_request', $formXml = 'reset_request', $options = array('control' => 'jform'))
 	{
 		// Get the form.
-		$form = parent::getForm('com_users.reset_request', 'reset_request', array('control' => 'jform'));
+		$form = parent::getForm($formName, $formXml, $options);
 		if (empty($form)) {
-			return false;
-		}
-
-		// Get the dispatcher and load the users plugins.
-		$dispatcher	= &JDispatcher::getInstance();
-		JPluginHelper::importPlugin('users');
-
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareUserResetRequestForm', array(&$form));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true)) {
-			$this->setError($dispatcher->getError());
 			return false;
 		}
 
@@ -58,15 +48,8 @@ class UsersModelReset extends JModelForm
 	 */
 	public function getResetCompleteForm()
 	{
-		// Set the form loading options.
-		$options = array(
-			'array' => true,
-			'event' => 'onPrepareUsersResetCompleteForm',
-			'group' => 'users'
-		);
-
 		// Get the form.
-		return $this->getForm('reset_complete', 'com_users.reset_complete', $options);
+		return $this->getForm('com_users.reset_complete', 'reset_complete');
 	}
 
 	/**
@@ -77,15 +60,21 @@ class UsersModelReset extends JModelForm
 	 */
 	public function getResetConfirmForm()
 	{
-		// Set the form loading options.
-		$options = array(
-			'array' => true,
-			'event' => 'onPrepareUsersResetConfirmForm',
-			'group' => 'users'
-		);
-
 		// Get the form.
-		return $this->getForm('reset_confirm', 'com_users.reset_confirm', $options);
+		return $this->getForm('com_users.reset_confirm', 'reset_confirm');
+	}
+
+	/**
+	 * Override preprocessForm to load the user plugin group instead of content.
+	 *
+	 * @param	object	A form object.
+	 * @param	mixed	The data expected for the form.
+	 * @throws	Exception if there is an error in the form event.
+	 * @since	1.6
+	 */
+	protected function preprocessForm(JForm $form, $data)
+	{
+		parent::preprocessForm($form, $data, 'user');
 	}
 
 	/**

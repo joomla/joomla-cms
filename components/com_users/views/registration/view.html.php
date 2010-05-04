@@ -20,6 +20,11 @@ jimport('joomla.application.component.view');
  */
 class UsersViewRegistration extends JView
 {
+	protected $data;
+	protected $form;
+	protected $params;
+	protected $state;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -29,26 +34,16 @@ class UsersViewRegistration extends JView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$form	= $this->get('Form');
-		$data	= $this->get('Data');
-		$state	= $this->get('State');
-		$params	= $state->get('params');
+		$this->data		= $this->get('Data');
+		$this->form		= $this->get('Form');
+		$this->state	= $this->get('State');
+		$this->params	= $this->state->get('params');
 
 		// Check for errors.
-		if (count($errors = &$this->get('Errors'))) {
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
-
-		// Bind the data to the form.
-		if ($form) {
-			$form->bind($data);
-		}
-
-		// Push the data into the view.
-		$this->assignRef('form',	$form);
-		$this->assignRef('data',	$data);
-		$this->assignRef('params',	$params);
 
 		$this->prepareDocument();
 
@@ -62,8 +57,8 @@ class UsersViewRegistration extends JView
 	 */
 	protected function prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
+		$app		= JFactory::getApplication();
+		$menus		= JSite::getMenu();
 		$title 		= null;
 
 		// Because the application sets a default page title,

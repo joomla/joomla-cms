@@ -134,12 +134,12 @@ function UsersBuildRoute(&$query)
 					$query['Itemid'] = $default;
 				}
 
-				// Only append the member id if not "me".
+				// Only append the user id if not "me".
 				$user = & JFactory::getUser();
-				if (!empty($query['member_id']) && ($query['member_id'] != $user->id)) {
-					$segments[] = $query['member_id'];
+				if (!empty($query['user_id']) && ($query['user_id'] != $user->id)) {
+					$segments[] = $query['user_id'];
 				}
-				unset ($query['member_id']);
+				unset ($query['user_id']);
 
 				break;
 		}
@@ -166,27 +166,28 @@ function UsersParseRoute($segments)
 	}
 
 	// Get the package from the route segments.
-	$memberId = array_pop($segments);
+	$userId = array_pop($segments);
 
-	if (!is_numeric($memberId)) {
+	if (!is_numeric($userId)) {
 		$vars['view'] = 'profile';
 		return $vars;
 	}
-	if (is_numeric($memberId)) {
+
+	if (is_numeric($userId)) {
 		// Get the package id from the packages table by alias.
 		$db = & JFactory::getDbo();
 		$db->setQuery(
 			'SELECT `id`' .
 			' FROM `#__users`' .
-			' WHERE `id` = '.(int) $memberId
+			' WHERE `id` = '.(int) $userId
 		);
-		$memberId = $db->loadResult();
+		$userId = $db->loadResult();
 	}
 
 	// Set the package id if present.
-	if ($memberId) {
+	if ($userId) {
 		// Set the package id.
-		$vars['member_id'] = (int)$memberId;
+		$vars['user_id'] = (int)$userId;
 
 		// Set the view to package if not already set.
 		if (empty($vars['view'])) {

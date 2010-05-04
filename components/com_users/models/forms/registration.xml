@@ -17,7 +17,6 @@
 		<field name="username" type="text"
 			class="validate-username"
 			description="COM_USERS_REGISTER_USERNAME_DESC"
-			field="id"
 			filter="username"
 			label="COM_USERS_REGISTER_USERNAME_LABEL"
 			message="COM_USERS_REGISTER_USERNAME_MESSAGE"

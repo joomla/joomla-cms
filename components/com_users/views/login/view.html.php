@@ -20,6 +20,11 @@ jimport('joomla.application.component.view');
  */
 class UsersViewLogin extends JView
 {
+	protected $form;
+	protected $params;
+	protected $state;
+	protected $user;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -29,22 +34,16 @@ class UsersViewLogin extends JView
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$user		= JFactory::getUser();
-		$login		= $user->get('guest') ? true : false;
-		$form		= $this->get('LoginForm');
-		$state		= $this->get('State');
-		$params		= $state->get('params');
+		$this->user		= JFactory::getUser();
+		$this->form		= $this->get('LoginForm');
+		$this->state	= $this->get('State');
+		$this->params	= $this->state->get('params');
 
 		// Check for errors.
-		if (count($errors = &$this->get('Errors'))) {
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
-
-		// Push the data into the view.
-		$this->assignRef('user',	$user);
-		$this->assignRef('form',	$form);
-		$this->assignRef('params',	$params);
 
 		$this->prepareDocument();
 

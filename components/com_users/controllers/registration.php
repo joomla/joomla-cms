@@ -70,7 +70,7 @@ class UsersControllerRegistration extends UsersController
 	}
 
 	/**
-	 * Method to register a member.
+	 * Method to register a user.
 	 *
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.6
@@ -84,7 +84,7 @@ class UsersControllerRegistration extends UsersController
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Registration', 'UsersModel');
 
-		// Get the member data.
+		// Get the user data.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
