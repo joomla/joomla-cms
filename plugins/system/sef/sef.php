@@ -24,7 +24,7 @@ class plgSystemSef extends JPlugin
 	 */
 	function onAfterRender()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if ($app->getName() != 'site') {
 			return true;
@@ -70,17 +70,16 @@ class plgSystemSef extends JPlugin
 	/**
 	 * Replaces the matched tags
 	 *
-	 * @param array An array of matches (see preg_match_all)
-	 * @return string
+	 * @param	array	An array of matches (see preg_match_all)
+	 * @return	string
 	 */
-	function route(&$matches)
+	protected function route(&$matches)
 	{
 		$original	= $matches[0];
 		$url		= $matches[1];
-
-		$url = str_replace('&amp;','&',$url);
-
+		$url		= str_replace('&amp;','&',$url);
 		$route		= JRoute::_('index.php?'.$url);
+
 		return 'href="'.$route;
 	}
 }
