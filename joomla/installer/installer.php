@@ -338,16 +338,16 @@ class JInstaller extends JAdapter
 				$this->_adapters[$type]->loadLanguage($path);
 			}
 
-			// Fire the onBeforeExtensionInstall event.
+			// Fire the onExtensionBeforeInstall event.
 			JPluginHelper::importPlugin('installer');
 			$dispatcher =& JDispatcher::getInstance();
-			$dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'install', 'type'=>$type, 'manifest'=>$this->manifest, 'extension'=>0));
+			$dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'install', 'type'=>$type, 'manifest'=>$this->manifest, 'extension'=>0));
 
 			// Run the install
 			$result = $this->_adapters[$type]->install();
 
-			// Fire the onAfterExtensionInstall
-			$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone $this, 'eid'=> $result));
+			// Fire the onExtensionAfterInstall
+			$dispatcher->trigger('onExtensionAfterInstall', array('installer'=>clone $this, 'eid'=> $result));
 			if ($result !== false) {
 				return true;
 			}
@@ -400,15 +400,15 @@ class JInstaller extends JAdapter
 						$this->_adapters[$this->extension->type]->loadLanguage();
 					}
 
-					// Fire the onBeforeExtensionInstall event.
+					// Fire the onExtensionBeforeInstall event.
 					JPluginHelper::importPlugin('installer');
 					$dispatcher =& JDispatcher::getInstance();
-					$dispatcher->trigger('onBeforeExtensionInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
+					$dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
 
 					// Run the install
 					$result = $this->_adapters[$this->extension->type]->discover_install();
-					// Fire the onAfterExtensionInstall
-					$dispatcher->trigger('onAfterExtensionInstall', array('installer'=>clone $this, 'eid'=> $result));
+					// Fire the onExtensionAfterInstall
+					$dispatcher->trigger('onExtensionAfterInstall', array('installer'=>clone $this, 'eid'=> $result));
 					if ($result !== false) return true; else return false;
 				}
 				else
@@ -484,14 +484,14 @@ class JInstaller extends JAdapter
 			{
 				$this->_adapters[$type]->loadLanguage($path);
 			}
-			// Fire the onBeforeExtensionUpdate event.
+			// Fire the onExtensionBeforeUpdate event.
 			JPluginHelper::importPlugin('installer');
 			$dispatcher =& JDispatcher::getInstance();
-			$dispatcher->trigger('onBeforeExtensionUpdate', array('type'=>$type, 'manifest'=>$this->manifest));
+			$dispatcher->trigger('onExtensionBeforeUpdate', array('type'=>$type, 'manifest'=>$this->manifest));
 			// Run the update
 			$result = $this->_adapters[$type]->update();
-			// Fire the onAfterExtensionUpdate
-			$dispatcher->trigger('onAfterExtensionUpdate', array('installer'=>clone $this, 'eid'=> $result));
+			// Fire the onExtensionAfterUpdate
+			$dispatcher->trigger('onExtensionAfterUpdate', array('installer'=>clone $this, 'eid'=> $result));
 			if ($result !== false) {
 				return true;
 			}
@@ -523,14 +523,14 @@ class JInstaller extends JAdapter
 		if (is_object($this->_adapters[$type]))
 		{
 			// We don't load languages here, we get the extension adapter to work it out
-			// Fire the onBeforeExtensionUninstall event.
+			// Fire the onExtensionBeforeUninstall event.
 			JPluginHelper::importPlugin('installer');
 			$dispatcher =& JDispatcher::getInstance();
-			$dispatcher->trigger('onBeforeExtensionUninstall', array('eid' => $identifier));
+			$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
 			// Run the uninstall
 			$result = $this->_adapters[$type]->uninstall($identifier);
-			// Fire the onAfterExtensionInstall
-			$dispatcher->trigger('onAfterExtensionUninstall', array('installer'=>clone $this, 'eid'=> $identifier, 'result' => $result));
+			// Fire the onExtensionAfterInstall
+			$dispatcher->trigger('onExtensionAfterUninstall', array('installer'=>clone $this, 'eid'=> $identifier, 'result' => $result));
 			return $result;
 		}
 		return false;
