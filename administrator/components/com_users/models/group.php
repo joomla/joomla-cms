@@ -23,13 +23,13 @@ class UsersModelGroup extends JModelAdmin
 	 * @var		string	The event to trigger after saving the data.
 	 * @since	1.6
 	 */
-	protected $event_after_save = 'onAfterStoreUsergroup';
+	protected $event_after_save = 'onUserAfterSaveGroup';
 
 	/**
 	 * @var		string	The event to trigger after before the data.
 	 * @since	1.6
 	 */
-	protected $event_before_save = 'onBeforeStoreUsergroup';
+	protected $event_before_save = 'onUserBeforeSaveGroup';
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.
@@ -63,17 +63,38 @@ class UsersModelGroup extends JModelAdmin
 			return false;
 		}
 
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_users.edit.group.data', array());
+		return $form;
+	}
 
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		} else {
-			$form->bind($this->getItem());
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_users.edit.group.data', array());
+
+		if (empty($data)) {
+			$data = $this->getItem();
 		}
 
-		return $form;
+		return $data;
+	}
+
+	/**
+	 * Override preprocessForm to load the user plugin group instead of content.
+	 *
+	 * @param	object	A form object.
+	 * @param	mixed	The data expected for the form.
+	 * @throws	Exception if there is an error in the form event.
+	 * @since	1.6
+	 */
+	protected function preprocessForm(JForm $form, $data)
+	{
+		parent::preprocessForm($form, $data, 'user');
 	}
 
 	/**
@@ -107,7 +128,7 @@ class UsersModelGroup extends JModelAdmin
 		// Get a row instance.
 		$table = $this->getTable();
 
-		// Trigger the onBeforeStoreUser event.
+		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
 
@@ -118,15 +139,15 @@ class UsersModelGroup extends JModelAdmin
 				$allow = $user->authorise('core.edit.state', 'com_users');
 
 				if ($allow) {
-					// Fire the onBeforeDeleteUser event.
-					$dispatcher->trigger('onBeforeDeleteUser', array($table->getProperties()));
+					// Fire the onUserBeforeDeleteGroup event.
+					$dispatcher->trigger('onUserBeforeDeleteGroup', array($table->getProperties()));
 
 					if (!$table->delete($pk)) {
 						$this->setError($table->getError());
 						return false;
 					} else {
-						// Trigger the onAfterDeleteUsergroup event.
-						$dispatcher->trigger('onAfterDeleteUsergroup', array($user->getProperties(), true, $this->getError()));
+						// Trigger the onUserAfterDeleteGroup event.
+						$dispatcher->trigger('onUserAfterDeleteGroup', array($user->getProperties(), true, $this->getError()));
 					}
 				} else {
 					// Prune items that you can't change.

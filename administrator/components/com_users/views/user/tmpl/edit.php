@@ -18,10 +18,6 @@ JHtml::_('behavior.formvalidation');
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
-
-//load user_profile plugin language
-$lang = &JFactory::getLanguage();
-$lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 ?>
 
 <script type="text/javascript">
@@ -43,6 +39,13 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>
+		</fieldset>
+
+		<fieldset id="user-groups" class="adminform">
+			<legend><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
+				<?php if ($this->grouplist) :
+					echo $this->loadTemplate('groups');
+				endif; ?>
 		</fieldset>
 
 	</div>
@@ -69,12 +72,6 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 		<?php endforeach; ?>
 		<?php echo JHTML::_('sliders.end'); ?>
 
-		<fieldset id="user-groups">
-			<legend><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
-				<?php if ($this->grouplist) :
-					echo $this->loadTemplate('groups');
-				endif; ?>
-		</fieldset>
 	</div>
 
 	<input type="hidden" name="task" value="" />

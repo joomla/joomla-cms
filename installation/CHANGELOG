@@ -41,6 +41,7 @@ $ -> Language fix or change
  ^ Rename user events to onUser*.
  ^ Add better form and data handling support to JModelForm.
  # Fix issue with forms and profile in frontend com_users.
+ # Fix issue with forms and profile in backend com_users.
 
 3-May-2010 Jean-Marie Simonet
 # Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages
