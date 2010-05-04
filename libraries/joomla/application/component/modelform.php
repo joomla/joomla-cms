@@ -128,8 +128,16 @@ class JModelForm extends JModel
 		try {
 			$form = JForm::getInstance($name, $data, $options, false, $xpath);
 
+			// Get the data for the form.
+			$data = $this->getFormData();
+
 			// Allow for additional modification of the form, and events to be triggered.
-			$this->preprocessForm($form);
+			// We pass the data because plugins may require it.
+			$this->preprocessForm($form, $data);
+
+			// Load the data into the form after the plugins have operated.
+			$form->bind($data);
+
 		} catch (Exception $e) {
 			$this->setError($e->getMessage());
 			return false;
@@ -142,20 +150,35 @@ class JModelForm extends JModel
 	}
 
 	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	array	The default data is an empty array.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		return array();
+	}
+
+	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
 	 * @param	object	A form object.
-	 *
+	 * @param	mixed	The data expected for the form.
+	 * @param	string	The name of the plugin group to import (defaults to "content").
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm($form)
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
+		// Import the approriate plugin group.
+		JPluginHelper::importPlugin($group);
+
 		// Get the dispatcher.
 		$dispatcher	= JDispatcher::getInstance();
 
 		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onPrepareForm', array($form->getName(), $form));
+		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
 
 		// Check for errors encountered while preparing the form.
 		if (count($results) && in_array(false, $results, true)) {
