@@ -72,7 +72,6 @@ class JInstallerComponent extends JAdapterInstance
 		||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 		||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
-		var_dump($extension);
 	}
 	/**
 	 * Custom install method for components
