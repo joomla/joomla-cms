@@ -450,7 +450,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Trigger the onBeforeSaveContent event.
-		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
+		$result = $dispatcher->trigger('onContentBeforeSave', array('com_modules.module', &$table, $isNew));
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
@@ -536,8 +536,8 @@ class ModulesModelModule extends JModelAdmin
 		$cache->clean();
 		$cache->clean('mod_menu');
 
-		// Trigger the onAfterContentSave event.
-		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger('onContentAfterSave', array('com_modules.module', &$table, $isNew));
 
 		$this->setState('module.id', $table->id);
 

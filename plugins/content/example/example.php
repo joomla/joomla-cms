@@ -95,13 +95,15 @@ class plgContentExample extends JPlugin
 	 * NOTE:  Returning false will abort the save with an error.
 	 *	You can set the error by calling $article->setError($message)
 	 *
+	 * @param	string		The context of the content passed to the plugin.
 	 * @param	object		A JTableContent object
 	 * @param	bool		If the content is just about to be created
 	 * @return	bool		If false, abort the save
+	 * @since	1.6
 	 */
-	function onBeforeContentSave(&$article, $isNew)
+	function onContentBeforeSave($context, &$article, $isNew)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		return true;
 	}
@@ -111,14 +113,14 @@ class plgContentExample extends JPlugin
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 *
+	 * @param	string		The context of the content passed to the plugin (added in 1.6)
 	 * @param	object		A JTableContent object
 	 * @param	bool		If the content is just about to be created
-	 * @return	void
+	 * @since	1.6
 	 */
-	function onAfterContentSave(&$article, $isNew)
+	function onContentAfterSave($context, &$article, $isNew)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		return true;
 	}

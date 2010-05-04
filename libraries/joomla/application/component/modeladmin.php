@@ -53,13 +53,13 @@ abstract class JModelAdmin extends JModelForm
 		if (isset($config['event_after_save'])) {
 			$this->eventAfterSave = $config['event_after_save'];
 		} else  if (empty($this->event_after_save)) {
-			$this->event_after_save = 'onAfterContentSave';
+			$this->event_after_save = 'onContentAfterSave';
 		}
 
 		if (isset($config['event_before_save'])) {
 			$this->eventAfterSave = $config['event_before_save'];
 		} else  if (empty($this->event_before_save)) {
-			$this->event_before_save = 'onBeforeContentSave';
+			$this->event_before_save = 'onContentBeforeSave';
 		}
 
 		// Guess the JText message prefix. Defaults to the option.
@@ -362,7 +362,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Trigger the onBeforeSaveContent event.
-		$result = $dispatcher->trigger($this->event_before_save, array(&$table, $isNew));
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, &$table, $isNew));
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
@@ -378,8 +378,8 @@ abstract class JModelAdmin extends JModelForm
 		$cache = JFactory::getCache($this->option);
 		$cache->clean();
 
-		// Trigger the onAfterContentSave event.
-		$dispatcher->trigger($this->event_after_save, array(&$table, $isNew));
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, &$table, $isNew));
 
 		$pkName = $table->getKeyName();
 		if (isset($table->$pkName)) {

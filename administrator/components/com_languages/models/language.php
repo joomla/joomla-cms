@@ -154,7 +154,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the onBeforeSaveContent event.
-		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
+		$result = $dispatcher->trigger('onContentBeforeSave', array('com_langauges.language', &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true)) {
@@ -168,8 +168,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			return false;
 		}
 
-		// Trigger the onAfterContentSave event.
-		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger('onContentAfterSave', array('com_langauges.language', &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 

@@ -194,7 +194,7 @@ class ContentModelForm extends JModelForm
 		// Include the content plugins for the onSave events.
 		JPluginHelper::importPlugin('content');
 
-		$result = $dispatcher->trigger('onBeforeContentSave', array(&$table, $isNew));
+		$result = $dispatcher->trigger('onContentBeforeSave', array('com_content.article', &$table, $isNew));
 		if (in_array(false, $result, true)) {
 			JError::raiseError(500, $table->getError());
 			return false;
@@ -210,7 +210,7 @@ class ContentModelForm extends JModelForm
 		$cache = &JFactory::getCache('com_content');
 		$cache->clean();
 
-		$dispatcher->trigger('onAfterContentSave', array(&$table, $isNew));
+		$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$table, $isNew));
 
 		$this->setState('article.id', $table->id);
 
