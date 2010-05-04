@@ -16,12 +16,12 @@ class JUpdateAdapter extends JAdapterInstance {
 	 *
 	 * @return object
 	 */
-	private function _getStackLocation()
+	protected function _getStackLocation()
 	{
 			return implode('->', $this->_stack);
 	}
 
-	function _getLastTag() {
+	protected function _getLastTag() {
 		return $this->_stack[count($this->_stack) - 1];
 	}
 

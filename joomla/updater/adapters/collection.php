@@ -153,7 +153,12 @@ class JUpdaterCollection extends JUpdateAdapter {
 		$dbo =& $this->parent->getDBO();
 
 		if (!($fp = @fopen($url, "r"))) {
-			// TODO: Add a 'mark bad' setting here somehow
+			$query = $dbo->getQuery(true);
+			$query->update('#__update_sites');
+			$query->set('enabled = 0');
+			$query->where('update_site_id = '. $this->_update_site_id);
+			$dbo->setQuery($query);
+			$dbo->Query();
 			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url));
 			return false;
 		}
