@@ -88,7 +88,7 @@ class JFormFieldMedia extends JFormField
 			$folder = explode ('/',$this->value);
 			array_shift($folder);
 			array_pop($folder);
-			$folder = implode('/',$folder);			
+			$folder = implode('/',$folder);
 		}
 		elseif (file_exists(JPATH_ROOT . '/images/' . $directory)) {
 			$folder = $directory;

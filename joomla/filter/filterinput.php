@@ -503,7 +503,7 @@ class JFilterInput extends JObject
 	protected function _decode($source)
 	{
 		static $ttr;
-		
+
 		if(!is_array($ttr))
 		{
 			// entity decode

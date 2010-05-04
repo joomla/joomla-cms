@@ -76,7 +76,7 @@ class JCacheController
 			}
 		}
 
-		return new $class($options); 
+		return new $class($options);
 	}
 
 	/**
