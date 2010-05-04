@@ -13,7 +13,7 @@
 	<copyright>(C) 2008 Copyright Info</copyright>
 	<license>License Info</license>
 	<version>1.6</version>
-	<description>Site Alpha</description>
+	<description>MOD_ALPHA_XML_DESCRIPTION</description>
 	<scriptfile>alpha.scriptfile.php</scriptfile> <!-- New for 1.6 -->
 
 	<!-- SQL Files -->

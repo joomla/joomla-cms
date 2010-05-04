@@ -2,7 +2,7 @@
 <extension type="library" version="1.6" method="upgrade">
 	<name>Alpha</name>
 	<libraryname>alpha</libraryname>
-	<description>Alpha Demonstration Library</description>
+	<description>LIB_ALPHA_XML_DESCRIPTION</description>
 	<creationDate>July 2008</creationDate>
 	<author>John Doe</author>
 	<authorEmail>john.doe@example.org</authorEmail>

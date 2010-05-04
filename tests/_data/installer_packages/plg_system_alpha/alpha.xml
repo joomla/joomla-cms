@@ -8,7 +8,7 @@
 	<copyright>(C) 2008 Copyright Info</copyright>
 	<license>License Info</license>
 	<version>1.6</version>
-	<description>Alpha Plugin</description>
+	<description>PLG_ALPHA_XML_DESCRIPTION</description>
 
 	<scriptfile>alpha.scriptfile.php</scriptfile> <!-- New for 1.6 -->
 

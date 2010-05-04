@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-May-2010 Jean-Marie Simonet
+$ Refactored ini files structure for test alphas
+
 04-May-2010 Andrew Eddie
  ^ Merge patched to cache the query building in JModelList (Christophe Demko).
  + Merge Hathor administrator template by Andrea Tarr.
