@@ -67,12 +67,12 @@ class JInstallerPlugin extends JAdapterInstance
 				{
 					$source = "$path/$folder";
 				}
-					$lang->load($extension . '.sys', $source, null, false, false)
+				$lang->load($extension . '.sys', $source, null, false, false)
 				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
 				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
-			}
-		}
+	}
+}
 	}
 	/**
 	 * Custom install method
@@ -281,7 +281,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-
+		$row = & JTable::getInstance('extension');
 		// Was there a plugin already installed with the same name?
 		if ($id)
 		{
@@ -291,12 +291,12 @@ class JInstallerPlugin extends JAdapterInstance
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_ALLREADY_EXISTS', JText::_('JLIB_INSTALLER_'.$this->route), $this->get('name')));
 				return false;
 			}
-
+			$row->load($id);
 		}
 		else
 		{
 			// Store in the extensions table (1.6)
-			$row = & JTable::getInstance('extension');
+			
 			$row->name = $this->get('name');
 			$row->type = 'plugin';
 			$row->ordering = 0;
@@ -336,12 +336,30 @@ class JInstallerPlugin extends JAdapterInstance
 		 */
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($xml->{strtolower($this->route)}->sql);
-		if ($utfresult === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
-			return false;
+		if(strtolower($this->route) == 'install') {
+			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
+			if ($utfresult === false)
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
+				return false;
+			}
+				
+			// Set the schema version to be the latest update version
+			if($this->manifest->update instanceof JXMLElement) {
+				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
+			}
+		} else if(strtolower($this->route) == 'update') {
+			if($this->manifest->update instanceof JXMLElement)
+			{
+				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
+				if ($result === false)
+				{
+					// Install failed, rollback changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_UPDATE_SQL_ERROR', $db->stderr(true)));
+					return false;
+				}
+			}
 		}
 
 		// Start Joomla! 1.6
@@ -538,7 +556,8 @@ class JInstallerPlugin extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) 
+		{
 			$this->parent->manifestClass->uninstall($this);
 		}
 		$msg = ob_get_contents(); // append messages
@@ -554,6 +573,12 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages,1);
 
+		// Remove the schema version
+		$query = $db->getQuery(true);
+		$query->delete()->from('#__schemas')->where('extension_id = '. $row->extension_id);
+		$db->setQuery($query);
+		$db->Query();
+		
 		// Now we will no longer need the plugin object, so lets delete it
 		$row->delete($row->extension_id);
 		unset ($row);
