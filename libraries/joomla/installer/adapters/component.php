@@ -404,6 +404,8 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 			return false;
 		}
+		
+		$eid = $db->insertid();
 
 		// Time to build the admin menus
 		$this->_buildAdminMenus();
@@ -426,6 +428,11 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
+		// Set the schema version to be the latest update version
+		if($this->manifest->update instanceof JXMLElement) {
+			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
+		}
+		
 		//TODO: Register the component container just under root in the assets table.
 
 		// And now we run the postflight
@@ -491,7 +498,7 @@ class JInstallerComponent extends JAdapterInstance
 		/**
 		 * Hunt for the original XML file
 		 */
-		$oldmanifest = null;
+		$old_manifest = null;
 		$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff
 		// look in the administrator first
 		$tmpInstaller->setPath('source', $this->parent->getPath('extension_administrator'));
@@ -705,17 +712,21 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		/*
-		 * Let's run the install queries for the component
-		 *	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
-		 *	file for utf-8 support or non-utf-8 support
+		 * Let's run the update queries for the component
 		 */
-		// second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->update->sql);
-		if ($utfresult === false)
+		$row = & JTable::getInstance('extension');
+		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
+						'type'=>'component'));
+		
+		if($this->manifest->update instanceof JXMLElement) 
 		{
-			// Install failed, rollback changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_UPDATE_SQL_ERROR', $db->stderr(true)));
-			return false;
+			$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $eid);
+			if ($result === false)
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_UPDATE_SQL_ERROR', $db->stderr(true)));
+				return false;
+			}
 		}
 
 		// Time to build the admin menus
@@ -755,10 +766,6 @@ class JInstallerComponent extends JAdapterInstance
 		if ($uid) $update->delete($uid);
 
 		// Update an entry to the extension table
-		$row = & JTable::getInstance('extension');
-		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
-						'type'=>'component'));
-
 		if ($eid) {
 			$row->load($eid);
 		}
@@ -982,6 +989,12 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->media);
 		$this->parent->removeFiles($this->manifest->languages);
 		$this->parent->removeFiles($this->manifest->administration->languages, 1);
+		
+		// Remove the schema version
+		$query = $db->getQuery(true);
+		$query->delete()->from('#__schemas')->where('extension_id = '. $id);
+		$db->setQuery($query);
+		$db->Query();
 
 		// Clobber any possible pending updates
 		$update = &JTable::getInstance('update');
@@ -1158,7 +1171,7 @@ class JInstallerComponent extends JAdapterInstance
 
 			// Set the sub menu link
 			if ((string)$child->attributes()->link) {
-				$data['link'] = (string)$child->attributes()->link;
+				$data['link'] = 'index.php?'.$child->attributes()->link;
 			} else {
 				$request = array();
 				if ((string)$child->attributes()->act) {
@@ -1180,7 +1193,7 @@ class JInstallerComponent extends JAdapterInstance
 					$request[] = 'sub='.$child->attributes()->sub;
 				}
 				$qstring = (count($request)) ? '&'.implode('&',$request) : '';
-				$data['link'] = "index.php?option=".$option.$qstring;
+				$data['link'] = 'index.php?option='.$option.$qstring;
 			}
 
 			$table = &JTable::getInstance('menu');

@@ -68,7 +68,7 @@ class JInstallerModule extends JAdapterInstance
 					$source = "$path/$folder";
 				}
 				$client = (string)$this->manifest->attributes()->client;
-					$lang->load($extension . '.sys', $source, null, false, false)
+				$lang->load($extension . '.sys', $source, null, false, false)
 				||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
 				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 				||	$lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
@@ -86,7 +86,7 @@ class JInstallerModule extends JAdapterInstance
 	{
 		// if this is an update, set the route accordingly
 		/*if ($this->parent->getUpgrade()) {
-			$this->route = 'Update';
+		$this->route = 'Update';
 		}*/
 
 		// Get a database connector object
@@ -300,11 +300,11 @@ class JInstallerModule extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
+		$row = &JTable::getInstance('extension');
 		// Was there a module already installed with the same name?
 		if ($id)
 		{
 			// load the entry and update the manifest_cache
-			$row = &JTable::getInstance('extension');
 			$row->load($id);
 			$row->name = $this->get('name'); // update name
 			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
@@ -316,7 +316,6 @@ class JInstallerModule extends JAdapterInstance
 		}
 		else
 		{
-			$row = & JTable::getInstance('extension');
 			$row->set('name', $this->get('name'));
 			$row->set('type', 'module');
 			$row->set('element', $this->get('element'));
@@ -335,6 +334,9 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
 				return false;
 			}
+				
+			// set the insert id
+			$row->extension_id = $db->insertid();
 
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
@@ -348,12 +350,30 @@ class JInstallerModule extends JAdapterInstance
 		 */
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
-		$utfresult = $this->parent->parseSQLFiles($this->manifest->{strtolower($this->route)}->sql);
-		if ($utfresult === false)
-		{
-			// Install failed, rollback changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
-			return false;
+		if(strtolower($this->route) == 'install') {
+			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
+			if ($utfresult === false)
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
+				return false;
+			}
+				
+			// Set the schema version to be the latest update version
+			if($this->manifest->update instanceof JXMLElement) {
+				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
+			}
+		} else if(strtolower($this->route) == 'update') {
+			if($this->manifest->update instanceof JXMLElement)
+			{
+				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
+				if ($result === false)
+				{
+					// Install failed, rollback changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_UPDATE_SQL_ERROR', $db->stderr(true)));
+					return false;
+				}
+			}
 		}
 
 		// Start Joomla! 1.6
@@ -417,7 +437,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @return array(JExtension) list of extensions available
 	 * @since 1.6
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = Array();
 		$site_list = JFolder::folders(JPATH_SITE.DS.'modules');
@@ -616,6 +636,12 @@ class JInstallerModule extends JAdapterInstance
 			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_SQL_ERROR', $db->stderr(true)));
 			$retval = false;
 		}
+
+		// Remove the schema version
+		$query = $db->getQuery(true);
+		$query->delete()->from('#__schemas')->where('extension_id = '. $row->extension_id);
+		$db->setQuery($query);
+		$db->Query();
 
 		// Remove other files
 		$this->parent->removeFiles($this->manifest->media);

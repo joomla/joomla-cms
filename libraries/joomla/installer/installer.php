@@ -339,8 +339,8 @@ class JInstaller extends JAdapter
 			}
 
 			// Fire the onExtensionBeforeInstall event.
-			JPluginHelper::importPlugin('installer');
-			$dispatcher =& JDispatcher::getInstance();
+        	JPluginHelper::importPlugin('installer');
+        	$dispatcher =& JDispatcher::getInstance();
 			$dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'install', 'type'=>$type, 'manifest'=>$this->manifest, 'extension'=>0));
 
 			// Run the install
@@ -401,9 +401,9 @@ class JInstaller extends JAdapter
 					}
 
 					// Fire the onExtensionBeforeInstall event.
-					JPluginHelper::importPlugin('installer');
-					$dispatcher =& JDispatcher::getInstance();
-					$dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
+	                JPluginHelper::importPlugin('installer');
+	                $dispatcher =& JDispatcher::getInstance();
+	                $dispatcher->trigger('onExtensionBeforeInstall', array('method'=>'discover_install', 'type'=>$this->extension->get('type'), 'manifest'=>null, 'extension'=>$this->extension->get('extension_id')));
 
 					// Run the install
 					$result = $this->_adapters[$this->extension->type]->discover_install();
@@ -485,8 +485,8 @@ class JInstaller extends JAdapter
 				$this->_adapters[$type]->loadLanguage($path);
 			}
 			// Fire the onExtensionBeforeUpdate event.
-			JPluginHelper::importPlugin('installer');
-			$dispatcher =& JDispatcher::getInstance();
+            JPluginHelper::importPlugin('installer');
+            $dispatcher =& JDispatcher::getInstance();
 			$dispatcher->trigger('onExtensionBeforeUpdate', array('type'=>$type, 'manifest'=>$this->manifest));
 			// Run the update
 			$result = $this->_adapters[$type]->update();
@@ -524,9 +524,9 @@ class JInstaller extends JAdapter
 		{
 			// We don't load languages here, we get the extension adapter to work it out
 			// Fire the onExtensionBeforeUninstall event.
-			JPluginHelper::importPlugin('installer');
-			$dispatcher =& JDispatcher::getInstance();
-			$dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
+            JPluginHelper::importPlugin('installer');
+            $dispatcher =& JDispatcher::getInstance();
+            $dispatcher->trigger('onExtensionBeforeUninstall', array('eid' => $identifier));
 			// Run the uninstall
 			$result = $this->_adapters[$type]->uninstall($identifier);
 			// Fire the onExtensionAfterInstall
@@ -737,6 +737,167 @@ class JInstaller extends JAdapter
 
 		return (int) count($queries);
 	}
+	
+	/**
+	 * Set the schema version for an extension by looking at its latest update
+	 * @param JXMLElement $schema Schema Tag
+	 * @param int $eid Extension ID
+	 * @return nothing
+	 */
+	public function setSchemaVersion($schema, $eid) {
+		if($eid && $schema instanceof JXMLElement)
+		{
+			$db = JFactory::getDBO();
+			$schemapaths = $schema->children();
+			if(count($schemapaths)) {
+				$dbDriver = strtolower($db->get('name'));
+				if ($dbDriver == 'mysqli') {
+					$dbDriver = 'mysql';
+				}
+
+				$schemapath = '';
+				foreach($schemapaths as $entry)
+				{
+					$attrs = $entry->attributes();
+					if($attrs['type'] == $dbDriver) 
+					{
+						$schemapath = $entry;
+						break;
+					}
+				}	
+	
+				if(strlen($schemapath))
+				{
+					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath));
+					sort($files);
+					// Update the database
+					$query = $db->getQuery(true);
+					$query->delete()->from('#__schemas')->where('extension_id = ' . $eid);
+					$db->setQuery($query);
+					if($db->Query()) {
+						$query->clear();
+						$query->insert('#__schemas')->set('extension_id = '. $eid)->set('version_id = '. end($files));
+						$db->setQuery($query);
+						$db->Query();
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Method to process the updates for an item
+	 *
+	 * @access	public
+	 * @param	object	$element	The xml node to process
+	 * @param	int		$eid		Extension Identifier
+	 * @return	boolean	Result of the operations
+	 * @since	1.6
+	 */
+	public function parseSchemaUpdates($schema, $eid) 
+	{
+		$files = Array();
+		$update_count = 0;
+		// ensure we have an xml element and a valid extension id
+		if($eid && $schema instanceof JXMLElement)
+		{
+			$db = JFactory::getDBO();
+			$schemapaths = $schema->children();
+			if(count($schemapaths)) {
+				$dbDriver = strtolower($db->get('name'));
+				if ($dbDriver == 'mysqli') {
+					$dbDriver = 'mysql';
+				}
+			
+
+				$schemapath = '';
+				foreach($schemapaths as $entry)
+				{
+					$attrs = $entry->attributes();
+					if($attrs['type'] == $dbDriver) 
+					{
+						$schemapath = $entry;
+						break;
+					}
+				}
+					
+	
+				if(strlen($schemapath))
+				{
+						
+					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath));
+					sort($files);
+	
+					if(!count($files))
+					{
+						return false;
+					}
+	
+					$query = $db->getQuery(true);
+					$query->select('version_id')->from('#__schemas')->where('extension_id = ' . $eid);
+					$db->setQuery($query);
+					$version = $db->loadResult();
+	
+					if($version)
+					{
+						// we have a version!
+						foreach($files as $file)
+						{
+							if($file > $version)
+							{
+								$buffer = file_get_contents($this->getPath('extension_root').DS.$schemapath.DS.$file.'.sql');
+	
+								// Graceful exit and rollback if read not successful
+								if ($buffer === false)
+								{
+									JError::raiseWarning(1, JText::_('JLIB_INSTALLER_ERROR_SQL_READBUFFER'));
+									return false;
+								}
+	
+								// Create an array of queries from the sql file
+								jimport('joomla.installer.helper');
+								$queries = JInstallerHelper::splitSql($buffer);
+	
+								if (count($queries) == 0) 
+								{
+									// No queries to process
+									continue;
+								}
+	
+								// Process each query in the $queries array (split out of sql file).
+								foreach ($queries as $query)
+								{
+									$query = trim($query);
+									if ($query != '' && $query{0} != '#')
+									{
+										$db->setQuery($query);
+										if (!$db->query())
+										{
+											JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
+											return false;
+										}
+										$update_count++;
+									}
+								}
+							}
+						}
+					}
+					
+					// Update the database
+					$query = $db->getQuery(true);
+					$query->delete()->from('#__schemas')->where('extension_id = ' . $eid);
+					$db->setQuery($query);
+					if($db->Query()) {
+						$query->clear();
+						$query->insert('#__schemas')->set('extension_id = '. $eid)->set('version_id = '. end($files));
+						$db->setQuery($query);
+						$db->Query();
+					}
+				}
+			}
+		}
+		return $update_count;
+	} 
 
 	/**
 	 * Method to parse through a files element of the installation manifest and take appropriate
@@ -867,6 +1028,7 @@ class JInstaller extends JAdapter
 	 */
 	public function parseLanguages($element, $cid=0)
 	{
+		// TODO: work out why the below line triggers 'node no longer exists' errors with files
 		if ( ! $element instanceof JXMLElement || ! count($element->children())) {
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -1056,11 +1218,11 @@ class JInstaller extends JAdapter
 	 */
 	public function getParams()
 	{
-		// Get the manifest document root element
-		// OMAR: This appears to be unused, commenting out:
-		//$root = & $this->manifest->document;
-
-		// Getting the fieldset tags:
+		// Validate that we have a fieldset to use
+		if(!isset($this->manifest->config->fields->fieldset)) {
+			return '{}';
+		}
+		// Getting the fieldset tags
 		$fieldsets = $this->manifest->config->fields->fieldset;
 
 		// Creating the data collection variable:
@@ -1210,6 +1372,11 @@ class JInstaller extends JAdapter
 		$removefiles = array ();
 		$retval = true;
 
+		$debug = false;
+		if(isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug']) {
+			$debug = true;
+		}
+
 		// Get the client info if we're using a specific client
 		jimport('joomla.application.helper');
 		if ($cid > -1) {
@@ -1251,11 +1418,17 @@ class JInstaller extends JAdapter
 				break;
 
 			case 'languages':
-				if ($client) {
+				$lang_client = $element->attributes('client');
+				if($lang_client) {
+					$client = &JApplicationHelper::getClientInfo($lang_client, true);
 					$source = $client->path.DS.'language';
-				}
-				else {
-					$source = '';
+				} else {
+					if ($client) {
+						$source = $client->path.DS.'language';
+					}
+					else {
+						$source = '';
+					}
 				}
 				break;
 

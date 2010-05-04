@@ -206,7 +206,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$query->set('title='.$db->Quote(JText::_('JDEFAULT')));
 		$query->set('params='.$db->Quote($row->params));
 		$db->setQuery($query);
-		$db->query();
+		$db->query(); // There is a chance this could fail but we don't care...
 		return $row->get('extension_id');
 	}
 
