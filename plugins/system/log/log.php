@@ -19,7 +19,7 @@ jimport('joomla.plugin.plugin');
  */
 class  plgSystemLog extends JPlugin
 {
-	function onLoginFailure($response)
+	function onUserLoginFailure($response)
 	{
 		jimport('joomla.error.log');
 
