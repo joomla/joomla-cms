@@ -1,4 +1,4 @@
-<?php defined('_JEXEC') or die('Restricted access'); ?>
+<?php defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 function submitbutton(pressbutton)
 {

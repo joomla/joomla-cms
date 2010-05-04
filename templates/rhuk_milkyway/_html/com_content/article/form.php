@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $config = JFactory::getConfig();
 $publish_up = JHTML::_('date',$this->article->publish_up);

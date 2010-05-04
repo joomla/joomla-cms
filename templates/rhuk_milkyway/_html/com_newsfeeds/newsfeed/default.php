@@ -1,5 +1,5 @@
 <?php // no direct acces
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <?php
 		$lang = &JFactory::getLanguage();
 		$myrtl =$this->newsfeed->rtl;

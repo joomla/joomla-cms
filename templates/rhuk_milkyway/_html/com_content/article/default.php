@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $canEdit	= ($this->user->authorize('core.edit', 'com_content.article.'.$this->article->id));
 ?>

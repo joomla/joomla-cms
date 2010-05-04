@@ -1,5 +1,5 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die; ?>
 <script language="javascript" type="text/javascript">
 function iFrameHeight() {
 	var h = 0;
