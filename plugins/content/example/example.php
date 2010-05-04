@@ -30,8 +30,9 @@ class plgContentExample extends JPlugin
 	 * @param	object	The article object.  Note $article->text is also available
 	 * @param	object	The article params
 	 * @param	int		The 'page' number
+	 * @since	1.6
 	 */
-	function onPrepareContent($context, &$article, &$params, $limitstart)
+	function onContentPrepare($context, &$article, &$params, $limitstart)
 	{
 		$app = JFactory::getApplication();
 	}
