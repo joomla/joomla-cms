@@ -25,13 +25,11 @@
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-			<file driver="mysql">sql/install.mysql.nonutf8.sql</file>
 		</sql>
 	</install>
 	<uninstall> <!-- Runs on uninstall -->
 		<sql>
 			<file driver="mysql" charset="utf8" folder="sql">sql/uninstall.mysql.utf8.sql</file>
-			<file driver="mysql" folder="sql">sql/uninstall.mysql.nonutf8.sql</file>
 		</sql>
 	</uninstall>
 	<update> <!-- Runs on update; New in 1.6 -->
@@ -89,11 +87,6 @@
 		<server type="extension" priority="1" name="Something JM will want to translate">http://jsitepoint.com/update/component/com_alpha/extension.xml</server> <!-- useful for single extensions -->
 		<server type="collection" priority="2" name="Another thing JM will probably want to translate">http://jsitepoint.com/update/update.xml</server><!-- useful for collections of extensions -->
 	</updateservers>
-
-	<!-- Extension Params; deprecated 1.5 style -->
-	<params>
-		<param name="example" type="text" default="" label="Example Param" description="EXAMPLEPARAMDESC" />
-	</params>
 
 	<!-- Tables -->
 	<!-- These are used for backups to determine which tables to backup; ones marked optional are only backed up if they exist -->
