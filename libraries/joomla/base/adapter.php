@@ -88,8 +88,12 @@ class JAdapter extends JObject {
 	{
 		if (!is_object($adapter))
 		{
+			$fullpath = $this->_basepath.DS.$this->_adapterfolder.DS.strtolower($name).'.php';
+			if(!file_exists($fullpath)) {
+				return false;
+			}
 			// Try to load the adapter object
-			require_once $this->_basepath.DS.$this->_adapterfolder.DS.strtolower($name).'.php';
+			require_once $fullpath;
 			$class = $this->_classprefix.ucfirst($name);
 			if (!class_exists($class)) {
 				return false;
