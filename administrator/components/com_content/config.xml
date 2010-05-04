@@ -554,6 +554,18 @@
 		>
 
 		<field
+			name="article-allow_comments"
+			type="radio"
+			label="JGLOBAL_Allow_Comments_Label"
+			description="JGLOBAL_Allow_Comments_Desc"
+			default="0">
+			<option
+				value="0">JNo</option>
+			<option
+				value="1">JYes</option>
+		</field>
+
+		<field
 			name="article-allow_ratings"
 			type="radio"
 			label="JGLOBAL_ALLOW_RATINGS_LABEL"
@@ -566,10 +578,10 @@
 		</field>
 
 		<field
-			name="article-allow_comments"
+			name="article-allow_sharing"
 			type="radio"
-			label="JGLOBAL_ALLOW_COMMENTS_LABEL"
-			description="JGLOBAL_ALLOW_COMMENTS_DESC"
+			label="JGLOBAL_ALLOW_SHARING_LABEL"
+			description="JGLOBAL_ALLOW_SHARING_DESC"
 			default="0">
 			<option
 				value="0">JNO</option>

@@ -20,6 +20,12 @@ jimport('joomla.application.component.modeladmin');
 class BannersModelBanner extends JModelAdmin
 {
 	/**
+	 * @var		string	The prefix to use with controller messages.
+	 * @since	1.6
+	 */
+	protected $text_prefix = 'COM_BANNERS_BANNER';
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	A record object.
@@ -76,9 +82,6 @@ class BannersModelBanner extends JModelAdmin
 	 */
 	public function getForm()
 	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-
 		// Get the form.
 		$form = parent::getForm('com_banners.banner', 'banner', array('control' => 'jform'));
 		if (empty($form)) {
@@ -94,15 +97,25 @@ class BannersModelBanner extends JModelAdmin
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_banners.edit.banner.data', array());
+		return $form;
+	}
 
-		// Bind the form data if present.
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_banners.edit.banner.data', array());
+
 		if (empty($data)) {
 			$data = $this->getItem();
 		}
-		$form->bind($data);
-		return $form;
+
+		return $data;
 	}
 
 	/**

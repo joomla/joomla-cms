@@ -7,7 +7,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Invalid Request.');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controlleradmin');
 
@@ -45,35 +45,6 @@ class RedirectControllerLinks extends JControllerAdmin
 				JError::raiseWarning(500, $model->getError());
 			} else {
 				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_redirect&view=links');
-	}
-
-	/**
-	 * Method to remove a record.
-	 * @since	1.6
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-
-		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
-		} else {
-			// Get the model.
-			$model = $this->getModel();
-
-			// Remove the items.
-			if (!$model->delete($ids)) {
-				JError::raiseWarning(500, $model->getError());
-			} else {
-				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_DELETED', count($ids)));
 			}
 		}
 

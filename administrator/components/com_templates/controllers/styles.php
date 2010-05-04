@@ -8,7 +8,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controlleradmin');
 
 /**
  * Template styles list controller class.
@@ -17,7 +17,7 @@ jimport('joomla.application.component.controller');
  * @subpackage	com_templates
  * @since		1.6
  */
-class TemplatesControllerStyles extends JController
+class TemplatesControllerStyles extends JControllerAdmin
 {
 	/**
 	 * Display is not supported by this class.
@@ -54,34 +54,6 @@ class TemplatesControllerStyles extends JController
 			$model = $this->getModel();
 			$model->duplicate($pks);
 			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_DUPLICATED'));
-		}
-		catch (Exception $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
-		}
-
-		$this->setRedirect('index.php?option=com_templates&view=styles');
-	}
-
-	/**
-	 * Method to delete a list of selected records.
-	 */
-	public function delete()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$pks = JRequest::getVar('cid', array(), 'post', 'array');
-
-		try
-		{
-			if (empty($pks)) {
-				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
-			}
-			$model = $this->getModel();
-			$model->delete($pks);
-			$this->setMessage(JText::plural('COM_TEMPLATES_N_TEMPLATES_DELETED', count($pks)));
 		}
 		catch (Exception $e)
 		{

@@ -20,24 +20,6 @@ jimport('joomla.application.component.modeladmin');
 class ContactModelContact extends JModelAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
-	 */
-	protected $text_prefix = 'COM_CONTACT';
-
-	/**
-	 * @var		string	The event to trigger after saving the data.
-	 * @since	1.6
-	 */
-	protected $event_after_save = 'onAfterContactSave';
-
-	/**
-	 * @var		string	The event to trigger after before the data.
-	 * @since	1.6
-	 */
-	protected $event_before_save = 'onBeforeContactSave';
-
-	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	A record object.
@@ -95,25 +77,13 @@ class ContactModelContact extends JModelAdmin
 	 */
 	public function getForm()
 	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		JImport('joomla.form.form');
+		jimport('joomla.form.form');
 		JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
 
 		// Get the form.
 		$form = parent::getForm('com_contact.contact', 'contact', array('control' => 'jform'));
 		if (empty($form)) {
 			return false;
-		}
-
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_contact.edit.contact.data', array());
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		} else {
-			$form->bind($this->getItem());
 		}
 
 		return $form;
@@ -123,7 +93,6 @@ class ContactModelContact extends JModelAdmin
 	 * Method to get a single record.
 	 *
 	 * @param	integer	The id of the primary key.
-	 *
 	 * @return	mixed	Object on success, false on failure.
 	 */
 	public function getItem($pk = null)
@@ -139,11 +108,28 @@ class ContactModelContact extends JModelAdmin
 	}
 
 	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_contact.edit.contact.data', array());
+
+		if (empty($data)) {
+			$data = $this->getItem();
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Method to perform batch operations on a category or a set of contacts.
 	 *
 	 * @param	array	An array of commands to perform.
 	 * @param	array	An array of category ids.
-	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 */
 	function batch($commands, $pks)
@@ -196,7 +182,6 @@ class ContactModelContact extends JModelAdmin
 	 *
 	 * @param	int		The new value matching an Asset Group ID.
 	 * @param	array	An array of row IDs.
-	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 */
 	protected function _batchAccess($value, $pks)

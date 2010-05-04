@@ -28,6 +28,8 @@ class MessagesModelMessage extends JModelAdmin
 	 */
 	protected function populateState()
 	{
+		parent::populateState();
+
 		$user = JFactory::getUser();
 		$this->setState('user.id', $user->get('id'));
 
@@ -36,10 +38,6 @@ class MessagesModelMessage extends JModelAdmin
 
 		$replyId = (int) JRequest::getInt('reply_id');
 		$this->setState('reply.id', $replyId);
-
-		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_messages');
-		$this->setState('params', $params);
 	}
 
 	/**
@@ -108,26 +106,31 @@ class MessagesModelMessage extends JModelAdmin
 	 */
 	public function getForm()
 	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-
 		// Get the form.
 		$form = parent::getForm('com_messages.message', 'message', array('control' => 'jform'));
 		if (empty($form)) {
 			return false;
 		}
 
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_messages.edit.message.data', array());
+		return $form;
+	}
 
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		} else {
-			$form->bind($this->getItem());
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
+
+		if (empty($data)) {
+			$data = $this->getItem();
 		}
 
-		return $form;
+		return $data;
 	}
 
 	/**

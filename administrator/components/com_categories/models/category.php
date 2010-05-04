@@ -138,7 +138,6 @@ class CategoriesModelCategory extends JModelAdmin
 	public function getForm()
 	{
 		// Initialise variables.
-		$app		= JFactory::getApplication();
 		$extension	= $this->getState('category.extension');
 
 		// Get the form.
@@ -147,26 +146,34 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_categories.edit.category.data', array());
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		} else {
-			$form->bind($this->getItem());
-		}
-
 		return $form;
 	}
 
 	/**
-	 * @param	object	A form object.
+	 * Method to get the data that should be injected in the form.
 	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_categories.edit.category.data', array());
+
+		if (empty($data)) {
+			$data = $this->getItem();
+		}
+
+		return $data;
+	}
+
+	/**
+	 * @param	object	A form object.
+	 * @param	mixed	The data expected for the form.
 	 * @throws	Exception if there is an error loading the form.
 	 * @since	1.6
 	 */
-	protected function preprocessForm($form)
+	protected function preprocessForm($form, $data)
 	{
 		jimport('joomla.filesystem.path');
 
@@ -218,7 +225,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Trigger the default form events.
-		parent::preprocessForm($form);
+		parent::preprocessForm($form, $data);
 	}
 
 	/**

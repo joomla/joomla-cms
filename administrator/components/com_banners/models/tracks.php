@@ -19,6 +19,13 @@ jimport('joomla.application.component.modellist');
 class BannersModelTracks extends JModelList
 {
 	/**
+	 * Model context string.
+	 *
+	 * @var		string
+	 */
+	protected $_context = 'com_banners.tracks';
+
+	/**
 	 *
 	 */
 	protected $basename;

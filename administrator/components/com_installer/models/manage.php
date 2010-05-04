@@ -243,9 +243,6 @@ class InstallerModelManage extends InstallerModel
 	 */
 	public function getForm()
 	{
-		// Initialise variables.
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
@@ -258,7 +255,6 @@ class InstallerModelManage extends InstallerModel
 			return false;
 		}
 		// Check the session for previously entered form data.
-		$data = $app->getUserState('com_installer.manage.data', array());
 
 		// Bind the form data if present.
 		if (!empty($data)) {
@@ -266,5 +262,19 @@ class InstallerModelManage extends InstallerModel
 		}
 
 		return $form;
+	}
+
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function getFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_installer.manage.data', array());
+
+		return $data;
 	}
 }

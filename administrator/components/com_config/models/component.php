@@ -65,6 +65,7 @@ class ConfigModelComponent extends JModelForm
 				false,
 				'/config'
 			);
+
 		if (empty($form)) {
 			return false;
 		}

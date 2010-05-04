@@ -19,9 +19,9 @@ jimport('joomla.application.component.view');
  */
 class WeblinksViewWeblinks extends JView
 {
-	protected $state;
 	protected $items;
 	protected $pagination;
+	protected $state;
 
 	/**
 	 * Display the view
