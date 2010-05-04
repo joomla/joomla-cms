@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-May-2010 Andrew Eddie
+ ^ Rename "installer" plugin group to "extension".
+
 04-May-2010 Jean-Marie Simonet
 $ Refactored ini files structure for test alphas
 $ ^ A few fixes for Hathor
