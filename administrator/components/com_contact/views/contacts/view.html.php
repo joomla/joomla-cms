@@ -62,7 +62,7 @@ class ContactViewContacts extends JView
 		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'));
 
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'generic.png');
-		
+
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('contact.add','JTOOLBAR_NEW');
 		}

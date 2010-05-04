@@ -118,10 +118,10 @@ class NewsfeedsModelNewsfeed extends JModel
 			// Filter by start and end dates.
 			$nullDate = $db->Quote($db->getNullDate());
 			$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
-			
+
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate .')');
-			
+
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			return (boolean) $this->_data;

@@ -423,7 +423,7 @@
 			label="COM_CONFIG_FIELD_METALANGUAGE_LABEL"
 			description="COM_CONFIG_FIELD_METALANGUAGE_DESC"
 			filter="string" />
-		
+
 	</fieldset>
 
 	<fieldset

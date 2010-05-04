@@ -26,7 +26,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_PLUGINS';
-	
+
 	/**
 	 * Method to get the record form.
 	 *

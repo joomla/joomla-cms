@@ -53,7 +53,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-			</fieldset>	
+			</fieldset>
 		</fields>
 	</config>
 </install>

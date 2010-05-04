@@ -24,7 +24,7 @@ class ContactModelContact extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_CONTACT';
-	
+
 	/**
 	 * @var		string	The event to trigger after saving the data.
 	 * @since	1.6

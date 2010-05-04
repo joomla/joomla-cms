@@ -92,7 +92,7 @@ class WeblinksTableWeblink extends JTable
 				if (empty($this->created_by)) {
 					$this->created_by = $user->get('id');
 				}
-				}	
+				}
 		// Attempt to store the user data.
 		return parent::store($updateNulls);
 	}

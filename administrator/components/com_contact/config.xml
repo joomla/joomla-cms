@@ -131,7 +131,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		<field name="image" type="media" 
+		<field name="image" type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL" description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 		>
 		</field>
@@ -200,11 +200,11 @@
 			</option>
 		</field>
 
-		<field name="icon_address" type="media" 
+		<field name="icon_address" type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC" />
 
-		<field name="icon_email" type="media" 
+		<field name="icon_email" type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" />
 
@@ -221,7 +221,7 @@
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" />
 
-		<field name="icon_misc" type="media" 
+		<field name="icon_misc" type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
 	</fieldset>

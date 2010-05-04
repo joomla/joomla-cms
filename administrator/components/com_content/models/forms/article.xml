@@ -108,7 +108,7 @@
 		</field>
 
 		<field name="featured" type="radio"
-			label="COM_CONTENT_FIELD_FEATURED_LABEL" 
+			label="COM_CONTENT_FIELD_FEATURED_LABEL"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
 		>
@@ -250,11 +250,11 @@
 			<field name="page_title" type="text"
 				label="JFIELD_ALT_PAGE_TITLE_LABEL" description="JFIELD_ALT_PAGE_TITLE_DESC"
 				size="25" />
-				
+
 			<field name="alternative_readmore" type="inputbox"
 				label="JFIELD_READMORE_LABEL" description="JFIELD_READMORE_DESC"
 				class="inputbox" size="25" />
-				
+
 			<field name="layout" type="componentlayout" label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_content" view="article" />

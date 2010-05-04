@@ -24,7 +24,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
-	
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *

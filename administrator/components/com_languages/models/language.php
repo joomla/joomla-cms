@@ -24,7 +24,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_LANGUAGES';
-	
+
 	/**
 	 * Override to get the table
 	 */

@@ -24,7 +24,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_WEBLINKS';
-	
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *

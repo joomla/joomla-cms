@@ -166,7 +166,7 @@
 			<field name="width" type="text" default=""
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
-	
+
 			<field name="height" type="text" default=""
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />

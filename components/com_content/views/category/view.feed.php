@@ -38,7 +38,7 @@ class ContentViewCategory extends JView
 			// strip html from feed item title
 			$title = $this->escape($row->title);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
-			
+
 			// Compute the article slug
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 

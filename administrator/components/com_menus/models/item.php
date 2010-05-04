@@ -26,7 +26,7 @@ class MenusModelItem extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
-	
+
 	/**
 	 * Auto-populate the model state.
 	 *

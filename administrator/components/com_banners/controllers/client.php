@@ -24,6 +24,4 @@ class BannersControllerClient extends JControllerForm
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_CLIENT';
-
-	
 }

@@ -37,7 +37,7 @@
 	<update> <!-- Runs on update; New in 1.6 -->
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
-			<schemapath type="sqlsrv">sql/updates/sqlsrv</schemapath>		
+			<schemapath type="sqlsrv">sql/updates/sqlsrv</schemapath>
 		</schemas>
 	</update>
 

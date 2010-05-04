@@ -75,7 +75,7 @@ class BannersViewClients extends JView
 				else if ($this->state->get('filter.published') == 2) {
 					JToolBarHelper::unarchiveList('clients.publish', 'JTOOLBAR_UNARCHIVE');
 				}
-			}	
+			}
 		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');

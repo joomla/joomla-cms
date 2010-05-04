@@ -78,7 +78,7 @@ class BannersViewBanners extends JView
 				else if ($this->state->get('filter.state') == 2) {
 					JToolBarHelper::unarchiveList('banners.publish', 'JTOOLBAR_UNARCHIVE');
 				}
-			}	
+			}
 		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'banners.delete','JTOOLBAR_EMPTY_TRASH');

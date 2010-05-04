@@ -24,7 +24,7 @@ class UsersControllerLevel extends JControllerForm
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_USERS_LEVEL';
-	
+
 	/**
 	 * Method to remove a record.
 	 */

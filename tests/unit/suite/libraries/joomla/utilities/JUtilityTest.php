@@ -245,7 +245,7 @@ class JUtilityTest extends JoomlaTestCase
 		$mockApplication->expects($this->once())->method('getHash')->will(
 			$this->returnValue($expResult)
 		);**/
-		$temp = JFactory::$application; 
+		$temp = JFactory::$application;
 		JFactory::$application = new JRegistry();
 
 		$this->assertThat(

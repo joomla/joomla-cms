@@ -29,11 +29,11 @@ $canDo	= TemplatesHelper::getActions();
 					<?php $id = $this->files['main']['index']->id; ?>
 					<?php if ($canDo->get('core.edit')) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-					<?php endif; ?>	
+					<?php endif; ?>
 						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_MAIN');?>
 					<?php if ($canDo->get('core.edit')) : ?>
 						</a>
-					<?php endif; ?>		
+					<?php endif; ?>
 				</li>
 				<?php if ($this->files['main']['error']->exists) : ?>
 				<li>
@@ -44,7 +44,7 @@ $canDo	= TemplatesHelper::getActions();
 						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_ERROR');?>
 					<?php if ($canDo->get('core.edit')) : ?>
 						</a>
-					<?php endif; ?>						
+					<?php endif; ?>
 				</li>
 				<?php endif; ?>
 				<?php if ($this->files['main']['print']->exists) : ?>
@@ -56,7 +56,7 @@ $canDo	= TemplatesHelper::getActions();
 						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?>
 					<?php if ($canDo->get('core.edit')) : ?>
 						</a>
-					<?php endif; ?>						
+					<?php endif; ?>
 				</li>
 				<?php endif; ?>
 			</ul>
@@ -74,10 +74,10 @@ $canDo	= TemplatesHelper::getActions();
 			<ul>
 				<?php foreach ($this->files['css'] as $file) : ?>
 				<li>
-					<?php if ($canDo->get('core.edit')) : ?>				
+					<?php if ($canDo->get('core.edit')) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$file->id);?>">
 					<?php endif; ?>
-					
+
 						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_EDIT_CSS', $file->name);?>
 					<?php if ($canDo->get('core.edit')) : ?>
 					</a>

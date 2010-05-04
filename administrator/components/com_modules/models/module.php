@@ -26,7 +26,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_MODULES';
-	
+
 	/**
 	 * Method to auto-populate the model state.
 	 *

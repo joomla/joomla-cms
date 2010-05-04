@@ -24,7 +24,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_CATEGORIES';
-	
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
