@@ -100,21 +100,19 @@ class TemplatesModelSource extends JModelForm
 		if (!$this->_template) {
 			$this->getTemplate();
 		}
-		if ($this->_template)
-		{
+
+		if ($this->_template) {
 			$fileName	= $this->getState('filename');
 			$client		= JApplicationHelper::getClientInfo($this->_template->client_id);
 			$filePath	= JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
 
-			if (file_exists($filePath))
-			{
+			if (file_exists($filePath)) {
 				jimport('joomla.filesystem.file');
 
 				$item->extension_id	= $this->getState('extension.id');
 				$item->filename		= $this->getState('filename');
 				$item->source		= JFile::read($filePath);
-			}
-			else {
+			} else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 			}
 		}
@@ -144,8 +142,7 @@ class TemplatesModelSource extends JModelForm
 		);
 
 		$result = $db->loadObject();
-		if (empty($result))
-		{
+		if (empty($result)) {
 			if ($error = $db->getErrorMsg()) {
 				$this->setError($error);
 			}
@@ -153,8 +150,7 @@ class TemplatesModelSource extends JModelForm
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 			}
 			$this->_template = false;
-		}
-		else {
+		} else {
 			$this->_template = $result;
 		}
 
@@ -180,34 +176,44 @@ class TemplatesModelSource extends JModelForm
 			return false;
 		}
 
+		$dispatcher = JDispatcher::getInstance();
 		$fileName	= $this->getState('filename');
 		$client		= JApplicationHelper::getClientInfo($template->client_id);
 		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);
+
+		// Include the extension plugins for the save events.
+		JPluginHelper::importPlugin('extension');
 
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$ftp = JClientHelper::getCredentials('ftp');
 
 		// Try to make the template file writeable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0755'))
-		{
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0755')) {
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'));
+			return false;
+		}
+
+		// Trigger the onExtensionBeforeSave event.
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_templates.source', &$data, false));
+		if (in_array(false, $result, true)) {
+			$this->setError($table->getError());
 			return false;
 		}
 
 		$return = JFile::write($filePath, $data['source']);
 
 		// Try to make the template file unwriteable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0555'))
-		{
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0555')) {
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
 			return false;
-		}
-		else if (!$return)
-		{
+		} else if (!$return) {
 			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
 			return false;
 		}
+
+		// Trigger the onExtensionAfterSave event.
+		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.source', &$table, false));
 
 		return true;
 	}

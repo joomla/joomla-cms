@@ -289,8 +289,8 @@ class TemplatesModelStyle extends JModelForm
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('style.id');
 		$isNew		= true;
 
-		// Include the content plugins for the onSave events.
-		JPluginHelper::importPlugin('content');
+		// Include the extension plugins for the save events.
+		JPluginHelper::importPlugin('extension');
 
 		// Load the row if saving an existing record.
 		if ($pk > 0) {
@@ -313,6 +313,13 @@ class TemplatesModelStyle extends JModelForm
 			return false;
 		}
 
+		// Trigger the onExtensionBeforeSave event.
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_templates.style', &$table, $isNew));
+		if (in_array(false, $result, true)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
 		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
@@ -322,6 +329,9 @@ class TemplatesModelStyle extends JModelForm
 		// Clean the cache.
 		$cache = JFactory::getCache('com_templates');
 		$cache->clean();
+
+		// Trigger the onExtensionAfterSave event.
+		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
 

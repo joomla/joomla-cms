@@ -22,10 +22,16 @@ class PluginsModelPlugin extends JModelAdmin
 	protected $_cache;
 
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var		string	The event to trigger after saving the data.
 	 * @since	1.6
 	 */
-	protected $text_prefix = 'COM_PLUGINS';
+	protected $event_after_save = 'onExtensionAfterSave';
+
+	/**
+	 * @var		string	The event to trigger after before the data.
+	 * @since	1.6
+	 */
+	protected $event_before_save = 'onExtensionBeforeSave';
 
 	/**
 	 * Method to get the record form.
@@ -198,5 +204,20 @@ class PluginsModelPlugin extends JModelAdmin
 		$condition[] = 'type = '. $this->_db->Quote($table->type);
 		$condition[] = 'folder = '. $this->_db->Quote($table->folder);
 		return $condition;
+	}
+
+	/**
+	 * Override method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function save($data)
+	{
+		// Load the extension plugin group.
+		JPluginHelper::importPlugin('extension');
+
+		return parent::save($data);
 	}
 }

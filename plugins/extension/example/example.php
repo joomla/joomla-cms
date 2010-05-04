@@ -34,9 +34,13 @@ class plgExtensionExample extends JPlugin
 	}
 
 	/**
+	 * Allow to processing of extension data after it is saved.
+	 *
+	 * @param	object	The data representing the extension.
+	 * @param	boolean	True is this is new data, false if it is existing data.
 	 * @since	1.6
 	 */
-	function onExtensionAfterSave()
+	function onExtensionAfterSave($data, $isNew)
 	{
 	}
 
@@ -74,9 +78,13 @@ class plgExtensionExample extends JPlugin
 	}
 
 	/**
+	 * Allow to processing of extension data before it is saved.
+	 *
+	 * @param	object	The data representing the extension.
+	 * @param	boolean	True is this is new data, false if it is existing data.
 	 * @since	1.6
 	 */
-	function onExtensionBeforeSave()
+	function onExtensionBeforeSave($data, $isNew)
 	{
 	}
 
