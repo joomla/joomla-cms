@@ -498,7 +498,7 @@ class JCache extends JObject
 			return md5(serialize(JRequest::getURI()));   // provided for backwards compatibility - THIS IS NOT SAFE!!!!
 		}
 		// framework defaults
-		$registeredurlparams->protocol='WORD';
+		$registeredurlparams->format='WORD';
 		$registeredurlparams->option='WORD';
 		$registeredurlparams->view='WORD';
 		$registeredurlparams->layout='WORD';
