@@ -32,7 +32,7 @@ class plgAuthenticationOpenID extends JPlugin
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate($credentials, $options, & $response)
+	function onUserAuthenticate($credentials, $options, & $response)
 	{
 		$app = &JFactory::getApplication();
 

@@ -31,7 +31,7 @@ class plgAuthenticationGMail extends JPlugin {
 	 * @return	boolean
 	 * @since 1.5
 	 */
-	function onAuthenticate($credentials, $options, & $response) {
+	function onUserAuthenticate($credentials, $options, & $response) {
 		$message = '';
 		$success = 0;
 		// check if we have curl or not
