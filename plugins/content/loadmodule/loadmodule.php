@@ -14,20 +14,25 @@ jimport('joomla.plugin.plugin');
 class plgContentLoadmodule extends JPlugin
 {
 	static $test = 0;
+
 	/**
-	* Plugin that loads module positions within content
-	*/
-/**
-	* Plugin that loads module positions within content
-	*/
-	public function onPrepareContent(&$article, &$params, $page = 0)
+	 * Plugin that loads module positions within content
+	 *
+	 * @param	string	The context of the content being passed to the plugin.
+	 * @param	object	The article object.  Note $article->text is also available
+	 * @param	object	The article params
+	 * @param	int		The 'page' number
+	 */
+	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// simple performance check to determine whether bot should process further
 		if (strpos($article->text, 'loadposition') === false) {
 			return true;
 		}
 
-		if (self::$test == 1) return;
+		if (self::$test == 1) {
+			return;
+		}
 
 		// expression to search for
 		$regex		= '/{loadposition\s+(.*?)}/i';
@@ -47,9 +52,7 @@ class plgContentLoadmodule extends JPlugin
 	}
 
 	protected function _load($position, $style = 'none')
-
 	{
-
 		//if (isset(self::$test[$position]) && self::$test[$position] == 1) return;
 		$document	= &JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');

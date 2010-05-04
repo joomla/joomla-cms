@@ -26,8 +26,13 @@ defined('_JEXEC') or die;
  */
 class plgContentPagebreak extends JPlugin
 {
-
-	public function onPrepareContent(&$row, &$params, $page=0)
+	/**
+	 * @param	string	The context of the content being passed to the plugin.
+	 * @param	object	The article object.  Note $article->text is also available
+	 * @param	object	The article params
+	 * @param	int		The 'page' number
+	 */
+	public function onContentPrepare($context, &$row, &$params, $page=0)
 	{
 		// Expression to search for.
 		$regex = '#<hr(.*)class=\"system-pagebreak\"(.*)\/>#iU';

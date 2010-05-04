@@ -8,7 +8,7 @@
  */
 
 /**
- * Utility class to fire onPrepareContent for non-article based content.
+ * Utility class to fire onContentPrepare for non-article based content.
  *
  * @package		Joomla.Framework
  * @subpackage	HTML
@@ -17,7 +17,7 @@
 abstract class JHtmlContent
 {
 	/**
-	 * Fire onPrepareContent for content that isn't part of an article.
+	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
 	 * @param	string	The content to be transformed.
 	 * @param	array	The content params.
@@ -33,7 +33,7 @@ abstract class JHtmlContent
 		JPluginHelper::importPlugin('content');
 		$dispatcher = &JDispatcher::getInstance();
 		$results = $dispatcher->trigger(
-			'onPrepareContent', array (&$article, &$params, 0)
+			'onContentPrepare', array ('text', &$article, &$params, 0)
 		);
 
 		return $article->text;

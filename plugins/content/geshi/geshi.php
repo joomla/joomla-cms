@@ -14,7 +14,13 @@ jimport('joomla.plugin.plugin');
 
 class plgContentGeshi extends JPlugin
 {
-	public function onPrepareContent(&$article, &$params, $page = 0)
+	/**
+	 * @param	string	The context of the content being passed to the plugin.
+	 * @param	object	The article object.  Note $article->text is also available
+	 * @param	object	The article params
+	 * @param	int		The 'page' number
+	 */
+	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// Simple performance check to determine whether bot should process further.
 		if (JString::strpos($article->text, 'pre>') === false) {

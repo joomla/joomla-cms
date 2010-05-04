@@ -26,11 +26,12 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view
 	 *
-	 * @param	object		The article object.  Note $article->text is also available
-	 * @param	object		The article params
-	 * @param	int			The 'page' number
+	 * @param	string	The context of the content being passed to the plugin.
+	 * @param	object	The article object.  Note $article->text is also available
+	 * @param	object	The article params
+	 * @param	int		The 'page' number
 	 */
-	function onPrepareContent(&$article, &$params, $limitstart)
+	function onPrepareContent($context, &$article, &$params, $limitstart)
 	{
 		$app = &JFactory::getApplication();
 	}

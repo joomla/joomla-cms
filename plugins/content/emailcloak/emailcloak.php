@@ -18,16 +18,16 @@ jimport('joomla.plugin.plugin');
  */
 class plgContentEmailcloak extends JPlugin
 {
-
 	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
+	 * @param	string	The context of the content being passed to the plugin.
 	 * @param	mixed	An object with a "text" property or the string to be cloaked.
 	 * @param	array	Additional parameters. See {@see plgEmailCloak()}.
 	 * @param	int		Optional page number. Unused. Defaults to zero.
 	 * @return	boolean	True on success.
 	 */
-	public function onPrepareContent(&$row, &$params, $page = 0)
+	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
 		if (is_object($row)) {
 			return $this->_cloak($row->text, $params);
