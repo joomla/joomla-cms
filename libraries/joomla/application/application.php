@@ -522,7 +522,7 @@ class JApplication extends JObject
 	/**
 	 * Login authentication function.
 	 *
-	 * Username and encoded password are passed the the onLoginUser event which
+	 * Username and encoded password are passed the the onUserLogin event which
 	 * is responsible for the user validation. A successful validation updates
 	 * the current session record with the users details.
 	 *
@@ -549,7 +549,7 @@ class JApplication extends JObject
 			JPluginHelper::importPlugin('user');
 
 			// OK, the credentials are authenticated.  Lets fire the onLogin event.
-			$results = $this->triggerEvent('onLoginUser', array((array)$response, $options));
+			$results = $this->triggerEvent('onUserLogin', array((array)$response, $options));
 
 			/*
 			 * If any of the user plugins did not successfully complete the login routine
@@ -581,8 +581,8 @@ class JApplication extends JObject
 			}
 		}
 
-		// Trigger onLoginFailure Event.
-		$this->triggerEvent('onLoginFailure', array((array)$response));
+		// Trigger onUserLoginFailure Event.
+		$this->triggerEvent('onUserLoginFailure', array((array)$response));
 
 		// If silent is set, just return false.
 		if (isset($options['silent']) && $options['silent']) {
@@ -596,7 +596,7 @@ class JApplication extends JObject
 	/**
 	 * Logout authentication function.
 	 *
-	 * Passed the current user information to the onLogoutUser event and reverts the current
+	 * Passed the current user information to the onUserLogout event and reverts the current
 	 * session record back to 'anonymous' parameters.
 	 *
 	 * @param	int		The user to load - Can be an integer or string - If string, it is converted to ID automatically
@@ -624,7 +624,7 @@ class JApplication extends JObject
 		JPluginHelper::importPlugin('user');
 
 		// OK, the credentials are built. Lets fire the onLogout event.
-		$results = $this->triggerEvent('onLogoutUser', array($parameters, $options));
+		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		/*
 		 * If any of the authentication plugins did not successfully complete
@@ -640,8 +640,8 @@ class JApplication extends JObject
 			return true;
 		}
 
-		// Trigger onLoginFailure Event.
-		$this->triggerEvent('onLogoutFailure', array($parameters));
+		// Trigger onUserLoginFailure Event.
+		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
 	}

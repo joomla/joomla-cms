@@ -38,6 +38,7 @@ $ -> Language fix or change
  ^ Simplified JForm email and username rules.
  ^ Fix some installation controller problems.
  ^ Rename authentication events to onUserAuthenticate.
+ ^ Rename user events to onUser*.
 
 3-May-2010 Jean-Marie Simonet
 # Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages

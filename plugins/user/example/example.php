@@ -30,7 +30,7 @@ class plgUserExample extends JPlugin
 	 * @param	boolean		true if a new user is stored
 	 * @param	array		holds the new user data
 	 */
-	function onBeforeStoreUser($user, $isnew, $new)
+	function onUserBeforeSave($user, $isnew, $new)
 	{
 		$app = &JFactory::getApplication();
 	}
@@ -45,7 +45,7 @@ class plgUserExample extends JPlugin
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function onAfterStoreUser($user, $isnew, $success, $msg)
+	function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$app = JFactory::getApplication();
 
@@ -77,7 +77,7 @@ class plgUserExample extends JPlugin
 	 *
 	 * @param	array		holds the user data
 	 */
-	function onBeforeDeleteUser($user)
+	function onUserBeforeDelete($user)
 	{
 		$app = &JFactory::getApplication();
 	}
@@ -91,7 +91,7 @@ class plgUserExample extends JPlugin
 	 * @param	boolean		true if user was succesfully stored in the database
 	 * @param	string		message
 	 */
-	function onAfterDeleteUser($user, $succes, $msg)
+	function onUserAfterDelete($user, $succes, $msg)
 	{
 		$app = &JFactory::getApplication();
 
@@ -110,7 +110,7 @@ class plgUserExample extends JPlugin
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onLoginUser($user, $options)
+	function onUserLogin($user, $options)
 	{
 		// Initialise variables.
 		$success = false;
@@ -137,7 +137,7 @@ class plgUserExample extends JPlugin
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function onLogoutUser($user)
+	function onUserLogout($user)
 	{
 		// Initialise variables.
 		$success = false;

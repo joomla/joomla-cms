@@ -1,13 +1,16 @@
 <?php
 /**
+ * @version	$Id$
+ *
  * Contact Creator
  * A tool to automatically create and synchronise contacts with a user
-  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @package Contact_Creator
  */
 
-defined('_JEXEC') or die('');
+// No direct access.
+defined('_JEXEC') or die;
 
 jimport('joomla.plugins.plugin');
 
@@ -20,7 +23,7 @@ jimport('joomla.plugins.plugin');
 class plgUserContactCreator extends JPlugin
 {
 
-	function onAfterStoreUser($user, $isnew, $success, $msg)
+	function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		if(!$success) {
 			return false; // if the user wasn't stored we don't resync

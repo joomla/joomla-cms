@@ -547,10 +547,10 @@ class JUser extends JObject
 		// Get the old user
 		$old = new JUser($this->id);
 
-		// Fire the onBeforeStoreUser event.
+		// Fire the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeStoreUser', array($old->getProperties(), $isnew, $this->getProperties()));
+		$dispatcher->trigger('onUserBeforeSave', array($old->getProperties(), $isnew, $this->getProperties()));
 
 		//Store the user data in the database
 		if (!$result = $table->store()) {
@@ -568,7 +568,7 @@ class JUser extends JObject
 			$my->setParameters($registry);
 		}
 		// Fire the onAftereStoreUser event
-		$dispatcher->trigger('onAfterStoreUser', array($this->getProperties(), $isnew, $result, $this->getError()));
+		$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isnew, $result, $this->getError()));
 
 		return $result;
 	}
@@ -584,9 +584,9 @@ class JUser extends JObject
 	{
 		JPluginHelper::importPlugin('user');
 
-		//trigger the onBeforeDeleteUser event
+		//trigger the onUserBeforeDelete event
 		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onBeforeDeleteUser', array($this->getProperties()));
+		$dispatcher->trigger('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object
 		$table = $this->getTable();
@@ -596,8 +596,8 @@ class JUser extends JObject
 			$this->setError($table->getError());
 		}
 
-		//trigger the onAfterDeleteUser event
-		$dispatcher->trigger('onAfterDeleteUser', array($this->getProperties(), $result, $this->getError()));
+		//trigger the onUserAfterDelete event
+		$dispatcher->trigger('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
 		return $result;
 
 	}
