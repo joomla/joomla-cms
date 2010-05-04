@@ -1,1 +1,1 @@
-CREATE TABLE IF NOT EXISTS #__plgSystemAlpha_utf8_install ( fielda int(10) )
+CREATE TABLE IF NOT EXISTS #__plgSystemAlpha_install ( fielda int(10) );

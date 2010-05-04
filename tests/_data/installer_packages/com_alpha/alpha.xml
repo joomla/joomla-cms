@@ -84,8 +84,8 @@
 
 	<!-- Extension Update Specification -->
 	<updateservers>
-		<server type="extension" priority="1" name="Something JM will want to translate">http://jsitepoint.com/update/component/com_alpha/extension.xml</server> <!-- useful for single extensions -->
-		<server type="collection" priority="2" name="Another thing JM will probably want to translate">http://jsitepoint.com/update/update.xml</server><!-- useful for collections of extensions -->
+		<server type="extension" priority="1" name="Extension Update Site">http://jsitepoint.com/update/component/com_alpha/extension.xml</server> <!-- useful for single extensions -->
+		<server type="collection" priority="2" name="Collection Update Site">http://jsitepoint.com/update/update.xml</server><!-- useful for collections of extensions -->
 	</updateservers>
 
 	<!-- Tables -->

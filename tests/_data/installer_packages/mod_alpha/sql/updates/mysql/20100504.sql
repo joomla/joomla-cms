@@ -1,0 +1,1 @@
+INSERT INTO jos_mod_alpha_utf8_install VALUES(20100504);

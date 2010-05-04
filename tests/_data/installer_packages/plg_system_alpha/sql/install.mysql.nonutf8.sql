@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS #__plgSystemAlpha_nonutf8_install ( fielda int(10) )

@@ -1,1 +1,0 @@
-CREATE TABLE IF NOT EXISTS #__mod_alpha_nonutf8_update ( fielda int(10) )

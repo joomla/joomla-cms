@@ -17,20 +17,17 @@
 	<install> <!-- Runs on install -->
 		<sql>
 			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-			<file driver="mysql">sql/install.mysql.nonutf8.sql</file>
 		</sql>
 	</install>
 	<uninstall> <!-- Runs on uninstall -->
 		<sql>
-			<file driver="mysql" charset="utf8" folder="sql">sql/uninstall.mysql.utf8.sql</file>
-			<file driver="mysql" folder="sql">sql/uninstall.mysql.nonutf8.sql</file>
+			<file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
 	<update> <!-- Runs on update -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/update.mysql.utf8.sql</file>
-			<file driver="mysql">sql/update.mysql.nonutf8.sql</file>
-		</sql>
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>		
+		</schemas>
 	</update>
 
 	<files>
@@ -38,13 +35,10 @@
 		<folder>sql</folder>
 		<folder>language</folder>
 	</files>
-	<!-- Extension Params; deprecated 1.5 style -->
-	<params>
-		<param name="demo" type="text" default="" label="Demo Param" description="DEMOPARAMDESC" />
-	</params>
+	
 	<!-- Languages; deprecated 1.5 style -->
-	<languages folder="language">
+	<!-- <languages folder="language">
 		<language client="administrator" tag="en-GB">admin/en-GB.plg_system_alpha.ini</language>
 		<language client="site" tag="en-GB">site/en-GB.plg_system_alpha.ini</language>
-	</languages>
+	</languages> -->
 </extension>
