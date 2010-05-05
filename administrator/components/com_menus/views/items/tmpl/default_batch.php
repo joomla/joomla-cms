@@ -14,7 +14,7 @@ $options = array(
 	JHtml::_('select.option', 'c', JText::_('COM_MENUS_BATCH_COPY')),
 	JHtml::_('select.option', 'm', JText::_('COM_MENUS_BATCH_MOVE'))
 );
-$published = (int) $this->state->get('filter.published');
+$published = $this->state->get('filter.published');
 ?>
 <fieldset class="batch">
 	<legend><?php echo JText::_('COM_MENUS_BATCH_OPTIONS');?></legend>

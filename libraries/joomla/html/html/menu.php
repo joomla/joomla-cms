@@ -65,21 +65,26 @@ abstract class JHtmlMenu
 		{
 			$db = JFactory::getDbo();
 			$db->setQuery(
-				'SELECT menutype As value, title As text' .
+				'SELECT menutype AS value, title AS text' .
 				' FROM #__menu_types' .
 				' ORDER BY title'
 			);
 			$menus = $db->loadObjectList();
 
 			$query	= $db->getQuery(true);
-			$query->select('a.id AS value, a.title As text, a.level, a.menutype');
+			$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
 			$query->from('#__menu AS a');
 			$query->where('a.parent_id > 0');
 			$query->where('a.type <> '.$db->quote('url'));
+			$query->where('a.menutype <> '.$db->quote('_adminmenu'));
 
 			// Filter on the published state
 			if (isset($config['published'])) {
-				$query->where('a.published = '.(int) $config['published']);
+				if (is_numeric($config['published'])) {
+					$query->where('a.published = '.(int) $config['published']);
+				} else if ($config['published'] === '') {
+					$query->where('a.published IN (0,1)');
+				}
 			}
 
 			$query->order('a.lft');
@@ -247,7 +252,7 @@ abstract class JHtmlMenu
 				$tmpMenuType  = $list_a->menutype;
 			}
 
-			$mitems[] = JHtml::_('select.option',  $list_a->id, $list_a->treename);
+			$mitems[] = JHtml::_('select.option',  $list_a->id, $list_a->title);
 		}
 		if ($lastMenuType !== null) {
 			$mitems[] = JHtml::_('select.option',  '</OPTGROUP>');

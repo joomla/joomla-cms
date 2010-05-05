@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-May-2010 Andrew Eddie
  ^ Accept patch [#20167] Caching of template query + JSite::getTemplate() refactoring to JDatabaseQuery (Dennis Hermacki).
+ # Fix bug in the menu batch template which didn't show the menu items to copy or move to; fix bug in display of menu name (Júlio Pontes).
 
 05-May-2010 Christophe Demko
 # Correcting a bug in the com_installer manage view
