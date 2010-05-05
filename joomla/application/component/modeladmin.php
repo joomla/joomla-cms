@@ -28,16 +28,34 @@ abstract class JModelAdmin extends JModelForm
 	protected $text_prefix = null;
 
 	/**
+	 * @var		string	The event to trigger after deleting the data.
+	 * @since	1.6
+	 */
+	protected $event_after_delete = null;
+
+	/**
 	 * @var		string	The event to trigger after saving the data.
 	 * @since	1.6
 	 */
 	protected $event_after_save = null;
 
 	/**
-	 * @var		string	The event to trigger after before the data.
+	 * @var		string	The event to trigger after deleting the data.
+	 * @since	1.6
+	 */
+	protected $event_before_delete = null;
+
+	/**
+	 * @var		string	The event to trigger after saving the data.
 	 * @since	1.6
 	 */
 	protected $event_before_save = null;
+
+	/**
+	 * @var		string	The event to trigger after changing the published state of the data.
+	 * @since	1.6
+	 */
+	protected $event_change_state = null;
 
 	/**
 	 * Constructor.
@@ -50,16 +68,34 @@ abstract class JModelAdmin extends JModelForm
 	{
 		parent::__construct($config);
 
+		if (isset($config['event_after_delete'])) {
+			$this->event_after_delete = $config['event_after_delete'];
+		} else  if (empty($this->event_after_delete)) {
+			$this->event_after_delete = 'onContentAfterDelete';
+		}
+
 		if (isset($config['event_after_save'])) {
-			$this->eventAfterSave = $config['event_after_save'];
+			$this->event_after_save = $config['event_after_save'];
 		} else  if (empty($this->event_after_save)) {
 			$this->event_after_save = 'onContentAfterSave';
 		}
 
+		if (isset($config['event_before_delete'])) {
+			$this->event_before_delete = $config['event_before_delete'];
+		} else  if (empty($this->event_before_delete)) {
+			$this->event_before_delete = 'onContentBeforeDelete';
+		}
+
 		if (isset($config['event_before_save'])) {
-			$this->eventAfterSave = $config['event_before_save'];
+			$this->event_before_save = $config['event_before_save'];
 		} else  if (empty($this->event_before_save)) {
 			$this->event_before_save = 'onContentBeforeSave';
+		}
+
+		if (isset($config['event_change_state'])) {
+			$this->event_change_state = $config['event_change_state'];
+		} else  if (empty($this->event_change_state)) {
+			$this->event_change_state = 'onContentChangeState';
 		}
 
 		// Guess the JText message prefix. Defaults to the option.
@@ -135,26 +171,46 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function delete(&$pks)
 	{
-		// Typecast variable.
-		$pks = (array) $pks;
-		$user = JFactory::getUser();
+		// Initialise variables.
+		$dispatcher	= JDispatcher::getInstance();
+		$user		= JFactory::getUser();
+		$pks		= (array) $pks;
+		$table		= $this->getTable();
 
-		// Get a row instance.
-		$table = $this->getTable();
+		// Include the content plugins for the on delete events.
+		JPluginHelper::importPlugin('content');
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk) {
+
 			if ($table->load($pk)) {
+
 				if ($this->canDelete($table)) {
+
+					$context = $this->option.'.'.$this->name;
+
+					// Trigger the onContentBeforeDelete event.
+					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+					if (in_array(false, $result, true)) {
+						$this->setError($table->getError());
+						return false;
+					}
+
 					if (!$table->delete($pk)) {
 						$this->setError($table->getError());
 						return false;
 					}
+
+					// Trigger the onContentAfterDelete event.
+					$dispatcher->trigger($this->event_after_delete, array($context, $table));
+
 				} else {
+
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 				}
+
 			} else {
 				$this->setError($table->getError());
 				return false;
@@ -254,9 +310,13 @@ abstract class JModelAdmin extends JModelForm
 	function publish(&$pks, $value = 1)
 	{
 		// Initialise variables.
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
+		$dispatcher	= JDispatcher::getInstance();
+		$user		= JFactory::getUser();
+		$table		= $this->getTable();
+		$pks		= (array) $pks;
+
+		// Include the content plugins for the change of state event.
+		JPluginHelper::importPlugin('content');
 
 		// Access checks.
 		foreach ($pks as $i => $pk) {
@@ -271,6 +331,15 @@ abstract class JModelAdmin extends JModelForm
 
 		// Attempt to change the state of the records.
 		if (!$table->publish($pks, $value, $user->get('id'))) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		$context = $this->option.'.'.$this->name;
+
+		// Trigger the onContentChangeState event.
+		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
+		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
 		}
@@ -337,7 +406,7 @@ abstract class JModelAdmin extends JModelForm
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName().'.id');
 		$isNew		= true;
 
-		// Include the content plugins for the onSave events.
+		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing record.
@@ -362,7 +431,7 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, &$table, $isNew));
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, $table, $isNew));
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
@@ -379,7 +448,7 @@ abstract class JModelAdmin extends JModelForm
 		$cache->clean();
 
 		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, &$table, $isNew));
+		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, $table, $isNew));
 
 		$pkName = $table->getKeyName();
 		if (isset($table->$pkName)) {
