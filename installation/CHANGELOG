@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-May-2010 Jean-Marie Simonet
+$ Adding delete strings and code to Menu type deleting.
+
 05-May-2010 Andrew Eddie
  ^ Renamed "installer" plugin group to "extension".
  ^ Added onExtensionBeforeSave and onExtensionAfterSave events to languages, modules, plugins, template styles and source.

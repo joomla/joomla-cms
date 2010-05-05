@@ -58,6 +58,8 @@ class MenusControllerMenus extends JController
 			// Remove the items.
 			if (!$model->delete($cid)) {
 				$this->setMessage($model->getError());
+			} else {
+			$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cid)));
 			}
 		}
 
