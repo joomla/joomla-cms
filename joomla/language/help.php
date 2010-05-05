@@ -18,73 +18,109 @@ class JHelp
 {
 
 	/**
-	 * Create an URL for a giving help file reference
+	 * Create a URL for a given help key reference
 	 *
-	 * @param string The name of the popup file (excluding the file extension for an xml file)
-	 * @param boolean Use the help file in the component directory
+	 * @param	string	The name of the help screen (its key reference)
+	 * @param	boolean	Use the help file in the component directory
+	 * @param	string	Use this URL instead of any other
 	 */
-	static function createURL($ref, $useComponent = false)
+	static function createURL($ref, $useComponent = false, $override = null)
 	{
-		$component		= JApplicationHelper::getComponentName();
-		$app			= &JFactory::getApplication();
-		$user			= &JFactory::getUser();
-		$userHelpUrl	= $user->getParam('helpsite');
-		$globalHelpUrl	= $app->getCfg('helpurl');
-		$lang			= &JFactory::getLanguage();
+		$local = false;
+		$app		= &JFactory::getApplication();
+		$component	= JApplicationHelper::getComponentName();
 
-		if ($useComponent) {
-			if (!preg_match('#\.html$#i', $ref)) {
-				$ref = $ref . '.html';
+		/*
+		 *  Determine the location of the help file.  At this stage the URL
+		 *  can contain substitution codes that will be replaced later.
+		 */
+		if ($override) {
+
+			$url = $override;
+
+		} else {
+
+			// Get the user help URL.
+			$user		= &JFactory::getUser();
+			$url		= $user->getParam('helpsite');
+
+			// If user hasn't specified a help URL, then get the global one.
+			if ($url == '') {
+				$url	= $app->getCfg('helpurl');
 			}
 
-			$url = 'components/' . $component. '/help';
-			$tag =  $lang->getTag();
+			// Component help URL overrides user and global.
+			if ($useComponent) {
 
-			// Check if the file exists within a different language!
-			if ($lang->getTag() != 'en-GB') {
-				$localeURL = JPATH_BASE.DS.$url.DS.$tag.DS.$ref;
-				jimport('joomla.filesystem.file');
-				if (!JFile::exists($localeURL)) {
-					$tag = 'en-GB';
+				// Look for help URL in component parameters.
+				$params = &JComponentHelper::getParams( $component );
+				$url = $params->get('helpURL');
+				if ($url == '') {
+					$local = true;
+					$url = 'components/{component}/help/{keyref}';
 				}
-			}
-			return $url.'/'.$tag.'/'.$ref;
-		}
 
-
-		if ($userHelpUrl)
-		{
-			// Online help site as defined in GC
-			$version = new JVersion();
-			$ref .= $version->getHelpVersion();
-			$url = $userHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref=' . urlencode($ref);
-		}
-		else if ($globalHelpUrl)
-		{
-			// Online help site as defined in GC
-			$version = new JVersion();
-			$ref .= $version->getHelpVersion();
-			$url = $globalHelpUrl . '/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component;1&amp;keyref=' . urlencode($ref);
-		}
-		else
-		{
-			// Included html help files
-			$helpURL = 'help/' .$lang->getTag() .'/';
-
-			if (!eregi('\.html$', $ref)) {
-				$ref = $ref . '.html';
 			}
 
-			// Check if the file exists within a different language!
-			if ($lang->getTag() != 'en-GB') {
-				$localeURL = JPATH_BASE . $helpURL .$ref;
-				jimport('joomla.filesystem.file');
-				if (!JFile::exists($localeURL)) {
-					$helpURL = 'help/en-GB/';
-				}
+			// Set up a local help URL.
+			if (!$url) {
+				$local = true;
+				$url = 'help/{language}/{keyref}';
 			}
-			$url = $helpURL . $ref;
 		}
+
+		// If the URL is local then make sure we have a valid file extension on the URL.
+		if ($local) {
+			if (!preg_match('#\.html$|\.xml$#i', $ref)) {
+					$url .= '.html';
+			}
+		}
+
+		/*
+		 *  Replace substitution codes in the URL.
+		 */
+		$lang		= &JFactory::getLanguage();
+		$version 	= new JVersion();
+		$jver		= explode( '.', $version->getShortVersion() );
+		$jlang		= explode( '-', $lang->getTag() );
+
+		// Replace substitution codes in help URL.
+		$search = array(
+			'{app}',			// Application name (eg. 'Administrator')
+			'{component}',		// Component name (eg. 'com_content')
+			'{keyref}',			// Help screen key reference
+			'{language}',		// Full language code (eg. 'en-GB')
+			'{langcode}',		// Short language code (eg. 'en')
+			'{langregion}',		// Region code (eg. 'GB')
+			'{major}',			// Joomla major version number
+			'{minor}',			// Joomla minor version number
+			'{maintenance}'		// Joomla maintenance version number
+			);
+		$replace = array(
+			$app->getName(),	// {app}
+			$component,			// {component}
+			JText::_($ref),		// {keyref}
+			$lang->getTag(),	// {language}
+			$jlang[0],			// {langcode}
+			$jlang[1],			// {langregion}
+			$jver[0],			// {major}
+			$jver[1],			// {minor}
+			$jver[2]			// {maintenance}
+			);
+
+		// If the help file is local then check it exists.
+		// If it doesn't then fallback to English.
+		if ($local) {
+			$try = str_replace($search, $replace, $url);
+			jimport('joomla.filesystem.file');
+			if (!JFile::exists(JPATH_BASE.'/'.$try)) {
+				$replace[3] = 'en-GB';
+				$replace[4] = 'en';
+				$replace[5] = 'GB';
+			}
+		}
+
+		$url = str_replace($search, $replace, $url);
 
 		return $url;
 	}
