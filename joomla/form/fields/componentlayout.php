@@ -13,7 +13,8 @@ jimport('joomla.html.html');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 jimport('joomla.form.formfield');
-JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
+jimport('joomla.form.helper');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Form Field to display a list of the layouts for a component view from the extension or default template overrides.

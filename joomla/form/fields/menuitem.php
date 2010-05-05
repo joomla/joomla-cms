@@ -11,7 +11,8 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
-JLoader::register('JFormFieldGroupedList', dirname(__FILE__).'/groupedlist.php');
+jimport('joomla.form.helper');
+JFormHelper::loadFieldClass('groupedlist');
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php');

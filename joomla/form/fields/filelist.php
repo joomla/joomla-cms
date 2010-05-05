@@ -13,7 +13,8 @@ jimport('joomla.html.html');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 jimport('joomla.form.formfield');
-JLoader::register('JFormFieldList', dirname(__FILE__).'/list.php');
+jimport('joomla.form.helper');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of file
