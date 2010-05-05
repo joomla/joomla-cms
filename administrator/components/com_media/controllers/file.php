@@ -18,9 +18,8 @@ jimport('joomla.filesystem.folder');
  * @subpackage	com_media
  * @since 1.5
  */
-class MediaControllerFile extends MediaController
+class MediaControllerFile extends JController
 {
-
 	/**
 	 * Upload a file
 	 *
@@ -35,7 +34,6 @@ class MediaControllerFile extends MediaController
 		$app	= &JFactory::getApplication();
 		$file	= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder	= JRequest::getVar('folder', '', '', 'path');
-		$format	= JRequest::getVar('format', 'html', '', 'cmd');
 		$return	= JRequest::getVar('return-url', null, 'post', 'base64');
 		$err	= null;
 
@@ -51,68 +49,39 @@ class MediaControllerFile extends MediaController
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
 
 			if (!MediaHelper::canUpload($file, $err)) {
-				if ($format == 'json') {
-					jimport('joomla.error.log');
-					$log = &JLog::getInstance('upload.error.php');
-					$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
-					header('HTTP/1.0 415 Unsupported Media Type');
-					jexit('Error. Unsupported Media Type!');
-				} else {
-					JError::raiseNotice(100, JText::_($err));
-					// REDIRECT
-					if ($return) {
-						$app->redirect(base64_decode($return).'&folder='.$folder);
-					}
-					return;
+
+				JError::raiseNotice(100, JText::_($err));
+				// REDIRECT
+				if ($return) {
+					$app->redirect(base64_decode($return).'&folder='.$folder);
 				}
+				return;
+
 			}
 
 			if (JFile::exists($filepath)) {
-				if ($format == 'json') {
-					jimport('joomla.error.log');
-					$log = &JLog::getInstance('upload.error.php');
-					$log->addEntry(array('comment' => 'File already exists: '.$filepath));
-					header('HTTP/1.0 409 Conflict');
-					jexit('Error. File already exists');
-				} else {
-					JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
-					// REDIRECT
-					if ($return) {
-						$app->redirect(base64_decode($return).'&folder='.$folder);
-					}
-					return;
+				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
+				// REDIRECT
+				if ($return) {
+					$app->redirect(base64_decode($return).'&folder='.$folder);
 				}
+				return;
 			}
 
 			if (!JFile::upload($file['tmp_name'], $filepath)) {
-				if ($format == 'json') {
-					jimport('joomla.error.log');
-					$log = &JLog::getInstance('upload.error.php');
-					$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
-					header('HTTP/1.0 400 Bad Request');
-					jexit('Error Unable to upload file');
-				} else {
-					JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
-					// REDIRECT
-					if ($return) {
-						$app->redirect(base64_decode($return).'&folder='.$folder);
-					}
-					return;
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
+				// REDIRECT
+				if ($return) {
+					$app->redirect(base64_decode($return).'&folder='.$folder);
 				}
+				return;
 			} else {
-				if ($format == 'json') {
-					jimport('joomla.error.log');
-					$log = &JLog::getInstance();
-					$log->addEntry(array('comment' => $folder));
-					jexit('Upload complete');
-				} else {
-					$app->enqueueMessage(JText::_('COM_MEDIA_UPLOAD_COMPLETE'));
-					// REDIRECT
-					if ($return) {
-						$app->redirect(base64_decode($return).'&folder='.$folder);
-					}
-					return;
+				$app->enqueueMessage(JText::_('COM_MEDIA_UPLOAD_COMPLETE'));
+				// REDIRECT
+				if ($return) {
+					$app->redirect(base64_decode($return).'&folder='.$folder);
 				}
+				return;
 			}
 		} else {
 			$app->redirect('index.php', 'Invalid Request', 'error');

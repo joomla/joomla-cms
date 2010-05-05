@@ -58,7 +58,7 @@ defined('_JEXEC') or die;
 			</form>
 
 			<!-- File Upload Form -->
-			<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
+			<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1&amp;format=json" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
 				<fieldset id="uploadform">
 					<legend><?php echo JText::_('COM_MEDIA_UPLOAD_FILES'); ?> (<?php echo JText::_('COM_MEDIA_MAXIMUM_SIZE'); ?>:&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
 					<fieldset id="upload-noflash" class="actions">
@@ -86,6 +86,7 @@ defined('_JEXEC') or die;
 					</ul>
 				</fieldset>
 				<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
+				<input type="hidden" name="format" value="html" />
 			</form>
 		</td>
 	</tr>

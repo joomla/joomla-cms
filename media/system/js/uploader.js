@@ -31,7 +31,8 @@ var FancyUpload2 = new Class({
 		options.fileClass = options.fileClass || FancyUpload2.File;
 		options.fileSizeMax = options.limitSize || options.fileSizeMax;
 		options.fileListMax = options.limitFiles || options.fileListMax;
-
+		options.url = options.url + '&format=json';
+		alert(options.url);
 		this.parent(options);
 
 		this.addEvents({
@@ -90,11 +91,11 @@ var FancyUpload2 = new Class({
 	},
 
 	updateOverall: function() {
-		this.overallTitle.set('html', MooTools.lang.get('FancyUpload', 'progressOverall').substitute({
+		this.overallTitle.set('html', Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_PROGRESS_OVERALL', 'Overall Progress').substitute({
 			total: Swiff.Uploader.formatUnit(this.size, 'b')
 		}));
 		if (!this.size) {
-			this.currentTitle.set('html', MooTools.lang.get('FancyUpload', 'currentTitle'));
+			this.currentTitle.set('html', Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_TITLE', 'Current Title'));
 			this.currentText.set('html', '');
 		}
 	},
@@ -119,7 +120,7 @@ FancyUpload2.File = new Class({
 	render: function() {
 		if (this.invalid) {
 			if (this.validationError) {
-				var msg = MooTools.lang.get('FancyUpload', 'validationErrors')[this.validationError] || this.validationError;
+				var msg = Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_'+this.validationError, this.validationError);
 				this.validationErrorMessage = msg.substitute({
 					name: this.name,
 					size: Swiff.Uploader.formatUnit(this.size, 'b'),
@@ -147,8 +148,8 @@ FancyUpload2.File = new Class({
 			new Element('a', {
 				'class': 'file-remove',
 				href: '#',
-				html: MooTools.lang.get('FancyUpload', 'remove'),
-				title: MooTools.lang.get('FancyUpload', 'removeTitle'),
+				html: Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_REMOVE', 'Remove'),
+				title: Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_REMOVE_TITLE', 'Remove Title'),
 				events: {
 					click: function() {
 						this.remove();
@@ -156,7 +157,7 @@ FancyUpload2.File = new Class({
 					}.bind(this)
 				}
 			}),
-			new Element('span', {'class': 'file-name', 'html': MooTools.lang.get('FancyUpload', 'fileName').substitute(this)}),
+			new Element('span', {'class': 'file-name', 'html': Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_FILENAME', 'Filename').substitute(this)}),
 			this.info
 		).inject(this.base.list);
 	},
@@ -168,12 +169,12 @@ FancyUpload2.File = new Class({
 	onStart: function() {
 		this.element.addClass('file-uploading');
 		this.base.currentProgress.cancel().set(0);
-		this.base.currentTitle.set('html', MooTools.lang.get('FancyUpload', 'currentFile').substitute(this));
+		this.base.currentTitle.set('html', Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_FILE', 'Current File').substitute(this));
 	},
 
 	onProgress: function() {
 		this.base.overallProgress.start(this.base.percentLoaded);
-		this.base.currentText.set('html', MooTools.lang.get('FancyUpload', 'currentProgress').substitute({
+		this.base.currentText.set('html', Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_PROGRESS', 'Current Progress').substitute({
 			rate: (this.progress.rate) ? Swiff.Uploader.formatUnit(this.progress.rate, 'bps') : '- B',
 			bytesLoaded: Swiff.Uploader.formatUnit(this.progress.bytesLoaded, 'b'),
 			timeRemaining: (this.progress.timeRemaining) ? Swiff.Uploader.formatUnit(this.progress.timeRemaining, 's') : '-'
@@ -184,15 +185,12 @@ FancyUpload2.File = new Class({
 	onComplete: function() {
 		this.element.removeClass('file-uploading');
 
-		this.base.currentText.set('html', MooTools.lang.get('FancyUpload', 'uploadCompleted'));
+		this.base.currentText.set('html', Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_UPLOAD_COMPLETED', 'Upload Completed'));
 		this.base.currentProgress.start(100);
 
 		if (this.response.error) {
-			var msg = MooTools.lang.get('FancyUpload', 'errors')[this.response.error] || '{error} #{code}';
-			this.errorMessage = msg.substitute($extend({
-				name: this.name,
-				size: Swiff.Uploader.formatUnit(this.size, 'b')
-			}, this.response));
+			var msg = this.response.error;
+			this.errorMessage = msg;
 			var args = [this, this.errorMessage, this.response];
 
 			this.fireEvent('error', args).base.fireEvent('fileError', args);
@@ -203,7 +201,7 @@ FancyUpload2.File = new Class({
 
 	onError: function() {
 		this.element.addClass('file-failed');
-		var error = MooTools.lang.get('FancyUpload', 'fileError').substitute(this);
+		var error = Joomla.JText._('JLIB_HTML_BEHAVIOR_UPLOADER_FILE_ERROR', 'File Error').substitute(this);
 		this.info.set('html', '<strong>' + error + ':</strong> ' + this.errorMessage);
 	},
 

@@ -9,14 +9,14 @@
  * @package		Joomla.Administrator
  * @subpackage	com_media
  */
-class MediaHelper
+abstract class MediaHelper
 {
 	/**
 	 * Checks if the file is an image
 	 * @param string The filename
 	 * @return boolean
 	 */
-	function isImage($fileName)
+	public static function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 		return preg_match("/\.(?:$imageTypes)$/i",$fileName);
@@ -27,7 +27,7 @@ class MediaHelper
 	 * @param string The filename
 	 * @return boolean
 	 */
-	function getTypeIcon($fileName)
+	public static function getTypeIcon($fileName)
 	{
 		// Get file extension
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
@@ -40,7 +40,7 @@ class MediaHelper
 	 * @param string An error message to be returned
 	 * @return boolean
 	 */
-	function canUpload($file, &$err)
+	public static function canUpload($file, &$err)
 	{
 		$params = &JComponentHelper::getParams('com_media');
 
@@ -77,8 +77,14 @@ class MediaHelper
 		if ($params->get('restrict_uploads',1)) {
 			$images = explode(',', $params->get('image_extensions'));
 			if (in_array($format, $images)) { // if its an image run it through getimagesize
-				if (($imginfo = getimagesize($file['tmp_name'])) === FALSE) {
-					$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
+				// if tmp_name is empty, then the file was bigger than the PHP limit
+				if (!empty($file['tmp_name'])) {
+					if (($imginfo = getimagesize($file['tmp_name'])) === FALSE) {
+						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
+						return false;
+					}
+				} else {
+					$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
 					return false;
 				}
 			} else if (!in_array($format, $ignored)) {
@@ -120,7 +126,7 @@ class MediaHelper
 		return true;
 	}
 
-	function parseSize($size)
+	public static function parseSize($size)
 	{
 		if ($size < 1024) {
 			return $size . ' bytes';
@@ -135,7 +141,7 @@ class MediaHelper
 		}
 	}
 
-	function imageResize($width, $height, $target)
+	public static function imageResize($width, $height, $target)
 	{
 		//takes the larger size of the width and height and applies the
 		//formula accordingly...this is so this script will work
@@ -153,7 +159,7 @@ class MediaHelper
 		return array($width, $height);
 	}
 
-	function countFiles($dir)
+	public static function countFiles($dir)
 	{
 		$total_file = 0;
 		$total_dir = 0;

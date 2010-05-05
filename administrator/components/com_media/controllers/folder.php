@@ -18,7 +18,7 @@ jimport('joomla.filesystem.folder');
  * @subpackage	com_media
  * @since 1.5
  */
-class MediaControllerFolder extends MediaController
+class MediaControllerFolder extends JController
 {
 
 	/**

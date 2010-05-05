@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 			self::framework(false);
 		}
 
-		JHTML::_('script','system/mootools-'.$type.$uncompressed.'.js', false, true);
+		JHtml::_('script','system/mootools-'.$type.$uncompressed.'.js', false, true);
 		$loaded[$type] = true;
 		return;
 	}
@@ -76,18 +76,18 @@ abstract class JHtmlBehavior
 
 	public static function caption()
 	{
-		JHTML::_('script','system/caption.js', false, true);
+		JHtml::_('script','system/caption.js', false, true);
 	}
 
 	public static function formvalidation()
 	{
-		JHTML::_('script','system/validate.js', false, true);
+		JHtml::_('script','system/validate.js', false, true);
 	}
 
 	public static function switcher()
 	{
 		JHtml::_('behavior.framework');
-		JHTML::_('script','system/switcher.js', false, true);
+		JHtml::_('script','system/switcher.js', false, true);
 
 		$script = "
 			document.switcher = null;
@@ -104,7 +104,7 @@ abstract class JHtmlBehavior
 
 	public static function combobox()
 	{
-		JHTML::_('script','system/combobox.js', false, true);
+		JHtml::_('script','system/combobox.js', false, true);
 	}
 
 	public static function tooltip($selector='.hasTip', $params = array())
@@ -134,7 +134,7 @@ abstract class JHtmlBehavior
 		$opt['onShow']			= (isset($params['onShow'])) ? '\\'.$params['onShow'] : null;
 		$opt['onHide']			= (isset($params['onHide'])) ? '\\'.$params['onHide'] : null;
 
-		$options = JHTMLBehavior::_getJSObject($opt);
+		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
 		$document = &JFactory::getDocument();
@@ -167,8 +167,8 @@ abstract class JHtmlBehavior
 		if (!isset($included)) {
 			// Load the javascript and css
 			JHtml::_('behavior.framework');
-			JHTML::_('script','system/modal.js', false, true);
-			JHTML::_('stylesheet','system/modal.css', array(), true);
+			JHtml::_('script','system/modal.js', false, true);
+			JHtml::_('stylesheet','system/modal.css', array(), true);
 
 			$included = true;
 		}
@@ -213,9 +213,9 @@ abstract class JHtmlBehavior
 
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		JHTML::_('script','system/swf.js', false, true);
-		JHTML::_('script','system/progressbar.js', false, true);
-		JHTML::_('script','system/uploader.js', false, true);
+		JHtml::_('script','system/swf.js', false, true);
+		JHtml::_('script','system/progressbar.js', false, true);
+		JHtml::_('script','system/uploader.js', false, true);
 
 		$document = &JFactory::getDocument();
 
@@ -224,54 +224,50 @@ abstract class JHtmlBehavior
 		if (!isset($uploaders)) {
 			$uploaders = array();
 
-			// load language
-			$lang =& JFactory::getLanguage();
-			$lang->load('com_media', JPATH_ADMINISTRATOR);
-
-			$js = "
-				(function() {
-					var phrases = {
-						'uploadCompleted': '".JText::_('COM_MEDIA_UPLOADER_UPLOAD_COMPLETED', true)."',
-						'progressOverall': '".JText::_('COM_MEDIA_UPLOADER_OVERALL_PROGRESS_TOTAL', true)."',
-						'currentTitle': '".JText::_('COM_MEDIA_UPLOADER_FILE_PROGRESS', true)."',
-						'currentFile': '".JText::_('COM_MEDIA_UPLOADER_UPLOADING', true)."',
-						'currentProgress': '".JText::_('COM_MEDIA_UPLOADER_CURRENT_PROGRESS', true)."',
-						'fileName': '".JText::_('COM_MEDIA_UPLOADER_FILENAME', true)."',
-						'remove': '".JText::_('COM_MEDIA_UPLOADER_REMOVE', true)."',
-						'removeTitle': '".JText::_('COM_MEDIA_UPLOADER_REMOVE_TITLE', true)."',
-						'fileError': '".JText::_('COM_MEDIA_UPLOADER_FILE_ERROR', true)."',
-						'validationErrors': {
-							'duplicate': '".JText::_('COM_MEDIA_UPLOADER_ERROR_DUPLICATE', true)."',
-							'sizeLimitMin': '".JText::_('COM_MEDIA_UPLOADER_ERROR_SIZE_LIMIT_MIN', true)."',
-							'sizeLimitMax': '".JText::_('COM_MEDIA_UPLOADER_ERROR_SIZE_LIMIT_MAX', true)."',
-							'fileListMax': '".JText::_('COM_MEDIA_UPLOADER_ERROR_FILELIST_MAX', true)."',
-							'fileListSizeMax': '".JText::_('COM_MEDIA_UPLOADER_ERROR_FILELIST_SIZE_MAX', true)."'
-						},
-						'errors': {
-							'httpStatus': '".JText::_('COM_MEDIA_UPLOADER_ERROR_HTTP_STATUS', true)."',
-							'securityError': '".JText::_('COM_MEDIA_UPLOADER_ERROR_SECURITY', true)."',
-							'ioError': '".JText::_('COM_MEDIA_UPLOADER_ERROR_IO', true)."'
-						}
-					};
-					if (MooTools.lang) {
-						MooTools.lang.set('".$lang->getTag()."', 'FancyUpload', phrases);
-						MooTools.lang.setLanguage('".$lang->getTag()."');
-					} else {
-						MooTools.lang = {
-							get: function(from, key) {
-								return phrases[key];
-							}
-						};
-					}
-				})();";
-			$document->addScriptDeclaration($js);
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILENAME');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_UPLOAD_COMPLETED');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_PROGRESS_OVERALL');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_TITLE');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_REMOVE');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_REMOVE_TITLE');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_FILE');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_PROGRESS');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILE_ERROR');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILE_SUCCESSFULLY_UPLOADED');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_DUPLICATE');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_SIZELIMITMIN');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_SIZELIMITMAX');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_FILELISTMAX');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_FILELISTSIZEMAX');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_HTTPSTATUS');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_SECURITYERROR');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_IOERROR');
 		}
+
 
 		if (isset($uploaders[$id]) && ($uploaders[$id])) {
 			return;
 		}
 
+		$onFileSuccess = '\\function(file, response) {
+			var json = new Hash(JSON.decode(response, true) || {});
+
+			if (json.get(\'status\') == \'1\') {
+				file.element.addClass(\'file-success\');
+				file.info.set(\'html\', \'<strong>\' + Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_FILE_SUCCESSFULLY_UPLOADED\') + \'</strong>\');
+			} else {
+				file.element.addClass(\'file-failed\');
+				file.info.set(\'html\', \'<strong>\' +
+					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\', \'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
+			}
+		}';
+
+
+
 		// Setup options object
+		$opt['verbose']				= true;
 		$opt['url']					= (isset($params['targetURL'])) ? $params['targetURL'] : null ;
 		$opt['path']				= (isset($params['swf'])) ? $params['swf'] : JURI::root(true).'/media/system/swf/uploader.swf';
 		$opt['height']				= (isset($params['height'])) && $params['height'] ? (int)$params['height'] : null;
@@ -292,7 +288,7 @@ abstract class JHtmlBehavior
 		$opt['fileListMax']			= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int)$params['fileListMax'] : $opt['fileListMax'];
 		$opt['fileListSizeMax']		= (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int)$params['fileListSizeMax'] : null;
 		// types is the old parameter name.  Remove in 1.7
-		$opt['typeFilter']			= (isset($params['types'])) ? '\\'.$params['types'] : '\\{\'All Files (*.*)\': \'*.*\'}';
+		$opt['typeFilter']			= (isset($params['types'])) ? '\\'.$params['types'] : '\\{Joomla.JText._(\'JPLOADER_ALL_FILES\'): \'*.*\'}';
 		$opt['typeFilter']			= (isset($params['typeFilter'])) ? '\\'.$params['typeFilter'] : $opt['typeFilter'];
 
 
@@ -302,7 +298,7 @@ abstract class JHtmlBehavior
 		$opt['onBeforeStart'] 		= (isset($params['onBeforeStart'])) ? '\\'.$params['onBeforeStart'] : null;
 		$opt['onStart'] 			= (isset($params['onStart'])) ? '\\'.$params['onStart'] : null;
 		$opt['onComplete'] 			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
-		$opt['onFileSuccess'] 		= (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : null;
+		$opt['onFileSuccess'] 		= (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : $onFileSuccess;
 
 		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
 		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
@@ -366,8 +362,8 @@ abstract class JHtmlBehavior
 
 		// Include mootools framework
 		JHtml::_('behavior.framework');
-		JHTML::_('script','system/mootree.js', false, true);
-		JHTML::_('stylesheet','system/mootree.css', array(), true);
+		JHtml::_('script','system/mootree.js', false, true);
+		JHtml::_('stylesheet','system/mootree.css', array(), true);
 
 		if (isset($trees[$id]) && ($trees[$id])) {
 			return;
@@ -377,7 +373,7 @@ abstract class JHtmlBehavior
 		$opt['div']		= (array_key_exists('div', $params)) ? $params['div'] : $id.'_tree';
 		$opt['mode']	= (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
 		$opt['grid']	= (array_key_exists('grid', $params)) ? '\\'.$params['grid'] : '\\true';
-		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JHTML::_('image','system/mootree.gif', '', array(), true, true);
+		$opt['theme']	= (array_key_exists('theme', $params)) ? $params['theme'] : JHtml::_('image','system/mootree.gif', '', array(), true, true);
 
 		// Event handlers
 		$opt['onExpand']	= (array_key_exists('onExpand', $params)) ? '\\'.$params['onExpand'] : null;
@@ -413,9 +409,9 @@ abstract class JHtmlBehavior
 	public static function calendar()
 	{
 		$document = &JFactory::getDocument();
-		JHTML::_('stylesheet','system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') ,' media' => 'all'), true);
-		JHTML::_('script','system/calendar.js', false, true);
-		JHTML::_('script','system/calendar-setup.js', false, true);
+		JHtml::_('stylesheet','system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') ,' media' => 'all'), true);
+		JHtml::_('script','system/calendar.js', false, true);
+		JHtml::_('script','system/calendar-setup.js', false, true);
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if ($translation) {

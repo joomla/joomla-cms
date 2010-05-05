@@ -15,60 +15,26 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_media')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
 $params = &JComponentHelper::getParams('com_media');
 
 // Load the admin HTML view
 require_once JPATH_COMPONENT.DS.'helpers'.DS.'media.php';
 
 // Set the path definitions
-$view = JRequest::getCmd('view',null);
 $popup_upload = JRequest::getCmd('pop_up',null);
 $path = "file_path";
-if (substr(strtolower($view),0,6) == "images" || $popup_upload == 1) $path = "image_path";
+
+$view = JRequest::getVar('view');
+if (substr(strtolower($view),0,6) == "images" || $popup_upload == 1) {
+	$path = "image_path";
+}
+
 define('COM_MEDIA_BASE',	JPATH_ROOT.DS.$params->get($path, 'images'));
 define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images'));
 
-// Require the base controller
-require_once JPATH_COMPONENT.DS.'controller.php';
+// Include dependancies
+jimport('joomla.application.component.controller');
 
-// TODO: Refactor to support the latest MVC pattern.
-
-$cmd = JRequest::getCmd('task', null);
-
-if (strpos($cmd, '.') != false)
-{
-	// We have a defined controller/task pair -- lets split them out
-	list($controllerName, $task) = explode('.', $cmd);
-
-	// Define the controller name and path
-	$controllerName	= strtolower($controllerName);
-	$controllerPath	= JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php';
-
-	// If the controller file path exists, include it ... else lets die with a 500 error
-	if (file_exists($controllerPath)) {
-		require_once $controllerPath;
-	} else {
-		JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER'));
-	}
-} else {
-	// Base controller, just set the task :)
-	$controllerName = null;
-	$task = $cmd;
-}
-
-// Set the name for the controller and instantiate it
-$controllerClass = 'MediaController'.ucfirst($controllerName);
-if (class_exists($controllerClass)) {
-	$controller = new $controllerClass();
-} else {
-	JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER_CLASS'));
-}
-
-// Perform the Request task
-$controller->execute($task);
-
-// Redirect if set by the controller
+$controller	= JController::getInstance('Media');
+$controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

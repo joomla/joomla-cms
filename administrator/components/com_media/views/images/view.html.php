@@ -27,8 +27,38 @@ class MediaViewImages extends JView
 		$append = '';
 		// if ($app->getClientId() == 1) $append = 'administrator/';
 
-		JHTML::_('script','media/popup-imagemanager.js', array(), true);
+		JHTML::_('script','media/popup-imagemanager.js', true, true);
 		JHTML::_('stylesheet','media/popup-imagemanager.css', array(), true);
+
+		if ($config->get('enable_flash', 1)) {
+			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');
+			$types = explode(',', $fileTypes);
+			$displayTypes = '';		// this is what the user sees
+			$filterTypes = '';		// this is what controls the logic
+			$firstType = true;
+			foreach($types AS $type) {
+				if(!$firstType) {
+					$displayTypes .= ', ';
+					$filterTypes .= '; ';
+				} else {
+					$firstType = false;
+				}
+				$displayTypes .= '*.'.$type;
+				$filterTypes .= '*.'.$type;
+			}
+			$typeString = '{ \'Images ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+
+			JHtml::_('behavior.uploader', 'upload-flash',
+				array(
+					'onBeforeStart' => 'function(){ Uploader.setOptions({url: $(\'uploadForm\').action + \'&folder=\' + $(\'imageForm\').folderlist.value}); }',
+					'onComplete' 	=> 'function(){ window.frames[\'imageframe\'].location.href = window.frames[\'imageframe\'].location.href; }',
+					'targetURL' 	=> '\\$(\'uploadForm\').action',
+					'typeFilter' 	=> $typeString,
+					'fileSizeMax'	=> $config->get('upload_maxsize'),
+				)
+			);
+		}	
+
 
 		/*
 		 * Display form for FTP credentials?

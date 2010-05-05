@@ -65,14 +65,29 @@ echo $params->get('image_path', 'images');?>/';
 	<input type="hidden" id="f_file" name="f_file" />
 	<input type="hidden" id="tmpl" name="component" />
 </form>
-<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;pop_up=1&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" method="post" enctype="multipart/form-data">
-	<fieldset>
-		<legend><?php echo JText::_('COM_MEDIA_UPLOAD'); ?></legend>
-		<fieldset class="actions">
-			<input type="file" id="file-upload" name="Filedata" />
-			<input type="submit" id="file-upload-submit" value="<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>"/>
-			<span id="upload-clear"></span>
+<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1&amp;format=json" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
+	<fieldset id="uploadform">
+		<legend><?php echo JText::_('COM_MEDIA_UPLOAD_FILES'); ?> (<?php echo JText::_('COM_MEDIA_MAXIMUM_SIZE'); ?>:&nbsp;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
+		<fieldset id="upload-noflash" class="actions">
+			<label for="upload-file" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
+			<input type="file" id="upload-file" name="Filedata" />
+			<label for="upload-submit" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></label>
+			<input type="submit" id="upload-submit" value="<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>"/>
 		</fieldset>
+		<div id="upload-flash" class="hide">
+			<ul>
+				<li><a href="#" id="upload-browse"><?php echo JText::_('COM_MEDIA_BROWSE_FILES'); ?></a></li>
+				<li><a href="#" id="upload-clear"><?php echo JText::_('COM_MEDIA_CLEAR_LIST'); ?></a></li>
+				<li><a href="#" id="upload-start"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></a></li>
+			</ul>
+			<div class="clr"> </div>
+			<p class="overall-title"></p>
+			<?php echo JHTML::_('image','media/bar.gif', JText::_('COM_MEDIA_OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
+			<div class="clr"> </div>
+			<p class="current-title"></p>
+			<?php echo JHTML::_('image','media/bar.gif', JText::_('COM_MEDIA_CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
+			<p class="current-text"></p>
+		</div>
 		<ul class="upload-queue" id="upload-queue">
 			<li style="display: none" />
 		</ul>
