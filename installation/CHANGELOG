@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ Added onExtensionBeforeSave and onExtensionAfterSave events to languages, modules, plugins, template styles and source.
  ^ Merged language switcher branch (Jean-Marie Simonet & Christophe Demko).
  # Fixed bugs in flash uploader (Ian MacLennan is da man!).
+ + Added stanard support for onContentBeforeDelete, onContentAfterDelete and onContentChangeState events in JModelAdmin.
 
 04-May-2010 Jean-Marie Simonet
 $ Refactored ini files structure for test alphas
