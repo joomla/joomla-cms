@@ -136,7 +136,7 @@ class JApplicationHelper
 			$client->id = count($info);
 		}
 
-		$info[$client->id] = clone $client;
+		self::$_clients[$client->id] = clone $client;
 
 		return true;
 	}
