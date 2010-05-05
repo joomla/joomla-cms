@@ -376,16 +376,34 @@ final class JSite extends JApplication
 		else {
 			$condition = 'id = '.(int) $id;
 		}
+		
+		$cache = &JFactory::getCache('com_templates', '');
+		if (!$templates = $cache->get('0')) {
+			// Load styles
+			$db = &JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('id, home, template, params');
+			$query->from('#__template_styles');
+			$query->where('client_id = 0');
+			
+			$db->setQuery($query);
+			$templates = $db->loadObjectList('id');
+			
+			foreach($templates as &$template) {
+				$registry = new JRegistry;
+				$registry->loadJSON($template->params);
+				$template->params = $registry;
 
-		// Load template entries for the active menuid and the default template
-		$db = &JFactory::getDbo();
-		$query = 'SELECT template, params'
-			. ' FROM #__template_styles'
-			. ' WHERE client_id = 0 AND '.$condition
-			;
-		$db->setQuery($query, 0, 1);
-		$template = $db->loadObject();
-
+				// Create home element
+				if ($template->home) {
+					$templates[0] = clone $template;
+				}
+			}
+			$cache->store($templates, '0');
+		}
+		
+		$template = $templates[$id];
+		
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
@@ -394,10 +412,6 @@ final class JSite extends JApplication
 		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
 			$template->template = 'rhuk_milkyway';
 		}
-
-		$registry = new JRegistry;
-		$registry->loadJSON($template->params);
-		$template->params = $registry;
 
 		// Cache the result
 		$this->template = $template;

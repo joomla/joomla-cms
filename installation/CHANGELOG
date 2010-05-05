@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-May-2010 Andrew Eddie
+ ^ Accept patch [#20167] Caching of template query + JSite::getTemplate() refactoring to JDatabaseQuery (Dennis Hermacki).
+
 05-May-2010 Christophe Demko
 # Correcting a bug in the com_installer manage view
 $ Change a string in com_languages

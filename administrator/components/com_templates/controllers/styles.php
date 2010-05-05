@@ -20,22 +20,6 @@ jimport('joomla.application.component.controlleradmin');
 class TemplatesControllerStyles extends JControllerAdmin
 {
 	/**
-	 * Display is not supported by this class.
-	 */
-	public function display()
-	{
-	}
-
-	/**
-	 * Proxy for getModel.
-	 */
-	public function &getModel($name = 'Style', $prefix = 'TemplatesModel')
-	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
-	}
-
-	/**
 	 * Method to clone and existing template style.
 	 */
 	public function duplicate()
@@ -64,7 +48,38 @@ class TemplatesControllerStyles extends JControllerAdmin
 	}
 
 	/**
+	 * Proxy for execute.
+	 *
+	 * If the task is an action which modifies data, the component cache is cleared.
+	 *
+	 * @since	1.6
+ 	 */
+	public function execute($task)
+	{
+		parent::execute($task);
+
+		// Clear the component's cache
+		if ($task != 'display') {
+			$cache = &JFactory::getCache('com_templates');
+			$cache->clean();
+		}
+	}
+
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @since	1.6
+	 */
+	public function &getModel($name = 'Style', $prefix = 'TemplatesModel')
+	{
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
+	}
+
+	/**
 	 * Method to set the home template for a client.
+	 *
+	 * @since	1.6
 	 */
 	public function sethome()
 	{
@@ -74,8 +89,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
 
-		try
-		{
+		try {
 			if (empty($pks)) {
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
@@ -85,9 +99,8 @@ class TemplatesControllerStyles extends JControllerAdmin
 			$model = $this->getModel();
 			$model->setHome($id);
 			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
-		}
-		catch (Exception $e)
-		{
+
+		} catch (Exception $e) {
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
