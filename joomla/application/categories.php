@@ -154,6 +154,7 @@ class JCategories
 	protected function _load($id)
 	{
 		$db	= JFactory::getDbo();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
@@ -198,6 +199,11 @@ class JCategories
 		// Group by
 		$query->group('c.id');
 
+		// Filter by language
+		if ($app->isSite() && $app->getLanguageFilter()) {
+			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+		}
+
 		// Get the results
 		$db->setQuery($query);
 		$results = $db->loadObjectList('id');
@@ -230,7 +236,7 @@ class JCategories
 					if(!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
-						break;
+						continue;
 					}
 
 					if($result->id == $id || $childrenLoaded)
@@ -249,7 +255,7 @@ class JCategories
 					if(!isset($this->_nodes[$result->parent_id]))
 					{
 						unset($this->_nodes[$result->id]);
-						break;
+						continue;
 					}
 					if($result->id == $id || $childrenLoaded)
 					{

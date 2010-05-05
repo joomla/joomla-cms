@@ -281,6 +281,12 @@ abstract class JModuleHelper
 
 		$cacheid = serialize(array($Itemid,$groups,$clientid));
 
+		// Filter by language
+		if ($app->isSite() && $app->getLanguageFilter()) {
+			$query->where('m.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+		}
+
+		// Set the query
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache ('com_modules', 'callback' );

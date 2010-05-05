@@ -41,20 +41,8 @@ class JFormFieldMenu extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
-		$options = array();
-
-		// TODO: would be better to put this basic option in the xml file.
-		$options[] = JHtml::_('select.option', '', JText::_('JOPTION_SELECT_MENU'));
-
-		// Build the menu options.
-		$menuTypes = MenusHelper::getMenuTypes();
-		foreach($menuTypes as $menutype) {
-			$options[] = JHtml::_('select.option', $menutype, $menutype);
-		}
-
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
+		$options = array_merge(parent::getOptions(), JHtml::_('menu.menus'));
 
 		return $options;
 	}
