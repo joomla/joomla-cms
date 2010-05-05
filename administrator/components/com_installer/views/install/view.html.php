@@ -33,4 +33,15 @@ class InstallerViewInstall extends InstallerViewDefault
 
 		parent::display($tpl);
 	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @since	1.6
+	 */
+	protected function addToolbar()
+	{
+		parent::addToolbar();
+		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
+	}
 }

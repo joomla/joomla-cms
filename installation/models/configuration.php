@@ -72,7 +72,7 @@ class JInstallationModelConfiguration extends JModel
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', -1);
-		$registry->set('helpurl', 'http://help.joomla.org');
+		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
 		$registry->set('xmlrpc_server', 0);
 		$registry->set('ftp_host', $options->ftp_host);
 		$registry->set('ftp_port', $options->ftp_port);

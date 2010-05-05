@@ -68,7 +68,7 @@ class InstallerViewDefault extends JView
 			JToolBarHelper::preferences('com_installer');
 			JToolBarHelper::divider();
 		}
-		JToolBarHelper::help('screen.installer','JTOOLBAR_HELP');
+
 		// Document
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));

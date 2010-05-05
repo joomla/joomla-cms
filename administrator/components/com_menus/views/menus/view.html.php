@@ -59,6 +59,6 @@ class MenusViewMenus extends JView
 		JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		JToolBarHelper::preferences('com_menus');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.menus.menus');
+		JToolBarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}
 }

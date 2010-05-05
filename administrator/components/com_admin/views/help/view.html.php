@@ -18,14 +18,6 @@ jimport('joomla.application.component.view');
 class AdminViewHelp extends JView
 {
 	/**
-	 * @var string the help url
-	 */
-	protected $help_url=null;
-	/**
-	 * @var string the full help url
-	 */
-	protected $full_help_url=null;
-	/**
 	 * @var string the search string
 	 */
 	protected $help_search=null;
@@ -45,6 +37,10 @@ class AdminViewHelp extends JView
 	 * @var string url for the latest version check
 	 */
 	protected $latest_version_check= 'http://www.joomla.org/download.html';
+	/**
+	 * @var string url for the start here link.
+	 */
+	protected $start_here = null;
 
 	/**
 	 * Display the view
@@ -52,13 +48,13 @@ class AdminViewHelp extends JView
 	function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->help_url				= $this->get('HelpURL');
-		$this->full_help_url		= $this->get('FullHelpURL');
 		$this->help_search			= $this->get('HelpSearch');
 		$this->page					= $this->get('Page');
 		$this->toc					= $this->get('Toc');
 		$this->lang_tag				= $this->get('LangTag');
 		$this->latest_version_check	= $this->get('LatestVersionCheck');
+		$this->start_here			= $this->get('StartHere');
+		$this->glossary				= $this->get('Glossary');
 
 		$this->addToolbar();
 		parent::display($tpl);

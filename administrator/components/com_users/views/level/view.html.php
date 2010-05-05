@@ -75,6 +75,6 @@ class UsersViewLevel extends JView
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.users.level','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
 	}
 }

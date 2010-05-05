@@ -24,17 +24,10 @@ jimport('joomla.language.help');
 </div>
 <div class="width-50 fltrt helplinks">
 	<ul class="helpmenu">
-		<?php if ($this->help_url):?>
-			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.glossary'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.credits'), JText::_('COM_ADMIN_CREDITS'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JHelp::createUrl('joomla.support'), JText::_('COM_ADMIN_SUPPORT'), array('target' => 'helpFrame')) ?></li>
-		<?php else:?>
-			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.glossary.html', JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.credits.html', JText::_('COM_ADMIN_CREDITS'), array('target' => 'helpFrame')) ?></li>
-			<li><?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/joomla.support.html', JText::_('COM_ADMIN_SUPPORT'), array('target' => 'helpFrame')) ?></li>
-		<?php endif;?>
+		<li><?php echo JHTML::_('link',JHelp::createUrl('JHELP_GLOSSARY', false, $remote), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
 		<li><?php echo JHTML::_('link','http://www.gnu.org/licenses/gpl-2.0.html', JText::_('COM_ADMIN_LICENSE'), array('target' => 'helpFrame')) ?></li>
 		<li><?php echo JHTML::_('link',$this->latest_version_check, JText::_('COM_ADMIN_LATEST_VERSION_CHECK'), array('target' => 'helpFrame')) ?></li>
+		<li><?php echo JHTML::_('link',JHelp::createUrl('JHELP_START_HERE'), JText::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')) ?></li>
 	</ul>
 </div>
 <div class="clr"> </div>
@@ -46,11 +39,7 @@ jimport('joomla.language.help');
 				<ul class="subext">
 					<?php foreach ($this->toc as $k=>$v):?>
 						<li>
-							<?php if ($this->help_url):?>
-								<?php echo JHTML::_('link',JHelp::createUrl($k), $v, array('target' => 'helpFrame'));?>
-							<?php else:?>
-								<?php echo JHTML::_('link',JURI::base() .'help/'.$this->lang_tag.'/'.$k, $v, array('target' => 'helpFrame'));?>
-							<?php endif;?>
+							<?php echo JHTML::_('link',JHelp::createUrl($k), $v, array('target' => 'helpFrame'));?>
 						</li>
 					<?php endforeach;?>
 				</ul>
@@ -63,12 +52,7 @@ jimport('joomla.language.help');
 			<legend>
 				<?php echo JText::_('COM_ADMIN_VIEW'); ?>
 			</legend>
-			<?php if ($this->help_url && $this->page != 'joomla.whatsnew.html'):?>
-				<iframe name="helpFrame" src="<?php echo $this->full_help_url .preg_replace('#\.xml$|\.html$#', '', $this->page);?>" class="helpFrame" frameborder="0"></iframe>
-			<?php else:?>
-				<iframe name="helpFrame" src="<?php echo JURI::base() .'help/' .$this->lang_tag. '/' . $this->page;?>" class="helpFrame" frameborder="0"></iframe>
-			<?php endif;?>
+				<iframe name="helpFrame" src="<?php echo $this->page;?>" class="helpFrame" frameborder="0"></iframe>
 		</fieldset>
 	</div>
 </form>
-

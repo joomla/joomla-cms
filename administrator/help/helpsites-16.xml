@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<joshelp>
+	<sites>
+		<site
+			tag="en-GB"
+			url="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">English (GB) - Joomla help wiki</site>
+		<site
+			tag="es-ES"
+			url="http://comunidadjoomla.org/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Spanish -comunidadjoomla.org</site>
+		<site
+			tag="it-IT"
+			url="http://www.joomla.it/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Italian - joomla.it</site>
+		<site
+			tag="hu-HU"
+			url="http://help.joomla.org.hu/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Hungarian -joomla.org.hu</site>
+		<site
+			tag="de-DE"
+			url="http://hilfe.jgerman.de/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">German -hilfe.jgerman.de</site>
+		<site
+			tag="nl-NL"
+			url="http://help.joomlacommunity.eu/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Dutch(NL) - help.joomlacommunity.eu</site>
+		<site
+			tag="ca-ES"
+			url="http://www.joomla.cat/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Catalan - joomla.cat</site>
+		<site
+			tag="fr-FR"
+			url="http://help.joomla.fr/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">French - Joomla.fr</site>
+		<site
+			tag="fa-IR"
+			url="http://joomfa.org/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Farsi - Joomfa.org</site>
+		<site
+			tag="nb-NO"
+			url="http://help15.joomlainorge.no/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Norwegian - joomlainorge.no</site>
+		<site
+			tag="uk-UA"
+			url="http://www.joomla-ua.org/help/index2.php?option=com_content&amp;task=findkey&amp;tmpl=component&amp;keyref={keyref}.{major}{minor}">Ukranian - joomla-ua.org</site>
+	</sites>
+</joshelp>

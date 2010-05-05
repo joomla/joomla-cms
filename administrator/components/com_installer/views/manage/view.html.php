@@ -67,5 +67,6 @@ class InstallerViewManage extends InstallerViewDefault
 			JToolBarHelper::divider();
 		}
 		parent::addToolbar();
+		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 	}
 }

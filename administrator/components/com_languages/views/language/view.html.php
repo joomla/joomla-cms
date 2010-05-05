@@ -63,6 +63,6 @@ class LanguagesViewLanguage extends JView
 			JToolBarHelper::cancel('language.cancel', 'JToolbar_Close');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.language.edit','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
 	}
 }

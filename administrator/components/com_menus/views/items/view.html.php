@@ -146,6 +146,6 @@ class MenusViewItems extends JView
 		JToolBarHelper::divider();
 
 
-		JToolBarHelper::help('screen.menus.items','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 }

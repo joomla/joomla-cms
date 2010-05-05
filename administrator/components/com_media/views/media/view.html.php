@@ -128,7 +128,7 @@ class MediaViewMedia extends JView
 		JToolBarHelper::divider();
 		JToolBarHelper::preferences('com_media');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.mediamanager','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
 	function getFolderLevel($folder)

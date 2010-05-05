@@ -44,6 +44,6 @@ class CacheViewPurge extends JView
 			JToolBarHelper::preferences('com_cache');
 			JToolBarHelper::divider();
 		}
-		JToolBarHelper::help('screen.cache','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_SITE_MAINTENANCE_PURGE_EXPIRED_CACHE');
 	}
 }

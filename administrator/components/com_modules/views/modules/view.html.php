@@ -77,6 +77,6 @@ class ModulesViewModules extends JView
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_modules');
 		}
-		JToolBarHelper::help('screen.module','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 	}
 }

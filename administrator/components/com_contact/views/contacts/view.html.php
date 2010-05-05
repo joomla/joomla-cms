@@ -86,6 +86,6 @@ class ContactViewContacts extends JView
 			JToolBarHelper::preferences('com_contact');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.contact','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 	}
 }

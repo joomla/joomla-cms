@@ -69,6 +69,6 @@ class BannersViewTracks extends JView
 			JToolBarHelper::preferences('com_banners');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.banners.tracks','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 	}
 }

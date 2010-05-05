@@ -67,6 +67,6 @@ class MenusViewMenu extends JView
 			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.menus.menu','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_MENUS_MENU_MANAGER_EDIT');
 	}
 }

@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+jimport('joomla.language.help');
 
 /**
  * Admin Component Help Model
@@ -19,16 +20,6 @@ jimport('joomla.application.component.model');
  */
 class AdminModelHelp extends JModel
 {
-	/**
-	 * @var string the help url
-	 */
-	protected $help_url = null;
-
-	/**
-	 * @var string the full help url
-	 */
-	protected $full_help_url = null;
-
 	/**
 	 * @var string the search string
 	 */
@@ -52,33 +43,8 @@ class AdminModelHelp extends JModel
 	/**
 	 * @var string url for the latest version check
 	 */
-	protected $latest_version_check= 'http://www.joomla.org/content/blogcategory/57/111/';
+	protected $latest_version_check = null;
 
-	/**
-	 * Method to get the Help URL
-	 * @return string Help URL
-	 */
-	function &getHelpURL()
-	{
-		if (is_null($this->help_url))
-		{
-			$app = & JFactory::getApplication();
-			$this->help_url = $app->getCfg('helpurl');
-			$this->help_url = 'http://help.joomla.org';
-		}
-		return $this->help_url;
-	}
-	/**
-	 * Method to get the Full Help URL
-	 * @return string Full Help URL
-	 */
-	function &getFullHelpURL()
-	{
-		if (is_null($this->full_help_url)) {
-			$this->full_help_url = $this->getHelpURL() . '/index2.php?option=com_content&amp;task=findkey&amp;pop=1&amp;keyref=';
-		}
-		return $this->full_help_url;
-	}
 	/**
 	 * Method to get the help search string
 	 * @return string Help search string
@@ -98,10 +64,8 @@ class AdminModelHelp extends JModel
 	{
 		if (is_null($this->page))
 		{
-			$this->page = & JRequest::getCmd('page', 'joomla.whatsnew.html');
-			if (!eregi('\.html$', $this->page)) {
-				$this->page.= '.xml';
-			}
+			$page = & JRequest::getCmd('page', 'JHELP_START_HERE');
+			$this->page = JHelp::createUrl($page);
 		}
 		return $this->page;
 	}
@@ -133,7 +97,6 @@ class AdminModelHelp extends JModel
 		{
 			// Get vars
 			$lang_tag = &$this->getLangTag();
-			$help_url = &$this->getHelpURL();
 			$help_search = &$this->getHelpSearch();
 
 			// Get Help files
@@ -146,10 +109,8 @@ class AdminModelHelp extends JModel
 				{
 					$title = trim($m[1]);
 					if ($title) {
-						if ($help_url) {
-							// strip the extension
-							$file = preg_replace('#\.xml$|\.html$#', '', $file);
-						}
+						// strip the extension
+						$file = preg_replace('#\.xml$|\.html$#', '', $file);
 						if ($help_search)
 						{
 							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false) {
@@ -170,12 +131,19 @@ class AdminModelHelp extends JModel
 		}
 		return $this->toc;
 	}
+
 	/**
 	 * Method to get the latest version check;
 	 * @return string Latest Version Check URL
 	 */
 	function &getLatestVersionCheck()
 	{
+		if (!$this->latest_version_check) {
+			$keyref = 'Joomla_Version_';
+			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}{major}_{minor}_{maintenance}';
+			$this->latest_version_check = JHelp::createUrl($keyref, false, $override);
+		}
 		return $this->latest_version_check;
 	}
+
 }

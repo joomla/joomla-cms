@@ -71,6 +71,6 @@ class ContactViewContact extends JView
 			JToolBarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.contact.edit'.'JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
 	}
 }

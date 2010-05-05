@@ -76,6 +76,6 @@ class NewsfeedsViewNewsfeeds extends JView
 			JToolBarHelper::preferences('com_newsfeeds');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('screen.newsfeed','JTOOLBAR_HELP');
+		JToolBarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
 }
