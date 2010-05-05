@@ -30,7 +30,7 @@
 			>
 				<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
 			</field>
-			<field type="extensionfolder"
+			<field type="group"
 				name="group"
 				hidden="true"
 				onchange="this.form.submit();"
