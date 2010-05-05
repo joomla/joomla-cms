@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
 jimport('joomla.registry.registry');
+jimport('joomla.form.helper');
 
 /**
  * Form Class for the Joomla Framework.
@@ -67,36 +68,12 @@ class JForm
 	protected $xml;
 
 	/**
-	 * Static array of JFormField objects for re-use.
-	 *
-	 * @var		array
-	 * @since	1.6
-	 */
-	protected static $fields = array();
-
-	/**
-	 * Static array of JForm objects for re-use.
+	 * Form instances.
 	 *
 	 * @var		array
 	 * @since	1.6
 	 */
 	protected static $forms = array();
-
-	/**
-	 * Search arrays of paths for loading JForm, JFormField, and JFormRule class files.
-	 *
-	 * @var		array
-	 * @since	1.6
-	 */
-	protected static $paths = array('fields' => array(), 'forms' => array(), 'rules' => array());
-
-	/**
-	 * Static array of JFormRule objects for re-use.
-	 *
-	 * @var		array
-	 * @since	1.6
-	 */
-	protected static $rules = array();
 
 	/**
 	 * Method to instantiate the form object.
@@ -1161,16 +1138,15 @@ class JForm
 	 * @return	mixed	The XML element object for the field or boolean false on error.
 	 * @since	1.6
 	 */
-	protected function & findField($name, $group = null)
+	protected function findField($name, $group = null)
 	{
 		// Initialize variables.
-		$false		= false;
 		$element	= false;
 		$fields		= array();
 
 		// Make sure there is a valid JForm XML document.
 		if (!$this->xml instanceof JXMLElement) {
-			return $false;
+			return false;
 		}
 
 		// Let's get the appropriate field element based on the method arguments.
@@ -1189,7 +1165,7 @@ class JForm
 
 			// Make sure something was found.
 			if (!$fields) {
-				return $false;
+				return false;
 			}
 
 			// Use the first correct match in the given group.
@@ -1213,7 +1189,7 @@ class JForm
 
 			// Make sure something was found.
 			if (!$fields) {
-				return $false;
+				return false;
 			}
 
 			// Search through the fields for the right one.
@@ -1448,7 +1424,7 @@ class JForm
 	}
 
 	/**
-	 * Method to load a form field object given a type.
+	 * Proxy for {@link JFormHelper::loadFieldType()}.
 	 *
 	 * @param	string	$type	The field type.
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
@@ -1456,63 +1432,13 @@ class JForm
 	 * @return	mixed	JFormField object on success, false otherwise.
 	 * @since	1.6
 	 */
-	protected function & loadFieldType($type, $new = true)
+	protected function loadFieldType($type, $new = true)
 	{
-		// Initialize variables.
-		$false	= false;
-		$key	= md5($type);
-		$class	= 'JFormField'.ucfirst($type);
-
-		// Return the JFormField object if it already exists and we don't need a new one.
-		if (isset(self::$fields[$key]) && $new === false) {
-			return self::$fields[$key];
-		}
-
-		// Attempt to import the JFormField class file if it isn't already imported.
-		if (!class_exists($class)) {
-
-			// Get the field search path array.
-			$paths = self::addFieldPath();
-
-			// If the type is complex, add the base type to the paths.
-			if ($pos = strpos($type, '_')) {
-
-				// Add the complex type prefix to the paths.
-				for ($i = 0, $n = count($paths); $i < $n; $i++) {
-					// Derive the new path.
-					$path = $paths[$i].'/'.strtolower(substr($type, 0, $pos));
-
-					// If the path does not exist, add it.
-					if (!in_array($path, $paths)) {
-						array_unshift($paths, $path);
-					}
-				}
-
-				// Break off the end of the complex type.
-				$type = substr($type, $pos+1);
-			}
-
-			// Try to find the field file.
-			if ($file = JPath::find($paths, strtolower($type).'.php')) {
-				require_once $file;
-			} else {
-				return $false;
-			}
-
-			// Check once and for all if the class exists.
-			if (!class_exists($class)) {
-				return $false;
-			}
-		}
-
-		// Instantiate a new field object.
-		self::$fields[$key] = new $class();
-
-		return self::$fields[$key];
+		return JFormHelper::loadFieldType($type, $new);
 	}
 
 	/**
-	 * Method to load a form rule object given a type.
+	 * Proxy for {@link JFormHelper::loadRuleType()}.
 	 *
 	 * @param	string	$type	The rule type.
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
@@ -1520,65 +1446,15 @@ class JForm
 	 * @return	mixed	JFormRule object on success, false otherwise.
 	 * @since	1.6
 	 */
-	protected function & loadRuleType($type, $new = true)
+	protected function loadRuleType($type, $new = true)
 	{
-		// Initialize variables.
-		$false	= false;
-		$key	= md5($type);
-		$class	= 'JFormRule'.ucfirst($type);
-
-
-		// Return the JFormRule object if it already exists and we don't need a new one.
-		if (isset(self::$rules[$key]) && $new === false) {
-			return self::$rules[$key];
-		}
-
-		// Attempt to import the JFormRule class file if it isn't already imported.
-		if (!class_exists($class)) {
-
-			// Get the field search path array.
-			$paths = self::addRulePath();
-
-			// If the type is complex, add the base type to the paths.
-			if ($pos = strpos($type, '_')) {
-
-				// Add the complex type prefix to the paths.
-				for ($i = 0, $n = count($paths); $i < $n; $i++) {
-					// Derive the new path.
-					$path = $paths[$i].'/'.strtolower(substr($type, 0, $pos));
-
-					// If the path does not exist, add it.
-					if (!in_array($path, $paths)) {
-						array_unshift($paths, $path);
-					}
-				}
-
-				// Break off the end of the complex type.
-				$type = substr($type, $pos+1);
-			}
-
-			// Try to find the field file.
-			if ($file = JPath::find($paths, strtolower($type).'.php')) {
-				require_once $file;
-			} else {
-				return $false;
-			}
-
-			// Check once and for all if the class exists.
-			if (!class_exists($class)) {
-				return $false;
-			}
-		}
-
-		// Instantiate a new field object.
-		self::$rules[$key] = new $class();
-
-		return self::$rules[$key];
+		return JFormHelper::loadRuleType($type, $new);
 	}
 
 	/**
 	 * Method to synchronize any field, form or rule paths contained in the XML document.
 	 *
+	 * TODO:	Maybe we should receive all addXXXpaths attributes at once?
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
@@ -1596,7 +1472,7 @@ class JForm
 		// Add the field paths.
 		foreach ($paths as $path) {
 			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
-			JForm::addFieldPath($path);
+			self::addFieldPath($path);
 		}
 
 		// Get any addformpath attributes from the form definition.
@@ -1606,7 +1482,7 @@ class JForm
 		// Add the form paths.
 		foreach ($paths as $path) {
 			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
-			JForm::addFormPath($path);
+			self::addFormPath($path);
 		}
 
 		// Get any addrulepath attributes from the form definition.
@@ -1616,7 +1492,7 @@ class JForm
 		// Add the rule paths.
 		foreach ($paths as $path) {
 			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
-			JForm::addRulePath($path);
+			self::addRulePath($path);
 		}
 
 		return true;
@@ -1696,7 +1572,7 @@ class JForm
 	}
 
 	/**
-	 * Method to add a path to the list of field include paths.
+	 * Proxy for {@link JFormHelper::addFieldPath()}.
 	 *
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
@@ -1705,26 +1581,11 @@ class JForm
 	 */
 	public static function addFieldPath($new = null)
 	{
-		// Add the default form search path if not set.
-		if (empty(self::$paths['fields'])) {
-			self::$paths['fields'][] = dirname(__FILE__).'/fields';
-		}
-
-		// Force the new path(s) to an array.
-		settype($new, 'array');
-
-		// Add the new paths to the stack if not already there.
-		foreach ($new as $path) {
-			if (!in_array($path, self::$paths['fields'])) {
-				array_unshift(self::$paths['fields'], trim($path));
-			}
-		}
-
-		return self::$paths['fields'];
+		return JFormHelper::addFieldPath($new);
 	}
 
 	/**
-	 * Method to add a path to the list of form include paths.
+	 * Proxy for {@link JFormHelper::addFormPath()}.
 	 *
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
@@ -1733,26 +1594,11 @@ class JForm
 	 */
 	public static function addFormPath($new = null)
 	{
-		// Add the default form search path if not set.
-		if (empty(self::$paths['forms'])) {
-			self::$paths['forms'][] = dirname(__FILE__).'/forms';
-		}
-
-		// Force the new path(s) to an array.
-		settype($new, 'array');
-
-		// Add the new paths to the stack if not already there.
-		foreach ($new as $path) {
-			if (!in_array($path, self::$paths['forms'])) {
-				array_unshift(self::$paths['forms'], trim($path));
-			}
-		}
-
-		return self::$paths['forms'];
+		return JFormHelper::addFormPath($new);
 	}
 
 	/**
-	 * Method to add a path to the list of rule include paths.
+	 * Proxy for {@link JFormHelper::addRulePath()}.
 	 *
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
@@ -1761,22 +1607,7 @@ class JForm
 	 */
 	public static function addRulePath($new = null)
 	{
-		// Add the default form search path if not set.
-		if (empty(self::$paths['rules'])) {
-			self::$paths['rules'][] = dirname(__FILE__).'/rules';
-		}
-
-		// Force the new path(s) to an array.
-		settype($new, 'array');
-
-		// Add the new paths to the stack if not already there.
-		foreach ($new as $path) {
-			if (!in_array($path, self::$paths['rules'])) {
-				array_unshift(self::$paths['rules'], trim($path));
-			}
-		}
-
-		return self::$paths['rules'];
+		return JFormHelper::addRulePath($new);
 	}
 
 	/**
@@ -1795,8 +1626,11 @@ class JForm
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
+		// Reference to array with form instances
+		$forms =& self::$forms;
+
 		// Only instantiate the form if it does not already exist.
-		if (!isset(self::$forms[$name])) {
+		if (!isset($forms[$name])) {
 
 			$data = trim($data);
 
@@ -1805,23 +1639,23 @@ class JForm
 			}
 
 			// Instantiate the form.
-			self::$forms[$name] = new JForm($name, $options);
+			$forms[$name] = new JForm($name, $options);
 
 			// Load the data.
 			if (substr(trim($data), 0, 1) == '<') {
-				if (self::$forms[$name]->load($data, $replace, $xpath) == false) {
+				if ($forms[$name]->load($data, $replace, $xpath) == false) {
 					throw new Excpetion('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD');
 					return false;
 				}
 			} else {
-				if (self::$forms[$name]->loadFile($data, $replace, $xpath) == false) {
+				if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
 					throw new Exception('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD');
 					return false;
 				}
 			}
 		}
 
-		return self::$forms[$name];
+		return $forms[$name];
 	}
 
 	/**

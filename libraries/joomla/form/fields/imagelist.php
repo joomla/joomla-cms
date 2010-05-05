@@ -11,7 +11,8 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
-JLoader::register('JFormFieldFileList', dirname(__FILE__).'/filelist.php');
+jimport('joomla.form.helper');
+JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of image

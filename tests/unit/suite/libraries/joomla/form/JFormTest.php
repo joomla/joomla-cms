@@ -1304,7 +1304,7 @@ class JFormTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Test the JForm::getField method.
+	 * Test the JForm::loadFieldType method.
 	 */
 	public function testLoadFieldType()
 	{
