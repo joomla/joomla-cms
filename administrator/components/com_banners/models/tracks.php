@@ -19,14 +19,7 @@ jimport('joomla.application.component.modellist');
 class BannersModelTracks extends JModelList
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_banners.tracks';
-
-	/**
-	 *
+	 * @since	1.6
 	 */
 	protected $basename;
 
@@ -65,21 +58,23 @@ class BannersModelTracks extends JModelList
 		// List state information.
 		parent::populateState('name', 'asc');
 	}
+
 	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
+	 * @since	1.6
 	 */
 	protected function getListQuery()
 	{
 		// Get the application object
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		require_once JPATH_COMPONENT . '/helpers/banners.php';
+		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -138,6 +133,7 @@ class BannersModelTracks extends JModelList
 
 		return $query;
 	}
+
 	/**
 	 * Method to delete rows.
 	 *
@@ -148,19 +144,17 @@ class BannersModelTracks extends JModelList
 	public function delete()
 	{
 		// Initialise variables
-		$user	= JFactory::getUser();
+		$user		= JFactory::getUser();
+		$categoryId	= $this->getState('category_id');
 
 		// Access checks.
-		$categoryId=$this->getState('category_id');
 		if ($categoryId) {
 			$allow = $user->authorise('core.delete', 'com_banners.category.'.(int) $categoryId);
-		}
-		else {
+		} else {
 			$allow = $user->authorise('core.delete', 'com_banners');
 		}
 
-		if ($allow)
-		{
+		if ($allow) {
 			// Delete tracks from this banner
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
@@ -185,12 +179,13 @@ class BannersModelTracks extends JModelList
 				$query->where('track_date <= '.$db->Quote($end));
 			}
 
-			$where='1';
+			$where = '1';
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
 			if (!empty($clientId)) {
 				$where.=' AND cid = '.(int) $clientId;
 			}
+
 			// Filter by category
 			if (!empty($categoryId)) {
 				$where.=' AND catid = '.(int) $categoryId;
@@ -207,106 +202,100 @@ class BannersModelTracks extends JModelList
 				$this->setError($db->getErrorMsg());
 				return false;
 			}
-		}
-		else
-		{
+
+		} else {
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 
 		return true;
 	}
+
 	/**
 	 * Get file name
 	 *
-	 * @return string the file name
+	 * @return	string	The file name
+	 * @since	1.6
 	 */
 	public function getBaseName()
 	{
-		if(!isset($this->basename))
-		{
-			$app = &JFactory::getApplication();
-			$basename = $this->getState('basename');
-			$basename = str_replace('__SITE__',$app->getCfg('sitename'),$basename);
-			$categoryId = $this->getState('filter.category_id');
-			if (is_numeric($categoryId))
-			{
-				if ($categoryId>0)
-				{
+		if (!isset($this->basename)) {
+
+			$app		= JFactory::getApplication();
+			$basename	= $this->getState('basename');
+			$basename	= str_replace('__SITE__',$app->getCfg('sitename'),$basename);
+			$categoryId	= $this->getState('filter.category_id');
+
+			if (is_numeric($categoryId)) {
+				if ($categoryId > 0) {
 					$basename = str_replace('__CATID__',$categoryId,$basename);
-				}
-				else
-				{
+				} else {
 					$basename = str_replace('__CATID__','',$basename);
 				}
 				$categoryName = $this->getCategoryName();
 				$basename = str_replace('__CATNAME__',$categoryName,$basename);
-			}
-			else
-			{
+			} else {
 				$basename = str_replace('__CATID__','',$basename);
 				$basename = str_replace('__CATNAME__','',$basename);
 			}
+
 			$clientId = $this->getState('filter.client_id');
-			if (is_numeric($clientId))
-			{
-				if ($clientId>0)
-				{
+			if (is_numeric($clientId)) {
+
+				if ($clientId > 0) {
 					$basename = str_replace('__CLIENTID__',$clientId,$basename);
-				}
-				else
-				{
+				} else {
 					$basename = str_replace('__CLIENTID__','',$basename);
 				}
 				$clientName = $this->getClientName();
 				$basename = str_replace('__CLIENTNAME__',$clientName,$basename);
-			}
-			else
-			{
+
+			} else {
+
 				$basename = str_replace('__CLIENTID__','',$basename);
 				$basename = str_replace('__CLIENTNAME__','',$basename);
 			}
+
 			$type = $this->getState('filter.type');
-			if ($type > 0)
-			{
+			if ($type > 0) {
+
 				$basename = str_replace('__TYPE__',$type,$basename);
 				$typeName = JText::_('COM_BANNERS_TYPE'.$type);
 				$basename = str_replace('__TYPENAME__',$typeName,$basename);
-			}
-			else
-			{
+			} else {
 				$basename = str_replace('__TYPE__','',$basename);
 				$basename = str_replace('__TYPENAME__','',$basename);
 			}
+
 			$begin = $this->getState('filter.begin');
-			if (!empty($begin))
-			{
+			if (!empty($begin)) {
 				$basename = str_replace('__BEGIN__',$begin,$basename);
-			}
-			else
-			{
+			} else {
 				$basename = str_replace('__BEGIN__','',$basename);
 			}
+
 			$end = $this->getState('filter.end');
-			if (!empty($end))
-			{
+			if (!empty($end)) {
 				$basename = str_replace('__END__',$end,$basename);
-			}
-			else
-			{
+			} else {
 				$basename = str_replace('__END__','',$basename);
 			}
+
 			$this->basename = $basename;
 		}
+
 		return $this->basename;
 	}
+
 	/**
-	 * Get the category name
+	 * Get the category name.
 	 *
-	 * @return string the category name
+	 * @return	string	The category name
+	 * @since	1.6
 	 */
 	protected function getCategoryName()
 	{
 		$categoryId = $this->getState('filter.category_id');
+
 		if ($categoryId) {
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
@@ -315,26 +304,28 @@ class BannersModelTracks extends JModelList
 			$query->where('`id`='.$db->quote($categoryId));
 			$db->setQuery((string)$query);
 			$name = $db->loadResult();
-			if ($db->getErrorNum())
-			{
+
+			if ($db->getErrorNum()) {
 				$this->setError($db->getErrorMsg());
 				return false;
 			}
-		}
-		else
-		{
+		} else {
 			$name = JText::_('COM_BANNERS_NOCATEGORYNAME');
 		}
+
 		return $name;
 	}
+
 	/**
 	 * Get the category name
 	 *
-	 * @return string the category name
+	 * @return	string	The category name.
+	 * @since	1.6
 	 */
 	protected function getClientName()
 	{
 		$clientId = $this->getState('filter.client_id');
+
 		if ($clientId) {
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
@@ -350,34 +341,42 @@ class BannersModelTracks extends JModelList
 		} else {
 			$name = JText::_('COM_BANNERS_NOCLIENTNAME');
 		}
+
 		return $name;
 	}
+
 	/**
-	 * Get the file type
+	 * Get the file type.
 	 *
-	 * @return string the file type
+	 * @return	string	The file type
+	 * @since	1.6
 	 */
 	public function getFileType()
 	{
-		return $this->getState('compressed')?'zip':'csv';
+		return $this->getState('compressed') ? 'zip' : 'csv';
 	}
+
 	/**
-	 * Get the mime type
+	 * Get the mime type.
 	 *
-	 * @return string the mime type
+	 * @return	string	The mime type.
+	 * @since	1.6
 	 */
 	public function getMimeType()
 	{
-		return $this->getState('compressed')?'application/zip':'text/csv';
+		return $this->getState('compressed') ? 'application/zip' : 'text/csv';
 	}
+
 	/**
 	 * Get the content
 	 *
-	 * @return string the content
+	 * @return	string	The content.
+	 * @since	1.6
 	 */
 	public function getContent()
 	{
 		if (!isset($this->content)) {
+
 			$this->content = '';
 			$this->content.=
 			'"'.str_replace('"','""',JText::_('COM_BANNERS_HEADING_NAME')).'","'.
@@ -388,6 +387,7 @@ class BannersModelTracks extends JModelList
 				str_replace('"','""',JText::_('JDATE')).'"'."\n";
 
 			foreach($this->getItems() as $item) {
+
 				$this->content.=
 				'"'.str_replace('"','""',$item->name).'","'.
 					str_replace('"','""',$item->client_name).'","'.
@@ -398,17 +398,20 @@ class BannersModelTracks extends JModelList
 			}
 
 			if ($this->getState('compressed')) {
+
 				$files = array();
 				$files['track']=array();
 				$files['track']['name'] = $this->getBasename() . '.csv';
 				$files['track']['data'] = $this->content;
 				$files['track']['time'] = time();
 				$ziproot = JPATH_ROOT . '/tmp/' . uniqid('banners_tracks_') . '.zip';
+
 				// run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
 				jimport('joomla.filesystem.archive');
 				$delete = JFolder::files(JPATH_ROOT . '/tmp/', 'banners_tracks_',false,true);
+
 				if (!empty($delete)) {
 					if (!JFile::delete($delete)) {
 						// JFile::delete throws an error
@@ -416,6 +419,7 @@ class BannersModelTracks extends JModelList
 						return false;
 					}
 				}
+
 				if (!$packager = & JArchive::getAdapter('zip')) {
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 					return false;
@@ -423,9 +427,11 @@ class BannersModelTracks extends JModelList
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
 					return false;
 				}
+
 				$this->content = file_get_contents($ziproot);
 			}
 		}
+
 		return $this->content;
 	}
 }
