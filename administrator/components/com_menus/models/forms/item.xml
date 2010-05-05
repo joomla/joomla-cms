@@ -162,6 +162,16 @@
 		</field>
 
 		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="JFIELD_MODULE_LANGUAGE_DESC"
+			class="inputbox"
+			default="">
+			<option value="*">JOPTION_ALL_LANGUAGES</option>
+		</field>
+
+		<field
 			name="path"
 			type="hidden"
 			filter="unset"/>

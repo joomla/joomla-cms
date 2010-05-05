@@ -42,19 +42,32 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
+	 * @param	array			An array of configuration options.
+	 *							This array can contain a list of key/value pairs where values are boolean
+	 *							and keys can be taken from 'published', 'unpublished', 'archived', 'trash', 'all'.
+	 *							These pairs determine which values are displayed.
 	 * @return	string			The HTML code for the select tag
 	 * @since	1.6
 	 */
-	public static function publishedOptions()
+	public static function publishedOptions($config = array())
 	{
 		// Build the active state filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
-		$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
-		$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
-		$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
-		$options[]	= JHtml::_('select.option', '*', 'JALL');
-
+		if (!array_key_exists('published', $config) || $config['published']) {
+			$options[]	= JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
+		}
+		if (!array_key_exists('unpublished', $config) || $config['unpublished']) {
+			$options[]	= JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
+		}
+		if (!array_key_exists('archived', $config) || $config['archived']) {
+			$options[]	= JHtml::_('select.option', '2', JText::_('JARCHIVED'));
+		}
+		if (!array_key_exists('trash', $config) || $config['trash']) {
+			$options[]	= JHtml::_('select.option', '-2', JText::_('JTRASH'));
+		}
+		if (!array_key_exists('all', $config) || $config['all']) {
+			$options[]	= JHtml::_('select.option', '*', JText::_('JALL'));
+		}
 		return $options;
 	}
 

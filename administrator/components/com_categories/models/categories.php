@@ -53,6 +53,9 @@ class CategoriesModelCategories extends JModelList
 		$published = $app->getUserStateFromRequest($context.'.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
+		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
 		// List state information.
 		parent::populateState('a.lft', 'asc');
 	}
@@ -74,6 +77,7 @@ class CategoriesModelCategories extends JModelList
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.extension');
 		$id	.= ':'.$this->getState('filter.published');
+		$id	.= ':'.$this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -95,11 +99,16 @@ class CategoriesModelCategories extends JModelList
 				'list.select',
 				'a.id, a.title, a.alias, a.note, a.published, a.access' .
 				', a.checked_out, a.checked_out_time, a.created_user_id' .
-				', a.path, a.parent_id, a.level, a.lft, a.rgt'
+				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+				', a.language'
 			)
 		);
 		$query->from('#__categories AS a');
 
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
 		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
@@ -142,6 +151,11 @@ class CategoriesModelCategories extends JModelList
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.

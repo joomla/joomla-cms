@@ -58,6 +58,12 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_CODE', 'a.lang_code', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_SEF', 'a.sef', $listDirn, $listOrder); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.sef', $listDirn, $listOrder); ?>
+				</th>
+				<th width="5%" nowrap="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JPUBLISHED', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="1%" nowrap="nowrap">
@@ -93,6 +99,12 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td align="center">
 					<?php echo $item->lang_code; ?>
+				</td>
+				<td align="center">
+					<?php echo $item->sef; ?>
+				</td>
+				<td align="center">
+					<?php echo $item->image; ?>
 				</td>
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.');?>

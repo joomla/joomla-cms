@@ -19,13 +19,6 @@ require_once dirname(__FILE__).DS.'articles.php';
 class ContentModelFeatured extends ContentModelArticles
 {
 	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	public $_context = 'com_content.featured';
-
-	/**
 	 * @param	boolean	True to join selected foreign information
 	 *
 	 * @return	string
@@ -40,11 +33,16 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits'
+				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
+				'a.language'
 			)
 		);
 		$query->from('#__content AS a');
 
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		
 		// Join over the content table.
 		$query->select('fp.ordering');
 		$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
@@ -87,6 +85,11 @@ class ContentModelFeatured extends ContentModelArticles
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
 			}
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.

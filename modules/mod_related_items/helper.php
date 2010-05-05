@@ -17,6 +17,7 @@ class modRelatedItemsHelper
 	function getList($params)
 	{
 		$db			= &JFactory::getDbo();
+		$app		= &JFactory::getApplication();
 		$user		= &JFactory::getUser();
 		$userId		= (int) $user->get('id');
 		$count		= intval($params->get('count', 5));
@@ -81,6 +82,11 @@ class modRelatedItemsHelper
 					$query->where('(CONCAT(",", REPLACE(a.metakey, ", ", ","), ",") LIKE "%'.implode('%" OR CONCAT(",", REPLACE(a.metakey, ", ", ","), ",") LIKE "%', $likes).'%")'); //remove single space after commas in keywords)
 					$query->where('(a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).')');
 					$query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');
+
+					// Filter by language
+					if ($app->getLanguageFilter()) {
+						$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+					}
 
 					$db->setQuery($query);
 					$temp = $db->loadObjectList();

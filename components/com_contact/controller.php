@@ -51,7 +51,7 @@ class ContactController extends JController
 		}
 
 		$safeurlparams = array('id'=>'INT','catid'=>'INT','limit'=>'INT','limitstart'=>'INT',
-			'filter_order'=>'CMD','filter_order_Dir'=>'CMD');
+			'filter_order'=>'CMD','filter_order_Dir'=>'CMD','language'=>'CMD');
 
 			parent::display($cachable,$safeurlparams);
 

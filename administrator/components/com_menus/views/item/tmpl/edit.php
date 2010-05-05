@@ -80,6 +80,9 @@ JHTML::_('behavior.modal');
 			<?php echo $this->form->getLabel('home'); ?>
 			<?php echo $this->form->getInput('home'); ?>
 
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
+
 			<?php echo $this->form->getLabel('template_style_id'); ?>
 			<?php echo $this->form->getInput('template_style_id'); ?>
 

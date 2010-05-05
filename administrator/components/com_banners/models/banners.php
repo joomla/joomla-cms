@@ -60,10 +60,15 @@ class BannersModelBanners extends JModelList
 				'a.clicks AS clicks, a.metakey AS metakey, a.sticky AS sticky,'.
 				'a.impmade AS impmade, a.imptotal AS imptotal,' .
 				'a.state AS state, a.ordering AS ordering,'.
-				'a.purchase_type as purchase_type'
+				'a.purchase_type as purchase_type,'.
+				'a.language'
 			)
 		);
 		$query->from('`#__banners` AS a');
+
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -108,6 +113,11 @@ class BannersModelBanners extends JModelList
 			}
 		}
 
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = ' . $db->quote($language));
+		}
+
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
@@ -138,6 +148,7 @@ class BannersModelBanners extends JModelList
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.category_id');
+		$id .= ':'.$this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -180,6 +191,9 @@ class BannersModelBanners extends JModelList
 
 		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
 		$this->setState('filter.client_id', $clientId);
+
+		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
 
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');

@@ -46,6 +46,9 @@ class ContactModelContacts extends JModelList
 		$categoryId = $app->getUserStateFromRequest($this->context.'.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
+		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
 		// List state information.
 		parent::populateState('a.name', 'asc');
 	}
@@ -64,8 +67,11 @@ class ContactModelContacts extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.published');
+		$id.= ':' . $this->getState('filter.search');
+		$id.= ':' . $this->getState('filter.access');
+		$id.= ':' . $this->getState('filter.published');
+		$id.= ':' . $this->getState('filter.category_id');
+		$id.= ':' . $this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -85,10 +91,14 @@ class ContactModelContacts extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.catid')
+				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.catid, a.language')
 		);
 		$query->from('#__contact_details AS a');
 
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
 		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
@@ -133,6 +143,11 @@ class ContactModelContacts extends JModelList
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('a.name LIKE '.$search.' OR a.alias LIKE '.$search);
 			}
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.

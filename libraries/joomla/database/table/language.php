@@ -34,6 +34,20 @@ class JTableLanguage extends JTable
 	public $lang_code;
 
 	/**
+	 * The SEF prefix.
+	 *
+	 * @var	char
+	 */
+	public $sef;
+	
+	/**
+	 * The image prefix.
+	 *
+	 * @var	char
+	 */
+	public $image;
+
+	/**
 	 * The english name for the language.
 	 *
 	 * @var	varchar

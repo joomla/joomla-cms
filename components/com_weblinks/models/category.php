@@ -118,6 +118,11 @@ class WeblinksModelCategory extends JModelList
 				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 
+		// Filter by language
+		if ($this->getState('filter.language')) {
+			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 		return $query;
@@ -154,8 +159,9 @@ class WeblinksModelCategory extends JModelList
 		$this->setState('category.id', $id);
 
 		$this->setState('filter.published',	1);
-
-
+		
+		$this->setState('filter.language',$app->getLanguageFilter());
+		
 		// Load the parameters.
 		$this->setState('params', $params);
 	}

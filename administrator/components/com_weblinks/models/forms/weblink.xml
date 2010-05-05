@@ -67,11 +67,14 @@
 			description="JFIELD_ACCESS_DESC" class="inputbox" size="1"
 			default="" />
 
-		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC" class="inputbox"
-			default=""
-		>
-			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JFIELD_LANGUAGE_LABEL"
+			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
+			class="inputbox"
+			default="">
+			<option value="*">JOPTION_ALL_LANGUAGES</option>
 		</field>
 
 		<field id="approved" name="approved" type="radio"

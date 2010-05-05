@@ -1,0 +1,11 @@
+div.mod_languages ul {
+	margin: 0;
+	padding: 0;
+	list-style:none;
+}
+div.mod_languages li {
+	margin-left: 5px;
+	margin-right: 5px;
+	display:inline;
+}
+

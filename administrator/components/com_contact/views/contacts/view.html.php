@@ -19,9 +19,9 @@ jimport('joomla.application.component.view');
  */
 class ContactViewContacts extends JView
 {
-	public $items;
-	public $pagination;
-	public $state;
+	protected $items;
+	protected $pagination;
+	protected $state;
 
 	/**
 	 * Display the view

@@ -50,6 +50,9 @@ class ModulesModelModules extends JModelList
 		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('filter.client_id', $clientId);
 
+		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
@@ -78,6 +81,7 @@ class ModulesModelModules extends JModelList
 		$id	.= ':'.$this->getState('filter.position');
 		$id	.= ':'.$this->getState('filter.module');
 		$id	.= ':'.$this->getState('filter.client_id');
+		$id	.= ':'.$this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -155,12 +159,16 @@ class ModulesModelModules extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.note, a.position, a.module, ' .
-				'a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.language'
+				'a.id, a.title, a.note, a.position, a.module, a.language,' .
+				'a.checked_out, a.checked_out_time, a.published, a.access, a.ordering'
 			)
 		);
 		$query->from('`#__modules` AS a');
 
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
 		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
@@ -223,6 +231,11 @@ class ModulesModelModules extends JModelList
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));

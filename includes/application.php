@@ -27,6 +27,11 @@ final class JSite extends JApplication
 	private $template = null;
 
 	/**
+	 * Option to filter by language
+	 */
+	private $_language_filter=false;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param	array An optional associative array of configuration settings.
@@ -45,11 +50,39 @@ final class JSite extends JApplication
 	 */
 	public function initialise($options = array())
 	{
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
+
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
-		if (empty($options['language']))
-		{
+		if (empty($options['language'])) {
+			$sef = JRequest::getString('lang',null);
+			$table = JTable::getInstance('Language');
+			if (!empty($sef) && $table->load(array('sef'=>$sef))) {
+				$lang = $table->lang_code;
+				// Make sure that the sef's language exists
+				if ($lang && JLanguage::exists($lang)) {
+					$config = JFactory::getConfig();
+					$cookie_domain = $config->get('config.cookie_domain', '');
+					$cookie_path = $config->get('config.cookie_path', '/');
+					setcookie(JUtility::getHash('language'), $lang, time() + 365 * 86400, $cookie_path, $cookie_domain);
+					$options['language'] = $lang;
+				}
+			}
+		}
+
+		if (empty($options['language'])) {
+			// Detect cookie language
+			jimport('joomla.utilities.utility');
+			$lang = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
+
+			// Make sure that the user's language exists
+			if ($lang && JLanguage::exists($lang)) {
+				$options['language'] = $lang;
+			}
+		}
+
+		if (empty($options['language'])) {
+			// Detect user language
 			$user = & JFactory::getUser();
 			$lang	= $user->getParam('language');
 
@@ -57,17 +90,23 @@ final class JSite extends JApplication
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			}
-			else
-			{
-				$params =  JComponentHelper::getParams('com_languages');
-				$client	= &JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->get('language','en-GB'));
-			}
+		}
+
+		if (empty($options['language'])) {
+			// Detect browser language
+			jimport('joomla.language.helper');
+			$options['language'] = JLanguageHelper::detectLanguage();
+		}
+
+		if (empty($options['language'])) {
+			// Detect default language
+			$params =  JComponentHelper::getParams('com_languages');
+			$client	= &JApplicationHelper::getClientInfo($this->getClientId());
+			$options['language'] = $params->get($client->name, $config->get('language','en-GB'));
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language']))
-		{
+		if (!JLanguage::exists($options['language'])) {
 			$lang = $config->get('language','en-GB');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -420,5 +459,29 @@ final class JSite extends JApplication
 		$options['mode'] = $config->get('sef');
 		$router = &parent::getRouter('site', $options);
 		return $router;
+	}
+
+	/**
+	 * Return the current state of the language filter.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	public function getLanguageFilter()
+	{
+		return $this->_language_filter;
+	}
+
+	/**
+	 * Set the current state of the language filter.
+	 *
+	 * @return	boolean	The old state
+	 * @since	1.6
+	 */
+	public function setLanguageFilter($state=false)
+	{
+		$old = $this->_language_filter;
+		$this->_language_filter=$state;
+		return $old;
 	}
 }

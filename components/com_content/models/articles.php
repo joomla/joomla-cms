@@ -52,6 +52,8 @@ class ContentModelArticles extends JModelList
 
 		$this->setState('filter.published', 1);
 
+		$this->setState('filter.language',$app->getLanguageFilter());
+
 		// process show_noauth parameter
 		if (!$params->get('show_noauth'))
 		{
@@ -336,6 +338,11 @@ class ContentModelArticles extends JModelList
 				$query->where('LOWER( a.title ) LIKE ' . $filter);
 				break;
 			}
+		}
+
+		// Filter by language
+		if ($this->getState('filter.language')) {
+			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
 		// Add the list ordering clause.

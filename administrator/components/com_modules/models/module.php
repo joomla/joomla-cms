@@ -215,6 +215,8 @@ class ModulesModelModule extends JModelAdmin
 			return false;
 		}
 
+		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
+		
 		return $form;
 	}
 

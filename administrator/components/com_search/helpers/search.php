@@ -168,7 +168,8 @@ class SearchHelper
 	 * @param array List of object variables to check against
 	 * @returns boolean True if searchTerm is in object, false otherwise
 	 */
-	function checkNoHtml($object, $searchTerm, $fields) {
+	function checkNoHtml($object, $searchTerm, $fields)
+	{
 		$searchRegex = array(
 				'#<script[^>]*>.*?</script>#si',
 				'#<style[^>]*>.*?</style>#si',

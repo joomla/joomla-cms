@@ -102,7 +102,7 @@ class JRouterSite extends JRouter
 
 		//Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option')) {
-			$item = $menu->getDefault();
+			$item = $menu->getDefault(JFactory::getLanguage()->getTag());
 			if (!is_object($item)) {
 				// No default item set
 				return $vars;
@@ -155,7 +155,7 @@ class JRouterSite extends JRouter
 				return $this->_parseRawRoute($uri);
 			}
 
-			$item = $menu->getDefault();
+			$item = $menu->getDefault(JFactory::getLanguage()->getTag());
 
 			//Set the information in the request
 			$vars = $item->query;
@@ -351,7 +351,9 @@ class JRouterSite extends JRouter
 			$itemid = $uri->getVar('Itemid');
 			$item = $menu->getItem($itemid);
 
-			$uri->setQuery($item->query);
+			if ($item) {
+				$uri->setQuery($item->query);
+			}
 			$uri->setVar('Itemid', $itemid);
 		}
 

@@ -43,6 +43,7 @@ class plgSearchContacts extends JPlugin
 	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= &JFactory::getDbo();
+		$app	= &JFactory::getApplication();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
@@ -67,7 +68,7 @@ class plgSearchContacts extends JPlugin
 				break;
 
 			case 'category':
-				$order = 'b.title ASC, a.name ASC';
+				$order = 'c.title ASC, a.name ASC';
 				break;
 
 			case 'popular':
@@ -82,19 +83,23 @@ class plgSearchContacts extends JPlugin
 		$query	= $db->getQuery(true);
 		$query->select('a.name AS title, "" AS created, '
 				.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-				.'CASE WHEN CHAR_LENGTH(b.alias) THEN CONCAT_WS(\':\', b.id, b.alias) ELSE b.id END AS catslug, '
+				.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug, '
 				.'CONCAT_WS(", ", a.name, a.con_position, a.misc) AS text, '
-				.'CONCAT_WS(" / ", '.$db->Quote($section).', b.title) AS section, "2" AS browsernav');
+				.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "2" AS browsernav');
 		$query->from('#__contact_details AS a');
-		$query->innerJoin('#__categories AS b ON b.id = a.catid');
+		$query->innerJoin('#__categories AS c ON c.id = a.catid');
 		$query->where('(a.name LIKE '. $text .'OR a.misc LIKE '. $text .'OR a.con_position LIKE '. $text
 					.'OR a.address LIKE '. $text .'OR a.suburb LIKE '. $text .'OR a.state LIKE '. $text
 					.'OR a.country LIKE '. $text .'OR a.postcode LIKE '. $text .'OR a.telephone LIKE '. $text
-					.'OR a.fax LIKE '. $text .') AND a.published=1 AND b.published=1 '
-					.'AND a.access IN ('. $groups. ') AND b.access IN ('. $groups. ')' );
+					.'OR a.fax LIKE '. $text .') AND a.published=1 AND c.published=1 '
+					.'AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
 		$query->group('a.id');
 		$query->order($order);
 
+		// Filter by language
+		if ($app->getLanguageFilter()) {
+			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+		}
 
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();

@@ -215,14 +215,16 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState('com_menus.edit.item.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
 			return false;
 		}
 
 		// Save succeeded, check-in the row.
 		if (!$model->checkin()) {
 			// Check-in failed, go back to the row and display a notice.
-			$this->setMessage(JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
 			return false;
 		}
 

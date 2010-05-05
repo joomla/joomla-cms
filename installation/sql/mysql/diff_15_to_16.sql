@@ -82,6 +82,9 @@ ALTER TABLE `jos_banners`
 ALTER TABLE `jos_banners`
  ADD COLUMN `reset` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `publish_down`;
 
+ALTER TABLE `jos_banners`
+ ADD COLUMN `language` char(7) NOT NULL DEFAULT '' AFTER `created`;
+
 UPDATE `jos_banners`
  SET `type`=1 WHERE TRIM(`custombannercode`)!='';
 
@@ -108,6 +111,9 @@ ALTER TABLE `jos_banners`
 
 ALTER TABLE `jos_banners`
  ADD INDEX `idx_metakey_prefix` (`metakey_prefix`);
+
+ALTER TABLE `jos_banners`
+ ADD INDEX `idx_language` (`language`);
 
 -- ----------------------------------------------------------------
 -- jos_banner_clients
@@ -244,6 +250,9 @@ ALTER TABLE `jos_categories`
  ADD INDEX idx_left_right(`lft`, `rgt`);
 
 ALTER TABLE `jos_categories`
+ ADD INDEX `idx_language` (`language`);
+
+ALTER TABLE `jos_categories`
  DROP COLUMN `ordering`;
 
 -- TODO: Merge from sections and add uncategorised nodes.
@@ -280,7 +289,7 @@ UPDATE `jos_components` AS a
   ADD COLUMN `sortname1` varchar(255) NOT NULL,
   ADD COLUMN `sortname2` varchar(255) NOT NULL,
   ADD COLUMN `sortname3` varchar(255) NOT NULL,
-  ADD COLUMN `language` varchar(10) NOT NULL,
+  ADD COLUMN `language` char(7) NOT NULL,
   ADD COLUMN  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   ADD COLUMN   `created_by` int(10) unsigned NOT NULL DEFAULT '0',
   ADD COLUMN   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
@@ -522,6 +531,12 @@ ALTER TABLE `jos_menu`
 ALTER TABLE `jos_menu`
  ADD COLUMN `template_style_id` int(11) UNSIGNED NOT NULL DEFAULT '0';
 
+ALTER TABLE `jos_menu`
+ ADD COLUMN `language` char(7) NOT NULL DEFAULT '' AFTER `home`;
+
+ALTER TABLE `jos_menu`
+ ADD INDEX idx_language(`language`);
+
 INSERT INTO `jos_menu` VALUES
  (0, '', 'Menu_Item_Root', 'root', '', '', '', 1, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, 0, '', 0, 37, 0);
 
@@ -588,6 +603,12 @@ ALTER TABLE `jos_modules`
 
 ALTER TABLE `jos_modules`
  ADD COLUMN `publish_down` datetime NOT NULL default '0000-00-00 00:00:00' AFTER `publish_up`;
+
+ALTER TABLE `jos_modules`
+ ADD COLUMN `language` char(7) NOT NULL DEFAULT '' AFTER `client_id`;
+
+ALTER TABLE `jos_modules`
+ ADD INDEX idx_language(`language`);
 
 UPDATE `#__modules`
  SET `menutype` = 'mod_menu'

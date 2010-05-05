@@ -154,7 +154,7 @@
 			description="JFIELD_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
+			<option value="*">JOPTION_ALL_LANGUAGE</option>
 		</field>
 
 		<field

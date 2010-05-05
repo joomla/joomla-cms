@@ -47,6 +47,9 @@ class MenusModelItems extends JModelList
 		$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
 		$this->setState('filter.menutype', $menuType);
 
+		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
 		// Component parameters.
 		$params	= JComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
@@ -70,9 +73,10 @@ class MenusModelItems extends JModelList
 		// Compile the store id.
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.published');
+		$id	.= ':'.$this->getState('filter.language');
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.parent_id');
-		$id	.= ':'.$this->getState('filter.menu_id');
+		$id	.= ':'.$this->getState('filter.menutype');
 
 		return parent::getStoreId($id);
 	}
@@ -92,6 +96,10 @@ class MenusModelItems extends JModelList
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from('`#__menu` AS a');
 
+		// Join over the language
+		$query->select('l.title AS language_title');
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		
 		// Join over the users.
 		$query->select('u.name AS editor');
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
@@ -137,12 +145,6 @@ class MenusModelItems extends JModelList
 		}
 
 		// Filter the items over the menu id if set.
-		$menuId = $this->getState('filter.menu_id');
-		if (!empty($menuId)) {
-			$query->where('a.menu_id = '.(int) $menuId);
-		}
-
-		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
 		if (!empty($menuType)) {
 			$query->where('a.menutype = '.$db->quote($menuType));
@@ -156,6 +158,11 @@ class MenusModelItems extends JModelList
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
 			$query->where('a.level <= '.(int) $level);
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.
