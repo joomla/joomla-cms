@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="files" version="1.6" method="upgrade">
+	<!-- Note: we can use method="upgrade" to ensure an upgrade regardless of 
+	if it is a new install or an actual upgrade; Normal installs will 
+	behave like an install but upgrades will be treated appropriately even
+	if the interface doesn't support it properly -->
+	
+	<!-- Generic Metadata -->
+	<name>Alpha</name>
+	<author>John Doe</author>
+	<authorEmail>john.doe@example.org</authorEmail>
+	<authorUrl>http://www.example.org</authorUrl>
+	<copyright>(C) 2008 Copyright Info</copyright>
+	<license>License Info</license>
+	<version>1.6</version>
+	<creationDate>March 2006</creationDate>
+	<description>Extension Description</description>
+	
+	<!-- Installer Hooks -->
+	<scriptfile>file.script.php</scriptfile> <!-- New in 1.6 -->
+	
+	<!-- Fileset definition -->
+	<fileset>
+		<files folder="site" target="media/filestest">
+			<filename>alpha.php</filename>
+			<folder>language</folder>
+		</files>
+	</fileset>
+	
+	<!-- Extension Update Specification -->
+	<update>
+		<server type="extension">http://update.example.com/update/alpha.xml</server> <!-- useful for single extensions -->
+		<server type="collection">http://update.example.com/update/list.xml</server><!-- useful for smaller collections of extensions -->
+	</update>	
+</extension>
