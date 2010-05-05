@@ -32,7 +32,7 @@ var FancyUpload2 = new Class({
 		options.fileSizeMax = options.limitSize || options.fileSizeMax;
 		options.fileListMax = options.limitFiles || options.fileListMax;
 		options.url = options.url + '&format=json';
-		alert(options.url);
+		
 		this.parent(options);
 
 		this.addEvents({
