@@ -814,20 +814,7 @@ VALUES
 (28, 3, 'Joomla! Security News', 'joomla-security-news', 'http://feeds.joomla.org/JoomlaSecurityNews', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en-GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 0, '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (28, 4, 'Joomla! Connect', 'joomla-connect', 'http://feeds.joomla.org/JoomlaConnect', NULL, 1, 5, 3600, 0, '0000-00-00 00:00:00', 1,0,1,'en-GB','{"show_headings":"","show_name":"","show_articles":"","show_link":"","show_cat_description":"","show_cat_items":"","show_feed_image":"","show_feed_description":"","show_item_description":"","feed_word_count":"0"}', '0000-00-00 00:00:00', 0, '', '0000-00-00 00:00:00', 0, '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
---
--- Dumping data for table `#__social_comments`
---
 
-INSERT INTO `#__social_comments` VALUES
- (1,1,0,'content',1,0,0,0,'','foobar','Andrew Eddie','http://www.theartofjoomla','andrew.eddie@joomla.org','I Like Joomla','I really like this Joomla! thing.','0000-00-00 00:00:00',0,'127.0.0.1',''),
- (2,1,0,'content',1,0,0,0,'','foobar','Andrew Eddie','http://www','andrew.eddie@joomla.org','I like chips','I like salty chips.','0000-00-00 00:00:00',0,'127.0.0.1','');
-
---
--- Dumping data for table `#__social_comments`
---
-
-INSERT INTO `#__social_threads` VALUES
- (1,'content',1,'','','','0000-00-00 00:00:00',0,'');
 
 --
 -- Dumping data for table `#__template_styles`
