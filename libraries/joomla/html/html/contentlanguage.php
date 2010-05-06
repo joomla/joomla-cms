@@ -31,7 +31,7 @@ abstract class JHtmlContentLanguage
 	 * @return	string
 	 * @since	1.6
 	 */
-	public static function published($all = false, $translate=false)
+	public static function existing($all = false, $translate=false)
 	{
 		if (empty(self::$items)) {
 			// Get the database object and a new query object.

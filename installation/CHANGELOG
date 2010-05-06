@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-May-2010 Christophe Demko
+ ^ Change the JHtmlContentLanguage::published function to JHtmlContentLanguage::existing
+
 05-May-2010 Andrew Eddie
  ^ Accept patch [#20167] Caching of template query + JSite::getTemplate() refactoring to JDatabaseQuery (Dennis Hermacki).
  # Fix bug in the menu batch template which didn't show the menu items to copy or move to; fix bug in display of menu name (Júlio Pontes).
