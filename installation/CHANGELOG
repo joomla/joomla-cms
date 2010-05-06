@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 06-May-2010 Christophe Demko
+ $ Change the description of the sef language field
  ^ Change the JHtmlContentLanguage::published function to JHtmlContentLanguage::existing
 
 05-May-2010 Andrew Eddie
