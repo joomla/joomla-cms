@@ -32,7 +32,7 @@ $ -> Language fix or change
 # Show edit icon on frontpage and category blog when print and email icons disabled
 
 06-May-2010 Christophe Demko
- # Fixed bug in the JObservable::attach method when the observer is an array: it did not use the correct key
+ # Fixed bug in caching in various controller ('language'->'lang') # Fixed bug in the JObservable::attach method when the observer is an array: it did not use the correct key
  #$ Fixed ordering with image field in languages view (Thanks Dennis Hermacki)
  # Fix ordering with folder field in plugins view
  # [#20350] [patch] Core components fail in attempt to add multiselect.js in back-end list views.
