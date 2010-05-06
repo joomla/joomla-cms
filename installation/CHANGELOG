@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-May-2010 Jean-Marie Simonet
+#Fixed [20344] menu item alias . thanks Dennis and Elin
+
 06-May-2010 Mark Dexter
 # Fix problem with sample data duplicate mainmenu (Elin Waring)
 # Show edit icon on frontpage and category blog when print and email icons disabled
