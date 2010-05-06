@@ -91,4 +91,40 @@ class JLanguageHelper
 
 		return null;
 	}
+
+	/**
+	 * Get available languages
+	 *
+	 * @param	string array key
+	 * @return	array of published languages
+	 * @since	1.5
+	 */
+	public static function getLanguages($key='default')
+	{
+		static $languages;
+		
+		if (empty($languages)) {
+			$cache = JFactory::getCache('com_languages', '');
+			if (!$languages = $cache->get('languages')) {
+				$db 	= JFactory::getDBO();
+				$query	= $db->getQuery(true);
+				$query->select('*')->from('#__languages')->where('published=1');
+				$db->setQuery($query);
+				
+				$languages['default'] 	= $db->loadObjectList();
+				$languages['sef']		= array();
+				$languages['lang_code']	= array();
+				
+				if (isset($languages['default'][0])) {
+					foreach($languages['default'] as $lang) {
+						$languages['sef'][$lang->sef] 				= $lang; 
+						$languages['lang_code'][$lang->lang_code] 	= $lang; 
+					}
+				}
+				
+				$cache->store($languages, 'languages');
+			}
+		}
+		return $languages[$key];
+	}
 }
