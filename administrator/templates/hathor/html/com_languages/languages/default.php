@@ -56,13 +56,19 @@ $listDirn	= $this->state->get('list.direction');
 					<input type="checkbox" name="toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap width-5">
-					<?php echo JHtml::_('grid.sort',  'COM_LANGS_HEADING_LANG_CODE', 'a.lang_code', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_CODE', 'a.lang_code', $listDirn, $listOrder); ?>
+				</th>
+				<th class="nowrap width-5">
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_SEF', 'a.sef', $listDirn, $listOrder); ?>
+				</th>
+				<th class="nowrap width-5">
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap width-5">
 					<?php echo JHtml::_('grid.sort',  'JPUBLISHED', 'a.published', $listDirn, $listOrder); ?>
@@ -94,6 +100,12 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td class="center">
 					<?php echo $item->lang_code; ?>
+				</td>
+				<td align="center">
+					<?php echo $item->sef; ?>
+				</td>
+				<td align="center">
+					<?php echo $item->image; ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.');?>
