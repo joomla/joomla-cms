@@ -26,4 +26,22 @@ class LanguagesControllerLanguages extends JControllerAdmin
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
 	}
+	
+	/**
+	 * Override the execute method to clear the language cache for non-display tasks.
+	 *
+	 * @param	string		The task to perform.
+	 * @return	mixed|false	The value returned by the called method, false in error case.
+	 * @since	1.6
+	 */
+	public function execute($task)
+	{
+		parent::execute($task);
+
+		// Clear the component's cache
+		if ($task != 'display' && $task != 'edit') {
+			$cache = JFactory::getCache('com_languages');
+			$cache->clean();
+		}
+	}	
 }

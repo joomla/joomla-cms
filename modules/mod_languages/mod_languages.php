@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once dirname(__FILE__).DS.'helper.php';
 
-$headerText	= trim($params->get('header_text'));
-$footerText	= trim($params->get('footer_text'));
+$headerText	= JString::trim($params->get('header_text'));
+$footerText	= JString::trim($params->get('footer_text'));
 
-$list = modLanguagesHelper::getList($params);
-$tag = modLanguagesHelper::getTag($params);
+$list 	= modLanguagesHelper::getList($params);
+$tag 	= modLanguagesHelper::getTag($params);
 require JModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));

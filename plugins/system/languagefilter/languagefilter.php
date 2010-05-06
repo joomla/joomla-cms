@@ -20,31 +20,36 @@ jimport('joomla.plugin.plugin');
  */
 class plgSystemLanguageFilter extends JPlugin
 {
-	public static $languages;
+	public static $mode_sef;
+	public static $tag;
 	public static $sefs;
-	public static $site_sef;
+	public static $lang_codes;
 
+	public static $default_lang;
+	public static $default_sef;
+	
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
 		if ($app->isSite()) {
 			$app->setLanguageFilter(true);
-			$router =& $app->getRouter();
+			$router = $app->getRouter();
 
 			// attach build rules for language SEF
 			$router->attachBuildRule(array($this, 'buildRule'));
 
 			// attach parse rules for language SEF
 			$router->attachParseRule(array($this, 'parseRule'));
-
-			// load languages
-			$db 	=& JFactory::getDBO();
-			$query	= $db->getQuery(true);
-			$query->select('*')->from('#__languages')->where('published=1');
-			$db->setQuery($query);
-			self::$sefs = $db->loadObjectList('sef');
-			self::$languages = $db->loadObjectList('lang_code');
-			self::$site_sef = self::$languages[JComponentHelper::getParams('com_languages')->get('site','en-GB')]->sef;
+			
+			// setup language data
+			self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+			self::$tag 			= JFactory::getLanguage()->getTag();
+			self::$sefs 		= JLanguageHelper::getLanguages('sef');
+			self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
+			
+			// todo - not used?
+			self::$default_lang 	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			self::$default_sef 		= self::$lang_codes[self::$default_lang]->sef;
 		}
 	}
 
@@ -52,58 +57,65 @@ class plgSystemLanguageFilter extends JPlugin
 	{
 		$sef = $uri->getVar('lang');
 		if (empty($sef)) {
-			$sef= self::$languages[JFactory::getLanguage()->getTag()]->sef;
+			$sef = self::$lang_codes[self::$tag]->sef;
 		}
-		elseif (!array_key_exists($sef, self::$sefs)) {
-			$sef = self::$site_sef;
+		elseif (!isset(self::$sefs[$sef])) {
+			$sef = self::$default_sef;
 		}
-		$Itemid = $uri->getVar('Itemid');
-		if ($Itemid) {
-			$menu =& JSite::getMenu()->getItem($Itemid);
-			// if no menu - that means that we are routing home menu item of none-current language
+
+		$Itemid = $uri->getVar('Itemid', 'absent');
+		
+		if ($Itemid != 'absent') {
+			$menu 	=& JSite::getMenu()->getItem($Itemid);
+			// if no menu - that means that we are routing home menu item of none-current language or alias to home
 			if (!$menu || $menu->home) {
 				$uri->delVar('option');
 				$uri->delVar('Itemid');
 			}
 		}
-		if ($router->getMode() == JROUTER_MODE_SEF) {
+		
+		if (self::$mode_sef) {
 			$uri->delVar('lang');
 			$uri->setPath($uri->getPath().'/'.$sef.'/');
 		}
 		else {
-			$uri->setVar('lang',$sef);
+			$uri->setVar('lang', $sef);
 		}
 	}
 
 	public function parseRule(&$router, &$uri)
 	{
 		$array = array();
-		if ($router->getMode() == JROUTER_MODE_SEF) {
+		if (self::$mode_sef) {
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
 
 			$sef = $parts[0];
 
-			if (!array_key_exists($sef,self::$sefs)) {
-				$sef = self::$site_sef;
+			if (!isset(self::$sefs[$sef])) {
+				$sef = self::$default_sef;
 			}
-			$lang_code=self::$sefs[$sef]->lang_code;
+			$lang_code = self::$sefs[$sef]->lang_code;
 
-			if (!$lang_code ||  !JLanguage::exists($lang_code)) {
-				// Use the default language
-				$lang_code = self::$default_language;
+			if (!$lang_code || !JLanguage::exists($lang_code)) {
+				$lang_code = self::$default_lang;
 			}
 			else {
 				array_shift($parts);
 				$uri->setPath(implode('/', $parts));
 			}
-
-			$array = array('lang' => $sef);
+			
+			// Set the language
 			JFactory::getLanguage()->setLanguage($lang_code);
-			$config = JFactory::getConfig();
+			self::$tag = $lang_code;
+			
+			// Create a cookie
+			$config =& JFactory::getConfig();
 			$cookie_domain 	= $config->get('config.cookie_domain', '');
 			$cookie_path 	= $config->get('config.cookie_path', '/');
 			setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+
+			$array = array('lang' => $sef);
 		}
 		return $array;
 	}

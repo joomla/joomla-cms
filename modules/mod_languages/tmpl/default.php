@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-JHtml::_('stylesheet','mod_languages/template.css', array(), true);
+JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 ?>
 <div class="mod_languages<?php echo $params->get('moduleclass_sfx') ?>">
 <?php if ($headerText) : ?>
@@ -19,8 +19,8 @@ JHtml::_('stylesheet','mod_languages/template.css', array(), true);
 <?php foreach($list as $language):?>
 			<li>
 				<a href="<?php echo JRoute::_('index.php?Itemid='.$language->id.'&lang=' . $language->sef);?>">
-	<?php if ($params->get('image',1)):?>
-		<?php echo JHtml::_('image','mod_languages/'.$language->image.'.gif',$language->title,array('title'=>$language->title),true);?>
+	<?php if ($params->get('image', 1)):?>
+		<?php echo JHtml::_('image', 'mod_languages/'.$language->image.'.gif', $language->title, array('title'=>$language->title), true);?>
 	<?php else:?>
 		<?php echo $language->title;?>
 	<?php endif;?>
@@ -32,4 +32,3 @@ JHtml::_('stylesheet','mod_languages/template.css', array(), true);
 	<div class="footer"><?php echo $footerText; ?></div>
 <?php endif; ?>
 </div>
-

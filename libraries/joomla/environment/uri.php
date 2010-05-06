@@ -355,6 +355,18 @@ class JURI extends JObject
 	}
 
 	/**
+	 * Checks if variable exists.
+	 *
+	 * @param	string $name Name of the query variable to check.
+	 * @return	bool exists.
+	 * @since	1.6
+	 */
+	public function hasVar($name)
+	{
+		return array_key_exists($name, $this->_vars);
+	}
+	
+	/**
 	 * Returns a query variable by name.
 	 *
 	 * @param	string $name Name of the query variable to get.
@@ -363,7 +375,7 @@ class JURI extends JObject
 	 */
 	public function getVar($name = null, $default=null)
 	{
-		if (isset($this->_vars[$name])) {
+		if (array_key_exists($name, $this->_vars)) {
 			return $this->_vars[$name];
 		}
 		return $default;
@@ -377,9 +389,9 @@ class JURI extends JObject
 	 */
 	public function delVar($name)
 	{
-		if (in_array($name, array_keys($this->_vars)))
+		if (array_key_exists($name, $this->_vars))
 		{
-			unset ($this->_vars[$name]);
+			unset($this->_vars[$name]);
 
 			//empty the query
 			$this->_query = null;
