@@ -216,10 +216,11 @@ class JLanguage extends JObject
 	 *
 	 * @param	string		$string	The string to translate
 	 * @param	boolean	$jsSafe		Make the result javascript safe
+	 * @param	boolean	$interpreteBackslashes		Interprete \t and \n
 	 * @return	string	The translation of the string
 	 * @since	1.5
 	 */
-	public function _($string, $jsSafe = false)
+	public function _($string, $jsSafe = false, $interpreteBackSlashes = true)
 	{
 		$key = strtoupper($string);
 		if (isset ($this->strings[$key])) {
@@ -248,6 +249,11 @@ class JLanguage extends JObject
 
 				$string = '??'.$string.'??';
 			}
+		}
+
+		// interprete \n and \t characters
+		if ($interpreteBackSlashes) {
+			$string = str_replace(array('\t','\n'),array("\t","\n"),$string);
 		}
 
 		if ($jsSafe) {
