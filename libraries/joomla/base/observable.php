@@ -96,6 +96,7 @@ class JObservable extends JObject
 				return;
 			}
 			$this->_observers[] = &$observer;
+			end($this->_observers);
 			$methods = array($observer['event']);
 
 		} else {
