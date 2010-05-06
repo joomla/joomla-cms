@@ -32,7 +32,7 @@ $ -> Language fix or change
 # Show edit icon on frontpage and category blog when print and email icons disabled
 
 06-May-2010 Christophe Demko
- # 		
+ # Fix ordering with folder field in plugins view
  # [#20350] [patch] Core components fail in attempt to add multiselect.js in back-end list views.
  $ Change the description of the sef language field
  ^ Change the JHtmlContentLanguage::published function to JHtmlContentLanguage::existing
