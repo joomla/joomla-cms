@@ -161,7 +161,7 @@ final class JSite extends JApplication
 				$languages = JLanguageHelper::getLanguages('lang_code');
 				
 				// Set metadata
-				$document->setMetaData('keywords', $this->getCfg('MetaKeys') . $languages[$lang_code]->metakey);
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys') . ($languages[$lang_code]->metakey ? (', ' . $languages[$lang_code]->metakey) : ''));
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
 				$document->setBase(JURI::root());
 				break;

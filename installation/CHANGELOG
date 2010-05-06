@@ -36,6 +36,7 @@ $ -> Language fix or change
 # Show edit icon on frontpage and category blog when print and email icons disabled
 
 06-May-2010 Christophe Demko
+ ^ Improve performance (Thanks Klac Berlic and Dennis Hermatski) of JLanguagesHelper::detectLanguages
  # Verifying array observer has not been already attached
  #^ Accept Dennis Hermatski patch concerning language improvements
  # Fixed bug in caching in various controller ('language'->'lang') # Fixed bug in the JObservable::attach method when the observer is an array: it did not use the correct key
