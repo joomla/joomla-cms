@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Fix problem with sample data duplicate mainmenu (Elin Waring)
 
 06-May-2010 Christophe Demko
+ # [#20350] [patch] Core components fail in attempt to add multiselect.js in back-end list views.
  $ Change the description of the sef language field
  ^ Change the JHtmlContentLanguage::published function to JHtmlContentLanguage::existing
 
