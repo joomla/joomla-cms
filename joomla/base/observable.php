@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id:observer.php 6961 2007-03-15 16:06:53Z tcp $
+ * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Base
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
