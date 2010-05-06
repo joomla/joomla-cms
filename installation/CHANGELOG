@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-May-2010 Jean-Marie Simonet
 #Fixed [20344] menu item alias . thanks Dennis and Elin
++ Adding language column in menu items view
 
 06-May-2010 Mark Dexter
 # Fix problem with sample data duplicate mainmenu (Elin Waring)
