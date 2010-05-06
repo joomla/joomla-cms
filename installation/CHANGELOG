@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-May-2010 Mark Dexter
+# Fix problem with sample data duplicate mainmenu (Elin Waring)
+
 06-May-2010 Christophe Demko
  $ Change the description of the sef language field
  ^ Change the JHtmlContentLanguage::published function to JHtmlContentLanguage::existing

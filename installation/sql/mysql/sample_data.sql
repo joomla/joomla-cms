@@ -471,7 +471,7 @@ UPDATE `#__menu` SET rgt = @max_rgt WHERE id = 1;
 --
 -- Dumping data for table `#__menu_types`
 --
-
+DELETE FROM `#__menu_types` WHERE `id` = 1;
 INSERT IGNORE INTO `#__menu_types` VALUES
 (2, 'usermenu', 'User Menu', 'A Menu for logged in Users'),
 (3, 'top', 'Top', 'Links for major types of users'),
