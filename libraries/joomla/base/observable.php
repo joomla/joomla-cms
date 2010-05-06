@@ -89,11 +89,16 @@ class JObservable extends JObject
 	 */
 	public function attach(&$observer)
 	{
-		// Make sure we haven't already attached this object as an observer
 		if (is_array($observer))
 		{
 			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
 				return;
+			}
+			// Make sure we haven't already attached this array as an observer
+			foreach ($this->_observers as $check) {
+				if (is_array($check) && $check['event']==$observer['event'] && $check['handler']==$observer['handler']) {
+					return;
+				}
 			}
 			$this->_observers[] = &$observer;
 			end($this->_observers);
@@ -104,6 +109,7 @@ class JObservable extends JObject
 				return;
 			}
 
+			// Make sure we haven't already attached this object as an observer
 			$class = get_class($observer);
 			foreach ($this->_observers as $check) {
 				if ($check instanceof $class) {
