@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-May-2010 Mark Dexter
 # Fix problem with sample data duplicate mainmenu (Elin Waring)
+# Show edit icon on frontpage and category blog when print and email icons disabled
 
 06-May-2010 Christophe Demko
  # [#20350] [patch] Core components fail in attempt to add multiselect.js in back-end list views.

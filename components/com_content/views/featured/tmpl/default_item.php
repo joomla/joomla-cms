@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 // Create a shortcut for params.
 $params = &$this->item->params;
+$canEdit = $this->user->authorise('core.edit', 'com_content.frontpage.'.$this->item->id);
 ?>
 
 <?php if ($this->item->state == 0) : ?>
@@ -28,7 +29,7 @@ $params = &$this->item->params;
 	</h2>
 <?php endif; ?>
 
-<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $params->get('access-edit')) : ?>
+<?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
 	<ul class="actions">
 		<?php if ($params->get('show_print_icon')) : ?>
 		<li class="print-icon">
@@ -41,7 +42,7 @@ $params = &$this->item->params;
 		</li>
 		<?php endif; ?>
 
-		<?php if ($this->user->authorise('core.edit', 'com_content.frontpage.'.$this->item->id)) : ?>
+		<?php if ($canEdit) : ?>
 		<li class="edit-icon">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 		</li>
