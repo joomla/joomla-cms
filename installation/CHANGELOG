@@ -38,6 +38,7 @@ $ Changed toolbar to "Delete" in com_users
  # Fixing unit tests to reflect database changes
 
 07-May-2010 Christophe Demko
+ # Fix [#20311] Can change the name of a menu but this doesn't change the items in the menu table.
  # Fix [#16103] SEF enabled sites require the menu alias for each menu to be unique but there is no checking or attempt to ensure this
  # Ensure menutype is unique
  # Fix missing language_title field in newsfeeds view

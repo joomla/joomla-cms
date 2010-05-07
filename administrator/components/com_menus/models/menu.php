@@ -164,7 +164,7 @@ class MenusModelMenu extends JModelForm
 
 		// Store the data.
 		if (!$table->store()) {
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($table->getError());
 			return false;
 		}
 
