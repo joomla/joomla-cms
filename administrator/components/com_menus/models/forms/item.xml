@@ -43,6 +43,7 @@
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
 			default=""
+			readonly="true"
 			class="inputbox"
 			size="50"/>
 

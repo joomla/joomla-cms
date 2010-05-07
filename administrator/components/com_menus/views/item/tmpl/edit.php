@@ -40,10 +40,11 @@ JHTML::_('behavior.modal');
 			<?php echo $this->form->getLabel('type'); ?>
 			<?php echo $this->form->getInput('type'); ?>
 
-			<?php if ($this->item->type =='url'){ ?>
+			<?php if ($this->item->type =='url'): ?>
+				<?php $this->form->setFieldAttribute('link','readonly','false');?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
-			<?php } ?>
+			<?php endif ?>
 
 	</fieldset>
 	<fieldset class="adminform">
@@ -57,10 +58,10 @@ JHTML::_('behavior.modal');
 
 
 
-			<?php if ($this->item->type !=='url'){ ?>
+			<?php if ($this->item->type !=='url'): ?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
-			<?php } ?>
+			<?php endif ?>
 
 			<?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?>
