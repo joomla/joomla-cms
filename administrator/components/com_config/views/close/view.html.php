@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
+ * This view is displayed after successfull saving of config data.
+ * Use it to show a message informing about success or simply close a modal window.
+ *
  * @package		Joomla.Administrator
  * @subpackage	com_config
  */
@@ -23,5 +26,7 @@ class ConfigViewClose extends JView
 	 */
 	function display()
 	{
+		// close a modal window
+		JFactory::getDocument()->addScriptDeclaration('window.parent.SqueezeBox.close();');
 	}
 }
