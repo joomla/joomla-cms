@@ -37,6 +37,7 @@ $ Changed toolbar to "Delete" in com_users
  # Fixing unit tests to reflect database changes
 
 07-May-2010 Christophe Demko
+ # Ensure menutype is unique
  # Fix missing language_title field in newsfeeds view
  # Fix escaping javascript string in JHtmlBehavior::_calendarTranslation
  # Fix link menu item disabled when type is not url

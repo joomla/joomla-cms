@@ -600,7 +600,8 @@ CREATE TABLE `#__menu_types` (
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+  UNIQUE `idx_menutype` (`menutype`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
