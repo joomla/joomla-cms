@@ -165,7 +165,7 @@ class JText
 			$found = false;
 			$suffixes = $lang->getPluralSuffices((int)$n);
 			foreach ($suffixes as $suffix) {
-				$key = $args[0].'_'.$suffix;
+				$key = $string.'_'.$suffix;
 				if ($lang->hasKey($key)) {
 					$found = true;
 					break;
@@ -173,7 +173,7 @@ class JText
 			}
 			if (!$found) {
 				// Not found so revert to the original.
-				$key = $args[0];
+				$key = $string;
 			}
 			if (is_array($args[$count-1])) {
 				$args[0] = $lang->_($key, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
@@ -190,7 +190,7 @@ class JText
 		elseif ($count > 0) {
 
 			// Default to the normal sprintf handling.
-			$args[0] = $lang->_($args[0]);
+			$args[0] = $lang->_($string);
 			return call_user_func_array('sprintf', $args);
 		}
 
@@ -215,16 +215,15 @@ class JText
 		$args = func_get_args();
 		$count = count($args);
 		if ($count > 0) {
-			$key = $args[0];
 			if (is_array($args[$count-1])) {
-				$args[0] = $lang->_($key, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
+				$args[0] = $lang->_($string, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
 				if (array_key_exists('script', $args[$count-1]) && $args[$count-1]['script']) {
-					self::$strings[$key] = call_user_func_array('sprintf', $args);
-					return $key;
+					self::$strings[$string] = call_user_func_array('sprintf', $args);
+					return $string;
 				}
 			}
 			else {
-				$args[0] = $lang->_($key);
+				$args[0] = $lang->_($string);
 			}
 			return call_user_func_array('sprintf', $args);
 		}
@@ -245,10 +244,10 @@ class JText
 		$count	= count($args);
 		if ($count > 0) {
 			if (is_array($args[$count-1])) {
-				$args[0] = $lang->_($args[0], array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
+				$args[0] = $lang->_($string, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
 			}
 			else {
-				$args[0] = $lang->_($args[0]);
+				$args[0] = $lang->_($string);
 			}
 			return call_user_func_array('printf', $args);
 		}
