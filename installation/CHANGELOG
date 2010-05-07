@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-May-2010 Ian MacLennan
+ # Fixing unit tests to reflect database changes
+
 07-May-2010 Christophe Demko
  # Fix [#20006] Invalid Token if install sample data twice 
  + Change the second parameter of JText::script to be a boolean or an array of options

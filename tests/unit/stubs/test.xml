@@ -2400,6 +2400,7 @@
 		<column>lang_code</column>
 		<column>title</column>
 		<column>title_native</column>
+		<column>sef</column>
 		<column>description</column>
 		<column>published</column>
 		<row>
@@ -2407,6 +2408,7 @@
 			<value>en-GB</value>
 			<value>English (UK)</value>
 			<value>English (UK)</value>
+			<value>en-GB</value>
 			<value></value>
 			<value>1</value>
 		</row>
@@ -2415,6 +2417,7 @@
 			<value>en-US</value>
 			<value>English (US)</value>
 			<value>English (US)</value>
+			<value>en-US</value>
 			<value></value>
 			<value>1</value>
 		</row>
@@ -2423,6 +2426,7 @@
 			<value>xx-XX</value>
 			<value>xx (Test)</value>
 			<value>xx (Test)</value>
+			<value>xx-XX</value>
 			<value></value>
 			<value>1</value>
 		</row>
@@ -3444,63 +3448,6 @@ separator=
 		<column>userid</column>
 		<column>username</column>
 		<column>usertype</column>
-	</table>
-	<table name="jos_social_blocked_ips">
-		<column>id</column>
-		<column>start_ip</column>
-		<column>end_ip</column>
-	</table>
-	<table name="jos_social_blocked_users">
-		<column>id</column>
-		<column>user_id</column>
-		<column>email</column>
-	</table>
-	<table name="jos_social_comments">
-		<column>id</column>
-		<column>thread_id</column>
-		<column>user_id</column>
-		<column>context</column>
-		<column>context_id</column>
-		<column>trackback</column>
-		<column>notify</column>
-		<column>score</column>
-		<column>referer</column>
-		<column>page</column>
-		<column>name</column>
-		<column>url</column>
-		<column>email</column>
-		<column>subject</column>
-		<column>body</column>
-		<column>created_date</column>
-		<column>published</column>
-		<column>address</column>
-		<column>link</column>
-	</table>
-	<table name="jos_social_ratings">
-		<column>thread_id</column>
-		<column>context</column>
-		<column>context_id</column>
-		<column>referer</column>
-		<column>page</column>
-		<column>pscore_total</column>
-		<column>pscore_count</column>
-		<column>pscore</column>
-		<column>mscore_total</column>
-		<column>mscore_count</column>
-		<column>mscore</column>
-		<column>used_ips</column>
-		<column>updated_date</column>
-	</table>
-	<table name="jos_social_threads">
-		<column>id</column>
-		<column>context</column>
-		<column>context_id</column>
-		<column>page_url</column>
-		<column>page_route</column>
-		<column>page_title</column>
-		<column>created_date</column>
-		<column>status</column>
-		<column>pings</column>
 	</table>
 	<table name="jos_template_styles">
 		<column>id</column>
