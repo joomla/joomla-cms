@@ -36,6 +36,7 @@ $ -> Language fix or change
 # Show edit icon on frontpage and category blog when print and email icons disabled
 
 06-May-2010 Christophe Demko
+ # Corrected a bug in #16862 (lack of languages table during installation)
  + Change the way the JLanguage::_ works: \t and \n and interpreted as 'tabulation' and 'carriage return' in ini strings (as it was in 1.5). Added a third optional parameter to the function to disable this behavior.
  ^ Improve performance (Thanks Klac Berlic and Dennis Hermatski) of JLanguagesHelper::detectLanguages
  # Verifying array observer has not been already attached
