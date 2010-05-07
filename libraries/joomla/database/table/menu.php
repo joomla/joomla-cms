@@ -100,6 +100,12 @@ class JTableMenu extends JTableNested
 				$table->store();
 			}
 		}
+		// Verify that the alias is unique
+		$table = JTable::getInstance('Menu','JTable');
+		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id))) {
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+			return false;
+		}
 		return parent::store($updateNulls);
 	}
 }
