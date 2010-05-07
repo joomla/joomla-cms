@@ -3,13 +3,12 @@
  * @version		$Id$
  * @package		Joomla.Framework
  * @subpackage	Cache
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // No direct access
 defined('JPATH_BASE') or die;
-
-
 
 /**
  * Cache litestorage handler
@@ -20,8 +19,14 @@ defined('JPATH_BASE') or die;
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
-
+	/**
+	 * @since	1.6
+	 */
 	private static $CacheLiteInstance = null;
+
+	/**
+	 * @since	1.6
+	 */
 	private $_root;
 
 	/**
@@ -46,7 +51,9 @@ class JCacheStorageCachelite extends JCacheStorage
 			'caching' 					=> $options['caching']
 		);
 
-		if (self::$CacheLiteInstance === null) $this->initCache($cloptions);
+		if (self::$CacheLiteInstance === null) {
+			$this->initCache($cloptions);
+		}
 	}
 
 	/**
@@ -56,13 +63,12 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @param array $options optional parameters
 	 * @since		1.6
 	 */
-	private function initCache($cloptions) {
-
+	private function initCache($cloptions)
+	{
 		require_once('Cache/Lite.php');
 		self::$CacheLiteInstance = new Cache_Lite($cloptions);
 		return self::$CacheLiteInstance;
 	}
-
 
 	/**
 	 * Get cached data from a file by id and group
@@ -94,7 +100,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		parent::getAll();
 
-		$path=$this->_root;
+		$path = $this->_root;
 		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($path);
 		$data = array();
@@ -138,11 +144,15 @@ class JCacheStorageCachelite extends JCacheStorage
 		if (!is_dir($dir)) {
 			return false;
 		}
+
 		self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
 		$this->_getCacheId($id, $group);
 		$sucess = self::$CacheLiteInstance->save($data,$this->rawname,$group);
-		if($sucess == true) return $sucess; else return false;
-
+		if ($sucess == true) {
+			return $sucess;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -158,7 +168,11 @@ class JCacheStorageCachelite extends JCacheStorage
 		self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
 		$this->_getCacheId($id, $group);
 		$sucess = self::$CacheLiteInstance->remove($this->rawname,$group);
-		if($sucess == true) return $sucess; else return false;
+		if ($sucess == true) {
+			return $sucess;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -179,10 +193,12 @@ class JCacheStorageCachelite extends JCacheStorage
 		if (trim($group) == '') {
 			$clmode = 'notgroup';
 		}
-		if ($mode == null) $clmode = 'group';
 
-		switch ($mode)
-		{
+		if ($mode == null) {
+			$clmode = 'group';
+		}
+
+		switch ($mode) {
 			case 'notgroup':
 				$clmode = 'notingroup';
 				$sucess = self::$CacheLiteInstance->clean($group,$clmode);
@@ -202,7 +218,11 @@ class JCacheStorageCachelite extends JCacheStorage
 				break;
 		}
 
-		if($sucess == true) return $sucess; else return false;
+		if ($sucess == true)  {
+			return $sucess;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -212,40 +232,41 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @since	1.6
 	 */
 	public function gc()
-	{	$result = true;
+	{
+		$result = true;
 		self::$CacheLiteInstance->setOption('automaticCleaningFactor', 1);
 		self::$CacheLiteInstance->setOption('hashedDirectoryLevel', 1);
 		$test = self::$CacheLiteInstance;
 		$sucess1 = self::$CacheLiteInstance->_cleanDir($this->_root.DS,false, 'old');
-	    if (!($dh = opendir($this->_root.DS))) {
-            return false;
-        }
-		    while ($file = readdir($dh)) {
-            if (($file != '.') && ($file != '..') && ($file != '.svn')) {
-            	$file2 = $this->_root.DS.$file;
-                    if (is_dir($file2)) {
-                        $result = ($result and (self::$CacheLiteInstance->_cleanDir($file2.DS, false, 'old')));
-                    }
 
-            }
-		    }
-        $sucess = $sucess1 and $result;
+		if (!($dh = opendir($this->_root.DS))) {
+			return false;
+		}
+
+		while ($file = readdir($dh)) {
+			if (($file != '.') && ($file != '..') && ($file != '.svn')) {
+				$file2 = $this->_root.DS.$file;
+				if (is_dir($file2)) {
+					$result = ($result and (self::$CacheLiteInstance->_cleanDir($file2.DS, false, 'old')));
+				}
+			}
+		}
+		$sucess = ($sucess1 && $result);
+
 		return $sucess;
 	}
 
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
 	 */
 	public static function test()
 	{
-		if(file_exists('Cache/Lite.php'))
-		{
+		if (file_exists('Cache/Lite.php')) {
 			include_once('Cache/Lite.php');
-			if (class_exists('Cache_Lite'))
-			{
+			if (class_exists('Cache_Lite')) {
 				return true;
 			} else {
 				return false;
@@ -254,5 +275,4 @@ class JCacheStorageCachelite extends JCacheStorage
 			return false;
 		}
 	}
-
 }

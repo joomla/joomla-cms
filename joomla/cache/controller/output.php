@@ -14,23 +14,24 @@ defined('JPATH_BASE') or die;
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @since		1.5
+ * @since		1.6
  */
 class JCacheControllerOutput extends JCacheController
 {
+	/**
+	 * @since	1.6
+	 */
 	private $_id;
-	private $_group;
-	private $_locktest = null;
 
 	/**
-	* Constructor
-	*
-	* @param array $options optional parameters
-	*/
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-	}
+	 * @since	1.6
+	 */
+	private $_group;
+
+	/**
+	 * @since	1.6
+	 */
+	private $_locktest = null;
 
 	/**
 	 * Start the cache
@@ -38,7 +39,7 @@ class JCacheControllerOutput extends JCacheController
 	 * @param	string	The cache data id
 	 * @param	string	The cache data group
 	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	public function start($id, $group=null)
 	{
@@ -49,8 +50,7 @@ class JCacheControllerOutput extends JCacheController
 		$this->_locktest->locked = null;
 		$this->_locktest->locklooped = null;
 
-		if ($data === false)
-		{
+		if ($data === false) {
 			$this->_locktest = $this->cache->lock($id,null);
 			if ($this->_locktest->locked == true && $this->_locktest->locklooped == true) $data = $this->cache->get($id);
 
@@ -58,11 +58,15 @@ class JCacheControllerOutput extends JCacheController
 
 		if ($data !== false) {
 			echo $data;
-			if ($this->_locktest->locked == true) $this->cache->unlock($id);
+			if ($this->_locktest->locked == true) {
+				$this->cache->unlock($id);
+			}
 			return true;
 		} else {
 			// Nothing in cache... lets start the output buffer and start collecting data for next time.
-			if ($this->_locktest->locked == false) $this->_locktest = $this->cache->lock($id,null);
+			if ($this->_locktest->locked == false) {
+				$this->_locktest = $this->cache->lock($id,null);
+			}
 			ob_start();
 			ob_implicit_flush(false);
 			// Set id and group placeholders
@@ -76,7 +80,7 @@ class JCacheControllerOutput extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @return	boolean	True if cache stored
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	public function end()
 	{
@@ -93,6 +97,8 @@ class JCacheControllerOutput extends JCacheController
 
 		// Get the storage handler and store the cached data
 		$this->cache->store($data, $id, $group);
-		if ($this->_locktest->locked == true) $this->cache->unlock($id);
+		if ($this->_locktest->locked == true) {
+			$this->cache->unlock($id);
+		}
 	}
 }

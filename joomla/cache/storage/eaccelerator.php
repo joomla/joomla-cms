@@ -17,19 +17,8 @@ defined('JPATH_BASE') or die;
  * @subpackage	Cache
  * @since		1.5
  */
-
 class JCacheStorageEaccelerator extends JCacheStorage
 {
-	/**
-	 * Constructor
-	 *
-	 * @param array $options optional parameters
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-	}
-
 	/**
 	 * Get cached data by id and group
 	 *
@@ -43,8 +32,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = eaccelerator_get($cache_id);
-		if ($cache_content === null)
-		{
+		if ($cache_content === null) {
 			return false;
 		}
 		return $cache_content;
@@ -62,32 +50,29 @@ class JCacheStorageEaccelerator extends JCacheStorage
 
 		$keys = eaccelerator_list_keys();
 
-        $secret = $this->_hash;
-        $data = array();
+		$secret = $this->_hash;
+		$data = array();
 
 		foreach ($keys as $key) {
 			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 			$name = ltrim($key['name'], ':');
 
-			$namearr=explode('-',$name);
+			$namearr = explode('-',$name);
 
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
+				$group = $namearr[2];
 
-			$group = $namearr[2];
+				if (!isset($data[$group])) {
+					$item = new JCacheStorageHelper();
+				} else {
+					$item = $data[$group];
+				}
 
-			if (!isset($data[$group])) {
-			$item = new JCacheStorageHelper();
-			} else {
-			$item = $data[$group];
-			}
+				$item->updateSize($key['size']/1024,$group);
 
-			$item->updateSize($key['size']/1024,$group);
-
-			$data[$group] = $item;
-
+				$data[$group] = $item;
 			}
 		}
-
 
 		return $data;
 	}
@@ -136,14 +121,15 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	{
 		$keys = eaccelerator_list_keys();
 
-        $secret = $this->_hash;
-        foreach ($keys as $key) {
-        /* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
-		$key['name'] = ltrim($key['name'], ':');
+		$secret = $this->_hash;
+		foreach ($keys as $key) {
+			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
+			$key['name'] = ltrim($key['name'], ':');
 
-        if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group')
-					eaccelerator_rm($key['name']);
-        }
+			if (strpos($key['name'], $secret.'-cache-'.$group.'-')===0 xor $mode != 'group') {
+				eaccelerator_rm($key['name']);
+			}
+		}
 		return true;
 	}
 
@@ -168,15 +154,14 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		return (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
 	}
 
-
 	/**
 	 * Lock cached item
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @param	integer	$locktime Cached item max lock time
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
-	 * @return boolean  True on success, false otherwise.
 	 */
 	public function lock($id,$group,$locktime)
 	{
@@ -189,14 +174,14 @@ class JCacheStorageEaccelerator extends JCacheStorage
 
 		$data_lock = eaccelerator_lock($cache_id);
 
-		if ( $data_lock === false ) {
+		if ($data_lock === false) {
 
 			$lock_counter = 0;
 
 			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
-			while ( $data_lock === false ) {
+			while ($data_lock === false) {
 
-				if ( $lock_counter > $looptime ) {
+				if ($lock_counter > $looptime) {
 					$returning->locked = false;
 					$returning->locklooped = true;
 					break;
@@ -218,13 +203,12 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
-	 * @return boolean  True on success, false otherwise.
 	 */
 	public function unlock($id,$group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return eaccelerator_unlock($cache_id);
 	}
-
 }

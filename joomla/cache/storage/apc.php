@@ -20,16 +20,6 @@ defined('JPATH_BASE') or die;
 class JCacheStorageApc extends JCacheStorage
 {
 	/**
-	 * Constructor
-	 *
-	 * @param array $options optional parameters
-	 */
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-	}
-
-	/**
 	 * Get cached data from APC by id and group
 	 *
 	 * @param	string	$id			The cache data id
@@ -66,7 +56,6 @@ class JCacheStorageApc extends JCacheStorage
 			$namearr=explode('-',$name);
 
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
-
 				$group = $namearr[2];
 
 				if (!isset($data[$group])) {
@@ -78,16 +67,11 @@ class JCacheStorageApc extends JCacheStorage
 				$item->updateSize($key['mem_size']/1024,$group);
 
 				$data[$group] = $item;
-
 			}
 		}
 
-
 		return $data;
 	}
-
-
-
 
 	/**
 	 * Store the data to APC by id and group
@@ -147,7 +131,7 @@ class JCacheStorageApc extends JCacheStorage
 	 * Force garbage collect expired cache data as items are removed only on fetch!
 	 *
 	 * @return boolean  True on success, false otherwise.
-	 * * @since	1.6
+	 * @since	1.6
 	 */
 	public function gc()
 	{
@@ -179,8 +163,8 @@ class JCacheStorageApc extends JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @param	integer	$locktime Cached item max lock time
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
-	 * @return boolean  True on success, false otherwise.
 	 */
 	public function lock($id,$group,$locktime)
 	{
@@ -223,8 +207,8 @@ class JCacheStorageApc extends JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @param	integer	$locktime Cached item max lock time
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
-	 * @return boolean  True on success, false otherwise.
 	 */
 	public function unlock($id,$group=null)
 	{
@@ -235,5 +219,4 @@ class JCacheStorageApc extends JCacheStorage
 		$unlock = apc_delete($cache_id);
 		return $unlock;
 	}
-
 }

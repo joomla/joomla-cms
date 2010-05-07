@@ -19,19 +19,21 @@ defined('JPATH_BASE') or die;
  */
 class JCacheStorageFile extends JCacheStorage
 {
-
+	/**
+	 * @since	1.6
+	 */
 	private $_root;
 
 	/**
-	* Constructor
-	*
-	* @param array $options optional parameters
-	*/
+	 * Constructor
+	 *
+	 * @param	array	$options optional parameters
+	 * @since	1.5
+	 */
 	public function __construct($options = array())
 	{
 		parent::__construct($options);
 		$this->_root	= $options['cachebase'];
-
 	}
 
 	/**
@@ -51,30 +53,26 @@ class JCacheStorageFile extends JCacheStorage
 		$path = $this->_getFilePath($id, $group);
 
 		if ($checkTime == false || ($checkTime == true && $this->_checkExpire($id, $group) === true)) {
-
-		if (file_exists($path)) {
-			$data = file_get_contents($path);
-			if ($data) {
-				// Remove the initial die() statement
-				$data	= preg_replace('/^.*\n/', '', $data);
+			if (file_exists($path)) {
+				$data = file_get_contents($path);
+				if ($data) {
+					// Remove the initial die() statement
+					$data	= preg_replace('/^.*\n/', '', $data);
+				}
 			}
-		}
 
-		return $data;
-
+			return $data;
 		} else {
 			return false;
 		}
 	}
 
-
-	 /**
+	/**
 	 * Get all cached data
 	 *
 	 * @return	array data
 	 * @since	1.6
 	 */
-
 	public function getAll()
 	{
 		parent::getAll();
@@ -115,7 +113,6 @@ class JCacheStorageFile extends JCacheStorage
 		$die		= '<?php die("Access Denied"); ?>'."\n";
 
 		// Prepend a die string
-
 		$data		= $die.$data;
 
 		$fp = @fopen($path, "wb");
@@ -179,12 +176,10 @@ class JCacheStorageFile extends JCacheStorage
 			$mode = 'notgroup';
 		}
 
-		switch ($mode)
-		{
+		switch ($mode) {
 			case 'notgroup':
 				$folders = JFolder::folders($this->_root);
-				for ($i=0,$n=count($folders);$i<$n;$i++)
-				{
+				for ($i=0,$n=count($folders);$i<$n;$i++) {
 					if ($folders[$i] != $folder) {
 						$return |= JFolder::delete($this->_root.DS.$folders[$i]);
 					}
@@ -203,7 +198,8 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Garbage collect expired cache data
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	public function gc()
 	{
@@ -224,7 +220,8 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.5
 	 */
 	public static function test()
 	{
@@ -235,8 +232,9 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * Check to make sure cache is still valid, if not, delete it.
 	 *
-	 * @param string  $id		Cache key to expire.
-	 * @param string  $group	The cache data group.
+	 * @param	string	$id		Cache key to expire.
+	 * @param	string	$group	The cache data group.
+	 * @since	1.6
 	 */
 	function _checkExpire($id, $group)
 	{

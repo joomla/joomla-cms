@@ -16,7 +16,6 @@ JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
 //Register the controller class with the loader
 JLoader::register('JCacheController', dirname(__FILE__).DS.'controller.php');
 
-
 /**
  * Joomla! Cache base object
  *
@@ -30,10 +29,17 @@ JLoader::register('JCacheController', dirname(__FILE__).DS.'controller.php');
 
 class JCache extends JObject
 {
-
+	/**
+	 *
+	 * @var		object	Storage Handler
+	 * @since	1.5
+	 */
 	public $_handler;
-	public $_options;
 
+	/**
+	 * @since	1.6
+	 */
+	public $_options;
 
 	/**
 	 * Constructor
@@ -87,7 +93,8 @@ class JCache extends JObject
 	/**
 	 * Get the storage handlers
 	 *
-	 * @return array An array of available storage handlers
+	 * @return	array	An array of available storage handlers
+	 * @since	1.5
 	 */
 	public static function getStores()
 	{
@@ -95,8 +102,7 @@ class JCache extends JObject
 		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php');
 
 		$names = array();
-		foreach($handlers as $handler)
-		{
+		foreach($handlers as $handler) {
 			$name = substr($handler, 0, strrpos($handler, '.'));
 			$class = 'JCacheStorage'.$name;
 
@@ -127,7 +133,6 @@ class JCache extends JObject
 	/**
 	 * Set cache lifetime
 	 *
-	 * @access	public
 	 * @param	int	$lt	Cache lifetime
 	 * @return	void
 	 * @since	1.5
@@ -258,14 +263,13 @@ class JCache extends JObject
 		return false;
 	}
 
-
 	/**
 	 * Set lock flag on cached item
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
-	 * @return boolean  True on success, false otherwise.
 	 */
 	public function lock($id,$group=null,$locktime=null)
 	{
@@ -301,32 +305,29 @@ class JCache extends JObject
 		} else {
 			$data_lock = false;
 			$returning->locked = false;
-			}
+		}
 
-			if ( $data_lock !== false ) {
+		if ( $data_lock !== false ) {
+			$lock_counter = 0;
 
-				$lock_counter = 0;
+			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			while ( $data_lock !== false ) {
 
-				// loop until you find that the lock has been released.  that implies that data get from other thread has finished
-				while ( $data_lock !== false ) {
-
-					if ( $lock_counter > $looptime) {
-						$returning->locked = false;
-						$returning->locklooped = true;
-						break;
-					}
-
-					usleep(100);
-					$data_lock = $this->get($id2,$group);
-					$lock_counter++;
+				if ( $lock_counter > $looptime) {
+					$returning->locked = false;
+					$returning->locklooped = true;
+					break;
 				}
 
+				usleep(100);
+				$data_lock = $this->get($id2,$group);
+				$lock_counter++;
 			}
+		}
 
-
-			if ($this->_options['locking'] == true && $this->_options['caching'] == true ) {
-				$returning->locked = $this->store(1,$id2,$group);
-			}
+		if ($this->_options['locking'] == true && $this->_options['caching'] == true ) {
+			$returning->locked = $this->store(1,$id2,$group);
+		}
 
 		// revert lifetime to previuos one
 		$this->_options['lifetime'] = $curentlifetime;
@@ -340,8 +341,8 @@ class JCache extends JObject
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
+	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
-	 * @return boolean  True on success, false otherwise.
 	 */
 	public function unlock($id,$group=null)
 	{
@@ -367,12 +368,12 @@ class JCache extends JObject
 	/**
 	 * Get the cache storage handler
 	 *
-	 * @return object A JCacheStorage object
+	 * @return	object	A JCacheStorage object
 	 * @since	1.5
 	 */
 	public function _getStorage()
 	{
-		if (is_a($this->_handler, 'JCacheStorage')) {
+		if ($this->_handler instanceof JCacheStorage) {
 			return $this->_handler;
 		}
 
@@ -398,8 +399,7 @@ class JCache extends JObject
 		$document->setHeadData((isset($data['head'])) ? $data['head'] : array());
 
 		// If the pathway buffer is set in the cache data, get it.
-		if (isset($data['pathway']) && is_array($data['pathway']))
-		{
+		if (isset($data['pathway']) && is_array($data['pathway'])) {
 			// Push the pathway data into the pathway object.
 			$pathway = &$app->getPathWay();
 			$pathway->setPathway($data['pathway']);
@@ -407,8 +407,7 @@ class JCache extends JObject
 
 		// @todo chech if the following is needed, seems like it should be in page cache
 		// If a module buffer is set in the cache data, get it.
-		if (isset($data['module']) && is_array($data['module']))
-		{
+		if (isset($data['module']) && is_array($data['module'])) {
 			// Iterate through the module positions and push them into the document buffer.
 			foreach ($data['module'] as $name => $contents) {
 				$document->setBuffer($contents, 'module', $name);
@@ -436,9 +435,8 @@ class JCache extends JObject
 	 * @return	string	$cached		Data to be cached
 	 * @since	1.6
 	 */
-
-	public static function setWorkarounds($data) {
-
+	public static function setWorkarounds($data)
+	{
 		// Initialise variables.
 		$app = &JFactory::getApplication();
 		$document	= &JFactory::getDocument();
@@ -459,7 +457,9 @@ class JCache extends JObject
 
 		// Pathway data
 		$pathway			= &$app->getPathWay();
-		if (isset($pathway)) {$cached['pathway'] = $pathway->getPathway();}
+		if (isset($pathway)) {
+			$cached['pathway'] = $pathway->getPathway();
+		}
 
 		// @todo chech if the following is needed, seems like it should be in page cache
 		// Get the module buffer after component execution.
@@ -482,9 +482,8 @@ class JCache extends JObject
 	 * @return	string	md5 encoded cacheid
 	 * @since	1.6
 	 */
-
-	public static function makeId() {
-
+	public static function makeId()
+	{
 		$app = & JFactory::getApplication();
 		// get url parameters set by plugins
 		$registeredurlparams = $app->get('registeredurlparams');
@@ -505,11 +504,10 @@ class JCache extends JObject
 		$registeredurlparams->tpl='CMD';
 		$registeredurlparams->id='INT';
 
-		$safeuriaddon=new stdClass();
+		$safeuriaddon = new stdClass();
 
 		foreach ($registeredurlparams AS $key => $value) {
 			$safeuriaddon->$key = JRequest::getVar($key, null,'default',$value);
-
 		}
 
 		return md5(serialize($safeuriaddon));
@@ -523,7 +521,6 @@ class JCache extends JObject
 	 * @return	array	An array with directory elements
 	 * @since	1.6
 	 */
-
 	public static function addIncludePath($path='')
 	{
 		static $paths;
@@ -537,6 +534,4 @@ class JCache extends JObject
 		}
 		return $paths;
 	}
-
-
 }
