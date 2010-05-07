@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 07-May-2010 Jean-Marie Simonet
+# Fixing installation issue _ Thank you Dennis Hermatski
 $ Deleting unused strings in main ini file
 $ Changed toolbar to "Delete" in com_users
 # Fixed [20365] Config modal error display. Thank you Artyom.

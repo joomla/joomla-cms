@@ -60,16 +60,6 @@ class JLanguageHelper
 		{
 			$browserLangs	= explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 			$systemLangs	= self::getLanguages();
-			if (empty($systemLangs)) {
-				$systemLangs = array();
-				$knownLangs = JLanguage::getKnownLanguages(JPATH_BASE);
-				foreach($knownLangs as $systemLang => $metadata)
-				{
-					// take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-					$systemLangs[] = new JObject(array('lang_code' => $metadata['tag']));
-				}
-			}
-			
 			foreach ($browserLangs as $browserLang)
 			{
 				// slice out the part before ; on first step, the part before - on second, place into array
@@ -112,25 +102,37 @@ class JLanguageHelper
 		static $languages;
 		
 		if (empty($languages)) {
-			$cache = JFactory::getCache('com_languages', '');
-			if (!$languages = $cache->get('languages')) {
-				$db 	= JFactory::getDBO();
-				$query	= $db->getQuery(true);
-				$query->select('*')->from('#__languages')->where('published=1');
-				$db->setQuery($query);
-				
-				$languages['default'] 	= $db->loadObjectList();
-				$languages['sef']		= array();
-				$languages['lang_code']	= array();
-				
-				if (isset($languages['default'][0])) {
-					foreach($languages['default'] as $lang) {
-						$languages['sef'][$lang->sef] 				= $lang; 
-						$languages['lang_code'][$lang->lang_code] 	= $lang; 
-					}
+			// Installation uses available languages
+			if (JFactory::getApplication()->getClientId() == 2) {
+				$languages[$key] = array();
+				$knownLangs = JLanguage::getKnownLanguages(JPATH_BASE);
+				foreach($knownLangs as $metadata)
+				{
+					// take off 3 letters iso code languages as they can't match browsers' languages and default them to en
+					$languages[$key][] = new JObject(array('lang_code' => $metadata['tag']));
 				}
-				
-				$cache->store($languages, 'languages');
+			}
+			else {
+				$cache = JFactory::getCache('com_languages', '');
+				if (!$languages = $cache->get('languages')) {
+					$db 	= JFactory::getDBO();
+					$query	= $db->getQuery(true);
+					$query->select('*')->from('#__languages')->where('published=1');
+					$db->setQuery($query);
+					
+					$languages['default'] 	= $db->loadObjectList();
+					$languages['sef']		= array();
+					$languages['lang_code']	= array();
+					
+					if (isset($languages['default'][0])) {
+						foreach($languages['default'] as $lang) {
+							$languages['sef'][$lang->sef] 				= $lang; 
+							$languages['lang_code'][$lang->lang_code] 	= $lang; 
+						}
+					}
+					
+					$cache->store($languages, 'languages');
+				}
 			}
 		}
 		return $languages[$key];
