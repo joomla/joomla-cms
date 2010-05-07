@@ -89,7 +89,7 @@ class JFormFieldMenuType extends JFormFieldList
 		});");
 
 		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.'>';
-		$html[] = '<input type="button" class="modal" value="'.JText::_('COM_MENUS_CHANGE_LINKTYPE').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
+		$html[] = '<input type="button" class="modal" value="'.JText::_('JSELECT').'" rel="{handler:\'clone\', target:\'menu-types\'}">';
 		$html[] = '<input type="hidden" name="'.$this->name.'" value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'">';
 
 		$html[] = '<div id="menu-types">';
