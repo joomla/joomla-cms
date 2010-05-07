@@ -113,7 +113,7 @@ class JFormFieldRules extends JFormField
 				// TODO: Fix this inline style stuff...
 				//$html[] = '			<fieldset class="access_rule">';
 
-				$html[] = '				<select name="'.$this->name.'['.$action->name.']['.$group->value.']" id="'.$this->id.'_'.$action->name.'_'.$group->value.'" title="'.JText::sprintf('JGLOBAL_SELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)).'">';
+				$html[] = '				<select name="'.$this->name.'['.$action->name.']['.$group->value.']" id="'.$this->id.'_'.$action->name.'_'.$group->value.'" title="'.JText::sprintf('JSELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)).'">';
 				$html[] = '					<option value=""'.($rules->allow($action->name, $group->value) === null ? ' selected="selected"' : '').'>'.JText::_('JINHERIT_UNSET').'</option>';
 				$html[] = '					<option value="0"'.($rules->allow($action->name, $group->value) === false ? ' selected="selected"' : '').'>'.JText::_('JDENY').'</option>';
 				$html[] = '					<option value="1"'.($rules->allow($action->name, $group->value) === true ? ' selected="selected"' : '').'>'.JText::_('JALLOW').'</option>';
