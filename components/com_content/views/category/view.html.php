@@ -189,6 +189,9 @@ class ContentViewCategory extends JView
 		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
+		elseif ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
+		}
 		$this->document->setTitle($title);
 
 		if ($this->category->metadesc) {

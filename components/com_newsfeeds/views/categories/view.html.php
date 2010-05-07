@@ -84,9 +84,12 @@ class NewsfeedsViewCategories extends JView
 		} else {
 			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
-		$title = $this->params->get('page_title');
+		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
-			$title	= htmlspecialchars_decode($app->getCfg('sitename'));
+			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
 	}

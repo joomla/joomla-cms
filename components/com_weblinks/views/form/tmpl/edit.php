@@ -43,7 +43,7 @@ function submitbutton(task) {
 			<?php echo $this->form->getLabel('url'); ?>
 			<?php echo $this->form->getInput('url'); ?>
 			<br />
-			<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink.'.$this->item->id)): ?>
+			<?php var_dump($this->item);if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink.'.$this->item->id)): ?>
 				<?php echo $this->form->getLabel('state'); ?>
 				<?php echo $this->form->getInput('state'); ?>
 				<br />

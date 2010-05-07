@@ -161,9 +161,11 @@ class ContentViewArticle extends JView
 		}
 
 		$title = $this->params->get('page_title', '');
-		if (empty($title))
-		{
+		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
 

@@ -88,6 +88,9 @@ class WeblinksViewForm extends JView
 			$this->params->def('page_heading', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
 		}
 		$title = $this->params->def('page_title', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
+		if ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
+		}
 		$this->document->setTitle($title);
 	}
 }

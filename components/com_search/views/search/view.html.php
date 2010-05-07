@@ -57,8 +57,11 @@ class SearchViewSearch extends JView
 			$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
 		}
 
-		$document	= &JFactory::getDocument();
-		$document->setTitle($params->get('page_title'));
+		$title = $params->get('page_title');
+		if ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
+		}
+		$this->document->setTitle($title);
 
 		// built select lists
 		$orders = array();

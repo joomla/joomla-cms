@@ -78,9 +78,12 @@ class UsersViewProfile extends JView
 			$this->params->def('page_heading', JText::_('COM_USERS_Profile'));
 		}
 
-		$title = $this->params->get('page_title', $this->params->get('page_heading'));
+		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
 	}
