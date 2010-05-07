@@ -98,34 +98,72 @@ class JRoute
 class JText
 {
 	/**
+	 * javascript strings
+	 */
+	protected static $strings=array();
+
+	/**
 	 * Translates a string into the current language.
 	 *
-	 * @param	string	The string to translate.
-	 * @param	boolean	Make the result javascript safe.
+	 * @param	string			The string to translate.
+	 * @param	boolean|array	boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
+	 * @param	boolean			To interprete backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param	boolean			To indicate that the string will be push in the javascript array strings
+	 * @return	string			The translated string or the key is $script is true
+	 * @example	<script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script> will generate an alert message containing 'Default'
+	 * @example	<?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string	 
 	 * @since	1.5
 	 *
 	 */
-	public static function _($string, $jsSafe = false)
+	public static function _($string, $jsSafe = false, $interpreteBackSlashes = true, $script = false)
 	{
 		$lang = JFactory::getLanguage();
-		return $lang->_($string, $jsSafe);
+		if (is_array($jsSafe)) {
+			if (array_key_exists('interpreteBackSlashes', $jsSafe)) {
+				$interpreteBackSlashes = (boolean) $jsSafe['interpreteBackSlashes'];
+			}
+			if (array_key_exists('script', $jsSafe)) {
+				$script = (boolean) $jsSafe['script'];
+			}
+			if (array_key_exists('jsSafe', $jsSafe)) {
+				$jsSafe = (boolean) $jsSafe['jsSafe'];
+			}
+		}
+		if ($script) {
+			self::$strings[$string] = $lang->_($string, $jsSafe, $interpreteBackSlashes);
+			return $string;
+		}
+		else {
+			return $lang->_($string, $jsSafe, $interpreteBackSlashes);
+		}
 	}
 
 	/**
 	 * Like JText::sprintf but tries to pluralise the string.
 	 *
-	 * @param	mixed	Mixed number of arguments for the sprintf function.
+	 * @param	string	The format string.
+	 * @param	int		The number of items
+	 * @param	mixed	Mixed number of arguments for the sprintf function. The first should be an integer.
+	 * @param	array	optional Array of option array('jsSafe'=>boolean, 'interpreteBackSlashes'=>boolean, 'script'=>boolean) where
+	 *					-jsSafe is a boolean to generate a javascript safe string
+	 *					-interpreteBackSlashes is a boolean to interprete backslashes \\->\, \n->new line, \t->tabulation
+	 *					-script is a boolean to indicate that the string will be push in the javascript array strings
+	 * @return	string	The translated strings or the key if 'script' is true in the array of options
+	 * @example	<script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true));?>'));</script> will generate an alert message containing '1 plugin successfully disabled'
+	 * @example	<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string	 
 	 * @since	1.6
 	 */
-	public static function plural()
+	 
+	public static function plural($string, $n)
 	{
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
+		$count = count($args);
 
-		if (count($args) > 1) {
+		if ($count > 1) {
 			// Try the key from the language plural potential suffixes
 			$found = false;
-			$suffixes = $lang->getPluralSuffices((int)$args[1]);
+			$suffixes = $lang->getPluralSuffices((int)$n);
 			foreach ($suffixes as $suffix) {
 				$key = $args[0].'_'.$suffix;
 				if ($lang->hasKey($key)) {
@@ -137,10 +175,19 @@ class JText
 				// Not found so revert to the original.
 				$key = $args[0];
 			}
-			$args[0] = $lang->_($key);
+			if (is_array($args[$count-1])) {
+				$args[0] = $lang->_($key, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
+				if (array_key_exists('script',$args[$count-1]) && $args[$count-1]['script']) {
+					self::$strings[$key] = call_user_func_array('sprintf', $args);
+					return $key;
+				}
+			}
+			else {
+				$args[0] = $lang->_($key);
+			}
 			return call_user_func_array('sprintf', $args);
 		}
-		elseif (count($args) > 0) {
+		elseif ($count > 0) {
 
 			// Default to the normal sprintf handling.
 			$args[0] = $lang->_($args[0]);
@@ -153,16 +200,32 @@ class JText
 	/**
 	 * Passes a string thru an sprintf.
 	 *
-	 * @param	format The format string.
-	 * @param	mixed Mixed number of arguments for the sprintf function.
+	 * @param	string	The format string.
+	 * @param	mixed	Mixed number of arguments for the sprintf function.
+	 * @param	array	optional Array of option array('jsSafe'=>boolean, 'interpreteBackSlashes'=>boolean, 'script'=>boolean) where
+	 *					-jsSafe is a boolean to generate a javascript safe strings
+	 *					-interpreteBackSlashes is a boolean to interprete backslashes \\->\, \n->new line, \t->tabulation
+	 *					-script is a boolean to indicate that the string will be push in the javascript array strings
+	 * @return	string	The translated strings or the key if 'script' is true in the array of options
 	 * @since	1.5
 	 */
 	public static function sprintf($string)
 	{
 		$lang = JFactory::getLanguage();
 		$args = func_get_args();
-		if (count($args) > 0) {
-			$args[0] = $lang->_($args[0]);
+		$count = count($args);
+		if ($count > 0) {
+			$key = $args[0];
+			if (is_array($args[$count-1])) {
+				$args[0] = $lang->_($key, array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
+				if (array_key_exists('script', $args[$count-1]) && $args[$count-1]['script']) {
+					self::$strings[$key] = call_user_func_array('sprintf', $args);
+					return $key;
+				}
+			}
+			else {
+				$args[0] = $lang->_($key);
+			}
 			return call_user_func_array('sprintf', $args);
 		}
 		return '';
@@ -179,8 +242,14 @@ class JText
 	{
 		$lang	= JFactory::getLanguage();
 		$args	= func_get_args();
-		if (count($args) > 0) {
-			$args[0] = $lang->_($args[0]);
+		$count	= count($args);
+		if ($count > 0) {
+			if (is_array($args[$count-1])) {
+				$args[0] = $lang->_($args[0], array_key_exists('jsSafe', $args[$count-1]) ? $args[$count-1]['jsSafe'] : false, array_key_exists('interpreteBackSlashes', $args[$count-1]) ? $args[$count-1]['interpreteBackSlashes'] : true);
+			}
+			else {
+				$args[0] = $lang->_($args[0]);
+			}
 			return call_user_func_array('printf', $args);
 		}
 		return '';
@@ -192,21 +261,15 @@ class JText
 	 * @param	string	The JText key.
 	 * @since	1.6
 	 */
-	public static function script($string = null)
+	public static function script($string = null, $jsSafe = false, $interpreteBackSlashes = true)
 	{
-		static $strings;
-
-		// Instante the array if necessary.
-		if (!is_array($strings)) {
-			$strings = array();
-		}
 
 		// Add the string to the array if not null.
 		if ($string !== null) {
 			// Normalize the key and translate the string.
-			$strings[strtoupper($string)] = JFactory::getLanguage()->_($string);
+			self::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpreteBackSlashes);
 		}
 
-		return $strings;
+		return self::$strings;
 	}
 }

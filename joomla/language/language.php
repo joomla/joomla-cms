@@ -253,7 +253,7 @@ class JLanguage extends JObject
 
 		// interprete \n and \t characters
 		if ($interpreteBackSlashes) {
-			$string = str_replace(array('\t','\n'),array("\t","\n"),$string);
+			$string = str_replace(array('\\\\','\t','\n'),array("\\", "\t","\n"),$string);
 		}
 
 		if ($jsSafe) {
