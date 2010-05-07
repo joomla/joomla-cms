@@ -7,29 +7,39 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
- * Cache storage helper functions
+ * Cache storage helper functions.
  *
  * @static
  * @package		Joomla.Framework
  * @subpackage	Cache
  * @since		1.6
  */
-
 class JCacheStorageHelper
 {
-
+	/**
+	 * @since	1.6
+	 */
 	public $group = '';
+
+	/**
+	 * @since	1.6
+	 */
 	public $size = 0;
+
+	/**
+	 * @since	1.6
+	 */
 	public $count = 0;
 
 	/**
-	 * Increase cache items count
-	 * @param	string	$size		Cached item size
-	 * @param	string	$group		The cache data group
+	 * Increase cache items count.
+	 *
+	 * @param	string	$size	Cached item size
+	 * @param	string	$group	The cache data group
 	 * @since	1.6
 	 */
 	public function updateSize($size,$group)
@@ -38,5 +48,4 @@ class JCacheStorageHelper
 		$this->size = number_format($this->size + $size, 2);
 		$this->count++;
 	}
-
 }

@@ -14,20 +14,10 @@ defined('JPATH_BASE') or die;
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @since		1.5
+ * @since		1.6
  */
 class JCacheControllerView extends JCacheController
 {
-	/**
-	* Constructor
-	*
-	* @param array $options optional parameters
-	*/
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-	}
-
 	/**
 	 * Get the cached view data
 	 *
@@ -36,14 +26,10 @@ class JCacheControllerView extends JCacheController
 	 * @param	string	$group	The cache data group
 	 * @param	string	$id		The cache data id
 	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	1.5
+	 * @since	1.6
 	 */
-
-
 	public function get(&$view, $method, $id=false, $wrkarounds=true)
 	{
-
-
 		// If an id is not given generate it from the request
 		if ($id == false) {
 			$id = $this->_makeId($view, $method);
@@ -56,14 +42,14 @@ class JCacheControllerView extends JCacheController
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 
-		if ($data === false)
-		{
+		if ($data === false) {
 			$locktest = $this->cache->lock($id,null);
 			// if the loop is completed and returned true the means the lock has been set
 			// if looped is true try to get the cached data again; it could exist now
-			if ($locktest->locked == true && $locktest->locklooped == true) $data = $this->cache->get($id);
+			if ($locktest->locked == true && $locktest->locklooped == true) {
+				$data = $this->cache->get($id);
+			}
 			// false means that locking is either turned off or maxtime has been exceeeded, execute the view
-
 		}
 
 		if ($data !== false) {
@@ -77,19 +63,21 @@ class JCacheControllerView extends JCacheController
 				echo (isset($data)) ? $data : null;
 			}
 
-			if ($locktest->locked == true) $this->cache->unlock($id);
+			if ($locktest->locked == true) {
+				$this->cache->unlock($id);
+			}
 
 			return true;
 		}
 
-
 		/*
 		 * No hit so we have to execute the view
 		 */
-		if (method_exists($view, $method))
-		{
+		if (method_exists($view, $method)) {
 			// if previous lock failed try again
-			if ($locktest->locked == false) $locktest = $this->cache->lock($id,null);
+			if ($locktest->locked == false) {
+				$locktest = $this->cache->lock($id,null);
+			}
 
 			// Capture and echo output
 			ob_start();
@@ -111,18 +99,20 @@ class JCacheControllerView extends JCacheController
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
 
-			if ($locktest->locked == true) $this->cache->unlock($id);
+			if ($locktest->locked == true) {
+				$this->cache->unlock($id);
+			}
 		}
 		return false;
 	}
 
 	/**
-	 * Generate a view cache id
+	 * Generate a view cache id.
 	 *
 	 * @param	object	$view	The view object to cache output for
 	 * @param	string	$method	The method name to cache for the view object
 	 * @return	string	MD5 Hash : view cache id
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	private function _makeId(&$view, $method)
 	{

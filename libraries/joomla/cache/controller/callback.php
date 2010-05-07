@@ -16,19 +16,10 @@ jimport('joomla.cache.controller');
  *
  * @package		Joomla.Framework
  * @subpackage	Cache
- * @since		1.5
+ * @since		1.6
  */
 class JCacheControllerCallback extends JCacheController
 {
-	/**
-	* Constructor
-	*
-	* @param array $options optional parameters
-	*/
-	public function __construct($options = array())
-	{
-		parent::__construct($options);
-	}
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
@@ -41,7 +32,7 @@ class JCacheControllerCallback extends JCacheController
 	 *	- Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
 	 * @return	mixed	Result of the callback
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	public function call()
 	{
@@ -60,7 +51,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	string	Cache id
 	 * @param	boolean	Perform workarounds on data?
 	 * @return	mixed	Result of the callback
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	public function get($callback, $args, $id=false, $wrkarounds=false)
 	{
@@ -99,11 +90,11 @@ class JCacheControllerCallback extends JCacheController
 		$locktest->locked = null;
 		$locktest->locklooped = null;
 
-		if ($data === false)
-		{
+		if ($data === false) {
 			$locktest = $this->cache->lock($id,null);
-			if ($locktest->locked == true && $locktest->locklooped == true) $data = $this->cache->get($id);
-
+			if ($locktest->locked == true && $locktest->locklooped == true) {
+				$data = $this->cache->get($id);
+			}
 		}
 
 		if ($data !== false) {
@@ -114,8 +105,8 @@ class JCacheControllerCallback extends JCacheController
 			if ($locktest->locked == true) $this->cache->unlock($id);
 
 		} else {
-			if(!is_array($args))
-			{
+
+			if (!is_array($args)) {
 				$args = (array) $args;
 			}
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id,null);
@@ -145,7 +136,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	callback	$callback	Callback to cache
 	 * @param	array		$args	Arguments to the callback method to cache
 	 * @return	string	MD5 Hash : function cache id
-	 * @since	1.5
+	 * @since	1.6
 	 */
 	private function _makeId($callback, $args)
 	{
@@ -154,6 +145,7 @@ class JCacheControllerCallback extends JCacheController
 			$vars[] = strtolower(get_class($callback[0]));
 			$callback[0] = $vars;
 		}
+
 		return md5(serialize(array($callback, $args)));
 	}
 }
