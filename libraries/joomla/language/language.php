@@ -218,6 +218,7 @@ class JLanguage extends JObject
 	 * @param	boolean	$jsSafe		Make the result javascript safe
 	 * @param	boolean	$interpreteBackslashes		Interprete \t and \n
 	 * @return	string	The translation of the string
+	 * @note	The function check if $jsSafe is true then if $interpreteBackslashes is true
 	 * @since	1.5
 	 */
 	public function _($string, $jsSafe = false, $interpreteBackSlashes = true)
@@ -251,13 +252,13 @@ class JLanguage extends JObject
 			}
 		}
 
-		// interprete \n and \t characters
-		if ($interpreteBackSlashes) {
-			$string = str_replace(array('\\\\','\t','\n'),array("\\", "\t","\n"),$string);
-		}
-
 		if ($jsSafe) {
+			// javascript filter
 			$string = addslashes($string);
+		}
+		elseif ($interpreteBackSlashes) {
+			// interprete \n and \t characters
+			$string = str_replace(array('\\\\','\t','\n'),array("\\", "\t","\n"),$string);
 		}
 
 		return $string;

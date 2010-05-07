@@ -35,6 +35,7 @@ $ Changed toolbar to "Delete" in com_users
  # Fixing unit tests to reflect database changes
 
 07-May-2010 Christophe Demko
+ # Fix escaping javascript string in JHtmlBehavior::_calendarTranslation
  # Fix link menu item disabled when type is not url
  # Fix [#19878] Global Config/Site Name in titles not working
  # Fix [#20006] Invalid Token if install sample data twice 
