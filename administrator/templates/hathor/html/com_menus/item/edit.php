@@ -49,6 +49,7 @@ JHTML::_('behavior.modal');
 
 		<?php if ($this->item->type =='url') : ?>
 			<div>
+				<?php $this->form->setFieldAttribute('link','readonly','false');?>
 				<?php echo $this->form->getLabel('link'); ?>
 				<?php echo $this->form->getInput('link'); ?>
 			</div>
