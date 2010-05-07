@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 07-May-2010 Christophe Demko
+ + Change the second parameter of JText::script to be a boolean or an array of options
  + Add two optional parameter at the end of JText::_ function to interprete backslashes and to indicate a string to push into the javascript strings
  + Add an optional array parameter at the end of JText::plural and JText::sprintf.
 

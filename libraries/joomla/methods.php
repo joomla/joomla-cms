@@ -128,6 +128,9 @@ class JText
 			if (array_key_exists('jsSafe', $jsSafe)) {
 				$jsSafe = (boolean) $jsSafe['jsSafe'];
 			}
+			else {
+				$jsSafe = false;
+			}
 		}
 		if ($script) {
 			self::$strings[$string] = $lang->_($string, $jsSafe, $interpreteBackSlashes);
@@ -262,6 +265,17 @@ class JText
 	 */
 	public static function script($string = null, $jsSafe = false, $interpreteBackSlashes = true)
 	{
+		if (is_array($jsSafe)) {
+			if (array_key_exists('interpreteBackSlashes', $jsSafe)) {
+				$interpreteBackSlashes = (boolean) $jsSafe['interpreteBackSlashes'];
+			}
+			if (array_key_exists('jsSafe', $jsSafe)) {
+				$jsSafe = (boolean) $jsSafe['jsSafe'];
+			}
+			else {
+				$jsSafe = false;
+			}
+		}
 
 		// Add the string to the array if not null.
 		if ($string !== null) {
