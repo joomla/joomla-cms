@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-May-2010 Jean-Marie Simonet
 $ Deleting unused strings in main ini file
+$ Changed toolbar to "Delete" in com_users
 
 07-May-2010 Ian MacLennan
  # Fixing unit tests to reflect database changes

@@ -60,7 +60,7 @@ class UsersViewGroups extends JView
 			JToolBarHelper::custom('group.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'groups.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'groups.delete','JTOOLBAR_DELETE');
 		}
 
 		JToolBarHelper::divider();

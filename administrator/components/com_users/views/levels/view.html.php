@@ -59,7 +59,7 @@ class UsersViewLevels extends JView
 			JToolBarHelper::custom('level.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
 		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'level.delete','JTOOLBAR_TRASH');
+			JToolBarHelper::deleteList('', 'level.delete','JTOOLBAR_DELETE');
 		}
 
 		JToolBarHelper::divider();
