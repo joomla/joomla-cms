@@ -194,24 +194,6 @@
 		<fieldset name="integration"
 		>
 
-			<field name="article-allow_ratings" type="list"
-				description="JGLOBAL_Allow_Ratings_Desc"
-				label="JGLOBAL_Allow_Ratings_Label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
-			</field>
-
-			<field name="article-allow_comments" type="list"
-				description="JGLOBAL_Allow_Comments_Desc"
-				label="JGLOBAL_Allow_Comments_Label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
-			</field>
-
 			<field name="show_feed_link" type="list"
 				description="JGLOBAL_Show_Feed_Link_Desc"
 				label="JGLOBAL_Show_Feed_Link_Label"

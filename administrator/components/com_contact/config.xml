@@ -376,24 +376,6 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field name="article_allow_ratings" type="radio"
-			label="COM_CONTACT_FIELD_ARTICLES_RATINGS_LABEL"
-			description="COM_CONTACT_FIELD_ARTICLES_RATINGS_DESC"
-			default="0"
-		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field name="article_allow_comments" type="radio"
-			label="COM_CONTACT_FIELD_ARTICLES_COMMENTS_LABEL"
-			description="COM_CONTACT_FIELD_ARTICLES_COMMENTS_DESC"
-			default="0"
-		>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset name="Contact_Config_Meta_Data" label="COM_CONTACT_FIELDSET_METADATA">
