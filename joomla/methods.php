@@ -108,7 +108,7 @@ class JText
 	 * @param	string			The string to translate.
 	 * @param	boolean|array	boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
 	 * @param	boolean			To interprete backslashes (\\=\, \n=carriage return, \t=tabulation)
-	 * @param	boolean			To indicate that the string will be push in the javascript array strings
+	 * @param	boolean			To indicate that the string will be push in the javascript language store
 	 * @return	string			The translated string or the key is $script is true
 	 * @example	<script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script> will generate an alert message containing 'Default'
 	 * @example	<?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string	 
@@ -150,7 +150,7 @@ class JText
 	 * @param	array	optional Array of option array('jsSafe'=>boolean, 'interpreteBackSlashes'=>boolean, 'script'=>boolean) where
 	 *					-jsSafe is a boolean to generate a javascript safe string
 	 *					-interpreteBackSlashes is a boolean to interprete backslashes \\->\, \n->new line, \t->tabulation
-	 *					-script is a boolean to indicate that the string will be push in the javascript array strings
+	 *					-script is a boolean to indicate that the string will be push in the javascript language store
 	 * @return	string	The translated strings or the key if 'script' is true in the array of options
 	 * @example	<script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true));?>'));</script> will generate an alert message containing '1 plugin successfully disabled'
 	 * @example	<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string	 
@@ -208,7 +208,7 @@ class JText
 	 * @param	array	optional Array of option array('jsSafe'=>boolean, 'interpreteBackSlashes'=>boolean, 'script'=>boolean) where
 	 *					-jsSafe is a boolean to generate a javascript safe strings
 	 *					-interpreteBackSlashes is a boolean to interprete backslashes \\->\, \n->new line, \t->tabulation
-	 *					-script is a boolean to indicate that the string will be push in the javascript array strings
+	 *					-script is a boolean to indicate that the string will be push in the javascript language store
 	 * @return	string	The translated strings or the key if 'script' is true in the array of options
 	 * @since	1.5
 	 */
