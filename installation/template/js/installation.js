@@ -29,6 +29,7 @@ Install.sampleData = function(el) {
 				Joomla.replaceTokens(r.token)
 				if (r.error == false) {
 					el.set('value', r.data.text);
+					el.set('onclick','');
 				}
 			}
 			el.set('disabled', '');
