@@ -389,10 +389,12 @@ INSERT INTO #__extensions SELECT
      iscore,                    # protected
      '',                        # manifest_cache
      params,                    # params
-     '',                        # data
+     '',                        # custom data
+     '',						# system data
      checked_out,            	# checked_out
      checked_out_time,         	# checked_out_time
-     ordering                   # ordering
+     ordering,                  # ordering
+     0							# state
      FROM #__plugins;         	# #__extensions replaces the old #__plugins table
 
  INSERT INTO #__extensions SELECT
@@ -407,11 +409,13 @@ INSERT INTO #__extensions SELECT
      iscore,                    # protected
      '',                        # manifest cache
      params,                    # params
-     '',                        # data
+     '',                        # custom data
+     '',						# system data
      '0',                       # checked_out
      '0000-00-00 00:00:00',     # checked_out_time
-     0                          # ordering
-     FROM #__components        # #__extensions replaces #__components for install uninstall
+     0,                         # ordering
+     0							# state
+     FROM #__components			# #__extensions replaces #__components for install uninstall
                                 # component menu selection still utilises the #__components table
      WHERE parent = 0;          # only get top level entries
 
@@ -427,18 +431,21 @@ INSERT INTO #__extensions SELECT
      iscore,                    # protected
      '',                        # manifest cache
      '',                        # params (module instance params controlled in #__modules)
-     '',                        # data
+     '',                        # custom data
+     '',						# system data
      '0',                       # checked_out (module instance, see #__modules)
      '0000-00-00 00:00:00',     # checked_out_time (module instance, see #__modules)
-     0                          # ordering (module instance, see #__modules)
+     0,                         # ordering (module instance, see #__modules)
+     0							# state
      FROM #__modules			# #__extensions provides the install/uninstall control for modules
-     WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id)
+     WHERE id IN (SELECT id FROM #__modules GROUP BY module ORDER BY id);
 
 -- rename mod_newsflash to mod_articles_news
-UPDATE `#__extensions` SET `name` = 'mod_articles_news', `element` = 'mod_articles_news' WHERE `name` = 'mod_newsflash'
+UPDATE `#__extensions` SET `name` = 'mod_articles_news', `element` = 'mod_articles_news' WHERE `name` = 'mod_newsflash';
 
 -- New extensions
 INSERT INTO `#__extensions` VALUES(0, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 1, 0, 1, 1, '', 'linenumbers=0\n\n', '', '', 0, '0000-00-00 00:00:00', 7, 0);
+INSERT INTO `#__extensions` VALUES(0, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 1, 0);
 
 -- ----------------------------------------------------------------
 -- jos_languages (new)
