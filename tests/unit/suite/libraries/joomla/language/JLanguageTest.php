@@ -277,41 +277,41 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     }
 
    /**
-     * @todo Implement testIgnoreSearchWords().
+     * @todo Implement testGetIgnoredSearchWords().
      */
-    public function testgetIgnoreSearchWords()
+    public function testGetIgnoredSearchWords()
     {
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
 				array("and", "in", "on"),
-				$lang->getIgnoreSearchWords()
+				$lang->getIgnoredSearchWords()
 		);
     }
 
     /**
-     * @todo Implement testGetIgnoreSearchWords().
+     * @todo Implement testGetIgnoredSearchWordsCallback().
      */
-    public function testGetIgnoreSearchWordsCallback()
+    public function testGetIgnoredSearchWordsCallback()
     {
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getIgnoreSearchWordsCallback()));
+		$this->assertTrue(is_callable($lang->getIgnoredSearchWordsCallback()));
     }
 
     /**
-     * @todo Implement testSetIgnoreSearchWordsCallback().
+     * @todo Implement testSetIgnoredSearchWordsCallback().
      */
-    public function testSetIgnoreSearchWordsCallback()
+    public function testSetIgnoredSearchWordsCallback()
     {
 		$function1 = 'phpinfo';
 		$function2 = 'print';
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getIgnoreSearchWordsCallback()));
+		$this->assertTrue(is_callable($lang->getIgnoredSearchWordsCallback()));
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(is_callable($lang->setIgnoreSearchWordsCallback($function1)));
-		$get = $lang->getIgnoreSearchWordsCallback();
+		$this->assertTrue(is_callable($lang->setIgnoredSearchWordsCallback($function1)));
+		$get = $lang->getIgnoredSearchWordsCallback();
 		$this->assertEquals(
 				$function1,
 				$get
@@ -321,7 +321,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 				$get
 		);
 		// set -> $function2: set returns $function1 and get retuns $function2
-		$set = $lang->setIgnoreSearchWordsCallback($function2);
+		$set = $lang->setIgnoredSearchWordsCallback($function2);
 		$this->assertEquals(
 				$function1,
 				$set
@@ -332,11 +332,203 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertEquals(
 				$function2,
-				$lang->getIgnoreSearchWordsCallback()
+				$lang->getIgnoredSearchWordsCallback()
 		);
 		$this->assertNotEquals(
 				$function1,
-				$lang->getIgnoreSearchWordsCallback()
+				$lang->getIgnoredSearchWordsCallback()
+		);
+    }
+
+   /**
+     * @todo Implement testGetLowerLimitSearchWord().
+     */
+    public function testGetLowerLimitSearchWord()
+    {
+		$lang = new JLanguage('');
+
+		$this->assertEquals(
+				3,
+				$lang->getLowerLimitSearchWord()
+		);
+    }
+
+    /**
+     * @todo Implement testGetLowerLimitSearchWordCallback().
+     */
+    public function testGetLowerLimitSearchWordCallback()
+    {
+		$lang = new JLanguage('');
+
+		$this->assertTrue(is_callable($lang->getLowerLimitSearchWordCallback()));
+    }
+
+    /**
+     * @todo Implement testSetLowerLimitSearchWordCallback().
+     */
+    public function testSetLowerLimitSearchWordCallback()
+    {
+		$function1 = 'phpinfo';
+		$function2 = 'print';
+		$lang = new JLanguage('');
+
+		$this->assertTrue(is_callable($lang->getLowerLimitSearchWordCallback()));
+		// set -> $funtion1: set returns NULL and get returns $function1
+		$this->assertTrue(is_callable($lang->setLowerLimitSearchWordCallback($function1)));
+		$get = $lang->getLowerLimitSearchWordCallback();
+		$this->assertEquals(
+				$function1,
+				$get
+		);
+		$this->assertNotEquals(
+				$function2,
+				$get
+		);
+		// set -> $function2: set returns $function1 and get retuns $function2
+		$set = $lang->setLowerLimitSearchWordCallback($function2);
+		$this->assertEquals(
+				$function1,
+				$set
+		);
+		$this->assertNotEquals(
+				$function2,
+				$set
+		);
+		$this->assertEquals(
+				$function2,
+				$lang->getLowerLimitSearchWordCallback()
+		);
+		$this->assertNotEquals(
+				$function1,
+				$lang->getLowerLimitSearchWordCallback()
+		);
+    }
+
+   /**
+     * @todo Implement testGetUpperLimitSearchWord().
+     */
+    public function testGetUpperLimitSearchWord()
+    {
+		$lang = new JLanguage('');
+
+		$this->assertEquals(
+				20,
+				$lang->getUpperLimitSearchWord()
+		);
+    }
+
+    /**
+     * @todo Implement testGetUpperLimitSearchWordCallback().
+     */
+    public function testGetUpperLimitSearchWordCallback()
+    {
+		$lang = new JLanguage('');
+
+		$this->assertTrue(is_callable($lang->getUpperLimitSearchWordCallback()));
+    }
+
+    /**
+     * @todo Implement testSetUpperLimitSearchWordCallback().
+     */
+    public function testSetUpperLimitSearchWordCallback()
+    {
+		$function1 = 'phpinfo';
+		$function2 = 'print';
+		$lang = new JLanguage('');
+
+		$this->assertTrue(is_callable($lang->getUpperLimitSearchWordCallback()));
+		// set -> $funtion1: set returns NULL and get returns $function1
+		$this->assertTrue(is_callable($lang->setUpperLimitSearchWordCallback($function1)));
+		$get = $lang->getUpperLimitSearchWordCallback();
+		$this->assertEquals(
+				$function1,
+				$get
+		);
+		$this->assertNotEquals(
+				$function2,
+				$get
+		);
+		// set -> $function2: set returns $function1 and get retuns $function2
+		$set = $lang->setUpperLimitSearchWordCallback($function2);
+		$this->assertEquals(
+				$function1,
+				$set
+		);
+		$this->assertNotEquals(
+				$function2,
+				$set
+		);
+		$this->assertEquals(
+				$function2,
+				$lang->getUpperLimitSearchWordCallback()
+		);
+		$this->assertNotEquals(
+				$function1,
+				$lang->getUpperLimitSearchWordCallback()
+		);
+    }
+
+   /**
+     * @todo Implement testGetSearchDisplayedCharactersNumber().
+     */
+    public function testGetSearchDisplayedCharactersNumber()
+    {
+		$lang = new JLanguage('');
+
+		$this->assertEquals(
+				200,
+				$lang->getSearchDisplayedCharactersNumber()
+		);
+    }
+
+    /**
+     * @todo Implement testGetSearchDisplayedCharactersNumberCallback().
+     */
+    public function testGetSearchDisplayedCharactersNumberCallback()
+    {
+		$lang = new JLanguage('');
+
+		$this->assertTrue(is_callable($lang->getSearchDisplayedCharactersNumberCallback()));
+    }
+
+    /**
+     * @todo Implement testSetSearchDisplayedCharactersNumberCallback().
+     */
+    public function testSetSearchDisplayedCharactersNumberCallback()
+    {
+		$function1 = 'phpinfo';
+		$function2 = 'print';
+		$lang = new JLanguage('');
+
+		$this->assertTrue(is_callable($lang->getSearchDisplayedCharactersNumberCallback()));
+		// set -> $funtion1: set returns NULL and get returns $function1
+		$this->assertTrue(is_callable($lang->setSearchDisplayedCharactersNumberCallback($function1)));
+		$get = $lang->getSearchDisplayedCharactersNumberCallback();
+		$this->assertEquals(
+				$function1,
+				$get
+		);
+		$this->assertNotEquals(
+				$function2,
+				$get
+		);
+		// set -> $function2: set returns $function1 and get retuns $function2
+		$set = $lang->setSearchDisplayedCharactersNumberCallback($function2);
+		$this->assertEquals(
+				$function1,
+				$set
+		);
+		$this->assertNotEquals(
+				$function2,
+				$set
+		);
+		$this->assertEquals(
+				$function2,
+				$lang->getSearchDisplayedCharactersNumberCallback()
+		);
+		$this->assertNotEquals(
+				$function1,
+				$lang->getSearchDisplayedCharactersNumberCallback()
 		);
     }
 

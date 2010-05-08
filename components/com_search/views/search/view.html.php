@@ -125,7 +125,7 @@ class SearchViewSearch extends JView
 					$needle = $searchwords[0];
 				}
 
-				$row = SearchHelper::prepareSearchContent($row, 200, $needle);
+				$row = SearchHelper::prepareSearchContent($row, $needle);
 				$searchwords = array_unique($searchwords);
 				$searchRegex = '#(';
 				$x = 0;

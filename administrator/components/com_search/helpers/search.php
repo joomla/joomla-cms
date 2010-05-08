@@ -56,9 +56,9 @@ class SearchHelper
 		$lang = &JFactory::getLanguage();
 
 		$tag			= $lang->getTag();
-		$search_ignore	= $lang->getIgnoreSearchWords();
+		$search_ignore	= $lang->getIgnoredSearchWords();
 
-		// Deprecated in 1.6 use $lang->getIgnoreSearchWords instead
+		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead
 		$ignoreFile		= $lang->getLanguagePath().DS.$tag.DS.$tag.'.ignore.php';
 		if (file_exists($ignoreFile)) {
 			include $ignoreFile;
@@ -73,8 +73,9 @@ class SearchHelper
 		}
 
 		// filter out search terms that are too small
+		$lower_limit = $lang->getLowerLimitSearchWord();
 		foreach($aterms AS $aterm) {
-			if (JString::strlen($aterm) < 3) {
+			if (JString::strlen($aterm) < $lower_limit) {
 				$search_ignore[] = $aterm;
 			}
 		}
@@ -92,14 +93,17 @@ class SearchHelper
 	{
 		$restriction = false;
 
-		// limit searchword to 20 characters
-		if (JString::strlen($searchword) > 20) {
-			$searchword		= JString::substr($searchword, 0, 19);
+		$lang = &JFactory::getLanguage();
+
+		// limit searchword to a maximum of characters
+		$upper_limit = $lang->getUpperLimitSearchWord();
+		if (JString::strlen($searchword) > $upper_limit) {
+			$searchword		= JString::substr($searchword, 0, $upper_limit - 1);
 			$restriction	= true;
 		}
 
-		// searchword must contain a minimum of 3 characters
-		if ($searchword && JString::strlen($searchword) < 3) {
+		// searchword must contain a minimum of characters
+		if ($searchword && JString::strlen($searchword) < $lang->getLowerLimitSearchWord()) {
 			$searchword		= '';
 			$restriction	= true;
 		}
@@ -144,11 +148,10 @@ class SearchHelper
 	 * Prepares results from search for display
 	 *
 	 * @param string The source string
-	 * @param int Number of chars to trim
 	 * @param string The searchword to select around
 	 * @return string
 	 */
-	function prepareSearchContent($text, $length = 200, $searchword)
+	function prepareSearchContent($text, $searchword)
 	{
 		// strips tags won't remove the actual jscript
 		$text = preg_replace("'<script[^>]*>.*?</script>'si", "", $text);
@@ -157,7 +160,7 @@ class SearchHelper
 		// replace line breaking tags with whitespace
 		$text = preg_replace("'<(br[^/>]*?/|hr[^/>]*?/|/(div|h[1-6]|li|p|td))>'si", ' ', $text);
 
-		return SearchHelper::_smartSubstr(strip_tags($text), $length, $searchword);
+		return SearchHelper::_smartSubstr(strip_tags($text), $searchword);
 	}
 
 	/**
@@ -201,8 +204,10 @@ class SearchHelper
 	 * @param string The searchword to select around
 	 * @return string
 	 */
-	function _smartSubstr($text, $length = 200, $searchword)
+	function _smartSubstr($text, $searchword)
 	{
+		$lang = JFactory::getLanguage();
+		$length = $lang->getSearchDisplayedCharactersNumber();
 		$textlen = JString::strlen($text);
 		$lsearchword = JString::strtolower($searchword);
 		$wordfound = false;

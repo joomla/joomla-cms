@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 08-May-2010 Christophe Demko
+ #^ Allowing languages to use specified lower/upper limit and length of displayed result for text search (http://groups.google.fr/group/joomla-dev-cms/browse_thread/thread/3b0ecd3ba64e973e)
  # Correcting a bug for unique menu item alias
 
 08-May-2010 Jean-Marie Simonet

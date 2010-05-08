@@ -37,12 +37,39 @@ abstract class en_GBLocalise {
 	 * @return	array  An array of ignored search words.
 	 * @since	1.6
 	 */
-	public static function getIgnoreSearchWords() {
+	public static function getIgnoredSearchWords() {
 		$search_ignore = array();
 		$search_ignore[] = "and";
 		$search_ignore[] = "in";
 		$search_ignore[] = "on";
 		return $search_ignore;
+	}
+	/**
+	 * Returns the lower length limit of search words
+	 *
+	 * @return	integer  The lower length limit of search words.
+	 * @since	1.6
+	 */
+	public static function getLowerLimitSearchWord() {
+		return 3;
+	}
+	/**
+	 * Returns the upper length limit of search words
+	 *
+	 * @return	integer  The upper length limit of search words.
+	 * @since	1.6
+	 */
+	public static function getUpperLimitSearchWord() {
+		return 20;
+	}
+	/**
+	 * Returns the number of chars to display when searching
+	 *
+	 * @return	integer  The number of chars to display when searching.
+	 * @since	1.6
+	 */
+	public static function getSearchDisplayedCharactersNumber() {
+		return 200;
 	}
 }
 
