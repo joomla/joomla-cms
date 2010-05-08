@@ -145,13 +145,13 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="center">
 					<?php
 						if (is_null($item->pages)) {
-							echo JText::_('COM_MODULES_ASSIGNED_NONE');
+							echo JText::_('JNONE');
 						} else if ($item->pages < 0) {
 							echo JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
 						} else if ($item->pages > 0) {
 							echo JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 						} else {
-							echo JText::_('COM_MODULES_ASSIGNED_ALL');
+							echo JText::_('JALL');
 						}
 					?>
 				</td>

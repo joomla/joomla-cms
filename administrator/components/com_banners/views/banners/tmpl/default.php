@@ -172,7 +172,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td class="center">
 					<?php if ($item->language=='*'):?>
-						<?php echo JText::_('JOPTION_ALL_LANGUAGES'); ?>
+						<?php echo JText::_('JALL'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JOPTION_UNDEFINED_LANGUAGE'); ?>
 					<?php endif;?>

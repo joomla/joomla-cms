@@ -112,7 +112,7 @@
 			description="JFIELD_MODULE_LANGUAGE_DESC"
 			label="JFIELD_LANGUAGE_LABEL"
 		>
-			<option value="*">JOPTION_ALL_LANGUAGES</option>
+			<option value="*">JALL</option>
 		</field>
 
 		<field name="params" type="hidden" />

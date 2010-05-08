@@ -74,7 +74,7 @@
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="*">JOPTION_ALL_LANGUAGES</option>
+			<option value="*">JALL</option>
 		</field>
 
 		<field id="approved" name="approved" type="radio"
