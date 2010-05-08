@@ -54,19 +54,19 @@ abstract class JHtmlJGrid
 		// Build the active state filter options.
 		$options	= array();
 		if (!array_key_exists('published', $config) || $config['published']) {
-			$options[]	= JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
+			$options[]	= JHtml::_('select.option', '1', 'JPUBLISHED');
 		}
 		if (!array_key_exists('unpublished', $config) || $config['unpublished']) {
-			$options[]	= JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
+			$options[]	= JHtml::_('select.option', '0', 'JUNPUBLISHED');
 		}
 		if (!array_key_exists('archived', $config) || $config['archived']) {
-			$options[]	= JHtml::_('select.option', '2', JText::_('JARCHIVED'));
+			$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
 		}
 		if (!array_key_exists('trash', $config) || $config['trash']) {
-			$options[]	= JHtml::_('select.option', '-2', JText::_('JTRASH'));
+			$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
 		}
 		if (!array_key_exists('all', $config) || $config['all']) {
-			$options[]	= JHtml::_('select.option', '*', JText::_('JALL'));
+			$options[]	= JHtml::_('select.option', '*', 'JALL');
 		}
 		return $options;
 	}
