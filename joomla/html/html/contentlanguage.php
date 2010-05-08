@@ -48,7 +48,7 @@ abstract class JHtmlContentLanguage
 			$db->setQuery($query);
 			self::$items = $db->loadObjectList();
 			if ($all) {
-				array_unshift(self::$items, new JObject(array('value'=>'*','text'=>$translate ? JText::_('JOPTION_ALL_LANGUAGES') : 'JOPTION_ALL_LANGUAGES')));
+				array_unshift(self::$items, new JObject(array('value'=>'*','text'=>$translate ? JText::_('JALL') : 'JALL')));
 			}
 
 			// Detect errors
