@@ -563,6 +563,7 @@ CREATE TABLE `#__menu` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
   KEY `idx_path` (`path`(333)),
+  UNIQUE `idx_alias_parent_id` (`alias`, `parent_id`),
   INDEX `idx_language` (`language`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
