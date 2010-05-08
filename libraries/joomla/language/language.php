@@ -208,18 +208,18 @@ class JLanguage extends JObject
 		}
 		if (class_exists($class)) {
 			/* Class exists. Try to find
-			 * -a pluralSuffices method,
 			 * -a transliterate method,
-			 * -an ignoredSearchWords method
+			 * -a getPluralSuffices method,
+			 * -a getIgnoredSearchWords method
 			 * -a getLowerLimitSearchWord method
 			 * -a getUpperLimitSearchWord method
 			 * -a getSearchDisplayCharactersNumber method
 			 */
-			if (method_exists($class, 'getPluralSuffices')) {
-				$this->pluralSufficesCallback = array($class, 'getPluralSuffices');
-			}
 			if (method_exists($class, 'transliterate')) {
 				$this->transliterator = array($class, 'transliterate');
+			}
+			if (method_exists($class, 'getPluralSuffices')) {
+				$this->pluralSufficesCallback = array($class, 'getPluralSuffices');
 			}
 			if (method_exists($class, 'getIgnoredSearchWords')) {
 				$this->ignoredSearchWordsCallback = array($class, 'getIgnoredSearchWords');
