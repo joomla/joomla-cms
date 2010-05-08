@@ -135,12 +135,36 @@ class JLanguage extends JObject
 	protected $pluralSufficesCallback = null;
 
 	/**
-	 * Name of the ignoreSearchWordsCallback function for this language
+	 * Name of the ignoredSearchWordsCallback function for this language
 	 *
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $ignoreSearchWordsCallback = null;
+	protected $ignoredSearchWordsCallback = null;
+
+	/**
+	 * Name of the lowerLimitSearchWordCallback function for this language
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $lowerLimitSearchWordCallback = null;
+
+	/**
+	 * Name of the uppperLimitSearchWordCallback function for this language
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $uppperLimitSearchWordCallback = null;
+
+	/**
+	 * Name of the searchDisplayedCharactersNumberCallback function for this language
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $searchDisplayedCharactersNumberCallback = null;
 
 	/**
 	 * Constructor activating the default information of the language
@@ -183,15 +207,31 @@ class JLanguage extends JObject
 			}
 		}
 		if (class_exists($class)) {
-			// Class exists. Try to find a pluralSuffices method, a transliterate method and an ignoreSearchWords method
+			/* Class exists. Try to find
+			 * -a pluralSuffices method,
+			 * -a transliterate method,
+			 * -an ignoredSearchWords method
+			 * -a getLowerLimitSearchWord method
+			 * -a getUpperLimitSearchWord method
+			 * -a getSearchDisplayCharactersNumber method
+			 */
 			if (method_exists($class, 'getPluralSuffices')) {
 				$this->pluralSufficesCallback = array($class, 'getPluralSuffices');
 			}
 			if (method_exists($class, 'transliterate')) {
 				$this->transliterator = array($class, 'transliterate');
 			}
-			if (method_exists($class, 'getIgnoreSearchWords')) {
-				$this->ignoreSearchWordsCallback = array($class, 'getIgnoreSearchWords');
+			if (method_exists($class, 'getIgnoredSearchWords')) {
+				$this->ignoredSearchWordsCallback = array($class, 'getIgnoredSearchWords');
+			}
+			if (method_exists($class, 'getLowerLimitSearchWord')) {
+				$this->lowerLimitSearchWordCallback = array($class, 'getLowerLimitSearchWord');
+			}
+			if (method_exists($class, 'getUpperLimitSearchWord')) {
+				$this->upperLimitSearchWordCallback = array($class, 'getUpperLimitSearchWord');
+			}
+			if (method_exists($class, 'getSearchDisplayedCharactersNumber')) {
+				$this->searchDisplayedCharactersNumberCallback = array($class, 'getSearchDisplayedCharactersNumber');
 			}
 		}
 
@@ -353,16 +393,16 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * getIgnoreSearchWords function
+	 * getIgnoredSearchWords function
 	 *
-	 * This method return an array of ignored search words
+	 * This method returns an array of ignored search words
 	 *
 	 * @return	array	The array of ignored search words
 	 * @since	1.6
 	 */
-	public function getIgnoreSearchWords() {
-		if ($this->ignoreSearchWordsCallback !== null) {
-			return call_user_func($this->ignoreSearchWordsCallback);
+	public function getIgnoredSearchWords() {
+		if ($this->ignoredSearchWordsCallback !== null) {
+			return call_user_func($this->ignoredSearchWordsCallback);
 		}
 		else {
 			return array();
@@ -370,24 +410,141 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Getter for ignoreSearchWordsCallback function
+	 * Getter for ignoredSearchWordsCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function getIgnoreSearchWordsCallback() {
-		return $this->ignoreSearchWordsCallback;
+	public function getIgnoredSearchWordsCallback() {
+		return $this->ignoredSearchWordsCallback;
 	}
 
 	/**
-	 * Set the ignoreSearchWords function
+	 * Setter for the ignoredSearchWordsCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function setIgnoreSearchWordsCallback($function) {
-		$previous = $this->ignoreSearchWordsCallback;
-		$this->ignoreSearchWordsCallback = $function;
+	public function setIgnoredSearchWordsCallback($function) {
+		$previous = $this->ignoredSearchWordsCallback;
+		$this->ignoredSearchWordsCallback = $function;
+		return $previous;
+	}
+
+	/**
+	 * getLowerLimitSearchWord function
+	 *
+	 * This method returns a lower limit integer for length of search words
+	 *
+	 * @return	integer	The lower limit integer for length of search words (3 if no value was set for a specific language)
+	 * @since	1.6
+	 */
+	public function getLowerLimitSearchWord() {
+		if ($this->lowerLimitSearchWordCallback !== null) {
+			return call_user_func($this->lowerLimitSearchWordCallback);
+		}
+		else {
+			return 3;
+		}
+	}
+
+	/**
+	 * Getter for lowerLimitSearchWordCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       1.6
+	 */
+	public function getLowerLimitSearchWordCallback() {
+		return $this->lowerLimitSearchWordCallback;
+	}
+
+	/**
+	 * Setter for the lowerLimitSearchWordCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       1.6
+	 */
+	public function setLowerLimitSearchWordCallback($function) {
+		$previous = $this->lowerLimitSearchWordCallback;
+		$this->lowerLimitSearchWordCallback = $function;
+		return $previous;
+	}
+
+	/**
+	 * getUpperLimitSearchWord function
+	 *
+	 * This method returns an upper limit integer for length of search words
+	 *
+	 * @return	integer	The upper limit integer for length of search words (20 if no value was set for a specific language)
+	 * @since	1.6
+	 */
+	public function getUpperLimitSearchWord() {
+		if ($this->upperLimitSearchWordCallback !== null) {
+			return call_user_func($this->upperLimitSearchWordCallback);
+		}
+		else {
+			return 20;
+		}
+	}
+
+	/**
+	 * Getter for upperLimitSearchWordCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       1.6
+	 */
+	public function getUpperLimitSearchWordCallback() {
+		return $this->upperLimitSearchWordCallback;
+	}
+
+	/**
+	 * Setter for the upperLimitSearchWordCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       1.6
+	 */
+	public function setUpperLimitSearchWordCallback($function) {
+		$previous = $this->upperLimitSearchWordCallback;
+		$this->upperLimitSearchWordCallback = $function;
+		return $previous;
+	}
+
+	/**
+	 * getSearchDisplayedCharactersNumber function
+	 *
+	 * This method returns the number of characters displayed during research
+	 *
+	 * @return	integer	The number of characters displayed during research (200 if no value was set for a specific language)
+	 * @since	1.6
+	 */
+	public function getSearchDisplayedCharactersNumber() {
+		if ($this->searchDisplayedCharactersNumberCallback !== null) {
+			return call_user_func($this->searchDisplayedCharactersNumberCallback);
+		}
+		else {
+			return 200;
+		}
+	}
+
+	/**
+	 * Getter for searchDisplayedCharactersNumberCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       1.6
+	 */
+	public function getSearchDisplayedCharactersNumberCallback() {
+		return $this->searchDisplayedCharactersNumberCallback;
+	}
+
+	/**
+	 * Setter for the searchDisplayedCharactersNumberCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       1.6
+	 */
+	public function setSearchDisplayedCharactersNumberCallback($function) {
+		$previous = $this->searchDisplayedCharactersNumberCallback;
+		$this->searchDisplayedCharactersNumberCallback = $function;
 		return $previous;
 	}
 
