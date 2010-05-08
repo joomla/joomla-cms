@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-May-2010 Jean-Marie Simonet
+$ Consolidated some strings
+
 07-May-2010 Ian MacLennan
 # Fixed error in JString::strspn that caused unit tests to fail on systems without mbstring
 

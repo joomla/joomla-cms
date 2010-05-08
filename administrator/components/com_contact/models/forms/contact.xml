@@ -197,7 +197,7 @@
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
 			<field name="show_contact_category" type="list"
 
-				label="COM_CONTACT_FIELD_SHOW_CATEGORY_LABEL"
+				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CATEGORY_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
