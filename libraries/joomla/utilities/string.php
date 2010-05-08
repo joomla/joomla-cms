@@ -282,9 +282,9 @@ abstract class JString
 	public static function strspn($str, $mask, $start = NULL, $length = NULL)
 	{
 		jimport('phputf8.strspn');
-		if ( $start === FALSE && $length === FALSE ) {
+		if ( $start === NULL && $length === NULL ) {
 			return utf8_strspn($str, $mask);
-		} else if ( $length === FALSE ) {
+		} else if ( $length === NULL ) {
 			return utf8_strspn($str, $mask, $start);
 		} else {
 			return utf8_strspn($str, $mask, $start, $length);

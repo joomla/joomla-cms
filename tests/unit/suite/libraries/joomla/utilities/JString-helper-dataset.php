@@ -98,10 +98,10 @@ class JStringTest_DataSet {
 	);
 
 	static public $strspnTests = array (
-		array('321 Main Street', '0123456789', false, false, 3),
-		array('A321 Main Street', '0123456789', 0, false, 0),
+		array('321 Main Street', '0123456789', null, null, 3),
+		array('A321 Main Street', '0123456789', 0, null, 0),
 		array('A321 Main Street', '0123456789', 1, 10, 3),
-		array('A321 Main Street', '0123456789', 1, false, 0),
+		array('A321 Main Street', '0123456789', 1, null, 3),
 		array('Би шил идэй чадна', 'Би', null, null, 2),
 		array('чадна Би шил идэй чадна', 'Би', null, null, 0)
 	);
