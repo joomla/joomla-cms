@@ -16,7 +16,7 @@
 			label="COM_CONTACT_FIELD_LINKED_USER_LABEL" description="COM_CONTACT_FIELD_LINKED_USER_DESC" />
 
 		<field id="published" name="published" type="list"
-			label="JFIELD_PUBLISHED_LABEL" description="JFIELD_PUBLISHED_DESC"
+			label="JGLOBAL_STATE" description="JFIELD_PUBLISHED_DESC"
 			class="inputbox" size="1" default="1"
 		>
 			<option value="1">
@@ -136,7 +136,7 @@
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox"
 		>
-			<option value="">JOPTION_DEFAULT_LANGUAGE</option>
+			<option value="">JALL</option>
 		</field>
 		<field name="featured" type="radio"
 			label="COM_CONTACT_FIELD_FEATURED_LABEL"

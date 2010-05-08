@@ -62,7 +62,7 @@
 			id="state"
 			name="state"
 			type="list"
-			label="JFIELD_PUBLISHED_LABEL"
+			label="JGLOBAL_STATE"
 			description="JFIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"
@@ -154,7 +154,7 @@
 			description="JFIELD_LANGUAGE_DESC"
 			class="inputbox"
 			default="">
-			<option value="*">JOPTION_ALL_LANGUAGE</option>
+			<option value="*">JALL</option>
 		</field>
 
 		<field

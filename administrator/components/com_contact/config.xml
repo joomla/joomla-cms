@@ -294,7 +294,7 @@
 		</field>
 
 		<field name="show_state_headings" type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
+			default="1" label="JGLOBAL_STATE"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 		>
 			<option value="0">JHIDE</option>

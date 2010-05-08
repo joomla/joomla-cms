@@ -63,7 +63,7 @@
 			filter="server_utc" />
 
 		<field name="state" type="list"
-			label="COM_BANNERS_FIELD_STATE_LABEL" description="COM_BANNERS_FIELD_STATE_DESC"
+			label="JGLOBAL_STATE" description="COM_BANNERS_FIELD_STATE_DESC"
 			class="inputbox" size="1" default="1"
 		>
 			<option value="1">JPUBLISHED</option>

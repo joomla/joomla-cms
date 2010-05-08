@@ -97,7 +97,7 @@
 		class="inputbox"
 		default="1"
 		size="1"
-		label="JFIELD_PUBLISHED_LABEL"
+		label="JGLOBAL_STATE"
 		description="JFIELD_PUBLISHED_DESC">
 		<option
 			value="1">
