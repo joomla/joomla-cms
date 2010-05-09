@@ -159,7 +159,7 @@
 			</field>
 </fieldset>
 
-<fieldset name="newsfeed">
+<fieldset name="newsfeed" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
 
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
