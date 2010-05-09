@@ -30,6 +30,7 @@ $ -> Language fix or change
 09-May-2010 Jean-Marie Simonet
 $ Correcting some strings
 $ Consolidated some strings
+$ Refactored offline.php ini/strings
 
 08-May-2010 Christophe Demko
  #^ Allowing languages to use specified lower/upper limit and length of displayed result for text search (http://groups.google.fr/group/joomla-dev-cms/browse_thread/thread/3b0ecd3ba64e973e)
