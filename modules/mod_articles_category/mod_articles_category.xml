@@ -219,7 +219,7 @@
 					</option>
 					<option value="a.hits">MOD_ARTICLES_CATEGORY_OPTION_HITS_VALUE
 					</option>
-					<option value="a.title">MOD_ARTICLES_CATEGORY_OPTION_TITLE_VALUE
+					<option value="a.title">JGLOBAL_TITLE
 					</option>
 					<option value="a.id">MOD_ARTICLES_CATEGORY_OPTION_ID_VALUE
 					</option>

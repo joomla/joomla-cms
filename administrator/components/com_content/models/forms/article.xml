@@ -10,7 +10,7 @@
 
 		<field name="asset_id" type="hidden" filter="unset" />
 
-		<field name="title" type="text" label="JFIELD_TITLE_LABEL"
+		<field name="title" type="text" label="JGLOBAL_TITLE"
 			description="JFIELD_TITLE_DESC" class="inputbox" size="30"
 			required="true" />
 

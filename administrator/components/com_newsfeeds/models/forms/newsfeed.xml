@@ -9,7 +9,7 @@
 			readonly="true" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC" />
 
-		<field name="name" type="text" label="JFIELD_TITLE_LABEL"
+		<field name="name" type="text" label="JGLOBAL_TITLE"
 			description="JFIELD_TITLE_DESC" class="inputbox" size="30"
 			required="true" />
 

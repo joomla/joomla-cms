@@ -50,7 +50,7 @@ $listDirn	= $this->state->get('list.direction');
 	<?php //echo $this->params->get('list_show_title'); ?>
 		<?php if ($this->params->get('list_show_title',1)) : ?>
 		<th class="list-title" id="tableOrdering">
-			<?php  echo JHTML::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
+			<?php  echo JHTML::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
 		</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_date',1)) : ?>

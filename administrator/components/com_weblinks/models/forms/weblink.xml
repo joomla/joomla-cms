@@ -8,7 +8,7 @@
 			readonly="true" class="readonly" />
 
 		<field name="title" type="text" class="inputbox"
-			default="" size="40" label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+			default="" size="40" label="JGLOBAL_TITLE"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"

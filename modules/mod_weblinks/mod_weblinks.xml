@@ -47,7 +47,7 @@
 					label="MOD_WEBLINKS_FIELD_ORDERING_LABEL"
 					description="MOD_WEBLINKS_FIELD_ORDERING_DESC">
 					<option
-						value="title">MOD_WEBLINKS_FIELD_VALUE_TITLE</option>
+						value="title">JGLOBAL_TITLE</option>
 					<option
 						value="order">MOD_WEBLINKS_FIELD_VALUE_ORDER</option>
 					<option

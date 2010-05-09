@@ -27,7 +27,7 @@
 			id="title"
 			name="title"
 			type="text"
-			label="COM_MENUS_MENU_TITLE_LABEL"
+			label="JGLOBAL_TITLE"
 			description="COM_MENUS_MENU_TITLE_DESC"
 			default=""
 			class="inputbox"

@@ -13,7 +13,7 @@
 		<field
 			name="title"
 			type="text"
-			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
+			label="JGLOBAL_TITLE"
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
 			class="inputbox"
 			size="40"

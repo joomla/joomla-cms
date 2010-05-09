@@ -59,7 +59,7 @@
 	<field
 		name="title"
 		type="text"
-		label="JFIELD_TITLE_LABEL"
+		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
 		class="inputbox"
 		size="40"

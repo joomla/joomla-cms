@@ -20,7 +20,7 @@
 		<field name="title" type="text"
 			class="inputbox"
 			description="COM_LANGUAGES_FIELD_TITLE_DESC"
-			label="COM_LANGUAGES_FIELD_TITLE_LABEL"
+			label="JGLOBAL_TITLE"
 			maxlength="50"
 			required="true"
 			size="40"

@@ -12,7 +12,7 @@
 
 		<field name="title" type="text"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC"
-			label="COM_WEBLINKS_FIELD_TITLE_LABEL"
+			label="JGLOBAL_TITLE"
 			required="true"
 			size="30"
 		/>
