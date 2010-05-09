@@ -82,7 +82,7 @@ class TemplatesModelSource extends JModelForm
 		$data = JFactory::getApplication()->getUserState('com_templates.edit.source.data', array());
 
 		if (empty($data)) {
-			$data = $this->getItem();
+			$data = $this->getSource();
 		}
 
 		return $data;

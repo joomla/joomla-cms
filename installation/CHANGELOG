@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ Fix #17020
 
 09-May-2010 Jean-Marie Simonet
+# Fixed template files edit/save
 $ Correcting some strings
 $ Consolidated some strings
 $ Refactored offline.php ini/strings
