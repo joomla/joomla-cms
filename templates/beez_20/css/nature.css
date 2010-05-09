@@ -75,6 +75,7 @@ fieldset
 }
 
 
+
 /* ##########################  logo  ########################### */
 
 #logo span
@@ -469,8 +470,26 @@ ul.menu li.active ul li.active ul li.active a:visited
 
 ul.menu li ul li ul li ul
 {
-        border:solid 0px #000
+        border:solid 1px #eee !important;
+		padding-top:10px !important;
+		padding-bottom:10px !important;
+		background:#fff url(../images/nature/level4.png) repeat-x !important;
 }
+
+
+ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li a:visited
+{font-weight:normal; padding: 3px 2px 3px 40px; font-size:0.9em;
+background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px; color:#444}
+
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
+{font-weight:bold}
+
+
+
+
 
 
 /* ##########################  content - main   ########################### */
@@ -538,12 +557,14 @@ ul#archive-items li
 
 .image-left
 {
-        border:solid 0 #ccc;
+        border:solid 1px #ddd;
+		padding:2px
 }
 
 .image-right
 {
-        border:solid 1px #ccc;
+          border:solid 1px #ddd;
+		padding:2px
 }
 
 
@@ -560,7 +581,7 @@ ul#archive-items li
 #main h1
 {
         color:#333;
-        border-top:solid 1px #ddd;
+        border-top:solid 0px #ddd;
         border-bottom:solid 1px #ddd;
         font-family: 'Titillium Maps', Arial;
 }
@@ -1184,6 +1205,8 @@ form#adminForm fieldset
         border:solid 1px #ddd
 }
 
+legend
+{font-weight:bold}
 /* ++++++++++++++  tooltip  ++++++++++++++ */
 .tip
 {
@@ -1214,3 +1237,11 @@ form#adminForm fieldset
 {
 
 }
+
+table.pagenav,
+table.pagenav tr,
+table.pagenav td
+{border:0 !important}
+
+#main .categories-list ul
+{list-style-type:none}

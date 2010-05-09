@@ -264,14 +264,15 @@ h3.js_heading a
 #nav h3
 {
         font-size:1.4em;
-        margin:2px 0 6px 0;
-        font-weight:normal
+        margin:5px 0 6px 0;
+        font-weight:normal;
+		line-height:1.19em
 }
 
 
 #nav h3 span.backh3
 {
-        padding:5px 0px 5px 2px;
+        padding:0px 0px 5px 2px;
         display:block;
 }
 
@@ -286,7 +287,7 @@ h3.js_heading a
 
  ul.menu
 {
-        list-style-type:none;
+        list-style-type:none !important;
         margin:0 0 0px 0px !important;
         padding: 0px 5px 20px 5px;
 
@@ -394,6 +395,7 @@ ul.menu li.active ul li.active ul li a:link,
         margin:0 0 10px 0;
         padding: 5px;
         font-size:1.4em;
+		line-height:1.19em;
         font-weight:normal;
 }
 
@@ -538,7 +540,9 @@ ul.menu li.active ul li.active ul li a:link,
 .image-left
 {
         float:left;
-        margin:0 15px 5px 0
+        margin:0 15px 5px 0;
+
+
 }
 
 .image-right
@@ -682,7 +686,7 @@ dt.createdby
 
 dd.createdby
 {
-        font-weight:bold
+
 }
 
 .article-info dd span
@@ -811,7 +815,8 @@ p.counter
 #right h3
 {
         font-size:1.2em;
-        margin:0;
+		line-height:1.4em;
+        margin:5px 0 0 0;
         font-weight:normal !important;
 }
 
@@ -828,13 +833,13 @@ p.counter
 
 #right h3 span.backh3
 {
-        padding:9px 0px 5px 10px;
+        padding:0px 0px 5px 10px;
         display:block;
 }
 
 #right h3.js_heading span.backh
 {
-        padding:4px 0 0 10px
+        padding:0px 0 0 10px
 }
 
 #right h4
@@ -846,7 +851,7 @@ p.counter
 
 #right ul
 {
-        line-height:1.4em;
+
         list-style-type:none;
     margin:10px 0;
     padding:5px 0 0 10px;
@@ -972,7 +977,7 @@ label.ordering
 fieldset.only label,
 fieldset.phrases label
 {
-    margin:0 25px 0 5px
+    margin:0 10px 0 0px
 }
 
 .ordering-box label.ordering
@@ -1074,11 +1079,6 @@ address span
         float:none !important
 }
 
-.jcontact-contactinfo p
-{
-	margin:0;
-	line-height:1.25em
-}
 
 
 /* ##########################  user profile  ########################### */
@@ -1118,9 +1118,8 @@ table
 }
 
 table.weblinks,
-table.category,
-table.jlist,
-table.jlist-table
+table.category
+
 {
         font-size:1em;
         margin:10px 10px 20px 0px;
@@ -1133,15 +1132,15 @@ table.weblinks td
 }
 
 table.weblinks td,
-table.category td,
-table.jlist-table td
+table.category td
+
 {
         padding:7px;
 }
 
 table.weblinks th,
-table.category th,
-table.jlist-table th
+table.category th
+
 {
         padding:7px;
         text-align:left
@@ -1647,22 +1646,22 @@ ul.tabs li
     padding:0;
     display:block;
     margin:0;
-    font-size:1.0em;
+    font-size:1em;
 }
 
 ul.tabs li a:link,
 ul.tabs li a:visited
 {
     text-decoration:none;
-    padding:5px 7px;
+    padding:7px 5px;
     margin:0px ;
     display:block;
     font-size:0.9em;
-    font-weight:bold;
+    font-weight:normal;
 }
 
-ul.tabs li a.linkactive:link,
-ul.tabs li a.linkactive:visited
+ul.tabs li a.linkopen:link,
+ul.tabs li a.linkopen:visited
 {
     font-weight:bold;
 }
@@ -1776,3 +1775,41 @@ a.mod-articles-category-title
 {
         line-height:1.4em
 }
+
+/* ###########  Categories list ############ */
+#main .categories-listalphabet ul
+{
+padding:0;
+margin:20px 10px 10px 0;
+list-style-type:none;
+list-style-position:inside
+ }
+#main .categories-listalphabet ul li
+{
+display :inline;
+padding:5px;
+border-right:solid 1px #ddd
+}
+
+
+#main .categories-list ul
+{list-style-type:none;
+margin:0}
+
+#main .cat-children ul dl dt,
+#main .cat-children ul dl dd
+
+{ display:inline}
+
+#main .cat-children ul
+{list-style-type:none;
+ margin:0;
+ padding:0;
+}
+ #main .cat-children ul
+ {margin:20px 20px 20px 0;}
+  #main .cat-children ul ul
+  {margin:20px}
+
+  #main .cat-children ul li
+  {margin:10px 0 10px 0}

@@ -351,10 +351,7 @@ alldivs.each(function(element){
 	$(element).setProperty('aria-expanded','false');
 
 
-
-
 })
-
 
 $(el).addClass('tabopen').removeClass('tabclosed');
 $(el).setProperty('aria-hidden','false');
@@ -362,11 +359,36 @@ $(el).setProperty('aria-expanded','true');
 $(el).focus();
 getid=el.split('_');
 activelink='link_'+getid[1];
-
 $(activelink).setProperty('aria-selected','true');
-
 $(liste).getElements('a').addClass('linkclosed').removeClass('linkopen');
 $(activelink).addClass('linkopen').removeClass('linkclosed');
+
+
+}
+
+function nexttab(el)
+{   outerdiv=$(el).getParent();
+	liste=$(outerdiv).getElement('ul.tabs');
+	getid=el.split('_');
+	activelink='link_'+getid[1];
+	aktiverlink=$(activelink).getProperty('aria-selected');
+	tablinks=$(liste).getElements('a').getProperty('id');
+    for(var i=0;i < tablinks.length;i++)
+	{
+	if (tablinks[i]== activelink)
+	{
+       if($(tablinks[i+1])!=null)
+	   {
+
+		$(tablinks[i+1]).onclick();
+		break;
+		}
+
+
+
+		  	}
+
+	}
 
 }
 

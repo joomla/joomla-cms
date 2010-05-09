@@ -9,10 +9,11 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$app = JFactory::getApplication();
-$params = new JParameter($app->getTemplate(true)->params);
 
-if(!$params->get('html5', 0))
+$app = JFactory::getApplication();
+$templateparams = $app->getTemplate(true)->params;
+
+if(!$templateparams->get('html5', 0))
 {
 	require(JPATH_BASE.'/components/com_content/views/archive/tmpl/default.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -35,7 +36,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<fieldset class="filters">
 	<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<div class="filter-search">
-		<?php if ($this->params->get('filter')) : ?>
+		<?php if ($this->params->get('filter_field') != 'hide') : ?>
 		<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&nbsp;'; ?></label>
 		<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
 		<?php endif; ?>

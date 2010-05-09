@@ -33,11 +33,15 @@
         margin-right:20px;
 }
 
-#header ul
+
+#header ul.skiplinks li a
 {
-	padding:10px 0 10px 0 ;
-	margin:0
+
+background:#cc0000;
+border:0px solid #000
+
 }
+
 
 #contentarea,
 #contentarea2
@@ -66,7 +70,7 @@
 
 .left
 {
-            margin:0px 0px 10px 18px;
+            margin:10px 0px 10px 18px;
 
 }
 
@@ -126,3 +130,6 @@ ul.tabs
 	overflow:hidden !important;
 	width:90%
 }
+
+#main h1
+{ zoom:1}

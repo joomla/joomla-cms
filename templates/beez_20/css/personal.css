@@ -89,32 +89,43 @@ fieldset
 {
         color:#fff
 }
-
+#header
+{padding-top:2.8em !important;}
 .logoheader
 {
-        border:solid 0px #e5e5e5;
-        background:#171818 URL(../images/personal/personal2.png) no-repeat top left  ;
+
+        background:  #171818   /* URL(../images/personal/personal2.png) no-repeat top left  */;
         color:#fff;
-        min-height:180px;
-        margin:10px 10px 0 10px
+        min-height:159px;
+        margin:0em 10px 0 10px;
+
 }
 
 *html .logoheader
 {
-	height:190px;
+
+ height:168px;
+
+
+
 }
 
 h1#logo
 {
    font-family: 'Titillium Maps',  Arial;
-   padding:1.3em 20px 20px 10px;
+   padding:1em 20px 20px 10px;
    text-transform:uppercase;
    font-weight:normal;
+   margin-top:0;
+
+
+
 }
 
 h1#logo span
-{
+{   margin-top:10px;
 	text-transform:none;
+
 
 }
 
@@ -129,19 +140,24 @@ h1#logo span
 {
         background:#fff;
 
+
 }
 
 /* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
 #header ul
 {
-        background:#fff;
-        border-bottom:solid 0px #ccc
+        width:600px;
+
+
+
 }
 
-#header ul li
+
+#header ul
 {
+max-width:1030px;
+right:10px}
 
-}
 
 #header ul li a:link,
 #header ul li a:visited
@@ -382,8 +398,30 @@ h3.js_heading a:focus
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
+#nav .moduletable-example ul.menu
+{
+        background:#fff;
+        border:0;
+}
 
-#nav ul li
+ul.menu
+{
+        border:0;
+        background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
+        border:solid 0px #eee;
+}
+
+.module_content ul.menu
+{
+        border:0;
+}
+
+ul.menu li
+{
+        border-bottom:solid 1px #ddd;
+}
+
+ul.menu li a
 {
 
 }
@@ -391,133 +429,111 @@ h3.js_heading a:focus
 ul.menu li a:link,
 ul.menu li a:visited
 {
-        background:url(../images/nature/karo.gif) 5px 12px no-repeat;
-        border-bottom:solid 1px #ddd;
-        color:#222;
-        padding-right:10px
-}
-
-ul.menu li a:hover,
-ul.menu li a:active,
-ul.menu li a:focus
-{
-        background:#990000;
-        color:#fff ;
+        color:#444;
+        background:url(../images/nature/karo.gif) 5px 12px no-repeat
 }
 
 ul.menu li.active a:link,
 ul.menu li.active a:visited
 {
-        color:#990000;
-        border-top:solid 0px #ccc;
+        color:#444;
 }
 
+ul.menu li a:hover,
+ul.menu li a:active,
+ul.menu li a:focus,
 ul.menu li.active a:hover,
 ul.menu li.active a:active,
 ul.menu li.active a:focus
 {
+        background:#990000 ;
         color:#fff;
-        background:#990000
 }
+
 
 /* ++++++++++++++  second level  ++++++++++++++ */
 
 ul.menu li ul
 {
-        border-bottom:solid 0px #ccc;
-        background:#eee;
+        border:solid 0px #eee;
 }
 
-ul.menu li ul li
+ ul.menu li ul li
 {
-        border:solid 0px #fff;
+        border:solid 0px #000;
+        background:#fff;
 }
 
-ul.menu li.active ul li a:link,
-ul.menu li.active ul li a:visited
+ ul.menu li.active ul li a:link,
+ ul.menu li.active ul li a:visited
 {
-        background:#eee  !important;
-        color:#222;
-        border:0
+        color:#000;
+        border:0;
+        border-bottom:solid 1px #fff;
+        background:#e8e8e8;
 }
 
-ul.menu li.active ul li a:hover,
-ul.menu li.active ul li a:active,
-ul.menu li.active ul li a:focus
+ ul.menu li.active ul li.active a:link,
+ ul.menu li.active ul li.active a:visited
+{
+        border:0;
+        color:#333;
+        border-bottom:solid 1px #fff;
+}
+
+ ul.menu li.active ul li a:hover,
+ ul.menu li.active ul li a:active,
+ ul.menu li.active ul li a:focus
 {
         background:#990000 !important;
-        color:#fff;
+        color:#fff !important;
 }
 
-ul.menu li.active ul li.active a:link,
-ul.menu li.active ul li.active a:visited
-{
-
-}
-
-ul.menu li.active ul li.active a:hover,
-ul.menu li.active ul li.active a:active,
-ul.menu li.active ul li.active a:focus
-{
-        background:#990000;
-        color:#fff;
-}
 
 /* ++++++++++++++  third level  ++++++++++++++ */
 
-ul.menu li.active ul li.active ul
+ul.menu li ul li ul
 {
-        border-bottom:solid 1px #fff;
-        background:#f5f5f5;
-        border-top:solid 1px #fff;
+        border:0 !important;
+        background:#f5f5f5 !important;
 }
 
 ul.menu li.active ul li.active ul li a:link,
 ul.menu li.active ul li.active ul li a:visited
 {
-        background:#f5f5f5 !important ;
+        background:#f5f5f5 ;
+        border-bottom:solid 1px #fff;
+        color:#444
 }
 
-ul.menu li ul li ul li a:hover,
-ul.menu li ul li ul li a:active,
-ul.menu li ul li ul li a:focus
+ul.menu li.active ul li.active ul li.active a:link,
+ul.menu li.active ul li.active ul li.active a:visited
 {
-        background:#990000 !important ;
-        color:#fff
+        color:#333;
 }
 
-ul.menu li.active ul li.active ul li a:hover,
-ul.menu li.active ul li.active ul li a:active,
-ul.menu li.active ul li.active ul li a:focus
-{
-        background:#990000 !important ;
-        color:#fff
-}
 
-ul.menu li ul li ul li.active a:hover,
-ul.menu li ul li ul li.active a:active,
-ul.menu li ul li ul li.active a:focus
-{
-        color:#fff;
-        background:#990000
-}
-
-ul.menu li.active ul li.active ul li.active a:hover,
-ul.menu li.active ul li.active ul li.active a:active,
-ul.menu li.active ul li.active ul li.active a:focus
-{
-        color:#fff;
-        background:#990000
-}
 
 /* ++++++++++++++  fourth level  ++++++++++++++ */
 
-#nav ul li ul li ul li ul
+ul.menu li ul li ul li ul
 {
-        border:solid 0px #000
+        border:solid 1px #eee !important;
+		padding-top:10px !important;
+		padding-bottom:10px !important;
+		background:#fff url(../images/nature/level4.png) repeat-x !important;
 }
 
 
+ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li a:visited
+{font-weight:normal; padding: 3px 2px 3px 40px; font-size:0.9em;
+background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px; color:#444}
+
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
+{font-weight:bold}
 /* ##########################  content - main   ########################### */
 
 
@@ -590,12 +606,14 @@ ul#archive-items li
 
 .image-left
 {
-        border:solid 0 #ccc;
+         border:solid 1px #ddd;
+		padding:2px
 }
 
 .image-right
 {
-        border:solid 1px #ccc;
+        border:solid 1px #ddd;
+		padding:2px
 }
 
 /* ++++++++++++++  leading  ++++++++++++++ */

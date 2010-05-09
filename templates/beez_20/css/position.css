@@ -91,6 +91,7 @@ body
     padding:0px 0px 5px 0px;
     position:relative;
 
+
 }
 
 .unseen
@@ -106,9 +107,9 @@ body
 /* ++++++++++++++  nav after content  ++++++++++++++ */
 .left
 {
-        padding-top:10px;
+        padding-top:0px;
         float:right;
-        margin:0px 0px 10px 0%;
+        margin:10px 0px 10px 0%;
         width: 22%;
         position:relative;
 
@@ -117,9 +118,9 @@ body
 /* ++++++++++++++  nav before content  ++++++++++++++ */
 .left1
 {
-        padding:10px 0 0 0px;
+    padding:0px 0 0 0px;
     float: left;
-    margin:0px 3% 10px 0px;
+    margin:10px 3% 10px 0px;
     width: 21%;
         position:relative
 }

@@ -79,7 +79,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->params = $module->params;
 		$temp->id=$module->id;
 		$modules[] = $temp;
-
+		// list of moduletitles
 		// list of moduletitles
 		echo '<div id="'. $area.'" class="tabouter"><ul class="tabs">';
 
@@ -87,11 +87,17 @@ function modChrome_beezTabs($module, $params, $attribs)
 			echo '<li class="tab"><a href="#" id="link_'.$rendermodule->id.'" class="linkopen" onclick="tabshow(\'module_'. $rendermodule->id.'\');return false">'.$rendermodule->title.'</a></li>';
 		}
 		echo '</ul>';
-
+        $counter=0;
 		// modulecontent
 		foreach($modules as $rendermodule) {
+            $counter ++;
+
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';
-			echo $rendermodule->content;
+            echo $rendermodule->content;
+			if($counter!= count($modules))
+			{
+			echo '<a href="#" class="unseen" onclick="nexttab(\'module_'. $rendermodule->id.'\');return false;" id="next_'.$rendermodule->id.'">'.JText::_('TPL_BEEZ2_NEXTTAB').'</a>';
+			}
 			echo '</div>';
 		}
 		$modulecount--;

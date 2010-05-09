@@ -15,7 +15,8 @@ JHtml::_('behavior.tooltip');
 JHtml::core();
 
 $n = count($this->items);
-
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -26,7 +27,7 @@ $n = count($this->items);
 	<fieldset class="filters">
 	<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
-			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('Content_'.$this->params->get('filter_field').'_Filter_Label').'&nbsp;'; ?></label>
+			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&nbsp;'; ?></label>
 			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 	<?php endif; ?>
@@ -42,29 +43,29 @@ $n = count($this->items);
 	</fieldset>
 	<?php endif; ?>
 
-<table class="category" border="1">
+<table class="category">
 	<?php if ($this->params->get('show_headings')) :?>
 	<thead><tr>
 
 	<?php //echo $this->params->get('list_show_title'); ?>
 		<?php if ($this->params->get('list_show_title',1)) : ?>
 		<th class="list-title" id="tableOrdering">
-			<?php  echo JHTML::_('grid.sort', 'Content_Heading_Title', 'a.title', $this->state->get('list.direction'), $this->state->get('list.ordering')) ; ?>
+			<?php  echo JHTML::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
 		</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_date',1)) : ?>
 			<th class="list-date" id="tableOrdering2">
-				<?php echo JHTML::_('grid.sort', 'Content_'.$this->params->get('show_date').'_Date', 'a.created', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'COM_CONTENT_'.$this->params->get('show_date').'_DATE', 'a.created', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_author',1)) : ?>
 			<th class="list-author" id="tableOrdering3">
-				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 		<?php if ($this->params->get('list_show_hits',1)) : ?>
 			<th class="list-hits" id="tableOrdering4">
-				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 			</th>
 		<?php endif; ?>
 	</tr></thead>
@@ -110,7 +111,7 @@ $n = count($this->items);
 						$fullURL->setVar('return', base64_encode($returnURL));
 					?>
 					<a href="<?php echo $fullURL; ?>" class="register">
-					<?php echo JText::_( 'Register to read more...' ); ?></a>
+					<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
 				</td>
 				<?php endif; ?>
 			</tr>
@@ -137,7 +138,3 @@ $n = count($this->items);
 	<input type="hidden" name="limitstart" value="" />
 </form>
 <?php endif; ?>
-
-
-
-

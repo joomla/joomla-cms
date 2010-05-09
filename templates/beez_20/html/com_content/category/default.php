@@ -24,14 +24,15 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <section class="category-list <?php echo $pageClass;?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
-<?php if ($this->params->get('show_page_heading', 1) AND ($this->params->get('show_category_title', 1) OR $this->params->get('page_subheading'))) : ?>
+<?php if ($this->params->get('show_page_heading', 1) AND ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))) : ?>
 <hgroup>
 <?php endif; ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('show_category_title', 1) OR $this->params->get('page_subheading')) : ?>
+
+<?php if($this->params->get('show_category_title') OR $this->params->get('page_subheading')) : ?>
 <h2>
 	<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -60,10 +61,20 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 
 	<?php if (is_array($this->children) && count($this->children) > 0 && $this->params->get('maxLevel') !=0)  : ?>
-		<div class="jcat-children">
-		<h3>
+		<div class="cat-children">
+
+	 <?php if($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
+	 {  echo '<h3>' ;}
+	 else
+
+	{echo '<h2>' ;} ?>
+
 <?php echo JTEXT::_('COM_CONTENT_CHILDREN'); ?>
-</h3>
+ <?php if($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
+	 {  echo '</h3>' ;}
+	 else
+
+	{echo '</h2>' ;} ?>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 	<?php endif; ?>

@@ -34,7 +34,7 @@ if (count($this->children[$this->category->id]) > 0) :
 	?>
 	<li<?php echo $class; ?>>
 		<?php $class = ''; ?>
-			<span class="jitem-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
+			<span class="item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
 			</span>
 			<?php if ($child->description) : ?>
@@ -44,13 +44,15 @@ if (count($this->children[$this->category->id]) > 0) :
 
 			<?php endif; ?>
 
-              <?php if ( $this->params->get('show_cat_num_articles',1)) : ?>
+              <?php if ($child->getNumItems()==true) : ?>
               <dl>
               <dt> <?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>
               </dt>
               <dd>
+
 			<?php echo $child->getNumItems(true); ?>
 			</dd>
+			</dl>
 			<?endif ; ?>
 			<?php if(count($child->getChildren()) > 0 ) :
 				$this->children[$child->id] = $child->getChildren();

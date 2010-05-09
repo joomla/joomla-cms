@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-May-2010 Hannes Papenberg
+# Some fixes to beez 2.0 - Thanks Angie Radtke
+
 09-May-2010 Christophe Demko
  ^ Adding login position in administrator templates
  ^ Fix #17020

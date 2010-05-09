@@ -57,7 +57,7 @@
 					label="TPL_BEEZ2_FIELD_WRAPPERLARGE_LABEL"
 					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC" />
 
-				<field name="logo" type="imagelist" directory="/images"
+				<field name="logo" type="ImageList" directory="/images"
 					hide_default="1" default=""
 					label="TPL_BEEZ2_FIELD_LOGO_LABEL" description="TPL_BEEZ2_FIELD_LOGO_DESC" />
 
