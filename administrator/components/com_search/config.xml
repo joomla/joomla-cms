@@ -5,8 +5,8 @@
 			name="enabled"
 			type="radio"
 			default="0"
-			label="COM_SEARCH_CONFIG_FIELD_STATISTICS_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_STATISTICS_DESC">
+			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC">
 			<option
 				value="0">JNO</option>
 			<option
@@ -17,8 +17,8 @@
 			name="show_date"
 			type="radio"
 			default="1"
-			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
-			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">
+			label="COM_SEARCH_CONFIG_SHOW_CREATED_DATE_LABEL"
+			description="COM_SEARCH_CONFIG_SHOW_CREATED_DATE_DESC">
 			<option
 				value="0">JHIDE</option>
 			<option
