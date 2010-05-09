@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 09-May-2010 Christophe Demko
+ ^ Adding login position in administrator templates
  ^ Fix #17020
 
 09-May-2010 Jean-Marie Simonet

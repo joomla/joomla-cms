@@ -37,6 +37,7 @@
 		<position>icon</position>
 		<position>cp_shell</position>
 		<position>cpanel</position>
+		<position>login</position>
 		<position>debug</position>
 	</positions>
 	<config>
