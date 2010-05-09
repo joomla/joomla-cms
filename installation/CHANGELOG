@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-May-2010 Christophe Demko
+ ^ Fix #17020
+
 09-May-2010 Jean-Marie Simonet
 $ Correcting some strings
 $ Consolidated some strings
