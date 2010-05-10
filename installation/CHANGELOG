@@ -41,6 +41,7 @@ $ Adding missing string
 + New icons
 
 10-May-2010 Christophe Demko
+ + Reinsert mod_languages and plg_systemlanguage filter extension
  # Fix [#20388] • Superuser admin/password not recognized when in offline.php
  # Fix bug in libraries/joomla/form/fields/imagelist.php
  ^ Change slightly the manage view on hathor template
