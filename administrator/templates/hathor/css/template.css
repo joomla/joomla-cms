@@ -1309,6 +1309,10 @@ th.date-col {
 	width: 5%;
 }
 
+th.language-col {
+	width: 5%;
+}
+
 /**
  * Adminlist Table layout
  */
