@@ -38,6 +38,7 @@
 			name="text"
 			type="editor"
 			buttons="true"
+			hide="false"
 			label="Content_Text_Label"
 			description="Content_Text_Desc"
 			class="inputbox"
