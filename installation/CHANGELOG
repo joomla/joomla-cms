@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+09-May-2010 Ron Severdia
+# BlueStork UI fixes
+# CSS cleanup
+# Language fixes
++ New icons
+
 09-May-2010 Christophe Demko
  + Add language filter on some hathor views
 
