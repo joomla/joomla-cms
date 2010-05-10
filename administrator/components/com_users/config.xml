@@ -5,7 +5,7 @@
 			name="allowUserRegistration"
 			type="radio"
 			default="1"
-			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
+			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
 			<option
 				value="0">JNO</option>
@@ -23,14 +23,16 @@
 
 		<field
 			name="useractivation"
-			type="radio"
+			type="list"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
 			<option
-				value="0">JNO</option>
+				value="0">JNONE</option>
 			<option
-				value="1">JYES</option>
+				value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
+			<option
+				value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
 		</field>
 
 		<field
