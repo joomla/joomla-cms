@@ -27,6 +27,8 @@
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_redirect.ini
 			</language>
+			<language tag="en-GB">language/en-GB.com_redirect.sys.ini
+			</language>
 		</languages>
 	</administration>
 </extension>
