@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
 jimport('joomla.form.helper');
-JFormHelper::loadFieldClass('list');
+JFormHelper::loadFieldClass('filelist');
 
 /**
  * Supports an HTML select list of image
