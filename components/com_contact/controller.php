@@ -85,8 +85,7 @@ class ContactController extends JController
 		$model		= &$this->getModel('contact');
 
 		// query options
-		$qOptions['id']	= $contactId;
-		$contact		= $model->getContact($qOptions);
+		$contact		= $model->getItem($contactId);
 
 		if ($contact->email_to == '' && $contact->user_id != 0)
 		{
@@ -137,7 +136,7 @@ class ContactController extends JController
 			$FromName	= $app->getCfg('fromname');
 
 			// Prepare email body
-			$prefix = JText::sprintf('ENQUIRY_TEXT', JURI::base());
+			$prefix = JText::sprintf('CONTACT_ENQUIRY_TEXT', JURI::base());
 			$body	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 			$mail = JFactory::getMailer();
