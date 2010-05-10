@@ -204,7 +204,10 @@ final class JSite extends JApplication
 				$template	= $this->getTemplate(true);
 				$file		= JRequest::getCmd('tmpl', 'index');
 
-				if ($this->getCfg('offline') && $user->get('gid') < '23') {
+				if ($this->getCfg('offline') && !$user->authorise('core.admin')) {
+					$uri		= JFactory::getURI();
+					$return		= (string)$uri;
+					$this->setUserState('users.login.form.data',array( 'return' => $return ) );
 					$file = 'offline';
 				}
 				if (!is_dir(JPATH_THEMES.DS.$template->template) && !$this->getCfg('offline')) {

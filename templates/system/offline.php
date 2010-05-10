@@ -40,7 +40,7 @@ $app = &JFactory::getApplication();
 		</p>
 		<p id="form-login-password">
 			<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
-			<input type="password" name="passwd" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" id="passwd" />
+			<input type="password" name="password" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" id="passwd" />
 		</p>
 		<p id="form-login-remember">
 			<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME') ?></label>
