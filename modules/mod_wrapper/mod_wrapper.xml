@@ -47,22 +47,17 @@
 						value="1">JYES</option>
 				</field>
 				<field
-					name="spacer1"
-					type="spacer"
-					hr="true"
-					/>
-				<field
 					name="scrolling"
-					type="radio"
+					type="list"
 					default="auto"
 					label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
 					description="MOD_WRAPPER_FIELD_SCROLL_DESC">
 					<option
+						value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
+					<option
 						value="no">JNO</option>
 					<option
 						value="yes">JYES</option>
-					<option
-						value="auto">MOD_WRAPPER_FIELD_VALUE_AUTO</option>
 				</field>
 				<field
 					name="width"
@@ -89,11 +84,7 @@
 					<option
 						value="1">JYES</option>
 				</field>
-				<field
-					name="spacer2"
-					type="spacer"
-					hr="true"
-					/>
+				
 				<field
 					name="target"
 					type="text"

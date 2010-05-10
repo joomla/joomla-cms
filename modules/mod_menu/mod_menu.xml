@@ -47,12 +47,6 @@
 					description="MOD_MENU_FIELD_ENDLEVEL_DESC" />
 
 				<field
-					name="spacer1"
-					type="spacer"
-					hr="true"
-					/>
-
-				<field
 					name="showAllChildren"
 					type="radio"
 					default="0"
@@ -87,13 +81,7 @@
 					default=""
 					label="MOD_MENU_FIELD_TARGET_LABEL"
 					description="MOD_MENU_FIELD_TARGET_DESC" />
-
-				<field
-					name="spacer2"
-					type="spacer"
-					hr="true"
-					/>
-
+					
 				<field
 					name="layout"
 					type="modulelayout"

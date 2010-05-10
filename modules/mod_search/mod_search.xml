@@ -41,11 +41,6 @@
 					label="MOD_SEARCH_FIELD_TEXT_LABEL"
 					description="MOD_SEARCH_FIELD_TEXT_DESC" />
 				<field
-					name="spacer1"
-					type="spacer"
-					hr="true"
-					/>
-				<field
 					name="button"
 					type="radio"
 					default=""
@@ -88,11 +83,6 @@
 					default=""
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
-				<field
-					name="spacer2"
-					type="spacer"
-					hr="true"
-					/>
 				<field
 					name="set_itemid"
 					type="text"

@@ -33,7 +33,7 @@ body {
 }
 
 body,td,th {
-	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 html,body {
@@ -898,12 +898,24 @@ input#jform_extension {
 }
 
 input.readonly {
-	font-size: 1em;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.091em;;
 	padding-top: 1px;
 	border: 0;
 	font-weight: bold;
-	background-color: #F7F7F7;
+	color: #666;
 }
+
+#jform_id,
+span.readonly {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.091em;;
+	margin:5px 5px 5px 0;
+	font-weight: bold;
+	display:block;
+	color: #666;
+}
+.mod-desc { margin-left: 140px !important;}
 
 input.required {
 	background-color: #d5eeff;
@@ -918,6 +930,19 @@ input.readonly {
 	background-color: #ffffff;
 }
 
+#jform_params_width,
+#jform_params_height,
+#jform_params_increase,
+#jform_params_shownumber,
+#jform_params_count {
+	width: 50px;
+}
+
+#jform_id { 
+	width: 50px;
+	background-color:#FFFFFF;
+	border: 0 none;
+}
 
 input#jform_title,
 input#jform_leveltitle,
@@ -986,13 +1011,16 @@ fieldset.adminform.long label {
 
 fieldset.adminform.long input {
 
-
 }
 
+
+	
 div#menu-assignment {
 	height: 300px;
 	overflow: auto;
 	clear:left;
+	border: 1px solid #CCCCCC;
+	padding: 0 17px;
 }
 div#menu-assignment input,
 div#menu-assignment h3 {
@@ -1001,11 +1029,13 @@ div#menu-assignment h3 {
 	margin-bottom: 0;
 }
 div#menu-assignment h3 {
-	padding-top: 15px;
 	border-bottom: 1px solid #CCCCCC;
 	width: 90%;
 }
 
+button.jform-rightbtn {float:right;margin-right: 0;}
+	
+	
 /* Field label widths- short label */
 fieldset.adminform label {
 	clear: left;

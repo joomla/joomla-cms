@@ -32,7 +32,7 @@
 			size="20"
 		/>
 
-		<field name="showtitle" type="list"
+		<field name="showtitle" type="radio"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"

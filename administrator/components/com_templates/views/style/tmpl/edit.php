@@ -28,14 +28,13 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('JOPTION_REQUIRED');?>	</legend>
-
-
-			<?php echo $this->form->getLabel('template'); ?>
-			<?php echo $this->form->getInput('template'); ?>
-
+			<legend><?php echo JText::_('JDETAILS');?></legend>
+			
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
+			
+			<?php echo $this->form->getLabel('template'); ?>
+			<?php echo $this->form->getInput('template'); ?>
 
 			<?php echo $this->form->getLabel('client_id'); ?>
 			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />

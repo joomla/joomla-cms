@@ -44,12 +44,6 @@
 				</field>
 
 				<field
-					name="spacer1"
-					type="spacer"
-					hr="true"
-					/>
-
-				<field
 					name="count"
 					type="text"
 					default="1"
@@ -93,12 +87,6 @@
 					<option
 						value="random">MOD_BANNERS_VALUE_STICKYRANDOMISE</option>
 				</field>
-
-				<field
-					name="spacer2"
-					type="spacer"
-					hr="true"
-					/>
 
 				<field
 					name="header_text"

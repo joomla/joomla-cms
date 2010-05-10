@@ -43,7 +43,7 @@
 				</field>
 				<field
 					name="linknames"
-					type="list"
+					type="radio"
 					default="0"
 					label="MOD_WHOSONLINE_FIELD_LINK_LABEL"
 					description="MOD_WHOSONLINE_FIELD_LINK_DESC">

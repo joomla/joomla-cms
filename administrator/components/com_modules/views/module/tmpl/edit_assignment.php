@@ -27,12 +27,10 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('COM_MODULES_MENU_SELECTION'); ?>:</label>
 
-				<div class="clr"></div>
-
-				<button type="button" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
+				<button type="button" class="jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
 					<?php echo JText::_('COM_MODULES_MENU_SELECTION_INVERT'); ?>
 				</button>
-
+				<div class="clr"></div>
 				<div id="menu-assignment">
 
 				<?php foreach ($menuTypes as &$type) : ?>
