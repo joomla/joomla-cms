@@ -15,6 +15,8 @@ defined('_JEXEC') or die;
 <fieldset id="filter-bar">
 	<div class="filter-search fltlft">
 		<?php foreach($this->form->getFieldSet('search') as $field): ?>
+			<?php /* remove "onchange" action for accessibility reasons*/?>
+			<?php $this->form->setFieldAttribute($field->fieldname, 'onchange', '', 'filters');?>
 			<?php if (!$field->hidden): ?>
 				<?php echo $field->label; ?>
 			<?php endif; ?>
@@ -23,15 +25,12 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="filter-select fltrt">
 		<?php foreach($this->form->getFieldSet('select') as $field): ?>
+			<?php /* remove "onchange" action for accessibility reasons*/?>
+			<?php $this->form->setFieldAttribute($field->fieldname, 'onchange', '', 'filters');?>
 			<?php if (!$field->hidden): ?>
 				<?php echo $field->label; ?>
 			<?php endif; ?>
-			<?php
-			/* remove "onchange" action for accessibility reasons*/
-				$accinput=$field->input;
-				$accinput = preg_replace('/onchange="this.form.submit\(\);"/', '', $accinput);
-				?>
-			<?php echo $accinput; ?>
+			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 		<button type="button" id="filter-go" onclick="this.form.submit();">
 				<?php echo JText::_('GO'); ?></button>

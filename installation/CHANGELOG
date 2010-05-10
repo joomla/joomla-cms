@@ -36,7 +36,8 @@ $ -> Language fix or change
 # Language fixes
 + New icons
 
-09-May-2010 Christophe Demko
+10-May-2010 Christophe Demko
+ ^ Change slightly the manage view on hathor template
  + Add language filter on some hathor views
 
 09-May-2010 Hannes Papenberg
