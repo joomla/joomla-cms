@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
 $user	= &JFactory::getUser();
@@ -63,6 +63,9 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
+				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
@@ -105,6 +108,9 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
+				<td class="center">
+					<?php echo JHtml::_('menuitem.home', $item->home, $i, ($item->language != '*' || !$item->home));?>
+				</td>
 				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 
 					<?php if ($item->checked_out) : ?>
@@ -112,10 +118,6 @@ $listDirn	= $this->state->get('list.direction');
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
-
-					<?php if ($item->home == 1) : ?>
-						<span><?php echo JHTML::_('image','menu/icon-16-default.png', JText::_('JDEFAULT'), array( 'title' => JText::_('JDEFAULT')), true); ?></span>
-					<?php endif; ?>
 
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 								(<?php echo '<span>'.JText::_('JFIELD_ALIAS_LABEL') . ':</span> ' . $this->escape($item->alias) ;?>)</p>
@@ -133,7 +135,7 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<td class="center nowrap">
+				<td class="nowrap">
 					<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 						<?php echo $this->escape($item->item_type); ?></span>
 				</td>

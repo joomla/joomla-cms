@@ -839,4 +839,37 @@ class MenusModelItem extends JModelAdmin
 
 		return true;
 	}
+	/**
+	 * Method to change the home state of one or more items.
+	 *
+	 * @param	array	A list of the primary keys to change.
+	 * @param	int		The value of the home state.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	function setHome(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$table		= $this->getTable();
+		$pks		= (array) $pks;
+
+		$languages = array();
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
+				$table->home = $value;
+				if (!array_key_exists($table->language,$languages)) {
+					$languages[$table->language] = true;
+					if (!$table->store()) {
+						$this->setError($table->getError());
+						return false;
+					}
+				}
+				else {
+					unset($pks[$i]);
+				}
+			}
+		}
+
+		return true;
+	}
 }

@@ -18,6 +18,12 @@ jimport( 'joomla.application.component.controlleradmin' );
  */
 class MenusControllerItems extends JControllerAdmin
 {
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$this->registerTask('unsetHome',	'setHome');
+	}
+
 	/**
 	 * Proxy for getModel
 	 * @since	1.6
@@ -52,5 +58,53 @@ class MenusControllerItems extends JControllerAdmin
 			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'));
 			return false;
 		}
+	}
+	/**
+	 * Method to set the home property for a list of items
+	 *
+	 * @since	1.6
+	 */
+	function setHome()
+	{
+		// Check for request forgeries
+		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+
+		$user		= JFactory::getUser();
+
+		if (!$user->authorise('core.edit', $this->option))  {
+			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+			return JError::raiseWarning(403, 'JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED');
+		}
+
+		// Get items to publish from the request.
+		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$data	= array('setHome' => 1, 'unsetHome' => 0);
+		$task 	= $this->getTask();
+		$value	= JArrayHelper::getValue($data, $task, 0, 'int');
+
+		if (empty($cid)) {
+			JError::raiseWarning(500, JText::_($this->text_prefix.'_NO_ITEM_SELECTED'));
+		} else {
+			// Get the model.
+			$model = $this->getModel();
+
+			// Make sure the item ids are integers
+			JArrayHelper::toInteger($cid);
+
+			// Publish the items.
+			if (!$model->setHome($cid, $value)) {
+				JError::raiseWarning(500, $model->getError());
+			} else {
+				if ($value == 1) {
+					$ntext = 'COM_MENUS_ITEMS_SET_HOME';
+				}
+				else {
+					$ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
+				}
+				$this->setMessage(JText::plural($ntext, count($cid)));
+			}
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 	}
 }
