@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id: jgrid.php 16910 2010-05-08 05:56:05Z infograf768 $
+ * @version		$Id$
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
