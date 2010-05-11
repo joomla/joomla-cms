@@ -290,7 +290,8 @@ class ModulesModelModule extends JModelAdmin
 					$table->module		= $extension->element;
 					$table->client_id	= $extension->client_id;
 				} else {
-					$this->setError('COM_MODULES_ERROR_CANNOT_GET_MODULE');
+					$app = JFactory::getApplication();
+					$app->redirect(JRoute::_('index.php?option=com_modules&view=modules',false));
 					return false;
 				}
 			}
