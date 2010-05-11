@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 11-May-2010 Christophe Demko
+ + Add default mini buttons on styles view
  # Fix buttons option for editor form field
  # Fix [#20217] For plugins
  # Fix [#20217] Edit Module +Session Timeout and Re-Login Error

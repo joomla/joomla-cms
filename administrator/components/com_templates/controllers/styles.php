@@ -81,7 +81,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	public function sethome()
+	public function setDefault()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

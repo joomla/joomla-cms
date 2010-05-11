@@ -130,7 +130,7 @@ class MenusViewItems extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 
-		JToolBarHelper::makeDefault('items.setHome', 'COM_MENUS_TOOLBAR_SET_HOME');
+		JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 
 		JToolBarHelper::divider();
 

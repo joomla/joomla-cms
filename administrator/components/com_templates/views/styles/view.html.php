@@ -57,7 +57,7 @@ class TemplatesViewStyles extends JView
 			JToolBarHelper::editList('style.edit','JTOOLBAR_EDIT');
 		}
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('styles.sethome', 'default.png', 'default_f2.png', 'COM_TEMPLATES_TOOLBAR_SET_HOME', true);
+			JToolBarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
 		}
 		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 		if ($canDo->get('core.create') && $isSite) {

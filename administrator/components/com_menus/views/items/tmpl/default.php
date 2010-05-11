@@ -63,9 +63,6 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="20">
 					<input type="checkbox" name="toggle" value="" onclick="checkAll(this)" />
 				</th>
-				<th width="5%">
-					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
-				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
@@ -81,6 +78,9 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th width="10%">
 					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
+				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -103,13 +103,11 @@ $listDirn	= $this->state->get('list.direction');
 		foreach ($this->items as $i => $item) :
 			$ordering = ($listOrder == 'a.lft');
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
+			$canChange	= $user->authorise('core.edit.state',	'com_menus');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('menuitem.home', $item->home, $i, ($item->language != '*' || !$item->home));?>
 				</td>
 				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 
@@ -138,6 +136,9 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="nowrap">
 					<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 						<?php echo $this->escape($item->item_type); ?></span>
+				</td>
+				<td class="center">
+					<?php echo JHtml::_('jgrid.makedefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 				</td>
 				<td class="center">
 					<?php if ($item->language==''):?>

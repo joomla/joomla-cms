@@ -21,7 +21,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		$this->registerTask('unsetHome',	'setHome');
+		$this->registerTask('unsetDefault',	'setDefault');
 	}
 
 	/**
@@ -64,14 +64,14 @@ class MenusControllerItems extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function setHome()
+	function setDefault()
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
-		$data	= array('setHome' => 1, 'unsetHome' => 0);
+		$data	= array('setDefault' => 1, 'unsetDefault' => 0);
 		$task 	= $this->getTask();
 		$value	= JArrayHelper::getValue($data, $task, 0, 'int');
 

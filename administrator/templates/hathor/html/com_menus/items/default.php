@@ -84,9 +84,6 @@ $listDirn	= $this->state->get('list.direction');
 				<th class="checkmark-col">
 					<input type="checkbox" name="toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(this)" />
 				</th>
-				<th class="home-col">
-					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
-				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
@@ -102,6 +99,9 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th width="10%">
 					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
+				</th>
+				<th class="home-col">
+					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
 				<th class="language-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -119,13 +119,11 @@ $listDirn	= $this->state->get('list.direction');
 			// $lang->load($item->componentname, JPATH_ADMINISTRATOR);
 			$ordering = ($listOrder == 'a.lft');
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
+			$canChange	= $user->authorise('core.edit.state',	'com_menus');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('menuitem.home', $item->home, $i, ($item->language != '*' || !$item->home));?>
 				</td>
 				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 
@@ -153,6 +151,9 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="nowrap">
 					<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 						<?php echo $this->escape($item->item_type); ?></span>
+				</td>
+				<td class="center">
+					<?php echo JHtml::_('jgrid.makedefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 				</td>
 				<td class="center">
 					<?php if ($item->language==''):?>

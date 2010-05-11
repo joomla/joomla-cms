@@ -40,6 +40,29 @@ abstract class JHtmlJGrid
 	}
 
 	/**
+	 * @param	int $value	The state value.
+	 * @param	int $i
+	 * @param	string		An optional prefix for the task.
+	 * @param	boolean		An optional setting for access control on the action.
+	 */
+	public static function makedefault($value = 0, $i, $taskPrefix = '', $canChange = true)
+	{
+		// Array of image, task, title, action
+		$states	= array(
+			1	=> array('icon-16-default.png',	$taskPrefix.'unsetDefault',	'JDEFAULT', 'JLIB_HTML_SETDEFAULT_ITEM'),
+			0	=> array('icon-16-default-grayed.png', $taskPrefix.'setDefault', '',	'JLIB_HTML_UNSETDEFAULT_ITEM'),
+		);
+		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$html	= JHTML::_('image','menu/'.$state[0], JText::_($state[2]), NULL, true);
+		if ($canChange) {
+			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
+					. $html.'</a>';
+		}
+
+		return $html;
+	}
+
+	/**
 	 * Returns an array of standard published state filter options.
 	 *
 	 * @param	array			An array of configuration options.
