@@ -32,7 +32,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-			<input type="text" value="<?php echo JText::_($this->item->name);?>" class="readonly" readonly="readonly" size="35" />
+			<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span>
 
 			<?php echo $this->form->getLabel('enabled'); ?>
 			<?php echo $this->form->getInput('enabled'); ?>
@@ -62,7 +62,7 @@ JHtml::_('behavior.formvalidation');
 					<label>
 						<?php echo JText::_('COM_PLUGINS_DESCRIPTION'); ?>
 					</label>
-					<?php echo JText::_($text); ?>
+					<span class="readonly plg-desc"><?php echo JText::_($text); ?></span>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>

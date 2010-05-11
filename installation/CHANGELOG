@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 11-May-2010 Christophe Demko
+ # Fix [#20217] For plugins
  # Fix [#20217] Edit Module +Session Timeout and Re-Login Error
  ^ Enhancing the menu items view
  # Fix [#20260] Menu items list missing the "Set Default" toolbar icon.

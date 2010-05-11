@@ -163,6 +163,10 @@ class PluginsModelPlugin extends JModelAdmin
 		$lang		= JFactory::getLanguage();
 		$client		= JApplicationHelper::getClientInfo(0);
 
+		if (empty($folder) || empty($element)) {
+			$app = JFactory::getApplication();
+			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins',false));
+		}
 		// Try 1.6 format: /plugins/folder/element/element.xml
 		$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'/'.$element.'.xml');
 		if (!file_exists($formFile)) {
