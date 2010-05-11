@@ -6,10 +6,10 @@
  */
 
 /**
- * Utility class for creating HTML Grids
+ * Menus component helper.
  *
- * @package		Joomla.Framework
- * @subpackage	HTML
+ * @package		Joomla.Administrator
+ * @subpackage	com_menus
  * @since		1.6
  */
 abstract class JHtmlMenuItem
@@ -17,7 +17,6 @@ abstract class JHtmlMenuItem
 	/**
 	 * @param	int $value	The state value.
 	 * @param	int $i
-	 * @param	string		An optional prefix for the task.
 	 * @param	boolean		An optional setting for access control on the action.
 	 */
 	public static function home($value = 0, $i, $canChange = true)
