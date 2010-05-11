@@ -163,11 +163,13 @@ final class JSite extends JApplication
 				// Set metadata
 				$document->setMetaData('keywords', $this->getCfg('MetaKeys') . ($languages[$lang_code]->metakey ? (', ' . $languages[$lang_code]->metakey) : ''));
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
-				$document->setBase(JURI::root());
+				if ($router->getMode() == JROUTER_MODE_SEF) {
+					$document->setBase(JURI::current());
+				}
 				break;
 
 			case 'feed':
-				$document->setBase(JURI::root());
+				$document->setBase(JURI::current());
 				break;
 		}
 
