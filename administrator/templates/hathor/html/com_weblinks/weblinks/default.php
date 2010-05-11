@@ -31,7 +31,7 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_access">
-				<?php echo JText::_('Filter_Access'); ?>
+				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" id="filter_access" class="inputbox">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
@@ -39,7 +39,7 @@ $listDirn	= $this->state->get('list.direction');
 			</select>
 
 			<label class="selectlabel" for="filter_published">
-				<?php echo JText::_('Filter_State'); ?>
+				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_published" id="filter_published" class="inputbox">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
@@ -60,6 +60,14 @@ $listDirn	= $this->state->get('list.direction');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
+			<label class="selectlabel" for="filter_language">
+				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
+			</label>
+			<select name="filter_language" id="filter_language" class="inputbox">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+			</select>
+			
 			<button type="button" id="filter-go" onclick="this.form.submit();">
 				<?php echo JText::_('Go'); ?></button>
 

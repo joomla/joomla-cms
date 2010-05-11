@@ -101,10 +101,10 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="center">
 					<?php echo $item->lang_code; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->sef; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->image; ?>
 				</td>
 				<td class="center">

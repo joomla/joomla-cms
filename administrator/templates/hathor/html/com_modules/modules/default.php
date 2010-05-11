@@ -31,7 +31,7 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_client_id">
-				<?php echo JText::_('Filter_Client'); ?>
+				<?php echo JText::_('COM_MODULES_OPTION_SELECT_CLIENT'); ?>
 			</label>
 			<select name="filter_client_id" id="filter_client_id" class="inputbox">
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>

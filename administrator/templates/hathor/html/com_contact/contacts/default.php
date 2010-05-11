@@ -129,29 +129,29 @@ $listDirn	= $this->state->get('list.direction');
 					<p class="smallsub">(<span><?php echo JText::_('COM_CONTACT_CONTACT_VIEW_ALIAS') ?>:</span>
 					<?php echo $this->escape($item->alias);?>)</p>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.');?>
 				</td>
 				<td class="order">
-					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'contacts.orderup', 'JGRID_MOVE_UP', $ordering); ?></span>
-					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'contacts.orderdown', 'JGRID_MOVE_DOWN', $ordering); ?></span>
+					<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'contacts.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+					<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'contacts.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->category_title; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->access_level; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php if ($item->language=='*'):?>
 						<?php echo JText::_('JALL'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JOPTION_UNDEFINED_LANGUAGE'); ?>
 					<?php endif;?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->id; ?>
 				</td>
 			</tr>
