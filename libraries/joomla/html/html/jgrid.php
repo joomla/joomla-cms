@@ -49,8 +49,8 @@ abstract class JHtmlJGrid
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			1	=> array('icon-16-default.png',	$taskPrefix.'unsetDefault',	'JDEFAULT', 'JLIB_HTML_SETDEFAULT_ITEM'),
-			0	=> array('icon-16-default-grayed.png', $taskPrefix.'setDefault', '',	'JLIB_HTML_UNSETDEFAULT_ITEM'),
+			1	=> array('icon-16-default.png',	$taskPrefix.'unsetDefault',	'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM'),
+			0	=> array('icon-16-default-grayed.png', $taskPrefix.'setDefault', '',	'JLIB_HTML_SETDEFAULT_ITEM'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= JHTML::_('image','menu/'.$state[0], JText::_($state[2]), NULL, true);
