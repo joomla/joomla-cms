@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 11-May-2010 Christophe Demko
+ ^ Enhancing the menu items view
  # Fix [#20260] Menu items list missing the "Set Default" toolbar icon.
  # Fix [#20327] Contact fatal error
 

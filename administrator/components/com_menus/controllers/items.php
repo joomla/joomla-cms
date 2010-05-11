@@ -69,13 +69,6 @@ class MenusControllerItems extends JControllerAdmin
 		// Check for request forgeries
 		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		$user		= JFactory::getUser();
-
-		if (!$user->authorise('core.edit', $this->option))  {
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
-			return JError::raiseWarning(403, 'JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED');
-		}
-
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');
 		$data	= array('setHome' => 1, 'unsetHome' => 0);

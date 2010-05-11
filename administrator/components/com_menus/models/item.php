@@ -839,6 +839,20 @@ class MenusModelItem extends JModelAdmin
 
 		return true;
 	}
+
+	/**
+	 * Method to check if you can save a record.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return	boolean
+	 */
+	protected function canSave($data = array(), $key = 'id')
+	{
+		return JFactory::getUser()->authorise('core.edit', $this->option);
+	}
+
 	/**
 	 * Method to change the home state of one or more items.
 	 *
@@ -852,20 +866,37 @@ class MenusModelItem extends JModelAdmin
 		// Initialise variables.
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
+		$user		= JFactory::getUser();
 
 		$languages = array();
+		$onehome=false;
 		foreach ($pks as $i => $pk) {
 			if ($table->load($pk)) {
-				$table->home = $value;
 				if (!array_key_exists($table->language,$languages)) {
 					$languages[$table->language] = true;
-					if (!$table->store()) {
-						$this->setError($table->getError());
-						return false;
+					if ($table->home==$value) {
+						unset($pks[$i]);
+						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
+					}
+					else {
+						$table->home = $value;				
+						if (!$this->canSave($table)) {
+							// Prune items that you can't change.
+							unset($pks[$i]);
+							JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+						}
+						if (!$table->store()) {
+							$this->setError($table->getError());
+							return false;
+						}
 					}
 				}
 				else {
 					unset($pks[$i]);
+					if (!$onehome) {
+						$onehome = true;
+						JError::raiseNotice(403, JText::sprintf('COM_MENUS_ERROR_ONE_HOME'));
+					}
 				}
 			}
 		}
