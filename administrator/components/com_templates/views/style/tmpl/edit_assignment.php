@@ -13,18 +13,10 @@ defined('_JEXEC') or die;
 // Initiasile related data.
 require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
+$user = JFactory::getUser();
 ?>
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
-				<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
-
-				<fieldset id="jform_menus" class="radio">
-					<select name="jform[assignment]">
-						<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true);?>
-					</select>
-
-				</fieldset>
-
+			<legend><?php echo JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
 				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
 				<button type="button" class="jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
@@ -36,17 +28,10 @@ $menuTypes = MenusHelper::getMenuLinks();
 				<?php foreach ($menuTypes as &$type) : ?>
 					<ul class="menu-links">
 						<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
-						<?php
-						foreach ($type->links as $link) :
-							if ($this->item->assignment < 0) :
-								$checked = in_array(-$link->value, $this->item->assigned) ? ' checked="checked"' : '';
-							else :
-								$checked = in_array($link->value, $this->item->assigned) ? ' checked="checked"' : '';
-							endif;
-						?>
+						<?php foreach ($type->links as $link) :?>
 						<li class="menu-link">
-							<input type="checkbox" class="chk-menulink" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php echo $checked;?>/>
-							<label for="link<?php echo (int) $link->value;?>">
+							<input type="checkbox" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php if ($link->template_style_id == $this->item->id):?> checked="checked"<?php endif;?><?php if ($link->checked_out && $link->checked_out != $user->id):?> disabled="disabled"<?php else:?> class="chk-menulink "<?php endif;?> />
+							<label for="link<?php echo (int) $link->value;?>" >
 								<?php echo $link->text; ?>
 							</label>
 						</li>

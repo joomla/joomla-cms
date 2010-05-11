@@ -105,8 +105,8 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHtml::_('jgrid.makedefault', $item->home, $i, 'styles.', $canChange && !$item->home);?>
 				</td>
 				<td class="center">
-					<?php if ($item->assigned == 1) : ?>
-							<?php echo JHTML::_('image','admin/tick.png', JText::_('COM_TEMPLATES_HEADING_ASSIGNED'), NULL, true); ?>
+					<?php if ($item->assigned > 0) : ?>
+							<?php echo JHTML::_('image','admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED',$item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED',$item->assigned)), true); ?>
 					<?php else : ?>
 							&nbsp;
 					<?php endif; ?>

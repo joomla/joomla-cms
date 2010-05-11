@@ -18,12 +18,11 @@
 			description="COM_TEMPLATES_FIELD_TEMPLATE_DESC"
 			class="readonly"
 			size="30"
-			readonly="true"
-			filter="unset" />
+			readonly="true" />
 
 		<field
 			name="client_id"
-			type="client"
+			type="hidden"
 			label="COM_TEMPLATES_FIELD_CLIENT_LABEL"
 			description="COM_TEMPLATES_FIELD_CLIENT_DESC"
 			class="readonly"
@@ -36,8 +35,7 @@
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			description="COM_TEMPLATES_FIELD_HOME_DESC"
 			class="inputbox"
-			default="0"
-			readonly="true">
+			default="0">
 			<option
 				value="1">
 				JYes</option>
@@ -59,5 +57,7 @@
 		<field
 			name="params"
 			type="hidden" />
+		<field name="assigned" type="hidden" />
+
 	</fieldset>
 </form>
