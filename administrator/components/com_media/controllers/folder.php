@@ -36,7 +36,6 @@ class MediaControllerFolder extends JController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get some data from the request
-		$app	= &JFactory::getApplication();
 		$tmpl	= JRequest::getCmd('tmpl');
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
@@ -46,8 +45,7 @@ class MediaControllerFolder extends JController
 		$ret = true;
 
 		if (count($paths)) {
-			foreach ($paths as $path)
-			{
+			foreach ($paths as $path) {
 				if ($path !== JFile::makeSafe($path)) {
 					$dirname = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
 					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_WARNDIRNAME', $dirname));
@@ -75,9 +73,9 @@ class MediaControllerFolder extends JController
 		}
 		if ($tmpl == 'component') {
 			// We are inside the iframe
-			$app->redirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
+			$this->setRedirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
 		} else {
-			$app->redirect('index.php?option=com_media&folder='.$folder);
+			$this->setRedirect('index.php?option=com_media&folder='.$folder);
 		}
 	}
 
@@ -96,7 +94,6 @@ class MediaControllerFolder extends JController
 		jimport('joomla.client.helper');
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$app			= &JFactory::getApplication();
 		$folder			= JRequest::getCmd('foldername', '');
 		$folderCheck	= JRequest::getVar('foldername', null, '', 'string', JREQUEST_ALLOWRAW);
 		$parent			= JRequest::getVar('folderbase', '', '', 'path');
@@ -104,13 +101,13 @@ class MediaControllerFolder extends JController
 		JRequest::setVar('folder', $parent);
 
 		if (($folderCheck !== null) && ($folder !== $folderCheck)) {
-			$app->redirect('index.php?option=com_media&folder='.$parent, JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+			$this->setRedirect('index.php?option=com_media&folder='.$parent, JText::_('COM_MEDIA_ERROR_UNABLE_TO_CREATE_FOLDER_WARNDIRNAME'));
+			return;
 		}
 
 		if (strlen($folder) > 0) {
 			$path = JPath::clean(COM_MEDIA_BASE.DS.$parent.DS.$folder);
-			if (!is_dir($path) && !is_file($path))
-			{
+			if (!is_dir($path) && !is_file($path)) {
 				jimport('joomla.filesystem.*');
 				JFolder::create($path);
 				$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
@@ -118,6 +115,7 @@ class MediaControllerFolder extends JController
 			}
 			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}
-		$app->redirect('index.php?option=com_media&folder='.$parent);
+
+		$this->setRedirect('index.php?option=com_media&folder='.$parent);
 	}
 }

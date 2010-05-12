@@ -38,6 +38,7 @@ $ -> Language fix or change
 12-May-2010 Andrew Eddie
  ^ Set Beez2 as the default template (awesome work by Angie Radtke).
  ^ Set AUTO_INCREMENT on jos_extensions table to start at 10000, allowing for more core plugins to be added at a later date.
+ ^ Fixing hardcoded $app->redirects to JController setRedirect in com_media subcontrollers.
 
 11-May-2010 Jean-Marie Simonet
 ^ Correcting extension/example xml plugin

@@ -16,7 +16,7 @@ jimport('joomla.filesystem.folder');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_media
- * @since 1.5
+ * @since		1.5
  */
 class MediaControllerFile extends JController
 {
@@ -27,11 +27,10 @@ class MediaControllerFile extends JController
 	 */
 	function upload()
 	{
-
 		// Check for request forgeries
 		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$file	= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder	= JRequest::getVar('folder', '', '', 'path');
 		$return	= JRequest::getVar('return-url', null, 'post', 'base64');
@@ -53,7 +52,7 @@ class MediaControllerFile extends JController
 				JError::raiseNotice(100, JText::_($err));
 				// REDIRECT
 				if ($return) {
-					$app->redirect(base64_decode($return).'&folder='.$folder);
+					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
 				return;
 
@@ -63,7 +62,7 @@ class MediaControllerFile extends JController
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
 				// REDIRECT
 				if ($return) {
-					$app->redirect(base64_decode($return).'&folder='.$folder);
+					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
 				return;
 			}
@@ -72,19 +71,19 @@ class MediaControllerFile extends JController
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
 				// REDIRECT
 				if ($return) {
-					$app->redirect(base64_decode($return).'&folder='.$folder);
+					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
 				return;
 			} else {
 				$app->enqueueMessage(JText::_('COM_MEDIA_UPLOAD_COMPLETE'));
 				// REDIRECT
 				if ($return) {
-					$app->redirect(base64_decode($return).'&folder='.$folder);
+					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
 				return;
 			}
 		} else {
-			$app->redirect('index.php', 'Invalid Request', 'error');
+			$this->setRedirect('index.php', 'Invalid Request', 'error');
 		}
 	}
 
@@ -103,7 +102,6 @@ class MediaControllerFile extends JController
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get some data from the request
-		$app	= &JFactory::getApplication();
 		$tmpl	= JRequest::getCmd('tmpl');
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
@@ -113,9 +111,8 @@ class MediaControllerFile extends JController
 		$ret = true;
 
 		if (count($paths)) {
-			foreach ($paths as $path)
-			{
-			if ($path !== JFile::makeSafe($path)) {
+			foreach ($paths as $path) {
+				if ($path !== JFile::makeSafe($path)) {
 					$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
 					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', $filename));
 					continue;
@@ -141,11 +138,12 @@ class MediaControllerFile extends JController
 				}
 			}
 		}
+
 		if ($tmpl == 'component') {
 			// We are inside the iframe
-			$app->redirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
+			$this->setRedirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
 		} else {
-			$app->redirect('index.php?option=com_media&folder='.$folder);
+			$this->setRedirect('index.php?option=com_media&folder='.$folder);
 		}
 	}
 }
