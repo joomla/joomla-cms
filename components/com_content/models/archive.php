@@ -43,7 +43,7 @@ class ContentModelArchive extends ContentModelArticles
 		$params = $this->state->params;
 
 		// Filter on archived articles
-		$this->setState('filter.published', -1);
+		$this->setState('filter.published', 2);
 
 		// Filter on month, year
 		$this->setState('filter.month', JRequest::getInt('month'));
@@ -53,7 +53,7 @@ class ContentModelArchive extends ContentModelArticles
 		$this->setState('list.filter', JRequest::getString('filter-search'));
 
 		// Get list limit
-		$app =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$itemid = JRequest::getInt('Itemid', 0);
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'));
 		$this->setState('list.limit', $limit);
@@ -96,6 +96,8 @@ class ContentModelArchive extends ContentModelArticles
 			$query->where('YEAR('. $queryDate . ') = ' . $year);
 		}
 
+		//echo nl2br(str_replace('#__','jos_',$query));
+
 		return $query;
 	}
 
@@ -108,9 +110,9 @@ class ContentModelArchive extends ContentModelArticles
 	public function getData()
 	{
 		$app = JFactory::getApplication();
+
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data))
-		{
+		if (empty($this->_data)) {
 			// Get the page/component configuration
 			$params = &$app->getParams();
 
@@ -139,5 +141,4 @@ class ContentModelArchive extends ContentModelArticles
 
 		return $result;
 	}
-
 }

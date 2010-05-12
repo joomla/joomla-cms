@@ -37,7 +37,7 @@ class ContentModelArticle extends JModelItem
 	 */
 	protected function populateState()
 	{
-		$app =& JFactory::getApplication('site');
+		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pk = JRequest::getInt('id');
@@ -52,7 +52,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$this->setState('filter.published', 1);
-		$this->setState('filter.archived', -1);
+		$this->setState('filter.archived', 2);
 	}
 
 	/**
@@ -72,8 +72,8 @@ class ContentModelArticle extends JModelItem
 		}
 
 		if (!isset($this->_item[$pk])) {
-			try
-			{
+
+			try {
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
 
