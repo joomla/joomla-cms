@@ -104,6 +104,10 @@ abstract class QuickIconHelper
 					'link' => JRoute::_('index.php?option=com_languages'),
 					'image' => 'icon-48-language.png',
 					'text' => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
+				),array(
+					'link' => JRoute::_('index.php?option=com_config'),
+					'image' => 'icon-48-config.png',
+					'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 				)
 
 			);
