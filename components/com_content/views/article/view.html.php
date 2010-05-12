@@ -55,22 +55,29 @@ class ContentViewArticle extends JView
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
-		$currentLink = $app->getMenu()->getActive()->link;
 		$params =& $state->get('params');
 		$article_params = new JRegistry;
 		$article_params->loadJSON($item->attribs);
+		$active = $app->getMenu()->getActive();
 		$temp = clone ($params);
-		if (strpos($currentLink, 'view=article'))
+		if($active)
 		{
-			$article_params->merge($temp);
-			$item->params = $article_params;
-		}
-		else
-		{
+			$currentLink = $active->link;
+			if (strpos($currentLink, 'view=article'))
+			{
+				$article_params->merge($temp);
+				$item->params = $article_params;
+			}
+			else
+			{
+				$temp->merge($article_params);
+				$item->params = $temp;
+			}
+		} else {
 			$temp->merge($article_params);
 			$item->params = $temp;
 		}
-
+		
 		$offset = $state->get('page.offset');
 
 		// Check the access to the article

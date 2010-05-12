@@ -121,8 +121,14 @@ function ContentBuildRoute(&$query)
 				unset($query['layout']);
 			}
 		}
-	};
-
+	}
+	
+	if(isset($query['id']))
+	{
+		$segments[] = $query['id'];
+		unset($query['id']);
+	}
+	
 	return $segments;
 }
 
