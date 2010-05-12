@@ -73,12 +73,12 @@ class JInstallationModelSetup extends JModel
 		jimport('joomla.form.form');
 		JForm::addFormPath(JPATH_COMPONENT.'/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
-		$form = &JForm::getInstance('jform', $view, array('control' => 'jform'));
 
-		// Check for an error.
-		if (JError::isError($form)) {
-			$this->setError($form->getMessage());
-			return $false;
+		try {
+			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+		} catch (Exception $e) {
+			$this->setError($e->getMessage());
+			return false;
 		}
 
 		// Check the session for previously entered form data.
