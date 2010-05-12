@@ -69,10 +69,12 @@ class TemplatesModelStyle extends JModelForm
 				}
 
 				if (!$table->delete($pk)) {
-					throw new Exception($table->getError());
+					$this->setError($table->getError());
+					return false;
 				}
 			} else {
-				throw new Exception($table->getError());
+				$this->setError($table->getError());
+				return false;
 			}
 		}
 
