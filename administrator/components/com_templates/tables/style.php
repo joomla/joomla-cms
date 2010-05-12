@@ -71,6 +71,12 @@ class TemplatesTableStyle extends JTable
 			$array['params'] = (string)$registry;
 		}
 
+		// Verify that the default style is not unset
+		if ($array['home']==0 && $this->home) {
+			$this->setError('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE');
+			return false;
+		}
+
 		return parent::bind($array, $ignore);
 	}
 
@@ -88,5 +94,25 @@ class TemplatesTableStyle extends JTable
 		}
 
 		return true;
+	}
+	/**
+	 * Overloaded store method to ensure unicity of default style.
+	 *
+	 * @param	boolean True to update fields even if they are null.
+	 * @return	boolean	True on success.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/store
+	 */
+	public function store($updateNulls = false)
+	{
+		if ($this->home) {
+			$query = $this->_db->getQuery(true);
+			$query->update('#__template_styles');
+			$query->set('home=0');
+			$query->where('client_id='.(int)$this->client_id);
+			$this->_db->setQuery($query);
+			$this->_db->query();
+		}
+		return parent::store($updateNulls);
 	}
 }

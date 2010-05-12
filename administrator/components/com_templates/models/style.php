@@ -271,6 +271,11 @@ class TemplatesModelStyle extends JModelForm
 			}
 		}
 
+		// Disable home field if it is default style
+		if(is_array($data) && $data['home'] || is_object($data) && $data->home) {
+			$form->setFieldAttribute('home','readonly','true');
+		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data);
 	}
