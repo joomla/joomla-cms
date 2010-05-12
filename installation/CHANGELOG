@@ -40,6 +40,7 @@ $ -> Language fix or change
  ^ Set AUTO_INCREMENT on jos_extensions table to start at 10000, allowing for more core plugins to be added at a later date.
  ^ Fixing hardcoded $app->redirects to JController setRedirect in com_media subcontrollers.
  # Fix bug in com_content archives model - still referencing -1 instead of 2 for the archived state.
+ # Fixed [#20393] creating an editor with buttons=true does not show any buttons
 
 11-May-2010 Jean-Marie Simonet
 ^ Correcting extension/example xml plugin

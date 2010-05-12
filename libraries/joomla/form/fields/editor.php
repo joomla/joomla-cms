@@ -53,9 +53,9 @@ class JFormFieldEditor extends JFormField
 
 		// Build the buttons array.
 		$buttons = (string) $this->element['buttons'];
-		if ($buttons == 'true' || $buttons == 'yes' || $buttons == 1) {
+		if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1') {
 			$buttons = true;
-		} else if ($buttons == 'false' || $buttons == 'no' || $buttons == 0) {
+		} else if ($buttons == 'false' || $buttons == 'no' || $buttons == '0') {
 			$buttons = false;
 		} else {
 			$buttons = explode(',', $buttons);
