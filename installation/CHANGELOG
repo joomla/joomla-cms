@@ -36,6 +36,7 @@ $ -> Language fix or change
 # Corrected com_redirect component_id in jos_menu table
 + Added Global configuration button in Control panel [20407] Thanks Ronald de Vries.
 $ Corrected/added keys/strings all over admin
+$ Removed 1.5 legacy strings from main ini files
 
 12-May-2010 Andrew Eddie
  ^ Set Beez2 as the default template (awesome work by Angie Radtke).
