@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-May-2010 Andrew Eddie
+ ^ Set Beez2 as the default template (awesome work by Angie Radtke).  
+
 12-May-2010 Jean-Marie Simonet
 ^ Correcting extension/example xml plugin
 ^ Hathor's update [Andrea Tarr]
