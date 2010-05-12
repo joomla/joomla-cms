@@ -364,7 +364,7 @@ CREATE TABLE `#__extensions` (
   INDEX `element_clientid`(`element`, `client_id`),
   INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+) TYPE=MyISAM AUTO_INCREMENT=10000 CHARACTER SET `utf8`;
 
 # Components
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
