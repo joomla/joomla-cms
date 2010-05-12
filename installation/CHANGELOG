@@ -27,11 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-May-2010 Jean-Marie Simonet
+# Corrected com_redirect component_id in jos_menu table
+
 12-May-2010 Andrew Eddie
  ^ Set Beez2 as the default template (awesome work by Angie Radtke).
  ^ Set AUTO_INCREMENT on jos_extensions table to start at 10000, allowing for more core plugins to be added at a later date.
 
-12-May-2010 Jean-Marie Simonet
+11-May-2010 Jean-Marie Simonet
 ^ Correcting extension/example xml plugin
 ^ Hathor's update [Andrea Tarr]
 
