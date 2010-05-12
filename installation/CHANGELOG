@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 12-May-2010 Christophe Demko
+ $ Correcting some strings/language in beez
  # Ensure that there exists at least one style for a template
  # Ensure that there exists only one default template style
 

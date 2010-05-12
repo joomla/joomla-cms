@@ -58,11 +58,11 @@ $templateparams	= $app->getTemplate(true)->params;
 		<script type="text/javascript">
 			var big ='<?php echo $this->params->get('wrapperLarge');?>%';
 			var small='<?php echo $this->params->get('wrapperSmall'); ?>%';
-			var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN'); ?>';
-			var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE'); ?>';
+			var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN',true); ?>';
+			var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE',true); ?>';
 			var bildauf='<?php echo $this->baseurl ?>/templates/beez_20/images/plus.png';
 			var bildzu='<?php echo $this->baseurl ?>/templates/beez_20/images/minus.png';
-			var rightopen='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN'); ?>';
+			var rightopen='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN',true); ?>';
 			var rightclose='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTCLOSE'); ?>';
 		</script>
 
@@ -78,7 +78,7 @@ $templateparams	= $app->getTemplate(true)->params;
 		<header id="header">
 			<?php endif; ?>
 				<div class="logoheader">
-					<h1 id="logo"><?php if ($logo != '-1' ): ?><img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('Logo Beez'); ?>" /><?php endif;?><?php if ($logo == '-1' ): ?>Beez 2.0<?php endif; ?><span class="header1"><?php echo JText::_('TPL_BEEZ2_YOUR_SITE_DESCRIPTION'); ?></span></h1>
+					<h1 id="logo"><?php if ($logo != '-1' ): ?><img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ2_LOGO'); ?>" /><?php endif;?><?php if ($logo == '-1' ): ?>Beez 2.0<?php endif; ?><span class="header1"><?php echo JText::_('TPL_BEEZ2_YOUR_SITE_DESCRIPTION'); ?></span></h1>
 				</div><!-- end logoheader -->
 
 					<ul class="skiplinks">
@@ -170,7 +170,7 @@ $templateparams	= $app->getTemplate(true)->params;
 					<div id="close">
 						<a href="#" onclick="auf('right')">
 							<span id="bild">
-								<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN'); ?></span></a>
+								<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTCLOSE'); ?></span></a>
 					</div>
 
 				<?php if (!$templateparams->get('html5', 0)): ?>
