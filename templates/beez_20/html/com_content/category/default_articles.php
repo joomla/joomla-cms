@@ -124,10 +124,10 @@ $listDirn	= $this->state->get('list.direction');
 
 
 		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-         	<p class="counter">
-                <?php echo $this->pagination->getPagesCounter(); ?>
-        	</p>
-        <?php  endif; ?>
+		 	<p class="counter">
+				<?php echo $this->pagination->getPagesCounter(); ?>
+			</p>
+		<?php  endif; ?>
 				<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 <?php endif; ?>

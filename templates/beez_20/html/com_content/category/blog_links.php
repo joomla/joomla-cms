@@ -31,9 +31,9 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 	foreach ($this->link_items as &$item) :
 ?>
 		 <li>
-          		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid)); ?>">
+		  		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid)); ?>">
 			<?php echo $item->title; ?></a>
-        </li>
+		</li>
 <?php endforeach; ?>
 	</ol>
 </div>
