@@ -68,7 +68,7 @@ class UsersViewGroup extends JView
 		}
 
 		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('group.cancel');
+			JToolBarHelper::cancel('group.cancel','JTOOLBAR_CANCEL');
 		} else {
 			JToolBarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}

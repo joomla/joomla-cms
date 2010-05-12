@@ -120,7 +120,7 @@ class MediaViewMedia extends JView
 		JToolBarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
 
 		// Add a delete button
-		$title = JText::_('Delete');
+		$title = JText::_('JTOOLBAR_DELETE');
 		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
 					<span class=\"icon-32-delete\" title=\"$title\"></span>
 					$title</a>";

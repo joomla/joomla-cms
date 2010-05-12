@@ -60,7 +60,7 @@ class PluginsViewPlugins extends JView
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('plugin.edit');
+			JToolBarHelper::editList('plugin.edit', 'JTOOLBAR_EDIT');
 		}
 
 		if ($canDo->get('core.admin')) {

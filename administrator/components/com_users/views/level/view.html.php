@@ -71,7 +71,7 @@ class UsersViewLevel extends JView
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('level.cancel','JTOOLBAR_CANCEL');
 		} else {
-			JToolBarHelper::cancel('level.cancel', 'JToolbar_Close');
+			JToolBarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolBarHelper::divider();
