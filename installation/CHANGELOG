@@ -35,7 +35,8 @@ $ -> Language fix or change
  ^ Related to above, reworked JModelForm and made getForm abstract and replaced it with loadForm, renamed getFormData to loadFormData.
  ^ Reworked forms in frontend user component.
  # Fix rouge short-tags.
- # Fix bug in backend user edit form where custom user profile would not save for a new user. 
+ # Fix bug in backend user edit form where custom user profile would not save for a new user.
+ # Fixed bug in backend com_content where featured setting in the article would not take. 
 
 12-May-2010 Christophe Demko
  $ Correcting some strings/language in beez

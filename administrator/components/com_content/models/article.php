@@ -190,42 +190,43 @@ class ContentModelArticle extends JModelAdmin
 		$table = $this->getTable('Featured', 'ContentTable');
 
 		try {
-			$this->_db->setQuery(
+			$db = $this->getDbo();
+
+			$db->setQuery(
 				'UPDATE #__content AS a' .
 				' SET a.featured = '.(int) $value.
 				' WHERE a.id IN ('.implode(',', $pks).')'
 			);
-			if (!$this->_db->query()) {
-				throw new Exception($this->_db->getErrorMsg());
+			if (!$db->query()) {
+				throw new Exception($db->getErrorMsg());
 			}
 
 			// Adjust the mapping table.
-			if ($value == 0) {
-				// Unfeaturing.
-				$this->_db->setQuery(
-					'DELETE FROM #__content_frontpage' .
-					' WHERE content_id IN ('.implode(',', $pks).')'
-				);
-				if (!$this->_db->query()) {
-					throw new Exception($this->_db->getErrorMsg());
-				}
-			} else {
+			// Clear the existing features settings.
+			$db->setQuery(
+				'DELETE FROM #__content_frontpage' .
+				' WHERE content_id IN ('.implode(',', $pks).')'
+			);
+			if (!$db->query()) {
+				throw new Exception($db->getErrorMsg());
+			}
+
+			if ($value == 1) {
 				// Featuring.
 				$tuples = array();
 				foreach ($pks as $i => $pk) {
 					$tuples[] = '('.$pk.', '.(int)($i + 1).')';
 				}
-				if ($isNew){
-					$this->_db->setQuery(
-						'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
-						' VALUES '.implode(',', $tuples)
+				$db->setQuery(
+					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+					' VALUES '.implode(',', $tuples)
 				);
-				}
-				if (!$this->_db->query()) {
-					$this->setError($this->_db->getErrorMsg());
+				if (!$db->query()) {
+					$this->setError($db->getErrorMsg());
 					return false;
 				}
 			}
+
 		} catch (Exception $e) {
 			$this->setError($e->getMessage());
 			return false;
