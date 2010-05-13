@@ -48,7 +48,7 @@
 		</fieldset>
 
 		<!-- Advanced options. -->
-		<fieldset name="advanced" label="COM_MENUS_LAYOUT_ADVANCED_OPTIONS_LABEL" description="">
+		<fieldset name="advanced">
 
 			<field name="height_auto" type="radio"
 				default="0"
