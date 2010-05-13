@@ -102,7 +102,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.makedefault', $item->home, $i, 'styles.', $canChange && !$item->home);?>
+					<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'styles.', $canChange && !$item->home);?>
 				</td>
 				<td class="center">
 					<?php if ($item->assigned > 0) : ?>

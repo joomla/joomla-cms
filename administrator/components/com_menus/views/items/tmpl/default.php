@@ -138,7 +138,7 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $this->escape($item->item_type); ?></span>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.makedefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
+					<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 				</td>
 				<td class="center">
 					<?php if ($item->language==''):?>

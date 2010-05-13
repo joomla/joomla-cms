@@ -15,51 +15,87 @@
 abstract class JHtmlJGrid
 {
 	/**
-	 * @param	int $value	The state value.
-	 * @param	int $i
-	 * @param	string		An optional prefix for the task.
-	 * @param	boolean		An optional setting for access control on the action.
+	 * Returns an action on a grid
+	 *
+	 * @param	int		$i			The row index
+	 * @param	string	$task		The task to fire
+	 * @param	string	$prefix		An optional task prefix
+	 * @param	string	$text		An optional text to display (will be translated)
+	 * @param	string	$title		An optional tooltip to display if $canChange is true (will be translated)
+	 * @param	string	$active		An optional active html class
+	 * @param	string	$inactive	An optional inactive html class
+	 * @param	boolean	$canChange	An optional setting for access control on the action.
 	 */
-	public static function published($value = 0, $i, $taskPrefix = '', $canChange = true)
+	public static function action($i, $task, $prefix='', $text='', $title='', $active='', $inactive, $canChange = true)
 	{
-		// Array of image, task, title, action
-		$states	= array(
-			1	=> array('tick.png',		$taskPrefix.'unpublish',	'JPUBLISHED',		'JLIB_HTML_UNPUBLISH_ITEM'),
-			0	=> array('publish_x.png',	$taskPrefix.'publish',		'JUNPUBLISHED',	'JLIB_HTML_PUBLISH_ITEM'),
-			2	=> array('disabled.png',	$taskPrefix.'unpublish',	'JARCHIVED',		'JLIB_HTML_UNPUBLISH_ITEM'),
-			-2	=> array('trash.png',		$taskPrefix.'publish',		'JTRASHED',		'JLIB_HTML_PUBLISH_ITEM'),
-		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
-			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-					. $html.'</a>';
+			return '<a class="jgrid" href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars(JText::_($title), ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active.'"><span class="text">'.JText::_($text).'</span></span></a>';
 		}
-
-		return $html;
+		else {
+			return '<span class="jgrid"><span class="state '.$inactive.'"><span class="text">'.JText::_($text).'</span></span></span>';
+		}
 	}
 
 	/**
-	 * @param	int $value	The state value.
-	 * @param	int $i
-	 * @param	string		An optional prefix for the task.
-	 * @param	boolean		An optional setting for access control on the action.
+	 * Returns a state on a grid
+	 *
+	 * @param	array	$states		array of value/state. Each state is an array of the form (task, text, title,html active class, html inactive class)
+	 *								or ('task'=>task, 'text'=>text, 'title'=>title, 'active'=>html class, 'inactive'=>html class) 
+	 * @param	int		$value		An optional state value.
+	 * @param	int		$i			An optinal row index
+	 * @param	string	$prefix		An optional prefix for the task.
+	 * @param	boolean	$canChange	An optional setting for access control on the action.
 	 */
-	public static function makedefault($value = 0, $i, $taskPrefix = '', $canChange = true)
+	public static function state($states, $value = 0, $i=0, $prefix = '', $canChange = true)
+	{
+		$state		= JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$task		= array_key_exists('task',		$state) ? $state['task']		: $state[0];
+		$text		= array_key_exists('text',		$state) ? $state['text']		: (array_key_exists(1,$state) ? $state[1] : '');
+		$title		= array_key_exists('title',		$state) ? $state['title']		: (array_key_exists(2,$state) ? $state[2] : '');
+		$active		= array_key_exists('active',	$state) ? $state['active']		: (array_key_exists(3,$state) ? $state[3] : '');
+		$inactive	= array_key_exists('inactive',	$state) ? $state['inactive']	: (array_key_exists(4,$state) ? $state[4] : $active);
+		
+		return self::action($i, $task, $prefix, $text, $title, $active, $inactive, $canChange);
+	}
+
+	/**
+	 * Returns a published state on a grid
+	 *
+	 * @param	int		$value		An optional state value.
+	 * @param	int		$i			An optinal row index
+	 * @param	string	$prefix		An optional prefix for the task.
+	 * @param	boolean	$canChange	An optional setting for access control on the action.
+	 * @see JHtmlJGrid::state
+	 */
+	public static function published($value = 0, $i=0, $prefix = '', $canChange = true)
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			1	=> array('icon-16-default.png',	$taskPrefix.'unsetDefault',	'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM'),
-			0	=> array('icon-16-notdefault.png', $taskPrefix.'setDefault', '',	'JLIB_HTML_SETDEFAULT_ITEM'),
+			1	=> array('unpublish',	'JPUBLISHED',	'JLIB_HTML_UNPUBLISH_ITEM',	'publish'),
+			0	=> array('publish',		'JUNPUBLISHED',	'JLIB_HTML_PUBLISH_ITEM',	'unpublish'),
+			2	=> array('unpublish',	'JARCHIVED',	'JLIB_HTML_UNPUBLISH_ITEM',	'archive'),
+			-2	=> array('publish',		'JTRASHED',		'JLIB_HTML_PUBLISH_ITEM',	'trash'),
 		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHTML::_('image','menu/'.$state[0], JText::_($state[2]), NULL, true);
-		if ($canChange) {
-			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-					. $html.'</a>';
-		}
+		return self::state($states, $value, $i, $prefix, $canChange);
+	}
 
-		return $html;
+	/**
+	 * Returns a isDefault state on a grid
+	 *
+	 * @param	int		$value		An optional state value.
+	 * @param	int		$i			An optinal row index
+	 * @param	string	$prefix		An optional prefix for the task.
+	 * @param	boolean	$canChange	An optional setting for access control on the action.
+	 * @see JHtmlJGrid::state
+	 */
+	public static function isdefault($value = 0, $i=0, $prefix = '', $canChange = true)
+	{
+		// Array of image, task, title, action
+		$states	= array(
+			1	=> array('unsetDefault',	'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM',	'default'),
+			0	=> array('setDefault', 		'',			'JLIB_HTML_SETDEFAULT_ITEM',	'notdefault'),
+		);
+		return self::state($states, $value, $i, $prefix, $canChange);
 	}
 
 	/**
@@ -95,7 +131,7 @@ abstract class JHtmlJGrid
 	}
 
 	/**
-	 * Displays a checked-out icon
+	 * Returns a checked-out icon
 	 *
 	 * @param	string	The name of the editor.
 	 * @param	string	The time that the object was checked out.
@@ -105,68 +141,47 @@ abstract class JHtmlJGrid
 	public static function checkedout($editorName, $time)
 	{
 		$text	= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date	= JHTML::_('date',$time, '%A, %d %B %Y');
-		$time	= JHTML::_('date',$time, '%H:%M');
+		$date	= addslashes(htmlspecialchars(JHTML::_('date',$time, '%A, %d %B %Y'), ENT_COMPAT, 'UTF-8'));
+		$time	= addslashes(htmlspecialchars(JHTML::_('date',$time, '%H:%M'), ENT_COMPAT, 'UTF-8'));
 
-		$hover = '<span class="editlinktip hasTip" title="'. JText::_('JLIB_HTML_CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
-		$checked = $hover .JHTML::_('image','admin/checked_out.png', JText::_('JLIB_HTML_CHECKED_OUTs'), NULL, true).'</span>';
-
-		return $checked;
-	}
-
-	/**
-	 * Create a order-up action icon.
-	 *
-	 * @param	integer	The row index.
-	 * @param	string	The task to fire.
-	 * @param	boolean	True to show the icon.
-	 * @param	string	The image alternate text string.
-	 *
-	 * @return	string	The HTML for the IMG tag.
-	 * @since	1.6
-	 */
-	public static function orderUp($i, $task, $enabled = true, $alt = 'JLIB_HTML_MOVE_UP')
-	{
-		$alt = JText::_($alt);
-
-		// TODO: Deal with hardcoded links.
-		if ($enabled)
-		{
-			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-			$html	.= JHTML::_('image','admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-			$html	.= '</a>';
-		}
-		else {
-			$html	= JHTML::_('image','admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-		}
+		$html  = '<span class="jgrid editlinktip hasTip" title="'. JText::_('JLIB_HTML_CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
+		$html .= 	'<span class="state checkedout"><span class="text">'.JText::_('JLIB_HTML_CHECKED_OUT').'</span>';
+		$html .= '</span>';
+		
 		return $html;
 	}
 
 	/**
-	 * Create a move-down action icon.
+	 * Creates a order-up action icon.
 	 *
-	 * @param	integer	The row index.
-	 * @param	string	The task to fire.
-	 * @param	boolean	True to show the icon.
-	 * @param	string	The image alternate text string.
+	 * @param	integer	$i			The row index.
+	 * @param	string	$task		An optional task to fire.
+	 * @param	string	$prefix		An optional task prefix.
+	 * @param	string	$text		The text to display
+	 * @param	boolean	$enabled	True to enable the action.
 	 *
-	 * @return	string	The HTML for the IMG tag.
+	 * @return	string	The required HTML.
 	 * @since	1.6
 	 */
-	public static function orderDown($i, $task, $enabled = true, $alt = 'JLIB_HTML_MOVE_DOWN')
+	public static function orderUp($i, $task='orderup', $prefix='', $text = 'JLIB_HTML_MOVE_UP', $enabled = true)
 	{
-		$alt = JText::_($alt);
+		return self::action($i, $task, $prefix, $text, $text, 'uparrow', 'uparrow_disabled', $enabled);
+	}
 
-		// TODO: Deal with hardcoded links.
-		if ($enabled)
-		{
-			$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-			$html	.= JHTML::_('image','admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-			$html	.= '</a>';
-		}
-		else {
-			$html	= JHTML::_('image','admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-		}
-		return $html;
+	/**
+	 * Creates a order-down action icon.
+	 *
+	 * @param	integer	$i			The row index.
+	 * @param	string	$task		An optional task to fire.
+	 * @param	string	$prefix		An optional task prefix.
+	 * @param	string	$text		The text to display
+	 * @param	boolean	$enabled	True to enable the action.
+	 *
+	 * @return	string	The required HTML.
+	 * @since	1.6
+	 */
+	public static function orderDown($i, $task='orderdown', $prefix='', $text = 'JLIB_HTML_MOVE_DOWN', $enabled = true)
+	{
+		return self::action($i, $task, $prefix, $text, $text, 'downarrow', 'downarrow_disabled', $enabled);
 	}
 }

@@ -1417,7 +1417,6 @@ table.adminlist td.order {
 
 table.adminlist td.order span {
 	float: left;
-	display: block;
 	width: 20px;
 	text-align: center;
 }
@@ -2029,6 +2028,65 @@ input.system-openid,input.com-system-openid {
 	background-position: 0 50%;
 	color: #000;
 	padding-left: 18px;
+}
+
+/* -- JGRID STYLES ----------------------------- */
+a.jgrid:hover {
+	text-decoration: none;
+}
+
+.jgrid span.state {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+}
+
+.jgrid span.text {
+	display: none;
+}
+
+.jgrid span.publish {
+	background-image: url(../images/admin/tick.png);
+}
+
+.jgrid span.unpublish {
+	background-image: url(../images/admin/publish_x.png);
+}
+
+.jgrid span.archive {
+	background-image: url(../images/menu/icon-16-archive.png);
+}
+
+.jgrid span.trash {
+	background-image: url(../images/menu/icon-16-trash.png);
+}
+
+.jgrid span.default {
+	background-image: url(../images/menu/icon-16-default.png);
+}
+
+.jgrid span.notdefault {
+	background-image: url(../images/menu/icon-16-notdefault.png);
+}
+
+.jgrid span.checkedout {
+	background-image: url(../images/admin/checked_out.png);
+}
+
+.jgrid span.downarrow {
+	background-image: url(../images/admin/downarrow.png);
+}
+
+.jgrid span.downarrow_disabled {
+	background-image: url(../images/admin/downarrow0.png);
+}
+
+.jgrid span.uparrow {
+	background-image: url(../images/admin/uparrow.png);
+}
+
+.jgrid span.uparrow_disabled {
+	background-image: url(../images/admin/uparrow0.png);
 }
 
 /* -- ICON STYLES ----------------------------- */
