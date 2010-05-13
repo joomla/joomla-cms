@@ -164,7 +164,7 @@
 				size="40"
 				description="COM_BANNERS_FIELD_IMAGE_DESC" />
 			<field name="width" type="text" default=""
-				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
+				class="inputbox validate-numeric" label="JGLOBAL_WIDTH"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 
 			<field name="height" type="text" default=""

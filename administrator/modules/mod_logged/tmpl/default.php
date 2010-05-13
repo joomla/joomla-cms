@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 				if($params->get('name', 1)) {
 					echo JText::_('MOD_LOGGED_NAME');
 				} else {
-					echo JText::_('MOD_LOGGED_USERNAME');
+					echo JText::_('JGLOBAL_USERNAME');
 				}; ?>
 			</th>
 			<th>

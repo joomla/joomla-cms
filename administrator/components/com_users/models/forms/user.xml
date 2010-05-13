@@ -10,7 +10,7 @@
 	<field name="name" type="text"
 		class="inputbox"
 		description="COM_USERS_USER_FIELD_NAME_DESC"
-		label="COM_USERS_USER_FIELD_NAME_LABEL"
+		label="JGLOBAL_USERNAME"
 		required="true"
 		size="30"
 	/>
@@ -28,7 +28,7 @@
 		class="inputbox"
 		description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 		filter="raw"
-		label="COM_USERS_USER_FIELD_PASSWORD_LABEL"
+		label="JGLOBAL_PASSWORD"
 		size="30"
 	/>
 

@@ -20,10 +20,10 @@ defined('_JEXEC') or die;
 			<p><?php echo JText::_($this->ftp->message); ?></p>
 		<?php endif; ?>
 
-		<label for="username"><?php echo JText::_('COM_CONGIG_FTP_USERNAME'); ?>:</label>
+		<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?>:</label>
 		<input type="text" id="username" name="username" class="input_box" size="70" value="" />
 
-		<label for="password"><?php echo JText::_('COM_CONGIG_FTP_PASSWORD'); ?>:</label>
+		<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>:</label>
 		<input type="password" id="password" name="password" class="input_box" size="70" value="" />
 
 	</fieldset>

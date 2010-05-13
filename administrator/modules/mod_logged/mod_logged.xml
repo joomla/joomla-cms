@@ -36,7 +36,7 @@
 					<option
 						value="1">MOD_LOGGED_NAME</option>
 					<option
-						value="0">MOD_LOGGED_USERNAME</option>
+						value="0">JGLOBAL_USERNAME</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

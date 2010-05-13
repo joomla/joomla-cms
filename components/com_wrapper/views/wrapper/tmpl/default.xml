@@ -35,7 +35,7 @@
 			<field name="width" type="text"
 				default="100%"
 				description="COM_WRAPPER_FIELD_WIDTH_DESC"
-				label="COM_WRAPPER_FIELD_WIDTH_LABEL"
+				label="JGLOBAL_WIDTH"
 				size="5"
 			/>
 
