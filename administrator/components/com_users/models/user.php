@@ -191,12 +191,19 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
-		$user = &JFactory::getUser();
+		// Insert the ID into the data if this is a new user.
+		// Otherwise the AfterSave plugins won't work.
+		if ($isNew) {
+			$data['id'] = $table->id;
+		}
+
+		$user = JFactory::getUser();
 		if ($user->id == $table->id) {
 			$registry = new JRegistry;
 			$registry->loadJSON($table->params);
 			$user->setParameters($registry);
 		}
+
 		// Trigger the onAftereStoreUser event
 		$dispatcher->trigger('onUserAfterSave', array($data, $isNew, true, null));
 
