@@ -19,7 +19,7 @@ jimport('joomla.form.form');
  * @subpackage	Application
  * @since		1.6
  */
-class JModelForm extends JModel
+abstract class JModelForm extends JModel
 {
 	/**
 	 * Array of form objects.
@@ -99,22 +99,32 @@ class JModelForm extends JModel
 	}
 
 	/**
+	 * Abstract method for getting the form from the model.
+	 *
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	mixed	A JForm object on success, false on failure
+	 * @since	1.6
+	 */
+	abstract public function getForm($data = array(), $loadData = true);
+
+	/**
 	 * Method to get a form object.
 	 *
 	 * @param	string		$name		The name of the form.
-	 * @param	string		$data		The form data. Can be XML string if file flag is set to false.
+	 * @param	string		$source		The form source. Can be XML string if file flag is set to false.
 	 * @param	array		$options	Optional array of options for the form creation.
 	 * @param	boolean		$clear		Optional argument to force load a new form.
 	 * @param	string		$xpath		An optional xpath to search for the fields.
 	 * @return	mixed		JForm object on success, False on error.
 	 */
-	function getForm($name, $data = null, $options = array(), $clear = false, $xpath = false)
+	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
 	{
 		// Handle the optional arguments.
 		$options['control']	= JArrayHelper::getValue($options, 'control', false);
 
 		// Create a signature hash.
-		$hash = md5($data.serialize($options));
+		$hash = md5($source.serialize($options));
 
 		// Check if we can use a previously loaded form.
 		if (isset($this->_forms[$hash]) && !$clear) {
@@ -126,10 +136,12 @@ class JModelForm extends JModel
 		JForm::addFieldPath(JPATH_COMPONENT.'/models/fields');
 
 		try {
-			$form = JForm::getInstance($name, $data, $options, false, $xpath);
+			$form = JForm::getInstance($name, $source, $options, false, $xpath);
 
-			// Get the data for the form.
-			$data = $this->getFormData();
+			if (isset($options['load_data']) && $options['load_data']) {
+				// Get the data for the form.
+				$data = $this->loadFormData();
+			}
 
 			// Allow for additional modification of the form, and events to be triggered.
 			// We pass the data because plugins may require it.
@@ -155,7 +167,7 @@ class JModelForm extends JModel
 	 * @return	array	The default data is an empty array.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		return array();
 	}
