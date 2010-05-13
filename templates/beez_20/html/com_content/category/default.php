@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 
-if(!$templateparams->get('html5', 0))
+if (!$templateparams->get('html5', 0))
 {
 	require(JPATH_BASE.'/components/com_content/views/category/tmpl/default.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -32,7 +32,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 </h1>
 <?php endif; ?>
 
-<?php if($this->params->get('show_category_title') OR $this->params->get('page_subheading')) : ?>
+<?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading')) : ?>
 <h2>
 	<?php echo $this->escape($this->params->get('page_subheading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -63,14 +63,14 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php if (is_array($this->children) && count($this->children) > 0 && $this->params->get('maxLevel') !=0)  : ?>
 		<div class="cat-children">
 
-	 <?php if($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
+	 <?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
 	 {  echo '<h3>' ;}
 	 else
 
 	{echo '<h2>' ;} ?>
 
 <?php echo JTEXT::_('COM_CONTENT_CHILDREN'); ?>
- <?php if($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
+ <?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
 	 {  echo '</h3>' ;}
 	 else
 

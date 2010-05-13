@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 
-if($templateparams->get('html5')!=1)
+if ($templateparams->get('html5')!=1)
 {
 	require(JPATH_BASE.'/components/com_content/views/featured/tmpl/default.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -58,7 +58,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 		$rowcount=( ((int)$key-1) %	(int) $this->columns) +1;
 		$row = $counter / $this->columns ;
 
-		if($rowcount==1) : ?>
+		if ($rowcount==1) : ?>
 
 			<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row ; ?>">
 		<?php endif; ?>

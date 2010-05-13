@@ -13,7 +13,7 @@ $params =& $this->item->params;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 
-if($templateparams->get('html5')!=1)
+if ($templateparams->get('html5')!=1)
 {
 	require(JPATH_BASE.'/components/com_content/views/category/tmpl/blog_links.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
-if($templateparams->get('html5')!=1)
+if ($templateparams->get('html5')!=1)
 {
 	require(JPATH_BASE.'/components/com_content/views/categories/tmpl/default.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -27,7 +27,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('categories_desc')) : ?>
+<?php if ($this->params->get('categories_desc')) : ?>
 	<?php echo JHtml::_('content.prepare', $this->params->get('categories_desc')); ?>
 <?php endif; ?>
 <?php

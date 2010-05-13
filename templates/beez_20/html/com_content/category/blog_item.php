@@ -14,7 +14,7 @@ $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 $canEdit = $this->user->authorise('core.edit', 'com_content.category.' . $this->item->id);
 
-if($templateparams->get('html5')!=1)
+if ($templateparams->get('html5')!=1)
 {
 	require(JPATH_BASE.'/components/com_content/views/category/tmpl/blog_item.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'

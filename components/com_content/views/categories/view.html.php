@@ -41,12 +41,12 @@ class ContentViewCategories extends JView
 			return false;
 		}
 
-		if($items === false)
+		if ($items === false)
 		{
 			//TODO Raise error for missing category here
 		}
 
-		if($parent == false)
+		if ($parent == false)
 		{
 			//TODO Raise error for missing parent category here
 		}
@@ -77,7 +77,7 @@ class ContentViewCategories extends JView
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {

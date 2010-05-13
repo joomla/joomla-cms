@@ -46,7 +46,9 @@ $class = ' class="first"';
 
 				<?php if ($child->getNumItems()==true) : ?>
 				<dl>
-					<dt><?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?></dt>
+					<dt>
+						<?php echo JText::_('COM_CONTENT_NUM_ITEMS') ; ?>
+					</dt>
 					<dd>
 						<?php echo $child->getNumItems(true); ?>
 					</dd>

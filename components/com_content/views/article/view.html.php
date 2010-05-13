@@ -60,7 +60,7 @@ class ContentViewArticle extends JView
 		$article_params->loadJSON($item->attribs);
 		$active = $app->getMenu()->getActive();
 		$temp = clone ($params);
-		if($active)
+		if ($active)
 		{
 			$currentLink = $active->link;
 			if (strpos($currentLink, 'view=article'))

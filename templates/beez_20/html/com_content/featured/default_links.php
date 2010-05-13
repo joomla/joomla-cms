@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
-if($templateparams->get('html5')!=1)
+if ($templateparams->get('html5')!=1)
 {
 	require(JPATH_BASE.'/components/com_content/views/featured/tmpl/default_links.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'

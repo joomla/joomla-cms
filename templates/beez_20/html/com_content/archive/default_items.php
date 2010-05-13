@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
-if(!$templateparams->get('html5', 0))
+if (!$templateparams->get('html5', 0))
 {
 	require(JPATH_BASE.'/components/com_content/views/archive/tmpl/default_items.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
@@ -80,7 +80,7 @@ $params =& $this->params;
 	</dl>
 <?php endif; ?>
 
-<?php  if($params->get('show_intro')) :?>
+<?php  if ($params->get('show_intro')) :?>
 		<div class="intro">
 			<?php echo substr($item->introtext, 0, 255); echo JText::_('  ...') ?>
 		</div>
