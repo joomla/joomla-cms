@@ -36,3 +36,4 @@ JHtml::_('behavior.tooltip');
 				<?php echo $name; ?></a></span>
 	</li>
 <?php endforeach; ?>
+</ul>

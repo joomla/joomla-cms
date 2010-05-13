@@ -20,7 +20,7 @@ $params = $this->state->get('params');
 
 <script language="javascript" type="text/javascript">
 function submitbutton(task) {
-	if (task == 'weblink.cancel' OR document.formvalidator.isValid(document.id('adminForm'))) {
+	if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 		submitform(task);
 	}
 }

@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
 		<td align="center">
 			<h1>
 				<?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED') ?>
+			</h1>
 		</td>
 	</tr>
 	<tr>

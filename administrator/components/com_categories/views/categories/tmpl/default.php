@@ -102,10 +102,11 @@ $listDirn	= $this->state->get('list.direction');
 						<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 						<?php if (!empty($item->note)) : ?>
 							(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>,
-								   <?php echo '<span>'.JText::_('JFIELD_NOTE_LABEL') . ':</span> ' . $this->escape($item->note); ?>)</p>
+								   <?php echo '<span>'.JText::_('JFIELD_NOTE_LABEL') . ':</span> ' . $this->escape($item->note); ?>)
 						<?php else : ?>
-							(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
+							(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)
 						<?php endif; ?>
+						</p>
 					</td>
 					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>
