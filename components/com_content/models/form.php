@@ -64,19 +64,20 @@ class ContentModelForm extends JModelForm
 	}
 
 	/**
-	 * Method to get a form object.
+	 * Method to get the login form.
 	 *
-	 * @access	public
-	 * @param	string		$xml		The form data. Can be XML string if file flag is set to false.
-	 * @param	array		$options	Optional array of parameters.
-	 * @param	boolean		$clear		Optional argument to force load a new form.
-	 * @return	mixed		JForm object on success, False on error.
+	 * The base form is loaded from XML and then an event is fired
+	 * for users plugins to extend the form with extra fields.
+	 *
+	 * @param	array	$data		An optional array of data for the form to interogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	mixed	A JForm object on success, false on failure
+	 * @since	1.6
 	 */
-	public function &getForm($xml = 'article', $name = 'com_content.article', $options = array(), $clear = false)
+	public function getForm($data = array(), $loadData = true)
 	{
-		$options += array('control' => 'jform');
-
-		$form = $this->loadForm($name, $xml, $options);
+		// Get the form.
+		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -144,6 +145,25 @@ class ContentModelForm extends JModelForm
 	}
 
 	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	mixed	The data for the form.
+	 * @since	1.6
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_content.edit.article.data', array());
+
+		if (empty($data)) {
+			$data = $this->getItem();
+		}
+
+		return $data;
+	}
+
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
@@ -153,10 +173,10 @@ class ContentModelForm extends JModelForm
 	public function save($data)
 	{
 		// Initialise variables
-		$dispatcher = &JDispatcher::getInstance();
-		$table		= &$this->getTable();
-		$form		= &$this->getForm();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('article.id');
+		$dispatcher = JDispatcher::getInstance();
+		$table		= $this->getTable();
+		$form		= $this->getForm($data, false);
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('article.id');
 		$isNew		= true;
 
 		if (!$form) {
