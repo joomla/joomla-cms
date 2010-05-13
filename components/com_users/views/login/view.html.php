@@ -35,7 +35,7 @@ class UsersViewLogin extends JView
 	{
 		// Get the view data.
 		$this->user		= JFactory::getUser();
-		$this->form		= $this->get('LoginForm');
+		$this->form		= $this->get('Form');
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->get('params');
 

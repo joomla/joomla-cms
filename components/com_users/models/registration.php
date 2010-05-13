@@ -98,7 +98,7 @@ class UsersModelRegistration extends JModelForm
 			$query = 'SELECT name, email, sendEmail' .
 						' FROM #__users' .
 						' WHERE sendEmail=1';
-			
+
 			$db->setQuery( $query );
 			$rows = $db->loadObjectList();
 
@@ -120,7 +120,7 @@ class UsersModelRegistration extends JModelForm
 		{
 			$user->set('activation', '');
 			$user->set('block', '0');
-			
+
 			$uri = JURI::getInstance();
 			jimport('joomla.user.helper');
 
@@ -151,13 +151,13 @@ class UsersModelRegistration extends JModelForm
 				$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 				return false;
 			}
-		} 
+		}
 		else
 		{
 			$user->set('activation', '');
 			$user->set('block', '0');
 		}
-		
+
 		// Store the user object.
 		if (!$user->save()) {
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
@@ -258,13 +258,15 @@ class UsersModelRegistration extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @return	mixed		JForm object on success, false on failure.
+	 * @param	array	$data		An optional array of data for the form to interogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = parent::getForm('com_users.registration', 'registration', array('control' => 'jform'));
+		$form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -278,7 +280,7 @@ class UsersModelRegistration extends JModelForm
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		return $this->getData();
 	}

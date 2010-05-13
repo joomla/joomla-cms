@@ -23,16 +23,15 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset request form.
 	 *
-	 * @param	string	The name of the form.
-	 * @param	string	The name of the form XML to load (excluding suffix).
-	 * @param	array	An array of options for the form.
-	 * @return	object	JForm object on success, JException on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm($formName = 'com_users.reset_request', $formXml = 'reset_request', $options = array('control' => 'jform'))
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = parent::getForm($formName, $formXml, $options);
+		$form = $this->loadForm('com_users.reset_request', 'reset_request', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -43,25 +42,39 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset complete form.
 	 *
-	 * @return	object	JForm object on success, JException on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getResetCompleteForm()
+	public function getResetCompleteForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		return $this->getForm('com_users.reset_complete', 'reset_complete');
+		$form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = array('control' => 'jform'));
+		if (empty($form)) {
+			return false;
+		}
+
+		return $form;
 	}
 
 	/**
 	 * Method to get the password reset confirm form.
 	 *
-	 * @return	object	JForm object on success, JException on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getResetConfirmForm()
+	public function getResetConfirmForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		return $this->getForm('com_users.reset_confirm', 'reset_confirm');
+		$form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = array('control' => 'jform'));
+		if (empty($form)) {
+			return false;
+		}
+
+		return $form;
 	}
 
 	/**

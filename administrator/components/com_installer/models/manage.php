@@ -241,17 +241,19 @@ class InstallerModelManage extends InstallerModel
 	/**
 	 * Method to get the row form.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	mixed	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		jimport('joomla.form.form');
 		$app = JFactory::getApplication();
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = JForm::getInstance('com_installer.manage', 'manage', array('event' => 'onPrepareForm'));
+		$form = JForm::getInstance('com_installer.manage', 'manage', array('control' => 'jform', 'load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false) {
@@ -259,7 +261,7 @@ class InstallerModelManage extends InstallerModel
 			return false;
 		}
 		// Check the session for previously entered form data.
-		$data = $this->getFormData();
+		$data = $this->loadFormData();
 
 		// Bind the form data if present.
 		if (!empty($data)) {
@@ -275,7 +277,7 @@ class InstallerModelManage extends InstallerModel
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_installer.manage.data', array());

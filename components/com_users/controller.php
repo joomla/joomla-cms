@@ -44,8 +44,8 @@ class UsersController extends JController
 					$user = JFactory::getUser();
 					if ($user->get('guest') != 1) {
 						// Redirect to profile page.
-						$app = JFactory::getApplication();
-						$app->redirect(JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
+						return;
 					}
 
 					// The user is a guest, load the registration model and show the registration page.
@@ -59,8 +59,8 @@ class UsersController extends JController
 					$user = JFactory::getUser();
 					if ($user->get('guest') == 1) {
 						// Redirect to login page.
-						$app = JFactory::getApplication();
-						$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
+						$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+						return;
 					}
 					$model = $this->getModel($vName);
 					break;
@@ -75,8 +75,8 @@ class UsersController extends JController
 					$user = JFactory::getUser();
 					if ($user->get('guest') != 1) {
 						// Redirect to profile page.
-						$app = JFactory::getApplication();
-						$app->redirect(JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
+						return;
 					}
 
 					$model = $this->getModel($vName);
@@ -87,8 +87,8 @@ class UsersController extends JController
 					$user = JFactory::getUser();
 					if ($user->get('guest') != 1) {
 						// Redirect to profile page.
-						$app = JFactory::getApplication();
-						$app->redirect(JRoute::_('index.php?option=com_users&view=profile', false));
+						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
+						return;
 					}
 
 					$model = $this->getModel($vName);

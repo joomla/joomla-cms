@@ -55,16 +55,18 @@ class UsersModelLevel extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @param	array	$data		An optional array of data for the form to interogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
-		$form = parent::getForm('com_users.level', 'level', array('control' => 'jform'));
+		$form = $this->loadForm('com_users.level', 'level', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -78,7 +80,7 @@ class UsersModelLevel extends JModelAdmin
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_users.edit.level.data', array());

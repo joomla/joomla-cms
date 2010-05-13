@@ -189,11 +189,12 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array		An optional array of source data.
-	 *
-	 * @return	mixed		JForm object on success, false on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
+	 * @since	1.6
 	 */
-	public function getForm($data = null)
+	public function getForm($data = array(), $loadData = true)
 	{
 		// The folder and element vars are passed when saving the form.
 		if (empty($data)) {
@@ -210,13 +211,13 @@ class ModulesModelModule extends JModelAdmin
 		$this->setState('item.module',		$module);
 
 		// Get the form.
-		$form = parent::getForm('com_modules.module', 'module', array('control' => 'jform'));
+		$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
 
 		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
-		
+
 		return $form;
 	}
 
@@ -226,7 +227,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_modules.edit.module.data', array());

@@ -57,9 +57,9 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
-	 * Override parent _allowSave method.
+	 * Override parent allowSave method.
 	 */
-	protected function _allowSave(&$data, $key = 'id')
+	protected function allowSave(&$data, $key = 'id')
 	{
 		// use custom position if selected
 		if (empty($data['position'])) {
@@ -68,7 +68,7 @@ class ModulesControllerModule extends JControllerForm
 
 		unset($data['custom_position']);
 
-		return parent::_allowSave($data, $key);
+		return parent::allowSave($data, $key);
 	}
 
 	/**

@@ -394,11 +394,12 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param	array		An optional array of source data.
-	 *
-	 * @return	mixed		JForm object on success, false on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	mixed	A JForm object on success, false on failure
+	 * @since	1.6
 	 */
-	public function getForm($data = null)
+	public function getForm($data = array(), $loadData = true)
 	{
 		// The folder and element vars are passed when saving the form.
 		if (empty($data)) {
@@ -411,7 +412,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Get the form.
-		$form = parent::getForm('com_menus.item', 'item', array('control' => 'jform'), true);
+		$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
 		if (empty($form)) {
 			return false;
 		}
@@ -425,7 +426,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
@@ -879,7 +880,7 @@ class MenusModelItem extends JModelAdmin
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
 					else {
-						$table->home = $value;				
+						$table->home = $value;
 						if (!$this->canSave($table)) {
 							// Prune items that you can't change.
 							unset($pks[$i]);

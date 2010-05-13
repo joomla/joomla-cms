@@ -41,13 +41,15 @@ class BannersModelDownload extends JModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	mixed	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = parent::getForm('com_banners.download', 'download', array('control' => 'jform'));
+		$form = $this->loadForm('com_banners.download', 'download', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -61,7 +63,7 @@ class BannersModelDownload extends JModelForm
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		$form->setValue('basename',		$this->getState('basename'));
 		$form->setValue('compressed',	$this->getState('compressed'));

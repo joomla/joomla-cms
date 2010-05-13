@@ -24,13 +24,15 @@ class UsersModelRemind extends JModelForm
 	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @return	object	JForm object on success, JException on failure.
+	 * @param	array	$data		An optional array of data for the form to interogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = parent::getForm('com_users.remind', 'remind', array('control' => 'jform'));
+		$form = $this->loadForm('com_users.remind', 'remind', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}

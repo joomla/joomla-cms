@@ -63,7 +63,7 @@ class WeblinksModelForm extends JModelForm
 	{
 		$options += array('control' => 'jform');
 
-		$form = parent::getForm($name, $xml, $options);
+		$form = $this->loadForm($name, $xml, $options);
 		if (empty($form)) {
 			return false;
 		}

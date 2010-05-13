@@ -133,11 +133,12 @@ class TemplatesModelStyle extends JModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array		An optional array of source data.
-	 *
-	 * @return	mixed		JForm object on success, false on failure.
+	 * @param	array	$data		An optional array of data for the form to interogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
+	 * @since	1.6
 	 */
-	public function getForm($data = null)
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
@@ -157,7 +158,7 @@ class TemplatesModelStyle extends JModelForm
 		$this->setState('item.template',	$template);
 
 		// Get the form.
-		$form = parent::getForm('com_templates.style', 'style', array('control' => 'jform'));
+		$form = $this->loadForm('com_templates.style', 'style', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -171,7 +172,7 @@ class TemplatesModelStyle extends JModelForm
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_templates.edit.style.data', array());
@@ -332,7 +333,7 @@ class TemplatesModelStyle extends JModelForm
 			$this->setError($table->getError());
 			return false;
 		}
-		
+
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit','com_menus') && $this->item->client_id==0) {
 			$n=0;

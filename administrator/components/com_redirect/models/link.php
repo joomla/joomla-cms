@@ -41,13 +41,15 @@ class RedirectModelLink extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = parent::getForm('com_redirect.link', 'link', array('control' => 'jform'));
+		$form = $this->loadForm('com_redirect.link', 'link', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -61,7 +63,7 @@ class RedirectModelLink extends JModelAdmin
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());

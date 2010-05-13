@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-May-2010 Andrew Eddie
+ # Fixed bug that prevented saving a module.
+ ^ Related to above, reworked JModelForm and made getForm abstract and replaced it with loadForm, renamed getFormData to loadFormData.
+ ^ Reworked forms in frontend user component.
+
 12-May-2010 Christophe Demko
  $ Correcting some strings/language in beez
  # Ensure that there exists at least one style for a template

@@ -72,16 +72,18 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @param	array	$data		Data for the form.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	mixed	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	public function getForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		jimport('joomla.form.form');
 		JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
 
 		// Get the form.
-		$form = parent::getForm('com_contact.contact', 'contact', array('control' => 'jform'));
+		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
 		}
@@ -113,7 +115,7 @@ class ContactModelContact extends JModelAdmin
 	 * @return	mixed	The data for the form.
 	 * @since	1.6
 	 */
-	protected function getFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_contact.edit.contact.data', array());

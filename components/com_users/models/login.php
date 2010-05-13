@@ -27,24 +27,30 @@ class UsersModelLogin extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param	string	The type of form to load (view, model);
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @param	array	$data		An optional array of data for the form to interogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
-	function &getLoginForm()
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		try {
-			$form = $this->getForm('com_users.login', 'login');
-		} catch (Exception $e) {
-			$this->setError($e->getMessage());
+		$form = $this->loadForm('com_users.login', 'login', array('load_data' => $loadData));
+		if (empty($form)) {
 			return false;
 		}
 
-		// Get the dispatcher and load the users plugins.
-		$dispatcher	= &JDispatcher::getInstance();
-		JPluginHelper::importPlugin('user');
+		return $form;
+	}
 
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return	array	The default data is an empty array.
+	 * @since	1.6
+	 */
+	protected function loadFormData()
+	{
 		// Check the session for previously entered login form data.
 		$app	= JFactory::getApplication();
 		$data	= $app->getUserState('users.login.form.data', array());
@@ -63,21 +69,7 @@ class UsersModelLogin extends JModelForm
 		}
 		$app->setUserState('users.login.form.data', $data);
 
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true)) {
-			$this->setError($dispatcher->getError());
-			return false;
-		}
-
-		// Bind the form data if present.
-		if (!empty($data)) {
-			$form->bind($data);
-		}
-
-		return $form;
+		return $data;
 	}
 
 	/**
@@ -96,4 +88,38 @@ class UsersModelLogin extends JModelForm
 		// Load the parameters.
 		$this->setState('params', $params);
 	}
+
+	/**
+	 * Method to allow derived classes to preprocess the form.
+	 *
+	 * @param	object	A form object.
+	 * @param	mixed	The data expected for the form.
+	 * @param	string	The name of the plugin group to import (defaults to "content").
+	 * @throws	Exception if there is an error in the form event.
+	 * @since	1.6
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'user')
+	{
+		// Import the approriate plugin group.
+		JPluginHelper::importPlugin($group);
+
+		// Get the dispatcher.
+		$dispatcher	= JDispatcher::getInstance();
+
+		// Trigger the form preparation event.
+		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
+
+		// Check for errors encountered while preparing the form.
+		if (count($results) && in_array(false, $results, true)) {
+			// Get the last error.
+			$error = $dispatcher->getError();
+
+			// Convert to a JException if necessary.
+			if (!JError::isError($error)) {
+				throw new Exception($error);
+			}
+		}
+	}
+
+
 }
