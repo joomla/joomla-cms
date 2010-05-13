@@ -409,22 +409,12 @@ class JPagination extends JObject
 	 */
 	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true)
 	{
-		$alt = JText::_($alt);
-
-		$html = '&nbsp;';
-		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition)
-		{
-			if ($enabled) {
-				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html	.= JHTML::_('image','admin/uparrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-				$html	.= '</a>';
-			}
-			else {
-				$html	= JHTML::_('image','admin/uparrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-			}
+		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
+			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled);
 		}
-
-		return $html;
+		else {
+			return '&nbsp;';
+		}
 	}
 
 	/**
@@ -440,21 +430,12 @@ class JPagination extends JObject
 	 */
 	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true)
 	{
-		$alt = JText::_($alt);
-
-		$html = '&nbsp;';
-		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition)
-		{
-			if ($enabled) {
-				$html	= '<a href="#reorder" onclick="return listItemTask(\'cb'.$i.'\',\''.$task.'\')" title="'.$alt.'">';
-				$html	.= JHTML::_('image','admin/downarrow.png', $alt, array( 'width' => 16, 'height' => 16, 'border' =>0), true);
-				$html	.= '</a>';
-			} else {
-				$html	= JHTML::_('image','admin/downarrow0.png', $alt, array( 'width' => 16, 'height' => 16, 'border' => 0), true);
-			}
+		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition) {
+			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled);
 		}
-
-		return $html;
+		else {
+			return '&nbsp;';
+		}
 	}
 
 	protected function _list_footer($list)
