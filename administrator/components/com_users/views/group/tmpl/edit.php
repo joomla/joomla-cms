@@ -41,13 +41,6 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 	</div>
 
-	<div class="width-50">
-		<fieldset id="user-groups">
-			<legend><?php echo JText::_('COM_USERS_ACTIONS_AVAILABLE');?></legend>
-			<?php //echo JHtml::_('access.actions', 'jform[actions]', $this->item->actions); ?>
-		</fieldset>
-	</div>
-
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
