@@ -2319,6 +2319,10 @@ a.jgrid:hover {
 	background-image: url(../images/toolbar/icon-32-cancel.png);
 }
 
+.icon-32-checkin {
+	background-image: url(../images/toolbar/icon-32-apply.png);
+}
+
 .icon-32-config {
 	background-image: url(../images/toolbar/icon-32-config.png);
 }

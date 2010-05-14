@@ -69,7 +69,7 @@ class ContentViewArticles extends JView
 			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::custom('articles.checkin', 'apply.png', 'apply_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::custom('articles.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

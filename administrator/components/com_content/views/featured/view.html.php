@@ -67,7 +67,7 @@ class ContentViewFeatured extends JView
 
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::custom('featured.checkin', 'apply.png', 'apply_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::custom('featured.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

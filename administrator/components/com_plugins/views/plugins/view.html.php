@@ -59,7 +59,7 @@ class PluginsViewPlugins extends JView
 			JToolBarHelper::custom('plugins.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::custom('plugins.checkin', 'apply.png', 'apply_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolBarHelper::custom('plugins.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 
 		if ($canDo->get('core.edit')) {
