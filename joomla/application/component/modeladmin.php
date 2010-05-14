@@ -148,7 +148,7 @@ abstract class JModelAdmin extends JModelForm
 		if (empty($pks)) {
 			$pks=array((int) $this->getState($this->getName().'.id'));
 		}
-var_dump($pks);
+
 		// Check in all items.
 		foreach ($pks as $i => $pk) {
 			if ($table->load($pk)) {
