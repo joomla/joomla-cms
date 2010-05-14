@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 14-May-2010 Christophe Demko
+ + Enabling new icons in admin menu
  + Add a divider for checkin task
  + Consolidate checkin task
  + Add checkin task

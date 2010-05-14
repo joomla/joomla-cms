@@ -1913,6 +1913,22 @@ a.jgrid:hover {
 	background-image: url(../images/menu/icon-16-article.png);
 }
 
+.icon-16-banners {
+	background-image: url(../images/menu/icon-16-banner.png);
+}
+
+.icon-16-banners-clients {
+	background-image: url(../images/menu/icon-16-banner-client.png);
+}
+
+.icon-16-banners-tracks {
+	background-image: url(../images/menu/icon-16-banner-tracks.png);
+}
+
+.icon-16-banners-cat {
+	background-image: url(../images/menu/icon-16-banner-categories.png);
+}
+
 .icon-16-category {
 	background-image: url(../images/menu/icon-16-category.png);
 }
@@ -1931,6 +1947,14 @@ a.jgrid:hover {
 
 .icon-16-config {
 	background-image: url(../images/menu/icon-16-config.png);
+}
+
+.icon-16-contact {
+	background-image: url(../images/menu/icon-16-contacts.png);
+}
+
+.icon-16-contact-cat {
+	background-image: url(../images/menu/icon-16-contacts-categories.png);
 }
 
 .icon-16-content {
@@ -2033,7 +2057,18 @@ a.jgrid:hover {
 	background-image: url(../images/menu/icon-16-menumgr.png);
 }
 
-/* .icon-16-messages 	{ background-image: url(../images/menu/icon-16-messages.png); } */
+.icon-16-messages {
+	background-image: url(../images/menu/icon-16-messaging.png);
+}
+
+.icon-16-messages-add {
+	background-image: url(../images/menu/icon-16-new-privatemessage.png);
+}
+
+.icon-16-messages-read {
+	background-image: url(../images/menu/icon-16-messages.png);
+}
+
 .icon-16-module {
 	background-image: url(../images/menu/icon-16-module.png);
 }
