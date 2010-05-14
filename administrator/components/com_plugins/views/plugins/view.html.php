@@ -59,6 +59,7 @@ class PluginsViewPlugins extends JView
 			JToolBarHelper::custom('plugins.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::custom('plugins.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 
@@ -67,6 +68,7 @@ class PluginsViewPlugins extends JView
 		}
 
 		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_plugins');
 		}
 		JToolBarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');

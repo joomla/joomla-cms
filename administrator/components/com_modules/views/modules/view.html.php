@@ -74,6 +74,7 @@ class ModulesViewModules extends JView
 			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::custom('modules.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 
