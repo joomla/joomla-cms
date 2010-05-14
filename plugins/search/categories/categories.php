@@ -28,7 +28,7 @@ class plgSearchCategories extends JPlugin
 	function onContentSearchAreas()
 	{
 		static $areas = array(
-		'categories' => 'Categories'
+		'categories' => 'PLG_SEARCH_CATEGORIES_CATEGORIES'
 		);
 		return $areas;
 	}

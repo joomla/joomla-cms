@@ -26,7 +26,7 @@ class plgSearchContacts extends JPlugin
 	function onContentSearchAreas()
 	{
 		static $areas = array(
-			'contacts' => 'Contacts'
+			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
 		);
 		return $areas;
 	}
@@ -60,7 +60,7 @@ class plgSearchContacts extends JPlugin
 			return array();
 		}
 
-		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACT');
+		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACTS');
 
 		switch ($ordering) {
 			case 'alpha':

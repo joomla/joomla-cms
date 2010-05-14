@@ -26,7 +26,7 @@ class plgSearchNewsfeeds extends JPlugin
 	function onContentSearchAreas()
 	{
 		static $areas = array(
-		'newsfeeds' => 'Newsfeeds'
+		'newsfeeds' => 'PLG_SEARCH_NEWSFEEDS_NEWSFEEDS'
 		);
 		return $areas;
 	}

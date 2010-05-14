@@ -27,7 +27,7 @@ class plgSearchWeblinks extends JPlugin
 	 */
 	function onContentSearchAreas() {
 		static $areas = array(
-			'weblinks' => 'Weblinks'
+			'weblinks' => 'PLG_SEARCH_WEBLINKS_WEBLINKS'
 			);
 			return $areas;
 	}
