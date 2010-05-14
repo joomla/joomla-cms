@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 ?>
 <div class="width-100">
 	<fieldset title="<?php echo JText::_('COM_CONGIG_FTP_DETAILS'); ?>" class="adminform">
-		<legend><?php echo JText::_('COM_CONGIG_FTP_DETAILS'); ?></legend>
+		<legend><?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 
-		<?php echo JText::_('COM_CONGIG_FTP_DETAILS_TIP'); ?>
+		<?php echo JText::_('COM_CONFIG_FTP_DETAILS_TIP'); ?>
 
 		<?php if (JError::isError($this->ftp)): ?>
 			<p><?php echo JText::_($this->ftp->message); ?></p>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<tr valign="top">
 		<td width="200">
 			<fieldset id="treeview">
-				<legend><?php echo JText::_('Folders'); ?></legend>
+				<legend><?php echo JText::_('COM_MEDIA_FOLDERS'); ?></legend>
 				<div id="media-tree_tree"></div>
 				<?php echo $this->loadTemplate('folders'); ?>
 			</fieldset>
@@ -47,7 +47,7 @@ defined('_JEXEC') or die;
 					</div>
 					<legend><?php echo JText::_('COM_MEDIA_FILES'); ?></legend>
 					<div class="path">
-						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />/
+						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit"><?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
