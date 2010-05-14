@@ -96,6 +96,7 @@ $listDirn	= $this->state->get('list.direction');
 			$ordering	= ($listOrder == 'ordering');
 			$canEdit	= $user->authorise('core.edit',			'com_plugins');
 			$canChange	= $user->authorise('core.edit.state',	'com_plugins');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
 			// $lang = &JFactory::getLanguage();
 			// $lang->load($item->name, JPATH_ADMINISTRATOR)
 			// || $lang->load ($item->name, JPATH_PLUGINS.DS.$item->folder.DS.$item->element);
@@ -106,7 +107,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&id='.(int) $item->extension_id); ?>">

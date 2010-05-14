@@ -85,6 +85,9 @@ class BannersViewBanners extends JView
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('banners.trash','JTOOLBAR_TRASH');
 		}
+		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			JToolBarHelper::custom('banners.checkin', 'apply.png', 'apply_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_banners');

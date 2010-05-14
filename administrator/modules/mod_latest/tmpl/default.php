@@ -26,11 +26,11 @@ defined('_JEXEC') or die;
 	</thead>
 <?php if (count($list)) : ?>
 	<tbody>
-	<?php foreach ($list as $item) : ?>
+	<?php foreach ($list as $i=>$item) : ?>
 		<tr>
 			<td>
 				<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 				<?php endif; ?>
 
 				<?php if ($item->link) :?>

@@ -133,18 +133,40 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method override to check-in a record.
+	 * Method override to check-in a record or an array of record
 	 *
-	 * @param	integer	The ID of the primary key.
+	 * @param	integer|array	The ID of the primary key or an array of IDs
 	 * @return	boolean
 	 * @since	1.6
 	 */
-	public function checkin($pk = null)
+	public function checkin(&$pks = array())
 	{
 		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState($this->getName().'.id');
-
-		return parent::checkin($pk);
+		$user		= JFactory::getUser();
+		$pks		= (array) $pks;
+		$table		= $this->getTable();
+		if (empty($pks)) {
+			$pks=array((int) $this->getState($this->getName().'.id'));
+		}
+var_dump($pks);
+		// Check in all items.
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk)) {
+				if ($table->checked_out>0) {
+					if(!parent::checkin($pk)) {
+						return false;
+					}
+				}
+				else {
+					unset($pks[$i]);
+				}
+			}
+			else {
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -370,6 +392,7 @@ abstract class JModelAdmin extends JModelForm
 				if (!$this->canEditState($table)) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
+					$this->checkin($pk);
 					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
 					continue;
 				}

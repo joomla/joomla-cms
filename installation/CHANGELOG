@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-May-2010 Christophe Demko
+ + Add checkin task
+
 14-May-2010 Jean-Marie Simonet
 $ Deleting legacy strings and sorting ini strings in files [1]
 

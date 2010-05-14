@@ -95,6 +95,7 @@ $n = count($this->items);
 			foreach ($this->items as $i => $item) :
 				$ordering = ($listOrder == 'a.lft');
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
+				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<th class="center">
@@ -102,7 +103,7 @@ $n = count($this->items);
 					</th>
 					<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 						<?php if ($item->checked_out) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 						<?php endif; ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
 							<?php echo $this->escape($item->title); ?></a>

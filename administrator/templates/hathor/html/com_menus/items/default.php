@@ -120,6 +120,7 @@ $listDirn	= $this->state->get('list.direction');
 			$ordering = ($listOrder == 'a.lft');
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 			$canChange	= $user->authorise('core.edit.state',	'com_menus');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -128,7 +129,7 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
 
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>

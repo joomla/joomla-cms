@@ -78,9 +78,6 @@ $listDirn	= $this->state->get('list.direction');
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="row-number-col">
-					<?php echo JText::_('JGRID_HEADING_ROW_NUMBER'); ?>
-				</th>
 				<th class="checkmark-col">
 					<input type="checkbox" name="toggle" id="toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(<?php echo count($this->items); ?>);" />
 				</th>
@@ -121,17 +118,15 @@ $listDirn	= $this->state->get('list.direction');
 			$canCreate	= $user->authorise('core.create',		'com_weblinks.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_weblinks.category.'.$item->catid);
 			$canChange	= $user->authorise('core.edit.state',	'com_weblinks.category.'.$item->catid);
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<th>
-					<?php echo $this->pagination->getRowOffset($i); ?>
-				</th>
 				<td>
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
 					<?php if ($item->checked_out) : ?>
-						<?php echo JHtml::_('jgrid.checkedout', $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'weblinks.', $canCheckin); ?>
 					<?php endif; ?>
 					<?php if ($canCreate || $canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_weblinks&task=weblink.edit&id='.(int) $item->id); ?>">

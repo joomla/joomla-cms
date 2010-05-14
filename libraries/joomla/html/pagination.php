@@ -400,17 +400,20 @@ class JPagination extends JObject
 	/**
 	 * Return the icon to move an item UP.
 	 *
-	 * @param	integer	The row index.
-	 * @param	boolean	True to show the icon.
-	 * @param	string	The task to fire.
-	 * @param	string	The image alternate text string.
+	 * @param	int				$i			The row index.
+	 * @param	boolean			$condition	True to show the icon.
+	 * @param	string			$task		The task to fire.
+	 * @param	string			$alt		The image alternate text string.
+	 * @param	boolean			$enabled	An optional setting for access control on the action.
+	 * @param	string			$checkbox	An optional prefix for checkboxes.
+	 *
 	 * @return	string	Either the icon to move an item up or a space.
 	 * @since	1.0
 	 */
-	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true)
+	public function orderUpIcon($i, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox='cb')
 	{
 		if (($i > 0 || ($i + $this->limitstart > 0)) && $condition) {
-			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled);
+			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else {
 			return '&nbsp;';
@@ -420,18 +423,21 @@ class JPagination extends JObject
 	/**
 	 * Return the icon to move an item DOWN.
 	 *
-	 * @param	int		The row index.
-	 * @param	int		The number of items in the list.
-	 * @param	boolean	True to show the icon.
-	 * @param	string	The task to fire.
-	 * @param	string	The image alternate text string.
+	 * @param	int				$i			The row index.
+	 * @param	int				$n			The number of items in the list.
+	 * @param	boolean			$condition	True to show the icon.
+	 * @param	string			$task		The task to fire.
+	 * @param	string			$alt		The image alternate text string.
+	 * @param	boolean			$enabled	An optional setting for access control on the action.
+	 * @param	string			$checkbox	An optional prefix for checkboxes.
+	 *
 	 * @return	string	Either the icon to move an item down or a space.
 	 * @since	1.0
 	 */
-	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true)
+	public function orderDownIcon($i, $n, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox='cb')
 	{
 		if (($i < $n -1 || $i + $this->limitstart < $this->total - 1) && $condition) {
-			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled);
+			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else {
 			return '&nbsp;';
