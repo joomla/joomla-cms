@@ -120,7 +120,7 @@ class CategoriesControllerCategory extends JController
 	 */
 	public function cancel()
 	{
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= &JFactory::getApplication();
@@ -154,7 +154,7 @@ class CategoriesControllerCategory extends JController
 	public function save()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
@@ -172,7 +172,7 @@ class CategoriesControllerCategory extends JController
 			// Check-in the original row.
 			if (!$model->checkin()) {
 				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+				$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
 				$this->setRedirect('index.php?option=com_categories&view=category&layout=edit', $message, 'error');
 				return false;
 			}
@@ -219,7 +219,7 @@ class CategoriesControllerCategory extends JController
 			$app->setUserState('com_categories.edit.category.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JError_Save_failed', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit', false));
 			return false;
 		}
@@ -227,7 +227,7 @@ class CategoriesControllerCategory extends JController
 		// Save succeeded, check-in the row.
 		if (!$model->checkin()) {
 			// Check-in failed, go back to the row and display a notice.
-			$message = JText::sprintf('JError_Checkin_saved', $model->getError());
+			$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
 			$this->setRedirect('index.php?option=com_categories&view=category&layout=edit', $message, 'error');
 			return false;
 		}
