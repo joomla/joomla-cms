@@ -16,25 +16,27 @@
  * @version SVN: $Id$
  */
 
-class Com_AlphaInstallerScript {
+class Com_BetaInstallerScript {
 
 	function install($parent) {
-		echo '<p>'. JText::_('COM_ALPHA_16_CUSTOM_INSTALL_SCRIPT') . '</p>';
+		echo '<p>'. JText::_('COM_BETA_16_CUSTOM_INSTALL_SCRIPT') . '</p>';
 	}
 
 	function uninstall($parent) {
-		echo '<p>'. JText::_('COM_ALPHA_16_CUSTOM_UNINSTALL_SCRIPT') .'</p>';
+		echo '<p>'. JText::_('COM_BETA_16_CUSTOM_UNINSTALL_SCRIPT') .'</p>';
 	}
 
 	function update($parent) {
-		echo '<p>'. JText::_('COM_ALPHA_16_CUSTOM_UPDATE_SCRIPT') .'</p>';
+		echo '<p>'. JText::_('COM_BETA_16_CUSTOM_UPDATE_SCRIPT') .'</p>';
 	}
 
 	function preflight($type, $parent) {
-		echo '<p>'. JText::sprintf('COM_ALPHA_16_CUSTOM_PREFLIGHT', $type) .'</p>';
+		JError::raiseWarning(100, JText::_('COM_BETA_RANDOM_MESSAGE'));
+		return false;
+		echo '<p>'. JText::sprintf('COM_BETA_16_CUSTOM_PREFLIGHT', $type) .'</p>';
 	}
 
 	function postflight($type, $parent) {
-		echo '<p>'. JText::sprintf('COM_ALPHA_16_CUSTOM_POSTFLIGHT', $type) .'</p>';
+		echo '<p>'. JText::sprintf('COM_BETA_16_CUSTOM_POSTFLIGHT', $type) .'</p>';
 	}
 }

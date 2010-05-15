@@ -188,8 +188,14 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
-			$this->parent->manifestClass->preflight('install', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		{
+			if($this->parent->manifestClass->preflight('install', $this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
@@ -378,8 +384,14 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) {
-			$this->parent->manifestClass->install($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) 
+		{
+			if($this->parent->manifestClass->install($this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
@@ -447,7 +459,11 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) $this->parent->manifestClass->postflight('install', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) 
+		{
+			$this->parent->manifestClass->postflight('install', $this);
+		}
+			
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
@@ -580,8 +596,14 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
-			$this->parent->manifestClass->preflight('update', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		{
+			if($this->parent->manifestClass->preflight('update', $this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
@@ -760,8 +782,14 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) {
-			$this->parent->manifestClass->update($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) 
+		{
+			if($this->parent->manifestClass->update($this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
@@ -817,7 +845,8 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) 
+		{
 			$this->parent->manifestClass->postflight('update', $this);
 		}
 		$msg .= ob_get_contents(); // append messages
@@ -932,7 +961,9 @@ class JInstallerComponent extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) $this->parent->manifestClass->uninstall($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+			$this->parent->manifestClass->uninstall($this);
+		}
 		$msg = ob_get_contents();
 		ob_end_clean();
 
@@ -1422,8 +1453,14 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
-			$this->parent->manifestClass->preflight('discover_install', $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		{
+			if($this->parent->manifestClass->preflight('discover_install', $this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
@@ -1500,8 +1537,14 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install')) {
-			$this->parent->manifestClass->install($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install')) 
+		{
+			if($this->parent->manifestClass->install($this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
