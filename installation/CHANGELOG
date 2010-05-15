@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2010 Sam Moffatt
+ + Added setRedirect to JInstaller to permit extensions to flag that they want to redirect the user post install
+
 14-May-2010 Mark Dexter
 ^ Minor tweak to beez_20 to fix Eclipse validation
 

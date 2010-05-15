@@ -350,7 +350,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Update an entry to the extension table
 		$row = & JTable::getInstance('extension');
 		$eid = $row->find(Array('element'=>strtolower($this->get('tag')),
-						'type'=>'language'));
+						'type'=>'language', 'client_id'=>$clientId));
 		if ($eid) {
 			$row->load($eid);
 		}

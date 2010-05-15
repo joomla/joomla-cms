@@ -126,6 +126,7 @@ class InstallerModelInstall extends JModel
 		$this->setState('result', $result);
 		$app->setUserState('com_installer.message', $installer->message);
 		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+		$app->setUserState('com_installer.redirect_url', $installer->get('redirect_url'));
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
@@ -135,6 +136,7 @@ class InstallerModelInstall extends JModel
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
+		
 		return $result;
 	}
 

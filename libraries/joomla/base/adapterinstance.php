@@ -31,7 +31,7 @@ class JAdapterInstance extends JObject {
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
+	 * @access	public
 	 * @param	object	$parent	Parent object [JAdapter instance]
 	 * @return	void
 	 * @since	1.6
@@ -40,5 +40,16 @@ class JAdapterInstance extends JObject {
 	{
 		$this->parent =& $parent;
 		$this->db =& $db ? $db : JFactory::getDBO(); // pull in the global dbo in case
+	}
+	
+	/**
+	 * Retrieves the parent object
+	 * @access  public
+	 * @return 	object parent
+	 * @since 	1.6
+	 */
+	public function getParent() 
+	{
+		return $this->parent;
 	}
 }
