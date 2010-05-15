@@ -28,7 +28,12 @@ $ -> Language fix or change
 ! -> Note
 
 15-May-2010 Mark Dexter
-# Fix issues with sample data (Elin Waring)
+# Fixed issues with sample data (Elin Waring)
+^ Added title and subtitle to the params (Angie Radtke)
+^ Added joomla_logos (Angie Radtke)
+# Updated language file (Angie Radtke)
+# Deleted unused image (Angie Radtke)
+# Fixed language string (Angie Radtke)
 
 15-May-2010 Christophe Demko
  ^ Consolidate JHtmlJGrid functions

@@ -893,7 +893,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 INSERT INTO `#__template_styles` VALUES (1, 'rhuk_milkyway', '0', '0', 'Milkyway - Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
-INSERT INTO `#__template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"Joomla Logo Horz BW Rev.png","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO `#__template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"joomla_black.gif","navposition":"left","templatecolor":"personal","html5":"0"}');
 INSERT INTO `#__template_styles` VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","highContrast":"0","boldText":"0","altMenu":"0"}');
 
 # -------------------------------------------------------

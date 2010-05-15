@@ -61,6 +61,14 @@
 					hide_default="1" default=""
 					label="TPL_BEEZ2_FIELD_LOGO_LABEL" description="TPL_BEEZ2_FIELD_LOGO_DESC" />
 
+				<field name="sitetitle"  type="text" default="BEEZ 2.0"
+					label="TPL_BEEZ2_FIELD_SITETITLE_LABEL"
+					description="TPL_BEEZ2_FIELD_SITETITLE_DESC" />
+
+				<field name="sitedescription"  type="text" default="A flexy thing"
+					label="TPL_BEEZ2_FIELD_DESCRIPTION_LABEL"
+					description="TPL_BEEZ2_FIELD_DESCRIPTION_DESC" />
+
 				<field name="navposition" type="list" default="center"
 					label="TPL_BEEZ2_FIELD_NAVPOSITION_LABEL"
 					description="TPL_BEEZ2_FIELD_NAVPOSITION_DESC"

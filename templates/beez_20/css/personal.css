@@ -94,7 +94,7 @@ fieldset
 .logoheader
 {
 
-        background:  #171818   /* URL(../images/personal/personal2.png) no-repeat top left  */;
+        background:  #171818 URL(../images/personal/personal2.png) no-repeat top left ;
         color:#fff;
         min-height:159px;
         margin:0em 10px 0 10px;

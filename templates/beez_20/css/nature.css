@@ -80,7 +80,8 @@ fieldset
 
 #logo span
 {
-        color:#bddfb3 !important;
+        color:#fff !important;
+		margin-top:6px
 }
 
 .logoheader

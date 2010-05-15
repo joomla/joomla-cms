@@ -78,7 +78,19 @@ $templateparams	= $app->getTemplate(true)->params;
 		<header id="header">
 			<?php endif; ?>
 				<div class="logoheader">
-					<h1 id="logo"><?php if ($logo != '-1' ): ?><img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ2_LOGO'); ?>" /><?php endif;?><?php if ($logo == '-1' ): ?>Beez 2.0<?php endif; ?><span class="header1"><?php echo JText::_('TPL_BEEZ2_YOUR_SITE_DESCRIPTION'); ?></span></h1>
+					<h1 id="logo">
+
+					<?php if ($logo != '-1' ): ?>
+					<img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ2_LOGO'); ?>" />
+					<?php endif;?>
+					<?php if ($logo == '-1' ): ?>
+					<? $title= $templateparams->get('sitetitle');
+					   echo JText::_($title); ?>
+					<?php endif; ?>
+					<span class="header1">
+					<?php $subtitle= $templateparams->get('sitedescription');
+					echo JText::_($subtitle); ?>
+					</span></h1>
 				</div><!-- end logoheader -->
 
 					<ul class="skiplinks">
