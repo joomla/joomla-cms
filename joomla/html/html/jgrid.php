@@ -115,10 +115,10 @@ abstract class JHtmlJGrid
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
 		$states	= array(
-			1	=> array('unpublish',	'JPUBLISHED',	'JLIB_HTML_UNPUBLISH_ITEM',	false,	'publish'),
-			0	=> array('publish',		'JUNPUBLISHED',	'JLIB_HTML_PUBLISH_ITEM',	false,	'unpublish'),
-			2	=> array('unpublish',	'JARCHIVED',	'JLIB_HTML_UNPUBLISH_ITEM',	false,	'archive'),
-			-2	=> array('publish',		'JTRASHED',		'JLIB_HTML_PUBLISH_ITEM',	false,	'trash'),
+			1	=> array('unpublish',	'JPUBLISHED',	$enabled ? 'JLIB_HTML_UNPUBLISH_ITEM' : 'JPUBLISHED',	false,	'publish'),
+			0	=> array('publish',		'JUNPUBLISHED',	$enabled ? 'JLIB_HTML_PUBLISH_ITEM' : 'JUNPUBLISHED',	false,	'unpublish'),
+			2	=> array('unpublish',	'JARCHIVED',	$enabled ? 'JLIB_HTML_UNPUBLISH_ITEM' : 'JARCHIVED',	false,	'archive'),
+			-2	=> array('publish',		'JTRASHED',		$enabled ? 'JLIB_HTML_PUBLISH_ITEM' : 'JTRASHED',		false,	'trash'),
 		);
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
@@ -147,8 +147,8 @@ abstract class JHtmlJGrid
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
 		$states	= array(
-			1	=> array('unsetDefault',	'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM',	false,	'default'),
-			0	=> array('setDefault', 		'',			'JLIB_HTML_SETDEFAULT_ITEM',	false,	'notdefault'),
+			1	=> array('unsetDefault',	'JDEFAULT', $enabled ? 'JLIB_HTML_UNSETDEFAULT_ITEM' : 'JDEFAULT',	false,	'default'),
+			0	=> array('setDefault', 		'',			$enabled ? 'JLIB_HTML_SETDEFAULT_ITEM' : '',			false,	'notdefault'),
 		);
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
