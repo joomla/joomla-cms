@@ -87,12 +87,12 @@ class JHTMLIcon
 			$overlib = JText::_('JPUBLISHED');
 		}
 		$date = JHTML::_('date',$article->created);
-		$author = $article->created_by_alias ? $article->created_by_alias : $article->created_by;
+		$author = $article->created_by_alias ? $article->created_by_alias : $article->author_name;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
-		$overlib .= $author;
+		$overlib .= htmlspecialchars($author, ENT_COMPAT, 'UTF-8');
 
 		$button = JHTML::_('link',JRoute::_($url), $text);
 
