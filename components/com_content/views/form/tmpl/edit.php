@@ -36,7 +36,7 @@ function submitbutton(task) {
 
 <form action="<?php echo JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
-		<legend><?php echo JText::_('Editor'); ?></legend>
+		<legend><?php echo JText::_('JEDITOR'); ?></legend>
 
 			<div class="formelm">
 			<?php echo $this->form->getLabel('title'); ?>
@@ -52,10 +52,10 @@ function submitbutton(task) {
 
 			<div class="formelm_buttons">
 			<button type="button" onclick="submitbutton('article.save')">
-				<?php echo JText::_('JSave') ?>
+				<?php echo JText::_('JSAVE') ?>
 			</button>
 			<button type="button" onclick="submitbutton('article.cancel')">
-				<?php echo JText::_('JCancel') ?>
+				<?php echo JText::_('JCANCEL') ?>
 			</button>
 			</div>
 

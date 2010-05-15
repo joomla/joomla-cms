@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ Consolidate icons and hathor template
 
 15-May-2010 Jean-Marie Simonet
+$ Added missing string
 ^ Changed id to author name in edit icon overlib
 $ Consolidated string
 # Fixed language saving bug in com_contacts
