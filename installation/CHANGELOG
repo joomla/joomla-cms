@@ -38,6 +38,8 @@ $ -> Language fix or change
 # Updated language file (Angie Radtke)
 # Deleted unused image (Angie Radtke)
 # Fixed language string (Angie Radtke)
+# Fixed problem with root category description [#20296] (Elin Waring)
+# More sample data fixes (Elin Waring)
 
 15-May-2010 Christophe Demko
  ^ Consolidate JHtmlJGrid functions

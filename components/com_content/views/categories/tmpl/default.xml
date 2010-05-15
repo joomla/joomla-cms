@@ -11,9 +11,9 @@
 		<fieldset name="request"
 		 >
 			<field name="id" type="category"
-				description="COM_CONTENT_CHOOSE_CATEGORY_DESC"
+				description="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_DESC"
 				extension="com_content"
-				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
+				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
 				show_root="true"
 				required="true"
 			/>
@@ -23,9 +23,17 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="basic">
+			<field name="show_base_description" type="radio"
+				label="JGLOBAL_SHOW_BASE_DESCRIPTION_LABEL"
+				description="JGLOBAL_SHOW_BASE_DESCRIPTION_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>			
 			<field name="categories_description" type="textarea"
-				description="COM_CONTENT_FIELD_CATEGORIES_DESC_DESC"
-				label="COM_CONTENT_FIELD_CATEGORIES_DESC_LABEL"
+				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
+				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
 				cols="25"
 				rows="5"
 			/>

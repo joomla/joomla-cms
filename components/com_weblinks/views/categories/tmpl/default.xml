@@ -8,8 +8,8 @@
 
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
-		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL" description="">
-
+		<fieldset name="request"
+		>
 			<field name="id" type="category"
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC"
 				extension="com_weblinks"
@@ -23,9 +23,17 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="basic">
+			<field name="show_base_description" type="radio"
+				label="JGLOBAL_SHOW_BASE_DESCRIPTION_LABEL"
+				description="JGLOBAL_SHOW_BASE_DESCRIPTION_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>			
 			<field name="categories_description" type="textarea"
-				description="COM_CONTENT_FIELD_CATEGORIES_DESC_DESC"
-				label="COM_CONTENT_FIELD_CATEGORIES_DESC_LABEL"
+				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
+				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
 				cols="25"
 				rows="5"
 			/>
