@@ -51,7 +51,7 @@ class MenusViewMenu extends JView
 		JRequest::setVar('hidemainmenu', true);
 
 		$isNew	= ($this->item->id == 0);
-		JToolBarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'));
+		JToolBarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'menu.png');
 
 		JToolBarHelper::apply('menu.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::save('menu.save','JTOOLBAR_SAVE');

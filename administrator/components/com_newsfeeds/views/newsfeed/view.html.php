@@ -56,7 +56,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= NewsfeedsHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'));
+		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'newsfeeds.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit')) {

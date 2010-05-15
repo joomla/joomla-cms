@@ -1970,7 +1970,7 @@ a.jgrid:hover {
 }
 
 .icon-16-featured {
-	background-image: url(../images/menu/icon-16-frontpage.png);
+	background-image: url(../images/menu/icon-16-featured.png);
 }
 
 .icon-16-groups {
@@ -2154,6 +2154,10 @@ a.jgrid:hover {
 	background-image: url(../images/menu/icon-16-search.png);
 }
 
+.icon-16-weblinks {
+	background-image: url(../images/menu/icon-16-links.png);
+}
+
 /**
  * Toolbar icons
  * These icons are used for the toolbar buttons
@@ -2294,12 +2298,36 @@ a.jgrid:hover {
 	background-image: url(../images/header/icon-48-generic.png);
 }
 
+.icon-48-banners {
+	background-image: url(../images/header/icon-48-banner.png);
+}
+
+.icon-48-banners-categories {
+	background-image: url(../images/header/icon-48-banner-categories.png);
+}
+
+.icon-48-banners-clients {
+	background-image: url(../images/header/icon-48-banner-client.png);
+}
+
+.icon-48-banners-tracks {
+	background-image: url(../images/header/icon-48-banner-tracks.png);
+}
+
 .icon-48-checkin {
 	background-image: url(../images/header/icon-48-checkin.png);
 }
 
 .icon-48-clear {
 	background-image: url(../images/header/icon-48-clear.png);
+}
+
+.icon-48-contact {
+	background-image: url(../images/header/icon-48-contacts.png);
+}
+
+.icon-48-contact-categories {
+	background-image: url(../images/header/icon-48-contacts-categories.png);
 }
 
 .icon-48-purge {
@@ -2360,6 +2388,10 @@ a.jgrid:hover {
 
 .icon-48-inbox {
 	background-image: url(../images/header/icon-48-inbox.png);
+}
+
+.icon-48-new-privatemessage {
+	background-image: url(../images/header/icon-48-new-privatemessage.png);
 }
 
 .icon-48-msgconfig {
@@ -2457,6 +2489,10 @@ a.jgrid:hover {
 .icon-48-redirect 		{ background-image: url(../images/header/icon-48-redirect.png); }
 .icon-48-search 		{ background-image: url(../images/header/icon-48-search.png); }
 .icon-48-newsfeeds 		{ background-image: url(../images/header/icon-48-newsfeeds.png); }
+
+.icon-48-weblinks {
+	background-image: url(../images/header/icon-48-links.png);
+}
 
 /**
  * General styles

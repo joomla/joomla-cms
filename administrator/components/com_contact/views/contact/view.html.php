@@ -56,7 +56,7 @@ class ContactViewContact extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		JRequest::setVar('hidemainmenu', 1);
 
-		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'));
+		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
 		JToolBarHelper::apply('contact.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::save('contact.save','JTOOLBAR_SAVE');
 		JToolBarHelper::addNew('contact.save2new', 'JTOOLBAR_SAVE_AND_NEW');

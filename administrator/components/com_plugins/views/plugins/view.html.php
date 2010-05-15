@@ -54,7 +54,12 @@ class PluginsViewPlugins extends JView
 
 		JToolBarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plugin');
 
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::editList('plugin.edit', 'JTOOLBAR_EDIT');
+		}
+
 		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::custom('plugins.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_ENABLE', true);
 			JToolBarHelper::custom('plugins.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_DISABLE', true);
 		}
@@ -63,14 +68,11 @@ class PluginsViewPlugins extends JView
 			JToolBarHelper::custom('plugins.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('plugin.edit', 'JTOOLBAR_EDIT');
-		}
-
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_plugins');
 		}
+		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 	}
 }

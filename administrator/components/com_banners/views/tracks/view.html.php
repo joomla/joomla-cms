@@ -54,7 +54,7 @@ class BannersViewTracks extends JView
 
 		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
 
-		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'generic.png');
+		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
 
 		$bar = &JToolBar::getInstance('toolbar');
 		$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&view=download&tmpl=component',600,250);

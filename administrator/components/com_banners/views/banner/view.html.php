@@ -57,7 +57,7 @@ class BannersViewBanner extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= BannersHelper::getActions($this->state->get('filter.category_id'));
 
-		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'));
+		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit')) {

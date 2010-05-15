@@ -34,6 +34,11 @@ class ContactHelper
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
+		if ($vName=='categories') {
+			JToolBarHelper::title(
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_contact')),
+				'contact-categories');
+		}
 	}
 	/**
 	 * Gets a list of the actions that can be performed.

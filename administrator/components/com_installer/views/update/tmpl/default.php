@@ -27,7 +27,6 @@ $listDirn	= $this->state->get('list.direction');
 	<table class="adminlist" cellspacing="1">
 		<thead>
 			<tr>
-				<th width="10"><?php echo JText::_('COM_INSTALLER_HEADING_NUM'); ?></th>
 				<th width="20"><input type="checkbox" name="toggle" value="" onclick="checkAll(this)" /></th>
 				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
 				<th class="nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_INSTALLTYPE', 'extension_id', $listDirn, $listOrder); ?></th>
@@ -46,7 +45,6 @@ $listDirn	= $this->state->get('list.direction');
 		<tbody>
 		<?php foreach($this->items as $i=>$item):?>
 			<tr class="row<?php echo $i%2; ?>">
-				<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td><?php echo JHtml::_('grid.id', $i, $item->update_id); ?></td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('COM_INSTALLER_TIP_UPDATE_DESCRIPTION');?>::<?php echo $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">

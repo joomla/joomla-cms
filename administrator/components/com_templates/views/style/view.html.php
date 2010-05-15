@@ -57,7 +57,7 @@ class TemplatesViewStyle extends JView
 
 		JToolBarHelper::title(
 			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
-			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE')
+			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'thememanager'
 		);
 
 		// If not checked out, can save the item.

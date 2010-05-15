@@ -53,27 +53,29 @@ class UsersViewUsers extends JView
 
 		JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'COM_USERS_TOOLBAR_BLOCK', true);
-			JToolBarHelper::divider();
-		}
-
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('user.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
 		}
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::custom('user.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 		}
+
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'COM_USERS_TOOLBAR_BLOCK', true);
+		}
+
 		if ($canDo->get('core.delete')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::deleteList('', 'users.delete','JTOOLBAR_DELETE');
 		}
 
-		JToolBarHelper::divider();
-
 		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_users');
 		}
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_USERS_USER_MANAGER');
 	}

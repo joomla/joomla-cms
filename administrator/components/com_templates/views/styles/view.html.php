@@ -53,23 +53,30 @@ class TemplatesViewStyles extends JView
 		$canDo	= TemplatesHelper::getActions();
 		$isSite	= ($state->get('filter.client_id') == 0);
 
+		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
+
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
+			JToolBarHelper::divider();
+		}
+
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('style.edit','JTOOLBAR_EDIT');
 		}
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-		}
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 		if ($canDo->get('core.create') && $isSite) {
 			JToolBarHelper::addNew('styles.duplicate', 'JTOOLBAR_DUPLICATE');
 		}
+
 		if ($canDo->get('core.delete') && $isSite) {
+			JToolBarHelper::divider();
 			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_DELETE');
 		}
+
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_templates');
 		}
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 	}

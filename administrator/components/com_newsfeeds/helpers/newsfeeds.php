@@ -36,6 +36,11 @@ class NewsfeedsHelper
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);
+		if ($vName=='categories') {
+			JToolBarHelper::title(
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_categories')),
+				'newsfeeds-categories');
+		}
 	}
 
 	/**

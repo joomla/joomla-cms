@@ -35,7 +35,9 @@ class BannersHelper
 			$vName == 'categories'
 		);
 		if ($vName=='categories') {
-			JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_CATEGORIES'), 'categories');
+			JToolBarHelper::title(
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_banners')),
+				'banners-categories');
 		}
 		JSubMenuHelper::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_TRACKS'),

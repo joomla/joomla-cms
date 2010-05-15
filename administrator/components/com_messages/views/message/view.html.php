@@ -47,7 +47,7 @@ class MessagesViewMessage extends JView
 	protected function addToolbar()
 	{
 		if ($this->getLayout() == 'edit') {
-			JToolBarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'inbox.png');
+			JToolBarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'new-privatemessage.png');
 			JToolBarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
 			JToolBarHelper::cancel('message.cancel','JTOOLBAR_CANCEL');
 			JToolBarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
