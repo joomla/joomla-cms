@@ -136,7 +136,7 @@
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTACT_FIELD_LANGUAGE_DESC" class="inputbox"
 		>
-			<option value="">JALL</option>
+			<option value="*">JALL</option>
 		</field>
 		<field name="featured" type="radio"
 			label="COM_CONTACT_FIELD_FEATURED_LABEL"
