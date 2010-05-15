@@ -11,8 +11,8 @@
 defined('_JEXEC') or die;
 
 
-$guest = JText::sprintf(($count['guest'] == 1) ? 'MOD_WHOSONLINE_GUEST' : 'MOD_WHOSONLINE_GUESTS', $count['guest']);
-$member = JText::sprintf(($count['user'] == 1) ? 'MOD_WHOSONLINE_MEMBER' : 'MOD_WHOSONLINE_MEMBERS', $count['user']);
+$guest = JText::plural('MOD_WHOSONLINE_GUESTS', $count['guest']);
+$member = JText::plural('MOD_WHOSONLINE_MEMBERS', $count['user']);
 
 if ($showmode == 0 || $showmode == 2) :
 	echo '<p>'. JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member).'</p>';

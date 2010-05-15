@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2010 Jean-Marie Simonet
+^ Implemented JText::plural in mod_whosonline
+$ Completed deleting legacy strings and sorting ini strings in files front-end [6]
+
 15-May-2010 Sam Moffatt
  + Added setRedirect to JInstaller to permit extensions to flag that they want to redirect the user post install
  # Ensuring the new script tag permits the same features as the old com_install/com_uninstall triggers (e.g. can abort install on false)
