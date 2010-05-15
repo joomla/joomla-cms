@@ -2490,6 +2490,10 @@ a.jgrid:hover {
 .icon-48-search 		{ background-image: url(../images/header/icon-48-search.png); }
 .icon-48-newsfeeds 		{ background-image: url(../images/header/icon-48-newsfeeds.png); }
 
+.icon-48-newsfeeds-categories {
+	background-image: url(../images/header/icon-48-newsfeeds-cat.png);
+}
+
 .icon-48-weblinks {
 	background-image: url(../images/header/icon-48-links.png);
 }
