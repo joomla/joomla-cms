@@ -5,13 +5,13 @@
 	behave like an install but upgrades will be treated appropriately even
 	if the interface doesn't support it properly -->
 	<!-- Generic Metadata -->
-	<name>com_alpha</name>
+	<name>com_beta</name>
 	<author>John Doe</author>
 	<authorEmail>john.doe@example.org</authorEmail>
 	<authorUrl>http://www.example.org</authorUrl>
 	<copyright>(C) 2008 Copyright Info</copyright>
 	<license>License Info</license>
-	<version>1.0</version>
+	<version>1.2</version>
 	<creationDate>March 2006</creationDate>
 	<description>COM_ALPHA_XML_DESCRIPTION</description>
 
@@ -40,33 +40,33 @@
 	</update>
 
 	<!-- Front end file, media and language specification -->
-	<files folder="site">
-		<filename>alpha.php</filename>
+	<files>
+		<filename>beta.php</filename>
 	</files>
 
 	<!--  Legacy 1.5 Language Support -->
 	<!-- Note: Replace this with the actual path to the language file -->
 	<!--
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB/en-GB.com_alpha.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.com_beta.ini</language>
 	</languages>
 	-->
 
-	<media destination="com_alpha">
-		<filename>com_alpha.jpg</filename>
+	<media destination="com_beta">
+		<filename>com_beta.jpg</filename>
 	</media>
 
 	<administration>
 		<!-- Administrator Menu -->
-		<menu img="components/com_alpha/applications-internet-16.png">Alpha</menu>
+		<menu img="components/com_beta/applications-internet-16.png">Alpha</menu>
 		<submenu>
 			<menu link="option=com_installer">Installer</menu>
 			<menu link="option=com_users">Users</menu>
 		</submenu>
 		<!-- Administrator file and language specification;
 			Note: administrator doesn't have media -->
-		<files folder="admin">
-			<filename>admin.alpha.php</filename>
+		<files>
+			<filename>admin.beta.php</filename>
 			<filename>image.png</filename>
 			<filename>applications-internet.png</filename>
 			<filename>applications-internet-16.png</filename>
@@ -77,22 +77,22 @@
 		<!-- Note: Replace this with the actual path to the language file -->
 		<!--
  		<languages folder="admin/language">
-			<language tag="en-GB">language/en-GB.com_alpha.ini</language>
+			<language tag="en-GB">language/en-GB.com_beta.ini</language>
 		</languages>
 		 -->
 	</administration>
 
 	<!-- Extension Update Specification -->
 	<updateservers>
-		<server type="extension" priority="1" name="Extension Update Site">http://jsitepoint.com/update/component/com_alpha/extension.xml</server> <!-- useful for single extensions -->
+		<server type="extension" priority="1" name="Extension Update Site">http://jsitepoint.com/update/component/com_beta/extension.xml</server> <!-- useful for single extensions -->
 		<server type="collection" priority="2" name="Collection Update Site">http://jsitepoint.com/update/update.xml</server><!-- useful for collections of extensions -->
 	</updateservers>
 
 	<!-- Tables -->
 	<!-- These are used for backups to determine which tables to backup; ones marked optional are only backed up if they exist -->
 	<tables>
-		<table>#__alpha_install</table>
-		<table type="optional">#__alpha_update</table>
+		<table>#__beta_install</table>
+		<table type="optional">#__beta_update</table>
 	</tables>
 
 	<!--  Dependencies -->

@@ -36,6 +36,5 @@ class Com_AlphaInstallerScript {
 
 	function postflight($type, $parent) {
 		echo '<p>'. JText::sprintf('COM_ALPHA_16_CUSTOM_POSTFLIGHT', $type) .'</p>';
-		$parent->getParent()->set('redirect_url', 'http://www.google.com');
 	}
 }

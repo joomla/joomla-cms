@@ -1,0 +1,1 @@
+INSERT INTO jos_plgSystemAlpha_install VALUES(20100504);

@@ -1,0 +1,1 @@
+INSERT INTO #__alpha_install VALUES(20100503);
