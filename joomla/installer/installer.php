@@ -72,8 +72,17 @@ class JInstaller extends JAdapter
 	 */
 	public $manifest = null;
 
+	/**
+	 * The extension message that appears
+	 * @var string
+	 */
 	protected $extension_message = null;
 
+	/**
+	 * The redirect URL if this extension (can be null if no redirect) 
+	 * @var string
+	 */
+	protected $redirct_url = null;
 
 	/**
 	 * Constructor
@@ -133,6 +142,29 @@ class JInstaller extends JAdapter
 			$this->_overwrite = false;
 		}
 		return $tmp;
+	}
+	
+	/**
+	 * Get the redirect location
+	 * 
+	 * @access public
+	 * @return string	Redirect location (or null)
+	 * @since 1.6
+	 */
+	public function getRedirectURL() 
+	{
+		return $this->redirect_url;
+	}
+	
+	/**
+	 * Set the redirct location
+	 * 
+	 * @access public
+	 * @param  string 	New redirect location
+	 * @since 1.6
+	 */
+	public function setRedirectURL($newurl) {
+		$this->redirecturl = $newurl;
 	}
 
 	/**
@@ -296,6 +328,13 @@ class JInstaller extends JAdapter
 			$step = array_pop($this->_stepStack);
 		}
 
+		$conf = JFactory::getConfig();
+		$debug = $conf->get('debug');
+		
+		if($debug) {
+			JError::raiseError(500, JText::_('JLIB_INSTALLER_ABORT_DEBUG').':'.$msg);
+		}
+		
 		return $retval;
 	}
 
