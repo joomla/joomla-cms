@@ -83,6 +83,7 @@ class JHelp
 		$version 	= new JVersion();
 		$jver		= explode( '.', $version->getShortVersion() );
 		$jlang		= explode( '-', $lang->getTag() );
+		$keyref     = str_replace('**','',JText::_($ref));
 
 		// Replace substitution codes in help URL.
 		$search = array(
@@ -99,7 +100,7 @@ class JHelp
 		$replace = array(
 			$app->getName(),	// {app}
 			$component,			// {component}
-			JText::_($ref),		// {keyref}
+			$keyref,			// {keyref}
 			$lang->getTag(),	// {language}
 			$jlang[0],			// {langcode}
 			$jlang[1],			// {langregion}

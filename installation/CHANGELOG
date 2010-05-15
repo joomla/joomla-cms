@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2010 Chris Davenport
+# Fix [20375] Undefined variable in com_admin
+# Fixed bad translation of help key references in com_admin
+
 15-May-2010 Mark Dexter
 # Fixed issues with sample data (Elin Waring)
 ^ Added title and subtitle to the params (Angie Radtke)

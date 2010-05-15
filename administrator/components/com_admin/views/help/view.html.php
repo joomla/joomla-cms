@@ -53,8 +53,6 @@ class AdminViewHelp extends JView
 		$this->toc					= $this->get('Toc');
 		$this->lang_tag				= $this->get('LangTag');
 		$this->latest_version_check	= $this->get('LatestVersionCheck');
-		$this->start_here			= $this->get('StartHere');
-		$this->glossary				= $this->get('Glossary');
 
 		$this->addToolbar();
 		parent::display($tpl);
