@@ -247,8 +247,14 @@ class JInstallerModule extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) {
-			$this->parent->manifestClass->preflight($this->route, $this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		{
+			if($this->parent->manifestClass->preflight($this->route, $this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
 		}
 		$msg = ob_get_contents(); // create msg object; first use here
 		ob_end_clean();
@@ -379,7 +385,15 @@ class JInstallerModule extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) $this->parent->manifestClass->{$this->route}($this);
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) 
+		{
+			if($this->parent->manifestClass->{$this->route}($this) === false) 
+			{
+				// Install failed, rollback changes
+				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
+				return false;
+			}
+		}
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 
@@ -400,7 +414,8 @@ class JInstallerModule extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) 
+		{
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
 		$msg .= ob_get_contents(); // append messages
@@ -608,7 +623,8 @@ class JInstallerModule extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) {
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) 
+		{
 			$this->parent->manifestClass->uninstall($this);
 		}
 		$msg = ob_get_contents();
