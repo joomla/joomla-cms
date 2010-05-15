@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2010 Mark Dexter
+# Fix issues with sample data (Elin Waring)
+
 15-May-2010 Christophe Demko
  ^ Consolidate JHtmlJGrid functions
  ^ Consolidate icons and hathor template
