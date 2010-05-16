@@ -176,7 +176,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @return	boolean	True on success.
 	 */
-	function featured($pks, $value = 0)
+	public function featured($pks, $value = 0)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
