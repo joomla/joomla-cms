@@ -29,7 +29,6 @@ div.toolbar-list span {
 div.toolbar-list a {
 	position: relative;
 }
-
-#lang {
-	margin-top: 30px;
+#menu ul li.separator {
+	display:inline;
 }

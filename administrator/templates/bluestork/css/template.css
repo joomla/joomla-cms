@@ -2251,10 +2251,6 @@ a.jgrid:hover {	text-decoration: none;}
 	white-space: nowrap;
 }
 
-#menu li li { /*width: 100%;*/
-	clear: both; /*FF 1.0.7 needs this */
-}
-
 #menu li ul {
 	visibility: hidden;
 	position: absolute;
@@ -2301,7 +2297,7 @@ a.jgrid:hover {	text-decoration: none;}
 
 #menu ul li.separator {
 	background: #DDE1E6 url(../images/bg-menu.gif);
-	height: 1px;
+	height: 1px ;
 }
 
 #menu a,
