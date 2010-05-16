@@ -20,9 +20,13 @@ defined('_JEXEC') or die;
 			endif;
 			?>
 		<fieldset class="panelform">
+		<ul class="adminformlist">
 			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+			<li>
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
+				</li>
 			<?php endforeach; ?>
+			</ul>
 		</fieldset>
 	<?php endforeach; ?>

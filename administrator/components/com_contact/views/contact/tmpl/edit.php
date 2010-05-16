@@ -31,37 +31,37 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-50 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id); ?></legend>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('name'); ?>
+			<?php echo $this->form->getInput('name'); ?></li>
 
-			<?php echo $this->form->getLabel('name'); ?>
-			<?php echo $this->form->getInput('name'); ?>
+			<li><?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?></li>
 
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
+			<li><?php echo $this->form->getLabel('user_id'); ?>
+			<?php echo $this->form->getInput('user_id'); ?></li>
 
-			<?php echo $this->form->getLabel('user_id'); ?>
-			<?php echo $this->form->getInput('user_id'); ?>
+			<li><?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?></li>
 
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
+			<li><?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?></li>
 
-			<?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?>
+			<li><?php echo $this->form->getLabel('catid'); ?>
+			<?php echo $this->form->getInput('catid'); ?></li>
 
-			<?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?>
+			<li><?php echo $this->form->getLabel('ordering'); ?>
+			<?php echo $this->form->getInput('ordering'); ?></li>
 
-			<?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?>
+			<li><?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?></li>
 
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
+			<li><?php echo $this->form->getLabel('featured'); ?>
+			<?php echo $this->form->getInput('featured'); ?></li>
 
-			<?php echo $this->form->getLabel('featured'); ?>
-			<?php echo $this->form->getInput('featured'); ?>
-
-			<?php echo $this->form->getLabel('id'); ?>
-			<?php echo $this->form->getInput('id'); ?>
-
+			<li><?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?></li>
+			</ul>
 			<div class="clr"> </div>
 			<?php echo $this->form->getLabel('misc'); ?>
 			<div class="clr"> </div>
@@ -74,51 +74,53 @@ JHtml::_('behavior.formvalidation');
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
 			<fieldset class="panelform">
 				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
-				<?php echo $this->form->getLabel('image'); ?>
-				<?php echo $this->form->getInput('image'); ?>
+				
+				<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('image'); ?>
+				<?php echo $this->form->getInput('image'); ?></li>
 
-				<?php echo $this->form->getLabel('con_position'); ?>
-				<?php echo $this->form->getInput('con_position'); ?>
+				<li><?php echo $this->form->getLabel('con_position'); ?>
+				<?php echo $this->form->getInput('con_position'); ?></li>
 
-				<?php echo $this->form->getLabel('email_to'); ?>
-				<?php echo $this->form->getInput('email_to'); ?>
+				<li><?php echo $this->form->getLabel('email_to'); ?>
+				<?php echo $this->form->getInput('email_to'); ?></li>
 
-				<?php echo $this->form->getLabel('address'); ?>
-				<?php echo $this->form->getInput('address'); ?>
+				<li><?php echo $this->form->getLabel('address'); ?>
+				<?php echo $this->form->getInput('address'); ?></li>
 
-				<?php echo $this->form->getLabel('suburb'); ?>
-				<?php echo $this->form->getInput('suburb'); ?>
+				<li><?php echo $this->form->getLabel('suburb'); ?>
+				<?php echo $this->form->getInput('suburb'); ?></li>
 
-				<?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?>
+				<li><?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?></li>
 
-				<?php echo $this->form->getLabel('postcode'); ?>
-				<?php echo $this->form->getInput('postcode'); ?>
+				<li><?php echo $this->form->getLabel('postcode'); ?>
+				<?php echo $this->form->getInput('postcode'); ?></li>
 
-				<?php echo $this->form->getLabel('country'); ?>
-				<?php echo $this->form->getInput('country'); ?>
+				<li><?php echo $this->form->getLabel('country'); ?>
+				<?php echo $this->form->getInput('country'); ?></li>
 
-				<?php echo $this->form->getLabel('telephone'); ?>
-				<?php echo $this->form->getInput('telephone'); ?>
+				<li><?php echo $this->form->getLabel('telephone'); ?>
+				<?php echo $this->form->getInput('telephone'); ?></li>
 
-				<?php echo $this->form->getLabel('mobile'); ?>
-				<?php echo $this->form->getInput('mobile'); ?>
+				<li><?php echo $this->form->getLabel('mobile'); ?>
+				<?php echo $this->form->getInput('mobile'); ?></li>
 
-				<?php echo $this->form->getLabel('fax'); ?>
-				<?php echo $this->form->getInput('fax'); ?>
+				<li><?php echo $this->form->getLabel('fax'); ?>
+				<?php echo $this->form->getInput('fax'); ?></li>
 
-				<?php echo $this->form->getLabel('webpage'); ?>
-				<?php echo $this->form->getInput('webpage'); ?>
+				<li><?php echo $this->form->getLabel('webpage'); ?>
+				<?php echo $this->form->getInput('webpage'); ?></li>
 
-				<?php echo $this->form->getLabel('sortname1'); ?>
-				<?php echo $this->form->getInput('sortname1'); ?>
+				<li><?php echo $this->form->getLabel('sortname1'); ?>
+				<?php echo $this->form->getInput('sortname1'); ?></li>
 
-				<?php echo $this->form->getLabel('sortname2'); ?>
-				<?php echo $this->form->getInput('sortname2'); ?>
+				<li><?php echo $this->form->getLabel('sortname2'); ?>
+				<?php echo $this->form->getInput('sortname2'); ?></li>
 
-				<?php echo $this->form->getLabel('sortname3'); ?>
-				<?php echo $this->form->getInput('sortname3'); ?>
-
+				<li><?php echo $this->form->getLabel('sortname3'); ?>
+				<?php echo $this->form->getInput('sortname3'); ?></li>
+				</ul>
 			</fieldset>
 
 			<?php echo $this->loadTemplate('params'); ?>

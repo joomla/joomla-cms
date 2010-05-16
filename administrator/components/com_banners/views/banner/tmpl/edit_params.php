@@ -18,9 +18,11 @@ foreach ($fieldSets as $name => $fieldSet) :
 	endif;
 	?>
 	<fieldset class="panelform">
+	<ul class="adminformlist">
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-			<?php echo $field->label; ?>
-			<?php echo $field->input; ?>
+			<li><?php echo $field->label; ?>
+			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
+		</ul>
 	</fieldset>
 <?php endforeach; ?>

@@ -62,14 +62,16 @@ $fieldsets = $this->form->getFieldsets();
 			echo JHTML::_('sliders.panel', JText::_($fieldset->label), $fieldset->name);
 		?>
 		<fieldset class="panelform">
+		<ul class="adminformlist">
 		<?php foreach($this->form->getFieldset($fieldset->name) as $field): ?>
 			<?php if ($field->hidden): ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
+				<li><?php echo $field->label; ?>
+				<?php echo $field->input; ?></li>
 			<?php endif; ?>
 		<?php endforeach; ?>
+		</ul>
 		</fieldset>
 		<?php endforeach; ?>
 		<?php echo JHTML::_('sliders.end'); ?>

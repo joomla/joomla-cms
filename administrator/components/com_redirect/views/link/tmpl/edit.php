@@ -32,36 +32,39 @@ JHtml::_('behavior.keepalive');
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK') : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id); ?></legend>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('old_url'); ?>
+			<?php echo $this->form->getInput('old_url'); ?></li>
 
-			<?php echo $this->form->getLabel('old_url'); ?>
-			<?php echo $this->form->getInput('old_url'); ?>
+			<li><?php echo $this->form->getLabel('new_url'); ?>
+			<?php echo $this->form->getInput('new_url'); ?></li>
 
-			<?php echo $this->form->getLabel('new_url'); ?>
-			<?php echo $this->form->getInput('new_url'); ?>
+			<li><?php echo $this->form->getLabel('comment'); ?>
+			<?php echo $this->form->getInput('comment'); ?></li>
 
-			<?php echo $this->form->getLabel('comment'); ?>
-			<?php echo $this->form->getInput('comment'); ?>
-
-			<?php echo $this->form->getLabel('id'); ?>
-			<?php echo $this->form->getInput('id'); ?>
-
+			<li><?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 
 	<div class="width-40 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDIRECT_OPTIONS'); ?></legend>
-
-				<?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+				</ul>
 		</fieldset>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDIRECT_DETAILS'); ?></legend>
-				<?php echo $this->form->getLabel('created_date'); ?>
-				<?php echo $this->form->getInput('created_date'); ?>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('created_date'); ?>
+				<?php echo $this->form->getInput('created_date'); ?></li>
 
-				<?php echo $this->form->getLabel('updated_date'); ?>
-				<?php echo $this->form->getInput('updated_date'); ?>
+				<li><?php echo $this->form->getLabel('updated_date'); ?>
+				<?php echo $this->form->getInput('updated_date'); ?></li>
+				</ul>
 		</fieldset>
 	</div>
 	<div class="clr"></div>

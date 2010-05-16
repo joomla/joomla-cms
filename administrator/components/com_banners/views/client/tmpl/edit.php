@@ -32,30 +32,31 @@ JHtml::_('behavior.formvalidation');
 <div class="width-50 fltlft">
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id); ?></legend>
-				<?php echo $this->form->getLabel('name'); ?>
-				<?php echo $this->form->getInput('name'); ?>
+		<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('name'); ?>
+				<?php echo $this->form->getInput('name'); ?></li>
 
-				<?php echo $this->form->getLabel('contact'); ?>
-				<?php echo $this->form->getInput('contact'); ?>
+				<li><?php echo $this->form->getLabel('contact'); ?>
+				<?php echo $this->form->getInput('contact'); ?></li>
 
-				<?php echo $this->form->getLabel('email'); ?>
-				<?php echo $this->form->getInput('email'); ?>
+				<li><?php echo $this->form->getLabel('email'); ?>
+				<?php echo $this->form->getInput('email'); ?></li>
 
-				<?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?>
+				<li><?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?></li>
 
-				<?php echo $this->form->getLabel('purchase_type'); ?>
-				<?php echo $this->form->getInput('purchase_type'); ?>
+				<li><?php echo $this->form->getLabel('purchase_type'); ?>
+				<?php echo $this->form->getInput('purchase_type'); ?></li>
 
-				<?php echo $this->form->getLabel('track_impressions'); ?>
-				<?php echo $this->form->getInput('track_impressions'); ?>
+				<li><?php echo $this->form->getLabel('track_impressions'); ?>
+				<?php echo $this->form->getInput('track_impressions'); ?></li>
 
-				<?php echo $this->form->getLabel('track_clicks'); ?>
-				<?php echo $this->form->getInput('track_clicks'); ?>
+				<li><?php echo $this->form->getLabel('track_clicks'); ?>
+				<?php echo $this->form->getInput('track_clicks'); ?></li>
 
-				<?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?>
-
+				<li><?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?></li>
+		</ul>
 
 	</fieldset>
 </div>
@@ -65,22 +66,26 @@ JHtml::_('behavior.formvalidation');
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS'), 'publishing-details'); ?>
 		<fieldset class="adminform">
+		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-				<?php if (!$field->hidden): ?>
+				<li><?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
-				<?php echo $field->input; ?>
+				<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
+			</ul>
 		</fieldset>
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
 		<fieldset class="adminform">
+		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('extra') as $field): ?>
-				<?php if (!$field->hidden): ?>
+				<li><?php if (!$field->hidden): ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
-				<?php echo $field->input; ?>
+				<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
+			</ul>
 		</fieldset>
 
 	<?php echo JHtml::_('sliders.end'); ?>

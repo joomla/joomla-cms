@@ -33,60 +33,55 @@ JHTML::_('behavior.modal');
 
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_MENUS_ITEM_REQUIRED');?></legend>
-
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
-			<?php echo $this->form->getLabel('type'); ?>
-			<?php echo $this->form->getInput('type'); ?>
-
-			<?php if ($this->item->type =='url'): ?>
-				<?php $this->form->setFieldAttribute('link','readonly','false');?>
-				<?php echo $this->form->getLabel('link'); ?>
-				<?php echo $this->form->getInput('link'); ?>
-			<?php endif ?>
-
-	</fieldset>
-	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
-
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
-
-			<?php echo $this->form->getLabel('note'); ?>
-			<?php echo $this->form->getInput('note'); ?>
-
-
-
-			<?php if ($this->item->type !=='url'): ?>
-				<?php echo $this->form->getLabel('link'); ?>
-				<?php echo $this->form->getInput('link'); ?>
-			<?php endif ?>
-
-			<?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?>
-
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
-
-			<?php echo $this->form->getLabel('menutype'); ?>
-			<?php echo $this->form->getInput('menutype'); ?>
-
-			<?php echo $this->form->getLabel('parent_id'); ?>
-			<?php echo $this->form->getInput('parent_id'); ?>
-
-			<?php echo $this->form->getLabel('browserNav'); ?>
-			<?php echo $this->form->getInput('browserNav'); ?>
-
-			<?php echo $this->form->getLabel('home'); ?>
-			<?php echo $this->form->getInput('home'); ?>
-
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
-
-			<?php echo $this->form->getLabel('template_style_id'); ?>
-			<?php echo $this->form->getInput('template_style_id'); ?>
-
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('title'); ?>
+				<?php echo $this->form->getInput('title'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('type'); ?>
+				<?php echo $this->form->getInput('type'); ?></li>
+	
+				<?php if ($this->item->type =='url'): ?>
+					<?php $this->form->setFieldAttribute('link','readonly','false');?>
+					<li><?php echo $this->form->getLabel('link'); ?>
+					<?php echo $this->form->getInput('link'); ?></li>
+				<?php endif ?>
+	
+				<li><?php echo $this->form->getLabel('alias'); ?>
+				<?php echo $this->form->getInput('alias'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('note'); ?>
+				<?php echo $this->form->getInput('note'); ?></li>
+	
+				<?php if ($this->item->type !=='url'): ?>
+					<li><?php echo $this->form->getLabel('link'); ?>
+					<?php echo $this->form->getInput('link'); ?></li>
+				<?php endif ?>
+	
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('menutype'); ?>
+				<?php echo $this->form->getInput('menutype'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('parent_id'); ?>
+				<?php echo $this->form->getInput('parent_id'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('browserNav'); ?>
+				<?php echo $this->form->getInput('browserNav'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('home'); ?>
+				<?php echo $this->form->getInput('home'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('template_style_id'); ?>
+				<?php echo $this->form->getInput('template_style_id'); ?></li>
+		</ul>
 
 	</fieldset>
 </div>
@@ -94,7 +89,7 @@ JHTML::_('behavior.modal');
 <div class="width-40 fltrt">
 	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
 	<?php //Load  parameters.
-			echo $this->loadTemplate('options'); ?>
+		echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 

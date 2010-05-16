@@ -786,6 +786,12 @@ ul.adminformlist li {
 	margin: 0;
 	padding: 0;
 }
+/* Testing this 
+fieldset  {
+	border: 0 none !important;
+}
+*/
+
 fieldset label {
 	float: left;
 	clear: left;
@@ -979,6 +985,10 @@ fieldset.adminform label {
 	width: 135px;
 }
 
+#jform_impmade,
+#jform_clicks {
+	width: 30px;
+}
 fieldset.panelform label,
 fieldset.panelform div.paramrow label {
 	/* clear: left; */
