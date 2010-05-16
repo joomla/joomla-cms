@@ -253,7 +253,7 @@ class InstallerModelManage extends InstallerModel
 		$app = JFactory::getApplication();
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = JForm::getInstance('com_installer.manage', 'manage', array('control' => 'jform', 'load_data' => $loadData));
+		$form = JForm::getInstance('com_installer.manage', 'manage', array('load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false) {

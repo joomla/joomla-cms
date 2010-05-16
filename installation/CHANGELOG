@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 16-May-2010 Christophe Demko
+ # Reenabling filters in manage view
  # fix some ACL
 
 16-May-2010 Ron Severdia
