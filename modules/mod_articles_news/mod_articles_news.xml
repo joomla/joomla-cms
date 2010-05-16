@@ -50,14 +50,14 @@
 
 				<field
 					name="item_title"
-					type="list"
+					type="radio"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_TITLE_DESC">
 					<option
-						value="0">JNo</option>
-					<option
 						value="1">JYes</option>
+					<option
+						value="0">JNo</option>
 				</field>
 
 				<field
@@ -99,9 +99,9 @@
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC">
 					<option
-						value="0">JNO</option>
-					<option
 						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
 				<field

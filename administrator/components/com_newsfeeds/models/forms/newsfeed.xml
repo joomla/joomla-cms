@@ -128,7 +128,7 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
+		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
 			<field name="show_headings" type="list"
 				label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
@@ -166,7 +166,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="spacer1" type="spacer" hr="true" />
 
 			<field name="show_cat_description" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
@@ -186,7 +185,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="spacer2" type="spacer" hr="true" />
 
 			<field name="show_feed_image" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"

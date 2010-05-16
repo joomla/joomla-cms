@@ -57,29 +57,28 @@
 	<fieldset name="publish"
 		label="COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS"
 	>
-		<field name="created" type="calendar"
-			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"
-			class="inputbox" size="30" format="%Y-%m-%d %H:%M:%S"
-			filter="server_utc" />
-
 		<field name="state" type="list"
 			label="JGLOBAL_STATE" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="inputbox" size="1" default="1"
-		>
+			class="inputbox" size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASH</option>
 		</field>
 
+		<field name="created" type="calendar"
+			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"
+			class="inputbox" size="20" format="%Y-%m-%d %H:%M:%S"
+			filter="server_utc" />
+
 		<field name="publish_up" type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL" description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
 			filter="server_utc" />
 
 		<field name="publish_down" type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL" description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
 			filter="server_utc" />
 
 		<field name="imptotal" type="imptotal" default="0"

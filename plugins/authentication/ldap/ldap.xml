@@ -84,9 +84,6 @@
 					size="20"
 				/>
 
-				<field name="spacer1" type="spacer"
-					hr="true"
-				/>
 
 				<field name="username" type="text"
 					description="PLG_LDAP_FIELD_USERNAME_DESC"
@@ -100,9 +97,6 @@
 					size="20"
 				/>
 
-				<field name="spacer2" type="spacer"
-					hr="true"
-				/>
 
 				<field name="ldap_fullname" type="text"
 					default="fullName"

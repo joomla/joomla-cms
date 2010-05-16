@@ -45,7 +45,7 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_banners'); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-			<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_EDIT_BANNER', $this->item->id); ?></legend>
+			<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_BANNER_DETAILS', $this->item->id); ?></legend>
 
 			<?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
@@ -59,14 +59,9 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
 
-			<div class="clr"> </div>
-		</fieldset>
-
-		<fieldset class="adminform">
 			<?php echo $this->form->getLabel('type'); ?>
 			<?php echo $this->form->getInput('type'); ?>
 
-			<legend><?php echo JText::_('COM_BANNERS_BANNER_DETAILS') ?></legend>
 			<div id="image">
 				<?php foreach($this->form->getFieldset('image') as $field): ?>
 					<?php if (!$field->hidden): ?>

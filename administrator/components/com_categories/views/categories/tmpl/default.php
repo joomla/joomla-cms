@@ -68,7 +68,7 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th width="1%" class="nowrap">
@@ -121,7 +121,7 @@ $listDirn	= $this->state->get('list.direction');
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="center">
+					<td class="center nowrap">
 					<?php if ($item->language=='*'):?>
 						<?php echo JText::_('JALL'); ?>
 					<?php else:?>

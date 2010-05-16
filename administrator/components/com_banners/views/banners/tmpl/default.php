@@ -61,13 +61,16 @@ $listDirn	= $this->state->get('list.direction');
 				<th class="title">
 					<?php echo JHtml::_('grid.sort',  'COM_BANNERS_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap">
-					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
-				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'state', $listDirn, $listOrder); ?>
 				</th>
-				<th width="20%">
+				<th width="5%" class="nowrap">
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_STICKY', 'sticky', $listDirn, $listOrder); ?>
+				</th>
+				<th width="10%" class="nowrap">
+					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLIENT', 'client_name', $listDirn, $listOrder); ?>
+				</th>
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CATEGORY', 'category_title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" nowrap="nowrap">
@@ -75,9 +78,6 @@ $listDirn	= $this->state->get('list.direction');
 					<?php if ($listOrder=='ordering'): ?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
-				</th>
-				<th width="5%" class="nowrap">
-					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_STICKY', 'sticky', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
@@ -133,10 +133,13 @@ $listDirn	= $this->state->get('list.direction');
 						(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
 				</td>
 				<td class="center">
-					<?php echo $item->client_name;?>
+					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange);?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange);?>
+					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>
+				</td>
+				<td class="center">
+					<?php echo $item->client_name;?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
@@ -150,9 +153,6 @@ $listDirn	= $this->state->get('list.direction');
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
-				</td>
-				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>
 				</td>
 				<td class="center">
 					<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED'));?>
@@ -171,7 +171,7 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo JText::_('COM_BANNERS_FIELD_VALUE_'.$item->purchase_type);?>
 					<?php endif;?>
 				</td>
-				<td class="center">
+				<td class="center nowrap">
 					<?php if ($item->language=='*'):?>
 						<?php echo JText::_('JALL'); ?>
 					<?php else:?>

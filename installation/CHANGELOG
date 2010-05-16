@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2010 Ron Severdia
+# Fixed CSS issues with BlueStork
+$ Corrected language strings
+# Fixed UI exceptions
++ New BlueStork icons
+
 15-May-2010 Chris Davenport
 # Fix [20375] Undefined variable in com_admin
 # Fixed bad translation of help key references in com_admin

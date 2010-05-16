@@ -21,13 +21,13 @@ defined('_JEXEC') or die;
 			<th width="20">
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->data);?>);" />
 			</th>
-			<th class="title" nowrap="nowrap">
+			<th class="title nowrap">
 				<?php echo JText::_('COM_CACHE_GROUP'); ?>
 			</th>
 			<th width="5%" align="center" nowrap="nowrap">
 				<?php echo JText::_('COM_CACHE_NUMBER_OF_FILES'); ?>
 			</th>
-			<th width="10%" align="center">
+			<th width="10%" class="center">
 				<?php echo JText::_('COM_CACHE_SIZE'); ?>
 			</th>
 		</tr>
@@ -51,14 +51,12 @@ defined('_JEXEC') or die;
 				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="isChecked(this.checked);" />
 			</td>
 			<td>
-				<span class="bold">
-					<?php echo $item->group; ?>
-				</span>
+				<strong><?php echo $item->group; ?></strong>
 			</td>
-			<td align="center">
+			<td class="center">
 				<?php echo $item->count; ?>
 			</td>
-			<td align="center">
+			<td class="center">
 				<?php echo $item->size ?>
 			</td>
 		</tr>

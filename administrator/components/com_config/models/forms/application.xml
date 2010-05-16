@@ -241,7 +241,7 @@
 
 	<fieldset
 		name="locale"
-		label="CONFIG_LOCALE_SETTINGS_LABEL">
+		label="CONFIG_LOCATION_SETTINGS_LABEL">
 		<field
 			name="offset"
 			type="timezone"
@@ -484,6 +484,22 @@
 			<option
 				value="0">JNO</option>
 		</field>
+		
+		
+		<field
+			name="sitename_pagetitles"
+			type="radio"
+			default="0"
+			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
+			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
+			required="true"
+			filter="integer">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -606,22 +622,6 @@
 			filter="safehtml"
 			cols="60"
 			rows="2" />
-
-
-
-		<field
-			name="sitename_pagetitles"
-			type="radio"
-			default="0"
-			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
-			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
-			required="true"
-			filter="integer">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
-		</field>
 
 		<field
 			name="editor"

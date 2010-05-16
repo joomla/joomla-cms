@@ -112,8 +112,8 @@
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
 		>
-			<option value="0">JOFF</option>
-			<option value="1">JON</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 

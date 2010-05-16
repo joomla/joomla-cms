@@ -23,7 +23,7 @@ abstract class JHtmlContent
 		// Array of image, task, title, action
 		$states	= array(
 			0	=> array('disabled.png',	'articles.featured',	'COM_CONTENT_UNFEATURED',	'COM_CONTENT_TOGGLE_TO_FEATURE'),
-			1	=> array('tick.png',		'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
+			1	=> array('featured.png',		'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
