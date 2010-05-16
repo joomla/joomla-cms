@@ -127,9 +127,12 @@ class JRouterSite extends JRouter
 		$this->setVar('Itemid', JRequest::getInt('Itemid', null));
 
 		//Only an Itemid ? Get the full information from the itemid
-		if (count($this->getVars()) == 1) {
+		if (count($this->getVars()) == 1) 
+		{
 			$item = $menu->getItem($this->getVar('Itemid'));
-			$vars = $vars + $item->query;
+			if($item !== NULL && is_array($item->query)) {
+				$vars = $vars + $item->query;
+			}
 		}
 
 		// Set the active menu item
