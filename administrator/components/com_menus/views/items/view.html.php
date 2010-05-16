@@ -130,10 +130,7 @@ class MenusViewItems extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 
-		JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
-
-		JToolBarHelper::divider();
-
+		
 		JToolBarHelper::custom('item.add', 'new.png', 'new_f2.png','JTOOLBAR_NEW', false);
 		JToolBarHelper::custom('item.edit', 'edit.png', 'edit_f2.png','JTOOLBAR_EDIT', true);
 
@@ -149,9 +146,9 @@ class MenusViewItems extends JView
 			JToolBarHelper::trash('items.trash','JTOOLBAR_TRASH');
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::custom('items.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
+		JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 
 		JToolBarHelper::divider();
 		JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);

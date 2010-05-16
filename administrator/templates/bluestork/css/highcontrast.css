@@ -304,5 +304,19 @@ div.pagetitle h2 {
 }
 .jpane-toggler a,
 .jpane-toggler-down a {
-text-decoration:none;
+	text-decoration:none;
+}
+#submenu a:hover, #submenu a.active, #submenu span.nolink.active,
+table#acl-config th  {
+	background:none repeat scroll 0 0 #000000;
+}
+div.toolbar-list a  {
+	border:1px solid #000;
+}
+
+#folderframe,
+#mediamanager-form,
+body.contentpane,
+.manager {
+	background: #000;
 }
