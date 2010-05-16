@@ -17,41 +17,46 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns an action on a grid
 	 *
-	 * @param	int				$i			The row index
-	 * @param	string			$task		The task to fire
-	 * @param	string|array	$prefix		An optional task prefix or an array of options
-	 * @param	string			$text		An optional text to display
-	 * @param	string			$title		An optional tooltip to display if $enable is true
-	 * @param	boolean			$tip		An optional setting for tooltip
-	 * @param	string			$active		An optional active html class
-	 * @param	string			$inactive	An optional inactive html class
-	 * @param	boolean			$enabled	An optional setting for access control on the action.
-	 * @param	boolean			$translate	An optional setting for translation.
-	 * @param	string			$checkbox	An optional prefix for checkboxes.
+	 * @param	int				$i					The row index
+	 * @param	string			$task				The task to fire
+	 * @param	string|array	$prefix				An optional task prefix or an array of options
+	 * @param	string			$text				An optional text to display
+	 * @param	string			$active_title		An optional active tooltip to display if $enable is true
+	 * @param	string			$inactive_title		An optional inactive tooltip to display if $enable is true
+	 * @param	boolean			$tip				An optional setting for tooltip
+	 * @param	string			$active_class		An optional active html class
+	 * @param	string			$inactive_class		An optional inactive html class
+	 * @param	boolean			$enabled			An optional setting for access control on the action.
+	 * @param	boolean			$translate			An optional setting for translation.
+	 * @param	string			$checkbox			An optional prefix for checkboxes.
 	 *
 	 * @return The Html code
 	 *
 	 * @since	1.6
 	 */
-	public static function action($i, $task, $prefix='', $text='', $title='', $tip=false, $active='', $inactive='', $enabled = true, $translate=true, $checkbox='cb')
+	public static function action($i, $task, $prefix='', $text='', $active_title='', $inactive_title, $tip=false, $active_class='', $inactive_class='', $enabled = true, $translate=true, $checkbox='cb')
 	{
 		if (is_array($prefix)) {
-			$options	= $prefix;
-			$text		= array_key_exists('text',		$options) ? $options['text']		: $text;
-			$title		= array_key_exists('title',		$options) ? $options['title']		: $title;
-			$tip		= array_key_exists('tip',		$options) ? $options['tip']			: $tip;
-			$active		= array_key_exists('active',	$options) ? $options['active']		: $active;
-			$inactive	= array_key_exists('inactive',	$options) ? $options['inactive']	: $inactive;
-			$enabled	= array_key_exists('enabled',	$options) ? $options['enabled']		: $enabled;
-			$translate	= array_key_exists('translate',	$options) ? $options['translate']	: $translate;
-			$checkbox	= array_key_exists('checkbox',	$options) ? $options['checkbox']	: $checkbox;
-			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
+			$options			= $prefix;
+			$text				= array_key_exists('text',				$options) ? $options['text']				: $text;
+			$active_title		= array_key_exists('active_title',		$options) ? $options['active_title']		: $active_title;
+			$inactive_title		= array_key_exists('inactive_title',	$options) ? $options['inactive_title']		: $inactive_title;
+			$tip				= array_key_exists('tip',				$options) ? $options['tip']					: $tip;
+			$active_class		= array_key_exists('active_class',		$options) ? $options['active_class']		: $active_class;
+			$inactive_class		= array_key_exists('inactive_class',	$options) ? $options['inactive_class']		: $inactive_class;
+			$enabled			= array_key_exists('enabled',			$options) ? $options['enabled']				: $enabled;
+			$translate			= array_key_exists('translate',			$options) ? $options['translate']			: $translate;
+			$checkbox			= array_key_exists('checkbox',			$options) ? $options['checkbox']			: $checkbox;
+			$prefix				= array_key_exists('prefix',			$options) ? $options['prefix']				: '';
+		}
+		if ($tip) {
+			JHtml::_('behavior.tooltip');
 		}
 		if ($enabled) {
-			return '<a class="jgrid'.($tip?' hasTip':'').'" href="javascript:void(0);" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars($translate?JText::_($title):$title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></a>';
+			return '<a class="jgrid'.($tip?' hasTip':'').'" href="javascript:void(0);" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars($translate?JText::_($active_title):$active_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></a>';
 		}
 		else {
-			return '<span class="jgrid'.($tip?' hasTip':'').'" title="'.addslashes(htmlspecialchars($translate?JText::_($title):$title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$inactive.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></span>';
+			return '<span class="jgrid'.($tip?' hasTip':'').'" title="'.addslashes(htmlspecialchars($translate?JText::_($inactive_title):$inactive_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$inactive_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></span>';
 		}
 	}
 
@@ -69,7 +74,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return The Html code
 	 *
-	 * @since	1.6
+	 * @since	1.
 	 */
 	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate=true, $checkbox='cb')
 	{
@@ -80,15 +85,16 @@ abstract class JHtmlJGrid
 			$checkbox	= array_key_exists('checkbox',	$options) ? $options['checkbox']	: $checkbox;
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
-		$state		= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$task		= array_key_exists('task',		$state) ? $state['task']		: $state[0];
-		$text		= array_key_exists('text',		$state) ? $state['text']		: (array_key_exists(1,$state) ? $state[1] : '');
-		$title		= array_key_exists('title',		$state) ? $state['title']		: (array_key_exists(2,$state) ? $state[2] : '');
-		$tip		= array_key_exists('tip',		$state) ? $state['tip'	]		: (array_key_exists(3,$state) ? $state[3] : false);
-		$active		= array_key_exists('active',	$state) ? $state['active']		: (array_key_exists(4,$state) ? $state[4] : '');
-		$inactive	= array_key_exists('inactive',	$state) ? $state['inactive']	: (array_key_exists(5,$state) ? $state[5] : $active);
+		$state			= JArrayHelper::getValue($states, (int) $value, $states[0]);
+		$task			= array_key_exists('task',				$state) ? $state['task']			: $state[0];
+		$text			= array_key_exists('text',				$state) ? $state['text']			: (array_key_exists(1,$state) ? $state[1] : '');
+		$active_title	= array_key_exists('active_title',		$state) ? $state['active_title']	: (array_key_exists(2,$state) ? $state[2] : '');
+		$inactive_title	= array_key_exists('inactive_title',	$state) ? $state['inactive_title']	: (array_key_exists(3,$state) ? $state[3] : '');
+		$tip			= array_key_exists('tip',				$state) ? $state['tip'	]			: (array_key_exists(4,$state) ? $state[4] : false);
+		$active_class	= array_key_exists('active_class',		$state) ? $state['active_class']	: (array_key_exists(5,$state) ? $state[5] : '');
+		$inactive_class	= array_key_exists('inactive_class',	$state) ? $state['inactive_class']	: (array_key_exists(6,$state) ? $state[6] : '');
 		
-		return self::action($i, $task, $prefix, $text, $title, $tip, $active, $inactive, $enabled, $translate, $checkbox);
+		return self::action($i, $task, $prefix, $text, $active_title, $inactive_title, $tip, $active_class, $inactive_class, $enabled, $translate, $checkbox);
 	}
 
 	/**
@@ -115,10 +121,10 @@ abstract class JHtmlJGrid
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
 		$states	= array(
-			1	=> array('unpublish',	'JPUBLISHED',	$enabled ? 'JLIB_HTML_UNPUBLISH_ITEM' : 'JPUBLISHED',	false,	'publish'),
-			0	=> array('publish',		'JUNPUBLISHED',	$enabled ? 'JLIB_HTML_PUBLISH_ITEM' : 'JUNPUBLISHED',	false,	'unpublish'),
-			2	=> array('unpublish',	'JARCHIVED',	$enabled ? 'JLIB_HTML_UNPUBLISH_ITEM' : 'JARCHIVED',	false,	'archive'),
-			-2	=> array('publish',		'JTRASHED',		$enabled ? 'JLIB_HTML_PUBLISH_ITEM' : 'JTRASHED',		false,	'trash'),
+			1	=> array('unpublish',	'JPUBLISHED',	'JLIB_HTML_UNPUBLISH_ITEM',	'JPUBLISHED',	false,	'publish',		'publish'),
+			0	=> array('publish',		'JUNPUBLISHED',	'JLIB_HTML_PUBLISH_ITEM',	'JUNPUBLISHED',	false,	'unpublish',	'unpublish'),
+			2	=> array('unpublish',	'JARCHIVED',	'JLIB_HTML_UNPUBLISH_ITEM',	'JARCHIVED',	false,	'archive',		'archive'),
+			-2	=> array('publish',		'JTRASHED',		'JLIB_HTML_PUBLISH_ITEM',	'JTRASHED',		false,	'trash',		'trash'),
 		);
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
@@ -147,8 +153,8 @@ abstract class JHtmlJGrid
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
 		$states	= array(
-			1	=> array('unsetDefault',	'JDEFAULT', $enabled ? 'JLIB_HTML_UNSETDEFAULT_ITEM' : 'JDEFAULT',	false,	'default'),
-			0	=> array('setDefault', 		'',			$enabled ? 'JLIB_HTML_SETDEFAULT_ITEM' : '',			false,	'notdefault'),
+			1	=> array('unsetDefault',	'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM',	'JDEFAULT',	false,	'default',		'default'),
+			0	=> array('setDefault', 		'',			'JLIB_HTML_SETDEFAULT_ITEM',	'',			false,	'notdefault',	'notdefault'),
 		);
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
@@ -202,19 +208,19 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix='', $enabled=false, $checkbox='cb')
 	{
-		JHtml::_('behavior.tooltip');
 		if (is_array($prefix)) {
 			$options	= $prefix;
 			$enabled	= array_key_exists('enabled',	$options) ? $options['enabled']		: $enabled;
 			$checkbox	= array_key_exists('checkbox',	$options) ? $options['checkbox']	: $checkbox;
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
-		$text	= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date	= addslashes(htmlspecialchars(JHTML::_('date',$time, '%A, %d %B %Y'), ENT_COMPAT, 'UTF-8'));
-		$time	= addslashes(htmlspecialchars(JHTML::_('date',$time, '%H:%M'), ENT_COMPAT, 'UTF-8'));
-		$title	= ($enabled ? JText::_('JLIB_HTML_CHECKIN') : JText::_('JLIB_HTML_CHECKED_OUT')) .'::'. $text .'<br />'. $date .'<br />'. $time;
+		$text			= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
+		$date			= addslashes(htmlspecialchars(JHTML::_('date',$time, '%A, %d %B %Y'), ENT_COMPAT, 'UTF-8'));
+		$time			= addslashes(htmlspecialchars(JHTML::_('date',$time, '%H:%M'), ENT_COMPAT, 'UTF-8'));
+		$active_title	= JText::_('JLIB_HTML_CHECKIN') 	.'::'. $text .'<br />'. $date .'<br />'. $time;
+		$inactive_title	= JText::_('JLIB_HTML_CHECKED_OUT')	.'::'. $text .'<br />'. $date .'<br />'. $time;
 
-		return  self::action($i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $title, true, 'checkedout', 'checkedout', $enabled, false, $checkbox);
+		return  self::action($i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout', 'checkedout', $enabled, false, $checkbox);
 	}
 
 	/**
@@ -240,7 +246,7 @@ abstract class JHtmlJGrid
 			$checkbox	= array_key_exists('checkbox',	$options) ? $options['checkbox']	: $checkbox;
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
-		return self::action($i, $task, $prefix, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
+		return self::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
 	}
 
 	/**
@@ -266,6 +272,6 @@ abstract class JHtmlJGrid
 			$checkbox	= array_key_exists('checkbox',	$options) ? $options['checkbox']	: $checkbox;
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
-		return self::action($i, $task, $prefix, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox);
+		return self::action($i, $task, $prefix, $text, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox);
 	}
 }
