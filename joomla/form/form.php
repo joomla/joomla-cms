@@ -1635,7 +1635,7 @@ class JForm
 			$data = trim($data);
 
 			if (empty($data)) {
-				throw new Exception('JLIB_FORM_ERROR_NO_DATA');
+				throw new Exception(JText::_('JLIB_FORM_ERROR_NO_DATA'));
 			}
 
 			// Instantiate the form.
@@ -1644,12 +1644,12 @@ class JForm
 			// Load the data.
 			if (substr(trim($data), 0, 1) == '<') {
 				if ($forms[$name]->load($data, $replace, $xpath) == false) {
-					throw new Excpetion('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD');
+					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
 					return false;
 				}
 			} else {
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
-					throw new Exception('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD');
+					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
 					return false;
 				}
 			}
