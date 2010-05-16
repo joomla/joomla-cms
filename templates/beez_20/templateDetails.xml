@@ -65,7 +65,7 @@
 					label="TPL_BEEZ2_FIELD_SITETITLE_LABEL"
 					description="TPL_BEEZ2_FIELD_SITETITLE_DESC" />
 
-				<field name="sitedescription"  type="text" default="A flexy thing"
+				<field name="sitedescription"  type="text" default="Your site name"
 					label="TPL_BEEZ2_FIELD_DESCRIPTION_LABEL"
 					description="TPL_BEEZ2_FIELD_DESCRIPTION_DESC" />
 

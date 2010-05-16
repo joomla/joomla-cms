@@ -88,8 +88,7 @@ $templateparams	= $app->getTemplate(true)->params;
 					   echo JText::_($title); ?>
 					<?php endif; ?>
 					<span class="header1">
-					<?php $subtitle= $templateparams->get('sitedescription');
-					echo JText::_($subtitle); ?>
+					<?php echo $templateparams->get('sitedescription');?>
 					</span></h1>
 				</div><!-- end logoheader -->
 

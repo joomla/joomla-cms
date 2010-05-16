@@ -24,8 +24,8 @@
 <fields name="params">
 <fieldset name="basic">
 			<field name="show_base_description" type="radio"
-				label="JGLOBAL_SHOW_BASE_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_BASE_DESCRIPTION_DESC"
+				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
+				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

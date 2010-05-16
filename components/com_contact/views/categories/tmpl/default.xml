@@ -35,12 +35,6 @@
 				cols="25"
 				rows="5"
 			/>
-			<field name="categories_description" type="textarea"
-				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
-				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
-				cols="25"
-				rows="5"
-			/>
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
