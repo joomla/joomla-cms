@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-May-2010 Mark Dexter
+# [#20312] Access Control not implemented in menus
+# [#20450] Missing modal and field for single news feed selection
+# Sample data fixes (Elin Waring)
+
 16-May-2010 Chris Davenport
 $ Translate help screen titles in com_admin
 

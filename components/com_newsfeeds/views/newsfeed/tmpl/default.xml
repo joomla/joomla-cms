@@ -12,8 +12,7 @@
 			addfieldpath="/administrator/components/com_newsfeeds/models/fields"
 		 >
 
-			<field name="id" type="newsfeed"
-				default="0"
+			<field name="id" type="modal_newsfeeds"
 				description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC"
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
 				required="true"

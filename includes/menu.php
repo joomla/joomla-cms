@@ -41,6 +41,10 @@ class JMenuSite extends JMenu
 			$query->where('m.parent_id > 0');
 			$query->order('m.lft');
 
+			$user =& JFactory::getUser();
+			$groups = implode(',', $user->authorisedLevels());
+			$query->where('m.access IN (' . $groups . ')');
+
 			// Filter by language
 			if ($app->getLanguageFilter()) {
 				$query->where('m.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
