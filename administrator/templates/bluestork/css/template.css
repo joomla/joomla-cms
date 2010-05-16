@@ -120,8 +120,6 @@ textarea {
 	border: 1px solid silver;
 }
 
-/* button        	{ font-size: 0.909em; margin-top:2px; margin-left:5px;} */
-
 .invalid {
 	color: red;
 	font-weight: bold;
@@ -177,27 +175,22 @@ p.error {
 	font-weight: bold;
 }
 
-.allow {
+.allow,
+span.writable { 
 	color: green;
 }
 
-.deny {
+.deny,
+span.unwritable  { 
 	color: red;
 }
 
-.none {
-	color: #aaa;
-}
-
-.hide {
-	display: none
-}
-
-.hidelabeltxt {
-	text-indent: -9999em;
-}
+.none 			{ color: #aaa; }
+.hide 			{ display: none }
+.hidelabeltxt	{ text-indent: -9999em; }
 
 /* -- OVERALL STYLES ----------------------------- */
+
 #border-top.h_blue {
 	background: url(../images/j_header_middle.png) repeat-x;
 }
@@ -227,13 +220,6 @@ p.error {
 	padding: 7px 10px 0 0;
 }
 
-/*
-#border-top .version {
-	display: block; float: right;
-	color: #fff;
-	padding: 25px 5px 0 0;
-}
-*/
 #border-bottom {
 	background: url(../images/j_bottom.png) repeat-x;
 }
@@ -291,6 +277,7 @@ p.footer-tip {
 }
 
 /* -- STATUS STYLES ----------------------------- */
+
 #module-status {
 	float: right;
 }
@@ -301,10 +288,6 @@ p.footer-tip {
 	line-height: 16px;
 	padding: 4px 10px 0 22px;
 	margin-bottom: 5px;
-}
-
-.legacy-mode {
-	color: #c00;
 }
 
 #module-status .viewsite {
@@ -355,14 +338,6 @@ span.stat-notice {
 div.noparams-notice {
 	text-align: center;
 	padding: 5px;
-}
-
-span.writable {
-	color: green;
-}
-
-span.unwritable {
-	color: red;
 }
 
 p.noparams {
@@ -581,8 +556,7 @@ textarea#mm_message {
 }
 
 .jpane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) 5px 50%
-		no-repeat;
+	background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat;
 	padding-left: 20px;
 }
 
@@ -615,7 +589,7 @@ table input[type="radio"] {
 */
 input#jformparams_link_titles1,
 input#jformparams_show_title1,
-input#jformparams_link_category1	{
+input#jformparams_link_category1 {
 	margin-left: 13px;
 }
 
@@ -762,24 +736,24 @@ div.cpanel-right {
 
 /* -- FORM STYLES ----------------------------- */
 
-div.width-20 {width: 20%;}
-div.width-30 {width: 30%;}
-div.width-35 {width: 35%;}
-div.width-40 {width: 40%;}
-div.width-45 {width: 45%;}
-div.width-50 {width: 50%;}
-div.width-55 {width: 55%;}
-div.width-60 {width: 60%;}
-div.width-65 {width: 65%;}
-div.width-70 {width: 70%;}
-div.width-80 {width: 80%;}
-div.width-100 {width: 100%;}
+div.width-20	{width: 20%;}
+div.width-30	{width: 30%;}
+div.width-35	{width: 35%;}
+div.width-40	{width: 40%;}
+div.width-45	{width: 45%;}
+div.width-50	{width: 50%;}
+div.width-55	{width: 55%;}
+div.width-60	{width: 60%;}
+div.width-65	{width: 65%;}
+div.width-70	{width: 70%;}
+div.width-80	{width: 80%;}
+div.width-100	{width: 100%;}
 
-.clrlft {clear: left;}
-.clrrt {clear: right;}
-.fltlft {float: left;}
-.fltrt {float: right;}
-.fltnone {float: none;}
+.clrlft		{clear: left;}
+.clrrt		{clear: right;}
+.fltlft		{float: left;}
+.fltrt		{float: right;}
+.fltnone	{float: none;}
 
 div.width-20 fieldset,
 div.width-30 fieldset,
@@ -794,103 +768,71 @@ div.width-70 fieldset,
 div.width-80 fieldset,
 div.width-100 fieldset	{
 	background-color: #fff;
-	padding: 17px;
+	padding: 5px 17px 17px 17px;
 }
-
 
 fieldset.adminform {
 	margin: 10px;
+	
+}
+
+fieldset.adminform legend { 
+	margin: 0;
+	padding: 0;
+}
+
+ul.adminformlist,
+ul.adminformlist li {
+	margin: 0;
+	padding: 0;
 }
 fieldset label {
 	float: left;
 	clear: left;
+	display:block;
 	margin: 5px 5px 2px 0;
-
 }
 fieldset ul {
 	margin: 0;
 	padding: 0;
 }
+
 form label {
 	font-size: 1.091em;
 }
+
 fieldset input,
 fieldset textarea,
 fieldset select,
 fieldset img,
 fieldset button {
 	float: left;
-	width: auto;
+	width: auto; 
 	margin: 5px 5px 5px 0px;
+}
+
+fieldset.adminform textarea { 
+	width: 355px;
 }
 
 fieldset ul.checklist input {
 	clear:left;
 	margin-right: 10px;
 }
+
 fieldset ul.checklist label,
-fieldset ul.menu-links label	 {
+fieldset ul.menu-links label,
+fieldset#filter-bar label {
 	clear:none;
 }
-
-fieldset#filter-bar label {
-	clear: none;
-}
-
-
-/*
-fieldset#user-groups,
-fieldset.adminform,
-fieldset.adminform-legacy {
-	margin: 10px;
-}
-
-fieldset#folderview,
-fieldset#uploadform {
-	background: #fff;
-	padding: 10px;
-}
-
-fieldset#template-manager img {
-	margin-right: 20px;
-}
-
-fieldset#template-manager-css ul {
-	margin-left: 30px;
-}
-
-
-
-fieldset ul.checklist {
-	margin-left: 27px;
-}
-
-fieldset ul.checklist input,
-fieldset ul.checklist label {
-	float: none;
-	height: 22px;
-}
-
-
-input#jform_title {
-	margin-bottom: 10px;
-}
-
-label#jform_introtext-lbl,
-label#jform_fulltext-lbl {
-	font-size: 1.182em;
-	padding-top: 15px;
-	margin-top: 15px;
+fieldset.adminform ul.checklist li {
 	width: 100%;
+	margin: 0;
+	padding:0;
 }
-
-fieldset.adminform select,
-select#jform_catid {
-	margin-right: 20px;
+fieldset.adminform ul.checklist li label {
+	width: auto;
 }
-*/
-
-
 
 /* Hide the extension name on create category page */
 label#jform_extension-lbl,
@@ -966,7 +908,7 @@ div.panel fieldset {
 	border: 0;
 }
 
-/* Batch */
+/* -------- Batch ---------- */
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
 	background: #fff;
@@ -999,22 +941,15 @@ label#batch-access-lbl {
 }
 
 
-/*
-label#jform_description-lbl {
-	padding: 10px 0;
-}
-*/
-
 /* New login field label widths */
 fieldset.adminform.long label {
 	min-width: 180px;
 }
 
 fieldset.adminform.long input {
-
+	
 }
 
-	
 div#menu-assignment {
 	height: 300px;
 	overflow: auto;
@@ -1027,7 +962,6 @@ div#menu-assignment h3 {
 	clear:left;
 	padding-bottom: 0;
 	margin-bottom: 0;
-
 }
 div#menu-assignment h3 {
 	border-bottom: 1px solid #CCCCCC;
@@ -1038,22 +972,20 @@ div#menu-assignment ul.menu-links li:last-child label {
 	margin-bottom: 20px;
 }
 
-button.jform-rightbtn {float:right;margin-right: 0;}
-	
-	
-/* Field label widths- short label */
+button.jform-rightbtn { float:right;margin-right: 0; }
+
+/* Field label widths - short label */
 fieldset.adminform label {
-	clear: left;
-	min-width: 135px;
+	width: 135px;
 }
 
 fieldset.panelform label,
 fieldset.panelform div.paramrow label {
-	clear: left;
+	/* clear: left; */
 	min-width: 145px;
 }
 
-/* Field label widths- medium label */
+/* Field label widths - medium label */
 label#userparamsallowUserRegistration-lbl,
 label#userparamsnew_usertype-lbl,
 label#userparamsuseractivation-lbl,
@@ -1062,8 +994,7 @@ label#jform_MetaDesc-lbl {
 	min-width: 180px;
 }
 
-
-/* Field label widths- long label */
+/* Field label widths - long label */
 label#paramsusermode-lbl,
 label#paramsphishing-resistant-lbl,
 label#paramsmulti-factor-lbl,
@@ -1100,10 +1031,6 @@ div.editor-border {
 	border: 1px solid #CCCCCC;
 }
 
-fieldset ul li {
-	/* margin-left: -30px; */
-}
-
 fieldset p {
 	margin: 0 0 15px 0;
 	font-size: 1.091em;
@@ -1131,8 +1058,7 @@ ul#paramlist li {
 li#jform_menutype_label,
 li#jform_parentid_label,
 li#jform_published_label,
-li#jform_access_label
-	{
+li#jform_access_label {
 	float: left;
 	clear: left;
 }
@@ -1152,6 +1078,7 @@ fieldset.panelform fieldset.radio label {
 	min-width: 40px;
 	float: left;
 	clear: none;
+	width: 40px;
 }
 
 fieldset.panelform-legacy label,
@@ -1226,10 +1153,6 @@ fieldset#filter-bar {
 	height: 35px;
 	border: 0;
 	border-bottom: 1px solid #d5d5d5;
-}
-
-div.filter-search {
-
 }
 
 label.filter-search-lbl {
@@ -1397,7 +1320,6 @@ table.adminlist tbody tr.row1:hover td	{
 }
 
 table.adminlist tbody tr td {
-	height: 36px;
 	background: #fff;
 	border: 1px solid #fff;
 }
@@ -1446,45 +1368,16 @@ div#element-box div.m div.jpane-slider form table.adminlist a {
 }
 
 /* Tree indentation & nesting - Up to 10 levels deep so don't go crazy :) */
-table.adminlist td.indent-4 {
-	padding-left: 4px;
-}
-
-table.adminlist td.indent-19 {
-	padding-left: 19px;
-}
-
-table.adminlist td.indent-34 {
-	padding-left: 34px;
-}
-
-table.adminlist td.indent-49 {
-	padding-left: 49px;
-}
-
-table.adminlist td.indent-64 {
-	padding-left: 64px;
-}
-
-table.adminlist td.indent-79 {
-	padding-left: 79px;
-}
-
-table.adminlist td.indent-94 {
-	padding-left: 94px;
-}
-
-table.adminlist td.indent-109 {
-	padding-left: 109px;
-}
-
-table.adminlist td.indent-124 {
-	padding-left: 124px;
-}
-
-table.adminlist td.indent-139 {
-	padding-left: 139px;
-}
+table.adminlist td.indent-4 	{	padding-left: 4px;		}
+table.adminlist td.indent-19 	{	padding-left: 19px;		}
+table.adminlist td.indent-34 	{	padding-left: 34px;		}
+table.adminlist td.indent-49 	{	padding-left: 49px;		}
+table.adminlist td.indent-64 	{	padding-left: 64px;		}
+table.adminlist td.indent-79 	{	padding-left: 79px;		}
+table.adminlist td.indent-94 	{	padding-left: 94px;		}
+table.adminlist td.indent-109 	{	padding-left: 109px;	}
+table.adminlist td.indent-124 	{	padding-left: 124px;	}
+table.adminlist td.indent-139 	{	padding-left: 139px;	}
 
 p.smallsub {
 	margin: 3px 0 0;
@@ -1499,10 +1392,6 @@ div#element-box div.m form table.adminlist tr td p.smallsub a {
 }
 
 table.adminlist tr td.btns a {
-	/* border: 1px solid #999;
-	padding: 3px;
-	background-color: #E8F6FE;
-	*/
 	text-decoration: underline;
 }
 
@@ -1535,7 +1424,7 @@ td.center,th.center {
 	float: none;
 }
 
-td.center img,th.center img {
+td.center img, th.center img {
 	float: none;
 }
 
@@ -1543,7 +1432,7 @@ td.right,th.right {
 	text-align: right;
 }
 
-td.nowrap,th.nowrap {
+td.nowrap, th.nowrap {
 	white-space: nowrap;
 }
 
@@ -1576,10 +1465,13 @@ table#global-checkin tbody tr.row1:hover td {
 	background-color: #F0F0F0;
 }
 
-/* -- BUTTON STYLES ----------------------------- */
+/* -- EDITOR STYLES ----------------------------- */
+
 #editor-xtd-buttons {
 	padding-top: 10px;
 }
+
+/* -- BUTTON STYLES ----------------------------- */
 
 .button1,.button1 div {
 	height: 1%;
@@ -1648,8 +1540,7 @@ table#global-checkin tbody tr.row1:hover td {
 .button2-right .blank a,
 .button2-left .blank span,
 .button2-right .blank span,
-.button2-right .blank button
-	{
+.button2-right .blank button {
 	padding: 0 6px;
 }
 
@@ -1686,65 +1577,23 @@ table#global-checkin tbody tr.row1:hover td {
 	margin-right: 10px;
 }
 
-.button2-right .prev {
-	background: url(../images/j_button2_prev.png) no-repeat;
-}
+.button2-right .prev 		{	background: url(../images/j_button2_prev.png) no-repeat; }
+.button2-right.off .prev 	{	background: url(../images/j_button2_prev_off.png) no-repeat; }
+.button2-right .start 		{	background: url(../images/j_button2_first.png) no-repeat; }
+.button2-right.off .start 	{	background: url(../images/j_button2_first_off.png) no-repeat; }
+.button2-left .page,
+.button2-left .blank 		{	background: url(../images/j_button2_right_cap.png) 100% 0 no-repeat; }
+.button2-left .next 		{	background: url(../images/j_button2_next.png) 100% 0 no-repeat; }
+.button2-left.off .next 	{	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat; }
+.button2-left .end 			{	background: url(../images/j_button2_last.png) 100% 0 no-repeat; }
+.button2-left.off .end 		{	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat; }
+.button2-left .image 		{	background: url(../images/j_button2_image.png) 100% 0 no-repeat; }
+.button2-left .readmore 	{	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; }
+.button2-left .pagebreak 	{	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat; }
+.button2-left .blank 		{	background: url(../images/j_button2_blank.png) 100% 0 no-repeat; }
+.button2-left .article 		{	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat; }
 
-.button2-right.off .prev {
-	background: url(../images/j_button2_prev_off.png) no-repeat;
-}
-
-.button2-right .start {
-	background: url(../images/j_button2_first.png) no-repeat;
-}
-
-.button2-right.off .start {
-	background: url(../images/j_button2_first_off.png) no-repeat;
-}
-
-.button2-left .page,.button2-left .blank {
-	background: url(../images/j_button2_right_cap.png) 100% 0 no-repeat;
-}
-
-.button2-left .next {
-	background: url(../images/j_button2_next.png) 100% 0 no-repeat;
-}
-
-.button2-left.off .next {
-	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
-}
-
-.button2-left .end {
-	background: url(../images/j_button2_last.png) 100% 0 no-repeat;
-}
-
-.button2-left.off .end {
-	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
-}
-
-.button2-left .image {
-	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
-}
-
-.button2-left .readmore {
-	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
-}
-
-.button2-left .pagebreak {
-	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
-}
-
-.button2-left .blank {
-	background: url(../images/j_button2_blank.png) 100% 0 no-repeat;
-}
-
-.button2-left .article {
-	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
-}
-
-a.pointer {
-	cursor: pointer;
-}
+a.pointer { cursor: pointer; }
 
 button {
 	margin-top: 4px;
@@ -1759,9 +1608,6 @@ button:hover {
 	text-decoration: none;
 	border: 1px solid #aaa;
 }
-
-/* -- EDITOR STYLES ----------------------------- */
-
 
 
 /* -- TOOLTIP STYLES ----------------------------- */
@@ -1801,12 +1647,11 @@ a img.calendar {
 }
 
 /* -- SYSTEM MESSAGE STYLES ----------------------------- */
-	/* System Standard Messages */
+
 #system-message dd.message ul {
 	background: #C3D2E5 url(../images/notice-info.png) 4px center no-repeat;
 }
 
-/* System Error Messages */
 #system-message dd.error ul {
 	color: #c00;
 	background: #E6C0C0 url(../images/notice-alert.png) 4px top no-repeat;
@@ -1814,7 +1659,6 @@ a img.calendar {
 	border-bottom: 3px solid #DE7A7B;
 }
 
-/* System Notice Messages */
 #system-message dd.notice ul {
 	color: #c00;
 	background: #EFE7B8 url(../images/notice-note.png) 4px top no-repeat;
@@ -1823,7 +1667,6 @@ a img.calendar {
 }
 
 /* -- SYSTEM MESSAGES relocated from system.css ---- */
-/* System Messages */
 #system-message {
 	margin-bottom: 10px;
 	padding: 0;
@@ -1848,7 +1691,6 @@ a img.calendar {
 	border-bottom: 3px solid #84A7DB;
 }
 
-/* System Standard Messages */
 #system-message dt.message {
 	display: none;
 }
@@ -1857,7 +1699,6 @@ a img.calendar {
 
 }
 
-/* System Error Messages */
 #system-message dt.error {
 	display: none;
 }
@@ -1869,7 +1710,6 @@ a img.calendar {
 	border-bottom: 3px solid #DE7A7B;
 }
 
-/* System Notice Messages */
 #system-message dt.notice {
 	display: none;
 }
@@ -1882,7 +1722,6 @@ a img.calendar {
 }
 
 /* -- LOGIN STYLES ----------------------------- */
-
 
 .login {
 	margin: 50px auto 100px;
@@ -1922,7 +1761,6 @@ p {
 	padding: 0;
 }
 
-/* Login page */
 #lock {
 	background: url(../images/j_login_lock.png) 50% 0 no-repeat;
 	width: 150px;
@@ -1969,74 +1807,6 @@ p#login-error-message {
 
 }
 
-/*
-.button {
-	text-align: right;
-}
-
-.login-form {
-	text-align: left;
-	width: 60%;
-}
-
-.login-form h1 {
-	display: none;
-}
-
-.login-form p {
-	padding: 0 1em 0 1em;
-}
-
-.login-text {
-	text-align: left;
-	width: 40%;
-	float: left;
-}
-
-#form-login {
-	clear: both;
-}
-
-#form-login label {
-	display: block;
-	float: left;
-	width: auto;
-	max-width: 120px;
-	text-align: right;
-	padding: 1px 10px 0 0;
-	color: #666;
-	font-weight: bold;
-}
-
-
-
-#form-login div.button1,
-#form-login div.button1 div.next {
-	float: left;
-}
-
-select#lang {
-	width: 106px;
-}
-
-p#login-username,
-p#login-password,
-p#login-language {
-	float: right;
-	margin-right: 15px;
-}
-
-p#login-language {
-	clear: both;
-}
-
-p#login-error-message {
-
-}
-
-
-*/
-
 /* OpenID icon style */
 input.system-openid,input.com-system-openid {
 	background: url(http://openid.net/login-bg.gif) no-repeat;
@@ -2047,6 +1817,7 @@ input.system-openid,input.com-system-openid {
 }
 
 /* -- JGRID STYLES ----------------------------- */
+
 a.jgrid:hover {	text-decoration: none;}
 
 .jgrid span.state {
@@ -2228,7 +1999,10 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-weblinks					{	background-image: url(../images/header/icon-48-links.png);	}
 
 /* -- BASIC MENU STYLES ----------------------------- */
-#menu,#menu ul,#menu li {
+
+#menu,
+#menu ul,
+#menu li {
 	margin: 0;
 	padding: 0;
 	border: 0 none;
@@ -2371,7 +2145,7 @@ a.icon-16-menu span img {
 	vertical-align: bottom;
 }
 
-/* -- SUBMENU STYLES ----------------------------- */
+/* ---- Submenu styles -------------------------- */
 #submenu {
 	list-style: none;
 	padding: 0;
@@ -2405,11 +2179,8 @@ a.icon-16-menu span img {
 #submenu a.active,
 #submenu span.nolink.active {
 	color: #146295;
-	background: #ffffff;
+	background: #FFF;
 }
-
-
-
 
 
 /* -- COMPONENT STYLES ------------------------------ */
@@ -2428,7 +2199,7 @@ div.message {
 	border: 0px;
 	width: 100%;
 	height: 100%;
-	padding: 0px 0px 0px 0px;
+	padding: 0px;
 	overflow: auto;
 }
 
@@ -2468,6 +2239,7 @@ ul.subext li {
 }
 
 /* -- MODAL STYLES ----------- */
+
 h2.modal-title {
 	margin-left: 15px;
 	margin-bottom: 0;
@@ -2522,18 +2294,19 @@ dl.menu_type dd ul {
 }
 
 /* -- ACL STYLES relocated from com_users/media/default.css ----------- */
-/* General */
 .scroll {
 	overflow: auto;
 }
 
 /* Filter Form */
-fieldset ol,ol#property-values {
+fieldset ol,
+ol#property-values {
 	margin: 0;
 	padding: 0
 }
 
-fieldset li,ol#property-values li {
+fieldset li,
+ol#property-values li {
 	list-style: none;
 	margin: 0;
 	padding: 5px
@@ -2587,7 +2360,7 @@ fieldset#buttonbar li {
 	padding: 5px
 }
 
-/* Configuration Modal */
+/* ---- Configuration Modal -------------------------- */
 div#config #submenu {
 	list-style-image: none;
 	list-style-position: outside;
@@ -2597,7 +2370,7 @@ div#config #submenu {
 }
 
 div#config #submenu-box div.t {
-	background: transparent url(../images/j_border.png) 0 0 repeat-x
+	background: transparent url(../images/j_border.png) 0 0 repeat-x;
 }
 
 div#config div.t,
@@ -2605,44 +2378,39 @@ div#config div.b {
 	height: 6px;
 	margin: 0;
 	overflow: hidden;
-	padding: 0
+	padding: 0;
 }
 
 div#config #submenu-box div.t div.t {
-	background: transparent url(../images/j_crn_tr_dark.png) no-repeat
-		scroll 100% 0
+	background: transparent url(../images/j_crn_tr_dark.png) no-repeat scroll 100% 0;
 }
 
 div#config #submenu-box div.t div.t div.t {
-	background: transparent url(../images/j_crn_tl_dark.png) no-repeat
-		scroll 0
+	background: transparent url(../images/j_crn_tl_dark.png) no-repeat scroll 0;
 }
 
 div#config div.m {
 	border-left: 1px solid #CCC;
 	border-right: 1px solid #CCC;
-	padding: 0 8px
+	padding: 0 8px;
 }
 
 div#config #submenu-box div.b {
-	background: transparent url(../images/j_border.png) repeat-x scroll 0
-		100%
+	background: transparent url(../images/j_border.png) repeat-x scroll 0 100%;
 }
 
 div#config #submenu-box div.b div.b {
-	background: transparent url(../images/j_crn_br_dark.png) no-repeat
-		scroll 100% 0
+	background: transparent url(../images/j_crn_br_dark.png) no-repeat scroll 100% 0;
 }
 
 div#config #submenu-box div.b div.b div.b {
-	background: transparent url(../images/j_crn_bl_dark.png) no-repeat
-		scroll 0
+	background: transparent url(../images/j_crn_bl_dark.png) no-repeat scroll 0;
 }
 
 div#config #submenu li {
 	float: left;
 	margin: 0;
-	padding: 0
+	padding: 0;
 }
 
 div#config #submenu li a,
@@ -2653,41 +2421,29 @@ div#config #submenu span.nolink {
 	font-weight: 700;
 	height: 12px;
 	line-height: 12px;
-	padding: 0 15px
+	padding: 0 15px;
 }
 
 div#config #submenu li:last-child a {
-	border-right: none
+	border-right: none;
 }
 
 div#config #submenu a.active,
 div#config #submenu span.nolink.active {
 	color: #000;
-	text-decoration: underline
+	text-decoration: underline;
 }
 
 div#config #submenu-box {
 	background: #F6F6F6 none repeat scroll 0;
-	margin-bottom: 10px
+	margin-bottom: 10px;
 }
 
 div#config #submenu-box .padding {
-	padding: 0
+	padding: 0;
 }
 
-/* Properties */
-fieldset ol,
-ol#property-values {
-	margin: 0;
-	padding: 0
-}
 
-fieldset li,
-ol#property-values li {
-	list-style: none;
-	margin: 0;
-	padding: 5px
-}
 
 /* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
 a.move_up {
@@ -2695,14 +2451,14 @@ a.move_up {
 	display: inline-block;
 	height: 16px;
 	text-indent: -1000em;
-	width: 16px
+	width: 16px;
 }
 
 span.move_up {
 	background-image: url('../images/admin/uparrow0.png');
 	display: inline-block;
 	height: 16px;
-	width: 16px
+	width: 16px;
 }
 
 a.move_down {
@@ -2710,14 +2466,14 @@ a.move_down {
 	display: inline-block;
 	height: 16px;
 	text-indent: -1000em;
-	width: 16px
+	width: 16px;
 }
 
 span.move_down {
 	background-image: url('../images/admin/downarrow0.png');
 	display: inline-block;
 	height: 16px;
-	width: 16px
+	width: 16px;
 }
 
 a.grid_false {
@@ -2725,7 +2481,7 @@ a.grid_false {
 	display: inline-block;
 	height: 16px;
 	text-indent: -1000em;
-	width: 16px
+	width: 16px;
 }
 
 a.grid_true {
@@ -2733,7 +2489,7 @@ a.grid_true {
 	display: inline-block;
 	height: 16px;
 	text-indent: -1000em;
-	width: 16px
+	width: 16px;
 }
 
 a.grid_trash {
@@ -2741,7 +2497,7 @@ a.grid_trash {
 	display: inline-block;
 	height: 16px;
 	text-indent: -1000em;
-	width: 16px
+	width: 16px;
 }
 
 /* -- ACL PANEL STYLES  ----------- */
@@ -2809,8 +2565,7 @@ label.icon-16-deny,
 a.icon-16-allow,
 a.icon-16-deny,
 a.icon-16-allowinactive,
-a.icon-16-denyinactive
-	{
+a.icon-16-denyinactive {
 	display: block;
 	height: 16px;
 	width: 16px;
@@ -2936,7 +2691,8 @@ table#acl-config td select {
 	font-weight: normal;
 }
 
-/* Disabled until verified */
+/* Disabled until verified 
 label#jform_rules-lbl {
 	display: none;
 }
+*/

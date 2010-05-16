@@ -39,17 +39,17 @@ JHtml::_('behavior.formvalidation');
 				echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
 			endif;
 	?>
-
+		<ul class="adminformlist">
 			<?php
 			foreach ($this->form->getFieldset($name) as $field):
 			?>
-					<?php echo $field->label; ?>
-					<?php echo $field->input; ?>
+					<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
 
 			<?php
 			endforeach;
 			?>
-
+			</ul>
 
 	<div class="clr"></div>
 	<?php

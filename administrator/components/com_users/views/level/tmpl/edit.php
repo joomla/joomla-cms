@@ -93,8 +93,10 @@ window.addEvent('domready', function(){
 	<div class="width-100">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_LEVEL_DETAILS');?></legend>
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('title'); ?></li>	
+				<li><?php echo $this->form->getInput('title'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 

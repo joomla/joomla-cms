@@ -35,32 +35,32 @@ defined('_JEXEC') or die;
 	<div class="width-30 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_MAIL_DETAILS'); ?></legend>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('recurse'); ?>
+			<?php echo $this->form->getInput('recurse'); ?></li>	
 
-			<?php echo $this->form->getLabel('recurse'); ?>
-			<?php echo $this->form->getInput('recurse'); ?>
+			<li><?php echo $this->form->getLabel('mode'); ?>
+			<?php echo $this->form->getInput('mode'); ?></li>
 
-			<?php echo $this->form->getLabel('mode'); ?>
-			<?php echo $this->form->getInput('mode'); ?>
+			<li><?php echo $this->form->getLabel('group'); ?>
+			<?php echo $this->form->getInput('group'); ?></li>
 
-			<?php echo $this->form->getLabel('group'); ?>
-			<?php echo $this->form->getInput('group'); ?>
-
-			<?php echo $this->form->getLabel('bcc'); ?>
-			<?php echo $this->form->getInput('bcc'); ?>
-
+			<li><?php echo $this->form->getLabel('bcc'); ?>
+			<?php echo $this->form->getInput('bcc'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 
 	<div class="width-70 fltrt">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_MAIL_MESSAGE'); ?></legend>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('subject'); ?>
+			<?php echo $this->form->getInput('subject'); ?></li>
 
-			<?php echo $this->form->getLabel('subject'); ?>
-			<?php echo $this->form->getInput('subject'); ?>
-
-			<?php echo $this->form->getLabel('message'); ?>
-			<?php echo $this->form->getInput('message'); ?>
-
+			<li><?php echo $this->form->getLabel('message'); ?>
+			<?php echo $this->form->getInput('message'); ?></li>
+			</ul>
 		</fieldset>
 	</div>
 

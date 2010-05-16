@@ -35,10 +35,12 @@ $fieldsets = $this->form->getFieldsets();
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_USER_ACCOUNT_DETAILS'); ?></legend>
+			<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('user_details') as $field) :?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
+				<li><?php echo $field->label; ?>
+				<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
+			</ul>
 		</fieldset>
 
 		<fieldset id="user-groups" class="adminform">

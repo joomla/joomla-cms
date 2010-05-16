@@ -14,11 +14,12 @@ defined('_JEXEC') or die;
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_CONFIG_CACHE_SETTINGS'); ?></legend>
+	<ul class="adminformlist">
 			<?php
 			foreach ($this->form->getFieldset('cache') as $field):
 			?>
-					<?php echo $field->label; ?>
-					<?php echo $field->input; ?>
+					<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
 			<?php
 			endforeach;
 			?>
@@ -27,12 +28,13 @@ defined('_JEXEC') or die;
 					<?php
 			foreach ($this->form->getFieldset('memcache') as $mfield):
 			?>
-					<?php echo $mfield->label; ?>
-					<?php echo $mfield->input; ?>
+					<li><?php echo $mfield->label; ?>
+					<?php echo $mfield->input; ?></li>
 			<?php
 			endforeach;
 			?>
 		<?php endif; ?>
+		</ul>
 
 </fieldset>
 </div>

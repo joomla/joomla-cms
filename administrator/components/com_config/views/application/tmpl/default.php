@@ -35,11 +35,11 @@ $this->document->addScriptDeclaration("
 	<div id="config-document">
 		<div id="page-site" class="tab">
 			<div class="noshow">
-				<div class="width-65 fltlft">
+				<div class="width-60 fltlft">
 					<?php echo $this->loadTemplate('site'); ?>
 					<?php echo $this->loadTemplate('metadata'); ?>
 				</div>
-				<div class="width-35 fltrt">
+				<div class="width-40 fltrt">
 					<?php echo $this->loadTemplate('seo'); ?>
 					<?php echo $this->loadTemplate('cookie'); ?>
 				</div>

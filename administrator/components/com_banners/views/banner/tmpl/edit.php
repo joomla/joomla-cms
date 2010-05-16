@@ -46,8 +46,8 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_BANNER_DETAILS', $this->item->id); ?></legend>
-
-			<?php echo $this->form->getLabel('name'); ?>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
 
 			<?php echo $this->form->getLabel('alias'); ?>
