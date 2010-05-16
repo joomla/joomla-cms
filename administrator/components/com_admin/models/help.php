@@ -109,6 +109,8 @@ class AdminModelHelp extends JModel
 				{
 					$title = trim($m[1]);
 					if ($title) {
+						// Translate the page title
+						$title = JText::_($title);
 						// strip the extension
 						$file = preg_replace('#\.xml$|\.html$#', '', $file);
 						if ($help_search)

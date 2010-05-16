@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-May-2010 Chris Davenport
+$ Translate help screen titles in com_admin
+
 16-May-2010 Ron Severdia
 # Fixed CSS and bug in admin login
 # IE compatibility fixes
