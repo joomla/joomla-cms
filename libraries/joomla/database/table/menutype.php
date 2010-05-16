@@ -135,4 +135,81 @@ class JTableMenuType extends JTable
 		}
 		return parent::store($updateNulls);
 	}
+	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param	mixed	An optional primary key value to delete.  If not set the
+	 *					instance property value is used.
+	 * @return	boolean	True on success.
+	 * @since	1.0
+	 * @link	http://docs.joomla.org/JTable/delete
+	 */
+	public function delete($pk = null)
+	{
+		// Initialise variables.
+		$k = $this->_tbl_key;
+		$pk = (is_null($pk)) ? $this->$k : $pk;
+
+		// If no primary key is given, return false.
+		if ($pk !== null)
+		{
+			// Get the user id
+			$userId = JFactory::getUser()->id;
+
+			// Get the old value of the table
+			$table = JTable::getInstance('Menutype','JTable');
+			$table->load($pk);
+
+			// Verify that no items are cheched out
+			$query = $this->_db->getQuery(true);
+			$query->select('id');
+			$query->from('#__menu');
+			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$query->where('checked_out !='.(int) $userId);
+			$query->where('checked_out !=0');
+			$this->_db->setQuery($query);
+			if ($this->_db->loadRowList()) {
+				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
+				return false;
+			}
+			
+			// Verify that no module for this menu are cheched out
+			$query = $this->_db->getQuery(true);
+			$query->select('id');
+			$query->from('#__modules');
+			$query->where('module='.$this->_db->quote('mod_menu'));
+			$query->where('params LIKE '.$this->_db->quote('%"menutype":'.json_encode($table->menutype).'%'));
+			$query->where('checked_out !='.(int) $userId);
+			$query->where('checked_out !=0');
+			$this->_db->setQuery($query);
+			if ($this->_db->loadRowList()) {
+				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
+				return false;
+			}
+			
+			// Delete the menu items
+			$query = $this->_db->getQuery(true);
+			$query->delete();
+			$query->from('#__menu');
+			$query->where('menutype='.$this->_db->quote($table->menutype));
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
+				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				return false;
+			}
+
+			// Update the module items
+			$query = $this->_db->getQuery(true);
+			$query->delete();
+			$query->from('#__modules');
+			$query->where('module='.$this->_db->quote('mod_menu'));
+			$query->where('params LIKE '.$this->_db->quote('%"menutype":'.json_encode($table->menutype).'%'));
+			$this->_db->setQuery($query);
+			if (!$this->_db->query()) {
+				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+				return false;
+			}
+		}
+		return parent::delete($pk);
+	}
 }

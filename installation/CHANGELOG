@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 16-May-2010 Christophe Demko
+ # Fix [#20428] Deleting A Menu Does Not Delete Menu Items
  # Reenabling filters in manage view
  # fix some ACL
 

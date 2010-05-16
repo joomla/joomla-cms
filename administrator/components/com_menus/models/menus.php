@@ -38,6 +38,7 @@ class MenusModelMenus extends JModelList
 		$query->select('COUNT(DISTINCT m1.id) AS count_published');
 		$query->join('LEFT', '`#__menu` AS m1 ON m1.menutype = a.menutype AND m1.published = 1');
 
+
 		// Self join to find the number of unpublished menu items in the menu.
 		$query->select('COUNT(DISTINCT m2.id) AS count_unpublished');
 		$query->join('LEFT', '`#__menu` AS m2 ON m2.menutype = a.menutype AND m2.published = 0');
