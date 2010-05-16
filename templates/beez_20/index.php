@@ -84,7 +84,7 @@ $templateparams	= $app->getTemplate(true)->params;
 					<img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ2_LOGO'); ?>" />
 					<?php endif;?>
 					<?php if ($logo == '-1' ): ?>
-					<? echo= $templateparams->get('sitetitle');?>
+					<?php echo $templateparams->get('sitetitle');?>
 					<?php endif; ?>
 					<span class="header1">
 					<?php echo $templateparams->get('sitedescription');?>
