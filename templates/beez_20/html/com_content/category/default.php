@@ -69,7 +69,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 	{echo '<h2>' ;} ?>
 
-<?php echo JTEXT::_('COM_CONTENT_CHILDREN'); ?>
+<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
  <?php if ($this->params->get('show_category_title') OR $this->params->get('page_subheading'))
 	 {  echo '</h3>' ;}
 	 else

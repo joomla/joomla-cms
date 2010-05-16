@@ -106,7 +106,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') !=0) : ?>
 		<div class="cat-children">
 		<h3>
-<?php echo JTEXT::_('COM_CONTENT_CHILDREN'); ?>
+<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
 </h3>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
