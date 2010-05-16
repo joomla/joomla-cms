@@ -86,8 +86,8 @@ $listDirn	= $this->state->get('list.direction');
 		<?php foreach ($this->items as $i => $item) :
 			$ordering	= ($listOrder == 'ordering');
 			$canEdit	= $user->authorise('core.edit',			'com_plugins');
-			$canChange	= $user->authorise('core.edit.state',	'com_plugins');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canChange	= $user->authorise('core.edit.state',	'com_plugins') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

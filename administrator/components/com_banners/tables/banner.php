@@ -212,6 +212,8 @@ class BannersTableBanner extends JTable
 			{
 				// Change the state
 				$table->state = $state;
+				$table->checked_out=0;
+				$table->checked_out_time=0;
 
 				// Check the row
 				$table->check();
@@ -277,6 +279,8 @@ class BannersTableBanner extends JTable
 			{
 				// Change the state
 				$table->sticky = $state;
+				$table->checked_out=0;
+				$table->checked_out_time=0;
 
 				// Check the row
 				$table->check();

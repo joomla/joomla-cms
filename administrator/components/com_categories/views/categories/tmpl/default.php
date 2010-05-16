@@ -88,7 +88,8 @@ $listDirn	= $this->state->get('list.direction');
 			foreach ($this->items as $i => $item) :
 				$ordering = ($listOrder == 'a.lft');
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+				$canChange = $canCheckin;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
@@ -110,7 +111,7 @@ $listDirn	= $this->state->get('list.direction');
 						</p>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>
+						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange);?>
 					</td>
 					<td class="order">
 						<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>

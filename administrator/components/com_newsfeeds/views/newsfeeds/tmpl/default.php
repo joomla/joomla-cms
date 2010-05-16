@@ -101,8 +101,8 @@ $listDirn	= $this->state->get('list.direction');
 			$ordering	= ($listOrder == 'a.ordering');
 			$canCreate	= $user->authorise('core.create',		'com_newsfeeds.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_newsfeeds.category.'.$item->catid);
-			$canChange	= $user->authorise('core.edit.state',	'com_newsfeeds.category.'.$item->catid);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canChange	= $user->authorise('core.edit.state',	'com_newsfeeds.category.'.$item->catid) && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

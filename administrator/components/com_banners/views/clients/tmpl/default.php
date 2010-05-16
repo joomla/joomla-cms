@@ -78,8 +78,8 @@ $listDirn	= $this->state->get('list.direction');
 			$ordering	= ($listOrder == 'ordering');
 			$canCreate	= $user->authorise('core.create',		'com_banners');
 			$canEdit	= $user->authorise('core.edit',			'com_banners');
-			$canChange	= $user->authorise('core.edit.state',	'com_banners');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canChange	= $user->authorise('core.edit.state',	'com_banners') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

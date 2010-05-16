@@ -95,7 +95,8 @@ $n = count($this->items);
 			foreach ($this->items as $i => $item) :
 				$ordering = ($listOrder == 'a.lft');
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')  || $item->checked_out==0;
+				$canChange = $canCheckin;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<th class="center">
@@ -111,7 +112,7 @@ $n = count($this->items);
 							(<span><?php echo JText::_('JFIELD_ALIAS_LABEL'); ?>:</span> <?php echo $this->escape($item->alias);?>)</p>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.');?>
+						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange);?>
 					</td>
 					<td class="order">
 						<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>

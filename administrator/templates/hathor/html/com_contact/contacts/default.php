@@ -106,8 +106,8 @@ $listDirn	= $this->state->get('list.direction');
 		foreach ($this->items as $i => $item) :
 			$canCreate	= $user->authorise('core.create',		'com_contact.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_contact.category.'.$item->catid);
-			$canChange	= $user->authorise('core.edit.state',	'com_contact.category.'.$item->catid);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canChange	= $user->authorise('core.edit.state',	'com_contact.category.'.$item->catid) && $canCheckin;
 
 			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&='. $item->catid);
 			?>

@@ -35,7 +35,7 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php JRoute::_('index.php?option=com_content'); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_CONTENT_ARTICLE_DETAILS'); ?></legend>
+		<legend><?php echo empty($this->item->id) ? JText::_('COM_CONTENT_NEW_ARTICLE') : JText::sprintf('COM_CONTENT_EDIT_ARTICLE', $this->item->id); ?></legend>
 
 		<?php echo $this->form->getLabel('title'); ?>
 		<?php echo $this->form->getInput('title'); ?>

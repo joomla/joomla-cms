@@ -117,8 +117,8 @@ $listDirn	= $this->state->get('list.direction');
 			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_weblinks&task=edit&type=other&cid[]='. $item->catid);
 			$canCreate	= $user->authorise('core.create',		'com_weblinks.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_weblinks.category.'.$item->catid);
-			$canChange	= $user->authorise('core.edit.state',	'com_weblinks.category.'.$item->catid);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canChange	= $user->authorise('core.edit.state',	'com_weblinks.category.'.$item->catid) && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>

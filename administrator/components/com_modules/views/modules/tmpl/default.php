@@ -108,8 +108,8 @@ $listDirn	= $this->state->get('list.direction');
 			$ordering	= ($listOrder == 'ordering');
 			$canCreate	= $user->authorise('core.create',		'com_modules');
 			$canEdit	= $user->authorise('core.edit',			'com_modules');
-			$canChange	= $user->authorise('core.edit.state',	'com_modules');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')|| $item->checked_out==0;
+			$canChange	= $user->authorise('core.edit.state',	'com_modules') && $canCheckin;
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
