@@ -67,14 +67,14 @@ function pagination_list_footer($list)
 {
 	// Initialise variables.
 	$lang = &JFactory::getLanguage();
-	$html = "<del class=\"container\"><div class=\"pagination\">\n";
+	$html = "<div class=\"container\"><div class=\"pagination\">\n";
 
 	$html .= "\n<div class=\"limit\">".JText::_('JLIB_HTML_DISPLAY_NUM').$list['limitfield']."</div>";
 	$html .= $list['pageslinks'];
 	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
 
 	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"".$list['limitstart']."\" />";
-	$html .= "\n</div></del>";
+	$html .= "\n</div></div>";
 
 	return $html;
 }

@@ -32,3 +32,6 @@ div.toolbar-list a {
 #menu ul li.separator {
 	display:inline;
 }
+input, select, button {
+	font-size:1em;
+}

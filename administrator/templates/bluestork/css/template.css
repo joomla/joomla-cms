@@ -978,6 +978,12 @@ div#menu-assignment ul.menu-links li:last-child label {
 	margin-bottom: 20px;
 }
 
+fieldset.adminform .menu-links label {
+	width:400px;
+}
+fieldset.adminform .menu-links input { 
+	margin-top: 1px;
+}
 button.jform-rightbtn { float:right;margin-right: 0; }
 
 /* Field label widths - short label */
@@ -1353,6 +1359,7 @@ table.adminlist tfoot td,table.adminlist tfoot th {
 table.adminlist td.order {
 	text-align: center;
 	white-space: nowrap;
+	width: 200px;
 }
 
 table.adminlist td.order span {

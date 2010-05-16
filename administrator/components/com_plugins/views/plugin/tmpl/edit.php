@@ -29,32 +29,31 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS') ?></legend>
-
-			<?php echo $this->form->getLabel('name'); ?>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
-			<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span>
+			<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span></li>
 
-			<?php echo $this->form->getLabel('enabled'); ?>
-			<?php echo $this->form->getInput('enabled'); ?>
+			<li><?php echo $this->form->getLabel('enabled'); ?>
+			<?php echo $this->form->getInput('enabled'); ?></li>
 
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
+			<li><?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?></li>
 
-			<?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?>
+			<li><?php echo $this->form->getLabel('ordering'); ?>
+			<?php echo $this->form->getInput('ordering'); ?></li>
 
-			<?php echo $this->form->getLabel('folder'); ?>
-			<?php echo $this->form->getInput('folder'); ?>
+			<li><?php echo $this->form->getLabel('folder'); ?>
+			<?php echo $this->form->getInput('folder'); ?></li>
 
-			<?php echo $this->form->getLabel('element'); ?>
-			<?php echo $this->form->getInput('element'); ?>
+			<li><?php echo $this->form->getLabel('element'); ?>
+			<?php echo $this->form->getInput('element'); ?></li>
 
 			<?php if ($this->item->extension_id) : ?>
-				<?php echo $this->form->getLabel('extension_id'); ?>
-				<?php echo $this->form->getInput('extension_id'); ?>
+				<li><?php echo $this->form->getLabel('extension_id'); ?>
+				<?php echo $this->form->getInput('extension_id'); ?></li>
 			<?php endif; ?>
-
-			<br class="clr" />
+			</ul>
 
 			<!-- Plugin metadata -->
 			<?php if ($this->item->xml) : ?>
