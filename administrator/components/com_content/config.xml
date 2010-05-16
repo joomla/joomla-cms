@@ -504,7 +504,7 @@
 			<option
 				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
 			<option
-				value="order">JGLOBAL_Category_Manager_Order</option>
+				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
 		</field>
 
 		<field
