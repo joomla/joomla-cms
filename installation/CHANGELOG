@@ -35,6 +35,7 @@ $ -> Language fix or change
 # BlueStork fixes, new icons, language fixes
 
 16-May-2010 Jean-Marie Simonet
+$ Fixed some Beez language keys
 ^ Fixed Beez sitedescription
 $ Fixed and consolidate some language strings
 # Fixed base category description [20447]. Thanks Elin.
