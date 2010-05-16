@@ -382,7 +382,7 @@ class UsersModelRegistration extends JModelForm
 			$data['activate'] = $base.JRoute::_('index.php?option=com_users&task=registration.activate&token='.$data['activation'], false);
 
 			$emailSubject	= JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_SUBJECT',
+				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
 			);
@@ -405,7 +405,7 @@ class UsersModelRegistration extends JModelForm
 			$data['activate'] = $base.JRoute::_('index.php?option=com_users&task=registration.activate&token='.$data['activation'], false);
 
 			$emailSubject	= JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_SUBJECT',
+				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
 			);
@@ -422,7 +422,7 @@ class UsersModelRegistration extends JModelForm
 		} else {
 
 			$emailSubject	= JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_SUBJECT',
+				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
 				$data['sitename']
 			);
