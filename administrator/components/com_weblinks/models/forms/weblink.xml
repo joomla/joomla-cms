@@ -31,12 +31,12 @@
 			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="date" type="Date" class="inputbox"
-			default="" label="Weblinks_Date_Label" description="Weblinks_Date_Desc"
+			default="" label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"
 			filter="safehtml" />
 
 		<field name="hits" type="Text" class="inputbox"
-			default="" size="6" label="Weblinks_Hits_Label"
-			description="Weblinks_HITS_Desc" readonly="true" filter="unset" />
+			default="" size="6" label="WEBLINKS_HITS_LABEL"
+			description="WEBLINKS_HITS_DESC" readonly="true" filter="unset" />
 
 
 		<field
@@ -79,25 +79,25 @@
 
 		<field id="approved" name="approved" type="radio"
 			class="inputbox" default="" label="WEBLINKS_APPROVED_LABEL"
-			description="Weblinks_Approved_Desc"
+			description="WEBLINKS_APPROVED_DESC"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 		<field name="created" type="calendar"
-			label="JGLOBAL_FIELD_Created_Label" description="JGLOBAL_FIELD_Created_Desc"
+			label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_CREATED_DESC"
 			class="inputbox" size="16" format="%Y-%m-%d %H:%M:%S"
 			filter="server_utc" />
 
 		<field name="created_by" type="user"
-			label="JGLOBAL_FIELD_Created_by_Label" description="JGLOBAL_FIELD_CREATED_BY_Desc" />
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="JGLOBAL_FIELD_CREATED_BY_Desc" />
 
 		<field name="created_by_alias" type="text"
-			label="JGLOBAL_FIELD_Created_by_alias_Label" description="JGLOBAL_FIELD_Created_by_alias_Desc"
+			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL" description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
 			class="inputbox" size="20" />
 
 		<field name="modified" type="text" class="readonly"
-			label="JGLOBAL_FIELD_Modified_Label" description="JGLOBAL_FIELD_Modified_Desc"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="JGLOBAL_FIELD_MODIFIED_DESC"
 			size="16" readonly="true" filter="unset" />
 
 		<field name="modified_by" type="hidden" filter="unset" />
@@ -107,28 +107,29 @@
 		<field name="checked_out_time" type="hidden" filter="unset" />
 
 		<field name="publish_up" type="calendar"
-			label="JGLOBAL_FIELD_Publish_up_Label" description="JGLOBAL_FIELD_Publish_up_Desc"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
 			filter="server_utc" />
 
 		<field name="publish_down" type="calendar"
-			label="JGLOBAL_FIELD_Publish_down_Label" description="JGLOBAL_FIELD_Publish_down_Desc"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="30"
 			filter="server_utc" />
 
 		<field name="metakey" type="textarea"
-			label="JField_Meta_Keywords_Label" description="JField_Meta_Keywords_Desc"
+			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
 			class="inputbox" rows="3" cols="30" />
 
 		<field name="metadesc" type="textarea"
-			label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
+			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
 			class="inputbox" rows="3" cols="30" />
 
 		<field name="xreference" type="text"
-			label="JField_XReference_Label" description="JField_XReference_Desc"
+			label="JFIELD_XREFERENCE_LABEL" description="JFIELD_XREFERENCE_DESC"
 			class="inputbox" size="20" />
+			
 		<field name="robots" type="list"
-			label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc" >
+			label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC" >
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="1">JGLOBAL_NOINDEX_FOLLOW</option>
@@ -138,7 +139,7 @@
 		</field>
 
 		<field name="author" type="text"
-			label="JAUTHOR" description="JField_Metadata_Author_Desc"
+			label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
 			size="20" />
 
 		<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
@@ -151,10 +152,10 @@
 			<field name="target" type="list" default="0"
 				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			>
-				<option value="0">JBrowserTarget_Parent</option>
-				<option value="1">JBrowserTarget_New</option>
-				<option value="2">JBrowserTarget_Popup</option>
-				<option value="3">JBrowserTarget_Modal</option>
+				<option value="0">JBROWSERTARGET_PARENT</option>
+				<option value="1">JBROWSERTARGET_NEW</option>
+				<option value="2">JBROWSERTARGET_POPUP</option>
+				<option value="3">JBROWSERTARGET_MODAL</option>
 			</field>
 
 			<field name="count_clicks" type="list" default=""
@@ -162,8 +163,8 @@
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JNo</option>
-				<option value="1">JYes</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 	</fields>
@@ -171,7 +172,7 @@
 	<fields name="metadata">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA">
 			<field name="robots" type="list"
-				label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"
+				label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JGLOBAL_INDEX_FOLLOW</option>
@@ -182,7 +183,7 @@
 			</field>
 
 			<field name="author" type="text" label="JAUTHOR"
-				description="JField_Metadata_Author_Desc" size="20" />
+				description="JFIELD_METADATA_AUTHOR_DESC" size="20" />
 
 			<field name="rights" type="textarea"
 				label="JFIELD_META_RIGHTS_LABEL" description="JFIELD_META_RIGHTS_DESC"
