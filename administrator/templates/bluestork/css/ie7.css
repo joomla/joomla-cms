@@ -7,7 +7,7 @@
  */
 
 
-/* IE7 OVERRIDES */
+/* IE8 OVERRIDES */
 
 input {
 	border-width: expression(this.type=="radio"?'0px':this.type=="checkbox"?'0px':'1px');
@@ -30,3 +30,6 @@ div.toolbar-list a {
 	position: relative;
 }
 
+#lang {
+	margin-top: 30px;
+}

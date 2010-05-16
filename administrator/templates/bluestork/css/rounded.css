@@ -108,7 +108,8 @@ div#element-box div.section-box div.b div.b div.b {
 }
 
 div#element-box div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
+	background: url(../images/j_border.png) 0 0 repeat-x;
+	width: 100%;
 }
 
 div#element-box div.t div.t {
@@ -121,6 +122,7 @@ div#element-box div.t div.t div.t {
 
 div#element-box div.b {
   background: url(../images/j_border.png) 0 100% repeat-x;
+	width: 100%;
 }
 
 div#element-box div.b div.b {

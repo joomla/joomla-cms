@@ -81,7 +81,7 @@ $app = JFactory::getApplication();
 							<jdoc:include type="modules" name="icon" />
 						</div>
 						<div class="cpanel-right">
-								<jdoc:include type="component" />
+							<jdoc:include type="component" />
 						</div>
 					</div>
 						<div class="clr"></div>

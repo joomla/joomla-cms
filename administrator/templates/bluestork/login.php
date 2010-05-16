@@ -55,6 +55,7 @@ $app = &JFactory::getApplication();
 	</div>
 	<div id="content-box">
 		<div class="padding">
+			<div class="clr"></div>
 			<div id="element-box" class="login">
 				<div class="t">
 					<div class="t">
@@ -62,14 +63,11 @@ $app = &JFactory::getApplication();
 					</div>
 				</div>
 				<div class="m wbg">
-
 					<h1><?php echo JText::_('COM_LOGIN_JOOMLA_ADMINISTRATION_LOGIN') ?></h1>
 					<jdoc:include type="message" />
 					<jdoc:include type="component" />
 					<p><?php echo JText::_('COM_LOGIN_VALID') ?></p>
-					<p>
-						<a href="<?php echo JURI::root(); ?>"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
-					</p>
+					<p><a href="<?php echo JURI::root(); ?>"><?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a></p>
 					<div id="lock"></div>
 					<div class="clr"></div>
 				</div>
