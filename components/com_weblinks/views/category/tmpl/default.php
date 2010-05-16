@@ -39,7 +39,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 
 <?php if (!empty($this->children[$this->category->id])) : ?>
 <div class="cat-children">
-	<h3><?php echo JText::_('COM_WEBLINKS_SUB_CATEGORIES') ; ?></h3>
+	<h3><?php echo JText::_('JGLOBAL_SUBCATEGORIES') ; ?></h3>
 	<?php echo $this->loadTemplate('children'); ?>
 </div>
 <?php endif; ?>
