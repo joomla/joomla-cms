@@ -628,7 +628,7 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $menuType);
 
 		if (!($type = $app->getUserState('com_menus.edit.item.type'))){
-			$type = JRequest::getCmd('type', 'url');
+			$type = JRequest::getCmd('type');
 		}
 		$this->setState('item.type', $type);
 
