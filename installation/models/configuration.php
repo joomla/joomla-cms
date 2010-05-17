@@ -216,6 +216,7 @@ class JInstallationModelConfiguration extends JModel
 		$cryptpass = $crypt.':'.$salt;
 
 		// create the admin user
+		date_default_timezone_set('UTC');
 		$installdate	= date('Y-m-d H:i:s');
 		$nullDate		= $db->getNullDate();
 		$query	= 'INSERT INTO #__users SET'
