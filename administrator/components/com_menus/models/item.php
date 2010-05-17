@@ -922,12 +922,14 @@ class MenusModelItem extends JModelAdmin
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
-		// Access checks.
-		foreach ($pks as $i => $pk) {
-			if ($table->load($pk) && $table->home && $table->language=='*') {
-				// Prune items that you can't change.
-				JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_TRASH_DEFAULT_HOME'));
-				unset($pks[$i]);
+		// Default menu item existence checks.
+		if ($value != 1) {
+			foreach ($pks as $i => $pk) {
+				if ($table->load($pk) && $table->home && $table->language=='*') {
+					// Prune items that you can't change.
+					JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_UNPUBLISH_DEFAULT_HOME'));
+					unset($pks[$i]);
+				}
 			}
 		}
 		
