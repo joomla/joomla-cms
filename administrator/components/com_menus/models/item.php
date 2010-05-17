@@ -929,6 +929,7 @@ class MenusModelItem extends JModelAdmin
 					// Prune items that you can't change.
 					JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_UNPUBLISH_DEFAULT_HOME'));
 					unset($pks[$i]);
+					break;
 				}
 			}
 		}
