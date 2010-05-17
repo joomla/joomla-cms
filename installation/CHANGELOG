@@ -37,6 +37,7 @@ $ Fixed some com_users language issues
 $ Language fixes
 
 17-May-2010 Christophe Demko
+ # Fix display modules linked to a menu (menus view)
  # Fix sample_data.sql
  # Rename bad named images
  # Fix [#20300] Article archive

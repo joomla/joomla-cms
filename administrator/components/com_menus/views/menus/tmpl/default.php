@@ -94,7 +94,7 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $item->count_trashed; ?></a>
 				</td>
 				<td class="left">
-					<?php
+					<?php 
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
 						?>

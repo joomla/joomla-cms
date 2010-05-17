@@ -227,7 +227,7 @@ class MenusModelMenu extends JModelForm
 		$db->setQuery(
 			'SELECT id, title, params, position' .
 			' FROM #__modules' .
-			' WHERE module = '.$db->quote('mod_mainmenu')
+			' WHERE module = '.$db->quote('mod_menu')
 		);
 		$modules = $db->loadObjectList();
 
