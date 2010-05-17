@@ -28,7 +28,7 @@ class UsersControllerReset extends UsersController
 	public function request()
 	{
 		// Check the request token.
-		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('Reset', 'UsersModel');
@@ -88,7 +88,7 @@ class UsersControllerReset extends UsersController
 	function confirm()
 	{
 		// Check the request token.
-		JRequest::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('User', 'UsersModel');
@@ -147,7 +147,7 @@ class UsersControllerReset extends UsersController
 	public function complete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('User', 'UsersModel');

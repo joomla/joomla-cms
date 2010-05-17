@@ -39,7 +39,7 @@ class UsersControllerRegistration extends UsersController
 
 		// If user registration or account activation is disabled, throw a 403.
 		if ($uParams->get('useractivation') == 0 || $uParams->get('allowUserRegistration') == 0) {
-			JError::raiseError(403, JText::_('ACCESS_FORBIDDEN'));
+			JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 			return false;
 		}
 
@@ -48,7 +48,7 @@ class UsersControllerRegistration extends UsersController
 
 		// Check that the token is in a valid format.
 		if ($token === null || strlen($token) !== 32) {
-			JError::raiseError(403, JText::_('JInvalid_TOKEN'));
+			JError::raiseError(403, JText::_('JINVALID_TOKEN'));
 			return false;
 		}
 
@@ -98,7 +98,7 @@ class UsersControllerRegistration extends UsersController
 	public function register()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
@@ -146,7 +146,7 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAIL', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'notice');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
 			return false;
 		}

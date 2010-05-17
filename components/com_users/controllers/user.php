@@ -96,7 +96,7 @@ class UsersControllerUser extends UsersController
 	 */
 	public function register()
 	{
-		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the form data.
 		$data	= JRequest::getVar('user', array(), 'post', 'array');
@@ -137,7 +137,7 @@ class UsersControllerUser extends UsersController
 			$app->setUserState('users.registration.form.data', $data);
 
 			// Redirect back to the registration form.
-			$message = JText::sprintf('USERS REGISTRATION FAILED', $model->getError());
+			$message = JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_users&view=registration', $message, 'error');
 			return false;
 		}
@@ -156,7 +156,7 @@ class UsersControllerUser extends UsersController
 	public function remind()
 	{
 		// Check the request token.
-		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= &JFactory::getApplication();
 		$model	= &$this->getModel('User', 'UsersModel');
@@ -215,6 +215,6 @@ class UsersControllerUser extends UsersController
 	public function resend()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 	}
 }
