@@ -75,9 +75,9 @@ JHtml::_('behavior.formvalidation');
 				
 				<li><div id="custom">
 					<?php echo $this->form->getLabel('custombannercode'); ?>
-					<?php echo $this->form->getInput('custombannercode'); ?></li>
+					<?php echo $this->form->getInput('custombannercode'); ?>
 				</div>
-	
+				</li>
 				<li><?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?></li>
 	
@@ -102,10 +102,12 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="adminform">
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('publish') as $field): ?>
-				<?php if (!$field->hidden): ?>
-					<li><?php echo $field->label; ?></li>
-				<?php endif; ?>
-				<li><?php echo $field->input; ?></li>
+				<li>
+					<?php if (!$field->hidden): ?>
+						<?php echo $field->label; ?>
+					<?php endif; ?>
+					<?php echo $field->input; ?>
+				</li>
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>

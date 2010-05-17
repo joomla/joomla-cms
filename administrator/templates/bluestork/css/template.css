@@ -864,6 +864,10 @@ span.readonly {
 	display:block;
 	color: #666;
 }
+
+#jform-imp {
+	width: 70px;
+}
 .mod-desc { margin-left: 140px !important;}
 
 input.required {

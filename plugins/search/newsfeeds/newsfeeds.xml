@@ -24,9 +24,6 @@
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					size="5"
 				/>
-				<field name="spacer1" type="spacer"
-					hr="true"
-				/>
 
 				<field name="search_content" type="radio"
 					default="0"
