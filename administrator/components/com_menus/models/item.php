@@ -884,6 +884,9 @@ class MenusModelItem extends JModelAdmin
 					}
 					else {
 						$table->home = $value;
+						if ($table->language=='*') {
+							$table->published=1;
+						}
 						if (!$this->canSave($table)) {
 							// Prune items that you can't change.
 							unset($pks[$i]);
