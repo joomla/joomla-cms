@@ -68,7 +68,7 @@ class UsersViewLogin extends JView
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', $login ? JText::_('COM_USERS_Login_Pathway_Login') : JText::_('COM_USERS_Login_Pathway_Logout'));
+			$this->params->def('page_heading', $login ? JText::_('JLOGIN') : JText::_('JLOGOUT'));
 		}
 
 		$title = $this->params->get('page_title', '');

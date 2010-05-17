@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
 	</div>
 <?php endif; ?>
 	<div align="center">
-		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('MOD_LOGIN_BUTTON_LOGOUT'); ?>" />
+		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGOUT'); ?>" />
 	</div>
 
 	<input type="hidden" name="option" value="com_users" />
@@ -58,7 +58,7 @@ endif; ?>
 		<input id="modlgn_remember" type="checkbox" name="remember" class="inputbox" value="yes"/>
 	</p>
 	<?php endif; ?>
-	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('MOD_LOGIN_BUTTON_LOGIN') ?>" />
+	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
 	</fieldset>
 	<ul>
 		<li>
