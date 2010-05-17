@@ -76,14 +76,13 @@ class ContactViewContacts extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
 		}
+		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			JToolBarHelper::custom('contacts.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'contacts.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('contacts.trash','JTOOLBAR_TRASH');
-		}
-		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('contacts.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

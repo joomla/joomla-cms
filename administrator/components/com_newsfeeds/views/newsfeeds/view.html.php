@@ -66,14 +66,13 @@ class NewsfeedsViewNewsfeeds extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
 		}
+		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			JToolBarHelper::custom('newsfeeds.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'newsfeeds.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('newsfeeds.trash','JTOOLBAR_TRASH');
-		}
-		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('newsfeeds.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
