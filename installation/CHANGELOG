@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed issue [#20430] Multiple cache and performance related optimizations and bugfixes - results in 30% decrease on load times (Klas Berlič).
  # Fixed issue [#20318] Change confusing language in installer (Elin Waring).
  # Fixed issue [#20386] [patch] update Hathor overrides with changes made to com_menu default_batch.php (Andrea Tarr).
+ # Fixed issue [#20163] Media Manager Max Upload Size displaying incorrectly (Anthony McLin, Elin Waring)
 
 16-May-2010 Mark Dexter
 # [#20312] Access Control not implemented in menus
