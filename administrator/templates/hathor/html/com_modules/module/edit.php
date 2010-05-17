@@ -107,6 +107,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<div>
 			<?php echo $this->form->getLabel('client_id'); ?>
 			<input type="text" size="35" id="jform_client_id" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
+			<?php echo $this->form->getInput('client_id'); ?>
 			</div>
 			<div class="clr"></div>
 	<?php if ($this->item->xml) : ?>

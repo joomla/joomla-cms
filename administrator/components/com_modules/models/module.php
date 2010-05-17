@@ -32,6 +32,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -57,6 +58,7 @@ class ModulesModelModule extends JModelAdmin
 	 * Method to delete rows.
 	 *
 	 * @param	array	An array of item ids.
+	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.6
 	 */
@@ -191,6 +193,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @param	array	$data		Data for the form.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 *
 	 * @return	JForm	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
@@ -245,6 +248,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @param	integer	The id of the primary key.
 	 *
 	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
 	 */
 	public function getItem($pk = null)
 	{
@@ -352,7 +356,9 @@ class ModulesModelModule extends JModelAdmin
 	 * @param	type	The table type to instantiate
 	 * @param	string	A prefix for the table class name. Optional.
 	 * @param	array	Configuration array for model. Optional.
+	 *
 	 * @return	JTable	A database object
+	 * @since	1.6
 	*/
 	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
@@ -361,6 +367,9 @@ class ModulesModelModule extends JModelAdmin
 
 	/**
 	 * Prepare and sanitise the table prior to saving.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	protected function prepareTable(&$table)
 	{
@@ -383,6 +392,8 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * @param	object	A form object.
 	 * @param	mixed	The data expected for the form.
+	 *
+	 * @return	void
 	 * @throws	Exception if there is an error loading the form.
 	 * @since	1.6
 	 */
@@ -392,9 +403,10 @@ class ModulesModelModule extends JModelAdmin
 		jimport('joomla.filesystem.folder');
 
 		// Initialise variables.
+		$lang		= JFactory::getLanguage();
 		$clientId	= $this->getState('item.client_id');
 		$module		= $this->getState('item.module');
-		$lang		= JFactory::getLanguage();
+
 		$client		= JApplicationHelper::getClientInfo($clientId);
 		$formFile	= JPath::clean($client->path.'/modules/'.$module.'/'.$module.'.xml');
 
@@ -419,7 +431,9 @@ class ModulesModelModule extends JModelAdmin
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
+	 *
 	 * @return	boolean	True on success.
+	 * @since	1.6
 	 */
 	public function save($data)
 	{
@@ -552,6 +566,7 @@ class ModulesModelModule extends JModelAdmin
 	 * A protected method to get a set of ordering conditions.
 	 *
 	 * @param	object	A record object.
+	 *
 	 * @return	array	An array of conditions to add to add to ordering queries.
 	 * @since	1.6
 	 */

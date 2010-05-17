@@ -68,7 +68,7 @@
 			size="16"
 		/>
 
-		<field name="client_id" type="text"
+		<field name="client_id" type="hidden"
 			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
