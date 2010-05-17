@@ -132,3 +132,31 @@ div#element-box div.b div.b {
 div#element-box div.b div.b div.b {
    background: url(../images/j_crn_bl_dark.png) 0 0 no-repeat;
 }
+
+/* login */
+
+div#element-box.login  {
+	background-color: #ffffff;
+}
+
+div#element-box.login div#section-box {
+	background-color: #f4f4f4;
+}
+
+div#element-box.login > div.t > div.t {
+	background:transparent url(../images/j_crn_tr_light.png) no-repeat scroll 100% 0;
+}
+
+div#element-box.login > div.t > div.t > div.t {
+	background:transparent url(../images/j_crn_tl_light.png) no-repeat ;
+}
+
+div#element-box.login > div.b > div.b {
+	background:transparent url(../images/j_crn_br_light.png) no-repeat scroll 100% 0;
+}
+
+div#element-box.login > div.b > div.b > div.b {
+	background:transparent url(../images/j_crn_bl_light.png) no-repeat ;
+}
+
+

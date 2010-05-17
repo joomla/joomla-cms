@@ -38,6 +38,7 @@ $ Adding missing strings in com_users (WIP)
 $ Language fixes
 
 17-May-2010 Christophe Demko
+ # Fix some css for administrator login
  # Ensure there exists a default published menu item when changing home
  # Ensure there exists a default menu item while deleting menu items
  # Ensure there exists a default menu item while deleting menus
