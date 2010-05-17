@@ -28,7 +28,7 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>			
+			</field>
 			<field name="categories_description" type="textarea"
 				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
 				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"

@@ -95,7 +95,7 @@ class CategoriesViewCategories extends JView
 		} else {
 			JToolBarHelper::trash('categories.trash','JTOOLBAR_TRASH');
 		}
-		
+
 		JToolBarHelper::divider();
 		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		JToolBarHelper::divider();

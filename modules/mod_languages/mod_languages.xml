@@ -50,7 +50,7 @@
 					cols="40"
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
 					description="MOD_LANGUAGES_FIELD_FOOTER_DESC" />
-			
+
 				<field
 					name="image"
 					type="radio"

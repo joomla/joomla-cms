@@ -73,16 +73,16 @@ class ModulesViewModules extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::custom('modules.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
-		
+
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'modules.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
 		}
-		
+
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_modules');
 		}
 		JToolBarHelper::divider();

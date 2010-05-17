@@ -39,8 +39,8 @@ class modMenuHelper
 		if ($items) {
 			foreach($items as $i => $item)
 			{
-				if(($start && $start > $item->level) 
-				|| ($end && $item->level > $end) 
+				if(($start && $start > $item->level)
+				|| ($end && $item->level > $end)
 				|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
 				|| ($maxdepth && $item->level > $maxdepth))
 				{
@@ -89,7 +89,7 @@ class modMenuHelper
 						break;
 				}
 				$item->flink = JRoute::_($item->flink);
-			}			
+			}
 		}
 
 		return $items;

@@ -27,7 +27,7 @@ class plgSystemLanguageFilter extends JPlugin
 
 	public static $default_lang;
 	public static $default_sef;
-	
+
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
@@ -40,13 +40,13 @@ class plgSystemLanguageFilter extends JPlugin
 
 			// attach parse rules for language SEF
 			$router->attachParseRule(array($this, 'parseRule'));
-			
+
 			// setup language data
 			self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 			self::$tag 			= JFactory::getLanguage()->getTag();
 			self::$sefs 		= JLanguageHelper::getLanguages('sef');
 			self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-			
+
 			// todo - not used?
 			self::$default_lang 	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			self::$default_sef 		= self::$lang_codes[self::$default_lang]->sef;
@@ -64,7 +64,7 @@ class plgSystemLanguageFilter extends JPlugin
 		}
 
 		$Itemid = $uri->getVar('Itemid', 'absent');
-		
+
 		if ($Itemid != 'absent') {
 			$menu 	=& JSite::getMenu()->getItem($Itemid);
 			// if no menu - that means that we are routing home menu item of none-current language or alias to home
@@ -73,7 +73,7 @@ class plgSystemLanguageFilter extends JPlugin
 				$uri->delVar('Itemid');
 			}
 		}
-		
+
 		if (self::$mode_sef) {
 			$uri->delVar('lang');
 			$uri->setPath($uri->getPath().'/'.$sef.'/');
@@ -104,11 +104,11 @@ class plgSystemLanguageFilter extends JPlugin
 				array_shift($parts);
 				$uri->setPath(implode('/', $parts));
 			}
-			
+
 			// Set the language
 			JFactory::getLanguage()->setLanguage($lang_code);
 			self::$tag = $lang_code;
-			
+
 			// Create a cookie
 			$config =& JFactory::getConfig();
 			$cookie_domain 	= $config->get('config.cookie_domain', '');

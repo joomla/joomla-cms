@@ -372,7 +372,7 @@ class JCache extends JObject
 	 * @since	1.5
 	 */
 	public function _getStorage()
-	{	
+	{
 		if (isset(self::$_handler[$this->_options['storage']]) && self::$_handler[$this->_options['storage']] instanceof JCacheStorage) {
 			return self::$_handler[$this->_options['storage']];
 		}
@@ -436,7 +436,7 @@ class JCache extends JObject
 	 * @since	1.6
 	 */
 	public static function setWorkarounds($data,$options=array())
-	{	
+	{
 		$loptions=array();
 		$loptions['nopathway'] = 0;
 		if (isset($options['nopathway'])) {

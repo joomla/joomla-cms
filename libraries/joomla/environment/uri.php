@@ -365,7 +365,7 @@ class JURI extends JObject
 	{
 		return array_key_exists($name, $this->_vars);
 	}
-	
+
 	/**
 	 * Returns a query variable by name.
 	 *

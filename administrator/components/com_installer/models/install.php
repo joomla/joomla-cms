@@ -136,7 +136,7 @@ class InstallerModelInstall extends JModel
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
-		
+
 		return $result;
 	}
 

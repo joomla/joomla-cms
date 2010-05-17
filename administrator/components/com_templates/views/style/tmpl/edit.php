@@ -30,10 +30,10 @@ $user = JFactory::getUser();
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS');?></legend>
-			
+
 			<?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?>
-			
+
 			<?php echo $this->form->getLabel('template'); ?>
 			<?php echo $this->form->getInput('template'); ?>
 

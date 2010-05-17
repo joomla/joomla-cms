@@ -188,9 +188,9 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight'))
 		{
-			if($this->parent->manifestClass->preflight('install', $this) === false) 
+			if($this->parent->manifestClass->preflight('install', $this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -336,7 +336,7 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
-		if(isset($this->manifest->install->sql)) 
+		if(isset($this->manifest->install->sql))
 		{
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
 			if ($utfresult === false)
@@ -384,9 +384,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'install'))
 		{
-			if($this->parent->manifestClass->install($this) === false) 
+			if($this->parent->manifestClass->install($this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -439,37 +439,37 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_COPY_SETUP'));
 			return false;
 		}
-		
+
 		// Time to build the admin menus
-		if(!$this->_buildAdminMenus($row->extension_id)) 
+		if(!$this->_buildAdminMenus($row->extension_id))
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
 			//$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 			//return false;
 		}
-		
+
 
 		// Set the schema version to be the latest update version
 		if($this->manifest->update instanceof JXMLElement) {
 			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
 		}
-		
+
 		//TODO: Register the component container just under root in the assets table.
 
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight'))
 		{
 			$this->parent->manifestClass->postflight('install', $this);
 		}
-			
+
 		$msg .= ob_get_contents(); // append messages
 		ob_end_clean();
 		if ($msg != '') {
 			$this->parent->set('extension_message', $msg);
 		}
-		
+
 		return $row->extension_id;
 	}
 
@@ -596,9 +596,9 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight'))
 		{
-			if($this->parent->manifestClass->preflight('update', $this) === false) 
+			if($this->parent->manifestClass->preflight('update', $this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -748,8 +748,8 @@ class JInstallerComponent extends JAdapterInstance
 		$row = & JTable::getInstance('extension');
 		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
 						'type'=>'component'));
-		
-		if($this->manifest->update instanceof JXMLElement) 
+
+		if($this->manifest->update instanceof JXMLElement)
 		{
 			$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $eid);
 			if ($result === false)
@@ -761,7 +761,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Time to build the admin menus
-		if(!$this->_buildAdminMenus($eid)) 
+		if(!$this->_buildAdminMenus($eid))
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
 			//$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
@@ -782,9 +782,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update'))
 		{
-			if($this->parent->manifestClass->update($this) === false) 
+			if($this->parent->manifestClass->update($this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -845,7 +845,7 @@ class JInstallerComponent extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight'))
 		{
 			$this->parent->manifestClass->postflight('update', $this);
 		}
@@ -1013,7 +1013,7 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
-		if(isset($this->manifest->uninstall->sql)) 
+		if(isset($this->manifest->uninstall->sql))
 		{
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 			if ($utfresult === false)
@@ -1037,7 +1037,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->media);
 		$this->parent->removeFiles($this->manifest->languages);
 		$this->parent->removeFiles($this->manifest->administration->languages, 1);
-		
+
 		// Remove the schema version
 		$query = $db->getQuery(true);
 		$query->delete()->from('#__schemas')->where('extension_id = '. $id);
@@ -1160,7 +1160,7 @@ class JInstallerComponent extends JAdapterInstance
 				// Install failed, rollback changes
 				return false;
 			}
-			
+
 
 			/*
 			 * Since we have created a menu item, we add it to the installation step stack
@@ -1453,9 +1453,9 @@ class JInstallerComponent extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight'))
 		{
-			if($this->parent->manifestClass->preflight('discover_install', $this) === false) 
+			if($this->parent->manifestClass->preflight('discover_install', $this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -1486,10 +1486,10 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// try for Joomla 1.5 type queries
 		// second argument is the utf compatible version attribute
-		if(isset($this->manifest->install->sql)) 
+		if(isset($this->manifest->install->sql))
 		{
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->install->sql);
-			if ($utfresult === false) 
+			if ($utfresult === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_SQL_ERROR', $db->stderr(true)));
@@ -1498,13 +1498,13 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Time to build the admin menus
-		if(!$this->_buildAdminMenus($this->parent->extension->extension_id)) 
+		if(!$this->_buildAdminMenus($this->parent->extension->extension_id))
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ABORT_COMP_BUILDADMINMENUS_FAILED'));
 			//$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 			//return false;
 		}
-		
+
 		/**
 		 * ---------------------------------------------------------------------------------------------
 		 * Custom Installation Script Section
@@ -1537,9 +1537,9 @@ class JInstallerComponent extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'discover_install'))
 		{
-			if($this->parent->manifestClass->install($this) === false) 
+			if($this->parent->manifestClass->install($this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));

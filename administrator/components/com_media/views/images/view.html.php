@@ -57,7 +57,7 @@ class MediaViewImages extends JView
 					'fileSizeMax'	=> $config->get('upload_maxsize'),
 				)
 			);
-		}	
+		}
 
 
 		/*

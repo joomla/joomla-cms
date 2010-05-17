@@ -51,7 +51,7 @@ final class JSite extends JApplication
 	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
-		
+
 		jimport('joomla.language.helper');
 
 		// if a language was specified it has priority
@@ -159,7 +159,7 @@ final class JSite extends JApplication
 				// Get language
 				$lang_code = JFactory::getLanguage()->getTag();
 				$languages = JLanguageHelper::getLanguages('lang_code');
-				
+
 				// Set metadata
 				$document->setMetaData('keywords', $this->getCfg('MetaKeys') . ($languages[$lang_code]->metakey ? (', ' . $languages[$lang_code]->metakey) : ''));
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
@@ -320,7 +320,7 @@ final class JSite extends JApplication
 			// Get language
 			$lang_code = JFactory::getLanguage()->getTag();
 			$languages = JLanguageHelper::getLanguages('lang_code');
-			
+
 			$title 			= htmlspecialchars_decode($this->getCfg('sitename'));
 			$description	= $this->getCfg('MetaDesc') . $languages[$lang_code]->metadesc;
 			$rights			= $this->getCfg('MetaRights');
@@ -383,7 +383,7 @@ final class JSite extends JApplication
 			$id = (int) $tid;
 		}
 
-		
+
 		$cache = JFactory::getCache('com_templates', '');
 		if (!$templates = $cache->get('templates0')) {
 			// Load styles
@@ -392,7 +392,7 @@ final class JSite extends JApplication
 			$query->select('id, home, template, params');
 			$query->from('#__template_styles');
 			$query->where('client_id = 0');
-			
+
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
 			foreach($templates as &$template) {
@@ -407,9 +407,9 @@ final class JSite extends JApplication
 			}
 			$cache->store($templates, 'templates0');
 		}
-		
+
 		$template = $templates[$id];
-		
+
 		// Allows for overriding the active template from the request
 		$template->template = JRequest::getCmd('template', $template->template);
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well

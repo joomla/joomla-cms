@@ -28,7 +28,7 @@ JHtml::_('behavior.keepalive');
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
 	<div class="width-100">
 		<fieldset class="adminform">
-		<ul class="adminformlist">	
+		<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('user_id_to'); ?>
 			<?php echo $this->form->getInput('user_id_to'); ?></li>
 

@@ -47,7 +47,7 @@ class JTableMenu extends JTableNested
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 			return false;
 		}
-		
+
 		if (is_array($array['params']))
 		{
 			$registry = new JRegistry();

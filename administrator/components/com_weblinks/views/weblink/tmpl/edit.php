@@ -59,11 +59,11 @@ JHtml::_('behavior.formvalidation');
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
-			
+
 			<?php echo $this->form->getLabel('description'); ?>
 			<div class="clr"></div>
 			<?php echo $this->form->getInput('description'); ?>
-			
+
 		</fieldset>
 	</div>
 	<div class="width-40 fltrt">

@@ -29,20 +29,20 @@ abstract class modLanguagesHelper
 		}
 		return $tag;
 	}
-	
+
 	public static function getList(&$params)
 	{
 		$languages	= JLanguageHelper::getLanguages();
 		$db			= JFactory::getDBO();
 		$query		= $db->getQuery(true);
-		
+
 		$query->select('id');
 		$query->select('language');
 		$query->from($db->nameQuote('#__menu'));
 		$query->where('home=1');
 		$db->setQuery($query);
 		$homes = $db->loadObjectList('language');
-		
+
 		foreach($languages as $i => &$language) {
 			if (!JLanguage::exists($language->lang_code)) {
 				unset($languages[$i]);

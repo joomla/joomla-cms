@@ -33,7 +33,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 					<?php  echo JHtml::_('content.prepare', $this->parent->description); ?>
 				</div>
 			<?php  endif; ?>
-		<?php  endif; ?>	
+		<?php  endif; ?>
 	<?php endif; ?>
 <?php
 echo $this->loadTemplate('items');

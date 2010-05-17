@@ -77,7 +77,7 @@
 					type="text"
 					label="MOD_MENU_FIELD_TARGET_LABEL"
 					description="MOD_MENU_FIELD_TARGET_DESC" />
-					
+
 				<field
 					name="layout"
 					type="modulelayout"

@@ -116,7 +116,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		echo "Navigate to back end\n";
 		$this->gotoAdmin();
-		
+
 		echo "Navigate to Module Manager and delete new menu module\n";
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
@@ -142,7 +142,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		sleep(2);
 		$this->assertTrue((bool)preg_match("/^Are you sure you want to delete\.$/",$this->getConfirmation()));
-		
+
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Menu type successfully deleted"));
 		echo "Navigate to front end and make sure menu is not shown\n";

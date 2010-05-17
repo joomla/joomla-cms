@@ -33,7 +33,7 @@ class InstallerControllerInstall extends JController
 			$cache->clean();
 			// TODO: Reset the users acl here as well to kill off any missing bits
 		}
-		
+
 		$app = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 		if(empty($redirect_url)) {

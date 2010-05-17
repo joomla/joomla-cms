@@ -100,7 +100,7 @@ class JLanguageHelper
 	public static function getLanguages($key='default')
 	{
 		static $languages;
-		
+
 		if (empty($languages)) {
 			// Installation uses available languages
 			if (JFactory::getApplication()->getClientId() == 2) {
@@ -119,18 +119,18 @@ class JLanguageHelper
 					$query	= $db->getQuery(true);
 					$query->select('*')->from('#__languages')->where('published=1');
 					$db->setQuery($query);
-					
+
 					$languages['default'] 	= $db->loadObjectList();
 					$languages['sef']		= array();
 					$languages['lang_code']	= array();
-					
+
 					if (isset($languages['default'][0])) {
 						foreach($languages['default'] as $lang) {
-							$languages['sef'][$lang->sef] 				= $lang; 
-							$languages['lang_code'][$lang->lang_code] 	= $lang; 
+							$languages['sef'][$lang->sef] 				= $lang;
+							$languages['lang_code'][$lang->lang_code] 	= $lang;
 						}
 					}
-					
+
 					$cache->store($languages, 'languages');
 				}
 			}

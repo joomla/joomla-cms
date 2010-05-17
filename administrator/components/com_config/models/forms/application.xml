@@ -484,8 +484,8 @@
 			<option
 				value="0">JNO</option>
 		</field>
-		
-		
+
+
 		<field
 			name="sitename_pagetitles"
 			type="radio"

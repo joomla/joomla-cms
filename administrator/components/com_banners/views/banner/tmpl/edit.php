@@ -49,19 +49,19 @@ JHtml::_('behavior.formvalidation');
 			<ul class="adminformlist">
 				<li><?php echo $this->form->getLabel('name'); ?>
 				<?php echo $this->form->getInput('name'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('catid'); ?>
 				<?php echo $this->form->getInput('catid'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-				
+
 				<li>
 				<div id="image">
 					<?php foreach($this->form->getFieldset('image') as $field): ?>
@@ -72,7 +72,7 @@ JHtml::_('behavior.formvalidation');
 					<?php endforeach; ?>
 				</div>
 				</li>
-				
+
 				<li><div id="custom">
 					<?php echo $this->form->getLabel('custombannercode'); ?>
 					<?php echo $this->form->getInput('custombannercode'); ?>
@@ -80,13 +80,13 @@ JHtml::_('behavior.formvalidation');
 				</li>
 				<li><?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('clickurl'); ?>
 				<?php echo $this->form->getInput('clickurl'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>

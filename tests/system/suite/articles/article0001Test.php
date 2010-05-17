@@ -33,7 +33,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Professionals");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		
+
     	$this->click("cb0");
     	$this->click("//li[@id='toolbar-unpublish']/a/span");
     	$this->waitForPageToLoad("30000");
@@ -46,7 +46,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		
+
 		$this->type("filter_search", "Professionals");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
@@ -73,8 +73,8 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Professionals");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		
-		
+
+
     	$this->click("cb0");
     	$this->click("//li[@id='toolbar-unpublish']/a/span");
     	$this->waitForPageToLoad("30000");
@@ -91,7 +91,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Professionals");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-				
+
     	$this->click("cb0");
     	$this->click("//li[@id='toolbar-publish']/a/span");
     	$this->waitForPageToLoad("30000");

@@ -45,7 +45,7 @@ $n = count($this->items);
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
-			
+
 			<label class="selectlabel" for="filter_language"><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></label>
 			<select name="filter_language" id="filter_language" class="inputbox">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>

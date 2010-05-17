@@ -159,9 +159,9 @@ class WeblinksModelCategory extends JModelList
 		$this->setState('category.id', $id);
 
 		$this->setState('filter.published',	1);
-		
+
 		$this->setState('filter.language',$app->getLanguageFilter());
-		
+
 		// Load the parameters.
 		$this->setState('params', $params);
 	}

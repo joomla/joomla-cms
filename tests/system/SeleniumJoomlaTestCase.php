@@ -355,7 +355,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//a[contains(@class,'icon-16-levels')]");
 			$this->waitForPageToLoad("30000");
 			break;
-		case 'Menu Manager':	
+		case 'Menu Manager':
 			$this->click("//a[contains(@class,'icon-16-menumgr')]");
 			$this->waitForPageToLoad("30000");
 			break;
@@ -363,7 +363,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//a[contains(@class, 'icon-16-redirect')]");
 			$this->waitForPageToLoad("30000");
 			$this->assertTrue($this->isTextPresent("Redirect Manager: Links"));
-			break;			
+			break;
 		default:
 			$this->click("//li[@id='toolbar-new']/a");
 			$this->waitForPageToLoad("30000");

@@ -122,13 +122,13 @@ function ContentBuildRoute(&$query)
 			}
 		}
 	}
-	
+
 	if(isset($query['id']))
 	{
 		$segments[] = $query['id'];
 		unset($query['id']);
 	}
-	
+
 	return $segments;
 }
 

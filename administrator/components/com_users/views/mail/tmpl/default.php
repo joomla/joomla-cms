@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 			<legend><?php echo JText::_('COM_USERS_MAIL_DETAILS'); ?></legend>
 			<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('recurse'); ?>
-			<?php echo $this->form->getInput('recurse'); ?></li>	
+			<?php echo $this->form->getInput('recurse'); ?></li>
 
 			<li><?php echo $this->form->getLabel('mode'); ?>
 			<?php echo $this->form->getInput('mode'); ?></li>

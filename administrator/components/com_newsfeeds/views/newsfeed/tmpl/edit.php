@@ -104,7 +104,7 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
 				<?php //echo $this->form->getInput('xreference'); ?></li>
-				
+
 				</ul>
 			</fieldset>
 
