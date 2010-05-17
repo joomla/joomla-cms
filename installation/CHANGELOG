@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-May-2010 Mark Dexter
+# Fix display error in Parks image gallery
+
 17-May-2010 Jean-Marie Simonet
 $ Fixed some beez language strings + a CSS in bluestork
 $ Fixed some com_users language issues
