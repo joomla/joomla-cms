@@ -28,7 +28,7 @@ class plgSearchContent extends JPlugin
 	function onContentSearchAreas()
 	{
 		static $areas = array(
-			'content' => 'PLG_SEARCH_CONTENT_ARTICLES'
+			'content' => 'JGLOBAL_ARTICLES'
 			);
 			return $areas;
 	}

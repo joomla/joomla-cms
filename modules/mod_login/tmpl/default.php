@@ -49,7 +49,7 @@ endif; ?>
 		<input id="modlgn_username" type="text" name="username" class="inputbox"  size="18" />
 	</p>
 	<p id="form-login-password">
-		<label for="modlgn_passwd"><?php echo JText::_('MOD_LOGIN_PASSWORD') ?></label>
+		<label for="modlgn_passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
 		<input id="modlgn_passwd" type="password" name="password" class="inputbox" size="18"  />
 	</p>
 	<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>

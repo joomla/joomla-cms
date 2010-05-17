@@ -2,7 +2,7 @@
 <config>
 	<fieldset
 		name="articles"
-		label="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_LABEL"
+		label="JGLOBAL_ARTICLES"
 		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC">
 
 		<field

@@ -17,7 +17,7 @@
 		<field name="password" type="password"
 			class="validate-password"
 			filter="raw"
-			label="COM_USERS_LOGIN_PASSWORD_LABEL"
+			label="JGLOBAL_PASSWORD"
 			required="required"
 			size="25"
 		/>

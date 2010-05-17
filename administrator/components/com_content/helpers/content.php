@@ -27,7 +27,7 @@ class ContentHelper
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(
-			JText::_('COM_CONTENT_SUBMENU_ARTICLES'),
+			JText::_('JGLOBAL_ARTICLES'),
 			'index.php?option=com_content&view=articles',
 			$vName == 'articles'
 		);

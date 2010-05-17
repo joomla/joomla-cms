@@ -71,7 +71,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_articles') &&  $this->contact->user_id) : ?>
-	<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_ARTICLES'), 'display-articles'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 		<?php echo $this->loadTemplate('articles'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_profile') &&  $this->contact->user_id) : ?>
