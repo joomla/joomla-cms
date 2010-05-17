@@ -38,6 +38,7 @@ $ Adding missing strings in com_users (WIP)
 $ Language fixes
 
 17-May-2010 Christophe Demko
+ # Ensure there exists a default menu item while deleting menus
  # Fix display modules linked to a menu (menus view)
  # Fix sample_data.sql
  # Rename bad named images
