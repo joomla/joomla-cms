@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.5</version>
+	<version>1.6.0</version>
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="debug">debug.php</filename>

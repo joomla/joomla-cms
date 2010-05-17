@@ -2,7 +2,7 @@
 <extension type="library" version="1.6">
 	<name>Joomla! Web Application Framework</name>
 	<libraryname>joomla</libraryname>
-	<version>1.6</version>
+	<version>1.6.0</version>
 	<description>The Joomla! Web Application Framework is the Core of the Joomla! Content Management System</description>
 	<creationDate>2008</creationDate>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
