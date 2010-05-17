@@ -39,6 +39,7 @@ $ -> Language fix or change
  # Fixed issue [#20386] [patch] update Hathor overrides with changes made to com_menu default_batch.php (Andrea Tarr).
  # Fixed issue [#20163] Media Manager Max Upload Size displaying incorrectly (Anthony McLin, Elin Waring).
  # Fixed issue [#20435] single newsfeed error.
+ # Fixed issue [#20287] Rendering config.xml files generates php warning [patch included] (Jonatas Braganca).
 
 16-May-2010 Mark Dexter
 # [#20312] Access Control not implemented in menus

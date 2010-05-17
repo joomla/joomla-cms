@@ -46,7 +46,6 @@
 			</field>
 
 			<field name="page_subheading" type="text"
-				default=""
 				description="JGLOBAL_SUBHEADING_DESC"
 				label="JGLOBAL_SUBHEADING_LABEL"
 				size="10"

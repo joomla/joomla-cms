@@ -31,7 +31,6 @@
 			description="JFIELD_ALIAS_DESC"
 			class="inputbox"
 			size="45"
-			default=""
 			filter="unset" />
 		<!-- this is for rendering -->
 		<field
@@ -112,8 +111,7 @@
 			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
 			description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
 			class="inputbox"
-			size="20"
-			default="" />
+			size="20" />
 
 		<field
 			id="publish_up"
@@ -123,8 +121,7 @@
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox"
 			format="%Y-%m-%d %H:%M:%S"
-			size="30"
-			default="" />
+			size="30" />
 
 		<field
 			id="publish_down"
@@ -134,8 +131,7 @@
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox"
 			format="%Y-%m-%d %H:%M:%S"
-			size="30"
-			default="" />
+			size="30" />
 
 		<field
 			id="ordering"
@@ -152,8 +148,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="JFIELD_LANGUAGE_DESC"
-			class="inputbox"
-			default="">
+			class="inputbox">
 			<option value="*">JALL</option>
 		</field>
 
@@ -165,8 +160,7 @@
 			description="JFIELD_META_KEYWORDS_DESC"
 			class="inputbox"
 			rows="5"
-			cols="50"
-			default="" />
+			cols="50" />
 
 		<field
 			id="metadesc"
@@ -176,8 +170,7 @@
 			description="JFIELD_META_DESCRIPTION_DESC"
 			class="inputbox"
 			rows="5"
-			cols="50"
-			default="" />
+			cols="50" />
 
 		<field
 			id="access"
@@ -186,7 +179,6 @@
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
-			size="1"
-			default="" />
+			size="1" />
 	</fieldset>
 </form>

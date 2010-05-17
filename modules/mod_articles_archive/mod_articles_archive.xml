@@ -59,7 +59,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="static">
 					<option
 						value="static"></option>

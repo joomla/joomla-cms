@@ -27,7 +27,6 @@
 				<field
 					name="menutype"
 					type="menu"
-					default=""
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC" />
 				<field
@@ -64,21 +63,18 @@
 				<field
 					name="tag_id"
 					type="text"
-					default=""
 					label="MOD_MENU_FIELD_TAG_ID_LABEL"
 					description="MOD_MENU_FIELD_TAG_ID_DESC" />
 
 				<field
 					name="class_sfx"
 					type="text"
-					default=""
 					label="MOD_MENU_FIELD_CLASS_LABEL"
 					description="MOD_MENU_FIELD_CLASS_DESC" />
 
 				<field
 					name="window_open"
 					type="text"
-					default=""
 					label="MOD_MENU_FIELD_TARGET_LABEL"
 					description="MOD_MENU_FIELD_TARGET_DESC" />
 					
@@ -91,7 +87,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
@@ -115,7 +110,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="itemid">
 					<option
 						value="itemid"></option>

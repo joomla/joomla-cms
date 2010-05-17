@@ -10,7 +10,7 @@
 	<fields name="params">
 
 		<!-- Basic options. -->
-		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL" description="">
+		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
 		<field
 		name="login_redirect_url"
@@ -35,7 +35,6 @@
 		type="textarea"
 		label="JFIELD_BASIS_LOGIN_DESCRIPTION_LABEL"
 		description="JFIELD_BASIS_LOGIN_DESCRIPTION_DESC"
-		default=""
 		rows="3"
 		cols="40"/>
 
@@ -71,7 +70,6 @@
 		type="textarea"
 		label="JFIELD_BASIS_LOGOUT_DESCRIPTION_LABEL"
 		description="JFIELD_BASIS_LOGOUT_DESCRIPTION_DESC"
-		default=""
 		rows="3"
 		cols="40"/>
 

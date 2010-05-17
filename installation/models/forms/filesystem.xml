@@ -16,17 +16,14 @@
 			<field name="ftp_user" type="text" id="ftp_user" class="inputbox"
 				label="Instl_Ftp_User_Label"
 				description="Instl_Ftp_User_Desc"
-				default=""
 			/>
 			<field name="ftp_pass" type="password" id="ftp_pass" class="inputbox"
 				label="Instl_Ftp_Password_Label"
 				description="Instl_Ftp_Password_Desc"
-				default=""
 			/>
 			<field name="ftp_root" type="text" id="ftp_root" class="inputbox"
 				label="Instl_Ftp_Root_Label"
 				description="Instl_Ftp_Root_Desc"
-				default=""
 			/>
 		</fieldset>
 

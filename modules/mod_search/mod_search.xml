@@ -37,13 +37,11 @@
 				<field
 					name="text"
 					type="text"
-					default=""
 					label="MOD_SEARCH_FIELD_TEXT_LABEL"
 					description="MOD_SEARCH_FIELD_TEXT_DESC" />
 				<field
 					name="button"
 					type="radio"
-					default=""
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC">
 					<option
@@ -69,7 +67,6 @@
 				<field
 					name="imagebutton"
 					type="radio"
-					default=""
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
 					<option
@@ -80,13 +77,11 @@
 				<field
 					name="button_text"
 					type="text"
-					default=""
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
 				<field
 					name="set_itemid"
 					type="text"
-					default=""
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
 					description="MOD_SEARCH_FIELD_SETITEMID_DESC" />
 			</fieldset>
@@ -100,7 +95,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field
@@ -123,7 +117,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="itemid">
 					<option
 						value="itemid"></option>

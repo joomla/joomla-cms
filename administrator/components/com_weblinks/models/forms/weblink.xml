@@ -8,11 +8,11 @@
 			readonly="true" class="readonly" />
 
 		<field name="title" type="text" class="inputbox"
-			default="" size="40" label="JGLOBAL_TITLE"
+			size="40" label="JGLOBAL_TITLE"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"
-			default="" size="40" label="COM_WEBLINKS_FIELD_ALIAS_LABEL"
+			size="40" label="COM_WEBLINKS_FIELD_ALIAS_LABEL"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
 
 		<field name="catid" type="category" extension="com_weblinks"
@@ -23,19 +23,19 @@
 		</field>
 
 		<field name="url" type="text" class="inputbox"
-			default="" size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
+			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" />
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
-			class="inputbox" default=""
+			class="inputbox"
 			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="date" type="Date" class="inputbox"
-			default="" label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"
+			label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"
 			filter="safehtml" />
 
 		<field name="hits" type="Text" class="inputbox"
-			default="" size="6" label="WEBLINKS_HITS_LABEL"
+			size="6" label="WEBLINKS_HITS_LABEL"
 			description="WEBLINKS_HITS_DESC" readonly="true" filter="unset" />
 
 
@@ -60,25 +60,23 @@
 		</field>
 
 		<field name="ordering" type="Ordering" class="inputbox"
-			default="" label="COM_WEBLINKS_FIELD_ORDERING_LABEL"
+			label="COM_WEBLINKS_FIELD_ORDERING_LABEL"
 			description="COM_WEBLINKS_FIELD_ORDERING_DESC" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1"
-			default="" />
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
 		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox"
-			default="">
+			class="inputbox">
 			<option value="*">JALL</option>
 		</field>
 
 		<field id="approved" name="approved" type="radio"
-			class="inputbox" default="" label="WEBLINKS_APPROVED_LABEL"
+			class="inputbox" label="WEBLINKS_APPROVED_LABEL"
 			description="WEBLINKS_APPROVED_DESC"
 		>
 			<option value="0">JNO</option>
@@ -158,7 +156,7 @@
 				<option value="3">JBROWSERTARGET_MODAL</option>
 			</field>
 
-			<field name="count_clicks" type="list" default=""
+			<field name="count_clicks" type="list"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
 			>

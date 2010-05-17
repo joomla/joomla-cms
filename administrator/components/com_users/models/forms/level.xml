@@ -10,7 +10,6 @@
 
 		<field name="title" type="text"
 			class="inputbox"
-			default=""
 			description="COM_USERS_LEVEL_FIELD_TITLE_DESC"
 			label="COM_USERS_LEVEL_FIELD_TITLE_LABEL"
 			size="50"

@@ -20,7 +20,6 @@
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
 			description="COM_REDIRECT_FIELD_OLD_URL_DESC"
 			size="50"
-			default=""
 			required="true" />
 
 		<field
@@ -29,8 +28,7 @@
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
-			size="50"
-			default="" />
+			size="50" />
 
 		<field
 			name="comment"
@@ -38,8 +36,7 @@
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
 			description="COM_REDIRECT_FIELD_COMMENT_DESC"
-			size="40"
-			default="" />
+			size="40" />
 
 		<field
 			name="published"
@@ -71,7 +68,6 @@
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_REFERRER_LABEL"
 			size="50"
-			default=""
 			readonly="true" />
 
 		<field
@@ -81,7 +77,6 @@
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
 			size="20"
-			default=""
 			readonly="true" />
 
 		<field
@@ -91,7 +86,6 @@
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			size="20"
-			default=""
 			readonly="true" />
 	</fieldset>
 </form>

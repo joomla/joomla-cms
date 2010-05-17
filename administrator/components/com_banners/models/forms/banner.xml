@@ -159,14 +159,13 @@
 		<fieldset name="image">
 			<field name="imageurl" type="media" directory="banners"
 				hide_none="1" label="COM_BANNERS_FIELD_IMAGE_LABEL"
-				attributes=""
 				size="40"
 				description="COM_BANNERS_FIELD_IMAGE_DESC" />
-			<field name="width" type="text" default=""
+			<field name="width" type="text"
 				class="inputbox validate-numeric" label="JGLOBAL_WIDTH"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 
-			<field name="height" type="text" default=""
+			<field name="height" type="text"
 				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
 			<field name="alt" type="text" class="inputbox"

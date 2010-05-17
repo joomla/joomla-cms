@@ -49,7 +49,6 @@
 					name="catid"
 					type="category"
 					extension="com_content"
-					default=""
 					label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
 					description="MOD_POPULAR_FIELD_CATEGORY_DESC" />
 			</fieldset>
@@ -63,7 +62,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field
@@ -86,7 +84,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="static">
 					<option
 						value="static"></option>

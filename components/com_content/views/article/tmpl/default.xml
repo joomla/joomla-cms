@@ -29,7 +29,6 @@
 		<field
 			name="show_noauth"
 			type="list"
-			default=""
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -40,7 +39,6 @@
 		<field
 			name="show_title"
 			type="list"
-			default=""
 			label="JGLOBAL_SHOW_TITLE_LABEL"
 			description="JGLOBAL_SHOW_TITLE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -51,7 +49,6 @@
 		<field
 			name="link_titles"
 			type="list"
-			default=""
 			label="JGLOBAL_LINKED_TITLES_LABEL"
 			description="JGLOBAL_LINKED_TITLES_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -72,8 +69,7 @@
 			name="show_category"
 			type="list"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_DESC"
-			default="">
+			description="JGLOBAL_SHOW_CATEGORY_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -83,8 +79,7 @@
 			name="link_category"
 			type="list"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_CATEGORY_DESC"
-			default="">
+			description="JGLOBAL_LINK_CATEGORY_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNO</option>
 			<option	value="1">JYES</option>
@@ -94,8 +89,7 @@
 			name="show_parent_category"
 			type="list"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
-			default="">
+			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -105,8 +99,7 @@
 			name="link_parent_category"
 			type="list"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
-			default="">
+			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNO</option>
 			<option	value="1">JYES</option>
@@ -116,8 +109,7 @@
 			name="show_author"
 			type="list"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			description="JGLOBAL_SHOW_AUTHOR_DESC"
-			default="">
+			description="JGLOBAL_SHOW_AUTHOR_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -127,8 +119,7 @@
 			name="link_author"
 			type="list"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			description="JGLOBAL_LINK_AUTHOR_DESC"
-			default="">
+			description="JGLOBAL_LINK_AUTHOR_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JNO</option>
 			<option	value="1">JYES</option>
@@ -138,8 +129,7 @@
 			name="show_create_date"
 			type="list"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
-			default="">
+			description="JGLOBAL_SHOW_CREATE_DATE_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -149,8 +139,7 @@
 			name="show_modify_date"
 			type="list"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
-			default="">
+			description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -160,8 +149,7 @@
 			name="show_publish_date"
 			type="list"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
-			default="">
+			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -171,8 +159,7 @@
 			name="show_item_navigation"
 			type="list"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			description="JGLOBAL_SHOW_NAVIGATION_DESC"
-			default="">
+			description="JGLOBAL_SHOW_NAVIGATION_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -182,8 +169,7 @@
 			name="show_icons"
 			type="list"
 			label="JGLOBAL_SHOW_ICONS_LABEL"
-			description="JGLOBAL_SHOW_ICONS_DESC"
-			default="">
+			description="JGLOBAL_SHOW_ICONS_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -193,8 +179,7 @@
 			name="show_print_icon"
 			type="list"
 			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-			default="">
+			description="JGLOBAL_SHOW_PRINT_ICON_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -204,8 +189,7 @@
 			name="show_email_icon"
 			type="list"
 			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-			default="">
+			description="JGLOBAL_SHOW_EMAIL_ICON_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
@@ -215,8 +199,7 @@
 			name="show_hits"
 			type="list"
 			label="JGLOBAL_SHOW_HITS_LABEL"
-			description="JGLOBAL_SHOW_HITS_DESC"
-			default="">
+			description="JGLOBAL_SHOW_HITS_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>

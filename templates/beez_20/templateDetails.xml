@@ -58,7 +58,7 @@
 					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC" />
 
 				<field name="logo" type="ImageList" directory="/images"
-					hide_default="1" default=""
+					hide_default="1"
 					label="TPL_BEEZ2_FIELD_LOGO_LABEL" description="TPL_BEEZ2_FIELD_LOGO_DESC" />
 
 				<field name="sitetitle"  type="text" default="BEEZ 2.0"

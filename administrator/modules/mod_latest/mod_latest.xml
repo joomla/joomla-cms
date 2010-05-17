@@ -42,7 +42,6 @@
 					id="catid"
 					name="catid"
 					type="category"
-					default=""
 					extension="com_content"
 					label="MOD_LATEST_FIELD_CATEGORY_LABEL"
 					description="MOD_LATEST_FIELD_CATEGORY_DESC"
@@ -77,7 +76,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

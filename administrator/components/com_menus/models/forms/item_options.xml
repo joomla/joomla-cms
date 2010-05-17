@@ -2,24 +2,21 @@
 	<!-- $Id$ -->
 <form>
 	<fields
-		label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-		description="">
+		label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 
 		<field
 			id="menu-anchor_title"
 			name="menu-anchor_title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC"
-			default=""/>
+			description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" />
 
 		<field
 			id="menu-anchor_css"
 			name="menu-anchor_css"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC"
-			default=""/>
+			description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
 
 	</fields>
 

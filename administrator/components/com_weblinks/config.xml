@@ -104,9 +104,7 @@
 		</field>
 
 		<field name="link_icons" type="media"
-			default=""
 			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
-			directory=""
 			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
 		/>
 	</fieldset>

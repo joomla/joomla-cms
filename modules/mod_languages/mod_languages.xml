@@ -40,7 +40,6 @@
 					type="textarea"
 					rows="3"
 					cols="40"
-					default=""
 					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
 					description="MOD_LANGUAGES_FIELD_HEADER_DESC" />
 
@@ -49,7 +48,6 @@
 					type="textarea"
 					rows="3"
 					cols="40"
-					default=""
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
 					description="MOD_LANGUAGES_FIELD_FOOTER_DESC" />
 			
@@ -82,7 +80,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field
@@ -105,7 +102,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="static">
 					<option
 						value="static"></option>

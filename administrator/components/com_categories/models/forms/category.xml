@@ -135,7 +135,6 @@
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		description="JFIELD_META_DESCRIPTION_DESC"
-		default=""
 		rows="3"
 		cols="40"/>
 
@@ -144,7 +143,6 @@
 		type="textarea"
 		label="JFIELD_META_KEYWORDS_LABEL"
 		description="JFIELD_META_KEYWORDS_DESC"
-		default=""
 		rows="3"
 		cols="40"/>
 
@@ -178,8 +176,7 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
-		class="inputbox"
-		default="">
+		class="inputbox">
 		<option value="*">JALL</option>
 	</field>
 
@@ -192,8 +189,7 @@
 		filter="rules"
 		class="inputbox"
 		component="com_content"
-		section="category"
-		default=""/>
+		section="category"/>
 
 	<fields name="params">
 		<fieldset
@@ -221,23 +217,20 @@
 			type="text"
 			label="JFIELD_ALT_PAGE_TITLE_LABEL"
 			description="JFIELD_ALT_PAGE_TITLE_DESC"
-			size="30"
-			default=""/>
+			size="30"/>
 
 		<field
 			name="author"
 			type="text"
 			label="JAUTHOR"
 			description="JFIELD_METADATA_AUTHOR_DESC"
-			size="30"
-			default=""/>
+			size="30"/>
 
 		<field
 			name="robots"
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
-			default="">
+			description="JFIELD_METADATA_ROBOTS_DESC">
 			<option
 				value="">JGLOBAL_USE_GLOBAL</option>
 			<option

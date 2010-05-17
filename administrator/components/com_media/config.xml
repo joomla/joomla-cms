@@ -69,7 +69,6 @@
 			name="ignore_extensions"
 			type="text"
 			size="50"
-			default=""
 			label="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_LABEL"
 			description="COM_MEDIA_FIELD_IGNORED_EXTENSIONS_DESC" />
 

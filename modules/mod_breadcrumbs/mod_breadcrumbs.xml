@@ -59,7 +59,6 @@
 				<field
 					name="separator"
 					type="text"
-					default=""
 					label="MOD_BREADCRUMBS_FIELD_SEPARATOR_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SEPARATOR_DESC" />
 			</fieldset>
@@ -73,7 +72,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field
@@ -96,7 +94,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="itemid">
 					<option
 						value="itemid"></option>

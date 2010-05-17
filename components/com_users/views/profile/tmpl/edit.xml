@@ -10,7 +10,7 @@
 	<fields name="params">
 
 		<!-- Basic options. -->
-		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL" description="">
+		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 		</fieldset>
 	</fields>
 </metadata>

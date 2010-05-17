@@ -147,7 +147,6 @@
 	 		<field
 			name="display_num"
 			type="list"
-			default=""
 			label="COM_NEWSFEEDS_FIELD_NUMBER_ITEMS_LIST_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUMBER_ITEMS_LIST_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>

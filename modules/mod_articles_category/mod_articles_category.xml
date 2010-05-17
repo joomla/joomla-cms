@@ -88,7 +88,7 @@
 				</field>
 
 				<field name="catid" type="category" extension="com_content"
-					default="" multiple="true" size="5"
+					multiple="true" size="5"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_DESC"
 				>
@@ -123,7 +123,7 @@
 					</option>
 				</field>
 
-				<field name="created_by" type="sql" default=""
+				<field name="created_by" type="sql"
 					multiple="true" size="5"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_DESC"
@@ -146,7 +146,7 @@
 					</option>
 				</field>
 
-				<field name="created_by_alias" type="sql" default=""
+				<field name="created_by_alias" type="sql"
 					multiple="true" size="5"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
@@ -160,7 +160,7 @@
 				<field name="filteringspacer4" type="spacer" hr="true" />
 
 				<field name="excluded_articles" type="textarea"
-					cols="10" rows="3" default=""
+					cols="10" rows="3"
 					label="MOD_ARTICLES_CATEGORY_FIELD_EXCLUDEDARTICLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_EXCLUDEDARTICLES_DESC" />
 
@@ -193,12 +193,12 @@
 				</field>
 
 				<field name="start_date_range" type="calendar"
-					default="" format="%Y-%m-%d %H:%M:%S"
+					format="%Y-%m-%d %H:%M:%S"
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_DESC" />
 
 				<field name="end_date_range" type="calendar"
-					default="" format="%Y-%m-%d %H:%M:%S"
+					format="%Y-%m-%d %H:%M:%S"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_DESC" />
 
@@ -367,7 +367,7 @@
 				<field name="layout" type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
-				<field name="moduleclass_sfx" type="text" default=""
+				<field name="moduleclass_sfx" type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

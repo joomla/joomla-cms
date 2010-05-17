@@ -48,7 +48,6 @@
 			name="title"
 			type="text"
 			class="inputbox"
-			default=""
 			size="50"
 			label="COM_TEMPLATES_FIELD_TITLE_LABEL"
 			description="COM_TEMPLATES_FIELD_TITLE_DESC"

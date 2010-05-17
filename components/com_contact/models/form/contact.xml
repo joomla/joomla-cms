@@ -237,7 +237,7 @@
 	</fieldset>
 
 	<fields name="metadata">
-		<fieldset name="metadata" label="">
+		<fieldset name="metadata">
 
 			<field name="robots" type="text"
 				description="JField_Metadata_Robots_Desc"

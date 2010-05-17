@@ -53,7 +53,6 @@
 				<field
 					name="cid"
 					type="bannerclient"
-					default=""
 					label="MOD_BANNERS_FIELD_BANNERCLIENT_LABEL"
 					description="MOD_BANNERS_FIELD_BANNERCLIENT_DESC" />
 
@@ -61,7 +60,6 @@
 					name="catid"
 					type="category"
 					extension="com_banners"
-					default=""
 					label="MOD_BANNERS_FIELD_CATEGORY_LABEL"
 					description="MOD_BANNERS_FIELD_CATEGORY_DESC" />
 
@@ -93,7 +91,6 @@
 					type="textarea"
 					rows="3"
 					cols="40"
-					default=""
 					label="MOD_BANNERS_FIELD_HEADER_LABEL"
 					description="MOD_BANNERS_FIELD_HEADER_DESC" />
 
@@ -102,7 +99,6 @@
 					type="textarea"
 					rows="3"
 					cols="40"
-					default=""
 					label="MOD_BANNERS_FIELD_FOOTER_LABEL"
 					description="MOD_BANNERS_FIELD_HEADER_DESC" />
 			</fieldset>
@@ -117,7 +113,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

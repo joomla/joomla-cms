@@ -33,7 +33,6 @@
 					type="textarea"
 					cols="30"
 					rows="5"
-					default=""
 					label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
 					description="MOD_LOGIN_FIELD_PRE_TEXT_DESC" />
 				<field
@@ -46,14 +45,12 @@
 				<field
 					name="login"
 					type="menuitem"
-					default=""
 					disable="separator"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC" />
 				<field
 					name="logout"
 					type="menuitem"
-					default=""
 					disable="separator"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC" />
@@ -101,7 +98,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field

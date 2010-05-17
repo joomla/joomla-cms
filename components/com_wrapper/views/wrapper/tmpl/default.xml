@@ -9,7 +9,7 @@
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 		<!-- Basic options. -->
-		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL" description="">
+		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
 			<field name="url" type="text"
 				description="COM_WRAPPER_FIELD_URL_DESC"
@@ -20,7 +20,7 @@
 		</fieldset>
 
 		<!-- Scroll. -->
-		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS" description="">
+		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 
 			<field name="scrolling" type="radio"
 				default="auto"

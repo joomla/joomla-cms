@@ -20,18 +20,15 @@
 			<field name="db_user" type="text" id="db_user" class="inputbox"
 				label="Instl_Database_User_Label"
 				description="Instl_Database_User_Desc"
-				default=""
 				required="true"
 			/>
 			<field name="db_pass" type="password" id="db_pass" class="inputbox"
 				label="Instl_Database_Password_Label"
 				description="Instl_Database_Password_Desc"
-				default=""
 			/>
 			<field name="db_name" type="text" id="db_name" class="inputbox"
 				label="Instl_Database_Name_Label"
 				description="Instl_Database_Name_Desc"
-				default=""
 				required="true"
 			/>
 		</fieldset>

@@ -58,8 +58,7 @@
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
-			size="1"
-			default="" />
+			size="1" />
 
 		<field
 			name="ordering"

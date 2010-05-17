@@ -63,7 +63,6 @@
 				<field
 					name="link_titles"
 					type="list"
-					default=""
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
 					<option
@@ -119,7 +118,6 @@
 				<field
 					name="count"
 					type="text"
-					default=""
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC" />
 			</fieldset>
@@ -135,7 +133,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
@@ -161,7 +158,6 @@
 				<field
 					name="cachemode"
 					type="hidden"
-					label=""
 					default="static">
 					<option
 						value="static"></option>

@@ -217,7 +217,7 @@
 			 hide_none="1"
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL" description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC" />
 
-		<field name="icon_fax" type="media" directory=""
+		<field name="icon_fax" type="media"
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC" />
 
@@ -365,7 +365,6 @@
 
 	<fieldset name="integration"
 		label="JGLOBAL_MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL"
-		description=""
 	>
 
 		<field name="show_category_crumb" type="radio"

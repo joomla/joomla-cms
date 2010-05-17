@@ -369,7 +369,6 @@
 		<field name="date_format"
 			type="text"
 			size="15"
-			default=""
 			label="JGLOBAL_DATE_FORMAT_LABEL"
 			description="JGLOBAL_DATE_FORMAT_DESC" />
 
@@ -589,8 +588,7 @@
 			label="JGLOBAL_FILTER_GROUPS_LABEL"
 			description="JGLOBAL_FILTER_GROUPS_DESC"
 			multiple="true"
-			size="10"
-			default="" />
+			size="10" />
 
 		<field
 			name="filter_type"
@@ -598,8 +596,7 @@
 			label="JGLOBAL_FILTER_TYPE_LABEL"
 			description="JGLOBAL_FILTER_TYPE_DESC"
 			class="inputbox"
-			size="1"
-			default="">
+			size="1">
 			<option
 				value="BL">COM_CONTENT_OPTION_BLACK_LIST</option>
 			<option
@@ -612,15 +609,13 @@
 			name="filter_tags"
 			type="text"
 			label="JGLOBAL_FILTER_TAGS_LABEL"
-			description="JGLOBAL_FILTER_TAGS_DESC"
-			default="" />
+			description="JGLOBAL_FILTER_TAGS_DESC" />
 
 		<field
 			name="filter_attritbutes"
 			type="text"
 			label="JGLOBAL_FILTER_ATTRIBUTES_LABEL"
-			description="JGLOBAL_FILTER_ATTRIBUTES_DESC"
-			default="" />
+			description="JGLOBAL_FILTER_ATTRIBUTES_DESC" />
 	</fieldset>
 
 	<fieldset

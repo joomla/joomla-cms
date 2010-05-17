@@ -25,7 +25,6 @@
 					name="rssurl"
 					type="text"
 					size="50"
-					default=""
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
 					description="MOD_FEED_FIELD_RSSURL_DESC" />
 				<field
@@ -108,7 +107,6 @@
 				<field
 					name="moduleclass_sfx"
 					type="text"
-					default=""
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

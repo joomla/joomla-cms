@@ -56,7 +56,6 @@
 		<field
  			name="mailSubjectPrefix"
  			type="text"
- 			default=""
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
 			description="COM_USERS_CONFIG__FIELD_SUBJECT_PREFIX_DESC"
 		/>
@@ -64,7 +63,6 @@
  		<field
  			name="mailBodySuffix"
 			type="textarea"
- 			default=""
  			rows="5"
  			cols="30"
 			label="COM_USERS_CONFIG__FIELD_MAILBODY_SUFFIX_LABEL"
