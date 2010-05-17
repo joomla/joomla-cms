@@ -19,7 +19,7 @@ class modArchiveHelper
 		$query	= $db->getQuery(true);
 		$query->select('MONTH(created) AS created_month, created, id, title, YEAR(created) AS created_year');
 		$query->from('#__content');
-		$query->where('state = -1 AND checked_out = 0');
+		$query->where('state = 2 AND checked_out = 0');
 		$query->group('created_year DESC, created_month DESC');
 
 		$db->setQuery($query, 0, intval($params->get('count')));

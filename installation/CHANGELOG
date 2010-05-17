@@ -35,7 +35,9 @@ $ Fixed some beez language strings + a CSS in bluestork
 + Added missing icon
 $ Language fixes
 
-17-May-2010 Mark Dexter
+17-May-2010 Christophe Demko
+ # Fix [#20300] Article archive
+ # Fix [#20454] Menu item filter includes archived state
  ^ Ordering of toolbar icons for some views
 
 17-May-2010 Mark Dexter
