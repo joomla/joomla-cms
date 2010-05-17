@@ -14,5 +14,13 @@
  */
 class JCacheControllerRaw extends JCache
 {
+	protected function setUp()
+	{
+		include_once JPATH_BASE.'/libraries/joomla/cache/cache.php';
+		include_once JPATH_BASE.'/libraries/joomla/cache/storage.php';
+		include_once JPATH_BASE.'/libraries/joomla/cache/controller.php';
+
+		//$this->object = JCache::getInstance('', array());
+	}
 
 }

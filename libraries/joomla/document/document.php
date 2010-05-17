@@ -196,7 +196,7 @@ class JDocument extends JObject
 	 * @var		mixed (depends on the renderer)
 	 * @access	private
 	 */
-	var $_buffer = null;
+	protected static $_buffer = null;
 
 
 	/**
@@ -341,7 +341,7 @@ class JDocument extends JObject
 	 * @return	The contents of the document buffer
 	 */
 	function getBuffer() {
-		return $this->_buffer;
+		return self::$_buffer;
 	}
 
 	/**
@@ -351,7 +351,7 @@ class JDocument extends JObject
 	 * @param	array	$options	Array of optional elements.
 	 */
 	public function setBuffer($content, $options = array()) {
-		$this->_buffer = $content;
+		self::$_buffer = $content;
 	}
 
 	/**

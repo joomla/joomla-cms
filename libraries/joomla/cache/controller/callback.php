@@ -91,7 +91,7 @@ class JCacheControllerCallback extends JCacheController
 		$locktest->locklooped = null;
 
 		if ($data === false) {
-			$locktest = $this->cache->lock($id,null);
+			$locktest = $this->cache->lock($id);
 			if ($locktest->locked == true && $locktest->locklooped == true) {
 				$data = $this->cache->get($id);
 			}
@@ -109,7 +109,7 @@ class JCacheControllerCallback extends JCacheController
 			if (!is_array($args)) {
 				$args = (array) $args;
 			}
-			if ($locktest->locked == false) $locktest = $this->cache->lock($id,null);
+			if ($locktest->locked == false) $locktest = $this->cache->lock($id);
 			ob_start();
 			ob_implicit_flush(false);
 
@@ -119,7 +119,9 @@ class JCacheControllerCallback extends JCacheController
 			ob_end_clean();
 
 			$cached = array();
-			$cached['output'] = $wrkarounds==false ? $output : JCache::setWorkarounds($output);
+			$coptions= array();
+			$coptions['nopathway'] = 1;
+			$cached['output'] = $wrkarounds==false ? $output : JCache::setWorkarounds($output,$coptions);
 			$cached['result'] = $result;
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);

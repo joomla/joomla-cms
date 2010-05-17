@@ -76,7 +76,7 @@ class JCacheControllerView extends JCacheController
 		if (method_exists($view, $method)) {
 			// if previous lock failed try again
 			if ($locktest->locked == false) {
-				$locktest = $this->cache->lock($id,null);
+				$locktest = $this->cache->lock($id);
 			}
 
 			// Capture and echo output

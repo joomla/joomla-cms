@@ -33,6 +33,8 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		include_once JPATH_BASE.'/libraries/joomla/cache/cache.php';
+		include_once JPATH_BASE.'/libraries/joomla/cache/controller.php';
+		include_once JPATH_BASE.'/libraries/joomla/cache/storage.php';
 		//$this->object = new JCache;
 	}
 
@@ -287,7 +289,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 			'simple' => array(
 				'output',
 				array(),
-				array( 'file' ),
+				 'file',
 			),
 			'complexOutput' => array(
 				'output',
@@ -297,7 +299,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				array( 'file' ),
+				'file' ,
 			),
 			'complexPage' => array(
 				'page',
@@ -307,7 +309,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				array( 'file' ),
+				'file',
 			),
 			'complexView' => array(
 				'view',
@@ -317,7 +319,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				array( 'file' ),
+				'file',
 			),
 			'complexCallback' => array(
 				'callback',
@@ -327,7 +329,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
-				array( 'file' ),
+				'file',
 			),
 		);
 	}
@@ -346,7 +348,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object = JCache::getInstance($handler, $options);
 		$this->assertThat(
-			$this->object->getStores(),
+			$this->object->options['storage'],
 			$this->equalTo($expected)
 		);
 	}
@@ -414,11 +416,13 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	{
 		$this->object = JCache::getInstance($handler, $options);
 		$this->object->setCaching(true);
+
 		$this->assertThat(
 			$this->object->store($data, $id, $group),
-			$this->equalTo($data),
+			$this->isTrue(),
 			'Should store the data properly'
 		);
+
 		$this->assertThat(
 			$this->object->get($id, $group),
 			$this->equalTo($data),
@@ -577,28 +581,28 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'xcache',
 				),
-				'JCacheStorageXCache',
+				'JCacheStorageXcache',
 			),
-//			'memcache' => array(
-//				'output',
-//				array(
-//					'defaultgroup'	=> '',
-//					'cachebase'		=> JPATH_BASE . '/unittest/cache',
-//					'lifetime'		=> 15 * 60,	// minutes to seconds
-//					'storage'		=> 'memcache',
-//				),
-//				'JCacheView',
-//			),
-//			'eaccelerator' => array(
-//				'output',
-//				array(
-//					'defaultgroup'	=> '',
-//					'cachebase'		=> JPATH_BASE . '/unittest/cache',
-//					'lifetime'		=> 15 * 60,	// minutes to seconds
-//					'storage'		=> 'eaccelerator',
-//				),
-//				'JCacheCallback',
-//			),
+			'memcache' => array(
+				'output',
+				array(
+					'defaultgroup'	=> '',
+					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'lifetime'		=> 15 * 60,	// minutes to seconds
+					'storage'		=> 'memcache',
+				),
+				'JCacheStorageMemcache',
+			)/*,
+			'eaccelerator' => array(
+				'output',
+				array(
+					'defaultgroup'	=> '',
+					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'lifetime'		=> 15 * 60,	// minutes to seconds
+					'storage'		=> 'eaccelerator',
+				),
+				'JCacheStorageEaccelerator',
+				)*/
 		);
 	}
 

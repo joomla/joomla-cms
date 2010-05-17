@@ -40,14 +40,19 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testCacheHit($store) {
+		
+		if($store == 'eaccelerator') {
+			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
+		}
+		
 		$id = 'randomTestID';
-		$group = 'testing';
+		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: '.$data.' Actual: '.$new);
@@ -58,10 +63,15 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testCacheMiss($store) {
+		
+		if($store == 'eaccelerator') {
+			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
+		}
+		
 		$id = 'randomTestID2423423';
-		$group = 'testing';
+		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: '.$new);
@@ -72,20 +82,24 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testCacheTimeout($store) {
-		$this->markTestSkipped();
-		if($store == 'xcache') {
-			$this->markTestSkipped('Due to an xcache "bug/feature", this test will not function as expected, skipped');
+				
+		if($store == 'eaccelerator') {
+			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
 		}
+		
+		/*if($store == 'xcache') {
+			$this->markTestSkipped('Due to an xcache "bug/feature", this test will not function as expected, skipped');
+		}*/
 		$id = 'randomTestID';
-		$group = 'testing';
+		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$cache->setLifeTime(2);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
 		sleep(5);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setLifeTime(2);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: '.((string) $new));
@@ -96,18 +110,24 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testCacheRemove($store) {
+		
+		if($store == 'eaccelerator') {
+			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
+		}
+		
 		$id = 'randomTestID';
-		$group = 'testing';
+		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
-		$this->assertTrue($cache->remove($id, $group), 'Removal Failed');
+		$test = $cache->remove($id, $group);
+		$this->assertTrue($test, 'Removal Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: '.((string) $new));
@@ -118,21 +138,23 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testCacheClearGroup($store) {
-		if($store == 'xcache' || $store == 'eaccelerator' || $store == 'apc' || $store == 'memcache') {
-			$this->markTestSkipped('XCache does not support clearing of the cache');
+		
+		if($store == 'eaccelerator') {
+			$this->markTestSkipped('Eaccelerator does not wotk with cli, skipped');
 		}
+		
 		$id = 'randomTestID';
-		$group = 'testing';
+		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->clean($group), 'Clean Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertFalse($new, 'Expected: false Actual: '.((string) $new));
@@ -143,22 +165,23 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	 * @dataProvider provider
 	 */
 	function testCacheClearNotGroup($store) {
-		if($store == 'xcache') {
-			$this->markTestSkipped('XCache does not support clearing of the cache');
+		
+		if($store == 'eaccelerator') {
+			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
 		}
-
+		
 		$id = 'randomTestID';
-		$group = 'testing';
+		$group = '_testing';
 		$data = 'testData';
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$this->assertTrue($cache->store($data, $id, $group), 'Initial Store Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$this->assertTrue((bool)$cache->clean($group, 'notgroup'), 'Clean Failed');
 		unset($cache);
-		$cache =& JCache::getInstance('raw', array('storage'=>$store));
+		$cache =& JCache::getInstance('', array('storage'=>$store));
 		$cache->setCaching(true);
 		$new = $cache->get($id, $group);
 		$this->assertSame($new, $data, 'Expected: '.$data.' Actual: '.((string) $new));

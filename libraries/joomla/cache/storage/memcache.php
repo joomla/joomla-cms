@@ -54,8 +54,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	object	memcache connection object
 	 * @since	1.5
 	 */
-	private function getConnection()
-	{
+	private function getConnection() 
+	{	
+		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) return false;
+
 		$config = &JFactory::getConfig();
 		$this->_persistent	= $config->get('memcache_persist', true);
 		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
@@ -69,6 +71,11 @@ class JCacheStorageMemcache extends JCacheStorage
 		// Create the memcache connection
 		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
+				
+		$memcachetest = @self::$_db->connect($host, $port);
+		if($memcachetest == false) {
+			return JError::raiseError(404, "Could not connect to memcache server");
+		}
 		//$db->connect($server['host'], $server['port']) or die ("Could not connect");
 
 		/**if(false === self::$_db->get($this->_hash.'init-time')) {
@@ -80,8 +87,9 @@ class JCacheStorageMemcache extends JCacheStorage
 			self::$_db->set($this->_hash.'count', 0, 0, 0);
 			self::$_db->set($this->_hash.'count-gzip', 0, 0, 0);
 		}*/
+		
 		// memcahed has no list keys, we do our own accounting, initalise key index
-		if (self::$_db->get($this->_hash.'-index') === false) {
+		if(self::$_db->get($this->_hash.'-index') === false) {
 			$empty = array();
 			self::$_db->set($this->_hash.'-index', $empty , $this->_compress, 0);
 		}
@@ -256,8 +264,21 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise.
 	 */
 	public static function test()
-	{
-		return (extension_loaded('memcache') && class_exists('Memcache'));
+	{	
+		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) return false;
+		
+			$config = &JFactory::getConfig();	
+			$host = $config->get('memcache_server_host', 'localhost');
+			$port = $config->get('memcache_server_port',11211);
+			
+			$memcache = new Memcache;
+			$memcachetest = @$memcache->connect($host, $port);
+  
+			 if (!$memcachetest)
+			 {
+			 		return false;
+			 } else return true;
+
 	}
 
 	/**
@@ -367,9 +388,9 @@ class JCacheStorageMemcache extends JCacheStorage
 			$lock_counter = 0;
 
 			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
-			while ($data_lock === FALSE) {
+			while ( $data_lock === FALSE ) {
 
-				if ($lock_counter > $looptime) {
+				if ( $lock_counter > $looptime ) {
 					return false;
 					break;
 				}

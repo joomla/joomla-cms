@@ -31,6 +31,7 @@ class JCacheControllerOutputTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		include_once JPATH_BASE.'/libraries/joomla/cache/cache.php';
+		include_once JPATH_BASE.'/libraries/joomla/cache/controller.php';
 		include_once JPATH_BASE.'/libraries/joomla/cache/controller/output.php';
 
 		$this->object = JCache::getInstance('output', array());

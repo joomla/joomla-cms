@@ -169,7 +169,7 @@ class JAdministrator extends JApplication
 		$document = &JFactory::getDocument();
 		$document->parse($params);
 		$this->triggerEvent('onBeforeRender');
-		$data = $document->render($this->getCfg('caching'), $params);
+		$data = $document->render(false, $params);
 		JResponse::setBody($data);
 		$this->triggerEvent('onAfterRender');
 	}

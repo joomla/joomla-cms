@@ -279,7 +279,7 @@ abstract class JModuleHelper
 		}
 		$query->order('position, ordering');
 
-		$cacheid = serialize(array($Itemid,$groups,$clientid));
+		$cacheid = md5(serialize(array($Itemid,$groups,$clientid,JFactory::getLanguage()->getTag())));
 
 		// Filter by language
 		if ($app->isSite() && $app->getLanguageFilter()) {
@@ -291,7 +291,6 @@ abstract class JModuleHelper
 
 		$cache = JFactory::getCache ('com_modules', 'callback' );
 		$modules = $cache->get(array($db,'loadObjectList'),null,$cacheid,false);
-
 		if (null === $modules)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));

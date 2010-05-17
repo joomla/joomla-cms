@@ -49,14 +49,14 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 		return array(
 			'souls' => array(
 				42,
-				'testing',
+				'_testing',
 				'And this is the cache that tries men\'s souls',
 				true,
 				false,
 			),
 			'again' => array(
 				43,
-				'testing',
+				'_testing',
 				'The summer coder and the sunshine developer.',
 				true,
 				false,
@@ -94,18 +94,18 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 	 * @todo Implement testRemove().
 	 */
 	public function testRemove() {
-		$this->object->store(42, 'testing', 'And this is the cache that tries men\'s souls');
+		$this->object->store(42, '_testing', 'And this is the cache that tries men\'s souls');
 
 		$this->assertThat(
-			$this->object->get(42, 'testing', true),
+			$this->object->get(42, '_testing', true),
 			$this->equalTo('And this is the cache that tries men\'s souls')
 		);
 		$this->assertThat(
-			$this->object->remove(42, 'testing'),
+			$this->object->remove(42, '_testing'),
 			$this->isTrue()
 		);
 		$this->assertThat(
-			$this->object->get(42, 'testing', true),
+			$this->object->get(42, '_testing', true),
 			$this->isFalse()
 		);
 	}
@@ -114,41 +114,41 @@ class JCacheStorageFileTest extends PHPUnit_Framework_TestCase {
 	 * @todo Implement testClean().
 	 */
 	public function testClean() {
-		$this->object->store(42, 'testing', 'And this is the cache that tries men\'s souls');
-		$this->object->store(43, 'testing', 'The summer coder and the sunshine developer.');
-		$this->object->store(44, 'nottesting', 'Now is the time for all good developers to cry');
-		$this->object->store(45, 'testing', 'Do not go gentle into that good night');
+		$this->object->store(42, '_testing', 'And this is the cache that tries men\'s souls');
+		$this->object->store(43, '_testing', 'The summer coder and the sunshine developer.');
+		$this->object->store(44, '_nottesting', 'Now is the time for all good developers to cry');
+		$this->object->store(45, '_testing', 'Do not go gentle into that good night');
 
 		$this->assertThat(
-			$this->object->get(42, 'testing', true),
+			$this->object->get(42, '_testing', true),
 			$this->equalTo('And this is the cache that tries men\'s souls')
 		);
 		$this->assertThat(
-			$this->object->clean('testing', 'group'),
+			$this->object->clean('_testing', 'group'),
 			$this->isTrue()
 		);
 		$this->assertThat(
-			$this->object->get(42, 'testing', true),
+			$this->object->get(42, '_testing', true),
 			$this->isFalse()
 		);
 		$this->assertThat(
-			$this->object->get(43, 'testing', true),
+			$this->object->get(43, '_testing', true),
 			$this->isFalse()
 		);
 		$this->assertThat(
-			$this->object->get(44, 'nottesting', true),
+			$this->object->get(44, '_nottesting', true),
 			$this->equalTo('Now is the time for all good developers to cry')
 		);
 		$this->assertThat(
-			$this->object->get(45, 'testing', true),
+			$this->object->get(45, '_testing', true),
 			$this->isFalse()
 		);
 		$this->assertThat(
-			(bool)$this->object->clean('testing', 'notgroup'),
+			(bool)$this->object->clean('_testing', 'notgroup'),
 			$this->equalTo(true)
 		);
 		$this->assertThat(
-			$this->object->get(44, 'nottesting', true),
+			$this->object->get(44, '_nottesting', true),
 			$this->isFalse()
 		);
 	}

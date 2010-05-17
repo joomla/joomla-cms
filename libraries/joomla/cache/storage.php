@@ -10,6 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
+
 /**
  * Abstract cache storage handler
  *
@@ -91,26 +92,26 @@ class JCacheStorage extends JObject
 	 * @return	object	A JCacheStorageHandler object
 	 * @since	1.5
 	 */
-	public static function getInstance($handler, $options = array())
+	public static function getInstance($handler=null, $options = array())
 	{
 		static $now = null;
 
 		JCacheStorage::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage');
 
+		if(!isset($handler)) {
+			$conf =& JFactory::getConfig();
+            $handler = $conf->get('cache_handler', 'file');
+        }
+        
 		if (is_null($now)) {
 			$now = time();
 		}
-
-		$options['now'] = $now;
+		
+		$options['now'] = $now;	
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
-		$conf = JFactory::getConfig();
-		if (!isset($storage)) {
-			$storage = $conf->get('cache_handler', 'file');
-		}
-
-		$class = 'JCacheStorage'.ucfirst($handler);
+        $class = 'JCacheStorage'.ucfirst($handler);
 		if (!class_exists($class)) {
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
