@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.6.0 Beta Release [17-May-2010] ------------------
+
 17-May-2010 Ron Severdia
 # Fixed UI in Menu Manager and ACL widget
 
