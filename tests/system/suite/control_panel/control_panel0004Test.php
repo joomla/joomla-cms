@@ -72,21 +72,22 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isTextPresent("Functional Test Category"));
-		print("Change fileter to Select State." . "\n");
+		print("Change filter to Select State." . "\n");
+		$this->click("//button[@type='button']");
+		$this->waitForPageToLoad("30000");
 		$this->select("filter_published", "label=- Select State -");
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
+
 		print("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isTextPresent("Functional Test Category"));
 		print("Check that reordering still works." . "\n");
 		print("Move Modules category up one." . "\n");
-		$this->click("//button[@type='button']");
-		$this->waitForPageToLoad("30000");
-		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/span[1]/a/img");
+		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/span[1]/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		print("Move Modules category down one." . "\n");
-		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/span[2]/a/img");
+		$this->click("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/span[1]/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		$this->doAdminLogout();

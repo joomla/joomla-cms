@@ -93,7 +93,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	function doFrontEndLogout()
 	{
 		echo "Logging out of front end.\n";
-		$this->click("Submit");
+		$this->click("//input[@value='Log out']");
 		$this->waitForPageToLoad("30000");
 	}
 
@@ -342,7 +342,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			try
 			{
-				$this->assertTrue(($this->isTextPresent("DELETED") OR $this->isTextPresent("removed")), 'Delete confirm text wrong, SeleniumJoomlaTestCase line 345');
+				$this->assertTrue(($this->isTextPresent("DELETED") OR $this->isTextPresent("removed") OR $this->isTextPresent("trashed")), 'Delete confirm text wrong, SeleniumJoomlaTestCase line 345');
 				$this->assertFalse($this->isTextPresent("ERROR"), "Error message present, SeleniumTestCase line 346");
 				echo "Deletion of item(s) succeeded.\n";
 			}
@@ -355,6 +355,15 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//a[contains(@class,'icon-16-levels')]");
 			$this->waitForPageToLoad("30000");
 			break;
+		case 'Menu Manager':	
+			$this->click("//a[contains(@class,'icon-16-menumgr')]");
+			$this->waitForPageToLoad("30000");
+			break;
+		case 'Redirect Manager':
+			$this->click("//a[contains(@class, 'icon-16-redirect')]");
+			$this->waitForPageToLoad("30000");
+			$this->assertTrue($this->isTextPresent("Redirect Manager: Links"));
+			break;			
 		default:
 			$this->click("//li[@id='toolbar-new']/a");
 			$this->waitForPageToLoad("30000");
@@ -414,10 +423,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$path = str_replace('\\', '/', $path);
 		$message = '';
 		foreach ($trace as $traceLine) {
-			$file = str_replace('\\', '/', $traceLine['file']);
-			if (stripos($file, $path) !== false) {
-				$message .= "\n" . $traceLine['file'] . '(' . $traceLine['line'] . '): ' .
-					$traceLine['class'] . $traceLine['type'] . $traceLine['function'] ;
+			if (isset($traceLine['file'])){
+				$file = str_replace('\\', '/', $traceLine['file']);
+				if (stripos($file, $path) !== false) {
+					$message .= "\n" . $traceLine['file'] . '(' . $traceLine['line'] . '): ' .
+						$traceLine['class'] . $traceLine['type'] . $traceLine['function'] ;
+				}
 			}
 		}
 		return $e->toString() . $message;

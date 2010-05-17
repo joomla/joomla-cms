@@ -41,11 +41,11 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		echo "Navigate to Clear Cache.\n";
 		$this->click("link=Clear Cache");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Cache Manager - Clear Cache Admin"));
+		$this->assertTrue($this->isTextPresent("Cache Manager: Clear Cache"));
 		echo "Navigate to Purge Expired Cache.\n";
 		$this->click("link=Purge Expired Cache");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Cache Manager - Purge Cache Admin "));
+		$this->assertTrue($this->isTextPresent("Cache Manager: Purge Expired Cache"));
 		$this->click("link=System Information");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("System Information"));
@@ -211,7 +211,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		echo "Navigate to Banner Categories.\n";
 		$this->click("link=Categories");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Banner Manager: Categories"));
+		$this->assertTrue($this->isTextPresent("Category Manager: Banners"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-edit']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-publish']/a/span"));
@@ -235,7 +235,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		echo "Navigate to Contact Category.\n";
 		$this->click("//ul[@id='menu-contacts']/li[2]/a");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Category Manager"));
+		$this->assertTrue($this->isTextPresent("Category Manager: Contacts"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-edit']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-publish']/a/span"));
@@ -270,10 +270,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-refresh']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to Redirect.\n";
-		$this->click("link=Redirect Manager");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Redirect Manager: Links"));
-
+		$this->jClick('Redirect Manager');
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-edit']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-publish']/a/span"));

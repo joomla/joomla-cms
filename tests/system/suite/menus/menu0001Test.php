@@ -58,7 +58,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Enter menu item info\n";
 		$this->type("jform_title", "Functional Test Menu Item");
 		$this->select("jform_published", "label=Published");
-		$this->select("jform_menutype", "label=function-test-menu");
+		$this->select("jform_menutype", "label=Functional Test Menu");
 		echo "Open Select Article modal\n";
 		$this->click("link=Change");
 		echo "Wait 2 seconds\n";
@@ -99,7 +99,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Functional Test Menu");
 		$this->select("jform_published", "label=Published");
-		$this->select("jform_params_menutype", "label=function-test-menu");
+		$this->select("jform_params_menutype", "label=Functional Test Menu");
 		echo "Save menu\n";
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
@@ -115,9 +115,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("Australian Parks"));
 
 		echo "Navigate to back end\n";
-		$this->click("link=Site Administrator");
-		$this->waitForPageToLoad("30000");
-
+		$this->gotoAdmin();
+		
 		echo "Navigate to Module Manager and delete new menu module\n";
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
@@ -141,8 +140,11 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("cb6");
 		$this->click("//li[@id='toolbar-delete']/a/span");
+		sleep(2);
+		$this->assertTrue((bool)preg_match("/^Are you sure you want to delete\.$/",$this->getConfirmation()));
+		
 		$this->waitForPageToLoad("30000");
-
+		$this->assertTrue($this->isTextPresent("Menu type successfully deleted"));
 		echo "Navigate to front end and make sure menu is not shown\n";
 		$this->gotoSite();
 		$this->assertFalse($this->isTextPresent("Functional Test Menu"));
