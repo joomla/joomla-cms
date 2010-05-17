@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-May-2010 Ron Severdia
+# Fixed UI in Menu Manager and ACL widget
+
 17-May-2010 Mark Dexter
 # Fix display error in Parks image gallery
 
