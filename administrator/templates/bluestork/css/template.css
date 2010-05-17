@@ -679,6 +679,27 @@ div.current table#acl-config th.acl-groups {
 	text-align: left;
 }
 
+li.acl-editgroups,
+li.acl-resetbtn {
+	display:block;
+	float:left;
+	margin:14px !important;
+	width:auto;
+	background:none repeat scroll 0 0 #FFFFFF;
+	border:1px solid #CCCCCC;
+	text-decoration:none;
+	font-size: .909em;
+	padding: 3px !important;
+}
+
+li.acl-editgroups:hover,
+li.acl-resetbtn:hover {
+	background:none repeat scroll 0 0 #E8f6f3;
+	border:1px solid #AAA;
+	cursor:pointer;
+}
+	
+	
 p.tab-description {
 	font-size: 1.091em;
 	margin-left: 0;

@@ -94,17 +94,20 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $item->count_trashed; ?></a>
 				</td>
 				<td class="left">
+				<ul>
 					<?php 
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
 						?>
-						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
+						
+						<li><a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
 							<?php echo $this->escape($module->title); ?></a>
-						<p class="smallsub">(<?php echo $this->escape($module->position);?>)</p>
+						<span class="smallsub">(<?php echo $this->escape($module->position);?>)</span></li>
 						<?php
 						endforeach;
 					endif;
 					?>
+					</ul>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

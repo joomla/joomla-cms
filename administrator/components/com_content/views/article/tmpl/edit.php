@@ -121,10 +121,8 @@ JHtml::_('behavior.formvalidation');
 
 		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
 		<fieldset class="panelform">
-		<ul class="adminformlist">
-			<li><?php echo $this->form->getLabel('rules'); ?>
-			<?php echo $this->form->getInput('rules'); ?></li>
-			</ul>
+			<?php echo $this->form->getLabel('rules'); ?>
+			<?php echo $this->form->getInput('rules'); ?>
 		</fieldset>
 
 		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_METADATA'), 'meta-options'); ?>
