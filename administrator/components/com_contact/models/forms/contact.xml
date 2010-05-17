@@ -167,8 +167,7 @@
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC" />
 
 		<field name="icon_telephone" type="media" hide_none="1"
-
-			abel="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
+			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC" />
 
 		<field name="icon_mobile" type="mediat" hide_none="1"

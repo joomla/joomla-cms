@@ -20,11 +20,7 @@
 			label="COM_WEBLINKS_FIELD_CONFIG_INTRO_LABEL"
 			rows="3"
 		/>
-
-		<field name="spacer1" type="spacer"
-			hr="true"
-		/>
-
+	
 		<field name="show_link_hits" type="radio"
 			default="1"
 			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
@@ -87,10 +83,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field name="spacer2" type="spacer"
-			hr="true"
-		/>
 
 		<field name="target" type="list"
 			default="0"
