@@ -79,20 +79,7 @@ JHtml::_('behavior.formvalidation');
 					<?php echo JText::_('FTP_CONFIGURATION'); ?>:
 				</h2>
 				<div class="install-text">
-					<?php echo JText::_('
-						<p>Due to filesystem permission restrictions and PHP Safe Mode restrictions.
-						For all users to utilize the Joomla! installers an FTP layer exists to handle
-						filesystem manipulation.
-						<br />
-						<br />
-						Enter an FTP username and password with access to the Joomla! root directory,
-						this will be the FTP account that handles all filesystem operations when Joomla!
-						requires FTP access to complete a task.
-						<br />
-						<br />
-						For security reasons, it is best if a separate FTP user account is created with
-						access only to the Joomla! installation.</p>
-					'); ?>
+					<?php echo JText::_('TIPFTPCONFSTEPS'); ?>
 				</div>
 				<div class="install-body">
 					<div class="t">
@@ -102,7 +89,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 					<div class="m">
 						<h3 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-							<?php echo JText::_('BASIC_SETTINGS'); ?>
+							<?php echo JText::_('INSTL_OPTIONAL_FTP_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu">
 							<table class="content2">
