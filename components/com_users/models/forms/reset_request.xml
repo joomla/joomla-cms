@@ -4,9 +4,9 @@
 	<fieldset name="default">
 		<field name="username" type="text"
 			class="validate-username"
-			description="Users_Form_Username_Desc"
+			description="COM_USERS_FIELD_PASSWORD_RESET_DESC"
 			filter="username"
-			label="Users_Form_Username_Label"
+			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
 			required="true"
 			size="30"
 		/>

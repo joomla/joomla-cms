@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_user_registration_default_title">
+	<layout title="COM_USER_REGISTRATION_DEFAULT_TITLE">
 		<message>
-			<![CDATA[com_user_registration_default_desc]]>
+			<![CDATA[COM_USER_REGISTRATION_DEFAULT_DESC]]>
 		</message>
 	</layout>
 

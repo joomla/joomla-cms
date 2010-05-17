@@ -4,8 +4,8 @@
 	<fieldset name="default">
 		<field name="email" type="text"
 			class="validate-email"
-			description="Users_Remind_Email_Desc"
-			label="Users_Remind_Email_Label"
+			description="COM_USERS_FIELD_REMIND_EMAIL_DESC"
+			label="COM_USERS_FIELD_REMIND_EMAIL_LABEL"
 			required="true"
 			size="30"
 			validate="email"

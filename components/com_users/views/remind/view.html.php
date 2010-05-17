@@ -65,7 +65,7 @@ class UsersViewRemind extends JView
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_USERS_Remind'));
+			$this->params->def('page_heading', JText::_('COM_USERS_REMIND'));
 		}
 
 		$title = $this->params->get('page_title', '');

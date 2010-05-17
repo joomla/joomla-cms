@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-May-2010 Jean-Marie Simonet
 $ Fixed some beez language strings + a CSS in bluestork
+$ Fixed some com_users language issues
 
 17-May-2010 Ron Severdia
 # Fix CSS & language strings for Weblinks UI
