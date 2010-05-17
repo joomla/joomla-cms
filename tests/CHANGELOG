@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-May-2010 Mark Dexter
 # Fix up system tests for core changes
+# Fix sample data test
 
 27-Apr-2010 Mark Dexter
 # Fix up system tests for language changes (Matt Thomas)
