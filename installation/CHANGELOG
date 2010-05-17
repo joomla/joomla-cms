@@ -30,6 +30,7 @@ $ -> Language fix or change
 17-May-2010 Andrew Eddie
  ^ Fixed issue [#20431] Module cache not activated in defult installation and sample data module parameters (Klas Berlič)
  # Fixed issue [#20445] The pagebreak plugin produces a fatal error.
+ # Fixed issue [#20452] Turn off module debugging by default (Elin Waring).
 
 16-May-2010 Mark Dexter
 # [#20312] Access Control not implemented in menus
