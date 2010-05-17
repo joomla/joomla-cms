@@ -26,7 +26,7 @@ abstract class JHtmlContent
 	public static function prepare($text, $params = null)
 	{
 		if ($params === null) {
-			$params = array();
+			$params = new JObject;
 		}
 		$article = new stdClass;
 		$article->text = $text;
