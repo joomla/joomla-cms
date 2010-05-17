@@ -907,4 +907,30 @@ class MenusModelItem extends JModelAdmin
 
 		return true;
 	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param	array	A list of the primary keys to change.
+	 * @param	int		The value of the published state.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		// Initialise variables.
+		$table		= $this->getTable();
+		$pks		= (array) $pks;
+
+		// Access checks.
+		foreach ($pks as $i => $pk) {
+			if ($table->load($pk) && $table->home && $table->language=='*') {
+				// Prune items that you can't change.
+				JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_TRASH_DEFAULT_HOME'));
+				unset($pks[$i]);
+			}
+		}
+		
+		return parent::publish($pks,$value);
+	}
 }
