@@ -629,6 +629,8 @@ class MenusModelItem extends JModelAdmin
 
 		if (!($type = $app->getUserState('com_menus.edit.item.type'))){
 			$type = JRequest::getCmd('type');
+			// Note a new menu item will have no field type.
+			// The field is required so the user has to change it.
 		}
 		$this->setState('item.type', $type);
 
