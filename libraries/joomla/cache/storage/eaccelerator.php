@@ -134,7 +134,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 
         $secret = $this->_hash;
         
-        if(is_array($keys)) {
+        if (is_array($keys)) {
         	foreach ($keys as $key) {
         		/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
 				$key['name'] = ltrim($key['name'], ':');

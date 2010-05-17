@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT.'/controller.php');
+require_once JPATH_COMPONENT.'/controller.php';
 
 /**
  * Registration controller class for Users.
@@ -64,7 +64,7 @@ class UsersControllerRegistration extends UsersController
 		}
 
 		$useractivation = $uParams->get('useractivation');
-		
+
 		// Redirect to the login screen.
 		if ($useractivation == 0)
 		{
@@ -165,7 +165,7 @@ class UsersControllerRegistration extends UsersController
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_SAVE_SUCCESS'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
-		
+
 
 		return true;
 	}

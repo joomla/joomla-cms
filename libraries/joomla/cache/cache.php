@@ -439,7 +439,7 @@ class JCache extends JObject
 	{	
 		$loptions=array();
 		$loptions['nopathway'] = 0;
-		if(isset($options['nopathway'])) {
+		if (isset($options['nopathway'])) {
 			$loptions['nopathway'] = $options['nopathway'];
 		}
 		// Initialise variables.

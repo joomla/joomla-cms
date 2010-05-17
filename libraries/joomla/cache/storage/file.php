@@ -37,7 +37,7 @@ class JCacheStorageFile extends JCacheStorage
 	}
 
 	// NOTE: raw php calls are up to 100 times faster than JFile or JFolder
-	
+
 	/**
 	 * Get cached data from a file by id and group
 	 *
@@ -113,9 +113,9 @@ class JCacheStorageFile extends JCacheStorage
 
 		// Prepend a die string
 		$data		= $die.$data;
-		
+
 		$_fileopen = @fopen($path, "wb");
-		
+
 		if ($_fileopen) {
 			$len = strlen($data);
 			@fwrite($_fileopen, $data, $len);
@@ -215,10 +215,10 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public static function test()
 	{
-		$conf	= &JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		return is_writable($conf->get('cache_path',JPATH_ROOT.DS.'cache'));
 	}
-	
+
 	/**
 	 * Lock cached item
 	 *
@@ -232,17 +232,17 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$returning = new stdClass();
 		$returning->locklooped = false;
-		$looptime = $locktime * 10;	
-		$path		= $this->_getFilePath($id, $group);		
+		$looptime = $locktime * 10;
+		$path		= $this->_getFilePath($id, $group);
 
 		$_fileopen = @fopen($path, "r+b");
-		
+
 		if ($_fileopen) {
 				$data_lock = @flock($_fileopen, LOCK_EX);
 		} else {
 			$data_lock = false;
 		}
-		
+
 		if ($data_lock === false) {
 
 			$lock_counter = 0;
@@ -276,12 +276,12 @@ class JCacheStorageFile extends JCacheStorage
 	 * @since	1.6
 	 */
 	public function unlock($id,$group)
-	{	
-		$path		= $this->_getFilePath($id, $group);		
+	{
+		$path		= $this->_getFilePath($id, $group);
 
 		$_fileopen = @fopen($path, "r+b");
-	
-		if ($_fileopen) {			
+
+		if ($_fileopen) {
 				$ret = @flock($_fileopen, LOCK_UN);
 				@fclose($_fileopen);
 		}
@@ -289,8 +289,8 @@ class JCacheStorageFile extends JCacheStorage
 
 		return $ret;
 	}
-	
-	
+
+
 
 	/**
 	 * Check to make sure cache is still valid, if not, delete it.
@@ -342,7 +342,7 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		return $dir.DS.$name;
 	}
-	
+
 	/**
 	 * Quickly delete a folder of files
 	 *
@@ -358,21 +358,21 @@ class JCacheStorageFile extends JCacheStorage
 			JError::raiseWarning(500, 'JCacheStorageFile::_deleteFolder ' . JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'));
 			return false;
 		}
-		
+
 		$path = $this->_cleanPath($path);
-		
+
 		// Check to make sure path is inside cache folder, we do not want to delete Joomla root!
 		$pos = strpos($path, $this->_cleanPath($this->_root));
-		
+
 		if ($pos === false || $pos > 0) {
 			JError::raiseWarning(500, 'JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path));
 			return false;
 		}
-		
+
 
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = $this->_filesInFolder($path, '.', false, true, array(), array());
-		
+
 		if (!empty($files) && !is_array($files)) {
 			if (@unlink($files) !== true) {
 				return false;
@@ -398,7 +398,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		// Remove sub-folders of folder; disable all filtering
 		$folders = $this->_folders($path, '.', false, true, array(), array());
-		
+
 		foreach ($folders as $folder) {
 			if (is_link($folder)) {
 				// Don't descend into linked directories, just delete the link.
@@ -421,8 +421,8 @@ class JCacheStorageFile extends JCacheStorage
 		}
 		return $ret;
 	}
-	
-	
+
+
 	/**
 	 * Function to strip additional / or \ in a path name
 	 *
@@ -445,7 +445,7 @@ class JCacheStorageFile extends JCacheStorage
 		return $path;
 	}
 
-	
+
 	/**
 	 * Utility function to quickly read the files in a folder.
 	 *
@@ -475,7 +475,7 @@ class JCacheStorageFile extends JCacheStorage
 
 		// read the source directory
 		$handle = opendir($path);
-		if(count($excludefilter)) {
+		if (count($excludefilter)) {
 			$excludefilter = '/('. implode('|', $excludefilter) .')/';
 		} else {
 			$excludefilter = '';
@@ -507,10 +507,10 @@ class JCacheStorageFile extends JCacheStorage
 			}
 		}
 		closedir($handle);
-		
+
 		return $arr;
 	}
-	
+
 /**
 	 * Utility function to read the folders in a folder.
 	 *
@@ -542,8 +542,8 @@ class JCacheStorageFile extends JCacheStorage
 
 		// read the source directory
 		$handle = opendir($path);
-		
-		if(count($excludefilter)) {
+
+		if (count($excludefilter)) {
 			$excludefilter_string = '/('. implode('|', $excludefilter) .')/';
 		} else {
 			$excludefilter_string = '';
@@ -578,5 +578,5 @@ class JCacheStorageFile extends JCacheStorage
 
 		return $arr;
 	}
-	
+
 }

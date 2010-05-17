@@ -270,7 +270,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JFactory::$config = $config;		// put the stub in place
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once(JPATH_BASE.'/libraries/joomla/user/user.php');
+		require_once JPATH_BASE.'/libraries/joomla/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
@@ -311,7 +311,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JFactory::$config = $config;		// put the stub in place
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once(JPATH_BASE.'/libraries/joomla/user/user.php');
+		require_once JPATH_BASE.'/libraries/joomla/user/user.php';
 		$userObject = new JUser;
 
 
@@ -382,7 +382,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JFactory::$config = $config;		// put the stub in place
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once(JPATH_BASE.'/libraries/joomla/user/user.php');
+		require_once JPATH_BASE.'/libraries/joomla/user/user.php';
 		$userObject = new JUser;
 
 

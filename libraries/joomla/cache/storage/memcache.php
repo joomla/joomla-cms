@@ -54,8 +54,8 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	object	memcache connection object
 	 * @since	1.5
 	 */
-	private function getConnection() 
-	{	
+	private function getConnection()
+	{
 		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) return false;
 
 		$config = &JFactory::getConfig();
@@ -71,14 +71,14 @@ class JCacheStorageMemcache extends JCacheStorage
 		// Create the memcache connection
 		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
-				
-		$memcachetest = @self::$_db->connect($host, $port);
-		if($memcachetest == false) {
+
+		$memcachetest = @self::$_db->connect($server['host'], $server['port']);
+		if ($memcachetest == false) {
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
 		//$db->connect($server['host'], $server['port']) or die ("Could not connect");
 
-		/**if(false === self::$_db->get($this->_hash.'init-time')) {
+		/**if (false === self::$_db->get($this->_hash.'init-time')) {
 
 			self::$_db->set($this->_hash.'init-time', time(), 0, 0);
 			self::$_db->set($this->_hash.'hits',   0, 0, 0);
@@ -87,9 +87,9 @@ class JCacheStorageMemcache extends JCacheStorage
 			self::$_db->set($this->_hash.'count', 0, 0, 0);
 			self::$_db->set($this->_hash.'count-gzip', 0, 0, 0);
 		}*/
-		
+
 		// memcahed has no list keys, we do our own accounting, initalise key index
-		if(self::$_db->get($this->_hash.'-index') === false) {
+		if (self::$_db->get($this->_hash.'-index') === false) {
 			$empty = array();
 			self::$_db->set($this->_hash.'-index', $empty , $this->_compress, 0);
 		}
@@ -264,16 +264,16 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise.
 	 */
 	public static function test()
-	{	
+	{
 		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) return false;
-		
-			$config = &JFactory::getConfig();	
+
+			$config = &JFactory::getConfig();
 			$host = $config->get('memcache_server_host', 'localhost');
 			$port = $config->get('memcache_server_port',11211);
-			
+
 			$memcache = new Memcache;
 			$memcachetest = @$memcache->connect($host, $port);
-  
+
 			 if (!$memcachetest)
 			 {
 			 		return false;
@@ -356,7 +356,7 @@ class JCacheStorageMemcache extends JCacheStorage
 
 		$cache_id = $this->_getCacheId($id, $group).'_lock';
 
-		if(!$this->lockindex()) return false;
+		if (!$this->lockindex()) return false;
 
 		$index = self::$_db->get($this->_hash.'-index');
 		if ($index === false) {$index = array();}
