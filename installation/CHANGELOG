@@ -63,6 +63,7 @@ $ Language fixes
  # Fixed bug where you could not add a new Adminstrator module.
  # Fixed issue [#20454] Menu item filter includes archived state (Elin Waring).
  # Fixed bug in com_content category view, default layouts where date was not honouring option settings.
+ # Fixed issue [#20316] jhtml category warning (Phil Snell).
 
 16-May-2010 Mark Dexter
 # [#20312] Access Control not implemented in menus
