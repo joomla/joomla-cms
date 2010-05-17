@@ -34,17 +34,17 @@ class ContentViewCategory extends JView
 
 	function display($tpl = null)
 	{
-		$app =& JFactory::getApplication();
-		$user =& JFactory::getUser();
+		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
 
 		// Get some data from the models
-		$state =& $this->get('State');
-		$params =& $state->params;
-		$items =& $this->get('Items');
-		$category =& $this->get('Category');
-		$children =& $this->get('Children');
-		$parent =& $this->get('Parent');
-		$pagination =& $this->get('Pagination');
+		$state		= $this->get('State');
+		$params		= $state->params;
+		$items		= $this->get('Items');
+		$category	= $this->get('Category');
+		$children	= $this->get('Children');
+		$parent		= $this->get('Parent');
+		$pagination = $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -58,20 +58,20 @@ class ContentViewCategory extends JView
 
 		if ($parent == false) {
 			//TODO Raise error for missing parent category here
-			}
+		}
 
 		// Check whether category access level allows access.
-		$user =& JFactory::getUser();
-		$groups = $user->authorisedLevels();
+		$user	= JFactory::getUser();
+		$groups	= $user->authorisedLevels();
 		if (!in_array($category->access, $groups)) {
 			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
 		}
 
 		// PREPARE THE DATA
 		// Get the metrics for the structural page layout.
-		$numLeading = $params->def('num_leading_articles', 1);
-		$numIntro = $params->def('num_intro_articles', 4);
-		$numLinks = $params->def('num_links', 4);
+		$numLeading	= $params->def('num_leading_articles', 1);
+		$numIntro	= $params->def('num_intro_articles', 4);
+		$numLinks	= $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
@@ -85,7 +85,7 @@ class ContentViewCategory extends JView
 
 			$item->event = new stdClass();
 
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 
 			// Ignore content plugins on links.
 			if ($i < $numLeading + $numIntro) {
@@ -134,7 +134,7 @@ class ContentViewCategory extends JView
 			}
 		}
 
-		$children = array($category->id  => $children);
+		$children = array($category->id => $children);
 
 		$this->assignRef('maxLevel', $params->get('maxLevel', -1));
 		$this->assignRef('state', $state);
@@ -156,42 +156,47 @@ class ContentViewCategory extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app =& JFactory::getApplication();
-		$menus =& JSite::getMenu();
-		$pathway =& $app->getPathway();
-		$title = null;
+		$app		= JFactory::getApplication();
+		$menus		= JSite::getMenu();
+		$pathway	= $app->getPathway();
+		$title		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else {
+		} else {
 			$this->params->def('page_heading', JText::_('COM_CONTENT_DEFAULT_PAGE_TITLE'));
 		}
+
 		$id = @$menu->query['id'];
+
 		if ($menu && $menu->query['view'] != 'article' && $id != $this->category->id) {
 			$this->params->set('page_subheading', $this->category->title);
 			$path = array($this->category->title  => '');
 			$category = $this->category->getParent();
+
 			while ($id != $category->id && $category->id > 1) {
 				$path[$category->title] = ContentHelperRoute::getCategoryRoute($category->id);
 				$category = $category->getParent();
 			}
+
 			$path = array_reverse($path);
+
 			foreach ($path as $title => $link) {
 				$pathway->addItem($title, $link);
 			}
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0)) {
+		} elseif ($app->getCfg('sitename_pagetitles', 0)) {
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->category->metadesc) {
@@ -211,11 +216,13 @@ class ContentViewCategory extends JView
 		}
 
 		$mdata = $this->category->metadata->toArray();
+
 		foreach ($mdata as $k => $v) {
 			if ($v) {
 				$this->document->setMetadata($k, $v);
 			}
 		}
+
 		// Add feed links
 		if ($this->params->get('show_feed_link', 1)) {
 			$link = '&format=feed&limitstart=';

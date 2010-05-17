@@ -355,12 +355,12 @@
 		</field>
 
 		<field
-			name="show_date"
+			name="list_show_date"
 			type="list"
-			default="hide"
+			default="0"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC">
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>

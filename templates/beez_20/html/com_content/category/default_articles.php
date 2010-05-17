@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::core();
 
@@ -20,18 +20,23 @@ $listDirn	= $this->state->get('list.direction');
 ?>
 
 <?php if (empty($this->items)) : ?>
-	<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+
+<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+
 <?php else : ?>
+
 <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide') :?>
+	<?php if ($this->params->get('filter_field') != 'hide') : ?>
 	<fieldset class="filters">
-	<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
+		<legend class="element-invisible">
+			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
+		</legend>
+
 		<div class="filter-search">
 			<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&nbsp;'; ?></label>
 			<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 	<?php endif; ?>
-
 
 	<?php if ($this->params->get('show_pagination_limit')) : ?>
 		<div class="display-limit">
@@ -39,65 +44,75 @@ $listDirn	= $this->state->get('list.direction');
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
 	<?php endif; ?>
+
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
 	</fieldset>
 	<?php endif; ?>
 
-<table class="category">
-	<?php if ($this->params->get('show_headings')) :?>
-	<thead><tr>
+	<table class="category">
+		<?php if ($this->params->get('show_headings')) :?>
+		<thead>
+			<tr>
 
-	<?php //echo $this->params->get('list_show_title'); ?>
-		<?php if ($this->params->get('list_show_title',1)) : ?>
-		<th class="list-title" id="tableOrdering">
-			<?php  echo JHTML::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
-		</th>
-		<?php endif; ?>
-		<?php if ($this->params->get('list_show_date',1)) : ?>
-			<th class="list-date" id="tableOrdering2">
-				<?php echo JHTML::_('grid.sort', 'COM_CONTENT_'.$this->params->get('show_date').'_DATE', 'a.created', $listDirn, $listOrder); ?>
-			</th>
-		<?php endif; ?>
-		<?php if ($this->params->get('list_show_author',1)) : ?>
-			<th class="list-author" id="tableOrdering3">
-				<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $listDirn, $listOrder); ?>
-			</th>
-		<?php endif; ?>
-		<?php if ($this->params->get('list_show_hits',1)) : ?>
-			<th class="list-hits" id="tableOrdering4">
-				<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-			</th>
-		<?php endif; ?>
-	</tr></thead>
-	<?php endif; ?>
-	<tbody>
+				<?php if ($this->params->get('list_show_title',1)) : ?>
+				<th class="list-title" id="tableOrdering">
+					<?php  echo JHTML::_('grid.sort', 'COM_CONTENT_HEADING_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
+				</th>
+				<?php endif; ?>
 
-		<?php foreach ($this->items as $i => &$article) : ?>
+				<?php if ($date = $this->params->get('list_show_date')) : ?>
+				<th class="list-date" id="tableOrdering2">
+					<?php echo JHTML::_('grid.sort', 'COM_CONTENT_'.$date.'_DATE', 'a.created', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('list_show_author',1)) : ?>
+				<th class="list-author" id="tableOrdering3">
+					<?php echo JHTML::_('grid.sort', 'JAUTHOR', 'author_name', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
+
+				<?php if ($this->params->get('list_show_hits',1)) : ?>
+				<th class="list-hits" id="tableOrdering4">
+					<?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+				</th>
+				<?php endif; ?>
+			</tr>
+		</thead>
+		<?php endif; ?>
+
+		<tbody>
+
+			<?php foreach ($this->items as $i => &$article) : ?>
 			<tr class="cat-list-row<?php echo $i % 2; ?>">
 
 				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
-				<?php if ($this->params->get('list_show_title',1)) : ?>
-				<td class="list-title">
-					<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
-					<?php echo $this->escape($article->title); ?></a>
-				</td>
-				<?php endif; ?>
-				<?php if ($this->params->get('list_show_date',1)) : ?>
+					<?php if ($this->params->get('list_show_title',1)) : ?>
+					<td class="list-title">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
+							<?php echo $this->escape($article->title); ?></a>
+					</td>
+					<?php endif; ?>
+
+					<?php if ($this->params->get('list_show_date')) : ?>
 					<td class="list-date">
 						<?php echo JHTML::_('date',$article->displayDate, $this->escape(
 						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
 					</td>
-				<?php endif; ?>
-				<?php if ($this->params->get('list_show_author',1)) : ?>
+					<?php endif; ?>
+
+					<?php if ($this->params->get('list_show_author',1)) : ?>
 					<td class="list-author">
 						<?php echo $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$article->created_by),$article->author_name) : $article->author_name; ?>
 					</td>
-				<?php endif; ?>
-				<?php if ($this->params->get('list_show_hits',1)) : ?>
+					<?php endif; ?>
+
+					<?php if ($this->params->get('list_show_hits',1)) : ?>
 					<td class="list-hits">
 						<?php echo $article->hits; ?>
 					</td>
-				<?php endif; ?>
+					<?php endif; ?>
+
 				<?php else : ?>
 				<td>
 					<?php
@@ -114,23 +129,24 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
 				</td>
 				<?php endif; ?>
+
 			</tr>
-		<?php endforeach; ?>
-	</tbody>
+			<?php endforeach; ?>
+		</tbody>
 	</table>
 
-<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
+	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 	<div class="pagination">
-
 
 		<?php if ($this->params->def('show_pagination_results', 1)) : ?>
 		 	<p class="counter">
 				<?php echo $this->pagination->getPagesCounter(); ?>
 			</p>
 		<?php  endif; ?>
-				<?php echo $this->pagination->getPagesLinks(); ?>
+
+		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
-<?php endif; ?>
+	<?php endif; ?>
 
 	<!-- @TODO add hidden inputs -->
 	<input type="hidden" name="filter_order" value="" />
