@@ -36,8 +36,8 @@ abstract class JHtmlCategory
 	public static function options($extension, $config = array('filter.published' => array(0,1)))
 	{
 		$hash = md5($extension.'.'.serialize($config));
-		if (!isset(self::$items[$hash]))
-		{
+
+		if (!isset(self::$items[$hash])) {
 			$config	= (array) $config;
 			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
@@ -66,8 +66,10 @@ abstract class JHtmlCategory
 
 			// Assemble the list options.
 			self::$items[$hash] = array();
+
 			foreach ($items as &$item) {
-				$item->title = str_repeat('- ', $item->level - 1).$item->title;
+				$repeat = ( $item->level - 1 >= 0 ) ? $item->level - 1 : 0;
+				$item->title = str_repeat('- ', $repeat).$item->title;
 				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
