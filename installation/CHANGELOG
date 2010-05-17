@@ -55,6 +55,7 @@ $ Language fixes
  # Fixed issue [#20292] Cannot change a menu type that is set to alias.
  # Fixed issue [#20172] Various errors during module saving in backend.
  # Fixed bug where you could not add a new Adminstrator module.
+ # Fixed issue [#20454] Menu item filter includes archived state (Elin Waring).
 
 16-May-2010 Mark Dexter
 # [#20312] Access Control not implemented in menus
