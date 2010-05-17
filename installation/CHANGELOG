@@ -36,6 +36,7 @@ $ Fixed some beez language strings + a CSS in bluestork
 $ Language fixes
 
 17-May-2010 Christophe Demko
+ # Fix sample_data.sql
  # Rename bad named images
  # Fix [#20300] Article archive
  ^ Ordering of toolbar icons for some views
