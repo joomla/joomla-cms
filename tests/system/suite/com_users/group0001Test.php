@@ -26,7 +26,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->click("link=Save & Close");
     $this->waitForPageToLoad("30000");
     try {
-        $this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
+        $this->assertTrue($this->isTextPresent("successfully saved"), 'Save message not shown');
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }

@@ -141,7 +141,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("cb6");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		sleep(2);
-		$this->assertTrue((bool)preg_match("/^Are you sure you want to delete\.$/",$this->getConfirmation()));
+		$this->assertTrue((bool)preg_match("/^Are you sure you want to delete/",$this->getConfirmation()));
 
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Menu type successfully deleted"));

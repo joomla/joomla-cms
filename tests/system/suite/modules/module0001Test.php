@@ -32,7 +32,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//img[@alt='Published']");
+    	$this->click("cb0");
+    	$this->click("//li[@id='toolbar-unpublish']/a/span");
 		$this->waitForPageToLoad("30000");
 
 		echo ("Go back to front end and check that login is not shown"."\n");
@@ -47,7 +48,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//img[@alt='Unpublished']");
+    	$this->click("cb0");
+    	$this->click("//li[@id='toolbar-publish']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 	}
@@ -65,7 +67,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//img[@alt='Published']");
+    	$this->click("cb0");
+    	$this->click("//li[@id='toolbar-unpublish']/a/span");
 		$this->waitForPageToLoad("30000");
 
 		$this->gotoSite();
@@ -80,7 +83,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-		$this->click("//img[@alt='Unpublished']");
+		$this->click("cb0");
+    	$this->click("//li[@id='toolbar-publish']/a/span");
 		$this->waitForPageToLoad("30000");
 
 		echo ("Go to front end and check that login form is present"."\n");

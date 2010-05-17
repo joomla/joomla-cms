@@ -233,7 +233,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."));
+			$this->assertTrue($this->isTextPresent("successfully saved"));
 			echo "Creation of " . $groupName . " succeeded.\n";
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
@@ -324,7 +324,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			try
 			{
-				$this->assertTrue($this->isTextPresent("Item successfully saved."), "Save success text not present, SeleniumTestCase line 327");
+				$this->assertTrue($this->isTextPresent("successfully saved"), "Save success text not present, SeleniumTestCase line 327");
 				$this->assertFalse($this->isTextPresent("ERROR"), "Error message present, SeleniumTestCase line 328");
 				echo "Item successfully saved.\n";
 			}
@@ -342,7 +342,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			try
 			{
-				$this->assertTrue(($this->isTextPresent("DELETED") OR $this->isTextPresent("removed") OR $this->isTextPresent("trashed")), 'Delete confirm text wrong, SeleniumJoomlaTestCase line 345');
+				$this->assertTrue(($this->isTextPresent("deleted") OR $this->isTextPresent("removed") OR $this->isTextPresent("trashed")), 'Delete confirm text wrong, SeleniumJoomlaTestCase line 345');
 				$this->assertFalse($this->isTextPresent("ERROR"), "Error message present, SeleniumTestCase line 346");
 				echo "Deletion of item(s) succeeded.\n";
 			}

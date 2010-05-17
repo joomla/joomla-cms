@@ -52,12 +52,12 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		print("Go to Sample Data" . "\n");
-		$this->click("link=Sample Data");
+		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Sample Sites"));
 		$this->click("link=Home");
 		print("Load search" . "\n");
-		$this->click("link=Search");
+		$this->type("mod_search_searchword", "search");
 		$this->waitForPageToLoad("30000");
 
 		$this->click("link=Home");

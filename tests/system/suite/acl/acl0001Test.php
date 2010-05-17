@@ -27,7 +27,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
+			$this->assertTrue($this->isTextPresent("successfully saved"), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -44,7 +44,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
+			$this->assertTrue($this->isTextPresent("successfully saved"), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -102,12 +102,13 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->type("jform_password", "password");
 		$this->type("jform_password2", "password");
 		$this->type("jform_email", "TestUser" . $saltUser . "@test.com");
-		$this->click("//form[@id='user-form']/div[2]/fieldset/ul/li[6]/input");
+		echo("Put in Article Administrator group \n");
+		$this->click("1group_13");
 		$this->click("link=Save & Close");
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Item successfully saved."), 'Save message not shown');
+			$this->assertTrue($this->isTextPresent("successfully saved"), 'Save message not shown');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{

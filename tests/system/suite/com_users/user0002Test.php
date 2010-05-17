@@ -26,7 +26,7 @@ class User0002Test extends SeleniumJoomlaTestCase
 
     echo("Verify existence of new user.\n");
     try {
-        $this->assertTrue($this->isTextPresent("Item successfully saved."));
+        $this->assertTrue($this->isTextPresent("User successfully saved."));
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
@@ -54,7 +54,9 @@ class User0002Test extends SeleniumJoomlaTestCase
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("link=Logout");
+	$this->click("link=Login");
+    $this->waitForPageToLoad("30000");
+    $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
 	$this->gotoAdmin();
 	$this->doAdminLogin();
