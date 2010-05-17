@@ -54,19 +54,20 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('extension_id'); ?></li>
 			<?php endif; ?>
 			</ul>
-
 			<!-- Plugin metadata -->
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
-					<label>
+					<label id="jform_extdescription-lbl">
 						<?php echo JText::_('COM_PLUGINS_DESCRIPTION'); ?>
-					</label>
-					<span class="readonly plg-desc"><?php echo JText::_($text); ?></span>
+						</label>
+						<div class="clr"></div>
+						<span class="readonly plg-desc"><?php echo JText::_($text); ?></span>
+					
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>
 			<?php endif; ?>
-
+			
 		</fieldset>
 	</div>
 
