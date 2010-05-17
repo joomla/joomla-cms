@@ -64,11 +64,13 @@ class ContentViewFeatured extends JView
 			if ($this->state->get('filter.published') != -1) {
 				JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
 			}
-			JToolBarHelper::custom('featured.delete','remove.png','remove_f2.png','JTOOLBAR_REMOVE', true);
-
 		}
 		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
 			JToolBarHelper::custom('featured.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::custom('featured.delete','remove.png','remove_f2.png','JTOOLBAR_REMOVE', true);
+
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

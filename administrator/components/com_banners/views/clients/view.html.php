@@ -77,15 +77,15 @@ class BannersViewClients extends JView
 				}
 			}
 		}
+		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			JToolBarHelper::custom('clients.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+		}
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('clients.trash','JTOOLBAR_TRASH');
 		}
-		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('clients.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
-		}
+		
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_banners');
