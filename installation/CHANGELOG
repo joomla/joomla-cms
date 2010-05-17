@@ -49,6 +49,7 @@ $ Language fixes
  # Fixed issue [#20435] single newsfeed error.
  # Fixed issue [#20287] Rendering config.xml files generates php warning [patch included] (Jonatas Braganca).
  # Fixed issue [#20410] Module Manager for Admin modules includes Site only options (Elin Waring).
+ # Fixed issue [#20292] Cannot change a menu type that is set to alias.
 
 16-May-2010 Mark Dexter
 # [#20312] Access Control not implemented in menus
