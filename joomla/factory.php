@@ -190,7 +190,6 @@ abstract class JFactory
 		jimport('joomla.cache.cache');
 
 		$cache = &JCache::getInstance($handler, $options);
-		$cache->setCaching($conf->get('caching'));
 
 		JFactory::$cache[$hash] = $cache;
 		return JFactory::$cache[$hash];

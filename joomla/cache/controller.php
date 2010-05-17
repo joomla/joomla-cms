@@ -42,7 +42,7 @@ class JCacheController
 		$this->options = $this->cache->_options;
 
 		// Overwrite default options with given options
-		foreach ($options as $option=>$value) {
+		foreach ($options AS $option=>$value) {
 			if (isset($options[$option])) {
 				$this->options[$option] = $options[$option];
 			}
@@ -67,7 +67,7 @@ class JCacheController
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		JCacheController::addIncludePath(JPATH_LIBRARIES.'/joomla/cache/controller');
+		JCacheController::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'controller');
 
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
@@ -135,31 +135,61 @@ class JCacheController
 	}
 
 	/**
-	 * Store the cached data by id and group
+	 * Get stored cached data by id and group
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
-	 * @param	mixed	$data	The data to store
-	 * @return	boolean	True if cache stored
+	 * @return	mixed	False on no result, cached object otherwise
 	 * @since	1.6
 	 */
 	public function get($id, $group=null)
-	{
-		$data = unserialize($this->cache->get($id, $group=null));
+	{	
+		$data = false;
+		$data = $this->cache->get($id, $group);
+
+		if ($data === false) {
+			$locktest = new stdClass;
+			$locktest->locked = null;
+			$locktest->locklooped = null;
+			$locktest = $this->cache->lock($id, $group);
+			if ($locktest->locked == true && $locktest->locklooped == true) {
+				$data = $this->cache->get($id, $group);
+			}
+			if ($locktest->locked == true) $this->cache->unlock($id, $group);
+		}
+		
+		// check again, we might got it from second attempt
+		if ($data !== false) {
+			$data = unserialize($data);
+		}
 		return $data;
 	}
 
 	/**
-	 * Store the cached data by id and group
+	 * Store data to cache by id and group
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @param	mixed	$data	The data to store
-	 * @return	boolean	True if cache stored
+	 * @return	boolean	True if cache was stored
 	 * @since	1.6
 	 */
 	public function store($data, $id, $group=null)
-	{
-		return $this->cache->store(serialize($data), $id, $group=null);
+	{	
+		$locktest = new stdClass;
+		$locktest->locked = null;
+		$locktest->locklooped = null;
+		
+		$locktest = $this->cache->lock($id, $group);
+		
+		if ($locktest->locked == false && $locktest->locklooped == true) {
+			$locktest = $this->cache->lock($id, $group);
+		}
+		
+		$sucess = $this->cache->store(serialize($data), $id,  $group);
+		
+		if ($locktest->locked == true) $this->cache->unlock($id, $group);
+		
+		return $sucess;
 	}
 }

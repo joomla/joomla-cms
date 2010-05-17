@@ -53,6 +53,11 @@ class JDocumentHTML extends JDocument
 	 * Array of parsed template JDoc tags
 	 */
 	protected $_template_tags = array();
+	
+	/**
+	 * Integer with caching setting
+	 */
+	protected $_caching = null;
 
 	/**
 	 * Class constructor
@@ -182,12 +187,12 @@ class JDocumentHTML extends JDocument
 	{
 		// If no type is specified, return the whole buffer
 		if ($type === null) {
-			return $this->_buffer;
+			return parent::$_buffer;
 		}
 
 		$result = null;
-		if (isset($this->_buffer[$type][$name])) {
-			return $this->_buffer[$type][$name];
+		if (isset(parent::$_buffer[$type][$name])) {
+			return parent::$_buffer[$type][$name];
 		}
 
 		// If the buffer has been explicitly turned off don't display or attempt to render
@@ -195,10 +200,24 @@ class JDocumentHTML extends JDocument
 			return null;
 		}
 
-		$renderer = &$this->loadRenderer($type);
-		$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
-
-		return $this->_buffer[$type][$name];
+		$renderer = $this->loadRenderer($type);
+		
+			if ($this->_caching == 1) {
+				$cache = JFactory::getCache('_template','');
+				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
+				$cbuffer = $cache->get('cbuffer');
+				if (isset($cbuffer[$hash])) {
+					return $cbuffer[$hash];
+				} else {
+					$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+					$cbuffer[$hash] = parent::$_buffer[$type][$name];
+					$cache->store($cbuffer, 'cbuffer');
+				}
+				
+			} else {
+				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
+			}
+		return parent::$_buffer[$type][$name];
 	}
 
 	/**
@@ -216,7 +235,7 @@ class JDocumentHTML extends JDocument
 			$options['name'] = (isset($args[2])) ? $args[2] : null;
 		}
 
-		$this->_buffer[$options['type']][$options['name']] = $content;
+		parent::$_buffer[$options['type']][$options['name']] = $content;
 	}
 
 	/**
@@ -239,14 +258,26 @@ class JDocumentHTML extends JDocument
 	 * @return	The rendered data
 	 */
 	function render($caching = false, $params = array())
-	{
-		if (!empty($this->_template)) {
-			$data = $this->_renderTemplate();
-		} else {
-			$this->parse($params);
-			$data = $this->_renderTemplate();
-		}
-
+	{	
+		$this->_caching = $caching;
+		/*if ($caching == 1) {
+			$cache = JFactory::getCache('template','callback');
+			if (!empty($this->_template)) {
+				$id = md5(serialize(array($this->_template,$this->_template_tags,$params)));
+				$data = $cache->get(array($this,'_renderTemplate'), null , $id, false);
+			} else {
+				$this->parse($params);
+				$id = md5(serialize(array($this->_template,$this->_template_tags,$params)));
+				$data = $cache->get(array($this,'_renderTemplate'), null , $id, false);
+			}
+		} else {*/
+			if (!empty($this->_template)) {
+				$data = $this->_renderTemplate();
+			} else {
+				$this->parse($params);
+				$data = $this->_renderTemplate();
+			}
+		//}
 		parent::render();
 		return $data;
 	}
@@ -268,7 +299,7 @@ class JDocumentHTML extends JDocument
 		{
 			// odd parts (modules)
 			$name		= strtolower($words[$i]);
-			$words[$i]	= ((isset($this->_buffer['modules'][$name])) && ($this->_buffer['modules'][$name] === false)) ? 0 : count(JModuleHelper::getModules($name));
+			$words[$i]	= ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false)) ? 0 : count(JModuleHelper::getModules($name));
 		}
 
 		$str = 'return '.implode(' ', $words).';';
@@ -415,13 +446,15 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @return string rendered template
 	 */
-	protected function _renderTemplate() {
+	private function _renderTemplate() { 
 		$replace = array();
 		$with = array();
+		
 		foreach($this->_template_tags AS $jdoc => $args) {
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
+		
 		return str_replace($replace, $with, $this->_template);
 	}
 }
