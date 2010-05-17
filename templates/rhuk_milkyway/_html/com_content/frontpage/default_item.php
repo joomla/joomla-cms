@@ -87,7 +87,7 @@ endif; ?>
 <tr>
 	<td width="70%"  valign="top" colspan="2">
 		<span class="small">
-			<?php JText::printf( 'WRITTEN_BY', ($this->escape($this->item->created_by_alias) ? $this->escape($this->item->created_by_alias) : $this->escape($this->item->author)) ); ?>
+			<?php JText::printf( 'COM_CONTENT_WRITTEN_BY', ($this->escape($this->item->created_by_alias) ? $this->escape($this->item->created_by_alias) : $this->escape($this->item->author)) ); ?>
 		</span>
 		&nbsp;&nbsp;
 	</td>
@@ -133,11 +133,11 @@ endif; ?>
 	<td  colspan="2">
 		<a href="<?php echo $this->item->readmore_link; ?>" class="readon<?php echo $this->escape($this->item->params->get('pageclass_sfx')); ?>">
 			<?php if ($this->item->readmore_register) :
-				echo JText::_('Register to read more...');
+				echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
 			elseif ($readmore = $this->item->params->get('readmore')) :
 				echo $readmore;
 			else :
-				echo JText::sprintf('READ_MORE');
+				echo JText::sprintf('COM_CONTENT_READ_MORE');
 			endif; ?></a>
 	</td>
 </tr>

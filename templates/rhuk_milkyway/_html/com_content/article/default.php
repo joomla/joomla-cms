@@ -93,7 +93,7 @@ endif; ?>
 <tr>
 	<td valign="top">
 		<span class="small">
-			<?php JText::printf( 'WRITTEN_BY', ($this->escape($this->article->created_by_alias) ? $this->escape($this->article->created_by_alias) : $this->escape($this->article->author)) ); ?>
+			<?php JText::printf( 'COM_CONTENT_WRITTEN_BY', ($this->escape($this->article->created_by_alias) ? $this->escape($this->article->created_by_alias) : $this->escape($this->article->author)) ); ?>
 		</span>
 		&nbsp;&nbsp;
 	</td>

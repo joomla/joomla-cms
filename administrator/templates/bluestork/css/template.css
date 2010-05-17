@@ -785,6 +785,7 @@ ul.adminformlist,
 ul.adminformlist li {
 	margin: 0;
 	padding: 0;
+	list-style: none;
 }
 /* Testing this
 fieldset  {
