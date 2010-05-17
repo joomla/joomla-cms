@@ -102,12 +102,12 @@ class JCacheStorage extends JObject
 			$conf =& JFactory::getConfig();
             $handler = $conf->get('cache_handler', 'file');
         }
-        
+
 		if (is_null($now)) {
 			$now = time();
 		}
-		
-		$options['now'] = $now;	
+
+		$options['now'] = $now;
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 

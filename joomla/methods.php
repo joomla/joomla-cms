@@ -111,7 +111,7 @@ class JText
 	 * @param	boolean			To indicate that the string will be push in the javascript language store
 	 * @return	string			The translated string or the key is $script is true
 	 * @example	<script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script> will generate an alert message containing 'Default'
-	 * @example	<?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string	 
+	 * @example	<?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string
 	 * @since	1.5
 	 *
 	 */
@@ -153,10 +153,10 @@ class JText
 	 *					-script is a boolean to indicate that the string will be push in the javascript language store
 	 * @return	string	The translated strings or the key if 'script' is true in the array of options
 	 * @example	<script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true));?>'));</script> will generate an alert message containing '1 plugin successfully disabled'
-	 * @example	<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string	 
+	 * @example	<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string
 	 * @since	1.6
 	 */
-	 
+
 	public static function plural($string, $n)
 	{
 		$lang = JFactory::getLanguage();

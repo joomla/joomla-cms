@@ -247,9 +247,9 @@ class JInstallerModule extends JAdapterInstance
 		// run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'preflight'))
 		{
-			if($this->parent->manifestClass->preflight($this->route, $this) === false) 
+			if($this->parent->manifestClass->preflight($this->route, $this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -340,7 +340,7 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_ROLLBACK', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
 				return false;
 			}
-				
+
 			// set the insert id
 			$row->extension_id = $db->insertid();
 
@@ -364,7 +364,7 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_SQL_ERROR', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
 				return false;
 			}
-				
+
 			// Set the schema version to be the latest update version
 			if($this->manifest->update instanceof JXMLElement) {
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
@@ -385,9 +385,9 @@ class JInstallerModule extends JAdapterInstance
 		// Start Joomla! 1.6
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route)) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,$this->route))
 		{
-			if($this->parent->manifestClass->{$this->route}($this) === false) 
+			if($this->parent->manifestClass->{$this->route}($this) === false)
 			{
 				// Install failed, rollback changes
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_CUSTOM_INSTALL_FAILURE'));
@@ -414,7 +414,7 @@ class JInstallerModule extends JAdapterInstance
 		// And now we run the postflight
 		ob_start();
 		ob_implicit_flush(false);
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'postflight'))
 		{
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
@@ -623,7 +623,7 @@ class JInstallerModule extends JAdapterInstance
 		ob_start();
 		ob_implicit_flush(false);
 		// run uninstall if possible
-		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall')) 
+		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'uninstall'))
 		{
 			$this->parent->manifestClass->uninstall($this);
 		}

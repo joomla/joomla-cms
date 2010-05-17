@@ -53,7 +53,7 @@ class JDocumentHTML extends JDocument
 	 * Array of parsed template JDoc tags
 	 */
 	protected $_template_tags = array();
-	
+
 	/**
 	 * Integer with caching setting
 	 */
@@ -201,7 +201,7 @@ class JDocumentHTML extends JDocument
 		}
 
 		$renderer = $this->loadRenderer($type);
-		
+
 			if ($this->_caching == 1) {
 				$cache = JFactory::getCache('_template','');
 				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
@@ -213,7 +213,7 @@ class JDocumentHTML extends JDocument
 					$cbuffer[$hash] = parent::$_buffer[$type][$name];
 					$cache->store($cbuffer, 'cbuffer');
 				}
-				
+
 			} else {
 				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
 			}
@@ -258,7 +258,7 @@ class JDocumentHTML extends JDocument
 	 * @return	The rendered data
 	 */
 	function render($caching = false, $params = array())
-	{	
+	{
 		$this->_caching = $caching;
 		/*if ($caching == 1) {
 			$cache = JFactory::getCache('template','callback');
@@ -446,15 +446,15 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @return string rendered template
 	 */
-	private function _renderTemplate() { 
+	private function _renderTemplate() {
 		$replace = array();
 		$with = array();
-		
+
 		foreach($this->_template_tags AS $jdoc => $args) {
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
-		
+
 		return str_replace($replace, $with, $this->_template);
 	}
 }

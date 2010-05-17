@@ -39,7 +39,7 @@ class JTableLanguage extends JTable
 	 * @var	char
 	 */
 	public $sef;
-	
+
 	/**
 	 * The image prefix.
 	 *

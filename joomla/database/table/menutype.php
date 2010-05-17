@@ -95,7 +95,7 @@ class JTableMenuType extends JTable
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
 				return false;
 			}
-			
+
 			// Verify that no module for this menu are cheched out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
@@ -109,7 +109,7 @@ class JTableMenuType extends JTable
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
 				return false;
 			}
-			
+
 			// Update the menu items
 			$query = $this->_db->getQuery(true);
 			$query->update('#__menu');
@@ -172,7 +172,7 @@ class JTableMenuType extends JTable
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
 				return false;
 			}
-			
+
 			// Verify that no module for this menu are cheched out
 			$query = $this->_db->getQuery(true);
 			$query->select('id');
@@ -186,7 +186,7 @@ class JTableMenuType extends JTable
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), JText::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT')));
 				return false;
 			}
-			
+
 			// Delete the menu items
 			$query = $this->_db->getQuery(true);
 			$query->delete();

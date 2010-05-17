@@ -496,9 +496,9 @@ class JController extends JObject
 		$view->setLayout($viewLayout);
 
 		$view->assignRef('document', $document);
-		
+
 		$conf = &JFactory::getConfig();
-		
+
 		// Display the view
 		if ($cachable && $viewType != 'feed' && $conf->get('caching')) {
 			$option	= JRequest::getCmd('option');

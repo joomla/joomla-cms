@@ -125,17 +125,17 @@ class JCacheControllerPage extends JCacheController
 		// Only attempt to store if page data exists
 		if ($data) {
 			$data = $wrkarounds==false ? $data : JCache::setWorkarounds($data);
-			
+
 			if ($this->_locktest->locked == false) {
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
-			
+
 			$sucess = $this->cache->store($data, $id, $group);
-			
+
 			if ($this->_locktest->locked == true) {
 				$this->cache->unlock($id, $group);
 			}
-			
+
 			return $sucess;
 		}
 		return false;

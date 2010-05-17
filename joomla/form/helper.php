@@ -144,7 +144,7 @@ class JFormHelper
 
 	/**
 	 * Load a class for one of the form's entities of a particular type.
-	 * Currently, it makes sence to use this method for the "field" and "rule" entities 
+	 * Currently, it makes sence to use this method for the "field" and "rule" entities
 	 * (but you can support more entities in your subclass).
 	 *
 	 * @param	string	One of the form entities (field or rule).

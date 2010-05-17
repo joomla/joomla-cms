@@ -143,7 +143,7 @@ class JCacheController
 	 * @since	1.6
 	 */
 	public function get($id, $group=null)
-	{	
+	{
 		$data = false;
 		$data = $this->cache->get($id, $group);
 
@@ -157,7 +157,7 @@ class JCacheController
 			}
 			if ($locktest->locked == true) $this->cache->unlock($id, $group);
 		}
-		
+
 		// check again, we might got it from second attempt
 		if ($data !== false) {
 			$data = unserialize($data);
@@ -175,21 +175,21 @@ class JCacheController
 	 * @since	1.6
 	 */
 	public function store($data, $id, $group=null)
-	{	
+	{
 		$locktest = new stdClass;
 		$locktest->locked = null;
 		$locktest->locklooped = null;
-		
+
 		$locktest = $this->cache->lock($id, $group);
-		
+
 		if ($locktest->locked == false && $locktest->locklooped == true) {
 			$locktest = $this->cache->lock($id, $group);
 		}
-		
+
 		$sucess = $this->cache->store(serialize($data), $id,  $group);
-		
+
 		if ($locktest->locked == true) $this->cache->unlock($id, $group);
-		
+
 		return $sucess;
 	}
 }

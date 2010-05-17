@@ -64,7 +64,7 @@ abstract class JHtmlJGrid
 	 * Returns a state on a grid
 	 *
 	 * @param	array			$states		array of value/state. Each state is an array of the form (task, text, title,html active class, html inactive class)
-	 *										or ('task'=>task, 'text'=>text, 'title'=>title, 'tip'=>boolean, 'active'=>html class, 'inactive'=>html class) 
+	 *										or ('task'=>task, 'text'=>text, 'title'=>title, 'tip'=>boolean, 'active'=>html class, 'inactive'=>html class)
 	 * @param	int				$value		The state value.
 	 * @param	int				$i			The row index
 	 * @param	string|array	$prefix		An optional task prefix or an array of options
@@ -93,7 +93,7 @@ abstract class JHtmlJGrid
 		$tip			= array_key_exists('tip',				$state) ? $state['tip'	]			: (array_key_exists(4,$state) ? $state[4] : false);
 		$active_class	= array_key_exists('active_class',		$state) ? $state['active_class']	: (array_key_exists(5,$state) ? $state[5] : '');
 		$inactive_class	= array_key_exists('inactive_class',	$state) ? $state['inactive_class']	: (array_key_exists(6,$state) ? $state[6] : '');
-		
+
 		return self::action($i, $task, $prefix, $text, $active_title, $inactive_title, $tip, $active_class, $inactive_class, $enabled, $translate, $checkbox);
 	}
 
