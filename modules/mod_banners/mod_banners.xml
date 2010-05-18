@@ -36,11 +36,11 @@
 					label="MOD_BANNERS_FIELD_TARGET_LABEL"
 					description="MOD_BANNERS_FIELD_TARGET_DESC">
 					<option
-						value="0">MOD_BANNERS_VALUE_PARENT</option>
+						value="0">JBROWSERTARGET_PARENT</option>
 					<option
-						value="1">MOD_BANNERS_VALUE_NEWWINDOWWITHBROWSERNAVIGATION</option>
+						value="1">JBROWSERTARGET_NEW</option>
 					<option
-						value="2">MOD_BANNERS_VALUE_NEWWINDOWWITHOUTBROWSERNAVIGATION</option>
+						value="2">JBROWSERTARGET_POPUP</option>
 				</field>
 
 				<field
@@ -60,7 +60,7 @@
 					name="catid"
 					type="category"
 					extension="com_banners"
-					label="MOD_BANNERS_FIELD_CATEGORY_LABEL"
+					label="JCATEGORY"
 					description="MOD_BANNERS_FIELD_CATEGORY_DESC" />
 
 				<field
@@ -70,9 +70,9 @@
 					label="MOD_BANNERS_FIELD_TAG_LABEL"
 					description="MOD_BANNERS_FIELD_TAG_DESC">
 					<option
-						value="0">JNo</option>
+						value="0">JNO</option>
 					<option
-						value="1">JYes</option>
+						value="1">JYES</option>
 				</field>
 				<field
 					name="ordering"

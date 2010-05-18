@@ -45,7 +45,7 @@
 		<field name="catid" type="category"
 			description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			extension="com_weblinks"
-			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL"
+			label="JCATEGORY"
 			required="true"
 		/>
 

@@ -32,7 +32,7 @@
 					name="catid"
 					type="category"
 					extension="com_content"
-					label="MOD_POPULAR_FIELD_CATEGORY_LABEL"
+					label="JCATEGORY"
 					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
 					class="inputbox">
 					<option

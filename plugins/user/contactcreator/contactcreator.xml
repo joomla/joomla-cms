@@ -29,7 +29,7 @@
 				<field name="category" type="category"
 					description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"
 					extension="com_contact"
-					label="PLG_CONTACTCREATOR_FIELD_CATEGORY_LABEL"
+					label="JCATEGORY"
 				/>
 
 				<field name="autopublish" type="radio"

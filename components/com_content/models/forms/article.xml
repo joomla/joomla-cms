@@ -85,7 +85,7 @@
 			name="catid"
 			type="category"
 			extension="com_content"
-			label="JFIELD_CATEGORY_LABEL"
+			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
 			class="inputbox"
 			required="true">

@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 18-May-2010 Jean-Marie Simonet
 # Config fieldset description patch (Thanks you Dennis)
+# Consolidated some strings
+
 
 -------------------- 1.6.0 Beta Release [17-May-2010] ------------------
 
@@ -51,7 +53,7 @@ $ Language fixes
 17-May-2010 Christophe Demko
  $ Fix one string
  # Fix xml files
- # Fix PHP Notice:  Undefined variable: file in /home/cdemko/public_html/trunk/libraries/joomla/installer/adapters/component.php on line 1328
+ # Fix PHP Notice:  Undefined variable: file in libraries/joomla/installer/adapters/component.php on line 1328
  # Fix [#20429] Last Visit Date -1-11-30 00:00:00 When Creating New User (Matt Thomas)
  # Fix PHP Warning:  date(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set()
  # Fix some css for administrator login

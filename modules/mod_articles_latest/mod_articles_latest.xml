@@ -81,7 +81,7 @@
 					name="catid"
 					type="category"
 					extension="com_content"
-					label="MOD_LATEST_NEWS_FIELD_CATEGORY_LABEL"
+					label="JCATEGORY"
 					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
 			</fieldset>
 

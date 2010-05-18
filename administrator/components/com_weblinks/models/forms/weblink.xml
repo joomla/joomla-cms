@@ -16,7 +16,7 @@
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
 
 		<field name="catid" type="category" extension="com_weblinks"
-			label="COM_WEBLINKS_FIELD_CATEGORY_LABEL" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
+			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			class="inputbox"
 		>
 			<option>JOPTION_NO_CATEGORY</option>

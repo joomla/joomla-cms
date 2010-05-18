@@ -33,7 +33,7 @@
 					type="category"
 					extension="com_content"
 					default="0"
-					label="MOD_ARTICLES_NEWS_FIELD_CATEGORY_LABEL"
+					label="JCATEGORY"
 					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC" />
 
 				<field

@@ -62,9 +62,9 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_DESC"
 				>
-					<option value="show">MOD_ARTICLES_CATEGORY_OPTION_SHOWFEATURED_VALUE
+					<option value="show">JSHOW
 					</option>
-					<option value="hide">MOD_ARTICLES_CATEGORY_OPTION_HIDEFEATURED_VALUE
+					<option value="hide">JHIDE
 					</option>
 					<option value="only">MOD_ARTICLES_CATEGORY_OPTION_ONLYFEATURED_VALUE
 					</option>
@@ -89,7 +89,7 @@
 
 				<field name="catid" type="category" extension="com_content"
 					multiple="true" size="5"
-					label="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_LABEL"
+					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_DESC"
 				>
 					<option value="">JOPTION_ALL_CATEGORIES</option>
@@ -247,7 +247,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_DESC"
 				>
-					<option value="none">MOD_ARTICLES_CATEGORY_OPTION_NONE_VALUE
+					<option value="none">JNONE
 					</option>
 					<option value="year">MOD_ARTICLES_CATEGORY_OPTION_YEAR_VALUE
 					</option>
@@ -255,7 +255,7 @@
 					</option>
 					<option value="author_name">JAUTHOR
 					</option>
-					<option value="category_title">MOD_ARTICLES_CATEGORY_OPTION_CATEGORY_VALUE
+					<option value="category_title">JCATEGORY
 					</option>
 				</field>
 
@@ -295,9 +295,9 @@
 					label="JDATE"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 				>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
+					<option value="1">JSHOW
 					</option>
-					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_HIDE_VALUE
+					<option value="0">JHIDE
 					</option>
 				</field>
 
@@ -319,12 +319,12 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_DESC" />
 
 				<field name="show_category" type="radio" default="0"
-					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_LABEL"
+					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC"
 				>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
+					<option value="1">JSHOW
 					</option>
-					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_HIDE_VALUE
+					<option value="0">JHIDE
 					</option>
 				</field>
 
@@ -332,9 +332,9 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC"
 				>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
+					<option value="1">JSHOW
 					</option>
-					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_HIDE_VALUE
+					<option value="0">JHIDE
 					</option>
 				</field>
 
@@ -342,9 +342,9 @@
 					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 				>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
+					<option value="1">JSHOW
 					</option>
-					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_HIDE_VALUE
+					<option value="0">JHIDE
 					</option>
 				</field>
 
@@ -352,9 +352,9 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_DESC"
 				>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
+					<option value="1">JSHOW
 					</option>
-					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_HIDE_VALUE
+					<option value="0">JHIDE
 					</option>
 				</field>
 

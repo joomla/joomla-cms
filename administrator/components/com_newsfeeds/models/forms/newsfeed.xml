@@ -32,7 +32,7 @@
 		</field>
 
 		<field name="catid" type="category" extension="com_newsfeeds"
-			label="COM_NEWSFEEDS_FIELD_CATEGORY_LABEL" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
+			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
 			<option value="0">JOPTION_NO_CATEGORY</option>

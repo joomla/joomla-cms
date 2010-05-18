@@ -16,7 +16,7 @@
 				default="0"
 				description="COM_NEWSFEEDS_FIELD_SELECT_CATEGORY_DESC"
 				extension="com_newsfeeds"
-				label="COM_NEWSFEEDS_FIELD_SELECT_CATEGORY_LABEL"
+				label="JCATEGORY"
 				required="true"
 			/>
 		</fieldset>

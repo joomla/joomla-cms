@@ -69,7 +69,7 @@ class SearchViewSearch extends JView
 		$orders[] = JHtml::_('select.option',  'oldest', JText::_('COM_SEARCH_OLDEST_FIRST'));
 		$orders[] = JHtml::_('select.option',  'popular', JText::_('COM_SEARCH_MOST_POPULAR'));
 		$orders[] = JHtml::_('select.option',  'alpha', JText::_('COM_SEARCH_ALPHABETICAL'));
-		$orders[] = JHtml::_('select.option',  'category', JText::_('COM_SEARCH_CATEGORY'));
+		$orders[] = JHtml::_('select.option',  'category', JText::_('JCATEGORY'));
 
 		$lists = array();
 		$lists['ordering'] = JHtml::_('select.genericlist', $orders, 'ordering', 'class="inputbox"', 'value', 'text', $state->get('ordering'));

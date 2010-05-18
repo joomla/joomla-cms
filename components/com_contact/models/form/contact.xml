@@ -43,7 +43,7 @@
 		<field name="catid" type="category"
 			description="JField_Category_Desc"
 			extension="com_contact"
-			label="JField_Category_Label"
+			label="JCATEGORY"
 			required="true"
 		/>
 

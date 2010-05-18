@@ -32,7 +32,7 @@
 		</field>
 
 		<field name="catid" type="category" extension="com_contact"
-			label="JFIELD_CATEGORY_LABEL" description="JFIELD_CATEGORY_DESC"
+			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
 		</field>
