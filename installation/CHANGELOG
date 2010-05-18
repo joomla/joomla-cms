@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 18-May-2010 Christophe Demko
+ ^ Change template default style when installing
  # Fixed issue [#20488] Small CSS issue in config modal (Viet Vu Hoang)
 
 18-May-2010 Jean-Marie Simonet
