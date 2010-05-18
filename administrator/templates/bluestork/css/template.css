@@ -2736,6 +2736,10 @@ table#acl-config td select {
 	font-weight: normal;
 }
 
+label#jform_rules-lbl {
+	float: none;
+}
+
 /* Disabled until verified
 label#jform_rules-lbl {
 	display: none;
