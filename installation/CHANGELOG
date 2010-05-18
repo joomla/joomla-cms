@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-May-2010 Jean-Marie Simonet
+# Config fieldset description patch (Thanks you Dennis)
+
 -------------------- 1.6.0 Beta Release [17-May-2010] ------------------
 
 17-May-2010 Ron Severdia
