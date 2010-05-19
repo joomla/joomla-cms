@@ -35,6 +35,7 @@ $ Fixed image path for category display [20491] Thanks Bill.
 $ Fixed missing Key [20509] Thanks Airton
 $ Added missing strings.
 $ Corrected en-US installation ini file. (Thanks Elin and Phil)
+# Milkyway errors [20499] Thanks Elin.
 
 18-May-2010 Christophe Demko
  ^ Change template default style when installing

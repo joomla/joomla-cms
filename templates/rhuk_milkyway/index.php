@@ -37,6 +37,7 @@ defined('_JEXEC') or die;
 						<div id="logo"></div>
 						<jdoc:include type="modules" name="top" />
 						<jdoc:include type="modules" name="position-12" />
+					
 					</div>
 				</div>
 			</div>
@@ -65,6 +66,7 @@ defined('_JEXEC') or die;
 			<div id="search">
 				<jdoc:include type="modules" name="user4" />
 				<jdoc:include type="modules" name="position-12" />
+				<jdoc:include type="modules" name="position-0" />					
 			</div>
 
 			<div id="pathway">
@@ -100,7 +102,7 @@ defined('_JEXEC') or die;
 						<div id="maincolumn_full">
 						<?php endif; ?>
 							<?php if ($this->countModules('user1')  or  $this->countModules('user2')
-							or ($this->countModules('position-9')  or  $this->countModules('position-10') ) ) : ?>hello
+							or ($this->countModules('position-9')  or  $this->countModules('position-10') ) ) : ?>
 								<table class="nopad user1user2">
 									<tr valign="top">
 										<?php if ($this->countModules('user1') or $this->countModules('position-9')) : ?>
