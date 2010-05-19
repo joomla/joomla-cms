@@ -100,8 +100,8 @@
 			</field>
 
 			<field name="filter_field" type="list"
-				description="COM_CONTENT_AUTHOR_FILTER_LABEL"
-				label="COM_CONTENT_AUTHOR_FILTER_LABEL"
+				description="COM_CONTACT_FILTER_DESC"
+				label="COM_CONTACT_FILTER_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
