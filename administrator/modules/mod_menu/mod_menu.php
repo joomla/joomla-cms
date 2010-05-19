@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Include the module helper classes.
-if (!class_exists('MenuModuleHelper')) {
+if (!class_exists('ModMenuHelper')) {
 	require dirname(__FILE__).'/helper.php';
 }
 

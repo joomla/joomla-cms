@@ -38,6 +38,7 @@ $ Corrected en-US installation ini file. (Thanks Elin and Phil)
 # Milkyway errors [20499] Thanks Elin.
 $ Correcting string value [20482] Thanks Andrea
 + Added Cancel button in profile edit form [19699] Thanks Nate.
+# Corrected admin mod_menu duplicate [20503]. Thanks Greg.
 
 18-May-2010 Christophe Demko
  ^ Change template default style when installing
