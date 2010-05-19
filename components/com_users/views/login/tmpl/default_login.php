@@ -44,7 +44,7 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 		</fieldset>
 
-		<button type="submit" class="button">Submit</button>
+		<button type="submit" class="button"><?php echo JText::_('JLOGIN'); ?></button>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

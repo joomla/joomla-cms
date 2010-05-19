@@ -34,7 +34,7 @@ defined('_JEXEC') or die;
 	<?php endif ; ?>
 
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.logout'); ?>" method="post">
-		<button type="submit" class="button">Logout</button>
+		<button type="submit" class="button"><?php echo JText::_('JLOGOUT'); ?></button>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>
