@@ -66,7 +66,8 @@ $lang->load( 'plg_user_profile', JPATH_ADMINISTRATOR );
 	endforeach;
 	?>
 
-	<button type="submit" class="validate"><span>Submit</span></button>
+	<button type="submit" class="validate"><span><?php echo
+JText::_('JSUBMIT'); ?></span></button>
 
 	<input type="hidden" name="option" value="com_users" />
 	<input type="hidden" name="task" value="profile.save" />
