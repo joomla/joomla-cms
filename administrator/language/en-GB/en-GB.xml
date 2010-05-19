@@ -21,8 +21,6 @@
 		<filename>en-GB.com_categories.sys.ini</filename>
 		<filename>en-GB.com_checkin.ini</filename>
 		<filename>en-GB.com_checkin.sys.ini</filename>
-		<filename>en-GB.com_comments.ini</filename>
-		<filename>en-GB.com_comments.sys.ini</filename>
 		<filename>en-GB.com_config.ini</filename>
 		<filename>en-GB.com_config.sys.ini</filename>
 		<filename>en-GB.com_contact.ini</filename>
@@ -37,7 +35,6 @@
 		<filename>en-GB.com_languages.sys.ini</filename>
 		<filename>en-GB.com_login.ini</filename>
 		<filename>en-GB.com_login.sys.ini</filename>
-		<filename>en-GB.com_mailto.ini</filename>
 		<filename>en-GB.com_mailto.sys.ini</filename>
 		<filename>en-GB.com_media.ini</filename>
 		<filename>en-GB.com_media.sys.ini</filename>
@@ -64,8 +61,6 @@
 		<filename>en-GB.com_wrapper.ini</filename>
 		<filename>en-GB.com_wrapper.sys.ini</filename>
 		<filename>en-GB.ini</filename>
-		<filename>en-GB.mod_comments_summary.ini</filename>
-		<filename>en-GB.mod_comments_summary.sys.ini</filename>
 		<filename>en-GB.mod_custom.ini</filename>
 		<filename>en-GB.mod_custom.sys.ini</filename>
 		<filename>en-GB.mod_feed.ini</filename>
@@ -104,12 +99,11 @@
 		<filename>en-GB.plg_authentication_ldap.sys.ini</filename>
 		<filename>en-GB.plg_authentication_openid.ini</filename>
 		<filename>en-GB.plg_authentication_openid.sys.ini</filename>
-		<filename>en-GB.plg_content_comments.ini</filename>
-		<filename>en-GB.plg_content_comments.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_geshi.ini</filename>
 		<filename>en-GB.plg_content_geshi.sys.ini</filename>
+		<filename>en-GB.plg_content_josdewplayer.ini</filename>
 		<filename>en-GB.plg_content_loadmodule.ini</filename>
 		<filename>en-GB.plg_content_loadmodule.sys.ini</filename>
 		<filename>en-GB.plg_content_pagebreak.ini</filename>
@@ -121,6 +115,7 @@
 		<filename>en-GB.plg_editors_codemirror.ini</filename>
 		<filename>en-GB.plg_editors_codemirror.sys.ini</filename>
 		<filename>en-GB.plg_editors_none.ini</filename>
+		<filename>en-GB.plg_editors_none.sys.ini</filename>
 		<filename>en-GB.plg_editors_tinymce.ini</filename>
 		<filename>en-GB.plg_editors_tinymce.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_article.ini</filename>
@@ -131,6 +126,8 @@
 		<filename>en-GB.plg_editors-xtd_pagebreak.sys.ini</filename>
 		<filename>en-GB.plg_editors-xtd_readmore.ini</filename>
 		<filename>en-GB.plg_editors-xtd_readmore.sys.ini</filename>
+		<filename>en-GB.plg_extension_joomla.ini</filename>
+		<filename>en-GB.plg_extension_joomla.sys.ini</filename>
 		<filename>en-GB.plg_search_categories.ini</filename>
 		<filename>en-GB.plg_search_categories.sys.ini</filename>
 		<filename>en-GB.plg_search_contacts.ini</filename>
@@ -145,6 +142,8 @@
 		<filename>en-GB.plg_system_cache.sys.ini</filename>
 		<filename>en-GB.plg_system_debug.ini</filename>
 		<filename>en-GB.plg_system_debug.sys.ini</filename>
+		<filename>en-GB.plg_system_languagefilter.ini</filename>
+		<filename>en-GB.plg_system_languagefilter.sys.ini</filename>
 		<filename>en-GB.plg_system_log.ini</filename>
 		<filename>en-GB.plg_system_log.sys.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
@@ -161,6 +160,8 @@
 		<filename>en-GB.plg_user_profile.sys.ini</filename>
 		<filename>en-GB.tpl_bluestork.ini</filename>
 		<filename>en-GB.tpl_bluestork.sys.ini</filename>
+		<filename>en-GB.tpl_hathor.ini</filename>
+		<filename>en-GB.tpl_hathor.sys.ini</filename>
 	</files>
 	<metadata>
 		<name>English (United Kingdom)</name>

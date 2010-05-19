@@ -21,10 +21,12 @@
 		<filename>en-GB.com_users.ini</filename>
 		<filename>en-GB.com_weblinks.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
-		<filename>en-GB.ignore.php</filename>
 		<filename>en-GB.ini</filename>
+		<filename>en-GB.localise.php</filename>
 		<filename>en-GB.mod_articles_archive.ini</filename>
 		<filename>en-GB.mod_articles_archive.sys.ini</filename>
+		<filename>en-GB.mod_articles_categories.ini</filename>
+		<filename>en-GB.mod_articles_categories.sys.ini</filename>
 		<filename>en-GB.mod_articles_category.ini</filename>
 		<filename>en-GB.mod_articles_category.sys.ini</filename>
 		<filename>en-GB.mod_articles_latest.ini</filename>
@@ -43,6 +45,8 @@
 		<filename>en-GB.mod_feed.sys.ini</filename>
 		<filename>en-GB.mod_footer.ini</filename>
 		<filename>en-GB.mod_footer.sys.ini</filename>
+		<filename>en-GB.mod_languages.ini</filename>
+		<filename>en-GB.mod_languages.sys.ini</filename>
 		<filename>en-GB.mod_login.ini</filename>
 		<filename>en-GB.mod_login.sys.ini</filename>
 		<filename>en-GB.mod_menu.ini</filename>
@@ -65,6 +69,7 @@
 		<filename>en-GB.mod_whosonline.sys.ini</filename>
 		<filename>en-GB.mod_wrapper.ini</filename>
 		<filename>en-GB.mod_wrapper.sys.ini</filename>
+		<filename>en-GB.tpl_beez_20.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.sys.ini</filename>
 	</files>
