@@ -59,7 +59,7 @@ class BannersModelBanner extends JModel
 		}
 
 		if ($trackClicks > 0) {
-			$trackDate = JFactory::getDate()->toFormat('%Y-%m-%d');
+			$trackDate = JFactory::getDate()->format('Y-m-d-H-i-s');
 
 			$query->clear();
 			$query->select('`count`');

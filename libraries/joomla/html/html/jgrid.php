@@ -215,8 +215,8 @@ abstract class JHtmlJGrid
 			$prefix		= array_key_exists('prefix',	$options) ? $options['prefix']		: '';
 		}
 		$text			= addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date			= addslashes(htmlspecialchars(JHTML::_('date',$time, '%A, %d %B %Y'), ENT_COMPAT, 'UTF-8'));
-		$time			= addslashes(htmlspecialchars(JHTML::_('date',$time, '%H:%M'), ENT_COMPAT, 'UTF-8'));
+		$date			= addslashes(htmlspecialchars(JHTML::_('date',$time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
+		$time			= addslashes(htmlspecialchars(JHTML::_('date',$time, 'H:i'), ENT_COMPAT, 'UTF-8'));
 		$active_title	= JText::_('JLIB_HTML_CHECKIN') 	.'::'. $text .'<br />'. $date .'<br />'. $time;
 		$inactive_title	= JText::_('JLIB_HTML_CHECKED_OUT')	.'::'. $text .'<br />'. $date .'<br />'. $time;
 

@@ -58,7 +58,7 @@ defined('_JEXEC') or die;
 				<?php echo $user->id; ?>
 			</td>
 			<td class="center">
-				<?php echo JHtml::_('date', $user->time, '%Y-%m-%d %H:%M:%S'); ?>
+				<?php echo JHtml::_('date', $user->time, 'Y-m-d H:i:s'); ?>
 			</td>
 			<td class="center">
 				<?php if ($user->client_id == 0) :?>

@@ -143,7 +143,7 @@ class BannersModelBanners extends JModelList
 	 */
 	function impress()
 	{
-		$trackDate = JFactory::getDate()->toFormat('%Y-%m-%d');
+		$trackDate = JFactory::getDate()->format('Y-m-d');
 		$items	= &$this->getItems();
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);

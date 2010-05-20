@@ -32,6 +32,7 @@ $ -> Language fix or change
 + Implementing auto language metadata [20284]
 $ Fixing strings in contact
 # Fixing category name/title in single contact. (Thanks Bill)
+^ New JDate::toFormat [20531] Thanks Christophe.
 
 19-May-2010 Mark Dexter
 # Sample data fixes (Elin Waring)

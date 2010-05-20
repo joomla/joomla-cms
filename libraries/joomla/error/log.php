@@ -112,11 +112,11 @@ class JLog extends JObject
 		$date = &JFactory::getDate();
 		if (!isset ($entry['date'])) {
 
-			$entry['date'] = $date->toFormat("%Y-%m-%d");
+			$entry['date'] = $date->format("Y-m-d");
 		}
 		if (!isset ($entry['time'])) {
 
-			$entry['time'] = $date->toFormat("%H:%M:%S");
+			$entry['time'] = $date->format("H:i:s");
 		}
 		if (!isset ($entry['c-ip'])) {
 			$entry['c-ip'] = $_SERVER['REMOTE_ADDR'];

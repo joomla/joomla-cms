@@ -131,10 +131,10 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php echo JHTML::_('date',$item->lastvisitDate, '%Y-%m-%d %H:%M:%S'); ?>
+					<?php echo JHTML::_('date',$item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 				</td>
 				<td class="center">
-					<?php echo JHTML::_('date',$item->registerDate, '%Y-%m-%d %H:%M:%S'); ?>
+					<?php echo JHTML::_('date',$item->registerDate, 'Y-m-d H:i:s'); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
