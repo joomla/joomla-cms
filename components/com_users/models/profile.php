@@ -247,32 +247,4 @@ class UsersModelProfile extends JModelForm
 
 		return $user->id;
 	}
-
-	/**
-	 * Method to change the user language
-	 *
-	 * @return	mixed	JException on error|true
-	 * @since	1.6
-	 */
-	public function language()
-	{
-		$user	= JFactory::getUser();
-		$tag	= $this->getState('language');
-		$params	= JComponentHelper::getParams('com_users');
-
-		if ($user->id && $params->get('autosave_language') == 1) {
-			$user->setParam('language', $tag);
-			// Save the user to the database.
-			if (!$user->save(true)) {
-				return new JException(JText::sprintf('USERS_USER_SAVE_FAILED', $user->getError()), 500);
-			}
-		}
-
-		$config = JFactory::getConfig();
-		$cookie_domain = $config->get('config.cookie_domain', '');
-		$cookie_path = $config->get('config.cookie_path', '/');
-		setcookie(JUtility::getHash('language'), $tag, time() + 365 * 86400, $cookie_path, $cookie_domain);
-
-		return true;
-	}
 }

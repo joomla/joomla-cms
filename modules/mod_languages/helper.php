@@ -15,21 +15,6 @@ jimport('joomla.utilities.utility');
 
 abstract class modLanguagesHelper
 {
-	/**
-	 * Get the language from
-	 * - the cookie session if the user is not logged in or
-	 * - the user preference
-	 */
-	public static function getTag(&$params)
-	{
-		$user 	= JFactory::getUser();
-		$tag 	= JRequest::getString(JUtility::getHash('language'), null ,'cookie');
-		if (empty($tag) && $user->id) {
-			$tag = $user->getParam('language');
-		}
-		return $tag;
-	}
-
 	public static function getList(&$params)
 	{
 		$languages	= JLanguageHelper::getLanguages();

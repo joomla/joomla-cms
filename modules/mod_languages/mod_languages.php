@@ -17,5 +17,4 @@ $headerText	= JString::trim($params->get('header_text'));
 $footerText	= JString::trim($params->get('footer_text'));
 
 $list 	= modLanguagesHelper::getList($params);
-$tag 	= modLanguagesHelper::getTag($params);
 require JModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));

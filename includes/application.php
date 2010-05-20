@@ -32,6 +32,11 @@ final class JSite extends JApplication
 	private $_language_filter = false;
 
 	/**
+	 * Option to detect language by the browser
+	 */
+	private $_detect_browser = false;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param	array An optional associative array of configuration settings.
@@ -73,8 +78,7 @@ final class JSite extends JApplication
 				}
 			}
 		}
-
-		if (empty($options['language'])) {
+		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
 			jimport('joomla.utilities.utility');
 			$lang = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
@@ -94,7 +98,7 @@ final class JSite extends JApplication
 			}
 		}
 
-		if (empty($options['language'])) {
+		if ($this->_detect_browser && empty($options['language'])) {
 			// Detect browser language
 			$lang = JLanguageHelper::detectLanguage();
 			// Make sure that the user's language exists
@@ -503,6 +507,29 @@ final class JSite extends JApplication
 	{
 		$old = $this->_language_filter;
 		$this->_language_filter=$state;
+		return $old;
+	}
+	/**
+	 * Return the current state of the detect browser option.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	public function getDetectBrowser()
+	{
+		return $this->_detect_browser;
+	}
+
+	/**
+	 * Set the current state of the detect browser option.
+	 *
+	 * @return	boolean	The old state
+	 * @since	1.6
+	 */
+	public function setDetectBrowser($state=false)
+	{
+		$old = $this->_detect_browser;
+		$this->_detect_browser=$state;
 		return $old;
 	}
 }
