@@ -52,6 +52,9 @@
 			rows="3" cols="30" filter="raw"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
+		<field name="clickurl" type="text" class="inputbox"
+				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />	
+
 	</fieldset>
 
 	<fieldset name="publish"
@@ -170,12 +173,9 @@
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
 			<field name="alt" type="text" class="inputbox"
 				label="COM_BANNERS_FIELD_ALT_LABEL" description="COM_BANNERS_FIELD_ALT_DESC" />
-			<field name="clickurl" type="text" class="inputbox"
-				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
-
 		</fieldset>
 	</fields>
-
+	
 	<fieldset name="custom">
 		<field name="bannercode" type="textarea" class="inputbox"
 			rows="3" cols="30" filter="raw"

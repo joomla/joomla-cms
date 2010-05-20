@@ -33,6 +33,7 @@ $ -> Language fix or change
 $ Fixing strings in contact
 # Fixing category name/title in single contact. (Thanks Bill)
 ^ New JDate::toFormat [20531] Thanks Christophe.
+# Saving Banners urls in the clickurl db field [20532]
 
 19-May-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
