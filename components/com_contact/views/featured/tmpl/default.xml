@@ -130,7 +130,7 @@
 			</field>
 </fieldset>
 
-<fieldset name="contact">
+<fieldset name="contact" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
 			<field name="show_name" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
@@ -316,8 +316,7 @@
 			/>
 </fieldset>
 		<!-- Form options. -->
-		<fieldset name="Contact_Form"
-		>
+		<fieldset name="Contact_Form" label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL">
 
 			<field name="show_email_form" type="list"
 				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"

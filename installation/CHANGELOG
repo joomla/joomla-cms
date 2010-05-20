@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-May-2010 Jean-Marie Simonet
 # Fixed accidentally deleted com_users in sql jos_extensions
 + Implementing auto language metadata [20284]
+$ Fixing strings in contact
 
 19-May-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
