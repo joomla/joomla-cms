@@ -24,7 +24,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php endif; ?>
 	<?php if ($this->params->get('show_contact_category') == 'show_no_link') : ?>
 		<h3>
-			<span class="contact-category"><?php echo $this->contact->category_name; ?></span>
+			<?php echo $this->escape($this->contact->category_title); ?></a>
 		</h3>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_contact_category') == 'show_with_link') : ?>
