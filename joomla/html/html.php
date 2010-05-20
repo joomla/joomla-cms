@@ -453,7 +453,7 @@ abstract class JHtml
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		return $date->toFormat($format);
+		return $date->format($format);
 	}
 
 	/**
