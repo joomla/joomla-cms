@@ -43,12 +43,9 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		print("Go to login" . "\n");
-		$this->click("link=Login");
-		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("User Name"));
 		$this->assertTrue($this->isTextPresent("Password"));
-		$this->assertTrue($this->isElementPresent("//button[@type='submit']"));
+		$this->assertTrue($this->isElementPresent("Submit"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		print("Go to Sample Data" . "\n");

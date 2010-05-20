@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2010 Mark Dexter
+# Fix system test for template change
+
 17-May-2010 Mark Dexter
 # Fix up system tests for core changes
 # Fix sample data test
