@@ -31,7 +31,7 @@ $ -> Language fix or change
 # Sample data error [20550]. Thanks Radek.
 $ Adapted some com_search strings to different languages
 $ Took off what you should not be a custom key in beez [20553]
-# Fixed blog columns formatting [20552] Thanks Dennis.
+# [#20558] Correcting wrong featured layout
 
 20-May-2010 Christophe Demko
  # Fixed misspelling variable name in JLanguage

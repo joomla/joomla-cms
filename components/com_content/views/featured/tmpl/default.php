@@ -18,20 +18,12 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <div class="blog-featured<?php echo $pageClass;?>">
-<?php if ($this->params->get('show_page_heading')!=0 or $this->params->get('show_category_title')): ?>
-<h1>
-
 <?php if ( $this->params->get('show_page_heading')!=0) : ?>
+	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
+	</h1>
 <?php endif; ?>
-	<?php if ($this->params->get('show_category_title')) :?>
 
-
-	<?php	echo '<span class="subheading-category">'.$this->category->title.'</span>'; ?>
-	<?php endif; ?>
-
-</h1>
-<?php endif; ?>
 <?php $leadingcount=0 ; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
