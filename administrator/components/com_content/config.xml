@@ -416,7 +416,7 @@
 	<fieldset
 		name="categories"
 		label="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_LABEL"
-		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
+		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
 		>
 
 		<field name="maxLevel" type="list"
