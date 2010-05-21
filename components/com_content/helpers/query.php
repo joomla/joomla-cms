@@ -165,23 +165,32 @@ class ContentHelperQuery
 		// we need to re-order the intro articles array
 		else
 		{
+			// we need to preserve the original array keys
+			$keys = array_keys($articles);
+		
 			// layout the articles in column order
 			$maxRows = ceil($count / $numColumns);
 			$index = array();
-			$i = 1;
-			for ($col = 1; ($col <= $numColumns) && ($i <= $count); $col++) {
-				for ($row = 1; ($row <= $maxRows) && ($i <= $count); $row++) {
-					$index[$row][$col] = $i;
+			$i = 0;
+			for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++) {
+				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++) {
+					// ensure that first row is always filled
+					if ($numColumns - $col >= $count - $i) {
+						$row = 1;
+						$col++;
+					}
+					$index[$row][$col] = $keys[$i];
 					$i++;
 				}
 			}
+			
 			// now read the $index back row by row to get articles in right row/col
 			// so that they will actually be ordered down the columns
 			$return = array();
-			$i = 1;
-			for ($row = 1; ($row <= $maxRows) && ($i <= $count); $row++) {
-				for ($col = 1; ($col <= $numColumns) && ($i <= $count); $col++) {
-					$return[$i] = &$articles[$index[$row][$col]];
+			$i = 0;
+			for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++) {
+				for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++) {
+					$return[$keys[$i]] = $articles[$index[$row][$col]];
 					$i++;
 				}
 			}
