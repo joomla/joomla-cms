@@ -156,7 +156,7 @@ class JLanguage extends JObject
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $uppperLimitSearchWordCallback = null;
+	protected $upperLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the searchDisplayedCharactersNumberCallback function for this language
