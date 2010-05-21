@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Sample data error [20550]. Thanks Radek.
 
 20-May-2010 Christophe Demko
+ # Fixed missplelling variable name in JLanguage
  # Fixed [#20543] Site language changing does not work
 
 20-May-2010 Jean-Marie Simonet
