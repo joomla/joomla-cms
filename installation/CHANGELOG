@@ -34,7 +34,8 @@ $ [#20564] Inconsistence between userS and user view
 # [#20511] Database error prevents installation (PHP strict)
 $ Adding missing string. Sorting some main ini strings.
 # [#20556] Home menu items are routed with alias if language switcher plugin is off. Thanks Dennis
-
+$ [#20566] Change "Other Informations" to "Other Information". Thanks Michael.
+ 
 21-May-2010 Jean-Marie Simonet
 # Sample data error [20550]. Thanks Radek.
 $ Adapted some com_search strings to different languages
