@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-May-2010 Jean-Marie Simonet
 $ [#20564] Inconsistence between userS and user view
+# [#20469] Notice: Trying to get property of non-object in /components/com_weblinks/views/form/tmpl/edit.php on line 47
 
 21-May-2010 Jean-Marie Simonet
 # Sample data error [20550]. Thanks Radek.
