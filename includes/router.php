@@ -307,7 +307,9 @@ class JRouterSite extends JRouter
 		if (isset($query['Itemid']) && !empty($query['Itemid'])) {
 			$item = $menu->getItem($query['Itemid']);
 			if (is_object($item) && $query['option'] == $item->component) {
-				$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
+				if (!$item->home) {
+					$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
+				}
 				$built = true;
 			}
 		}

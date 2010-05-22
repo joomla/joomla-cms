@@ -33,6 +33,7 @@ $ [#20564] Inconsistence between userS and user view
 # [#20486] Published date not being generated
 # [#20511] Database error prevents installation (PHP strict)
 $ Adding missing string. Sorting some main ini strings.
+# [#20556] Home menu items are routed with alias if language switcher plugin is off. Thanks Dennis
 
 21-May-2010 Jean-Marie Simonet
 # Sample data error [20550]. Thanks Radek.
