@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-May-2010 Jean-Marie Simonet
+$ [#20564] Inconsistence between userS and user view
+
 21-May-2010 Jean-Marie Simonet
 # Sample data error [20550]. Thanks Radek.
 $ Adapted some com_search strings to different languages
