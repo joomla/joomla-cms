@@ -64,9 +64,9 @@ $params =& $this->params;
 		<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE', JHTML::_('date',$this->item->publish_up, JText::_('DATE_FORMAT_LC2'))); ?>
 		</dd>
 <?php endif; ?>
-<?php if ($params->get('show_author') && !empty($item->author_name)) : ?>
+<?php if ($params->get('show_author') && !empty($item->author)) : ?>
 	<dd class="createdby">
-		<?php $author = $params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$item->created_by),$item->author_name) : $item->author_name; ?>
+		<?php $author = $params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$item->created_by),$item->author) : $item->author; ?>
 		<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author); ?>
 	<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 		</dd>

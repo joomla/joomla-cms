@@ -79,11 +79,11 @@ class ContentHelperQuery
 				break;
 
 			case 'author' :
-				$orderby = 'author_name';
+				$orderby = 'author';
 				break;
 
 			case 'rauthor' :
-				$orderby = 'author_name DESC';
+				$orderby = 'author DESC';
 				break;
 
 			case 'front' :
