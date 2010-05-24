@@ -126,14 +126,22 @@ class UsersModelGroup extends JModelAdmin
 		// Typecast variable.
 		$pks = (array) $pks;
 		$user	= JFactory::getUser();
-
+		$groups = JAccess::getGroupsByUser($user->get('id'));
+		
 		// Get a row instance.
 		$table = $this->getTable();
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
-
+		
+		// do not allow to delete groups to which the current user belong
+		foreach ($pks as $i => $pk) {
+			if (in_array($pk, $groups)) {
+				JError::raiseWarning( 403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
+				return false;
+			}
+		}
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk) {
 			if ($table->load($pk)) {
