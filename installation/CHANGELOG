@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-May-2010 Mark Dexter
+# Sample data fixes (Elin Waring)
+
 23-May-2010 Jean-Marie Simonet
 [#20568] Update publish time on front end. Thanks Michael.
 [#20465] Notice: Undefined property: stdClass::$author_name on many pages. Thanks Bill.

@@ -927,13 +927,13 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
 INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
 VALUES
 	(1,0,1,20,'Public'),
-	(2,1,8,19,'Registered'),
-	(3,2,11,16,'Author'),
-	(4,3,12,15,'Editor'),
-	(5,4,13,14,'Publisher'),
-	(6,1,2,7,'Manager'),
-	(7,6,3,6,'Administrator'),
-	(8,7,4,5,'Super Users');
+		(2,1,8,19,'Registered'),
+			(3,2,9,16,'Author'),
+				(4,3,10,13,'Editor'),
+					(5,4,11,12,'Publisher'),
+		(6,1,2,7,'Manager'),
+			(7,6,3,6,'Administrator'),
+				(8,7,4,5,'Super Users');
 
 # -------------------------------------------------------
 
