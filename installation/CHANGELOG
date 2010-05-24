@@ -33,6 +33,7 @@ $ -> Language fix or change
 # [#20545] Possible to delete all usergroups, can't do anything after that. Thanks Radek.
 # [#20313] com_messages.messages search query. Thanks Phill.
 $ Consolidated some strings
+# [#20528] Inconsistency in user groups [sample data]. Tree rebuilding. Thanks Christophe.
 
  
 23-May-2010 Mark Dexter

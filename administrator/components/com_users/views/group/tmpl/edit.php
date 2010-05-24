@@ -37,8 +37,9 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
-				<li><?php echo $this->form->getLabel('parent_id'); ?>
-				<?php echo $this->form->getInput('parent_id'); ?></li>
+				<?php $parent_id = $this->form->getField('parent_id');?>
+				<li><?php if (!$parent_id->hidden) echo $parent_id->label; ?>
+				<?php echo $parent_id->input; ?></li>
 			</ul>
 		</fieldset>
 	</div>

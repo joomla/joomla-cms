@@ -96,6 +96,11 @@ class UsersModelGroup extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data)
 	{
+		$obj = is_array($data) ? JArrayHelper::toObject($data,'JObject') : $data;
+		if (isset($obj->parent_id) && $obj->parent_id==0) {
+			$form->setFieldAttribute('parent_id','type','hidden');
+			$form->setFieldAttribute('parent_id','hidden','true');
+		}
 		parent::preprocessForm($form, $data, 'user');
 	}
 
