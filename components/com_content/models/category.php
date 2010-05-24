@@ -225,17 +225,10 @@ class ContentModelCategory extends JModelItem
 	public function getCategory()
 	{
 		if (!is_object($this->_item)) {
-			$app = JFactory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
-			$params = new JRegistry();
-
-			if ($active) {
-				$params->loadJSON($active->params);
-			}
+			$params = $this->state->params;
 
 			$options = array();
-			$options['countItems'] = $params->get('show_item_count', 0) || $params->get('show_empty_categories', 0);
+			$options['countItems'] = $params->get('show_cat_num_articles', 0);
 			$categories = JCategories::getInstance('Content', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
