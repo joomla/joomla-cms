@@ -10,6 +10,8 @@
 	<description>PLG_CONTENT_GESHI_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="geshi">geshi.php</filename>
+		<filename>index.html</filename>
+		<folder>geshi</folder>
 	</files>
 
 	<config>

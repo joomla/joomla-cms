@@ -18,8 +18,7 @@
 			module="mod_users_latest">mod_users_latest.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.php</filename>
-		<filename>mod_users_latest.xml</filename>
+		<filename>index.html</filename>		<filename>mod_users_latest.xml</filename>
 	</files>
 	<config>
 		<fields name="params">

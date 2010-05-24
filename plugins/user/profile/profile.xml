@@ -13,7 +13,7 @@
 
 	<files>
 		<file plugin="profile">profile.php</file>
-		<file>profile.xml</file>
+		<filename>index.html</filename>
 		<folder>profile</folder>
 	</files>
 

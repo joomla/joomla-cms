@@ -11,7 +11,7 @@
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
-	</files>
+		<filename>index.html</filename>	</files>
 
 	<config>
 		<fields name="params">

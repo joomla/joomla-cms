@@ -11,5 +11,5 @@
 	<description>PLG_NONE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="none">none.php</filename>
-	</files>
+		<filename>index.html</filename>	</files>
 </install>

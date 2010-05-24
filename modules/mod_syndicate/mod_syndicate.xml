@@ -18,8 +18,7 @@
 			module="mod_syndicate">mod_syndicate.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.php</filename>
-		<filename>mod_syndicate.xml</filename>
+		<filename>index.html</filename>		<filename>mod_syndicate.xml</filename>
 	</files>
 	<languages>
 		<language

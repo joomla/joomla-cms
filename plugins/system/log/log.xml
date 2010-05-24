@@ -11,5 +11,6 @@
 	<description>PLG_LOG_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="log">log.php</filename>
+		<filename>index.html</filename>
 	</files>
 </install>

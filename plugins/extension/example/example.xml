@@ -11,5 +11,6 @@
 	<description>PLG_EXTENSION_EXAMPLE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="example">example.php</filename>
+		<filename>index.html</filename>
 	</files>
 </extension>

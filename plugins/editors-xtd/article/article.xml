@@ -11,5 +11,6 @@
 	<description>PLG_ARTICLE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="article">article.php</filename>
+		<filename>index.html</filename>
 	</files>
 </install>

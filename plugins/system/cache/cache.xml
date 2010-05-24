@@ -11,6 +11,7 @@
 	<description>PLG_CACHE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="cache">cache.php</filename>
+		<filename>index.html</filename>
 	</files>
 
 	<config>

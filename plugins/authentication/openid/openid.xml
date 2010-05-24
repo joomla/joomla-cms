@@ -11,6 +11,8 @@
 	<description>PLG_OPENID_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="openid">openid.php</filename>
+		<filename>index.html</filename>
+		<folder>openid</folder>
 	</files>
 
 	<config>

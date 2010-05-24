@@ -11,8 +11,7 @@
 	<description>PLG_TINY_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
-		<folder>tinymce</folder>
-	</files>
+		<filename>index.html</filename>	</files>
 
 	<config>
 		<fields name="params">

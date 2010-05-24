@@ -12,6 +12,7 @@
 	<description>PLG_CONTENT_EMAILCLOAK_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="emailcloak">emailcloak.php</filename>
+		<filename>index.html</filename>
 	</files>
 
 	<config>

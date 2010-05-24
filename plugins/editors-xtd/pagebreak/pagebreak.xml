@@ -11,5 +11,6 @@
 	<description>PLG_EDITORSXTD_PAGEBREAK_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="pagebreak">pagebreak.php</filename>
+		<filename>index.html</filename>
 	</files>
 </install>

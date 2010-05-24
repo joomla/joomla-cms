@@ -11,5 +11,6 @@
 	<description>An example user synchronisation plugin</description>
 	<files>
 		<filename plugin="example">example.php</filename>
+		<filename>index.html</filename>
 	</files>
 </install>

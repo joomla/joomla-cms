@@ -11,5 +11,5 @@
 	<description>PLG_IMAGE_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="image">image.php</filename>
-	</files>
+		<filename>index.html</filename>	</files>
 </install>
