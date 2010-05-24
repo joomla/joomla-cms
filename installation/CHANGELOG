@@ -33,9 +33,9 @@ $ -> Language fix or change
 # [#20545] Possible to delete all usergroups, can't do anything after that. Thanks Radek.
 # [#20313] com_messages.messages search query. Thanks Phill.
 $ Consolidated some strings
-# [#20528] Inconsistency in user groups [sample data]. Tree rebuilding. Thanks Christophe.
+#+ [#20528] Inconsistency in user groups [sample data]. Tree rebuilding. Thanks Christophe.
 # [#20533] Fatal error "Call to undefined method JAdministrator::getLanguageFilter()" when enabling search logging + "Show Search Results". Thanks Denis and Christophe.
-
++ [#20592] Add sample data positions to Atomic. Thanks Elin.
  
 23-May-2010 Mark Dexter
 # Sample data fixes (Elin Waring)

@@ -21,18 +21,18 @@ $app = JFactory::getApplication();
 		<jdoc:include type="head" />
 
 		<!-- The following four lines load the Blueprint CSS Framework (http://blueprintcss.org). If you don't want to use this framework, delete these lines. -->
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/screen.css" type="text/css" media="screen, projection">
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/print.css" type="text/css" media="print">
+		<!--  link  rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/screen.css" type="text/css" media="screen, projection" -->
+		<!-- link // rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/print.css" type="text/css" media="print" -->
 		<!--[if lt IE 8]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    	<link rel="stylesheet" href="blueprint/plugins/joomla-nav/screen.css" type="text/css" media="screen">
+    	<!--link rel="stylesheet" href="blueprint/plugins/joomla-nav/screen.css" type="text/css" media="screen" -->
 
 		<!-- The following line loads the template CSS file located in the template folder. -->
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 
 		<!-- The following two lines load the Blueprint CSS Framework (http://blueprintcss.org) for right-to-left languages. If you don't want to use this framework, delete these lines. -->
 		<?php if($this->direction == 'rtl') : ?>
-			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/plugins/rtl/screen.css" type="text/css" />
-			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
+			<!--link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/plugins/rtl/screen.css" type="text/css" />
+			<!--link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
 		<!-- The following line loads the template JavaScript file located in the template folder. -->
@@ -45,17 +45,21 @@ $app = JFactory::getApplication();
 			<div class="joomla-header span-16 append-1">
 				<h1><?php echo $app->getCfg('sitename'); ?></h1>
 			</div>
-			<?php if($this->countModules('search')) : ?>
+			<?php if($this->countModules('position-0')) : ?>
 				<div class="joomla-search span-7 last">
-	  	 			<jdoc:include type="modules" name="search" style="none" />
+	  	 			<jdoc:include type="modules" name="position-0" style="none" />
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if($this->countModules('mainmenu')) : ?>
+		<?php if($this->countModules('position-1')) : ?>
 			<div class="container">
-				<jdoc:include type="modules" name="mainmenu" style="none" />
+				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
-		<?php endif; ?>
+		<?php endif; ?>	
+		<?php if($this->countModules('position-2')) : ?>
+			<jdoc:include type="modules" name="position-2" style="none" />
+		<?php endif; ?>			
+		
 		<div class="container">
 			<div class="span-16 append-1">
 				<jdoc:include type="message" />
@@ -63,13 +67,38 @@ $app = JFactory::getApplication();
         	</div>
 		</div>
 		<div class="span-7 last">
-			<?php if($this->countModules('sidebar-top')) : ?>
-				<jdoc:include type="modules" name="sidebar-top" style="none" />
-			<?php endif; ?>
 
-			<?php if($this->countModules('sidebar-bottom')) : ?>
-        		<jdoc:include type="modules" name="sidebar-bottom" style="none" />
+			<?php if($this->countModules('position-3')) : ?>
+        		<jdoc:include type="modules" name="position-3" style="none" />
 			<?php endif; ?>
+			<?php if($this->countModules('position-4')) : ?>
+        		<jdoc:include type="modules" name="position-4" style="none" />
+			<?php endif; ?>
+			<?php if($this->countModules('position-5')) : ?>
+        		<jdoc:include type="modules" name="position-5" style="none" />
+			<?php endif; ?>
+			<?php if($this->countModules('position-6')) : ?>
+        		<jdoc:include type="modules" name="position-6" style="none" />
+			<?php endif; ?>
+			<?php if($this->countModules('position-7')) : ?>
+        		<jdoc:include type="modules" name="position-7" style="none" />
+			<?php endif; ?>
+			<?php if($this->countModules('position-8')) : ?>
+        		<jdoc:include type="modules" name="position-8" style="none" />
+			<?php endif; ?>			
+			<?php if($this->countModules('position-9')) : ?>
+        		<jdoc:include type="modules" name="position-9" style="none" />
+			<?php endif; ?>
+			<?php if($this->countModules('position-10')) : ?>
+        		<jdoc:include type="modules" name="position-10" style="none" />
+			<?php endif; ?>
+			<?php if($this->countModules('position-11')) : ?>
+        		<jdoc:include type="modules" name="position-11" style="none" />
+			<?php endif; ?>			
+			<?php if($this->countModules('position-12')) : ?>
+        		<jdoc:include type="modules" name="position-12" style="none" />
+			<?php endif; ?>			
+
 		</div>
 		<div class="joomla-footer span-16 append-1">
 			&copy; <?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>
