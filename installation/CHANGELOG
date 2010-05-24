@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-May-2010
+ # Fixed issue [#20601] User Manager - parent field does not display when creating a new group
+
 24-May-2010 Jean-Marie Simonet
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.
 # [#20569] mod_login.xml manifest cites incorrect index file. Thanks Jeremy.

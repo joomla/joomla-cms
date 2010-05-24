@@ -97,7 +97,7 @@ class UsersModelGroup extends JModelAdmin
 	protected function preprocessForm(JForm $form, $data)
 	{
 		$obj = is_array($data) ? JArrayHelper::toObject($data,'JObject') : $data;
-		if (isset($obj->parent_id) && $obj->parent_id==0) {
+		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
 			$form->setFieldAttribute('parent_id','type','hidden');
 			$form->setFieldAttribute('parent_id','hidden','true');
 		}
@@ -132,14 +132,14 @@ class UsersModelGroup extends JModelAdmin
 		$pks = (array) $pks;
 		$user	= JFactory::getUser();
 		$groups = JAccess::getGroupsByUser($user->get('id'));
-		
+
 		// Get a row instance.
 		$table = $this->getTable();
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
-		
+
 		// do not allow to delete groups to which the current user belong
 		foreach ($pks as $i => $pk) {
 			if (in_array($pk, $groups)) {
