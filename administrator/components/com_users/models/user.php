@@ -516,8 +516,16 @@ class UsersModelUser extends JModelAdmin
 		// Initialise variables.
 		$userId = (!empty($userId)) ? $userId : (int)$this->getState('user.id');
 
-		jimport('joomla.user.helper');
-		$result = JUserHelper::getUserGroups($userId);
+		if (empty($userId)) {
+			$result = array();
+			$config = JComponentHelper::getParams('com_users');
+			if ($groupId = $config->get('new_usertype')) {
+				$result[$groupId] = null;
+			}
+		} else {
+			jimport('joomla.user.helper');
+			$result = JUserHelper::getUserGroups($userId);
+		}
 
 		return $result;
 	}

@@ -37,6 +37,7 @@ $ Consolidated some strings
 # [#20533] Fatal error "Call to undefined method JAdministrator::getLanguageFilter()" when enabling search logging + "Show Search Results". Thanks Denis and Christophe.
 + [#20592] Add sample data positions to Atomic. Thanks Elin.
 # [#20607] "witdh" instead of "width" in mod_banners default template. Thanks Michael.
+# [#20600] New user does not set user group for new user (Back-end). Thanks Andrew.
 
 23-May-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
