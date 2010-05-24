@@ -102,7 +102,7 @@ class MessagesModelMessages extends JModelList
 
 		if (!empty($search)) {
 			$search = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
-			$query->where('a.subject LIKE '.$search.' OR a.message LIKE '.$search.')');
+			$query->where('a.subject LIKE '.$search.' OR a.message LIKE '.$search);
 		}
 
 		// Add the list ordering clause.

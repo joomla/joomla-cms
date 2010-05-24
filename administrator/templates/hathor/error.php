@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 <body class="errors">
 	<div>
 		<h1>
-			<?php echo $this->error->getCode() ?> - <?php echo JText::_('AN_ERROR_HAS_OCCURRED') ?>
+			<?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED') ?>
 		</h1>
 	</div>
 	<div>

@@ -31,6 +31,8 @@ $ -> Language fix or change
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.
 # [#20569] mod_login.xml manifest cites incorrect index file. Thanks Jeremy.
 # [#20545] Possible to delete all usergroups, can't do anything after that. Thanks Radek.
+# [#20313] com_messages.messages search query. Thanks Phill.
+$ Consolidated some strings
 
  
 23-May-2010 Mark Dexter
