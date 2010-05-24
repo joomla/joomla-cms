@@ -152,7 +152,7 @@ class plgSearchContent extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->getLanguageFilter()) {
+			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 			}
 
@@ -185,7 +185,7 @@ class plgSearchContent extends JPlugin
 			$query->order(($morder ? $morder : $order));
 
 			// Filter by language
-			if (JPluginHelper::isEnabled('system','languagefilter')) {
+			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 			}
 
@@ -225,7 +225,7 @@ class plgSearchContent extends JPlugin
 
 
 			// Filter by language
-			if (JPluginHelper::isEnabled('system','languagefilter')) {
+			if ($app->isSite() && $app->getLanguageFilter()) {
 				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 			}
 

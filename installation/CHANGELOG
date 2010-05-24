@@ -34,6 +34,7 @@ $ -> Language fix or change
 # [#20313] com_messages.messages search query. Thanks Phill.
 $ Consolidated some strings
 # [#20528] Inconsistency in user groups [sample data]. Tree rebuilding. Thanks Christophe.
+# [#20533] Fatal error "Call to undefined method JAdministrator::getLanguageFilter()" when enabling search logging + "Show Search Results". Thanks Denis and Christophe.
 
  
 23-May-2010 Mark Dexter
@@ -56,7 +57,7 @@ $ [#20566] Change "Other Informations" to "Other Information". Thanks Michael.
 21-May-2010 Jean-Marie Simonet
 # Sample data error [20550]. Thanks Radek.
 $ Adapted some com_search strings to different languages
-$ Took off what you should not be a custom key in beez [20553]
+$ Took off what should not be a custom key in beez [20553]
 # [#20558] Correcting wrong featured layout
 
 20-May-2010 Christophe Demko

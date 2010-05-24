@@ -118,7 +118,7 @@ class plgSearchNewsfeeds extends JPlugin
 		$query->order($order);
 
 		// Filter by language
-		if ($app->getLanguageFilter()) {
+		if ($app->isSite() && $app->getLanguageFilter()) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
