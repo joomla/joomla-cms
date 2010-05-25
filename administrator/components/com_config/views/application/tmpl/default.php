@@ -19,7 +19,18 @@ JHtml::_('behavior.tooltip');
 $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" class="form-validate">
+<script type="text/javascript">
+<!--
+	function submitbutton(task)
+	{
+		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
+			submitform(task);
+		}
+	}
+-->
+</script>
+
+<form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="application-form" method="post" name="adminForm" class="form-validate">
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftplogin'); ?>
 	<?php endif; ?>
