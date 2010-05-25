@@ -48,7 +48,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 		
 			<li><?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('custom_position'); ?>
-			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible" >Select</label>
+			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible"><?php echo JText::_('TPL_HATHOR_COM_MODULES_CUSTOM_POSITION_LABEL');?></label>
 			<?php echo $this->form->getInput('position'); ?></li>
 		
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
