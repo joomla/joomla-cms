@@ -22,16 +22,19 @@ class JComponentHelper
 	/**
 	 * The component list cache
 	 *
-	 * @var	array
+	 * @var		array
+	 * @since	1.6
 	 */
 	protected static $_components = array();
 
 	/**
 	 * Get the component information.
 	 *
-	 * @param	string $option	The component option.
+	 * @param	string	$option	The component option.
 	 * @param	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
-	 * @return	object			An object with the fields for the component.
+	 *
+	 * @return	object	An object with the fields for the component.
+	 * @since	1.5
 	 */
 	public static function getComponent($option, $strict = false)
 	{
@@ -44,7 +47,7 @@ class JComponentHelper
 				$result->params		= new JRegistry;
 			}
 		} else {
-			$result = &self::$_components[$option];
+			$result = self::$_components[$option];
 		}
 
 		return $result;
@@ -53,13 +56,16 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @param	string	$option		The component option.
-	 * @param	boolean	$string		If set and a component does not exist, false will be returned
+	 * @param	string	$option	The component option.
+	 * @param	boolean	$string	If set and a component does not exist, false will be returned
+	 *
 	 * @return	boolean
+	 * @since	1.5
 	 */
 	public static function isEnabled($option, $strict = false)
 	{
-		$result = &self::getComponent($option, $strict);
+		$result = self::getComponent($option, $strict);
+
 		return ($result->enabled | JFactory::getApplication()->isAdmin());
 	}
 
@@ -68,17 +74,24 @@ class JComponentHelper
 	 *
 	 * @param	string		The option for the component.
 	 * @param	boolean		If set and a component does not exist, false will be returned
+	 *
 	 * @return	JRegistry	As of 1.6, this method returns a JRegistry (previous versions returned JParameter).
+	 * @since	1.5
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		$component = &self::getComponent($option, $strict);
+		$component = self::getComponent($option, $strict);
+
 		return $component->params;
 	}
 
 	/**
 	 * Render the component.
+	 *
 	 * @param	string	The component option.
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -118,7 +131,7 @@ class JComponentHelper
 		$task = JRequest::getString('task');
 
 		// Load common and local language files.
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 			$lang->load($option, JPATH_BASE, null, false, false)
 		||	$lang->load($option, JPATH_COMPONENT, null, false, false)
 		||	$lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
@@ -135,6 +148,7 @@ class JComponentHelper
 
 		// Build the component toolbar
 		jimport('joomla.application.helper');
+
 		if (($path = JApplicationHelper::getPath('toolbar')) && $app->isAdmin()) {
 			// Get the task again, in case it has changed
 			$task = JRequest::getString('task');
@@ -152,16 +166,16 @@ class JComponentHelper
 	 * Load the installed components into the _components property.
 	 *
 	 * @return	boolean
+	 * @since	1.5
 	 */
 	protected static function _load($option)
 	{
-
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('extension_id AS "id", element AS "option", params, enabled');
 		$query->from('#__extensions');
-		$query->where('`type` = "component"');
-		$query->where('`element` = "'.$option.'"');
+		$query->where('`type` = '.$db->quote('component'));
+		$query->where('`element` = '.$db->quote($option));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system','callback');
