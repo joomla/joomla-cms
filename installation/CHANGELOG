@@ -30,8 +30,8 @@ $ -> Language fix or change
 25-May-2010
  # Fixed issue [#20601] User Manager - parent field does not display when creating a new group
  # Fixed issue [#20526] Database creation error with MySQL5 (Adam Banks)
- # Fixed issues with double quotes used in query strings.
-
+ # Fixed issue [#20549] White page on installation when the PHP session save path is unwritable (Nicholas Dionysopoulos)
+ 
 24-May-2010 Jean-Marie Simonet
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.
 # [#20569] mod_login.xml manifest cites incorrect index file. Thanks Jeremy.

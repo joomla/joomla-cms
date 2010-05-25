@@ -22,9 +22,9 @@ class JRouterInstallation extends JObject
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @access public
+	 * @since	1.5
 	 */
-	function parse($url)
+	public function parse($url)
 	{
 		return true;
 	}
@@ -33,13 +33,14 @@ class JRouterInstallation extends JObject
 	 * Function to convert an internal URI to a route
 	 *
 	 * @param	string	$string	The internal URL
+	 *
 	 * @return	string	The absolute search engine friendly URL
 	 * @since	1.5
 	 */
-	function build($url)
+	public function build($url)
 	{
 		$url = str_replace('&amp;', '&', $url);
 
-		return $url;
+		return new JURI($url);
 	}
 }

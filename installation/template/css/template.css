@@ -315,6 +315,33 @@ span.step {
 	color: #c00;
 }
 
+dl#system-message {
+	border-left: 1px solid #cccccc;
+	border-right: 1px solid #cccccc;
+	margin: 0;
+	padding: 0.5em;
+}
+
+dl#system-message dt.error {
+	display: block;
+	color: black;
+	font-size: x-large;
+	font-weight: bold;
+}
+
+dl#system-message dd.error {
+	display: block;
+	padding-left: 0em;
+}
+
+dl#system-message dd.error ul {
+	display: block;
+}
+
+dl#system-message dd.error ul li {
+	display: block;
+}
+
 h3.title-smenu, h3.moofx-toggler {
 	margin: 0;
 	border: 1px solid #ccc;
