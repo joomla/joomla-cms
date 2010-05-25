@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed issue [#20526] Database creation error with MySQL5 (Adam Banks).
  # Fixed issue [#20549] White page on installation when the PHP session save path is unwritable (Nicholas Dionysopoulos).
  # Fixed issue [#20519] 'Type' table option was deprecated in MySQL 4.0 and removed in MySQL 5.5 (CY Lee).
+ # Fixed issue [#20613] Missing parse_ini_file, parse_ini-string, json_encode or json_decode cause show-stopper behaviour (Nicholas Dionysopoulos).
  
 24-May-2010 Jean-Marie Simonet
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.

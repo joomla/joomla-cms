@@ -22,25 +22,24 @@ class JInstallationViewPreinstall extends JView
 	/**
 	 * Display the view
 	 *
-	 * @access	public
+	 * @param	string
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$settings	= $this->get('PhpSettings');
-		$options	= $this->get('PhpOptions');
-		$version	= new JVersion;
+		$this->state		= $this->get('State');
+		$this->settings		= $this->get('PhpSettings');
+		$this->options		= $this->get('PhpOptions');
+		$this->sufficient	= $this->get('PhpOptionsSufficient');
+		$this->version		= new JVersion;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		$this->assignRef('state',		$state);
-		$this->assignRef('settings',	$settings);
-		$this->assignRef('options',		$options);
-		$this->assignRef('version',		$version);
 
 		parent::display($tpl);
 	}
