@@ -7,12 +7,12 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// No direct access.
 defined('JPATH_BASE') or die;
 
 /**
  * Plugin helper class
  *
- * @static
  * @package		Joomla.Framework
  * @subpackage	Plugin
  * @since		1.5
@@ -23,8 +23,9 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param	string	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param	string	The plugin name.
+	 * @param	string	$type	The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param	string	$plugin	The plugin name.
+	 *
 	 * @return	mixed	An array of plugin data objects, or a plugin data object.
 	 * @since	1.5
 	 */
@@ -57,8 +58,9 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param	string	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param	string	The plugin name.
+	 * @param	string	$type	The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param	string	$plugin	The plugin name.
+	 *
 	 * @return	boolean
 	 * @since	1.5
 	 */
@@ -72,9 +74,12 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific pugin is loaded.
 	 *
-	 * @param	string	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param	string	The plugin name.
-	 * @return	boolean	True if success.
+	 * @param	string		$type	The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param	string		$plugin	The plugin name.
+	 * @param	boolean		$autocreate
+	 * @param	JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
+	 *
+	 * @return	boolean		True on success.
 	 * @since	1.5
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
@@ -112,9 +117,13 @@ abstract class JPluginHelper
 	}
 
 	/**
-	 * Loads the plugin file
+	 * Loads the plugin file.
 	 *
-	 * @return	boolean		True if success
+	 * @param	JPlugin		$plugin		The plugin.
+	 * @param	boolean		$autocreate
+	 * @param	JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
+	 *
+	 * @return	boolean		True on success.
 	 * @since	1.5
 	 */
 	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
@@ -162,6 +171,7 @@ abstract class JPluginHelper
 	/**
 	 * Loads the published plugins.
 	 *
+	 * @return	void
 	 * @since	1.5
 	 */
 	protected static function _load()
@@ -184,7 +194,7 @@ abstract class JPluginHelper
 			$query->select('folder AS type, element AS name, params')
 				->from('#__extensions')
 				->where('enabled >= 1')
-				->where('type = "plugin"')
+				->where('type ='.$db->Quote('plugin'))
 				->where('state >= 0')
 				->where('access IN ('.$levels.')')
 				->order('ordering');
