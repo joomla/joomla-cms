@@ -22,7 +22,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     $saltGroup = mt_rand();
     $this->type("jform_title", "Test Group".$saltGroup);
-    $this->select("jformparent_id", "label=- Registered");
+    $this->select("jform_parent_id", "label=- Registered");
     $this->click("link=Save & Close");
     $this->waitForPageToLoad("30000");
     try {

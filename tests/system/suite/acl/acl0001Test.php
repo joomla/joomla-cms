@@ -22,7 +22,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=New");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_title", "Article Administrator" . $saltGroup);
-		$this->select("jformparent_id", "label=- Registered");
+		$this->select("jform_parent_id", "label=- Registered");
 		$this->click("link=Save & Close");
 		$this->waitForPageToLoad("30000");
 		try

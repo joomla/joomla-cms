@@ -194,39 +194,39 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		switch ($groupParent)
 		{
 		case 'Public':
-			$this->select("jformparent_id", "value=1");
+			$this->select("jform_parent_id", "value=1");
 			break;
 
 		case 'Manager':
-			$this->select("jformparent_id", "value=6");
+			$this->select("jform_parent_id", "value=6");
 			break;
 
 		case 'Administrator':
-			$this->select("jformparent_id", "value=7");
+			$this->select("jform_parent_id", "value=7");
 			break;
 
 		case 'Super Users':
-			$this->select("jformparent_id", "value=8");
+			$this->select("jform_parent_id", "value=8");
 			break;
 
 		case 'Registered':
-			$this->select("jformparent_id", "value=2");
+			$this->select("jform_parent_id", "value=2");
 			break;
 
 		case 'Author':
-			$this->select("jformparent_id", "value=3");
+			$this->select("jform_parent_id", "value=3");
 			break;
 
 		case 'Editor':
-			$this->select("jformparent_id", "value=4");
+			$this->select("jform_parent_id", "value=4");
 			break;
 
 		case 'Publisher':
-			$this->select("jformparent_id", "value=5");
+			$this->select("jform_parent_id", "value=5");
 			break;
 
 		default:
-			$this->select("jformparent_id", "value=1");
+			$this->select("jform_parent_id", "value=1");
 			break;
 		}
 		$this->click("link=Save & Close");
