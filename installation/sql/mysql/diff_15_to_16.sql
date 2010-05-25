@@ -374,7 +374,7 @@ CREATE TABLE  `#__extensions` (
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
   KEY `element_folder` (`element`,`folder`),
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
-) TYPE=MyISAM CHARACTER SET `utf8`;
+) ENGINE=MyISAM CHARACTER SET `utf8`;
 
 TRUNCATE TABLE #__extensions;
 INSERT INTO #__extensions SELECT
