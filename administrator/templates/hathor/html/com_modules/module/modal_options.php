@@ -27,12 +27,12 @@ $pane = &JPane::getInstance('sliders');
 			?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_($label) ?></legend>
-			<?php foreach ($this->form->getFieldset($fieldSet->name) as $field) : ?>
-				<div>
-					<?php echo $field->label; ?>
-					<?php echo $field->input; ?>
-				</div>
-			<?php endforeach; ?>
+			<ul class="adminformlist">
+				<?php foreach ($this->form->getFieldset($fieldSet->name) as $field) : ?>
+					<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
+				<?php endforeach; ?>
+			</ul>
 		</fieldset>
 <?php
 	echo $pane->endPanel();

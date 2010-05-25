@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed issue [#20613] Missing parse_ini_file, parse_ini-string, json_encode or json_decode cause show-stopper behaviour (Nicholas Dionysopoulos).
  # Partially fixed issue [#13281] Cancel Button on Weblink Submit Form Doesn't Return to Referer Page (Christopher Garvis, Chris Taylor)
  # Fixed issue [#20226] Recursion in some circumstances when reinstalling (Elin Waring, Christophe Demko).
+ # Fixed issue [#20516] [patch] Hathor fixes (Andy Tarr, Airton Torres).
  
 24-May-2010 Jean-Marie Simonet
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.

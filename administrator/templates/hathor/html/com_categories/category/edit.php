@@ -38,38 +38,31 @@ JHtml::_('behavior.formvalidation');
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_CATEGORIES_FIELDSET_DETAILS');?></legend>
-				<div>
-					<?php echo $this->form->getLabel('title'); ?>
-					<?php echo $this->form->getInput('title'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('extension'); ?>
-					<?php echo $this->form->getInput('extension'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('parent_id'); ?>
-					<?php echo $this->form->getInput('parent_id'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('access'); ?>
-					<?php echo $this->form->getInput('access'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('language'); ?>
-					<?php echo $this->form->getInput('language'); ?>
-				</div>
-				<div>
-					<?php echo $this->form->getLabel('id'); ?>
-					<?php echo $this->form->getInput('id'); ?>
-				</div>
+				<ul class="adminformlist">
+					<li><?php echo $this->form->getLabel('title'); ?>
+					<?php echo $this->form->getInput('title'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('alias'); ?>
+					<?php echo $this->form->getInput('alias'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('extension'); ?>
+					<?php echo $this->form->getInput('extension'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('parent_id'); ?>
+					<?php echo $this->form->getInput('parent_id'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('published'); ?>
+					<?php echo $this->form->getInput('published'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('access'); ?>
+					<?php echo $this->form->getInput('access'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('language'); ?>
+					<?php echo $this->form->getInput('language'); ?></li>
+				
+					<li><?php echo $this->form->getLabel('id'); ?>
+					<?php echo $this->form->getInput('id'); ?></li>
+				</ul>
 
 				<div class="clr"></div>
 				<?php echo $this->form->getLabel('description'); ?>
@@ -88,7 +81,7 @@ JHtml::_('behavior.formvalidation');
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CATEGORIES_FIELDSET_RULES'), 'meta-rules'); ?>
 			<fieldset>
 				<legend class="element-invisible"><?php echo JText::_('COM_CATEGORIES_FIELDSET_RULES'); ?></legend>
-					<?php echo $this->form->getLabel('rules'); ?>
+					<?php //echo $this->form->getLabel('rules'); ?>
 					<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>
 
@@ -106,4 +99,3 @@ JHtml::_('behavior.formvalidation');
 </form>
 <div class="clr"></div>
 </div>
-<legend class="element-invisible"><?php echo JText::_('CATEGORIES_FIELDSET_RULES'); ?></legend>

@@ -23,10 +23,12 @@ defined('_JEXEC') or die;
 		?>
 		<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_($label) ?></legend>
-			<?php foreach ($this->form->getFieldset('request') as $field) : ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			<?php endforeach; ?>
+			<ul class="adminformlist">
+				<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+					<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
+				<?php endforeach; ?>
+			</ul>
 		</fieldset>
 <?php
 	}
@@ -43,9 +45,11 @@ defined('_JEXEC') or die;
 			?>
 		<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_($label) ?></legend>
-			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-				<?php echo $field->label; ?>
-				<?php echo $field->input; ?>
-			<?php endforeach; ?>
+			<ul class="adminformlist">
+				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+					<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
+				<?php endforeach; ?>
+			</ul>
 		</fieldset>
 <?php endforeach;?>

@@ -36,72 +36,55 @@ JHTML::_('behavior.modal');
 
 <div class="col main-section">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_MENUS_ITEM_REQUIRED');?></legend>
-
-		<div>
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('type'); ?>
-			<?php echo $this->form->getInput('type'); ?>
-		</div>
-
-		<?php if ($this->item->type =='url') : ?>
-			<div>
-				<?php $this->form->setFieldAttribute('link','readonly','false');?>
-				<?php echo $this->form->getLabel('link'); ?>
-				<?php echo $this->form->getInput('link'); ?>
-			</div>
-		<?php endif; ?>
-	</fieldset>
-	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
-
-		<div>
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('note'); ?>
-			<?php echo $this->form->getInput('note'); ?>
-		</div>
-
-		<?php if ($this->item->type !=='url') : ?>
-			<div>
-				<?php echo $this->form->getLabel('link'); ?>
-				<?php echo $this->form->getInput('link'); ?>
-			</div>
-		<?php endif; ?>
-
-		<div>
-			<?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('menutype'); ?>
-			<?php echo $this->form->getInput('menutype'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('parent_id'); ?>
-			<?php echo $this->form->getInput('parent_id'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('browserNav'); ?>
-			<?php echo $this->form->getInput('browserNav'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('home'); ?>
-			<?php echo $this->form->getInput('home'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('template_style_id'); ?>
-			<?php echo $this->form->getInput('template_style_id'); ?>
-		</div>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('title'); ?>
+				<?php echo $this->form->getInput('title'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('type'); ?>
+				<?php echo $this->form->getInput('type'); ?></li>
+	
+				<?php if ($this->item->type =='url'): ?>
+					<?php $this->form->setFieldAttribute('link','readonly','false');?>
+					<li><?php echo $this->form->getLabel('link'); ?>
+					<?php echo $this->form->getInput('link'); ?></li>
+				<?php endif ?>
+	
+				<li><?php echo $this->form->getLabel('alias'); ?>
+				<?php echo $this->form->getInput('alias'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('note'); ?>
+				<?php echo $this->form->getInput('note'); ?></li>
+	
+				<?php if ($this->item->type !=='url'): ?>
+					<li><?php echo $this->form->getLabel('link'); ?>
+					<?php echo $this->form->getInput('link'); ?></li>
+				<?php endif ?>
+	
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('menutype'); ?>
+				<?php echo $this->form->getInput('menutype'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('parent_id'); ?>
+				<?php echo $this->form->getInput('parent_id'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('browserNav'); ?>
+				<?php echo $this->form->getInput('browserNav'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('home'); ?>
+				<?php echo $this->form->getInput('home'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
+	
+				<li><?php echo $this->form->getLabel('template_style_id'); ?>
+				<?php echo $this->form->getInput('template_style_id'); ?></li>
+		</ul>
 
 	</fieldset>
 </div>

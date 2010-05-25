@@ -32,6 +32,11 @@ body {
 	color: #fcff20;
 }
 
+div#sbox-content {
+	background-color: #1c4181;
+	color: #fcff20;
+}
+
 h1 {
 	color: #163365;
 }
@@ -1113,6 +1118,37 @@ div.message {
 tr.row1 {
 	background-color: #1c4181;
 }
+
+li.acl-editgroups,
+li.acl-resetbtn {
+	background-color: #1b3f7c;
+	border: 1px solid #10254a;
+}
+
+li.acl-editgroups a,
+li.acl-resetbtn a {
+	color: #fcff20
+}
+
+li.acl-editgroups:hover,
+li.acl-resetbtn:hover {
+	background-color: #163365;
+	border-top: 1px solid #000000;
+	border-right: 1px solid #1b3f7c;
+	border-bottom: 1px solid #1b3f7c;
+	border-left: 1px solid #000000;
+	color: #fcff20;
+}
+
+button:hover,button:focus {
+	background-color: #163365;
+	border-top: 1px solid #000000;
+	border-right: 1px solid #1b3f7c;
+	border-bottom: 1px solid #1b3f7c;
+	border-left: 1px solid #000000;
+	color: #fcff20;
+}
+
 /* ACL Config --------- */
 table#acl-config {
 	border: 1px solid #10254a;

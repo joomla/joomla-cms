@@ -23,12 +23,12 @@ $menuTypes = MenusHelper::getMenuLinks();
 					<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true);?>
 				</select>
 
-				<span id="jform_menuselect-lbl" class="hasTip faux-label"><?php echo JText::_('COM_MODULES_MENU_SELECTION'); ?>:</span>
+				<span id="jform_menuselect-lbl" class="hasTip faux-label"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?>:</span>
 
 				<div class="clr"></div>
 
 				<button type="button" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
-					<?php echo JText::_('COM_MODULES_MENU_SELECTION_INVERT'); ?>
+					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 				</button>
 
 				<div id="menu-assignment">

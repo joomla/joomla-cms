@@ -27,47 +27,40 @@ JHtml::_('behavior.formvalidation');
 	}
 // -->
 </script>
+<div class="weblink-edit">
 
 <form action="<?php JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
 <div class="col main-section">
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK') : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id); ?></legend>
-		<div>
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('url'); ?>
-			<?php echo $this->form->getInput('url'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('ordering'); ?>
-			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
-		</div>
-		<div>
-			<?php echo $this->form->getLabel('id'); ?>
-			<?php echo $this->form->getInput('id'); ?>
-		</div>
+		<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('url'); ?>
+			<?php echo $this->form->getInput('url'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('state'); ?>
+			<?php echo $this->form->getInput('state'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('catid'); ?>
+			<?php echo $this->form->getInput('catid'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('ordering'); ?>
+			<?php echo $this->form->getInput('ordering'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?></li>
+		
+			<li><?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?></li>
+		</ul>
 
 		<div>
 			<?php echo $this->form->getLabel('description'); ?>
@@ -82,38 +75,41 @@ JHtml::_('behavior.formvalidation');
 		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+		<ul class="adminformlist">
+		
+			<li><?php echo $this->form->getLabel('created_by'); ?>
+			<?php echo $this->form->getInput('created_by'); ?></li>
 
-			<?php echo $this->form->getLabel('created_by'); ?>
-			<?php echo $this->form->getInput('created_by'); ?>
+			<li><?php echo $this->form->getLabel('created_by_alias'); ?>
+			<?php echo $this->form->getInput('created_by_alias'); ?></li>
 
-			<?php echo $this->form->getLabel('created_by_alias'); ?>
-			<?php echo $this->form->getInput('created_by_alias'); ?>
+			<li><?php echo $this->form->getLabel('created'); ?>
+			<?php echo $this->form->getInput('created'); ?></li>
 
-			<?php echo $this->form->getLabel('created'); ?>
-			<?php echo $this->form->getInput('created'); ?>
+			<li><?php echo $this->form->getLabel('publish_up'); ?>
+			<?php echo $this->form->getInput('publish_up'); ?></li>
 
-			<?php echo $this->form->getLabel('publish_up'); ?>
-			<?php echo $this->form->getInput('publish_up'); ?>
+			<li><?php echo $this->form->getLabel('publish_down'); ?>
+			<?php echo $this->form->getInput('publish_down'); ?></li>
 
-			<?php echo $this->form->getLabel('publish_down'); ?>
-			<?php echo $this->form->getInput('publish_down'); ?>
+			<li><?php echo $this->form->getLabel('modified'); ?>
+			<?php echo $this->form->getInput('modified'); ?></li>
 
-			<?php echo $this->form->getLabel('modified'); ?>
-			<?php echo $this->form->getInput('modified'); ?>
-
-			<?php echo $this->form->getLabel('version'); ?>
-			<?php echo $this->form->getInput('version'); ?>
+			<li><?php echo $this->form->getLabel('version'); ?>
+			<?php echo $this->form->getInput('version'); ?></li>
+		</ul>
 
 		</fieldset>
 
 		<?php echo $this->loadTemplate('params'); ?>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
-
+	
 	</div>
 	<div class="clr"></div>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+</div>
 

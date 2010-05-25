@@ -87,7 +87,7 @@ function pagination_list_footer($list)
 	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
 
 	$html .= "\n<input type=\"hidden\" name=\"" . $list['prefix'] . "limitstart\" value=\"".$list['limitstart']."\" />";
-	$html .= "\n</div><div class=\"clr\"></div></div>";
+	$html .= "\n<div class=\"clr\"></div></div></div>";
 
 	return $html;
 }

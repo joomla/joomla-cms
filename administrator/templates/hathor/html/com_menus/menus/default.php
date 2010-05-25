@@ -21,6 +21,15 @@ $return	= base64_encode($uri);
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 ?>
+<script type="text/javascript">
+<!--
+	function submitbutton(task) {
+		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE',true);?>')) {
+			submitform(task);
+		}
+	}
+// -->
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm" id="adminForm">
 	<table class="adminlist">
 		<thead>
@@ -80,17 +89,19 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $item->count_trashed; ?></a>
 				</td>
 				<td class="left">
+				<ul class="menu-module-list">
 					<?php
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
 						?>
-						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
+						<li><a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
 							<?php echo $this->escape($module->title); ?></a>
-						<p class="smallsub">(<?php echo $this->escape($module->position);?>)</p>
+						<span class="smallsub">(<?php echo $this->escape($module->position);?>)</span></li>
 						<?php
 						endforeach;
 					endif;
 					?>
+				</ul>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

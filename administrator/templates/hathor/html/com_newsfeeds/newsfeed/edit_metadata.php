@@ -20,19 +20,21 @@ foreach ($fieldSets as $name => $fieldSet) :
 	?>
 	<fieldset class="panelform">
 	<legend class="element-invisible"><?php echo JText::_($fieldSet->label); ?></legend>
+	<ul class="adminformlist">
 		<?php if ($name == 'jmetadata') : // Include the real fields in this panel. ?>
-			<?php echo $this->form->getLabel('metadesc'); ?>
-			<?php echo $this->form->getInput('metadesc'); ?>
+			<li><?php echo $this->form->getLabel('metadesc'); ?>
+			<?php echo $this->form->getInput('metadesc'); ?></li>
 
-			<?php echo $this->form->getLabel('metakey'); ?>
-			<?php echo $this->form->getInput('metakey'); ?>
+			<li><?php echo $this->form->getLabel('metakey'); ?>
+			<?php echo $this->form->getInput('metakey'); ?></li>
 
-			<?php echo $this->form->getLabel('xreference'); ?>
-			<?php echo $this->form->getInput('xreference'); ?>
+			<li><?php echo $this->form->getLabel('xreference'); ?>
+			<?php echo $this->form->getInput('xreference'); ?></li>
 		<?php endif; ?>
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-			<?php echo $field->label; ?>
-			<?php echo $field->input; ?>
+			<li><?php echo $field->label; ?>
+			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
+	</ul>
 	</fieldset>
 <?php endforeach; ?>

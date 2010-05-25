@@ -131,7 +131,9 @@ p.error 	{ color: #a20000; font-weight: bold; }
 .nowarning 	{ color: #2c2c2c; font-weight: bold; }
 .success 	{ color: #005800; font-weight: bold;}
 .allow 		{ color: #005800;}
+span.writable 		{ color: #005800;}
 .deny 		{ color: #a20000;}
+span.unwritable		{ color: #a20000;}
 .none 		{ color: #aaaaaa;}
 .pointer	{ cursor: pointer;}
 
@@ -568,6 +570,16 @@ div.current select { margin-bottom: 15px;}
 
 div.current table#acl-config th.acl-groups {
 	text-align: left;
+}
+
+li.acl-editgroups,
+li.acl-resetbtn {
+
+}
+
+li.acl-editgroups:hover,
+li.acl-resetbtn:hover {
+
 }
 
 div#menu-assignment {
@@ -1152,6 +1164,15 @@ fieldset.adminform {
 	margin: 0 10px 10px 10px;
 }
 
+ul.adminformlist,
+ul.adminformlist li,
+dl.adminformlist,
+dl.adminformlist li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
 	/* Table styles are for use with tabular data */
 table.adminform {
 	background-color: #ffffff;
@@ -1477,59 +1498,7 @@ ul#new-modules-list {
 	line-height: 1.5em;
 }
 
-/**
- * Pagination styles
- */
 
-	/* Normal pagination styles */
-div.containerpg {
-	position: relative;
-	left: 50%;
-	float: left;
-	clear: left;
-}
-
-div.pagination {
-	position: relative;
-	left: -50%;
-	margin: 0 auto;
-	padding: .5em;
-}
-
-.pagination div.limit {
-	float: left;
-	height: 3em;
-	line-height: 3em;
-	margin: 0 10px;
-}
-
-	/* The Go submittal button */
-.pagination button {
-	font-size: 1.2em;
-	height: 1.6em;
-	line-height: 1.6em;
-	margin-right: 20px;
-}
-
-	/* Grey out the current page number */
-.pagination .page span {
-	color: #cccccc;
-}
-
-	/* Style if pagination is part of the table (old style) */
-table.adminlist .pagination {
-	display: table;
-	padding: 0;
-	margin: 0 auto;
-	font-size: .8em;
-}
-
-table.adminlist .pagination button {
-	font-size: 1.2em;
-	height: 1.6em;
-	line-height: 1.6em;
-	margin-right: 20px;
-}
 
 /**
  * Utility styles
@@ -1547,6 +1516,12 @@ table.adminlist .pagination button {
 	height: 0;
 	clear:both;
 	visibility: hidden;
+}
+
+.menu-module-list {
+	list-position: inside;
+	padding-left: 10px;
+	margin-left: 5px;
 }
 
 	/* stu nicholls solution for centering divs */
@@ -1763,6 +1738,80 @@ button:hover,button:focus {
 
 .button2-left .blank {
 
+}
+
+/**
+ * Pagination styles
+ */
+
+	/* Normal pagination styles */
+div.containerpg {
+	position: relative;
+	left: 50%;
+	float: left;
+	clear: left;
+}
+
+div.pagination {
+	position: relative;
+	left: -50%;
+	margin: 0 auto;
+	padding: .5em;
+}
+
+.pagination div.limit {
+	float: left;
+	margin: 0 10px;
+	font-size: 1.2em;
+	height: 1.8em;
+	line-height: 1.8em; 
+}
+
+.pagination div.limit label {
+	font-size: 100%;
+	height: 1.8em;
+	line-height: 1.8em; 
+}
+
+.pagination div.limit select {
+	font-size: 100%;
+	height: 1.8em;
+	line-height: 1.8em; 
+
+}
+
+	/* The Go submittal button */
+.pagination button {
+	font-size: 100%; 
+	height: 1.8em;
+	line-height: 1.8em; 
+	margin-right: 20px;
+}
+
+div.pagination .button2-right, div.pagination .button2-left {
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.6em;
+}
+
+	/* Grey out the current page number */
+.pagination .page span {
+	color: #cccccc;
+}
+
+	/* Style if pagination is part of the table (old style) */
+table.adminlist .pagination {
+	display: table;
+	padding: 0;
+	margin: 0 auto;
+	font-size: .8em;
+}
+
+table.adminlist .pagination button {
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.5em;
+	margin-right: 20px;
 }
 
 /**
@@ -2614,6 +2663,10 @@ body.contentpane input, body.contentpane select {
 	font-size: 120%;
 }
 
+#filter-bar input, #filter-bar select, #filter-bar button {
+	font-size: 110%;
+}
+
 /**
  * User Accessibility
  */
@@ -2762,7 +2815,7 @@ td.col1 {
 	padding: 4px;
 }
 tr.row1 {
-	background-color: #f0f0ee;
+	background-color: #f9fade;
 }
 table.aclsummary-table caption,
 table.aclmodify-table caption{
@@ -2877,6 +2930,40 @@ ul.acllegend li.acl-resetbtn {
 	padding-right: 0px;
 }
 
+li.acl-editgroups,
+li.acl-resetbtn {
+	display:block;
+	float:left;
+	background-color: #ffffff;
+	border: 1px solid #c7c8b2;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+li.acl-editgroups a,
+li.acl-resetbtn a {
+	padding: 6px;
+	color: #2c2c2c;
+	cursor: default;
+}
+
+li.acl-editgroups a:hover,
+li.acl-resetbtn a:hover,
+li.acl-editgroups a:focus,
+li.acl-resetbtn a:focus {
+	text-decoration:none;
+	cursor: default;
+}
+
+li.acl-editgroups:hover,
+li.acl-resetbtn:hover,
+li.acl-editgroups:focus,
+li.acl-resetbtn:focus {
+	background-color:#e3e4ca;
+	text-decoration:none;
+	cursor: default;
+}
+
 table#acl-config {
 	width: 100%;
 	margin-top: 15px;
@@ -2916,3 +3003,4 @@ table#acl-config td select {
 
 /* Disabled until verified */
 label#jform_rules-lbl {display:none;}
+*/

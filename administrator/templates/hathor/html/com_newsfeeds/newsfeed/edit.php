@@ -35,33 +35,34 @@ JHtml::_('behavior.keepalive');
 <div class="col main-section">
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED') : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id); ?></legend>
+		<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('name'); ?>
+			<?php echo $this->form->getInput('name'); ?></li>
 
-			<?php echo $this->form->getLabel('name'); ?>
-			<?php echo $this->form->getInput('name'); ?>
+			<li><?php echo $this->form->getLabel('link'); ?>
+			<?php echo $this->form->getInput('link'); ?></li>
 
-			<?php echo $this->form->getLabel('link'); ?>
-			<?php echo $this->form->getInput('link'); ?>
+			<li><?php echo $this->form->getLabel('catid'); ?>
+			<?php echo $this->form->getInput('catid'); ?></li>
 
-			<?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?>
+			<li><?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?></li>
 
-			<?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?>
+			<li><?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?></li>
 
-			<?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?>
+			<li><?php echo $this->form->getLabel('access'); ?>
+			<?php echo $this->form->getInput('access'); ?></li>
 
-			<?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?>
+			<li><?php echo $this->form->getLabel('ordering'); ?>
+			<?php echo $this->form->getInput('ordering'); ?></li>
 
-			<?php echo $this->form->getLabel('ordering'); ?>
-			<div id="jform_ordering" class="fltlft"><?php echo $this->form->getInput('ordering'); ?></div>
+			<li><?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?></li>
 
-			<?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?>
-
-			<?php echo $this->form->getLabel('id'); ?>
-			<?php echo $this->form->getInput('id'); ?>
+			<li><?php echo $this->form->getLabel('id'); ?>
+			<?php echo $this->form->getInput('id'); ?></li>
+		</ul>
 
 	</fieldset>
 </div>
@@ -72,39 +73,40 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 	<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+		<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('numarticles'); ?>
+			<?php echo $this->form->getInput('numarticles'); ?></li>
 
-			<?php echo $this->form->getLabel('numarticles'); ?>
-			<?php echo $this->form->getInput('numarticles'); ?>
+			<li><?php echo $this->form->getLabel('cache_time'); ?>
+			<?php echo $this->form->getInput('cache_time'); ?></li>
 
-			<?php echo $this->form->getLabel('cache_time'); ?>
-			<?php echo $this->form->getInput('cache_time'); ?>
+			<li><?php echo $this->form->getLabel('rtl'); ?>
+			<?php echo $this->form->getInput('rtl'); ?></li>
 
-			<?php echo $this->form->getLabel('rtl'); ?>
-			<?php echo $this->form->getInput('rtl'); ?>
+			<li><?php echo $this->form->getLabel('created_by'); ?>
+			<?php echo $this->form->getInput('created_by'); ?></li>
 
-			<?php echo $this->form->getLabel('created_by'); ?>
-			<?php echo $this->form->getInput('created_by'); ?>
+			<li><?php echo $this->form->getLabel('created_by_alias'); ?>
+			<?php echo $this->form->getInput('created_by_alias'); ?></li>
 
-			<?php echo $this->form->getLabel('created_by_alias'); ?>
-			<?php echo $this->form->getInput('created_by_alias'); ?>
+			<li><?php echo $this->form->getLabel('created'); ?>
+			<?php echo $this->form->getInput('created'); ?></li>
 
-			<?php echo $this->form->getLabel('created'); ?>
-			<?php echo $this->form->getInput('created'); ?>
+			<li><?php echo $this->form->getLabel('publish_up'); ?>
+			<?php echo $this->form->getInput('publish_up'); ?></li>
 
-			<?php echo $this->form->getLabel('publish_up'); ?>
-			<?php echo $this->form->getInput('publish_up'); ?>
+			<li><?php echo $this->form->getLabel('publish_down'); ?>
+			<?php echo $this->form->getInput('publish_down'); ?></li>
 
-			<?php echo $this->form->getLabel('publish_down'); ?>
-			<?php echo $this->form->getInput('publish_down'); ?>
+			<li><?php echo $this->form->getLabel('modified'); ?>
+			<?php echo $this->form->getInput('modified'); ?></li>
 
-			<?php echo $this->form->getLabel('modified'); ?>
-			<?php echo $this->form->getInput('modified'); ?>
+			<li><?php echo $this->form->getLabel('version'); ?>
+			<?php echo $this->form->getInput('version'); ?></li>
 
-			<?php echo $this->form->getLabel('version'); ?>
-			<?php echo $this->form->getInput('version'); ?>
-
-			<?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
-			<?php //echo $this->form->getInput('xreference'); ?>
+			<li><?php echo $this->form->getLabel('xreference');?>
+			<?php echo $this->form->getInput('xreference'); ?></li>
+		</ul>
 		</fieldset>
 
 		<?php echo $this->loadTemplate('params'); ?>

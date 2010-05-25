@@ -40,8 +40,6 @@ defined('_JEXEC') or die;
 				<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php /* $link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component&layout=modal' ; */ ?>
-					<?php /* $link = 'index.php?option=com_modules&client=0&task=edit&cid[]='. $module->id.'&tmpl=component&view=module&layout=modal' ; */ ?>
 					<?php $link = 'index.php?option=com_modules&client_id=0&task=module.edit&id='. $module->id.'&tmpl=component&view=module&layout=modal' ; ?>
 					<a class="modal" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 800, y: 450}}">
 						<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?></a>

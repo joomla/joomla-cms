@@ -37,7 +37,7 @@ $listDirn	= $this->state->get('list.direction');
 				<th class="width-10 center"><?php echo JText::_('JVERSION'); ?></th>
 				<th class="width-10"><?php echo JText::_('JDATE'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?></th>
-				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $listDirn, $listOrder); ?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?></th>
 				<th class="width-15 center"><?php echo JText::_('JAUTHOR'); ?></th>
 				<th class="nowrap id-col"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?></th>
 			</tr>
