@@ -2636,6 +2636,9 @@ a.jgrid:hover {
 .icon-48-weblinks {
 	background-image: url(../images/header/icon-48-links.png);
 }
+.icon-48-weblinks-categories {
+	background-image: url(../images/header/icon-48-links-cat.png);
+}
 
 /**
  * General styles
