@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 25-May-2010 Christophe Demko
+ # Fixed [#20567] Com_Redirect save as copy does not work (tries to save with same name) (thanks Elin Waring, Tim Plummer,Christopher Garvis and Amy Stephen) 
  # Fixed autodetect ftp path in installation
  # Fixed css for hathor and bluestork template (missing image http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=20632)
  # Fixed UI in language manager
