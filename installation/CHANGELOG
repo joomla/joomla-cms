@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-May-2010 Jean-Marie Simonet
+# [#20608] Double Pathway / Breadcrumb
+
 25-May-2010 Andrew Eddie
  # Fixed issue [#20601] User Manager - parent field does not display when creating a new group.
  # Fixed issue [#20526] Database creation error with MySQL5 (Adam Banks).

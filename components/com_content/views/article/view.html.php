@@ -188,10 +188,6 @@ class ContentViewArticle extends JView
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
-			foreach ($path as $title => $link)
-			{
-				$pathway->addItem($title, $link);
-			}
 		}
 
 		if (empty($title))
