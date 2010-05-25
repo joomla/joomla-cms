@@ -172,6 +172,10 @@ div.toolbar-list li {
 	color: #fcff20;
 }
 
+div.toolbar-list li.divider {
+	border-right:1px dotted #1b3f7c;
+}
+
 div.toolbar-list a {
 	border: 1px solid #10254a;
 	color: #fcff20;
@@ -374,6 +378,22 @@ input:focus, select:focus, textarea:focus, option:focus,
 input:hover, select:hover, textarea:hover, option:hover
 	{
 	background-color: #10254a;
+	color: #fcff20;
+}
+
+/* Inputs used as buttons */
+input[type="button"] {
+	background-color: #1b3f7c;
+	border: 1px solid #10254a;
+	color: #fcff20;
+}
+
+input[type="button"]:hover, input[type="button"]:focus {
+	background-color: #163365;
+	border-top: 1px solid #000000;
+	border-right: 1px solid #1b3f7c;
+	border-bottom: 1px solid #1b3f7c;
+	border-left: 1px solid #000000;
 	color: #fcff20;
 }
 

@@ -379,7 +379,9 @@ div.toolbar-list li.spacer {
 }
 
 div.toolbar-list li.divider {
-	width: 5px;
+	width: 10px;
+	border-right:1px dotted #e3e4ca;
+	margin-right: 10px;
 }
 
 div.toolbar-list span {
@@ -428,6 +430,11 @@ textarea#mm_message {
 /**
  * Pane Slider Jpane Toggler styles
  */
+div.pane-sliders {
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
 .pane-sliders .title {
 	margin: 0;
 	padding: 2px;
@@ -446,7 +453,7 @@ textarea#mm_message {
 }
 
 .pane-sliders .content {
-	background: #f9fade;
+	/*background: #f9fade;*/
 }
 
 .pane-sliders .adminlist {
@@ -1029,11 +1036,18 @@ input.disabled {
 }
 
 input,select, span.faux-input {
-	font-size: 1.4em;
+	font-size: 1.3em;
 	background-color: #ffffff;
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+}
+
+input[type="button"] {
+	background-color: #f9fade;
+	padding:.1em 1em .1em 1em;
+	font-size: 1.1em;
+	line-height: 1.5em;
 }
 
 textarea {
@@ -1786,6 +1800,82 @@ div.pagination {
 	height: 1.8em;
 	line-height: 1.8em; 
 	margin-right: 20px;
+}
+
+div.pagination .button2-right, div.pagination .button2-left {
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.6em;
+}
+
+	/* Grey out the current page number */
+.pagination .page span {
+	color: #cccccc;
+}
+
+	/* Style if pagination is part of the table (old style) */
+table.adminlist .pagination {
+	display: table;
+	padding: 0;
+	margin: 0 auto;
+	font-size: .8em;
+}
+
+table.adminlist .pagination button {
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.5em;
+	margin-right: 20px;
+}
+
+/**
+ * Pagination styles
+ */
+
+	/* Normal pagination styles */
+div.containerpg {
+	position: relative;
+	left: 50%;
+	float: left;
+	clear: left;
+}
+
+div.pagination {
+	position: relative;
+	left: -50%;
+	margin: 0 auto;
+	padding: .5em;
+}
+
+.pagination div.limit {
+	float: left;
+	margin: 0 10px;
+	font-size: 1.2em;
+	height: 1.6em;
+	line-height: 1.6em; 
+	
+}
+
+.pagination div.limit label {
+	font-size: 100%;
+	height: 1.6em;
+	line-height: 1.6em; 
+}
+
+.pagination div.limit select {
+	font-size: 100%;
+	height: 1.6em;
+	line-height: 1.6em; 
+	padding: 0;
+}
+
+	/* The Go submittal button */
+.pagination button {
+	font-size: 100%; 
+	height: 1.6em;
+	line-height: 1.6em; 
+	margin-right: 20px;
+	padding-bottom: 5px;
 }
 
 div.pagination .button2-right, div.pagination .button2-left {
