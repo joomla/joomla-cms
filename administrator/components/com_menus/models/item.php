@@ -723,7 +723,8 @@ class MenusModelItem extends JModelAdmin
 			}
 
 			// Now load the component params.
-			if ($isNew == false) {
+			// TODO: Work out why 'fixing' this breaks JForm
+			if ($isNew = false) {
 				$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
 			} else {
 				$path='null';
