@@ -46,7 +46,7 @@ Install.detectFtpRoot = function(el) {
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
-		data: {'task':'setup.detectFtpRoot', 'protocol':'json'},
+		data: {'task':'setup.detectFtpRoot', 'format':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {
 			var r = JSON.decode(response);
@@ -71,7 +71,7 @@ Install.verifyFtpSettings = function(el) {
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
-		data: {'task':'setup.verifyFtpSettings', 'protocol':'json'},
+		data: {'task':'setup.verifyFtpSettings', 'format':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
 		onComplete: function(response) {
 			var r = JSON.decode(response);
