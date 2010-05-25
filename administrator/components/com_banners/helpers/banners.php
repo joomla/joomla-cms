@@ -8,6 +8,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_banners
+ * @since		1.6
  */
 class BannersHelper
 {
@@ -15,6 +16,9 @@ class BannersHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param	string	The name of the active view.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -52,6 +56,7 @@ class BannersHelper
 	 * @param	int		The category ID.
 	 *
 	 * @return	JObject
+	 * @since	1.6
 	 */
 	public static function getActions($categoryId = 0)
 	{
@@ -60,8 +65,7 @@ class BannersHelper
 
 		if (empty($categoryId)) {
 			$assetName = 'com_banners';
-		}
-		else {
+		} else {
 			$assetName = 'com_banners.category.'.(int) $categoryId;
 		}
 
@@ -75,16 +79,21 @@ class BannersHelper
 
 		return $result;
 	}
+
+	/**
+	 * @return	boolean
+	 * @since	1.6
+	 */
 	public static function updateReset()
 	{
 		$user = JFactory::getUser();
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('*');
-		$query->from("#__banners");
-		$query->where("NOW() >= `reset`");
-		$query->where("`reset` != '0000-00-00 00:00:00' AND `reset`!=NULL");
-		$query->where("(`checked_out` = 0 OR `checked_out` = ".$db->Quote($user->id).")");
+		$query->from('#__banners');
+		$query->where('NOW() >= `reset`');
+		$query->where('`reset` != '.$db->quote('0000-00-00 00:00:00').' AND `reset`!=NULL');
+		$query->where('(`checked_out` = 0 OR `checked_out` = '.(int) $db->Quote($user->id).')');
 		$db->setQuery((string)$query);
 		$rows = $db->loadObjectList();
 
@@ -95,13 +104,16 @@ class BannersHelper
 		}
 
 		JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_banners/tables');
+
 		foreach ($rows as $row) {
 			$purchase_type = $row->purchase_type;
+
 			if ($purchase_type < 0 && $row->cid) {
 				$client = JTable::getInstance('Client','BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
+
 			if ($purchase_type < 0) {
 				$params = JComponentHelper::getParams('com_banners');
 				$purchase_type = $params->get('purchase_type');
@@ -141,6 +153,7 @@ class BannersHelper
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

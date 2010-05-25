@@ -13,13 +13,14 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 jimport('joomla.application.component.helper');
 
-JTable::addIncludePath(JPATH_ROOT . '/administrator/components/com_banners/tables');
+JTable::addIncludePath(JPATH_ROOT.'/administrator/components/com_banners/tables');
 
 /**
  * Banners model for the Joomla Banners component.
  *
  * @package		Joomla.Site
  * @subpackage	com_banners
+ * @since		1.6
  */
 class BannersModelBanners extends JModelList
 {
@@ -33,6 +34,7 @@ class BannersModelBanners extends JModelList
 	 * @param	string		$id	A prefix for the store id.
 	 *
 	 * @return	string		A store id.
+	 * @since	1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -48,7 +50,9 @@ class BannersModelBanners extends JModelList
 
 	/**
 	 * Gets a list of banners
-	 * @return array An array of banner objects
+	 *
+	 * @return	array	An array of banner objects.
+	 * @since	1.6
 	 */
 	function getListQuery()
 	{
@@ -60,6 +64,7 @@ class BannersModelBanners extends JModelList
 		$catid		= $this->getState('filter.category_id');
 		$keywords	= $this->getState('filter.keywords');
 		$randomise	= ($ordering == 'random');
+		$nullDate	= $db->quote($db->getNullDate());
 
 		$query->select(
 			'a.id as id,'.
@@ -73,8 +78,8 @@ class BannersModelBanners extends JModelList
 		);
 		$query->from('#__banners as a');
 		$query->where('a.state=1');
-		$query->where("(NOW() >= a.publish_up OR a.publish_up='0000-00-00 00:00:00')");
-		$query->where("(NOW() <= a.publish_down OR a.publish_down='0000-00-00 00:00:00')");
+		$query->where('(NOW() >= a.publish_up OR a.publish_up = '.$nullDate.')');
+		$query->where('(NOW() <= a.publish_down OR a.publish_down = '.$nullDate.')');
 		$query->where('(a.imptotal = 0 OR a.impmade = a.imptotal)');
 
 		if ($cid) {
@@ -91,11 +96,12 @@ class BannersModelBanners extends JModelList
 		}
 
 		if ($tagSearch) {
+
 			if (count($keywords) == 0) {
 				$query->where('0');
 			} else {
 				$temp = array();
-				$config = &JComponentHelper::getParams('com_banners');
+				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
 
 				foreach ($keywords as $keyword) {
@@ -103,12 +109,15 @@ class BannersModelBanners extends JModelList
 					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
 
 					$condition2="a.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
+
 					if ($cid) {
 						$condition2.=" OR cl.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
 					}
+
 					if ($catid) {
 						$condition2.=" OR cat.metakey REGEXP '[[:<:]]".$db->getEscaped($keyword) . "[[:>:]]'";
 					}
+
 					$temp[]="($condition1) AND ($condition2)";
 				}
 				$query->where('(' . implode(' OR ', $temp). ')');
@@ -125,6 +134,12 @@ class BannersModelBanners extends JModelList
 		return $query;
 	}
 
+	/**
+	 * Get a list of banners.
+	 *
+	 * @return	array
+	 * @since	1.6
+	 */
 	function &getItems()
 	{
 		if (!isset($this->cache['items'])) {
@@ -138,8 +153,12 @@ class BannersModelBanners extends JModelList
 		}
 		return $this->cache['items'];
 	}
+
 	/**
 	 * Makes impressions on a list of banners
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	function impress()
 	{
@@ -156,6 +175,7 @@ class BannersModelBanners extends JModelList
 			$query->set('impmade = (impmade + 1)');
 			$query->where('id = '.(int)$id);
 			$db->setQuery((string)$query);
+
 			if (!$db->query()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
@@ -181,12 +201,15 @@ class BannersModelBanners extends JModelList
 				$query->where('track_date='.$db->Quote($trackDate));
 
 				$db->setQuery((string)$query);
+
 				if (!$db->query()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
+
 				$count = $db->loadResult();
 
 				$query->clear();
+
 				if ($count) {
 					// update count
 					$query->update('#__banner_tracks');
@@ -204,6 +227,7 @@ class BannersModelBanners extends JModelList
 				}
 
 				$db->setQuery((string)$query);
+
 				if (!$db->query()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}

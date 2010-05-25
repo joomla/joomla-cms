@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-May-2010
  # Fixed issue [#20601] User Manager - parent field does not display when creating a new group
  # Fixed issue [#20526] Database creation error with MySQL5 (Adam Banks)
+ # Fixed issues with double quotes used in query strings.
 
 24-May-2010 Jean-Marie Simonet
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.

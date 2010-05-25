@@ -23,6 +23,7 @@ class UsersModelUsers extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -66,6 +67,7 @@ class UsersModelUsers extends JModelList
 	 * @param	string		$id	A prefix for the store id.
 	 *
 	 * @return	string		A store id.
+	 * @since	1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -82,6 +84,7 @@ class UsersModelUsers extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
+	 * @since	1.6
 	 */
 	protected function getListQuery()
 	{
@@ -109,15 +112,17 @@ class UsersModelUsers extends JModelList
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
+
 		if (is_numeric($state)) {
 			$query->where('a.block = '.(int) $state);
 		}
 
 		// If the model is set to check the activated state, add to the query.
 		$active = $this->getState('filter.active');
+
 		if (is_numeric($active)) {
 			if ($active == '0') {
-				$query->where('a.activation = ""');
+				$query->where('a.activation = '.$db->quote(''));
 			} else if ($active == '1') {
 				$query->where('LENGTH(a.activation) = 32');
 			}

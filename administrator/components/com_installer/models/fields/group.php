@@ -38,14 +38,16 @@ class JFormFieldGroup extends JFormField
 	{
 		$onchange	= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 		$options = array();
+
 		foreach ($this->element->children() as $option) {
 			$options[] = JHtml::_('select.option', (string)$option->attributes()->value, JText::_(trim($option->data())));
 		}
+
 		$dbo = JFactory::getDbo();
 		$query = $dbo->getQuery(true);
 		$query->select('DISTINCT `folder`');
 		$query->from('#__extensions');
-		$query->where('`folder` != ""');
+		$query->where('`folder` != '.$dbo->quote(''));
 		$query->order('`folder`');
 		$dbo->setQuery((string)$query);
 		$folders = $dbo->loadResultArray();
@@ -53,7 +55,9 @@ class JFormFieldGroup extends JFormField
 		foreach($folders as $folder) {
 			$options[] = JHtml::_('select.option', $folder, $folder);
 		}
+
 		$return = JHtml::_('select.genericlist', $options, $this->name, $onchange, 'value', 'text', $this->value, $this->id);
+
 		return $return;
 	}
 }

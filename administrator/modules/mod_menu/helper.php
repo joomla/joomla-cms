@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_menu
+ * @since		1.5
  */
 abstract class ModMenuHelper
 {
@@ -18,10 +19,11 @@ abstract class ModMenuHelper
 	 * Get a list of the available menus.
 	 *
 	 * @return	array	An array of the available menus (from the menu types table).
+	 * @since	1.6
 	 */
 	public static function getMenus()
 	{
-		$db		= &JFactory::getDbo();
+		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
 		$query->select('a.*, SUM(b.home) AS home');
@@ -39,10 +41,10 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the authorised, non-special components to display in the components menu.
 	 *
-	 * @param	array	An optional array of components to exclude from the list.
-	 * @param	boolean	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param	boolean	$authCheck	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
 	 *
 	 * @return	array	A nest array of component objects and submenus
+	 * @since	1.6
 	 */
 	function getComponents($authCheck = true)
 	{
@@ -60,7 +62,7 @@ abstract class ModMenuHelper
 
 		// Filter on the enabled states.
 		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
-		$query->where('m.menutype = "_adminmenu"');
+		$query->where('m.menutype = '.$db->quote('_adminmenu'));
 		$query->where('e.enabled = 1');
 		$query->where('m.id > 1');
 
@@ -68,7 +70,9 @@ abstract class ModMenuHelper
 		$query->order('m.lft');
 
 		$db->setQuery($query);
-		$components	= $db->loadObjectList(); // component list
+		// component list
+		$components	= $db->loadObjectList();
+
 		// Parse the list of extensions.
 		foreach ($components as &$component) {
 			// Trim the menu link.
@@ -104,8 +108,7 @@ abstract class ModMenuHelper
 		}
 
 		// Load additional language files.
-		foreach (array_keys($langs) as $langName)
-		{
+		foreach (array_keys($langs) as $langName) {
 			// Load the core file then
 			// Load extension-local file.
 				$lang->load($langName, JPATH_BASE, null, false, false)
