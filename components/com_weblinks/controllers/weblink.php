@@ -13,12 +13,29 @@ jimport('joomla.application.component.controllerform');
 /**
  * @package		Joomla.Site
  * @subpackage	com_weblinks
+ * @since		1.5
  */
 class WeblinksControllerWeblink extends JControllerForm
 {
-	protected $_context = 'com_weblinks.edit.weblink';
+	/**
+	 * @since	1.6
+	 */
+	protected $context = 'com_weblinks.edit.weblink';
+
+	/**
+	 * @since	1.6
+	 */
+	protected $view_item = 'form';
+
+	/**
+	 * @since	1.6
+	 */
+	protected $view_list = 'categories';
+
 	/**
 	 * Constructor
+	 *
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -28,9 +45,6 @@ class WeblinksControllerWeblink extends JControllerForm
 		$this->registerTask('save2new',		'save');
 		$this->registerTask('save2copy',	'save');
 	}
-	protected $_view_item = 'form';
-
-	protected $_view_list = 'categories';
 
 	/**
 	 * Method to get a model object, loading it if required.
@@ -38,29 +52,34 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @param	string	The model name. Optional.
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
+	 *
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
 	public function &getModel($name = 'form', $prefix = '', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
 	/**
 	 * Go to a weblink
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public function go()
 	{
 		// Get the ID from the request
-		$id		= JRequest::getInt('id');
+		$id = JRequest::getInt('id');
 
 		// Get the model, requiring published items
-		$modelLink	= &$this->getModel('Weblink', '', array('ignore_request' => true));
+		$modelLink	= $this->getModel('Weblink', '', array('ignore_request' => true));
 		$modelLink->setState('filter.published', 1);
 
 		// Get the item
-		$link	= &$modelLink->getItem($id);
+		$link	= $modelLink->getItem($id);
 
 		// Make sure the item was found.
 		if (empty($link)) {
@@ -68,18 +87,19 @@ class WeblinksControllerWeblink extends JControllerForm
 		}
 
 		// Check whether item access level allows access.
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups	= $user->authorisedLevels();
+
 		if (!in_array($link->access, $groups)) {
 			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
 		}
 
 		// Check whether category access level allows access.
-		$modelCat = &$this->getModel('Category', 'WeblinksModel', array('ignore_request' => true));
+		$modelCat = $this->getModel('Category', 'WeblinksModel', array('ignore_request' => true));
 		$modelCat->setState('filter.published', 1);
 
 		// Get the category
-		$category = &$modelCat->getCategory($link->catid);
+		$category = $modelCat->getCategory($link->catid);
 
 		// Make sure the category was found.
 		if (empty($category)) {
@@ -93,12 +113,10 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		// Redirect to the URL
 		// TODO: Probably should check for a valid http link
-		if ($link->url)
-		{
+		if ($link->url) {
 			$modelLink->hit($id);
 			JFactory::getApplication()->redirect($link->url);
-		}
-		else {
+		} else {
 			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_URL_INVALID'));
 		}
 	}
