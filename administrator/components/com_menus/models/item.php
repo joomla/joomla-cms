@@ -723,7 +723,7 @@ class MenusModelItem extends JModelAdmin
 			}
 
 			// Now load the component params.
-			if ($isNew = false) {
+			if ($isNew == false) {
 				$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
 			} else {
 				$path='null';
