@@ -272,10 +272,12 @@
 		<field
 			name="mailfrom"
 			type="text"
+			class="validate-email"
 			label="COM_CONFIG_FIELD_MAIL_FROM_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_FROM_EMAIL_DESC"
 			filter="string"
-			size="30" />
+			size="30"
+			validate="email" />
 
 		<field
 			name="fromname"

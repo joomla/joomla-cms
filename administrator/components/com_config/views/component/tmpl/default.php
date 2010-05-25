@@ -16,7 +16,7 @@ $template = JFactory::getApplication()->getTemplate();
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" autocomplete="off">
+<form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" autocomplete="off" class="form-validate">
 	<fieldset>
 		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('component.save', this.form);">

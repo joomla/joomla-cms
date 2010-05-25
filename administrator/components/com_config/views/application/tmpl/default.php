@@ -11,14 +11,15 @@
 defined('_JEXEC') or die;
 
 // Load tooltips behavior
-JHtml::_('behavior.tooltip');
+JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.switcher');
+JHtml::_('behavior.tooltip');
 
 // Load submenu template, using element id 'submenu' as needed by behavior.switcher
 $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm" class="form-validate">
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftplogin'); ?>
 	<?php endif; ?>
