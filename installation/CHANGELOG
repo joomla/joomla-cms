@@ -36,6 +36,7 @@ $ -> Language fix or change
  # Partially fixed issue [#13281] Cancel Button on Weblink Submit Form Doesn't Return to Referer Page (Christopher Garvis, Chris Taylor)
  # Fixed issue [#20226] Recursion in some circumstances when reinstalling (Elin Waring, Christophe Demko).
  # Fixed issue [#20516] [patch] Hathor fixes (Andy Tarr, Airton Torres).
+ # Fixed issue [#20302] com_config application view loads a duplicate of switcher javascript (Phil Snell).
  
 24-May-2010 Jean-Marie Simonet
 # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.

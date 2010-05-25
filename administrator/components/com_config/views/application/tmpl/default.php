@@ -14,18 +14,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.switcher');
 
-// Special treatment to get the submenu to work.
+// Load submenu template, using element id 'submenu' as needed by behavior.switcher
 $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
-$this->document->addScriptDeclaration("
-	document.switcher = null;
-	window.addEvent('domready', function(){
-		var toggler = document.id('submenu')
-		var element = document.id('config-document')
-		if (element) {
-			document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
-		}
-	});
-");
 
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" method="post" name="adminForm">
