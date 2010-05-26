@@ -161,7 +161,7 @@ $templateparams	= $app->getTemplate(true)->params;
 						<?php if ($this->getBuffer('message')) : ?>
 							<div class="error">
 								<h2>
-									<?php echo JText::_('TPL_BEEZ2_SYSTEM_MESSAGE'); ?>
+									<?php echo JText::_('JNOTICE'); ?>
 								</h2>
 								<jdoc:include type="message" />
 							</div>

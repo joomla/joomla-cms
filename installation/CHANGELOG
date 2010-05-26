@@ -32,6 +32,7 @@ $ -> Language fix or change
 # [#20644] [PATCH] Fix a small comment error. Thanks Rouven.
 # [#20513] Can't override default_ftp in com_install (Thanks Christophe)
 # [#20498] mod_menu default renderer adds "Menu Tag ID" to class name (Thanks Bill)
+# [#20472] Error: Article Saved Successfully (Beez)
  
 25-May-2010 Mark Dexter
 # Fixed names of sample data images
