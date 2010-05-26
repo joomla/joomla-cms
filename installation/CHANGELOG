@@ -33,6 +33,7 @@ $ -> Language fix or change
 # [#20513] Can't override default_ftp in com_install (Thanks Christophe)
 # [#20498] mod_menu default renderer adds "Menu Tag ID" to class name (Thanks Bill)
 # [#20472] Error: Article Saved Successfully (Beez)
+# [#20649] ID property is translated in "Templates Manager: Edit Style" page. Thanks Dennis
  
 25-May-2010 Mark Dexter
 # Fixed names of sample data images

@@ -47,7 +47,7 @@ $user = JFactory::getUser();
 		<div class="clr"></div>
 			<?php if ($this->item->id) : ?>
 				<?php echo $this->form->getLabel('id'); ?>
-				<span class="readonly"><?php  echo ($text = (string) JText::_($this->item->id)); ?></span>
+				<span class="readonly"><?php echo $this->item->id; ?></span>
 			<?php endif; ?>
 		</fieldset>
 	</div>
