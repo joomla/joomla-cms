@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-May-2010 Jean-Marie Simonet
+# [#20630] Changing site language does not work if the same content one does not exist (Thanks Christophe)
+ 
 25-May-2010 Mark Dexter
 # Fixed names of sample data images
 

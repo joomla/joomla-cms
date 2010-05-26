@@ -165,7 +165,7 @@ final class JSite extends JApplication
 				$languages = JLanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
-				$document->setMetaData('keywords', $this->getCfg('MetaKeys') . ($languages[$lang_code]->metakey ? (', ' . $languages[$lang_code]->metakey) : ''));
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys') . ((isset($languages[$lang_code]) && $languages[$lang_code]->metakey) ? (', ' . $languages[$lang_code]->metakey) : ''));
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
 				$document->setMetaData('language', $lang_code);
 				if ($router->getMode() == JROUTER_MODE_SEF) {
@@ -327,7 +327,7 @@ final class JSite extends JApplication
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
 			$title 			= htmlspecialchars_decode($this->getCfg('sitename'));
-			$description	= $this->getCfg('MetaDesc') . $languages[$lang_code]->metadesc;
+			$description	= $this->getCfg('MetaDesc') . (isset($languages[$lang_code]) ? $languages[$lang_code]->metadesc : '');
 			$rights			= $this->getCfg('MetaRights');
 			// Lets cascade the parameters if we have menu item parameters
 			if (is_object($menu)) {
