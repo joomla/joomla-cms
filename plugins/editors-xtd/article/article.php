@@ -38,16 +38,9 @@ class plgButtonArticle extends JPlugin
 			jInsertEditorText(tag, '".$name."');
 			SqueezeBox.close();
 		}";
-		/*
-		 * CSS for article button
-		 */
-		$css = "
-		.button2-left .article {
-			background: url(../../../plugins/editors-xtd/article.png) 100% 0 no-repeat;
-		}";
+		
 		$doc =& JFactory::getDocument();
 		$doc->addScriptDeclaration($js);
-		$doc->addStyleDeclaration($css);
 
 		JHTML::_('behavior.modal');
 
