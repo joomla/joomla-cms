@@ -32,5 +32,11 @@
 			validate="equals"
 			field="admin_password"
 		/>
+		<field name="sample_installed" type="text" id="sample_installed" class="hidden"
+			label=""
+			description=""
+			default="0"
+			required="true"
+		/>
 	</fieldset>
 </form>

@@ -27,6 +27,13 @@ class JInstallationModelDatabase extends JModel
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
 
+		// Load the back-end language files so that the DB error messages work
+		$jlang =& JFactory::getLanguage();
+		// Pre-load en-GB in case the chosen language files do not exist
+		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+		// Load the selected language
+		$jlang->load('joomla', JPATH_ADMINISTRATOR, $options->language, true);
+		
 		// Ensure a database type was selected.
 		if (empty($options->db_type)) {
 			$this->setError(JText::_('validType'));

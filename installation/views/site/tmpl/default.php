@@ -21,6 +21,14 @@ JHtml::_('behavior.formvalidation');
 	function validateForm(frm, task) {
 		Joomla.submitform(task);
 	}
+<?php if ($this->sample_installed) : ?>
+
+	window.addEvent('domready', function() {
+		var el = document.getElementById('theDefault').children[0];
+		el.setAttribute('disabled','disabled');
+		el.setAttribute('value','<?php echo JText::_('SAMPLE_DATA_INSTALLED_SUCCESSFULLY', true); ?>');
+	});
+<?php endif; ?>
 // -->
 </script>
 
@@ -167,6 +175,7 @@ JHtml::_('behavior.formvalidation');
 
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
+				<?php echo $this->form->getInput('sample_installed'); ?>
 			</form>
 
 			<div class="clr"></div>
@@ -202,6 +211,12 @@ JHtml::_('behavior.formvalidation');
 							</tr>
 						</table>
 					</fieldset>
+					<div class="message inlineError" id="theDefaultError" style="display: none">
+						<dl>
+							<dt class="error"><?php echo JText::_('ERROR'); ?></dt>
+							<dd id="theDefaultErrorMessage"></dd>
+						</dl>
+					</div>
 				</div>
 				<div class="b">
 					<div class="b">

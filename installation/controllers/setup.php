@@ -116,7 +116,7 @@ class JInstallationControllerSetup extends JController
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($return);
-
+		
 		// Get the database model.
 		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
 
@@ -128,6 +128,12 @@ class JInstallationControllerSetup extends JController
 			$this->setMessage($database->getError(), 'notice');
 			$this->setRedirect('index.php?view=database');
 		} else {
+			// Mark sample content as not installed yet
+			$data = array(
+				'sample_installed' => '0'
+			);
+			$dummy = $model->storeOptions($data);
+
 			$this->setRedirect('index.php?view=filesystem');
 		}
 	}
@@ -195,6 +201,12 @@ class JInstallationControllerSetup extends JController
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 		$return	= $model->validate($data, 'site');
 
+		// Attempt to save the data before validation
+		$form = &$model->getForm();
+		$data = $form->filter($data);
+		unset($data['admin_password2']);
+		$model->storeOptions($data);
+		
 		// Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.

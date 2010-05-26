@@ -35,7 +35,7 @@ $ -> Language fix or change
 # [#20472] Error: Article Saved Successfully (Beez)
 # [#20649] ID property is translated in "Templates Manager: Edit Style" page. Thanks Dennis
 $ Consolidated some strings.
-# [#20471] editor-xtd article useless call to css for button. Thanks Bill.
+#+ [#20479] Install Sample Data button does not become 'un-clickable' after install. Thanks Nicholas.
 
 25-May-2010 Mark Dexter
 # Fixed names of sample data images

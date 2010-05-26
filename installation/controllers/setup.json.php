@@ -37,6 +37,12 @@ class JInstallationControllerSetup extends JController
 		// If an error was encountered return an error.
 		if (!$return) {
 			$this->sendResponse(new JException($database->getError(), 500));
+		} else {
+			// Mark sample content as installed
+			$data = array(
+				'sample_installed' => '1'
+			);
+			$dummy = $model->storeOptions($data);
 		}
 
 		// Create a response body.

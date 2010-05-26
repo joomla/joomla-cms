@@ -381,6 +381,10 @@ div#javascript-warning {
 
 }
 
+input.hidden {
+	display: none;
+}
+
 /* corners */
 
 div#stepbar {
@@ -501,3 +505,58 @@ div#installer div.b div.b div.b {
    background: url(../images/j_crn_bl_light.png) 0 0 no-repeat;
 }
 
+/* error messages and notices */
+
+div.inlineError {
+	margin: 0 0.3em;
+	padding: 0.2em;
+	border-top: thick solid red;
+	border-bottom: thick solid red;
+	background: #ffff99;
+}
+
+#theDefaultErrorMessage {
+	font-family: monospace;
+}
+
+#system-message {
+	padding: 6pt 6pt;
+	margin: 0;
+	border-left: thin solid #cccccc;
+	border-right: thin solid #cccccc;
+}
+
+.message {
+	background: #fff6f6;
+}
+
+.notice {
+	background: #fff6f6;
+}
+
+#system-message dt,
+#system-message dd {
+	margin: 0;
+	padding: 3pt 6pt;
+	color: #cc0000;
+}
+
+#system-message dt.notice {
+	border-top: medium solid red;
+	font-size: larger;
+	font-weight: bold;
+}
+
+#system-message dd.notice {
+	border-bottom: medium solid red;
+}
+
+#system-message dt.message  {
+	border-top: medium solid red;
+	font-size: larger;
+	font-weight: bold;
+}
+
+#system-message dd.message {
+	border-bottom: medium solid red;
+}

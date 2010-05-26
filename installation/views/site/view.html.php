@@ -28,6 +28,7 @@ class JInstallationViewSite extends JView
 	{
 		$state = $this->get('State');
 		$form  = $this->get('Form');
+		$sample_installed = $form->getValue('sample_installed', null, 0);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -37,6 +38,7 @@ class JInstallationViewSite extends JView
 
 		$this->assignRef('state', $state);
 		$this->assignRef('form', $form);
+		$this->assign('sample_installed', $sample_installed);
 
 		parent::display($tpl);
 	}
