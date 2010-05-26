@@ -521,6 +521,7 @@ abstract class JHtml
 
 		// Load the calendar behavior
 		JHtml::_('behavior.calendar');
+		JHtml::_('behavior.tooltip');
 
 		$readonly=isset($attribs['readonly']) && $attribs['readonly']=='readonly';
 		if (is_array($attribs)) {
@@ -541,7 +542,7 @@ abstract class JHtml
 			$done[] = $id;
 		}
 
-		return '<input type="text" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
+		return '<input type="text" title="'.(0!==(int)$value ? JHtml::_('date',$value):'').'" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
 				JHTML::_('image','system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
 	}
 
