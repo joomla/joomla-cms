@@ -24,7 +24,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 				<div class="clr"></div>
 
 				<button type="button" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
-					<?php echo JText::_('COM_MODULES_MENU_SELECTION_INVERT'); ?>
+					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 				</button>
 
 				<div id="menu-assignment" style="height: 300px; overflow: auto;">
