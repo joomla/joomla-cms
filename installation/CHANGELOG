@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-May-2010 Mark Dexter
+# Fixed names of sample data images
+
 25-May-2010 Christophe Demko
  # Fixed [#20567] Com_Redirect save as copy does not work (tries to save with same name) (thanks Elin Waring, Tim Plummer,Christopher Garvis and Amy Stephen) 
  # Fixed autodetect ftp path in installation
