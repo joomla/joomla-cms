@@ -517,7 +517,7 @@ class JDocument extends JObject
 	}
 
 	/**
-	 * Returns the document language.
+	 * Returns the document direction declaration.
 	 *
 	 * @return string
 	 * @access public
