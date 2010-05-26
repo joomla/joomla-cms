@@ -30,6 +30,7 @@ $ -> Language fix or change
 26-May-2010 Jean-Marie Simonet
 # [#20630] Changing site language does not work if the same content one does not exist (Thanks Christophe)
 # [#20644] [PATCH] Fix a small comment error. Thanks Rouven.
+# [#20513] Can't override default_ftp in com_install (Thanks Christophe)
  
 25-May-2010 Mark Dexter
 # Fixed names of sample data images
