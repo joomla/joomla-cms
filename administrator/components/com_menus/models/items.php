@@ -44,7 +44,16 @@ class MenusModelItems extends JModelList
 		$level = $app->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
-		$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
+		$menuType = JRequest::getVar('menutype',null);
+		if ($menuType) {
+			if ($menuType != $app->getUserState($this->context.'.filter.menutype')) {
+				$app->setUserState($this->context.'.filter.menutype', $menuType);
+				JRequest::setVar('limitstart', 0);
+			}
+		}
+		else {
+			$menuType = $app->getUserState($this->context.'.filter.menutype','mainmenu');
+		}
 		$this->setState('filter.menutype', $menuType);
 
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
