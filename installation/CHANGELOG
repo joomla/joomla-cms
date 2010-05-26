@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-May-2010 Christophe Demko
+ # Fixed [#20577] Boxes of meta description and meta-tags do not appear (thanks Dennis Hermacki, Elin Waring and Pierre Gazzola)
+
 26-May-2010 Jean-Marie Simonet
 # [#20630] Changing site language does not work if the same content one does not exist (Thanks Christophe)
 # [#20644] [PATCH] Fix a small comment error. Thanks Rouven.

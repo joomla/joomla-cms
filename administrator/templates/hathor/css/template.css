@@ -1176,6 +1176,7 @@ table.admintable td.key.vtop {
 fieldset.adminform {
 	border: 1px solid #c7c8b2;
 	margin: 0 10px 10px 10px;
+	overflow: hidden;
 }
 
 ul.adminformlist,
@@ -2831,6 +2832,7 @@ legend.element-invisible {
 
 fieldset.panelform {
 	border: none 0;
+	overflow:hidden;
 }
 
 fieldset.adminform label,

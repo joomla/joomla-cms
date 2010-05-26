@@ -794,7 +794,7 @@ div.width-100 fieldset	{
 
 fieldset.adminform {
 	margin: 10px;
-
+	overflow: hidden;
 }
 
 fieldset.adminform legend {
@@ -1021,6 +1021,9 @@ fieldset.adminform label {
 #jform_impmade,
 #jform_clicks {
 	width: 30px;
+}
+fieldset.panelform {
+	overflow: hidden;
 }
 fieldset.panelform label,
 fieldset.panelform div.paramrow label {
