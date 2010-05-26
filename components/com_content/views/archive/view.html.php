@@ -79,7 +79,7 @@ class ContentViewArchive extends JView
 		);
 		// Year Field
 		$years = array();
-		$years[] = JHtml::_('select.option', null, JText::_('Year'));
+		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));
 		for ($i = 2000; $i <= 2020; $i++) {
 			$years[] = JHtml::_('select.option', $i, $i);
 		}
