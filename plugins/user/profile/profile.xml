@@ -25,7 +25,7 @@
 	<config>
 		<fields name="params">
 
-			<fieldset name="basic" label="JPLUGIN_BASIC_FIELDSET_LABEL">
+			<fieldset name="basic">
 				<field name="register-require-user" type="spacer"
 					label="PLG_USER_PROFILE_FIELD_NAME_REGISTER_REQUIRE_USER"
 				/>
