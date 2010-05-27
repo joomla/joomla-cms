@@ -352,11 +352,11 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 
 			// Set the schema version to be the latest update version
-			if($this->manifest->update instanceof JXMLElement) {
+			if($this->manifest->update) {
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		} else if(strtolower($this->route) == 'update') {
-			if($this->manifest->update instanceof JXMLElement)
+			if($this->manifest->update)
 			{
 				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
 				if ($result === false)
@@ -590,7 +590,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Remove all media and languages as well
 		$this->parent->removeFiles($xml->media);
-		$this->parent->removeFiles($xml->languages,1);
+		$this->parent->removeFiles($xml->languages, 1);
 
 		// Remove the schema version
 		$query = $db->getQuery(true);

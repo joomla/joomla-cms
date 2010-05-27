@@ -48,7 +48,7 @@ class JTableMenu extends JTableNested
 			return false;
 		}
 
-		if (is_array($array['params']))
+		if (isset($array['params']) && is_array($array['params']))
 		{
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);

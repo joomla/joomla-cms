@@ -163,21 +163,28 @@ class plgExtensionJoomla extends JPlugin
 		$manifest		= $this->installer->getManifest();
 		$updateservers	= $manifest->updateservers;
 
-		if (is_a($updateservers, 'JXMLElement')) {
+		if($updateservers) {
 			$children = $updateservers->children();
+		} else {
+			$children = array();
+		}
 
-			if (count($children)) {
-				foreach ($children as $child) {
-					$attrs = $child->attributes();
-					$this->addUpdateSite($attrs['name'], $attrs['type'], $child, true);
-				}
-			} else {
-				$data = (string)$updateservers;
+		if (count($children)) 
+		{
+			foreach ($children as $child) 
+			{
+				$attrs = $child->attributes();
+				$this->addUpdateSite($attrs['name'], $attrs['type'], $child, true);
+			}
+		} 
+		else 
+		{
+			$data = (string)$updateservers;
 
-				if (strlen($data)) {
-					// 	we have a single entry in the update server line, let us presume this is an extension line
-					$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
-				}
+			if (strlen($data)) 
+			{
+				// 	we have a single entry in the update server line, let us presume this is an extension line
+				$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
 			}
 		}
 	}
