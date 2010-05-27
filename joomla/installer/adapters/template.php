@@ -40,6 +40,11 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->manifest = &$this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$client = (string)$this->manifest->attributes()->client;
+		// Load administrator language if not set.
+		if(!$client) {
+			$client = 'ADMINISTRATOR';
+		}
+
 		$extension = "tpl_$name";
 		$lang =& JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$name;

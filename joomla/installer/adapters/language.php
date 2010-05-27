@@ -116,7 +116,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.$tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element INSTANCEOF JXMLElement && count($element->children()))
+		if ($element && count($element->children()))
 		{
 			$files = $element->children();
 			foreach ($files as $file) {

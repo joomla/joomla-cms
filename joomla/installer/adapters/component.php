@@ -449,7 +449,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Set the schema version to be the latest update version
-		if ($this->manifest->update instanceof JXMLElement) {
+		if($this->manifest->update) {
 			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
 		}
 
@@ -745,7 +745,8 @@ class JInstallerComponent extends JAdapterInstance
 			)
 		);
 
-		if ($this->manifest->update instanceof JXMLElement) {
+		if($this->manifest->update)
+		{
 			$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $eid);
 
 			if ($result === false) {
@@ -1273,6 +1274,8 @@ class JInstallerComponent extends JAdapterInstance
 			 */
 			$this->parent->pushStep(array ('type' => 'menu'));
 		}
+
+		return true;
 	}
 
 	/**
@@ -1303,7 +1306,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Check for error
 		if ($error = $db->getErrorMsg() || empty($ids)){
-			JError::raiseWarning('Some_code_here', 'Some_message_here');
+			JError::raiseWarning('Some_code_here', 'Some_message_here');//@todo Some_more_descriptive_message_here =;)
+			if($error && $error != 1) {
+				JError::raiseWarning(100, $error);
+			}
 			return false;
 		} else {
 			// Iterate the items to delete each one.

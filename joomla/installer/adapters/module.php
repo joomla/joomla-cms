@@ -366,11 +366,11 @@ class JInstallerModule extends JAdapterInstance
 			}
 
 			// Set the schema version to be the latest update version
-			if($this->manifest->update instanceof JXMLElement) {
+			if($this->manifest->update) {
 				$this->parent->setSchemaVersion($this->manifest->update->schemas, $row->extension_id);
 			}
 		} else if(strtolower($this->route) == 'update') {
-			if($this->manifest->update instanceof JXMLElement)
+			if($this->manifest->update)
 			{
 				$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $row->extension_id);
 				if ($result === false)

@@ -78,6 +78,7 @@ class JInstaller extends JAdapter
 	 */
 	protected $extension_message = null;
 
+
 	/**
 	 * The redirect URL if this extension (can be null if no redirect)
 	 * @var string
@@ -401,7 +402,7 @@ class JInstaller extends JAdapter
 	 * Discovered package installation method
 	 *
 	 * @access	public
-	 * @param	string	$path	Path to package source folder
+	 * @param	int $eid Extension ID
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
@@ -575,6 +576,12 @@ class JInstaller extends JAdapter
 		return false;
 	}
 
+	/**
+	 * Refreshes the manifest cache stored in #__extensions
+	 *
+	 * @param int $eid Extension ID
+	 * @return mixed void on success | false on error @todo missing return value ?
+	 */
 	function refreshManifestCache($eid)
 	{
 		if ($eid)
@@ -604,7 +611,11 @@ class JInstaller extends JAdapter
 				if (method_exists($this->_adapters[$this->extension->type], 'refreshManifestCache'))
 				{
 					$result = $this->_adapters[$this->extension->type]->refreshManifestCache();
-					if ($result !== false) return true; else return false;
+					if ($result !== false) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 				else
 				{
@@ -659,7 +670,7 @@ class JInstaller extends JAdapter
 	 * installation manifest file and take appropriate action.
 	 *
 	 * @access	public
-	 * @param	object	$element	The xml node to process
+	 * @param	JXMLElement	$element The xml node to process
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
@@ -668,7 +679,7 @@ class JInstaller extends JAdapter
 		// Get the database connector object
 		$db = & $this->_db;
 
-		if (!($element instanceof JXMLElement) || ! count($element->children()))
+		if ( ! $element || ! count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -700,13 +711,12 @@ class JInstaller extends JAdapter
 	 *
 	 * @access	public
 	 * @param	object	$element	The xml node to process
-	 * @param	string	$version	The database connector to use
 	 * @return	mixed	Number of queries processed or False on error
 	 * @since	1.5
 	 */
 	public function parseSQLFiles($element)
 	{
-		if ( ! $element instanceof JXMLElement || ! count($element->children())) {
+		if ( ! $element || ! count($element->children())) {
 			// The tag does not exist.
 			return 0;
 		}
@@ -781,14 +791,20 @@ class JInstaller extends JAdapter
 	 * Set the schema version for an extension by looking at its latest update
 	 * @param JXMLElement $schema Schema Tag
 	 * @param int $eid Extension ID
-	 * @return nothing
+	 * @return void
 	 */
-	public function setSchemaVersion($schema, $eid) {
-		if($eid && $schema instanceof JXMLElement)
+	public function setSchemaVersion($schema, $eid) 
+	{
+		if( ! $eid || ! $schema)
 		{
 			$db = JFactory::getDBO();
 			$schemapaths = $schema->children();
-			if(count($schemapaths)) {
+			if(!$schemapaths) {
+				return;
+			}
+
+			if(count($schemapaths)) 
+			{
 				$dbDriver = strtolower($db->get('name'));
 				if ($dbDriver == 'mysqli') {
 					$dbDriver = 'mysql';
@@ -828,8 +844,8 @@ class JInstaller extends JAdapter
 	 * Method to process the updates for an item
 	 *
 	 * @access	public
-	 * @param	object	$element	The xml node to process
-	 * @param	int		$eid		Extension Identifier
+	 * @param	JXMLElement	$schema	The xml node to process
+	 * @param	int			$eid	Extension Identifier
 	 * @return	boolean	Result of the operations
 	 * @since	1.6
 	 */
@@ -838,7 +854,7 @@ class JInstaller extends JAdapter
 		$files = Array();
 		$update_count = 0;
 		// ensure we have an xml element and a valid extension id
-		if($eid && $schema instanceof JXMLElement)
+		if($eid && $schema)
 		{
 			$db = JFactory::getDBO();
 			$schemapaths = $schema->children();
@@ -943,17 +959,17 @@ class JInstaller extends JAdapter
 	 * action.
 	 *
 	 * @access	public
-	 * @param	object	$element	The xml node to process
-	 * @param	int		$cid		Application ID of application to install to
-	 * @param	Array	List of old files (JXMLElement's)
-	 * @param	Array	List of old MD5 sums (indexed by filename with value as MD5)
+	 * @param	JXMLElement	$element	The xml node to process
+	 * @param	int			$cid		Application ID of application to install to
+	 * @param	Array		$oldFiles	List of old files (JXMLElement's)
+	 * @param	Array		$oldMD5		List of old MD5 sums (indexed by filename with value as MD5)
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
 	public function parseFiles($element, $cid=0, $oldFiles=null, $oldMD5=null)
 	{
 		// Get the array of file nodes to process; we checked this had children above
-		if ( ! is_a($element, 'JXMLElement') || ! count($element->children()))
+		if ( ! $element || ! count($element->children()))
 		{
 			// Either the tag does not exist or has no children (hence no files to process) therefore we return zero files processed.
 			return 0;
@@ -1060,15 +1076,16 @@ class JInstaller extends JAdapter
 	 * action.
 	 *
 	 * @access	public
-	 * @param	object	$element	The xml node to process
-	 * @param	int		$cid		Application ID of application to install to
+	 * @param	JXMLElement	$element	The xml node to process
+	 * @param	int			$cid		Application ID of application to install to
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
 	public function parseLanguages($element, $cid=0)
 	{
 		// TODO: work out why the below line triggers 'node no longer exists' errors with files
-		if ( ! $element instanceof JXMLElement || ! count($element->children())) {
+		if ( ! $element || ! count($element->children())) 
+		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
 		}
@@ -1171,14 +1188,14 @@ class JInstaller extends JAdapter
 	 * action.
 	 *
 	 * @access	public
-	 * @param	object	$element	The xml node to process
-	 * @param	int		$cid		Application ID of application to install to
+	 * @param	JXMLElement	$element	The xml node to process
+	 * @param	int			$cid		Application ID of application to install to
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
 	public function parseMedia($element, $cid=0)
 	{
-		if (!($element instanceof JXMLElement) || !count($element->children()))
+		if ( ! $element || ! count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
 			return 0;
@@ -1407,6 +1424,11 @@ class JInstaller extends JAdapter
 	 */
 	public function removeFiles($element, $cid=0)
 	{
+		if (!$element || !count($element->children()))
+		{
+			// Either the tag does not exist or has no children therefore we return zero files processed.
+			return true;
+		}
 		// Initialise variables.
 		$removefiles = array ();
 		$retval = true;
@@ -1425,11 +1447,6 @@ class JInstaller extends JAdapter
 			$client = null;
 		}
 
-		if (!($element instanceof JXMLElement) || !count($element->children()))
-		{
-			// Either the tag does not exist or has no children therefore we return zero files processed.
-			return true;
-		}
 
 		// Get the array of file nodes to process
 		$files = $element->children();
@@ -1457,7 +1474,7 @@ class JInstaller extends JAdapter
 				break;
 
 			case 'languages':
-				$lang_client = $element->attributes('client');
+				$lang_client = (string)$element->attributes()->client;
 				if($lang_client) {
 					$client = &JApplicationHelper::getClientInfo($lang_client, true);
 					$source = $client->path.DS.'language';
@@ -1669,9 +1686,14 @@ class JInstaller extends JAdapter
 		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
-
 	/**
 	 * Cleans up discovered extensions if they're being installed somehow else
+	 * @param string $type The type of extension (component, etc)
+	 * @param string $element Unique element identifier (e.g. com_content)
+	 * @param string $folder The folder of the extension (plugins; e.g. system)
+	 * @param int $client The client application (administrator or site)
+	 *
+	 * @return result of query
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder='', $client=0)
 	{
@@ -1682,8 +1704,8 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Compares two "files" entries to find deleted files/folders
-	 * @param array An array of JXMLElement objects that are the old files
-	 * @param array An array of JXMLElement objects that are the new files
+	 * @param array $old_files An array of JXMLElement objects that are the old files
+	 * @param array $new_files An array of JXMLElement objects that are the new files
 	 * @return array An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] resepctively
 	 */
 	public function findDeletedFiles($old_files, $new_files)
@@ -1771,7 +1793,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * Get a group ID from a given name
-	 * @param string Name of group to find
+	 * @param string $groupname Name of group to find
 	 * @return int the group id of the user, false on error
 	 * @todo Find the right place to put this function
 	 */
