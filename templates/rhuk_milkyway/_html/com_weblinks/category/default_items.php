@@ -14,7 +14,7 @@
 <tr>
 	<td align="right" colspan="4">
 	<?php
-		echo JText::_('JLIB_HTML_DISPLAY_NUM') .'&nbsp;';
+		echo JText::_('JGLOBAL_DISPLAY_NUM') .'&nbsp;';
 		echo $this->pagination->getLimitBox();
 	?>
 	</td>
