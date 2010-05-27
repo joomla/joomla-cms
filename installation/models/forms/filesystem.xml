@@ -4,8 +4,7 @@
 	<fieldset>
 		<fieldset name="basic">
 			<field name="ftp_enable" type="list" id="ftp_enable" class="inputbox"
-				label="Instl_Ftp_Enable_Label"
-				description="Instl_Ftp_Enable_Desc"
+				label="INSTL_FTP_ENABLE_LABEL"
 				default="0"
 				filter="int"
 				required="true"
@@ -14,34 +13,29 @@
 				<option value="1">JYes</option>
 			</field>
 			<field name="ftp_user" type="text" id="ftp_user" class="inputbox"
-				label="Instl_Ftp_User_Label"
-				description="Instl_Ftp_User_Desc"
+				label="INSTL_FTP_USER_LABEL"
 			/>
 			<field name="ftp_pass" type="password" id="ftp_pass" class="inputbox"
-				label="Instl_Ftp_Password_Label"
-				description="Instl_Ftp_Password_Desc"
+				label="INSTL_FTP_PASSWORD_LABEL"
 			/>
 			<field name="ftp_root" type="text" id="ftp_root" class="inputbox"
-				label="Instl_Ftp_Root_Label"
-				description="Instl_Ftp_Root_Desc"
+				label="INSTL_FTP_ROOT_LABEL"
 			/>
 		</fieldset>
 
 		<!-- Advanced Settings -->
 		<fieldset name="advanced">
 			<field name="ftp_host" type="text" id="ftp_host" class="inputbox"
-				label="Instl_Ftp_Host_Label"
-				description="Instl_Ftp_Host_Desc"
+				label="INSTL_FTP_HOST_LABEL"
 				default="127.0.0.1"
 			/>
 			<field name="ftp_port" type="text" id="ftp_port" class="inputbox"
-				label="Instl_Ftp_Port_Label"
-				description="Instl_Ftp_Port_Desc"
+				label="INSTL_FTP_PORT_LABEL"
 				default="21"
 				filter="int"
 			/>
 			<field name="ftp_save" type="radio" id="ftp_save" class="inputbox"
-				label="Instl_Ftp_Save_Label"
+				label="INSTL_FTP_SAVE_LABEL"
 				default="0"
 				required="true"
 				filter="int"

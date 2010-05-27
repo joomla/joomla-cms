@@ -33,40 +33,40 @@ class JInstallationModelDatabase extends JModel
 		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
 		// Load the selected language
 		$jlang->load('joomla', JPATH_ADMINISTRATOR, $options->language, true);
-		
+
 		// Ensure a database type was selected.
 		if (empty($options->db_type)) {
-			$this->setError(JText::_('validType'));
+			$this->setError(JText::_('INSTL_DATABASE_INVALID_TYPE'));
 			return false;
 		}
 
 		// Ensure that a valid hostname and user name were input.
 		if (empty($options->db_host) || empty($options->db_user)) {
-			$this->setError(JText::_('validDBDetails'));
+			$this->setError(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'));
 			return false;
 		}
 
 		// Ensure that a database name was input.
 		if (empty($options->db_name)) {
-			$this->setError(JText::_('emptyDBName'));
+			$this->setError(JText::_('INSTL_DATABASE_EMPTY_NAME'));
 			return false;
 		}
 
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix)) {
-			$this->setError(JText::_('MYSQLPREFIXINVALIDCHARS'));
+			$this->setError(JText::_('INSTL_DATABASE_PREFIX_INVALID_CHARS'));
 			return false;
 		}
 
 		// Validate length of database table prefix.
 		if (strlen($options->db_prefix) > 15) {
-			$this->setError(JText::_('MYSQLPREFIXTOOLONG'));
+			$this->setError(JText::_('INSTL_DATABASE_FIX_TOO_LONG'));
 			return false;
 		}
 
 		// Validate length of database name.
 		if (strlen($options->db_name) > 64) {
-			$this->setError(JText::_('MYSQLDBNAMETOOLONG'));
+			$this->setError(JText::_('INSTL_DATABASE_NAME_TOO_LONG'));
 			return false;
 		}
 
@@ -78,13 +78,13 @@ class JInstallationModelDatabase extends JModel
 
 			// Check for errors.
 			if (JError::isError($db)) {
-				$this->setError(JText::sprintf('WARNNOTCONNECTDB', (string)$db));
+				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
 				return false;
 			}
 
 			// Check for database errors.
 			if ($err = $db->getErrorNum()) {
-				$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+				$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $db->getErrorNum()));
 				return false;
 			}
 
@@ -95,7 +95,7 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			if (!version_compare($db_version, '5.0.4', '>=')) {
-				$this->setError(JText::_('You need MySQL 5.0.4 or higher to continue the installation.'));
+				$this->setError(JText::_('INSTL_DATABASE_INVALID_MYSQL_VERSION'));
 				return false;
 			}
 
@@ -110,7 +110,7 @@ class JInstallationModelDatabase extends JModel
 					$db->select($options->db_name);
 				}
 				else {
-					$this->setError(JText::sprintf('WARNCREATEDB', $options->db_name));
+					$this->setError(JText::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name));
 					return false;
 				}
 			}
@@ -124,7 +124,7 @@ class JInstallationModelDatabase extends JModel
 			{
 				// Attempt to delete the old database tables.
 				if (!$this->deleteDatabase($db, $options->db_name, $options->db_prefix)) {
-					$this->setError(JText::_('WARNDELETEDB'));
+					$this->setError(JText::_('INSTL_DATABASE_ERROR_DELETE'));
 					return false;
 				}
 			}
@@ -132,7 +132,7 @@ class JInstallationModelDatabase extends JModel
 			{
 				// If the database isn't being deleted, back it up.
 				if (!$this->backupDatabase($db, $options->db_name, $options->db_prefix)) {
-					$this->setError(JText::_('WARNBACKINGUPDB'));
+					$this->setError(JText::_('INSTL_DATABASE_ERROR_BACKINGUP'));
 					return false;
 				}
 			}
@@ -147,7 +147,7 @@ class JInstallationModelDatabase extends JModel
 
 			// Attempt to import the database schema.
 			if (!$this->populateDatabase($db, $schema)) {
-				$this->setError(JText::sprintf('Instl_Error_DB', $this->getError()));
+				$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
 				return false;
 			}
 
@@ -155,7 +155,7 @@ class JInstallationModelDatabase extends JModel
 			$dblocalise = 'sql/'.(($type == 'mysqli') ? 'mysql' : $type).'/localise.sql';
 			if (JFile::exists($dblocalise)) {
 				if (!$this->populateDatabase($db, $dblocalise)) {
-					$this->setError(JText::sprintf('Instl_Error_DB', $this->getError()));
+					$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
 					return false;
 				}
 			}
@@ -203,13 +203,13 @@ class JInstallationModelDatabase extends JModel
 
 		// Check for errors.
 		if (JError::isError($db)) {
-			$this->setError(JText::sprintf('WARNNOTCONNECTDB', (string)$db));
+			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', (string)$db));
 			return false;
 		}
 
 		// Check for database errors.
 		if ($err = $db->getErrorNum()) {
-			$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+			$this->setError(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $db->getErrorNum()));
 			return false;
 		}
 
@@ -222,7 +222,7 @@ class JInstallationModelDatabase extends JModel
 
 		// Attempt to import the database schema.
 		if (!$this->populateDatabase($db, $data)) {
-			$this->setError(JText::sprintf('Instl_Error_DB', $this->getError()));
+			$this->setError(JText::sprintf('INSTL_ERROR_DB', $this->getError()));
 			return false;
 		}
 

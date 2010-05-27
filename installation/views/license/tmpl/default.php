@@ -60,7 +60,7 @@ JHtml::_('behavior.formvalidation');
 					<div class="button1-left"><div class="next"><a href="index.php?view=preinstall" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('License'); ?></span>
+				<span class="step"><?php echo JText::_('LICENSE'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -75,7 +75,7 @@ JHtml::_('behavior.formvalidation');
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('GNU/GPL License'); ?>:</h2>
+				<h2><?php echo JText::_('GNU_GPL_LICENSE'); ?>:</h2>
 				<iframe src="gpl.html" class="license" frameborder="0" marginwidth="25" scrolling="auto"></iframe>
 				<div class="clr"></div>
 			</div>

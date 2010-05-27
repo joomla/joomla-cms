@@ -38,7 +38,7 @@ class JInstallationControllerSetup extends JController
 		}
 
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
@@ -81,7 +81,7 @@ class JInstallationControllerSetup extends JController
 	function database()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -116,7 +116,7 @@ class JInstallationControllerSetup extends JController
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($return);
-		
+
 		// Get the database model.
 		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
 
@@ -144,7 +144,7 @@ class JInstallationControllerSetup extends JController
 	function filesystem()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -189,7 +189,7 @@ class JInstallationControllerSetup extends JController
 	function saveconfig()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -206,7 +206,7 @@ class JInstallationControllerSetup extends JController
 		$data = $form->filter($data);
 		unset($data['admin_password2']);
 		$model->storeOptions($data);
-		
+
 		// Check for validation errors.
 		if ($return === false) {
 			// Get the validation messages.

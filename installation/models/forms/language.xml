@@ -4,7 +4,7 @@
 	<fieldset>
 		<field name="language" type="language" id="language"
 			class="inputbox"
-			label="Instl_Language_Label"
+			label="INSTL_LANGUAGE_LABEL"
 			size="20"
 			default="en-GB"
 			required="true" />

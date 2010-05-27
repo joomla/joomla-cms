@@ -60,7 +60,7 @@ JHtml::_('behavior.formvalidation');
 					<div class="button1-left"><div class="next"><a href="index.php?view=database" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('FTP_CONFIGURATION'); ?></span>
+				<span class="step"><?php echo JText::_('INSTL_FTP'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -76,10 +76,10 @@ JHtml::_('behavior.formvalidation');
 			</div>
 			<div class="m">
 				<h2>
-					<?php echo JText::_('FTP_CONFIGURATION'); ?>:
+					<?php echo JText::_('INSTL_FTP_TITLE'); ?>
 				</h2>
 				<div class="install-text">
-					<?php echo JText::_('TIPFTPCONFSTEPS'); ?>
+					<?php echo JText::_('INSTL_FTP_DESC'); ?>
 				</div>
 				<div class="install-body">
 					<div class="t">
@@ -88,8 +88,8 @@ JHtml::_('behavior.formvalidation');
 						</div>
 					</div>
 					<div class="m">
-						<h3 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-							<?php echo JText::_('INSTL_OPTIONAL_FTP_SETTINGS'); ?>
+						<h3 class="title-smenu" title="<?php echo JText::_('BASIC_SETTINGS'); ?>">
+							<?php echo JText::_('BASIC_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu">
 							<table class="content2">
@@ -132,7 +132,7 @@ JHtml::_('behavior.formvalidation');
 							<br /><br />
 						</div>
 
-						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('Advanced'); ?>">
+						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('ADVANCED_SETTINGS'); ?>">
 							<?php echo JText::_('ADVANCED_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu moofx-slider">

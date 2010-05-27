@@ -20,13 +20,13 @@ class JHtmlInstallation
 	static function stepbar($on = 1)
 	{
 		$html = '<h1>'.JText::_('Steps').'</h1>' .
-			'<div class="step-'.($on == 1 ? 'on' : 'off').'">'.JText::_('Instl_Step_1_Label').'</div>' .
-			'<div class="step-'.($on == 2 ? 'on' : 'off').'">'.JText::_('Instl_Step_2_Label').'</div>' .
-			'<div class="step-'.($on == 3 ? 'on' : 'off').'">'.JText::_('Instl_Step_3_Label').'</div>' .
-			'<div class="step-'.($on == 4 ? 'on' : 'off').'">'.JText::_('Instl_Step_4_Label').'</div>' .
-			'<div class="step-'.($on == 5 ? 'on' : 'off').'">'.JText::_('Instl_Step_5_Label').'</div>' .
-			'<div class="step-'.($on == 6 ? 'on' : 'off').'">'.JText::_('Instl_Step_6_Label').'</div>' .
-			'<div class="step-'.($on == 7 ? 'on' : 'off').'">'.JText::_('Instl_Step_7_Label') .'</div>';
+			'<div class="step-'.($on == 1 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_1_LABEL').'</div>' .
+			'<div class="step-'.($on == 2 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_2_LABEL').'</div>' .
+			'<div class="step-'.($on == 3 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_3_LABEL').'</div>' .
+			'<div class="step-'.($on == 4 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_4_LABEL').'</div>' .
+			'<div class="step-'.($on == 5 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_5_LABEL').'</div>' .
+			'<div class="step-'.($on == 6 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_6_LABEL').'</div>' .
+			'<div class="step-'.($on == 7 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_7_LABEL').'</div>';
 		return $html;
 	}
 }

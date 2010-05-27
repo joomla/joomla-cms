@@ -47,7 +47,7 @@ class JInstallationControllerSetup extends JController
 
 		// Create a response body.
 		$r = new JObject();
-		$r->text = JText::_('Instl_Success_Sample_data_loaded');
+		$r->text = JText::_('INSTL_SUCCESS_SAMPLE_DATA_LOADED');
 
 		// Send the response.
 		$this->sendResponse($r);
@@ -56,7 +56,7 @@ class JInstallationControllerSetup extends JController
 	function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -89,7 +89,7 @@ class JInstallationControllerSetup extends JController
 	function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = JRequest::getVar('jform', array());
@@ -167,7 +167,7 @@ class JInstallationJsonResponse
 		{
 			// Prepare the error response.
 			$this->error	= true;
-			$this->header	= JText::_('Instl_Header_Error');
+			$this->header	= JText::_('INSTL_HEADER_ERROR');
 			$this->message	= $state->getMessage();
 		}
 		else
