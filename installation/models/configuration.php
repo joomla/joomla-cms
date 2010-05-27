@@ -48,7 +48,7 @@ class JInstallationModelConfiguration extends JModel
 
 		/* Site Settings */
 		$registry->set('offline', 0);
-		$registry->set('offline_message', JText::_('STDOFFLINEMSG'));
+		$registry->set('offline_message', JText::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('sitename', $options->site_name);
 		$registry->set('editor', 'tinymce');
 		$registry->set('list_limit', 20);
@@ -103,8 +103,8 @@ class JInstallationModelConfiguration extends JModel
 		$registry->set('cache_handler', 'file');
 
 		/* Meta Settings */
-		$registry->set('MetaDesc', JText::_('STDMETADESC'));
-		$registry->set('MetaKeys', JText::_('STDMETAKEYS'));
+		$registry->set('MetaDesc', JText::_('INSTL_STD_METADESC'));
+		$registry->set('MetaKeys', JText::_('INSTL_STD_METAKEYS'));
 		$registry->set('MetaTitle', 1);
 		$registry->set('MetaAuthor', 1);
 
@@ -200,13 +200,13 @@ class JInstallationModelConfiguration extends JModel
 
 		// Check for errors.
 		if (JError::isError($db)) {
-			$this->setError(JText::sprintf('WARNNOTCONNECTDB', (string)$db));
+			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', (string)$db));
 			return false;
 		}
 
 		// Check for database errors.
 		if ($err = $db->getErrorNum()) {
-			$this->setError(JText::sprintf('WARNNOTCONNECTDB', $db->getErrorNum()));
+			$this->setError(JText::sprintf('INSTL_ERROR_CONNECT_DB', $db->getErrorNum()));
 			return false;
 		}
 

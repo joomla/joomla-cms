@@ -32,7 +32,7 @@ class JInstallationControllerSetup extends JController
 
 		if ($session->isNew()) {
 			JError::setErrorHandling(E_ERROR, 'message');
-			JError::raise(E_ERROR, 500, JText::_('WARNCOOKIESNOTENABLED'));
+			JError::raise(E_ERROR, 500, JText::_('INSTL_COOKIES_NOT_ENABLED'));
 
 			return false;
 		}

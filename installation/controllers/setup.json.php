@@ -20,7 +20,7 @@ class JInstallationControllerSetup extends JController
 	function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JInvalid_Token'), 403));
+		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
 		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
@@ -47,7 +47,7 @@ class JInstallationControllerSetup extends JController
 
 		// Create a response body.
 		$r = new JObject();
-		$r->text = JText::_('INSTL_SUCCESS_SAMPLE_DATA_LOADED');
+		$r->text = JText::_('INSTL_SITE_SAMPLE_LOADED');
 
 		// Send the response.
 		$this->sendResponse($r);

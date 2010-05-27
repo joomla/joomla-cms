@@ -58,7 +58,7 @@ class JInstallation extends JApplication
 		{
 			case 'html' :
 				// Set metadata
-				$document->setTitle(JText::_('PAGE_TITLE'));
+				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 				break;
 			default :
 				break;
@@ -92,7 +92,7 @@ class JInstallation extends JApplication
 		);
 
 		$document->setBuffer($contents, 'installation');
-		$document->setTitle(JText::_('PAGE_TITLE'));
+		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 		$data = $document->render(false, $params);
 		JResponse::setBody($data);
 	}
