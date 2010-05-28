@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-May-2010 Jean-Marie Simonet
 $ Added string
 # [#20654] Sorting of Featured Articles in Administration don't work. Thanks Omar.
+# [#20671] Error uninstalling template due to capital letters in template name. Thanks Nikolai.
 
 28-May-2010 Andrew Eddie
  # Fixed issue [#20272] Can't provide multiple select list in modules.

@@ -274,7 +274,7 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
 			return false;
 		}
-		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.$name);
+		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.strtolower($name));
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		$manifest = &$this->parent->getManifest();
