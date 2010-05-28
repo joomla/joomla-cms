@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-May-2010 Andrew Eddie
  # Fixed issue [#20272] Can't provide multiple select list in modules.
  # Fixed issue [#20675] Performance Improvements for JAccess:getGroupsByUser() (OmarRamos).
+ # Fixed issue [#20522] Redirect Manager - Date is wrong &  copy function (Peter Martin).
 
 27-May-2010 Jean-Marie Simonet
 $ [#20659] Converting strings to the new format in installation. Thanks Johnathan Lima.

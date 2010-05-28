@@ -785,11 +785,11 @@ CREATE TABLE `#__redirect_links` (
   `referer` varchar(150) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `published` tinyint(4) NOT NULL,
-  `created_date` integer NOT NULL,
-  `updated_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_link_old` (`old_url`),
-  KEY `idx_link_updated` (`updated_date`)
+  KEY `idx_link_modifed` (`modified_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 

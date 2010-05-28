@@ -80,9 +80,9 @@
 			readonly="true" />
 
 		<field
-			name="updated_date"
+			name="modified_date"
 			type="text"
-			id="updated_date"
+			id="modified_date"
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			size="20"

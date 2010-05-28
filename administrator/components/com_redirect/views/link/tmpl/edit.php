@@ -62,8 +62,8 @@ JHtml::_('behavior.keepalive');
 				<li><?php echo $this->form->getLabel('created_date'); ?>
 				<?php echo $this->form->getInput('created_date'); ?></li>
 
-				<li><?php echo $this->form->getLabel('updated_date'); ?>
-				<?php echo $this->form->getInput('updated_date'); ?></li>
+				<li><?php echo $this->form->getLabel('modified_date'); ?>
+				<?php echo $this->form->getInput('modified_date'); ?></li>
 				</ul>
 		</fieldset>
 	</div>
