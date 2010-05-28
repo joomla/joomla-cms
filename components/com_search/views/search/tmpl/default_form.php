@@ -13,27 +13,33 @@ defined('_JEXEC') or die;
 
 <form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post" name="searchForm">
 
-		<fieldset class="word">
-			<label for="search_searchword">
-				<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>
-			</label>
-			<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
-			<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_('COM_SEARCH_SEARCH');?></button>
-		</fieldset>
+	<fieldset class="word">
+		<label for="search_searchword">
+			<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>
+		</label>
+		<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
+		<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_('COM_SEARCH_SEARCH');?></button>
+	</fieldset>
 
-		<fieldset class="phrases">
-			<legend><?php echo JText::_('COM_SEARCH_EXACT_PHRASE');?>
-			</legend>
-				<div class="phrases-box">
-				<?php echo $this->lists['searchphrase']; ?>
-				</div>
-				<div class="ordering-box">
-				<label for="ordering" class="ordering">
-					<?php echo JText::_('COM_SEARCH_ORDERING');?>
-				</label>
-				<?php echo $this->lists['ordering'];?>
-				</div>
-		</fieldset>
+	<div class="searchintro<?php echo $this->params->get('pageclass_sfx'); ?>">
+		<?php if (!empty($this->searchword)):?>
+		<p><?php echo JText::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', $this->total);?></p>
+		<?php endif;?>
+	</div>
+
+	<fieldset class="phrases">
+		<legend><?php echo JText::_('COM_SEARCH_EXACT_PHRASE');?>
+		</legend>
+			<div class="phrases-box">
+			<?php echo $this->lists['searchphrase']; ?>
+			</div>
+			<div class="ordering-box">
+			<label for="ordering" class="ordering">
+				<?php echo JText::_('COM_SEARCH_ORDERING');?>
+			</label>
+			<?php echo $this->lists['ordering'];?>
+			</div>
+	</fieldset>
 
 	<?php if ($this->params->get('search_areas', 1)) : ?>
 		<fieldset class="only">
@@ -48,16 +54,6 @@ defined('_JEXEC') or die;
 		<?php endforeach; ?>
 		</fieldset>
 	<?php endif; ?>
-
-	<div class="searchintro<?php echo $this->params->get('pageclass_sfx'); ?>">
-		<p>
-		<?php if ($this->total == 1) {
-			echo JText::sprintf('COM_SEARCH_SEARCH_KEYWORD_RESULT', $this->escape($this->searchword), $this->result); }
-		else {
-			echo JText::sprintf('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', $this->escape($this->searchword), $this->result); }
-		?>
-		</p>
-	</div>
 
 <?php if ($this->total > 0) : ?>
 

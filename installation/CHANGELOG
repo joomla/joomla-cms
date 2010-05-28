@@ -32,6 +32,7 @@ $ Added string
 # [#20654] Sorting of Featured Articles in Administration don't work. Thanks Omar.
 # [#20671] Error uninstalling template due to capital letters in template name. Thanks Nikolai.
 # [#20660] mod_menu can't output invalid markup. Thanks Christophe.
+# [#20245] com_search logical issue. Thanks Christophe.
 
 28-May-2010 Andrew Eddie
  # Fixed issue [#20272] Can't provide multiple select list in modules.

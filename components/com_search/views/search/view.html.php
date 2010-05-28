@@ -152,8 +152,6 @@ class SearchViewSearch extends JView
 			}
 		}
 
-		$this->result	= $total;
-
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);
 		$this->assignRef('lists',		$lists);
