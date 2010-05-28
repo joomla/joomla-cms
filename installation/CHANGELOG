@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-May-2010 Andrew Eddie
+ # Fixed issue [#20494] Quick Icons Module Should Take into Account More Permissions (Omar Ramos).
+
 28-May-2010 Jean-Marie Simonet
 $ Added string
 # [#20654] Sorting of Featured Articles in Administration don't work. Thanks Omar.
