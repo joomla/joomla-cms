@@ -217,8 +217,7 @@ class JRegistry
 	{
 		if (is_object($object)) {
 			foreach (get_object_vars($object) as $k => $v) {
-				if (is_scalar($v))
-				{
+				if (is_scalar($v) || (is_array($v) && !JArrayHelper::isAssociative($v))) {
 					$this->data->$k = $v;
 				} elseif (is_object($v) || (is_array($v) && JArrayHelper::isAssociative($v))) {
 					$this->data->$k = new stdClass();
