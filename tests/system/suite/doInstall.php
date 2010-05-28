@@ -49,7 +49,7 @@ class DoInstall extends SeleniumJoomlaTestCase
     for ($second = 0; ; $second++) {
         if ($second >= 15) $this->fail("timeout");
         try {
-            if ("Sample Data Loaded Successfully" == $this->getValue("instDefault")) break;
+            if (stripos($this->getValue("instDefault"),'SUCCESS')) break;
         } catch (Exception $e) {}
         sleep(1);
     }
