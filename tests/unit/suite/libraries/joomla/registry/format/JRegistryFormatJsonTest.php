@@ -39,34 +39,47 @@ class JRegistryFormatJSONTest extends PHPUnit_Framework_TestCase
 	{
 		$class = new JRegistryFormatJSON;
 
-		$string1 = '{"foo":"bar"}';
+		$string1 = '{"title":"Joomla Framework","author":"Me","params":{"show_title":1,"show_abstract":0,"show_author":1,"categories":[1,2]}}';
 		$string2 = "[section]\nfoo=bar";
 
 		$object1 = new stdClass;
-		$object1->foo = 'bar';
+		$object1->title = 'Joomla Framework';
+		$object1->author = 'Me';
+		$object1->params = new stdClass;
+		$object1->params->show_title = 1;
+		$object1->params->show_abstract = 0;
+		$object1->params->show_author = 1;
+		$object1->params->categories = array(1,2);
 
 		$object2 = new stdClass;
-		$object2->section = $object1;
+		$object2->section = new stdClass;
+		$object2->section->foo = 'bar';
+
+		$object3 = new stdClass;
+		$object3->foo = 'bar';
 
 		// Test basic JSON string to object.
 		$object = $class->stringToObject($string1, false);
 		$this->assertThat(
 			$object,
-			$this->equalTo($object1)
+			$this->equalTo($object1),
+			'Line:'.__LINE__.' The complex JSON string should convert into the appropriate object.'
 		);
 
 		// Test INI format string without sections.
 		$object = $class->stringToObject($string2, false);
 		$this->assertThat(
 			$object,
-			$this->equalTo($object1)
+			$this->equalTo($object3),
+			'Line:'.__LINE__.' The INI string should convert into an object without sections.'
 		);
 
 		// Test INI format string with sections.
 		$object = $class->stringToObject($string2, true);
 		$this->assertThat(
 			$object,
-			$this->equalTo($object2)
+			$this->equalTo($object2),
+			'Line:'.__LINE__.' The INI string should covert into an object with sections.'
 		);
 
 		$this->markTestIncomplete(
