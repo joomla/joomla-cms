@@ -20,7 +20,14 @@ jimport('joomla.access.rules');
  */
 class JAccess
 {
+	/**
+	 * @since	1.6
+	 */
 	protected static $viewLevels = array();
+
+	/**
+	 * @since	1.6
+	 */
 	protected static $assetRules = array();
 
 	/**
@@ -29,6 +36,7 @@ class JAccess
 	 * @param	integer	Id of the user for which to check authorisation.
 	 * @param	string	The name of the action to authorise.
 	 * @param	mixed	Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 *
 	 * @return	boolean	True if authorised.
 	 * @since	1.6
 	 */
@@ -64,6 +72,7 @@ class JAccess
 	 *
 	 * @param	mixed	Integer asset id or the name of the asset as a string.
 	 * @param	boolean	True to return the rules object with inherited rules.
+	 *
 	 * @return	object	JRules object for the asset.
 	 * @since	1.6
 	 */
@@ -111,39 +120,50 @@ class JAccess
 	 *
 	 * @param	integer	Id of the user for which to get the list of groups.
 	 * @param	boolean	True to include inherited user groups.
+	 *
 	 * @return	array	List of user group ids to which the user is mapped.
 	 * @since	1.6
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
+		static $results = array();
+
 		// Get the database connection object.
 		$db = JFactory::getDbo();
 
-		// Build the database query to get the rules for the asset.
-		$query	= $db->getQuery(true);
-		$query->select($recursive ? 'b.id' : 'a.id');
-		$query->from('#__user_usergroup_map AS map');
-		$query->where('map.user_id = '.(int) $userId);
-		$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+		// Creates a simple unique string for each parameter combination:
+		$storeId = $userId.':'.(int) $recursive;
 
-		// If we want the rules cascading up to the global asset node we need a self-join.
-		if ($recursive) {
-			$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+		if (!isset($results[$storeId])) {
+			// Build the database query to get the rules for the asset.
+			$query	= $db->getQuery(true);
+			$query->select($recursive ? 'b.id' : 'a.id');
+			$query->from('#__user_usergroup_map AS map');
+			$query->where('map.user_id = '.(int) $userId);
+			$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+
+			// If we want the rules cascading up to the global asset node we need a self-join.
+			if ($recursive) {
+				$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+			}
+
+			// Execute the query and load the rules from the result.
+			$db->setQuery($query);
+			$result	= $db->loadResultArray();
+
+			// Clean up any NULL or duplicate values, just in case
+			JArrayHelper::toInteger($result);
+
+			if (empty($result)) {
+				$result = array('1');
+			} else {
+				$result = array_unique($result);
+			}
+
+			$results[$storeId] = $result;
 		}
 
-		// Execute the query and load the rules from the result.
-		$db->setQuery($query);
-		$result	= $db->loadResultArray();
-
-		// Clean up any NULL or duplicate values, just in case
-		JArrayHelper::toInteger($result);
-		if (empty($result)) {
-			$result = array('1');
-		} else {
-			$result = array_unique($result);
-		}
-
-		return $result;
+		return $results[$storeId];
 	}
 
 	/**
@@ -153,7 +173,8 @@ class JAccess
 	 * @param	boolean	Recursively include all child groups (optional)
 	 *
 	 * @return	array
-	 * @todo	This method should move somewhere else.
+	 * @since	1.6
+	 * @todo	This method should move somewhere else?
 	 */
 	public function getUsersByGroup($groupId, $recursive = false)
 	{
@@ -184,6 +205,7 @@ class JAccess
 	 * Method to return a list of view levels for which the user is authorised.
 	 *
 	 * @param	integer	Id of the user for which to get the list of authorised view levels.
+	 *
 	 * @return	array	List of view levels for which the user is authorised.
 	 * @since	1.6
 	 */
@@ -217,6 +239,7 @@ class JAccess
 		// Find the authorized levels.
 		foreach (self::$viewLevels as $level => $rule) {
 			foreach ($rule as $id) {
+
 				if (($id < 0) && (($id * -1) == $userId)) {
 					$authorised[] = $level;
 					break;
@@ -237,6 +260,7 @@ class JAccess
 	 *
 	 * @param	string	The component from which to retrieve the actions.
 	 * @param	string	The name of the section within the component from which to retrieve the actions.
+	 *
 	 * @return	array	List of actions available for the given component and section.
 	 * @since	1.6
 	 */
@@ -248,6 +272,7 @@ class JAccess
 			$xml = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml');
 
 			foreach ($xml->children() as $child) {
+
 				if ($section == (string) $child['name']) {
 					foreach ($child->children() as $action) {
 						$actions[] = (object) array('name' => (string) $action['name'], 'title' => (string) $action['title'], 'description' => (string) $action['description']);
