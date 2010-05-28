@@ -131,7 +131,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php echo $this->form->getInput('content'); ?></li>
 			</ul>
 
-		</fieldset>	endif;
+		</fieldset>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />
