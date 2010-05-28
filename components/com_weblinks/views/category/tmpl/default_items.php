@@ -18,7 +18,7 @@ $listDirn	= $this->state->get('list.direction');
 ?>
 
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_WEBLINKS_NO_ARTICLES'); ?></p>
+	<p> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
 <?php else : ?>
 
 <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm">
