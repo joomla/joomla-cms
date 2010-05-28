@@ -69,4 +69,14 @@ class ContentControllerFeatured extends ContentControllerArticles
 
 		$this->setRedirect('index.php?option=com_content&view=featured');
 	}
+
+	/**
+	 * Proxy for getModel.
+	 * @since	1.6
+	 */
+	public function &getModel($name = 'Feature', $prefix = 'ContentModel')
+	{
+		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		return $model;
+	}
 }
