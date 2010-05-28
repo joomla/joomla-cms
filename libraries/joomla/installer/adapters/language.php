@@ -405,7 +405,9 @@ class JInstallerLanguage extends JAdapterInstance
 		// load up the extension details
 		$extension = JTable::getInstance('extension');
 		$extension->load($eid);
-
+		// grab a copy of the client details
+		$client = JApplicationHelper::getClientInfo($extension->get('client_id'));
+		
 		// check the element isn't blank to prevent nuking the languages directory...just in case
 		$element = $extension->get('element');
 		if (empty($element))
@@ -414,8 +416,13 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		// grab a copy of the client details
-		$client = JApplicationHelper::getClientInfo($extension->get('client_id'));
+		// verify that it's not the default language for that client
+		$params = JComponentHelper::getParams('com_languages');
+		if ($params->get($client->name)==$element) {
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
+			return false;
+		}
+
 		// construct the path from the client, the language and the extension element name
 		$path = $client->path.DS.'language'.DS.$element;
 
@@ -434,6 +441,33 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Remove the extension table entry
 		$extension->delete();
+
+		// Setting the language of users which have this language as the default language
+		$db = JFactory::getDbo();
+		$query=$db->getQuery(true);
+		$query->from('#__users');
+		$query->select('*');
+		$db->setQuery($query);
+		$users = $db->loadObjectList();
+		$param_name = $client->name=='administrator'?'admin_language':'language';
+		$count = 0;
+		foreach ($users as $user) {
+			$registry = new JRegistry;
+			$registry->loadJSON($user->params);
+			if ($registry->get($param_name)==$element) {
+				$registry->set($param_name,'');
+				$query=$db->getQuery(true);
+				$query->update('#__users');
+				$query->set('params='.$db->quote($registry));
+				$query->where('id='.(int)$user->id);
+				$db->setQuery($query);
+				$db->query();
+				$count = $count + 1;
+			}
+		}
+		if (!empty($count)) {
+			JError::raiseNotice(500, JText::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count));
+		}
 
 		// All done!
 		return true;

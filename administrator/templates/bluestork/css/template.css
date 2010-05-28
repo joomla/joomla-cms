@@ -1763,7 +1763,7 @@ a img.calendar {
 
 #system-message dd.notice ul {
 	color: #c00;
-	background: #EFE7B8;
+	background-color: #EFE7B8;
 	border-top: 3px solid #F0DC7E;
 	border-bottom: 3px solid #F0DC7E;
 }

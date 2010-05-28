@@ -34,6 +34,7 @@ $ Added string
 # [#20660] mod_menu can't output invalid markup. Thanks Christophe.
 # [#20245] com_search logical issue. Thanks Christophe.
 # [#20687] mistyped static (Extraneous endif). Thanks Ashwin.
+# [#20688] Uninstalling a language extension is possible even if it's the default language. Thanks Christophe.
 
 28-May-2010 Andrew Eddie
  # Fixed issue [#20272] Can't provide multiple select list in modules.
