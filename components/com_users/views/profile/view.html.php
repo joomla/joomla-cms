@@ -47,7 +47,7 @@ class UsersViewProfile extends JView
 
 		// Check if a user was found.
 		if (!$this->data->id) {
-			JError::raiseError(404, 'COM_USERS_PROFILE_NOT_FOUND');
+			JError::raiseError(404, JText::_('JERROR_USERS_PROFILE_NOT_FOUND'));
 			return false;
 		}
 
@@ -75,7 +75,7 @@ class UsersViewProfile extends JView
 		if($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $user->name));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_USERS_Profile'));
+			$this->params->def('page_heading', JText::_('COM_USERS_PROFILE'));
 		}
 
 		$title = $this->params->get('page_title', '');
