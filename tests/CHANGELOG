@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-May-2010 Mark Dexter
+# Fix broken acl0001Test.php system test
+
 27-May-2010 Mark Dexter
 # Fix broken doInstall.php system test
 

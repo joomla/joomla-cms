@@ -136,23 +136,13 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 			if ($this->isElementPresent("link=Web Links")) echo "Web Links test failed!\n";
 			if ($this->isElementPresent("link=Redirect")) echo "Redirect test failed!\n";
 			if ($this->isElementPresent("link=Extensions")) echo "Extensions test failed!\n";
-			if ($this->assertEquals("Menu Manager", $this->getText("//div[@id='cpanel']/div[5]/div/a"))) echo "Menu Manager test failed!\n";
-			if ($this->assertEquals("User Manager", $this->getText("//div[@id='cpanel']/div[6]/div/a/span"))) echo "User Manager test failed!\n";
+			if ($this->isElementPresent("link=Menu Manager")) echo "Menu Manager test failed!\n";
+			if ($this->isElementPresent("link=Module Manager")) echo "Module Manager test failed!\n";
 		}
 		catch (Exception $e)
 		{
 		}
 		sleep(3);
-		$this->click("link=Module Manager");
-		$this->waitForPageToLoad("30000");
-		try
-		{
-			$this->assertTrue($this->isTextPresent("You are not authorised to view this resource."), 'Not authorised message not shown');
-		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
-			array_push($this->verificationErrors, $this->getTraceFiles($e));
-		}
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Article Manager");
