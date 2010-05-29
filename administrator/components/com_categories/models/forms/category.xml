@@ -153,8 +153,11 @@
 
 	<field
 		name="created_time"
-		type="hidden"
-		filter="unset"/>
+		type="text"
+		label="JGLOBAL_CREATED"
+		class="readonly"
+		filter="unset"
+		readonly="true" />
 
 	<field
 		name="modified_user_id"
@@ -163,8 +166,11 @@
 
 	<field
 		name="modified_time"
-		type="hidden"
-		filter="unset"/>
+		type="text"
+		label="JGLOBAL_MODIFIED"
+		class="readonly"
+		filter="unset"
+		readonly="true" />
 
 	<field
 		name="hits"

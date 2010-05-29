@@ -23,3 +23,13 @@ defined('_JEXEC') or die;
 		<?php echo $field->input; ?>
 	<?php endif; ?>
 <?php endforeach; ?>
+
+<?php if ($this->item->created_time) : ?>
+	<?php echo $this->form->getLabel('created_time'); ?>
+	<?php echo $this->form->getInput('created_time'); ?>
+<?php endif; ?>
+
+<?php if ($this->item->modified_time) : ?>
+	<?php echo $this->form->getLabel('modified_time'); ?>
+	<?php echo $this->form->getInput('modified_time'); ?>
+<?php endif; ?>

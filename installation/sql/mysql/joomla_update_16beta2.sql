@@ -15,3 +15,9 @@ ALTER TABLE `jos_redirect_links`
 
 ALTER TABLE `jos_redirect_links`
  ADD INDEX `idx_modified_date` (`modified_date`);
+
+ALTER TABLE `jos_categories` 
+ CHANGE `created_time` `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+ALTER TABLE `jos_categories` 
+ CHANGE `modified_time` `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';

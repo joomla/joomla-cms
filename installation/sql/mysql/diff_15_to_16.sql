@@ -226,13 +226,13 @@ ALTER TABLE `jos_categories`
  ADD COLUMN `created_user_id` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `metadata`;
 
 ALTER TABLE `jos_categories`
- ADD COLUMN `created_time` TIMESTAMP NOT NULL AFTER `created_user_id`;
+ ADD COLUMN `created_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `created_user_id`;
 
 ALTER TABLE `jos_categories`
  ADD COLUMN `modified_user_id` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `created_time`;
 
 ALTER TABLE `jos_categories`
- ADD COLUMN `modified_time` TIMESTAMP NOT NULL AFTER `modified_user_id`;
+ ADD COLUMN `modified_time` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `modified_user_id`;
 
 ALTER TABLE `jos_categories`
  ADD COLUMN `hits` INT UNSIGNED NOT NULL DEFAULT 0 AFTER `modified_time`;

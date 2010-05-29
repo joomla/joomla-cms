@@ -114,6 +114,7 @@ class CategoriesModelCategory extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		if ($result = parent::getItem($pk)) {
+
 			// Prime required properties.
 			if (empty($result->id)) {
 				$result->parent_id	= $this->getState('category.parent_id');
@@ -124,6 +125,26 @@ class CategoriesModelCategory extends JModelAdmin
 			$registry = new JRegistry();
 			$registry->loadJSON($result->metadata);
 			$result->metadata = $registry->toArray();
+
+			// Convert the created and modified dates to local user time for display in the form.
+			jimport('joomla.utilities.date');
+			$tz	= new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
+
+			if (intval($result->created_time)) {
+				$date = new JDate($result->created_time);
+				$date->setTimezone($tz);
+				$result->created_time = $date->toMySQL(true);
+			} else {
+				$result->created_time = null;
+			}
+
+			if (intval($result->modified_time)) {
+				$date = new JDate($result->modified_time);
+				$date->setTimezone($tz);
+				$result->modified_time = $date->toMySQL(true);
+			} else {
+				$result->modified_time = null;
+			}
 		}
 
 		return $result;
