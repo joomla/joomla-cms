@@ -33,6 +33,7 @@ $ Refactoring of installation ini/keys.
 # [#20594] Logged in frontside users shown in Backsite status. Thanks Detlef.
 ^ [#20712] [patch] Hathor compatibility changes. Thanks Andrea.
 $ Added missing strings
+# [#20699] com_users edit view allows users to view the contents of another users fields. Thanks Christophe.
 
 29-May-2010 Andrew Eddie
  # Fixed issue [#20494] Quick Icons Module Should Take into Account More Permissions (Omar Ramos).

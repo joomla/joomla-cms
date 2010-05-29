@@ -27,16 +27,16 @@ class UsersControllerProfile extends UsersController
 	 */
 	public function edit()
 	{
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
-		$userId	= (int) $user->get('id');
+		$app			= JFactory::getApplication();
+		$user			= JFactory::getUser();
+		$loginUserId	= (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
 		$userId	= (int) JRequest::getInt('user_id', null, '', 'array');
 
 		// Check if the user is trying to edit another users profile.
-		if ($userId != $userId) {
+		if ($userId != $loginUserId) {
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
@@ -58,7 +58,7 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&user_id='.$userId, false));
+		$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit', false));
 	}
 
 	/**

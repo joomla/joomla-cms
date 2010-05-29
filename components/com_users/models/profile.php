@@ -198,7 +198,7 @@ class UsersModelProfile extends JModelForm
 		$params	= $app->getParams('com_users');
 
 		// Get the user id.
-		$userId = JRequest::getInt('user_id', $app->getUserState('com_users.edit.profile.id'));
+		$userId = $app->getUserState('com_users.edit.profile.id');
 		$userId = !empty($userId) ? $userId : (int)$user->get('id');
 
 		// Set the user id.
