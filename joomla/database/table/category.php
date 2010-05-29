@@ -157,4 +157,30 @@ class JTableCategory extends JTableNested
 
 		return parent::bind($array, $ignore);
 	}
+
+	/**
+	 * Overriden JTable::store to set created/modified and user id.
+	 *
+	 * @param	boolean	True to update fields even if they are null.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function store($updateNulls = false)
+	{
+		$date	= JFactory::getDate();
+		$user	= JFactory::getUser();
+
+		if ($this->id) {
+			// Existing category
+			$this->modified_time	= $date->toMySQL();
+			$this->modified_user_id	= $user->get('id');
+		} else {
+			// New category
+			$this->created_time		= $date->toMySQL();
+			$this->created_user_id	= $user->get('id');
+		}
+
+		return parent::store($updateNulls);
+	}
 }
