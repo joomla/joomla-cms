@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 			<div id="header2">
 				<div id="header3">
 					<span class="logo"><a href="http://www.joomla.org" target="_blank"><img src="template/images/logo.png" alt="Joomla!" /></a></span>
-					<span>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('Installation') ?></span>
+					<span>Joomla! <?php echo JVERSION; ?> <?php echo JText::_('INSTL_INSTALLATION') ?></span>
 				</div>
 			</div>
 		</div>

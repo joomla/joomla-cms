@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 29-May-2010 Jean-Marie Simonet
 # [#20627] weblinks category count not showing. Thanks Detlef.
+$ Refactoring of installation ini/keys.
 
 29-May-2010 Andrew Eddie
  # Fixed issue [#20494] Quick Icons Module Should Take into Account More Permissions (Omar Ramos).

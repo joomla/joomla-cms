@@ -87,7 +87,7 @@ JHtml::_('behavior.formvalidation');
 					</div>
 					<div class="m">
 						<h3 class="title-smenu" title="<?php echo JText::_('Basic'); ?>">
-							<?php echo JText::_('BASIC_SETTINGS'); ?>
+							<?php echo JText::_('INSTL_BASIC_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu">
 							<table class="content2">
@@ -161,7 +161,7 @@ JHtml::_('behavior.formvalidation');
 						</div>
 
 						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('JADVANCED'); ?>">
-							<?php echo JText::_('ADVANCED_SETTINGS'); ?>
+							<?php echo JText::_('INSTL_ADVANCED_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu moofx-slider">
 							<table class="content2">

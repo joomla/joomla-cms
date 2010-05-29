@@ -88,8 +88,8 @@ JHtml::_('behavior.formvalidation');
 						</div>
 					</div>
 					<div class="m">
-						<h3 class="title-smenu" title="<?php echo JText::_('BASIC_SETTINGS'); ?>">
-							<?php echo JText::_('BASIC_SETTINGS'); ?>
+						<h3 class="title-smenu" title="<?php echo JText::_('INSTL_BASIC_SETTINGS'); ?>">
+							<?php echo JText::_('INSTL_BASIC_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu">
 							<table class="content2">
@@ -127,13 +127,13 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 							</table>
 
-							<input type="button" id="findbutton" class="button" value="<?php echo JText::_('AUTOFIND_FTP_PATH'); ?>" onclick="Install.detectFtpRoot(this);" />
-							<input type="button" id="verifybutton" class="button" value="<?php echo JText::_('VERIFY_FTP_SETTINGS'); ?>" onclick="Install.verifyFtpSettings(this);" />
+							<input type="button" id="findbutton" class="button" value="<?php echo JText::_('INSTL_AUTOFIND_FTP_PATH'); ?>" onclick="Install.detectFtpRoot(this);" />
+							<input type="button" id="verifybutton" class="button" value="<?php echo JText::_('INSTL_VERIFY_FTP_SETTINGS'); ?>" onclick="Install.verifyFtpSettings(this);" />
 							<br /><br />
 						</div>
 
-						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('ADVANCED_SETTINGS'); ?>">
-							<?php echo JText::_('ADVANCED_SETTINGS'); ?>
+						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('INSTL_ADVANCED_SETTINGS'); ?>">
+							<?php echo JText::_('INSTL_ADVANCED_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu moofx-slider">
 							<table class="content2">
