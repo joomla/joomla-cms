@@ -562,7 +562,7 @@ div.current fieldset.radio label {
 	clear:none;
 	min-width: 45px;
 	float:left;
-	margin: 3px 0 0 5px;
+	margin: 3px 0 0 2px;
 }
 
 div.current input,
@@ -607,7 +607,7 @@ div#menu-assignment h3 {
 div#menu-assignment ul.menu-links li.menu-link label {
 	clear:none;
 	float: left;
-	margin: 3px 0 0 5px;
+	margin: 3px 0 0 2px;
 }
 div#menu-assignment ul.menu-links li.menu-link input {
 	clear: left;
@@ -1044,9 +1044,10 @@ input,select, span.faux-input {
 }
 
 input[type="button"] {
+	font-family: Arial, Helvetica, sans-serif;
 	background-color: #f9fade;
-	padding:.1em 1em .1em 1em;
-	font-size: 1.1em;
+	padding: 1px 6px;
+	font-size: 1.2em;
 	line-height: 1.5em;
 }
 
@@ -1087,30 +1088,6 @@ label.selectlabel {
  * Option or Parameter styles
  */
 
-
-/* .paramlist span.paramlist-key {
-	vertical-align: bottom;
-}
-
-.paramlist span.paramlist-value {
-	vertical-align: bottom;
-}
-
-.paramlist .toplabel label {
-	text-align: left;
-	float: none;
-	margin: 5px 0 0 10px;
-}
-
-.paramlist .toplabel input,.paramlist .toplabel textarea,.paramlist .toplabel select
-	{
-	margin: 0 0 0 10px;
-}
-
-.paramlist {
-	overflow: hidden;
-} */
-
 .paramrules {
 	padding: 10px;
 	background: #f9fade;
@@ -1123,7 +1100,6 @@ span.gi {
 	font-weight: bold;
 	margin-right: 5px;
 }
-
 
 /**
  * Admintable Styles
@@ -1186,6 +1162,10 @@ dl.adminformlist li {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+}
+
+ul.adminformlist .button2-left, ul.adminformlist .button2-left {
+	margin-top: 5px;
 }
 
 	/* Table styles are for use with tabular data */
@@ -1637,7 +1617,7 @@ button:hover,button:focus {
 .button2-left,.button2-right {
 	float: left;
 	line-height: 1.5em;
-	font-size: 1.7em;
+	font-size: 1.2em;
 	border: 1px solid #c7c8b2;
 	background-color: #f9fade;
 	-moz-border-radius: 3px;
@@ -2846,6 +2826,20 @@ fieldset.panelform span.faux-label {
 	margin-left: 10px;
 }
 
+fieldset.adminform.long label,
+fieldset.panelform.long label,
+fieldset.adminform.long span.faux-label,
+fieldset.panelform.long span.faux-label {
+	min-width: 18em;
+}
+
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label,
+fieldset.adminform fieldset.radio span.faux-label,
+fieldset.panelform fieldset.radio span.faux-label {
+	margin-left: 0;
+}
+
 
 fieldset.adminform input, fieldset.adminform span.faux-input, fieldset.adminform textarea, fieldset.adminform select, fieldset.adminform img,
 fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform textarea, fieldset.panelform select, fieldset.panelform img {
@@ -3029,7 +3023,7 @@ li.acl-editgroups,
 li.acl-resetbtn {
 	display:block;
 	float:left;
-	background-color: #ffffff;
+	background-color: #f9fade;
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
