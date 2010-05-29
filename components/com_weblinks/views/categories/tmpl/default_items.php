@@ -32,9 +32,9 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevel != 0) :
 				<?php echo JHtml::_('content.prepare', $item->description); ?>
 			</div>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_item_count') == 1) :?>
+		<?php if ($this->params->get('show_numbers') == 1) :?>
 			<dl class="weblink-count"><dt>
-				<?php echo JText::_('COM_WEBLINKS_COUNT:'); ?></dt>
+				<?php echo JText::_('COM_WEBLINKS_NUM'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>
 			</dl>
 		<?php endif; ?>
