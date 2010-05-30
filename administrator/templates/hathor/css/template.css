@@ -2278,6 +2278,10 @@ a.jgrid:hover {
 	background-image: url(../images/menu/icon-16-links.png);
 }
 
+.icon-16-weblinks-cat {
+	background-image: url(../images/menu/icon-16-links-cat.png);
+}
+
 /**
  * Toolbar icons
  * These icons are used for the toolbar buttons
