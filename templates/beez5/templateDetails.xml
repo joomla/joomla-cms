@@ -9,7 +9,7 @@
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<version>1.6.0</version>
-	<description>A Easy Version of Beez</description>
+	<description>TPL_BEEZ5_XML_DESCRIPTION</description>
 
 	<files>
 		<folder>css</folder>
@@ -44,28 +44,29 @@
 		<position>position-13</position>
 		<position>position-14</position>
 	</positions>
-         <languages>
-                <language tag="en-GB">en-GB.tpl_beez5.ini</language>
-        </languages>
+	<languages>
+		<language tag="en-GB">en-GB.tpl_beez5.ini</language>
+		<language tag="en-GB">en-GB.tpl_beez5.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
-                  <field name="wrapperSmall" type="text" default="53"
-                                        label="TPL_BEEZ5_FIELD_WRAPPERSMALL_LABEL"
-                                        description="TPL_BEEZ5_FIELD_WRAPPERSMALL_DESC" />
+		 		<field name="wrapperSmall" type="text" default="53"
+					label="TPL_BEEZ5_FIELD_WRAPPERSMALL_LABEL"
+					description="TPL_BEEZ5_FIELD_WRAPPERSMALL_DESC" />
 
-                                <field name="wrapperLarge" type="text" default="72"
-                                        label="TPL_BEEZ5_FIELD_WRAPPERLARGE_LABEL"
-                                        description="TPL_BEEZ5_FIELD_WRAPPERLARGE_DESC" />
+				<field name="wrapperLarge" type="text" default="72"
+					label="TPL_BEEZ5_FIELD_WRAPPERLARGE_LABEL"
+					description="TPL_BEEZ5_FIELD_WRAPPERLARGE_DESC" />
 				<field name="logo" type="media"
 					hide_default="1"
 					label="TPL_BEEZ5_FIELD_LOGO_LABEL" description="TPL_BEEZ5_FIELD_LOGO_DESC" />
 
-				<field name="sitetitle"  type="text" default="BEEZ 2.0"
+				<field name="sitetitle"  type="text" default=""
 					label="TPL_BEEZ5_FIELD_SITETITLE_LABEL"
 					description="TPL_BEEZ5_FIELD_SITETITLE_DESC" />
 
-				<field name="sitedescription"  type="text" default="Your site name"
+				<field name="sitedescription"  type="text" default=""
 					label="TPL_BEEZ5_FIELD_DESCRIPTION_LABEL"
 					description="TPL_BEEZ5_FIELD_DESCRIPTION_DESC" />
 
@@ -76,18 +77,14 @@
 					<option value="center">TPL_BEEZ5_OPTION_AFTER_CONTENT</option>
 					<option value="left">TPL_BEEZ5_OPTION_BEFORE_CONTENT</option>
 				</field>
+				
 				<field name="html5" type="list" default="0"
 					label="TPL_BEEZ5_FIELD_HTML5_LABEL"
-					description="TPL_BEEZ5_FIELD_WRAPPER_SMALL_DESC"
+					description="TPL_BEEZ5_FIELD_HTML5_DESC"
 				>
 					<option value="0">TPL_BEEZ5_OPTION_XHTML</option>
 					<option value="1">TPL_BEEZ5_OPTION_HTML5</option>
 				</field>
-
-
-
-
-
 			</fieldset>
 		</fields>
 	</config>

@@ -2,7 +2,7 @@
 /**
  * @version		$Id: index.php 17268 2010-05-25 20:32:21Z a.radtke $
  * @package		Joomla.Site
- * @subpackage	tpl_beez2
+ * @subpackage	tpl_beez5
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -80,7 +80,7 @@ $templateparams	= $app->getTemplate(true)->params;
 					<h1 id="logo">
 
 					<?php if ($logo != '-1' ): ?>
-					<img src="<?php echo $this->baseurl ?>/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ5_LOGO'); ?>" />
+					<img src="<?php echo $this->baseurl ?>/<?php echo $logo; ?>" alt="<?php echo $templateparams->get('sitetitle');?>" />
 					<?php endif;?>
 					<?php if ($logo == '-1' ): ?>
 					<?php echo $templateparams->get('sitetitle');?>
@@ -93,11 +93,11 @@ $templateparams	= $app->getTemplate(true)->params;
 					<ul class="skiplinks">
 						<li><a href="#main" class="u2"><?php echo JText::_('TPL_BEEZ5_SKIP_TO_CONTENT'); ?></a></li>
 						<li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ5_JUMP_TO_NAV'); ?></a></li>
-					    <?php if($showRightColumn ):?>
-					    <li><a href="#additional" class="u2"><?php echo JText::_('TPL_BEEZ5_JUMP_TO_INFO'); ?></a></li>
-					   <?php endif; ?>
+						<?php if($showRightColumn ):?>
+						<li><a href="#additional" class="u2"><?php echo JText::_('TPL_BEEZ5_JUMP_TO_INFO'); ?></a></li>
+						<?php endif; ?>
 					</ul>
-                   	<h2 class="unseen"><?php echo JText::_('TPL_BEEZ5_NAV_VIEW_SEARCH'); ?></h2>
+					<h2 class="unseen"><?php echo JText::_('TPL_BEEZ5_NAV_VIEW_SEARCH'); ?></h2>
 					<h3 class="unseen"><?php echo JText::_('TPL_BEEZ5_NAVIGATION'); ?></h3>
 					<jdoc:include type="modules" name="position-1" />
 					<div id="line">
@@ -114,17 +114,17 @@ $templateparams	= $app->getTemplate(true)->params;
 					<h3 class="unseen"><?php echo JText::_('TPL_BEEZ5_SEARCH'); ?></h3>
 					<jdoc:include type="modules" name="position-0" />
 					</div> <!-- end line -->
-         <div id="header-image">
- 	     <jdoc:include type="modules" name="position-15" />
- 	    <?php if ($this->countModules('position-01')==0): ?>
- 	  <img src="<?php echo $this->baseurl ?>/templates/beez5/images/fruits.jpg"  alt="<?php echo JText::_('TPL_BEEZ5_LOGO'); ?>" />
- 	    <?php endif; ?>
-		    </div>
-			<?php if (!$templateparams->get('html5', 0)): ?>
-			</div><!-- end header -->
-			<?php else: ?>
-			</header><!-- end header -->
+		<div id="header-image">
+			<jdoc:include type="modules" name="position-15" />
+			<?php if ($this->countModules('position-01')==0): ?>
+				<img src="<?php echo $this->baseurl ?>/templates/beez5/images/fruits.jpg"  alt="<?php echo JText::_('TPL_BEEZ5_LOGO'); ?>" />
 			<?php endif; ?>
+		</div>
+		<?php if (!$templateparams->get('html5', 0)): ?>
+			</div><!-- end header -->
+		<?php else: ?>
+			</header><!-- end header -->
+		<?php endif; ?>
 		<div id="<?php echo $showRightColumn ? 'contentarea2' : 'contentarea'; ?>">
 					<div id="breadcrumbs">
 						<p>
@@ -238,18 +238,18 @@ $templateparams	= $app->getTemplate(true)->params;
 			<div id="footer-inner">
 
 				<div id="bottom">
-				   <?php if ($this->countModules('position-9')): ?>
+					<?php if ($this->countModules('position-9')): ?>
 					<div class="box box1"> <jdoc:include type="modules" name="position-9" style="beezDivision" headerlevel="3" /></div>
 					<?php endif; ?>
 					   <?php if ($this->countModules('position-10')): ?>
 					<div class="box box2"> <jdoc:include type="modules" name="position-10" style="beezDivision" headerlevel="3" /></div>
 					<?php endif; ?>
-					   <?php if ($this->countModules('position-11')): ?>
+					<?php if ($this->countModules('position-11')): ?>
 					<div class="box box3"> <jdoc:include type="modules" name="position-11" style="beezDivision" headerlevel="3" /></div>
 					<?php endif ; ?>
 				</div>
-            </div>
-      <?php endif ; ?>
+			</div>
+		<?php endif ; ?>
 
 			<div id="footer-sub">
 
