@@ -27,6 +27,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2010 Ron Severdia
+# Fixed issue [#20632]
+^ Bluestork image tweaks
+
+
+
 30-May-2010 Christophe Demko
  # Fixed issue [#20707] ContentModelArticles::getListQuery does not format ORDER BY clause correctly (thanks Amy Stephen)
  # Fixed issue [#20642] com_banners submits form even when required fields are not filled (thanks bill richardson)

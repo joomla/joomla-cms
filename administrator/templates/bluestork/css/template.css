@@ -39,9 +39,6 @@ body,td,th {
 
 html,body {
 	height: 95%;
-}
-
-#minwidth {
 	min-width: 960px;
 }
 
@@ -808,17 +805,13 @@ ul.adminformlist li {
 	padding: 0;
 	list-style: none;
 }
-/* Testing this
-fieldset  {
-	border: 0 none !important;
-}
-*/
 
 fieldset label {
 	float: left;
 	clear: left;
 	display:block;
-	margin: 5px 5px 2px 0;
+	margin: 5px 0;
+	/* margin: 5px 5px 2px 0; */
 }
 fieldset ul {
 	margin: 0;
@@ -1121,7 +1114,7 @@ fieldset.adminform-legacy fieldset.radio {
 
 fieldset.adminform fieldset.radio label,
 fieldset.panelform fieldset.radio label {
-	min-width: 40px;
+	min-width: 60px;
 	float: left;
 	clear: none;
 	width: 40px;
