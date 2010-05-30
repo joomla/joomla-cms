@@ -77,41 +77,48 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$string2 = "delete's";
 		$lang = new JLanguage('');
 
-		// string1 is strtoupper with javascript safe false
 		$this->assertEquals(
-				"Delete",
-				$lang->_($string1,false)
+				"delete",
+				$lang->_($string1,false),
+				"exact case should match when javascript safe is false "
 		);
 		$this->assertNotEquals(
-				"delete",
-				$lang->_($string1,false)
-		);
-		// string1 is strtoupper with javascript safe true
-		$this->assertEquals(
 				"Delete",
-				$lang->_($string1,true)
+				$lang->_($string1,false),
+				"should be case sensitive when javascript safe is false"
+		);
+		
+		$this->assertEquals(
+				"delete",
+				$lang->_($string1,true),
+				"exact case match should work when javascript safe is true"
 		);
 		$this->assertNotEquals(
-				"delete",
-				$lang->_($string1,true)
+				"Delete",
+				$lang->_($string1,true),
+				"should be case sensitive when javascript safe is true"
 		);
-		// string2 is not strtoupper with javascript safe false
+		
 		$this->assertEquals(
 				"delete's",
-				$lang->_($string2,false)
+				$lang->_($string2,false),
+				"exact case should match when javascript safe is false "
 		);
 		$this->assertNotEquals(
 				"Delete's",
-				$lang->_($string2,false)
+				$lang->_($string2,false),
+				"should be case sensitive when javascript safe is false"
 		);
-		// string2 is no strtoupper with javascript safe true, but is addslashes (' => \')
+		
 		$this->assertEquals(
 				"delete\'s",
-				$lang->_($string2,true)
+				$lang->_($string2,true),
+				"exact case should match when javascript safe is true, also it calls addslashes (' => \') "
 		);
 		$this->assertNotEquals(
 				"Delete\'s",
-				$lang->_($string2,true)
+				$lang->_($string2,true),
+				"should be case sensitive when javascript safe is true,, also it calls addslashes (' => \') "
 		);
     }
 
@@ -160,7 +167,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTranliterator, this test is wrong
+		// Only if there is an setTransliterator, this test is wrong
 		$this->assertNull($lang->getTransliterator());
     }
 

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2010 Mark Dexter
+# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!  
+
 28-May-2010 Mark Dexter
 # Fix broken acl0001Test.php system test
 
