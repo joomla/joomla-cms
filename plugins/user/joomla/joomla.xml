@@ -17,7 +17,7 @@
 	<config>
 		<fields name="params">
 
-			<fieldset name="basic" label="JPLUGIN_BASIC_FIELDSET_LABEL">
+			<fieldset name="basic">
 				<field name="autoregister" type="radio"
 					default="1"
 					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"

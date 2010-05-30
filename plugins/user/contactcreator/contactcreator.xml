@@ -21,7 +21,7 @@
 	<config>
 		<fields name="params">
 
-			<fieldset name="basic" label="JPLUGIN_BASIC_FIELDSET_LABEL">
+			<fieldset name="basic">
 				<field name="autowebpage" type="text"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_CONTACT_DESC"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_CONTACT_LABEL"
