@@ -22,7 +22,7 @@ JHtml::_('behavior.formvalidation');
 			submitform(task);
 		}
 		// @todo Deal with the editor methods
-		submitform(task);
+		//submitform(task);
 	}
 	window.addEvent('domready', function() {
 		document.id('jform_type0').addEvent('click', function(e){

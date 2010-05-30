@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 30-May-2010 Jean-Marie Simonet
+ # Fixed issue [#20642] com_banners submits form even when required fields are not filled (thanks bill richardson)
+
+30-May-2010 Jean-Marie Simonet
 # [#20679] Page column sort filter not working properly in module manager. Thanks Christophe.
 # [#20714] Beez 2.0 template has hardcoded language string as alt tag for logo image. Thanks Jenny.
 # Various bugs in beez2. Added sys.ini.
