@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 ?>
-
-	<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
+<?php if ($this->params->get('presentation_style')!='full'){?>
+	<?php echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); }?>
 <div class="contact-links">
 
 	<ul>

@@ -202,7 +202,15 @@
 				<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK
 				</option>
 			</field>
-
+			<field name="presentation_style" type="list"
+				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
+				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
+				<option value="full">COM_CONTACT_FIELD_VALUE_FULL</option>
+			</field>
 			<field name="show_name" type="list"
 
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL" description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"

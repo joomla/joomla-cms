@@ -21,7 +21,7 @@
 	</fields>
 <fields name="params">
 <fieldset name="basic">
-			<field name="show_base_description" type="radio"
+			<field name="show_base_description" type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
@@ -48,7 +48,7 @@
 				<option value="5">J5</option>
 			</field>
 
-			<field name="show_empty_categories" type="radio"
+			<field name="show_empty_categories" type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
 			>
@@ -73,7 +73,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="show_cat_num_articles" type="radio"
+			<field name="show_cat_num_articles" type="list"
 				label="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_LABEL"
 				description="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_DESC"
 			>
@@ -140,6 +140,15 @@
 </fieldset>
 
 <fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL">
+			<field name="presentation_style" type="list"
+				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
+				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
+				<option value="full">COM_CONTACT_FIELD_VALUE_FULL</option>
+			</field>
 			<field name="show_name" type="list"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
