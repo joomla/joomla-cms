@@ -240,9 +240,12 @@
 		<field
 			name="offset"
 			type="timezone"
+			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
-			required="true" />
+			required="true">
+			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
+		</field>
 	</fieldset>
 
 	<fieldset

@@ -82,8 +82,8 @@ class JInstallationModelConfiguration extends JModel
 		$registry->set('ftp_enable', $options->ftp_enable);
 
 		/* Locale Settings */
-		$registry->set('offset', 0);
-		$registry->set('offset_user', 0);
+		$registry->set('offset', 'UTC');
+		$registry->set('offset_user', 'UTC');
 
 		/* Mail Settings */
 		$registry->set('mailer', 'mail');
