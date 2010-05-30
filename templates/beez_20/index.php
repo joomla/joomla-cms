@@ -80,10 +80,10 @@ $templateparams	= $app->getTemplate(true)->params;
 				<div class="logoheader">
 					<h1 id="logo">
 
-					<?php if ($logo != '-1' ): ?>
-					<img src="<?php echo $this->baseurl ?>/images/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ2_LOGO'); ?>" />
+					<?php if ($logo): ?>
+					<img src="<?php echo $this->baseurl ?>/<?php echo $logo; ?>"  alt="<?php echo JText::_('TPL_BEEZ2_LOGO'); ?>" />
 					<?php endif;?>
-					<?php if ($logo == '-1' ): ?>
+					<?php if (!$logo ): ?>
 					<?php echo $templateparams->get('sitetitle');?>
 					<?php endif; ?>
 					<span class="header1">

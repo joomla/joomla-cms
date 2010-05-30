@@ -1,0 +1,42 @@
+/* Angie Radtke 2010 */
+
+#all
+{text-align:right}
+h1#logo
+
+{text-align:right}
+#header ul
+{text-align:left}
+#line
+{position:absolute;left:20px !important;
+right:auto
+}
+
+ul.menu li
+{text-align:right}
+
+ul.menu li a:link, ul.menu li a:visited {
+background:url("../images/nature/karo.gif") no-repeat scroll right 14px ;
+padding-right:10px;
+}
+
+h3{text-align:right}
+
+h3.js_heading a
+{position:absolute; right:auto; left:5px}
+
+.box
+{text-align:right}
+
+ul.newsfeed
+{text-align:right}
+
+a.readmore:link,
+a.readmore:visited,
+.readmore a:link,
+.readmore a:visited
+
+{background:url(../images/arrow1_rtl.png) repeat-x scroll right top;
+padding-right:10px !important
+	}
+}

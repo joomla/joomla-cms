@@ -124,14 +124,14 @@ h1#logo
 
 h1#logo span
 {   margin-top:10px;
-	text-transform:none;
+        text-transform:none;
 
 
 }
 
 #line
 {
-	top:110px
+        top:110px
 }
 
 /* ##########################  header  ########################### */
@@ -394,7 +394,7 @@ h3.js_heading a:focus
 {
         color:#fff;
         background:#990000;
-		text-decoration:none
+                text-decoration:none
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
@@ -519,9 +519,9 @@ ul.menu li.active ul li.active ul li.active a:visited
 ul.menu li ul li ul li ul
 {
         border:solid 1px #eee !important;
-		padding-top:10px !important;
-		padding-bottom:10px !important;
-		background:#fff url(../images/nature/level4.png) repeat-x !important;
+                padding-top:10px !important;
+                padding-bottom:10px !important;
+                background:#fff url(../images/nature/level4.png) repeat-x !important;
 }
 
 
@@ -607,13 +607,13 @@ ul#archive-items li
 .image-left
 {
          border:solid 1px #ddd;
-		padding:2px
+                padding:2px
 }
 
 .image-right
 {
         border:solid 1px #ddd;
-		padding:2px
+                padding:2px
 }
 
 /* ++++++++++++++  leading  ++++++++++++++ */
@@ -1297,3 +1297,9 @@ form#adminForm fieldset
 {
         font-family: 'Titillium Maps', Arial;
 }
+
+
+table.pagenav,
+table.pagenav tr,
+table.pagenav td
+{border:0 !important}

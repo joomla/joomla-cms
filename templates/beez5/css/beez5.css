@@ -20,7 +20,7 @@
 
 body
 {
-        background: #fff url(../images/nature/header_outer.gif) repeat-x left 0;
+     background: #eee url(../images/header_outer.jpg) repeat-x ;
         color: #333;
         font-family: arial, helvetica, sans-serif;
 }
@@ -29,19 +29,26 @@ body
 {
         color: #333;
         border:solid 0px #ddd  !important ;
+
+
+}
+
+*html #back
+{
+ padding:0
 }
 
 a:link,
 a:visited
 {
-        color:#0A5E69
+        color:#7BA428
 }
 
 a:hover,
 a:active,
 a:focus
 {
-        background:#0A5E69;
+        background:#7BA428;
         color:#FFF;
 }
 
@@ -77,45 +84,88 @@ fieldset
 
 
 /* ##########################  logo  ########################### */
-
+#header
+{background:#fff}
 #logo span
 {
-        color:#fff !important;
-                margin-top:6px
+        color:#555 !important;
+                margin-top:6px;
+
+                font-size:0.4em !important; letter-spacing:1px
 }
 
 .logoheader
 {
-        border-top:solid 1px transparent;
-        color:#fff;
-        background:url(../images/nature/bar.jpg) repeat-x top left;
+        border-top:solid 5px #555;
+        color:#555;
+        background: #fff;
+        padding:0
 }
+
+
+#header-image
+{min-height:20px;
+background:#eee}
+
+
+
 
 h1#logo
 {
-        font-family:  'Titillium Maps', Arial;
-        text-shadow:#333  0.1em 0.1em 0.2em;
+       margin:40px 20px 10px 20px;
+        font-size:3em;
+
 }
 
 
-#logo span.header1
+#line
 {
-        color:#fff;
+
+
+text-align:right;
+margin-bottom:10px
+
+
 }
+
+
+
+
+
+
+
+#header #line form,
+#header #line #fontsize,
+#header #line form .search
+
+{
+
+display:inline !important;
+
+}
+
+
 
 /* ##########################  header  ########################### */
 
-#header
+#header ul
 {
-        background:#185359 url(../images/nature/header.jpg) bottom left repeat-x ;
+        width:600px;
+
+
+
 }
+
+#header ul
+{
+max-width:1030px;
+right:15px}
 
 /* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
 #header ul.menu
 {
-        background: url(../images/nature/navhoriz.png);
-        border:0;
-        border-bottom:solid 1px #237D85;
+        background: #fff;
+        margin-top:5px !important;
         list-style-type:none
 }
 
@@ -127,9 +177,9 @@ h1#logo
 #header ul li a:link,
 #header ul li a:visited
 {
-        color:#fff;
+        color:#333;
         border:0;
-        border-right:solid 1px #237D85;
+        border-right:solid 1px #eee;
         background:transparent
 }
 
@@ -137,16 +187,16 @@ h1#logo
 #header ul li a:active,
 #header ul li a:focus
 {
-        color:#333;
-        background:#bddfb3
+        color:#444;
+        background:#ccc
 }
 
 #header ul li.active a:link,
 #header ul li.active a:visited
 {
-        color:#333;
+        color:#fff;
         border-right:solid 1px #237D85;
-        background:#bddfb3 !important
+        background:#377A2E!important
 }
 
 .skiplinks,
@@ -167,26 +217,26 @@ h1#logo
 
 #fontsize
 {
-        color:#00710e;
+        color:#444;
 }
 
 #fontsize p a:link,
 #fontsize p a:visited
 {
-        color:#fff
+        color:#444
 }
 
 #fontsize p a:hover,
 #fontsize p a:active,
 #fontsize p a:focus
 {
-        background:#000;
+        background:#555;
         color:#fff
 }
 
 #fontsize h3
 {
-        color:#fff;
+        color:#444;
 }
 
 
@@ -194,7 +244,7 @@ h1#logo
 
 #header form .inputbox
 {
-        background:#E1E9E9 !important;
+        background:#fff !important;
 }
 
 #header form .inputbox:focus
@@ -205,16 +255,21 @@ h1#logo
 #header form .button
 {
         border:solid 1px #999;
-        background:#664335 url(../images/nature/searchbutton.png) ;
+        background:#664335 url(../images/searchbutton.png) ;
         color:#fff;
 }
 
 /* ##########################  contentarea  ########################### */
 
+#top
+{background:#eee;
+padding:15px;
+border:solid 1px #ddd}
+
 #contentarea,
 #contentarea2
 {
-        background:#fff url(../images/nature/box1.png) repeat-x;
+        background:#fff url(../images/box1.png) repeat-x;
 }
 
 
@@ -234,14 +289,14 @@ h1#logo
 #breadcrumbs span a:visited
 {
         background:#fff;
-        color:#19545a;
+        color:#7BA428;
 }
 
 #breadcrumbs span a:hover,
 #breadcrumbs span a:active,
 #breadcrumbs span a:focus
 {
-        background:#19545a;
+        background:#7BA428;
         color:#fff;
 }
 
@@ -266,13 +321,13 @@ h1#logo
 #nav h3
 {
         border-bottom:solid 1px #ddd;
-        color:#0A5E69;
+        color:#444;
 }
 
 h3.js_heading
 {
         border-bottom:solid 1px #fff !important;
-        background:/*#ddf0f2  #E1E9E9*/ #095469 url(../images/nature/h3_js_bg.gif) bottom left repeat-x;
+        background:#eee;
         font-family: 'Titillium Maps', Arial;
 }
 
@@ -283,12 +338,12 @@ h3.js_heading span.backh
 
 h3.js_heading span.backh1
 {
-        color:#fff
+        color:#444
 }
 
 #right h3
 {
-        color:#0a5e69;
+        color:#377A2E;
         border-bottom:solid 1px #ddd;
 }
 
@@ -360,7 +415,7 @@ h3.js_heading a:focus
 ul.menu
 {
         border:0;
-        background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
+        background:#fff /* url(../images/nav_level_1.gif) repeat-x */;
         border:solid 0px #eee;
 }
 
@@ -383,7 +438,7 @@ ul.menu li a:link,
 ul.menu li a:visited
 {
         color:#444;
-        background:url(../images/nature/karo.gif) 5px 12px no-repeat
+        background:url(../images/karo.gif) 5px 12px no-repeat
 }
 
 ul.menu li.active a:link,
@@ -399,7 +454,7 @@ ul.menu li.active a:hover,
 ul.menu li.active a:active,
 ul.menu li.active a:focus
 {
-        background:#fff url(../images/nature/nav_level_1.gif) repeat-x;
+        background:#fff url(../images/nav_level_1.gif) repeat-x;
         color:#444;
 }
 
@@ -423,7 +478,7 @@ ul.menu li ul
         color:#000;
         border:0;
         border-bottom:solid 1px #fff;
-        background:#e8e8e8 /* url(../images/nature/arrow_nav.gif) no-repeat right 7px */;
+        background:#e8e8e8;
 }
 
  ul.menu li.active ul li.active a:link,
@@ -474,14 +529,14 @@ ul.menu li ul li ul li ul
         border:solid 1px #eee !important;
                 padding-top:10px !important;
                 padding-bottom:10px !important;
-                background:#fff url(../images/nature/level4.png) repeat-x !important;
+                background:#fff url(../images/level4.png) repeat-x !important;
 }
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li a:visited
 {font-weight:normal; padding: 3px 2px 3px 40px; font-size:0.9em;
-background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px; color:#444}
+background:#fff url(../images/arrow_small.png) no-repeat  30px 5px; color:#444}
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
@@ -499,6 +554,8 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 #main
 {
 
+min-height:300px
+
 }
 
 #main a:link,
@@ -511,7 +568,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 #main a:active,
 #main a:focus
 {
-        background:#0A5E69;
+        background:#7BA428;
         color:#fff;
 }
 
@@ -581,7 +638,7 @@ ul#archive-items li
 
 #main h1
 {
-        color:#333;
+        color:#444;
         border-top:solid 0px #ddd;
         border-bottom:solid 1px #ddd;
         font-family: 'Titillium Maps', Arial;
@@ -597,19 +654,42 @@ ul#archive-items li
 */
 .items-row h2
 {
-        color:#0A5E69;
+        color:#7BA428;
         border-top:solid 1px #ddd;
         border-bottom:solid 1px #ddd;
 }
+.items-row h2 a:link,
+.items-row h2 a:visited,
+.items-leading h2 a:link,
+.items-leading h2 a:visited
+{color:#7BA428 !important;
+text-decoration:underline !important
+}
+
+
+
+.items-row h2 a:hover,
+.items-row h2 a:active,
+.items-row h2 a:focus,
+.items-leading h2 a:hover,
+.items-leading h2 a:active,
+.items-leading h2 a:focus
+{color:#fff !important;
+text-decoration:none !important
+}
+
+
+
+
 
 .items-leading h2
 {
-        color:#0A5E69;
+        color:#7BA428;
 }
 
 #main h2
 {
-        color:#0A5E69;
+        color:#7BA428;
         font-family: 'Titillium Maps', Arial;
 }
 
@@ -674,7 +754,7 @@ a.readmore:focus
 #main .items-more ol li a
 {
         background:#FFF url(../images/nature/blog_more.gif) no-repeat  !important;
-        color:#0A5E69
+        color:#377A2E
 }
 
 #main .items-more ol li a:hover,
@@ -682,7 +762,7 @@ a.readmore:focus
 #main .items-more ol li a:focus
 {
         background: #555 url(../images/nature/arrow2.gif) no-repeat 0px center;
-        color:#0A5E69;
+        color:#377A2E;
 }
 
 /* ++++++++++++++  pagination  ++++++++++++++ */
@@ -748,7 +828,7 @@ table.contenttoc
 .latestnews li a:link,
 .latestnews li a:visited
 {
-        background: url(../images/personal/arrow2_grey.png) 2px 7px  no-repeat ;
+        background: url(../images/arrow2_grey.png) 2px 7px  no-repeat ;
 }
 
 .mostread li a:hover,
@@ -784,7 +864,7 @@ ul.newsfeed
 ul.newsflash-horiz
 {
         border:solid 1px #eee;
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+        background:#f5f5f5 url(../images/box.png) repeat-x;
 }
 
 .newsflash-horiz li
@@ -844,7 +924,7 @@ fieldset.input
 input.button,
 button.button
 {
-        background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
+        background:#FFFFFF url(../images/arrow1.gif) no-repeat left top;
         border:1px solid #DDDDDD;
         color:#444444;
 }
@@ -856,12 +936,12 @@ ul.tabs
 {
         border:solid 1px #ddd;
         border-bottom:0;
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+        background:#f5f5f5 url(../images/box.png) repeat-x;
 }
 
 ul.tabs li
 {
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+        background:#f5f5f5 url(../images/box.png) repeat-x;
         border-right:solid 1px #ddd
 }
 
@@ -1130,7 +1210,7 @@ fieldset.filters
 
 p.error
 {
-        color:#044b63;
+    color:#044b63;
     background:#eee;
     border-top:3px solid #044b63;
     border-bottom:3px solid #044b63;
@@ -1144,20 +1224,26 @@ body.contentpane
 
 /* ##########################  footer   ########################### */
 
+#footer
+{
 
-#footer-sub
-{background: url(../images/footer_bg.png) repeat-x;
-color:#fff}
+        background:#333333 url(../images/tabs_back.png) repeat-x;
+        color:#fff;
+        border-top:solid 0px #ccc;
+
+}
+
+#footer-inner
+{
+        background:#f5f5f5 url(../images/footer.jpg) repeat-x left bottom;
+        border-top:solid 1px #ddd
+}
 
 #footer-sub a:link,
 #footer-sub a:visited
 {color:#fff}
 
-#footer-outer
-{
-        background:#fff url(../images/nature/headingback.png) repeat-x;
-        border-top:solid 1px #ccc
-}
+
 
 .box1
 {
@@ -1216,28 +1302,7 @@ legend
 }
 
 
-/*-------------------------------*/
-.australia
-{
-        background:#f5f5f5 url(../images/nature/koala.png) top right no-repeat;
-        border:solid 1px #ddd
-}
 
-.australia h3
-{
-        font-family: 'Titillium Maps', Arial;
-        color:#444
-}
-
-.australia a
-{
-
-}
-
-.australia p
-{
-
-}
 
 table.pagenav,
 table.pagenav tr,

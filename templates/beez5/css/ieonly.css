@@ -23,16 +23,7 @@
         border:solid 1px #fff
 }
 
-.logoheader
-{
-        height:159px
-}
 
-#line
-{
-        width:19.0em;
-        margin-right:20px;
-}
 
 
 #header ul.skiplinks li a
@@ -49,11 +40,12 @@ border:0px solid #000
 {
        display:inline-block;
         position:relative;
+		zoom:1
 }
 
 #main
 {
-            height:520px;
+            height:320px;
 }
 
 #back
