@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2010 Jean-Marie Simonet
+# [#20679] Page column sort filter not working properly in module manager. Thanks Christophe.
+
 29-May-2010 Mark Dexter
 ^ Added parameter for display style of contact (Elin Waring)
 + Added beez5 template (Angie Radtke)

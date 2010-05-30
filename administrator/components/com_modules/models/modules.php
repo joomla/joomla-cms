@@ -96,11 +96,11 @@ class ModulesModelModules extends JModelList
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
 		$ordering = $this->getState('list.ordering', 'ordering');
-		if ($ordering == 'name') {
+		if (in_array($ordering, array('pages', 'name'))) {
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
-			JArrayHelper::sortObjects($result,'name', $this->getState('list.direction') == 'desc' ? -1 : 1);
+			JArrayHelper::sortObjects($result,$ordering, $this->getState('list.direction') == 'desc' ? -1 : 1);
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
@@ -141,6 +141,15 @@ class ModulesModelModules extends JModelList
 			||	$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$item->name = JText::_($item->name);
+			if (is_null($item->pages)) {
+				$item->pages = JText::_('JNONE');
+			} else if ($item->pages < 0) {
+				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
+			} else if ($item->pages > 0) {
+				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
+			} else {
+				$item->pages = JText::_('JALL');
+			}
 		}
 	}
 
