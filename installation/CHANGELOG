@@ -30,7 +30,8 @@ $ -> Language fix or change
 31-May-2010 Jean-Marie Simonet
 # [#20721] Select State > trash and content filter Thanks Christophe, Amy.
 # [#20504] plugin working 4 times one the same page. Thanks Christophe.
-# [#20606] "Cache Manager: Clear Cache" doesn't show cache groups if caching is off, no pagination here, same data for Site and Administrator. Thanks dennis and Klas.
+# [#20606] "Cache Manager: Clear Cache" doesn't show cache groups if caching is off, no pagination here, same data for Site and Administrator. Thanks Dennis and Klas.
+# [#20305] Configuration.php textarea box breaks layout in installation. Thanks Vicki, Elin.
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]

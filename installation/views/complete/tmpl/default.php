@@ -138,7 +138,7 @@ JHtml::_('behavior.formvalidation');
 								</tr>
 								<tr>
 									<td align="center">
-										<textarea rows="5" cols="60" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" ><?php echo $this->config; ?></textarea>
+										<textarea rows="5" cols="49" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" ><?php echo $this->config; ?></textarea>
 									</td>
 								</tr>
 								<?php endif; ?>
