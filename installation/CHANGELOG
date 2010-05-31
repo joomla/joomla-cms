@@ -42,6 +42,9 @@ $ Corrected string typo.
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
 ^ Bluestork image tweaks
+^ Changed user profile radios
+^ Cleaned up pagination buttons
+# Language fixes, CSS fixes for BlueStork
 
 30-May-2010 Christophe Demko
  # Fixed sample data
