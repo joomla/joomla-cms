@@ -41,6 +41,7 @@ $ Corrected string typo.
 $ Deleting unused strings from installation ini files
 # [#20593] call to undefined function on tinymce. Thanks Christophe.
 # Corrected path to tinymce templates
+# [#20720] Beez5 template has some minors bugs. Thanks Elin & all.
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
