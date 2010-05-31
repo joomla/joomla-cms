@@ -155,10 +155,10 @@ class ContentModelArticles extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else if (stripos($search, 'author:') === 0) {
 				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
-				$query->where('ua.name LIKE '.$search.' OR ua.username LIKE '.$search);
+				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
+				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 
