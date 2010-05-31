@@ -35,7 +35,7 @@ $ -> Language fix or change
 # [#20736] [patch] com_content: error on sorting by access level in "articles" view with "modal" layout Thanks Artyom.
 # [#20731] CountModules with multiple positions linked by operator is not working. Thanks Christophe.
 # [#20734] JS Validation missing for Radio Option Selection Required. Thanks Christophe and testers.
-# [#20529] User-Profile Plugin field settings ignored. Thanks Christophe and Elin.
+# [#20529] User-Profile Plugin field settings ignored. Thanks Christophe and Amy.
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
