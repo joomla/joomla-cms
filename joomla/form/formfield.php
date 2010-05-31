@@ -258,7 +258,7 @@ abstract class JFormField
 		$required	= (string) $element['required'];
 
 		// Set the required and validation options.
-		$this->required	= ($required == 'true' || $required == 'required');
+		$this->required	= ($required == 'true' || $required == 'required' || $required == '1');
 		$this->validate	= (string) $element['validate'];
 
 		// Add the required class if the field is required.
