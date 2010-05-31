@@ -37,6 +37,7 @@ $ -> Language fix or change
 # [#20734] JS Validation missing for Radio Option Selection Required. Thanks Christophe and testers.
 # [#20529] User-Profile Plugin field settings ignored. Thanks Christophe and Amy.
 # [#20489] JTableAsset::store failed Thanks Christophe.
+$ Corrected string typo.
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
