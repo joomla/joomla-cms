@@ -36,6 +36,7 @@ $ -> Language fix or change
 # [#20731] CountModules with multiple positions linked by operator is not working. Thanks Christophe.
 # [#20734] JS Validation missing for Radio Option Selection Required. Thanks Christophe and testers.
 # [#20529] User-Profile Plugin field settings ignored. Thanks Christophe and Amy.
+# [#20489] JTableAsset::store failed Thanks Christophe.
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
