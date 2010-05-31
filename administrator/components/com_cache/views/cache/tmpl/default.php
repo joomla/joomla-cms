@@ -9,6 +9,9 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
@@ -22,13 +25,13 @@ defined('_JEXEC') or die;
 				<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->data);?>);" />
 			</th>
 			<th class="title nowrap">
-				<?php echo JText::_('COM_CACHE_GROUP'); ?>
+				<?php echo JHtml::_('grid.sort',  'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 			</th>
-			<th width="5%" align="center" nowrap="nowrap">
-				<?php echo JText::_('COM_CACHE_NUMBER_OF_FILES'); ?>
+			<th width="5%" class="center nowrap">
+				<?php echo JHtml::_('grid.sort',  'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 			</th>
 			<th width="10%" class="center">
-				<?php echo JText::_('COM_CACHE_SIZE'); ?>
+				<?php echo JHtml::_('grid.sort',  'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 			</th>
 		</tr>
 	</thead>
@@ -67,5 +70,7 @@ defined('_JEXEC') or die;
 <input type="hidden" name="task" value="" />
 <input type="hidden" name="boxchecked" value="0" />
 <input type="hidden" name="client" value="<?php echo $this->client->id;?>" />
+<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 <?php echo JHtml::_('form.token'); ?>
 </form>

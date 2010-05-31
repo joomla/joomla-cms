@@ -34,6 +34,16 @@ class JCacheStorageHelper
 	 * @since	1.6
 	 */
 	public $count = 0;
+	
+	/**
+	 * Constructor
+	 *
+	 * @param	array	$options	options
+	 */
+	public function __construct($group)
+	{
+		$this->group = $group;
+	}	
 
 	/**
 	 * Increase cache items count.
@@ -42,9 +52,8 @@ class JCacheStorageHelper
 	 * @param	string	$group	The cache data group
 	 * @since	1.6
 	 */
-	public function updateSize($size,$group)
+	public function updateSize($size)
 	{
-		$this->group = $group;
 		$this->size = number_format($this->size + $size, 2);
 		$this->count++;
 	}

@@ -56,7 +56,9 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	private function getConnection()
 	{
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) return false;
+		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) {
+			return false;
+		}
 
 		$config = &JFactory::getConfig();
 		$this->_persistent	= $config->get('memcache_persist', true);
@@ -67,7 +69,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		//$servers	= (isset($params['servers'])) ? $params['servers'] : array();
 		$server=array();
 		$server['host'] = $config->get('memcache_server_host', 'localhost');
-		$server['port'] = $config->get('memcache_server_port',11211);
+		$server['port'] = $config->get('memcache_server_port', 11211);
 		// Create the memcache connection
 		self::$_db = new Memcache;
 		self::$_db->addServer($server['host'], $server['port'], $this->_persistent);
@@ -76,17 +78,6 @@ class JCacheStorageMemcache extends JCacheStorage
 		if ($memcachetest == false) {
 			return JError::raiseError(404, "Could not connect to memcache server");
 		}
-		//$db->connect($server['host'], $server['port']) or die ("Could not connect");
-
-		/**if (false === self::$_db->get($this->_hash.'init-time')) {
-
-			self::$_db->set($this->_hash.'init-time', time(), 0, 0);
-			self::$_db->set($this->_hash.'hits',   0, 0, 0);
-			self::$_db->set($this->_hash.'misses', 0, 0, 0);
-			self::$_db->set($this->_hash.'304s', 0, 0, 0);
-			self::$_db->set($this->_hash.'count', 0, 0, 0);
-			self::$_db->set($this->_hash.'count-gzip', 0, 0, 0);
-		}*/
 
 		// memcahed has no list keys, we do our own accounting, initalise key index
 		if (self::$_db->get($this->_hash.'-index') === false) {
@@ -140,12 +131,12 @@ class JCacheStorageMemcache extends JCacheStorage
 					$group = $namearr[2];
 
 					if (!isset($data[$group])) {
-						$item = new JCacheStorageHelper();
+						$item = new JCacheStorageHelper($group);
 					} else {
 						$item = $data[$group];
 					}
 
-					$item->updateSize($key->size/1024,$group);
+					$item->updateSize($key->size/1024);
 
 					$data[$group] = $item;
 				}
@@ -265,20 +256,22 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public static function test()
 	{
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) return false;
+		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) {
+			return false;
+		}
 
-			$config = &JFactory::getConfig();
-			$host = $config->get('memcache_server_host', 'localhost');
-			$port = $config->get('memcache_server_port',11211);
+		$config = &JFactory::getConfig();
+		$host = $config->get('memcache_server_host', 'localhost');
+		$port = $config->get('memcache_server_port', 11211);
 
-			$memcache = new Memcache;
-			$memcachetest = @$memcache->connect($host, $port);
+		$memcache = new Memcache;
+		$memcachetest = @$memcache->connect($host, $port);
 
-			 if (!$memcachetest)
-			 {
-			 		return false;
-			 } else return true;
-
+		 if (!$memcachetest) {
+		 	return false;
+		 } else {
+		 	return true;
+		 }
 	}
 
 	/**
@@ -325,8 +318,8 @@ class JCacheStorageMemcache extends JCacheStorage
 			while ($data_lock === FALSE) {
 
 				if ($lock_counter > $looptime) {
-						$returning->locked = false;
-						$returning->locklooped = true;
+						$returning->locked 		= false;
+						$returning->locklooped 	= true;
 					break;
 				}
 
@@ -336,9 +329,9 @@ class JCacheStorageMemcache extends JCacheStorage
 			}
 
 		}
-			$returning->locked = $data_lock;
+		$returning->locked = $data_lock;
+		
 		return $returning;
-
 	}
 
 	/**
@@ -380,8 +373,8 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	private function lockindex()
 	{
-		$looptime = 300;
-		$data_lock = self::$_db->add($this->_hash.'-index_lock', 1, false, 30);
+		$looptime 	= 300;
+		$data_lock 	= self::$_db->add($this->_hash.'-index_lock', 1, false, 30);
 
 		if ($data_lock === FALSE) {
 
@@ -399,7 +392,6 @@ class JCacheStorageMemcache extends JCacheStorage
 				$data_lock = self::$_db->add($this->_hash.'-index_lock', 1, false, 30);
 				$lock_counter++;
 			}
-
 		}
 
 		return true;

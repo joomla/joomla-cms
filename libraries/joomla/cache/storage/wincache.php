@@ -53,25 +53,28 @@ class JCacheStorageWincache extends JCacheStorage
 	public function getAll()
 	{
 		parent::getAll();
-		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
-		$data = array();
+		
+		$allinfo 	= wincache_ucache_info();
+		$keys 		= $allinfo['cache_entries'];
+		$secret 	= $this->_hash;
+		$data 		= array();
 
 		foreach ($keys as $key) {
-			$name=$key['key_name'];
-			$namearr=explode('-',$name);
+			$name 		= $key['key_name'];
+			$namearr	= explode('-',$name);
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 				$group = $namearr[2];
 				if (!isset($data[$group])) {
-					$item = new JCacheStorageHelper();
+					$item = new JCacheStorageHelper($group);
 				} else {
 					$item = $data[$group];
 				}
 				if (isset($key['value_size'])) {
-					$item->updateSize($key['value_size']/1024,$group);}
+					$item->updateSize($key['value_size']/1024);
+				}
 				else {
-					$item->updateSize(1,$group); } // dummy, WINCACHE version is too low
+					$item->updateSize(1);
+				} // dummy, WINCACHE version is too low
 				$data[$group] = $item;
 			}
 		}
@@ -121,11 +124,9 @@ class JCacheStorageWincache extends JCacheStorage
 	 */
 	public function clean($group, $mode)
 	{
-		$allinfo = wincache_ucache_info();
-
-		$keys = $allinfo['cache_entries'];
-
-		$secret = $this->_hash;
+		$allinfo 	= wincache_ucache_info();
+		$keys 		= $allinfo['cache_entries'];
+		$secret 	= $this->_hash;
 
 		foreach ($keys as $key) {
 			if (strpos($key['key_name'], $secret.'-cache-'.$group.'-') === 0 xor $mode != 'group') {
@@ -144,9 +145,9 @@ class JCacheStorageWincache extends JCacheStorage
 	public function gc()
 	{
 		$lifetime	= $this->_lifetime;
-		$allinfo = wincache_ucache_info();
-		$keys = $allinfo['cache_entries'];
-		$secret = $this->_hash;
+		$allinfo 	= wincache_ucache_info();
+		$keys 		= $allinfo['cache_entries'];
+		$secret 	= $this->_hash;
 
 		foreach ($keys as $key) {
 			if (strpos($key['key_name'], $secret.'-cache-')) {
