@@ -78,17 +78,17 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		parent::getAll();
 
-		$path=$this->_root;
-		$folders = $this->_folders($path);
-		$data = array();
+		$path		= $this->_root;
+		$folders 	= $this->_folders($path);
+		$data 		= array();
 
 		foreach ($folders as $folder) {
-			$files = array();
-			$files = $this->_filesInFolder($path.DS.$folder);
-			$item = new JCacheStorageHelper();
+			$files 	= array();
+			$files 	= $this->_filesInFolder($path.DS.$folder);
+			$item 	= new JCacheStorageHelper($folder);
 
 			foreach ($files as $file) {
-				$item->updateSize(filesize($path.DS.$folder.DS.$file)/1024,$folder);
+				$item->updateSize(filesize($path.DS.$folder.DS.$file) / 1024);
 			}
 			$data[$folder] = $item;
 		}
@@ -119,7 +119,6 @@ class JCacheStorageFile extends JCacheStorage
 		if ($_fileopen) {
 			$len = strlen($data);
 			@fwrite($_fileopen, $data, $len);
-			//@fclose($_fileopen);
 			$written = true;
 		}
 
@@ -171,7 +170,7 @@ class JCacheStorageFile extends JCacheStorage
 		switch ($mode) {
 			case 'notgroup':
 				$folders = $this->_folders($this->_root);
-				for ($i=0,$n=count($folders);$i<$n;$i++) {
+				for ($i=0, $n=count($folders); $i<$n; $i++) {
 					if ($folders[$i] != $folder) {
 						$return |= $this->_deleteFolder($this->_root.DS.$folders[$i]);
 					}
@@ -216,7 +215,7 @@ class JCacheStorageFile extends JCacheStorage
 	public static function test()
 	{
 		$conf = JFactory::getConfig();
-		return is_writable($conf->get('cache_path',JPATH_ROOT.DS.'cache'));
+		return is_writable($conf->get('cache_path', JPATH_ROOT.DS.'cache'));
 	}
 
 	/**
@@ -232,7 +231,8 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$returning = new stdClass();
 		$returning->locklooped = false;
-		$looptime = $locktime * 10;
+		
+		$looptime 	= $locktime * 10;
 		$path		= $this->_getFilePath($id, $group);
 
 		$_fileopen = @fopen($path, "r+b");
@@ -251,8 +251,8 @@ class JCacheStorageFile extends JCacheStorage
 			while ($data_lock === false) {
 
 				if ($lock_counter > $looptime) {
-					$returning->locked = false;
-					$returning->locklooped = true;
+					$returning->locked 		= false;
+					$returning->locklooped 	= true;
 					break;
 				}
 
@@ -277,7 +277,7 @@ class JCacheStorageFile extends JCacheStorage
 	 */
 	public function unlock($id,$group)
 	{
-		$path		= $this->_getFilePath($id, $group);
+		$path = $this->_getFilePath($id, $group);
 
 		$_fileopen = @fopen($path, "r+b");
 
@@ -285,7 +285,6 @@ class JCacheStorageFile extends JCacheStorage
 				$ret = @flock($_fileopen, LOCK_UN);
 				@fclose($_fileopen);
 		}
-
 
 		return $ret;
 	}
@@ -388,10 +387,10 @@ class JCacheStorageFile extends JCacheStorage
 				if (@unlink($file)) {
 					// Do nothing
 				} else {
-					$filename	= basename($file);
+					$filename = basename($file);
 					JError::raiseWarning('SOME_ERROR_CODE', 'JCacheStorageFile::_deleteFolder' . JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename));
 					return false;
-					}
+				}
 			}
 		}
 
@@ -578,5 +577,4 @@ class JCacheStorageFile extends JCacheStorage
 
 		return $arr;
 	}
-
 }

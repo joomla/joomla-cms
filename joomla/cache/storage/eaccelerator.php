@@ -61,24 +61,23 @@ class JCacheStorageEaccelerator extends JCacheStorage
 		$keys = eaccelerator_list_keys();
 
 		$secret = $this->_hash;
-		$data = array();
+		$data 	= array();
 
 		foreach ($keys as $key) {
 			/* Trim leading ":" to work around list_keys namespace bug in eAcc. This will still work when bug is fixed */
-			$name = ltrim($key['name'], ':');
-
-			$namearr = explode('-',$name);
+			$name 		= ltrim($key['name'], ':');
+			$namearr 	= explode('-',$name);
 
 			if ($namearr !== false && $namearr[0]==$secret &&  $namearr[1]=='cache') {
 				$group = $namearr[2];
 
 				if (!isset($data[$group])) {
-					$item = new JCacheStorageHelper();
+					$item = new JCacheStorageHelper($group);
 				} else {
 					$item = $data[$group];
 				}
 
-				$item->updateSize($key['size']/1024,$group);
+				$item->updateSize($key['size']/1024);
 
 				$data[$group] = $item;
 			}
