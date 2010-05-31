@@ -60,8 +60,13 @@ $listDirn	= $this->state->get('list.direction');
 		<?php endforeach; ?>
 		</tbody>
 	</table>
+	<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 	<?php else : ?>
+	<p>
+		<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+	</p><p>
 		<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
+	</p>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />
