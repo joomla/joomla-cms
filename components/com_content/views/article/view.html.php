@@ -99,17 +99,16 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		//
-		// Process the content plugins.
-		//
-		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$params, $offset));
 		if ($item->params->get('show_intro', 1) == 1) {
 			$item->text = $item->introtext . ' ' . $item->fulltext;
 		} else {
 			$item->text = $item->fulltext;
 		}
 
+		//
+		// Process the content plugins.
+		//
+		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$params, $offset));
 
 		$item->event = new stdClass();
