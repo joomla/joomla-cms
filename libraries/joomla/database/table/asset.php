@@ -79,7 +79,7 @@ class JTableAsset extends JTableNested
 			return false;
 		}
 
-		return $this->load(array('id'=>$assetId));
+		return $this->load($assetId);
 	}
 
 	/**

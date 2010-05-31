@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-May-2010
+# [#20745] Reverting [#20489] because it broke the system test.
+
 31-May-2010 Jean-Marie Simonet
 # [#20721] Select State > trash and content filter Thanks Christophe, Amy.
 # [#20504] plugin working 4 times one the same page. Thanks Christophe.
