@@ -63,8 +63,7 @@ var JFormValidator = new Class({
 	attachToForm: function(form)
 	{
 		// Iterate through the form object and attach the validate method to all input fields.
-		$A(form.elements).each(function(el){
-			el = document.id(el);
+		form.getElements('fieldset').concat($A(form.elements)).each(function(el){
 			if ((el.get('tag') == 'input' || el.get('tag') == 'button') && el.get('type') == 'submit') {
 				if (el.hasClass('validate')) {
 					el.onclick = function(){return document.formvalidator.isValid(this.form);};
@@ -78,8 +77,21 @@ var JFormValidator = new Class({
 	validate: function(el)
 	{
 		// If the field is required make sure it has a value
-		if (document.id(el).hasClass('required')) {
-			if (!(document.id(el).get('value'))) {
+		if (el.hasClass('required')) {
+			if (el.get('tag')=='fieldset' && (el.hasClass('radio') || el.hasClass('checkboxes'))) {
+				for(var i=0;;i++) {
+					if (document.id(el.get('id')+i)) {
+						if (document.id(el.get('id')+i).checked) {
+							break;
+						}
+					}
+					else {
+						this.handleResponse(false, el);
+						return false;
+					}
+				}
+			}
+			else if (!(el.get('value'))) {
 				this.handleResponse(false, el);
 				return false;
 			}
@@ -93,9 +105,9 @@ var JFormValidator = new Class({
 		}
 
 		// Check the additional validation types
-		if ((handler) && (handler != 'none') && (this.handlers[handler]) && document.id(el).get('value')) {
+		if ((handler) && (handler != 'none') && (this.handlers[handler]) && el.get('value')) {
 			// Execute the validation handler and return result
-			if (this.handlers[handler].exec(document.id(el).get('value')) != true) {
+			if (this.handlers[handler].exec(el.get('value')) != true) {
 				this.handleResponse(false, el);
 				return false;
 			}
@@ -111,8 +123,9 @@ var JFormValidator = new Class({
 		var valid = true;
 
 		// Validate form fields
-		for (var i=0;i < form.elements.length; i++) {
-			if (this.validate(form.elements[i]) == false) {
+		var elements = form.getElements('fieldset').concat($A(form.elements));
+		for (var i=0;i < elements.length; i++) {
+			if (this.validate(elements[i]) == false) {
 				valid = false;
 			}
 		}

@@ -509,6 +509,7 @@ class JUser extends JObject
 		$table = $this->getTable();
 		$this->params = (string)$this->_params;
 		$table->bind($this->getProperties());
+		$table->groups = $this->groups;
 
 		// Check and store the object.
 		if (!$table->check()) {
