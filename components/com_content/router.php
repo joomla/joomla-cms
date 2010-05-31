@@ -142,7 +142,7 @@ function ContentBuildRoute(&$query)
 function ContentParseRoute($segments)
 {
 	$vars = array();
-
+	
 	//Get the active menu item.
 	$menu	= JSite::getMenu();
 	$item	= $menu->getActive();
@@ -224,6 +224,12 @@ function ContentParseRoute($segments)
 				$vars['view'] = 'article';
 			}
 			break;
+		
+		case 'article':
+			if ($count == 1) {
+				$vars['id']		= $segments[0];
+			}
+			break;	
 	}
 
 	return $vars;
