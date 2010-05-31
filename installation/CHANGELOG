@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+-------------------- 1.6.0 Beta2 Release [31-May-2010] ------------------
+
 31-May-2010
 # [#20745] Reverting [#20489] because it broke the system test.
 
