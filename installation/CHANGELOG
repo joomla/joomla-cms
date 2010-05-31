@@ -33,6 +33,7 @@ $ -> Language fix or change
 # [#20606] "Cache Manager: Clear Cache" doesn't show cache groups if caching is off, no pagination here, same data for Site and Administrator. Thanks Dennis and Klas.
 # [#20305] Configuration.php textarea box breaks layout in installation. Thanks Vicki, Elin.
 # [#20736] [patch] com_content: error on sorting by access level in "articles" view with "modal" layout Thanks Artyom.
+# [#20731] CountModules with multiple positions linked by operator is not working. Thanks Christophe.
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
