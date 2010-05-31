@@ -18,7 +18,7 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="position" type="list"
+				<field name="position" type="radio"
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
 					label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"

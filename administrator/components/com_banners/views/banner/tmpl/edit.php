@@ -81,14 +81,16 @@ JHtml::_('behavior.formvalidation');
 				</div>
 				</li>
 				
-				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
-				
 				<li><div id="url">
 				<?php echo $this->form->getLabel('clickurl'); ?>
 				<?php echo $this->form->getInput('clickurl'); ?>
 				</div>
 				</li>
+				
+				<li><?php echo $this->form->getLabel('description'); ?>
+				<?php echo $this->form->getInput('description'); ?></li>
+				
+			
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>

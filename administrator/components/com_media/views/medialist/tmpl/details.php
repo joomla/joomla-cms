@@ -15,11 +15,11 @@ defined('_JEXEC') or die;
 	<table width="100%" cellspacing="0">
 	<thead>
 		<tr>
-			<th><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
+			<th width="1%"><?php echo JText::_('JGLOBAL_PREVIEW'); ?></th>
 			<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
-			<th><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
-			<th><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
-			<th><?php echo JText::_('JACTION_DELETE'); ?></th>
+			<th width="8%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
+			<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
+			<th width="8%"><?php echo JText::_('JACTION_DELETE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

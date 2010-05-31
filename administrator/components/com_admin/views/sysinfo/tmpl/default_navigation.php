@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 				<ul id="submenu" class="information">
 					<li>
 						<a href="#" onclick="return false;" id="site" class="active">
-							<?php echo JText::_('COM_ADMIN_SYSTEM_INFO'); ?></a>
+							<?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></a>
 					</li>
 					<li>
 						<a href="#" onclick="return false;" id="phpsettings">

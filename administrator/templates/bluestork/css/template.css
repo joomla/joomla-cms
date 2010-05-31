@@ -73,7 +73,7 @@ h3 {
 	font-size: 1.182em;
 }
 
-* :focus,a:active {
+* :focus, a:active {
 	outline: none
 }
 
@@ -572,18 +572,6 @@ h3.jpane-toggler a:hover {
 	margin-top: 10px;
 }
 
-/*
-
-fieldset input[type="radio"] {
-	display: block;
-	width: 15px;
-	float:left;
-}
-
-table input[type="radio"] {
-	float:none;
-}
-*/
 input#jformparams_link_titles1,
 input#jformparams_show_title1,
 input#jformparams_link_category1 {
@@ -879,8 +867,8 @@ span.readonly {
 	display:block;
 	color: #666;
 }
-
-
+#jform_params_alt,
+#jform_clickurl { width: 355px;}
 #jform-imp {
 	width: 70px;
 }
@@ -1020,8 +1008,8 @@ fieldset.panelform {
 }
 fieldset.panelform label,
 fieldset.panelform div.paramrow label {
-	/* clear: left; */
 	min-width: 145px;
+	max-width: 145px;
 }
 
 /* Field label widths - medium label */
@@ -1108,7 +1096,7 @@ fieldset.adminform-legacy fieldset.radio {
 	border: 0;
 	float: left;
 	padding: 0;
-	margin: 0 0 5px 0;
+	margin: 0 0 5px 5px;
 	clear: right;
 }
 
@@ -1394,9 +1382,10 @@ table.adminlist td.order span {
 }
 
 table.adminlist .pagination {
-	display: table;
+	display: inline-block;
 	padding: 0;
 	margin: 0 auto;
+	
 }
 
 div#element-box div.m form table.adminlist tr td a {
@@ -1459,7 +1448,7 @@ td.left,th.left {
 	text-align: left;
 }
 
-td.center,th.center {
+td.center,th.center,.center {
 	text-align: center;
 	float: none;
 }
@@ -1479,10 +1468,12 @@ td.nowrap, th.nowrap {
 .container {
 	clear: both;
 	text-decoration: none;
+	text-align:center;
 }
 
 * html .container {
 	display: inline-block;
+
 }
 
 table.admintable th,table.admintable td {
