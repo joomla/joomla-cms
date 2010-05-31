@@ -692,7 +692,7 @@ class plgEditorTinymce extends JPlugin
 			}
 		}
 
-		if(is_array($buttons) || (is_boolean($buttons) && $buttons))
+		if(is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$results = $this->_subject->getButtons($name, $buttons);
 

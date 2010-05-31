@@ -39,6 +39,8 @@ $ -> Language fix or change
 # [#20489] JTableAsset::store failed Thanks Christophe.
 $ Corrected string typo.
 $ Deleting unused strings from installation ini files
+# [#20593] call to undefined function on tinymce. Thanks Christophe.
+# Corrected path to tinymce templates
 
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
