@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-June-2010 Christophe Demko
+ # Fixed issue [#20784] Some minours errors in the beez* templates
+
 01-June-2010 Jean-Marie Simonet
 # [#20724] HTTP Directory Listing. Thanks Amy.
 # [#20521] usability issue: Item ID not visible during edit. Thanks Tim.
