@@ -12,9 +12,9 @@
 	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
 
 	<files>
-		<file plugin="profile">profile.php</file>
+		<filename plugin="profile">profile.php</file>
 		<filename>index.html</filename>
-		<folder>profile</folder>
+		<folder>profiles</folder>
 	</files>
 
 	<languages>
