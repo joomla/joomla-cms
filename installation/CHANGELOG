@@ -31,6 +31,7 @@ $ -> Language fix or change
 # [#20724] HTTP Directory Listing. Thanks Amy.
 # [#20521] usability issue: Item ID not visible during edit. Thanks Tim.
 # [#20741] error in profile plugin manifest. Thanks Nicholai.and Boris.
+# [#20743] Module manager issues with enabled caching. Thanks Dennis.
 
 31-May-2010 Jean-Marie Simonet
 # [#20537] Edit articles in frontend sometimes gives a blank edit page. Thanks Dennis.
