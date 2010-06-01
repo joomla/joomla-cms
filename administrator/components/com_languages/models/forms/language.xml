@@ -2,7 +2,10 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset>
-		<field name="lang_id" type="hidden"
+		<field name="lang_id" type="text"
+			class="readonly"
+			description="JGLOBAL_FIELD_ID_DESC"
+			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			required="true"
 			readonly="true"

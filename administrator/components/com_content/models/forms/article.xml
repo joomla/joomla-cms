@@ -4,8 +4,8 @@
 	-->
 <form>
 	<fieldset>
-		<field name="id"  type="text" class="readonly"
-			label="COM_CONTENT_ID_LABEL" size="10" default="0"
+		<field name="id"  type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+			description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0" required="true"
 			readonly="true"  />
 
 		<field name="asset_id" type="hidden" filter="unset" />

@@ -54,6 +54,9 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
+			
+			<?php echo $this->form->getLabel('lang_id'); ?>
+			<?php echo $this->form->getInput('lang_id'); ?>
 		</fieldset>
 	</div>
 	<div class="width-40 fltrt">

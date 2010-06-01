@@ -91,6 +91,17 @@
 			>
 	</field>
 
+	<field 
+			name="id"
+			type="text"
+			class="readonly"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description ="JGLOBAL_FIELD_ID_DESC"
+			required="true"
+			default="0"
+			readonly="true"
+			/>
+
 	</fieldset>
 	<field name="groups" type="hidden" />
 
