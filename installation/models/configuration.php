@@ -219,7 +219,7 @@ class JInstallationModelConfiguration extends JModel
 		date_default_timezone_set('UTC');
 		$installdate	= date('Y-m-d H:i:s');
 		$nullDate		= $db->getNullDate();
-		$query	= 'INSERT INTO #__users SET'
+		$query	= 'REPLACE INTO #__users SET'
 				. ' id = 42'
 				. ', name = '.$db->quote('Super User')
 				. ', username = '.$db->quote($options->admin_user)
@@ -239,7 +239,7 @@ class JInstallationModelConfiguration extends JModel
 		}
 
 		// Map the super admin to the Super Admin Group
-		$query = 'INSERT INTO #__user_usergroup_map' .
+		$query = 'REPLACE INTO #__user_usergroup_map' .
 				' SET user_id = 42, group_id = 8';
 		$db->setQuery($query);
 		if (!$db->query()) {
