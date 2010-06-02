@@ -158,4 +158,41 @@ class ConfigControllerApplication extends JController
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));
 		}
 	}
+
+	/**
+	 * Method to remove the root property from the configuration.
+	 *
+	 * @return	bool	True on success, false on failure.
+	 * @since	1.5
+	 */
+	public function removeroot()
+	{
+		// Check if the user is authorized to do this.
+		if (!JFactory::getUser()->authorize('core.admin')) {
+			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			return;
+		}
+
+		// Initialise model.
+		$model	= $this->getModel('Application');
+
+		// Attempt to save the configuration and remove root.
+		$return = $model->removeroot();
+
+		// Check the return value.
+		if ($return === false) {
+			// Save failed, go back to the screen and display a notice.
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->setRedirect('index.php');
+			return false;
+		}
+
+		// Set the success message.
+		$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
+
+		// Set the redirect based on the task.
+		$this->setRedirect('index.php', $message);
+
+		return true;
+	}
 }
