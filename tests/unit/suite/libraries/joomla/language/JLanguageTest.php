@@ -6,13 +6,9 @@
  * @package	JoomlaFramework
  */
 
-/**
- * @package	JoomlaFramework - Support: joomlateam@complusoft.es
- */
 require_once 'PHPUnit/Framework.php';
-
-require_once JPATH_BASE . '/libraries/joomla/language/language.php';
-require_once JPATH_BASE . '/libraries/joomla/utilities/string.php';
+require_once JPATH_BASE.'/libraries/joomla/language/language.php';
+require_once JPATH_BASE.'/libraries/joomla/utilities/string.php';
 
 /**
  * Test class for JLanguage.
@@ -49,23 +45,40 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     {
 		// This method returns the language in use
 		// English is the default language
-		$langEqual = 'en-GB';
-		$langNotEqual = 'es-ES';
+		$langEqual		= 'en-GB';
+		$langNotEqual	= 'es-ES';
 
 		$lang = new JLanguage('');
 
 		$listEqual = $lang->getInstance($langEqual);
-		$this->assertObjectHasAttribute('metadata', $listEqual);
-		$this->assertObjectNotHasAttribute('name', $listEqual);
+		$this->assertObjectHasAttribute(
+			'metadata', $listEqual
+		);
 
-		$this->assertTrue($listEqual->exists($langEqual));
-		$this->assertFalse($listEqual->exists($langNotEqual));
+		$this->assertObjectNotHasAttribute(
+			'name', $listEqual
+		);
+
+		$this->assertTrue(
+			$listEqual->exists($langEqual)
+		);
+
+		$this->assertFalse(
+			$listEqual->exists($langNotEqual)
+		);
 
 		$listNotEqual = $lang->getInstance($langNotEqual);
-		$this->assertObjectHasAttribute('metadata', $listNotEqual);
-		$this->assertObjectNotHasAttribute('name', $listNotEqual);
+		$this->assertObjectHasAttribute(
+			'metadata', $listNotEqual
+		);
 
-		$this->assertTrue($listNotEqual->exists($langEqual));
+		$this->assertObjectNotHasAttribute(
+			'name', $listNotEqual
+		);
+
+		$this->assertTrue(
+			$listNotEqual->exists($langEqual)
+		);
     }
 
     /**
@@ -73,52 +86,56 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function test_()
     {
-		$string1 = "delete";
-		$string2 = "delete's";
-		$lang = new JLanguage('');
+		$string1	= 'delete';
+		$string2	= "delete's";
+		$lang		= new JLanguage('');
 
 		$this->assertEquals(
-				"delete",
-				$lang->_($string1,false),
-				"exact case should match when javascript safe is false "
+			'delete',
+			$lang->_($string1,false),
+			'Line: '.__LINE__.' Exact case should match when javascript safe is false '
 		);
+
 		$this->assertNotEquals(
-				"Delete",
-				$lang->_($string1,false),
-				"should be case sensitive when javascript safe is false"
+			'Delete',
+			$lang->_($string1,false),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is false'
 		);
-		
+
 		$this->assertEquals(
-				"delete",
-				$lang->_($string1,true),
-				"exact case match should work when javascript safe is true"
+			'delete',
+			$lang->_($string1,true),
+			'Line: '.__LINE__.' Exact case match should work when javascript safe is true'
 		);
+
 		$this->assertNotEquals(
-				"Delete",
-				$lang->_($string1,true),
-				"should be case sensitive when javascript safe is true"
+			'Delete',
+			$lang->_($string1,true),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is true'
 		);
-		
+
 		$this->assertEquals(
-				"delete's",
-				$lang->_($string2,false),
-				"exact case should match when javascript safe is false "
+			'delete\'s',
+			$lang->_($string2,false),
+			'Line: '.__LINE__.' Exact case should match when javascript safe is false '
 		);
+
 		$this->assertNotEquals(
-				"Delete's",
-				$lang->_($string2,false),
-				"should be case sensitive when javascript safe is false"
+			'Delete\'s',
+			$lang->_($string2,false),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is false'
 		);
-		
+
 		$this->assertEquals(
-				"delete\'s",
-				$lang->_($string2,true),
-				"exact case should match when javascript safe is true, also it calls addslashes (' => \') "
+			"delete\'s",
+			$lang->_($string2,true),
+			'Line: '.__LINE__.' Exact case should match when javascript safe is true, also it calls addslashes (\' => \\\') '
 		);
+
 		$this->assertNotEquals(
-				"Delete\'s",
-				$lang->_($string2,true),
-				"should be case sensitive when javascript safe is true,, also it calls addslashes (' => \') "
+			"Delete\'s",
+			$lang->_($string2,true),
+			'Line: '.__LINE__.' Should be case sensitive when javascript safe is true,, also it calls addslashes (\' => \\\') '
 		);
     }
 
@@ -127,35 +144,45 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testTransliterate()
     {
-		// This method processes a string and replaces all accented UTF-8 characters by unaccented ASCII-7 "equivalents"
-		$string1 = "Así";
-		$string2 = "EÑE";
-		$lang = new JLanguage('');
+		// This method processes a string and replaces all accented UTF-8 characters by unaccented ASCII-7 'equivalents'
+		$string1	= 'Así';
+		$string2	= 'EÑE';
+		$lang		= new JLanguage('');
 
 		$this->assertEquals(
-				"asi",
-				$lang->transliterate($string1)
+			'asi',
+			$lang->transliterate($string1),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				"Asi",
-				$lang->transliterate($string1)
+			'Asi',
+			$lang->transliterate($string1),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				"Así",
-				$lang->transliterate($string1)
+			'Así',
+			$lang->transliterate($string1),
+			'Line: '.__LINE__
 		);
 
 		$this->assertEquals(
-				"ene",
-				$lang->transliterate($string2)
+			'ene',
+			$lang->transliterate($string2),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				"ENE",
-				$lang->transliterate($string2)
+			'ENE',
+			$lang->transliterate($string2),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				"EÑE",
-				$lang->transliterate($string2)
+			'EÑE',
+			$lang->transliterate($string2),
+			'Line: '.__LINE__
 		);
     }
 
@@ -168,7 +195,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		// The first time you run the method returns NULL
 		// Only if there is an setTransliterator, this test is wrong
-		$this->assertNull($lang->getTransliterator());
+		$this->assertNull(
+			$lang->getTransliterator()
+		);
     }
 
     /**
@@ -176,40 +205,57 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetTransliterator()
     {
-		$function1 = 'phpinfo';
-		$function2 = 'print';
-		$lang = new JLanguage('');
+		$function1	= 'phpinfo';
+		$function2	= 'print';
+		$lang		= new JLanguage('');
 
 		// The first time, set y get returns NULL
-		$this->assertNull($lang->getTransliterator());
+		$this->assertNull(
+			$lang->getTransliterator()
+		);
+
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertNull($lang->setTransliterator($function1));
+		$this->assertNull(
+			$lang->setTransliterator($function1)
+		);
+
 		$get = $lang->getTransliterator();
 		$this->assertEquals(
-				$function1,
-				$get
+			$function1,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$get
+			$function2,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		// set -> $function2: set returns $function1 and get retuns $function2
 		$set = $lang->setTransliterator($function2);
 		$this->assertEquals(
-				$function1,
-				$set
+			$function1,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$set
+			$function2,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				$function2,
-				$lang->getTransliterator()
+			$function2,
+			$lang->getTransliterator(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function1,
-				$lang->getTransliterator()
+			$function1,
+			$lang->getTransliterator(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -221,16 +267,21 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-				array("0"),
-				$lang->getpluralSuffices(0)
+			array('0'),
+			$lang->getpluralSuffices(0),
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				array("1"),
-				$lang->getPluralSuffices(1)
+			array('1'),
+			$lang->getPluralSuffices(1),
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				array("MORE"),
-				$lang->getPluralSuffices(5)
+			array('MORE'),
+			$lang->getPluralSuffices(5),
+			'Line: '.__LINE__
 		);
     }
 
@@ -240,7 +291,10 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     public function testGetPluralSufficesCallback()
     {
 		$lang = new JLanguage('');
-		$this->assertTrue(is_callable($lang->getPluralSufficesCallback()));
+
+		$this->assertTrue(
+			is_callable($lang->getPluralSufficesCallback())
+		);
     }
 
     /**
@@ -248,38 +302,55 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetPluralSufficesCallback()
     {
-		$function1 = 'phpinfo';
-		$function2 = 'print';
-		$lang = new JLanguage('');
+		$function1	= 'phpinfo';
+		$function2	= 'print';
+		$lang		= new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getPluralSufficesCallback()));
-		$this->assertTrue(is_callable($lang->setPluralSufficesCallback($function1)));
+		$this->assertTrue(
+			is_callable($lang->getPluralSufficesCallback())
+		);
+
+		$this->assertTrue(
+			is_callable($lang->setPluralSufficesCallback($function1))
+		);
+
 		$get = $lang->getPluralSufficesCallback();
 		$this->assertEquals(
-				$function1,
-				$get
+			$function1,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$get
+			$function2,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		// set -> $function2: set returns $function1 and get retuns $function2
 		$set = $lang->setPluralSufficesCallback($function2);
 		$this->assertEquals(
-				$function1,
-				$set
+			$function1,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$set
+			$function2,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				$function2,
-				$lang->getPluralSufficesCallback()
+			$function2,
+			$lang->getPluralSufficesCallback(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function1,
-				$lang->getPluralSufficesCallback()
+			$function1,
+			$lang->getPluralSufficesCallback(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -291,8 +362,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-				array("and", "in", "on"),
-				$lang->getIgnoredSearchWords()
+			array('and', 'in', 'on'),
+			$lang->getIgnoredSearchWords(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -303,7 +375,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     {
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getIgnoredSearchWordsCallback()));
+		$this->assertTrue(
+			is_callable($lang->getIgnoredSearchWordsCallback())
+		);
     }
 
     /**
@@ -315,35 +389,52 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$function2 = 'print';
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getIgnoredSearchWordsCallback()));
+		$this->assertTrue(
+			is_callable($lang->getIgnoredSearchWordsCallback())
+		);
+
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(is_callable($lang->setIgnoredSearchWordsCallback($function1)));
+		$this->assertTrue(
+			is_callable($lang->setIgnoredSearchWordsCallback($function1))
+		);
+
 		$get = $lang->getIgnoredSearchWordsCallback();
 		$this->assertEquals(
-				$function1,
-				$get
+			$function1,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$get
+			$function2,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		// set -> $function2: set returns $function1 and get retuns $function2
 		$set = $lang->setIgnoredSearchWordsCallback($function2);
 		$this->assertEquals(
-				$function1,
-				$set
+			$function1,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$set
+			$function2,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				$function2,
-				$lang->getIgnoredSearchWordsCallback()
+			$function2,
+			$lang->getIgnoredSearchWordsCallback(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function1,
-				$lang->getIgnoredSearchWordsCallback()
+			$function1,
+			$lang->getIgnoredSearchWordsCallback(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -355,8 +446,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-				3,
-				$lang->getLowerLimitSearchWord()
+			3,
+			$lang->getLowerLimitSearchWord(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -367,7 +459,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     {
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getLowerLimitSearchWordCallback()));
+		$this->assertTrue(
+			is_callable($lang->getLowerLimitSearchWordCallback())
+		);
     }
 
     /**
@@ -375,39 +469,56 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetLowerLimitSearchWordCallback()
     {
-		$function1 = 'phpinfo';
-		$function2 = 'print';
-		$lang = new JLanguage('');
+		$function1	= 'phpinfo';
+		$function2	= 'print';
+		$lang		= new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getLowerLimitSearchWordCallback()));
+		$this->assertTrue(
+			is_callable($lang->getLowerLimitSearchWordCallback())
+		);
+
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(is_callable($lang->setLowerLimitSearchWordCallback($function1)));
+		$this->assertTrue(
+			is_callable($lang->setLowerLimitSearchWordCallback($function1))
+		);
+
 		$get = $lang->getLowerLimitSearchWordCallback();
 		$this->assertEquals(
-				$function1,
-				$get
+			$function1,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$get
+			$function2,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		// set -> $function2: set returns $function1 and get retuns $function2
 		$set = $lang->setLowerLimitSearchWordCallback($function2);
 		$this->assertEquals(
-				$function1,
-				$set
+			$function1,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$set
+			$function2,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				$function2,
-				$lang->getLowerLimitSearchWordCallback()
+			$function2,
+			$lang->getLowerLimitSearchWordCallback(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function1,
-				$lang->getLowerLimitSearchWordCallback()
+			$function1,
+			$lang->getLowerLimitSearchWordCallback(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -419,8 +530,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-				20,
-				$lang->getUpperLimitSearchWord()
+			20,
+			$lang->getUpperLimitSearchWord(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -431,7 +543,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     {
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getUpperLimitSearchWordCallback()));
+		$this->assertTrue(
+			is_callable($lang->getUpperLimitSearchWordCallback())
+		);
     }
 
     /**
@@ -439,39 +553,56 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetUpperLimitSearchWordCallback()
     {
-		$function1 = 'phpinfo';
-		$function2 = 'print';
-		$lang = new JLanguage('');
+		$function1	= 'phpinfo';
+		$function2	= 'print';
+		$lang		= new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getUpperLimitSearchWordCallback()));
+		$this->assertTrue(
+			is_callable($lang->getUpperLimitSearchWordCallback())
+		);
+
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(is_callable($lang->setUpperLimitSearchWordCallback($function1)));
+		$this->assertTrue(
+			is_callable($lang->setUpperLimitSearchWordCallback($function1))
+		);
+
 		$get = $lang->getUpperLimitSearchWordCallback();
 		$this->assertEquals(
-				$function1,
-				$get
+			$function1,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$get
+			$function2,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		// set -> $function2: set returns $function1 and get retuns $function2
 		$set = $lang->setUpperLimitSearchWordCallback($function2);
 		$this->assertEquals(
-				$function1,
-				$set
+			$function1,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$set
+			$function2,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				$function2,
-				$lang->getUpperLimitSearchWordCallback()
+			$function2,
+			$lang->getUpperLimitSearchWordCallback(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function1,
-				$lang->getUpperLimitSearchWordCallback()
+			$function1,
+			$lang->getUpperLimitSearchWordCallback(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -483,8 +614,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		$this->assertEquals(
-				200,
-				$lang->getSearchDisplayedCharactersNumber()
+			200,
+			$lang->getSearchDisplayedCharactersNumber(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -495,7 +627,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     {
 		$lang = new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getSearchDisplayedCharactersNumberCallback()));
+		$this->assertTrue(
+			is_callable($lang->getSearchDisplayedCharactersNumberCallback())
+		);
     }
 
     /**
@@ -503,39 +637,56 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testSetSearchDisplayedCharactersNumberCallback()
     {
-		$function1 = 'phpinfo';
-		$function2 = 'print';
-		$lang = new JLanguage('');
+		$function1	= 'phpinfo';
+		$function2	= 'print';
+		$lang		= new JLanguage('');
 
-		$this->assertTrue(is_callable($lang->getSearchDisplayedCharactersNumberCallback()));
+		$this->assertTrue(
+			is_callable($lang->getSearchDisplayedCharactersNumberCallback())
+		);
+
 		// set -> $funtion1: set returns NULL and get returns $function1
-		$this->assertTrue(is_callable($lang->setSearchDisplayedCharactersNumberCallback($function1)));
+		$this->assertTrue(
+			is_callable($lang->setSearchDisplayedCharactersNumberCallback($function1))
+		);
+
 		$get = $lang->getSearchDisplayedCharactersNumberCallback();
 		$this->assertEquals(
-				$function1,
-				$get
+			$function1,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$get
+			$function2,
+			$get,
+			'Line: '.__LINE__
 		);
+
 		// set -> $function2: set returns $function1 and get retuns $function2
 		$set = $lang->setSearchDisplayedCharactersNumberCallback($function2);
 		$this->assertEquals(
-				$function1,
-				$set
+			$function1,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function2,
-				$set
+			$function2,
+			$set,
+			'Line: '.__LINE__
 		);
+
 		$this->assertEquals(
-				$function2,
-				$lang->getSearchDisplayedCharactersNumberCallback()
+			$function2,
+			$lang->getSearchDisplayedCharactersNumberCallback(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$function1,
-				$lang->getSearchDisplayedCharactersNumberCallback()
+			$function1,
+			$lang->getSearchDisplayedCharactersNumberCallback(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -551,8 +702,13 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// In this case, returns TRUE with en-GB
-		$this->assertTrue($lang->exists($l1,$basePath));
-		$this->assertFalse($lang->exists($l2,$basePath));
+		$this->assertTrue(
+			$lang->exists($l1,$basePath)
+		);
+
+		$this->assertFalse(
+			$lang->exists($l2,$basePath)
+		);
     }
 
     /**
@@ -571,18 +727,40 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// com_admin (exist), OK
-		$this->assertTrue($lang->load($extension1,$basePath,$l1,$reloaded1));
-		$this->assertTrue($lang->load($extension1,$basePath,$l2,$reloaded1));
+		$this->assertTrue(
+			$lang->load($extension1,$basePath,$l1,$reloaded1)
+		);
+
+		$this->assertTrue(
+			$lang->load($extension1,$basePath,$l2,$reloaded1)
+		);
+
 		// com_sobi2 (not exist), KO
-		$this->assertFalse($lang->load($extension2,$basePath,$l1,$reloaded1));
-		$this->assertFalse($lang->load($extension2,$basePath,$l2,$reloaded1));
+		$this->assertFalse(
+			$lang->load($extension2,$basePath,$l1,$reloaded1)
+		);
+
+		$this->assertFalse(
+			$lang->load($extension2,$basePath,$l2,$reloaded1)
+		);
 
 		// com_admin (exist), OK
-		$this->assertTrue($lang->load($extension1,$basePath,$l1,$reloaded2));
-		$this->assertTrue($lang->load($extension1,$basePath,$l2,$reloaded2));
+		$this->assertTrue(
+			$lang->load($extension1,$basePath,$l1,$reloaded2)
+		);
+
+		$this->assertTrue(
+			$lang->load($extension1,$basePath,$l2,$reloaded2)
+		);
+
 		// com_sobi2 (not exist), KO
-		$this->assertFalse($lang->load($extension2,$basePath,$l1,$reloaded2));
-		$this->assertFalse($lang->load($extension2,$basePath,$l2,$reloaded2));
+		$this->assertFalse(
+			$lang->load($extension2,$basePath,$l1,$reloaded2)
+		);
+
+		$this->assertFalse(
+			$lang->load($extension2,$basePath,$l2,$reloaded2)
+		);
     }
 
     /**
@@ -599,33 +777,46 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     public function testGet()
     {
 		// This method get a matadata language property
-		$property1 = '';
-		$property2 = 'noExist';
-		$property3 = 'tag';
-		$property4 = 'name';
-		$default = null;
-		$lang = new JLanguage('');
+		$property1	= '';
+		$property2	= 'noExist';
+		$property3	= 'tag';
+		$property4	= 'name';
+		$default	= null;
+		$lang		= new JLanguage('');
 
 		// If not property or does not exist, returns null
-		$this->assertNull($lang->get($property1,$default));
-		$this->assertNull($lang->get($property2,$default));
+		$this->assertNull(
+			$lang->get($property1,$default)
+		);
+
+		$this->assertNull(
+			$lang->get($property2,$default)
+		);
+
 		// property = tag, returns en-GB (default language)
 		$this->assertEquals(
-				'en-GB',
-				$lang->get($property3,$default)
+			'en-GB',
+			$lang->get($property3,$default),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'es-ES',
-				$lang->get($property3,$default)
+			'es-ES',
+			$lang->get($property3,$default),
+			'Line: '.__LINE__
 		);
+
 		// property = name, returns English (United Kingdom) (default language)
 		$this->assertEquals(
-				'English (United Kingdom)',
-				$lang->get($property4,$default)
+			'English (United Kingdom)',
+			$lang->get($property4,$default),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'Spanish (Spain)',
-				$lang->get($property4,$default)
+			'Spanish (Spain)',
+			$lang->get($property4,$default),
+			'Line: '.__LINE__
 		);
     }
 
@@ -648,12 +839,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// In this case, returns English (United Kingdom) (default language)
 		// - same operation of get method with name property
 		$this->assertEquals(
-				'English (United Kingdom)',
-				$lang->getName()
+			'English (United Kingdom)',
+			$lang->getName(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'Spanish (Spain)',
-				$lang->getName()
+			'Spanish (Spain)',
+			$lang->getName(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -668,13 +862,24 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// without extension, retuns NULL
-		$this->assertNull($lang->getPaths($extension1));
+		$this->assertNull(
+			$lang->getPaths($extension1)
+		);
+
 		// extension doesn't exist, returns NULL
-		$this->assertNull($lang->getPaths($extension2));
+		$this->assertNull(
+			$lang->getPaths($extension2)
+		);
+
 		// extension = joomla, returns array with language path
-		$this->assertNotNull($lang->getPaths($extension3));
+		$this->assertNotNull(
+			$lang->getPaths($extension3)
+		);
+
 		// No call parameter, returns array with language path
-		$this->assertNotNull($lang->getPaths());
+		$this->assertNotNull(
+			$lang->getPaths()
+		);
     }
 
     /**
@@ -688,12 +893,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// In this case, returns en-GB (default language)
 		// - same operation of get method with tag property
 		$this->assertEquals(
-				'en-GB',
-				$lang->getTag()
+			'en-GB',
+			$lang->getTag(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'es-ES',
-				$lang->getTag()
+			'es-ES',
+			$lang->getTag(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -708,14 +916,16 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// In this case, returns 0 (default language)
 		// - same operation of get method with RTL property
 		$this->assertEquals(
-				'0',
-				$lang->isRTL()
-		);
-		$this->assertNotEquals(
-				'1',
-				$lang->isRTL()
+			'0',
+			$lang->isRTL(),
+			'Line: '.__LINE__
 		);
 
+		$this->assertNotEquals(
+			'1',
+			$lang->isRTL(),
+			'Line: '.__LINE__
+		);
     }
 
     /**
@@ -728,36 +938,50 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// First time, retuns FALSE
-		$this->assertFalse($lang->setDebug($debug1));
+		$this->assertFalse(
+			$lang->setDebug($debug1)
+		);
+
 		// set debug1, returns $debug1
 		$debug = $lang->setDebug($debug1);
 		$this->assertEquals(
-				$debug1,
-				$debug
+			$debug1,
+			$debug,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$debug2,
-				$debug
+			$debug2,
+			$debug,
+			'Line: '.__LINE__
 		);
+
 		// set debug2, returns debug1
 		$debug = $lang->setDebug($debug2);
 		$this->assertEquals(
-				$debug1,
-				$debug
+			$debug1,
+			$debug,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$debug2,
-				$debug
+			$debug2,
+			$debug,
+			'Line: '.__LINE__
 		);
+
 		// set debug2 (or debug1), returns debug2
 		$debug = $lang->setDebug($debug2);
 		$this->assertEquals(
-				$debug2,
-				$debug
+			$debug2,
+			$debug,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				$debug1,
-				$debug
+			$debug1,
+			$debug,
+			'Line: '.__LINE__
 		);
     }
 
@@ -770,7 +994,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		// The first time you run the method returns NULL
 		// Only if there is an setDebug, this test is wrong
-		$this->assertFalse($lang->getDebug());
+		$this->assertFalse(
+			$lang->getDebug()
+		);
     }
 
     /**
@@ -783,12 +1009,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		// In this case, returns en-GB
 		$this->assertEquals(
-				'en-GB',
-				$lang->getDefault()
+			'en-GB',
+			$lang->getDefault(),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'es-ES',
-				$lang->getDefault()
+			'es-ES',
+			$lang->getDefault(),
+			'Line: '.__LINE__
 		);
 		// Only if there is an setDefault with another language, this test is wrong
     }
@@ -805,22 +1034,29 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// set l2, returns en-GB (default language)
 		$l = $lang->setDefault($l2);
 		$this->assertEquals(
-				'en-GB',
-				$l
+			'en-GB',
+			$l,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'es-ES',
-				$l
+			'es-ES',
+			$l,
+			'Line: '.__LINE__
 		);
+
 		// set l1, retuns l2
 		$l = $lang->setDefault($l1);
 		$this->assertEquals(
-				'es-ES',
-				$l
+			'es-ES',
+			$l,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'en-GB',
-				$l
+			'en-GB',
+			$l,
+			'Line: '.__LINE__
 		);
     }
 
@@ -834,8 +1070,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		// returns an empty array
 		$this->assertEquals(
-				$orphansCompareEqual,
-				$lang->getOrphans()
+			$orphansCompareEqual,
+			$lang->getOrphans(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -849,8 +1086,9 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		// returns an empty array
 		$this->assertEquals(
-				$usedCompareEqual,
-				$lang->getUsed()
+			$usedCompareEqual,
+			$lang->getUsed(),
+			'Line: '.__LINE__
 		);
     }
 
@@ -859,11 +1097,13 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testHasKey()
     {
-		$string1 = "com_admin.key";
+		$string1 = 'com_admin.key';
 		$lang = new JLanguage('');
 
 		// HasKey doesn't exist, returns FALSE
-		$this->assertFalse($lang->hasKey($string1));
+		$this->assertFalse(
+			$lang->hasKey($string1)
+		);
     }
 
     /**
@@ -872,8 +1112,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
     public function testGetMetadata()
     {
 		// This method get language metadata
-		$l1 = "en-GB";
-		$l2 = "es-ES";
+		$l1 = 'en-GB';
+		$l2 = 'es-ES';
 
 		// In this case, returns array with default language
 		// - same operation of get method with metadata property
@@ -893,10 +1133,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// language exists, returns array with values
 		$this->assertThat(
 		   $option1,
-		   $this->equalTo($lang->getMetadata($l1))
+		   $this->equalTo($lang->getMetadata($l1)),
+			'Line: '.__LINE__
 		);
+
 		// language doesn't exist, retun NULL
-		$this->assertNull($lang->getMetadata($l2));
+		$this->assertNull(
+			$lang->getMetadata($l2)
+		);
     }
 
     /**
@@ -923,16 +1167,19 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		);
 
 		$lang = new JLanguage('');
+
 		// for administrator directory, returns know languages (default)
 		$list = $lang->getKnownLanguages($basePath);
 		$this->assertThat(
 		   $listCompareEqual1,
-		   $this->equalTo($list)
+		   $this->equalTo($list),
+			'Line: '.__LINE__
 		);
 
 		$this->assertNotEquals(
-				$listCompareEqual1['xx-XX']['name'],
-				$list['en-GB']['name']
+			$listCompareEqual1['xx-XX']['name'],
+			$list['en-GB']['name'],
+			'Line: '.__LINE__
 		);
     }
 
@@ -941,28 +1188,35 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetLanguagePath()
     {
-		$basePath = 'languages';
-		$language1 = null;
-		$language2 = 'en-GB';
-		$lang = new JLanguage('');
+		$basePath	= 'languages';
+		$language1	= null;
+		$language2	= 'en-GB';
+		$lang		= new JLanguage('');
 
 		// $language = null, returns language directory
 		$this->assertEquals(
-				'languages/language',
-				$lang->getLanguagePath($basePath, $language1)
+			'languages/language',
+			$lang->getLanguagePath($basePath, $language1),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'languages/language',
-				$lang->getLanguagePath($basePath, $language2)
+			'languages/language',
+			$lang->getLanguagePath($basePath, $language2),
+			'Line: '.__LINE__
 		);
+
 		// $language = value (en-GB, for example), returns en-GB language directory
 		$this->assertEquals(
-				'languages/language/en-GB',
-				$lang->getLanguagePath($basePath, $language2)
+			'languages/language/en-GB',
+			$lang->getLanguagePath($basePath, $language2),
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'languages/language/en-GB',
-				$lang->getLanguagePath($basePath, $language1)
+			'languages/language/en-GB',
+			$lang->getLanguagePath($basePath, $language1),
+			'Line: '.__LINE__
 		);
     }
 
@@ -978,22 +1232,29 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// set l2, return en-GB (default language)
 		$l = $lang->setLanguage($l2);
 		$this->assertEquals(
-				'en-GB',
-				$l
+			'en-GB',
+			$l,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'es-ES',
-				$l
+			'es-ES',
+			$l,
+			'Line: '.__LINE__
 		);
+
 		// set l1, retuns l2
 		$l = $lang->setLanguage($l1);
 		$this->assertEquals(
-				'es-ES',
-				$l
+			'es-ES',
+			$l,
+			'Line: '.__LINE__
 		);
+
 		$this->assertNotEquals(
-				'en-GB',
-				$l
+			'en-GB',
+			$l,
+			'Line: '.__LINE__
 		);
     }
 
@@ -1017,7 +1278,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// First time, retuns en-GB array (default language)
 		$this->assertThat(
 		   $language,
-		   $this->equalTo(array_intersect_key($lang->parseLanguageFiles($dir),array('en-GB'=>'en-GB')))
+		   $this->equalTo(array_intersect_key($lang->parseLanguageFiles($dir),array('en-GB'=>'en-GB'))),
+			'Line: '.__LINE__
 		);
 		// If we add es-ES directory, returns infinite loop. Is that correct?
     }
@@ -1044,12 +1306,17 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang = new JLanguage('');
 
 		// si dir es null, devuelve null
-		$this->assertNull($lang->parseXMLLanguageFiles($dir1));
+		$this->assertNull(
+			$lang->parseXMLLanguageFiles($dir1)
+		);
+
 		// si no encuentra fichero xml, devuelve array vacío
 		$this->assertThat(
-		   $empty,
-		   $this->equalTo($lang->parseXMLLanguageFiles($dir2))
+			$empty,
+			$this->equalTo($lang->parseXMLLanguageFiles($dir2)),
+			'Line: '.__LINE__
 		);
+
 		// si se encuentra fichero xml, devuelve array de en-GB (que es el que hay por defecto)
 		/*$this->assertThat(
 		   $language,
@@ -1088,4 +1355,3 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		);*/
     }
 }
-?>
