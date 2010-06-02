@@ -54,19 +54,23 @@ class JCache extends JObject
 			'cachebase'		=> $conf->get('cache_path', JPATH_ROOT.DS.'cache'),
 			'lifetime'		=> (int)$conf->get('cachetime'),
 			'language'		=> $conf->get('language', 'en-GB'),
-			'storage'		=> $conf->get('cache_handler', 'file'),
+			'storage'		=> $conf->get('cache_handler',''),
 			'defaultgroup'	=> 'default',
 			'locking'		=> true,
 			'locktime'		=> 15,
 			'checkTime' 	=> true,
-			'caching'		=> (bool)$conf->get('caching', 1)
+			'caching'		=> (bool)$conf->get('caching')
 		);
-
+		
 		// Overwrite default options with given options
 		foreach ($options AS $option=>$value) {
 			if (isset($options[$option]) && $options[$option] !== '') {
 				$this->_options[$option] = $options[$option];
 			}
+		}
+		
+		if (empty($this->_options['storage'])) {
+			$this->_options['caching'] = false;
 		}
 	}
 
