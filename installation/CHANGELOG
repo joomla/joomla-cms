@@ -70,6 +70,9 @@ $ Deleting unused strings from installation ini files
 $ Added missing string in front-end
 $ Updating xx-XX language front-end/back-end
 
+30-May-2010 Ian MacLennan
+ # Fixed issue  [#20691] Patch to ensure coding standards and correct phpdoc blocks (marius van rijnsoever).
+
 30-May-2010 Ron Severdia
 # Fixed issue [#20632]
 ^ Bluestork image tweaks
