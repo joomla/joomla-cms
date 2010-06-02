@@ -90,7 +90,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 			<?php echo $this->form->getInput('client_id'); ?>
 			</li>
-
+			</ul>
 			<div class="clr" /></div>
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
