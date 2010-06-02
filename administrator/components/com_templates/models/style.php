@@ -335,7 +335,7 @@ class TemplatesModelStyle extends JModelForm
 		}
 
 		$user = JFactory::getUser();
-		if ($user->authorise('core.edit','com_menus') && $this->item->client_id==0) {
+		if ($user->authorise('core.edit','com_menus') && $table->client_id==0) {
 			$n=0;
 
 			$db = JFactory::getDbo();

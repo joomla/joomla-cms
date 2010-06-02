@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-June-2010 Andrew Eddie
  # Fixed issue [#20771] validate.js causing problems with IE8 (Bill Richardson, Phil Snell).
+ # Fixed issue [#20788] Error when saving template style for administrator template.
 
 02-June-2010 Christophe Demko
  # Fixed issue [#20784] Some minours errors in the beez* templates
