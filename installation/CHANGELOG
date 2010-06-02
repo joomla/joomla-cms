@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed issue [#20788] Error when saving template style for administrator template.
 
 02-June-2010 Christophe Demko
+ # Fixed issue [#20783] A lot of issues related to searching and language switcher
  # Fixed issue [#12757] JDate override problem in Backend
  # Fixed issue [#20784] Some minours errors in the beez* templates
 

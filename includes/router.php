@@ -307,7 +307,7 @@ class JRouterSite extends JRouter
 		if (isset($query['Itemid']) && !empty($query['Itemid'])) {
 			$item = $menu->getItem($query['Itemid']);
 			if (is_object($item) && $query['option'] == $item->component) {
-				if (!$item->home) {
+				if (!$item->home || $item->language!='*') {
 					$tmp = !empty($tmp) ? $item->route.'/'.$tmp : $item->route;
 				}
 				$built = true;
@@ -321,7 +321,9 @@ class JRouterSite extends JRouter
 		$route .= '/'.$tmp;
 
 		// Unset unneeded query information
-		unset($query['Itemid']);
+		if (isset($item) && $query['option'] == $item->component) {
+			unset($query['Itemid']);
+		}
 		unset($query['option']);
 
 		//Set query again in the URI

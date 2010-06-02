@@ -28,28 +28,55 @@ class plgSystemLanguageFilter extends JPlugin
 	public static $default_lang;
 	public static $default_sef;
 
-	public function onAfterInitialise()
+	public function __construct(&$subject, $config)
 	{
 		$app = JFactory::getApplication();
 		if ($app->isSite()) {
 			$app->setLanguageFilter(true);
-			$router = $app->getRouter();
+			$router = &$app->getRouter();
 
+			// setup language data
+			self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+			self::$sefs 		= JLanguageHelper::getLanguages('sef');
+			self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
+			self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
+			$uri = &JFactory::getURI();
+			if (self::$mode_sef) {
+				$path = $uri->getPath();
+				$path = substr($path,strpos($path,'index.php'));
+				$parts = explode('/', $path);
+				$sef = isset($parts[1]) ? $parts[1] : '';
+			}
+			else {
+				$sef = $uri->getVar('lang');
+			}
+			if (isset(self::$sefs[$sef])) {
+				$lang_code = self::$sefs[$sef]->lang_code;
+				// Create a cookie
+				$conf =& JFactory::getConfig();
+				$cookie_domain 	= $conf->get('config.cookie_domain', '');
+				$cookie_path 	= $conf->get('config.cookie_path', '/');
+				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+				// set the request var
+				JRequest::setVar('language',$lang_code);
+			}
+		}
+		parent::__construct($subject, $config);
+	}
+
+	public function onAfterInitialise()
+	{
+		$app = JFactory::getApplication();
+		if ($app->isSite()) {
+			self::$tag 			= JFactory::getLanguage()->getTag();
+
+			$router = &$app->getRouter();
 			// attach build rules for language SEF
 			$router->attachBuildRule(array($this, 'buildRule'));
 
 			// attach parse rules for language SEF
 			$router->attachParseRule(array($this, 'parseRule'));
-
-			// setup language data
-			self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
-			self::$tag 			= JFactory::getLanguage()->getTag();
-			self::$sefs 		= JLanguageHelper::getLanguages('sef');
-			self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-
-			// todo - not used?
-			self::$default_lang 	= JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			self::$default_sef 		= self::$lang_codes[self::$default_lang]->sef;
 		}
 	}
 
@@ -68,7 +95,7 @@ class plgSystemLanguageFilter extends JPlugin
 		if ($Itemid != 'absent') {
 			$menu 	=& JSite::getMenu()->getItem($Itemid);
 			// if no menu - that means that we are routing home menu item of none-current language or alias to home
-			if (!$menu || $menu->home) {
+			if (!$menu || $menu->home && $uri->getVar('option')!='com_search') {
 				$uri->delVar('option');
 				$uri->delVar('Itemid');
 			}
@@ -96,27 +123,16 @@ class plgSystemLanguageFilter extends JPlugin
 				$sef = self::$default_sef;
 			}
 			$lang_code = self::$sefs[$sef]->lang_code;
-
-			if (!$lang_code || !JLanguage::exists($lang_code)) {
-				$lang_code = self::$default_lang;
-			}
-			else {
+			if ($lang_code && JLanguage::exists($lang_code)) {
 				array_shift($parts);
 				$uri->setPath(implode('/', $parts));
 			}
-
-			// Set the language
-			JFactory::getLanguage()->setLanguage($lang_code);
-			self::$tag = $lang_code;
-
-			// Create a cookie
-			$config =& JFactory::getConfig();
-			$cookie_domain 	= $config->get('config.cookie_domain', '');
-			$cookie_path 	= $config->get('config.cookie_path', '/');
-			setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
-
-			$array = array('lang' => $sef);
 		}
+		else {
+			$sef = $uri->getVar('lang');
+		}
+
+		$array = array('lang' => $sef);
 		return $array;
 	}
 }

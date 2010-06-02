@@ -48,6 +48,7 @@ class plgSearchCategories extends JPlugin
 	{
 		$db		= &JFactory::getDbo();
 		$user	= &JFactory::getUser();
+		$app	= &JFactory::getApplication();
 		$groups	= implode(',', $user->authorisedLevels());
 		$searchText = $text;
 
@@ -57,7 +58,17 @@ class plgSearchCategories extends JPlugin
 			}
 		}
 
-		$limit = $this->params->def('search_limit', 50);
+		$sContent		= $this->params->get('search_content',		1);
+		$sArchived		= $this->params->get('search_archived',		1);
+		$limit			= $this->params->def('search_limit',		50);
+		$state			= array();
+		if ($sContent) {
+			$state[]=1;
+		}
+		if ($sArchived) {
+			$state[]=2;
+		}
+
 
 		$text = trim($text);
 		if ($text == '') {
@@ -80,30 +91,37 @@ class plgSearchCategories extends JPlugin
 		$text	= $db->Quote('%'.$db->getEscaped($text, true).'%', false);
 		$query	= $db->getQuery(true);
 
-		$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
-					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
-		$query->from('#__categories AS a');
-		$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published = 1 AND a.extension = \'com_content\''
-					.'AND a.access IN ('. $groups .')' );
-		$query->group('a.id');
-		$query->order($order);
-
-		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
-
-		$count = count($rows);
-		for ($i = 0; $i < $count; $i++) {
-			$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
-			$rows[$i]->section	= JText::_('JCATEGORY');
-		}
-
 		$return = array();
-		foreach($rows AS $key => $category) {
-			if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
-				$return[] = $category;
+		if (!empty($state)) {
+			$query->select('a.title, a.description AS text, "" AS created, "2" AS browsernav, a.id AS catid, '
+						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug');
+			$query->from('#__categories AS a');
+			$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',',$state).') AND a.extension = \'com_content\''
+						.'AND a.access IN ('. $groups .')' );
+			$query->group('a.id');
+			$query->order($order);
+			if ($app->isSite() && $app->getLanguageFilter()) {
+				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			}
+
+			$db->setQuery($query, 0, $limit);
+			$rows = $db->loadObjectList();
+
+			if ($rows) {
+				$count = count($rows);
+				for ($i = 0; $i < $count; $i++) {
+					$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
+					$rows[$i]->section	= JText::_('JCATEGORY');
+				}
+
+				$return = array();
+				foreach($rows AS $key => $category) {
+					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
+						$return[] = $category;
+					}
+				}
 			}
 		}
-
 		return $return;
 	}
 }

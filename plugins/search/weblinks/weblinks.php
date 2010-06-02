@@ -57,7 +57,17 @@ class plgSearchWeblinks extends JPlugin
 			}
 		}
 
-		$limit = $this->params->def('search_limit', 50);
+		$sContent		= $this->params->get('search_content',		1);
+		$sUncategorised = $this->params->get('search_uncategorised',	1);
+		$sArchived		= $this->params->get('search_archived',		1);
+		$limit			= $this->params->def('search_limit',		50);
+		$state = array();
+		if ($sContent) {
+			$state[]=1;
+		}
+		if ($sArchived) {
+			$state[]=2;
+		}
 
 		$text = trim($text);
 		if ($text == '') {
@@ -118,35 +128,41 @@ class plgSearchWeblinks extends JPlugin
 				$order = 'a.date DESC';
 		}
 
-		$query	= $db->getQuery(true);
-		$query->select('a.title AS title, a.description AS text, a.date AS created, a.url, '
-					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-					.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as catslug, '
-					.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "1" AS browsernav');
-		$query->from('#__weblinks AS a');
-		$query->innerJoin('#__categories AS c ON c.id = a.catid');
-		$query->where('('.$where.')' . ' AND a.state=1 AND  c.published=1 AND  c.access IN ('.$groups.')');
-		$query->order($order);
-
-		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter()) {
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
-		}
-
-		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
-
-		foreach($rows as $key => $row) {
-			$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
-		}
-
 		$return = array();
-		foreach($rows AS $key => $weblink) {
-			if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
-				$return[] = $weblink;
+		if (!empty($state)) {
+			$query	= $db->getQuery(true);
+			$query->select('a.title AS title, a.description AS text, a.date AS created, a.url, '
+						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+						.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as catslug, '
+						.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "1" AS browsernav');
+			$query->from('#__weblinks AS a');
+			$query->innerJoin('#__categories AS c ON c.id = a.catid');
+			$query->where('('.$where.')' . ' AND a.state in ('.implode(',',$state).') AND  c.published=1 AND  c.access IN ('.$groups.')');
+			$query->order($order);
+
+			// Filter by language
+			if ($app->isSite() && $app->getLanguageFilter()) {
+				$tag = JFactory::getLanguage()->getTag();
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+			}
+
+			$db->setQuery($query, 0, $limit);
+			$rows = $db->loadObjectList();
+
+			$return = array();
+			if ($rows) {
+				foreach($rows as $key => $row) {
+					$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
+				}
+
+				foreach($rows AS $key => $weblink) {
+					if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
+						$return[] = $weblink;
+					}
+				}
 			}
 		}
-
 		return $return;
 	}
 }

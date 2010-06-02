@@ -71,23 +71,27 @@ function WeblinksBuildRoute(&$query)
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Weblinks');
 			$category = $categories->get($catid);
-			$path = $category->getPath();
-			$path = array_reverse($path);
-
-			$array = array();
-			foreach($path as $id)
+			if ($category)
 			{
-				if((int) $id == (int)$menuCatid)
+				//TODO Throw error that the category either not exists or is unpublished
+				$path = $category->getPath();
+				$path = array_reverse($path);
+
+				$array = array();
+				foreach($path as $id)
 				{
-					break;
+					if((int) $id == (int)$menuCatid)
+					{
+						break;
+					}
+					if($advanced)
+					{
+						list($tmp, $id) = explode(':', $id, 2);
+					}
+					$array[] = $id;
 				}
-				if($advanced)
-				{
-					list($tmp, $id) = explode(':', $id, 2);
-				}
-				$array[] = $id;
+				$segments = array_merge($segments, array_reverse($array));
 			}
-			$segments = array_merge($segments, array_reverse($array));
 			if($view == 'weblink')
 			{
 				if($advanced)

@@ -71,23 +71,25 @@ function NewsfeedsBuildRoute(&$query)
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get($catid);
-			$path = $category->getPath();
-			$path = array_reverse($path);
+			if ($category) {
+				$path = $category->getPath();
+				$path = array_reverse($path);
 
-			$array = array();
-			foreach($path as $id)
-			{
-				if((int) $id == (int)$menuCatid)
+				$array = array();
+				foreach($path as $id)
 				{
-					break;
+					if((int) $id == (int)$menuCatid)
+					{
+						break;
+					}
+					if($advanced)
+					{
+						list($tmp, $id) = explode(':', $id, 2);
+					}
+					$array[] = $id;
 				}
-				if($advanced)
-				{
-					list($tmp, $id) = explode(':', $id, 2);
-				}
-				$array[] = $id;
+				$segments = array_merge($segments, array_reverse($array));
 			}
-			$segments = array_merge($segments, array_reverse($array));
 			if($view == 'newsfeed')
 			{
 				if($advanced)

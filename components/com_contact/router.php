@@ -62,27 +62,26 @@ function ContactBuildRoute(&$query){
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Contact');
 			$category = $categories->get($catid);
-			if(!$category)
+			if($category)
 			{
-				die('The category is not published or does not exist');
 				//TODO Throw error that the category either not exists or is unpublished
-			}
-			$path = array_reverse($category->getPath());
+				$path = array_reverse($category->getPath());
 
-			$array = array();
-			foreach($path as $id)
-			{
-				if((int) $id == (int)$menuCatid)
+				$array = array();
+				foreach($path as $id)
 				{
-					break;
+					if((int) $id == (int)$menuCatid)
+					{
+						break;
+					}
+					if($advanced)
+					{
+						list($tmp, $id) = explode(':', $id, 2);
+					}
+					$array[] = $id;
 				}
-				if($advanced)
-				{
-					list($tmp, $id) = explode(':', $id, 2);
-				}
-				$array[] = $id;
+				$segments = array_merge($segments, array_reverse($array));
 			}
-			$segments = array_merge($segments, array_reverse($array));
 			if($view == 'contact')
 			{
 				if($advanced)

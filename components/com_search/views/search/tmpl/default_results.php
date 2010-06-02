@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	<dt class="result-title">
 		<?php echo $this->pagination->limitstart + $result->count.'. ';?>
 		<?php if ($result->href) :?>
-			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) :?> target="_blank"><?php endif;?>>
+			<a href="<?php echo JRoute::_($result->href); ?>"<?php if ($result->browsernav == 1) :?> target="_blank"<?php endif;?>>
 				<?php echo $this->escape($result->title);?>
 			</a>
 		<?php else:?>

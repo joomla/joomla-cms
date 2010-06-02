@@ -48,6 +48,7 @@ class plgSearchContent extends JPlugin
 		$app	= &JFactory::getApplication();
 		$user	= &JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
+		$tag = JFactory::getLanguage()->getTag();
 
 		require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 		require_once JPATH_SITE.'/administrator/components/com_search/helpers/search.php';
@@ -153,7 +154,8 @@ class plgSearchContent extends JPlugin
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -186,7 +188,8 @@ class plgSearchContent extends JPlugin
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -217,7 +220,7 @@ class plgSearchContent extends JPlugin
 						.'CONCAT_WS("/", c.title) AS section, "2" AS browsernav' );
 			$query->from('#__content AS a');
 			$query->innerJoin('#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')');
-			$query->where('('. $where .') AND a.state = -1 AND c.published = 1 AND a.access IN ('. $groups
+			$query->where('('. $where .') AND a.state = 2 AND c.published = 1 AND a.access IN ('. $groups
 				.') AND c.access IN ('. $groups .') '
 				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
@@ -226,7 +229,8 @@ class plgSearchContent extends JPlugin
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

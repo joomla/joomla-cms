@@ -54,7 +54,17 @@ class plgSearchNewsfeeds extends JPlugin
 			}
 		}
 
-		$limit = $this->params->def('search_limit', 50);
+		$sContent		= $this->params->get('search_content',		1);
+		$sUncategorised = $this->params->get('search_uncategorised',	1);
+		$sArchived		= $this->params->get('search_archived',		1);
+		$limit			= $this->params->def('search_limit',		50);
+		$state = array();
+		if ($sContent) {
+			$state[]=1;
+		}
+		if ($sArchived) {
+			$state[]=2;
+		}
 
 		$text = trim($text);
 		if ($text == '') {
@@ -106,29 +116,35 @@ class plgSearchNewsfeeds extends JPlugin
 
 		$searchNewsfeeds = JText::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
 
-		$query	= $db->getQuery(true);
-		$query->select('a.name AS title, "" AS created, a.link AS text, '
-					.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
-					.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as catslug, '
-					.'CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', c.title) AS section,'
-					.'"1" AS browsernav');
-		$query->from('#__newsfeeds AS a');
-		$query->innerJoin('#__categories as c ON c.id = a.catid');
-		$query->where('('. $where .')' . 'AND a.published = 1 AND c.published = 1 AND c.access IN ('. $groups .')');
-		$query->order($order);
+		$rows = array();
+		if (!empty($state)) {
+			$query	= $db->getQuery(true);
+			$query->select('a.name AS title, "" AS created, a.link AS text, '
+						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+						.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as catslug, '
+						.'CONCAT_WS(" / ", '. $db->Quote($searchNewsfeeds) .', c.title) AS section,'
+						.'"1" AS browsernav');
+			$query->from('#__newsfeeds AS a');
+			$query->innerJoin('#__categories as c ON c.id = a.catid');
+			$query->where('('. $where .')' . 'AND a.published IN ('.implode(',',$state).') AND c.published = 1 AND c.access IN ('. $groups .')');
+			$query->order($order);
 
-		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter()) {
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			// Filter by language
+			if ($app->isSite() && $app->getLanguageFilter()) {
+				$tag = JFactory::getLanguage()->getTag();
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+			}
+
+			$db->setQuery($query, 0, $limit);
+			$rows = $db->loadObjectList();
+
+			if ($rows) {
+				foreach($rows as $key => $row) {
+					$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid='.$row->catslug.'&id='.$row->slug;
+				}
+			}
 		}
-
-		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
-
-		foreach($rows as $key => $row) {
-			$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid='.$row->catslug.'&id='.$row->slug;
-		}
-
 		return $rows;
 	}
 }

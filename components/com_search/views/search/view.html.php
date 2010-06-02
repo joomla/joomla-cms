@@ -31,8 +31,9 @@ class SearchViewSearch extends JView
 		$pathway  = &$app->getPathway();
 		$uri	= &JFactory::getURI();
 
-		$error	= '';
+		$error	= null;
 		$rows	= null;
+		$results= null;
 		$total	= 0;
 
 		// Get some data from the model
@@ -101,8 +102,7 @@ class SearchViewSearch extends JView
 		// put the filtered results back into the model
 		// for next release, the checks should be done in the model perhaps...
 		$state->set('keyword', $searchword);
-
-		if (!$error)
+		if ($error==null)
 		{
 			$results	= &$this->get('data');
 			$total		= &$this->get('total');

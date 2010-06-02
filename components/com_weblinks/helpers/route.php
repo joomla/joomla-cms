@@ -39,9 +39,12 @@ abstract class WeblinksHelperRoute
 		{
 			$categories = JCategories::getInstance('Weblinks');
 			$category = $categories->get($catid);
-			$needles['category'] = array_reverse($category->getPath());
-			$needles['categories'] = $needles['category'];
-			$link .= '&catid='.$catid;
+			if($category)
+			{
+				$needles['category'] = array_reverse($category->getPath());
+				$needles['categories'] = $needles['category'];
+				$link .= '&catid='.$catid;
+			}
 		}
 
 		if ($item = WeblinksHelperRoute::_findItem($needles)) {
