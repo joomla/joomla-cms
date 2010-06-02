@@ -44,6 +44,9 @@ $ -> Language fix or change
 31-May-2010 Jean-Marie Simonet
 # [#20537] Edit articles in frontend sometimes gives a blank edit page. Thanks Dennis.
 
+31-May-2010 Mark Dexter
+ # Fixed issue [#20718] Issue with JLanguageTest (Tudor Mazilu).
+
 -------------------- 1.6.0 Beta2 Release [31-May-2010] ------------------
 
 31-May-2010
