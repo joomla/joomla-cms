@@ -263,6 +263,11 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_THEMES .'/'. $template .'/images');
 		rmdir(JPATH_THEMES .'/'. $template);
 
+		// we create the file that JHtml::image will look for
+		mkdir(JPATH_ROOT .'/media/'. $urlpath .'images', 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'. $urlpath .'images/'. $urlfilename, 'test');
+
+		// we do a test for the case that the image is in the templates directory
 		$this->assertThat(
 			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true),
 			$this->equalTo('<img src="'.JURI::base(true).'/media/'.$urlpath.'images/'.$urlfilename.'" alt="My Alt Text"  />'),
@@ -272,6 +277,22 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true).'/media/'.$urlpath.'images/'.$urlfilename),
+			'JHtml::image failed when we should get it from the media directory in path only mode'
+		);
+
+		unlink(JPATH_ROOT .'/media/'. $urlpath .'images/'. $urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $urlpath .'images');
+		rmdir(JPATH_ROOT .'/media/'. $urlpath);
+
+		$this->assertThat(
+			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true),
+			$this->equalTo('<img src="'.JURI::base(true).'/media/system/images/'.$urlfilename.'" alt="My Alt Text"  />'),
+			'JHtml::image failed when we should get it from the media directory'
+		);
+
+		$this->assertThat(
+			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(JURI::base(true).'/media/system/images/'.$urlfilename),
 			'JHtml::image failed when we should get it from the media directory in path only mode'
 		);
 
@@ -301,14 +322,33 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'. $extension.'/'.$element);
 		rmdir(JPATH_ROOT .'/media/'. $extension);
 
+		mkdir(JPATH_ROOT .'/media/'. $extension.'/images/'.$element .'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'. $extension.'/images/'.$element .'/'. $urlpath.$urlfilename, 'test');
+
 		$this->assertThat(
 			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="'.JURI::base(true).'/media/'. $extension.'/images/'.$element.'/'. $urlpath.$urlfilename.'" alt="My Alt Text"  />')
+			$this->equalTo('<img src="'.JURI::base(true).'/media/'.$extension.'/images/'.$element.'/'. $urlpath.$urlfilename.'" alt="My Alt Text"  />')
 		);
 
 		$this->assertThat(
 			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true, true),
-			$this->equalTo(JURI::base(true).'/media/'. $extension.'/images/'.$element.'/'.$urlpath.$urlfilename)
+			$this->equalTo(JURI::base(true).'/media/'.$extension.'/images/'.$element.'/'.$urlpath.$urlfilename)
+		);
+
+		unlink(JPATH_ROOT .'/media/'. $extension.'/images/'.$element .'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/images/'.$element .'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/images/'.$element);
+		rmdir(JPATH_ROOT .'/media/'. $extension.'/images');
+		rmdir(JPATH_ROOT .'/media/'. $extension);
+		
+		$this->assertThat(
+			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true),
+			$this->equalTo('<img src="'.JURI::base(true).'/media/system/images/'.$element.'/'. $urlpath.$urlfilename.'" alt="My Alt Text"  />')
+		);
+
+		$this->assertThat(
+			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(JURI::base(true).'/media/system/images/'.$element.'/'.$urlpath.$urlfilename)
 		);
 
 		$this->assertThat(
@@ -466,7 +506,7 @@ class JHtmlTest extends JoomlaTestCase
 		$docMock2->expects($this->once())
 			->method('addStylesheet')
 			->with(
-				JURI::base(true).'/media/'.$extension.'/css/'.$cssfilename,
+				JURI::base(true).'/media/system/css/'.$cssfilename,
 				'text/css',
 				null,
 				null
@@ -478,7 +518,7 @@ class JHtmlTest extends JoomlaTestCase
 
 		$this->assertThat(
 			JHtml::stylesheet($extension.'/'.$cssfilename, null, true, true),
-			$this->equalTo(JURI::root(true).'/media/'.$extension.'/css/'.$cssfilename),
+			$this->equalTo(JURI::root(true).'/media/system/css/'.$cssfilename),
 			'Stylesheet in the media directory failed - path only'
 		);
 
@@ -499,10 +539,24 @@ class JHtmlTest extends JoomlaTestCase
 
 		$this->assertThat(
 			JHtml::stylesheet($extension.'/'.$element.'/'.$cssfilename, null, true, true),
+			$this->equalTo(JURI::root(true).'/media/system/css/'.$element.'/'.$cssfilename),
+			'Stylesheet in the media directory -plugins group code - failed - path only'
+		);
+
+		// we create the file that JHtml::stylesheet will look for
+		mkdir(JPATH_ROOT .'/media/'.$extension.'/css/'.$element, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/'.$extension.'/css/'.$element.'/'.$cssfilename, 'test');
+
+		$this->assertThat(
+			JHtml::stylesheet($extension.'/'.$element.'/'.$cssfilename, null, true, true),
 			$this->equalTo(JURI::root(true).'/media/'.$extension.'/css/'.$element.'/'.$cssfilename),
 			'Stylesheet in the media directory -plugins group code - failed - path only'
 		);
 
+		unlink(JPATH_ROOT .'/media/'.$extension.'/css/'.$element.'/'.$cssfilename);
+		rmdir(JPATH_ROOT .'/media/'.$extension.'/css/'.$element);
+		rmdir(JPATH_ROOT .'/media/'.$extension.'/css');
+		rmdir(JPATH_ROOT .'/media/'.$extension);
 
 		$docMock3 = $this->getMock('myMockDoc3', array('addStylesheet'));
 

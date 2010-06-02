@@ -121,7 +121,8 @@
 			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox"
 			format="%Y-%m-%d %H:%M:%S"
-			size="30" />
+			size="20"
+			filter="user_utc" />
 
 		<field
 			id="publish_down"
@@ -131,7 +132,8 @@
 			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox"
 			format="%Y-%m-%d %H:%M:%S"
-			size="30" />
+			size="20"
+			filter="user_utc" />
 
 		<field
 			id="ordering"

@@ -47,6 +47,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 */
 	function casesConstruct()
 	{
+		date_default_timezone_set('UTC');
 		return array(
 			"basic" => array(
 				'12/23/2008 13:45',

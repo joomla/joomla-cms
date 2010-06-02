@@ -408,10 +408,11 @@ abstract class JHtmlBehavior
 
 	public static function calendar()
 	{
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
+		$tag = JFactory::getLanguage()->getTag();
 		JHtml::_('stylesheet','system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') ,' media' => 'all'), true);
-		JHtml::_('script','system/calendar.js', false, true);
-		JHtml::_('script','system/calendar-setup.js', false, true);
+		JHtml::_('script',$tag.'/calendar.js', false, true);
+		JHtml::_('script',$tag.'/calendar-setup.js', false, true);
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if ($translation) {

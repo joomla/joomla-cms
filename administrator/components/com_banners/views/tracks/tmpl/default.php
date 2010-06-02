@@ -23,10 +23,10 @@ $listDirn	= $this->state->get('list.direction');
 		<div class="filter-search fltlft">
 
 			<label class="filter-hide-lbl"><?php echo JText::_('COM_BANNERS_BEGIN_LABEL'); ?></label>
-			<?php echo JHTML::_('calendar',$this->state->get('filter.begin'), 'filter_begin','filter_begin','%Y-%m-%d' , array('size'=>10,'onchange'=>'this.form.submit()'));?>
+			<?php echo JHTML::_('calendar',$this->state->get('filter.begin'), 'filter_begin','filter_begin','%Y-%m-%d' , array('size'=>10,'onchange'=>"this.form.fireEvent('submit');this.form.submit()"));?>
 
 			<label class="filter-hide-lbl"><?php echo JText::_('COM_BANNERS_END_LABEL'); ?></label>
-			<?php echo JHTML::_('calendar',$this->state->get('filter.end'), 'filter_end', 'filter_end','%Y-%m-%d' ,array('size'=>10,'onchange'=>'this.form.submit()'));?>
+			<?php echo JHTML::_('calendar',$this->state->get('filter.end'), 'filter_end', 'filter_end','%Y-%m-%d' ,array('size'=>10,'onchange'=>"this.form.fireEvent('submit');this.form.submit()"));?>
 
 		</div>
 		<div class="filter-select fltrt">

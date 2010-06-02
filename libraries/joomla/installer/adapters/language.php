@@ -187,6 +187,9 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
+		// Parse optional tags
+		$this->parent->parseMedia($this->manifest->media);
+
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
@@ -318,6 +321,9 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
+		// Parse optional tags
+		$this->parent->parseMedia($xml->media);
+
 		// Copy all the necessary font files to the common pdf_fonts directory
 		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
@@ -425,6 +431,11 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// construct the path from the client, the language and the extension element name
 		$path = $client->path.DS.'language'.DS.$element;
+
+		// Get the package manifest object and remove media
+		$this->parent->setPath('source', $path);
+		$this->manifest = $this->parent->getManifest();
+		$this->parent->removeFiles($this->manifest->media);
 
 		// check it exists
 		if (!JFolder::exists($path))
