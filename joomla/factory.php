@@ -42,17 +42,17 @@ abstract class JFactory
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix='J')
 	{
-		if (!JFactory::$application) {
+		if (!self::$application) {
 			jimport('joomla.application.application');
 
 			if (!$id) {
 				JError::raiseError(500, 'Application Instantiation Error');
 			}
 
-			JFactory::$application = JApplication::getInstance($id, $config, $prefix);
+			self::$application = JApplication::getInstance($id, $config, $prefix);
 		}
 
-		return JFactory::$application;
+		return self::$application;
 	}
 
 	/**
@@ -68,15 +68,15 @@ abstract class JFactory
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
 	{
-		if (!JFactory::$config) {
+		if (!self::$config) {
 			if ($file === null) {
 				$file = dirname(__FILE__).DS.'config.php';
 			}
 
-			JFactory::$config = JFactory::_createConfig($file, $type);
+			self::$config = self::_createConfig($file, $type);
 		}
 
-		return JFactory::$config;
+		return self::$config;
 	}
 
 	/**
@@ -91,11 +91,11 @@ abstract class JFactory
 	 */
 	public static function getSession($options = array())
 	{
-		if (!JFactory::$session) {
-			JFactory::$session = JFactory::_createSession($options);
+		if (!self::$session) {
+			self::$session = self::_createSession($options);
 		}
 
-		return JFactory::$session;
+		return self::$session;
 	}
 
 	/**
@@ -108,11 +108,11 @@ abstract class JFactory
 	 */
 	public static function getLanguage()
 	{
-		if (!JFactory::$language) {
-			JFactory::$language = JFactory::_createLanguage();
+		if (!self::$language) {
+			self::$language = self::_createLanguage();
 		}
 
-		return JFactory::$language;
+		return self::$language;
 	}
 
 	/**
@@ -125,11 +125,11 @@ abstract class JFactory
 	 */
 	public static function getDocument()
 	{
-		if (!JFactory::$document) {
-			JFactory::$document = JFactory::_createDocument();
+		if (!self::$document) {
+			self::$document = self::_createDocument();
 		}
 
-		return JFactory::$document;
+		return self::$document;
 	}
 
 	/**
@@ -147,7 +147,7 @@ abstract class JFactory
 		jimport('joomla.user.user');
 
 		if (is_null($id)) {
-			$instance = JFactory::getSession()->get('user');
+			$instance = self::getSession()->get('user');
 			if (!$instance INSTANCEOF JUser) {
 				$instance = &JUser::getInstance();
 			}
@@ -172,12 +172,12 @@ abstract class JFactory
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group.$handler.$storage);
-		if (isset(JFactory::$cache[$hash])) {
-			return JFactory::$cache[$hash];
+		if (isset(self::$cache[$hash])) {
+			return self::$cache[$hash];
 		}
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
-		$conf = &JFactory::getConfig();
+		$conf = &self::getConfig();
 
 		$options = array('defaultgroup'	=> $group );
 
@@ -189,8 +189,8 @@ abstract class JFactory
 
 		$cache = &JCache::getInstance($handler, $options);
 
-		JFactory::$cache[$hash] = $cache;
-		return JFactory::$cache[$hash];
+		self::$cache[$hash] = $cache;
+		return self::$cache[$hash];
 	}
 
 	/**
@@ -203,13 +203,13 @@ abstract class JFactory
 	 */
 	public static function getACL()
 	{
-		if (!JFactory::$acl) {
+		if (!self::$acl) {
 			jimport('joomla.access.access');
 
-			JFactory::$acl = new JAccess();
+			self::$acl = new JAccess();
 		}
 
-		return JFactory::$acl;
+		return self::$acl;
 	}
 
 	/**
@@ -244,10 +244,10 @@ abstract class JFactory
 	 */
 	public static function getMailer()
 	{
-		if (!JFactory::$mailer) {
-			JFactory::$mailer = JFactory::_createMailer();
+		if (!self::$mailer) {
+			self::$mailer = self::_createMailer();
 		}
-		$copy	= clone JFactory::$mailer;
+		$copy	= clone self::$mailer;
 		return $copy;
 	}
 
@@ -305,11 +305,11 @@ abstract class JFactory
 			case 'rss' :
 			case 'atom' :
 				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
-				$doc = JFactory::getFeedParser($options['rssUrl'], $cache_time);
+				$doc = self::getFeedParser($options['rssUrl'], $cache_time);
 				break;
 
 			case 'simple':
-				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use JFactory::getXML instead');
+				// JError::raiseWarning('SOME_ERROR_CODE', 'JSimpleXML is deprecated. Use self::getXML instead');
 				jimport('joomla.utilities.simplexml');
 				$doc = new JSimpleXML();
 				break;
@@ -379,7 +379,7 @@ abstract class JFactory
 
 		//get the editor configuration setting
 		if (is_null($editor)) {
-			$conf = &JFactory::getConfig();
+			$conf = &self::getConfig();
 			$editor = $conf->get('editor');
 		}
 
@@ -421,22 +421,20 @@ abstract class JFactory
 			$instances = array();
 		}
 
-		$language = &JFactory::getLanguage();
+		$language = &self::getLanguage();
 		$locale = $language->getTag();
 
 		if (!isset($classname) || $locale != $mainLocale) {
 			//Store the locale for future reference
 			$mainLocale = $locale;
-			$localePath = JPATH_ROOT . DS . 'language' . DS . $mainLocale . DS . $mainLocale . '.date.php';
-			if ($mainLocale !== false && file_exists($localePath)) {
-				$classname = 'JDate'.str_replace('-', '_', $mainLocale);
-				JLoader::register($classname, $localePath);
+			if ($mainLocale !== false) {
+				$classname = str_replace('-', '_', $mainLocale).'Date';
 				if (!class_exists($classname)) {
-					//Something went wrong.  The file exists, but the class does not, default to JDate
+					//The class does not exist, default to JDate
 					$classname = 'JDate';
 				}
 			} else {
-				//No file, so default to JDate
+				//No tag, so default to JDate
 				$classname = 'JDate';
 			}
 		}
@@ -496,7 +494,7 @@ abstract class JFactory
 		jimport('joomla.session.session');
 
 		//get the editor configuration setting
-		$conf = &JFactory::getConfig();
+		$conf = &self::getConfig();
 		$handler =  $conf->get('session_handler', 'none');
 
 		// config time is in minutes
@@ -522,7 +520,7 @@ abstract class JFactory
 		jimport('joomla.database.database');
 		jimport('joomla.database.table');
 
-		$conf = &JFactory::getConfig();
+		$conf = &self::getConfig();
 
 		$host		= $conf->get('host');
 		$user		= $conf->get('user');
@@ -559,7 +557,7 @@ abstract class JFactory
 	{
 		jimport('joomla.mail.mail');
 
-		$conf	= &JFactory::getConfig();
+		$conf	= &self::getConfig();
 
 		$sendmail	= $conf->get('sendmail');
 		$smtpauth	= $conf->get('smtpauth');
@@ -604,7 +602,7 @@ abstract class JFactory
 	{
 		jimport('joomla.language.language');
 
-		$conf	= &JFactory::getConfig();
+		$conf	= &self::getConfig();
 		$locale	= $conf->get('language');
 		$debug	= $conf->get('debug_lang');
 		$lang	= &JLanguage::getInstance($locale, $debug);
@@ -622,7 +620,7 @@ abstract class JFactory
 	{
 		jimport('joomla.document.document');
 
-		$lang	= &JFactory::getLanguage();
+		$lang	= &self::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
 		$raw	= JRequest::getBool('no_html');

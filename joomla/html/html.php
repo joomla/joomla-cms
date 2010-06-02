@@ -9,6 +9,8 @@
 
 JHtml::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
 
+jimport('joomla.environment.uri');
+
 /**
  * Utility class for all HTML drawing classes
  *
@@ -232,32 +234,45 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if($relative)
-		{
+		if($relative) {
 			$app = JFactory::getApplication();
 			$cur_template = $app->getTemplate();
 			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/images/'. $url)) {
 				$url = JURI::base(true).'/templates/'. $cur_template .'/images/'. $url;
-			} else {
+			}
+			else {
 				list($extension, $url) = explode('/', $url, 2);
 				if (strpos($url, '/')) {
 					// Try to deal with plugins group
 					list($element, $url) = explode('/', $url, 2);
 					if (file_exists(JPATH_ROOT .'/media/'.$extension.'/'.$element.'/images/'.$url)) {
 						$url = JURI::root(true).'/media/'.$extension.'/'.$element.'/images/'.$url;
-					} else {
+					}
+					elseif (file_exists(JPATH_ROOT .'/media/'.$extension.'/images/'.$element.'/'.$url)) {
 						$url = JURI::root(true).'/media/'.$extension.'/images/'.$element.'/'.$url;
 					}
+					elseif (file_exists(JPATH_THEMES .'/'. $cur_template .'/images/system/'.$element.'/'.$url)) {
+						$url = JURI::root(true).'/templates/'.$cur_template.'/images/system/'.$element.'/'.$url;
+					}
+					else {
+						$url = JURI::root(true).'/media/system/images/'.$element.'/'.$url;
+					}
 				}
-				else {
+				elseif (file_exists(JPATH_ROOT .'/media/'.$extension.'/images/'.$url)) {
 					$url = JURI::root(true).'/media/'.$extension.'/images/'.$url;
 				}
+				elseif (file_exists(JPATH_THEMES .'/'. $cur_template .'/images/system/'.$url)) {
+					$url = JURI::root(true).'/templates/'.$cur_template.'/images/system/'.$url;
+				}
+				else {
+					$url = JURI::root(true).'/media/system/images/'.$url;
+				}
 			}
-			if($path_only)
-			{
+			if($path_only) {
 				return $url;
 			}
-		} elseif (strpos($url, 'http') !== 0) {
+		}
+		elseif (strpos($url, 'http') !== 0) {
 			$url = JURI::root(true).'/'.$url;
 		}
 
@@ -279,32 +294,45 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if($relative)
-		{
+		if($relative) {
 			$app = JFactory::getApplication();
 			$cur_template = $app->getTemplate();
 			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/css/'. $file)) {
 				$file = JURI::base(true).'/templates/'. $cur_template .'/css/'. $file;
-			} else {
+			}
+			else {
 				list($extension, $file) = explode('/', $file, 2);
 				if (strpos($file, '/')) {
 					// Try to deal with plugins group
 					list($element, $file) = explode('/', $file, 2);
 					if (file_exists(JPATH_ROOT .'/media/'.$extension.'/'.$element.'/css/'.$file)) {
 						$file = JURI::root(true).'/media/'.$extension.'/'.$element.'/css/'.$file;
-					} else {
+					}
+					elseif (file_exists(JPATH_ROOT .'/media/'.$extension.'/css/'.$element.'/'.$file)) {
 						$file = JURI::root(true).'/media/'.$extension.'/css/'.$element.'/'.$file;
 					}
+					elseif (file_exists(JPATH_THEMES .'/'. $cur_template .'/css/system/'.$element.'/'.$file)) {
+						$file = JURI::root(true).'/templates/'.$cur_template.'/css/system/'.$element.'/'.$file;
+					}
+					else {
+						$file = JURI::root(true).'/media/system/css/'.$element.'/'.$file;
+					}
 				}
-				else {
+				elseif (file_exists(JPATH_ROOT .'/media/'.$extension.'/css/'.$file)) {
 					$file = JURI::root(true).'/media/'.$extension.'/css/'.$file;
 				}
+				elseif (file_exists(JPATH_THEMES .'/'. $cur_template .'/css/system/'.$file)) {
+					$file = JURI::root(true).'/templates/'.$cur_template.'/css/system/'.$file;
+				}
+				else {
+					$file = JURI::root(true).'/media/system/css/'.$file;
+				}
 			}
-			if($path_only)
-			{
+			if($path_only) {
 				return $file;
 			}
-		} elseif (strpos($file, 'http') !== 0) {
+		}
+		elseif (strpos($file, 'http') !== 0) {
 			$file = JURI::root(true).'/'.$file;
 		}
 
@@ -330,32 +358,45 @@ abstract class JHtml
 			JHtml::_('behavior.framework');
 		}
 
-		if($relative)
-		{
+		if($relative) {
 			$app = JFactory::getApplication();
 			$cur_template = $app->getTemplate();
 			if (file_exists(JPATH_THEMES .'/'. $cur_template .'/js/'. $file)) {
 				$file = JURI::base(true).'/templates/'. $cur_template .'/js/'. $file;
-			} else {
+			}
+			else {
 				list($extension, $file) = explode('/', $file, 2);
 				if (strpos($file, '/')) {
 					// Try to deal with plugins group
 					list($element, $file) = explode('/', $file, 2);
 					if (file_exists(JPATH_ROOT .'/media/'. $extension.'/'.$element.'/js/'.$file)) {
 						$file = JURI::root(true).'/media/'.$extension.'/'.$element.'/js/'.$file;
-					} else {
+					}
+					elseif (file_exists(JPATH_ROOT .'/media/'.$extension.'/js/'.$element.'/'.$file)) {
 						$file = JURI::root(true).'/media/'.$extension.'/js/'.$element.'/'.$file;
 					}
+					elseif (file_exists(JPATH_THEMES .'/'. $cur_template .'/js/system/'.$element.'/'.$file)) {
+						$file = JURI::root(true).'/templates/'.$cur_template.'/js/system/'.$element.'/'.$file;
+					}
+					else {
+						$file = JURI::root(true).'/media/system/js/'.$element.'/'.$file;
+					}
 				}
-				else {
+				elseif (file_exists(JPATH_ROOT .'/media/'.$extension.'/js/'.$file)) {
 					$file = JURI::root(true).'/media/'.$extension.'/js/'.$file;
 				}
+				elseif (file_exists(JPATH_THEMES .'/'. $cur_template .'/js/system/'.$file)) {
+					$file = JURI::root(true).'/templates/'.$cur_template.'/js/system/'.$file;
+				}
+				else {
+					$file = JURI::root(true).'/media/system/js/'.$file;
+				}
 			}
-			if($path_only)
-			{
+			if($path_only) {
 				return $file;
 			}
-		} elseif (strpos($file, 'http') !== 0) {
+		}
+		elseif (strpos($file, 'http') !== 0) {
 			$file = JURI::root(true).'/'.$file;
 		}
 
@@ -409,7 +450,7 @@ abstract class JHtml
 	 * @see		strftime
 	 * @since	1.5
 	 */
-	public static function date($input = 'now', $format = null, $tz = true)
+	public static function date($input = 'now', $format = null, $tz = true, $gregorian=false)
 	{
 		// Get some system objects.
 		$config = JFactory::getConfig();
@@ -453,7 +494,12 @@ abstract class JHtml
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
 
-		return $date->format($format);
+		if ($gregorian) {
+			return $date->format($format);
+		}
+		else {
+			return $date->calendar($format);
+		}
 	}
 
 	/**
@@ -529,7 +575,7 @@ abstract class JHtml
 		}
 
 		// Only display the triggers once for each control.
-		if (!in_array($id, $done) && !$readonly)
+		if (!in_array($id, $done))
 		{
 			$document = &JFactory::getDocument();
 			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
@@ -543,7 +589,7 @@ abstract class JHtml
 		}
 
 		return '<input type="text" title="'.(0!==(int)$value ? JHtml::_('date',$value):'').'" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
-				JHTML::_('image','system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array( 'class' => 'calendar', 'id' => $id.'_img'), true);
+				($readonly ? '' : JHTML::_('image','system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array( 'class' => 'calendar', 'id' => $id.'_img'), true));
 	}
 
 	/**

@@ -263,6 +263,19 @@ class JDate extends DateTime
 	}
 
 	/**
+	 * Gets the date as a formatted string in a local calendar.
+	 *
+	 * @param	string	The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param	boolean	True to return the date string in the local time zone, false to return it in GMT.
+	 * @return	string	The date string in the specified format format.
+	 * @since	1.6
+	 */
+	public function calendar($format, $local = false)
+	{
+		return $this->format($format, $local);
+	}
+	
+	/**
 	 * Gets the date as a formatted string.
 	 *
 	 * @param	string	The date format specification string (see {@link PHP_MANUAL#date})
