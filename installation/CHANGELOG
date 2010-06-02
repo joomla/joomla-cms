@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-June-2010 Andrew Eddie
+ # Fixed issue [#20771] validate.js causing problems with IE8 (Bill Richardson, Phil Snell).
+
 02-June-2010 Christophe Demko
  # Fixed issue [#20784] Some minours errors in the beez* templates
 
