@@ -31,6 +31,7 @@ $ -> Language fix or change
 # [#20787] some misc html typos. Thanks Phil.
 # [#20677] duplicate key error. Thanks Nicholas.
 # [#20506] Field required: cache_handler - message in Global Config. Thanks Christophe and Klas
+# [#20809] Unable to run installation in IE8. Thanks Ian
  
 02-June-2010 Andrew Eddie
  # Fixed issue [#20771] validate.js causing problems with IE8 (Bill Richardson, Phil Snell).
@@ -41,7 +42,7 @@ $ -> Language fix or change
  # Fixed issue [#20795] user profile plugin typo error (thanks bill richardson)
  # Fixed issue [#20783] A lot of issues related to searching and language switcher
  # Fixed issue [#12757] JDate override problem in Backend
- # Fixed issue [#20784] Some minours errors in the beez* templates
+ # Fixed issue [#20784] Some minor errors in the beez* templates
 
 01-June-2010 Jean-Marie Simonet
 # [#20724] HTTP Directory Listing. Thanks Amy.
