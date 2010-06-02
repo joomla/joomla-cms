@@ -100,7 +100,7 @@ class JInstallationModelConfiguration extends JModel
 		/* Cache Settings */
 		$registry->set('caching', 0);
 		$registry->set('cachetime', 15);
-		$registry->set('cache_handler', 'file');
+		$registry->set('cache_handler', '');
 
 		/* Meta Settings */
 		$registry->set('MetaDesc', JText::_('INSTL_STD_METADESC'));

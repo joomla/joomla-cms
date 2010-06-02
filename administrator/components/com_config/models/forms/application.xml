@@ -5,19 +5,6 @@
 		name="cache"
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
 		<field
-			name="caching"
-			type="radio"
-			default="0"
-			label="COM_CONFIG_FIELD_CACHE_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_DESC"
-			filter="integer">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
-		</field>
-
-		<field
 			name="cachetime"
 			type="text"
 			default="15"
@@ -30,11 +17,13 @@
 		<field
 			name="cache_handler"
 			type="cachehandler"
-			default="file"
+			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
-			required="true"
-			filter="word" />
+			filter="word">
+			<option value="">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+		</field>
+		
 	</fieldset>
 	<fieldset
 		name="memcache"

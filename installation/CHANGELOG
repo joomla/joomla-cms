@@ -30,6 +30,7 @@ $ -> Language fix or change
 02-June-2010 Jean-Marie Simonet
 # [#20787] some misc html typos. Thanks Phil.
 # [#20677] duplicate key error. Thanks Nicholas.
+# [#20506] Field required: cache_handler - message in Global Config. Thanks Christophe and Klas
  
 02-June-2010 Andrew Eddie
  # Fixed issue [#20771] validate.js causing problems with IE8 (Bill Richardson, Phil Snell).

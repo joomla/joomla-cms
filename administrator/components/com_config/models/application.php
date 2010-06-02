@@ -138,6 +138,7 @@ class ConfigModelApplication extends JModelForm
 			$table->purge(-1);
 		}
 
+		$data['caching']=empty($data['cache_handler'])?'0':'1';
 		// Clean the cache if disabled but previously enabled.
 		if (!$data['caching'] && $prev['caching']) {
 			$cache = JFactory::getCache();

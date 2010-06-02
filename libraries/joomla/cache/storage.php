@@ -100,8 +100,12 @@ class JCacheStorage extends JObject
 
 		if (!isset($handler)) {
 			$conf =& JFactory::getConfig();
-            $handler = $conf->get('cache_handler', 'file');
-        }
+			$handler = $conf->get('cache_handler');
+			$caching = $conf->get('caching');
+			if (empty($handler)) {
+				return JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'));
+			}
+		}
 
 		if (is_null($now)) {
 			$now = time();
@@ -111,13 +115,11 @@ class JCacheStorage extends JObject
 		//We can't cache this since options may change...
 		$handler = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $handler));
 
-        $class = 'JCacheStorage'.ucfirst($handler);
+		$class = 'JCacheStorage'.ucfirst($handler);
 		if (!class_exists($class)) {
 			// Search for the class file in the JCacheStorage include paths.
 			jimport('joomla.filesystem.path');
 			if ($path = JPath::find(JCacheStorage::addIncludePath(), strtolower($handler).'.php')) {
-			/*$path = dirname(__FILE__).DS.'storage'.DS.$handler.'.php';
-			if (file_exists($path)) {**/
 				require_once $path;
 			} else {
 				return JError::raiseWarning(500, JText::sprintf('JLIB_CACHE_ERROR_CACHE_STORAGE_LOAD', $handler));
