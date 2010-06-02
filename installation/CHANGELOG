@@ -38,6 +38,7 @@ $ -> Language fix or change
  # Fixed issue [#20788] Error when saving template style for administrator template.
 
 02-June-2010 Christophe Demko
+ # Corrected the atomic template since its index.php file is not a correct xml file
  # Fixed issue [#20758] Property root_user in configuration could be a big security breach. (thanks Henrik Hussfelt, Martin Blodau, Andrew Eddie).
  # Fixed issue [#20795] user profile plugin typo error (thanks bill richardson)
  # Fixed issue [#20783] A lot of issues related to searching and language switcher

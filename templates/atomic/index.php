@@ -41,7 +41,7 @@ $app = JFactory::getApplication();
 
 	<body>
 		<div class="container">
-			<hr class="space">
+			<hr class="space" />
 			<div class="joomla-header span-16 append-1">
 				<h1><?php echo $app->getCfg('sitename'); ?></h1>
 			</div>
