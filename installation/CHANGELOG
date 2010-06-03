@@ -30,6 +30,7 @@ $ -> Language fix or change
 03-June-2010 Jean-Marie Simonet
 # [#20744] Logout link in administrator panel isn't logout when editing content. Thanks Andrew.
 $ Missing strings
+# [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Amy.
 
 03-June-2010 Christophe Demko
  # Fixed issue [#20697] Uninstalling a component does not remove menu items of that component type

@@ -1532,7 +1532,7 @@ class JForm
 				if ($message) {
 					return new JException(JText::_($message), 2, E_WARNING);
 				} else {
-					return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', JText::_((string) $element['name'])), 2, E_WARNING);
+					return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', JText::_((string) $element['label'])), 2, E_WARNING);
 				}
 			}
 		}
