@@ -35,7 +35,11 @@ class ContentViewArticles extends JView
 			return false;
 		}
 
-		$this->addToolbar();
+		// We don't need toolbar in the modal window.
+		if ($this->getLayout() !== 'modal') {
+			$this->addToolbar();
+		}
+
 		parent::display($tpl);
 	}
 

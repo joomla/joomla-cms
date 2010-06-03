@@ -40,7 +40,7 @@ class plgButtonPagebreak extends JPlugin
 		$button->set('link', $link);
 		$button->set('text', JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK'));
 		$button->set('name', 'pagebreak');
-		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 85}}");
+		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 100}}");
 
 		return $button;
 	}

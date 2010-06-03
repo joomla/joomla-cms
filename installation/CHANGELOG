@@ -32,6 +32,7 @@ $ -> Language fix or change
 $ Missing strings
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Amy.
 # [#20761] Unclear how to select contact for single contact menu item. Thanks Elin.
+# [#20603] Error while trying to use PageBreak from frontend. Thanks Bill.
 
 03-June-2010 Christophe Demko
  # Fixed issue [#20591] Cannot delete all usergroups from an access level (Robert Flodstrom)
