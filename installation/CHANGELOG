@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 03-June-2010 Christophe Demko
+ # UI enhancement for com_menus
  # Fixed ussue [#20805] Module linked to menu links (Aytug AKAR, Nikolai Plath, bill richardson)
  # Fixed issue [#20820] menu create - single contact typo error (bill richardson)
  # Fixed issue [#20789] featured contacts (bill richardson)

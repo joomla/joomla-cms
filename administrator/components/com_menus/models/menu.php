@@ -223,12 +223,15 @@ class MenusModelMenu extends JModelForm
 	public function &getModules()
 	{
 		$db = &$this->getDbo();
+		
+		$query = $db->getQuery(true);
+		$query->from('#__modules as a');
+		$query->select('a.id, a.title, a.params, a.position');
+		$query->where('module = '.$db->quote('mod_menu'));
+		$query->select('ag.title AS access_title');
+		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$db->setQuery($query);
 
-		$db->setQuery(
-			'SELECT id, title, params, position' .
-			' FROM #__modules' .
-			' WHERE module = '.$db->quote('mod_menu')
-		);
 		$modules = $db->loadObjectList();
 
 		$result = array();
