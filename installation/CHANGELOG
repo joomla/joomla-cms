@@ -35,6 +35,7 @@ $ Missing strings
 # [#20603] Error while trying to use PageBreak from frontend. Thanks Bill.
 
 03-June-2010 Christophe Demko
+ # Fixed issue [#20813] Value Not Found for blank user field (bill richardson, Peter Osipof)
  # Fixed issue [#20591] Cannot delete all usergroups from an access level (Robert Flodstrom)
  # Fixed issue [#20825] [patch] Debug plug-in doesn't output well formed code (Rouven Weßling)
  # Fixed issue [#20697] Uninstalling a component does not remove menu items of that component type
