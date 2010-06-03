@@ -43,7 +43,7 @@
 		>
 			<field name="presentation_style" type="list"
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
-				label="COM_COTNACT_FIELD_PRESENTATION_LABEL"
+				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>			
 				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
