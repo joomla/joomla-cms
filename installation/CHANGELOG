@@ -33,6 +33,7 @@ $ Missing strings
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Amy.
 
 03-June-2010 Christophe Demko
+ # Fixed issue [#20825] [patch] Debug plug-in doesn't output well formed code (Rouven Weßling)
  # Fixed issue [#20697] Uninstalling a component does not remove menu items of that component type
  # UI enhancement for com_menus
  # Fixed issue [#20805] Module linked to menu links (Aytug AKAR, Nikolai Plath, bill richardson)

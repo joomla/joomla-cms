@@ -99,7 +99,8 @@ class plgSystemDebug extends JPlugin
 			if ($log = $db->getLog()) {
 				echo '<ol>';
 				foreach ($log as $k => $sql) {
-					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $sql);
+					$text = htmlspecialchars($sql, ENT_QUOTES);
+					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
 					echo '<li>'.$text.'</li>';
 				}
 				echo '</ol>';
