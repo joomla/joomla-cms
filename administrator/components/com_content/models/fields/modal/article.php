@@ -88,7 +88,7 @@ class JFormFieldModal_Article extends JFormField
 		} else {
 			$value = (int)$this->value; 
 		}
-		$html[] = '<input required="true" type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.$value.'" />';
+		$html[] = '<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.$value.'" />';
 
 		return implode("\n", $html);
 	}
