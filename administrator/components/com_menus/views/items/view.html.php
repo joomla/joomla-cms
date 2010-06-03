@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
 
 /**
  * The HTML Menus Menu Items View.
@@ -69,39 +71,49 @@ class MenusViewItems extends JView
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, $lang->getDefault(), false, false);
 
-					$value	= JText::_($item->componentname);
-					$vars	= null;
+					if (!empty($item->componentname)) {
+						$value	= JText::_($item->componentname);
+						$vars	= null;
 
-					parse_str($item->link, $vars);
-					if (isset($vars['view'])) {
-						// Attempt to load the view xml file.
-						$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
-						if (is_file($file) && $xml = simplexml_load_file($file)) {
-							// Look for the first view node off of the root node.
-							if ($view = $xml->xpath('view[1]')) {
-								if (!empty($view[0]['title'])) {
-									$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
+						parse_str($item->link, $vars);
+						if (isset($vars['view'])) {
+							// Attempt to load the view xml file.
+							$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
+							if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+								// Look for the first view node off of the root node.
+								if ($view = $xml->xpath('view[1]')) {
+									if (!empty($view[0]['title'])) {
+										$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
 
-									// Attempt to load the layout xml file.
-									$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
-									if (is_file($file) && $xml = simplexml_load_file($file)) {
-										// Look for the first view node off of the root node.
-										if ($layout = $xml->xpath('layout[1]')) {
-											if (!empty($layout[0]['title'])) {
-												$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
+										// Attempt to load the layout xml file.
+										$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+										if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
+											// Look for the first view node off of the root node.
+											if ($layout = $xml->xpath('layout[1]')) {
+												if (!empty($layout[0]['title'])) {
+													$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
+												}
 											}
-										}
-										if (!empty($layout[0]->message[0])) {
-											$items->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+											if (!empty($layout[0]->message[0])) {
+												$items->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+											}
 										}
 									}
 								}
+								unset($xml);
 							}
-							unset($xml);
+							else {
+								// Special case for absent views
+								$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+							}
+						}
+					}
+					else {
+						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result)) {
+							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING',$result[1]);
 						}
 						else {
-							// Special case for absent views
-							$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+							$value = JText::_('COM_MENUS_TYPE_UNKNOWN');
 						}
 					}
 					break;
