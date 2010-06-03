@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-June-2010 Christophe Demko
+ # Fixed issue [#20819] Incorrect Label on Access Level Filter box on User Manager Access Level Screen (Ian McLennan)
+
 02-June-2010 Jean-Marie Simonet
 # [#20787] some misc html typos. Thanks Phil.
 # [#20677] duplicate key error. Thanks Nicholas.

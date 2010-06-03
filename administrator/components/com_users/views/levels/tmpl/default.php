@@ -23,7 +23,7 @@ $listDirn	= $this->state->get('list.direction');
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">
-			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_USERS'); ?></label>
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('COM_USERS_SEARCH_ACCESS_LEVELS'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_TITLE_LEVELS'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_RESET'); ?></button>
