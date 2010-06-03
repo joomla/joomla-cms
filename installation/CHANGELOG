@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 03-June-2010 Christophe Demko
+ # Fixed issue [#20789] featured contacts (bill richardson)
  # Fixed issue [#20819] Incorrect Label on Access Level Filter box on User Manager Access Level Screen (Ian McLennan)
 
 02-June-2010 Jean-Marie Simonet

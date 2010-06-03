@@ -9,6 +9,9 @@
 
 // no direct access
 defined('_JEXEC') or die;
+JHtml::core();
+$listOrder	= $this->state->get('list.ordering');
+$listDirn	= $this->state->get('list.direction');
 
 // Create a shortcut for params.
 $params = &$this->item->params;
@@ -114,8 +117,6 @@ $params = &$this->item->params;
 				</tr>
 			<?php endforeach; ?>
 
-
-
 		</tbody>
 	</table>
 
@@ -136,4 +137,3 @@ $params = &$this->item->params;
 <?php endif; ?>
 
 <div class="item-separator"></div>
-<?php echo $this->item->event->afterDisplayContent; ?>
