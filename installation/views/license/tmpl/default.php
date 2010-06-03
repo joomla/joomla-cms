@@ -54,14 +54,14 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, true
 			<div class="m">
 				<div class="far-right">
 <?php if ($this->document->direction == 'ltr') : ?>
-					<div class="button1-right"><div class="prev"><a href="index.php?view=preinstall" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
-					<div class="button1-left"><div class="next"><a href="index.php?view=database" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
+					<div class="button1-right"><div class="prev"><a href="index.php?view=preinstall" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></div></div>
+					<div class="button1-left"><div class="next"><a href="index.php?view=database" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></div></div>
 <?php elseif ($this->document->direction == 'rtl') : ?>
-					<div class="button1-right"><div class="prev"><a href="index.php?view=database" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
-					<div class="button1-left"><div class="next"><a href="index.php?view=preinstall" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
+					<div class="button1-right"><div class="prev"><a href="index.php?view=database" title="<?php echo JText::_('JNEXT'); ?>"><?php echo JText::_('JNEXT'); ?></a></div></div>
+					<div class="button1-left"><div class="next"><a href="index.php?view=preinstall" title="<?php echo JText::_('JPREVIOUS'); ?>"><?php echo JText::_('JPREVIOUS'); ?></a></div></div>
 <?php endif; ?>
 				</div>
-				<span class="step"><?php echo JText::_('LICENSE'); ?></span>
+				<span class="step"><?php echo JText::_('INSTL_LICENSE'); ?></span>
 			</div>
 			<div class="b">
 				<div class="b">
@@ -76,7 +76,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, true
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('GNU_GPL_LICENSE'); ?>:</h2>
+				<h2><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?>:</h2>
 				<iframe src="gpl.html" class="license" frameborder="0" marginwidth="25" scrolling="auto"></iframe>
 				<div class="clr"></div>
 			</div>
