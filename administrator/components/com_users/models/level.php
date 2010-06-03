@@ -104,4 +104,19 @@ class UsersModelLevel extends JModelAdmin
 	{
 		parent::preprocessForm($form, $data, 'user');
 	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	public function save($data)
+	{
+		if (!isset($data['rules'])) {
+			$data['rules']=array();
+		}
+		return parent::save($data);
+	}
 }
