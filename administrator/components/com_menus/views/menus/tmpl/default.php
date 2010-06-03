@@ -95,13 +95,13 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td class="left">
 				<ul>
-					<?php 
+					<?php
 					if (isset($this->modules[$item->menutype])) :
 						foreach ($this->modules[$item->menutype] as &$module) :
 						?>
-						
-						<li><a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&module_id='.$module->id.'&return='.$return);?>">
-							<?php echo $this->escape($module->title); ?></a>
+
+						<li><a class="modal" href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.$module->id.'&return='.$return.'&tmpl=component&layout=modal');?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}}"  title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
+						<?php echo $this->escape($module->title); ?></a>
 						<span class="smallsub">(<?php echo $this->escape($module->position);?>)</span></li>
 						<?php
 						endforeach;
