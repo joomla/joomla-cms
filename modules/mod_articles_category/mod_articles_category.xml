@@ -48,10 +48,8 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 				>
-					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_SHOW_VALUE
-					</option>
-					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_HIDE_VALUE
-					</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 			</fieldset>
 
