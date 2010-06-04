@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+4-June-2010 Mark Dexter
+^ Improvements to SeleniumJoomlaTestCase. (Matt Thomas)
+
 30-May-2010 Mark Dexter
 # JLanguageTest fixes and improvements. Thanks Tudor Mazilu!  
 
