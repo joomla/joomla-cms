@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-June-2010 Jean-Marie Simonet
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Artyom and Phil.
+$ Added missing string
 
 03-June-2010 Jean-Marie Simonet
 # [#20744] Logout link in administrator panel isn't logout when editing content. Thanks Andrew.
