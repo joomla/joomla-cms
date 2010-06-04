@@ -1528,12 +1528,19 @@ class JForm
 			if (($value === '') || ($value === null)) {
 
 				// Does the field have a defined error message?
-				$message = (string) $element['message'];
-				if ($message) {
-					return new JException(JText::_($message), 2, E_WARNING);
-				} else {
-					return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', JText::_((string) $element['label'])), 2, E_WARNING);
+				if($element['message']) {
+					$message = $element['message'];
 				}
+				else {
+					if ($element['label']) {
+						$message = JText::_($element['label']);
+					}
+					else {
+						$message = JText::_($element['name']);
+					}
+					$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+				}
+				return new JException($message, 2, E_WARNING);
 			}
 		}
 

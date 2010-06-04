@@ -47,6 +47,7 @@
 		<field
 			id="introtext"
 			name="introtext"
+			label="COM_CONTENT_INTROTEXT"
 			type="editor"
 			filter="safehtml"
 			required="true" />
