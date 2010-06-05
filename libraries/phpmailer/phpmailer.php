@@ -517,7 +517,7 @@ class PHPMailer {
    * @return bool
    */
   public function SmtpSend($header, $body) {
-    include_once($this->PluginDir . 'class.smtp.php');
+    include_once($this->PluginDir . 'smtp.php');
     $error = '';
     $bad_rcpt = array();
 
