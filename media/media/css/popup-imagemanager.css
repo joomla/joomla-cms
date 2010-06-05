@@ -21,7 +21,7 @@ button:hover { border: 1px solid #0B55C4; }
 select,input,button { font: 11px Tahoma, Verdana, sans-serif; }
 
 iframe { width: 100%;  overflow-x: false; border: 0 none;  margin: 0 0 0.5em 0; padding: 0;}
-iframe#imageframe { height: 195px; }
+iframe#imageframe { height: 200px; }
 
 a       { padding: 5px; border: 1px solid ButtonFace; }
 a:hover { border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight; }
