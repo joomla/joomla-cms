@@ -93,7 +93,7 @@ class ContactModelContact extends JModelItem
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
 				if (is_numeric($published)) {
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
 				}
 
 				$db->setQuery($query);
