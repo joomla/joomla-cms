@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-June-2010 Jean-Marie Simonet
+ [#20846] Corrected strings for contact creator. Thanks Elin.
+ 
 04-June-2010 Jean-Marie Simonet
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Artyom and Phil.
 $ Added missing string
