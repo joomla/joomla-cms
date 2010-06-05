@@ -30,6 +30,7 @@ $ -> Language fix or change
 05-June-2010 Jean-Marie Simonet
 # [#20846] Corrected strings for contact creator. Thanks Elin.
 # [#20815] When a contact is created automatically via contact creator plugin. Thanks Radek and Phil.
+#$ Corrected wrong sprintf
  
 04-June-2010 Jean-Marie Simonet
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Artyom and Phil.
