@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-June-2010 Christophe Demko
+ # Fixed issue [#18923] JURI::buildQuery does not deal correctly with multidimensional array (Omar Ramos, Antoine BERNIER)
+
 06-June-2010 Jean-Marie Simonet
 # [#20853] Sorting by author in Category list. Thanks Phil.
 # [#20861] plg_user_joomla missing language declaration in manifest. 

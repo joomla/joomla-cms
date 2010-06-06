@@ -136,9 +136,20 @@ class JURITest extends PHPUnit_Framework_TestCase {
 	/**
 	 * @todo Implement testBuildQuery().
 	 */
-	public function testBuildQuery() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	public function testBuildQuery()
+	{
+		$params = array(
+					'field' => array(
+					    'price' => array(
+					        'from' => 5,
+					        'to' => 10,
+					    ),
+					    'name' => 'foo'
+					),
+					'v'=>45);
+
+		$expected = 'field[price][from]=5&field[price][to]=10&field[name]=foo&v=45';
+		$this->assertEquals($expected, JURI::buildQuery($params));
 	}
 
 	/**
