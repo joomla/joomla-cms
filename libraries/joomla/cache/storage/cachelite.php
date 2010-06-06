@@ -263,15 +263,11 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public static function test()
 	{
-		if (file_exists('Cache/Lite.php')) {
-			include_once 'Cache/Lite.php';
+			@include_once 'Cache/Lite.php';
 			if (class_exists('Cache_Lite')) {
 				return true;
 			} else {
 				return false;
 			}
-		} else {
-			return false;
-		}
 	}
 }
