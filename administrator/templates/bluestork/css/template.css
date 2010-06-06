@@ -2726,6 +2726,7 @@ table#acl-config td select {
 
 label#jform_rules-lbl {
 	float: none;
+	white-space: nowrap;
 }
 
 /* Disabled until verified

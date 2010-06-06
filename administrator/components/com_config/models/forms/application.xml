@@ -745,7 +745,6 @@
 			name="rules"
 			type="rules"
 			label="COM_CONFIG_FIELD_RULES_LABEL"
-			description="COM_CONFIG_FIELD_RULES_DESC"
 			class="inputbox"
 			filter="rules">
 			<action

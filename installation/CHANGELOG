@@ -37,6 +37,7 @@ $ -> Language fix or change
 # [#20858] Administrator Editor Media Dialog modal-box height requires scrolling  Thansk Bill.and Ofer.
 # [#20843] wrong constant specified for error message in controllerform.php - missing language key. Thanks Bill and Nikolai. + some
 # [#20864] Missing cache language strings, cache_lite detection bug [patch]. Thanks Klas. WIP: do sesssion.
+# [#20754] missing language string
 
 05-June-2010 Jean-Marie Simonet
 # [#20846] Corrected strings for contact creator. Thanks Elin.
