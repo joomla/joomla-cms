@@ -42,6 +42,14 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, true
 	</div>
 </div>
 
+<div id="warning">
+	<noscript>
+		<div id="javascript-warning">
+			<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+		</div>
+	</noscript>
+</div>
+
 <form action="index.php" method="post" name="adminForm" class="form-validate">
 	<div id="right">
 		<div id="rightpad">
