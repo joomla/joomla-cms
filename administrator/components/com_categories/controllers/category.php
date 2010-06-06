@@ -172,7 +172,7 @@ class CategoriesControllerCategory extends JController
 			// Check-in the original row.
 			if (!$model->checkin()) {
 				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
+				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 				$this->setRedirect('index.php?option=com_categories&view=category&layout=edit', $message, 'error');
 				return false;
 			}
