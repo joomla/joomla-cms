@@ -172,13 +172,11 @@ class plgEditorCodemirror extends JPlugin
 		$options->height		= $height;
 		$options->width			= $width;
 		$options->continuousScanning = 500;
-		if ($this->params->get('linenumbers', 0))
-		{
+		if ($this->params->get('linenumbers', 0)) {
 			$options->lineNumbers	= true;
 			$options->textWrapping	= false;
 		}
-		if ($this->params->get('tabmode', '') == 'shift')
-		{
+		if ($this->params->get('tabmode', '') == 'shift') {
 			$options->tabMode = 'shift';
 		}
 
@@ -212,8 +210,7 @@ class plgEditorCodemirror extends JPlugin
 
 		$html = array();
 		$results[] = $this->update($args);
-		foreach ($results as $result)
-		{
+		foreach ($results as $result) {
 			if (is_string($result) && trim($result)) {
 				$html[] = $result;
 			}
@@ -228,8 +225,7 @@ class plgEditorCodemirror extends JPlugin
 			foreach ($results as $button)
 			{
 				// Results should be an object
-				if ($button->get('name'))
-				{
+				if ($button->get('name')) {
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
