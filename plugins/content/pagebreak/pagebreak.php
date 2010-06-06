@@ -260,7 +260,7 @@ class plgContentPagebreak extends JPlugin
 			// << Prev
 			$prev = '<a href="'. $link_prev .'">'. JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') .'</a>';
 		} else {
-			$prev = JText::_('Prev');
+			$prev = JText::_('JPREV');
 		}
 
 		$row->text .= '<div>' . $prev . ' - ' . $next .'</div>';
