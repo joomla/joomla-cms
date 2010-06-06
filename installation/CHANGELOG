@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-June-2010 Jean-Marie Simonet
 # [#20853] Sorting by author in Category list. Thanks Phil.
+# [#20861] plg_user_joomla missing language declaration in manifest. 
 
 05-June-2010 Jean-Marie Simonet
 # [#20846] Corrected strings for contact creator. Thanks Elin.
