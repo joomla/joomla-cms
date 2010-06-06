@@ -27,7 +27,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return	string	Returns nothing.
+	 * @return	string	JavaScript Initialization string.
 	 */
 	public function onInit()
 	{
@@ -41,7 +41,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param	string	The id of the editor field.
+	 * @param	string	$id	The id of the editor field.
+	 *
+	 * @return string Javascript
 	 */
 	public function onSave($id)
 	{
@@ -51,7 +53,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param	string	The id of the editor field.
+	 * @param	string	$id	The id of the editor field.
+	 *
+	 * @return string Javascript
 	 */
 	public function onGetContent($id)
 	{
@@ -61,8 +65,10 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param	string	The id of the editor field.
-	 * @param	string	The content to set.
+	 * @param	string	$id			The id of the editor field.
+	 * @param	string	$content	The content to set.
+	 *
+	 * @return string Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -70,6 +76,9 @@ class plgEditorCodemirror extends JPlugin
 	}
 
 	/**
+	 * Adds the editor specific insert method.
+	 *
+	 * @return boolean
 	 */
 	public function onGetInsertMethod()
 	{
@@ -92,14 +101,16 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	The name of the editor area.
-	 * @param	string	The content of the field.
-	 * @param	string	The width of the editor area.
-	 * @param	string	The height of the editor area.
-	 * @param	int		The number of columns for the editor area.
-	 * @param	int		The number of rows for the editor area.
-	 * @param	boolean	True and the editor buttons will be displayed.
-	 * @param	string	An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param	string	$name		The name of the editor area.
+	 * @param	string	$content	The content of the field.
+	 * @param	string	$width		The width of the editor area.
+	 * @param	string	$height		The height of the editor area.
+	 * @param	int		$col		The number of columns for the editor area.
+	 * @param	int		$row		The number of rows for the editor area.
+	 * @param	mixed	$buttons	[array with button objects | boolean true to display buttons]
+	 * @param	string	$id			The ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 *
+	 * @return string HTML
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null)
 	{
@@ -116,15 +127,48 @@ class plgEditorCodemirror extends JPlugin
 		}
 
 		// Must pass the field id to the buttons in this editor.
-		$buttons	= $this->_displayButtons($id, $buttons);
+		$buttons = $this->_displayButtons($id, $buttons);
+
+		$compressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
+
+		// Default syntax
+		$parserFile = 'parsexml.js';
+		$styleSheet = 'xmlcolors.css';
+
+		// Look if we need special syntax coloring.
+		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax');
+
+		if ($syntax)
+		{
+			switch($syntax)
+			{
+				case 'css':
+					$parserFile = 'parsecss.js';
+					$styleSheet = 'csscolors.css';
+					break;
+
+				case 'js':
+					// @todo Do we edit javascript ?
+					$parserFile = array('tokenizejavascript.js', 'parsejavascript.js');
+					$styleSheet = 'jscolors.css';
+					break;
+
+				case 'php':
+					// @todo CodeMirror comes with a parsephp.js file which has a BSD license - can we include this ?
+					break;
+
+				default:
+					;
+					break;
+			}//switch
+		}
 
 		$options	= new stdClass;
-		$compressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 
 		$options->basefiles		= array('basefiles'.$compressed.'.js');
 		$options->path			= JURI::root(true).'/'.$this->_basePath.'js/';
-		$options->parserfile	= 'parsexml.js';
-		$options->stylesheet	= JURI::root(true).'/'.$this->_basePath.'css/xmlcolors.css';
+		$options->parserfile	= $parserFile;
+		$options->stylesheet	= JURI::root(true).'/'.$this->_basePath.'css/'.$styleSheet;
 		$options->height		= $height;
 		$options->width			= $width;
 		$options->continuousScanning = 500;
@@ -133,7 +177,8 @@ class plgEditorCodemirror extends JPlugin
 			$options->lineNumbers	= true;
 			$options->textWrapping	= false;
 		}
-		if ($this->params->get('tabmode', '') == 'shift') {
+		if ($this->params->get('tabmode', '') == 'shift')
+		{
 			$options->tabMode = 'shift';
 		}
 
@@ -149,6 +194,14 @@ class plgEditorCodemirror extends JPlugin
 		return implode("\n", $html);
 	}
 
+	/**
+	 * Displays the editor buttons.
+	 *
+	 * @param string $name
+	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
+	 *
+	 * @return string HTML
+	 */
 	protected function _displayButtons($name, $buttons)
 	{
 		// Load modal popup behavior
@@ -157,21 +210,21 @@ class plgEditorCodemirror extends JPlugin
 		$args['name'] = $name;
 		$args['event'] = 'onGetInsertMethod';
 
-		$return = '';
+		$html = array();
 		$results[] = $this->update($args);
 		foreach ($results as $result)
 		{
 			if (is_string($result) && trim($result)) {
-				$return .= $result;
+				$html[] = $result;
 			}
 		}
 
-		if (!empty($buttons))
+		if(is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
 			$results = $this->_subject->getButtons($name, $buttons);
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			$return .= "\n<div id=\"editor-xtd-buttons\">\n";
+			$html[] = '<div id="editor-xtd-buttons">';
 			foreach ($results as $button)
 			{
 				// Results should be an object
@@ -180,12 +233,14 @@ class plgEditorCodemirror extends JPlugin
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
-					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$button->get('text')."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
+					$html[] = '<div class="button2-left"><div class="'.$button->get('name').'">';
+					$html[] = '<a '.$modal.' title="'.$button->get('text').'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
+					$html[] = $button->get('text').'</a></div></div>';
 				}
 			}
-			$return .= "</div>\n";
+			$html[] = '</div>';
 		}
 
-		return $return;
+		return implode("\n", $html);
 	}
 }

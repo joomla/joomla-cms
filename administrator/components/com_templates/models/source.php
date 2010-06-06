@@ -35,15 +35,22 @@ class TemplatesModelSource extends JModelForm
 	 */
 	protected function populateState()
 	{
+		jimport('joomla.filesystem.file');
+
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$id = $app->getUserState('com_templates.edit.source.id');
 
 		// Parse the template id out of the compound reference.
-		$temp	= explode(':', base64_decode($id));
+		$temp = explode(':', base64_decode($id));
 		$this->setState('extension.id', (int) array_shift($temp));
-		$this->setState('filename', array_shift($temp));
+
+		$fileName = array_shift($temp);
+		$this->setState('filename', $fileName);
+
+		// Save the syntax for later use
+		$app->setUserState('editor.source.syntax', JFile::getExt($fileName));
 
 		// Load the parameters.
 		$params	= JComponentHelper::getParams('com_templates');

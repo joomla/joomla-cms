@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 06-June-2010 Christophe Demko
+ # Fixed issue [#20816] CodeMirror does not highlighting css code - syntax selector hard coded (Nikolai Plath)
  # Fixed issue [#19986] implement JAUTHENTICATE_STATUS_CANCEL (Dietrich Streifert)
  # Fixed issue [#18923] JURI::buildQuery does not deal correctly with multidimensional array (Omar Ramos, Antoine BERNIER)
 
