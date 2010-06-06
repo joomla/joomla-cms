@@ -94,7 +94,7 @@ class MenusControllerItem extends JControllerForm
 		// If rows ids do not match, checkin previous row.
 		if (!$model->checkin($previousId)) {
 		// Check-in failed, go back to the menu item and display a notice.
-			$message = JText::sprintf('JERROR_CHECKIN_FAILED', $model->getError());
+			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_content&view=item&layout=edit', $message, 'error');
 			return false;
 
@@ -136,7 +136,7 @@ class MenusControllerItem extends JControllerForm
 			if ($item->checked_out == 0) {
 				if (!$model->checkout($id)) {
 					// Check-out failed, go back to the list and display a notice.
-					$this->setMessage(JText::sprintf('JERROR_CHECKOUT_FAILED', $model->getError()), 'warning');
+					$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'warning');
 					return false;
 				}
 			}
@@ -180,7 +180,7 @@ class MenusControllerItem extends JControllerForm
 			// Check-in the original row.
 			if (!$model->checkin()) {
 				// Check-in failed, go back to the item and display a notice.
-				$this->setMessage(JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError()), 'warning');
+				$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 				return false;
 			}
 
