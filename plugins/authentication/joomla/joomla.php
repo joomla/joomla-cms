@@ -57,37 +57,23 @@ class plgAuthenticationJoomla extends JPlugin
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
-		if ($result)
-		{
-			if ($result->password)
-			{
-				$parts	= explode(':', $result->password);
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
+		if ($result) {
+			$parts	= explode(':', $result->password);
+			$crypt	= $parts[0];
+			$salt	= @$parts[1];
+			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
 
-				if ($crypt == $testcrypt)
-				{
-					$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
-					$response->email = $user->email;
-					$response->fullname = $user->name;
-					$response->status = JAUTHENTICATE_STATUS_SUCCESS;
-					$response->error_message = '';
-				}
-				else
-				{
-					$response->status = JAUTHENTICATE_STATUS_STOP;
-					$response->error_message = 'Invalid password';
-				}
-			}
-			else
-			{
+			if ($crypt == $testcrypt) {
+				$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
+				$response->email = $user->email;
+				$response->fullname = $user->name;
+				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
+				$response->error_message = '';
+			} else {
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
-				$response->error_message = 'User has blank password';
+				$response->error_message = 'Invalid password';
 			}
-		}
-		else
-		{
+		} else {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = 'User does not exist';
 		}

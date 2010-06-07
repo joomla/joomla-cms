@@ -42,13 +42,6 @@ class  plgSystemLog extends JPlugin
 				$log->addEntry($errorlog);
 			}	break;
 
-			case JAUTHENTICATE_STATUS_STOP :
-			{
-				$errorlog['status']  = $response['type'] . " STOP: ";
-				$errorlog['comment'] = $response['error_message'];
-				$log->addEntry($errorlog);
-			}	break;
-
 			default :
 			{
 				$errorlog['status']  = $response['type'] . " UNKNOWN ERROR: ";

@@ -33,12 +33,12 @@ $ Modified string
 # [#20885] non localized field deleting trash in banners Tracks. Thanks Bill.
  
 07-June-2010 Christophe Demko
+ ^ Reverting patch #17504
  # Fixed issue [#20812] User profile information visible on registration even when disabled. (Amy Stephen)
 
 06-June-2010 Christophe Demko
  # Fixed issue [#20703] Missing noscript warning for javascript disabled browsers (Nikolai Plath)
  # Fixed issue [#20816] CodeMirror does not highlighting css code - syntax selector hard coded (Nikolai Plath)
- # Fixed issue [#19986] implement JAUTHENTICATE_STATUS_CANCEL (Dietrich Streifert)
  # Fixed issue [#18923] JURI::buildQuery does not deal correctly with multidimensional array (Omar Ramos, Antoine BERNIER)
 
 06-June-2010 Jean-Marie Simonet

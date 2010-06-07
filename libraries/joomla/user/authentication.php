@@ -28,11 +28,6 @@ define('JAUTHENTICATE_STATUS_CANCEL', 2);
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
 
 /**
- * This is the status code returned when the authentication chain has to be broken
- */
-define('JAUTHENTICATE_STATUS_STOP', 8);
-
-/**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
  * @package		Joomla.Framework
@@ -140,11 +135,6 @@ class JAuthentication extends JObservable
 					$response->password = $credentials['password'];
 				}
 
-				break;
-			}
-			// On cancel break the authentication chain
-			else if($response->status === JAUTHENTICATE_STATUS_STOP) 
-			{
 				break;
 			}
 		}
