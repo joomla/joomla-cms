@@ -272,7 +272,9 @@ abstract class JModuleHelper
 
 		$clientid = (int) $app->getClientId();
 
-		$query->where('m.access IN ('.$groups.')');
+		if (!$user->authorise('core.admin',1)) {
+			$query->where('m.access IN ('.$groups.')');
+		}
 		$query->where('m.client_id = '. $clientid);
 		if (isset($Itemid)) {
 			$query->where('(mm.menuid = '. (int) $Itemid .' OR mm.menuid <= 0)');
