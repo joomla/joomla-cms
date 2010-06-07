@@ -26,8 +26,10 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
 07-June-2010 Jean-Marie Simonet
 # [#20887] Creating account from front-end does not use default group. Thanks Rune
+$ Modified string
  
 07-June-2010 Christophe Demko
  # Fixed issue [#20812] User profile information visible on registration even when disabled. (Amy Stephen)
