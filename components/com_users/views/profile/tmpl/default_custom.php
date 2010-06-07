@@ -9,23 +9,19 @@
  */
 defined('_JEXEC') or die;
 ?>
-
+<?php $fields = $this->form->getFieldset('profile');?>
+<?php if (count($fields)):;?>
 <fieldset id="users-profile-custom">
-	<legend>
-		<?php echo JText::_('COM_USERS_PROFILE_CUSTOM_LEGEND'); ?>
-	</legend>
+	<legend><?php echo JText::_('COM_USERS_PROFILE_CUSTOM_LEGEND'); ?></legend>
 	<dl>
-	<?php
-	foreach($this->form->getFieldset('profile') as $field):
-		if (!$field->hidden) :
-	?>
+	<?php foreach($fields as $field):?>
+		<?php if (!$field->hidden) :?>
 		<dt><?php echo $field->label; ?></dt>
 		<dd>
 			<?php echo !empty($this->data->profile[$field->fieldname]) ? $this->data->profile[$field->fieldname] : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 		</dd>
-	<?php
-		endif;
-	endforeach;
-	?>
+		<?php endif;?>
+	<?php endforeach;?>
 	</dl>
 </fieldset>
+<?php endif;?>
