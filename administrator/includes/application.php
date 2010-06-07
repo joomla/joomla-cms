@@ -160,7 +160,9 @@ class JAdministrator extends JApplication
 		}
 
 		// Safety check for when configuration.php root_user is in use.
-		if (property_exists('JConfig', 'root_user')) {
+		$config		= JFactory::getConfig();
+		$rootUser	= $config->get('root_user');
+		if (property_exists('JConfig', 'root_user') && JFactory::getUser()->get('username')==$rootUser) {
 			JError::raiseNotice(200, JText::_('JWARNING_REMOVE_ROOT_USER'));
 		}
 
