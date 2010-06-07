@@ -66,7 +66,7 @@ class BannersControllerTracks extends JController
 		if (!$model->delete()) {
 			JError::raiseWarning(500, $model->getError());
 		} else {
-			$this->setMessage(JText::plural('COM_BANNERS_N_TRACKS_DELETED', $count));
+			$this->setMessage(JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');
