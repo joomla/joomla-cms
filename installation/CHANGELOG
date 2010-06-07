@@ -33,6 +33,7 @@ $ Modified string
 # [#20885] non localized field deleting trash in banners Tracks. Thanks Bill.
  
 07-June-2010 Christophe Demko
+ # Fixed issue [#20870] Security issue concerning the root_user feature
  # Fixed issue [#20869] Displaying a useless message in admin login form when root_user feature is used
  ^ Reverting patch #17504
  # Fixed issue [#20812] User profile information visible on registration even when disabled. (Amy Stephen)
