@@ -57,7 +57,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			$query->join('LEFT', '`#__categories` AS p ON p.id = '.(int) $id);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
-
+		$query->where('a.published IN (0,1)');
 		$query->group('a.id');
 		$query->order('a.lft ASC');
 
