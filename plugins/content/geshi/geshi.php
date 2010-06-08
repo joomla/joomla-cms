@@ -26,7 +26,7 @@ class plgContentGeshi extends JPlugin
 		if (JString::strpos($article->text, 'pre>') === false) {
 			return true;
 		}
-			die('here');
+
 		// Define the regular expression for the bot.
 		$regex = "#<pre xml:\s*(.*?)>(.*?)</pre>#s";
 
