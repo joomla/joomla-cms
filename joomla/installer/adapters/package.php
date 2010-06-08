@@ -121,14 +121,14 @@ class JInstallerPackage extends JAdapterInstance
 				$tmpInstaller = new JInstaller();
 				if (!$tmpInstaller->install($package['dir']))
 				{
-					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_ERROR_EXTENSION', basename($file)));
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', JText::_('JLIB_INSTALLER_'. strtoupper($this->route)), basename($file)));
 					return false;
 				}
 			}
 		}
 		else
 		{
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_NO_FILES', print_r($this->manifest->files->children(), true)));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES', JText::_('JLIB_INSTALLER_'. strtoupper($this->route)));
 			return false;
 		}
 
@@ -181,7 +181,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_COPY_SETUP'));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALLER_COPY_SETUP', JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES')));
 			return false;
 		}
 		return true;
