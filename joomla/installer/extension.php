@@ -44,8 +44,12 @@ class JExtension extends JObject
 				case 'template':
 				case 'language':
 					$this->client = (string)$element->attributes()->client;
-					$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
-					$this->client_id = $this->client_id->id;
+					$tmp_client_id = JApplicationHelper::getClientInfo($this->client, 1);
+					if($tmp_client_id == null) {
+						JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'));
+					} else {
+						$this->client_id = $tmp_client_id->id;
+					}
 					break;
 
 				case 'plugin':

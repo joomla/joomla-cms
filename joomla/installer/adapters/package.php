@@ -9,6 +9,9 @@
 defined('JPATH_BASE') or die;
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.database.query');
+jimport('joomla.installer.packagemanifest');
+
 
 /**
  * Package installer
@@ -19,6 +22,8 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerPackage extends JAdapterInstance
 {
+	/** @var string method of system */
+	protected $route = 'install';
 
 	public function loadLanguage($path)
 	{
@@ -26,7 +31,7 @@ class JInstallerPackage extends JAdapterInstance
 		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$lang =& JFactory::getLanguage();
 		$source = $path;
-			$lang->load($extension . '.sys', $source, null, false, false)
+		$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
@@ -54,6 +59,9 @@ class JInstallerPackage extends JAdapterInstance
 		$name = JFilterInput::getInstance()->clean($name, 'cmd');
 		$this->set('name', $name);
 
+		$element = 'pkg_' . JFilterInput::clean($this->manifest->packagename, 'cmd');
+		$this->set('element', $element);
+
 		// Get the component description
 		$description = (string)$this->manifest->description;
 		if ($description) {
@@ -64,15 +72,16 @@ class JInstallerPackage extends JAdapterInstance
 		}
 
 		// Set the installation path
+		$files = $this->manifest->files;
 		$group = (string)$this->manifest->packagename;
 		if (!empty($group))
 		{
 			// TODO: Remark this location
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'packages'.DS.implode(DS,explode('/',$group)));
 		}
 		else
 		{
-			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_PACK'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_NO_PACK'));
 			return false;
 		}
 
@@ -82,30 +91,13 @@ class JInstallerPackage extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		// If the plugin directory does not exist, lets create it
-		$created = false;
-		if (!file_exists($this->parent->getPath('extension_root')))
+
+		if ($folder = $files->attributes()->folder)
 		{
-			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
-			{
-				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_CREATE_DIRECTORY', $this->parent->getPath('extension_root')));
-				return false;
-			}
-		}
-
-		/*
-		 * If we created the plugin directory and will want to remove it if we
-		 * have to roll back the installation, lets add it to the installation
-		 * step stack
-		 */
-		if ($created) {
-			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
-		}
-
-		if ($folder = (string)$this->manifest->files->attributes()->folder) {
 			$source = $this->parent->getPath('source').DS.$folder;
 		}
-		else {
+		else
+		{
 			$source = $this->parent->getPath('source');
 		}
 
@@ -129,14 +121,14 @@ class JInstallerPackage extends JAdapterInstance
 				$tmpInstaller = new JInstaller();
 				if (!$tmpInstaller->install($package['dir']))
 				{
-					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ERROR_EXTENSION', basename($file)));
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_ERROR_EXTENSION', basename($file)));
 					return false;
 				}
 			}
 		}
 		else
 		{
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES', print_r($this->manifest->files->children(), true)));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_NO_FILES', print_r($this->manifest->files->children(), true)));
 			return false;
 		}
 
@@ -149,16 +141,23 @@ class JInstallerPackage extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		$row = & JTable::getInstance('extension');
-		$row->name = $this->get('name');
-		$row->type = 'package';
-		$row->element = $this->get('element');
-		$row->folder = ''; // There is no folder for modules
-		$row->enabled = 1;
-		$row->protected = 0;
-		$row->access = 1;
-		$row->client_id = 0;
-		$row->params = $this->parent->getParams();
-		$row->custom_data = ''; // custom data
+		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
+						'type'=>'package'));
+		if($eid) {
+			$row->load($eid);
+		} else {
+			$row->name = $this->get('name');
+			$row->type = 'package';
+			$row->element = $this->get('element');
+			$row->folder = ''; // There is no folder for modules
+			$row->enabled = 1;
+			$row->protected = 0;
+			$row->access = 1;
+			$row->client_id = 0;
+			$row->custom_data = ''; // custom data
+			$row->params = $this->parent->getParams();
+		}
+		// update the manifest cache for the entry
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store())
@@ -182,10 +181,20 @@ class JInstallerPackage extends JAdapterInstance
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
-			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_INSTALL_COPY_SETUP'));
+			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_PACK_'. strtoupper($this->route) .'_COPY_SETUP'));
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Updates a package
+	 * The only difference between an update and a full install
+	 * is how we handle the database
+	 */
+	public function update() {
+		$this->route = 'update';
+		$this->install();
 	}
 
 	/**
@@ -205,99 +214,113 @@ class JInstallerPackage extends JAdapterInstance
 		$row = & JTable::getInstance('extension');
 		$row->load($id);
 
-		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $row->get('element') .'.xml';
-		$manifest = new JPackageManifest($manifestFile);
 
-		// Set the plugin root path
+		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $row->get('element') .'.xml';
+		$manifest = new JPackageManifest($manifestFile);		
+
+		// Set the package root path
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS.DS.'packages'.DS.$manifest->packagename);
 
-		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
-		if (file_exists($manifestFile))
+		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
+		if (!file_exists($manifestFile))
 		{
-			$xml =JFactory::getXML($manifestFile);
+			// TODO: Fail?
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'));
+			return false;
 
-			// If we cannot load the xml file return false
-			if (!$xml)
-			{
-				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
-				return false;
-			}
-
-			/*
-			 * Check for a valid XML root tag.
-			 * @todo: Remove backwards compatability in a future version
-			 * Should be 'extension', but for backward compatability we will accept 'install'.
-			 */
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
-			{
-				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
-				return false;
-			}
-
-			$error = false;
-			foreach ($manifest->filelist as $extension)
-			{
-				$tmpInstaller = new JInstaller();
-				$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
-				$client = JApplicationHelper::getClientInfo($extension->client,true);
-				if (!$tmpInstaller->uninstall($extension->type, $id, $client->id))
-				{
-					$error = true;
-					JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)));
-					//$this->parent->abort(JText::_('Package').' '.JText::_('Uninstall').': '.JText::_('There was an error removing an extension, try reinstalling:') . basename($extension->filename));
-					//return false;
-				}
-			}
-			$this->parent->removeFiles($xml->languages);
-			// clean up manifest file after we're done if there were no errors
-			if (!$error) {
-				JFile::delete($manifestFile);
-			}
-			else {
-				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
-			}
 		}
-		else
+
+		$xml =JFactory::getXML($manifestFile);
+
+		// If we cannot load the xml file return false
+		if (!$xml)
 		{
-			JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_NOTFOUND_MANIFEST', $id));
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
 			return false;
 		}
 
+		/*
+		 * Check for a valid XML root tag.
+		 * @todo: Remove backwards compatability in a future version
+		 * Should be 'extension', but for backward compatability we will accept 'install'.
+		 */
+		if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+		{
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'));
+			return false;
+		}
+
+		$error = false;
+		foreach ($manifest->filelist as $extension)
+		{
+			$tmpInstaller = new JInstaller();
+			$id = $this->_getExtensionID($extension->type, $extension->id, $extension->client, $extension->group);
+			$client = JApplicationHelper::getClientInfo($extension->client,true);
+			if ($id)
+			{
+				if(!$tmpInstaller->uninstall($extension->type, $id, $client->id)) {
+					$error = true;
+					JError::raiseWarning(100, JText::sprintf('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_NOT_PROPER', basename($extension->filename)));
+				}
+			} else {
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'));
+			}
+		}
+		
+		// Remove any language files
+		$this->parent->removeFiles($xml->languages);
+		
+		
+		// clean up manifest file after we're done if there were no errors
+		if (!$error) {
+			JFile::delete($manifestFile);
+			$row->delete();
+		}
+		else {
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
+		}
+		
+		// return the result up the line
 		return $retval;
 	}
 
-	function _getExtensionID($type, $id, $client, $group)
+	private function _getExtensionID($type, $id, $client, $group)
 	{
-		$db		= &$this->parent->getDbo();
+		$db		= $this->parent->getDbo();
 		$result = $id;
+		
+		$query = new JDatabaseQuery();
+		$query->select('extension_id');
+		$query->from('#__extensions');
+		$query->where('type = '. $db->Quote($type));
+		$query->where('element = '. $db->Quote($id));
 
 		switch($type)
 		{
 			case 'plugin':
-				$db->setQuery("SELECT extension_id FROM #__extensions WHERE `type` = 'plugin' AND `folder` = '$group' AND `element` = '$id'");
-				$result = $db->loadResult();
+				// plugins have a folder but not a client
+				$query->where('folder = '. $db->Quote($group));
 				break;
 
+			case 'library':
+			case 'package':
 			case 'component':
-				$db->setQuery("SELECT extension_id FROM #__extensions WHERE `type` = 'component' AND `element` = '$id'");
-				$result = $db->loadResult();
-				break;
-
-			case 'module':
-				$db->setQuery("SELECT id FROM #__modules WHERE module = '$id' and client_id = '$client'");
-				$result = $db->loadResult();
+				// components, packages and libraries don't have a folder or client
+				// included for completeness
 				break;
 
 			case 'language':
-				// A language is a complex beast
-				// its actually a path!
-				$clientInfo = &JApplicationHelper::getClientInfo($this->_state->get('filter.client'));
-				$client = $clientInfo->name;
-				$langBDir = JLanguage::getLanguagePath($clientInfo->path);
-				$result = $langBDir . DS . $id;
+			case 'module':
+			case 'template':
+				// languages, modules and templates have a client but not a folder
+				$client = JApplicationHelper::getClientInfo($client, true);
+				$query->where('client_id = '. (int)$client->id);
 				break;
 		}
-
+		
+		$db->setQuery($query);
+		$result = $db->loadResult();
+		
 		// note: for templates, libraries and packages their unique name is their key
 		// this means they come out the same way they came in
 		return $result;
