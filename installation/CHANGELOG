@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-June-2010 Jean-Marie Simonet
 $ Added en-GB.plg_content_example.sys.ini
+$ [#20911] CSS in backend error template is broken. Thanks Hannes.
 
 07-June-2010 Sam Moffatt
  # Fixed the package installer to behave properly

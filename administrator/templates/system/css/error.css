@@ -28,6 +28,11 @@ body {
 	margin-bottom:25px;
 }
 
+h1 {
+	color: #cc3333;
+	font-size: 18px;
+}
+
 .table {
 	border-collapse:collapse;
 	margin-top:13px;
