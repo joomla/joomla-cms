@@ -148,9 +148,10 @@
 
 	<fields name="params">
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
-			<field name="target" type="list" default="0"
+			<field name="target" type="list" default=""
 				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
