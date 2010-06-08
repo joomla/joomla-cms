@@ -26,7 +26,7 @@ class InstallerControllerInstall extends JController
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
+		
 		$model = $this->getModel('install');
 		if ($model->install()) {
 			$cache = &JFactory::getCache('mod_menu');
@@ -38,6 +38,12 @@ class InstallerControllerInstall extends JController
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
 		if(empty($redirect_url)) {
 			$redirect_url = JRoute::_('index.php?option=com_installer&view=install',false);
+		} else
+		{
+			// wipe out the user state when we're going to redirect
+			$app->setUserState('com_installer.redirect_url', '');
+			$app->setUserState('com_installer.message', '');
+			$app->setUserState('com_installer.extension_message', '');
 		}
 		$this->setRedirect($redirect_url);
 	}

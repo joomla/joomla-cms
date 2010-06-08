@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-June-2010 Sam Moffatt
+ # Fixed the package installer to behave properly
+ ^ Minor code clean up in a few places
+
 07-June-2010 Jean-Marie Simonet
 # [#20887] Creating account from front-end does not use default group. Thanks Rune
 $ Modified string

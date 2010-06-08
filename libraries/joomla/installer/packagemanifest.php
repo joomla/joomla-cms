@@ -41,7 +41,7 @@ class JPackageManifest extends JObject
 	function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
-
+		
 		$xml = JFactory::getXML($xmlfile);
 
 		if( ! $xml)
@@ -51,7 +51,6 @@ class JPackageManifest extends JObject
 		}
 		else
 		{
-			$xml = $xml->document;
 			$this->name = (string)$xml->name;
 			$this->packagename = (string)$xml->packagename;
 			$this->update = (string)$xml->update;
@@ -65,7 +64,10 @@ class JPackageManifest extends JObject
 			if (isset($xml->files->file) && count($xml->files->file))
 			{
 				foreach ($xml->files->file as $file) {
-					$this->filelist[] = new JExtension((string)$file);
+					// contrary to idiodic belief, JExtension doesn't expect a string
+					// so please for the love of god don't type cast this into a string
+					// when it shouldn't be...don't touch what you don't understand!
+					$this->filelist[] = new JExtension($file);
 				}
 			}
 			return true;

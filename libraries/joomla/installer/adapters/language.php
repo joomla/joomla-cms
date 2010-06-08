@@ -440,12 +440,15 @@ class JInstallerLanguage extends JAdapterInstance
 		// check it exists
 		if (!JFolder::exists($path))
 		{
+			// if the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
+			$extension->delete();
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'));
 			return false;
 		}
 
 		if (!JFolder::delete($path))
 		{
+			// if deleting failed we'll leave the extension entry in tact just in case
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'));
 			return false;
 		}
@@ -460,7 +463,12 @@ class JInstallerLanguage extends JAdapterInstance
 		$query->select('*');
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
-		$param_name = $client->name=='administrator'?'admin_language':'language';
+		if($client->name == 'administrator') {
+			$param_name = 'admin_language';
+		} else {
+			$param_name = 'language';	
+		}
+		
 		$count = 0;
 		foreach ($users as $user) {
 			$registry = new JRegistry;
