@@ -128,7 +128,7 @@ class JInstallerPackage extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES', JText::_('JLIB_INSTALLER_'. strtoupper($this->route)));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_NO_FILES', JText::_('JLIB_INSTALLER_'. strtoupper($this->route))));
 			return false;
 		}
 
