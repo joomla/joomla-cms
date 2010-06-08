@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jun-2010 Sam Moffatt
+ # Fixed incorrect metadata in package sample
+
 07-Jun-2010 Mark Dexter
 + New system test for featured blog ordering
 # Clean up doc blocks for system tests 

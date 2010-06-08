@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<install type="package" version="1.5">
+<install type="package" version="1.6">
 	<name>Everything Demonstration</name>
 	<packagename>everything</packagename>
 	<version>1.6.0</version>
@@ -12,10 +12,10 @@
 		<file type="library" 	id="lib_alpha" >lib_alpha.zip</file>
 		<file type="component" 	id="com_alpha" >com_alpha.zip</file>
 		<file type="module" 	id="mod_alpha" 	client="site">mod_alpha.zip</file>
-		<file type="module"		id="mod_alpha" 	client="admin">mod_alpha_admin.zip</file>
+		<file type="module"		id="mod_adminalpha" 	client="administrator">mod_alpha_admin.zip</file>
 		<file type="plugin"		id="alpha"		group="system">plg_system_alpha.zip</file>
-		<file type="template"	id="tpl_simple"	client="site">tpl_simple.zip</file>
-		<file type="language"	id="lng_xx-XX" client="site">lng_xx-XX.zip</file>
-		<file type="language" 	id="lng_xx-XX" client="admin">lng_xx-XX_admin.zip</file>
+		<file type="template"	id="simple_template"	client="site">tpl_simple.zip</file>
+		<file type="language"	id="xx-XX" client="site">lng_xx-XX.zip</file>
+		<file type="language" 	id="xx-XX" client="administrator">lng_xx-XX_admin.zip</file>
 	</files>
 </install>
