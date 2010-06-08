@@ -27,33 +27,36 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-08-June-2010 Jean-Marie Simonet
+08-Jun-2010 Mark Dexter
+# Sample data fixes (Elin Waring)
+
+08-Jun-2010 Jean-Marie Simonet
 $ Added en-GB.plg_content_example.sys.ini
 $ [#20911] CSS in backend error template is broken. Thanks Hannes.
 # [#20915] [patch] GeSHi plugin has random die('here') statement. Thanks Rune.
 
-07-June-2010 Sam Moffatt
+07-Jun-2010 Sam Moffatt
  # Fixed the package installer to behave properly
  ^ Minor code clean up in a few places
 
-07-June-2010 Jean-Marie Simonet
+07-Jun-2010 Jean-Marie Simonet
 # [#20887] Creating account from front-end does not use default group. Thanks Rune
 $ Modified string
 # [#20885] non localized field deleting trash in banners Tracks. Thanks Bill.
  
-07-June-2010 Christophe Demko
+07-Jun-2010 Christophe Demko
  # Fixed issue [#20873] modules are'nt displayed in admin when using the root_user feature
  # Fixed issue [#20870] Security issue concerning the root_user feature
  # Fixed issue [#20869] Displaying a useless message in admin login form when root_user feature is used
  ^ Reverting patch #17504
  # Fixed issue [#20812] User profile information visible on registration even when disabled. (Amy Stephen)
 
-06-June-2010 Christophe Demko
+06-Jun-2010 Christophe Demko
  # Fixed issue [#20703] Missing noscript warning for javascript disabled browsers (Nikolai Plath)
  # Fixed issue [#20816] CodeMirror does not highlighting css code - syntax selector hard coded (Nikolai Plath)
  # Fixed issue [#18923] JURI::buildQuery does not deal correctly with multidimensional array (Omar Ramos, Antoine BERNIER)
 
-06-June-2010 Jean-Marie Simonet
+06-Jun-2010 Jean-Marie Simonet
 # [#20853] Sorting by author in Category list. Thanks Phil.
 # [#20861] plg_user_joomla missing language declaration in manifest. 
 # [#20858] Administrator Editor Media Dialog modal-box height requires scrolling  Thansk Bill.and Ofer.
@@ -62,25 +65,25 @@ $ Modified string
 # [#20754] missing language string
 # [#19430] Cannot change ordering of items (in fact string typo)
  
-05-June-2010 Jean-Marie Simonet
+05-Jun-2010 Jean-Marie Simonet
 # [#20846] Corrected strings for contact creator. Thanks Elin.
 # [#20815] When a contact is created automatically via contact creator plugin. Thanks Radek and Phil.
 #$ Corrected wrong sprintf
 # [#20484] Requested for joomla.json download after uploading image. Thanks John.
 # [#20321] Email functions not working properly. Partly fixed only.
  
-04-June-2010 Jean-Marie Simonet
+04-Jun-2010 Jean-Marie Simonet
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Artyom and Phil.
 $ Added missing string
 
-03-June-2010 Jean-Marie Simonet
+03-Jun-2010 Jean-Marie Simonet
 # [#20744] Logout link in administrator panel isn't logout when editing content. Thanks Andrew.
 $ Missing strings
 # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Amy.
 # [#20761] Unclear how to select contact for single contact menu item. Thanks Elin.
 # [#20603] Error while trying to use PageBreak from frontend. Thanks Bill.
 
-03-June-2010 Christophe Demko
+03-Jun-2010 Christophe Demko
  # Fixed issue [#20813] Value Not Found for blank user field (bill richardson, Peter Osipof)
  # Fixed issue [#20591] Cannot delete all usergroups from an access level (Robert Flodstrom)
  # Fixed issue [#20825] [patch] Debug plug-in doesn't output well formed code (Rouven Weßling)
@@ -91,17 +94,17 @@ $ Missing strings
  # Fixed issue [#20789] featured contacts (bill richardson)
  # Fixed issue [#20819] Incorrect Label on Access Level Filter box on User Manager Access Level Screen (Ian McLennan)
 
-02-June-2010 Jean-Marie Simonet
+02-Jun-2010 Jean-Marie Simonet
 # [#20787] some misc html typos. Thanks Phil.
 # [#20677] duplicate key error. Thanks Nicholas.
 # [#20506] Field required: cache_handler - message in Global Config. Thanks Christophe and Klas
 # [#20809] Unable to run installation in IE8. Thanks Ian
  
-02-June-2010 Andrew Eddie
+02-Jun-2010 Andrew Eddie
  # Fixed issue [#20771] validate.js causing problems with IE8 (Bill Richardson, Phil Snell).
  # Fixed issue [#20788] Error when saving template style for administrator template.
 
-02-June-2010 Christophe Demko
+02-Jun-2010 Christophe Demko
  # Corrected the atomic template since its index.php file is not a correct xml file
  # Fixed issue [#20758] Property root_user in configuration could be a big security breach. (thanks Henrik Hussfelt, Martin Blodau, Andrew Eddie).
  # Fixed issue [#20795] user profile plugin typo error (thanks bill richardson)
@@ -109,7 +112,7 @@ $ Missing strings
  # Fixed issue [#12757] JDate override problem in Backend
  # Fixed issue [#20784] Some minor errors in the beez* templates
 
-01-June-2010 Jean-Marie Simonet
+01-Jun-2010 Jean-Marie Simonet
 # [#20724] HTTP Directory Listing. Thanks Amy.
 # [#20521] usability issue: Item ID not visible during edit. Thanks Tim.
 # [#20741] error in profile plugin manifest. Thanks Nicholai.and Boris.
