@@ -64,7 +64,7 @@ class JPackageManifest extends JObject
 			if (isset($xml->files->file) && count($xml->files->file))
 			{
 				foreach ($xml->files->file as $file) {
-					// contrary to idiodic belief, JExtension doesn't expect a string
+					// contrary to idiotic belief, JExtension doesn't expect a string
 					// so please for the love of god don't type cast this into a string
 					// when it shouldn't be...don't touch what you don't understand!
 					$this->filelist[] = new JExtension($file);
