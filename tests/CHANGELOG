@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jun-2010 Mark Dexter
+^ Refactor methods in SeleniumJoomlaTestCase (Matt Thomas)
+# Fix system test errors
+^ Refactor menu0001Test to remove sleep statements
+
 07-Jun-2010 Sam Moffatt
  # Fixed incorrect metadata in package sample
 

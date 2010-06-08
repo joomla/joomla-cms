@@ -72,7 +72,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Using Joomla!"));
 		print("Go to Extensions" . "\n");
-		$this->click("link=Extensions");
+		$this->click("link=Using Extensions");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Extensions"));
 		$this->assertTrue($this->isElementPresent("link=Components"));
@@ -94,7 +94,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->click("link=Using Joomla!");
 		$this->waitForPageToLoad("30000");
 		print("Go to Extensions" . "\n");
-		$this->click("link=Extensions");
+		$this->click("link=Using Extensions");
 		$this->waitForPageToLoad("30000");
 		print("Go to Components" . "\n");
 		$this->click("link=Components");

@@ -38,17 +38,14 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Add new menu item\n";
 		$this->click("//li[@id='toolbar-new']/a/span");
 		$this->waitForPageToLoad("60000");
-		echo "wait 2 seconds\n";
-		sleep(2);
+
 		echo "Select the menu item type\n";
 		$this->click("//input[@value='Select']");
 
-		echo "wait 2 seconds\n";
-		sleep(2);
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
 			try {
-				if ($this->isTextPresent("Single Article")) break;
+				if ($this->isElementPresent("//div[contains(@id, 'sbox-content')]")) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}
@@ -61,17 +58,26 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_menutype", "label=Functional Test Menu");
 		echo "Open Select Article modal\n";
 		$this->click("link=Change");
-		echo "Wait 2 seconds\n";
-		sleep(2);
+//		echo "Wait 2 seconds\n";
+//		sleep(2);
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
 			try {
-				if ($this->isTextPresent("Australian Parks")) break;
+				if ($this->isElementPresent("//iframe[contains(@src, 'jSelectArticle')]")) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}
 		$this->click("link=Australian Parks");
-		sleep(2);
+//		sleep(2);
+
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
+			try {
+				if ($this->isElementPresent("//div[contains(@id, 'menu-sliders')]")) break;
+			} catch (Exception $e) {}
+			sleep(1);
+		}
+		
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 
@@ -80,17 +86,13 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		echo "Select New Module\n";
 		$this->click("//li[@id='toolbar-popup-Popup']/a/span");
-//		echo "Wait 3 seconds\n";
-//		sleep(3);
 		for ($second = 0; ; $second++) {
 			if ($second >= 10) $this->fail("timeout");
 			try {
-				if ($this->isTextPresent("Breadcrumbs")) break;
+				 if ($this->isElementPresent("//ul[@id='new-modules-list']")) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}
-		echo "Wait 2 seconds\n";
-		sleep(2);
 		echo "Select Menu module\n";
 		$this->click("link=Menu");
 		$this->waitForPageToLoad("30000");
@@ -99,6 +101,9 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		$this->type("jform_title", "Functional Test Menu");
 		$this->select("jform_published", "label=Published");
+		$this->select("jform[assignment]", "label=No pages");
+		$this->select("jform_position", "label=position-7");
+   	 	$this->select("jform[assignment]", "label=On all pages");
 		$this->select("jform_params_menutype", "label=Functional Test Menu");
 		echo "Save menu\n";
 		$this->click("//li[@id='toolbar-save']/a/span");
