@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 08-Jun-2010 Christophe Demko
+ # Fixed issue [#20913] Minimum PHP version check in installer (Rune Sjøen, Artyom Bisyarin)
  # Fixed issue [#20896] Once you link a user from a contact, you can't go back to no linked user. (Elin Waring, Rune Sjøen)
  # Fixed issue [#20894] Missing colon in user profile langauge file (Peter Osipof, bill richardson)
  # Fixed issue [#20578] Category Manager (Loyd Headrick, Hannes Papenberg)
