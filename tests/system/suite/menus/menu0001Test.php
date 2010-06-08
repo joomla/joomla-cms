@@ -58,8 +58,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_menutype", "label=Functional Test Menu");
 		echo "Open Select Article modal\n";
 		$this->click("link=Change");
-//		echo "Wait 2 seconds\n";
-//		sleep(2);
+
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
 			try {
@@ -68,7 +67,6 @@ class Menu0001 extends SeleniumJoomlaTestCase
 			sleep(1);
 		}
 		$this->click("link=Australian Parks");
-//		sleep(2);
 
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
