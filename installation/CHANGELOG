@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-June-2010 Jean-Marie Simonet
+$ Added en-GB.plg_content_example.sys.ini
+
 07-June-2010 Sam Moffatt
  # Fixed the package installer to behave properly
  ^ Minor code clean up in a few places
