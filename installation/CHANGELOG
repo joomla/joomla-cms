@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 08-Jun-2010 Christophe Demko
+ # Fixed issue [#20903] If an article ever has readmore in it, it can't be deleted (Elin Waring, bill richardson, Gobezu Sewu)
  # Fixed issue [#20811] Use global missing in web links Target parameter (Stefania Gaianigo, Tim Plummer)
 
 08-Jun-2010 Sam Moffatt

@@ -120,6 +120,7 @@ class JTableContent extends JTable
 
 			if ($tagPos == 0) {
 				$this->introtext	= $array['articletext'];
+				$this->fulltext         = '';
 			} else {
 				list($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
 			}
