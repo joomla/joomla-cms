@@ -233,7 +233,7 @@ class JController extends JObject
 			if (file_exists($path)) {
 				require_once $path;
 			} else {
-				throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type), 1056, E_ERROR, $type, true);
+				throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format), 1056, E_ERROR, $type, true);
 			}
 		}
 
