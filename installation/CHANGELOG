@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Jun-2010 Andrew Eddie
  # Added format to invalid controller exception.
+ # Fixed issue [#20872] beez_20 javascript error when #nav is not present (Phil Snell, Bill Richardson).
 
 08-Jun-2010 Christophe Demko
  # Fixed issue [#20913] Minimum PHP version check in installer (Rune Sjøen, Artyom Bisyarin)
