@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jun-2010 Andrew Eddie
+ # Added format to invalid controller exception.
+
 08-Jun-2010 Christophe Demko
  # Fixed issue [#20913] Minimum PHP version check in installer (Rune Sjøen, Artyom Bisyarin)
  # Fixed issue [#20896] Once you link a user from a contact, you can't go back to no linked user. (Elin Waring, Rune Sjøen)
