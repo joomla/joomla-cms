@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 
 09-Jun-2010 Sam Moffatt
+ # Fixed bug where updates from deleted update sites were visible after extension uninstall
  + Added convenience to adapter layer to pass through properties to instances in a uniform manner
 
 09-Jun-2010 Christophe Demko
