@@ -30,6 +30,7 @@ $ -> Language fix or change
 09-Jun-2010 Jean-Marie Simonet
 # [#20913] Minimum PHP version check in installer. Fixed for php.5.2.4
 # [#20939] textual error in article manager config page. Thanks Troy.
+# [#20570] archived articles - title linkable. Thanks Christophe.
 
 09-Jun-2010 Andrew Eddie
  # Added format to invalid controller exception.
