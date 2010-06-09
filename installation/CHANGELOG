@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Added format to invalid controller exception.
  # Fixed issue [#20872] beez_20 javascript error when #nav is not present (Phil Snell, Bill Richardson).
  # Fixed issue [#20901] PHP Notices when creating a 'External URL' menu item pointing to internal url (Rune Sjøen).
+ # Fixed issue [#20927] [patch] JModelAdmin Improvements (Omar Ramos).
 
 08-Jun-2010 Christophe Demko
  # Fixed issue [#20913] Minimum PHP version check in installer (Rune Sjøen, Artyom Bisyarin)
