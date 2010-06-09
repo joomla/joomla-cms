@@ -35,3 +35,4 @@ defined('_JEXEC') or die;
 	<li><?php echo $this->form->getLabel('modified_time'); ?>
 	<?php echo $this->form->getInput('modified_time'); ?></li>
 <?php endif; ?>
+</ul>
