@@ -64,7 +64,7 @@ class plgAuthenticationOpenID extends JPlugin
 		// Create and/or start using the data store
 		$store_path = JPATH_ROOT . '/tmp/_joomla_openid_store';
 		if (!JFolder :: exists($store_path) && !JFolder :: create($store_path)) {
-			$response->type = JAUTHENTICATE_STATUS_FAILURE;
+			$response->status = JAUTHENTICATE_STATUS_FAILURE;
 			$response->error_message = "Could not create the FileStore directory '$store_path'. " . " Please check the effective permissions.";
 			return false;
 		}
@@ -78,7 +78,7 @@ class plgAuthenticationOpenID extends JPlugin
 		if (!isset ($_SESSION['_openid_consumer_last_token'])) {
 			// Begin the OpenID authentication process.
 			if (!$auth_request = $consumer->begin($credentials['username'])) {
-				$response->type = JAUTHENTICATE_STATUS_FAILURE;
+				$response->status = JAUTHENTICATE_STATUS_FAILURE;
 				$response->error_message = 'Authentication error : could not connect to the openid server';
 				return false;
 			}
