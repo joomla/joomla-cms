@@ -29,7 +29,8 @@ class ContentModelArticles extends JModelList
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
-
+		$session = JFactory::getSession();
+		
 		// Adjust the context to support modal layouts.
 		if ($layout = JRequest::getVar('layout', 'default')) {
 			$this->context .= '.'.$layout;
@@ -47,6 +48,9 @@ class ContentModelArticles extends JModelList
 		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
+		// set the value of the category filter for the single record edit view
+		$session->set('com_content.article.filter.category_id',$categoryId);
+		
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 

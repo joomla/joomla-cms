@@ -36,6 +36,7 @@ $ -> Language fix or change
 # [#20570] archived articles - title linkable. Thanks Christophe.
 # [#20940] email validation creating user account gives bad error message. Thanks Bill and Rob.
 $ Adding missing string.
+# [#20854] Adding article from filtered Category. Thanks Phil.
 
 09-Jun-2010 Andrew Eddie
  # Added format to invalid controller exception.
