@@ -56,7 +56,7 @@ class JAdapter extends JObject {
 	 * @param string Class prefix of adapters
 	 * @param string Name of folder to append to base path
 	 */
-	public function __construct($basepath, $classprefix=null,$adapterfolder=null) {
+	public function __construct($basepath, $classprefix=null, $adapterfolder=null) {
 		$this->_basepath = $basepath;
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
@@ -81,10 +81,11 @@ class JAdapter extends JObject {
 	 * @access	public
 	 * @param	string	$name		Adapter name
 	 * @param	object	$adapter	Adapter object
+	 * @param	array	$options	Adapter options
 	 * @return	boolean True if successful
 	 * @since	1.5
 	 */
-	public function setAdapter($name, &$adapter = null)
+	public function setAdapter($name, &$adapter = null, $options = Array())
 	{
 		if (!is_object($adapter))
 		{
@@ -98,7 +99,7 @@ class JAdapter extends JObject {
 			if (!class_exists($class)) {
 				return false;
 			}
-			$adapter = new $class($this, $this->_db);
+			$adapter = new $class($this, $this->_db, $options);
 		}
 		$this->_adapters[$name] =& $adapter;
 		return true;
@@ -106,12 +107,13 @@ class JAdapter extends JObject {
 
 	/**
 	 * Return an adapter
-	 * @param string name of adapter to return
-	 * @return object Adapter of type 'name' or false
+	 * @param 	string 	name of adapter to return
+	 * @param 	Array 	$options Adapter options
+	 * @return 	object 	Adapter of type 'name' or false
 	 */
-	public function getAdapter($name) {
+	public function getAdapter($name, $options = Array()) {
 		if(!array_key_exists($name, $this->_adapters)) {
-			if(!$this->setAdapter($name)) {
+			if(!$this->setAdapter($name, $options)) {
 				$false = false;
 				return $false;
 			}
@@ -121,8 +123,9 @@ class JAdapter extends JObject {
 
 	/**
 	 * Loads all adapters
+	 * @params array	$options	Adapter options
 	 */
-	public function loadAllAdapters() {
+	public function loadAllAdapters($options = Array()) {
 		$list = JFolder::files($this->_basepath.DS.$this->_adapterfolder);
 		foreach($list as $filename) {
 			if(JFile::getExt($filename) == 'php') {
@@ -133,7 +136,7 @@ class JAdapter extends JObject {
 				if (!class_exists($class)) {
 					continue; // skip to next one
 				}
-				$adapter = new $class($this, $this->_db);
+				$adapter = new $class($this, $this->_db, $options);
 				$this->_adapters[$name] = clone $adapter;
 			}
 		}
