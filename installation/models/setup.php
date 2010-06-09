@@ -222,7 +222,7 @@ class JInstallationModelSetup extends JModel
 		// Check the PHP Version.
 		$option = new stdClass;
 		$option->label  = JText::_('INSTL_PHP_VERSION').' >= 5.2.4';
-		$option->state  = version_compare("5.2.4", PHP_VERSION, "<");
+		$option->state  = version_compare(PHP_VERSION, '5.2.4', '>=');
 		$option->notice = null;
 		$options[] = $option;
 

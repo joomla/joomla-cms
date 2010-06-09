@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jun-2010 Jean-Marie Simonet
+# [#20913] Minimum PHP version check in installer. Fixed for php.5.2.4
+ 
 09-Jun-2010 Andrew Eddie
  # Added format to invalid controller exception.
  # Fixed issue [#20872] beez_20 javascript error when #nav is not present (Phil Snell, Bill Richardson).
