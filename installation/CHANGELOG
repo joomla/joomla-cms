@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+09-Jun-2010 Sam Moffatt
+ + Added convenience to adapter layer to pass through properties to instances in a uniform manner
+
 09-Jun-2010 Christophe Demko
  # Fixed issue [#20938] [patch] Missing </ul> in layout override (Andrea Tarr)
 
