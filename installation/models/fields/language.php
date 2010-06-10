@@ -53,6 +53,12 @@ class JFormFieldLanguage extends JFormFieldList
 			$native = $forced['lang'];
 		}
 
+		// If a language is already set in the session, use this instead
+		$session = JFactory::getSession()->get('setup.options', array());
+		if(!empty($session['language'])){
+			$native = $session['language'];
+		}
+
 		// Get the list of available languages.
 		$options = JLanguageHelper::createLanguageList($native);
 		if (!$options || JError::isError($options)) {
