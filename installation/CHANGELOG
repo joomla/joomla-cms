@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jun-2010 Christophe Demko
+ # Fixed issue [#20952] Joomla does not load template language file when an error is detected
+
 10-Jun-2010 Jean-Marie Simonet
 # [#20791] settings not saved on first step of installer. Thanks Rune.
 # [#20914] getOptions at category.php. Thanks Andrew.
