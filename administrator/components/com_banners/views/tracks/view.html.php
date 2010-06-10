@@ -62,7 +62,7 @@ class BannersViewTracks extends JView
 		$document = &JFactory::getDocument();
 		$app = &JFactory::getApplication();
 		if ($canDo->get('core.delete')) {
-			$bar->appendButton('Confirm','COM_BANNERS_DELETE_MSG', 'delete', 'JTOOLBAR_EMPTY_TRASH', 'tracks.delete',false);
+			$bar->appendButton('Confirm','COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete',false);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();

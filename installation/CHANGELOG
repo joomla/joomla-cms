@@ -34,6 +34,7 @@ $ -> Language fix or change
 # [#20791] settings not saved on first step of installer. Thanks Rune.
 # [#20914] getOptions at category.php. Thanks Andrew.
 $ Added missing string
+$ Changed string in banner/tracks toolbar
 
 09-Jun-2010 Sam Moffatt
  # Fixed bug where updates from deleted update sites were visible after extension uninstall
