@@ -52,7 +52,7 @@ class JFormFieldCategory extends JFormFieldList
 
 			// Filter over published state or not depending upon if it is present.
 			if ($published) {
-				$options = JHtml::_('category.options', $extension, array('filter.published' => implode(',', $published)));
+				$options = JHtml::_('category.options', $extension, array('filter.published' => explode(',', $published)));
 			}
 			else {
 				$options = JHtml::_('category.options', $extension);
