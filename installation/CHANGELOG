@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2010 Jean-Marie Simonet
+# [#20489] JTableAsset::store failed. Thanks Christophe.
+
 10-Jun-2010 Christophe Demko
  # Fixed issue [#20952] Joomla does not load template language file when an error is detected
 
