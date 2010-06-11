@@ -31,6 +31,7 @@ $ -> Language fix or change
 # [#20489] JTableAsset::store failed. Thanks Christophe.
 # [#20962] [files and patch] Hathor error page. Thanks Andrea.
 # Corrected code duplication in hathor modal.php
+# [#20965] When in: Article Manager: Articles, Select language select does not work. Thanks Bill.
 
 10-Jun-2010 Christophe Demko
  # Fixed issue [#20952] Joomla does not load template language file when an error is detected

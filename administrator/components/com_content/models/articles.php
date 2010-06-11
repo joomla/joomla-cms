@@ -54,6 +54,7 @@ class ContentModelArticles extends JModelList
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+
 		// List state information.
 		parent::populateState('a.title', 'asc');
 	}
@@ -165,7 +166,12 @@ class ContentModelArticles extends JModelList
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
-
+		
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = '.$db->quote($language));
+		}
+		
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
