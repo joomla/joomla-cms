@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 11-Jun-2010 Christophe Demko
+ # Fixed issue [#20968] Fix Category Parameters in Featured Menu Item (Mark Dexter, bill richardson)
  # Fixed issues in the component installer and in com_alpha component
 
 11-Jun-2010 Jean-Marie Simonet
