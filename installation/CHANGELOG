@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2010 Christophe Demko
+ # Fixed issues in the component installer and in com_alpha component
+
 11-Jun-2010 Jean-Marie Simonet
 # [#20489] JTableAsset::store failed. Thanks Christophe.
 # [#20962] [files and patch] Hathor error page. Thanks Andrea.

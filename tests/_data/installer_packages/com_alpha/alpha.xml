@@ -75,11 +75,11 @@
 
 		<!-- Legacy 1.5 Language Support -->
 		<!-- Note: Replace this with the actual path to the language file -->
-		<!--
  		<languages folder="admin/language">
-			<language tag="en-GB">language/en-GB.com_alpha.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_alpha.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_alpha.sys.ini</language>
 		</languages>
-		 -->
+
 	</administration>
 
 	<!-- Extension Update Specification -->
