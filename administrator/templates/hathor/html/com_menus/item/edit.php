@@ -25,6 +25,14 @@ JHTML::_('behavior.modal');
 	{
 		if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			submitform(task);
+		} else {
+			// special case for modal popups validation response
+			$$('#item-form .modal-value.invalid').each(function(field){
+				var idReversed = field.id.split("").reverse().join("");
+				var separatorLocation = idReversed.indexOf('_');
+				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
+				$(name).addClass('invalid');
+			});
 		}
 	}
 // -->
@@ -84,6 +92,9 @@ JHTML::_('behavior.modal');
 	
 				<li><?php echo $this->form->getLabel('template_style_id'); ?>
 				<?php echo $this->form->getInput('template_style_id'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?></li>
 		</ul>
 
 	</fieldset>

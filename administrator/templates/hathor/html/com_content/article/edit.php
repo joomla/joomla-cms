@@ -60,6 +60,10 @@ JHtml::_('behavior.formvalidation');
 
 		<li><?php echo $this->form->getLabel('featured'); ?>
 		<?php echo $this->form->getInput('featured'); ?></li>
+				
+		<li><?php echo $this->form->getLabel('id'); ?>
+		<?php echo $this->form->getInput('id'); ?></li>
+		
 	</ul>
 
 		<div class="clr"></div>
@@ -103,8 +107,6 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('hits'); ?>
 				<?php echo $this->form->getInput('hits'); ?></li>
 
-				<li><?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
 
 		</fieldset>

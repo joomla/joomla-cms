@@ -22,6 +22,7 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_NAME'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="if (window.parent) window.parent.<?php echo $function;?>('', '<?php echo JText::_('JLIB_FORM_SELECT_USER') ?>');"><?php echo JText::_('JOPTION_NO_USER')?></button>
 		</div>
 		<div class="filter-select">
 			<label for="filter_group_id">
@@ -35,7 +36,7 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 		</div>
 	</fieldset>
 
-	<table class="adminlist">
+	<table class="adminlist modal">
 		<thead>
 			<tr>
 				<th class="title">

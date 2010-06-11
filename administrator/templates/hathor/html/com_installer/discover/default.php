@@ -61,8 +61,13 @@ $listDirn	= $this->state->get('list.direction');
 		</tbody>
 	</table>
 	<?php echo $this->pagination->getListFooter(); ?>
+	<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 	<?php else : ?>
-		<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
+		<p>
+			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+		</p><p>
+			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
+		</p>
 	<?php endif; ?>
 
 	<input type="hidden" name="task" value="" />

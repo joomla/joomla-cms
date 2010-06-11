@@ -1343,6 +1343,11 @@ table.adminlist {
 	color: #2c2c2c;
 }
 
+table.adminlist.modal {
+	border-right: 1px solid #c7c8b2;
+	border-left: 1px solid #c7c8b2;
+}
+
 table.adminlist a {
 	color: #054993;
 }
