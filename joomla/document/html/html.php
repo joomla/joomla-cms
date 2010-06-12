@@ -155,7 +155,7 @@ class JDocumentHTML extends JDocument
 	 * @param	string  $relation	Relation of link
 	 * @access	public
 	 */
-	function addFavicon($href, $type = 'image/x-icon', $relation = 'shortcut icon')
+	function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace('\\', '/', $href);
 		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
