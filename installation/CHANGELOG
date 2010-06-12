@@ -35,6 +35,7 @@ $ -> Language fix or change
 ^ [#20618] Fixed IE login bug 
 # Fixed modal widths (contents still need love)
 # [#20640] Fixed favicon MIME type (Thanks Rouven We§ling)
+^ Changed order icon to bg CSS and added inactive state
 
 12-Jun-2010 Jean-Marie Simonet
 # [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.

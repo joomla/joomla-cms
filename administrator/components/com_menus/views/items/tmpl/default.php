@@ -69,7 +69,7 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'a.published', $listDirn, $listOrder); ?>
 				</th>
-				<th width="13%" class="nowrap">
+				<th width="13%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Ordering', 'a.lft', $listDirn, $listOrder); ?>
 					<?php echo JHtml::_('grid.order',  $this->items); ?>
 				</th>

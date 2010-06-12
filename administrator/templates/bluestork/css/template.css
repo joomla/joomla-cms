@@ -37,7 +37,7 @@ body,td,th {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
+body#minwidth-body {
 	height: 95%;
 	min-width: 960px;
 }
@@ -1479,7 +1479,6 @@ td.nowrap, th.nowrap {
 
 * html .container {
 	display: inline-block;
-
 }
 
 table.admintable th,table.admintable td {
@@ -1501,6 +1500,21 @@ table#global-checkin tbody tr.row0:hover td {
 table#global-checkin tbody tr.row1:hover td {
 	background-color: #F0F0F0;
 }
+
+a.saveorder {
+	width: 16px;
+	height: 16px;
+	display:block;
+	overflow: hidden;
+	background: url(../images/admin/filesave.png) no-repeat;
+	float:right;
+	margin-right: 8px;
+}
+
+a.saveorder.inactive {
+	background-position: 0px 16px;
+}
+
 
 /* -- EDITOR STYLES ----------------------------- */
 
