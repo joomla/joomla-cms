@@ -57,7 +57,7 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
 						<?php echo $item->name; ?></a>
 				</td>
 				<td class="center">

@@ -80,7 +80,7 @@ $listDirn	= $this->state->get('list.direction');
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
 						<?php echo $this->escape($item->name); ?></a>
 				</td>
 				<td align="center">
