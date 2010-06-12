@@ -32,7 +32,8 @@ $ -> Language fix or change
 # Fixed category header (Thanks Babs Gšsgens)
 ^ Fixed weblinks header icon (Thanks Tim Plummer)
 ^ Move language dropdown to panel (Thanks Tim Plummer)
-
+^ [#20618] Fixed IE login bug 
+# Fixed modal widths (contents still need love)
 
 12-Jun-2010 Jean-Marie Simonet
 # [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.
