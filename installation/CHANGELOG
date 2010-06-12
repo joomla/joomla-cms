@@ -34,6 +34,7 @@ $# Added a bunch of missing strings values, corrected some keys (Thanks Stella),
 # [#20648] mod_wrapper: error on getting params. Thanks Riccardo and Elin.
 # [#20782] Username Reminder Request Incorrect. Thanks Airton.
 # [#20983] Issue with linking articles that have apostrophe in them. Thanks Christophe.
+#$ Missing string/change key
 
 11-Jun-2010 Christophe Demko
  # Fixed issue [#20867] [Patch] Changes to Hathor to mirror changes in core admin layouts (Andrea Tarr)
