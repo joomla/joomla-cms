@@ -64,13 +64,16 @@ class CategoriesViewCategories extends JView
 		||	$lang->load($component.'.sys', JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load($component.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
-		JToolBarHelper::title(
-			JText::sprintf(
+
+		if ($component != 'com_content') {
+			$title = JText::sprintf(
 				'COM_CATEGORIES_CATEGORIES_TITLE',
 				$this->escape(JText::_($component.($section?"_$section":'')))
-			),
-			'categories.png'
 		);
+		} else {
+			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
+		}
+		JToolBarHelper::title($title, 'categories.png');
 		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
 		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
 		if ($this->state->get('filter.published') != 2){

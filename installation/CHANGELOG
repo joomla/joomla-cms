@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+12-Jun-2010 Ron Severdia
+# Fixed category header (Thanks Babs Gšsgens)
+^ Fixed weblinks header icon (Thanks Tim Plummer)
+^ Move language dropdown to panel (Thanks Tim Plummer)
+
+
 12-Jun-2010 Jean-Marie Simonet
 # [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.
 $# Added a bunch of missing strings values, corrected some keys (Thanks Stella), added sticky field in banner parameters.

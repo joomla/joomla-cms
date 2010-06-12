@@ -147,7 +147,7 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_OPTIONS">
+		<fieldset name="jbasic" label="COM_WEBLINKS_FIELDSET_OPTIONS">
 			<field name="target" type="list" default=""
 				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			>
@@ -170,7 +170,7 @@
 	</fields>
 
 	<fields name="metadata">
-		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA">
+		<fieldset name="jmetadata" label="COM_WEBLINKS_FIELDSET_METADATA">
 			<field name="robots" type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
 			>

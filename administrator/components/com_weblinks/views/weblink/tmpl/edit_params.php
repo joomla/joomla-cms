@@ -23,6 +23,8 @@ foreach ($fieldSets as $name => $fieldSet) :
 			<li><?php echo $field->label; ?>
 			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
+			<li><?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?></li>
 		</ul>
 	</fieldset>
 <?php endforeach; ?>
