@@ -30,6 +30,7 @@ $ -> Language fix or change
 12-Jun-2010 Jean-Marie Simonet
 # [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.
 $# Added a bunch of missing strings values, corrected some keys (Thanks Stella), added sticky field in banner parameters.
+# [#20579] Time Change for Server/User does not update. Thaks Christophe.
 
 11-Jun-2010 Christophe Demko
  # Fixed issue [#20867] [Patch] Changes to Hathor to mirror changes in core admin layouts (Andrea Tarr)

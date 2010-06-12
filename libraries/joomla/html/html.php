@@ -463,7 +463,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
-			$date->setOffset($user->getParam('timezone', $config->get('offset')));
+			$date->setTimeZone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 		}
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
@@ -472,7 +472,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setOffset($config->get('offset'));
+			$date->setTimeZone(new DateTimeZone($config->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)
@@ -486,7 +486,7 @@ abstract class JHtml
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setOffset($tz);
+			$date->setTimeZone(new DateTimeZone($tz));
 		}
 
 		// If no format is given use the default locale based format.
@@ -495,10 +495,10 @@ abstract class JHtml
 		}
 
 		if ($gregorian) {
-			return $date->format($format);
+			return $date->format($format, true);
 		}
 		else {
-			return $date->calendar($format);
+			return $date->calendar($format, true);
 		}
 	}
 
