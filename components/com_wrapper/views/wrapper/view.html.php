@@ -30,7 +30,7 @@ class WrapperViewWrapper extends JView
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		$title = $this->params->get('page_title', '');
+		$title = $params->get('page_title', '');
 		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
