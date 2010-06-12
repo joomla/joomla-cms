@@ -887,8 +887,8 @@ input.required {
 label.required:after {
 	content: url(../images/required.png);
 	vertical-align: middle;
+	white-space: nowrap;
 }
-
 input.readonly {
 	background-color: #ffffff;
 }

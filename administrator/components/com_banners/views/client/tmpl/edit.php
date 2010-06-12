@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 
 <form action="<?php JRoute::_('index.php?option=com_banners'); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
 
-<div class="width-50 fltlft">
+<div class="width-60 fltlft">
 	<fieldset class="adminform">
 		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id); ?></legend>
 		<ul class="adminformlist">
@@ -61,7 +61,7 @@ JHtml::_('behavior.formvalidation');
 	</fieldset>
 </div>
 
-<div class="width-50 fltrt">
+<div class="width-40 fltrt">
 	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS'), 'publishing-details'); ?>

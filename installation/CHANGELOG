@@ -36,6 +36,10 @@ $ -> Language fix or change
 # Fixed modal widths (contents still need love)
 # [#20640] Fixed favicon MIME type (Thanks Rouven We§ling)
 ^ Changed order icon to bg CSS and added inactive state
+# Fixed required indicator on IE
+^ Changed layout to 60/40 on edit banner client & edit contact
+- Removed deprecated IE6 stylesheet
+# Fixed language screen filter
 
 12-Jun-2010 Jean-Marie Simonet
 # [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.

@@ -7,7 +7,7 @@
  */
 
 
-/* IE8 OVERRIDES */
+/* IE7 and IE 8 OVERRIDES */
 
 input {
 	border-width: expression(this.type=="radio"?'0px':this.type=="checkbox"?'0px':'1px');
@@ -34,4 +34,7 @@ div.toolbar-list a {
 }
 input, select, button {
 	font-size:1em;
+}
+label.required  {
+	background: url(../images/required.png) 90% 1px no-repeat;
 }

@@ -20,17 +20,16 @@ $listDirn	= $this->state->get('list.direction');
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter">
-		<div class="left">
-			<label for="filter_search">
-				<?php echo JText::_('JSearch_Filter'); ?>
-			</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="60" title="<?php echo JText::_('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" />
+	
+		<div class="filter-search fltlft">
+			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>:</label>
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" title="<?php echo JText::_('COM_LANGUAGES_SEARCH_IN_TITLE'); ?>" />
 
-			<button type="submit">
-				<?php echo JText::_('JSearch_Filter_Submit'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();">
-				<?php echo JText::_('JSearch_Filter_Clear'); ?></button>
+			<button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+
 		</div>
+		
 		<div class="right">
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOption_Select_Published');?></option>
@@ -54,19 +53,19 @@ $listDirn	= $this->state->get('list.direction');
 				<th class="title">
 					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_CODE', 'a.lang_code', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_SEF', 'a.sef', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" nowrap="nowrap">
+				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JPUBLISHED', 'a.published', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -94,22 +93,22 @@ $listDirn	= $this->state->get('list.direction');
 						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&id='.(int) $item->lang_id); ?>">
 							<?php echo $item->title; ?></a></span>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->title_native; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->lang_code; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->sef; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->image; ?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.');?>
 				</td>
-				<td align="center">
+				<td class="center">
 					<?php echo $item->lang_id; ?>
 				</td>
 			</tr>
