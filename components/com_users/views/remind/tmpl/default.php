@@ -24,7 +24,7 @@ JHtml::_('behavior.formvalidation');
 	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="form-validate">
 
 		<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
-		<fieldset>
+		<p><?php echo JText::_($fieldset->label); ?></p>		<fieldset>
 			<dl>
 			<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field): ?>
 				<dt><?php echo $field->label; ?></dt>

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- $Id$ -->
 <form>
-	<fieldset name="default">
+	<fieldset name="default" label="COM_USERS_RESET_CONFIRM_LABEL">
 		<field name="token" type="text"
-			description="Users_Reset_Token_Desc"
+			description="COM_USERS_FIELD_RESET_CONFIRM_TOKEN_DESC"
 			filter="alnum"
-			label="Users_Reset_Token_Label"
+			label="COM_USERS_FIELD_RESET_CONFIRM_TOKEN_LABEL"
 			required="true"
 			size="32"
-			validate="md5"
-		/>
+			validate="rules"		/>
 	</fieldset>
 </form>

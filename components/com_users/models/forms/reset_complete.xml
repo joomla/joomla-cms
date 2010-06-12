@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fieldset name="default" label="Users_Reset_Complete_Label">
+	<fieldset name="default" label="COM_USERS_RESET_COMPLETE_LABEL">
 
 		<field name="password1" type="password"
 			autocomplete="off"
 			class="validate-password"
-			description="Users_Reset_Password1_Desc"
+			description="COM_USERS_FIELD_RESET_PASSWORD1_DESC"
 			field="password2"
 			filter="raw"
-			label="Users_Reset_Password1_Label"
-			message="Users_Reset_Password1_Message"
+			label="COM_USERS_FIELD_RESET_PASSWORD1_LABEL"
+			message="COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE"
 			required="true"
 			size="30"
 			validate="equals"
@@ -18,11 +18,10 @@
 		<field name="password2" type="password"
 			autocomplete="off"
 			class="validate-password"
-			description="Users_Reset_Password2_Desc"
+			description="COM_USERS_FIELD_RESET_PASSWORD2_DESC"
 			filter="raw"
-			label="Users_Reset_Password2_Label"
-			message="Users_Reset_Password2_Message"
-			required="true"
+			label="COM_USERS_FIELD_RESET_PASSWORD2_LABEL"
+			message="COM_USERS_FIELD_RESET_PASSWORD2_MESSAGE"			required="true"
 			size="30"
 		/>
 	</fieldset>

@@ -73,7 +73,6 @@ class UsersControllerReset extends UsersController
 			$route	= 'index.php?option=com_users&view=reset&layout=confirm'.$itemid;
 
 			// Proceed to step two.
-			$message = JText::_('COM_USERS_RESET_REQUEST_SUCCESS');
 			$this->setRedirect(JRoute::_($route, false), $message);
 			return true;
 		}
@@ -91,7 +90,7 @@ class UsersControllerReset extends UsersController
 		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('User', 'UsersModel');
+		$model	= $this->getModel('Reset', 'UsersModel');
 		$data	= JRequest::getVar('jform', array(), 'request', 'array');
 
 		// Confirm the password reset request.
@@ -150,8 +149,7 @@ class UsersControllerReset extends UsersController
 		JRequest::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('User', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$model	= $this->getModel('Reset', 'UsersModel');		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Complete the password reset request.
 		$return	= $model->processResetComplete($data);

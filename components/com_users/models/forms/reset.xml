@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fieldset name="default">
-
+	<fieldset name="default" label="COM_USERS_RESEND_LABEL">
 		<field name="username" type="text"
 			class="required"
 			description="COM_USERS_FIELD_RESEND_USERNAME_DESC"

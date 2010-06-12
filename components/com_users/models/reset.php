@@ -218,7 +218,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Find the user id for the given token.
-		$db		= $this->getDbo();
+		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('*');
 		$query->from('`#__users`');
@@ -288,11 +288,26 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		// Get the user id.
 		jimport('joomla.user.helper');
-		$userId	= JUserHelper::getUserId($data['username']);
 
-		// Make sure the user exists.
+		// Find the user id for the given e-mail address.
+		$db	= $this->getDbo();
+		$query	= $db->getQuery(true);
+		$query->select('id');
+		$query->from('`#__users`');
+		$query->where('`email` = '.$db->Quote($data['email']));
+
+		// Get the user object.
+		$db->setQuery((string) $query);
+		$userId = $db->loadResult();
+
+		// Check for an error.
+		if ($db->getErrorNum()) {
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $db->getErrorMsg()), 500);
+			return false;
+		}
+
+		// Check for a user.
 		if (empty($userId)) {
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
@@ -318,7 +333,9 @@ class UsersModelReset extends JModelForm
 
 		// Assemble the password reset confirmation link.
 		$mode = $config->get('force_ssl', 0) == 2 ? 1 : -1;
-		$link = 'index.php?option=com_users&task=reset.confirm&username='.$user->username.'&token='.$token.'&'.JUtility::getToken(true).'=1';
+		$itemid = UsersHelperRoute::getLoginRoute();
+		$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
+		$link = 'index.php?option=com_users&view=reset&layout=confirm'.$itemid;
 
 		// Put together the e-mail template data.
 		$data = $user->getProperties();
@@ -342,8 +359,7 @@ class UsersModelReset extends JModelForm
 		);
 
 		// Send the password reset request e-mail.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $message);
-
+		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 		// Check for an error.
 		if ($return !== true) {
 			return new JException(JText::_('COM_USERS_MAIL_FAILED'), 500);

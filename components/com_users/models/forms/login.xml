@@ -2,8 +2,7 @@
 	<!-- $Id$ -->
 <form>
 	<fieldset name="credentials"
-		label="Users_Login_Default_Label"
-	>
+		label="COM_USERS_LOGIN_DEFAULT_LABEL"	>
 
 		<field name="username" type="text"
 			class="validate-username"
