@@ -56,12 +56,9 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 	</fieldset>
 
-	<table class="adminlist">
+	<table class="adminlist modal">
 		<thead>
 			<tr>
-				<th class="checkmark-col">
-					<input type="checkbox" name="toggle" id="toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(this)" />
-				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>
@@ -83,13 +80,10 @@ $listDirn	= $this->state->get('list.direction');
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<th class="center">
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-				</th>
-				<td>
+				<th>
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $item->id; ?>', '<?php echo $this->escape($item->name); ?>');">
 						<?php echo $this->escape($item->name); ?></a>
-				</td>
+				</th>
 				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
