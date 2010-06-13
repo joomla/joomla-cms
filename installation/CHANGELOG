@@ -27,14 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jun-2010 Mark Dexter
+# Fix asset table problems in sample data (Elin Waring)
 
 12-Jun-2010 Ron Severdia
-# Fixed category header (Thanks Babs Gšsgens)
+# Fixed category header (Thanks Babs Gï¿½sgens)
 ^ Fixed weblinks header icon (Thanks Tim Plummer)
 ^ Move language dropdown to panel (Thanks Tim Plummer)
 ^ [#20618] Fixed IE login bug 
 # Fixed modal widths (contents still need love)
-# [#20640] Fixed favicon MIME type (Thanks Rouven We§ling)
+# [#20640] Fixed favicon MIME type (Thanks Rouven Weï¿½ling)
 ^ Changed order icon to bg CSS and added inactive state
 # Fixed required indicator on IE
 ^ Changed layout to 60/40 on edit banner client & edit contact
