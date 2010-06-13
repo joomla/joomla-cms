@@ -66,7 +66,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->type("//input[@name='order[]' and @value='2']", "3");
 		$this->type("//input[@name='order[]' and @value='3']", "2");
 		$this->type("//input[@name='order[]' and @value='4']", "1");
-		$this->click("//img[@alt='Save Order']");
+		$this->click("//a[contains(@href, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue((bool) preg_match("#^[\s\S]*success[\s\S]*$#", $this->getText("//dl[@id='system-message']")));
 
@@ -84,7 +84,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->type("//input[@name='order[]' and @value='2']", "3");
 		$this->type("//input[@name='order[]' and @value='3']", "2");
 		$this->type("//input[@name='order[]' and @value='4']", "1");
-		$this->click("//img[@alt='Save Order']");
+		$this->click("//a[contains(@href, 'saveorder')]");
 		$this->waitForPageToLoad("30000");
 
 		echo "Check that the save order was successful\n";
