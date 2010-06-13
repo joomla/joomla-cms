@@ -2,7 +2,7 @@
 /**
  * @version		$Id: error.php 17229 2010-05-24 05:48:04Z infograf768 $
  * @package		Joomla.Administrator
- * @subpackage	templates.hathor
+ * @subpackage	templates.bluestork
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
@@ -61,7 +61,7 @@ $app = JFactory::getApplication();
 			<div class="padding">
 				<h1><?php echo $this->error->getCode() ?> - <?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED') ?></h1>
 				<p><?php echo $this->error->getMessage(); ?></p>
-				<p><a href="index.php"><?php echo JText::_('TPL_BLUESTORK_CPANEL_LINK_TEXT') ?></a></p>
+				<p><a href="index.php"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a></p>
 				<p><?php if ($this->debug) :
 					echo $this->renderBacktrace();
 				endif; ?></p>

@@ -24,10 +24,14 @@ defined('_JEXEC') or die;
 	</div>
 	<div>
 		<p><?php echo $this->error->getMessage(); ?></p>
-		<p><a href="index.php"><?php echo JText::_('TPL_HATHOR_CPANEL_LINK_TEXT') ?></a></p>
+		<p><a href="index.php"><?php echo JText::_('JGLOBAL_TPL_CPANEL_LINK_TEXT') ?></a></p>
 		<?php if ($this->debug) :
 			echo $this->renderBacktrace();
 		endif; ?>
 	</div>
+	<div class="clr"></div>
+	<noscript>
+			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
+	</noscript>
 </body>
 </html>
