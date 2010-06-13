@@ -615,6 +615,10 @@ div.current {
 	width: 740px;
 }
 
+div.acl-options div.current {
+	width: auto;
+}
+
 div.current dd {
 	padding: 0;
 	margin: 0;
