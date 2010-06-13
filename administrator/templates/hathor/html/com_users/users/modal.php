@@ -31,7 +31,7 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 			<?php echo JHtml::_('access.usergroup', 'filter_group_id', $this->state->get('filter.group_id')); ?>
 
 			<button type="button" id="filter-go" onclick="this.form.submit();">
-				<?php echo JText::_('TPL_HATHOR_GO'); ?></button>
+				<?php echo JText::_('JSUBMIT'); ?></button>
 
 		</div>
 	</fieldset>

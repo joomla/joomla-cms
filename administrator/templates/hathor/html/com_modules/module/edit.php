@@ -93,13 +93,15 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php echo $this->form->getInput('client_id'); ?></li>
 			</ul>
 		
-			<div class="clr"></div>
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
 					<span class="faux-label">
 						<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
 					</span>
-					<?php echo JText::_($text); ?>
+					<div class="clr"></div>
+					<div class="readonly mod-desc extdescript">
+						<?php echo JText::_($text); ?>
+					</div>
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('COM_MODULES_ERR_XML'); ?>

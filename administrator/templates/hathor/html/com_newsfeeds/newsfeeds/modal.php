@@ -52,7 +52,7 @@ $listDirn	= $this->state->get('list.direction');
 			</select>
 			
 			<button type="button" id="filter-go" onclick="this.form.submit();">
-				<?php echo JText::_('TPL_HATHOR_GO'); ?></button>
+				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
 	</fieldset>
 

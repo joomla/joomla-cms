@@ -82,7 +82,7 @@ function pagination_list_footer($list)
 
 	$html .= "\n<div class=\"limit\"><label for=\"limit\">".JText::_('JGLOBAL_DISPLAY_NUM')." </label>";
 	$html .= "\n".$fixlimit;
-	$html .= "\n<button id=\"pagination-go\" type=\"button\" onclick=\"submitform()\">" . JText::_('TPL_HATHOR_GO') . "</button></div>";
+	$html .= "\n<button id=\"pagination-go\" type=\"button\" onclick=\"submitform()\">" . JText::_('JSUBMIT') . "</button></div>";
 	$html .= "\n" . $list['pageslinks'];
 	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
 
