@@ -69,7 +69,7 @@
 	</fieldset>
 
 	<fieldset name="metadata"
-		label="COM_BANNERS_GROUP_LABEL_METADATA_OPTIONS"
+		label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
 	>
 
 		<field name="metakey" type="textarea" class="inputbox"

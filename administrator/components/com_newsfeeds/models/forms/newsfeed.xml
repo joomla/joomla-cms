@@ -220,7 +220,7 @@
 	</fields>
 
 	<fields name="metadata">
-		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots" type="list"
 				label="JField_Metadata_Robots_Label" description="JField_Metadata_Robots_Desc"

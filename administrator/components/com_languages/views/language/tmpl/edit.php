@@ -62,7 +62,7 @@ JHtml::_('behavior.formvalidation');
 	<div class="width-40 fltrt">
 		<?php echo JHtml::_('sliders.start','language-sliders-'.$this->item->lang_code, array('useCookie'=>1)); ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('COM_LANGUAGES_GROUP_LABEL_METADATA_OPTIONS'), 'metadata'); ?>
+		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 			<fieldset class="adminform">
 				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
 					<?php if (!$field->hidden): ?>

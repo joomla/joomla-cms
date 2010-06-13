@@ -82,7 +82,7 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>
 
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_CATEGORIES_FIELDSET_METADATA'), 'meta-options'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>

@@ -31,6 +31,7 @@ $ -> Language fix or change
 $ Normalizing Cpanel link in all admin error.php
 # Reverting part of new bluestork error.php [Revision 17643] as it breaks error display.
 # [#20992] [patch] Toolbar may generate code that is not well formed. Thanks Rouven.
+$ [#20991] Change Metadata to Metadata Options. Thanks Michael.
 
 12-Jun-2010 Mark Dexter
 # Fix asset table problems in sample data (Elin Waring)

@@ -17,7 +17,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 	endif;
 	?>
-	<fieldset class="panelform">
+	<fieldset class="panelform" >
 	<ul class="adminformlist">
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 			<li><?php echo $field->label; ?>

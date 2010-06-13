@@ -384,7 +384,7 @@
 
 	</fieldset>
 
-	<fieldset name="Contact_Config_Meta_Data" label="COM_CONTACT_FIELDSET_METADATA">
+	<fieldset name="Contact_Config_Meta_Data" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
 			rows="3" cols="30" />
