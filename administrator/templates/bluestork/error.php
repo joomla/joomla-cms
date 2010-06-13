@@ -32,8 +32,20 @@ $app = JFactory::getApplication();
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
 	
-	
+	<?php if ($this->params->get('useRoundedCorners')) : ?>
+		<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/rounded.css" />
+	<?php else : ?>
+		<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/norounded.css" />
+	<?php endif; ?>
 
+	<?php if ($this->params->get('textBig')) : ?>
+		<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/textbig.css" />
+	<?php endif; ?>
+
+	<?php if ($this->params->get('highContrast')) : ?>
+		<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/highcontrast.css" />
+	<?php endif; ?>
+	
 </head>
 <body id="minwidth-body">
 	<div id="border-top" class="h_blue">
