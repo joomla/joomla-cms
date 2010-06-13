@@ -32,6 +32,7 @@ $ -> Language fix or change
 # Reverting BlueStork error.php changes from previous commit. Will break until params bug is fixed.
 ^ Relocate note & language fields to panel in Category & Article Manager (Thanks Tim Plummer)
 # News feed language fixes
+# Fixed template params in error.php
 
 13-Jun-2010 Jean-Marie Simonet
 $ Normalizing Cpanel link in all admin error.php
