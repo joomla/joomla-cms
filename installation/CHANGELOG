@@ -29,17 +29,18 @@ $ -> Language fix or change
 
 13-Jun-2010 Jean-Marie Simonet
 $ Normalizing Cpanel link in all admin error.php
+# Reverting part of new bluestork error.php [Revision 17643] as it breaks error display.
 
 12-Jun-2010 Mark Dexter
 # Fix asset table problems in sample data (Elin Waring)
 
 12-Jun-2010 Ron Severdia
-# Fixed category header (Thanks Babs G�sgens)
+# Fixed category header (Thanks Babs Gosgens)
 ^ Fixed weblinks header icon (Thanks Tim Plummer)
 ^ Move language dropdown to panel (Thanks Tim Plummer)
 ^ [#20618] Fixed IE login bug 
 # Fixed modal widths (contents still need love)
-# [#20640] Fixed favicon MIME type (Thanks Rouven We�ling)
+# [#20640] Fixed favicon MIME type (Thanks Rouven Wesling)
 ^ Changed order icon to bg CSS and added inactive state
 # Fixed required indicator on IE
 ^ Changed layout to 60/40 on edit banner client & edit contact
@@ -168,7 +169,7 @@ $ Missing strings
 03-Jun-2010 Christophe Demko
  # Fixed issue [#20813] Value Not Found for blank user field (bill richardson, Peter Osipof)
  # Fixed issue [#20591] Cannot delete all usergroups from an access level (Robert Flodstrom)
- # Fixed issue [#20825] [patch] Debug plug-in doesn't output well formed code (Rouven Weßling)
+ # Fixed issue [#20825] [patch] Debug plug-in doesn't output well formed code (Rouven Wesling)
  # Fixed issue [#20697] Uninstalling a component does not remove menu items of that component type
  # UI enhancement for com_menus
  # Fixed issue [#20805] Module linked to menu links (Aytug AKAR, Nikolai Plath, bill richardson)
