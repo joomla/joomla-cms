@@ -110,7 +110,7 @@ legend {
 	font-weight: bold;
 }
 
-input,select {
+input, select {
 	font-size: 0.909em;
 	border: 1px solid silver;
 	background: #fff;
@@ -144,16 +144,13 @@ textarea:focus {
 	background-color: #ffd;
 }
 
-.enabled {
+.enabled,
+.success {
 	color: green;
 	font-weight: bold;
 }
 
-.disabled {
-	color: red;
-	font-weight: bold;
-}
-
+.disabled, 
 p.error {
 	color: red;
 	font-weight: bold;
@@ -169,11 +166,6 @@ p.error {
 	color: #333;
 	font-weight: bold;
 	font-size: 1.091em;
-}
-
-.success {
-	color: green;
-	font-weight: bold;
 }
 
 .allow,
@@ -193,6 +185,7 @@ span.unwritable  {
 
 /* -- OVERALL STYLES ----------------------------- */
 
+/* Header */
 #border-top.h_blue {
 	background: url(../images/j_header_middle.png) repeat-x;
 }
@@ -235,6 +228,12 @@ span.unwritable  {
 	height: 11px;
 }
 
+#header-box {
+	border: 1px solid #ccc;
+	background: #f0f0f0;
+}
+
+/* Footer */
 #footer .copyright {
 	margin: 10px;
 	text-align: center;
@@ -250,11 +249,7 @@ p.footer-tip {
 	margin-top: 15px;
 }
 
-#header-box {
-	border: 1px solid #ccc;
-	background: #f0f0f0;
-}
-
+/* Body */
 #content-box {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
@@ -350,7 +345,7 @@ p.noresults {
 	padding: 20px 15px;
 }
 
-archstatus a {
+span.adminlist-searchstatus a {
 	padding-left: 20px;
 }
 
@@ -414,11 +409,10 @@ textarea#message {
 	text-decoration: none;
 }
 
-.ol-closefont {
-
-}
 
 /* -- TOOLBAR STYLES ----------------------------- */
+
+/* Page titles */
 div.pagetitle {
 	padding-left: 60px;
 	background-repeat: no-repeat;
@@ -438,17 +432,18 @@ div.pagetitle span {
 	color: #666;
 }
 
+/* Modal header */
 div.configuration {
 	font-size: 1.364em;
 	font-weight: bold;
 	color: #146295;
 	padding-left: 30px;
 	margin-left: 10px;
-	margin-top: 1px;
-	background-image: url(../images/menu/icon-16-config.png);
-	background-repeat: no-repeat;
+	padding-top: 4px;
+	background: url(../images/menu/icon-16-config.png) 0 6px no-repeat;
 }
 
+/* Main toolbars */
 div.toolbar-list {
 	float: right;
 	text-align: right;
@@ -505,6 +500,7 @@ div.toolbar-list a:hover {
 }
 
 /* -- MASSMAIL STYLES ----------------------------- */
+
 td#mm_pane {
 	width: 90%;
 }
@@ -615,9 +611,6 @@ div.current {
 	width: 740px;
 }
 
-div.acl-options div.current {
-	width: auto;
-}
 
 div.current dd {
 	padding: 0;
@@ -670,6 +663,17 @@ div.current select {
 	margin-bottom: 15px;
 }
 
+p.tab-description {
+	font-size: 1.091em;
+	margin-left: 0;
+	margin-top: 5px;
+}
+
+/* ACL panels */
+div.acl-options div.current {
+	width: auto;
+}
+
 div.current table#acl-config th.acl-groups {
 	text-align: left;
 }
@@ -693,13 +697,7 @@ li.acl-resetbtn:hover {
 	border:1px solid #AAA;
 	cursor:pointer;
 }
-	
-	
-p.tab-description {
-	font-size: 1.091em;
-	margin-left: 0;
-	margin-top: 5px;
-}
+
 
 /* -- CONTROL PANEL STYLES ----------------------------- */
 #cpanel div.icon {
@@ -752,6 +750,7 @@ div.cpanel-right {
 
 /* -- FORM STYLES ----------------------------- */
 
+/* Standards for commonly used elements */
 div.width-20	{width: 20%;}
 div.width-30	{width: 30%;}
 div.width-35	{width: 35%;}
@@ -787,6 +786,7 @@ div.width-100 fieldset	{
 	padding: 5px 17px 17px 17px;
 }
 
+/* Administrator forms, lists */
 fieldset.adminform {
 	margin: 10px;
 	overflow: hidden;
@@ -809,7 +809,6 @@ fieldset label {
 	clear: left;
 	display:block;
 	margin: 5px 0;
-	/* margin: 5px 5px 2px 0; */
 }
 fieldset ul {
 	margin: 0;
@@ -853,12 +852,6 @@ fieldset.adminform ul.checklist li label {
 	width: auto;
 }
 
-/* Hide the extension name on create category page */
-label#jform_extension-lbl,
-input#jform_extension {
-	display: none;
-}
-
 input.readonly {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1.091em;;
@@ -877,22 +870,18 @@ span.readonly {
 	display:block;
 	color: #666;
 }
+
 #jform_params_alt,
-#jform_clickurl { width: 355px;}
+#jform_clickurl { 
+	width: 355px;
+}
+
 #jform-imp {
 	width: 70px;
 }
+
 .mod-desc { margin-left: 140px !important;}
 
-input.required {
-	background-color: #d5eeff;
-}
-
-label.required:after {
-	content: url(../images/required.png);
-	vertical-align: middle;
-	white-space: nowrap;
-}
 input.readonly {
 	background-color: #ffffff;
 }
@@ -932,7 +921,26 @@ div.panel fieldset {
 	border: 0;
 }
 
-/* -------- Batch ---------- */
+/* Required elements */
+input.required {
+	background-color: #d5eeff;
+}
+
+label.required:after {
+	content: url(../images/required.png);
+	vertical-align: middle;
+	white-space: nowrap;
+}
+
+/* One-offs */
+
+/* Hide the extension name on create category page */
+label#jform_extension-lbl,
+input#jform_extension {
+	display: none;
+}
+
+/* -------- Batch Section ---------- */
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
 	background: #fff;
@@ -965,15 +973,7 @@ label#batch-access-lbl {
 }
 
 
-/* New login field label widths */
-fieldset.adminform.long label {
-	min-width: 180px;
-}
-
-fieldset.adminform.long input {
-
-}
-
+/* -------- Menu Assigments ---------- */
 div#menu-assignment {
 	height: 300px;
 	overflow: auto;
@@ -1002,17 +1002,25 @@ fieldset.adminform .menu-links label {
 fieldset.adminform .menu-links input {
 	margin-top: 1px;
 }
+
 button.jform-rightbtn { float:right;margin-right: 0; }
+
+#jform_impmade,
+#jform_clicks {
+	width: 30px;
+}
+
+/* Field label widths - long label */
+fieldset.adminform.long label {
+	min-width: 180px;
+}
+fieldset.adminform.long input { }
 
 /* Field label widths - short label */
 fieldset.adminform label {
 	width: 135px;
 }
 
-#jform_impmade,
-#jform_clicks {
-	width: 30px;
-}
 fieldset.panelform {
 	overflow: hidden;
 }
@@ -1022,6 +1030,7 @@ fieldset.panelform div.paramrow label {
 	max-width: 145px;
 }
 
+/* One-offs */
 /* Field label widths - medium label */
 label#userparamsallowUserRegistration-lbl,
 label#userparamsnew_usertype-lbl,
@@ -1040,12 +1049,14 @@ paramslang_mode-lbl {
 	min-width: 200px;
 }
 
-div.jform_mod_title,div.jform_na {
+div.jform_mod_title,
+div.jform_na {
 	margin-top: 5px;
 	float: left;
 }
 
-div#jform_template,div#jform_template-desc {
+div#jform_template,
+div#jform_template-desc {
 	float: left;
 	padding-right: 5px;
 	padding-top: 5px;
@@ -1309,6 +1320,8 @@ ul#legend li {
 
 
 /* -- TABLE STYLES ----------------------------- */
+
+
 table.adminlist {
 	width: 100%;
 	border-spacing: 1px;
@@ -1395,13 +1408,12 @@ table.adminlist .pagination {
 	display: inline-block;
 	padding: 0;
 	margin: 0 auto;
-	
 }
 
 div#element-box div.m form table.adminlist tr td a {
 	font-size: 1.1em;
 }
-
+div#element-box div.m form table.adminlist tr td p.smallsub a,
 div#element-box div.m div.jpane-slider form table.adminlist a {
 	font-size: 1em;
 }
@@ -1424,10 +1436,6 @@ p.smallsub {
 
 p.smallsub span {
 	color: #a0a0a0;
-}
-
-div#element-box div.m form table.adminlist tr td p.smallsub a {
-	font-size: 1em;
 }
 
 table.adminlist tr td.btns a {
@@ -1454,16 +1462,20 @@ div.checkin-tick {
 	text-indent: -9999px;
 }
 
-td.left,th.left {
+td.left,
+th.left {
 	text-align: left;
 }
 
-td.center,th.center,.center {
+td.center,
+th.center,
+.center {
 	text-align: center;
 	float: none;
 }
 
-td.center img, th.center img {
+td.center img, 
+th.center img {
 	float: none;
 }
 
@@ -1471,7 +1483,8 @@ td.right,th.right {
 	text-align: right;
 }
 
-td.nowrap, th.nowrap {
+td.nowrap, 
+th.nowrap {
 	white-space: nowrap;
 }
 
@@ -1485,7 +1498,8 @@ td.nowrap, th.nowrap {
 	display: inline-block;
 }
 
-table.admintable th,table.admintable td {
+table.admintable th,
+table.admintable td {
 	font-size: 1.091em;
 }
 
@@ -1528,7 +1542,9 @@ a.saveorder.inactive {
 
 /* -- BUTTON STYLES ----------------------------- */
 
-.button1,.button1 div {
+/* Pagination on backend */
+.button1,
+.button1 div {
 	height: 1%;
 	float: right;
 }
@@ -1611,11 +1627,13 @@ a.saveorder.inactive {
 	color: #0B55C4;
 }
 
-.button2-left a,.button2-left span {
+.button2-left a,
+.button2-left span {
 	padding: 0 24px 0 6px;
 }
 
-.button2-right a,.button2-right span {
+.button2-right a,
+.button2-right span {
 	padding: 0 6px 0 24px;
 }
 
@@ -1721,7 +1739,9 @@ a img.calendar {
 	border-bottom: 3px solid #F0DC7E;
 }
 
-/* -- SYSTEM MESSAGES relocated from system.css ---- */
+/* -- SYSTEM MESSAGES ---- */
+
+/* Relocated from system.css */
 #system-message {
 	margin-bottom: 10px;
 	padding: 0;
@@ -1873,6 +1893,7 @@ input.system-openid,input.com-system-openid {
 
 /* -- JGRID STYLES ----------------------------- */
 
+/* Admin backend grid table elements */
 a.jgrid:hover {	text-decoration: none;}
 
 .jgrid span.state {
@@ -2350,9 +2371,9 @@ dl.menu_type dd ul {
 	margin-left: -40px;
 }
 
+/* -- ACL STYLES ----------- */
 
-
-/* -- ACL STYLES relocated from com_users/media/default.css ----------- */
+/* Relocated from com_users/media/default.css  */
 .scroll {
 	overflow: auto;
 }
@@ -2502,9 +2523,7 @@ div#config #submenu-box .padding {
 	padding: 0;
 }
 
-
-
-/* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
+/* -- Relocated from com_users/media/grid.css ----------- */
 a.move_up {
 	background-image: url('../images/admin/uparrow.png');
 	display: inline-block;
@@ -2679,7 +2698,7 @@ table.aclmodify-table td label {
 	min-width: 20px;
 }
 
-/* ACL footer/legend */
+/* ACL footer and legend */
 ul.acllegend {
 	list-style: none;
 	font-size: 1.091em;
@@ -2757,9 +2776,4 @@ label#jform_rules-lbl {
 	display: none;
 }
 
-/* Disabled until verified
-label#jform_rules-lbl {
-	display: none;
-}
-*/
 

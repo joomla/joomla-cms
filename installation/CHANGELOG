@@ -34,6 +34,8 @@ $ -> Language fix or change
 # News feed language fixes
 # Fixed template params in error.php (reverted until fixed)
 # Fixed CSS on ACL panel
+^ Sync up label CSS
+^ Little clean up and commenting in BlueStork CSS
 
 13-Jun-2010 Jean-Marie Simonet
 $ Normalizing Cpanel link in all admin error.php

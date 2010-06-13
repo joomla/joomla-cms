@@ -21,7 +21,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 <form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
 	<fieldset class="filters">
-	<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
+	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') != 'hide') : ?>
 		<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&nbsp;'; ?></label>
