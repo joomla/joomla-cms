@@ -225,7 +225,7 @@
 					</option>
 					<option value="a.id">MOD_ARTICLES_CATEGORY_OPTION_ID_VALUE
 					</option>
-					<option value="a.alias">MOD_ARTICLES_CATEGORY_OPTION_ALIAS_VALUE
+					<option value="a.alias">JFIELD_ALIAS_LABEL
 					</option>
 				</field>
 

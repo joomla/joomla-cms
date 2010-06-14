@@ -53,13 +53,6 @@
 			size="40"
 		/>
 
-		<field name="alias" type="text"
-			class="inputbox"
-			description="COM_LANGUAGES_FIELD_ALIAS_DESC"
-			label="COM_LANGUAGES_FIELD_ALIAS_LABEL"
-			size="40"
-		/>
-
 		<field name="description" type="textarea"
 			class="inputbox"
 			cols="80"

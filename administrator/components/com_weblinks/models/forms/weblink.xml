@@ -12,7 +12,7 @@
 			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"
-			size="40" label="COM_WEBLINKS_FIELD_ALIAS_LABEL"
+			size="40" label="JFIELD_ALIAS_LABEL"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
 
 		<field name="catid" type="category" extension="com_weblinks"
