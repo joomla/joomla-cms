@@ -37,6 +37,7 @@ $ Consolidated "Description" value + some.
 14-Jun-2010 Mark Dexter
  # [#21008] Hide new login button just introduced to login screen
  # [#20529] User-Profile Plugin field settings ignored
+ # [#20625] Submit a web link -save error [strict]
 
 14-Jun-2010 Andrew Eddie
  # Fixed issue [#20884] banner manager export not working fatal error (Rob Joyce, Phil Snell).

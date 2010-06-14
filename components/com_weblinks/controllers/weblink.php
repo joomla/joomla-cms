@@ -62,6 +62,19 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		return $model;
 	}
+	/**
+	 * Save the record
+	 */
+	public function save()
+	{
+		if( parent::save() === true ) {
+			$cid = JRequest::getVar( 'jform' );
+			$cid = ( int ) $cid[ 'catid' ];
+			$this->setRedirect( JRoute::_( 'index.php?option=com_weblinks&view=category&id='.$cid, false ) );
+		}
+		$this->setMessage(JText::_('COM_WEBLINK_SUBMIT_SAVE_SUCCESS'));
+	}
+
 
 	/**
 	 * Go to a weblink
