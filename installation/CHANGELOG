@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jun-2010 Jean-Marie Simonet
+ $ Correcting strings in installation files
+
 14-Jun-2010 Jean-Marie Simonet
 [#21007] Alias in list views does not support RTL. Thanks Andrew.
 $ Consolidated "Alias" value.
