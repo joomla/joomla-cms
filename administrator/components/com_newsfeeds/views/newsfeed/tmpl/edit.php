@@ -56,9 +56,6 @@ JHtml::_('behavior.keepalive');
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 
-			<li><?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?></li>
-
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
@@ -77,6 +74,9 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('cache_time'); ?>
 				<?php echo $this->form->getInput('cache_time'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
 
 				<li><?php echo $this->form->getLabel('rtl'); ?>
 				<?php echo $this->form->getInput('rtl'); ?></li>

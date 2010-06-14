@@ -36,6 +36,7 @@ $ -> Language fix or change
 # Fixed CSS on ACL panel
 ^ Sync up label CSS
 ^ Little clean up and commenting in BlueStork CSS
+^ Relocate language dropdown in news feed
 
 13-Jun-2010 Jean-Marie Simonet
 $ Normalizing Cpanel link in all admin error.php
