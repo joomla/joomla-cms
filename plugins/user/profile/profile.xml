@@ -26,11 +26,11 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="registration-require-user" type="spacer"
+				<field name="register-require-user" type="spacer"
 					label="PLG_USER_PROFILE_FIELD_NAME_REGISTER_REQUIRE_USER"
 				/>
 
-				<field name="registration-require_address1" type="list"
+				<field name="register-require_address1" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
@@ -40,7 +40,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_address2" type="list"
+				<field name="register-require_address2" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
@@ -50,7 +50,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_city" type="list"
+				<field name="register-require_city" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_CITY_DESC"
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
@@ -60,7 +60,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_region" type="list"
+				<field name="register-require_region" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_REGION_DESC"
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
@@ -70,7 +70,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_country" type="list"
+				<field name="register-require_country" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC"
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
@@ -80,7 +80,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_postal_code" type="list"
+				<field name="register-require_postal_code" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC"
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
@@ -90,7 +90,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_phone" type="list"
+				<field name="register-require_phone" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
@@ -100,7 +100,7 @@
 					<option value="0">JDISABLED</option>
 				</field>
 
-				<field name="registration-require_website" type="list"
+				<field name="register-require_website" type="list"
 					default="0"
 					description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
@@ -109,7 +109,7 @@
 					<option value="1">JOPTION_OPTIONAL</option>
 					<option value="0">JDISABLED</option>
 				</field>
-				<field 	name="registration-require_favoritebook"
+				<field 	name="register-require_favoritebook"
 					type="list"
 					default="0"
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
@@ -121,7 +121,7 @@
 				</field>
 
 				<field
-					name="registration-require_aboutme"
+					name="register-require_aboutme"
 					type="list"
 					default="0"
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
@@ -132,7 +132,7 @@
 					<option	value="0">JDISABLED</option>
 				</field>
 				<field
-					name="registration-require_tos"
+					name="register-require_tos"
 					type="list"
 					default="0"
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
@@ -143,7 +143,7 @@
 					<option	value="0">JDISABLED</option>
 				</field>
 				<field
-					name="registration-require_dob"
+					name="register-require_dob"
 					type="list"
 					default="0"					
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
