@@ -35,7 +35,7 @@
 
 
 		<field name="description" type="textarea" class="inputbox"
-			rows="3" cols="30" label="COM_BANNERS_FIELD_DESCRIPTION_LABEL"
+			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="type" type="radio"

@@ -29,7 +29,7 @@
 			hide="pagebreak,readmore"
 			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"
 			filter="safehtml"
-			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL"
+			label="JGLOBAL_DESCRIPTION"
 		/>
 
 		<field name="state" type="list"

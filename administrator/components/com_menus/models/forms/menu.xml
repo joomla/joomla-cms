@@ -37,7 +37,7 @@
 			id="menudescription"
 			name="description"
 			type="text"
-			label="COM_MENUS_MENU_DESCRIPTION_LABEL"
+			label="JGLOBAL_DESCRIPTION"
 			description="COM_MENUS_MENU_DESCRIPTION_DESC"
 			class="inputbox"
 			size="30"

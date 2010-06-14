@@ -114,15 +114,15 @@
 			<option value="">JALL</option>
 		</field>
 		<field name="metakey" type="textarea"
-			label="JField_Meta_Keywords_Label" description="JField_Meta_Keywords_Desc"
+			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
 			class="inputbox" rows="3" cols="30" />
 
 		<field name="metadesc" type="textarea"
-			label="JField_Meta_Description_Label" description="JField_Meta_Description_Desc"
+			label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
 			class="inputbox" rows="3" cols="30" />
 
 		<field name="xreference" type="text"
-			label="JField_XReference_Label" description="JField_XReference_Desc"
+			label="JFIELD_XREFERENCE_LABEL" description="JFIELD_XREFERENCE_DESC"
 			class="inputbox" size="20" />
 
 	</fieldset>

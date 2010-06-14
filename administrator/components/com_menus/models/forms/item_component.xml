@@ -3,7 +3,7 @@
 <form>
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
-		<fieldset name="metadata"
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
 		>
 
 			<field name="menu-anchor_title" type="text"

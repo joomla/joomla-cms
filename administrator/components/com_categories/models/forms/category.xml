@@ -84,7 +84,7 @@
 	<field
 		name="description"
 		type="editor"
-		label="COM_CATEGORIES_DESCRIPTION_LABEL"
+		label="JGLOBAL_DESCRIPTION"
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
 		filter="safehtml"

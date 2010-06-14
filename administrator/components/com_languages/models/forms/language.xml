@@ -57,7 +57,7 @@
 			class="inputbox"
 			cols="80"
 			description="COM_LANGUAGES_FIELD_DESCRIPTION_DESC"
-			label="COM_LANGUAGES_FIELD_DESCRIPTION_LABEL"
+			label="JGLOBAL_DESCRIPTION"
 			rows="5"
 		/>
 

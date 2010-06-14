@@ -28,7 +28,7 @@
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
-			label="COM_WEBLINKS_FIELD_DESCRIPTION_LABEL" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
+			label="JGLOBAL_DESCRIPTION" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="date" type="Date" class="inputbox"
 			label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"

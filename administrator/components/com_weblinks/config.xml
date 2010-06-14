@@ -8,7 +8,7 @@
 		<field name="show_comp_description" type="radio"
 			default="1"
 			description="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_DESCRIPTION_LABEL"
+			label="JGLOBAL_DESCRIPTION"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>

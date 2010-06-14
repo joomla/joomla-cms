@@ -58,7 +58,7 @@ JHtml::_('behavior.formvalidation');
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
 					<label id="jform_extdescription-lbl">
-						<?php echo JText::_('COM_PLUGINS_DESCRIPTION'); ?>
+						<?php echo JText::_('JGLOBAL_DESCRIPTION'); ?>
 						</label>
 						<div class="clr"></div>
 						<span class="readonly plg-desc"><?php echo JText::_($text); ?></span>
