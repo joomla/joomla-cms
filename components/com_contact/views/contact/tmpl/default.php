@@ -44,10 +44,10 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<?php echo  JHtml::_($this->params->get('presentation_style').'.start', 'contact-slider'); ?>	
 	<?php echo JHtml::_($this->params->get('presentation_style').'.panel',JText::_('COM_CONTACT_DETAILS'), 'basic-details'); } ?>
 
-	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
+	<?php if ($this->params->get('show_contact_list') && count($this->contact) > 1) : ?>
 		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
 			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>:
-			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
+			<?php echo JHtml::_('select.genericlist',  $this->contact, 'id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
 			<input type="hidden" name="option" value="com_contact" />
 		</form>
 	<?php endif; ?>
