@@ -143,9 +143,9 @@ $listDirn	= $this->state->get('list.direction');
 					<?php else : ?>
 							<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
-					<p class="smallsub">
 					<?php if (!empty($item->note)) : ?>
-						(<span><?php echo JText::_('JFIELD_NOTE_LABEL'); ?>:</span> <?php echo $this->escape($item->note); ?>)</p>
+					<p class="smallsub">
+						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
 					<?php endif; ?>
 				</td>
 				<td class="center">

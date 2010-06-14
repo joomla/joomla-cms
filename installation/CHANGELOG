@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jun-2010 Jean-Marie Simonet
+[#21007] Alias in list views does not support RTL. Thanks Andrew.
+
 14-Jun-2010 Andrew Eddie
  # Fixed issue [#20884] banner manager export not working fatal error (Rob Joyce, Phil Snell).
 
