@@ -43,6 +43,7 @@ class BannersModelDownload extends JModelForm
 	 *
 	 * @param	array	$data		Data for the form.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 *
 	 * @return	mixed	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
@@ -65,7 +66,9 @@ class BannersModelDownload extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		$form->setValue('basename',		$this->getState('basename'));
-		$form->setValue('compressed',	$this->getState('compressed'));
+		return array(
+			'basename'		=> $this->getState('basename'),
+			'compressed'	=> $this->getState('compressed')
+		);
 	}
 }

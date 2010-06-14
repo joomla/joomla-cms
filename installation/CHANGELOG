@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jun-2010 Andrew Eddie
+ # Fixed issue [#20884] banner manager export not working fatal error (Rob Joyce, Phil Snell).
+
 13-Jun-2010 Ron Severdia
 ^ Fixed select user button (Thanks Tim Plummer)
 # Reverting BlueStork error.php changes from previous commit. Will break until params bug is fixed.

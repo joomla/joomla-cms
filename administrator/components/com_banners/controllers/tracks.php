@@ -19,9 +19,20 @@ jimport('joomla.application.component.controller');
  */
 class BannersControllerTracks extends JController
 {
-	protected $_context = 'com_banners.tracks';
+	/**
+	 * @var		string	The context for persistent state.
+	 * @since	1.6
+	 */
+	protected $context = 'com_banners.tracks';
+
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param	string	$name	The name of the model.
+	 * @param	string	$prefix	The prefix for the model class name.
+	 *
+	 * @return	JModel
+	 * @since	1.6
 	 */
 	public function &getModel($name = 'Tracks', $prefix = 'BannersModel')
 	{
@@ -31,6 +42,9 @@ class BannersControllerTracks extends JController
 
 	/**
 	 * Method to remove a record.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public function delete()
 	{
@@ -43,19 +57,19 @@ class BannersControllerTracks extends JController
 		// Load the filter state.
 		$app = &JFactory::getApplication();
 
-		$type = $app->getUserState($this->_context.'.filter.type');
+		$type = $app->getUserState($this->context.'.filter.type');
 		$model->setState('filter.type', $type);
 
-		$begin = $app->getUserState($this->_context.'.filter.begin');
+		$begin = $app->getUserState($this->context.'.filter.begin');
 		$model->setState('filter.begin', $begin);
 
-		$end = $app->getUserState($this->_context.'.filter.end');
+		$end = $app->getUserState($this->context.'.filter.end');
 		$model->setState('filter.end', $end);
 
-		$categoryId = $app->getUserState($this->_context.'.filter.category_id');
+		$categoryId = $app->getUserState($this->context.'.filter.category_id');
 		$model->setState('filter.category_id', $categoryId);
 
-		$clientId = $app->getUserState($this->_context.'.filter.client_id');
+		$clientId = $app->getUserState($this->context.'.filter.client_id');
 		$model->setState('filter.client_id', $clientId);
 
 		$model->setState('list.limit', 0);
@@ -70,59 +84,5 @@ class BannersControllerTracks extends JController
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');
-	}
-	public function display()
-	{
-		// Get the document object.
-		$document	= &JFactory::getDocument();
-		$vName		= 'tracks';
-		$vFormat	= 'raw';
-
-		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
-		{
-			// Get the model for the view.
-			$model = &$this->getModel($vName);
-
-			// Load the filter state.
-			$app = &JFactory::getApplication();
-
-			$type = $app->getUserState($this->_context.'.filter.type');
-			$model->setState('filter.type', $type);
-
-			$begin = $app->getUserState($this->_context.'.filter.begin');
-			$model->setState('filter.begin', $begin);
-
-			$end = $app->getUserState($this->_context.'.filter.end');
-			$model->setState('filter.end', $end);
-
-			$categoryId = $app->getUserState($this->_context.'.filter.category_id');
-			$model->setState('filter.category_id', $categoryId);
-
-			$clientId = $app->getUserState($this->_context.'.filter.client_id');
-			$model->setState('filter.client_id', $clientId);
-
-			$model->setState('list.limit', 0);
-			$model->setState('list.start', 0);
-
-			$form = JRequest::getVar('jform');
-			$model->setState('basename',$form['basename']);
-			$model->setState('compressed',$form['compressed']);
-
-			$config =& JFactory::getConfig();
-			$cookie_domain = $config->get('cookie_domain', '');
-			$cookie_path = $config->get('cookie_path', '/');
-			jimport('joomla.utilities.utility');
-			setcookie(JUtility::getHash($this->_context.'.basename'), $form['basename'], time() + 365 * 86400, $cookie_path, $cookie_domain);
-			setcookie(JUtility::getHash($this->_context.'.compressed'), $form['compressed'], time() + 365 * 86400, $cookie_path, $cookie_domain);
-
-			// Push the model into the view (as default).
-			$view->setModel($model, true);
-
-			// Push document object into the view.
-			$view->assignRef('document', $document);
-
-			$view->display();
-		}
 	}
 }

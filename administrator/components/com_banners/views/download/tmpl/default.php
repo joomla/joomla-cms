@@ -26,7 +26,7 @@ JHtml::_('behavior.tooltip');
 // -->
 </script>
 <form
-	action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks&task=tracks.display&format=raw');?>"
+	action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw');?>"
 	method="post"
 	name="adminForm"
 	id="download-form"
@@ -41,7 +41,7 @@ JHtml::_('behavior.tooltip');
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 		<div class="clr"></div>
-		<button type="button" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('CJSUBMIT');?></button>
+		<button type="button" onclick="this.form.submit();window.top.setTimeout('window.parent.SqueezeBox.close()', 700);"><?php echo JText::_('COM_BANNERS_TRACKS_EXPORT');?></button>
 		<button type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('COM_BANNERS_CANCEL');?></button>
 
 	</fieldset>
