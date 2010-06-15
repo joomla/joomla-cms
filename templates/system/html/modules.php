@@ -94,11 +94,32 @@ function modChrome_rounded($module, &$params, &$attribs)
  */
 function modChrome_outline($module, &$params, &$attribs)
 {
-	$doc = &JFactory::getDocument();
-	$css  = ".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;opacity: .80; filter: alpha(opacity=80); -moz-opactiy: .80; }";
-	$css .= ".mod-preview-wrapper { background-color:#eee;  border: 1px dotted black; color:#700; opacity: .50; filter: alpha(opacity=50); -moz-opactiy: .50;}";
-	$doc->addStyleDeclaration($css);
-
+	static $css=false;
+	if (!$css)
+	{
+		$css=true;
+		jimport('joomla.environment.browser');
+		$doc = &JFactory::getDocument();
+		$browser = JBrowser::getInstance();
+		$doc->addStyleDeclaration(".mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}");
+		$doc->addStyleDeclaration(".mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}");
+		if ($browser->getBrowser()=='msie')
+		{
+			if ($browser->getMajor() <= 7) {
+				$doc->addStyleDeclaration(".mod-preview-info {filter: alpha(opacity=80);}");
+				$doc->addStyleDeclaration(".mod-preview-wrapper {filter: alpha(opacity=50);}");
+			}
+			else {
+				$doc->addStyleDeclaration(".mod-preview-info {-ms-filter: alpha(opacity=80);}");
+				$doc->addStyleDeclaration(".mod-preview-wrapper {-ms-filter: alpha(opacity=50);}");
+			}
+		}
+		else
+		{
+			$doc->addStyleDeclaration(".mod-preview-info {opacity: 0.8;}");
+			$doc->addStyleDeclaration(".mod-preview-wrapper {opacity: 0.5;}");
+		}
+	}
 	?>
 	<div class="mod-preview">
 		<div class="mod-preview-info"><?php echo $module->position."[".$module->style."]"; ?></div>

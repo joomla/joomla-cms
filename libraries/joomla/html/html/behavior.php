@@ -56,7 +56,7 @@ abstract class JHtmlBehavior
 			self::framework(false);
 		}
 
-		JHtml::_('script','system/mootools-'.$type.$uncompressed.'.js', false, true);
+		JHtml::_('script','system/mootools-'.$type.$uncompressed.'.js', false, true, false, false);
 		$loaded[$type] = true;
 		return;
 	}
@@ -362,7 +362,7 @@ abstract class JHtmlBehavior
 
 		// Include mootools framework
 		JHtml::_('behavior.framework');
-		JHtml::_('script','system/mootree.js', false, true);
+		JHtml::_('script','system/mootree.js', false, true, false, false);
 		JHtml::_('stylesheet','system/mootree.css', array(), true);
 
 		if (isset($trees[$id]) && ($trees[$id])) {

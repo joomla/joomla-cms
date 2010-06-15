@@ -14,7 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 // Load the JavaScript behaviors.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-JHtml::_('script', 'installation/template/js/installation.js', true, false, true);
+JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
 ?>
 
 <script language="JavaScript" type="text/javascript">

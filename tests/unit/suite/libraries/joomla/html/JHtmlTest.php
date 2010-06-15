@@ -284,6 +284,8 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'. $urlpath .'images');
 		rmdir(JPATH_ROOT .'/media/'. $urlpath);
 
+		file_put_contents(JPATH_ROOT .'/media/system/images/'. $urlfilename, 'test');
+
 		$this->assertThat(
 			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true),
 			$this->equalTo('<img src="'.JURI::base(true).'/media/system/images/'.$urlfilename.'" alt="My Alt Text"  />'),
@@ -293,6 +295,20 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true).'/media/system/images/'.$urlfilename),
+			'JHtml::image failed when we should get it from the media directory in path only mode'
+		);
+
+		unlink(JPATH_ROOT .'/media/system/images/'. $urlfilename);
+
+		$this->assertThat(
+			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true),
+			$this->equalTo('<img src="" alt="My Alt Text"  />'),
+			'JHtml::image failed when we should get it from the media directory'
+		);
+
+		$this->assertThat(
+			JHtml::image($urlpath.$urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(null),
 			'JHtml::image failed when we should get it from the media directory in path only mode'
 		);
 
@@ -341,6 +357,9 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'. $extension.'/images');
 		rmdir(JPATH_ROOT .'/media/'. $extension);
 		
+		mkdir(JPATH_ROOT .'/media/system/images/'. $element.'/'. $urlpath, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/images/'. $element.'/'. $urlpath.$urlfilename, 'test');
+
 		$this->assertThat(
 			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true),
 			$this->equalTo('<img src="'.JURI::base(true).'/media/system/images/'.$element.'/'. $urlpath.$urlfilename.'" alt="My Alt Text"  />')
@@ -349,6 +368,20 @@ class JHtmlTest extends JoomlaTestCase
 		$this->assertThat(
 			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true, true),
 			$this->equalTo(JURI::base(true).'/media/system/images/'.$element.'/'.$urlpath.$urlfilename)
+		);
+
+		unlink(JPATH_ROOT .'/media/system/images/'. $element.'/'. $urlpath.$urlfilename);
+		rmdir(JPATH_ROOT .'/media/system/images/'. $element.'/'. $urlpath);
+		rmdir(JPATH_ROOT .'/media/system/images/'. $element);
+
+		$this->assertThat(
+			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true),
+			$this->equalTo('<img src="" alt="My Alt Text"  />')
+		);
+
+		$this->assertThat(
+			JHtml::image($extension.'/'.$element.'/'.$urlpath.$urlfilename, 'My Alt Text', null, true, true),
+			$this->equalTo(null)
 		);
 
 		$this->assertThat(
@@ -362,17 +395,33 @@ class JHtmlTest extends JoomlaTestCase
 			'JHtml::image with an absolute path'
 		);
 
+		mkdir(JPATH_ROOT .'/test', 0777, true);
+		file_put_contents(JPATH_ROOT .'/test/image.jpg', 'test');
 		$this->assertThat(
 			JHtml::image('test/image.jpg', 'My Alt Text',
 				array(
 					'width' => 150,
 					'height' => 150
-				)
+				),
+				false
 			),
 			$this->equalTo('<img src="'.JURI::root(true).'/test/image.jpg" alt="My Alt Text" width="150" height="150" />'),
 			'JHtml::image with an absolute path, URL does not start with http'
 		);
+		unlink(JPATH_ROOT .'/test/image.jpg');
+		rmdir(JPATH_ROOT .'/test');
 
+		$this->assertThat(
+			JHtml::image('test/image.jpg', 'My Alt Text',
+				array(
+					'width' => 150,
+					'height' => 150
+				),
+				false
+			),
+			$this->equalTo('<img src="" alt="My Alt Text" width="150" height="150" />'),
+			'JHtml::image with an absolute path, URL does not start with http'
+		);
 
 		$_SERVER['HTTP_HOST'] = $http_host;
 		$_SERVER['SCRIPT_NAME'] = $script_name;
@@ -506,7 +555,7 @@ class JHtmlTest extends JoomlaTestCase
 		$docMock2->expects($this->once())
 			->method('addStylesheet')
 			->with(
-				JURI::base(true).'/media/system/css/'.$cssfilename,
+				JURI::base(true).'/media/system/css/modal.css',
 				'text/css',
 				null,
 				null
@@ -514,13 +563,15 @@ class JHtmlTest extends JoomlaTestCase
 
 		JFactory::$document = $docMock2;
 
-		JHtml::stylesheet($extension.'/'.$cssfilename, null, true);
+		JHtml::stylesheet($extension.'/modal.css', null, true);
 
+		file_put_contents(JPATH_ROOT .'/media/system/css/'.$cssfilename, 'test');
 		$this->assertThat(
 			JHtml::stylesheet($extension.'/'.$cssfilename, null, true, true),
 			$this->equalTo(JURI::root(true).'/media/system/css/'.$cssfilename),
 			'Stylesheet in the media directory failed - path only'
 		);
+		unlink(JPATH_ROOT .'/media/system/css/'.$cssfilename);
 
 		// we create the file that JHtml::stylesheet will look for
 		mkdir(JPATH_ROOT .'/media/'.$extension.'/'.$element.'/css/', 0777, true);
@@ -537,11 +588,15 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'.$extension.'/'.$element);
 		rmdir(JPATH_ROOT .'/media/'.$extension);
 
+		mkdir(JPATH_ROOT .'/media/system/css/'.$element, 0777, true);
+		file_put_contents(JPATH_ROOT .'/media/system/css/'.$element.'/'.$cssfilename, 'test');
 		$this->assertThat(
 			JHtml::stylesheet($extension.'/'.$element.'/'.$cssfilename, null, true, true),
 			$this->equalTo(JURI::root(true).'/media/system/css/'.$element.'/'.$cssfilename),
 			'Stylesheet in the media directory -plugins group code - failed - path only'
 		);
+		unlink(JPATH_ROOT .'/media/system/css/'.$element.'/'.$cssfilename);
+		rmdir(JPATH_ROOT .'/media/system/css/'.$element);
 
 		// we create the file that JHtml::stylesheet will look for
 		mkdir(JPATH_ROOT .'/media/'.$extension.'/css/'.$element, 0777, true);
@@ -563,7 +618,7 @@ class JHtmlTest extends JoomlaTestCase
 		$docMock3->expects($this->once())
 			->method('addStylesheet')
 			->with(
-				JURI::root(true).'/path/to/stylesheet.css',
+				JURI::root(true).'/media/system/css/modal.css',
 				'text/css',
 				null,
 				'media="print" title="sample title"'
@@ -571,7 +626,7 @@ class JHtmlTest extends JoomlaTestCase
 
 		JFactory::$document = $docMock3;
 
-		JHtml::stylesheet('path/to/stylesheet.css', array('media' => 'print', 'title' => 'sample title'));
+		JHtml::stylesheet('media/system/css/modal.css', array('media' => 'print', 'title' => 'sample title'));
 
 		$_SERVER['HTTP_HOST'] = $http_host;
 		$_SERVER['SCRIPT_NAME'] = $script_name;

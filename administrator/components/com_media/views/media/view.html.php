@@ -40,7 +40,7 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::_('script','system/mootree.js', true, true);
+		JHTML::_('script','system/mootree.js', true, true, false, false);
 		JHTML::_('stylesheet','system/mootree.css', array(), true);
 
 		if ($config->get('enable_flash', 1)) {
