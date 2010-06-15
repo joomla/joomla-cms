@@ -34,6 +34,8 @@ $# Correcting a key/string
 15-Jun-2010 Christophe Demko
  $ Correcting strings in installation files
 
+-------------------- 1.6.0 Beta3 Release [14-Jun-2010] ------------------
+
 14-Jun-2010 Jean-Marie Simonet
 [#21007] Alias in list views does not support RTL. Thanks Andrew.
 $ Consolidated "Alias" value.
