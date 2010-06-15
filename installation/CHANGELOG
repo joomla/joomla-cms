@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Jun-2010 Jean-Marie Simonet
 $# Correcting a key/string
+# [#20944] Cannot create new user - IE8. Thanks Christophe.
 
 15-Jun-2010 Christophe Demko
  $ Correcting strings in installation files
