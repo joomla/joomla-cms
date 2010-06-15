@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 15-Jun-2010 Mark Dexter
 # Update version information to beta3
-# Fix problem with hard-coding table name in sample data (Elin Waring)
+# Fix problem with hard-coding table prefix in sample data (Elin Waring)
+# [#21025] Fix problem with hard-coding table prefix in update scripts
 
 15-Jun-2010 Jean-Marie Simonet
 $# Correcting a key/string
