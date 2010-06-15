@@ -30,6 +30,7 @@ $ -> Language fix or change
 15-Jun-2010 Jean-Marie Simonet
 $# Correcting a key/string
 # [#20944] Cannot create new user - IE8. Thanks Christophe.
+#$ [#21018] Adding lang field in submit weblink. 
 
 15-Jun-2010 Christophe Demko
  $ Correcting strings in installation files

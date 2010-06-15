@@ -48,7 +48,9 @@ function submitbutton(task) {
 				<?php echo $this->form->getInput('state'); ?>
 				<br />
 			<?php endif; ?>
-
+			<?php echo $this->form->getLabel('language'); ?>
+			<?php echo $this->form->getInput('language'); ?>
+			<br />
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
 	</fieldset>
