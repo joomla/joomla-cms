@@ -129,7 +129,7 @@ class WeblinksTableWeblink extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_WEBLINKS_ERR_TABLES_NAME')));
+			$this->setError(JText::_('COM_WEBLINKS_ERR_TABLES_NAME'));
 			return false;
 		}
 
