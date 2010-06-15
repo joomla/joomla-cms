@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jun-2010 Mark Dexter
+# Update version information to beta3
+
 15-Jun-2010 Jean-Marie Simonet
 $# Correcting a key/string
 # [#20944] Cannot create new user - IE8. Thanks Christophe.
