@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jun-2010 Jean-Marie Simonet
+$ [#21011] [patch] JERROR_NOLOGIN_BLOCKED on front end. Thanks Michael.
+
 15-Jun-2010 Mark Dexter
 # Update version information to beta3
 # Fix problem with hard-coding table prefix in sample data (Elin Waring)
