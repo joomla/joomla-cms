@@ -45,11 +45,13 @@
 
 				<field
 					name="count"
-					type="text"
-					default="1"
+					type="integer"
+					first="1"
+					last="10"
+					step="1"
+					default="5"
 					label="MOD_BANNERS_FIELD_COUNT_LABEL"
 					description="MOD_BANNERS_FIELD_COUNT_DESC" />
-
 				<field
 					name="cid"
 					type="bannerclient"
