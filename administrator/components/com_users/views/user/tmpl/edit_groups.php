@@ -49,7 +49,14 @@ window.addEvent('domready', function(){
 					if (this.getProperty('checked')) {
 						c.setProperty('disabled', true);
 					} else {
-						c.setProperty('disabled', false);
+						// If there are no other siblings checked, set the parent enabled
+						var tmp = false;
+						document.id('user-groups').getElements('input[rel='+c.getProperty('id')+']').each(function(d){
+							if(d.getProperty('checked')){
+								tmp=true;
+							}
+						});
+						c.setProperty('disabled', tmp);
 					}
 					c.fireEvent('check');
 				}

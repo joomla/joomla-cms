@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 16-Jun-2010 Christophe Demko
+ # Fixed issue [#20941] incorrect selection after creating user account (Rune Sjøen)
  ^ Reformatting docblock comments
 
 16-Jun-2010 Jean-Marie Simonet
