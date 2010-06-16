@@ -380,28 +380,30 @@ abstract class JHtml
 	 * @param	boolean		return the path to the file only
 	 * @param	boolean		detect browser to include specific browser css files
 	 *						will try to include file, file_*browser*, file_*browser*_*major*, file_*browser*_*major*_*minor*
+	 *						<table>
+	 *							<tr><th>Navigator</th>					<th>browser</th>	<th>major.minor</th></tr>
 	 *
-	 *						Navigator					browser		major.minor
+	 *							<tr><td>Safari 3.0.x</td>				<td>konqueror</td>	<td>522.x</td></tr>
+	 *							<tr><td>Safari 3.1.x and 3.2.x</td>		<td>konqueror</td>	<td>525.x</td></tr>
+	 *							<tr><td>Safari 4.0 to 4.0.2</td>		<td>konqueror</td>	<td>530.x</td></tr>
+	 *							<tr><td>Safari 4.0.3 to 4.0.4</td>		<td>konqueror</td>	<td>531.x</td></tr>
+	 *							<tr><td>iOS 4.0 Safari</td>				<td>konqueror</td>	<td>532.x</td></tr>
+	 *							<tr><td>Safari 5.0</td>					<td>konqueror</td>	<td>533.x</td></tr>
 	 *
-	 *						Safari 3.0.x:				konqueror	522.x
-	 *						Safari 3.1.x and 3.2.x:		konqueror	525.x
-	 *						Safari 4.0 to 4.0.2:		konqueror	530.x
-	 *						Safari 4.0.3 to 4.0.4:		konqueror	531.x
-	 *						iOS 4.0 Safari				konwueror	532.x
-	 *						Safari 5.0					konqueror	533.x
+	 *							<tr><td>Google Chrome 1.0</td>			<td>konqueror</td>	<td>528.x</td></tr>
+	 *							<tr><td>Google Chrome 2.0</td>			<td>konqueror</td>	<td>530.x</td></tr>
+	 *							<tr><td>Google Chrome 3.0 and 4.x</td>	<td>konqueror</td>	<td>532.x</td></tr>
+	 *							<tr><td>Google Chrome 5.0</td>			<td>konqueror</td>	<td>533.x</td></tr>
 	 *
-	 *						Google Chrome 1.0			konqueror	528.x
-	 *						Google Chrome 2.0			konqueror	530.x
-	 *						Google Chrome 3.0 and 4.x	konqueror	532.x
-	 *						Google Chrome 5.0			konqueror	533.x
+	 *							<tr><td>Internet Explorer 5.5</td>		<td>msie</td>		<td>5.5</td></tr>
+	 *							<tr><td>Internet Explorer 6.x</td>		<td>msie</td>		<td>6.x</td></tr>
+	 *							<tr><td>Internet Explorer 7.x</td>		<td>msie</td>		<td>7.x</td></tr>
+	 *							<tr><td>Internet Explorer 8.x</td>		<td>msie</td>		<td>8.x</td></tr>
 	 *
-	 *						Internet Explorer 5.5		msie		5.5
-	 *						Internet Explorer 6.x		msie		6.x
-	 *						Internet Explorer 7.x		msie		7.x
-	 *						Internet Explorer 8.x		msie		8.x
-	 *
-	 *						Firefox						mozilla		5.0
-	 *						a lot of others @see JBrowser
+	 *							<tr><td>Firefox</td>					<td>mozilla</td>	<td>5.0</td></tr>
+	 *						</table>
+	 *						a lot of others
+	 * @see JBrowser
 	 *
 	 * @return	mixed		nothing if $path_only is false, null, path or array of path if specific css browser files were detected		
 	 * @since	1.6
