@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jun-2010 Christophe Demko
+ ^ Reformatting docblock comments
+
 16-Jun-2010 Jean-Marie Simonet
 $ [#21011] [patch] JERROR_NOLOGIN_BLOCKED on front end. Thanks Michael.
 
