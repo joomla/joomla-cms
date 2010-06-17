@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jun-2010 Christophe Demko
+ # Correcting a small issue in JHtml::_includeRelativeFiles
+ 
 16-Jun-2010 Christophe Demko
  # Fixed issue [#20941] incorrect selection after creating user account (Rune Sjøen)
  ^ Reformatting docblock comments
