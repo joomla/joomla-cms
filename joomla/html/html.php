@@ -279,41 +279,50 @@ abstract class JHtml
 					}
 					else
 					{
-						// divide the file extracting the extension as the first part before /
-						list($extension, $file) = explode('/', $file, 2);
-
-						// if the file yet contains any /: it can be a plugin
+						// if the file contains any /: it can be in an media extension subfolder
 						if (strpos($file, '/'))
 						{
-							// divide the file extracting the element as the first part before /
-							list($element, $file) = explode('/', $file, 2);
+							// divide the file extracting the extension as the first part before /
+							list($extension, $file) = explode('/', $file, 2);
 
-							// Try to deal with plugins group in the media folder
-							if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file")) {
-								$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
+							// if the file yet contains any /: it can be a plugin
+							if (strpos($file, '/'))
+							{
+								// divide the file extracting the element as the first part before /
+								list($element, $file) = explode('/', $file, 2);
+
+								// Try to deal with plugins group in the media folder
+								if (file_exists(JPATH_ROOT . "/media/$extension/$element/$folder/$file")) {
+									$includes[] = JURI::root(true) . "/media/$extension/$element/$folder/$file";
+								}
+								// Try to deal with classical file in a a media subfolder called element
+								elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file")) {
+									$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
+								}
+								// Try to deal with system files in the template folder
+								elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file")) {
+									$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file";
+								}
+								// Try to deal with system files in the media folder
+								elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file")) {
+									$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
+								}
 							}
-							// Try to deal with classical file in a a media subfolder called element
-							elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$element/$file")) {
-								$includes[] = JURI::root(true) . "/media/$extension/$folder/$element/$file";
+							// Try to deals in the extension media folder
+							elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
+							{
+								$includes[] = JURI::root(true) . "/media/$extension/$folder/$file";
 							}
-							// Try to deal with system files in the template folder
-							elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$element/$file")) {
-								$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$element/$file";
+							// Try to deal with system files in the template folder 
+							elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
+							{
+								$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file";
 							}
 							// Try to deal with system files in the media folder
-							elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$element/$file")) {
-								$includes[] = JURI::root(true) . "/media/system/$folder/$element/$file";
+							elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
+							{
+								$includes[] = JURI::root(true) . "/media/system/$folder/$file";
 							}
-						}
-						// Try to deals in the extension media folder
-						elseif (file_exists(JPATH_ROOT . "/media/$extension/$folder/$file"))
-						{
-							$includes[] = JURI::root(true) . "/media/$extension/$folder/$file";
-						}
-						// Try to deal with system files in the template folder 
-						elseif (file_exists(JPATH_THEMES . "/$template/$folder/system/$file"))
-						{
-							$includes[] = JURI::root(true) . "/templates/$template/$folder/system/$file";
 						}
 						// Try to deal with system files in the media folder
 						elseif (file_exists(JPATH_ROOT . "/media/system/$folder/$file"))
