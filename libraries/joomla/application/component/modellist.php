@@ -231,10 +231,12 @@ class JModelList extends JModel
 			$app = JFactory::getApplication();
 
 			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
-			$this->setState('list.limit', $value);
+			$limit = $value;
+			$this->setState('list.limit', $limit);
 
 			$value = $app->getUserStateFromRequest($this->context.'.limitstart', 'limitstart', 0);
-			$this->setState('list.start', $value);
+			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+			$this->setState('list.start', $limitstart);
 
 			$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
 			$this->setState('list.ordering', $value);

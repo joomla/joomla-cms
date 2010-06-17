@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 17-Jun-2010 Jean-Marie Simonet
-[#21019] Language field moved in a not visible position Thanks Airton.
+# [#21019] Language field moved in a not visible position Thanks Airton.
+# [#21041] Adjust JModelList list.start accordingly. Thanks Sven
 
 17-Jun-2010 Christophe Demko
  # Correcting a small issue in JHtml::_includeRelativeFiles
