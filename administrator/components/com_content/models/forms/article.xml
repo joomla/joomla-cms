@@ -100,7 +100,6 @@
 			description="Content_Metadata_Desc" class="inputbox"
 			rows="3" cols="30" />
 
-
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="inputbox"
 		>

@@ -38,6 +38,12 @@
 			<option value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
+		>
+			<option value="">JALL</option>
+		</field>
+
 		<field name="link" type="Text" class="inputbox"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
@@ -66,6 +72,7 @@
 			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
 			</option>
 		</field>
+
 		<field name="created" type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_Created_Desc"
 			class="inputbox" size="20" format="%Y-%m-%d %H:%M:%S"
@@ -108,11 +115,6 @@
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
-		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
-		>
-			<option value="">JALL</option>
-		</field>
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
 			class="inputbox" rows="3" cols="30" />
