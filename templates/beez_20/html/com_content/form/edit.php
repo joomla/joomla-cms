@@ -101,7 +101,7 @@ function submitbutton(task) {
 	</fieldset>
 
 	<fieldset>
-		<legend><?php echo JText::_('COM_CONTENT_LANGUAGE'); ?></legend>
+		<legend><?php echo JText::_('JFIELD_LANGUAGE_LABEL'); ?></legend>
 		<div class="formelm_area">
 		<?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?>

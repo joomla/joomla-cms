@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 18-Jun-2010 Jean-Marie Simonet
 [#21046] menu - single article missing string + some
+[#21049] frontpage editor image upload string error (Thanks Bill)
+$ Adding strings in com_media.ini frontend
  
 17-Jun-2010 Jean-Marie Simonet
 # [#21019] Language field moved in a not visible position Thanks Airton.
