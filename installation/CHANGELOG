@@ -31,6 +31,7 @@ $ -> Language fix or change
 [#21046] menu - single article missing string + some
 [#21049] frontpage editor image upload string error (Thanks Bill)
 $ Adding strings in com_media.ini frontend
+[#21062] admin com_media language file is loaded in frontend. Thanks Christophe. + some missing strings .
  
 17-Jun-2010 Jean-Marie Simonet
 # [#21019] Language field moved in a not visible position Thanks Airton.
