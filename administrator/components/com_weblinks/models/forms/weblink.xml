@@ -170,7 +170,7 @@
 	</fields>
 
 	<fields name="metadata">
-		<fieldset name="jmetadata" label="COM_WEBLINKS_FIELDSET_METADATA">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 			<field name="robots" type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL" description="JFIELD_METADATA_ROBOTS_DESC"
 			>

@@ -212,7 +212,7 @@
 	<fields name="params">
 
 		<!-- Metadata options. -->
-		<fieldset name="metadata">
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots" type="list"
 				description="JFIELD_METADATA_ROBOTS_DESC"

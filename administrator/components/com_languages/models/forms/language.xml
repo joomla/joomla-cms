@@ -74,7 +74,7 @@
 			<option value="-2">JTRASH</option>
 		</field>
 	</fieldset>
-	<fieldset name="metadata">
+	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<field name="metakey" type="textarea"
 			class="inputbox"
 			description="JFIELD_META_KEYWORDS_DESC"
