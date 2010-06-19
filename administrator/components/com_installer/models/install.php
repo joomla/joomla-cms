@@ -59,8 +59,8 @@ class InstallerModelInstall extends JModel
 		$app->setUserState('com_installer.message','');
 		$app->setUserState('com_installer.extension_message','');
 
-		// Remember the 'Install from Directory' path.
-		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('config.tmp_path'));
+		// Recall the 'Install from Directory' path.
+		$path = $app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory', $app->getCfg('tmp_path'));
 		$this->setState('install.directory', $path);
 		parent::populateState();
 	}
@@ -82,6 +82,8 @@ class InstallerModelInstall extends JModel
 
 		switch(JRequest::getWord('installtype')) {
 			case 'folder':
+				// Remember the 'Install from Directory' path.
+				$app->getUserStateFromRequest($this->_context.'.install_directory', 'install_directory');
 				$package = $this->_getPackageFromFolder();
 				break;
 
