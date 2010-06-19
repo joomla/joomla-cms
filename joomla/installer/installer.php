@@ -333,7 +333,7 @@ class JInstaller extends JAdapter
 		$debug = $conf->get('debug');
 
 		if($debug) {
-			JError::raiseError(500, JText::_('JLIB_INSTALLER_ABORT_DEBUG').':'.$msg);
+			JError::raiseError(500, JText::_('JLIB_INSTALLER_ABORT_DEBUG').$msg);
 		}
 
 		return $retval;
