@@ -158,7 +158,7 @@ class ContentHelperQuery
 	{
 		$count = count($articles);
 		// just return the same array if there is nothing to change
-		if ($numColumns == 1 || !is_array($articles) || $count  <= $numColumns)
+		if ($numColumns == 1 || !is_array($articles) || $count <= $numColumns)
 		{
 			$return = $articles;
 		}
@@ -167,29 +167,59 @@ class ContentHelperQuery
 		{
 			// we need to preserve the original array keys
 			$keys = array_keys($articles);
-		
-			// layout the articles in column order
+			
 			$maxRows = ceil($count / $numColumns);
+			$numCells = $maxRows * $numColumns;
+			$numEmpty = $numCells - $count;
 			$index = array();
-			$i = 0;
-			for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++) {
-				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++) {
-					// ensure that first row is always filled
-					if ($numColumns - $col >= $count - $i) {
-						$row = 1;
-						$col++;
+
+			// calculate number of empty cells in the array
+			
+			
+			// fill in all cells of the array
+			// put -1 in empty cells so we can skip later
+			
+			$i = 1;
+			for ($row = 1; $row <= $maxRows; $row++)
+			{
+				for ($col = 1; $col <= $numColumns; $col++)
+				{
+					if ($numEmpty > ($numCells - $i))
+					{
+						// put -1 in empty cells
+						$index[$row][$col] = -1;
 					}
-					$index[$row][$col] = $keys[$i];
+					else
+					{
+						// put in zero as placeholder
+						$index[$row][$col] = 0;
+					}
 					$i++;
 				}
 			}
-			
+
+			// layout the articles in column order, skipping empty cells
+			$i = 0;
+			for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++)
+			{
+				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
+				{
+					if ($index[$row][$col] != - 1)
+					{
+						$index[$row][$col] = $keys[$i];
+						$i++;
+					}
+				}
+			}
+
 			// now read the $index back row by row to get articles in right row/col
-			// so that they will actually be ordered down the columns
+			// so that they will actually be ordered down the columns (when read by row in the layout)
 			$return = array();
 			$i = 0;
-			for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++) {
-				for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++) {
+			for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
+			{
+				for ($col = 1; ($col <= $numColumns) && ($i < $count); $col++)
+				{
 					$return[$keys[$i]] = $articles[$index[$row][$col]];
 					$i++;
 				}

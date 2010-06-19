@@ -31,6 +31,7 @@ $ -> Language fix or change
 [#21073] Media Manager image upload issue (front-end)
 [#21039] Default path for install from directory missing. Thanks Artyom.
 $ Added missing string
+[#20966] Blog Order Down Doesn't Work In Some Cases. Thanks Mark.
 
 18-Jun-2010 Jean-Marie Simonet
 [#21046] menu - single article missing string + some
