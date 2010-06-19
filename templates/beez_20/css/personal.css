@@ -1303,3 +1303,6 @@ table.pagenav,
 table.pagenav tr,
 table.pagenav td
 {border:0 !important}
+
+/* ++++++++++++++  flashupload  ++++++++++++++ */
+.hide 			{ display: none; }

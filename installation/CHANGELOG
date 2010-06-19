@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jun-2010 Jean-Marie Simonet
+[#21073] Media Manager image upload issue (front-end)
+
 18-Jun-2010 Jean-Marie Simonet
 [#21046] menu - single article missing string + some
 [#21049] frontpage editor image upload string error (Thanks Bill)
