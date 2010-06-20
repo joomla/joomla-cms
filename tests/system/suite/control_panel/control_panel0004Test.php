@@ -91,8 +91,88 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
 		$this->doAdminLogout();
-		print("Finished control_panel0004Test.php." . "\n");
+		print("Finished control_panel0004Test.php/testCreateRemoveCategory." . "\n");
 
+	}
+
+	function testCategorySaveOrder()
+	{
+		$this->setUp();
+		$this->gotoAdmin();
+		$this->doAdminLogin();
+		$this->click("link=Control Panel");
+		$this->waitForPageToLoad("30000");
+
+		print("Navigate to Category Manager." . "\n");
+		$this->click("link=Category Manager");
+		$this->waitForPageToLoad("30000");
+		
+		echo "Check that Save Order icon is shown only with Order ascending sort\n";
+		$this->assertTrue($this->isElementPresent("//a[contains(@href, 'saveorder')][@class = 'saveorder']"));
+		$this->click("link=Ordering");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//a[@class =  'saveorder inactive']"));
+		$this->click("link=Access");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//a[@class =  'saveorder inactive']"));
+		$this->click("link=Language");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//a[@class =  'saveorder inactive']"));
+		$this->click("link=Ordering");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//a[contains(@href, 'saveorder')][@class = 'saveorder']"));
+		
+		echo "Check initial ordering of categories\n";
+		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
+		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		
+		echo "change the order of categories and click Save Order\n";
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
+		$this->type("//input[@name='order[]' and @value='2']", "4");
+		$this->type("//input[@name='order[]' and @value='4']", "2");
+		$this->type("//input[@name='order[]' and @value='5']", "1");
+		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
+		$this->waitForPageToLoad("30000");
+		
+		echo "check that orders have changed\n";
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
+		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
+		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
+		
+		echo "put the categories back in the original order and click Save Order\n";
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
+		$this->type("//input[@name='order[]' and @value='2']", "4");
+		$this->type("//input[@name='order[]' and @value='4']", "2");
+		$this->type("//input[@name='order[]' and @value='5']", "1");
+		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
+		$this->waitForPageToLoad("30000");
+		
+		echo "Check for success message and that order has been put back to original\n";
+		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
+		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
+		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		
+		echo "Try pressing save order with no form changes\n";
+		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
+		$this->waitForPageToLoad("30000");
+		echo "Check that there is no success message and that orders haven't changed\n";
+		$this->assertFalse($this->isTextPresent("Item successfully reordered"));
+		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
+		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		$this->doAdminLogout();
+		print("Finished control_panel0004Test.php/testCategorySaveOrder." . "\n");
 	}
 }
 ?>

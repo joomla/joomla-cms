@@ -1530,7 +1530,7 @@ a.saveorder {
 }
 
 a.saveorder.inactive {
-	background-position: 0px 16px;
+	background-position: 0px -16px;
 }
 
 

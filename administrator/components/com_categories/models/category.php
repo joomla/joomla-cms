@@ -330,6 +330,28 @@ class CategoriesModelCategory extends JModelAdmin
 
 		return true;
 	}
+	
+	/** 
+	 * Method to save the reordered nested set tree.
+	 * First we save the new order values in the lft values of the changed ids.
+	 * Then we invoke the table rebuild to implement the new ordering.
+	 * 
+	 * @return	boolean false on failuer or error, true otherwise
+	 * @since	1.6
+	*/
+	public function saveorder($idArray = null, $lft_array = null)
+	{
+		// Get an instance of the table object.
+		$table = $this->getTable();
+		
+		if (!$table->saveorder($idArray, $lft_array)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		return true;
+		
+	}
 
 	/**
 	 * Method to perform batch operations on a category or a set of categories.
