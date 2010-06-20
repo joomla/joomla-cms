@@ -34,7 +34,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @since	1.6
 	 */
-	public static function action($i, $task, $prefix='', $text='', $active_title='', $inactive_title, $tip=false, $active_class='', $inactive_class='', $enabled = true, $translate=true, $checkbox='cb')
+	public static function action($i, $task, $prefix='', $text='', $active_title='', $inactive_title='', $tip=false, $active_class='', $inactive_class='', $active_style='', $inactive_style='', $enabled = true, $translate=true, $checkbox='cb')
 	{
 		if (is_array($prefix)) {
 			$options			= $prefix;
@@ -44,6 +44,8 @@ abstract class JHtmlJGrid
 			$tip				= array_key_exists('tip',				$options) ? $options['tip']					: $tip;
 			$active_class		= array_key_exists('active_class',		$options) ? $options['active_class']		: $active_class;
 			$inactive_class		= array_key_exists('inactive_class',	$options) ? $options['inactive_class']		: $inactive_class;
+			$active_style		= array_key_exists('active_style',		$options) ? $options['active_style']		: $active_style;
+			$inactive_style		= array_key_exists('inactive_style',	$options) ? $options['inactive_style']		: $inactive_style;
 			$enabled			= array_key_exists('enabled',			$options) ? $options['enabled']				: $enabled;
 			$translate			= array_key_exists('translate',			$options) ? $options['translate']			: $translate;
 			$checkbox			= array_key_exists('checkbox',			$options) ? $options['checkbox']			: $checkbox;
@@ -53,10 +55,10 @@ abstract class JHtmlJGrid
 			JHtml::_('behavior.tooltip');
 		}
 		if ($enabled) {
-			return '<a class="jgrid'.($tip?' hasTip':'').'" href="javascript:void(0);" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars($translate?JText::_($active_title):$active_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></a>';
+			return '<a class="jgrid'.($tip?' hasTip':'').'" href="javascript:void(0);" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars($translate?JText::_($active_title):$active_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active_class.'" style="'.$active_style.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></a>';
 		}
 		else {
-			return '<span class="jgrid'.($tip?' hasTip':'').'" title="'.addslashes(htmlspecialchars($translate?JText::_($inactive_title):$inactive_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$inactive_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></span>';
+			return '<span class="jgrid'.($tip?' hasTip':'').'" title="'.addslashes(htmlspecialchars($translate?JText::_($inactive_title):$inactive_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$inactive_class.'" style="'.$inactive_style.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></span>';
 		}
 	}
 
@@ -93,8 +95,10 @@ abstract class JHtmlJGrid
 		$tip			= array_key_exists('tip',				$state) ? $state['tip'	]			: (array_key_exists(4,$state) ? $state[4] : false);
 		$active_class	= array_key_exists('active_class',		$state) ? $state['active_class']	: (array_key_exists(5,$state) ? $state[5] : '');
 		$inactive_class	= array_key_exists('inactive_class',	$state) ? $state['inactive_class']	: (array_key_exists(6,$state) ? $state[6] : '');
+		$active_style	= array_key_exists('active_style',		$state) ? $state['active_style']	: (array_key_exists(7,$state) ? $state[7] : '');
+		$inactive_style	= array_key_exists('inactive_style',	$state) ? $state['inactive_style']	: (array_key_exists(8,$state) ? $state[8] : '');
 
-		return self::action($i, $task, $prefix, $text, $active_title, $inactive_title, $tip, $active_class, $inactive_class, $enabled, $translate, $checkbox);
+		return self::action($i, $task, $prefix, $text, $active_title, $inactive_title, $tip, $active_class, $inactive_class, $active_style, $inactive_style, $enabled, $translate, $checkbox);
 	}
 
 	/**

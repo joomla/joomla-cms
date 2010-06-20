@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2010 Christophe Demko
+ # Correcting a small issue in JHtmlJGrid
+
 20-Jun-2010 Jean-Marie Simonet
 [#20757] Contacts unpublished visible in frontend. Thanks Christophe.
 [#21042] When enabling/disabling the flash uploader, page refresh needed on 'Options > Save'. Thanks Omar.
