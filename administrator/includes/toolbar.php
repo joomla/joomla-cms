@@ -488,13 +488,15 @@ abstract class JToolBarHelper
 	 * @param	string	$path		An alternative path for the configuation xml relative to JPATH_SITE.
 	 * @since	1.0
 	 */
-	public static function preferences($component, $height = '450', $width = '800', $alt = 'JToolbar_Options', $path = '')
+	public static function preferences($component, $height = '450', $width = '800', $alt = 'JToolbar_Options', $path = '', $onClose = '')
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
+		$top = 0;
+		$left = 0;
 		$bar = &JToolBar::getInstance('toolbar');
 		// Add a configuration button.
-		$bar->appendButton('Popup', 'config', $alt, 'index.php?option=com_config&amp;view=component&amp;component='.$component.'&amp;path='.$path.'&amp;tmpl=component', $width, $height);
+		$bar->appendButton('Popup', 'config', $alt, 'index.php?option=com_config&amp;view=component&amp;component='.$component.'&amp;path='.$path.'&amp;tmpl=component', $width, $height, $top, $left, $onClose);
 	}
 }
 
