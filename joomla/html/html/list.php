@@ -163,7 +163,7 @@ abstract class JHtmlList
 			else if ($neworder <= 0) {
 				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 			}
-			$html = '<input type="hidden" name="'.$name.'" value="'. (int) $selected .'" />'. $text;
+			$html = '<input type="hidden" name="'.$name.'" value="'. (int) $selected .'" />'. '<span class="readonly">' . $text . '</span>';
 		}
 		return $html;
 	}
