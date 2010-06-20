@@ -27,7 +27,7 @@ class JButtonPopup extends JButton
 	 */
 	protected $_name = 'Popup';
 
-	public function fetchButton($type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0)
+	public function fetchButton($type='Popup', $name = '', $text = '', $url = '', $width=640, $height=480, $top=0, $left=0, $onClose = '')
 	{
 		JHtml::_('behavior.modal');
 
@@ -35,7 +35,7 @@ class JButtonPopup extends JButton
 		$class	= $this->fetchIconClass($name);
 		$doTask	= $this->_getCommand($name, $url, $width, $height, $top, $left);
 
-		$html	= "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}}\">\n";
+		$html	= "<a class=\"modal\" href=\"$doTask\" rel=\"{handler: 'iframe', size: {x: $width, y: $height}, onClose: function() {".$onClose."}}\">\n";
 		$html .= "<span class=\"$class\">\n";
 		$html .= "</span>\n";
 		$html	.= "$text\n";
