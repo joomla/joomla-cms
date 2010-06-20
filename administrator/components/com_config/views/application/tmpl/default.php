@@ -77,9 +77,8 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 				<?php echo $this->loadTemplate('permissions'); ?>
 			</div>
 		</div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 	<div class="clr"></div>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

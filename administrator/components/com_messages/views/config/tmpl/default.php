@@ -50,8 +50,7 @@ JHtml::_('behavior.keepalive');
 		<?php echo $this->form->getLabel('auto_purge'); ?>
 		<?php echo $this->form->getInput('auto_purge'); ?>
 
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

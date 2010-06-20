@@ -42,9 +42,8 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $parent_id->input; ?></li>
 			</ul>
 		</fieldset>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div class="clr"></div>

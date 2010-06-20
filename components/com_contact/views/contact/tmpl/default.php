@@ -48,7 +48,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
 			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>:
 			<?php echo JHtml::_('select.genericlist',  $this->contact, 'id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
-			<input type="hidden" name="option" value="com_contact" />
+			<div>
+				<input type="hidden" name="option" value="com_contact" />
+			</div>
 		</form>
 	<?php endif; ?>
 

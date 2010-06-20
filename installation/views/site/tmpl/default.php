@@ -172,11 +172,10 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 						</div>
 					</div>
 					<div class="clr"></div>
+					<input type="hidden" name="task" value="" />
+					<?php echo JHtml::_('form.token'); ?>
+					<?php echo $this->form->getInput('sample_installed'); ?>
 				</div>
-
-				<input type="hidden" name="task" value="" />
-				<?php echo JHtml::_('form.token'); ?>
-				<?php echo $this->form->getInput('sample_installed'); ?>
 			</form>
 
 			<div class="clr"></div>
@@ -224,8 +223,8 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 						<div class="b"></div>
 					</div>
 				</div>
+				<?php echo JHtml::_('form.token'); ?>
 			</div>
-			<?php echo JHtml::_('form.token'); ?>
 		</form>
 
 		<div class="clr"></div>

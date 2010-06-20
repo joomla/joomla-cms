@@ -66,9 +66,10 @@ JHtml::_('behavior.formvalidation');
 		endforeach;
 	echo JHtml::_('tabs.end');
 	?>
-
-	<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
-	<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<div>
+		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
+		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

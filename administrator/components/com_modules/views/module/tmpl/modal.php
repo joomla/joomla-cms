@@ -156,6 +156,8 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 		</fieldset>	endif;
 	<?php endif; ?>
 
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

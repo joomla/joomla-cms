@@ -95,7 +95,6 @@ $canDo	= TemplatesHelper::getActions();
 		</fieldset>
 
 		<div class="clr"></div>
+		<input type="hidden" name="task" value="" />
 	</div>
-
-	<input type="hidden" name="task" value="" />
 </form>

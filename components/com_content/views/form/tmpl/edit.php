@@ -120,7 +120,9 @@ function submitbutton(task) {
 		</div>
 	</fieldset>
 
-	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
+	<div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
+	</div>
 </form>
 </div>

@@ -46,12 +46,11 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<?php echo $this->form->limitField; ?>
 		<button type="submit" class="button"><?php echo JText::_('JGLOBAL_FILTER_BUTTON'); ?></button>
 	</div>
+	<input type="hidden" name="view" value="archive" />
+	<input type="hidden" name="option" value="com_content" />
 	</fieldset>
 
 	<?php echo $this->loadTemplate('items'); ?>
-
-	<input type="hidden" name="view" value="archive" />
-	<input type="hidden" name="option" value="com_content" />
 </form>
 </div>
 <?php } ?>

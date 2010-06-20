@@ -112,10 +112,10 @@ JHTML::_('behavior.modal');
 		<?php endif; ?>
 
 	<?php echo JHtml::_('sliders.end'); ?>
-</div>
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
+</div>
 </form>
 
 

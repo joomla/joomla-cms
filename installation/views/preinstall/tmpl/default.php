@@ -190,9 +190,8 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 			</div>
 		</div>
 	</div>
+	<input type="hidden" name="task" value="" />
+<?php echo JHtml::_('form.token'); ?>
 </div>
 <div class="clr"></div>
-
-<input type="hidden" name="task" value="" />
-<?php echo JHtml::_('form.token'); ?>
 </form>

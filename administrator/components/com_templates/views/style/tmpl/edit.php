@@ -50,6 +50,8 @@ $user = JFactory::getUser();
 				<span class="readonly"><?php echo $this->item->id; ?></span>
 			<?php endif; ?>
 		</fieldset>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 
 	<div class="width-40 fltrt">
@@ -69,7 +71,4 @@ $user = JFactory::getUser();
 	<?php endif;?>
 
 	<div class="clr"></div>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

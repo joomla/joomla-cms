@@ -127,8 +127,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->loadTemplate('metadata'); ?>
 		<?php echo JHtml::_('sliders.end'); ?>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

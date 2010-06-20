@@ -46,8 +46,8 @@ defined('_JEXEC') or die;
 
 			echo $output;
 		?>
-	</div>
 	<input type="hidden" name="task" value="search" />
 	<input type="hidden" name="option" value="com_search" />
 	<input type="hidden" name="Itemid" value="<?php echo $mitemid; ?>" />
+	</div>
 </form>

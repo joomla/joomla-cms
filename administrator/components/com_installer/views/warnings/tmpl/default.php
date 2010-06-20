@@ -28,6 +28,8 @@ if (!count($this->messages)) {
 }
 ?>
 <div class="clr"> </div>
-<input type="hidden" name="boxchecked" value="0" />
-<?php echo JHTML::_('form.token'); ?>
+<div>
+	<input type="hidden" name="boxchecked" value="0" />
+	<?php echo JHTML::_('form.token'); ?>
+</div>
 </form>

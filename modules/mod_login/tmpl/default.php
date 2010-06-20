@@ -59,6 +59,10 @@ endif; ?>
 	</p>
 	<?php endif; ?>
 	<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
+	<input type="hidden" name="option" value="com_users" />
+	<input type="hidden" name="task" value="user.login" />
+	<input type="hidden" name="return" value="<?php echo $return; ?>" />
+	<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 	<ul>
 		<li>
@@ -79,10 +83,5 @@ endif; ?>
 		<?php endif; ?>
 	</ul>
 	<?php echo $params->get('posttext'); ?>
-
-	<input type="hidden" name="option" value="com_users" />
-	<input type="hidden" name="task" value="user.login" />
-	<input type="hidden" name="return" value="<?php echo $return; ?>" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>
 <?php endif; ?>

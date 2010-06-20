@@ -93,7 +93,9 @@ $listDirn	= $this->state->get('list.direction');
 	</div>
 	<?php endif; ?>
 
-	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+	<div>
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+	</div>
 </form>
 <?php endif; ?>

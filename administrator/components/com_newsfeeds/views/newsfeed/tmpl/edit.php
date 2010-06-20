@@ -113,10 +113,9 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->loadTemplate('metadata'); ?>
 
 		<?php echo JHtml::_('sliders.end'); ?>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 
-	<div class="clr"></div>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<div class="clr"></div>	
 </form>

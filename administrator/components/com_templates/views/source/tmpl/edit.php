@@ -43,10 +43,11 @@ JHtml::_('behavior.keepalive');
 		<div class="editor-border">
 		<?php echo $this->form->getInput('source'); ?>
 		</div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 
 	<?php echo $this->form->getInput('extension_id'); ?>
 	<?php echo $this->form->getInput('filename'); ?>
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	
 </form>

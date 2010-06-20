@@ -61,9 +61,8 @@ function submitbutton(task) {
 		<button type="button" onclick="submitbutton('weblink.cancel')">
 			<?php echo JText::_('JCANCEL') ?>
 		</button>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHTML::_( 'form.token' ); ?>
 	</fieldset>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_( 'form.token' ); ?>
 </form>
 </div>

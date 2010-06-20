@@ -76,13 +76,12 @@ defined('_JEXEC') or die;
 			<div>
 			<button class="button validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
 			</div>
+			<input type="hidden" name="option" value="com_contact" />
+			<input type="hidden" name="view" value="contact" />
+			<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
+			<input type="hidden" name="task" value="submit" />
+			<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
 		</div>
-
-	<input type="hidden" name="option" value="com_contact" />
-	<input type="hidden" name="view" value="contact" />
-	<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
-	<input type="hidden" name="task" value="submit" />
-	<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
-	<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>

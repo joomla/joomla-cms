@@ -64,9 +64,9 @@ defined('_JEXEC') or die;
 			<input type="text" id="install_url" name="install_url" class="input_box" size="70" value="http://" />
 			<input type="button" class="button" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="submitbutton4()" />
 		</fieldset>
+		<input type="hidden" name="type" value="" />
+		<input type="hidden" name="installtype" value="upload" />
+		<input type="hidden" name="task" value="install.install" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
-	<input type="hidden" name="type" value="" />
-	<input type="hidden" name="installtype" value="upload" />
-	<input type="hidden" name="task" value="install.install" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

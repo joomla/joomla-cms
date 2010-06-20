@@ -29,9 +29,9 @@ defined('_JEXEC') or die;
 			echo $this->loadTemplate('img');
 		endfor; ?>
 
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="username" value="" />
+		<input type="hidden" name="password" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="username" value="" />
-	<input type="hidden" name="password" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

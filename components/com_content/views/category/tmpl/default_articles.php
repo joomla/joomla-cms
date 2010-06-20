@@ -142,10 +142,12 @@ $listDirn	= $this->state->get('list.direction');
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 	<?php endif; ?>
-
-	<!-- @TODO add hidden inputs -->
-	<input type="hidden" name="filter_order" value="" />
-	<input type="hidden" name="filter_order_Dir" value="" />
-	<input type="hidden" name="limitstart" value="" />
+	
+	<div>
+		<!-- @TODO add hidden inputs -->
+		<input type="hidden" name="filter_order" value="" />
+		<input type="hidden" name="filter_order_Dir" value="" />
+		<input type="hidden" name="limitstart" value="" />
+	</div>
 </form>
 <?php endif; ?>

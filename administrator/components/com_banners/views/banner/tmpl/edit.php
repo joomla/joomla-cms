@@ -133,10 +133,9 @@ JHtml::_('behavior.formvalidation');
 		</fieldset>
 
 	<?php echo JHtml::_('sliders.end'); ?>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </div>
 
 <div class="clr"></div>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>

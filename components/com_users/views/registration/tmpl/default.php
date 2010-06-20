@@ -50,9 +50,10 @@ JHtml::_('behavior.formvalidation');
 		<button type="submit" class="validate"><?php echo JText::_('JREGISTER');?></button>
 	<?php echo JText::_('COM_USERS_OR');?>
 		<a href="<?php echo JRoute::_('');?>" title="<?php echo JText::_('JCANCEL');?>"><?php echo JText::_('JCANCEL');?></a>
-
-		<input type="hidden" name="option" value="com_users" />
-		<input type="hidden" name="task" value="registration.register" />
-	<?php echo JHtml::_('form.token');?>
+		<div>
+			<input type="hidden" name="option" value="com_users" />
+			<input type="hidden" name="task" value="registration.register" />
+			<?php echo JHtml::_('form.token');?>
+		</div>
 	</form>
 </div>

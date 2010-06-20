@@ -52,9 +52,8 @@ defined('_JEXEC') or die;
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit"><?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
-
+					<?php echo JHtml::_('form.token'); ?>
 				</fieldset>
-				<?php echo JHtml::_('form.token'); ?>
 			</form>
 
 			<!-- File Upload Form -->
@@ -84,9 +83,9 @@ defined('_JEXEC') or die;
 					<ul class="upload-queue" id="upload-queue">
 						<li style="display:none;" />
 					</ul>
+					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
+					<input type="hidden" name="format" value="html" />
 				</fieldset>
-				<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
-				<input type="hidden" name="format" value="html" />
 			</form>
 		</td>
 	</tr>

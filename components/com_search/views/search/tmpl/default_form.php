@@ -68,6 +68,7 @@ defined('_JEXEC') or die;
 	</p>
 
 <?php endif; ?>
-
-<input type="hidden" name="task" value="search" />
+	<div>
+		<input type="hidden" name="task" value="search" />
+	</div>
 </form>

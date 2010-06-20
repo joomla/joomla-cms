@@ -25,9 +25,8 @@ defined('_JEXEC') or die;
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
 		<pre><?php echo $this->escape($this->item->message);?></pre></li>
 		</ul>
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
-
-	<input type="hidden" name="task" value="" />
-	<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>" />
-	<?php echo JHtml::_('form.token'); ?>
 </form>
