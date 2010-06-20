@@ -46,6 +46,7 @@ class ContactModelContact extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$this->setState('filter.published', 1);
+		$this->setState('filter.archived', 2);
 	}
 
 	/**
@@ -101,11 +102,11 @@ class ContactModelContact extends JModelItem
 				$data = $db->loadObject();
 
 				if ($error = $db->getErrorMsg()) {
-					throw new Exception($error);
+					throw new JException($error);
 				}
 
 				if (empty($data)) {
-					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+					throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 
@@ -135,7 +136,7 @@ class ContactModelContact extends JModelItem
 
 				$this->_item[$pk] = $data;
 			}
-			catch (Exception $e)
+			catch (JException $e)
 			{
 				$this->setError($e);
 				$this->_item[$pk] = false;

@@ -31,7 +31,7 @@ class ContactViewContact extends JView
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
+			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
 

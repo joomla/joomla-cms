@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2010 Jean-Marie Simonet
+[#20757] Contacts unpublished visible in frontend. Thanks Christophe.
+
 19-Jun-2010 Mark Dexter
 # [#21010] &nbsp; must not be used (Thanks Rouven)
 # [#20634] Ordering Categories with integers doesn't work
