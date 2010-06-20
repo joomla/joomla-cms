@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-Jun-2010 Mark Dexter
 # [#20781] [patch] Remove deprecated attribute language from all occurrences of the tag script
 # [#20989] input elements must be nested in a block level tag
+# [#21119] [patch] Passwords displayed as plain text in Global Config
 
 20-Jun-2010 Christophe Demko
  # Correcting a small issue in JHtmlJGrid

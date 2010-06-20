@@ -208,7 +208,7 @@
 
 		<field
 			name="ftp_pass"
-			type="text"
+			type="password"
 			label="COM_CONFIG_FIELD_FTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_FTP_PASSWORD_DESC"
 			filter="string"
@@ -331,7 +331,7 @@
 
 		<field
 			name="smtppass"
-			type="text"
+			type="password"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="string"
