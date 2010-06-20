@@ -1045,6 +1045,7 @@ input,select, span.faux-input {
 }
 
 span.readonly {
+	float: left;
 	font-size: 1.2em;
 	line-height: 2em;
 }

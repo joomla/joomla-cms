@@ -867,6 +867,7 @@ span.readonly {
 	font-size: 1.091em;;
 	margin:5px 5px 5px 0;
 	font-weight: bold;
+	float: left;
 	display:block;
 	color: #666;
 }
@@ -880,7 +881,7 @@ span.readonly {
 	width: 70px;
 }
 
-.mod-desc { margin-left: 140px !important;}
+.mod-desc { margin-left: 135px !important; float: none !important;}
 
 input.readonly {
 	background-color: #ffffff;

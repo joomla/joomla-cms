@@ -37,6 +37,7 @@ $ -> Language fix or change
 20-Jun-2010 Jean-Marie Simonet
 [#20757] Contacts unpublished visible in frontend. Thanks Christophe.
 [#21042] When enabling/disabling the flash uploader, page refresh needed on 'Options > Save'. Thanks Omar.
+[#21036] Ordering text for new items is floating up and to the right. Thanks Omar
 
 19-Jun-2010 Mark Dexter
 # [#21010] &nbsp; must not be used (Thanks Rouven)
