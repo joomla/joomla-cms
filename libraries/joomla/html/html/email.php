@@ -32,7 +32,7 @@ abstract class JHtmlEmail
 		// random number
 		$rand			= rand(1, 100000);
 
-		$replacement	= "\n <script language='JavaScript' type='text/javascript'>";
+		$replacement	= "\n <script type='text/javascript'>";
 		$replacement	.= "\n <!--";
 		$replacement	.= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
 		$replacement	.= "\n var path = 'hr' + 'ef' + '=';";
@@ -67,13 +67,13 @@ abstract class JHtmlEmail
 		$replacement	.= '\n </script>';
 
 		// XHTML compliance `No Javascript` text handling
-		$replacement	.= "<script language='JavaScript' type='text/javascript'>";
+		$replacement	.= "<script type='text/javascript'>";
 		$replacement	.= "\n <!--";
 		$replacement	.= "\n document.write('<span style=\'display: none;\'>');";
 		$replacement	.= "\n //-->";
 		$replacement	.= "\n </script>";
 		$replacement	.= JText::_('CLOAKING');
-		$replacement	.= "\n <script language='JavaScript' type='text/javascript'>";
+		$replacement	.= "\n <script type='text/javascript'>";
 		$replacement	.= "\n <!--";
 		$replacement	.= "\n document.write('</');";
 		$replacement	.= "\n document.write('span>');";

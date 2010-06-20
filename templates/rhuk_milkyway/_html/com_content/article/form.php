@@ -11,7 +11,7 @@ if (! isset($this->article->publish_down) || $this->article->publish_down == 'Ne
 }
 ?>
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 <!--
 function setgood() {
 	// TODO: Put setGood back

@@ -18,7 +18,7 @@ JHtml::_('behavior.formvalidation');
 $params = $this->state->get('params');
 ?>
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 function submitbutton(task) {
 	if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 		submitform(task);

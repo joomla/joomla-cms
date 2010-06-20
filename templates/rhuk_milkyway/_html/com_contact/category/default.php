@@ -23,7 +23,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 	<?php echo $this->category->description; ?>
 	</div>
 <?php endif; ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;
 

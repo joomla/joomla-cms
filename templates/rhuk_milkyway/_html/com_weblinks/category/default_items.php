@@ -1,5 +1,5 @@
 <?php defined('_JEXEC') or die; ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	function tableOrdering( order, dir, task ) {
 	var form = document.adminForm;
 

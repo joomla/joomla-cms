@@ -11,7 +11,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 <!--
 	function submitbutton3(pressbutton) {
 		var form = document.adminForm;

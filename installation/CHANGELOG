@@ -38,6 +38,7 @@ $ -> Language fix or change
 # [#21010] &nbsp; must not be used (Thanks Rouven)
 # [#20634] Ordering Categories with integers doesn't work
 # [#20483] After opening and saving plugin, plugin is removed [strict]
+# [#20781] [patch] Remove deprecated attribute language from all occurrences of the tag script
 
 19-Jun-2010 Jean-Marie Simonet
 [#21073] Media Manager image upload issue (front-end)

@@ -47,7 +47,7 @@ class JFormFieldModuleOrder extends JFormField
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
-		$html[] = '<script language="javascript" type="text/javascript">';
+		$html[] = '<script type="text/javascript">';
 		$html[] = '<!-- ';
 
 		$ordering = $this->form->getValue('ordering');
