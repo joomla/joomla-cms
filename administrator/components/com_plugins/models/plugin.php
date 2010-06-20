@@ -222,6 +222,9 @@ class PluginsModelPlugin extends JModelAdmin
 	{
 		// Load the extension plugin group.
 		JPluginHelper::importPlugin('extension');
+		
+		// Setup type
+		$data['type'] = 'plugin';
 
 		return parent::save($data);
 	}
