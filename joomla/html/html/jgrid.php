@@ -26,6 +26,8 @@ abstract class JHtmlJGrid
 	 * @param	boolean			$tip				An optional setting for tooltip
 	 * @param	string			$active_class		An optional active html class
 	 * @param	string			$inactive_class		An optional inactive html class
+	 * @param	string			$active_style		An optional active html style
+	 * @param	string			$inactive_style		An optional inactive html style
 	 * @param	boolean			$enabled			An optional setting for access control on the action.
 	 * @param	boolean			$translate			An optional setting for translation.
 	 * @param	string			$checkbox			An optional prefix for checkboxes.
@@ -65,7 +67,7 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a state on a grid
 	 *
-	 * @param	array			$states		array of value/state. Each state is an array of the form (task, text, title,html active class, html inactive class)
+	 * @param	array			$states		array of value/state. Each state is an array of the form (task, text, title,html active class, html inactive class, html active style, html inactive style)
 	 *										or ('task'=>task, 'text'=>text, 'title'=>title, 'tip'=>boolean, 'active'=>html class, 'inactive'=>html class)
 	 * @param	int				$value		The state value.
 	 * @param	int				$i			The row index
