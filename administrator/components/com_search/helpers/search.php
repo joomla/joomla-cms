@@ -226,10 +226,10 @@ class SearchHelper
 		}
 
 		if ($wordfound !== false) {
-			return (($pos > 0) ? '...&nbsp;' : '') . $chunk . '&nbsp;...';
+			return (($pos > 0) ? '...&#160;' : '') . $chunk . '&#160;...';
 		} else {
 			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false) {
-				return JString::substr($text, 0, $wordpos) . '&nbsp;...';
+				return JString::substr($text, 0, $wordpos) . '&#160;...';
 			} else {
 				return JString::substr($text, 0, $length);
 			}

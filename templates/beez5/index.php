@@ -105,9 +105,9 @@ $templateparams	= $app->getTemplate(true)->params;
 							<script type="text/javascript">
 							//<![CDATA[
 							document.write('<h3><?php echo JText::_('TPL_BEEZ5_FONTSIZE'); ?></h3><p class="fontsize">');
-							document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE'); ?>" onclick="changeFontSize(2); return false;" class="larger"><?php echo JText::_('TPL_BEEZ5_BIGGER'); ?></a><span class="unseen">&nbsp;</span>');
+							document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ5_INCREASE_SIZE'); ?>" onclick="changeFontSize(2); return false;" class="larger"><?php echo JText::_('TPL_BEEZ5_BIGGER'); ?></a><span class="unseen">&#160;</span>');
 							document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ5_REVERT_STYLES_TO_DEFAULT'); ?>" onclick="revertStyles(); return false;" class="reset"><?php echo JText::_('TPL_BEEZ5_RESET'); ?></a> ');
-							document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE'); ?>" onclick="changeFontSize(-2); return false;" class="smaller"><?php echo JText::_('TPL_BEEZ5_SMALLER'); ?></a><span class="unseen">&nbsp;</span></p>');
+							document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ5_DECREASE_SIZE'); ?>" onclick="changeFontSize(-2); return false;" class="smaller"><?php echo JText::_('TPL_BEEZ5_SMALLER'); ?></a><span class="unseen">&#160;</span></p>');
 							//]]>
 							</script>
 					</div>

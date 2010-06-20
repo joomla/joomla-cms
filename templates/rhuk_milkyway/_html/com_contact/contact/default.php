@@ -61,7 +61,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 		</tr>
 		</table>
 	</td>
-	<td>&nbsp;</td>
+	<td>&#160;</td>
 </tr>
 <?php if ( $this->contact->params->get( 'allow_vcard' ) ) : ?>
 <tr>

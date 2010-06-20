@@ -6,7 +6,7 @@ defined('_JEXEC') or die; ?>
 <?php endif; ?>
 	<p>
 		<?php if ($this->params->get('filter')) : ?>
-		<?php echo JText::_('Filter').'&nbsp;'; ?>
+		<?php echo JText::_('Filter').'&#160;'; ?>
 		<input type="text" name="filter" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
 		<?php endif; ?>
 		<?php echo $this->form->monthField; ?>

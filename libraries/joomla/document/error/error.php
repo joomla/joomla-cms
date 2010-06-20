@@ -159,7 +159,7 @@ class JDocumentError extends JDocument
 				if (isset($backtrace[$i]['file'])) {
 					echo	'		<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
 				} else {
-					echo	'		<td class="TD">&nbsp;</td>';
+					echo	'		<td class="TD">&#160;</td>';
 				}
 				echo	'	</tr>';
 				$j++;

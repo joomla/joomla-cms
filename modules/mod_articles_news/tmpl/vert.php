@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	<li class="newsflash-item">
 	<?php require JModuleHelper::getLayoutPath('mod_articles_news', '_item');
 	if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>
-		<span class="article_separator">&nbsp;</span>
+		<span class="article_separator">&#160;</span>
 	<?php endif; ?>
 	</li>
 <?php endfor; ?>

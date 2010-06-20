@@ -109,7 +109,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									</td>
 								</tr>
 								<tr>
-									<td>&nbsp;</td>
+									<td>&#160;</td>
 								</tr>
 								<tr>
 									<td align="center" class="notice">
@@ -129,7 +129,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									</td>
 								</tr>
 								<tr>
-									<td>&nbsp;</td>
+									<td>&#160;</td>
 								</tr>
 								<?php if ($this->config) : ?>
 								<tr>

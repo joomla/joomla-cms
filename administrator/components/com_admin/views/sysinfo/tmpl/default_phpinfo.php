@@ -16,14 +16,14 @@ defined('_JEXEC') or die;
 		<thead>
 			<tr>
 				<th colspan="2">
-					&nbsp;
+					&#160;
 				</th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
 				<th colspan="2">
-					&nbsp;
+					&#160;
 				</th>
 			</tr>
 		</tfoot>

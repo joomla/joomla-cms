@@ -168,7 +168,7 @@ class plgContentPagenavigation extends JPlugin
 				if ($row->prev && $row->next) {
 					$html .= '
 					<td width="50">
-						&nbsp;
+						&#160;
 					</td>'
 					;
 				}

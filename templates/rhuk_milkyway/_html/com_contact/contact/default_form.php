@@ -32,25 +32,25 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<form action="<?php echo JRoute::_( 'index.php' );?>" method="post" name="emailForm" id="emailForm" class="form-validate">
 		<div class="contact_email<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<label for="contact_name">
-				&nbsp;<?php echo JText::_( 'Enter your name' );?>:
+				&#160;<?php echo JText::_( 'Enter your name' );?>:
 			</label>
 			<br />
 			<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
 			<br />
 			<label id="contact_emailmsg" for="contact_email">
-				&nbsp;<?php echo JText::_( 'Email address' );?>:
+				&#160;<?php echo JText::_( 'Email address' );?>:
 			</label>
 			<br />
 			<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			<br />
 			<label for="contact_subject">
-				&nbsp;<?php echo JText::_( 'COM_CONTACT_MESSAGE_SUBJECT' );?>:
+				&#160;<?php echo JText::_( 'COM_CONTACT_MESSAGE_SUBJECT' );?>:
 			</label>
 			<br />
 			<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
 			<br /><br />
 			<label id="contact_textmsg" for="contact_text">
-				&nbsp;<?php echo JText::_( 'Enter your message' );?>:
+				&#160;<?php echo JText::_( 'Enter your message' );?>:
 			</label>
 			<br />
 			<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>

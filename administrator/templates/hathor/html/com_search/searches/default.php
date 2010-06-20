@@ -62,7 +62,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
 				</th>
 				<th class="width-30">
-					&nbsp;
+					&#160;
 				</th>
 			</tr>
 		</thead>
@@ -87,7 +87,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php endif; ?>
 					</td>
 					<td>
-						&nbsp;
+						&#160;
 					</td>
 				</tr>
 			<?php endforeach; ?>

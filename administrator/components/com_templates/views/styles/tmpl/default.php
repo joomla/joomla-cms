@@ -45,7 +45,7 @@ $listDirn	= $this->state->get('list.direction');
 		<thead>
 			<tr>
 				<th width="5">
-					&nbsp;
+					&#160;
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
@@ -108,7 +108,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php if ($item->assigned > 0) : ?>
 							<?php echo JHTML::_('image','admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED',$item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED',$item->assigned)), true); ?>
 					<?php else : ?>
-							&nbsp;
+							&#160;
 					<?php endif; ?>
 				</td>
 				<td class="center">

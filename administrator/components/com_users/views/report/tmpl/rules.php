@@ -35,7 +35,7 @@ $extensions	= $this->data['extensions'];
 		<tfoot>
 			<tr>
 				<td colspan="15">
-					&nbsp;
+					&#160;
 				</td>
 			</tr>
 		</tfoot>

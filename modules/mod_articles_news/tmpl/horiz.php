@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 
 	if ($n > 1 && (($i < $n - 1) || $params->get('showLastSeparator'))) : ?>
 
-	<span class="article_separator">&nbsp;</span>
+	<span class="article_separator">&#160;</span>
 
 	<?php endif; ?>
 	</li>

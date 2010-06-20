@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jun-2010 Mark Dexter
+# [#21010] &nbsp; must not be used (Thanks Rouven)
+
 19-Jun-2010 Jean-Marie Simonet
 [#21073] Media Manager image upload issue (front-end)
 [#21039] Default path for install from directory missing. Thanks Artyom.

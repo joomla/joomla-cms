@@ -20,14 +20,14 @@ defined('_JEXEC') or die; ?>
 		<tr>
 		<?php if ($this->params->get('filter')) : ?>
 			<td align="left" width="60%" nowrap="nowrap">
-				<?php echo JText::_($this->params->get('filter_type') . ' Filter').'&nbsp;'; ?>
+				<?php echo JText::_($this->params->get('filter_type') . ' Filter').'&#160;'; ?>
 				<input type="text" name="filter" value="<?php echo $this->escape($this->lists['filter']);?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
 			<td align="right" width="40%" nowrap="nowrap">
 			<?php
-				echo '&nbsp;&nbsp;&nbsp;'.JText::_('JGLOBAL_DISPLAY_NUM').'&nbsp;';
+				echo '&#160;&#160;&#160;'.JText::_('JGLOBAL_DISPLAY_NUM').'&#160;';
 				echo $this->pagination->getLimitBox();
 			?>
 			</td>
@@ -109,7 +109,7 @@ defined('_JEXEC') or die; ?>
 <?php endforeach; ?>
 <?php if ($this->params->get('show_pagination')) : ?>
 <tr>
-	<td colspan="5">&nbsp;</td>
+	<td colspan="5">&#160;</td>
 </tr>
 <tr>
 	<td align="center" colspan="4" class="sectiontablefooter<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		<tr>
 			<th class="left"><?php echo JText::_('COM_CHECKIN_DATABASE_TABLE'); ?></th>
 			<th><?php echo JText::_('COM_CHECKIN_ITEMS_CHECKED_IN'); ?></th>
-			<th>&nbsp;</th>
+			<th>&#160;</th>
 		</tr>
 	</thead>
 	<?php
@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 				<?php if ($count > 0): ?>
 				<div class="checkin-tick"><?php echo JText::_('COM_CHECKIN_TICK'); ?></div>
 				<?php else: ?>
-				&nbsp;
+				&#160;
 				<?php endif; ?>
 			</td>
 		</tr>

@@ -106,7 +106,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 											<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
 										</span>
 										<span class="small">
-											<?php echo $option->notice; ?>&nbsp;
+											<?php echo $option->notice; ?>&#160;
 										</span>
 									</td>
 								</tr>

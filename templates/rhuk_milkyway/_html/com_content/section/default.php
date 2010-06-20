@@ -28,7 +28,7 @@ $cparams =& JComponentHelper::getParams('com_media');
 			<a href="<?php echo $category->link; ?>" class="category">
 				<?php echo $this->escape($category->title);?></a>
 			<?php if ($this->params->get('show_cat_num_articles')) : ?>
-			&nbsp;
+			&#160;
 			<span class="small">
 				( <?php if ($category->numitems==1) {
 				echo $category->numitems ." ". JText::_( 'item' );}

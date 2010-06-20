@@ -29,7 +29,7 @@
 			<li>
 				<a href="<?php echo $category->link; ?>" class="category<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 					<?php echo $this->escape($category->title);?></a>
-				&nbsp;
+				&#160;
 				<span class="small">
 					(<?php echo $category->numlinks;?>)
 				</span>

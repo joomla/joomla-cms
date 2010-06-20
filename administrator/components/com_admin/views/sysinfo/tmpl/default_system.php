@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="2">&nbsp;
+				<td colspan="2">&#160;
 				</td>
 			</tr>
 		</tfoot>

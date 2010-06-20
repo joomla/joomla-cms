@@ -48,7 +48,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JText::_('JGRID_HEADING_ID'); ?>
 				</th>
 				<th width="40%">
-					&nbsp;
+					&#160;
 				</th>
 			</tr>
 		</thead>
@@ -92,7 +92,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo (int) $item->id; ?>
 				</td>
 				<td>
-					&nbsp;
+					&#160;
 				</td>
 			</tr>
 		<?php endforeach; ?>

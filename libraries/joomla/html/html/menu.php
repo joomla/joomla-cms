@@ -270,11 +270,11 @@ abstract class JHtmlMenu
 				$id = $v->id;
 
 				if ($type) {
-					$pre	= '<sup>|_</sup>&nbsp;';
-					$spacer = '.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$pre	= '<sup>|_</sup>&#160;';
+					$spacer = '.&#160;&#160;&#160;&#160;&#160;&#160;';
 				} else {
 					$pre	= '- ';
-					$spacer = '&nbsp;&nbsp;';
+					$spacer = '&#160;&#160;';
 				}
 
 				if ($v->parent_id == 0) {

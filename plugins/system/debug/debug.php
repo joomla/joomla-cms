@@ -100,7 +100,7 @@ class plgSystemDebug extends JPlugin
 				echo '<ol>';
 				foreach ($log as $k => $sql) {
 					$text = htmlspecialchars($sql, ENT_QUOTES);
-					$text = preg_replace($newlineKeywords, '<br />&nbsp;&nbsp;\\0', $text);
+					$text = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $text);
 					echo '<li>'.$text.'</li>';
 				}
 				echo '</ol>';

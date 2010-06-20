@@ -56,13 +56,13 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'manage.', !$item->protected);?>
 					<?php endif; ?>
 				</td>
-				<td class="center"><?php echo @$item->version != '' ? $item->version : '&nbsp;'; ?></td>
-				<td class="center"><?php echo @$item->creationDate != '' ? $item->creationDate : '&nbsp;'; ?></td>
+				<td class="center"><?php echo @$item->version != '' ? $item->version : '&#160;'; ?></td>
+				<td class="center"><?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?></td>
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
 				<td class="center"><?php echo $item->client; ?></td>
 				<td class="center">
 					<span class="editlinktip hasTip" title="<?php echo JText::_('COM_INSTALLER_AUTHOR_INFORMATION');?>::<?php echo $item->author_info; ?>">
-						<?php echo @$item->author != '' ? $item->author : '&nbsp;'; ?>
+						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 					</span>
 				</td>
 				<td><?php echo $item->extension_id ?></td>

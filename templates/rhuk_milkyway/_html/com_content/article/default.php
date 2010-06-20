@@ -95,7 +95,7 @@ endif; ?>
 		<span class="small">
 			<?php JText::printf( 'COM_CONTENT_WRITTEN_BY', ($this->escape($this->article->created_by_alias) ? $this->escape($this->article->created_by_alias) : $this->escape($this->article->author)) ); ?>
 		</span>
-		&nbsp;&nbsp;
+		&#160;&#160;
 	</td>
 </tr>
 <?php endif; ?>
@@ -134,5 +134,5 @@ endif; ?>
 </tr>
 <?php endif; ?>
 </table>
-<span class="article_separator">&nbsp;</span>
+<span class="article_separator">&#160;</span>
 <?php echo $this->article->event->afterDisplayContent; ?>

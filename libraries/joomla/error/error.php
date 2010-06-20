@@ -435,7 +435,7 @@ w
 			// output as html
 			echo "<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n";
 			if ($info != null) {
-				echo "&nbsp;&nbsp;&nbsp;".$info."<br />\n";
+				echo "&#160;&#160;&#160;".$info."<br />\n";
 			}
 			echo $error->getBacktrace(true);
 		}
@@ -623,7 +623,7 @@ w
 				if (isset($backtrace[$i]['file'])) {
 						echo	'				<td class="TD">'.$backtrace[$i]['file'].':'.$backtrace[$i]['line'].'</td>';
 				} else {
-						echo	'				<td class="TD">&nbsp;</td>';
+						echo	'				<td class="TD">&#160;</td>';
 				}
 				echo	'		</tr>';
 				$j++;

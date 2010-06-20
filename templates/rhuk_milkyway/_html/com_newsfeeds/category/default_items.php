@@ -6,7 +6,7 @@ defined('_JEXEC') or die; ?>
 <tr>
 	<td align="right" colspan="4">
 	<?php
-		echo JText::_('JGLOBAL_DISPLAY_NUM') .'&nbsp;';
+		echo JText::_('JGLOBAL_DISPLAY_NUM') .'&#160;';
 		echo $this->pagination->getLimitBox();
 	?>
 	</td>

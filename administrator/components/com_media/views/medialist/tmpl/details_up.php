@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 			<td class="description">
 				<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->parent; ?>" target="folderframe">..</a>
 			</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
-			<td>&nbsp;</td>
+			<td>&#160;</td>
+			<td>&#160;</td>
+			<td>&#160;</td>
 		</tr>

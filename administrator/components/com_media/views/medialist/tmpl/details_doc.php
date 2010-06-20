@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 			<td class="description">
 				<?php echo $this->_tmp_doc->name; ?>
 			</td>
-			<td>&nbsp;
+			<td>&#160;
 
 			</td>
 			<td>
