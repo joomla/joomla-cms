@@ -40,7 +40,19 @@ $templateparams	= $app->getTemplate(true)->params;
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/position.css" type="text/css" media="screen,projection" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/layout.css" type="text/css" media="screen,projection" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/print.css" type="text/css" media="Print" />
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/general.css" type="text/css" />
+<?php
+	$files = JHtml::_('stylesheet','templates/beez_20/css/general.css',null,false,true);
+	if ($files):
+		if (!is_array($files)):
+			$files = array($files);
+		endif;
+		foreach($files as $file):
+?>
+		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
+<?php
+	 	endforeach;
+	endif;
+?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo $color; ?>.css" type="text/css" />
 		<?php if ($this->direction == 'rtl') : ?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/template_rtl.css" type="text/css" />

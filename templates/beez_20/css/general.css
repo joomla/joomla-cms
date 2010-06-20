@@ -189,3 +189,13 @@ a img.calendar {
 #system-message dt.notice { display: none; }
 #system-message dd.notice {  }
 #system-message dd.notice ul { color: #000; }
+
+/* ++++++++++++++  login  ++++++++++++++ */
+
+#form-login .inputbox
+{
+        border:solid 1px #ddd;
+        background:url(../images/content_bg.gif) repeat-x;
+}
+
+

@@ -33,7 +33,7 @@ body
 
 }
 
-*html #back
+* html #back
 {
  padding:0
 }
@@ -910,10 +910,6 @@ ul.newsflash-horiz li h4
 {
         border:solid 1px #ddd;
         background:url(../images/content_bg.gif) repeat-x;
-        /* CSS 3 works only in FF and Safari */
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 4px;
-        border-radius:4px;
 }
 
 fieldset.input
