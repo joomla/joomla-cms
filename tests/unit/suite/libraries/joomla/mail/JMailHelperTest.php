@@ -15,7 +15,7 @@ class JMailHelperTest extends PHPUnit_Framework_TestCase
 {
 	function setUp()
 	{
-		// Loading the UserModelReset class
+		// Loading the MailHelper class
 		jimport('joomla.mail.helper');
 	}
 
@@ -57,37 +57,37 @@ class JMailHelperTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @group	framework.mail
-	 * @todo	Implement cleanSubject() test(s).
+	 * @dataProvider	getCleanSubjectData
 	 */
-	public function testCleanSubject()
+	public function testCleanSubject( $input, $expected )
 	{
-		// Remove the following line when you implement this method.
-		$this->markTestIncomplete(
-			'This test for cleanSubject has not been implemented yet.'
+		$this->assertThat(
+			JMailHelper::cleanSubject( $input ),
+			$this->equalTo( $expected )
 		);
 	}
 
 	/**
-	 * @group	framework.mail
-	 * @todo	Implement cleanAddress() test(s).
+	 * @group	     framework.mail
+	 * @dataProvider getCleanAddressData
 	 */
-	public function testCleanAddress()
+	public function testCleanAddress( $input, $expected )
 	{
-		// Remove the following line when you implement this method.
-		$this->markTestIncomplete(
-			'This test for cleanAddress has not been implemented yet.'
+		$this->assertThat(
+			JMailHelper::cleanAddress( $input ),
+			$this->equalTo( $expected )
 		);
 	}
 
 	/**
-	 * @group	framework.mail
-	 * @todo	Implement isEmailAddress() test(s).
+	 * @group	     framework.mail
+	 * @dataProvider getIsEmailAddressData
 	 */
-	public function testIsEmailAddress()
+	public function testIsEmailAddress( $input, $expected )
 	{
-		// Remove the following line when you implement this method.
-		$this->markTestIncomplete(
-			'This test for isEmailAddress has not been implemented yet.'
+		$this->assertThat(
+			JMailHelper::isEmailAddress( $input ),
+			$this->equalTo( $expected )
 		);
 	}
 
@@ -162,9 +162,85 @@ class JMailHelperTest extends PHPUnit_Framework_TestCase
 	{
 		return array(
 			array( "testFrom: Foobar me", "test me" ),
-			array( "testfrom: Foobar me", "testfrom: Foobar me" ),	// @TODO should this be case sensitive
+			array( "testfrom: Foobar me", "testfrom: Foobar me" ),
+			array( "testTo: Foobar me", "test me" ),
+			array( "testto: Foobar me", "testto: Foobar me" ),
+			array( "testCc: Foobar me", "test me" ),
+			array( "testcc: Foobar me", "testcc: Foobar me" ),
+			array( "testBcc: Foobar me", "test me" ),
+			array( "testbcc: Foobar me", "testbcc: Foobar me" ),
+			array( "testSubject: Foobar me", "test me" ),
+			array( "testsubject: Foobar me", "testsubject: Foobar me" ),
+			array( "testContent-type: Foobar me", "test me" ),
+			array( "testcontent-type: Foobar me", "testcontent-type: Foobar me" ),
+			// @TODO should this be case sensitive
 		);
 	}
 
-
+	/**
+	 * Test data for cleanBody method
+	 *
+	 * @return array
+	 */
+	static public function getCleanSubjectData()
+	{
+		return array(
+			array( "testFrom: Foobar me", "test me" ),
+			array( "testfrom: Foobar me", "testfrom: Foobar me" ),
+			array( "testTo: Foobar me", "test me" ),
+			array( "testto: Foobar me", "testto: Foobar me" ),
+			array( "testCc: Foobar me", "test me" ),
+			array( "testcc: Foobar me", "testcc: Foobar me" ),
+			array( "testBcc: Foobar me", "test me" ),
+			array( "testbcc: Foobar me", "testbcc: Foobar me" ),
+			array( "testContent-type: Foobar me", "test me" ),
+			array( "testcontent-type: Foobar me", "testcontent-type: Foobar me" ),
+			// @TODO should this be case sensitive
+		);
+	}
+	
+	/**
+	 * Test data for cleanAddress method
+	 *
+	 * @return array
+	 */
+	static public function getCleanAddressData()
+	{
+		return array(
+			array( "testme", "testme" ),
+			array( "test me", "test me" ),
+			array( "test;me", "test;me" ),
+			array( "test,me", "test,me" ),
+			array( "test ;,me", false ),
+		);
+	}
+	
+	/**
+	 * Test data for isEmailAddress method
+	 *
+	 * @return array
+	 */
+	static public function getIsEmailAddressData()
+	{
+		return array(
+			array( "joe", false ),
+			array( "joe@home", true ),
+			array( "a@b.c", true ),
+			array( "joe@home.com", true ),
+			array( "joe.bob@home.com", true ),
+			array("joe-bob[at]home.com", false ),
+			array("joe@his.home.com", true ),
+			array("joe@his.home.place", true ),
+			array("joe@home.org", true ),
+			array("joe@joebob.name", true ),
+			array("joe.@bob.com", false ),
+			array(".joe@bob.com", false ),
+			array("joe<>bob@bob.come", false ),
+			array("joe&bob@bob.com", true ),
+			array("~joe@bob.com", false ),
+			array("joe$@bob.com", false ),
+			array("joe+bob@bob.com", true ),
+			array("o'reilly@there.com", false )
+		);
+	}
 }
