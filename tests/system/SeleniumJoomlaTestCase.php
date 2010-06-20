@@ -385,6 +385,22 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		{
 			$this->click("//dt[contains(span,'$formTab')]");
 		}
+		
+	function toggleFeatured($articleTitle)
+	{
+		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . 
+			$articleTitle . "')]/../../td[4]/a/img");
+		$this->waitForPageToLoad("30000");
+	}
+	
+	function togglePublished($articleTitle)
+	{
+		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . 
+			$articleTitle . "')]/../../td[3]/a");
+		$this->waitForPageToLoad("30000");
+	}
 	
 	
 	function checkNotices()

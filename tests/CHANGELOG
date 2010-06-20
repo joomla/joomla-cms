@@ -30,6 +30,10 @@ $ -> Language fix or change
 12-Jun-2010 Mark Dexter
 # Fix failing featured0001Test
 
+19-Jun-2010 Mark Dexter
++ New system test featured0002test to test ordering down columns
++ New methods in SeleniumJoomlaTestCase for toggling featured and published in Article Manager
+
 08-Jun-2010 Mark Dexter
 ^ Refactor methods in SeleniumJoomlaTestCase (Matt Thomas)
 # Fix system test errors
