@@ -416,7 +416,7 @@ class JPagination extends JObject
 			return JHtml::_('jgrid.orderUp', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else {
-			return '&nbsp;';
+			return '&#160;';
 		}
 	}
 
@@ -440,7 +440,7 @@ class JPagination extends JObject
 			return JHtml::_('jgrid.orderDown', $i, $task, '', $alt, $enabled, $checkbox);
 		}
 		else {
-			return '&nbsp;';
+			return '&#160;';
 		}
 	}
 

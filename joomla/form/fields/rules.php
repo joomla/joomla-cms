@@ -148,7 +148,7 @@ class JFormFieldRules extends JFormField
 
 		// Pad the option text with spaces using depth level as a multiplier.
 		foreach ($options as $option) {
-			$option->text = str_repeat('&nbsp;&nbsp;',$option->level).$option->text;
+			$option->text = str_repeat('&#160;&#160;',$option->level).$option->text;
 		}
 
 		return $options;

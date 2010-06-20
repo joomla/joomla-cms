@@ -718,7 +718,7 @@ class JLanguage extends JObject
 					$this->errorfiles[$filename] = $filename.JText::sprintf('JERROR_PARSING_LANGUAGE_FILE',implode(', ',$errors));
 				}
 				else {
-					$this->errorfiles[$filename] = $filename . '&nbsp;: error(s) in line(s) ' . implode(', ',$errors);
+					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ',$errors);
 				}
 			}
 			$this->debug = true;
