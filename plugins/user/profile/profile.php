@@ -29,31 +29,31 @@ class plgUserProfile extends JPlugin
 		if (!in_array($context, array('com_users.profile', 'com_users.registration'))) {
 			return true;
 		}
+		if (is_object($data)){
+			$userId = isset($data->id) ? $data->id : 0;
+	
+			// Load the profile data from the database.
+			$db = &JFactory::getDbo();
+			$db->setQuery(
+				'SELECT profile_key, profile_value FROM #__user_profiles' .
+				' WHERE user_id = '.(int) $userId .
+				' ORDER BY ordering'
+			);
+			$results = $db->loadRowList();
+	
+			// Check for a database error.
+			if ($db->getErrorNum()) {
+				$this->_subject->setError($db->getErrorMsg());
+				return false;
+			}
 
-		$userId = isset($data->id) ? $data->id : 0;
-
-		// Load the profile data from the database.
-		$db = &JFactory::getDbo();
-		$db->setQuery(
-			'SELECT profile_key, profile_value FROM #__user_profiles' .
-			' WHERE user_id = '.(int) $userId .
-			' ORDER BY ordering'
-		);
-		$results = $db->loadRowList();
-
-		// Check for a database error.
-		if ($db->getErrorNum()) {
-			$this->_subject->setError($db->getErrorMsg());
-			return false;
+			// Merge the profile data.
+			$data->profile = array();
+			foreach ($results as $v) {
+				$k = str_replace('profile.', '', $v[0]);
+				$data->profile[$k] = $v[1];
+			}
 		}
-
-		// Merge the profile data.
-		$data->profile = array();
-		foreach ($results as $v) {
-			$k = str_replace('profile.', '', $v[0]);
-			$data->profile[$k] = $v[1];
-		}
-
 		return true;
 	}
 
