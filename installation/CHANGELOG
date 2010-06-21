@@ -34,6 +34,7 @@ $ -> Language fix or change
 [#21120] Article Button in Editor missing left side in Milkyway. Thanks Marijke
 [#21057] Mistyped template name in joomla data. Thanks Christophe.
 [#20725] System Path Disclosure
+[#21037] Two similar options in Module Latest News. Thanks Christophe and Stephania. + string
 
 21-Jun-2010 Christophe Demko
  # Fixed issue [#20786] com_users - no frontend_userparams

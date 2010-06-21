@@ -339,7 +339,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$this->getState('list.direction', 'ASC'));
+		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
 
 		return $query;
 	}
