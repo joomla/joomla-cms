@@ -1298,12 +1298,19 @@ th.state-col {
 }
 
 th.ordering-col {
-	width: 12%;
-}
-
-.categories th.ordering-col {
 	width: 10%;
 }
+
+th.ordering-col a {
+	display: block;
+	float:left;
+	margin-left: 3px;
+}
+
+th.ordering-col a img {
+	margin-left: 4px;
+	margin-right: 4px;
+} 
 
 .categories th.ordering-col input, .categories td.order input {
 	font-size: 1em;
@@ -1569,6 +1576,24 @@ table.noshow td {
 table.noshow fieldset {
 	margin: 15px 7px 7px 7px;
 }
+
+/**
+ * Saving order icon styling in admin tables
+ */
+a.saveorder {
+	width: 16px;
+	height: 16px;
+	display:block; 
+	overflow: hidden;
+	background: url(../images/admin/filesave.png) no-repeat;
+	float:right;
+	margin-right: 8px; 
+}
+
+a.saveorder.inactive {
+	background-position: 0px -16px;
+}
+
 
 /**
  * Button styling
