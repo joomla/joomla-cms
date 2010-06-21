@@ -9,6 +9,14 @@
 
 // no direct access
 defined('_JEXEC') or die;
+$app = JFactory::getApplication();
+$templateparams =$app->getTemplate(true)->params;
+
+if ($templateparams->get('html5')!=1)
+{
+	require(JPATH_BASE.'/components/com_content/views/category/tmpl/blog_children.php');
+	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
+} else {
 
 $class = ' class="first"';
 ?>
@@ -29,7 +37,7 @@ $class = ' class="first"';
 				<?php echo $this->escape($child->title); ?></a>
 			</span>
 
-			<?php if ($child->description) : ?>
+						<?php if ($child->description and $this->params->get('show_description')!=0 ) : ?>
 				<div class="category-desc">
 					<?php echo JHtml::_('content.prepare', $child->description); ?>
 				</div>
@@ -61,3 +69,5 @@ $class = ' class="first"';
 	<?php endforeach; ?>
 	</ul>
 <?php endif; ?>
+
+<?php } ?>

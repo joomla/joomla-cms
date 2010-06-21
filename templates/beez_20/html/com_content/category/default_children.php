@@ -38,7 +38,7 @@ $class = ' class="first"';
 					<?php echo $this->escape($child->title); ?></a>
 				</span>
 
-				<?php if ($child->description) : ?>
+				<?php if ($child->description and $this->params->get('show_description')!=0 ) : ?>
 					<div class="category-desc">
 						<?php echo JHtml::_('content.prepare', $child->description); ?>
 					</div>
