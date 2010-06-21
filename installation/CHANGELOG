@@ -37,6 +37,7 @@ $ -> Language fix or change
 [#21037] Two similar options in Module Latest News. Thanks Christophe and Stephania. + string
 [#21061] Fatal error when "Show Title" is set to "No". Thanks Omar.
 [#20945] email error when creating a new user. Thanks Elin.
+[#21059] Image selector layout problems. Thanks Omar.
 
 21-Jun-2010 Christophe Demko
  # Fixed issue [#20786] com_users - no frontend_userparams
