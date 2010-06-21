@@ -212,10 +212,10 @@ class ContentViewCategory extends JView
 		}
 
 		if ($app->getCfg('MetaAuthor') == '1') {
-			$this->document->setMetaData('author', $this->category->metadata->get('author'));
+			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
 		}
 
-		$mdata = $this->category->metadata->toArray();
+		$mdata = $this->category->getMetadata()->toArray();
 
 		foreach ($mdata as $k => $v) {
 			if ($v) {
