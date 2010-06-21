@@ -152,7 +152,6 @@ class JTableUsergroup extends JTable
 		if (empty($ids)) {
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
-		$ids = implode(',', $ids);
 
 		// Delete the category dependancies
 		// @todo Remove all related threads, posts and subscriptions
@@ -160,8 +159,26 @@ class JTableUsergroup extends JTable
 		// Delete the category and it's children
 		$db->setQuery(
 			'DELETE FROM `'.$this->_tbl.'`' .
-			' WHERE id IN ('.$ids.')'
+			' WHERE id IN ('.implode(',', $ids).')'
 		);
+		if (!$db->query()) {
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Delete the usergroup in view levels
+		$replace = array();
+		foreach ($ids as $id) {
+			$replace []= ','.$db->quote("[$id,").','.$db->quote("[").')';
+			$replace []= ','.$db->quote(",$id,").','.$db->quote(",").')';
+			$replace []= ','.$db->quote(",$id]").','.$db->quote("]").')';
+			$replace []= ','.$db->quote("[$id]").','.$db->quote("[]").')';
+		}
+		$query = $db->getQuery(true);
+		$query->set('rules='.str_repeat('replace(',4*count($ids)).'rules'.implode('',$replace));
+		$query->update('#__viewlevels');
+		$query->where('rules REGEXP "(,|\\\\[)('.implode('|', $ids).')(,|\\\\])"');
+		$db->setQuery($query);
 		if (!$db->query()) {
 			$this->setError($db->getErrorMsg());
 			return false;
@@ -170,7 +187,7 @@ class JTableUsergroup extends JTable
 		// Delete the user to usergroup mappings for the group(s) from the database.
 		$db->setQuery(
 			'DELETE FROM `#__user_usergroup_map`' .
-			' WHERE `group_id` IN ('.$ids.')'
+			' WHERE `group_id` IN ('.implode(',', $ids).')'
 		);
 		$db->query();
 
