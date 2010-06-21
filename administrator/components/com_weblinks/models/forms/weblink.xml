@@ -24,7 +24,7 @@
 
 		<field name="url" type="text" class="inputbox"
 			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
-			description="COM_WEBLINKS_FIELD_URL_DESC" />
+			description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
