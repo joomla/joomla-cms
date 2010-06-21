@@ -49,6 +49,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		include_once JPATH_BASE . '/libraries/joomla/user/user.php';
 
 		parent::setUp();
+		parent::setUpBeforeClass();
 
 		$this->saveFactoryState();
 		$this->saveErrorHandlers();

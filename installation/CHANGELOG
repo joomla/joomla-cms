@@ -33,6 +33,7 @@ $ -> Language fix or change
 [#21064] Login redirection not functioning. Thanks Omar.
 
 21-Jun-2010 Christophe Demko
+ # Fixed issue [#20786] com_users - no frontend_userparams
  # Fixed issue [#21118] Thumbnails not showing on frontend in Popup
 
 20-Jun-2010 Mark Dexter

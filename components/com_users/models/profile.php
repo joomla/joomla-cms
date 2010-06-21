@@ -120,6 +120,9 @@ class UsersModelProfile extends JModelForm
 			unset($this->data->password1);
 			unset($this->data->password2);
 
+			$registry = new JRegistry($this->data->params);
+			$this->data->params = $registry->toArray();
+
 			// Get the dispatcher and load the users plugins.
 			$dispatcher	= JDispatcher::getInstance();
 			JPluginHelper::importPlugin('user');
@@ -180,6 +183,13 @@ class UsersModelProfile extends JModelForm
 	 */
 	protected function preprocessForm(JForm $form, $data)
 	{
+		if (JComponentHelper::getParams('com_users')->get('frontend_userparams'))
+		{
+			$form->loadFile('frontend',false);
+			if (JFactory::getUser()->authorise('core.login.admin')) {
+				$form->loadFile('frontend_admin',false);			
+			}
+		}
 		parent::preprocessForm($form, $data, 'user');
 	}
 
@@ -222,7 +232,6 @@ class UsersModelProfile extends JModelForm
 		// Initialise the table with JUser.
 		JUser::getTable('User', 'JTable');
 		$user = new JUser($userId);
-
 		// Prepare the data for the user object.
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
