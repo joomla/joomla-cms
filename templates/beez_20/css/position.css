@@ -73,9 +73,12 @@ body
 {
         width:72%;
     float:left;
-        position:relative
-}
+        position:relative;
+		padding-bottom:20px
 
+}
+#wrapper2 .item-page
+{max-width:660px}
 #main
 {
     padding: 10px 0px 20px 0px;
@@ -96,7 +99,7 @@ body
 
 .unseen
 {
-        display: inline;
+    display: inline;
     height: 0px;
     left: -3000px;
     position: absolute;
@@ -136,7 +139,7 @@ body
 .skiplinks,
 .skiplinks li
 {
-        display: inline;
+    display: inline;
     height: 0px;
     line-height:0;
     padding:0 !important;
@@ -144,7 +147,7 @@ body
 
 .skiplinks li a.u2
 {
-        display: inline;
+    display: inline;
     height: 0px;
     left: -3000px;
     position: absolute;
@@ -156,7 +159,7 @@ body
 .skiplinks li a.u2:active,
 .skiplinks li a.u2:focus
 {
-        position:absolute;
+    position:absolute;
     width:13em;
     top:100px;
     left:10px;

@@ -36,10 +36,11 @@ $templateparams	= $app->getTemplate(true)->params;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 	<head>
 		<jdoc:include type="head" />
-			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/position.css" type="text/css" media="screen,projection" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/position.css" type="text/css" media="screen,projection" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/layout.css" type="text/css" media="screen,projection" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/print.css" type="text/css" media="Print" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/general.css" type="text/css" />
+		<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 <?php
 	$files = JHtml::_('stylesheet','templates/beez5/css/beez5.css',null,false,true);
 	if ($files):

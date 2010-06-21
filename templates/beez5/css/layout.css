@@ -29,7 +29,7 @@ h4
 fieldset
 {
         margin:10px 0 ;
-        padding:15px;
+        padding:15px 5px;
 }
 
 p
@@ -528,7 +528,8 @@ ul.menu li.active ul li.active ul li a:link,
 .category-desc
 {
         line-height:1.7em;
-        margin:10px 0
+        margin:10px 0;
+		padding-left:5px
 }
 
 .small
@@ -768,7 +769,8 @@ dd.createdby
 #main .pagination
 {
         margin:10px 0 ;
-        padding:10px 0 10px 5px;
+        padding:10px 0 10px 0px;
+
 }
 
 #main .pagination ul
@@ -782,27 +784,32 @@ dd.createdby
 #main .pagination li
 {
         display:inline;
-        padding:2px 5px 0 !important;
+        padding:2px 5px;
         text-align:left;
-                border:solid 1px #eee;
-                margin:0 2px
+        border:solid 1px #eee;
+        margin:0 2px
 }
 
+.pagenav
+{padding:2px}
 
 #main .pagination li.pagination-start,
 #main .pagination li.pagination-next,
 #main .pagination li.pagination-end,
 #main .pagination li.pagination-prev
 {border:0}
-#main .pagination ul li a
-{
-        padding:2px;
-}
 
+#main .pagination li.pagination-start ,
+#main .pagination li.pagination-start  span
+ {
+padding:0
+
+}
 p.counter
 {
         font-weight:bold;
 }
+
 
 /* ##########################  right  ########################### */
 
@@ -1041,9 +1048,9 @@ dl.search_results dd.result-created
         padding:0 5px
 }
 
-.jcontact-category
+.contact-category
 {
-        padding:0 5px
+        padding:0 10px
 }
 
 address
@@ -1322,14 +1329,6 @@ table.contenttoc tr td
         font-weight:bold;
 }
 
-/* ++++++++++++++  pagination  ++++++++++++++ */
-
-.pagenav
-{
-        padding:0 2px
-}
-
-
 
 /* ++++++++++++++  edit  ++++++++++++++ */
 legend
@@ -1538,7 +1537,7 @@ dl.weblink-count dd
 
 #form-login
 {
-        padding-top:10px
+        padding-top:5px
 }
 
 #form-login fieldset
@@ -1559,9 +1558,16 @@ dl.weblink-count dd
 
 #form-login label
 {
-        margin-right:10px
+        margin-right:10px;
+		width:6em;
+		display:block;
+		float:left
 }
 
+#form-login-remember label
+{float:none;
+width:auto;
+display:inline}
 #form-login ul
 {
         margin-left:5px
@@ -1618,7 +1624,9 @@ button.button
 .login-description,
 .logout-description
 {
-        overflow:hidden
+        overflow:hidden;
+		padding-left:5px;
+		margin:20px 0 10px 0
 }
 
 .logout-description
@@ -1813,6 +1821,9 @@ border-right:solid 1px #ddd
 {list-style-type:none;
 margin:0}
 
+#main .cat-children
+{ padding-left:5px
+}
 #main .cat-children ul dl dt,
 #main .cat-children ul dl dd
 

@@ -73,9 +73,15 @@ body
 {
         width:72%;
     float:left;
-        position:relative
+        position:relative;
+		padding-bottom:20px
+
+
 }
 
+
+#wrapper2 .item-page,
+{max-width:660px}
 #main
 {
     padding: 10px 0px 20px 0px;

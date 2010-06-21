@@ -1,5 +1,5 @@
 /*
- * @author ( Angie Radtke )
+ * @author ( Angie Radtke tets)
 */
 
 /* not ready */
@@ -52,6 +52,8 @@ a:focus
         color:#FFF;
 }
 
+
+
 ul li a.u2:focus,
 p a.u2:active
 {
@@ -66,7 +68,7 @@ input:focus
 
 fieldset
 {
-        border:solid 1px #ccc
+        border:solid 0px #ccc
 }
 
 .article-info
@@ -199,6 +201,10 @@ right:15px}
         background:#377A2E!important
 }
 
+#header ul.skiplinks
+{
+width:100%
+}
 .skiplinks,
 .skiplinks li
 {
@@ -210,6 +216,7 @@ right:15px}
 {
         background:#eee !important;
         border:solid 1px;
+		top:0
 
 }
 
@@ -641,7 +648,8 @@ ul#archive-items li
         color:#444;
         border-top:solid 0px #ddd;
         border-bottom:solid 1px #ddd;
-        font-family: 'Titillium Maps', Arial;
+         font-family: 'Titillium Maps', Arial;
+
 }
 
 /* h1 on frontpage */
@@ -690,7 +698,8 @@ text-decoration:none !important
 #main h2
 {
         color:#7BA428;
-        font-family: 'Titillium Maps', Arial;
+         font-family: 'Titillium Maps', Arial;
+
 }
 
 #main h2 a
@@ -753,8 +762,8 @@ a.readmore:focus
 
 #main .items-more ol li a
 {
-        background:#FFF url(../images/nature/blog_more.gif) no-repeat  !important;
-        color:#377A2E
+        background:#FFF url(../images/blog_more.gif) no-repeat  !important;
+        color: #7BA428 /* #377A2E */
 }
 
 #main .items-more ol li a:hover,
@@ -790,7 +799,6 @@ table.contenttoc
 
 #right .moduletable
 {
-        color:#000;
         border:solid 0px #eee;
         border-top:0
 }
@@ -810,6 +818,17 @@ table.contenttoc
 {
         border:solid 0 #ccc;
         color:#000;
+}
+
+.moduletable-custom ul li
+{
+        color:#333;
+        background: url(../images/arrow2_grey.png) no-repeat  2px 7px;
+}
+
+#right .moduletable-custom h4
+{
+color:#333
 }
 
 
