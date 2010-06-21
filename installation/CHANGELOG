@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 21-Jun-2010 Jean-Marie Simonet
 [#21020] Ordering of weblinks does not work as expected. Thanks Omar.
-[#21116] [patch] Update Hathor with the new saveorder icon behavior. Thansk Andrea.
+[#21116] [patch] Update Hathor with the new saveorder icon behavior. Thanks Andrea.
+[#21064] Login redirection not functioning. Thanks Omar.
 
 21-Jun-2010 Christophe Demko
  # Fixed issue [#21118] Thumbnails not showing on frontend in Popup

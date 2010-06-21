@@ -29,11 +29,16 @@ class UsersControllerUser extends UsersController
 	{
 		JRequest::checkToken('post') or jexit(JText::_('JInvalid_Token'));
 
-		$app = &JFactory::getApplication();
-		$data = $app->getUserState('users.login.form.data', array());
+		$app = JFactory::getApplication();
+
+		// Populate the data array:
+		$data = array();
+		$data['return'] = base64_decode(JRequest::getVar('return', '', 'POST', 'BASE64'));
+		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
+		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
 
 		// Set the return URL if empty.
-		if (!isset($data['return']) || empty($data['return'])) {
+		if (empty($data['return'])) {
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 
@@ -44,8 +49,8 @@ class UsersControllerUser extends UsersController
 
 		// Get the log in credentials.
 		$credentials = array();
-		$credentials['username'] = JRequest::getVar('username', '', 'method', 'username');
-		$credentials['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$credentials['username'] = $data['username'];
+		$credentials['password'] = $data['password'];
 
 		// Perform the log in.
 		$error = $app->login($credentials, $options);
