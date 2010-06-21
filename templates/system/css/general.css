@@ -83,7 +83,8 @@ label.invalid { color: #ff0000; }
 	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
 }
 
-.button2-left .readmore {
+.button2-left .readmore,
+.button2-left .article {
 	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
 }
 
