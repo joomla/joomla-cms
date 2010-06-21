@@ -38,19 +38,24 @@ class JDocumentRendererTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testRender().
+	 * Empty test because the base class does nothing
 	 */
 	public function testRender() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$doc = new JDocument;
+		$this->object = new JDocumentRenderer($doc);
+		$this->object->render('test');
 	}
 
 	/**
 	 * @todo Implement testGetContentType().
 	 */
 	public function testGetContentType() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$doc = new JDocument;
+		$this->object = new JDocumentRenderer($doc);
+		$this->assertThat(
+			$this->object->getContentType(),
+			$this->equalTo('text/html')
+		);
 	}
 }
-?>
+
