@@ -47,6 +47,8 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		print("Open Article for editing" . "\n");
 		$this->click("link=Com_Content001 Test Article");
 		$this->waitForPageToLoad("30000");
+		// test sleep command for hudson error
+		sleep(3);
 		print("Check that title and text are correct" . "\n");
 		$this->assertEquals("This is test text for an article", $this->getText("//body[@id='tinymce']/p"));
 		$this->assertEquals("Com_Content001 Test Article", $this->getValue("jform_title"));

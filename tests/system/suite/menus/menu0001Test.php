@@ -66,6 +66,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 			} catch (Exception $e) {}
 			sleep(1);
 		}
+		// test sleep command for hudson error
+		sleep(3);
 		$this->click("link=Australian Parks");
 
 		for ($second = 0; ; $second++) {

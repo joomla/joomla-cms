@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jun-2010 Mark Dexter
+# Added test fixes for failing system tests on Hudson server
+
 22-Jun-2010 Ian MacLennan
  # Added unit tests for JDocument
 
