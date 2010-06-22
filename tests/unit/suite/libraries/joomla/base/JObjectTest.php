@@ -36,6 +36,18 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 	}
 
+
+	/**
+	 * @todo Implement test__toString().
+	 */
+	public function test__construct() {
+		$this->object = new JObject(array('property1' => 'value1', 'property2' => 5));
+		$this->assertThat(
+			$this->object->get('property1'),
+			$this->equalTo('value1')
+		);
+	}
+
 	/**
 	 * @todo Implement test__toString().
 	 */
