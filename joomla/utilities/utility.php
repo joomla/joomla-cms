@@ -42,7 +42,7 @@ class JUtility
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
 		// Get a JMail instance
-		$mail = &JFactory::getMailer();
+		$mail = JFactory::getMailer();
 
 		return $mail->sendMail($from, $fromname, $recipient, $subject, $body, $mode, $cc,
 			$bcc, $attachment, $replyto, $replytoname);
@@ -65,7 +65,7 @@ class JUtility
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
 		// Get a JMail instance
-		$mail = &JFactory::getMailer();
+		$mail = JFactory::getMailer();
 		return $mail->sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url);
 	}
 
@@ -80,7 +80,7 @@ class JUtility
 	 */
 	public static function getHash($seed)
 	{
-		$conf = &JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		return md5($conf->get('secret').$seed);
 	}
 
@@ -95,7 +95,7 @@ class JUtility
 	 */
 	public static function getToken($forceNew = false)
 	{
-		$session = &JFactory::getSession();
+		$session = JFactory::getSession();
 		return $session->getFormToken($forceNew);
 	}
 

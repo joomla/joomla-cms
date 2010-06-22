@@ -21,8 +21,6 @@ jimport('joomla.application.component.helper');
  */
 abstract class JModuleHelper
 {
-
-
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
@@ -34,7 +32,7 @@ abstract class JModuleHelper
 	public static function &getModule($name, $title = null)
 	{
 		$result		= null;
-		$modules	= &JModuleHelper::_load();
+		$modules	= JModuleHelper::_load();
 		$total		= count($modules);
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -77,11 +75,11 @@ abstract class JModuleHelper
 	 */
 	public static function &getModules($position)
 	{
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$position	= strtolower($position);
 		$result		= array();
 
-		$modules = &JModuleHelper::_load();
+		$modules = JModuleHelper::_load();
 
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)
@@ -113,7 +111,7 @@ abstract class JModuleHelper
 	 */
 	public static function isEnabled($module)
 	{
-		$result = &JModuleHelper::getModule($module);
+		$result = JModuleHelper::getModule($module);
 		return (!is_null($result));
 	}
 
@@ -130,7 +128,7 @@ abstract class JModuleHelper
 		static $chrome;
 
 		$option = JRequest::getCmd('option');
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 
 		// Record the scope.
 		$scope	= $app->scope;
@@ -149,7 +147,7 @@ abstract class JModuleHelper
 		// Load the module
 		if (!$module->user && file_exists($path))
 		{
-			$lang = &JFactory::getLanguage();
+			$lang = JFactory::getLanguage();
 			// 1.5 or Core then
 			// 1.6 3PD
 				$lang->load($module->module, JPATH_BASE, null, false, false)
@@ -254,9 +252,9 @@ abstract class JModuleHelper
 
 		$Itemid = JRequest::getInt('Itemid');
 		$app	= JFactory::getApplication();
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
-		$db		= &JFactory::getDbo();
+		$db		= JFactory::getDbo();
 
 		$query = new JDatabaseQuery;
 		$query->select('id, title, module, position, content, showtitle, params, mm.menuid');
@@ -291,7 +289,7 @@ abstract class JModuleHelper
 
 		$cache 		= JFactory::getCache ('com_modules', 'callback');
 		$cacheid 	= md5(serialize(array($Itemid, $groups, $clientid, JFactory::getLanguage()->getTag())));
-		
+
 		$modules = $cache->get(array($db, 'loadObjectList'), null, $cacheid, false);
 		if (null === $modules)
 		{
@@ -366,16 +364,23 @@ abstract class JModuleHelper
 	*
 	* @since	1.6
 	*/
-	public static function ModuleCache ($module, $moduleparams, $cacheparams) {
+	public static function ModuleCache($module, $moduleparams, $cacheparams)
+	{
+		if(!isset ($cacheparams->modeparams)) {
+			$cacheparams->modeparams=null;
+		}
 
-		if(!isset ($cacheparams->modeparams))$cacheparams->modeparams=null;
-		if(!isset ($cacheparams->cachegroup)) $cacheparams->cachegroup = $module->module;
+		if(!isset ($cacheparams->cachegroup)) {
+			$cacheparams->cachegroup = $module->module;
+		}
 
-		if (!is_array($cacheparams->methodparams)) $cacheparams->methodparams = array($cacheparams->methodparams);
+		if (!is_array($cacheparams->methodparams)) {
+			$cacheparams->methodparams = array($cacheparams->methodparams);
+		}
 
-		$user = &JFactory::getUser();
-		$cache = &JFactory::getCache($cacheparams->cachegroup,'callback');
-		$conf = &JFactory::getConfig();
+		$user	= JFactory::getUser();
+		$cache	= JFactory::getCache($cacheparams->cachegroup,'callback');
+		$conf	= JFactory::getConfig();
 
 		// turn cache off for internal callers if parameters are set to off and for all loged in users
 		if($moduleparams->get('owncache', null) == 0  || $conf->get('caching') == 0 || $user->get('id')) $cache->setCaching = false ;
@@ -391,7 +396,7 @@ abstract class JModuleHelper
 			case 'safeuri':
 				$secureid=null;
 				if (is_array($cacheparams->modeparams)) {
-				$uri = & JRequest::get();
+				$uri = JRequest::get();
 				$safeuri=new stdClass();
 				foreach ($cacheparams->modeparams AS $key => $value) {
 					// use int filter for id/catid to clean out spamy slugs

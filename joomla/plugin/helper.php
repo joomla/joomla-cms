@@ -66,7 +66,7 @@ abstract class JPluginHelper
 	 */
 	public static function isEnabled($type, $plugin = null)
 	{
-		$result = &self::getPlugin($type, $plugin);
+		$result = self::getPlugin($type, $plugin);
 		return (!empty($result));
 	}
 
@@ -150,13 +150,13 @@ abstract class JPluginHelper
 				if ($autocreate) {
 					// Makes sure we have an event dispatcher
 					if (!is_object($dispatcher)) {
-						$dispatcher = &JDispatcher::getInstance();
+						$dispatcher = JDispatcher::getInstance();
 					}
 
 					$className = 'plg'.$plugin->type.$plugin->name;
 					if (class_exists($className)) {
 						// Load the plugin from the database.
-						$plugin = &self::getPlugin($plugin->type, $plugin->name);
+						$plugin = self::getPlugin($plugin->type, $plugin->name);
 
 						// Instantiate and register the plugin.
 						new $className($dispatcher, (array)($plugin));
@@ -188,7 +188,7 @@ abstract class JPluginHelper
 		$levels = implode(',', $user->authorisedLevels());
 
 		if (!$plugins = $cache->get($levels)) {
-			$db		= &JFactory::getDbo();
+			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
 
 			$query->select('folder AS type, element AS name, params')

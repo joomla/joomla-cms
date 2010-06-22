@@ -30,7 +30,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		{
 			$title	= isset($params['title']) ? $params['title'] : null;
 
-			$module = &JModuleHelper::getModule($module, $title);
+			$module = JModuleHelper::getModule($module, $title);
 
 			if (!is_object($module))
 			{
@@ -53,8 +53,8 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		// get the user and configuration object
-		//$user = &JFactory::getUser();
-		$conf = &JFactory::getConfig();
+		//$user = JFactory::getUser();
+		$conf = JFactory::getConfig();
 
 		// set the module content
 		if (!is_null($content)) {

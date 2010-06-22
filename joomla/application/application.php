@@ -137,7 +137,7 @@ class JApplication extends JObject
 		if (empty($instances[$client])) {
 			// Load the router object.
 			jimport('joomla.application.helper');
-			$info = &JApplicationHelper::getClientInfo($client, true);
+			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'application.php';
 			if (file_exists($path)) {
@@ -201,7 +201,7 @@ class JApplication extends JObject
 		// Get the full request URI.
 		$uri	= clone JURI::getInstance();
 
-		$router = &$this->getRouter();
+		$router = $this->getRouter();
 		$result = $router->parse($uri);
 
 		JRequest::set($result, 'get', false);
@@ -218,9 +218,12 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
+	 * @param	string	$component	The component to dispatch.
+	 *
+	 * @return	void
 	 * @since	1.5
 	 */
-	public function dispatch($component)
+	public function dispatch($component = null)
 	{
 		$document = JFactory::getDocument();
 
@@ -254,7 +257,7 @@ class JApplication extends JObject
 		);
 
 		// Parse the document.
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->parse($params);
 
 		// Trigger the onBeforeRender event.
@@ -311,7 +314,7 @@ class JApplication extends JObject
 		// We could validly start with something else (e.g. ftp), though this would
 		// be unlikely and isn't supported by this API.
 		if (!preg_match('#^http#i', $url)) {
-			$uri = &JURI::getInstance();
+			$uri = JURI::getInstance();
 			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
 			if ($url[0] == '/') {
 				// We just need the prefix since we have a path relative to the root.
@@ -333,7 +336,7 @@ class JApplication extends JObject
 
 		// Persist messages if they exist.
 		if (count($this->_messageQueue)) {
-			$session = &JFactory::getSession();
+			$session = JFactory::getSession();
 			$session->set('application.queue', $this->_messageQueue);
 		}
 
@@ -360,7 +363,7 @@ class JApplication extends JObject
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
 		if (!count($this->_messageQueue)) {
-			$session = &JFactory::getSession();
+			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
@@ -381,7 +384,7 @@ class JApplication extends JObject
 	{
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue)) {
-			$session = &JFactory::getSession();
+			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
@@ -439,7 +442,7 @@ class JApplication extends JObject
 	 */
 	public function getUserState($key)
 	{
-		$session	= &JFactory::getSession();
+		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
 		if (!is_null($registry)) {
 			return $registry->get($key);
@@ -533,6 +536,7 @@ class JApplication extends JObject
 	 *
 	 * @param	array	Array('username' => string, 'password' => string)
 	 * @param	array	Array('remember' => boolean)
+	 *
 	 * @return	boolean True on success.
 	 * @since	1.5
 	 */
@@ -672,7 +676,7 @@ class JApplication extends JObject
 		}
 
 		jimport('joomla.application.router');
-		$router = &JRouter::getInstance($name, $options);
+		$router = JRouter::getInstance($name, $options);
 		if (JError::isError($router)) {
 			return null;
 		}
@@ -690,7 +694,7 @@ class JApplication extends JObject
 	 */
 	static public function stringURLSafe($string)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 		if (self::getCfg('unicodeslugs') == 1) {
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
 		} else {
@@ -713,7 +717,7 @@ class JApplication extends JObject
 		}
 
 		jimport('joomla.application.pathway');
-		$pathway = &JPathway::getInstance($name, $options);
+		$pathway = JPathway::getInstance($name, $options);
 		if (JError::isError($pathway)) {
 			return null;
 		}
@@ -734,7 +738,7 @@ class JApplication extends JObject
 		}
 
 		jimport('joomla.application.menu');
-		$menu = &JMenu::getInstance($name, $options);
+		$menu = JMenu::getInstance($name, $options);
 		if (JError::isError($menu)) {
 			return null;
 		}
