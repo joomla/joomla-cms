@@ -30,6 +30,7 @@ $ -> Language fix or change
 22-Jun-2010 Andrew Eddie
  # Fixed issue [#20971] Add getCaching method (Klas Berlič1).
  # Fixed issue [#20993] Token key word is not user friendly (Troy Hall).
+ # Fixed issue [#20401] [PATCH] JError::handleDie() does not cause application termination in CLI-program (Artyom Bisyarin).
  
 21-Jun-2010 Mark Dexter
 # Beez template fixes (Angie Radke)
