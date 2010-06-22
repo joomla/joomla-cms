@@ -184,11 +184,11 @@ class JURI extends JObject
 		// Get the base request path.
 		if (!isset($base))
 		{
-			$config = &JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$live_site = $config->get('live_site');
 			if (trim($live_site) != '')
 			{
-				$uri = &self::getInstance($live_site);
+				$uri = self::getInstance($live_site);
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				$base['path'] = rtrim($uri->toString(array('path')), '/\\');
 
@@ -198,7 +198,7 @@ class JURI extends JObject
 			}
 			else
 			{
-				$uri			= &self::getInstance();
+				$uri			= self::getInstance();
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
 				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI']))
@@ -231,7 +231,7 @@ class JURI extends JObject
 		// Get the scheme
 		if (!isset($root))
 		{
-			$uri			= &self::getInstance(self::base());
+			$uri			= self::getInstance(self::base());
 			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 			$root['path']	= rtrim($uri->toString(array('path')), '/\\');
 		}
@@ -257,7 +257,7 @@ class JURI extends JObject
 		// Get the current URL.
 		if (!isset($current))
 		{
-			$uri	= &self::getInstance();
+			$uri	= self::getInstance();
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
 
@@ -664,7 +664,7 @@ class JURI extends JObject
 	 */
 	public static function isInternal($url)
 	{
-		$uri = &self::getInstance($url);
+		$uri = self::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 		if (stripos($base, self::base()) !== 0 && !empty($host)) {

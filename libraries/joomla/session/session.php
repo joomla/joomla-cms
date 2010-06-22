@@ -87,7 +87,7 @@ class JSession extends JObject
 		ini_set('session.use_trans_sid', '0');
 
 		// create handler
-		$this->_store = &JSessionStorage::getInstance($store, $options);
+		$this->_store = JSessionStorage::getInstance($store, $options);
 
 		// set options
 		$this->_setOptions($options);

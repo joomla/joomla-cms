@@ -106,7 +106,7 @@ abstract class JPlugin extends JEvent
 			$extension = 'plg_'.$this->_type.'_'.$this->_name;
 		}
 
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		return
 			$lang->load(strtolower($extension), $basePath, null, false, false)
 		||	$lang->load(strtolower($extension), JPATH_PLUGINS .DS.$this->_type.DS.$this->_name, null, false, false)

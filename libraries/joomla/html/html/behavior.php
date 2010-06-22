@@ -44,7 +44,7 @@ abstract class JHtmlBehavior
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$config = &JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$debug = $config->get('debug');
 		}
 
@@ -137,7 +137,7 @@ abstract class JHtmlBehavior
 		$options = JHtmlBehavior::_getJSObject($opt);
 
 		// Attach tooltips to document
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
@@ -161,7 +161,7 @@ abstract class JHtmlBehavior
 		static $modals;
 		static $included;
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
@@ -217,7 +217,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script','system/progressbar.js', false, true);
 		JHtml::_('script','system/uploader.js', false, true);
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		static $uploaders;
 
@@ -398,7 +398,7 @@ abstract class JHtmlBehavior
 			tree'.$treeName.'.adopt(\''.$id.'\');})';
 
 		// Attach tooltips to document
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($js);
 
 		// Set static array
@@ -428,12 +428,12 @@ abstract class JHtmlBehavior
 		// Include mootools framework
 		JHtmlBehavior::mootools();
 
-		$config	= &JFactory::getConfig();
+		$config		= JFactory::getConfig();
 		$lifetime	= ($config->get('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$script  = '';
 		$script .= 'function keepAlive() {';
 		$script .=  '	var myAjax = new Request({method: "get", url: "index.php"}).send();';

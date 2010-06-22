@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 23-Jun-2010 Andrew Eddie
  # Fixed issue [#20617] installer doesn't allow . in database name (Rob Joyce, Troy Hall).
-
+ # Partial fixes to [#20907] Making Joomla more compliant to PHP strict standard.
+ 
 22-Jun-2010 Ian MacLennan
  # [#21129] JHtml::_('behavior.keepalive'); Does not work (Phil Snell)
 

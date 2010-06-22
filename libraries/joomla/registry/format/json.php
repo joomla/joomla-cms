@@ -45,7 +45,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	{
 		$data = trim($data);
 		if ((substr($data, 0, 1) != '{') && (substr($data, -1, 1) != '}')) {
-			$ini = & JRegistryFormat::getInstance('INI');
+			$ini = JRegistryFormat::getInstance('INI');
 			$obj = $ini->stringToObject($data, $process_sections);
 		} else {
 			$obj = json_decode($data);

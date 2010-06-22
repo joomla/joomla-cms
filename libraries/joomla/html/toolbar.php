@@ -178,7 +178,7 @@ class JToolBar extends JObject
 		// Get the button type.
 		$type = $node[0];
 
-		$button = &$this->loadButtonType($type);
+		$button = $this->loadButtonType($type);
 
 		// Check for error.
 		if ($button === false) {

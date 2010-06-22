@@ -20,7 +20,7 @@ require_once JPATH_BASE.DS.'includes'.DS.'toolbar.php';
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 // Instantiate the application.
-$app = &JFactory::getApplication('administrator');
+$app = JFactory::getApplication('administrator');
 
 // Initialise the application.
 $app->initialise(array(

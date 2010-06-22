@@ -21,14 +21,14 @@ class plgSystemRemember extends JPlugin
 {
 	function onAfterInitialise()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// No remember me for admin
 		if ($app->isAdmin()) {
 			return;
 		}
 
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 		if ($user->get('guest'))
 		{
 			jimport('joomla.utilities.utility');

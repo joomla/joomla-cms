@@ -56,7 +56,7 @@ unset($CONFIG);
 // System profiler.
 if (JDEBUG) {
 	jimport('joomla.error.profiler');
-	$_PROFILER = &JProfiler::getInstance('Application');
+	$_PROFILER = JProfiler::getInstance('Application');
 }
 
 // Joomla! library imports.

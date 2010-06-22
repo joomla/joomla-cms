@@ -86,7 +86,7 @@ abstract class JFactory
 	 * if it doesn't already exist.
 	 *
 	 * @param array $options An array containing session options
-	 * 
+	 *
 	 * @return JSession object
 	 */
 	public static function getSession($options = array())
@@ -166,7 +166,7 @@ abstract class JFactory
 	 * @param string $group   The cache group name
 	 * @param string $handler The handler to use
 	 * @param string $storage The storage method
-	 * 
+	 *
 	 * @return JCache object
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
@@ -177,7 +177,7 @@ abstract class JFactory
 		}
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
-		$conf = &self::getConfig();
+		$conf = self::getConfig();
 
 		$options = array('defaultgroup'	=> $group );
 
@@ -187,7 +187,7 @@ abstract class JFactory
 
 		jimport('joomla.cache.cache');
 
-		$cache = &JCache::getInstance($handler, $options);
+		$cache = JCache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
 		return self::$cache[$hash];
@@ -225,8 +225,8 @@ abstract class JFactory
 
 		if (!self::$database) {
 			//get the debug configuration setting
-			$conf = &self::getConfig();
-			$debug = $conf->get('debug');
+			$conf	= self::getConfig();
+			$debug	= $conf->get('debug');
 
 			self::$database = self::_createDbo();
 			self::$database->debug($debug);
@@ -256,7 +256,7 @@ abstract class JFactory
 	 *
 	 * @param string $url        url for feed source
 	 * @param int    $cache_time time to cache feed for (using internal cache mechanism)
-	 * 
+	 *
 	 * @return mixed SimplePie parsed object on success, false on failure
 	 * @since: 1.6
 	 * @static
@@ -370,7 +370,7 @@ abstract class JFactory
 	 * Get an editor object
 	 *
 	 * @param string $editor The editor to load, depends on the editor plugins that are installed
-	 * 
+	 *
 	 * @return JEditor object
 	 */
 	public static function getEditor($editor = null)
@@ -379,8 +379,8 @@ abstract class JFactory
 
 		//get the editor configuration setting
 		if (is_null($editor)) {
-			$conf = &self::getConfig();
-			$editor = $conf->get('editor');
+			$conf	= self::getConfig();
+			$editor	= $conf->get('editor');
 		}
 
 		return JEditor::getInstance($editor);
@@ -406,7 +406,7 @@ abstract class JFactory
 	 *
 	 * @param mixed $time     The initial time for the JDate object
 	 * @param mixed $tzOffset The timezone offset.
-	 * 
+	 *
 	 * @return JDate object
 	 * @since 1.5
 	 */
@@ -421,8 +421,8 @@ abstract class JFactory
 			$instances = array();
 		}
 
-		$language = &self::getLanguage();
-		$locale = $language->getTag();
+		$language	= self::getLanguage();
+		$locale		= $language->getTag();
 
 		if (!isset($classname) || $locale != $mainLocale) {
 			//Store the locale for future reference
@@ -459,7 +459,7 @@ abstract class JFactory
 	 *
 	 * @param string $file The path to the configuration file
 	 * @param string $type The type of the configuration file
-	 * 
+	 *
 	 * @return JRegistry object
 	 * @since 1.5
 	 */
@@ -485,7 +485,7 @@ abstract class JFactory
 	 * Create a session object
 	 *
 	 * @param array $options An array containing session options
-	 * 
+	 *
 	 * @return JSession object
 	 * @since 1.5
 	 */
@@ -494,8 +494,8 @@ abstract class JFactory
 		jimport('joomla.session.session');
 
 		//get the editor configuration setting
-		$conf = &self::getConfig();
-		$handler =  $conf->get('session_handler', 'none');
+		$conf		= self::getConfig();
+		$handler	= $conf->get('session_handler', 'none');
 
 		// config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
@@ -512,7 +512,7 @@ abstract class JFactory
 	 * Create an database object
 	 *
 	 * @return JDatabase object
-	 * 
+	 *
 	 * @since 1.5
 	 */
 	private static function _createDbo()
@@ -520,7 +520,7 @@ abstract class JFactory
 		jimport('joomla.database.database');
 		jimport('joomla.database.table');
 
-		$conf = &self::getConfig();
+		$conf = self::getConfig();
 
 		$host		= $conf->get('host');
 		$user		= $conf->get('user');
@@ -532,7 +532,7 @@ abstract class JFactory
 
 		$options	= array ('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
 
-		$db = &JDatabase::getInstance($options);
+		$db = JDatabase::getInstance($options);
 
 		if (JError::isError($db)) {
 			jexit('Database Error: ' . (string)$db);
@@ -557,7 +557,7 @@ abstract class JFactory
 	{
 		jimport('joomla.mail.mail');
 
-		$conf	= &self::getConfig();
+		$conf	= self::getConfig();
 
 		$sendmail	= $conf->get('sendmail');
 		$smtpauth	= $conf->get('smtpauth');
@@ -602,10 +602,10 @@ abstract class JFactory
 	{
 		jimport('joomla.language.language');
 
-		$conf	= &self::getConfig();
+		$conf	= self::getConfig();
 		$locale	= $conf->get('language');
 		$debug	= $conf->get('debug_lang');
-		$lang	= &JLanguage::getInstance($locale, $debug);
+		$lang	= JLanguage::getInstance($locale, $debug);
 
 		return $lang;
 	}
@@ -613,14 +613,14 @@ abstract class JFactory
 	/**
 	 * Create a document object
 	 *
-	 * @return JDocument object 
+	 * @return JDocument object
 	 * @since 1.5
 	 */
 	private static function _createDocument()
 	{
 		jimport('joomla.document.document');
 
-		$lang	= &self::getLanguage();
+		$lang	= self::getLanguage();
 
 		//Keep backwards compatibility with Joomla! 1.0
 		$raw	= JRequest::getBool('no_html');
@@ -639,15 +639,19 @@ abstract class JFactory
 
 	/**
 	 * Creates a new stream object with appropriate prefix
-	 * 
-	 * @param boolean $use_prefix  Prefix the connections for writing
-	 * @param boolean $use_network Use network if available for writing; use false to disable (e.g. FTP, SCP)
-	 * @param string  $ua          UA User agent to use
-	 * @param boolean $uamask      User agent masking (prefix Mozilla)
+	 *
+	 * @param	boolean	$use_prefix		Prefix the connections for writing
+	 * @param	boolean	$use_network	Use network if available for writing; use false to disable (e.g. FTP, SCP)
+	 * @param	string	$ua				UA User agent to use
+	 * @param	boolean	$uamask			User agent masking (prefix Mozilla)
+	 *
+	 * @return	JStream
+	 * @since	1.6
 	 */
 	function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
 	{
 		jimport('joomla.filesystem.stream');
+
 		// Setup the context; Joomla! UA and overwrite
 		$context = Array();
 		$version = new JVersion();
@@ -659,6 +663,7 @@ abstract class JFactory
 			jimport('joomla.client.helper');
 			$FTPOptions = JClientHelper::getCredentials('ftp');
 			$SCPOptions = JClientHelper::getCredentials('scp');
+
 			if ($FTPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ftp://'. $FTPOptions['user'] .':'. $FTPOptions['pass'] .'@'. $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
@@ -670,10 +675,12 @@ abstract class JFactory
 			} else {
 				$prefix = JPATH_ROOT.DS;
 			}
+
 			$retval = new JStream($prefix, JPATH_ROOT, $context);
 		} else {
 			$retval = new JStream('', '', $context);
 		}
+
 		return $retval;
 	}
 }
