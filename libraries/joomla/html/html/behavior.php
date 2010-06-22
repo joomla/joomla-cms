@@ -436,7 +436,7 @@ abstract class JHtmlBehavior
 		$document = &JFactory::getDocument();
 		$script  = '';
 		$script .= 'function keepAlive() {';
-		$script .=  '	var myAjax = new Ajax("index.php", { method: "get" }).request();';
+		$script .=  '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
 		$script .=  '}';
 		$script .=	' window.addEvent("domready", function()';
 		$script .=	'{ keepAlive.periodical('.$refreshTime.'); }';

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jun-2010 Ian MacLennan
+ # [#21129] JHtml::_('behavior.keepalive'); Does not work (Phil Snell)
+
 22-Jun-2010 Christophe Demko
  # Reverting patch #17774.
 
