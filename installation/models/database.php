@@ -95,7 +95,24 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			if (!version_compare($db_version, '5.0.4', '>=')) {
-				$this->setError(JText::_('INSTL_DATABASE_INVALID_MYSQL_VERSION'));
+				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_MYSQL_VERSION', $db_version));
+				return false;
+			}
+			// @internal MySQL versions pre 5.1.6 forbid . / or \ or NULL
+			if ((preg_match('#[\\\/\.\0]#',$options->db_name)) && (!version_compare($db_version, '5.1.6', '>='))) {
+				$this->setError(JText::sprintf('INSTL_DATABASE_INVALID_NAME',$db_version));
+				return false;
+			}
+
+			// @internal Check for spaces in beginning or end of name
+			if (strlen(trim($options->db_name)) <> strlen($options->db_name)) {
+				$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
+				return false;
+			}
+
+			// @internal Check for asc(00) Null in name
+			if (strpos($options->db_name, chr(00)) !== FALSE ) {
+				$this->setError(JText::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
 				return false;
 			}
 

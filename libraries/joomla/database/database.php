@@ -437,25 +437,24 @@ abstract class JDatabase extends JObject
 	}
 
 	/**
-	 * Quote an identifier name (field, table, etc)
+	 * Quote an identifier name (field, table, etc).
 	 *
-	 * @param	string	The name
-	 * @return	string	The quoted name
+	 * @param	string	$s	The identifier to quote.
+	 *
+	 * @return	string	The quoted identifier.
+	 * @since	1.5
 	 */
 	public function nameQuote($s)
 	{
-		// Only quote if the name is not using dot-notation
-		if (strpos($s, '.') === false) {
-			$q = $this->_nameQuote;
-			if (strlen($q) == 1) {
-				return $q . $s . $q;
-			} else {
-				return $q{0} . $s . $q{1};
-			}
+		$q = $this->_nameQuote;
+
+		if (strlen($q) == 1) {
+			return $q.$s.$q;
 		} else {
-			return $s;
+			return $q{0}.$s.$q{1};
 		}
 	}
+
 	/**
 	 * Get the database table prefix
 	 *

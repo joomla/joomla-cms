@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jun-2010 Andrew Eddie
+ # Fixed issue [#20617] installer doesn't allow . in database name (Rob Joyce, Troy Hall).
+
 22-Jun-2010 Ian MacLennan
  # [#21129] JHtml::_('behavior.keepalive'); Does not work (Phil Snell)
 
