@@ -46,6 +46,10 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 */
 
 	public function testCheck() {
+	    if (defined('DB_NOT_AVAILABLE')) {
+		$this->markTestSkipped('The database is not available');
+	    }
+
             $access = new JAccess();
             $access2 = new JAccess();
            /* $GroupUser42 = array(
@@ -90,6 +94,10 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testGetAssetRules().
 	 */
 	public function testGetAssetRules() {
+	        if (defined('DB_NOT_AVAILABLE')) {
+		    $this->markTestSkipped('The database is not available');
+		}
+
 		$access = new JAccess();
                 $ObjArrayJrules = $access->getAssetRules(3, True);
                 $string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},"core.manage":{"7":1,"10":1,"6":1},"core.create":{"6":1},"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
@@ -115,6 +123,10 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	}
 
         public function testGetUsersByGroup() {
+	        if (defined('DB_NOT_AVAILABLE')) {
+		    $this->markTestSkipped('The database is not available');
+		}
+
 		$access = new JAccess();
 		$array1 = array(
 			0	=> 42
@@ -139,6 +151,9 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testGetGroupsByUser().
 	 */
 	public function testGetGroupsByUser() {
+	        if (defined('DB_NOT_AVAILABLE')) {
+		    $this->markTestSkipped('The database is not available');
+		}
 
                 $access = new JAccess();
 		$array1 = array(
@@ -165,6 +180,10 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testGetAuthorisedViewLevels().
 	 */
 	public function testGetAuthorisedViewLevels() {
+	        if (defined('DB_NOT_AVAILABLE')) {
+		    $this->markTestSkipped('The database is not available');
+		}
+
 		$access = new JAccess();
 		$array1 = array(
 			0	=> 1,
