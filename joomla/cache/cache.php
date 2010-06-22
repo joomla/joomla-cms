@@ -127,6 +127,17 @@ class JCache extends JObject
 	}
 
 	/**
+	 * Get caching state
+	 *
+	 * @return	boolean Caching state
+	 * @since	1.6
+	 */
+	public function getCaching()
+	{
+		return $this->_options['caching'];
+	}
+
+	/**
 	 * Set cache lifetime
 	 *
 	 * @param	int	$lt	Cache lifetime
