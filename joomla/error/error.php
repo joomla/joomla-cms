@@ -470,16 +470,17 @@ w
 		if (isset ($_SERVER['HTTP_HOST']))
 		{
 			// output as html
-			jexit("<br /><b>J$level_human</b> ".$error->get('message')."<br />\n");
+			jexit("<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n");
 		}
 		else
 		{
 			// output as simple text
 			if (defined('STDERR')) {
-				fwrite(STDERR, "J$level_human ".$error->get('message')."\n");
+				fwrite(STDERR, "J$level_human: ".$error->get('message')."\n");
+				jexit();
 			}
 			else {
-				jexit("J$level_human ".$error->get('message')."\n");
+				jexit("J$level_human: ".$error->get('message')."\n");
 			}
 		}
 		return $error;
