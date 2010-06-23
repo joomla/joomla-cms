@@ -32,7 +32,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onUserBeforeSave($user, $isnew, $new)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 	}
 
 	/**
@@ -79,7 +79,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onUserBeforeDelete($user)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 	}
 
 	/**
@@ -93,7 +93,7 @@ class plgUserExample extends JPlugin
 	 */
 	function onUserAfterDelete($user, $succes, $msg)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// only the $user['id'] exists and carries valid information
 

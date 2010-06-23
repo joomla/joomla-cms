@@ -35,7 +35,7 @@ class plgSystemCache extends JPlugin
 		parent::__construct($subject, $config);
 
 		//Set the language in the class
-		$config = &JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$options = array(
 			'defaultgroup'	=> 'page',
 			'browsercache'	=> $this->params->get('browsercache', false),
@@ -43,7 +43,7 @@ class plgSystemCache extends JPlugin
 		);
 
 		jimport('joomla.cache.cache');
-		$this->_cache = &JCache::getInstance('page', $options);
+		$this->_cache = JCache::getInstance('page', $options);
 	}
 
 	/**
@@ -53,8 +53,8 @@ class plgSystemCache extends JPlugin
 	function onAfterInitialise()
 	{
 		global $_PROFILER;
-		$app	= &JFactory::getApplication();
-		$user	= &JFactory::getUser();
+		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
 
 		if ($app->isAdmin() || JDEBUG) {
 			return;
@@ -84,13 +84,13 @@ class plgSystemCache extends JPlugin
 
 	function onAfterRender()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if ($app->isAdmin() || JDEBUG) {
 			return;
 		}
 
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 		if (!$user->get('guest')) {
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
 			$this->_cache->store();

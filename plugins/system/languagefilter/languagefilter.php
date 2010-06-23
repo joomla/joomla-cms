@@ -33,7 +33,7 @@ class plgSystemLanguageFilter extends JPlugin
 		$app = JFactory::getApplication();
 		if ($app->isSite()) {
 			$app->setLanguageFilter(true);
-			$router = &$app->getRouter();
+			$router = $app->getRouter();
 
 			// setup language data
 			self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
@@ -41,7 +41,7 @@ class plgSystemLanguageFilter extends JPlugin
 			self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 			self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
-			$uri = &JFactory::getURI();
+			$uri = JFactory::getURI();
 			if (self::$mode_sef) {
 				$path = $uri->getPath();
 				$path = substr($path,strpos($path,'index.php'));
@@ -54,7 +54,7 @@ class plgSystemLanguageFilter extends JPlugin
 			if (isset(self::$sefs[$sef])) {
 				$lang_code = self::$sefs[$sef]->lang_code;
 				// Create a cookie
-				$conf =& JFactory::getConfig();
+				$conf = JFactory::getConfig();
 				$cookie_domain 	= $conf->get('config.cookie_domain', '');
 				$cookie_path 	= $conf->get('config.cookie_path', '/');
 				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
@@ -71,7 +71,7 @@ class plgSystemLanguageFilter extends JPlugin
 		if ($app->isSite()) {
 			self::$tag 			= JFactory::getLanguage()->getTag();
 
-			$router = &$app->getRouter();
+			$router = $app->getRouter();
 			// attach build rules for language SEF
 			$router->attachBuildRule(array($this, 'buildRule'));
 
@@ -93,7 +93,8 @@ class plgSystemLanguageFilter extends JPlugin
 		$Itemid = $uri->getVar('Itemid', 'absent');
 
 		if ($Itemid != 'absent') {
-			$menu 	=& JSite::getMenu()->getItem($Itemid);
+			$app	= JFactory::getApplication();
+			$menu 	= $app->getMenu()->getItem($Itemid);
 			// if no menu - that means that we are routing home menu item of none-current language or alias to home
 			if (!$menu || $menu->home && $uri->getVar('option')!='com_search') {
 				$uri->delVar('option');

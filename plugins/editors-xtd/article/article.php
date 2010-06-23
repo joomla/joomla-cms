@@ -38,8 +38,8 @@ class plgButtonArticle extends JPlugin
 			jInsertEditorText(tag, '".$name."');
 			SqueezeBox.close();
 		}";
-		
-		$doc =& JFactory::getDocument();
+
+		$doc = JFactory::getDocument();
 		$doc->addScriptDeclaration($js);
 
 		JHTML::_('behavior.modal');

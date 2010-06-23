@@ -34,7 +34,7 @@ class plgAuthenticationOpenID extends JPlugin
 	 */
 	function onUserAuthenticate($credentials, $options, & $response)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 			define('Auth_OpenID_RAND_SOURCE', null);
@@ -59,7 +59,7 @@ class plgAuthenticationOpenID extends JPlugin
 		jimport('joomla.filesystem.folder');
 
 		// Access the session data
-		$session = & JFactory :: getSession();
+		$session = JFactory :: getSession();
 
 		// Create and/or start using the data store
 		$store_path = JPATH_ROOT . '/tmp/_joomla_openid_store';
@@ -188,7 +188,7 @@ class plgAuthenticationOpenID extends JPlugin
 					$response->username = $result->getDisplayIdentifier();
 				} else {
 					// first, check if the provider provided username exists in the database
-					$db = &JFactory::getDbo();
+					$db = JFactory::getDbo();
 					$query	= $db->getQuery(true);
 
 					$query->select('username');

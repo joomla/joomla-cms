@@ -46,9 +46,9 @@ class plgSearchCategories extends JPlugin
 	 */
 	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db		= &JFactory::getDbo();
-		$user	= &JFactory::getUser();
-		$app	= &JFactory::getApplication();
+		$db		= JFactory::getDbo();
+		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 		$groups	= implode(',', $user->authorisedLevels());
 		$searchText = $text;
 

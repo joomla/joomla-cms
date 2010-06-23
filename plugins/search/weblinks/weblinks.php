@@ -44,9 +44,9 @@ class plgSearchWeblinks extends JPlugin
 	 */
 	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db		= &JFactory::getDbo();
-		$app	= &JFactory::getApplication();
-		$user	= &JFactory::getUser();
+		$db		= JFactory::getDbo();
+		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		$searchText = $text;

@@ -117,9 +117,9 @@ class plgUserJoomla extends JPlugin
 	 */
 	function onUserLogout($user, $options = array())
 	{
-		$my 		= &JFactory::getUser();
-		$session 	= &JFactory::getSession();
-		$app 		= &JFactory::getApplication();
+		$my 		= JFactory::getUser();
+		$session 	= JFactory::getSession();
+		$app 		= JFactory::getApplication();
 
 		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user')) {

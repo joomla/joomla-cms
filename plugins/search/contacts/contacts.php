@@ -42,9 +42,9 @@ class plgSearchContacts extends JPlugin
 	 */
 	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
-		$db		= &JFactory::getDbo();
-		$app	= &JFactory::getApplication();
-		$user	= &JFactory::getUser();
+		$db		= JFactory::getDbo();
+		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		if (is_array($areas)) {

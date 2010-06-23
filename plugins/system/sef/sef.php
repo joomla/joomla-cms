@@ -22,7 +22,7 @@ class plgSystemSef extends JPlugin
 	/**
 	 * Converting the site URL to fit to the HTTP request
 	 */
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 
@@ -73,7 +73,7 @@ class plgSystemSef extends JPlugin
 	 * @param	array	An array of matches (see preg_match_all)
 	 * @return	string
 	 */
-	protected function route(&$matches)
+	protected static function route(&$matches)
 	{
 		$original	= $matches[0];
 		$url		= $matches[1];

@@ -54,7 +54,7 @@ class plgContentLoadmodule extends JPlugin
 	protected function _load($position, $style = 'none')
 	{
 		//if (isset(self::$test[$position]) && self::$test[$position] == 1) return;
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 		$renderer	= $document->loadRenderer('module');
 		$modules	= JModuleHelper::getModules($position);
 		$params		= array('style' => $style);

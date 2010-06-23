@@ -38,13 +38,13 @@ class plgSystemRedirect extends JPlugin
 	static function handleError(&$error)
 	{
 		// Get the application object.
-		$app = & JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Make sure the error is a 404 and we are not in the administrator.
 		if (!$app->isAdmin() and ($error->getCode() == 404))
 		{
 			// Get the full current URI.
-			$uri = & JURI::getInstance();
+			$uri = JURI::getInstance();
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
 
 			// Attempt to ignore idiots.
@@ -54,7 +54,7 @@ class plgSystemRedirect extends JPlugin
 			}
 
 			// See if the current url exists in the database as a redirect.
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 			$db->setQuery(
 				'SELECT `new_url`, `published`' .
 				' FROM `#__redirect_links`' .

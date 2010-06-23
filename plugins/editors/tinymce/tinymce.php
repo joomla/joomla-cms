@@ -612,7 +612,7 @@ class plgEditorTinymce extends JPlugin
 
 	function onGetInsertMethod($name)
 	{
-		$doc =& JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$js= "
 			function isBrowserIE() {

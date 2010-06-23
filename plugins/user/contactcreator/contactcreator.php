@@ -44,13 +44,13 @@ class plgUserContactCreator extends JPlugin
 			return false; // bail out if we don't have a category
 		}
 
-		$dbo =& JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		// grab the contact ID for this user; note $user_id is cleaned above
 		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id );
 		$id = $dbo->loadResult();
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
-		$contact =& JTable::getInstance('contact', 'ContactTable');
+		$contact = JTable::getInstance('contact', 'ContactTable');
 		if(!$contact) {
 			return false;
 		}
