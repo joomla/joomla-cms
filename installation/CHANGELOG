@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 23-Jun-2010 Jean-Marie Simonet
 $ Added missing string
+ [#20641] Email Cloaking Plugin doesn't output well formed code. Thanks Nicholas.
 
 23-Jun-2010 Andrew Eddie
  # Fixed issue [#20617] installer doesn't allow . in database name (Rob Joyce, Troy Hall).
