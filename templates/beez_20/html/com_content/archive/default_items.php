@@ -18,7 +18,7 @@ if (!$templateparams->get('html5', 0))
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
-$params =& $this->params;
+$params = &$this->params;
 ?>
 <ul id="archive-items">
 <?php foreach ($this->items as $i => $item) : ?>
@@ -90,7 +90,8 @@ $params =& $this->params;
 		$link = JRoute::_(ContentRoute::article($item->slug, $item->catslug));
 	else :
 
-		$menu = JSite::getMenu();
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);

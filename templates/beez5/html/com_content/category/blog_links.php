@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$params =& $this->item->params;
+$params = &$this->item->params;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 

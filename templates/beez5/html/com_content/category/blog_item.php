@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$params =& $this->item->params;
+$params = &$this->item->params;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
 $canEdit = $this->user->authorise('core.edit', 'com_content.category.' . $this->item->id);
@@ -128,7 +128,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 	else :
-		$menu = JSite::getMenu();
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);

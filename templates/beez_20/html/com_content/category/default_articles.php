@@ -123,10 +123,11 @@ $listDirn	= $this->state->get('list.direction');
 				<td>
 					<?php
 						echo $this->escape($article->title).' : ';
-						$menu		= JSite::getMenu();
-						$active		= $menu->getActive();
-						$itemId		= $active->id;
-						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
+						$app	= JFactory::getApplication();
+						$menu	= $app->getMenu();
+						$active	= $menu->getActive();
+						$itemId	= $active->id;
+						$link	= JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
 						$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
 						$fullURL = new JURI($link);
 						$fullURL->setVar('return', base64_encode($returnURL));

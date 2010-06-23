@@ -1,7 +1,7 @@
 <?php // no direct acces
 defined('_JEXEC') or die; ?>
 <?php
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$myrtl =$this->newsfeed->rtl;
 		if ($lang->isRTL() && $myrtl==0){
 			$direction= "direction:rtl !important;";

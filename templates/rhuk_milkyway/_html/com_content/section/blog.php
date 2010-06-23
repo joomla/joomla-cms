@@ -1,6 +1,6 @@
 <?php
 defined('_JEXEC') or die;
-$cparams =& JComponentHelper::getParams('com_media');
+$cparams = JComponentHelper::getParams('com_media');
 ?>
 <?php if ($this->params->get('show_page_heading')) : ?>
 <div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
