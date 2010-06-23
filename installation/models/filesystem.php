@@ -36,7 +36,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Connect and login to the FTP server.
 		// Use binary transfer mode to be able to compare files.
-		@$ftp = & JFTP::getInstance($options->get('ftp_host'), $options->get('ftp_port'), array('type' => FTP_BINARY));
+		@$ftp = JFTP::getInstance($options->get('ftp_host'), $options->get('ftp_port'), array('type' => FTP_BINARY));
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
@@ -128,7 +128,7 @@ class JInstallationModelFilesystem extends JModel
 		jimport('joomla.client.ftp');
 
 		// Connect and login to the FTP server.
-		@$ftp = & JFTP::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
+		@$ftp = JFTP::getInstance($options->get('ftp_host'), $options->get('ftp_port'));
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
@@ -279,7 +279,7 @@ class JInstallationModelFilesystem extends JModel
 	function checkSettings($user, $pass, $root, $host = '127.0.0.1', $port = '21')
 	{
 		jimport('joomla.client.ftp');
-		$ftp = & JFTP::getInstance($host, $port);
+		$ftp = JFTP::getInstance($host, $port);
 
 		// Since the root path will be trimmed when it gets saved to configuration.php, we want to test with the same value as well
 		$root = rtrim($root, '/');
@@ -418,7 +418,7 @@ class JInstallationModelFilesystem extends JModel
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$client = & JFTP::getInstance($options['ftp_host'], $options['ftp_port']);
+			$client = JFTP::getInstance($options['ftp_host'], $options['ftp_port']);
 			$client->login($options['ftp_user'], $options['ftp_pass']);
 
 			//Translate path for the FTP account
@@ -459,7 +459,7 @@ class JInstallationModelFilesystem extends JModel
 	 */
 	function setFTPCfg($vars)
 	{
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$arr = array();
 		$arr[ftp_enable] = $vars['ftp_enable'];
 		$arr['ftp_user'] = $vars['ftp_user'];
@@ -473,7 +473,7 @@ class JInstallationModelFilesystem extends JModel
 
 	function _chmod($path, $mode)
 	{
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$ret = false;
 
 		// Initialise variables.
@@ -490,7 +490,7 @@ class JInstallationModelFilesystem extends JModel
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = & JFTP::getInstance($app->getCfg('ftp_host'), $app->getCfg('ftp_port'));
+			$ftp = JFTP::getInstance($app->getCfg('ftp_host'), $app->getCfg('ftp_port'));
 			$ftp->login($app->getCfg('ftp_user'), $app->getCfg('ftp_pass'));
 
 			//Translate the destination path for the FTP account

@@ -50,9 +50,9 @@ class JInstallation extends JApplication
 	 */
 	public function render()
 	{
-		$document = &JFactory::getDocument();
-		$config = &JFactory::getConfig();
-		$user = &JFactory::getUser();
+		$document = JFactory::getDocument();
+		$config = JFactory::getConfig();
+		$user = JFactory::getUser();
 
 		switch($document->getType())
 		{
@@ -120,7 +120,7 @@ class JInstallation extends JApplication
 		// Check the session for the language.
 		if (empty($options['language']))
 		{
-			$sessionLang = &JFactory::getSession()->get('setup.language');
+			$sessionLang = JFactory::getSession()->get('setup.language');
 			if (!is_null($sessionLang))
 			{
 				$options['language'] = $sessionLang;
@@ -149,7 +149,7 @@ class JInstallation extends JApplication
 		}
 
 		// Set the language in the class
-		$conf = &JFactory::getConfig();
+		$conf = JFactory::getConfig();
 		$conf->set('language', $options['language']);
 		$conf->set('debug_lang', $forced['debug']);
 	}
@@ -204,7 +204,7 @@ class JInstallation extends JApplication
 		$options = array();
 		$options['name'] = $name;
 
-		$session = &JFactory::getSession($options);
+		$session = JFactory::getSession($options);
 		if (!is_a($session->get('registry'), 'JRegistry'))
 		{
 			// Registry has been corrupted somehow

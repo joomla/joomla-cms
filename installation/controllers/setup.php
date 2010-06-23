@@ -202,7 +202,7 @@ class JInstallationControllerSetup extends JController
 		$return	= $model->validate($data, 'site');
 
 		// Attempt to save the data before validation
-		$form = &$model->getForm();
+		$form = $model->getForm();
 		$data = $form->filter($data);
 		unset($data['admin_password2']);
 		$model->storeOptions($data);

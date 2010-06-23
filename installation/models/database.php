@@ -28,7 +28,7 @@ class JInstallationModelDatabase extends JModel
 		$options = JArrayHelper::toObject($options, 'JObject');
 
 		// Load the back-end language files so that the DB error messages work
-		$jlang =& JFactory::getLanguage();
+		$jlang = JFactory::getLanguage();
 		// Pre-load en-GB in case the chosen language files do not exist
 		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
 		// Load the selected language
@@ -74,7 +74,7 @@ class JInstallationModelDatabase extends JModel
 		if (empty($options->db_created))
 		{
 			// Get a database object.
-			$db = &$this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
+			$db = $this->getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, null, $options->db_prefix, false);
 
 			// Check for errors.
 			if (JError::isError($db)) {
@@ -178,7 +178,7 @@ class JInstallationModelDatabase extends JModel
 			}
 
 			// Handle default backend language setting. This feature is available for localized versions of Joomla 1.5.
-			$app = & JFactory::getApplication();
+			$app = JFactory::getApplication();
 			$languages = $app->getLocaliseAdmin();
 			if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
 			{
@@ -216,7 +216,7 @@ class JInstallationModelDatabase extends JModel
 		$options = JArrayHelper::toObject($options, 'JObject');
 
 		// Get a database object.
-		$db = & JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 
 		// Check for errors.
 		if (JError::isError($db)) {
@@ -277,7 +277,7 @@ class JInstallationModelDatabase extends JModel
 			);
 
 			// Get a database object.
-			$db = & JDatabase::getInstance($options);
+			$db = JDatabase::getInstance($options);
 		}
 
 		return $db;

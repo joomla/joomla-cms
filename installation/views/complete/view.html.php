@@ -30,7 +30,7 @@ class JInstallationViewComplete extends JView
 		$options = $this->get('Options');
 
 		// Get the config string from the session.
-		$session = & JFactory::getSession();
+		$session = JFactory::getSession();
 		$config = $session->get('setup.config', null);
 
 		// Check for errors.

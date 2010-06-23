@@ -72,7 +72,7 @@ jimport('joomla.language.language');
 jimport('joomla.utilities.string');
 
 // Create the application object.
-$app = &JFactory::getApplication('installation');
+$app = JFactory::getApplication('installation');
 
 // Initialise the application.
 $app->initialise();

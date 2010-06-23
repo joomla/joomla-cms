@@ -162,7 +162,7 @@ class JInstallationModelConfiguration extends JModel
 			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
 
-			$ftp = & JFTP::getInstance($options->ftp_host, $options->ftp_port);
+			$ftp = JFTP::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account
@@ -171,7 +171,7 @@ class JInstallationModelConfiguration extends JModel
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer)) {
 				// Set the config string to the session.
-				$session = & JFactory::getSession();
+				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 
@@ -181,11 +181,11 @@ class JInstallationModelConfiguration extends JModel
 		{
 			if ($canWrite) {
 				file_put_contents($path, $buffer);
-				$session = & JFactory::getSession();
+				$session = JFactory::getSession();
 				$session->set('setup.config', null);
 			} else {
 				// Set the config string to the session.
-				$session = & JFactory::getSession();
+				$session = JFactory::getSession();
 				$session->set('setup.config', $buffer);
 			}
 		}
@@ -196,7 +196,7 @@ class JInstallationModelConfiguration extends JModel
 	function _createRootUser($options)
 	{
 		// Get a database object.
-		$db = & JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+		$db = JInstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 
 		// Check for errors.
 		if (JError::isError($db)) {

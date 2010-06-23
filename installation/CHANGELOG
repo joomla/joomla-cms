@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 23-Jun-2010 Andrew Eddie
  # Fixed issue [#21146] Fix for broken JFormFieldCalendarTest.
+ # Fixed issue [#20907] Making Joomla more compliant to PHP strict standard (Hannes Papenberg, Phil Snell).
 
 23-Jun-2010 Jean-Marie Simonet
 $ Added missing string

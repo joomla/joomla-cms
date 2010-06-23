@@ -23,13 +23,13 @@ class JInstallationControllerSetup extends JController
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
-		$model = &$this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
+		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Get the options from the session.
 		$vars = $model->getOptions();
 
 		// Get the database model.
-		$database = &$this->getModel('Database', 'JInstallationModel', array('dbo' => null));
+		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
 
 		// Attempt to load the database sample data.
 		$return = $database->installSampleData($vars);
@@ -62,13 +62,13 @@ class JInstallationControllerSetup extends JController
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup');
+		$model = $this->getModel('Setup');
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = & $this->getModel('Filesystem');
+		$filesystem = $this->getModel('Filesystem');
 
 		// Attempt to detect the Joomla root from the ftp account.
 		$return = $filesystem->detectFtpRoot($vars);
@@ -95,13 +95,13 @@ class JInstallationControllerSetup extends JController
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = & $this->getModel('Setup');
+		$model = $this->getModel('Setup');
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = & $this->getModel('Filesystem');
+		$filesystem = $this->getModel('Filesystem');
 
 		// Attempt to detect the Joomla root from the ftp account.
 		$return = $filesystem->verifyFtpSettings($vars);
@@ -144,7 +144,7 @@ class JInstallationControllerSetup extends JController
 		echo json_encode(new JInstallationJsonResponse($response));
 
 		// Close the application.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$app->close();
 	}
 }
