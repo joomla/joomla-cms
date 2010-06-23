@@ -82,6 +82,42 @@ class plgContentEmailcloak extends JPlugin
 		$searchText = '([\x20-\x7f][^<>]+)';
 
 		/*
+		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
+		 * >email@email.com</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
+		 * the mailto: prefix...
+		 */
+		$pattern = $this->_getPattern($searchEmail, $searchEmail);
+		$pattern = str_replace('"mailto:', '"http://mce_host([\x20-\x7f][^<>]+/)', $pattern);
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+			$mail = $regs[2][0];
+			$mailText = $regs[3][0];
+
+			// Check to see if mail text is different from mail addy
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText);
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
+		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
+		 * >anytext</a>. This happens when inserting an email in TinyMCE, cancelling its suggestion to add
+		 * the mailto: prefix...
+		 */
+		$pattern = $this->_getPattern($searchEmail, $searchText);
+		$pattern = str_replace('"mailto:', '"http://mce_host([\x20-\x7f][^<>]+/)', $pattern);
+		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE)) {
+			$mail = $regs[2][0];
+			$mailText = $regs[3][0];
+
+			// Check to see if mail text is different from mail addy
+			$replacement = JHtml::_('email.cloak', $mail, $mode, $mailText, 0);
+
+			// Replace the found address with the js cloaked email
+			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
+		}
+
+		/*
 		 * Search for derivatives of link code <a href="mailto:email@amail.com"
 		 * >email@amail.com</a>
 		 */
