@@ -11,10 +11,10 @@
 defined('_JEXEC') or die;
 
 // Initialise variables.
-$config = &JFactory::getConfig();
-$user = &JFactory::getUser();
-$db = &JFactory::getDbo();
-$lang = &JFactory::getLanguage();
+$config	= JFactory::getConfig();
+$user	= JFactory::getUser();
+$db		= JFactory::getDbo();
+$lang	= JFactory::getLanguage();
 
 // Get the number of unread messages in your inbox.
 $query	= $db->getQuery(true);

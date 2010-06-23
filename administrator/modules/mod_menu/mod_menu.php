@@ -20,8 +20,8 @@ if (!class_exists('JAdminCssMenu')) {
 }
 
 // Initialise variables.
-$lang		= &JFactory::getLanguage();
-$user		= &JFactory::getUser();
+$lang		= JFactory::getLanguage();
+$user		= JFactory::getUser();
 $menu		= new JAdminCSSMenu();
 $enabled	= JRequest::getInt('hidemainmenu') ? false : true;
 

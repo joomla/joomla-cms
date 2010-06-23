@@ -37,7 +37,7 @@ abstract class modFeedHelper
 			$options['cache_time'] = null;
 		}
 
-		$rssDoc = &JFactory::getXMLparser('RSS', $options);
+		$rssDoc = JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc != false)
 		{
