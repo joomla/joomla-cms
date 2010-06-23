@@ -31,6 +31,7 @@ $ -> Language fix or change
 23-Jun-2010 Ian MacLennan
 + Added unit tests for JAdapter, JAdapterInstance and one for JObject
 # Fixed unit tests that were breaking because mocks were not getting properly injected
+# Fixed JCache unit tests to supply storage handler to accomodate behaviour change (thanks Klas)
 
 22-Jun-2010 Mark Dexter
 # Added test fixes for failing system tests on Hudson server

@@ -59,7 +59,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		return array(
 			'simple' => array(
 				'output',
-				array(),
+				array('storage'		=> 'file'),
 				'JCacheControllerOutput',
 			),
 			'complexOutput' => array(
@@ -140,7 +140,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		return array(
 			'simple' => array(
 				'output',
-				array(),
+				array('storage'		=> 'file'),
 			),
 			'complexOutput' => array(
 				'output',
@@ -212,7 +212,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		return array(
 			'simple' => array(
 				'output',
-				array(),
+				array('storage'		=> 'file'),
 				900,
 			),
 			'complexOutput' => array(
@@ -288,7 +288,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		return array(
 			'simple' => array(
 				'output',
-				array(),
+				array('storage'		=> 'file'),
 				 'file',
 			),
 			'complexOutput' => array(
@@ -363,7 +363,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 		return array(
 			'simple' => array(
 				'output',
-				array( 'lifetime'	=> 600),
+				array( 'lifetime'	=> 600, 'storage'		=> 'file'),
 				42,
 				'',
 				'And this is the cache that tries men\'s souls',
@@ -436,8 +436,9 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 * @return void
 	 */
 	public function testRemove()
-	{
-		$this->object = JCache::getInstance('output');
+	{	
+		$options = array('storage'		=> 'file');
+		$this->object = JCache::getInstance('output',$options);
 		$this->object->setCaching(true);
 		$this->object->store(
 			'Now is the time for all good people to throw a party.',
@@ -479,7 +480,8 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClean()
 	{
-		$this->object = JCache::getInstance('output');
+		$options = array('storage'		=> 'file');
+		$this->object = JCache::getInstance('output',$options);
 		$this->object->setCaching(true);
 		$this->object->store(
 			'Now is the time for all good people to throw a party.',
