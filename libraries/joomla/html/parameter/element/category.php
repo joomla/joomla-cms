@@ -30,7 +30,7 @@ class JElementCategory extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$extension	= $node->attributes('extension');
 		$class		= $node->attributes('class');

@@ -34,7 +34,7 @@ class JInstallerHelper
 	 */
 	function downloadPackage($url, $target = false)
 	{
-		$config = &JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
@@ -242,7 +242,7 @@ class JInstallerHelper
 	 */
 	function cleanupInstall($package, $resultdir)
 	{
-		$config = &JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
 		if (is_dir($resultdir)) {
@@ -268,7 +268,7 @@ class JInstallerHelper
 	 */
 	function splitSql($sql)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		return $db->splitSql($sql);
 	}
 }

@@ -81,7 +81,7 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		$stream =& JFactory::getStream();
+		$stream = JFactory::getStream();
 		if(!$stream->open($archive, 'rb'))
 		{
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_READ'));
@@ -94,7 +94,7 @@ class JArchiveTar extends JObject
 		$chunksize = 512; // tar has items in 512 byte packets
 
 		while($entry = $stream->read($chunksize)) {
-			//$entry =& $this->_data[$i];
+			//$entry = &$this->_data[$i];
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 			if (!$info) {
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_DECOMPRESS'));

@@ -64,7 +64,7 @@ class JFolder
 		{
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JFTP::getInstance(
 				$FTPOptions['host'], $FTPOptions['port'], null,
 				$FTPOptions['user'], $FTPOptions['pass']
 			);
@@ -115,7 +115,7 @@ class JFolder
 
 					case 'file':
 						if($use_streams) {
-							$stream =& JFactory::getStream();
+							$stream = JFactory::getStream();
 							if(!$stream->copy($sfid, $dfid)) {
 								return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED').': '. $stream->getError());
 							}
@@ -183,7 +183,7 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JFTP::getInstance(
 				$FTPOptions['host'], $FTPOptions['port'], null,
 				$FTPOptions['user'], $FTPOptions['pass']
 			);
@@ -304,7 +304,7 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JFTP::getInstance(
 				$FTPOptions['host'], $FTPOptions['port'], null,
 				$FTPOptions['user'], $FTPOptions['pass']
 			);
@@ -353,7 +353,7 @@ class JFolder
 			return JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_EXISTS');
 		}
 		if($use_streams) {
-			$stream =& JFactory::getStream();
+			$stream = JFactory::getStream();
 			if(!$stream->move($src, $dest)) {
 				return JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_RENAME', $stream->getError());
 			}
@@ -362,7 +362,7 @@ class JFolder
 		if ($FTPOptions['enabled'] == 1) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JFTP::getInstance(
 				$FTPOptions['host'], $FTPOptions['port'], null,
 				$FTPOptions['user'], $FTPOptions['pass']
 			);

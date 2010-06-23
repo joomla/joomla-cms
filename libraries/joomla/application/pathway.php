@@ -64,7 +64,7 @@ class JPathway extends JObject
 		if (empty($instances[$client]))
 		{
 			//Load the router object
-			$info = &JApplicationHelper::getClientInfo($client, true);
+			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'pathway.php';
 			if (file_exists($path))

@@ -30,8 +30,8 @@ class JElementEditors extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db		= & JFactory::getDbo();
-		$user	= & JFactory::getUser();
+		$db		= JFactory::getDbo();
+		$user	= JFactory::getUser();
 
 		// compile list of the editors
 		$query = 'SELECT element AS value, name AS text'

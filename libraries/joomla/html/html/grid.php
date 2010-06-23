@@ -125,7 +125,7 @@ abstract class JHtmlGrid
 
 	public static function checkedOut(&$row, $i, $identifier = 'id')
 	{
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$userid = $user->get('id');
 
 		$result = false;
@@ -268,7 +268,7 @@ abstract class JHtmlGrid
 		});';
 
 			// Add the behavior to the document head.
-			$document = & JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
 
 			$loaded = true;

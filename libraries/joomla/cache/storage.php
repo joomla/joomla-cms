@@ -99,7 +99,7 @@ class JCacheStorage extends JObject
 		JCacheStorage::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage');
 
 		if (!isset($handler)) {
-			$conf =& JFactory::getConfig();
+			$conf = JFactory::getConfig();
 			$handler = $conf->get('cache_handler');
 			$caching = $conf->get('caching');
 			if (empty($handler)) {

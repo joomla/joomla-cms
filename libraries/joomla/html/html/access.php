@@ -83,7 +83,7 @@ abstract class JHtmlAccess
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
@@ -130,7 +130,7 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$db->setQuery(
 			'SELECT a.*, COUNT(DISTINCT b.id) AS level' .
 			' FROM #__usergroups AS a' .
@@ -226,7 +226,7 @@ abstract class JHtmlAccess
 	public static function assetgroups($config = array())
 	{
 		if (empty(JHtmlAccess::$asset_groups)) {
-			$db		= &JFactory::getDbo();
+			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text');

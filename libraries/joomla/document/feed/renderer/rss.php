@@ -37,12 +37,12 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	function render()
 	{
-		$now	= &JFactory::getDate();
+		$now	= JFactory::getDate();
 		$data	= &$this->_doc;
 
-		$uri = &JFactory::getURI();
+		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-		$syndicationURL = &JRoute::_('&format=feed&type=rss');
+		$syndicationURL = JRoute::_('&format=feed&type=rss');
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed.= "	<channel>\n";
@@ -83,7 +83,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<webMaster>".htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8')."</webMaster>\n";
 		}
 		if ($data->pubDate!="") {
-			$pubDate = &JFactory::getDate($data->pubDate);
+			$pubDate = JFactory::getDate($data->pubDate);
 			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if ($data->category!="") {
@@ -133,7 +133,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
 			}
 			if ($data->items[$i]->date!="") {
-			$itemDate = &JFactory::getDate($data->items[$i]->date);
+			$itemDate = JFactory::getDate($data->items[$i]->date);
 				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 			}
 			if ($data->items[$i]->guid!="") {

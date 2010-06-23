@@ -163,7 +163,7 @@ class JCacheControllerPage extends JCacheController
 	 */
 	private function _noChange()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Send not modified header and exit gracefully
 		header('HTTP/1.x 304 Not Modified', true);

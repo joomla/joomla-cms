@@ -95,7 +95,7 @@ class JFormHelper
 	protected static function loadType($entity, $type, $new = true)
 	{
 		// Reference to an array with current entity's type instances
-		$types =& self::$entities[$entity];
+		$types = &self::$entities[$entity];
 
 		// Initialize variables.
 		$key	= md5($type);
@@ -238,7 +238,7 @@ class JFormHelper
 	protected static function addPath($entity, $new = null)
 	{
 		// Reference to an array with paths for current entity
-		$paths =& self::$paths[$entity];
+		$paths = &self::$paths[$entity];
 
 		// Add the default entity's search path if not set.
 		if (empty($paths)) {

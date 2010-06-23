@@ -40,7 +40,7 @@ class JComponentHelper
 	{
 		if (!isset(self::$_components[$option])) {
 			if (self::_load($option)){
-				$result = &self::$_components[$option];
+				$result = self::$_components[$option];
 			} else {
 				$result				= new stdClass;
 				$result->enabled	= $strict ? false : true;
@@ -152,7 +152,7 @@ class JComponentHelper
 		require_once $path;
 		$contents = ob_get_contents();
 		ob_end_clean();
-	
+
 		// Build the component toolbar
 		jimport('joomla.application.helper');
 

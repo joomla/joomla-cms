@@ -39,26 +39,23 @@ class JDocumentRenderer extends JObject
 	/**
 	* Class constructor
 	*
-	* @access protected
 	* @param object A reference to the JDocument object that instantiated the renderer
 	*/
-	function __construct(&$doc) {
+	public function __construct(&$doc)
+	{
 		$this->_doc = &$doc;
 	}
 
 	/**
 	 * Renders a script and returns the results as a string
 	 *
-	 * @abstract
-	 * @access public
 	 * @param string	$name		The name of the element to render
 	 * @param array		$array		Array of values
 	 * @param string	$content	Override the output of the renderer
 	 * @return string	The output of the script
 	 */
-	function render($name, $params = array(), $content = null)
+	public function render($name, $params = null, $content = null)
 	{
-
 	}
 
 	/**

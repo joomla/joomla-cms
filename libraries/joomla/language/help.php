@@ -27,7 +27,7 @@ class JHelp
 	static function createURL($ref, $useComponent = false, $override = null)
 	{
 		$local = false;
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$component	= JApplicationHelper::getComponentName();
 
 		/*
@@ -41,7 +41,7 @@ class JHelp
 		} else {
 
 			// Get the user help URL.
-			$user		= &JFactory::getUser();
+			$user		= JFactory::getUser();
 			$url		= $user->getParam('helpsite');
 
 			// If user hasn't specified a help URL, then get the global one.
@@ -53,7 +53,7 @@ class JHelp
 			if ($useComponent) {
 
 				// Look for help URL in component parameters.
-				$params = &JComponentHelper::getParams( $component );
+				$params = JComponentHelper::getParams( $component );
 				$url = $params->get('helpURL');
 				if ($url == '') {
 					$local = true;
@@ -79,7 +79,7 @@ class JHelp
 		/*
 		 *  Replace substitution codes in the URL.
 		 */
-		$lang		= &JFactory::getLanguage();
+		$lang		= JFactory::getLanguage();
 		$version 	= new JVersion();
 		$jver		= explode( '.', $version->getShortVersion() );
 		$jlang		= explode( '-', $lang->getTag() );

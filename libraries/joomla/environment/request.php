@@ -43,7 +43,7 @@ class JRequest
 	 */
 	public static function getURI()
 	{
-		$uri = &JFactory::getURI();
+		$uri = JFactory::getURI();
 		return $uri->toString(array('path', 'query'));
 	}
 
@@ -426,7 +426,7 @@ class JRequest
 			$session = JFactory::getSession();
 			if ($session->isNew() && !self::getVar('format')) {
 				// Redirect to login screen.
-				$app = &JFactory::getApplication();
+				$app = JFactory::getApplication();
 				$return = JRoute::_('index.php');
 				$app->redirect($return, JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
 				$app->close();
@@ -551,7 +551,7 @@ class JRequest
 		{
 			// If the allow html flag is set, apply a safe html filter to the variable
 			if (is_null($safeHtmlFilter)) {
-				$safeHtmlFilter = & JFilterInput::getInstance(null, null, 1, 1);
+				$safeHtmlFilter = JFilterInput::getInstance(null, null, 1, 1);
 			}
 			$var = $safeHtmlFilter->clean($var, $type);
 		}
@@ -559,7 +559,7 @@ class JRequest
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
 			if (is_null($noHtmlFilter)) {
-				$noHtmlFilter = & JFilterInput::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+				$noHtmlFilter = JFilterInput::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
 			}
 			$var = $noHtmlFilter->clean($var, $type);
 		}

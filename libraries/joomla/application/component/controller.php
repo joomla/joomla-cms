@@ -197,10 +197,11 @@ class JController extends JObject
 		$command	= JRequest::getVar('task', 'display');
 
 		// Check for array format.
+		$filter = JFilterInput::getInstance();
 		if (is_array($command)) {
-			$command = JFilterInput::clean(array_pop(array_keys($command)), 'cmd');
+			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
 		} else {
-			$command = JFilterInput::clean($command, 'cmd');
+			$command = $filter->clean($command, 'cmd');
 		}
 
 		// Check for a controller.task command.
@@ -415,7 +416,7 @@ class JController extends JObject
 		$modelName		= preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix	= preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		$result = &JModel::getInstance($modelName, $classPrefix, $config);
+		$result = JModel::getInstance($modelName, $classPrefix, $config);
 		return $result;
 	}
 
@@ -474,6 +475,7 @@ class JController extends JObject
 	 *
 	 * @param	boolean			If true, the view output will be cached
 	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
 	 * @return	JController		This object to support chaining.
 	 * @since	1.5
 	 */
@@ -497,7 +499,7 @@ class JController extends JObject
 
 		$view->assignRef('document', $document);
 
-		$conf = &JFactory::getConfig();
+		$conf = JFactory::getConfig();
 
 		// Display the view
 		if ($cachable && $viewType != 'feed' && $conf->get('caching')) {
@@ -580,7 +582,7 @@ class JController extends JObject
 			$prefix = $this->getName() . 'Model';
 		}
 
-		if ($model = & $this->createModel($name, $prefix, $config)) {
+		if ($model = $this->createModel($name, $prefix, $config)) {
 			// task is a reserved state
 			$model->setState('task', $this->task);
 
@@ -590,7 +592,7 @@ class JController extends JObject
 
 			if (is_object($menu)) {
 				if ($item = $menu->getActive()) {
-					$params	= &$menu->getParams($item->id);
+					$params	= $menu->getParams($item->id);
 					// Set Default State Data
 					$model->setState('parameters.menu', $params);
 				}
@@ -672,7 +674,7 @@ class JController extends JObject
 		}
 
 		if (empty($views[$name])) {
-			if ($view = & $this->createView($name, $prefix, $type, $config)) {
+			if ($view = $this->createView($name, $prefix, $type, $config)) {
 				$views[$name] = & $view;
 			} else {
 				$result = JError::raiseError(

@@ -59,7 +59,7 @@ class JRoute
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
 		if ((int) $ssl) {
-			$uri = &JURI::getInstance();
+			$uri = JURI::getInstance();
 
 			// Get additional parts.
 			static $prefix;

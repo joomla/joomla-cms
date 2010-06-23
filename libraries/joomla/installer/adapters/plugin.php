@@ -40,7 +40,7 @@ class JInstallerPlugin extends JAdapterInstance
 		if (!$source) {
 			$this->parent->setPath('source', JPATH_PLUGINS . '/'.$this->parent->extension->folder.'/'.$this->parent->extension->element);
 		}
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		$element = $this->manifest->files;
 		if ($element)
 		{
@@ -60,7 +60,7 @@ class JInstallerPlugin extends JAdapterInstance
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
-				$lang =& JFactory::getLanguage();
+				$lang = JFactory::getLanguage();
 				$source = $path ? $path : JPATH_PLUGINS . "/$group/$name";
 				$folder = (string)$element->attributes()->folder;
 				if ($folder && file_exists("$path/$folder"))
@@ -84,7 +84,7 @@ class JInstallerPlugin extends JAdapterInstance
 	public function install()
 	{
 		// Get a database connector object
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
@@ -287,7 +287,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 * Database Processing Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		// Was there a plugin already installed with the same name?
 		if ($id)
 		{
@@ -443,11 +443,11 @@ class JInstallerPlugin extends JAdapterInstance
 		// Initialise variables.
 		$row	= null;
 		$retval = true;
-		$db		= &$this->parent->getDbo();
+		$db		= $this->parent->getDbo();
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		if (!$row->load((int) $id))
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PLG_UNINSTALL_ERRORUNKOWNEXTENSION'));
@@ -481,7 +481,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Because plugins don't have their own folders we cannot use the standard method of finding an installation manifest
 		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method
-		// when we get there it'll be something like "$manifest = &$this->parent->getManifest();"
+		// when we get there it'll be something like "$manifest = $this->parent->getManifest();"
 		$manifestFile = $this->parent->getPath('extension_root').DS.$row->element.'.xml';
 
 		if ( ! file_exists($manifestFile))
@@ -634,7 +634,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.'/plugins/'.$folder.'/'.$file);
 				$file = JFile::stripExt($file);
 				if ($file == 'example') continue; // ignore example plugins
-				$extension = &JTable::getInstance('extension');
+				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'plugin');
 				$extension->set('client_id', 0);
 				$extension->set('element', $file);
@@ -653,7 +653,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.'/plugins/'.$folder.'/'.$plugin_folder.'/'.$file);
 					$file = JFile::stripExt($file);
 					if ($file == 'example') continue; // ignore example plugins
-					$extension = &JTable::getInstance('extension');
+					$extension = JTable::getInstance('extension');
 					$extension->set('type', 'plugin');
 					$extension->set('client_id', 0);
 					$extension->set('element', $file);

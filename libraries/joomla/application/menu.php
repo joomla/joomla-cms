@@ -74,7 +74,7 @@ class JMenu extends JObject
 
 		if (empty($instances[$client])) {
 			//Load the router object
-			$info = &JApplicationHelper::getClientInfo($client, true);
+			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.'/includes/menu.php';
 			if (file_exists($path)) {
@@ -235,7 +235,7 @@ class JMenu extends JObject
 	public function getParams($id)
 	{
 		$result = new JRegistry;
-		if ($menu = &$this->getItem($id)) {
+		if ($menu = $this->getItem($id)) {
 			$result->loadJSON($menu->params);
 		}
 
@@ -261,8 +261,8 @@ class JMenu extends JObject
 	 */
 	public function authorise($id)
 	{
-		$menu	= &$this->getItem($id);
-		$user	= &JFactory::getUser();
+		$menu	= $this->getItem($id);
+		$user	= JFactory::getUser();
 
 		if ($menu) {
 			return in_array((int) $menu->access, $user->authorisedLevels());

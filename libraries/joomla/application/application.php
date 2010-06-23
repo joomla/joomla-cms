@@ -664,7 +664,9 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JRouter object.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param	string	$name		The name of the application.
+	 * @param	array	$options	An optional associative array of configuration settings.
+	 *
 	 * @return	JRouter
 	 * @since	1.5
 	 */
@@ -706,7 +708,9 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
+	 * @param	string	$name		The name of the application.
 	 * @param	array	$options	An optional associative array of configuration settings.
+	 *
 	 * @return	object JPathway.
 	 * @since	1.5
 	 */
@@ -727,7 +731,9 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param	string	$name		The name of the application/client.
+	 * @param	array	$options	An optional associative array of configuration settings.
+	 *
 	 * @return	object	JMenu.
 	 * @since	1.5
 	 */
@@ -739,9 +745,11 @@ class JApplication extends JObject
 
 		jimport('joomla.application.menu');
 		$menu = JMenu::getInstance($name, $options);
+
 		if (JError::isError($menu)) {
 			return null;
 		}
+
 		return $menu;
 	}
 
