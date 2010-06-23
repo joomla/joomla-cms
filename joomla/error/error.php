@@ -527,7 +527,7 @@ w
 			jimport('joomla.error.log');
 			$fileName = date('Y-m-d').'.error.log';
 			$options['format'] = "{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}";
-			$log = & JLog::getInstance($fileName, $options);
+			$log = JLog::getInstance($fileName, $options);
 		}
 
 		$entry['level'] = $error->get('level');
@@ -567,9 +567,9 @@ w
 	{
 		// Initialise variables.
 		jimport('joomla.document.document');
-		$app		= & JFactory::getApplication();
-		$document	= & JDocument::getInstance('error');
-		$config		= & JFactory::getConfig();
+		$app		= JFactory::getApplication();
+		$document	= JDocument::getInstance('error');
+		$config		= JFactory::getConfig();
 
 		// Get the current template from the application
 		$template = $app->getTemplate();

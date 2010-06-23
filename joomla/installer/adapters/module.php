@@ -42,7 +42,7 @@ class JInstallerModule extends JAdapterInstance
 		if (!$source) {
 			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/'.$this->parent->extension->element);
 		}
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		if ($this->manifest->files)
 		{
 			$element = $this->manifest->files;
@@ -60,7 +60,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 			if ($extension)
 			{
-				$lang =& JFactory::getLanguage();
+				$lang = JFactory::getLanguage();
 				$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/modules/'.$extension ;
 				$folder = (string)$element->attributes()->folder;
 				if ($folder && file_exists("$path/$folder"))
@@ -90,7 +90,7 @@ class JInstallerModule extends JAdapterInstance
 		}*/
 
 		// Get a database connector object
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
@@ -125,7 +125,7 @@ class JInstallerModule extends JAdapterInstance
 		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = &JApplicationHelper::getClientInfo($cname, true);
+			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false)
 			{
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_UNKNOWN_CLIENT', JText::_('JLIB_INSTALLER_'.$this->route), $client->name));
@@ -306,7 +306,7 @@ class JInstallerModule extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 
-		$row = &JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		// Was there a module already installed with the same name?
 		if ($id)
 		{
@@ -462,7 +462,7 @@ class JInstallerModule extends JAdapterInstance
 		foreach ($site_list as $module)
 		{
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE."/modules/$module/$module.xml");
-			$extension = &JTable::getInstance('extension');
+			$extension = JTable::getInstance('extension');
 			$extension->set('type',  'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
@@ -474,7 +474,7 @@ class JInstallerModule extends JAdapterInstance
 		foreach ($admin_list as $module)
 		{
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR."/modules/$module/$module.xml");
-			$extension = &JTable::getInstance('extension');
+			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
@@ -558,11 +558,11 @@ class JInstallerModule extends JAdapterInstance
 		// Initialise variables.
 		$row	= null;
 		$retval = true;
-		$db		= &$this->parent->getDbo();
+		$db		= $this->parent->getDbo();
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_ERRORUNKOWNEXTENSION'));
@@ -580,7 +580,7 @@ class JInstallerModule extends JAdapterInstance
 		// Get the extension root path
 		jimport('joomla.application.helper');
 		$element = $row->element;
-		$client = &JApplicationHelper::getClientInfo($row->client_id);
+		$client = JApplicationHelper::getClientInfo($row->client_id);
 		if ($client === false)
 		{
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_UNKNOWN_CLIENT', $row->client_id));
@@ -747,7 +747,7 @@ class JInstallerModule extends JAdapterInstance
 	protected function _rollback_menu($arg)
 	{
 		// Get database connector object
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
 		$query = 'DELETE' .
@@ -774,7 +774,7 @@ class JInstallerModule extends JAdapterInstance
 	protected function _rollback_module($arg)
 	{
 		// Get database connector object
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
 		$query = 'DELETE' .

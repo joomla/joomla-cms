@@ -43,7 +43,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE).'/components/'.$this->parent->extension->element);
 		}
 
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 
 		if (substr($name, 0, 4)=="com_") {
@@ -88,7 +88,7 @@ class JInstallerComponent extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Get the extension manifest object
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -1361,7 +1361,7 @@ class JInstallerComponent extends JAdapterInstance
 		foreach ($site_components as $component) {
 			if (file_exists(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
 				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml');
-				$extension = &JTable::getInstance('extension');
+				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
 				$extension->set('element', $component);
@@ -1375,7 +1375,7 @@ class JInstallerComponent extends JAdapterInstance
 		foreach ($admin_components as $component) {
 			if (file_exists(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml')) {
 				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.DS.'components'.DS.$component.DS.str_replace('com_','', $component).'.xml');
-				$extension = &JTable::getInstance('extension');
+				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
 				$extension->set('element', $component);

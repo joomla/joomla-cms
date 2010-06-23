@@ -130,7 +130,7 @@ class JApplicationHelper
 			return false;
 		}
 
-		$info = &self::getClientInfo();
+		$info = self::getClientInfo();
 
 		if (!isset($client->id)) {
 			$client->id = count($info);

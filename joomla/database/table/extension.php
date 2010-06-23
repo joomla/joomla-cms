@@ -77,7 +77,7 @@ class JTableExtension extends JTable
 
 	function find($options=array())
 	{
-		$dbo =& JFactory::getDBO();
+		$dbo = JFactory::getDBO();
 		$where = Array();
 		foreach($options as $col=>$val) {
 			$where[] = $col .' = '. $dbo->Quote($val);

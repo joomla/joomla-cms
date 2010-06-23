@@ -152,7 +152,7 @@ class JPaneTabs extends JPane
 		// Include mootools framework
 		JHtml::_('behavior.framework', true);
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$options = '{';
 		$opt['onActive']	= (isset($params['onActive'])) ? $params['onActive'] : null ;
@@ -251,7 +251,7 @@ class JPaneSliders extends JPane
 		// Include mootools framework.
 		JHtml::_('behavior.framework', true);
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$options = '{';
 		$opt['onActive']	= 'function(toggler, i) { toggler.addClass(\'jpane-toggler-down\'); toggler.removeClass(\'jpane-toggler\'); }';

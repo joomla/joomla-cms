@@ -1634,7 +1634,7 @@ class JForm
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
 		// Reference to array with form instances
-		$forms =& self::$forms;
+		$forms = &self::$forms;
 
 		// Only instantiate the form if it does not already exist.
 		if (!isset($forms[$name])) {

@@ -268,7 +268,7 @@ class JParameter extends JRegistry
 		// Get the type of the parameter.
 		$type = $node->attributes('type');
 
-		$element = &$this->loadElement($type);
+		$element = $this->loadElement($type);
 
 		// Check for an error.
 		if ($element === false) {
@@ -297,10 +297,10 @@ class JParameter extends JRegistry
 		$result = false;
 
 		if ($path) {
-			$xml = &JFactory::getXMLParser('Simple');
+			$xml = JFactory::getXMLParser('Simple');
 
 			if ($xml->loadFile($path)) {
-				if ($params = &$xml->document->params) {
+				if ($params = $xml->document->params) {
 					foreach ($params as $param) {
 						$this->setXML($param);
 						$result = true;

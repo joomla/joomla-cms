@@ -140,7 +140,7 @@ class JTableUsergroup extends JTable
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
 
-		$db = &$this->getDbo();
+		$db = $this->getDbo();
 
 		// Select the category ID and it's children
 		$db->setQuery(

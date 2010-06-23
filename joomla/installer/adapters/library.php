@@ -33,10 +33,10 @@ class JInstallerLibrary extends JAdapterInstance
 		if (!$source) {
 			$this->parent->setPath('source', JPATH_LIBRARIES . '/'.$this->parent->extension->element);
 		}
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$name = strtolower((string)$this->manifest->libraryname);
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$source = $path ? $path : JPATH_LIBRARIES . "/$name";
 			$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
@@ -67,7 +67,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->set('name', $name);
 		$this->set('element', $element);
 
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if ($result)
@@ -150,7 +150,7 @@ class JInstallerLibrary extends JAdapterInstance
 		 * Extension Registration
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		$row->name = $this->get('name');
 		$row->type = 'library';
 		$row->element = $this->get('element');
@@ -213,7 +213,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->set('name', $name);
 		$this->set('element', $element);
 		$installer = new JInstaller(); // we don't want to compromise this instance!
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if ($result) {
@@ -239,7 +239,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
 			JError::raiseWarning(100, JText::_('ERRORUNKOWNEXTENSION'));
@@ -332,7 +332,7 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_MANIFESTS.'/libraries/'.$file);
 			$file = JFile::stripExt($file);
-			$extension = &JTable::getInstance('extension');
+			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);

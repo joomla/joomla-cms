@@ -55,7 +55,7 @@ class JUpdater extends JAdapter {
 	 * @return boolean If there are updates or not
 	 */
 	public function findUpdates($eid=0) {
-		$dbo =& $this->getDBO();
+		$dbo = $this->getDBO();
 		$retval = false;
 		// push it into an array
 		if(!is_array($eid)) {
@@ -68,7 +68,7 @@ class JUpdater extends JAdapter {
 		$result_count = count($results);
 		for($i = 0; $i < $result_count; $i++)
 		{
-			$result =& $results[$i];
+			$result = &$results[$i];
 			$this->setAdapter($result['type']);
 			if(!isset($this->_adapters[$result['type']])) {
 				continue; // ignore update sites requiring adapters we don't have installed
@@ -85,9 +85,9 @@ class JUpdater extends JAdapter {
 				{
 					for($k = 0; $k < count($update_result['updates']); $k++)
 					{
-						$current_update =& $update_result['updates'][$k];
-						$update =& JTable::getInstance('update');
-						$extension =& JTable::getInstance('extension');
+						$current_update = &$update_result['updates'][$k];
+						$update = JTable::getInstance('update');
+						$extension = JTable::getInstance('extension');
 						$uid = $update->find(Array('element'=>strtolower($current_update->get('element')),
 								'type'=>strtolower($current_update->get('type')),
 								'client_id'=>strtolower($current_update->get('client_id')),
@@ -158,8 +158,9 @@ class JUpdater extends JAdapter {
 		return $myArray;
 	}
 
-	public function update($id) {
-		$updaterow =& JTable::getInstance('update');
+	public function update($id)
+	{
+		$updaterow = JTable::getInstance('update');
 		$updaterow->load($id);
 		$update = new JUpdate();
 		if($update->loadFromXML($updaterow->detailsurl)) {

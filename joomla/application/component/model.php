@@ -184,7 +184,7 @@ abstract class JModel extends JObject
 		if (array_key_exists('dbo', $config))  {
 			$this->_db = $config['dbo'];
 		} else {
-			$this->_db = &JFactory::getDbo();
+			$this->_db = JFactory::getDbo();
 		}
 
 		// set the default view search path
@@ -247,7 +247,7 @@ abstract class JModel extends JObject
 
 		//Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config))  {
-			$config['dbo'] = &$this->getDbo();;
+			$config['dbo'] = $this->getDbo();;
 		}
 
 		return JTable::getInstance($name, $prefix, $config);;
@@ -320,7 +320,7 @@ abstract class JModel extends JObject
 			$name = $this->getName();
 		}
 
-		if ($table = &$this->_createTable($name, $prefix, $options))  {
+		if ($table = $this->_createTable($name, $prefix, $options))  {
 			return $table;
 		}
 

@@ -27,9 +27,9 @@ class JInstallerPackage extends JAdapterInstance
 
 	public function loadLanguage($path)
 	{
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$source = $path;
 		$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
@@ -55,11 +55,12 @@ class JInstallerPackage extends JAdapterInstance
 		 */
 
 		// Set the extensions name
-		$name = (string)$this->manifest->packagename;
-		$name = JFilterInput::getInstance()->clean($name, 'cmd');
+		$filter	= JFilterInput::getInstance();
+		$name	= (string) $this->manifest->packagename;
+		$name	= $fitler->clean($name, 'cmd');
 		$this->set('name', $name);
 
-		$element = 'pkg_' . JFilterInput::clean($this->manifest->packagename, 'cmd');
+		$element = 'pkg_' . $filter->clean($this->manifest->packagename, 'cmd');
 		$this->set('element', $element);
 
 		// Get the component description
@@ -140,7 +141,7 @@ class JInstallerPackage extends JAdapterInstance
 		 * Extension Registration
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
 						'type'=>'package'));
 		if($eid) {
@@ -211,12 +212,12 @@ class JInstallerPackage extends JAdapterInstance
 		$row	= null;
 		$retval = true;
 
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		$row->load($id);
 
 
 		$manifestFile = JPATH_MANIFESTS.DS.'packages' . DS . $row->get('element') .'.xml';
-		$manifest = new JPackageManifest($manifestFile);		
+		$manifest = new JPackageManifest($manifestFile);
 
 		// Set the package root path
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS.DS.'packages'.DS.$manifest->packagename);
@@ -266,11 +267,11 @@ class JInstallerPackage extends JAdapterInstance
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_UNKNOWN_EXTENSION'));
 			}
 		}
-		
+
 		// Remove any language files
 		$this->parent->removeFiles($xml->languages);
-		
-		
+
+
 		// clean up manifest file after we're done if there were no errors
 		if (!$error) {
 			JFile::delete($manifestFile);
@@ -279,7 +280,7 @@ class JInstallerPackage extends JAdapterInstance
 		else {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
 		}
-		
+
 		// return the result up the line
 		return $retval;
 	}
@@ -288,7 +289,7 @@ class JInstallerPackage extends JAdapterInstance
 	{
 		$db		= $this->parent->getDbo();
 		$result = $id;
-		
+
 		$query = new JDatabaseQuery();
 		$query->select('extension_id');
 		$query->from('#__extensions');
@@ -317,10 +318,10 @@ class JInstallerPackage extends JAdapterInstance
 				$query->where('client_id = '. (int)$client->id);
 				break;
 		}
-		
+
 		$db->setQuery($query);
 		$result = $db->loadResult();
-		
+
 		// note: for templates, libraries and packages their unique name is their key
 		// this means they come out the same way they came in
 		return $result;

@@ -79,7 +79,7 @@ class JRouter extends JObject
 
 		if (empty($instances[$client])) {
 			//Load the router object
-			$info = &JApplicationHelper::getClientInfo($client, true);
+			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'router.php';
 			if (file_exists($path)) {
@@ -131,7 +131,7 @@ class JRouter extends JObject
 	public function build($url)
 	{
 		//Create the URI object
-		$uri = &$this->_createURI($url);
+		$uri = $this->_createURI($url);
 
 		//Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);

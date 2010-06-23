@@ -73,7 +73,7 @@ abstract class JHtmlList
 	 */
 	public static function genericordering($sql, $chop = '30')
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$options	= array();
 		$db->setQuery($sql);
 
@@ -173,7 +173,7 @@ abstract class JHtmlList
 	 */
 	public static function users($name, $active, $nouser = 0, $javascript = NULL, $order = 'name', $reg = 1)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$and = '';
 		if ($reg) {

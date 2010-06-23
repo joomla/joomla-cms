@@ -37,7 +37,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$this->parent->extension->element);
 		}
 		$clientId = $this->parent->extension->client_id;
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$client = (string)$this->manifest->attributes()->client;
 		// Load administrator language if not set.
@@ -46,7 +46,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		$extension = "tpl_$name";
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$name;
 			$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', constant('JPATH_'.strtoupper($client)), null, false, false)
@@ -69,7 +69,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			// Attempt to map the client to a base path
 			jimport('joomla.application.helper');
-			$client = &JApplicationHelper::getClientInfo($cname, true);
+			$client = JApplicationHelper::getClientInfo($cname, true);
 			if ($client === false) {
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 				return false;
@@ -92,7 +92,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->set('name', $name);
 		$this->set('element',$element);
 
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
@@ -183,7 +183,7 @@ class JInstallerTemplate extends JAdapterInstance
 		 * Extension Registration
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		$row->name = $this->get('name');
 		$row->type = 'template';
 		$row->element = $this->get('name');
@@ -231,7 +231,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		// First order of business will be to load the module object table from the database.
 		// This should give us the necessary information to proceed.
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'));
@@ -257,7 +257,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Deny remove default template
-		$db = &$this->parent->getDbo();
+		$db = $this->parent->getDbo();
 		$query = 'SELECT COUNT(*) FROM #__template_styles'.
 				' WHERE home = 1 AND template = '.$db->Quote($name);
 		$db->setQuery($query);
@@ -268,7 +268,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Get the template root path
-		$client = &JApplicationHelper::getClientInfo($clientId);
+		$client = JApplicationHelper::getClientInfo($clientId);
 		if (!$client)
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'));
@@ -277,7 +277,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.strtolower($name));
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		$manifest = &$this->parent->getManifest();
+		$manifest = $this->parent->getManifest();
 		if (!$manifest INSTANCEOF JXMLElement)
 		{
 			// kill the extension entry
@@ -342,7 +342,7 @@ class JInstallerTemplate extends JAdapterInstance
 				// ignore special system template
 			}
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE."/templates/$template/templateDetails.xml");
-			$extension = &JTable::getInstance('extension');
+			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $template);
@@ -358,7 +358,7 @@ class JInstallerTemplate extends JAdapterInstance
 				// ignore special system template
 			}
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR."/templates/$template/templateDetails.xml");
-			$extension = &JTable::getInstance('extension');
+			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $template);
@@ -403,7 +403,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($this->parent->extension->store()) {
 
 			//insert record in #__template_styles
-			$db = &$this->parent->getDbo();
+			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
 			$query->insert('#__template_styles');
 			$query->set('template='.$db->Quote($this->parent->extension->name));

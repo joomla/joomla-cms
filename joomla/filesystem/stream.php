@@ -744,7 +744,7 @@ class JStream extends JObject
 			if(!$res && $php_errormsg) {
 				$this->setError($php_errormsg);
 			} else {
-				$this->filters[] =& $res;
+				$this->filters[] = &$res;
 			}
 
 			// restore error tracking to what it was before

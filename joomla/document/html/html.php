@@ -313,13 +313,16 @@ class JDocumentHTML extends JDocument
 	 * @access public
 	 * @return integer Number of child menu items
 	 */
-	function countMenuChildren() {
+	function countMenuChildren()
+	{
 		static $children;
+
 		if (!isset($children)) {
-			$dbo = JFactory::getDbo();
-			$menu = JSite::getMenu();
-			$where = Array();
-			$active = $menu->getActive();
+			$dbo	= JFactory::getDbo();
+			$app	= JFactory::getApplication();
+			$menu	= $app->getMenu();
+			$where	= Array();
+			$active	= $menu->getActive();
 			if ($active) {
 				$where[] = 'parent = ' . $active->id;
 				$where[] = 'published = 1';

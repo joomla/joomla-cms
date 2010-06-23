@@ -33,7 +33,7 @@ class JElementComponentLayouts extends JElementList
 		$path2		= null;
 
 		// Load template entries for each menuid
-		$db			=& JFactory::getDBO();
+		$db			= JFactory::getDBO();
 		$query		= 'SELECT template'
 			. ' FROM #__template_styles'
 			. ' WHERE client_id = 0 AND home = 1';

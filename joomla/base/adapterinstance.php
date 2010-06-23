@@ -40,10 +40,10 @@ class JAdapterInstance extends JObject {
 	public function __construct(&$parent, &$db, $options = Array())
 	{
 		// set the properties from the options array that is passed in
-		$this->setProperties($options); 
+		$this->setProperties($options);
 		// set the parent and db in case $options for some reason overrides it
-		$this->parent =& $parent;
-		$this->db =& $db ? $db : JFactory::getDBO(); // pull in the global dbo in case
+		$this->parent = &$parent;
+		$this->db = &$db ? $db : JFactory::getDBO(); // pull in the global dbo in case
 	}
 
 	/**

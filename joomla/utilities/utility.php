@@ -169,7 +169,7 @@ class JUtility
 	function array_unshift_ref(&$array, &$value)
 	{
 		$return = array_unshift($array,'');
-		$array[0] =& $value;
+		$array[0] = &$value;
 		return $return;
 	}
 

@@ -37,7 +37,7 @@ abstract class JHtmlImage
 	public static function site($file, $folder = '/images/system/', $altFile = null, $altFolder = '/images/system/', $alt = null, $attribs = null, $asTag = true)
 	{
 		static $paths;
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if (!$paths) {
 			$paths = array();
@@ -107,7 +107,7 @@ abstract class JHtmlImage
 	 */
 	public static function administrator($file, $folder = '/images/', $altFile = null, $altFolder = '/images/', $alt = null, $attribs = null, $asTag = true)
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);

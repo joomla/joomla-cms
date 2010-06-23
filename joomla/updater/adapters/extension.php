@@ -15,7 +15,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		//print_r($attrs); echo '<br />';
 		switch($name) {
 			case 'UPDATE':
-				$this->current_update =& JTable::getInstance('update');
+				$this->current_update = JTable::getInstance('update');
 				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
 				break;
@@ -85,7 +85,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		}
 
 
-		$dbo =& $this->parent->getDBO();
+		$dbo = $this->parent->getDBO();
 
 		if (!($fp = @fopen($url, "r"))) {
 			$query = $dbo->getQuery(true);

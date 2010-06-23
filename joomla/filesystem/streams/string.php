@@ -34,7 +34,7 @@ class JStreamString
 
 	function stream_open($path, $mode, $options, &$opened_path)
 	{
-		$this->_currentstring =& JStringController::getRef(str_replace('string://','',$path));
+		$this->_currentstring = &JStringController::getRef(str_replace('string://','',$path));
 		if($this->_currentstring)
 		{
 			$this->_len = strlen($this->_currentstring);
@@ -55,7 +55,7 @@ class JStreamString
 	function url_stat($path, $flags=0)
 	{
 		$now = time();
-		$string =& JStringController::getRef(str_replace('string://','',$path));
+		$string = &JStringController::getRef(str_replace('string://','',$path));
 		$stat = Array(
 			'dev'=> 0,
 			'ino'=> 0,

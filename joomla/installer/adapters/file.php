@@ -31,9 +31,9 @@ class JInstallerFile extends JAdapterInstance
 	 */
 	public function loadLanguage($path)
 	{
-		$this->manifest = &$this->parent->getManifest();
+		$this->manifest = $this->parent->getManifest();
 		$extension = 'fil_'. strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
-		$lang =& JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$source = $path;
 			$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
@@ -134,7 +134,7 @@ class JInstallerFile extends JAdapterInstance
 		 */
 
 		// Add an entry to the extension table with a whole heap of defaults
-		$row = & JTable::getInstance('extension');
+		$row = JTable::getInstance('extension');
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'file');
 		$row->set('element', $this->get('element'));
@@ -177,7 +177,7 @@ class JInstallerFile extends JAdapterInstance
 	{
 		// since this is just files, an update removes old files
 		// Get the extension manifest object
-		$manifest =& $this->parent->getManifest();
+		$manifest = $this->parent->getManifest();
 		$this->manifest = $this->parent->getManifest();
 		$this->route = 'update';
 
@@ -315,7 +315,7 @@ class JInstallerFile extends JAdapterInstance
 	{
 
 		// Get a database connector object
-		$db =& $this->parent->getDBO();
+		$db = $this->parent->getDBO();
 
 		$query = 'SELECT `extension_id`' .
 				' FROM `#__extensions`' .

@@ -530,8 +530,8 @@ class JView extends JObject
 		$tpl  = preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl);
 
 		// Load the language file for the template
-		$lang = &JFactory::getLanguage();
-		$app = &JFactory::getApplication();
+		$lang	= JFactory::getLanguage();
+		$app	= JFactory::getApplication();
 		$template = $app->getTemplate();
 			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
@@ -608,7 +608,7 @@ class JView extends JObject
 	{
 		jimport('joomla.application.helper');
 		$component	= JApplicationHelper::getComponentName();
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 
 		// clear out the prior search dirs
 		$this->_path[$type] = array();

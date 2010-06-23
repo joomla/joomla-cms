@@ -27,13 +27,13 @@ class JStringController {
 	}
 
 	function createRef($reference, &$string) {
-		$ref =& JStringController::_getArray();
+		$ref = &JStringController::_getArray();
 		$ref[$reference] =& $string;
 	}
 
 
 	function getRef($reference) {
-		$ref =& JStringController::_getArray();
+		$ref = &JStringController::_getArray();
 		if(isset($ref[$reference])) {
 			return $ref[$reference];
 		} else {

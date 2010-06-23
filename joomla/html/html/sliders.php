@@ -95,7 +95,7 @@ abstract class JHtmlSliders
 			// Include mootools framework.
 			JHtml::_('behavior.framework', true);
 
-			$document = &JFactory::getDocument();
+			$document = JFactory::getDocument();
 
 			$display = (isset($params['startOffset']) && isset($params['startTransition'])  && $params['startTransition']) ? (int)$params['startOffset'] : null;
 			$show = (isset($params['startOffset']) && !(isset($params['startTransition']) && $params['startTransition'])) ? (int)$params['startOffset'] : null;

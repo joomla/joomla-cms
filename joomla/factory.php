@@ -149,10 +149,10 @@ abstract class JFactory
 		if (is_null($id)) {
 			$instance = self::getSession()->get('user');
 			if (!$instance INSTANCEOF JUser) {
-				$instance = &JUser::getInstance();
+				$instance = JUser::getInstance();
 			}
 		} else {
-			$instance = &JUser::getInstance($id);
+			$instance = JUser::getInstance($id);
 		}
 
 		return $instance;
@@ -571,7 +571,7 @@ abstract class JFactory
 		$mailer		= $conf->get('mailer');
 
 		// Create a JMail object
-		$mail		= &JMail::getInstance();
+		$mail		= JMail::getInstance();
 
 		// Set default sender
 		$mail->setSender(array ($mailfrom, $fromname));

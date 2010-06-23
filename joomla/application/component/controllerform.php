@@ -209,7 +209,7 @@ class JControllerForm extends JController
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$model		= &$this->getModel();
+		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
@@ -246,8 +246,14 @@ class JControllerForm extends JController
 
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
-	public function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 	}
