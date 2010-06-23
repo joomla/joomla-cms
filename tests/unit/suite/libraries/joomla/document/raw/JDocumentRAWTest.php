@@ -41,8 +41,25 @@ class JDocumentRAWTest extends PHPUnit_Framework_TestCase {
 	 * @todo Implement testRender().
 	 */
 	public function testRender() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object = new JDocumentRaw;
+		JResponse::clearHeaders();
+
+		$this->object->setBuffer('Unit Test Buffer');
+
+		$this->assertThat(
+			$this->object->render(),
+			$this->equalTo('Unit Test Buffer')
+		);
+
+		$headers = JResponse::getHeaders();
+		
+		foreach($headers AS $head) {
+			if ($head['name'] == 'Expires') {
+				$this->assertThat(
+					$head['value'],
+					$this->stringContains('GMT')
+				);
+			}
+		}
 	}
 }
-?>

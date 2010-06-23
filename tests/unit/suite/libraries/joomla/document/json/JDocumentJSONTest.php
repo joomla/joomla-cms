@@ -41,40 +41,72 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase {
 	 * @todo Implement testRender().
 	 */
 	public function testRender() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		JResponse::clearHeaders();
+		JResponse::allowCache(true);
+
+		$this->object->setBuffer('Unit Test Buffer');
+
+		$this->assertThat(
+			$this->object->render(),
+			$this->equalTo('Unit Test Buffer'),
+			'We did not get the buffer back properly'
+		);
+
+		$headers = JResponse::getHeaders();
+		
+		$expires = false;
+		$disposition = false;
+
+		foreach($headers AS $head) {
+			if ($head['name'] == 'Expires') {
+				$this->assertThat(
+					$head['value'],
+					$this->stringContains('GMT'),
+					'The expires header was not set properly (was parent::render called?)'
+				);
+				$expires = true;
+			}
+			if ($head['name'] == 'Content-disposition') {
+				$this->assertThat(
+					$head['value'],
+					$this->stringContains('.json'),
+					'The content disposition did not include json extension'
+				);
+				$disposition = true;
+			}
+		}
+		$this->assertThat(
+			JResponse::allowCache(),
+			$this->isFalse(),
+			'Caching was not disabled'
+		);
 	}
 
 	/**
-	 * @todo Implement testGetHeadData().
+	 * This method does nothing.
 	 */
 	public function testGetHeadData() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->getHeadData();
 	}
 
 	/**
-	 * @todo Implement testSetHeadData().
+	 * This method does nothing.
 	 */
 	public function testSetHeadData() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setHeadData('Head Data');
 	}
 
 	/**
-	 * @todo Implement testGetName().
+	 * We test both at once
 	 */
-	public function testGetName() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	public function testGetAndSetName() {
+		$this->object->setName('unittestfilename');
+
+		$this->assertThat(
+			$this->object->getName(),
+			$this->equalTo('unittestfilename'),
+			'setName or getName did not work'
+		);
 	}
 
-	/**
-	 * @todo Implement testSetName().
-	 */
-	public function testSetName() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
 }
-?>
