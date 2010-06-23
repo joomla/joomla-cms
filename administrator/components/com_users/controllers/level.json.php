@@ -39,7 +39,7 @@ class UsersControllerLevel extends JController
 		$data['parent_id'] = (!empty($data['parent_id'])) ? (int) $data['parent_id'] : 1;
 
 		// Get the model and attempt to validate the posted data.
-		$model = &$this->getModel('Level');
+		$model = $this->getModel('Level');
 		$return	= $model->validate($data);
 
 		// Check for validation errors.

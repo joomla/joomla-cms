@@ -21,8 +21,11 @@ class CategoriesHelper
 	 * Configure the Submenu links.
 	 *
 	 * @param	string	The extension being used for the categories.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	public function addSubmenu($extension)
+	public static function addSubmenu($extension)
 	{
 		// Avoid nonsense situation.
 		if ($extension == 'com_categories') {
@@ -31,8 +34,8 @@ class CategoriesHelper
 
 		$parts = explode('.',$extension);
 		$component = $parts[0];
-		if (count($parts)>1)
-		{
+
+		if (count($parts) > 1) {
 			$section = $parts[1];
 		}
 
@@ -40,16 +43,16 @@ class CategoriesHelper
 		$eName	= str_replace('com_', '', $component);
 		$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component.'/helpers/'.$eName.'.php');
 
-		if (file_exists($file))
-		{
+		if (file_exists($file)) {
 			require_once $file;
+
 			$prefix	= ucfirst(str_replace('com_', '', $component));
 			$cName	= $prefix.'Helper';
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = &JFactory::getLanguage();
+
+			if (class_exists($cName)) {
+
+				if (is_callable(array($cName, 'addSubmenu'))) {
+					$lang = JFactory::getLanguage();
 					// loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
 						$lang->load($component, JPATH_BASE, null, false, false)

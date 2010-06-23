@@ -15,7 +15,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_media')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$params = &JComponentHelper::getParams('com_media');
+$params = JComponentHelper::getParams('com_media');
 
 // Load the admin HTML view
 require_once JPATH_COMPONENT.DS.'helpers'.DS.'media.php';

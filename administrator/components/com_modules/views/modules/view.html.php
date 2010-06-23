@@ -53,23 +53,28 @@ class ModulesViewModules extends JView
 		$canDo	= ModulesHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
+
 		if ($canDo->get('core.create')) {
 			//JToolBarHelper::addNew('module.add');
-			$bar = &JToolBar::getInstance('toolbar');
+			$bar = JToolBar::getInstance('toolbar');
 			$bar->appendButton('Popup', 'new', 'JTOOLBAR_NEW', 'index.php?option=com_modules&amp;view=select&amp;tmpl=component', 850, 400);
 		}
+
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('module.edit','JTOOLBAR_EDIT');
 		}
+
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png','JTOOLBAR_DUPLICATE', true);
 		}
+
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::custom('modules.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::custom('modules.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 		}
-	if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+
+		if (JFactory::getUser()->authorise('core.manage','com_checkin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::custom('modules.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
@@ -80,11 +85,11 @@ class ModulesViewModules extends JView
 			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
 		}
 
-
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_modules');
 		}
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 	}

@@ -152,7 +152,7 @@ class InstallerModelManage extends InstallerModel
 			}
 
 			// Get a database connector
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 
 			// Get an installer object for the extension type
 			jimport('joomla.installer.installer');

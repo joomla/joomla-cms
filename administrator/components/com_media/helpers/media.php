@@ -42,7 +42,7 @@ abstract class MediaHelper
 	 */
 	public static function canUpload($file, &$err)
 	{
-		$params = &JComponentHelper::getParams('com_media');
+		$params = JComponentHelper::getParams('com_media');
 
 		if (empty($file['name'])) {
 			$err = 'COM_MEDIA_ERROR_UPLOAD_INPUT';

@@ -25,9 +25,15 @@ class ContactController extends JController
 	protected $default_view = 'contacts';
 
 	/**
-	 * Display the view
+	 * Method to display a view.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		require_once JPATH_COMPONENT.'/helpers/contact.php';
 
@@ -35,5 +41,7 @@ class ContactController extends JController
 
 		// Load the submenu.
 		ContactHelper::addSubmenu(JRequest::getWord('view', 'contacts'));
+
+		return $this;
 	}
 }

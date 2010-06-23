@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Get the login modules
-$modules = &JModuleHelper::getModules('login');
+$modules = JModuleHelper::getModules('login');
 
 foreach ($modules as $module)
 // Render the login modules

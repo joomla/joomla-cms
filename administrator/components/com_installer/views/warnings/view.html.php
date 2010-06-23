@@ -24,7 +24,7 @@ class InstallerViewWarnings extends InstallerViewDefault
 	 */
 	function display($tpl=null)
 	{
-		$items		= &$this->get('Items');
+		$items		= $this->get('Items');
 		$this->assignRef('messages', $items);
 		parent::display($tpl);
 	}

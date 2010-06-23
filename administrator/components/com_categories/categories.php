@@ -19,6 +19,6 @@ if (!JFactory::getUser()->authorise('core.manage', JRequest::getCmd('extension')
 jimport('joomla.application.component.controller');
 
 // Execute the task.
-$controller	= &JController::getInstance('Categories');
+$controller	= JController::getInstance('Categories');
 $controller->execute(JRequest::getVar('task'));
 $controller->redirect();

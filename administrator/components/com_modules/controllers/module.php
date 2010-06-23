@@ -32,11 +32,11 @@ class ModulesControllerModule extends JControllerForm
 
 		// Clear the component's cache
 		if ($task != 'edit' && $task != 'cancel' && $task != 'add') {
-			$cache = &JFactory::getCache('com_modules');
+			$cache = JFactory::getCache('com_modules');
 			$cache->clean();
 		}
 	}
-	
+
 	/**
 	 * Override parent add method.
 	 */

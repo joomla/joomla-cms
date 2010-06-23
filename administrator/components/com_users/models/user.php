@@ -46,7 +46,7 @@ class UsersModelUser extends JModelAdmin
 		$result = parent::getItem($pk);
 
 		// Get the dispatcher and load the users plugins.
-		$dispatcher	= &JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
@@ -228,7 +228,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		if (in_array($user->id, $pks)) {
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
@@ -243,7 +243,7 @@ class UsersModelUser extends JModelAdmin
 
 				if ($allow) {
 					// Get user data for the user to delete.
-					$user = & JFactory::getUser($pk);
+					$user = JFactory::getUser($pk);
 
 					// Fire the onUserBeforeDelete event.
 					$dispatcher->trigger('onUserBeforeDelete', array($table->getProperties()));

@@ -32,7 +32,7 @@ class MenusViewItems extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$lang 		= &JFactory::getLanguage();
+		$lang 		= JFactory::getLanguage();
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');

@@ -26,10 +26,10 @@ class InstallerControllerInstall extends JController
 	{
 		// Check for request forgeries
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-		
+
 		$model = $this->getModel('install');
 		if ($model->install()) {
-			$cache = &JFactory::getCache('mod_menu');
+			$cache = JFactory::getCache('mod_menu');
 			$cache->clean();
 			// TODO: Reset the users acl here as well to kill off any missing bits
 		}

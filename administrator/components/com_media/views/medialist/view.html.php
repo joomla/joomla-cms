@@ -24,12 +24,12 @@ class MediaViewMediaList extends JView
 		// Do not allow cache
 		JResponse::allowCache(false);
 
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		JHtml::_('behavior.framework', true);
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addStyleSheet('../media/media/css/medialist-'.$style.'.css');
 
 		$document->addScriptDeclaration("

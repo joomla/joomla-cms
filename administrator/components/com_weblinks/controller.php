@@ -20,9 +20,13 @@ class WeblinksController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @since	1.6
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
 
@@ -30,5 +34,7 @@ class WeblinksController extends JController
 
 		// Load the submenu.
 		WeblinksHelper::addSubmenu(JRequest::getWord('view', 'weblinks'));
+
+		return $this;
 	}
 }

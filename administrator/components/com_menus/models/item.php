@@ -262,8 +262,8 @@ class MenusModelItem extends JModelAdmin
 		$menuType	= $parts[0];
 		$parentId	= (int) JArrayHelper::getValue($parts, 1, 0);
 
-		$table	= &$this->getTable();
-		$db		= &$this->getDbo();
+		$table	= $this->getTable();
+		$db		= $this->getDbo();
 
 		// Check that the parent exists.
 		if ($parentId) {
@@ -429,7 +429,7 @@ class MenusModelItem extends JModelAdmin
 		$pk = (!empty($pk)) ? $pk : (int)$this->getState('item.id');
 
 		// Get a level row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Attempt to load the row.
 		$table->load($pk);
@@ -492,7 +492,7 @@ class MenusModelItem extends JModelAdmin
 
 				if (isset($args['option'])) {
 					// Load the language file for the component.
-					$lang = &JFactory::getLanguage();
+					$lang = JFactory::getLanguage();
 						$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
 					||	$lang->load($args['option'], JPATH_ADMINISTRATOR.'/components/'.$args['option'], null, false, false)
 					||	$lang->load($args['option'], JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
@@ -757,7 +757,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		// Initialiase variables.
 		$db = $this->getDbo();
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		if (!$table->rebuild()) {
 			$this->setError($table->getError());
@@ -937,7 +937,7 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 		}
-		
+
 		return parent::publish($pks,$value);
 	}
 }

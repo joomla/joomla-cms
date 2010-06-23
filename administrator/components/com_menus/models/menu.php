@@ -81,7 +81,7 @@ class MenusModelMenu extends JModelForm
 		$false	= false;
 
 		// Get a menu item row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Attempt to load the row.
 		$return = $table->load($itemId);
@@ -145,7 +145,7 @@ class MenusModelMenu extends JModelForm
 		$isNew	= true;
 
 		// Get a row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
 		if ($id > 0) {
@@ -194,7 +194,7 @@ class MenusModelMenu extends JModelForm
 		JArrayHelper::toInteger($itemIds);
 
 		// Get a group row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Iterate the items to delete each one.
 		foreach ($itemIds as $itemId) {
@@ -222,8 +222,8 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function &getModules()
 	{
-		$db = &$this->getDbo();
-		
+		$db = $this->getDbo();
+
 		$query = $db->getQuery(true);
 		$query->from('#__modules as a');
 		$query->select('a.id, a.title, a.params, a.position');

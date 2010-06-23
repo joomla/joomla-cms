@@ -124,7 +124,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$path	= JPath::clean($client->path.'/plugins/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
 
 			if (file_exists($path)) {
-				$this->_cache[$pk]->xml = &JFactory::getXML($path);
+				$this->_cache[$pk]->xml = JFactory::getXML($path);
 			} else {
 				$this->_cache[$pk]->xml = null;
 			}

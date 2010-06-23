@@ -38,7 +38,7 @@ class MediaControllerFile extends JController
 			return;
 		}
 
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$file	= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder	= JRequest::getVar('folder', '', '', 'path');
 		$format	= JRequest::getVar('format', 'html', '', 'cmd');
@@ -58,7 +58,7 @@ class MediaControllerFile extends JController
 
 			if (!MediaHelper::canUpload($file, $err)) {
 				jimport('joomla.error.log');
-				$log = &JLog::getInstance('upload.error.php');
+				$log = JLog::getInstance('upload.error.php');
 				$log->addEntry(array('comment' => 'Invalid: '.$filepath.': '.$err));
 
 				$response = array(
@@ -72,7 +72,7 @@ class MediaControllerFile extends JController
 
 			if (JFile::exists($filepath)) {
 				jimport('joomla.error.log');
-				$log = &JLog::getInstance('upload.error.php');
+				$log = JLog::getInstance('upload.error.php');
 				$log->addEntry(array('comment' => 'File already exists: '.$filepath));
 
 				$response = array(
@@ -86,7 +86,7 @@ class MediaControllerFile extends JController
 
 			if (!JFile::upload($file['tmp_name'], $filepath)) {
 				jimport('joomla.error.log');
-				$log = &JLog::getInstance('upload.error.php');
+				$log = JLog::getInstance('upload.error.php');
 				$log->addEntry(array('comment' => 'Cannot upload: '.$filepath));
 
 				$response = array(
@@ -98,7 +98,7 @@ class MediaControllerFile extends JController
 				return;
 			} else {
 				jimport('joomla.error.log');
-				$log = &JLog::getInstance();
+				$log = JLog::getInstance();
 				$log->addEntry(array('comment' => $folder));
 
 				$response = array(

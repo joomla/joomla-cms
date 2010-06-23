@@ -83,7 +83,7 @@ class AdminModelSysInfo extends JModel
 	{
 		if (is_null($this->config))
 		{
-			$registry = & JFactory::getConfig();
+			$registry = JFactory::getConfig();
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
 			foreach($hidden as $key) {
@@ -103,7 +103,7 @@ class AdminModelSysInfo extends JModel
 		{
 			$this->info = array();
 			$version = new JVersion();
-			$db = & JFactory::getDBO();
+			$db = JFactory::getDBO();
 			if (isset($_SERVER['SERVER_SOFTWARE'])) {
 				$sf = $_SERVER['SERVER_SOFTWARE'];
 			}
@@ -154,9 +154,9 @@ class AdminModelSysInfo extends JModel
 	{
 		if (is_null($this->directory))
 		{
-			$registry = & JFactory::getConfig();
+			$registry = JFactory::getConfig();
 			jimport('joomla.filesystem.folder');
-			$cparams = & JComponentHelper::getParams('com_media');
+			$cparams = JComponentHelper::getParams('com_media');
 			$this->directory = array();
 			$this->directory['administrator'.DS.'components']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'components'), 'message' => '');
 			$this->directory['administrator'.DS.'language']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'language'), 'message' => '');
@@ -209,7 +209,7 @@ class AdminModelSysInfo extends JModel
 	{
 		if (is_null($this->editor))
 		{
-			$config = &JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$this->editor = $config->get('editor');
 		}
 		return $this->editor;

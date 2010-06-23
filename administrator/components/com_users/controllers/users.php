@@ -130,7 +130,7 @@ class UsersControllerUsers extends JControllerAdmin
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= &$this->getModel('User');
+		$model	= $this->getModel('User');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 

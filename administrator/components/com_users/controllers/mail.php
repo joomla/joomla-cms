@@ -23,14 +23,14 @@ class UsersControllerMail extends JController
 		// Check for request forgeries.
 		JRequest::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$model = &$this->getModel('Mail');
+		$model = $this->getModel('Mail');
 		if ($model->send()) {
 			$type = 'message';
 		} else {
 			$type = 'error';
 		}
 
-		$msg = &$model->getError();
+		$msg = $model->getError();
 		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
 	}
 

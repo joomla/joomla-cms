@@ -87,7 +87,7 @@ class ConfigModelComponent extends JModelForm
 		$option = $this->getState('component.option');
 
 		// Load common and local language files.
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 			$lang->load($option, JPATH_BASE, null, false, false)
 		||	$lang->load($option, JPATH_BASE . "/components/$option", null, false, false)
 		||	$lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
@@ -107,7 +107,7 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function save($data)
 	{
-		$table	= &JTable::getInstance('extension');
+		$table	= JTable::getInstance('extension');
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules'])) {
@@ -159,7 +159,7 @@ class ConfigModelComponent extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = &JFactory::getCache('com_config');
+		$cache = JFactory::getCache('com_config');
 		$cache->clean();
 
 		return true;

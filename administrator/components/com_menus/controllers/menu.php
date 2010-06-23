@@ -32,9 +32,13 @@ class MenusControllerMenu extends JController
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @return	void
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	public function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
 	}
@@ -47,7 +51,7 @@ class MenusControllerMenu extends JController
 	public function add()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
 		$app->setUserState('com_menus.edit.menu.id', null);
@@ -65,7 +69,7 @@ class MenusControllerMenu extends JController
 	public function edit()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the group to edit.
@@ -88,7 +92,7 @@ class MenusControllerMenu extends JController
 	public function cancel()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Clear the menu item edit information from the session.
 		$app->setUserState('com_menus.edit.menu.id', null);
@@ -109,7 +113,7 @@ class MenusControllerMenu extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
@@ -127,8 +131,8 @@ class MenusControllerMenu extends JController
 		$data['id'] = (int) $app->getUserState('com_menus.edit.menu.id');
 
 		// Get the model and attempt to validate the posted data.
-		$model	= &$this->getModel('Menu');
-		$form	= &$model->getForm();
+		$model	= $this->getModel('Menu');
+		$form	= $model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;

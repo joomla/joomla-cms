@@ -32,7 +32,7 @@ class PluginsControllerPlugin extends JControllerForm
 
 		// Clear the component's cache
 		if ($task != 'display') {
-			$cache = &JFactory::getCache('com_plugins');
+			$cache = JFactory::getCache('com_plugins');
 			$cache->clean();
 		}
 	}

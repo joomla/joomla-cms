@@ -51,12 +51,12 @@ class CacheModelCache extends JModelList
 	 */
 	protected function populateState()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$clientId = JRequest::getInt('client', 0);
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
 
-		$client	= &JApplicationHelper::getClientInfo($clientId);
+		$client	= JApplicationHelper::getClientInfo($clientId);
 		$this->setState('client', $client);
 
 		parent::populateState('group', 'asc');
@@ -73,19 +73,19 @@ class CacheModelCache extends JModelList
 		if (empty($this->_data)) {
 		    $cache 	= $this->getCache();
 			$data 	= $cache->getAll();
-			
+
 			if ($data != false) {
 				$this->_data = $data;
 				$this->_total = sizeof($data);
-				
-				if ($this->_total) {	
+
+				if ($this->_total) {
 					// Apply custom ordering
 					$ordering 	= $this->getState('list.ordering');
 					$direction 	= ($this->getState('list.direction') == 'asc') ? 1 : -1;
-					
+
 					jimport('joomla.utilities.arrayhelper');
 					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
-					
+
 					// Apply custom pagination
 					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit')) {
 						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
@@ -97,9 +97,9 @@ class CacheModelCache extends JModelList
 		}
 		return $this->_data;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Method to get cache instance
 	 *
@@ -107,23 +107,23 @@ class CacheModelCache extends JModelList
 	 */
 	public function getCache()
 	{
-		$conf = &JFactory::getConfig();
+		$conf = JFactory::getConfig();
 
 		$options = array(
 			'defaultgroup'	=> '',
 			'storage' 		=> $conf->get('cache_handler', 'file'),
 			'caching'		=> 1,
-			'cachebase'		=> ($this->getState('clientId') == 1) ? JPATH_ROOT.DS.'administrator'.DS.'cache' : $conf->get('cache_path', JPATH_ROOT.DS.'cache') 
+			'cachebase'		=> ($this->getState('clientId') == 1) ? JPATH_ROOT.DS.'administrator'.DS.'cache' : $conf->get('cache_path', JPATH_ROOT.DS.'cache')
 		);
 
 		jimport('joomla.cache.cache');
-		
+
 		// We need to clear the previously used cache handlers, otherwise backend cachebase can't be used
 		JCache::$_handler = array();
-		
-		$cache = &JCache::getInstance('', $options);
-		return $cache; 
-	}	
+
+		$cache = JCache::getInstance('', $options);
+		return $cache;
+	}
 
 	/**
 	 * Method to get client data
@@ -185,7 +185,7 @@ class CacheModelCache extends JModelList
 
 	public function purge()
 	{
-		$cache = &JFactory::getCache('');
+		$cache = JFactory::getCache('');
 		return $cache->gc();
 	}
 }

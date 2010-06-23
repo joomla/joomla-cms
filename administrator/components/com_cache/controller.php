@@ -21,10 +21,17 @@ jimport('joomla.application.component.controller');
  */
 class CacheController extends JController
 {
-	public function display()
+	/**
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
+	 */
+	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'cache');
@@ -32,7 +39,7 @@ class CacheController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat))
+		if ($view = $this->getView($vName, $vFormat))
 		{
 			switch ($vName)
 			{
@@ -40,7 +47,7 @@ class CacheController extends JController
 					break;
 				case 'cache':
 				default:
-					$model = &$this->getModel($vName);
+					$model = $this->getModel($vName);
 					$view->setModel($model, true);
 					break;
 			}

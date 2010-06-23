@@ -25,9 +25,15 @@ class ContentController extends JController
 	protected $default_view = 'articles';
 
 	/**
-	 * Display the view
+	 * Method to display a view.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		require_once JPATH_COMPONENT.'/helpers/content.php';
 
@@ -35,5 +41,7 @@ class ContentController extends JController
 
 		// Load the submenu.
 		ContentHelper::addSubmenu(JRequest::getWord('view', 'articles'));
+
+		return $this;
 	}
 }

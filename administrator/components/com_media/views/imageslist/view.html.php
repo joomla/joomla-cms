@@ -29,7 +29,7 @@ class MediaViewImagesList extends JView
 		JHtml::_('behavior.framework', true);
 		JHTML::_('stylesheet','media/popup-imagelist.css', array(), true);
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 
 		$this->assign('baseURL', COM_MEDIA_BASEURL);

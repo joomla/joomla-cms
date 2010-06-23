@@ -21,8 +21,14 @@ class BannersController extends JController
 {
 	/**
 	 * Method to display a view.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	public function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 		BannersHelper::updateReset();
@@ -31,5 +37,7 @@ class BannersController extends JController
 
 		// Load the submenu.
 		BannersHelper::addSubmenu(JRequest::getWord('view', 'banners'));
+
+		return $this;
 	}
 }

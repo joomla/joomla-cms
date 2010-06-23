@@ -74,7 +74,7 @@ class InstallerModelWarnings extends JModelList
 			}
 		}
 
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$tmp_path = $config->get('tmp_path');
 		if (!$tmp_path) {
 			$messages[] = Array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSET'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_JOOMLATMPNOTSETDESC'));

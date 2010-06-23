@@ -31,7 +31,7 @@ class InstallerControllerUpdate extends JController {
 
 		JArrayHelper::toInteger($uid, array());
 		if ($model->update($uid)) {
-			$cache = &JFactory::getCache('mod_menu');
+			$cache = JFactory::getCache('mod_menu');
 			$cache->clean();
 		}
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update',false));

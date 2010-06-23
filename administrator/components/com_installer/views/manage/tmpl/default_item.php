@@ -10,7 +10,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$lang = &JFactory::getLanguage();
+$lang = JFactory::getLanguage();
 $lang->load($this->item->name, JPATH_ADMINISTRATOR);
 $lang->load($this->item->name, JPATH_SITE);
 ?>

@@ -47,7 +47,7 @@ class MenusControllerItems extends JControllerAdmin
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
 		// Initialise variables.
-		$model = &$this->getModel();
+		$model = $this->getModel();
 
 		if ($model->rebuild()) {
 			// Reorder succeeded.

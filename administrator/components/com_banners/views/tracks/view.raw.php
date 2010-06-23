@@ -24,10 +24,10 @@ class BannersViewTracks extends JView
 	 */
 	public function display($tpl = null)
 	{
-		$basename		= &$this->get('BaseName');
-		$filetype		= &$this->get('FileType');
-		$mimetype		= &$this->get('MimeType');
-		$content		= &$this->get('Content');
+		$basename		= $this->get('BaseName');
+		$filetype		= $this->get('FileType');
+		$mimetype		= $this->get('MimeType');
+		$content		= $this->get('Content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -35,10 +35,9 @@ class BannersViewTracks extends JView
 			return false;
 		}
 
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setMimeEncoding($mimetype);
 		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$basename.'.'.$filetype.'"; creation-date="'.JFactory::getDate()->toRFC822().'"', true);
 		echo $content;
 	}
 }
-

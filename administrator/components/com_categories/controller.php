@@ -22,12 +22,16 @@ class CategoriesController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @return	void
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'categories');
@@ -35,9 +39,9 @@ class CategoriesController extends JController
 		$lName		= JRequest::getWord('layout', 'default');
 
 		// Get and render the view.
-		if ($view = &$this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat)) {
 			// Get the model for the view.
-			$model = &$this->getModel($vName);
+			$model = $this->getModel($vName);
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -52,5 +56,7 @@ class CategoriesController extends JController
 			require_once JPATH_COMPONENT.'/helpers/categories.php';
 			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 		}
+
+		return $this;
 	}
 }

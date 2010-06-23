@@ -53,7 +53,7 @@ class SearchHelper
 	{
 		$ignored = false;
 
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		$tag			= $lang->getTag();
 		$search_ignore	= $lang->getIgnoredSearchWords();
@@ -93,7 +93,7 @@ class SearchHelper
 	{
 		$restriction = false;
 
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// limit searchword to a maximum of characters
 		$upper_limit = $lang->getUpperLimitSearchWord();
@@ -113,16 +113,16 @@ class SearchHelper
 
 	function logSearch($search_term)
 	{
-		$db = &JFactory::getDbo();
+		$db = JFactory::getDbo();
 
-		$params = &JComponentHelper::getParams('com_search');
+		$params = JComponentHelper::getParams('com_search');
 		$enable_log_searches = $params->get('enabled');
 
 		$search_term = $db->getEscaped(trim($search_term));
 
 		if (@$enable_log_searches)
 		{
-			$db = &JFactory::getDbo();
+			$db = JFactory::getDbo();
 			$query = 'SELECT hits'
 			. ' FROM #__core_log_searches'
 			. ' WHERE LOWER(search_term) = "'.$search_term.'"'

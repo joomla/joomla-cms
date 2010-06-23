@@ -60,7 +60,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 
 		// Clear the component's cache
 		if ($task != 'display') {
-			$cache = &JFactory::getCache('com_templates');
+			$cache = JFactory::getCache('com_templates');
 			$cache->clean();
 		}
 	}

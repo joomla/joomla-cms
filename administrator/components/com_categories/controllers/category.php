@@ -37,9 +37,13 @@ class CategoriesControllerCategory extends JController
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @return	void
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	public function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_categories', false));
 	}
@@ -52,7 +56,7 @@ class CategoriesControllerCategory extends JController
 	public function add()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Clear the row edit information from the session.
 		$app->setUserState('com_categories.edit.category.id',	null);
@@ -74,14 +78,14 @@ class CategoriesControllerCategory extends JController
 	public function edit()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$pks	= JRequest::getVar('cid', array(), '', 'array');
 
 		// Get the id of the group to edit.
 		$id		=  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
 
 		// Get the model.
-		$model	= &$this->getModel('Category');
+		$model	= $this->getModel('Category');
 
 		// Check that this is not a new category.
 		if ($id > 0) {
@@ -123,8 +127,8 @@ class CategoriesControllerCategory extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Category');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Category');
 
 		// Get the previous row id.
 		$previousId	= (int) $app->getUserState('com_categories.edit.category.id');
@@ -282,8 +286,8 @@ class CategoriesControllerCategory extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
-		$model	= &$this->getModel('Category');
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Category');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 

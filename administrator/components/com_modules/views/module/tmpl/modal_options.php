@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
+$pane = JPane::getInstance('sliders');
 
 	$fieldSets = $this->form->getFieldsets('params');
 	foreach ($fieldSets as $name => $fieldSet) :

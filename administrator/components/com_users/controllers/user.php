@@ -61,7 +61,7 @@ class UsersControllerUser extends JControllerForm
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= &$this->getModel('User');
+		$model	= $this->getModel('User');
 
 		// Get the posted values from the request.
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -70,7 +70,7 @@ class UsersControllerUser extends JControllerForm
 		$data['id'] = (int) $app->getUserState('com_users.edit.user.id');
 
 		// Validate the posted data.
-		$form	= &$model->getForm();
+		$form	= $model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;

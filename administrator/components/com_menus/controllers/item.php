@@ -27,7 +27,7 @@ class MenusControllerItem extends JControllerForm
 	public function add()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Clear the row edit information from the session.
 		$app->setUserState('com_menus.edit.item.id',	null);
@@ -85,11 +85,11 @@ class MenusControllerItem extends JControllerForm
 
 		// Initialise variables.
 
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		// Get the previous menu item id (if any) and the current menu item id.
 		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
 
-		$model	= &$this->getModel('Item');
+		$model	= $this->getModel('Item');
 
 		// If rows ids do not match, checkin previous row.
 		if (!$model->checkin($previousId)) {
@@ -126,7 +126,7 @@ class MenusControllerItem extends JControllerForm
 		$id		=  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
 
 		// Get the menu item model.
-		$model	= &$this->getModel('Item');
+		$model	= $this->getModel('Item');
 
 		// Check that this is not a new item.
 		if ($id > 0) {

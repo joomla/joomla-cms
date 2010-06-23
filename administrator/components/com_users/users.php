@@ -18,6 +18,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_users')) {
 jimport('joomla.application.component.controller');
 
 // Execute the task.
-$controller	= &JController::getInstance('Users');
+$controller	= JController::getInstance('Users');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

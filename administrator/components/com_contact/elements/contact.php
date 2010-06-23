@@ -20,12 +20,12 @@ class JElementContact extends JElement
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		$app		= &JFactory::getApplication();
-		$db			= &JFactory::getDbo();
-		$doc		= &JFactory::getDocument();
+		$app		= JFactory::getApplication();
+		$db			= JFactory::getDbo();
+		$doc		= JFactory::getDocument();
 		$template	= $app->getTemplate();
 		$fieldName	= $control_name.'['.$name.']';
-		$contact	= &JTable::getInstance('contact');
+		$contact	= JTable::getInstance('contact');
 		if ($value) {
 			$contact->load($value);
 		} else {

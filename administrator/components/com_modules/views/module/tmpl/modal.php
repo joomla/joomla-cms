@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
+$pane = JPane::getInstance('sliders');
 
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 ?>

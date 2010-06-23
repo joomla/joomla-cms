@@ -18,6 +18,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_banners')) {
 jimport('joomla.application.component.controller');
 
 // Execute the task.
-$controller	= &JController::getInstance('Banners');
+$controller	= JController::getInstance('Banners');
 $controller->execute(JRequest::getCmd('task'));
 $controller->redirect();

@@ -24,9 +24,13 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param	string	An optional ordering field.
+	 * @param	string	An optional direction (asc|desc).
+	 *
+	 * @return	void
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();

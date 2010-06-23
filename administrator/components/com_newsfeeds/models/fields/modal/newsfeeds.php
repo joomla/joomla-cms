@@ -64,7 +64,7 @@ class JFormFieldModal_Newsfeeds extends JFormField
 
 
 		// Get the title of the linked chart
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$db->setQuery(
 			'SELECT name' .
 			' FROM #__newsfeeds' .
@@ -86,20 +86,20 @@ class JFormFieldModal_Newsfeeds extends JFormField
 		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('COM_NEWSFEEDS_CHANGE_FEED_BUTTON').'</a></div></div>'."\n";
 		// The active newsfeed id field.
-		if (0 == (int)$this->value) { 
+		if (0 == (int)$this->value) {
 			$value = '';
 		} else {
-			$value = (int)$this->value; 
-		}		
-		
+			$value = (int)$this->value;
+		}
+
 		// class='required' for client side validation
 		$class = '';
 		if ($this->required) {
 			$class = ' class="required modal-value"';
 		}
-		
+
 		$html .= '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
-		
+
 		return $html;
 	}
 }

@@ -29,7 +29,7 @@ class CheckinModelCheckin extends JModel
 	 */
 	public function checkin($tables = null)
 	{
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$db		= &$this->_db;
 		$nullDate	= $db->getNullDate();
 

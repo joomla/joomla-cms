@@ -41,16 +41,14 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$this->setRedirect('index.php?option=com_categories&view=categories');
 
 		// Initialise variables.
-		$model =& $this->getModel();
+		$model = $this->getModel();
 
 		if ($model->rebuild())
 		{
 			// Reorder succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
 			return true;
-		}
-		else
-		{
+		} else {
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 			return false;
@@ -64,7 +62,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$this->setRedirect('index.php?option=com_categories&view=categories');
 
 		// Initialise variables.
-		$model =& $this->getModel();
+		$model = $this->getModel();
 
 		// Get the arrays from the Request
 		$idArray = JRequest::getVar(cid);
@@ -72,7 +70,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$originalOrderArray = explode(',', JRequest::getString('original_order_values'));
 
 		// Check that they are arrays and the same size
-		if (is_array($idArray) && is_array($orderArray) && is_array($originalOrderArray) 
+		if (is_array($idArray) && is_array($orderArray) && is_array($originalOrderArray)
 				&& count($idArray) == count($orderArray) && count($idArray == count($originalOrderArray)))
 		{
 			// Clean up arrays

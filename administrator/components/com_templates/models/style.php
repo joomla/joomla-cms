@@ -200,7 +200,7 @@ class TemplatesModelStyle extends JModelForm
 			$false	= false;
 
 			// Get a row instance.
-			$table = &$this->getTable();
+			$table = $this->getTable();
 
 			// Attempt to load the row.
 			$return = $table->load($pk);

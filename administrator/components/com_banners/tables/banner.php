@@ -141,7 +141,7 @@ class BannersTableBanner extends JTable
 		else
 		{
 			// Get the old row
-			$oldrow = & JTable::getInstance('Banner', 'BannersTable');
+			$oldrow = JTable::getInstance('Banner', 'BannersTable');
 			if (!$oldrow->load($this->id) && $oldrow->getError())
 			{
 				$this->setError($oldrow->getError());
@@ -196,7 +196,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
-		$table = & JTable::getInstance('Banner','BannersTable');
+		$table = JTable::getInstance('Banner','BannersTable');
 
 		// For all keys
 		foreach ($pks as $pk)
@@ -263,7 +263,7 @@ class BannersTableBanner extends JTable
 		}
 
 		// Get an instance of the table
-		$table = & JTable::getInstance('Banner','BannersTable');
+		$table = JTable::getInstance('Banner','BannersTable');
 
 		// For all keys
 		foreach ($pks as $pk)

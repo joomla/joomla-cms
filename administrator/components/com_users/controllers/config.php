@@ -41,13 +41,13 @@ class UsersControllerConfig extends JController
 		{
 			// Handle import via uploaded file.
 			$string = implode("\n", file($file['tmp_name']));
-			$model	= &$this->getModel('Config');
+			$model	= $this->getModel('Config');
 			$return	= $model->import($string);
 		}
 		elseif (strlen($string) > 1)
 		{
 			// Handle import via pasted string.
-			$model	= &$this->getModel('Config');
+			$model	= $this->getModel('Config');
 			$return	= $model->import($string);
 		}
 
@@ -78,7 +78,7 @@ class UsersControllerConfig extends JController
 
 		// Get the component configuration values.
 		$app	= JFactory::getApplication();
-		$config = &JComponentHelper::getParams('com_users');
+		$config = JComponentHelper::getParams('com_users');
 		$string	= (string)$config;
 
 		// Send file headers.
@@ -108,7 +108,7 @@ class UsersControllerConfig extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Save the configuration.
-		$model	= &$this->getModel('Config');
+		$model	= $this->getModel('Config');
 		$return	= $model->save();
 
 		if ($return === false) {

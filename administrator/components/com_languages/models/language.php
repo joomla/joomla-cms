@@ -66,7 +66,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		$false		= false;
 
 		// Get a member row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Attempt to load the row.
 		$return = $table->load($langId);
@@ -130,10 +130,10 @@ class LanguagesModelLanguage extends JModelAdmin
 		$langId	= (int) $this->getState('language.id');
 		$isNew	= true;
 
-		$dispatcher = &JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('extension');
 
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
 		if ($langId > 0) {

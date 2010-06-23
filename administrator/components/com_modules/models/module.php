@@ -94,7 +94,7 @@ class ModulesModelModule extends JModelAdmin
 				throw new Exception($table->getError());
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -252,7 +252,7 @@ class ModulesModelModule extends JModelAdmin
 			$false	= false;
 
 			// Get a row instance.
-			$table = &$this->getTable();
+			$table = $this->getTable();
 
 			// Attempt to load the row.
 			$return = $table->load($pk);
@@ -545,11 +545,11 @@ class ModulesModelModule extends JModelAdmin
 		$dispatcher->trigger('onExtensionAfterSave', array('com_modules.module', &$table, $isNew));
 
 		$this->setState('module.id', $table->id);
-		
+
 		// Clear module cache
-		$cache = &JFactory::getCache($table->module);
+		$cache = JFactory::getCache($table->module);
 		$cache->clean();
-		
+
 		return true;
 	}
 

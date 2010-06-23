@@ -55,7 +55,7 @@ class BannersControllerTracks extends JController
 		$model = $this->getModel();
 
 		// Load the filter state.
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$type = $app->getUserState($this->context.'.filter.type');
 		$model->setState('filter.type', $type);

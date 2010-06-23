@@ -52,7 +52,7 @@ class AdminModelHelp extends JModel
 	function &getHelpSearch()
 	{
 		if (is_null($this->help_search)) {
-			$this->help_search = &JRequest::getString('helpsearch');
+			$this->help_search = JRequest::getString('helpsearch');
 		}
 		return $this->help_search;
 	}
@@ -64,7 +64,7 @@ class AdminModelHelp extends JModel
 	{
 		if (is_null($this->page))
 		{
-			$page = & JRequest::getCmd('page', 'JHELP_START_HERE');
+			$page = JRequest::getCmd('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
 		return $this->page;
@@ -77,7 +77,7 @@ class AdminModelHelp extends JModel
 	{
 		if (is_null($this->lang_tag))
 		{
-			$lang = & JFactory::getLanguage();
+			$lang = JFactory::getLanguage();
 			$this->lang_tag = $lang->getTag();
 			jimport('joomla.filesystem.folder');
 			if (!JFolder::exists(JPATH_BASE . DS . 'help' . DS . $this->lang_tag)) {
@@ -96,8 +96,8 @@ class AdminModelHelp extends JModel
 		if (is_null($this->toc))
 		{
 			// Get vars
-			$lang_tag = &$this->getLangTag();
-			$help_search = &$this->getHelpSearch();
+			$lang_tag = $this->getLangTag();
+			$help_search = $this->getHelpSearch();
 
 			// Get Help files
 			$files = JFolder::files(JPATH_BASE . DS . 'help' . DS . $lang_tag, '\.xml$|\.html$');

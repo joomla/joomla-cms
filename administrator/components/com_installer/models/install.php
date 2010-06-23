@@ -52,7 +52,7 @@ class InstallerModelInstall extends JModel
 	protected function populateState()
 	{
 		// Initialise variables.
-		$app = &JFactory::getApplication('administrator');
+		$app = JFactory::getApplication('administrator');
 
 		$this->setState('message',$app->getUserState('com_installer.message'));
 		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
@@ -122,7 +122,7 @@ class InstallerModelInstall extends JModel
 		}
 
 		// Set some model state values
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$app->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
@@ -132,7 +132,7 @@ class InstallerModelInstall extends JModel
 
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
-			$config = &JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->get('tmp_path').DS.$package['packagefile'];
 		}
 
@@ -255,7 +255,7 @@ class InstallerModelInstall extends JModel
 			return false;
 		}
 
-		$config = &JFactory::getConfig();
+		$config		= JFactory::getConfig();
 		$tmp_dest	= $config->get('tmp_path');
 
 		// Unpack the downloaded package file

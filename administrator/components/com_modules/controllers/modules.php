@@ -32,7 +32,7 @@ class ModulesControllerModules extends JControllerAdmin
 
 		// Clear the component's cache
 		if ($task != 'display') {
-			$cache = &JFactory::getCache('com_modules');
+			$cache = JFactory::getCache('com_modules');
 			$cache->clean();
 		}
 	}

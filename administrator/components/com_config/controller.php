@@ -30,12 +30,16 @@ class ConfigController extends JController
 	/**
 	 * Method to display the view.
 	 *
-	 * @since	1.6
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	public function display()
+	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document	= &JFactory::getDocument();
+		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'application');
@@ -46,7 +50,7 @@ class ConfigController extends JController
 		if ($view = $this->getView($vName, $vFormat)) {
 			if ($vName != 'close') {
 				// Get the model for the view.
-				$model = &$this->getModel($vName);
+				$model = $this->getModel($vName);
 
 				// Access check.
 				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option'))) {

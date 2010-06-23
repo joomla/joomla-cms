@@ -420,7 +420,7 @@ class BannersModelTracks extends JModelList
 					}
 				}
 
-				if (!$packager = & JArchive::getAdapter('zip')) {
+				if (!$packager = JArchive::getAdapter('zip')) {
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
 					return false;
 				} else if (!$packager->create($ziproot, $files)) {
