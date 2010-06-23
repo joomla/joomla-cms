@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$app		= &JFactory::getApplication();
-$date		= &JFactory::getDate();
+$app		= JFactory::getApplication();
+$date		= JFactory::getDate();
 $cur_year	= $date->format('Y');
 $csite_name	= $app->getCfg('sitename');
 

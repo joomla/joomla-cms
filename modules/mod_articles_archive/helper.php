@@ -25,14 +25,15 @@ class modArchiveHelper
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
 
-		$menu = &JSite::getMenu();
-		$item = $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
+		$app	= JFactory::getApplication();
+		$menu	= $app->getMenu();
+		$item	= $menu->getItems('link', 'index.php?option=com_content&view=archive', true);
 		$itemid = isset($item) ? '&Itemid='.$item->id : '';
 
 		$i		= 0;
 		$lists	= array();
 		foreach ($rows as $row) {
-			$date = &JFactory::getDate($row->created);
+			$date = JFactory::getDate($row->created);
 
 			$created_month	= $date->format("n");
 			$month_name		= $date->format("F");

@@ -14,7 +14,7 @@ class modWhosonlineHelper
 {
 	// show online count
 	function getOnlineCount() {
-		$db		= &JFactory::getDbo();
+		$db		= JFactory::getDbo();
 		$sessions = null;
 		// calculate number of guests and users
 		$result	= array();

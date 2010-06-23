@@ -14,7 +14,7 @@ class modSyndicateHelper
 {
 	function getLink(&$params)
 	{
-		$document = &JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		foreach($document->_links as $link)
 		{

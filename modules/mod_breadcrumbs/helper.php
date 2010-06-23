@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 
 class modBreadCrumbsHelper
 {
-	function getList(&$params)
+	public static function getList(&$params)
 	{
 		// Get the PathWay object from the application
-		$app		= &JFactory::getApplication();
-		$pathway	= &$app->getPathway();
+		$app		= JFactory::getApplication();
+		$pathway	= $app->getPathway();
 		$items		= $pathway->getPathWay();
 
 		$count = count($items);
@@ -45,9 +45,9 @@ class modBreadCrumbsHelper
 	 * @return	string	Separator string
 	 * @since	1.5
 	 */
-	function setSeparator($custom = null)
+	public static function setSeparator($custom = null)
 	{
-		$lang = &JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		// If a custom separator has not been provided we try to load a template
 		// specific one first, and if that is not present we load the default separator
@@ -61,6 +61,7 @@ class modBreadCrumbsHelper
 		} else {
 			$_separator = $custom;
 		}
+
 		return $_separator;
 	}
 }

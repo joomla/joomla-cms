@@ -17,8 +17,9 @@ class modLoginHelper
 		$url = null;
 		if ($itemid =  $params->get($type))
 		{
-			$menu = &JSite::getMenu();
-			$item = $menu->getItem($itemid);
+			$app	= JFactory::getApplication();
+			$menu	= $app->getMenu();
+			$item	= $menu->getItem($itemid);
 			if ($item) {
 				$url = JRoute::_($item->link.'&Itemid='.$itemid, false);
 			}
@@ -35,7 +36,7 @@ class modLoginHelper
 
 	static function getType()
 	{
-		$user = & JFactory::getUser();
+		$user = JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';
 	}
 }

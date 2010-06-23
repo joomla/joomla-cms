@@ -16,13 +16,13 @@ class modRelatedItemsHelper
 {
 	function getList($params)
 	{
-		$db			= &JFactory::getDbo();
-		$app		= &JFactory::getApplication();
-		$user		= &JFactory::getUser();
+		$db			= JFactory::getDbo();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
 		$userId		= (int) $user->get('id');
 		$count		= intval($params->get('count', 5));
 		$groups		= implode(',', $user->authorisedLevels());
-		$date		= &JFactory::getDate();
+		$date		= JFactory::getDate();
 
 		$option		= JRequest::getCmd('option');
 		$view		= JRequest::getCmd('view');

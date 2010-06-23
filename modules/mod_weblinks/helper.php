@@ -63,7 +63,7 @@ class modWeblinksHelper
 		 $query->where('(a.checked_out = 0 OR a.checked_out = '.$user->id.')');
 		 */
 		for ($i =0; $i < count($items); $i++) {
-			$item =& $items[$i];
+			$item = &$items[$i];
 			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1) {
 				$item->link	= JRoute::_('index.php?task=weblink.go&catid='.$item->catslug.'&id='. $item->slug);
 			} else {
