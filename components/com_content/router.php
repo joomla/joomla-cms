@@ -22,14 +22,15 @@ function ContentBuildRoute(&$query)
 	$segments	= array();
 
 	// get a menu item based on Itemid or currently active
-	$menu		= JSite::getMenu();
+	$app		= JFactory::getApplication();
+	$menu		= $app->getMenu();
 	$params		= JComponentHelper::getParams('com_content');
 	$advanced	= $params->get('sef_advanced_link', 0);
 
 	if (empty($query['Itemid'])) {
-		$menuItem = &$menu->getActive();
+		$menuItem = $menu->getActive();
 	} else {
-		$menuItem = &$menu->getItem($query['Itemid']);
+		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
 	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -141,9 +142,10 @@ function ContentBuildRoute(&$query)
 function ContentParseRoute($segments)
 {
 	$vars = array();
-	
+
 	//Get the active menu item.
-	$menu	= JSite::getMenu();
+	$app	= JFactory::getApplication();
+	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
 	$params = JComponentHelper::getParams('com_content');
 	$advanced = $params->get('sef_advanced_link', 0);
@@ -223,12 +225,12 @@ function ContentParseRoute($segments)
 				$vars['view'] = 'article';
 			}
 			break;
-		
+
 		case 'article':
 			if ($count == 1) {
 				$vars['id']		= $segments[0];
 			}
-			break;	
+			break;
 	}
 
 	return $vars;

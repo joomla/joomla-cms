@@ -70,7 +70,7 @@ class NewsfeedsModelNewsfeed extends JModel
 		if ($this->_loadData()) {
 
 			// Initialise some variables
-			$user = &JFactory::getUser();
+			$user = JFactory::getUser();
 
 			// Make sure the category is published
 			if (!$this->_data->published) {

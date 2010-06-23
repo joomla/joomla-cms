@@ -122,8 +122,9 @@ class ContentHelperQuery
 	function buildVotingQuery($params=null)
 	{
 		if (!$params) {
-			$params = &JComponentHelper::getParams('com_content');
+			$params = JComponentHelper::getParams('com_content');
 		}
+
 		$voting = $params->get('show_vote');
 
 		if ($voting) {
@@ -167,18 +168,18 @@ class ContentHelperQuery
 		{
 			// we need to preserve the original array keys
 			$keys = array_keys($articles);
-			
+
 			$maxRows = ceil($count / $numColumns);
 			$numCells = $maxRows * $numColumns;
 			$numEmpty = $numCells - $count;
 			$index = array();
 
 			// calculate number of empty cells in the array
-			
-			
+
+
 			// fill in all cells of the array
 			// put -1 in empty cells so we can skip later
-			
+
 			$i = 1;
 			for ($row = 1; $row <= $maxRows; $row++)
 			{

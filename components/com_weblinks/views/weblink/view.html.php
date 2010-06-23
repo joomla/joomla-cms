@@ -24,13 +24,13 @@ class WeblinksViewWeblink extends JView
 
 	function display($tpl = null)
 	{
-		$app		= &JFactory::getApplication();
-		$params		= &$app->getParams();
+		$app		= JFactory::getApplication();
+		$params		= $app->getParams();
 
 		// Get some data from the models
-		$state		= &$this->get('State');
-		$item		= &$this->get('Item');
-		$category	= &$this->get('Category');
+		$state		= $this->get('State');
+		$item		= $this->get('Item');
+		$category	= $this->get('Category');
 
 		if ($this->getLayout() == 'edit') {
 			$this->_displayEdit($tpl);
@@ -46,4 +46,3 @@ class WeblinksViewWeblink extends JView
 		}
 	}
 }
-?>

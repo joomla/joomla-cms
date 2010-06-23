@@ -23,9 +23,9 @@ class ContactViewContact extends JView
 
 	function display($tpl = null)
 	{
-		$app		= &JFactory::getApplication();
-		$user		= &JFactory::getUser();
-		$document	= & JFactory::getDocument();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
+		$document	= JFactory::getDocument();
 		$state		= $this->get('State');
 		$contact	= $this->get('Item');
 
@@ -36,7 +36,7 @@ class ContactViewContact extends JView
 		}
 
 		// Get the parameters of the active menu item
-		$menus	= &JSite::getMenu();
+		$menus	= $app->getMenu();
 		$menu	= $menus->getActive();
 
 		$params = $state->params;
@@ -59,14 +59,14 @@ class ContactViewContact extends JView
 		$options['category_id']	= $contact->catid;
 		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
 
-		//$contacts = &$this->getModel('Category')->getContacts($options);
+		//$contacts = $this->getModel('Category')->getContacts($options);
 
 
 		// Make contact parameters available to views
 		$temp = new JRegistry;
 		$temp->loadJSON($contact->params);
 		$params->merge($temp);
-		
+
 
 		// Handle email cloaking
 		if ($contact->email_to && $params->get('show_email')) {
@@ -156,9 +156,9 @@ class ContactViewContact extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$pathway	= &$app->getPathway();
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

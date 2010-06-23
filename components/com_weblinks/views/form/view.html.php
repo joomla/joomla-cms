@@ -25,8 +25,8 @@ class WeblinksViewForm extends JView
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
-		$user		= &JFactory::getUser();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
 
 		// Get model data.
 		$state	= $this->get('State');
@@ -74,8 +74,8 @@ class WeblinksViewForm extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app	= &JFactory::getApplication();
-		$menus	= &JSite::getMenu();
+		$app	= JFactory::getApplication();
+		$menus	= $app->getMenu();
 		$title	= null;
 
 		// Because the application sets a default page title,

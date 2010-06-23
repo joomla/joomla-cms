@@ -30,16 +30,16 @@ class ContactViewCategory extends JView
 
 	function display($tpl = null)
 	{
-		$app		= &JFactory::getApplication();
-		$params		= &$app->getParams();
+		$app		= JFactory::getApplication();
+		$params		= $app->getParams();
 
 		// Get some data from the models
-		$state		= &$this->get('State');
-		$items		= &$this->get('Items');
-		$category	= &$this->get('Category');
-		$children	= &$this->get('Children');
-		$parent 	= &$this->get('Parent');
-		$pagination	= &$this->get('Pagination');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
+		$category	= $this->get('Category');
+		$children	= $this->get('Children');
+		$parent 	= $this->get('Parent');
+		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -58,7 +58,7 @@ class ContactViewCategory extends JView
 		}
 
 		// Check whether category access level allows access.
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		if (!in_array($category->access, $groups)) {
 			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
@@ -105,9 +105,9 @@ class ContactViewCategory extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$pathway	= &$app->getPathway();
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

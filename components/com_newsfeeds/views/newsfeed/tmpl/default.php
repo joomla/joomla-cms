@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 ?>
 <?php
 
-$lang = & JFactory :: getLanguage();
+$lang = JFactory::getLanguage();
 $myrtl = $this->newsfeed->rtl;
 $direction = " ";
 

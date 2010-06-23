@@ -75,7 +75,7 @@ class ContentViewCategory extends JView
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
-			$item =& $items[$i];
+			$item = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// No link for ROOT category
@@ -110,14 +110,14 @@ class ContentViewCategory extends JView
 			// The first group is the leading articles.
 			$limit = $numLeading;
 			for ($i = 0; $i < $limit && $i < $max; $i++) {
-				$this->lead_items[$i] =& $items[$i];
+				$this->lead_items[$i] = &$items[$i];
 			}
 
 			// The second group is the intro articles.
 			$limit = $numLeading + $numIntro;
 			// Order articles across, then down (or single column mode)
 			for ($i = $numLeading; $i < $limit && $i < $max; $i++) {
-				$this->intro_items[$i] =& $items[$i];
+				$this->intro_items[$i] = &$items[$i];
 			}
 
 			$this->columns = max(1, $params->def('num_columns', 1));
@@ -130,13 +130,13 @@ class ContentViewCategory extends JView
 
 			// The remainder are the links.
 			for ($i = $numLeading + $numIntro; $i < $max; $i++) {
-				$this->link_items[$i] =& $items[$i];
+				$this->link_items[$i] = &$items[$i];
 			}
 		}
 
 		$children = array($category->id => $children);
 
-		$this->assignRef('maxLevel', $params->get('maxLevel', -1));
+		$this->assign('maxLevel', $params->get('maxLevel', -1));
 		$this->assignRef('state', $state);
 		$this->assignRef('items', $items);
 		$this->assignRef('category', $category);
@@ -157,7 +157,7 @@ class ContentViewCategory extends JView
 	protected function _prepareDocument()
 	{
 		$app		= JFactory::getApplication();
-		$menus		= JSite::getMenu();
+		$menus		= $app->getMenu();
 		$pathway	= $app->getPathway();
 		$title		= null;
 

@@ -114,7 +114,7 @@ class ContentModelArchive extends ContentModelArticles
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data)) {
 			// Get the page/component configuration
-			$params = &$app->getParams();
+			$params = $app->getParams();
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');

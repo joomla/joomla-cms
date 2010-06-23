@@ -58,7 +58,7 @@ class UsersViewRegistration extends JView
 	protected function prepareDocument()
 	{
 		$app		= JFactory::getApplication();
-		$menus		= JSite::getMenu();
+		$menus		= $app->getMenu();
 		$title 		= null;
 
 		// Because the application sets a default page title,

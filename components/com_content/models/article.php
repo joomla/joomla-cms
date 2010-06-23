@@ -142,7 +142,7 @@ class ContentModelArticle extends JModelItem
 				}
 				else {
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user =& JFactory::getUser();
+					$user = JFactory::getUser();
 					$groups = $user->authorisedLevels();
 
 					if ($data->catid == 0 || $data->category_access === null) {

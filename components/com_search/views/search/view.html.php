@@ -27,9 +27,9 @@ class SearchViewSearch extends JView
 		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php';
 
 		// Initialise some variables
-		$app	= &JFactory::getApplication();
-		$pathway  = &$app->getPathway();
-		$uri	= &JFactory::getURI();
+		$app	= JFactory::getApplication();
+		$pathway = $app->getPathway();
+		$uri	= JFactory::getURI();
 
 		$error	= null;
 		$rows	= null;
@@ -37,13 +37,13 @@ class SearchViewSearch extends JView
 		$total	= 0;
 
 		// Get some data from the model
-		$areas	= &$this->get('areas');
-		$state		= &$this->get('state');
+		$areas	= $this->get('areas');
+		$state		= $this->get('state');
 		$searchword = $state->get('keyword');
 
-		$params = &$app->getParams();
+		$params = $app->getParams();
 
-		$menus	= &JSite::getMenu();
+		$menus	= $app->getMenu();
 		$menu	= $menus->getActive();
 
 		// because the application sets a default page title, we need to get it
@@ -104,9 +104,9 @@ class SearchViewSearch extends JView
 		$state->set('keyword', $searchword);
 		if ($error==null)
 		{
-			$results	= &$this->get('data');
-			$total		= &$this->get('total');
-			$pagination	= &$this->get('pagination');
+			$results	= $this->get('data');
+			$total		= $this->get('total');
+			$pagination	= $this->get('pagination');
 
 			require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 

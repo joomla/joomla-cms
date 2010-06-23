@@ -33,7 +33,8 @@ class UsersHelperRoute
 			// Include the site app in case we are loading this from the admin.
 			require_once JPATH_SITE.'/includes/application.php';
 
-			$menu	= JSite::getMenu();
+			$app	= JFactory::getApplication();
+			$menu	= $app->getMenu();
 			$com	= JComponentHelper::getComponent('com_users');
 			$items	= $menu->getItems('component_id', $com->id);
 

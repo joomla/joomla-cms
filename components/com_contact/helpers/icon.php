@@ -22,7 +22,7 @@ class JHTMLIcon
 {
 	static function create($article, $params)
 	{
-		$uri = &JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&id=0&sectionid='.$article->sectionid;
 
@@ -38,7 +38,7 @@ class JHTMLIcon
 
 	static function email($article, $params, $attribs = array())
 	{
-		$uri	= &JURI::getInstance();
+		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
 		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid) , false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.base64_encode($link);
@@ -60,8 +60,8 @@ class JHTMLIcon
 
 	static function edit($article, $params, $attribs = array())
 	{
-		$user = &JFactory::getUser();
-		$uri = &JFactory::getURI();
+		$user = JFactory::getUser();
+		$uri = JFactory::getURI();
 
 		if ($params->get('popup')) {
 			return;

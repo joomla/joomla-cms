@@ -47,7 +47,7 @@ class ContentControllerArticle extends JController
 
 	protected function _getReturnPage()
 	{
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
 
 		if (!($return = $app->getUserState($context.'.return'))) {
@@ -66,7 +66,7 @@ class ContentControllerArticle extends JController
 
 	protected function _setReturnPage()
 	{
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
 
 		$return = JRequest::getVar('return', null, 'default', 'base64');
@@ -81,7 +81,7 @@ class ContentControllerArticle extends JController
 	 */
 	public function add()
 	{
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
 
 		// Access check
@@ -110,7 +110,7 @@ class ContentControllerArticle extends JController
 	public function edit()
 	{
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
 		$ids		= JRequest::getVar('cid', array(), '', 'array');
 
@@ -129,7 +129,7 @@ class ContentControllerArticle extends JController
 		$this->_setReturnPage();
 
 		// Get the menu item model.
-		$model = &$this->getModel();
+		$model = $this->getModel();
 
 		// Check that this is not a new item.
 		if ($id > 0)
@@ -172,14 +172,14 @@ class ContentControllerArticle extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
 
 		// Get the previous menu item id (if any) and the current menu item id.
 		$previousId	= (int) $app->getUserState($context.'id');
 
 		// Get the menu item model.
-		$model = &$this->getModel();
+		$model = $this->getModel();
 
 		// If rows ids do not match, checkin previous row.
 		if (!$model->checkin($previousId))
@@ -208,9 +208,9 @@ class ContentControllerArticle extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
+		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
-		$model		= &$this->getModel();
+		$model		= $this->getModel();
 		$task		= $this->getTask();
 
 		// Get posted form variables.
@@ -249,7 +249,7 @@ class ContentControllerArticle extends JController
 		}
 
 		// Validate the posted data.
-		$form	= &$model->getForm();
+		$form	= $model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
 			return false;

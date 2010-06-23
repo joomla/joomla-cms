@@ -26,18 +26,18 @@ class ContentViewArchive extends JView
 
 	function display($tpl = null)
 	{
-		$app =& JFactory::getApplication();
-		$user		= &JFactory::getUser();
+		$app = JFactory::getApplication();
+		$user		= JFactory::getUser();
 
 		$state 		= $this->get('State');
 		$items 		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
 
-		$pathway	= &$app->getPathway();
-		$document	= &JFactory::getDocument();
+		$pathway	= $app->getPathway();
+		$document	= JFactory::getDocument();
 
 		// Get the page/component configuration
-		$params =& $state->params;
+		$params = &$state->params;
 
 		foreach ($items as $item)
 		{
@@ -103,9 +103,9 @@ class ContentViewArchive extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$pathway	= &$app->getPathway();
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

@@ -23,13 +23,13 @@ class ContentViewCategory extends JView
 	{
 		$app = JFactory::getApplication();
 
-		$doc	= &JFactory::getDocument();
-		$params = &$app->getParams();
+		$doc	= JFactory::getDocument();
+		$params = $app->getParams();
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
-		$category	= & $this->get('Category');
-		$rows		= & $this->get('Items');
+		$category	= $this->get('Category');
+		$rows		= $this->get('Items');
 
 		$doc->link = JRoute::_(ContentHelperRoute::getCategoryRoute($category->id));
 

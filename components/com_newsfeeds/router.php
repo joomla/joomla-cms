@@ -29,15 +29,16 @@ function NewsfeedsBuildRoute(&$query)
 	$segments = array();
 
 	// get a menu item based on Itemid or currently active
-	$menu = &JSite::getMenu();
+	$app	= JFactory::getApplication();
+	$menu	= $app->getMenu();
 	$params = JComponentHelper::getParams('com_newsfeeds');
 	$advanced = $params->get('sef_advanced_link', 0);
 
 	if (empty($query['Itemid'])) {
-		$menuItem = &$menu->getActive();
+		$menuItem = $menu->getActive();
 	}
 	else {
-		$menuItem = &$menu->getItem($query['Itemid']);
+		$menuItem = $menu->getItem($query['Itemid']);
 	}
 	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
 	$mCatid	= (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
@@ -136,8 +137,9 @@ function NewsfeedsParseRoute($segments)
 	$vars = array();
 
 	//Get the active menu item.
-	$menu = &JSite::getMenu();
-	$item = &$menu->getActive();
+	$app	= JFactory::getApplication();
+	$menu	= $app->getMenu();
+	$item	= $menu->getActive();
 	$params = JComponentHelper::getParams('com_newsfeeds');
 	$advanced = $params->get('sef_advanced_link', 0);
 

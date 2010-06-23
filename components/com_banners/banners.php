@@ -13,6 +13,6 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 
 // Execute the task.
-$controller	= &JController::getInstance('Banners');
+$controller	= JController::getInstance('Banners');
 $controller->execute(JRequest::getVar('task','click'));
 $controller->redirect();

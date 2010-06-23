@@ -21,9 +21,9 @@ class ContactViewCategory extends JView
 	function display()
 	{
 
-		$app		= &JFactory::getApplication();
-		$db			= &JFactory::getDbo();
-		$document	= &JFactory::getDocument();
+		$app		= JFactory::getApplication();
+		$db			= JFactory::getDbo();
+		$document	= JFactory::getDocument();
 		$document->link = JRoute::_(ContactHelperRoute::getCategoryRoute(JRequest::getVar('id',null, '', 'int')));
 
 		$siteEmail = $app->getCfg('mailfrom');

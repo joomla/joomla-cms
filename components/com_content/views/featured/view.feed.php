@@ -22,17 +22,17 @@ class ContentViewFeatured extends JView
 	function display($tpl = null)
 	{
 		// parameters
-		$app		= &JFactory::getApplication();
-		$db			= &JFactory::getDbo();
-		$document	= &JFactory::getDocument();
-		$params		= &$app->getParams();
+		$app		= JFactory::getApplication();
+		$db			= JFactory::getDbo();
+		$document	= JFactory::getDocument();
+		$params		= $app->getParams();
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 		$siteEmail	= $app->getCfg('mailfrom');
 		$document->link = JRoute::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
-		$rows		= & $this->get('Items');
+		$rows		= $this->get('Items');
 		foreach ($rows as $row)
 		{
 			// strip html from feed item title

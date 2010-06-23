@@ -46,7 +46,7 @@ class ContactModelCategories extends JModel
 	 */
 	protected function populateState()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
 
 		// Get the parent id if defined.

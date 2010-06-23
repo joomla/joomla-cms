@@ -28,7 +28,7 @@ class MailtoViewMailto extends JView
 
 	function &getData()
 	{
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 		$data = new stdClass();
 
 		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));

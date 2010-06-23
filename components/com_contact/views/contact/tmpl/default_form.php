@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 			}
 		}
 		// -->';
-	$document = &JFactory::getDocument();
+	$document = JFactory::getDocument();
 	$document->addScriptDeclaration($script); ?>
 
 <?php if (isset($this->error)) : ?>

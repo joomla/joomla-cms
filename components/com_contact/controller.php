@@ -23,11 +23,16 @@ jimport('joomla.application.component.controller');
 class ContactController extends JController
 {
 	/**
-	 * Display the view
+	 * Method to display a view.
+	 *
+	 * @param	boolean			If true, the view output will be cached
+	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return	JController		This object to support chaining.
+	 * @since	1.5
 	 */
-	function display()
+	public function display($cachable = false, $urlparams = false)
 	{
-
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
@@ -36,14 +41,14 @@ class ContactController extends JController
 		// Workaround for the item view
 		if ($vName == 'contact')
 		{
-			$document = &JFactory::getDocument();
+			$document = JFactory::getDocument();
 			$vFormat	= $document->getType();
 			$view 		= $this->getView($vName, $vFormat);
 			$modelCat	= $this->getModel('category');
 			$view->setModel($modelCat);
 		}
 
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' &&
 			($vName = 'category' || ($vName = 'contact' && JRequest::getVar('task') == 'submit' )))) {
@@ -53,8 +58,9 @@ class ContactController extends JController
 		$safeurlparams = array('id'=>'INT','catid'=>'INT','limit'=>'INT','limitstart'=>'INT',
 			'filter_order'=>'CMD','filter_order_Dir'=>'CMD','lang'=>'CMD');
 
-			parent::display($cachable,$safeurlparams);
+		parent::display($cachable,$safeurlparams);
 
+		return $this;
 	}
 
 	/**
@@ -69,8 +75,8 @@ class ContactController extends JController
 		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		// Initialise some variables
-		$app		= &JFactory::getApplication();
-		$db			= & JFactory::getDbo();
+		$app		= JFactory::getApplication();
+		$db			= JFactory::getDbo();
 		$SiteName	= $app->getCfg('sitename');
 
 		$default	= JText::sprintf('MAILENQUIRY', $SiteName);
@@ -82,7 +88,7 @@ class ContactController extends JController
 		$emailCopy	= JRequest::getInt('email_copy',	0,			'post');
 
 		// load the contact details
-		$model		= &$this->getModel('contact');
+		$model		= $this->getModel('contact');
 
 		// query options
 		$contact		= $model->getItem($contactId);
@@ -107,7 +113,7 @@ class ContactController extends JController
 
 		// Contact plugins
 		JPluginHelper::importPlugin('contact');
-		$dispatcher	= &JDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 
 		// Input validation
 		if  (!$this->_validateInputs($contact, $email, $subject, $body)) {
@@ -129,7 +135,7 @@ class ContactController extends JController
 		// Passed Validation: Process the contact plugins to integrate with other applications
 		$results	= $dispatcher->trigger('onSubmitContact', array(&$contact, &$post));
 
-		$pparams = &$app->getParams('com_contact');
+		$pparams = $app->getParams('com_contact');
 		if (!$pparams->get('custom_reply'))
 		{
 			$MailFrom	= $app->getCfg('mailfrom');
@@ -198,17 +204,17 @@ class ContactController extends JController
 	function vcard()
 	{
 		// Initialise some variables
-		$app	= &JFactory::getApplication();
-		$db		= &JFactory::getDbo();
-		$user	= &JFactory::getUser();
+		$app	= JFactory::getApplication();
+		$db		= JFactory::getDbo();
+		$user	= JFactory::getUser();
 
 		$SiteName = $app->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 		// Get a Contact table object and load the selected contact details
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
-		$contact = &JTable::getInstance('contact', 'Table');
+		$contact = JTable::getInstance('contact', 'Table');
 		$contact->load($contactId);
-		$user = &JFactory::getUser();
+		$user = JFactory::getUser();
 
 		// Get the contact detail parameters
 		$params = new JRegistry;
@@ -299,13 +305,13 @@ class ContactController extends JController
 	 */
 	function _validateInputs($contact, $email, $subject, $body)
 	{
-		$app	= &JFactory::getApplication();
-		$session = &JFactory::getSession();
+		$app	= JFactory::getApplication();
+		$session = JFactory::getSession();
 
 		// Get params and component configurations
 		$params = new JRegistry;
 		$params->loadJSON($contact->params);
-		$pparams	= &$app->getParams('com_contact');
+		$pparams	= $app->getParams('com_contact');
 
 		// check for session cookie
 		$sessionCheck	= $pparams->get('validate_session', 1);

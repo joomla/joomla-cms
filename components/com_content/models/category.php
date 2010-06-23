@@ -77,8 +77,8 @@ class ContentModelCategory extends JModelItem
 		$params = $app->getParams();
 		$menuParams = new JRegistry;
 
-		if (JSite::getMenu()->getActive()) {
-			$menuParams->loadJSON(JSite::getMenu()->getActive()->params);
+		if ($menu = $app->getMenu()->getActive()) {
+			$menuParams->loadJSON($menu->params);
 		}
 
 		$mergedParams = clone $menuParams;
@@ -147,8 +147,8 @@ class ContentModelCategory extends JModelItem
 			$limit = $this->getState('list.limit');
 		}
 
-		if ($this->_articles === null && $category =& $this->getCategory()) {
-			$model =& JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		if ($this->_articles === null && $category = $this->getCategory()) {
+			$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 			$model->setState('params', JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));

@@ -26,9 +26,9 @@ class ContentViewArticle extends JView
 	function display($tpl = null)
 	{
 		// Initialise variables.
-		$app =& JFactory::getApplication();
-		$user =& JFactory::getUser();
-		$dispatcher =& JDispatcher::getInstance();
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		$dispatcher = JDispatcher::getInstance();
 
 		// Get view related request variables.
 		$print = JRequest::getBool('print');
@@ -55,7 +55,7 @@ class ContentViewArticle extends JView
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
-		$params =& $state->get('params');
+		$params = $state->get('params');
 		$article_params = new JRegistry;
 		$article_params->loadJSON($item->attribs);
 		$active = $app->getMenu()->getActive();
@@ -136,7 +136,7 @@ class ContentViewArticle extends JView
 		// Increment the hit counter of the article.
 		if (!$params->get('intro_only') && $offset == 0)
 		{
-			$model =& $this->getModel();
+			$model = $this->getModel();
 			$model->hit();
 		}
 
@@ -150,9 +150,9 @@ class ContentViewArticle extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app =& JFactory::getApplication();
-		$menus =& JSite::getMenu();
-		$pathway =& $app->getPathway();
+		$app	= JFactory::getApplication();
+		$menus	= $app->getMenu();
+		$pathway = $app->getPathway();
 		$title = null;
 
 		// Because the application sets a default page title,

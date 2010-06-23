@@ -54,7 +54,7 @@ class BannersModelBanner extends JModel
 		}
 
 		if ($trackClicks < 0) {
-			$config = &JComponentHelper::getParams('com_banners');
+			$config = JComponentHelper::getParams('com_banners');
 			$trackClicks = $config->get('track_clicks');
 		}
 
@@ -143,7 +143,7 @@ class BannersModelBanner extends JModel
 	 */
 	function getUrl()
 	{
-		$item = &$this->getItem();
+		$item = $this->getItem();
 		$url = $item->clickurl;
 		// check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {

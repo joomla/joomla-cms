@@ -45,7 +45,7 @@ class UsersControllerProfile extends UsersController
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
 		// Get the model.
-		$model = &$this->getModel('Profile', 'UsersModel');
+		$model = $this->getModel('Profile', 'UsersModel');
 
 		// Check out the user.
 		if ($userId) {

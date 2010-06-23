@@ -123,7 +123,7 @@ $canEdit = $this->user->authorise('core.edit', 'com_content.frontpage.'.$this->i
 	if ($params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 	else :
-		$menu = JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&&Itemid=' . $itemId);

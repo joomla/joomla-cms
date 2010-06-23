@@ -24,8 +24,8 @@ class WeblinksViewCategory extends JView
 {
 	function display($tpl = null)
 	{
-		$app	= &JFactory::getApplication();
-		$document = &JFactory::getDocument();
+		$app	= JFactory::getApplication();
+		$document = JFactory::getDocument();
 
 		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute(JRequest::getVar('id',null, '', 'int')));
 
@@ -36,8 +36,8 @@ class WeblinksViewCategory extends JView
 		$document->editorEmail = $siteEmail;
 
 		// Get some data from the model
-		$items		= &$this->get('Items');
-		$category	= &$this->get('Category');
+		$items		= $this->get('Items');
+		$category	= $this->get('Category');
 
 		foreach ($items as $item)
 		{

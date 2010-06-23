@@ -38,7 +38,7 @@ class UsersViewReset extends JView
                 } else {
                     $formname = ucfirst($this->_name).ucfirst($this->_layout)."Form";
                 }
-                
+
 		$this->form	= $this->get($formname);
 		$this->state	= $this->get('State');
 		$this->params	= $this->state->params;
@@ -62,7 +62,7 @@ class UsersViewReset extends JView
 	protected function prepareDocument()
 	{
 		$app		= JFactory::getApplication();
-		$menus		= JSite::getMenu();
+		$menus		= $app->getMenu();
 		$title 		= null;
 
 		// Because the application sets a default page title,

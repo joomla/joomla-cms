@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
-$params =& $this->params;
+$params = &$this->params;
 ?>
 
 <ul id="archive-items">
@@ -84,7 +84,7 @@ $params =& $this->params;
 	if ($item->params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 	else :
-		$menu = JSite::getMenu();
+		$menu = JFactory::getApplication()->getMenu();
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);

@@ -37,7 +37,7 @@ class ContentModelForm extends JModelForm
 	 */
 	protected function populateState()
 	{
-		$app = &JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Load state from the request.
 		if (!($pk = (int) $app->getUserState($this->_context.'.id'))) {
@@ -98,7 +98,7 @@ class ContentModelForm extends JModelForm
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
-		$table = &$this->getTable();
+		$table = $this->getTable();
 
 		// Attempt to load the row.
 		$return = $table->load($itemId);
@@ -212,7 +212,7 @@ class ContentModelForm extends JModelForm
 		if($table->state == 1 && intval($table->publish_up) == 0) {
 			$table->publish_up = JFactory::getDate()->toMySQL();
 		}
-		
+
 		// Increment the content version number
 		$table->version++;
 
@@ -232,7 +232,7 @@ class ContentModelForm extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = &JFactory::getCache('com_content');
+		$cache = JFactory::getCache('com_content');
 		$cache->clean();
 
 		$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$table, $isNew));
@@ -256,10 +256,10 @@ class ContentModelForm extends JModelForm
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user	= &JFactory::getUser();
+			$user	= JFactory::getUser();
 
 			// Get an instance of the row to checkin.
-			$table = &$this->getTable();
+			$table = $this->getTable();
 			if (!$table->load($pk)) {
 				$this->setError($table->getError());
 				return false;
@@ -296,10 +296,10 @@ class ContentModelForm extends JModelForm
 		if ($pk)
 		{
 			// Get a row instance.
-			$table = &$this->getTable();
+			$table = $this->getTable();
 
 			// Get the current user object.
-			$user = &JFactory::getUser();
+			$user = JFactory::getUser();
 
 			// Attempt to check the row out.
 			if (!$table->checkout($user->get('id'), $pk)) {

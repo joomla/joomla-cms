@@ -25,8 +25,8 @@ class ContentViewForm extends JView
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$app		= &JFactory::getApplication();
-		$user		= &JFactory::getUser();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
 
 		// Get model data.
 		$state	= $this->get('State');
@@ -73,9 +73,9 @@ class ContentViewForm extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$pathway	= &$app->getPathway();
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
@@ -94,7 +94,7 @@ class ContentViewForm extends JView
 		}
 		$this->document->setTitle($title);
 
-		$pathway =& $app->getPathWay();
+		$pathway = $app->getPathWay();
 		$pathway->addItem($title, '');
 
 		// If there is a pagebreak heading or title, add it to the page title

@@ -65,7 +65,7 @@ class WeblinksModelWeblink extends JModelItem
 			}
 
 			// Get a level row instance.
-			$table = &JTable::getInstance('Weblink', 'WeblinksTable');
+			$table = JTable::getInstance('Weblink', 'WeblinksTable');
 
 			// Attempt to load the row.
 			if ($table->load($id))
@@ -102,7 +102,7 @@ class WeblinksModelWeblink extends JModelItem
 			$id = $this->getState('weblink.id');
 		}
 
-		$weblink = &$this->getTable('Weblink', 'WeblinksTable');
+		$weblink = $this->getTable('Weblink', 'WeblinksTable');
 		return $weblink->hit($id);
 	}
 }

@@ -354,7 +354,7 @@ class ContentModelArticles extends JModelList
 	 */
 	public function &getItems()
 	{
-		$items	= &parent::getItems();
+		$items	= parent::getItems();
 		$user	= JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 

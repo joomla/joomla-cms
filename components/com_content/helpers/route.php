@@ -96,8 +96,9 @@ abstract class ContentHelperRoute
 		{
 			self::$lookup = array();
 
-			$component	= &JComponentHelper::getComponent('com_content');
-			$menus		= &JApplication::getMenu('site');
+			$component	= JComponentHelper::getComponent('com_content');
+			$app		= JFactory::getApplication();
+			$menus		= $app->getMenu('site');
 			$items		= $menus->getItems('component_id', $component->id);
 			foreach ($items as $item)
 			{

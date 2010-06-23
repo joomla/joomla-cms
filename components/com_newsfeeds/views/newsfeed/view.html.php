@@ -35,16 +35,16 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		// Get some objects from the JApplication
-		$pathway  = &$app->getPathway();
-		$document = &JFactory::getDocument();
+		$pathway  = $app->getPathway();
+		$document = JFactory::getDocument();
 
 		// Get the current menu item
-		$menus	= &JSite::getMenu();
+		$menus	= $app->getMenu();
 		$menu	= $menus->getActive();
-		$params	= &$app->getParams();
+		$params	= $app->getParams();
 
 		//get the newsfeed
-		$newsfeed = &$this->get('data');
+		$newsfeed = $this->get('data');
 
 		$temp = new JRegistry();
 		$temp->loadJSON($newsfeed->params);
@@ -55,7 +55,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$options['rssUrl']		= $newsfeed->link;
 		$options['cache_time']	= $newsfeed->cache_time;
 
-		$rssDoc = &JFactory::getXMLparser('RSS', $options);
+		$rssDoc = JFactory::getXMLparser('RSS', $options);
 
 		if ($rssDoc == false) {
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
@@ -96,9 +96,9 @@ class NewsfeedsViewNewsfeed extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= &JFactory::getApplication();
-		$menus		= &JSite::getMenu();
-		$pathway	= &$app->getPathway();
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

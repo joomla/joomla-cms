@@ -81,7 +81,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		// Create a new query object.

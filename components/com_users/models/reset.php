@@ -113,7 +113,7 @@ class UsersModelReset extends JModelForm
 	function processResetComplete($data)
 	{
 		// Get the form.
-		$form = &$this->getResetCompleteForm();
+		$form = $this->getResetCompleteForm();
 
 		// Check for an error.
 		if (JError::isError($form)) {

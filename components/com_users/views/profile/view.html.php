@@ -64,7 +64,7 @@ class UsersViewProfile extends JView
 	protected function prepareDocument()
 	{
 		$app		= JFactory::getApplication();
-		$menus		= JSite::getMenu();
+		$menus		= $app->getMenu();
 		$user		= JFactory::getUser();
 		$login		= $user->get('guest') ? true : false;
 		$title 		= null;

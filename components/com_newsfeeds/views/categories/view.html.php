@@ -56,7 +56,7 @@ class NewsfeedsViewCategories extends JView
 
 		$items = array($parent->id => $items);
 
-		$this->assignRef('maxLevel',	$params->get('maxLevel', -1));
+		$this->assign('maxLevel',	$params->get('maxLevel', -1));
 		$this->assignRef('params',		$params);
 		$this->assignRef('parent',		$parent);
 		$this->assignRef('items',		$items);
@@ -71,8 +71,8 @@ class NewsfeedsViewCategories extends JView
 	 */
 	protected function _prepareDocument()
 	{
-		$app	= &JFactory::getApplication();
-		$menus	= &JSite::getMenu();
+		$app	= JFactory::getApplication();
+		$menus	= $app->getMenu();
 		$title	= null;
 
 		// Because the application sets a default page title,

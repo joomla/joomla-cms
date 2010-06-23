@@ -187,7 +187,7 @@ class BannersModelBanners extends JModelList
 			}
 
 			if ($trackImpressions < 0) {
-				$config = &JComponentHelper::getParams('com_banners');
+				$config = JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 

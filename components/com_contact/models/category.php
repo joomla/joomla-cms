@@ -80,7 +80,7 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$user	= &JFactory::getUser();
+		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->authorisedLevels());
 
 		// Create a new query object.
@@ -132,7 +132,7 @@ class ContactModelCategory extends JModelList
 	protected function populateState()
 	{
 		// Initialise variables.
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
 
 		// List state information

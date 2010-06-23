@@ -80,8 +80,8 @@ abstract class WeblinksHelperRoute
 		{
 			self::$lookup = array();
 
-			$component	= &JComponentHelper::getComponent('com_weblinks');
-			$menus		= &JApplication::getMenu('site');
+			$component	= JComponentHelper::getComponent('com_weblinks');
+			$menus		= JApplication::getMenu('site');
 			$items		= $menus->getItems('component_id', $component->id);
 			foreach ($items as $item)
 			{

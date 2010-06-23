@@ -43,7 +43,7 @@ class MediaHelper
 	 */
 	function canUpload($file, &$err)
 	{
-		$params = &JComponentHelper::getParams('com_media');
+		$params = JComponentHelper::getParams('com_media');
 
 		jimport('joomla.filesystem.file');
 		$format = JFile::getExt($file['name']);
