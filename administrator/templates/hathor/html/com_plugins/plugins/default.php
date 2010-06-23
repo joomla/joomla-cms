@@ -97,7 +97,7 @@ $listDirn	= $this->state->get('list.direction');
 			$canEdit	= $user->authorise('core.edit',			'com_plugins');
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_plugins') && $canCheckin;
-			// $lang = &JFactory::getLanguage();
+			// $lang = JFactory::getLanguage();
 			// $lang->load($item->name, JPATH_ADMINISTRATOR)
 			// || $lang->load ($item->name, JPATH_PLUGINS.DS.$item->folder.DS.$item->element);
 			?>

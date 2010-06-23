@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 
-$uri	= &JFactory::getUri();
+$uri	= JFactory::getUri();
 $return	= base64_encode($uri);
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');

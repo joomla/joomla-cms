@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 function pagination_list_footer($list)
 {
 	// Initialise variables.
-	$lang = &JFactory::getLanguage();
+	$lang = JFactory::getLanguage();
 	$html = "<div class=\"container\"><div class=\"pagination\">\n";
 
 	$html .= "\n<div class=\"limit\">".JText::_('JGLOBAL_DISPLAY_NUM').$list['limitfield']."</div>";
@@ -82,7 +82,7 @@ function pagination_list_footer($list)
 function pagination_list_render($list)
 {
 	// Initialise variables.
-	$lang = &JFactory::getLanguage();
+	$lang = JFactory::getLanguage();
 	$html = null;
 
 	if ($list['start']['active']) {

@@ -15,15 +15,13 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
-$user	= &JFactory::getUser();
+$user	= JFactory::getUser();
 $userId	= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $ordering 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 $n = count($this->items);
-
-
 ?>
 <div class="categories">
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm">

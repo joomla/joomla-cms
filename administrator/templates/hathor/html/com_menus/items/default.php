@@ -15,12 +15,10 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
-$user	= &JFactory::getUser();
+$user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-
-
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
 	<fieldset id="filter-bar">
@@ -115,7 +113,7 @@ $listDirn	= $this->state->get('list.direction');
 		<tbody>
 		<?php
 		foreach ($this->items as $i => $item) :
-			// $lang = &JFactory::getLanguage();
+			// $lang = JFactory::getLanguage();
 			// $lang->load($item->componentname, JPATH_ADMINISTRATOR);
 			$ordering = ($listOrder == 'a.lft');
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);

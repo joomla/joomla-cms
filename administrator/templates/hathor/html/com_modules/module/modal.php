@@ -17,7 +17,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 
 jimport('joomla.html.pane');
-$pane = &JPane::getInstance('sliders');
+$pane = JPane::getInstance('sliders');
 
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 ?>
@@ -90,7 +90,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php else : ?>
 			<legend><?php echo JText::_('JDETAILS');?>	</legend>
 			<?php endif; ?>
-			
+
 			<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?></li>
