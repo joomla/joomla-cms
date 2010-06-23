@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+23-Jun-2010 Andrew Eddie
+ # Fixed issue [#21146] Fix for broken JFormFieldCalendarTest.
+
 23-Jun-2010 Jean-Marie Simonet
 $ Added missing string
  [#20641] Email Cloaking Plugin doesn't output well formed code. Thanks Nicholas.

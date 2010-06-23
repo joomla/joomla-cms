@@ -251,10 +251,6 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 					)
 				)
 			)
-
-
-
-
 		);
 	}
 
@@ -264,7 +260,6 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 	 */
 	public function testGetInputAttributes($name, $id, $value, $element, $expectedParameters)
 	{
-
 		// we create stubs for config and session/user objects
 		$config = new stdClass;
 		JFactory::$config = $config;		// put the stub in place
@@ -314,7 +309,6 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		require_once JPATH_BASE.'/libraries/joomla/user/user.php';
 		$userObject = new JUser;
 
-
 		$sessionMock->expects($this->any())
 					->method('get')
 					->with('user')
@@ -350,8 +344,8 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		$calendar->setProtectedProperty('id', 'myElementId');
 		$calendar->setProtectedProperty('value', 1269442718);   // 1269442718
 
-		$config->set('offset', -5);
-		$userObject->setParam('timezone', -3);
+		$config->set('offset', 'US/Eastern'); // -5
+		$userObject->setParam('timezone', 'America/Buenos_Aires'); // -3
 
 		// create the mock to implant into JHtml so that we can check our values
 		$mock = $this->getMock('calendarHandler', array('calendar'));
@@ -373,7 +367,6 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		$calendar->getInput();			// invoke our method
 		JHtml::unregister('calendar');	// unregister the mock
 	}
-
 
 	public function testGetInputUser_UTC()
 	{
@@ -421,7 +414,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		$calendar->setProtectedProperty('id', 'myElementId');
 		$calendar->setProtectedProperty('value', 1269442718);   // 1269442718
 
-		$config->set('offset', 4);
+		$config->set('offset', 'Asia/Muscat'); // +4
 
 		// we don't set the user param to see if it properly falls back to the server time (as it should)
 
@@ -460,16 +453,14 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 				)
 			);
 
-		$config->set('offset', -5);
-		$userObject->setParam('timezone', 4);		// now we set the user param to test it out.
+		$config->set('offset', 'US/Eastern'); // -5
+		$userObject->setParam('timezone', 'Asia/Muscat'); // +4		// now we set the user param to test it out.
 
 		JHtml::register('calendar', array($mock2, 'calendar'));		// register our mock with JHtml
 
 		$calendar->getInput();			// invoke our method
 		JHtml::unregister('calendar');	// unregister the mock
-
 	}
-
 
 	/**
 	 * Test the getInput method.
