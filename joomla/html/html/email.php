@@ -72,7 +72,7 @@ abstract class JHtmlEmail
 		$replacement	.= "\n document.write('<span style=\'display: none;\'>');";
 		$replacement	.= "\n //-->";
 		$replacement	.= "\n </script>";
-		$replacement	.= JText::_('CLOAKING');
+		$replacement	.= JText::_('JLIB_HTML_CLOAKING');
 		$replacement	.= "\n <script type='text/javascript'>";
 		$replacement	.= "\n <!--";
 		$replacement	.= "\n document.write('</');";
