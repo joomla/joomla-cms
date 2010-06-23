@@ -24,7 +24,7 @@ class JMenuSite extends JMenu
 	 */
 	public function load()
 	{
-		$cache = &JFactory::getCache('mod_menu', '');  // has to be mod_menu or this cache won't get cleaned
+		$cache = JFactory::getCache('mod_menu', '');  // has to be mod_menu or this cache won't get cleaned
 		if (!$data = $cache->get('menu_items'.JFactory::getLanguage()->getTag())) {
 			// Initialise variables.
 			$db		= JFactory::getDbo();
@@ -41,7 +41,7 @@ class JMenuSite extends JMenu
 			$query->where('m.parent_id > 0');
 			$query->order('m.lft');
 
-			$user =& JFactory::getUser();
+			$user = JFactory::getUser();
 			$groups = implode(',', $user->authorisedLevels());
 			$query->where('m.access IN (' . $groups . ')');
 
