@@ -231,7 +231,7 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 	public function testGetInstance( $handler, $options, $expClass)
 	{
 		$this->object = JCacheStorage::getInstance($handler, $options);
-		$config = &JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$this->assertThat(
 			$this->object,
 			$this->isInstanceOf($expClass)

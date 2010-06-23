@@ -43,7 +43,7 @@ class JCacheStorageMemcacheTest extends PHPUnit_Framework_TestCase
 		if((extension_loaded('memcache') && class_exists('Memcache')) != true ) {
 			$this->memcacheAvailable = false; } else {
 
-			$config = &JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$host = $config->get('memcache_server_host', 'localhost');
 			$port = $config->get('memcache_server_port',11211);
 
