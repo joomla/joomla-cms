@@ -20,7 +20,7 @@ class JInstallerTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-//		$this->object = new JInstaller;
+
 	}
 
 	/**
@@ -36,54 +36,83 @@ class JInstallerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInstance()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			$this->object = JInstaller::getInstance(),
+			$this->isInstanceOf('JInstaller'),
+			'JInstaller::getInstance failed'
 		);
 	}
 
 	/**
 	 * @todo Implement testGetOverwrite().
 	 */
-	public function testGetOverwrite()
+	public function testGetAndSetOverwrite()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->object = JInstaller::getInstance();
+		$this->object->setOverwrite(false);
+
+		$this->assertThat(
+			$this->object->getOverwrite(),
+			$this->equalTo(false),
+			'Get or Set overwrite failed'
 		);
+
+		$this->assertThat(
+			$this->object->setOverwrite(true),
+			$this->equalTo(false),
+			'setOverwrite did not return the old value properly.'
+		);
+
+		$this->assertThat(
+			$this->object->getOverwrite(),
+			$this->equalTo(true),
+			'getOverwrite did not return the expected value.'
+		);
+
 	}
 
 	/**
-	 * @todo Implement testSetOverwrite().
+	 * @todo Implement testGetOverwrite().
 	 */
-	public function testSetOverwrite()
+	public function testGetAndSetRedirectUrl()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->object = JInstaller::getInstance();
+		$this->object->setRedirectUrl('http://www.example.com');
+
+		$this->assertThat(
+			$this->object->getRedirectUrl(),
+			$this->equalTo('http://www.example.com'),
+			'Get or Set Redirect Url failed'
 		);
+
 	}
 
 	/**
-	 * @todo Implement testGetUpgrade().
+	 * @todo Implement testGetOverwrite().
 	 */
-	public function testGetUpgrade()
+	public function testGetAndSetUpgrade()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
+		$this->object = JInstaller::getInstance();
+		$this->object->setUpgrade(false);
 
-	/**
-	 * @todo Implement testSetUpgrade().
-	 */
-	public function testSetUpgrade()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$this->assertThat(
+			$this->object->getUpgrade(),
+			$this->equalTo(false),
+			'Get or Set Upgrade failed'
 		);
+
+		$this->assertThat(
+			$this->object->setUpgrade(true),
+			$this->equalTo(false),
+			'setUpgrade did not return the old value properly.'
+		);
+
+		$this->assertThat(
+			$this->object->getUpgrade(),
+			$this->equalTo(true),
+			'getUpgrade did not return the expected value.'
+		);
+
 	}
 
 	/**

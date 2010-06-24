@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Jun-2010 Ian MacLennan
 # Fixed intermittently failing unit test
+# Added some JInstaller unit tests
 
 23-Jun-2010 Ian MacLennan
 + Added unit tests for JAdapter, JAdapterInstance and one for JObject
