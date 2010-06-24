@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Jun-2010 Ian MacLennan
+# Fixed intermittently failing unit test
 
 23-Jun-2010 Ian MacLennan
 + Added unit tests for JAdapter, JAdapterInstance and one for JObject

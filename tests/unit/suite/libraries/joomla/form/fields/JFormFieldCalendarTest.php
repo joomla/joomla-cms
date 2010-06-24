@@ -37,7 +37,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* Test normal parameters
 			*/
-			array(
+			'normal' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'myValue',
@@ -68,7 +68,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* Non integer size
 			*/
-			array(
+			'nonintsize' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'myValue',
@@ -99,7 +99,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* No format provided
 			*/
-			array(
+			'noformat' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'myValue',
@@ -130,7 +130,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* With an onchange value
 			*/
-			array(
+			'onchange' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'myValue',
@@ -162,7 +162,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* With bad readonly value
 			*/
-			array(
+			'bad_readonly' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'myValue',
@@ -193,7 +193,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* disabled is true, no class
 			*/
-			array(
+			'disabled_no_class' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'myValue',
@@ -224,7 +224,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 			/*
 			* value = 'NOW'
 			*/
-			array(
+			'value_is_now' => array(
 				'myCalendarElement',
 				'myCalendarId',
 				'NOW',
@@ -239,7 +239,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 					'filter' => ''
 				),
 				array(
-					strftime('%Y-%m-%d'),
+					'strftime(\'%Y-%m-%d\')',
 					'myCalendarElement',
 					'myCalendarId',
 					'%Y-%m-%d',
@@ -278,6 +278,10 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		// include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once dirname(__FILE__).'/inspectors/JFormFieldCalendar.php';
 		$calendar = new JFormFieldCalendarInspector;
+
+		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')') {
+			$expectedParameters[0] = strftime('%Y-%m-%d');
+		}
 
 		// setup our values from our data set
 		$calendar->setProtectedProperty('element', $element);
