@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Jun-2010 Jean-Marie Simonet
+$ Completing string value
 
 23-Jun-2010 Andrew Eddie
  # Fixed issue [#21146] Fix for broken JFormFieldCalendarTest.
