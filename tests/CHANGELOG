@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 25-Jun-2010
 # Fix failing JForm test in Windows (hard-coded '/')
+# Fix failing JFilterOutputTest (when running stand-alone)
 
 24-Jun-2010 Ian MacLennan
 # Fixed intermittently failing unit test
