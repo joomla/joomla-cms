@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Jun-2010 Jean-Marie Simonet
 $ Completing string value
+[#21173] Default ACL for editors and publishers is incorrect, also weblinks. Thanks Elin.
 
 23-Jun-2010 Andrew Eddie
  # Fixed issue [#21146] Fix for broken JFormFieldCalendarTest.
