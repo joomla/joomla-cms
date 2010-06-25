@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jun-2010
+# Fix failing JForm test in Windows (hard-coded '/')
+
 24-Jun-2010 Ian MacLennan
 # Fixed intermittently failing unit test
 # Added some JInstaller unit tests
