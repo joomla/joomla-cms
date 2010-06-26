@@ -33,6 +33,7 @@ $ -> Language fix or change
 [#21168] [image file] Missing image file in Hathor. Thanks Andrea
 [#21157] Unable to filter template styles with number in it (eg: Beez5, beez_20) Thank CY Lee
 [#21147] No articles in this category when display# changed to "All". Thanks Alain.
+[#21151] com_content manifest in error or file missing. Thanks Boris and Bill.
 
 24-Jun-2010 Jean-Marie Simonet
 $ Completing string value

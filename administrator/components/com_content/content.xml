@@ -26,7 +26,6 @@
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
-			<filename>category.xml</filename>
 			<filename>config.xml</filename>
 			<filename>content.php</filename>
 			<filename>controller.php</filename>
