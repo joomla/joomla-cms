@@ -27,7 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-25-Jun-2010
+26-Jun-2010 Ian MacLennan
++ Added JInstaller test
+# Improved JError handling in JoomlaTestCase
+
+25-Jun-2010 Mark Dexter
 # Fix failing JForm test in Windows (hard-coded '/')
 # Fix failing JFilterOutputTest (when running stand-alone)
 

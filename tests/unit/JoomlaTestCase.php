@@ -32,6 +32,11 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	protected static $actualError;
 
 	/**
+	 * @var errors
+	 */
+	protected $expectedErrors = null;
+
+	/**
 	 * Saves the current state of the JError error handlers.
 	 *
 	 * @return	void
@@ -95,6 +100,25 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 		$this->setErrorHandlers($callbackHandlers);
 	}
 
+	protected function setUp()
+	{
+		parent::setUp();
+		$this->setExpectedError();
+	}
+
+	protected function tearDown()
+	{
+		if (is_array($this->expectedErrors) && !empty($this->expectedErrors)) {
+			$this->fail('An expected error was not raised.');
+		}
+
+		JError::setErrorHandling(E_NOTICE, 'ignore');
+		JError::setErrorHandling(E_WARNING, 'ignore');
+		JError::setErrorHandling(E_ERROR, 'ignore');
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
@@ -104,7 +128,60 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 */
 	static function errorCallback( $error )
 	{
+
 	}
+
+	/**
+	 * Callback receives the error from JError and deals with it appropriately
+	 * If a test expects a JError to be raised, it should call this setExpectedError first
+	 * If you don't call this method first, the test will fail
+	 */
+	public function expectedErrorCallback($error)
+	{
+		foreach($this->expectedErrors AS $key => $err)
+		{
+			$thisError = true;
+
+			foreach ($err AS $prop => $value)
+			{
+				if ($error->get($prop) !== $value) {
+					$thisError = false;
+				}
+			}
+
+			if ($thisError) {
+				unset($this->expectedErrors[$key]);
+				return $error;
+			}
+
+		}
+		$this->fail('An unexpected error occurred - '.$error->get('message'));
+		return $error;
+	}
+
+	/**
+	 * Tells the unit tests that a method or action you are about to attempt
+	 * is expected to result in JError::raiseSomething being called.
+	 *
+	 * If you don't call this method first, the test will fail.
+	 * If you call this method during your test and the error does not occur, then your test
+	 * will also fail because we assume you were testing to see that an error did occur when it was
+	 * supposed to.
+	 *
+	 * If passed without argument, the array is initialized if it hsn't been already
+	 */
+	public function setExpectedError($error = null) {
+		if (!is_array($this->expectedErrors)) {
+			$this->expectedErrors = array();
+			JError::setErrorHandling(E_NOTICE, 'callback', array($this, 'expectedErrorCallback'));
+			JError::setErrorHandling(E_WARNING, 'callback', array($this, 'expectedErrorCallback'));
+			JError::setErrorHandling(E_ERROR, 'callback', array($this, 'expectedErrorCallback'));
+		}
+		if (!is_null($error)) {
+			$this->expectedErrors[] = $error;
+		}
+	}
+
 
 	/**
 	 * Saves the Factory pointers
@@ -140,4 +217,3 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 		JFactory::$mailer = $this->savedFactoryState['mailer'];
 	}
 }
-?>
