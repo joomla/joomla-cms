@@ -31,6 +31,7 @@ $ -> Language fix or change
 [#21185] Weblink edit misses filter="safehtml"
 [#21184] Correcting and normalizing custom html module edit display
 [#21168] [image file] Missing image file in Hathor. Thanks Andrea
+[#21157] Unable to filter template styles with number in it (eg: Beez5, beez_20) Thank CY Lee
 
 24-Jun-2010 Jean-Marie Simonet
 $ Completing string value
