@@ -109,10 +109,6 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<div class="clr" /></div>
 		</fieldset>
 
-		<div>
-			<?php echo $this->loadTemplate('assignment'); ?>
-		</div>
-
 		<div class="clr"></div>
 
 		<?php if ($hasContent) : ?>
@@ -120,11 +116,15 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 				<legend><?php echo JText::_('COM_MODULES_CUSTOM_OUTPUT'); ?></legend>
 				<ul class="adminformlist">
 					<li><?php echo $this->form->getLabel('content'); ?>
+				<div class="clr"></div>
 					<?php echo $this->form->getInput('content'); ?></li>
 				</ul>
-
-			</fieldset>	endif;
-	<?php endif; ?>
+			</fieldset>
+		<?php endif; ?>
+		
+		<div>
+			<?php echo $this->loadTemplate('assignment'); ?>
+		</div>
 
 	</div>
 

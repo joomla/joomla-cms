@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Jun-2010 Jean-Marie Simonet
 [#21185] Weblink edit misses filter="safehtml"
+[#21184] Correcting and normalizing custom html module edit display
 
 24-Jun-2010 Jean-Marie Simonet
 $ Completing string value
