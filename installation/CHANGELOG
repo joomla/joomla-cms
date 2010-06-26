@@ -32,6 +32,7 @@ $ -> Language fix or change
 [#21184] Correcting and normalizing custom html module edit display
 [#21168] [image file] Missing image file in Hathor. Thanks Andrea
 [#21157] Unable to filter template styles with number in it (eg: Beez5, beez_20) Thank CY Lee
+[#21147] No articles in this category when display# changed to "All". Thanks Alain.
 
 24-Jun-2010 Jean-Marie Simonet
 $ Completing string value

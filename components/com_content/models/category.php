@@ -163,7 +163,7 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.max_category_levels', $this->setState('filter.max_category_levels'));
 			$model->setState('list.links', $this->getState('list.links'));
 
-			if ($limit > 0) {
+			if ($limit >= 0) {
 				$this->_articles = $model->getItems();
 
 				if ($this->_articles === false) {
