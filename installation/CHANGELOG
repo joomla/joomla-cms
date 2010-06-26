@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 24-Jun-2010 Jean-Marie Simonet
+[#21185] Weblink edit misses filter="safehtml"
+
+24-Jun-2010 Jean-Marie Simonet
 $ Completing string value
 [#21173] Default ACL for editors and publishers is incorrect, also weblinks. Thanks Elin.
 $ Correcting Web Link menu Item value (Front-end can't edit).
