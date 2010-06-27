@@ -33,6 +33,7 @@ $ -> Language fix or change
 # Fix checkall toggle bug in User Manager caused by [#20372] 
 # [#20862] Show Profile in contact not working
 # Sample data fixes for contact (Elin Waring)
+# [#20937] non validated fields when creating banners
 
 25-Jun-2010 Jean-Marie Simonet
 $ Adding missing string, corrected a key

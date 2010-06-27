@@ -173,7 +173,7 @@
 				size="40"
 				description="COM_BANNERS_FIELD_IMAGE_DESC" />
 			<field name="width" type="text"
-				class="inputbox validate-numeric" label="JGLOBAL_WIDTH"
+				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 
 			<field name="height" type="text"
