@@ -23,7 +23,7 @@ $listDirn	= $this->state->get('list.direction');
 				<?php echo JText::_('COM_CACHE_NUM'); ?>
 			</th>
 			<th class="checkmark-col">
-				<input type="checkbox" name="toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(<?php echo count($this->data);?>);" />
+				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(<?php echo count($this->data);?>);" />
 			</th>
 			<th class="title nowrap">
 				<?php echo JHtml::_('grid.sort',  'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
