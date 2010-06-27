@@ -9,6 +9,9 @@
  *
  */
 
+/* Load default CSS for various system parts */
+@import "../../../../media/system/css/adminlist.css";
+
 /* ------------------------- COLOR PALETTE FOR BLUE STORK
 
 Dark blue color: 			#146295 		RGB: 20/98/149
@@ -1322,95 +1325,6 @@ ul#legend li {
 
 /* -- TABLE STYLES ----------------------------- */
 
-
-table.adminlist {
-	width: 100%;
-	border-spacing: 1px;
-	background-color: #f3f3f3;
-	color: #666;
-}
-
-table.adminlist td,
-table.adminlist th {
-	padding: 4px;
-}
-
-table.adminlist thead th {
-	text-align: center;
-	background: #f7f7f7;
-	color: #666;
-	border-bottom: 1px solid #CCC;
-	border-left: 1px solid #fff;
-}
-
-table.adminlist thead th.left {
-	text-align: left;
-}
-
-table.adminlist thead a:hover {
-	text-decoration: none;
-}
-
-table.adminlist thead th img {
-	vertical-align: middle;
-	padding-left: 3px;
-}
-
-table.adminlist tbody th {
-	font-weight: bold;
-}
-
-table.adminlist tbody tr {
-	background-color: #fff;
-	text-align: left;
-}
-
-table.adminlist tbody tr.row0:hover td,
-table.adminlist tbody tr.row1:hover td	{
-	background-color: #e8f6fe;
-}
-
-table.adminlist tbody tr td {
-	background: #fff;
-	border: 1px solid #fff;
-}
-
-table.adminlist tbody tr.row1 td {
-	background: #f0f0f0;
-	border-top: 1px solid #FFF;
-}
-
-table.adminlist tfoot tr {
-	text-align: center;
-	color: #333;
-}
-
-table.adminlist tfoot td,table.adminlist tfoot th {
-	background-color: #f7f7f7;
-	border-top: 1px solid #999;
-	text-align: center;
-}
-
-table.adminlist td.order {
-	text-align: center;
-	white-space: nowrap;
-	width: 200px;
-}
-
-table.adminlist td.order span {
-	float: left;
-	width: 20px;
-	text-align: center;
-	background-repeat: no-repeat;
-	height: 13px;
-}
-
-table.adminlist .pagination {
-	display: inline-block;
-	padding: 0;
-	margin: 0 auto;
-}
-
 div#element-box div.m form table.adminlist tr td a {
 	font-size: 1.1em;
 }
@@ -1419,28 +1333,12 @@ div#element-box div.m div.jpane-slider form table.adminlist a {
 	font-size: 1em;
 }
 
-/* Tree indentation & nesting - Up to 10 levels deep so don't go crazy :) */
-table.adminlist td.indent-4 	{	padding-left: 4px;		}
-table.adminlist td.indent-19 	{	padding-left: 19px;		}
-table.adminlist td.indent-34 	{	padding-left: 34px;		}
-table.adminlist td.indent-49 	{	padding-left: 49px;		}
-table.adminlist td.indent-64 	{	padding-left: 64px;		}
-table.adminlist td.indent-79 	{	padding-left: 79px;		}
-table.adminlist td.indent-94 	{	padding-left: 94px;		}
-table.adminlist td.indent-109 	{	padding-left: 109px;	}
-table.adminlist td.indent-124 	{	padding-left: 124px;	}
-table.adminlist td.indent-139 	{	padding-left: 139px;	}
-
 p.smallsub {
 	margin: 3px 0 0;
 }
 
 p.smallsub span {
 	color: #a0a0a0;
-}
-
-table.adminlist tr td.btns a {
-	text-decoration: underline;
 }
 
 .pagination div.limit {

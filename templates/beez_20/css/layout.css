@@ -1841,3 +1841,81 @@ margin:0}
 
   #main .cat-children ul li
   {margin:10px 0 10px 0}
+
+/* ###########  Modal popups with adminlist grid ############ */
+.contentpane a.pointer { cursor: pointer }
+.contentpane .left  { float: left }
+.contentpane .right { float: right}
+
+.contentpane {
+	margin: 10px;
+	font-size: 0.75em;
+}
+
+.contentpane input,
+.contentpane textarea,
+.contentpane select,
+.contentpane button
+{
+	font-size: 0.9em;
+}
+
+.contentpane table.adminlist a,
+.contentpane table.adminlist a:link,
+.contentpane table.adminlist a:hover,
+.contentpane table.adminlist a:visited,
+.contentpane table.adminlist a:active
+{
+	text-decoration: none;
+	color: #333333;
+	background-color: transparent;
+}
+
+.contentpane table.adminlist a img,
+.contentpane table.adminlist a:link img,
+.contentpane table.adminlist a:hover img,
+.contentpane table.adminlist a:visited img,
+.contentpane table.adminlist a:active img
+{
+	border: none;
+}
+
+/* Pagination */
+.contentpane .list-footer .limit,
+.contentpane .list-footer li,
+.contentpane .list-footer .counter
+{
+	font-size: 1em;
+	line-height: 2em;
+}
+
+.contentpane .list-footer ul {
+	margin: 0; padding: 0;
+}
+
+.contentpane .list-footer li
+{
+	display: inline;
+}
+
+/* pagination look */
+.contentpane .list-footer li a:hover,
+.contentpane .list-footer li a:active,
+.contentpane .list-footer li a:focus
+{
+	text-decoration: underline;
+}
+
+/* Currrent page number should be bold */
+.contentpane .list-footer span.pagenav {
+	font-weight: bold;
+}
+
+/* but other pagenavs shoudn't */
+.contentpane .list-footer .pagination-start span.pagenav,
+.contentpane .list-footer .pagination-prev  span.pagenav,
+.contentpane .list-footer .pagination-next  span.pagenav,
+.contentpane .list-footer .pagination-end   span.pagenav
+{
+	font-weight: normal;
+}

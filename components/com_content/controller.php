@@ -27,7 +27,12 @@ class ContentController extends JController
 		if(JRequest::getWord('view') === 'article' && JRequest::getVar('layout') === 'pagebreak') {
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
-
+		// Article frontpage Editor article proxying:
+		elseif(JRequest::getWord('view') === 'articles' && JRequest::getVar('layout') === 'modal') {
+			JHTML::_('stylesheet','system/adminlist.css', array(), true);
+			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
+		}
+	
 		parent::__construct($config);
 	}
 

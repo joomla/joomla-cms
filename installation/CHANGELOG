@@ -35,6 +35,7 @@ $ -> Language fix or change
 # Sample data fixes for contact (Elin Waring)
 # [#20937] non validated fields when creating banners
 # [#21079] weblink - contacts - newsfeed - new item defaults to last order position
+# [#20602] Frontened article submission - 500 - JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND
 
 25-Jun-2010 Jean-Marie Simonet
 $ Adding missing string, corrected a key

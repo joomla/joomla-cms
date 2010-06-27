@@ -912,3 +912,24 @@ fieldset.filters {
         width:30%
 }
 
+/* ++++++++++++++  Modal popups with adminlist grid  ++++++++++++++ */
+.contentpane a.pointer { cursor: pointer }
+.contentpane .left  { float: left }
+.contentpane .right { float: right}
+
+.contentpane {
+	margin: 10px;
+	font-size: 68.8%;
+}
+
+.contentpane input,
+.contentpane textarea,
+.contentpane select,
+.contentpane button
+{
+	font-size: 0.8em;
+}
+
+.contentpane .list-footer .limit {
+	margin-bottom: 9px;
+}
