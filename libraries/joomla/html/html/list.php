@@ -158,10 +158,10 @@ abstract class JHtmlList
 		else
 		{
 			if ($neworder > 0) {
-				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
+				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
 			}
 			else if ($neworder <= 0) {
-				$text = JText::_('JGLOBAL_NEWITEMSLAST_DESC');
+				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
 			$html = '<input type="hidden" name="'.$name.'" value="'. (int) $selected .'" />'. '<span class="readonly">' . $text . '</span>';
 		}

@@ -34,6 +34,7 @@ $ -> Language fix or change
 # [#20862] Show Profile in contact not working
 # Sample data fixes for contact (Elin Waring)
 # [#20937] non validated fields when creating banners
+# [#21079] weblink - contacts - newsfeed - new item defaults to last order position
 
 25-Jun-2010 Jean-Marie Simonet
 $ Adding missing string, corrected a key
