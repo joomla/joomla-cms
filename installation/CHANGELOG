@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Jun-2010 Mark Dexter
 # [#20372] components options (IE 8 test)
 # [#20793] FTP installation features not working as expected
+# Fix checkall toggle bug in User Manager caused by [#20372] 
 
 25-Jun-2010 Jean-Marie Simonet
 $ Adding missing string, corrected a key

@@ -71,7 +71,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 
     echo "Delete all users in view\n";
-    $this->click("toggle");
+    $this->click("checkall-toggle");
     echo("Delete new user.\n");
     $this->click("//li[@id='toolbar-delete']/a/span");
     $this->waitForPageToLoad("30000");

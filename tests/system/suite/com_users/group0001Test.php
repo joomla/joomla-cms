@@ -34,7 +34,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     $this->type("filter_search", "Test Group".$saltGroup);
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
-    $this->click("toggle");
+    $this->click("checkall-toggle");
     $this->click("//li[@id='toolbar-delete']/a/span");
     $this->waitForPageToLoad("30000");
     try {

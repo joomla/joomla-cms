@@ -67,7 +67,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 		print("Select all trashed categories and delete." . "\n");
-		$this->click("toggle");
+		$this->click("checkall-toggle");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");

@@ -133,7 +133,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Delete all users in view.\n";
-		$this->click("toggle");
+		$this->click("checkall-toggle");
 		echo("Delete new user.\n");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
@@ -182,7 +182,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Delete all users in view.\n";
-		$this->click("toggle");
+		$this->click("checkall-toggle");
 		echo("Delete new user.\n");
 		$this->jClick('Delete');
 	}
@@ -206,7 +206,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		echo "Delete all levels in view.\n";
-		$this->click("toggle");
+		$this->click("checkall-toggle");
 		$this->jClick('Delete');
 	}
 
