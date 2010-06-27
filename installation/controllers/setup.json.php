@@ -62,13 +62,13 @@ class JInstallationControllerSetup extends JController
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup');
+		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = $this->getModel('Filesystem');
+		$filesystem = $this->getModel('Filesystem', 'JInstallationModel', array('dbo' => null));
 
 		// Attempt to detect the Joomla root from the ftp account.
 		$return = $filesystem->detectFtpRoot($vars);
@@ -95,15 +95,15 @@ class JInstallationControllerSetup extends JController
 		$vars = JRequest::getVar('jform', array());
 
 		// Get the setup model.
-		$model = $this->getModel('Setup');
+		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Store the options in the session.
 		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
-		$filesystem = $this->getModel('Filesystem');
+		$filesystem = $this->getModel('Filesystem', 'JInstallationModel', array('dbo' => null));
 
-		// Attempt to detect the Joomla root from the ftp account.
+		// Verify the FTP settings.
 		$return = $filesystem->verifyFtpSettings($vars);
 
 		// If an error was encountered return an error.
