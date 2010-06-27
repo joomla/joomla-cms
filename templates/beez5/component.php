@@ -2,7 +2,7 @@
 /**
  * @version		$Id: component.php 16465 2010-04-26 01:46:24Z eddieajau $
  * @package		Joomla.Site
- * @subpackage	tpl_beez2
+ * @subpackage	tpl_beez5
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,14 +16,13 @@ $color = $this->params->get('templatecolor');
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 	<jdoc:include type="head" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/template.css" type="text/css" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/layout.css" type="text/css" media="screen,projection" />
-    <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/print.css" type="text/css" media="Print" />
-    <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo $color; ?>.css" type="text/css" />
-
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/template.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5css/layout.css" type="text/css" media="screen,projection" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/print.css" type="text/css" media="Print" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/<?php echo $color; ?>.css" type="text/css" />
 
 <?php if($this->direction == 'rtl') : ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/template_rtl.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/template_rtl.css" type="text/css" />
 <?php endif; ?>
 </head>
 <body class="contentpane">

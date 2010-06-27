@@ -33,6 +33,7 @@ $ -> Language fix or change
 
 25-Jun-2010 Jean-Marie Simonet
 $ Adding missing string, corrected a key
+# Corrected path typos in both beez templates component.php
 
 24-Jun-2010 Jean-Marie Simonet
 [#21185] Weblink edit misses filter="safehtml"
