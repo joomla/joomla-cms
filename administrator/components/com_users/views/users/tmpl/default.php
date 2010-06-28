@@ -71,7 +71,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="10%">
-					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'group_names', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="15%">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_EMAIL', 'a.email', $listDirn, $listOrder); ?>
