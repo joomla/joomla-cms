@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-Jun-2010 Jean-Marie Simonet
 # Correcting beez5 typos
 $ Correcting duplicate strings from 20602
+[#21198] Ordering by group broken in modal. Thanks Phil.
 
 27-Jun-2010 Mark Dexter
 # [#20372] components options (IE 8 test)
