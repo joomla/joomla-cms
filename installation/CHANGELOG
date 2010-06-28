@@ -27,46 +27,49 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jun-2010 Ian MacLennan
+ # [#21180] [IE8] Cannot create new menu due to JS error
+
 28-Jun-2010 Jean-Marie Simonet
-# Correcting beez5 typos
-$ Correcting duplicate strings from 20602
-[#21198] Ordering by group broken in modal. Thanks Phil.
-[#21198] Added Hathor to the patch.
-[#21210] * Implementing user group ordering in User Manager
+ # Correcting beez5 typos
+ $ Correcting duplicate strings from 20602
+ # [#21198] Ordering by group broken in modal. Thanks Phil.
+ # [#21198] Added Hathor to the patch.
+ # [#21210] * Implementing user group ordering in User Manager
 
 27-Jun-2010 Mark Dexter
-# [#20372] components options (IE 8 test)
-# [#20793] FTP installation features not working as expected
-# Fix checkall toggle bug in User Manager caused by [#20372] 
-# [#20862] Show Profile in contact not working
-# Sample data fixes for contact (Elin Waring)
-# [#20937] non validated fields when creating banners
-# [#21079] weblink - contacts - newsfeed - new item defaults to last order position
-# [#20602] Frontened article submission - 500 - JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND
+ # [#20372] components options (IE 8 test)
+ # [#20793] FTP installation features not working as expected
+ # Fix checkall toggle bug in User Manager caused by [#20372] 
+ # [#20862] Show Profile in contact not working
+ # Sample data fixes for contact (Elin Waring)
+ # [#20937] non validated fields when creating banners
+ # [#21079] weblink - contacts - newsfeed - new item defaults to last order position
+ # [#20602] Frontened article submission - 500 - JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND
 
 27-Jun-2010 Jean-Marie Simonet
-$ Adding missing string, corrected a key
-# Corrected path typos in both beez templates component.php
+ $ Adding missing string, corrected a key
+ # Corrected path typos in both beez templates component.php
 
 26-Jun-2010 Jean-Marie Simonet
-[#21185] Weblink edit misses filter="safehtml"
-[#21184] Correcting and normalizing custom html module edit display
-[#21168] [image file] Missing image file in Hathor. Thanks Andrea
-[#21157] Unable to filter template styles with number in it (eg: Beez5, beez_20) Thank CY Lee
-[#21147] No articles in this category when display# changed to "All". Thanks Alain.
-[#21151] com_content manifest in error or file missing. Thanks Boris and Bill.
+ # [#21185] Weblink edit misses filter="safehtml"
+ # [#21184] Correcting and normalizing custom html module edit display
+ # [#21168] [image file] Missing image file in Hathor. Thanks Andrea
+ # [#21157] Unable to filter template styles with number in it (eg: Beez5, beez_20) Thank CY Lee
+ # [#21147] No articles in this category when display# changed to "All". Thanks Alain.
+ # [#21151] com_content manifest in error or file missing. Thanks Boris and Bill.
 
 24-Jun-2010 Jean-Marie Simonet
-$ Completing string value
+ $ Completing string value
 [#21173] Default ACL for editors and publishers is incorrect, also weblinks. Thanks Elin.
-$ Correcting Web Link menu Item value (Front-end can't edit).
+ $ Correcting Web Link menu Item value (Front-end can't edit).
 
 23-Jun-2010 Andrew Eddie
  # Fixed issue [#21146] Fix for broken JFormFieldCalendarTest.
  # Fixed issue [#20907] Making Joomla more compliant to PHP strict standard (Hannes Papenberg, Phil Snell).
 
 23-Jun-2010 Jean-Marie Simonet
-$ Added missing string
+ $ Added missing string
  [#20641] Email Cloaking Plugin doesn't output well formed code. Thanks Nicholas.
 
 23-Jun-2010 Andrew Eddie
@@ -85,62 +88,62 @@ $ Added missing string
  # Fixed issue [#20401] [PATCH] JError::handleDie() does not cause application termination in CLI-program (Artyom Bisyarin).
  
 21-Jun-2010 Mark Dexter
-# Beez template fixes (Angie Radke)
+ # Beez template fixes (Angie Radke)
 
 21-Jun-2010 Jean-Marie Simonet
-[#21020] Ordering of weblinks does not work as expected. Thanks Omar.
-[#21116] [patch] Update Hathor with the new saveorder icon behavior. Thanks Andrea.
-[#21064] Login redirection not functioning. Thanks Omar.
-[#21120] Article Button in Editor missing left side in Milkyway. Thanks Marijke
-[#21057] Mistyped template name in joomla data. Thanks Christophe.
-[#20725] System Path Disclosure
-[#21037] Two similar options in Module Latest News. Thanks Christophe and Stephania. + string
-[#21061] Fatal error when "Show Title" is set to "No". Thanks Omar.
-[#20945] email error when creating a new user. Thanks Elin.
-[#21059] Image selector layout problems. Thanks Omar.
-[#20837] Deleting usergroup that have been assigned to access levels does not remove them from the #__viewlevels table. Thanks Christophe.
-[#21081] [patch] URL not required when submitting weblink. Thanks Michael.
-[#20695] Parameter merge for contacts categories view is not working. Thanks Bill.
+ # [#21020] Ordering of weblinks does not work as expected. Thanks Omar.
+ # [#21116] [patch] Update Hathor with the new saveorder icon behavior. Thanks Andrea.
+ # [#21064] Login redirection not functioning. Thanks Omar.
+ # [#21120] Article Button in Editor missing left side in Milkyway. Thanks Marijke
+ # [#21057] Mistyped template name in joomla data. Thanks Christophe.
+ # [#20725] System Path Disclosure
+ # [#21037] Two similar options in Module Latest News. Thanks Christophe and Stephania. + string
+ # [#21061] Fatal error when "Show Title" is set to "No". Thanks Omar.
+ # [#20945] email error when creating a new user. Thanks Elin.
+ # [#21059] Image selector layout problems. Thanks Omar.
+ # [#20837] Deleting usergroup that have been assigned to access levels does not remove them from the #__viewlevels table. Thanks Christophe.
+ # [#21081] URL not required when submitting weblink. Thanks Michael.
+ # [#20695] Parameter merge for contacts categories view is not working. Thanks Bill.
 
 21-Jun-2010 Christophe Demko
- # Fixed issue [#20786] com_users - no frontend_userparams
- # Fixed issue [#21118] Thumbnails not showing on frontend in Popup
+ # [#20786] com_users - no frontend_userparams
+ # [#21118] Thumbnails not showing on frontend in Popup
 
 20-Jun-2010 Mark Dexter
-# [#20781] [patch] Remove deprecated attribute language from all occurrences of the tag script
-# [#20989] input elements must be nested in a block level tag
-# [#21119] [patch] Passwords displayed as plain text in Global Config
-# [#20875] Error in css beez template
+ # [#20781] [patch] Remove deprecated attribute language from all occurrences of the tag script
+ # [#20989] input elements must be nested in a block level tag
+ # [#21119] [patch] Passwords displayed as plain text in Global Config
+ # [#20875] Error in css beez template
 
 20-Jun-2010 Christophe Demko
  # Correcting a small issue in JHtmlJGrid
 
 20-Jun-2010 Jean-Marie Simonet
-[#20757] Contacts unpublished visible in frontend. Thanks Christophe.
-[#21042] When enabling/disabling the flash uploader, page refresh needed on 'Options > Save'. Thanks Omar.
-[#21036] Ordering text for new items is floating up and to the right. Thanks Omar
-[#20701] A lot of core extensions have not been marked as "protected. Thanks Nicholas.
+ # [#20757] Contacts unpublished visible in frontend. Thanks Christophe.
+ # [#21042] When enabling/disabling the flash uploader, page refresh needed on 'Options > Save'. Thanks Omar.
+ # [#21036] Ordering text for new items is floating up and to the right. Thanks Omar
+ # [#20701] A lot of core extensions have not been marked as "protected. Thanks Nicholas.
 
 19-Jun-2010 Mark Dexter
-# [#21010] &nbsp; must not be used (Thanks Rouven)
-# [#20634] Ordering Categories with integers doesn't work
-# [#20483] After opening and saving plugin, plugin is removed [strict]
+ # [#21010] &nbsp; must not be used (Thanks Rouven)
+ # [#20634] Ordering Categories with integers doesn't work
+ # [#20483] After opening and saving plugin, plugin is removed [strict]
 
 19-Jun-2010 Jean-Marie Simonet
-[#21073] Media Manager image upload issue (front-end)
-[#21039] Default path for install from directory missing. Thanks Artyom.
-$ Added missing string
-[#20966] Blog Order Down Doesn't Work In Some Cases. Thanks Mark.
+ # [#21073] Media Manager image upload issue (front-end)
+ # [#21039] Default path for install from directory missing. Thanks Artyom.
+ $ Added missing string
+ # [#20966] Blog Order Down Doesn't Work In Some Cases. Thanks Mark.
 
 18-Jun-2010 Jean-Marie Simonet
-[#21046] menu - single article missing string + some
-[#21049] frontpage editor image upload string error (Thanks Bill)
-$ Adding strings in com_media.ini frontend
-[#21062] admin com_media language file is loaded in frontend. Thanks Christophe. + some missing strings .
+ # [#21046] menu - single article missing string + some
+ # [#21049] frontpage editor image upload string error (Thanks Bill)
+ $ Adding strings in com_media.ini frontend
+ # [#21062] admin com_media language file is loaded in frontend. Thanks Christophe. + some missing strings .
  
 17-Jun-2010 Jean-Marie Simonet
-# [#21019] Language field moved in a not visible position Thanks Airton.
-# [#21041] Adjust JModelList list.start accordingly. Thanks Sven
+ # [#21019] Language field moved in a not visible position Thanks Airton.
+ # [#21041] Adjust JModelList list.start accordingly. Thanks Sven
 
 17-Jun-2010 Christophe Demko
  # Correcting a small issue in JHtml::_includeRelativeFiles
@@ -150,21 +153,21 @@ $ Adding strings in com_media.ini frontend
  ^ Reformatting docblock comments
 
 16-Jun-2010 Jean-Marie Simonet
-$ [#21011] [patch] JERROR_NOLOGIN_BLOCKED on front end. Thanks Michael.
-# [#20882] banner module count field accepts negative numbers. Thanks Elin.
-# [#21014] JHtmlSlider library is buggy. Thanks Christophe.
-# [#21030] Well formed error in com_installer. Thanks Christophe and Rouven.
+ $ [#21011] [patch] JERROR_NOLOGIN_BLOCKED on front end. Thanks Michael.
+ # [#20882] banner module count field accepts negative numbers. Thanks Elin.
+ # [#21014] JHtmlSlider library is buggy. Thanks Christophe.
+ # [#21030] Well formed error in com_installer. Thanks Christophe and Rouven.
 
 15-Jun-2010 Mark Dexter
-# Update version information to beta3
-# Fix problem with hard-coding table prefix in sample data (Elin Waring)
-# [#21025] Fix problem with hard-coding table prefix in update scripts
+ # Update version information to beta3
+ # Fix problem with hard-coding table prefix in sample data (Elin Waring)
+ # [#21025] Fix problem with hard-coding table prefix in update scripts
 
 15-Jun-2010 Jean-Marie Simonet
-$# Correcting a key/string
-# [#20944] Cannot create new user - IE8. Thanks Christophe.
-#$ [#21018] Adding lang field in submit weblink. 
-#+[#21006] Error in modal css template. Thanks Christophe
+ $# Correcting a key/string
+ # [#20944] Cannot create new user - IE8. Thanks Christophe.
+ #$ [#21018] Adding lang field in submit weblink. 
+ #+[#21006] Error in modal css template. Thanks Christophe
 
 15-Jun-2010 Christophe Demko
  $ Correcting string in com_languages
@@ -174,10 +177,10 @@ $# Correcting a key/string
 
 14-Jun-2010 Jean-Marie Simonet
 [#21007] Alias in list views does not support RTL. Thanks Andrew.
-$ Consolidated "Alias" value.
-$ Consolidating for RTL support the Filter string/value in back-end
-$ Consolidated "Description" value + some.
-# [#20979] single contact - enable show contact list. Thanks Tim.
+ $ Consolidated "Alias" value.
+ $ Consolidating for RTL support the Filter string/value in back-end
+ $ Consolidated "Description" value + some.
+ # [#20979] single contact - enable show contact list. Thanks Tim.
 
 14-Jun-2010 Mark Dexter
  # [#21008] Hide new login button just introduced to login screen
@@ -188,49 +191,49 @@ $ Consolidated "Description" value + some.
  # Fixed issue [#20884] banner manager export not working fatal error (Rob Joyce, Phil Snell).
 
 13-Jun-2010 Ron Severdia
-^ Fixed select user button (Thanks Tim Plummer)
-# Reverting BlueStork error.php changes from previous commit. Will break until params bug is fixed.
-^ Relocate note & language fields to panel in Category & Article Manager (Thanks Tim Plummer)
-# News feed language fixes
-# Fixed template params in error.php (reverted until fixed)
-# Fixed CSS on ACL panel
-^ Sync up label CSS
-^ Little clean up and commenting in BlueStork CSS
-^ Relocate language dropdown in news feed (Thanks Tim Plummer)
+ ^ Fixed select user button (Thanks Tim Plummer)
+ # Reverting BlueStork error.php changes from previous commit. Will break until params bug is fixed.
+ ^ Relocate note & language fields to panel in Category & Article Manager (Thanks Tim Plummer)
+ # News feed language fixes
+ # Fixed template params in error.php (reverted until fixed)
+ # Fixed CSS on ACL panel
+ ^ Sync up label CSS
+ ^ Little clean up and commenting in BlueStork CSS
+ ^ Relocate language dropdown in news feed (Thanks Tim Plummer)
 
 13-Jun-2010 Jean-Marie Simonet
-$ Normalizing Cpanel link in all admin error.php
-# Reverting part of new bluestork error.php [Revision 17643] as it breaks error display.
-# [#20992] [patch] Toolbar may generate code that is not well formed. Thanks Rouven.
-$ [#20991] Change Metadata to Metadata Options. Thanks Michael.
-# [#20996] Hathor CSS font-size fixes. Thanks Andrea.
+ $ Normalizing Cpanel link in all admin error.php
+ # Reverting part of new bluestork error.php [Revision 17643] as it breaks error display.
+ # [#20992] [patch] Toolbar may generate code that is not well formed. Thanks Rouven.
+ $ [#20991] Change Metadata to Metadata Options. Thanks Michael.
+ # [#20996] Hathor CSS font-size fixes. Thanks Andrea.
 
 12-Jun-2010 Mark Dexter
-# Fix asset table problems in sample data (Elin Waring)
+ # Fix asset table problems in sample data (Elin Waring)
 
 12-Jun-2010 Ron Severdia
-# Fixed category header (Thanks Babs Gosgens)
-^ Fixed weblinks header icon (Thanks Tim Plummer)
-^ Move language dropdown to panel (Thanks Tim Plummer)
-^ [#20618] Fixed IE login bug 
-# Fixed modal widths (contents still need love)
-# [#20640] Fixed favicon MIME type (Thanks Rouven Wesling)
-^ Changed order icon to bg CSS and added inactive state
-# Fixed required indicator on IE
-^ Changed layout to 60/40 on edit banner client & edit contact
-- Removed deprecated IE6 stylesheet
-# Fixed language screen filter
-+ Fixed BlueStork error.php page
+ # Fixed category header (Thanks Babs Gosgens)
+ ^ Fixed weblinks header icon (Thanks Tim Plummer)
+ ^ Move language dropdown to panel (Thanks Tim Plummer)
+ ^ [#20618] Fixed IE login bug 
+ # Fixed modal widths (contents still need love)
+ # [#20640] Fixed favicon MIME type (Thanks Rouven Wesling)
+ ^ Changed order icon to bg CSS and added inactive state
+ # Fixed required indicator on IE
+ ^ Changed layout to 60/40 on edit banner client & edit contact
+ - Removed deprecated IE6 stylesheet
+ # Fixed language screen filter
+ + Fixed BlueStork error.php page
 
 12-Jun-2010 Jean-Marie Simonet
-# [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.
-$# Added a bunch of missing strings values, corrected some keys (Thanks Stella), added sticky field in banner parameters.
-# [#20579] Time Change for Server/User does not update. Thanks Christophe.
-# [#20648] mod_wrapper: error on getting params. Thanks Riccardo and Elin.
-# [#20782] Username Reminder Request Incorrect. Thanks Airton.
-# [#20983] Issue with linking articles that have apostrophe in them. Thanks Christophe.
-#$ Missing string/change key
-$ [#20990] Remove excess JLIB_FORM_CHANGE_USER definition. Thanks Michael.
+ # [#20980] [patch] Hathor patches to Newsfeed Modal. Thanks Andrea.
+ $# Added a bunch of missing strings values, corrected some keys (Thanks Stella), added sticky field in banner parameters.
+ # [#20579] Time Change for Server/User does not update. Thanks Christophe.
+ # [#20648] mod_wrapper: error on getting params. Thanks Riccardo and Elin.
+ # [#20782] Username Reminder Request Incorrect. Thanks Airton.
+ # [#20983] Issue with linking articles that have apostrophe in them. Thanks Christophe.
+ #$ Missing string/change key
+ $ [#20990] Remove excess JLIB_FORM_CHANGE_USER definition. Thanks Michael.
 
 11-Jun-2010 Christophe Demko
  # Fixed issue [#20867] [Patch] Changes to Hathor to mirror changes in core admin layouts (Andrea Tarr)
@@ -238,19 +241,19 @@ $ [#20990] Remove excess JLIB_FORM_CHANGE_USER definition. Thanks Michael.
  # Fixed issues in the component installer and in com_alpha component
 
 11-Jun-2010 Jean-Marie Simonet
-# [#20489] JTableAsset::store failed. Thanks Christophe.
-# [#20962] [files and patch] Hathor error page. Thanks Andrea.
-# Corrected code duplication in hathor modal.php
-# [#20965] When in: Article Manager: Articles, Select language select does not work. Thanks Bill.
+ # [#20489] JTableAsset::store failed. Thanks Christophe.
+ # [#20962] [files and patch] Hathor error page. Thanks Andrea.
+ # Corrected code duplication in hathor modal.php
+ # [#20965] When in: Article Manager: Articles, Select language select does not work. Thanks Bill.
 
 10-Jun-2010 Christophe Demko
  # Fixed issue [#20952] Joomla does not load template language file when an error is detected
 
 10-Jun-2010 Jean-Marie Simonet
-# [#20791] settings not saved on first step of installer. Thanks Rune.
-# [#20914] getOptions at category.php. Thanks Andrew.
-$ Added missing string
-$ Changed string in banner/tracks toolbar
+ # [#20791] settings not saved on first step of installer. Thanks Rune.
+ # [#20914] getOptions at category.php. Thanks Andrew.
+ $ Added missing string
+ $ Changed string in banner/tracks toolbar
 
 09-Jun-2010 Sam Moffatt
  # Fixed bug where updates from deleted update sites were visible after extension uninstall
@@ -260,12 +263,12 @@ $ Changed string in banner/tracks toolbar
  # Fixed issue [#20938] [patch] Missing </ul> in layout override (Andrea Tarr)
 
 09-Jun-2010 Jean-Marie Simonet
-# [#20913] Minimum PHP version check in installer. Fixed for php.5.2.4
-# [#20939] textual error in article manager config page. Thanks Troy.
-# [#20570] archived articles - title linkable. Thanks Christophe.
-# [#20940] email validation creating user account gives bad error message. Thanks Bill and Rob.
-$ Adding missing string.
-# [#20854] Adding article from filtered Category. Thanks Phil.
+ # [#20913] Minimum PHP version check in installer. Fixed for php.5.2.4
+ # [#20939] textual error in article manager config page. Thanks Troy.
+ # [#20570] archived articles - title linkable. Thanks Christophe.
+ # [#20940] email validation creating user account gives bad error message. Thanks Bill and Rob.
+ $ Adding missing string.
+ # [#20854] Adding article from filtered Category. Thanks Phil.
 
 09-Jun-2010 Andrew Eddie
  # Added format to invalid controller exception.
@@ -285,21 +288,21 @@ $ Adding missing string.
  ^ Minor fixes to package installer adapter for translation
 
 08-Jun-2010 Mark Dexter
-# Sample data fixes (Elin Waring)
+ # Sample data fixes (Elin Waring)
 
 08-Jun-2010 Jean-Marie Simonet
-$ Added en-GB.plg_content_example.sys.ini
-$ [#20911] CSS in backend error template is broken. Thanks Hannes.
-# [#20915] [patch] GeSHi plugin has random die('here') statement. Thanks Rune.
+ $ Added en-GB.plg_content_example.sys.ini
+ $ [#20911] CSS in backend error template is broken. Thanks Hannes.
+ # [#20915] [patch] GeSHi plugin has random die('here') statement. Thanks Rune.
 
 07-Jun-2010 Sam Moffatt
  # Fixed the package installer to behave properly
  ^ Minor code clean up in a few places
 
 07-Jun-2010 Jean-Marie Simonet
-# [#20887] Creating account from front-end does not use default group. Thanks Rune
-$ Modified string
-# [#20885] non localized field deleting trash in banners Tracks. Thanks Bill.
+ # [#20887] Creating account from front-end does not use default group. Thanks Rune
+ $ Modified string
+ # [#20885] non localized field deleting trash in banners Tracks. Thanks Bill.
  
 07-Jun-2010 Christophe Demko
  # Fixed issue [#20873] modules are'nt displayed in admin when using the root_user feature
@@ -314,31 +317,31 @@ $ Modified string
  # Fixed issue [#18923] JURI::buildQuery does not deal correctly with multidimensional array (Omar Ramos, Antoine BERNIER)
 
 06-Jun-2010 Jean-Marie Simonet
-# [#20853] Sorting by author in Category list. Thanks Phil.
-# [#20861] plg_user_joomla missing language declaration in manifest. 
-# [#20858] Administrator Editor Media Dialog modal-box height requires scrolling  Thansk Bill.and Ofer.
-# [#20843] wrong constant specified for error message in controllerform.php - missing language key. Thanks Bill and Nikolai. + some
-# [#20864] Missing cache language strings, cache_lite detection bug [patch]. Thanks Klas. WIP: do sesssion.
-# [#20754] missing language string
-# [#19430] Cannot change ordering of items (in fact string typo)
+ # [#20853] Sorting by author in Category list. Thanks Phil.
+ # [#20861] plg_user_joomla missing language declaration in manifest. 
+ # [#20858] Administrator Editor Media Dialog modal-box height requires scrolling  Thansk Bill.and Ofer.
+ # [#20843] wrong constant specified for error message in controllerform.php - missing language key. Thanks Bill and Nikolai. + some
+ # [#20864] Missing cache language strings, cache_lite detection bug [patch]. Thanks Klas. WIP: do sesssion.
+ # [#20754] missing language string
+ # [#19430] Cannot change ordering of items (in fact string typo)
  
 05-Jun-2010 Jean-Marie Simonet
-# [#20846] Corrected strings for contact creator. Thanks Elin.
-# [#20815] When a contact is created automatically via contact creator plugin. Thanks Radek and Phil.
+ # [#20846] Corrected strings for contact creator. Thanks Elin.
+ # [#20815] When a contact is created automatically via contact creator plugin. Thanks Radek and Phil.
 #$ Corrected wrong sprintf
-# [#20484] Requested for joomla.json download after uploading image. Thanks John.
-# [#20321] Email functions not working properly. Partly fixed only.
+ # [#20484] Requested for joomla.json download after uploading image. Thanks John.
+ # [#20321] Email functions not working properly. Partly fixed only.
  
 04-Jun-2010 Jean-Marie Simonet
-# [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Artyom and Phil.
-$ Added missing string
+ # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Artyom and Phil.
+ $ Added missing string
 
 03-Jun-2010 Jean-Marie Simonet
-# [#20744] Logout link in administrator panel isn't logout when editing content. Thanks Andrew.
-$ Missing strings
-# [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Amy.
-# [#20761] Unclear how to select contact for single contact menu item. Thanks Elin.
-# [#20603] Error while trying to use PageBreak from frontend. Thanks Bill.
+ # [#20744] Logout link in administrator panel isn't logout when editing content. Thanks Andrew.
+ $ Missing strings
+ # [#20768] It is possible to create a single-contact menu entry without selecting a contact. Thanks Amy.
+ # [#20761] Unclear how to select contact for single contact menu item. Thanks Elin.
+ # [#20603] Error while trying to use PageBreak from frontend. Thanks Bill.
 
 03-Jun-2010 Christophe Demko
  # Fixed issue [#20813] Value Not Found for blank user field (bill richardson, Peter Osipof)
@@ -352,10 +355,10 @@ $ Missing strings
  # Fixed issue [#20819] Incorrect Label on Access Level Filter box on User Manager Access Level Screen (Ian McLennan)
 
 02-Jun-2010 Jean-Marie Simonet
-# [#20787] some misc html typos. Thanks Phil.
-# [#20677] duplicate key error. Thanks Nicholas.
-# [#20506] Field required: cache_handler - message in Global Config. Thanks Christophe and Klas
-# [#20809] Unable to run installation in IE8. Thanks Ian
+ # [#20787] some misc html typos. Thanks Phil.
+ # [#20677] duplicate key error. Thanks Nicholas.
+ # [#20506] Field required: cache_handler - message in Global Config. Thanks Christophe and Klas
+ # [#20809] Unable to run installation in IE8. Thanks Ian
  
 02-Jun-2010 Andrew Eddie
  # Fixed issue [#20771] validate.js causing problems with IE8 (Bill Richardson, Phil Snell).
@@ -370,15 +373,15 @@ $ Missing strings
  # Fixed issue [#20784] Some minor errors in the beez* templates
 
 01-Jun-2010 Jean-Marie Simonet
-# [#20724] HTTP Directory Listing. Thanks Amy.
-# [#20521] usability issue: Item ID not visible during edit. Thanks Tim.
-# [#20741] error in profile plugin manifest. Thanks Nicholai.and Boris.
-# [#20743] Module manager issues with enabled caching. Thanks Dennis.
-# [#20756] Metakeys and metadesc when using langswitcher
-# [#20765] Missing language strings in en-GB.com_newsfeeds.ini (Thanks Stella) + some
+ # [#20724] HTTP Directory Listing. Thanks Amy.
+ # [#20521] usability issue: Item ID not visible during edit. Thanks Tim.
+ # [#20741] error in profile plugin manifest. Thanks Nicholai.and Boris.
+ # [#20743] Module manager issues with enabled caching. Thanks Dennis.
+ # [#20756] Metakeys and metadesc when using langswitcher
+ # [#20765] Missing language strings in en-GB.com_newsfeeds.ini (Thanks Stella) + some
 
 31-May-2010 Jean-Marie Simonet
-# [#20537] Edit articles in frontend sometimes gives a blank edit page. Thanks Dennis.
+ # [#20537] Edit articles in frontend sometimes gives a blank edit page. Thanks Dennis.
 
 31-May-2010 Mark Dexter
  # Fixed issue [#20718] Issue with JLanguageTest (Tudor Mazilu).
@@ -386,35 +389,35 @@ $ Missing strings
 -------------------- 1.6.0 Beta2 Release [31-May-2010] ------------------
 
 31-May-2010
-# [#20745] Reverting [#20489] because it broke the system test.
+ # [#20745] Reverting [#20489] because it broke the system test.
 
 31-May-2010 Jean-Marie Simonet
-# [#20721] Select State > trash and content filter Thanks Christophe, Amy.
-# [#20504] plugin working 4 times one the same page. Thanks Christophe.
-# [#20606] "Cache Manager: Clear Cache" doesn't show cache groups if caching is off, no pagination here, same data for Site and Administrator. Thanks Dennis and Klas.
-# [#20305] Configuration.php textarea box breaks layout in installation. Thanks Vicki, Elin.
-# [#20736] [patch] com_content: error on sorting by access level in "articles" view with "modal" layout Thanks Artyom.
-# [#20731] CountModules with multiple positions linked by operator is not working. Thanks Christophe.
-# [#20734] JS Validation missing for Radio Option Selection Required. Thanks Christophe and testers.
-# [#20529] User-Profile Plugin field settings ignored. Thanks Christophe and Amy.
-# [#20489] JTableAsset::store failed Thanks Christophe.
-$ Corrected string typo.
-$ Deleting unused strings from installation ini files
-# [#20593] call to undefined function on tinymce. Thanks Christophe.
-# Corrected path to tinymce templates
-# [#20720] Beez5 template has some minors bugs. Thanks Elin & all.
-$ Added missing string in front-end
-$ Updating xx-XX language front-end/back-end
+ # [#20721] Select State > trash and content filter Thanks Christophe, Amy.
+ # [#20504] plugin working 4 times one the same page. Thanks Christophe.
+ # [#20606] "Cache Manager: Clear Cache" doesn't show cache groups if caching is off, no pagination here, same data for Site and Administrator. Thanks Dennis and Klas.
+ # [#20305] Configuration.php textarea box breaks layout in installation. Thanks Vicki, Elin.
+ # [#20736] [patch] com_content: error on sorting by access level in "articles" view with "modal" layout Thanks Artyom.
+ # [#20731] CountModules with multiple positions linked by operator is not working. Thanks Christophe.
+ # [#20734] JS Validation missing for Radio Option Selection Required. Thanks Christophe and testers.
+ # [#20529] User-Profile Plugin field settings ignored. Thanks Christophe and Amy.
+ # [#20489] JTableAsset::store failed Thanks Christophe.
+ $ Corrected string typo.
+ $ Deleting unused strings from installation ini files
+ # [#20593] call to undefined function on tinymce. Thanks Christophe.
+ # Corrected path to tinymce templates
+ # [#20720] Beez5 template has some minors bugs. Thanks Elin & all.
+ $ Added missing string in front-end
+ $ Updating xx-XX language front-end/back-end
 
 30-May-2010 Ian MacLennan
  # Fixed issue  [#20691] Patch to ensure coding standards and correct phpdoc blocks (marius van rijnsoever).
 
 30-May-2010 Ron Severdia
-# Fixed issue [#20632]
-^ Bluestork image tweaks
-^ Changed user profile radios
-^ Cleaned up pagination buttons
-# Language fixes, CSS fixes for BlueStork
+ # Fixed issue [#20632]
+ ^ Bluestork image tweaks
+ ^ Changed user profile radios
+ ^ Cleaned up pagination buttons
+ # Language fixes, CSS fixes for BlueStork
 
 30-May-2010 Christophe Demko
  # Fixed sample data
@@ -423,38 +426,38 @@ $ Updating xx-XX language front-end/back-end
  # Fixed issue [#20642] com_banners submits form even when required fields are not filled (thanks bill richardson)
 
 30-May-2010 Jean-Marie Simonet
-# [#20679] Page column sort filter not working properly in module manager. Thanks Christophe.
-# [#20714] Beez 2.0 template has hardcoded language string as alt tag for logo image. Thanks Jenny.
-# Various bugs in beez2. Added sys.ini.
-$ Corrected a few ini related issues with beez5
-# [#20719] public $offset time zone set to 0 issue. Thanks Christophe.
+ # [#20679] Page column sort filter not working properly in module manager. Thanks Christophe.
+ # [#20714] Beez 2.0 template has hardcoded language string as alt tag for logo image. Thanks Jenny.
+ # Various bugs in beez2. Added sys.ini.
+ $ Corrected a few ini related issues with beez5
+ # [#20719] public $offset time zone set to 0 issue. Thanks Christophe.
 
 29-May-2010 Mark Dexter
-^ Added parameter for display style of contact (Elin Waring)
-+ Added beez5 template (Angie Radtke)
-# Upates to sample data (Elin Waring)
+ ^ Added parameter for display style of contact (Elin Waring)
+ + Added beez5 template (Angie Radtke)
+ # Upates to sample data (Elin Waring)
 
 29-May-2010 Jean-Marie Simonet
-# [#20627] weblinks category count not showing. Thanks Detlef.
-$ Refactoring of installation ini/keys.
-# [#20594] Logged in frontside users shown in Backsite status. Thanks Detlef.
-^ [#20712] [patch] Hathor compatibility changes. Thanks Andrea.
-$ Added missing strings
-# [#20699] com_users edit view allows users to view the contents of another users fields. Thanks Christophe.
+ # [#20627] weblinks category count not showing. Thanks Detlef.
+ $ Refactoring of installation ini/keys.
+ # [#20594] Logged in frontside users shown in Backsite status. Thanks Detlef.
+ ^ [#20712] [patch] Hathor compatibility changes. Thanks Andrea.
+ $ Added missing strings
+ # [#20699] com_users edit view allows users to view the contents of another users fields. Thanks Christophe.
 
 29-May-2010 Andrew Eddie
  # Fixed issue [#20494] Quick Icons Module Should Take into Account More Permissions (Omar Ramos).
  # Partially fixed [#20623] MySQL sql-mode STRICT issues (Adam Banks).
 
 28-May-2010 Jean-Marie Simonet
-$ Added string
-# [#20654] Sorting of Featured Articles in Administration don't work. Thanks Omar.
-# [#20671] Error uninstalling template due to capital letters in template name. Thanks Nikolai.
-# [#20660] mod_menu can't output invalid markup. Thanks Christophe.
-# [#20245] com_search logical issue. Thanks Christophe.
-# [#20687] mistyped static (Extraneous endif). Thanks Ashwin.
-# [#20688] Uninstalling a language extension is possible even if it's the default language. Thanks Christophe.
-$ Added/corrected string
+ $ Added string
+ # [#20654] Sorting of Featured Articles in Administration don't work. Thanks Omar.
+ # [#20671] Error uninstalling template due to capital letters in template name. Thanks Nikolai.
+ # [#20660] mod_menu can't output invalid markup. Thanks Christophe.
+ # [#20245] com_search logical issue. Thanks Christophe.
+ # [#20687] mistyped static (Extraneous endif). Thanks Ashwin.
+ # [#20688] Uninstalling a language extension is possible even if it's the default language. Thanks Christophe.
+ $ Added/corrected string
 
 28-May-2010 Andrew Eddie
  # Fixed issue [#20272] Can't provide multiple select list in modules.
@@ -462,10 +465,10 @@ $ Added/corrected string
  # Fixed issue [#20522] Redirect Manager - Date is wrong &  copy function (Peter Martin).
 
 27-May-2010 Jean-Marie Simonet
-$ [#20659] Converting strings to the new format in installation. Thanks Johnathan Lima.
-# [#20658] Sample data install leads to bad error in cas of inactivity period. Thanks Christophe.
-$ Consolidating some strings
-$ Refactoring Installation keys/ini files (WIP)
+ $ [#20659] Converting strings to the new format in installation. Thanks Johnathan Lima.
+ # [#20658] Sample data install leads to bad error in cas of inactivity period. Thanks Christophe.
+ $ Consolidating some strings
+ $ Refactoring Installation keys/ini files (WIP)
 
 27-May-2010 Sam Moffatt
  # Applied [#20263] E_WARNING Error in JInstallerTemplate::loadLanguage() and
@@ -476,18 +479,18 @@ $ Refactoring Installation keys/ini files (WIP)
  # Fixed [#20577] Boxes of meta description and meta-tags do not appear (thanks Dennis Hermacki, Elin Waring and Pierre Gazzola)
 
 26-May-2010 Jean-Marie Simonet
-# [#20630] Changing site language does not work if the same content one does not exist (Thanks Christophe)
-# [#20644] [PATCH] Fix a small comment error. Thanks Rouven.
-# [#20513] Can't override default_ftp in com_install (Thanks Christophe)
-# [#20498] mod_menu default renderer adds "Menu Tag ID" to class name (Thanks Bill)
-# [#20472] Error: Article Saved Successfully (Beez)
-# [#20649] ID property is translated in "Templates Manager: Edit Style" page. Thanks Dennis
-$ Consolidated some strings.
+ # [#20630] Changing site language does not work if the same content one does not exist (Thanks Christophe)
+ # [#20644] [PATCH] Fix a small comment error. Thanks Rouven.
+ # [#20513] Can't override default_ftp in com_install (Thanks Christophe)
+ # [#20498] mod_menu default renderer adds "Menu Tag ID" to class name (Thanks Bill)
+ # [#20472] Error: Article Saved Successfully (Beez)
+ # [#20649] ID property is translated in "Templates Manager: Edit Style" page. Thanks Dennis
+ $ Consolidated some strings.
 #+ [#20479] Install Sample Data button does not become 'un-clickable' after install. Thanks Nicholas.
-$ Added some strings missing in 20479
+ $ Added some strings missing in 20479
 
 25-May-2010 Mark Dexter
-# Fixed names of sample data images
+ # Fixed names of sample data images
 
 25-May-2010 Christophe Demko
  # Fixed [#20567] Com_Redirect save as copy does not work (tries to save with same name) (thanks Elin Waring, Tim Plummer,Christopher Garvis and Amy Stephen) 
@@ -496,7 +499,7 @@ $ Added some strings missing in 20479
  # Fixed UI in language manager
 
 25-May-2010 Jean-Marie Simonet
-# [#20608] Double Pathway / Breadcrumb
+ # [#20608] Double Pathway / Breadcrumb
 
 25-May-2010 Andrew Eddie
  # Fixed issue [#20601] User Manager - parent field does not display when creating a new group.
@@ -513,204 +516,204 @@ $ Added some strings missing in 20479
  # Fixed issue [#20619] Global configuration allows you to save an invalid email (Elin Waring).
  
 24-May-2010 Jean-Marie Simonet
-# [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.
-# [#20569] mod_login.xml manifest cites incorrect index file. Thanks Jeremy.
-# [#20545] Possible to delete all usergroups, can't do anything after that. Thanks Radek.
-# [#20313] com_messages.messages search query. Thanks Phill.
-$ Consolidated some strings
+ # [#20580] Fatal error when saving module and editing "Publish Start" or "Publish Finish". Thanks Radek.
+ # [#20569] mod_login.xml manifest cites incorrect index file. Thanks Jeremy.
+ # [#20545] Possible to delete all usergroups, can't do anything after that. Thanks Radek.
+ # [#20313] com_messages.messages search query. Thanks Phill.
+ $ Consolidated some strings
 #+ [#20528] Inconsistency in user groups [sample data]. Tree rebuilding. Thanks Christophe.
-# [#20533] Fatal error "Call to undefined method JAdministrator::getLanguageFilter()" when enabling search logging + "Show Search Results". Thanks Denis and Christophe.
-+ [#20592] Add sample data positions to Atomic. Thanks Elin.
-# [#20607] "witdh" instead of "width" in mod_banners default template. Thanks Michael.
-# [#20600] New user does not set user group for new user (Back-end). Thanks Andrew.
-# [#20439] article count always zero. Thanks Christopher.
+ # [#20533] Fatal error "Call to undefined method JAdministrator::getLanguageFilter()" when enabling search logging + "Show Search Results". Thanks Denis and Christophe.
+ + [#20592] Add sample data positions to Atomic. Thanks Elin.
+ # [#20607] "witdh" instead of "width" in mod_banners default template. Thanks Michael.
+ # [#20600] New user does not set user group for new user (Back-end). Thanks Andrew.
+ # [#20439] article count always zero. Thanks Christopher.
 
 23-May-2010 Mark Dexter
-# Sample data fixes (Elin Waring)
+ # Sample data fixes (Elin Waring)
 
 23-May-2010 Jean-Marie Simonet
 [#20568] Update publish time on front end. Thanks Michael.
 [#20465] Notice: Undefined property: stdClass::$author_name on many pages. Thanks Bill.
-$ Completing some language strings
+ $ Completing some language strings
 
 22-May-2010 Jean-Marie Simonet
-$ [#20564] Inconsistence between userS and user view
-# [#20469] Notice: Trying to get property of non-object in /components/com_weblinks/views/form/tmpl/edit.php on line 47
-# [#20486] Published date not being generated
-# [#20511] Database error prevents installation (PHP strict)
-$ Adding missing string. Sorting some main ini strings.
-# [#20556] Home menu items are routed with alias if language switcher plugin is off. Thanks Dennis
-$ [#20566] Change "Other Informations" to "Other Information". Thanks Michael.
+ $ [#20564] Inconsistence between userS and user view
+ # [#20469] Notice: Trying to get property of non-object in /components/com_weblinks/views/form/tmpl/edit.php on line 47
+ # [#20486] Published date not being generated
+ # [#20511] Database error prevents installation (PHP strict)
+ $ Adding missing string. Sorting some main ini strings.
+ # [#20556] Home menu items are routed with alias if language switcher plugin is off. Thanks Dennis
+ $ [#20566] Change "Other Informations" to "Other Information". Thanks Michael.
  
 21-May-2010 Jean-Marie Simonet
-# Sample data error [20550]. Thanks Radek.
-$ Adapted some com_search strings to different languages
-$ Took off what should not be a custom key in beez [20553]
-# [#20558] Correcting wrong featured layout
+ # Sample data error [20550]. Thanks Radek.
+ $ Adapted some com_search strings to different languages
+ $ Took off what should not be a custom key in beez [20553]
+ # [#20558] Correcting wrong featured layout
 
 20-May-2010 Christophe Demko
  # Fixed misspelling variable name in JLanguage
  # Fixed [#20543] Site language changing does not work
 
 20-May-2010 Jean-Marie Simonet
-# Fixed accidentally deleted com_users in sql jos_extensions
-+ Implementing auto language metadata [20284]
-$ Fixing strings in contact
-# Fixing category name/title in single contact. (Thanks Bill)
-^ New JDate::toFormat [20531] Thanks Christophe.
-# Saving Banners urls in the clickurl db field [20532]
+ # Fixed accidentally deleted com_users in sql jos_extensions
+ + Implementing auto language metadata [20284]
+ $ Fixing strings in contact
+ # Fixing category name/title in single contact. (Thanks Bill)
+ ^ New JDate::toFormat [20531] Thanks Christophe.
+ # Saving Banners urls in the clickurl db field [20532]
 
 19-May-2010 Mark Dexter
-# Sample data fixes (Elin Waring)
+ # Sample data fixes (Elin Waring)
 
 19-May-2010 Jean-Marie Simonet
-$ Updating en-GB.xml files
-$ Fixed [20510] Buttons untranslated.
-$ Fixed untranslated strings [20512] Thanks elin
-$ Fixed image path for category display [20491] Thanks Bill.
-$ Fixed missing Key [20509] Thanks Airton
-$ Added missing strings.
-$ Corrected en-US installation ini file. (Thanks Elin and Phil)
-# Milkyway errors [20499] Thanks Elin.
-$ Correcting string value [20482] Thanks Andrea
-+ Added Cancel button in profile edit form [19699] Thanks Nate.
-# Corrected admin mod_menu duplicate [20503]. Thanks Greg.
+ $ Updating en-GB.xml files
+ $ [#20510] Fixed Buttons untranslated.
+ $ [#20512] Fixed untranslated strings.  Thanks elin
+ $ [#20491] Fixed image path for category display. Thanks Bill.
+ $ [#20509] Fixed missing Key. Thanks Airton
+ $ Added missing strings.
+ $ Corrected en-US installation ini file. (Thanks Elin and Phil)
+ # [#20499] Milkyway errors.  Thanks Elin.
+ $ [#20482] Correcting string value. Thanks Andrea
+ + [#19699] Added Cancel button in profile edit form [19699] Thanks Nate.
+ # [#20503] Corrected admin mod_menu duplicate. Thanks Greg.
 
 18-May-2010 Christophe Demko
  ^ Change template default style when installing
- # Fixed issue [#20488] Small CSS issue in config modal (Viet Vu Hoang)
+ # [#20488] Small CSS issue in config modal (Viet Vu Hoang)
 
 18-May-2010 Jean-Marie Simonet
-# Config fieldset description patch (Thanks you Dennis)
-# Consolidated some strings
+ # Config fieldset description patch (Thanks you Dennis)
+ # Consolidated some strings
 
 
 -------------------- 1.6.0 Beta Release [17-May-2010] ------------------
 
 17-May-2010 Ron Severdia
-# Fixed UI in Menu Manager and ACL widget
+ # UI in Menu Manager and ACL widget
 
 17-May-2010 Mark Dexter
-# Fix display error in Parks image gallery
+ # display error in Parks image gallery
 
 17-May-2010 Jean-Marie Simonet
-$ Fixed some beez language strings + a CSS in bluestork
-$ Fixed some com_users language issues
-$ Adding missing strings in com_users (WIP)
+ $ beez language strings + a CSS in bluestork
+ $ com_users language issues
+ $ Adding missing strings in com_users (WIP)
 
 17-May-2010 Ron Severdia
-# Fix CSS & language strings for Weblinks UI
-+ Added missing icon
-$ Language fixes
+ # CSS & language strings for Weblinks UI
+ + Added missing icon
+ $ Language fixes
 
 17-May-2010 Christophe Demko
- $ Fix one string
- # Fix xml files
- # Fix PHP Notice:  Undefined variable: file in libraries/joomla/installer/adapters/component.php on line 1328
- # Fix [#20429] Last Visit Date -1-11-30 00:00:00 When Creating New User (Matt Thomas)
- # Fix PHP Warning:  date(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set()
- # Fix some css for administrator login
+ $ One string
+ # xml files
+ # PHP Notice:  Undefined variable: file in libraries/joomla/installer/adapters/component.php on line 1328
+ # [#20429] Last Visit Date -1-11-30 00:00:00 When Creating New User (Matt Thomas)
+ # PHP Warning:  date(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set()
+ # Some css for administrator login
  # Ensure there exists a default published menu item when changing home
  # Ensure there exists a default menu item while deleting menu items
  # Ensure there exists a default menu item while deleting menus
- # Fix display modules linked to a menu (menus view)
- # Fix sample_data.sql
+ # Display modules linked to a menu (menus view)
+ # sample_data.sql
  # Rename bad named images
- # Fix [#20300] Article archive
+ # [#20300] Article archive
  ^ Ordering of toolbar icons for some views
 
 17-May-2010 Mark Dexter
-# Fix language strings in New Menu Item
+ # Fix language strings in New Menu Item
 
 17-May-2010 Andrew Eddie
- ^ Fixed issue [#20431] Module cache not activated in defult installation and sample data module parameters (Klas Berlič)
- # Fixed issue [#20445] The pagebreak plugin produces a fatal error.
- # Fixed issue [#20452] Turn off module debugging by default (Elin Waring).
- # Fixed issue [#20430] Multiple cache and performance related optimizations and bugfixes - results in 30% decrease on load times (Klas Berlič).
- # Fixed issue [#20318] Change confusing language in installer (Elin Waring).
- # Fixed issue [#20386] [patch] update Hathor overrides with changes made to com_menu default_batch.php (Andrea Tarr).
- # Fixed issue [#20163] Media Manager Max Upload Size displaying incorrectly (Anthony McLin, Elin Waring).
- # Fixed issue [#20435] single newsfeed error.
- # Fixed issue [#20287] Rendering config.xml files generates php warning [patch included] (Jonatas Braganca).
- # Fixed issue [#20410] Module Manager for Admin modules includes Site only options (Elin Waring).
- # Fixed issue [#20292] Cannot change a menu type that is set to alias.
- # Fixed issue [#20172] Various errors during module saving in backend.
- # Fixed bug where you could not add a new Adminstrator module.
- # Fixed issue [#20454] Menu item filter includes archived state (Elin Waring).
- # Fixed bug in com_content category view, default layouts where date was not honouring option settings.
- # Fixed issue [#20316] jhtml category warning (Phil Snell).
+ ^ [#20431] Module cache not activated in defult installation and sample data module parameters (Klas Berlič)
+ # [#20445] The pagebreak plugin produces a fatal error.
+ # [#20452] Turn off module debugging by default (Elin Waring).
+ # [#20430] Multiple cache and performance related optimizations and bugfixes - results in 30% decrease on load times (Klas Berlič).
+ # [#20318] Change confusing language in installer (Elin Waring).
+ # [#20386] [patch] update Hathor overrides with changes made to com_menu default_batch.php (Andrea Tarr).
+ # [#20163] Media Manager Max Upload Size displaying incorrectly (Anthony McLin, Elin Waring).
+ # [#20435] single newsfeed error.
+ # [#20287] Rendering config.xml files generates php warning [patch included] (Jonatas Braganca).
+ # [#20410] Module Manager for Admin modules includes Site only options (Elin Waring).
+ # [#20292] Cannot change a menu type that is set to alias.
+ # [#20172] Various errors during module saving in backend.
+ # Could not add a new Adminstrator module.
+ # [#20454] Menu item filter includes archived state (Elin Waring).
+ # Com_content category view, default layouts where date was not honouring option settings.
+ # [#20316] jhtml category warning (Phil Snell).
 
 16-May-2010 Mark Dexter
-# [#20312] Access Control not implemented in menus
-# [#20450] Missing modal and field for single news feed selection
-# Sample data fixes (Elin Waring)
-# Fix default component parameters (Elin Waring)
-# Partial fix of system tests
+ # [#20312] Access Control not implemented in menus
+ # [#20450] Missing modal and field for single news feed selection
+ # Sample data fixes (Elin Waring)
+ # Fix default component parameters (Elin Waring)
+ # Partial fix of system tests
 
 16-May-2010 Chris Davenport
-$ Translate help screen titles in com_admin
+ $ Translate help screen titles in com_admin
 
 16-May-2010 Ron Severdia
-# Fixed CSS and bug in admin login
-# IE compatibility fixes
+ # Fixed CSS and bug in admin login
+ # IE compatibility fixes
 
 16-May-2010 Sam Moffatt
- # Fixed issue with front end router and invalid menu items
- # Fixed [#20449] Web link submit form is broken (thanks Elin)
+ # Issue with front end router and invalid menu items
+ # [#20449] Web link submit form is broken (thanks Elin)
 
 16-May-2010 Christophe Demko
- # Fix [#20428] Deleting A Menu Does Not Delete Menu Items
+ # [#20428] Deleting A Menu Does Not Delete Menu Items
  # Reenabling filters in manage view
  # fix some ACL
 
 16-May-2010 Ron Severdia
-# BlueStork fixes, new icons, language fixes
+ # BlueStork fixes, new icons, language fixes
 
 16-May-2010 Jean-Marie Simonet
-$ Fixed some Beez language keys
-^ Fixed Beez sitedescription
-$ Fixed and consolidate some language strings
-# Fixed base category description [20447]. Thanks Elin.
-$ Fixed some language strings
+ $ Fixed some Beez language keys
+ ^ Fixed Beez sitedescription
+ $ Fixed and consolidate some language strings
+ # Fixed base category description [20447]. Thanks Elin.
+ $ Fixed some language strings
 
 15-May-2010 Ron Severdia
-# Fixed CSS issues with BlueStork
-$ Corrected language strings
-# Fixed UI exceptions
-+ New BlueStork icons
+ # Fixed CSS issues with BlueStork
+ $ Corrected language strings
+ # Fixed UI exceptions
+ + New BlueStork icons
 
 15-May-2010 Chris Davenport
-# Fix [20375] Undefined variable in com_admin
-# Fixed bad translation of help key references in com_admin
+ # Fix [20375] Undefined variable in com_admin
+ # Fixed bad translation of help key references in com_admin
 
 15-May-2010 Mark Dexter
-# Fixed issues with sample data (Elin Waring)
-^ Added title and subtitle to the params (Angie Radtke)
-^ Added joomla_logos (Angie Radtke)
-# Updated language file (Angie Radtke)
-# Deleted unused image (Angie Radtke)
-# Fixed language string (Angie Radtke)
-# Fixed problem with root category description [#20296] (Elin Waring)
-# More sample data fixes (Elin Waring)
+ # Fixed issues with sample data (Elin Waring)
+ ^ Added title and subtitle to the params (Angie Radtke)
+ ^ Added joomla_logos (Angie Radtke)
+ # Updated language file (Angie Radtke)
+ # Deleted unused image (Angie Radtke)
+ # Fixed language string (Angie Radtke)
+ # Fixed problem with root category description [#20296] (Elin Waring)
+ # More sample data fixes (Elin Waring)
 
 15-May-2010 Christophe Demko
  ^ Consolidate JHtmlJGrid functions
  ^ Consolidate icons and hathor template
 
 15-May-2010 Jean-Marie Simonet
-$ Added missing string
-^ Changed id to author name in edit icon overlib
-$ Consolidated string
-# Fixed language saving bug in com_contacts
-^ Implemented JText::plural in mod_whosonline
-$ Completed deleting legacy strings and sorting ini strings in files front-end [6]
+ $ Added missing string
+ ^ Changed id to author name in edit icon overlib
+ $ Consolidated string
+ # Fixed language saving bug in com_contacts
+ ^ Implemented JText::plural in mod_whosonline
+ $ Completed deleting legacy strings and sorting ini strings in files front-end [6]
 
 15-May-2010 Sam Moffatt
  + Added setRedirect to JInstaller to permit extensions to flag that they want to redirect the user post install
  # Ensuring the new script tag permits the same features as the old com_install/com_uninstall triggers (e.g. can abort install on false)
 
 14-May-2010 Mark Dexter
-^ Minor tweak to beez_20 to fix Eclipse validation
+ ^ Minor tweak to beez_20 to fix Eclipse validation
 
 14-May-2010 Christophe Demko
  + Enabling new icons in admin menu
@@ -719,18 +722,18 @@ $ Completed deleting legacy strings and sorting ini strings in files front-end [
  + Add checkin task
 
 14-May-2010 Jean-Marie Simonet
-$ Deleting legacy strings and sorting ini strings in files [1]
-$ Deleting legacy strings and sorting ini strings in files [2]
-$ Deleting legacy strings and sorting ini strings in files [3]
-$ Deleting legacy strings and sorting ini strings in files front-end [4]
-$ Adding a string in com_content
-$ Deleting legacy strings and sorting ini strings in files front-end [5]
+ $ Deleting legacy strings and sorting ini strings in files [1]
+ $ Deleting legacy strings and sorting ini strings in files [2]
+ $ Deleting legacy strings and sorting ini strings in files [3]
+ $ Deleting legacy strings and sorting ini strings in files front-end [4]
+ $ Adding a string in com_content
+ $ Deleting legacy strings and sorting ini strings in files front-end [5]
 
 14-May-2010 Andrew Eddie
  ^ Updated the language descriptions for permissions.
 
 13-May-2010 Jean-Marie Simonet
-$ Consolidated some strings
+ $ Consolidated some strings
 
 13-May-2010 Hannes Papenberg
  # Fixed several HTML errors
@@ -752,10 +755,10 @@ $ Consolidated some strings
  # Ensure that there exists only one default template style
 
 12-May-2010 Jean-Marie Simonet
-# Corrected com_redirect component_id in jos_menu table
-+ Added Global configuration button in Control panel [20407] Thanks Ronald de Vries.
-$ Corrected/added keys/strings all over admin
-$ Removed 1.5 legacy strings from main ini files
+ # Corrected com_redirect component_id in jos_menu table
+ + Added Global configuration button in Control panel [20407] Thanks Ronald de Vries.
+ $ Corrected/added keys/strings all over admin
+ $ Removed 1.5 legacy strings from main ini files
 
 12-May-2010 Andrew Eddie
  ^ Set Beez2 as the default template (awesome work by Angie Radtke).
@@ -765,8 +768,8 @@ $ Removed 1.5 legacy strings from main ini files
  # Fixed [#20393] creating an editor with buttons=true does not show any buttons
 
 11-May-2010 Jean-Marie Simonet
-^ Correcting extension/example xml plugin
-^ Hathor's update [Andrea Tarr]
+ ^ Correcting extension/example xml plugin
+ ^ Hathor's update [Andrea Tarr]
 
 11-May-2010 Christophe Demko
  # Fix Pb saving editors-xtd group plugins
@@ -779,17 +782,17 @@ $ Removed 1.5 legacy strings from main ini files
  # Fix [#20327] Contact fatal error
 
 10-May-2010 Jean-Marie Simonet
-+ Adding new user admin approval registration (Thanks Airton Torres)
-# Enabling editors-xtd buttons in com_content
-^ Hathor's views (20384]
-^ Hathor's mod_status params [20385]
-$ Adding missing string
+ + Adding new user admin approval registration (Thanks Airton Torres)
+ # Enabling editors-xtd buttons in com_content
+ ^ Hathor's views (20384]
+ ^ Hathor's mod_status params [20385]
+ $ Adding missing string
 
 09-May-2010 Ron Severdia
-# BlueStork UI fixes
-# CSS cleanup
-# Language fixes
-+ New icons
+ # BlueStork UI fixes
+ # CSS cleanup
+ # Language fixes
+ + New icons
 
 10-May-2010 Christophe Demko
  + Reinsert mod_languages and plg_systemlanguage filter extension
@@ -799,25 +802,25 @@ $ Adding missing string
  + Add language filter on some hathor views
 
 09-May-2010 Hannes Papenberg
-# Some fixes to beez 2.0 - Thanks Angie Radtke
+ # Some fixes to beez 2.0 - Thanks Angie Radtke
 
 09-May-2010 Christophe Demko
  ^ Adding login position in administrator templates
  ^ Fix #17020
 
 09-May-2010 Jean-Marie Simonet
-$ Changed Keys for com_search [20373] + some
-# Fixed template files edit/save
-$ Correcting some strings
-$ Consolidated some strings
-$ Refactored offline.php ini/strings
+ $ Changed Keys for com_search [20373] + some
+ # Fixed template files edit/save
+ $ Correcting some strings
+ $ Consolidated some strings
+ $ Refactored offline.php ini/strings
 
 08-May-2010 Christophe Demko
  #^ Allowing languages to use specified lower/upper limit and length of displayed result for text search (http://groups.google.fr/group/joomla-dev-cms/browse_thread/thread/3b0ecd3ba64e973e)
  # Correcting a bug for unique menu item alias
 
 08-May-2010 Jean-Marie Simonet
-# Correcting 16193 (Thanks Elin)
+ # Correcting 16193 (Thanks Elin)
 
 08-May-2010 Sam Moffatt
  ^ [#20348] Patch for renumbering of core extensions in extensions table (Thanks Elin!)
@@ -826,19 +829,19 @@ $ Refactored offline.php ini/strings
  ^ Altered SQL handling for component/module/plugin update handling
 
 08-May-2010 Jean-Marie Simonet
-$ Consolidated some strings
-# Corrected double translation in jgrid
+ $ Consolidated some strings
+ # Corrected double translation in jgrid
 
 07-May-2010 Ian MacLennan
-# Fixed error in JString::strspn that caused unit tests to fail on systems without mbstring
+ # Fixed error in JString::strspn that caused unit tests to fail on systems without mbstring
 
 07-May-2010 Jean-Marie Simonet
-$ Consolidated some strings
-# Fixing installation issue _ Thank you Dennis Hermatski
-$ Deleting unused strings in main ini file
-$ Changed toolbar to "Delete" in com_users
-# Fixed [20365] Config modal error display. Thank you Artyom.
-# Fixed Translation of memcache/file in cache handler (Thanks Dennis)
+ $ Consolidated some strings
+ # Fixing installation issue _ Thank you Dennis Hermatski
+ $ Deleting unused strings in main ini file
+ $ Changed toolbar to "Delete" in com_users
+ # Fixed [20365] Config modal error display. Thank you Artyom.
+ # Fixed Translation of memcache/file in cache handler (Thanks Dennis)
 
 07-May-2010 Ian MacLennan
  # Fixing unit tests to reflect database changes
@@ -860,12 +863,12 @@ $ Changed toolbar to "Delete" in com_users
  - Removing stubbed comments support.
 
 06-May-2010 Jean-Marie Simonet
-#Fixed [20344] menu item alias . thanks Dennis and Elin
-+ Adding language column in menu items view
+ # [#20344] menu item alias . thanks Dennis and Elin
+ + Adding language column in menu items view
 
 06-May-2010 Mark Dexter
-# Fix problem with sample data duplicate mainmenu (Elin Waring)
-# Show edit icon on frontpage and category blog when print and email icons disabled
+ # Fix problem with sample data duplicate mainmenu (Elin Waring)
+ # Show edit icon on frontpage and category blog when print and email icons disabled
 
 06-May-2010 Christophe Demko
  # Corrected a bug in #16862 (lack of languages table during installation)
@@ -886,11 +889,11 @@ $ Changed toolbar to "Delete" in com_users
  # Fix bug in JApplicationSite::addClientInfo (Júlio Pontes).
 
 05-May-2010 Christophe Demko
-# Correcting a bug in the com_installer manage view
-$ Change a string in com_languages
+ # Correcting a bug in the com_installer manage view
+ $ Change a string in com_languages
 
 05-May-2010 Jean-Marie Simonet
-$ Adding delete strings and code to Menu type deleting.
+ $ Adding delete strings and code to Menu type deleting.
 
 05-May-2010 Andrew Eddie
  ^ Renamed "installer" plugin group to "extension".
@@ -900,9 +903,9 @@ $ Adding delete strings and code to Menu type deleting.
  + Added stanard support for onContentBeforeDelete, onContentAfterDelete and onContentChangeState events in JModelAdmin.
 
 04-May-2010 Jean-Marie Simonet
-$ Refactored ini files structure for test alphas
-$ ^ A few fixes for Hathor
-# Bug fixes
+ $ Refactored ini files structure for test alphas
+ $ ^ A few fixes for Hathor
+ # Bug fixes
 
 04-May-2010 Andrew Eddie
  ^ Merge patched to cache the query building in JModelList (Christophe Demko).
@@ -925,7 +928,7 @@ $ ^ A few fixes for Hathor
    to onContentAfterTitle, onContentBeforeDisplay, onContentAfterDisplay.
 
 3-May-2010 Jean-Marie Simonet
-# Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages
+ # Fixed [20314] (Thanks Phil Snell). Added/consolidated some strings in com_messages
 
 03-May-2010 Christophe Demko
  ^ Add an xml attribute to editor field: 'hide' to specify which buttons to hide
@@ -939,28 +942,28 @@ $ ^ A few fixes for Hathor
  ^ Accepted patch [#20161] Caching of plugins query + JPluginHelper refactoring to JDatabaseQuery (Dennis Hermacki)
 
 2-May-2010 Christophe Demko
-# Correcting a bug I have introduced on commit #16536
+ # Correcting a bug I have introduced on commit #16536
 
 2-May-2010 Jean-Marie Simonet
-$ Consolidating some categories, contact, newsfeeds, weblinks,content strings
-$ Refactoring com_contacts frontend ini/keys
-$ Added calendar image in front-end (Thanks Bill)
-$ Moving icons for com_contact to new folder in media/contacts/images/
-$ Correcting/consolidating strings
-^ Adding fax in contact edit
-# Correcting mod_banners [20301](thanks Phil Snell)
+ $ Consolidating some categories, contact, newsfeeds, weblinks,content strings
+ $ Refactoring com_contacts frontend ini/keys
+ $ Added calendar image in front-end (Thanks Bill)
+ $ Moving icons for com_contact to new folder in media/contacts/images/
+ $ Correcting/consolidating strings
+ ^ Adding fax in contact edit
+ # Correcting mod_banners [20301](thanks Phil Snell)
 
 01-May-2010 Hannes Papenberg
-# Fixing base-tag for SEF mode without mod_rewrite
+ # Fixing base-tag for SEF mode without mod_rewrite
 
 1-May-2010 Jean-Marie Simonet
-$ Refactoring com_contents back-end ini/keys
-$ Refactoring com_contents front-end ini/keys (WIP)
-$ Completing what can be done refactoring com_contents front-end ini/keys
+ $ Refactoring com_contents back-end ini/keys
+ $ Refactoring com_contents front-end ini/keys (WIP)
+ $ Completing what can be done refactoring com_contents front-end ini/keys
 
 
 30-Apr-2010 Christophe Demko & Jean-Marie Simonet
-# Fixed problems in com_banners
+ # Fixed problems in com_banners
 
 30-Apr-2010 Andrew Eddie
  # Fixed [#20230] Filter in session impacts modals elsewhere.
@@ -968,34 +971,34 @@ $ Completing what can be done refactoring com_contents front-end ini/keys
  # Fixed [#17020] Refactoring com_login component: error on at the end of inactivity period.
 
 30-Apr-2010 Jean-Marie Simonet
-$ Refactored com_categories ini/keys
-$ Refactored com_users frontend ini/keys + loading plg_profile ini in front end
-$ Refactoring com_content back-end ini/keys (WIP)
+ $ Refactored com_categories ini/keys
+ $ Refactored com_users frontend ini/keys + loading plg_profile ini in front end
+ $ Refactoring com_content back-end ini/keys (WIP)
 
 29-Apr-2010 Jean-Marie Simonet & Christophe Demko
-$ Customizing Save success all over the UI
+ $ Customizing Save success all over the UI
 
 29-Apr-2010 Hannes Papenberg
-# Fixed parameters in install SQL and sampledata from INI to JSON
-# Fixed errors in JFilterInput
+ # Fixed parameters in install SQL and sampledata from INI to JSON
+ # Fixed errors in JFilterInput
 
 29-Apr-2010 Christophe Demko
-# Fixed [#20232] Discovery method of installing templates doesn't insert a style (thanks Omar Ramos)
-# Saving and loading image banner (thanks Jonathan cheung)
-+ Add metadesc and metakey fields to the #__language table (http://groups.google.com/group/joomla-dev-cms/browse_thread/thread/828869eb50004b97)
-# Fixed warning deprecated function ereg in php 5.3 libraries/joomla/client/ftp.php
-# Fixed warning date(): It is not safe to rely on the system's timezone settings (php 5.3). libraries/joomla/utilities/date.php
+ # Fixed [#20232] Discovery method of installing templates doesn't insert a style (thanks Omar Ramos)
+ # Saving and loading image banner (thanks Jonathan cheung)
+ + Add metadesc and metakey fields to the #__language table (http://groups.google.com/group/joomla-dev-cms/browse_thread/thread/828869eb50004b97)
+ # Fixed warning deprecated function ereg in php 5.3 libraries/joomla/client/ftp.php
+ # Fixed warning date(): It is not safe to rely on the system's timezone settings (php 5.3). libraries/joomla/utilities/date.php
 
 29-Apr-2010 Andrew Eddie
  # Fixed [#20102] Powered By 1.5 image
  ^ Improve permission (allow/deny) select list titles for better accessibility.
 
 28-Apr-2010 Hannes Papenberg
-# Fixed some bugs in beez 2.0 and added font - Thanks Angie Radtke!
+ # Fixed some bugs in beez 2.0 and added font - Thanks Angie Radtke!
 
 28-Apr-2010 Jean-Marie Simonet
-# Loading plg_user_profile ini in User edit.
-$ Sorting com_users back-end in/keys
+ # Loading plg_user_profile ini in User edit.
+ $ Sorting com_users back-end in/keys
 
 28-Apr-2010 Andrew Eddie
  + Accepted patch [#19659] JApplication::_create session() expires sessions on each page load and creates additional load (Dennis Hermacki)
@@ -1003,38 +1006,38 @@ $ Sorting com_users back-end in/keys
  # Fixed [#20231] You can save two default menu items
 
 27-Apr-2010 Mark Dexter
-# Make sure archive is consistently value = 2 (Elin Waring)
-# Update search plugins (Elin Waring)
-# Sample data fixes (Elin Waring)
-# String for templates view (Elin Waring)
-# ACL for editing template files; mark the link to the template view (Elin Waring)
-# Fix order in components (Elin Waring)
+ # Make sure archive is consistently value = 2 (Elin Waring)
+ # Update search plugins (Elin Waring)
+ # Sample data fixes (Elin Waring)
+ # String for templates view (Elin Waring)
+ # ACL for editing template files; mark the link to the template view (Elin Waring)
+ # Fix order in components (Elin Waring)
 
 27-Apr-2010 Jean-Marie Simonet
-$ Refactoring com_users back-end in/keys
+ $ Refactoring com_users back-end in/keys
 
 27-Apr-2010 Christophe Demko
-# Fixed [#20116] Administrator com_banners cannot select banner image
-# Fixed [#18510] Category Manager / New + Edit Category: Image Attribute has no Browse button
-# Fixed [#20236] Editing of template fiies is not working
-# Fixed [#18561] Ftp find path and verify setting in installation
+ # Fixed [#20116] Administrator com_banners cannot select banner image
+ # Fixed [#18510] Category Manager / New + Edit Category: Image Attribute has no Browse button
+ # Fixed [#20236] Editing of template fiies is not working
+ # Fixed [#18561] Ftp find path and verify setting in installation
 
 27-Apr-2010 Andrew Eddie
  # Fixed [#20223] Custom Code in Banner system is not saved / not used.
 
 27-Apr-2010 Hannes Papenberg
-# Performance improvement to JFactory
-# Small performance improvements ot JRegistry, JFactory::getCache()
-# Codecleanup of JURI
-# Fixed Unittests of JCache, JCacheStorage, JAccess, JTableContent
+ # Performance improvement to JFactory
+ # Small performance improvements ot JRegistry, JFactory::getCache()
+ # Codecleanup of JURI
+ # Fixed Unittests of JCache, JCacheStorage, JAccess, JTableContent
 
 26-Apr-2010 Hannes Papenberg
-# Performance Improvements in JMenuSite, JObservable, JURI, JError, JDispatcher, JFilterinput, JPluginHelper, JPlugin, JRegistry
-# Fixed errors in JControllerTest, JControllerFormTest, JCacheStorageTest, JCacheTest, JTableContentTest, JUserTest, JDateTest
+ # Performance Improvements in JMenuSite, JObservable, JURI, JError, JDispatcher, JFilterinput, JPluginHelper, JPlugin, JRegistry
+ # Fixed errors in JControllerTest, JControllerFormTest, JCacheStorageTest, JCacheTest, JTableContentTest, JUserTest, JDateTest
 
 26-Apr-2010 Jean-Marie Simonet
-$ Started refactoring com_users back-end in/keys
-^ Moved Beez language file to core folder
+ $ Started refactoring com_users back-end in/keys
+ ^ Moved Beez language file to core folder
 
 26-Apr-2010 Andrew Eddie
  # Fixed error when saving an editor-xtd plugin.
@@ -1050,13 +1053,13 @@ $ Started refactoring com_users back-end in/keys
  # Fixed [#19704] User details cleared when adding new user fails (also fixed in all other affected components).
 
 25-Apr-2010 Jean-Marie Simonet
-$ Added some strings in frontend main ini
-$ Refactored error.php strings
-$ Completed libraries/J ini/keys refactoring
+ $ Added some strings in frontend main ini
+ $ Refactored error.php strings
+ $ Completed libraries/J ini/keys refactoring
 
 24-Apr-2010 Jean-Marie Simonet
-$ Simplified a string/code to avoid some language issues
-# Implementing Unarchive and Empty Trash buttons. Some standardization.
+ $ Simplified a string/code to avoid some language issues
+ # Implementing Unarchive and Empty Trash buttons. Some standardization.
 
 24-Apr-2010 Andrew Eddie
  # Refactor param and metadata handling in weblink and newsfeed edit forms.
@@ -1072,125 +1075,125 @@ $ Simplified a string/code to avoid some language issues
  ^ Changed computation of methods in JController constructor to use PHP's ReflectionClass.
 
 23-Apr-2010 Mark Dexter
-^ Added UI for new fields in contacts, newsfeeds, weblinks (Elin Waring)
-^ Added publish_up and publish_down checks to models (Elin Waring) 
+ ^ Added UI for new fields in contacts, newsfeeds, weblinks (Elin Waring)
+ ^ Added publish_up and publish_down checks to models (Elin Waring) 
 
 23-Apr-2010 Jean-Marie Simonet
-# Bug fix + new string
-$ Refactoring ini/keys in libraries/J/Installer/
-# Bug fix in com_languages (Thank you Dennis)
-$ Refactored com_languages keys + added strings
-$ Refactoring ini/keys in libraries/J/mail, plugin, registry, session + some
-$ Refactoring ini/keys in libraries/J/updater, user
+ # Bug fix + new string
+ $ Refactoring ini/keys in libraries/J/Installer/
+ # Bug fix in com_languages (Thank you Dennis)
+ $ Refactored com_languages keys + added strings
+ $ Refactoring ini/keys in libraries/J/mail, plugin, registry, session + some
+ $ Refactoring ini/keys in libraries/J/updater, user
 
 23-Apr-2010 Christophe Demko
-^ renaming some functions in JLanguage and JText relative to 'plural' and 'ignored search words' function
+ ^ renaming some functions in JLanguage and JText relative to 'plural' and 'ignored search words' function
 
 22-Apr-2010 Hannes Papenberg
-# Fixed JDispatcherTest
-# Fixed JCacheConstructTest
-# Fixed Parameters in ContentModelAtricles
-# Fixed some bugs in com_installer
+ # Fixed JDispatcherTest
+ # Fixed JCacheConstructTest
+ # Fixed Parameters in ContentModelAtricles
+ # Fixed some bugs in com_installer
 
 22-Apr-2010 Jean-Marie Simonet
-$ Refactoring ini/keys in libraries/J/Installer/pack and plugin + some
-# Bug fix in login.php
-$ Standardize Show, Hide, Hits
-# Bug fix in feed.php (Thanks Dennis)
-# More Bug fixes concerning feeds in com_contents
-$ Refactoring ini/keys in libraries/J/Installer/template + helper
+ $ Refactoring ini/keys in libraries/J/Installer/pack and plugin + some
+ # Bug fix in login.php
+ $ Standardize Show, Hide, Hits
+ # Bug fix in feed.php (Thanks Dennis)
+ # More Bug fixes concerning feeds in com_contents
+ $ Refactoring ini/keys in libraries/J/Installer/template + helper
 
 22-Apr-2010 Andrew Eddie
  ^ Refactoring of internal property names in the MVC classes.
 
 21-Apr-2010 Christophe Demko
-$# Changing en_GB to en-GB in sample_data.sql
+ $# Changing en_GB to en-GB in sample_data.sql
 
 21-Apr-2010 Andrew Eddie
  + Add magic __get method to JDate.
 
 21-Apr-2010 Jean-Marie Simonet
-$ Refactoring ini/keys in libraries/J/Installer/component
-$ Refactoring ini/keys in libraries/J/Installer/file
-$ Refactoring ini/keys in libraries/J/Installer/language
-$ Refactoring ini/keys in libraries/J/Installer/library
-$ Refactoring ini/keys in libraries/J/Installer/module
-# Fixing logout -which also fixes mod_logged- (Thank you Dennis!)
-# Fixing Toggle menu item selection in com_modules
-+ Adding custom positions for modules (Thanks Dennis)
+ $ Refactoring ini/keys in libraries/J/Installer/component
+ $ Refactoring ini/keys in libraries/J/Installer/file
+ $ Refactoring ini/keys in libraries/J/Installer/language
+ $ Refactoring ini/keys in libraries/J/Installer/library
+ $ Refactoring ini/keys in libraries/J/Installer/module
+ # Fixing logout -which also fixes mod_logged- (Thank you Dennis!)
+ # Fixing Toggle menu item selection in com_modules
+ + Adding custom positions for modules (Thanks Dennis)
 
 
 20-Apr-2010 Mark Dexter
-# Fix PHP notice in mod_logged
-^ Change name of component parameter from show_page_title to show_page_heading
-# Fixed parameters in content views (Angie Radtke)
-# Make global content parameters consistent with layouts, fix language tags
-# Fix parameter merge for content single category menu items
-# Fix param and language bugs in featured view
-# Fix parameter priority for single article view
-# Fix issue where an existing featured article could not be saved (Elin Waring)
+ # Fix PHP notice in mod_logged
+ ^ Change name of component parameter from show_page_title to show_page_heading
+ # Fixed parameters in content views (Angie Radtke)
+ # Make global content parameters consistent with layouts, fix language tags
+ # Fix parameter merge for content single category menu items
+ # Fix param and language bugs in featured view
+ # Fix parameter priority for single article view
+ # Fix issue where an existing featured article could not be saved (Elin Waring)
 
 20-Apr-2010 Andrew Eddie
  ^ Rename JModel _populateState to populateState, _getStoreId to getStoreId, _getListQuery to getListQuery.
 
 20-Apr-2010 Christophe Demko
-^+ Enhancing pluralisation of strings
+ ^+ Enhancing pluralisation of strings
 
 20-Apr-2010 Sam Moffatt
  ! EOL and Keywords bulk set
 
 19-Apr-2010 Jean-Marie Simonet
-#$ Refactoring mod_logged. TODO: correct forcelogout.
+ #$ Refactoring mod_logged. TODO: correct forcelogout.
 
 19-Apr-2010 Mark Dexter
-# Fix diff_15_to_16.sql for database changes
-# Fix index in contact_details table
+ # Fix diff_15_to_16.sql for database changes
+ # Fix index in contact_details table
 
 19-Apr-2010 Christophe Demko
-# Reenabling filters in plugins and manage view
-^ Speeding up manage and discover view in com_installer
-^ Speeding up modules and plugins view
+ # Reenabling filters in plugins and manage view
+ ^ Speeding up manage and discover view in com_installer
+ ^ Speeding up modules and plugins view
 
 19-Apr-2010 Jean-Marie Simonet
-^ Changing JText::__ to JText::plural
-$ Toolbar change to Publish/Unpublish in com_modules
-^ Fixed readonly list [20179]. (Thanks Artyom)
-$ Refactoring ini/keys in libraries/J/html. Consolidated some strings.
+ ^ Changing JText::__ to JText::plural
+ $ Toolbar change to Publish/Unpublish in com_modules
+ ^ Fixed readonly list [20179]. (Thanks Artyom)
+ $ Refactoring ini/keys in libraries/J/html. Consolidated some strings.
 
 18-Apr-2010 Ron Severdia
-# Clean up CSS for BlueStork
-# Clean up UI for Permissions Editor in Global Config.
+ # Clean up CSS for BlueStork
+ # Clean up UI for Permissions Editor in Global Config.
 
 18-Apr-2010 Mark Dexter
-# Fix parse error in libraries/joomla/form/form.php
-# Display of record number in edit forms (Elin Waring)
-# UI work on module manager and menu manager forms (Elin Waring)
-# Restore missing image parameter in contact (Elin Waring)
-# Fix up labels in com_contact (Elin Waring)
-# Add images for sample site (Elin Waring)
-# Fix bug in user profile (Elin Waring)
-# Fix recursion problem with loadposition (Klas Berlic)
-# Fix bug in counting modules (Elin Waring)
-+ Add fields to contact_details, newsfeeds, and weblinks tables in db (Elin Waring)
+ # Fix parse error in libraries/joomla/form/form.php
+ # Display of record number in edit forms (Elin Waring)
+ # UI work on module manager and menu manager forms (Elin Waring)
+ # Restore missing image parameter in contact (Elin Waring)
+ # Fix up labels in com_contact (Elin Waring)
+ # Add images for sample site (Elin Waring)
+ # Fix bug in user profile (Elin Waring)
+ # Fix recursion problem with loadposition (Klas Berlic)
+ # Fix bug in counting modules (Elin Waring)
+ + Add fields to contact_details, newsfeeds, and weblinks tables in db (Elin Waring)
 
 18-Apr-2010 Jean-Marie Simonet
-$ Added JText__ for item deletion. Correcting, adding some keys/inis
-$ Refactoring ini/keys in libraries/J/form
-$ Refactoring ini/keys in libraries/J/html + some, WIP
+ $ Added JText__ for item deletion. Correcting, adding some keys/inis
+ $ Refactoring ini/keys in libraries/J/form
+ $ Refactoring ini/keys in libraries/J/html + some, WIP
 
 17-Apr-2010 Mark Dexter
-# Change condition in JRegistry merge method to be consistent with get method
+ # Change condition in JRegistry merge method to be consistent with get method
 
 17-Apr-2010 Jean-Marie Simonet
-# Fixed [20169]. (Thanks Andrea]
-^ Added Title for accessibility [20171]. (Thanks Andrea]
+ # Fixed [20169]. (Thanks Andrea]
+ ^ Added Title for accessibility [20171]. (Thanks Andrea]
 
 16-Apr-2010 Mark Dexter
-# Fix JParameter merge bug with integer zero param value (plus unit test for same)
+ # Fix JParameter merge bug with integer zero param value (plus unit test for same)
 
 16-Apr-2010 Jean-Marie Simonet
-# Fixing mod_random_image (Thanks Dennis)
-# Fix translation of "ROOT" in parent field for categories (Thanks Dennis)
+ # Fixing mod_random_image (Thanks Dennis)
+ # Fix translation of "ROOT" in parent field for categories (Thanks Dennis)
 
 15-Apr-2010 Hannes Papenberg
  # Fixed Metadata retrieval in JCategories
@@ -1219,195 +1222,195 @@ $ Refactoring ini/keys in libraries/J/html + some, WIP
  ^ Refactor JControllerAdmin; update pluralisation in backend components.
 
 14-Apr-2010 Chrisotphe Demko
-# Changed en_GB to en-GB in sample_data.sql
+ # Changed en_GB to en-GB in sample_data.sql
 
 13-Apr-2010 Ron Severdia
-# Fixed many UI issues introduced by JForm and other updates
-$ Corrected and synchronized language terms
+ # Fixed many UI issues introduced by JForm and other updates
+ $ Corrected and synchronized language terms
 
 13-Arp-2010 Mark Dexter
-# Fixed category edit so that change parent category works again
-# Fixed category manager so that Empty Trash toolbar button shows
-# Refactored JTableNested move method to eliminate duplicate code
+ # Fixed category edit so that change parent category works again
+ # Fixed category manager so that Empty Trash toolbar button shows
+ # Refactored JTableNested move method to eliminate duplicate code
 
 13-Apr-2010 Jean-Marie Simonet
-# Fixed some Archive, Trash, Empty trash bugs + Strings.
-$ Updated xx-XX test language to current en-GB strings.
+ # Fixed some Archive, Trash, Empty trash bugs + Strings.
+ $ Updated xx-XX test language to current en-GB strings.
 
 13-Apr-2010 Christophe Demko
-# Re-enabling sorting in plugins and modules view (bug in commit #15980)
-+ Enabling the ability to sort an array of objects using multiple keys
-# Consolidating the consistency of menu items
+ # Re-enabling sorting in plugins and modules view (bug in commit #15980)
+ + Enabling the ability to sort an array of objects using multiple keys
+ # Consolidating the consistency of menu items
 
 12-Apr-2010 Jean-Marie Simonet
-$ Standardized some obsolete KEYS
-$ Consolidated/Standardized/created some keys/inis
-+$ Adding missing .sys.ini file
-# Fixing Articles Categories module. +$ Adding its language files + Adding it in sql
+ $ Standardized some obsolete KEYS
+ $ Consolidated/Standardized/created some keys/inis
+ +$ Adding missing .sys.ini file
+ # Fixing Articles Categories module. +$ Adding its language files + Adding it in sql
 
 11-Apr-2010 Hannes Papenberg
-# Fixing admin template parameters - Thanks Jonnathan S. Lima
-# Moved stick() function from BannersModelBanners to BannersModelBanner
-# Removed obsolete functions from BannersModelBanners
-# Improved routing code of ContentHelperRoute
+ # Fixing admin template parameters - Thanks Jonnathan S. Lima
+ # Moved stick() function from BannersModelBanners to BannersModelBanner
+ # Removed obsolete functions from BannersModelBanners
+ # Improved routing code of ContentHelperRoute
 
 11-Apr-2010 Jean-Marie Simonet
-# Fixed a typo in en-GB.ini in backend.
-#$ Refactoring ini/keys in libraries J/database
-$ Correcting —again— non standards keys
-# Fixing bug in controlleradmin.php
-$ Corrected —again- keys changed by #15980
-$ Corrected com_banners clients keys
-$ Corrected more ini strings
+ # Fixed a typo in en-GB.ini in backend.
+ #$ Refactoring ini/keys in libraries J/database
+ $ Correcting —again— non standards keys
+ # Fixing bug in controlleradmin.php
+ $ Corrected —again- keys changed by #15980
+ $ Corrected com_banners clients keys
+ $ Corrected more ini strings
 
 10-Apr-2010 Hannes Papenberg
-^ Created JCategories to handle all presentation-logic for categories
-# Rewrite of com_content
-# Rewrite of com_contact
-# Rewrite of com_newsfeeds
-# Rewrite of com_weblinks
-^ Changing all core files to use semantic output
-+ Added mod_articles_categories
-^ Changed com_content frontpage view to featured view
-^ Changed the routing of all core components
-# Fixed search plugins to use the new routing system
-# Fixed mod_menu
-# Fixed bug in JFormField
-# Fixed categories FormField
-# Fixed componentlayout FormField
-+ Added stripImages function to JFilterOutput
-^ Changed JHTMLString::truncate to close all open HTML tags of a truncated string
-+ Introduced JControllerAdmin
-+ Introdcued JModelAdmin
-# Fixed ordering, delete, publish, checkin, checkout in com_banners, com_contact, com_content, com_languages, com_newsfeeds, com_messages, com_modules, com_plugins, com_weblinks
-# Partially fixed ordering, delete, publish, checkin, checkout in com_categories, com_menus
-^+# Implemented a new caching and implemented it in all frontendcomponents and modules. Thank you Klas Berlic, this was great work. :-)
-# Fixed a typo in en-GB.ini in backend.
-+ Added rebuild function to com_menus
-# Fixed JControllerAdmin and JModelAdmin delete() and move()
-# Fixed move() in JTableNested
+ ^ Created JCategories to handle all presentation-logic for categories
+ # Rewrite of com_content
+ # Rewrite of com_contact
+ # Rewrite of com_newsfeeds
+ # Rewrite of com_weblinks
+ ^ Changing all core files to use semantic output
+ + Added mod_articles_categories
+ ^ Changed com_content frontpage view to featured view
+ ^ Changed the routing of all core components
+ # Fixed search plugins to use the new routing system
+ # Fixed mod_menu
+ # Fixed bug in JFormField
+ # Fixed categories FormField
+ # Fixed componentlayout FormField
+ + Added stripImages function to JFilterOutput
+ ^ Changed JHTMLString::truncate to close all open HTML tags of a truncated string
+ + Introduced JControllerAdmin
+ + Introdcued JModelAdmin
+ # Fixed ordering, delete, publish, checkin, checkout in com_banners, com_contact, com_content, com_languages, com_newsfeeds, com_messages, com_modules, com_plugins, com_weblinks
+ # Partially fixed ordering, delete, publish, checkin, checkout in com_categories, com_menus
+ ^+# Implemented a new caching and implemented it in all frontendcomponents and modules. Thank you Klas Berlic, this was great work. :-)
+ # Fixed a typo in en-GB.ini in backend.
+ + Added rebuild function to com_menus
+ # Fixed JControllerAdmin and JModelAdmin delete() and move()
+ # Fixed move() in JTableNested
 
 09-Apr-2010 Jean-Marie Simonet
-$ Refactoring ini/keys in libraries J/application/cache and J/application/client
+ $ Refactoring ini/keys in libraries J/application/cache and J/application/client
 
 09-Apr-2010 Hannes Papenberg
-# Fixed editing viewlevels
-# Fixed user-editing
-# Fixed user massmail
-# Fixed styling in image manager
-# Fixed adding readmore only when necessary
-# Fixed pagebreak
-# Fixed user edit screen to use the correct fieldtype
+ # Fixed editing viewlevels
+ # Fixed user-editing
+ # Fixed user massmail
+ # Fixed styling in image manager
+ # Fixed adding readmore only when necessary
+ # Fixed pagebreak
+ # Fixed user edit screen to use the correct fieldtype
 
 08-Apr-2010 Mark Dexter
-# Revert rev 15911 in file installation/controller.php (prevents sample data install)
-# Fix bug in user profile layout, custom layout (Elin Waring)
-^ Add new positions to Milky Way Template (Elin Waring)
-^ Sample data changes (Elin Waring)
+ # Revert rev 15911 in file installation/controller.php (prevents sample data install)
+ # Fix bug in user profile layout, custom layout (Elin Waring)
+ ^ Add new positions to Milky Way Template (Elin Waring)
+ ^ Sample data changes (Elin Waring)
 
 08-Apr-2010 Jean-Marie Simonet
-$ Refactoring ini/keys in libraries J/application/component/
-$ Refactoring ini/keys in libraries J/application/module
+ $ Refactoring ini/keys in libraries J/application/component/
+ $ Refactoring ini/keys in libraries J/application/module
 
 08-Apr-2010 Hannes Papenberg
-# Fixing static/non-static issue in JApplication::getRouter()
+ # Fixing static/non-static issue in JApplication::getRouter()
 
 07-Apr-2010 Jean-Marie Simonet
-#$ Fixing fancy uploader hardcoded strings and more, WIP (thanks Dennis)
+ #$ Fixing fancy uploader hardcoded strings and more, WIP (thanks Dennis)
 
 07-Apr-2010 Louis Landry
-^ Change the new protocol request var for various controller types to format ... for consistency.
+ ^ Change the new protocol request var for various controller types to format ... for consistency.
 
 06-Apr-2010 Jean-Marie Simonet
-$ Adding missing value to key.
-#$ Fixing some com_categories strings + bug (thanks Dennis)
-# Bugs in com_redirect
+ $ Adding missing value to key.
+ #$ Fixing some com_categories strings + bug (thanks Dennis)
+ # Bugs in com_redirect
 
 05-Apr-2010 Jean-Marie Simonet
-$^+ Consolidating some keys with same value to a unique key in main inis. WIP
-# Fixed [19972]
+ $^+ Consolidating some keys with same value to a unique key in main inis. WIP
+ # Fixed [19972]
 
 05-Apr-2010 Andrew Eddie
  # Fix bug in JCache constructor.
 
 04-Apr-2010 Jean-Marie Simonet
-$^+ Consolidating some keys with same value to a unique key in main inis. WIP
-#$ Missing string + bug [20098]. Thank you Klas.
+ $^+ Consolidating some keys with same value to a unique key in main inis. WIP
+ #$ Missing string + bug [20098]. Thank you Klas.
 
 02-Apr-2010 Louis Landry
-^ [#19982] JTable Improvements thanks to Jonnathan S. Lima!
+ ^ [#19982] JTable Improvements thanks to Jonnathan S. Lima!
 
 02-Apr-2010 Jean-Marie Simonet
-$ Refactoring com_redirect ini/keys
+ $ Refactoring com_redirect ini/keys
 
 01-Apr-2010 Mark Dexter
-# Fix bug processing content plugin in single-article
+ # Fix bug processing content plugin in single-article
 
 01-Apr-2010 Christophe Demko
-# Fix bug #19744 of the tracker
-# Fix bug #20072 of the tracker
-# Correctly loading the language file on plugin uninstalling
+ # Fix bug #19744 of the tracker
+ # Fix bug #20072 of the tracker
+ # Correctly loading the language file on plugin uninstalling
 
 01-Apr-2010 Jean-Marie Simonet
 ^$ Creating JSITE and JADMINISTRATOR keys in main ini file. Globally consolidated all keys with same value to these new keys.
-- Removed xmlrpc library + some
+ - Removed xmlrpc library + some
 
 31-Mar-2010 Mark Dexter
-^ Implement parameters in Archived Articles menu item
-# Minor language file fixes
-# Bug fixes in content layout files (Angie Radtke)
-^ Add CSS classes to pagination (Angie Radtke)
-# Misc. module layout fixes (Angie Radtke)
+ ^ Implement parameters in Archived Articles menu item
+ # Minor language file fixes
+ # Bug fixes in content layout files (Angie Radtke)
+ ^ Add CSS classes to pagination (Angie Radtke)
+ # Misc. module layout fixes (Angie Radtke)
 
 31-Mar-2010 Jean-Marie Simonet
-$ Refactored com_installer ini/keys
+ $ Refactored com_installer ini/keys
 
 30-Mar-2010 Mark Dexter
-# Fix PHP undefined var notice in New Menu Item
+ # Fix PHP undefined var notice in New Menu Item
 
 30-Mar-2010 Sam Moffat
  + Added wincache session handler for IIS, thanks to Ruslan from Microsoft
 
 30-Mar-2010 Jean-Marie Simonet
-$ Refactored com_media back-end ini/keys
+ $ Refactored com_media back-end ini/keys
 
 30-Mar-2010 Christophe Demko
-^ Merging the admintranslate branch back to the trunk
+ ^ Merging the admintranslate branch back to the trunk
 
 29-Mar-2010 Jean-Marie Simonet
-$ Refactored com_search back-end front end ini/keys +some
-$ Added a string for com_module to customize "item"
-$ Mass changed key prefix JCOMMON to JGLOBAL.
+ $ Refactored com_search back-end front end ini/keys +some
+ $ Added a string for com_module to customize "item"
+ $ Mass changed key prefix JCOMMON to JGLOBAL.
 
 28-Mar-2010 Jean-Marie Simonet
-$ Correcting some language strings
+ $ Correcting some language strings
 
 27-Mar-2010 Hannes Papenberg
-# Fixed com_mailto, com_search, com_users, com_weblinks in frontend and com_plugins in backend to properly use JController::getInstance() and not hard-include a controller
-# Fixed URL routing in categories view
+ # Fixed com_mailto, com_search, com_users, com_weblinks in frontend and com_plugins in backend to properly use JController::getInstance() and not hard-include a controller
+ # Fixed URL routing in categories view
 
 17-Mar-2010 Mark Dexter
-^ Sample data fixes (Elin Waring)
-^ User profile fixes (Elin Waring)
-^ Fix default style for loadposition (Elin Waring)
+ ^ Sample data fixes (Elin Waring)
+ ^ User profile fixes (Elin Waring)
+ ^ Fix default style for loadposition (Elin Waring)
 
 27-Mar-2010 Christophe Demko and Jean-Marie Simonet
-#$^ Enabling parsing language files errors in debug lang mode only (new param in plugin) + corrected one string in main ini
+ #$^ Enabling parsing language files errors in debug lang mode only (new param in plugin) + corrected one string in main ini
 
 26-Mar-2010 Mark Dexter
-^ Update doc blocks from JQuery to JDatabaseQuery, thanks Jason Pettett. #19898
-# Fix confusing string (#19888)
-# Delete empty folder
-# Fix strings generating errors and a missing string for com_users
-# Delete unneccesary variable in mod_menu/helper.php. #19997 Thanks Jason Pettett.
-# Fix misc. bugs in modules (Elin Waring)
-# Fix acl in joomla.sql table (Elin Waring)
-^ Implement parameters in Single Article Menu Item
-^ Implement global category blog vs. list param in content
-^ Modify example user profile plugin (Elin Waring)
+ ^ Update doc blocks from JQuery to JDatabaseQuery, thanks Jason Pettett. #19898
+ # Fix confusing string (#19888)
+ # Delete empty folder
+ # Fix strings generating errors and a missing string for com_users
+ # Delete unneccesary variable in mod_menu/helper.php. #19997 Thanks Jason Pettett.
+ # Fix misc. bugs in modules (Elin Waring)
+ # Fix acl in joomla.sql table (Elin Waring)
+ ^ Implement parameters in Single Article Menu Item
+ ^ Implement global category blog vs. list param in content
+ ^ Modify example user profile plugin (Elin Waring)
 
 25-Mar-2010 Jean-Marie Simonet
-$ Deleting unused ini files
+ $ Deleting unused ini files
 
 24-Mar-2010 Ian MacLennan
  # Fixed bug in JError
@@ -1416,512 +1419,512 @@ $ Deleting unused ini files
  + Added wincache driver for IIS, thanks to Ruslan from Microsoft
 
 20-Mar-2010 Hannes Papenberg
-# Fixed looping error in JLanguage. Not just the language files were wrong, but this code also. Please don't add this again.
-# Fixed error in JUser to properly load the user data. See unittest.
-# Fixed JSimpleXMLElement::getElementbyPath to ignore upper- and lowercase
+ # Fixed looping error in JLanguage. Not just the language files were wrong, but this code also. Please don't add this again.
+ # Fixed error in JUser to properly load the user data. See unittest.
+ # Fixed JSimpleXMLElement::getElementbyPath to ignore upper- and lowercase
 
 18-Mar-2010 Jean-Marie Simonet
-# Reverting part of 15400. Solution to broken ini files is to correct ini files, not kill the msg. Error hard coded for now. WIP for translation.
+ # Reverting part of 15400. Solution to broken ini files is to correct ini files, not kill the msg. Error hard coded for now. WIP for translation.
 
 17-Mar-2010 Mark Dexter
-^ Fix up display of mod_articles_category and mod_articles_news (Angie Radtke)
-^ Add heading level param to mod_articles_category and mod_articles_news (Angie Radtke)
-^ Add category selection to frontpage menu item
-- Remove Featured Articles Single Category menu item
-# Fix category links in frontpage
+ ^ Fix up display of mod_articles_category and mod_articles_news (Angie Radtke)
+ ^ Add heading level param to mod_articles_category and mod_articles_news (Angie Radtke)
+ ^ Add category selection to frontpage menu item
+ - Remove Featured Articles Single Category menu item
+ # Fix category links in frontpage
 
 17-Mar-2010 Christophe Demko
-$ Fixing errors in installation/language/en-GB/en-GB.ini
+ $ Fixing errors in installation/language/en-GB/en-GB.ini
 
 17-Mar-2010 Hannes Papenberg
-# Fixing bug in mod_menu in frontend
-# Fixing JFilterOutput to pass unittests - Thanks Iszak Bryan!
-# Fixing JFilterInput to pass unittests - Thanks Iszak Bryan!
-# Optimizing regular expressions - Thanks Iszak Bryan!
-# (Hopefully) Fixed bug in JLanguage that broke unittests and some broken language files
-# Fixed media manager popup - Thanks Artyom Bisyarin
-# Partially fixed bug in ordering in featured articles
-# Fixed bugs in mod_related_items
-# Prevented parenting a menu item to its own child - Thanks Jonnathan S. Lima
-# Fixed reading of parameters in accesslevel field - Thanks Christopher Garvis
+ # Fixing bug in mod_menu in frontend
+ # Fixing JFilterOutput to pass unittests - Thanks Iszak Bryan!
+ # Fixing JFilterInput to pass unittests - Thanks Iszak Bryan!
+ # Optimizing regular expressions - Thanks Iszak Bryan!
+ # (Hopefully) Fixed bug in JLanguage that broke unittests and some broken language files
+ # Fixed media manager popup - Thanks Artyom Bisyarin
+ # Partially fixed bug in ordering in featured articles
+ # Fixed bugs in mod_related_items
+ # Prevented parenting a menu item to its own child - Thanks Jonnathan S. Lima
+ # Fixed reading of parameters in accesslevel field - Thanks Christopher Garvis
 
 16-Mar-2010 Mark Dexter
-^ Update sample data to fix up module display (Elin Waring)
-# Remove section logic from mod_related_items
+ ^ Update sample data to fix up module display (Elin Waring)
+ # Remove section logic from mod_related_items
 
 16-Mar-2010 Jean-Marie Simonet
-$^# Refactored com_contact back-end ini/keys (Comp is WIP)
-# Correcting missing doublequotes (15370)
+ $^# Refactored com_contact back-end ini/keys (Comp is WIP)
+ # Correcting missing doublequotes (15370)
 
 15-Mar-2010 Jean-Marie Simonet
-# [19953] Corrected bug in gmail.php
-$ Normalized "Category Options" string
+ # [19953] Corrected bug in gmail.php
+ $ Normalized "Category Options" string
 
 14-Mar-2010 Ron Severdia
-+ First draft of Atomic template with additions from Christian Montoya
+ + First draft of Atomic template with additions from Christian Montoya
 
 14-Mar-2010 Jean-Marie Simonet
-$ Adding string in com_plugins.ini
-$^ Refactored com_menus inis/keys, customized item(s), + some
+ $ Adding string in com_plugins.ini
+ $^ Refactored com_menus inis/keys, customized item(s), + some
 
 13-Mar-2010 Jean-Marie Simonet
-$^ Refactored com_modules ini/keys, customized item(s)
-$ Standardized mod_toolbar ini/keys
-$ Refactored com_plugins ini/keys, customized some item(s)
-$ Deleting unused com_banners.ini in front-end
-$ Refactored com_mailto ini/keys
+ $^ Refactored com_modules ini/keys, customized item(s)
+ $ Standardized mod_toolbar ini/keys
+ $ Refactored com_plugins ini/keys, customized some item(s)
+ $ Deleting unused com_banners.ini in front-end
+ $ Refactored com_mailto ini/keys
 
 13-Mar-2010 Hannes Papenberg
-# Fixed mod_menu (Frontend) parameters
+ # Fixed mod_menu (Frontend) parameters
 
 12-Mar-2010 Jean-Marie Simonet
-$^# Refactored com_messages ini/keys, customized item(s)
-$ Customizing JCONTROLLER_SAVE_SUCCESS
-^ Change string in com_categories
+ $^# Refactored com_messages ini/keys, customized item(s)
+ $ Customizing JCONTROLLER_SAVE_SUCCESS
+ ^ Change string in com_categories
 
 11-Mar-2010 Jean-Marie Simonet
-$^ Customized ini/keys item(s) com_newfeeds, com_templates, com_weblinks
+ $^ Customized ini/keys item(s) com_newfeeds, com_templates, com_weblinks
 
 10-Mar-2010 Jean-Marie Simonet
-$ Refactored com_banners inis/keys customizing item(s)
-$ Refactored mod_menu (site) ini/keys
-$ Mass change key USE_GLOBAL to JGLOBAL_USE_GLOBAL
+ $ Refactored com_banners inis/keys customizing item(s)
+ $ Refactored mod_menu (site) ini/keys
+ $ Mass change key USE_GLOBAL to JGLOBAL_USE_GLOBAL
 
 10-Mar-2010 Christophe Demko
-# Correction of a bug in JLanguage for php > 5.3.1
+ # Correction of a bug in JLanguage for php > 5.3.1
 
 09-Mar-2010 Hannes Papenberg
-# Rewrite of mod_menu in frontend. Added the classes and IDs to the menu items and reading data from JMenu and not from database.
+ # Rewrite of mod_menu in frontend. Added the classes and IDs to the menu items and reading data from JMenu and not from database.
 
 09-Mar-2010 Jean-Marie Simonet
-$ Typo in string
-$ Corrected a bunch of strings. Whitespaces, slashes and periods in Keys. Wrong or absent doublequotes in values.
-$ Standardized com_admin ini/keys
+ $ Typo in string
+ $ Corrected a bunch of strings. Whitespaces, slashes and periods in Keys. Wrong or absent doublequotes in values.
+ $ Standardized com_admin ini/keys
 
 09-Mar-2010 Christophe Demko
-# Correcting a bug in parse_ini_file for php >= 5.3.1
-# Correcting JHtml::script and JHtml::style and JHtml::image for allowing selection in plugins
+ # Correcting a bug in parse_ini_file for php >= 5.3.1
+ # Correcting JHtml::script and JHtml::style and JHtml::image for allowing selection in plugins
 
 08-Mar-2010 Christophe Demko
-^ Translating cache and session handler names in the JFieldCacheHandler and JFieldSessionHandler
-^ Translating name of editors in the JFieldEditors class
-^ Enhancing language error message display
+ ^ Translating cache and session handler names in the JFieldCacheHandler and JFieldSessionHandler
+ ^ Translating name of editors in the JFieldEditors class
+ ^ Enhancing language error message display
 
 08-Mar-2010 Jean-Marie Simonet
-^ Refactored com_config ini/keys
-$ Typos in some strings
+ ^ Refactored com_config ini/keys
+ $ Typos in some strings
 
 07-Mar-2010 Mark Dexter
-^ Implement parameters for com_content frontpage menu item
+ ^ Implement parameters for com_content frontpage menu item
 
 07-Mar-2010 Christophe Demko
-- Reverting patch 15232 and 15221 which are buggy in php 5.2.4
+ - Reverting patch 15232 and 15221 which are buggy in php 5.2.4
 
 06-Mar-2010 Jean-Marie Simonet
-$+ Normalised banners language field + sql + sample data
-$ Finalized com_cpanel keys/inis
+ $+ Normalised banners language field + sql + sample data
+ $ Finalized com_cpanel keys/inis
 
 06-Mar-2010 Mark Dexter
-# Fix problem where JSite was changing JComponentHelper::getParams results
+ # Fix problem where JSite was changing JComponentHelper::getParams results
 
 06-Mar-2010 Hannes Papenberg
-# Added complete manifest files to each core component - Thanks Edgars Piru�ka
+ # Added complete manifest files to each core component - Thanks Edgars Piru�ka
 
 05-Mar-2010 Mark Dexter
-^ Added modified_by_name to articles model
-^ Implemented include subcategories parameter for Article Category List, Blog
-^ Use path for sorting categories by alpha
-# Fix bug in metadata for article category list, blog
-# Fix pagination bug in category blog
-^ Update com_content global params in joomla.sql
-^ Modify sample data for article category list, blog
+ ^ Added modified_by_name to articles model
+ ^ Implemented include subcategories parameter for Article Category List, Blog
+ ^ Use path for sorting categories by alpha
+ # Fix bug in metadata for article category list, blog
+ # Fix pagination bug in category blog
+ ^ Update com_content global params in joomla.sql
+ ^ Modify sample data for article category list, blog
 
 05-Mar-2010 Jean-Marie Simonet
-$ Loading plugin lang in plugin Manager when ini in plugin language folder
+ $ Loading plugin lang in plugin Manager when ini in plugin language folder
 $# Refactored com_redirect inis/keys + some
-$ Refactored com_login ini/keys + some
+ $ Refactored com_login ini/keys + some
 
 04-Mar-2010 Christophe Demko
-^ Loading of language in JPlugin
-# Correcting bugs in JFieldCheckbox
+ ^ Loading of language in JPlugin
+ # Correcting bugs in JFieldCheckbox
 
 04-March-2010 Jean-Marie Simonet
-$^ Refactored com_templates ini/keys
-$^ Refactored tpl_milkyway ini/keys
+ $^ Refactored com_templates ini/keys
+ $^ Refactored tpl_milkyway ini/keys
 
 03-March-2010 Mark Dexter
-^ Add properties to help with nested set output on front end (Robert Deutz)
-^ Add rights field to metadata (Elin Waring)
-^ Remove inline style from mod_random image (Angie Radtke)
+ ^ Add properties to help with nested set output on front end (Robert Deutz)
+ ^ Add rights field to metadata (Elin Waring)
+ ^ Remove inline style from mod_random image (Angie Radtke)
 
 02-Mar-2010 Hannes Papenberg
-# Fixed ordering of com_content
-# Fixed ordering of com_weblinks
-# Fixed ordering of com_newsfeeds
+ # Fixed ordering of com_content
+ # Fixed ordering of com_weblinks
+ # Fixed ordering of com_newsfeeds
 
 02-March-2010 Jean-Marie Simonet
 $^ Refactored com_newsfeeds ini/keys + some JCommon.
 
 28-Feb-2010 Hannes Papenberg
-# Reverting consistency commit from 23-feb-2010
-# Made all calls to functions in JHTML class consistent throughout the system. All use JHTML::_() now.
-+ Implemented linked author profile in com_content
-^ Moved JS, CSS and image files of the editors to /media folder - Thanks Rob Clayburn!
-# Created correct manifest file for com_weblinks - Thanks Edgars Piru�ka!
-# Fixed usage of COM_CONTENT_CATEGORY to CONTENT_CATEGORY
+ # Reverting consistency commit from 23-feb-2010
+ # Made all calls to functions in JHTML class consistent throughout the system. All use JHTML::_() now.
+ + Implemented linked author profile in com_content
+ ^ Moved JS, CSS and image files of the editors to /media folder - Thanks Rob Clayburn!
+ # Created correct manifest file for com_weblinks - Thanks Edgars Piru�ka!
+ # Fixed usage of COM_CONTENT_CATEGORY to CONTENT_CATEGORY
 
 27-Feb-2010 Hannes Papenberg
-# Fixing JDate::toFormat() - Thanks Edgars Piru�ka!
-# Missed some files when uploading the new mod_articles_news
-# Fixed bug in loading user in JUser
+ # Fixing JDate::toFormat() - Thanks Edgars Piru�ka!
+ # Missed some files when uploading the new mod_articles_news
+ # Fixed bug in loading user in JUser
 
 26-Feb-2010 Mark Dexter
-# Add CSS for multi-column blog display (Angie Radtke)
-^ Fix up ordering and other parameters for category blog menu item
-^ Make global, menu item, and article parameters consistent in content
-^ Fix up language tags for parameters
-# Fix multi-column bug in frontpage blog
+ # Add CSS for multi-column blog display (Angie Radtke)
+ ^ Fix up ordering and other parameters for category blog menu item
+ ^ Make global, menu item, and article parameters consistent in content
+ ^ Fix up language tags for parameters
+ # Fix multi-column bug in frontpage blog
 
 26-Feb-2010 Jean-Marie Simonet
-^ Integrating default latin transliteration in framework
+ ^ Integrating default latin transliteration in framework
 
 25-Feb-2010 Christophe Demko
-# Correcting integrity of #__asset table
+ # Correcting integrity of #__asset table
 
 24-Feb-2010 Jean-Marie Simonet
-$ Allowing translation of plugin names in Plugin Manager
+ $ Allowing translation of plugin names in Plugin Manager
 
 24-Feb-2010 Hannes Papenberg
-^ Changed weblinks module to use weblinks category model and allowed enable/disable click tracking - Thanks Rob Clayburn!
+ ^ Changed weblinks module to use weblinks category model and allowed enable/disable click tracking - Thanks Rob Clayburn!
 
 24-Feb-2010 Christophe Demko
-# Loading correctly language in com_config component
-# Correcting some bugs in ConfigModelComponent
-# Correcting some bugs in JControllerForm
+ # Loading correctly language in com_config component
+ # Correcting some bugs in ConfigModelComponent
+ # Correcting some bugs in JControllerForm
 
 21-Feb-2010 Jean-Marie Simonet
-$ Small corrections for mod_article_news
+ $ Small corrections for mod_article_news
 
 23-Feb-2010 Hannes Papenberg
-^ refactored mod_newsflash to mod_articles_news - Thanks Rob Clayburn!
-+ Added option to enable/disable the weblink click-tracking - Thanks Rob Clayburn!
-# Made usage of JHTML functions consistent - Thanks Jonnathan Lima!
+ ^ refactored mod_newsflash to mod_articles_news - Thanks Rob Clayburn!
+ + Added option to enable/disable the weblink click-tracking - Thanks Rob Clayburn!
+ # Made usage of JHTML functions consistent - Thanks Jonnathan Lima!
 
 23-Feb-2010 Christophe Demko
-^ Changing call JHtmlSelect::* to self::* in JHtmlSelect class
+ ^ Changing call JHtmlSelect::* to self::* in JHtmlSelect class
 
 23-Feb-2010 Sam Moffatt
-# Fix for minor HTML bug in mysql and mysqli drivers
+ # Fix for minor HTML bug in mysql and mysqli drivers
 
 22-Feb-2010 Christophe Demko
-# Reverting patch 14969 (introduce a bug). Change the way to load the template language ini
-^ Changing call JLanguage::* to self::* in JLanguage class
-# Adding the ability to specify a layout and a tmpl in the JControllerForm
+ # Reverting patch 14969 (introduce a bug). Change the way to load the template language ini
+ ^ Changing call JLanguage::* to self::* in JLanguage class
+ # Adding the ability to specify a layout and a tmpl in the JControllerForm
 
 21-Feb-2010 Mark Dexter
-^ Make filter HTML consistent for back-end screens (Andrea Tarr)
-^ Fix system tests to reflect HTML changes
+ ^ Make filter HTML consistent for back-end screens (Andrea Tarr)
+ ^ Fix system tests to reflect HTML changes
 
 21-Feb-2010 Jean-Marie Simonet
 ^$ Refactored com_weblinks ini/keys + some
 
 21-Feb-2010 Christophe Demko
-# Correcting a bug in component update
-# Enabling ftp for installation extension
-+ Adding administrator/manifests/files/index.html
+ # Correcting a bug in component update
+ # Enabling ftp for installation extension
+ + Adding administrator/manifests/files/index.html
 
 20-Feb-2010 Jean-Marie Simonet
-^ Changed path to transliteration ascii.php. Thanks Wojtek.
-$ Made com_comments.ini back-end parse ini compatible
-# Correcting bug in installer template adpater uninstall
+ ^ Changed path to transliteration ascii.php. Thanks Wojtek.
+ $ Made com_comments.ini back-end parse ini compatible
+ # Correcting bug in installer template adpater uninstall
 
 19-Feb-2010 Christophe Demko
-# Correcting a bug in the codemirror plugin
+ # Correcting a bug in the codemirror plugin
 +$ Adding a language string
-+ Adding an background icon in bluestork css
+ + Adding an background icon in bluestork css
 
 19-Feb-2010 Jean-Marie Simonet
 $^ Refactored display of content Category:title to cope with various languages
-^ Refactored com_weblinks admin ini/keys + some
-^ Revert name changes for templates
+ ^ Refactored com_weblinks admin ini/keys + some
+ ^ Revert name changes for templates
 
 18-Feb-2010 Mark Dexter
-^ Remove redundant alt attributes for Control Panel icons (Andrea Tarr)
+ ^ Remove redundant alt attributes for Control Panel icons (Andrea Tarr)
 
 18-Feb-2010 Hannes Papenberg
-^ Adding mod_articles_category module - Thanks Omar Ramos!
+ ^ Adding mod_articles_category module - Thanks Omar Ramos!
 
 18-Feb-2010 Christophe Demko
-# Correcting some inis
-# Correcting bugs in file adapter installer
+ # Correcting some inis
+ # Correcting bugs in file adapter installer
 
 18-Feb-2010 Jean-Marie Simonet
-# Correcting some inis
-^ Refactoring com_wrapper ini/keys + some
+ # Correcting some inis
+ ^ Refactoring com_wrapper ini/keys + some
 
 17-Feb-2010 Mark Dexter
-# Fix tests to work with hathor accessible admin template
-+ New system test to install Joomla (Matt Thomas)
-# Fixes to sample data (Elin Waring)
-# Misc. language file fixes
-^ Newsfeed fixes (Andrea Tarr)
-^ MediaManager fixes (Elin Waring)
-^ Delete unused files and unused code (Elin Waring)
-# Misc. com_contact fixes
-# Toolbar fixes (Elin Waring)
-# Fix routing problems in com_contact (Elin Waring)
-# Admin approval language strings (Airton Torres)
-^ Refactor com_users layouts and models (Elin Waring)
-^ Added properties to contact categories for nested set output (Robert Deutz)
-^ Change JRequest::getVar to getCmd in misc. places (Elin Waring)
+ # Fix tests to work with hathor accessible admin template
+ + New system test to install Joomla (Matt Thomas)
+ # Fixes to sample data (Elin Waring)
+ # Misc. language file fixes
+ ^ Newsfeed fixes (Andrea Tarr)
+ ^ MediaManager fixes (Elin Waring)
+ ^ Delete unused files and unused code (Elin Waring)
+ # Misc. com_contact fixes
+ # Toolbar fixes (Elin Waring)
+ # Fix routing problems in com_contact (Elin Waring)
+ # Admin approval language strings (Airton Torres)
+ ^ Refactor com_users layouts and models (Elin Waring)
+ ^ Added properties to contact categories for nested set output (Robert Deutz)
+ ^ Change JRequest::getVar to getCmd in misc. places (Elin Waring)
 
 17-Feb-2010 Jean-Marie Simonet
-^ Refactored tpl_bluestork ini/keys
-^ Shortening code in mod_whosonline. Thanks Dennis.
-# Correcting bug in template installer adapter
-^ Refactored com_languages ini/keys
+ ^ Refactored tpl_bluestork ini/keys
+ ^ Shortening code in mod_whosonline. Thanks Dennis.
+ # Correcting bug in template installer adapter
+ ^ Refactored com_languages ini/keys
 
 16-Feb-2010 Mark Dexter
-^ New system tests for groups, ACL. Thanks Matt Thomas.
+ ^ New system tests for groups, ACL. Thanks Matt Thomas.
 
 16-Feb-2010 Jean-Marie Simonet
-^ Refactoring com_checkin inis/keys. $ sprintf. Thanks Omar.
-^ Refactoring com_cache ini/keys
+ ^ Refactoring com_checkin inis/keys. $ sprintf. Thanks Omar.
+ ^ Refactoring com_cache ini/keys
 
 15-Feb-2010 Mark Dexter
-# Allow Groups to be deleted correctly
+ # Allow Groups to be deleted correctly
 
 15-Feb-2010 Jean-Marie Simonet
-$ Translating Menu Item Type in Menu Manager: Menu items.
-^ Updated en-GB.xml back
+ $ Translating Menu Item Type in Menu Manager: Menu items.
+ ^ Updated en-GB.xml back
 
 14-Feb-2010 Jean-Marie Simonet
-^ $ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys.
-^ Changing editors-xtd name. Updating more ini keys. Loading translation in Manage View.
-+ Adding xx-XX frontend language for testing purposes.
+ ^$ Refactored extensions names in sql extension table and xmls to fit INI standards. Updated ini keys.
+ ^ Changing editors-xtd name. Updating more ini keys. Loading translation in Manage View.
+ + Adding xx-XX frontend language for testing purposes.
 
 13-Feb-2010 Mark Dexter
-^ Change "Apply" to "Save" in back end edit screens (Elin Waring)
+ ^ Change "Apply" to "Save" in back end edit screens (Elin Waring)
 
 13-Feb-2010 Jean-Marie Simonet
-^ Refactoring mod_wrapper ini/keys
-^ Refactoring mod_weblinks ini/keys
-^ Refactoring mod_whosonline
+ ^ Refactoring mod_wrapper ini/keys
+ ^ Refactoring mod_weblinks ini/keys
+ ^ Refactoring mod_whosonline
 
 13-Feb-2010 Ian MacLennan
-# Eliminating errors in unit tests
-# Fixed some doc blocks
-# Changed JTableUser to use preg_match instead of eregi
+ # Eliminating errors in unit tests
+ # Fixed some doc blocks
+ # Changed JTableUser to use preg_match instead of eregi
 
 12-Feb-2010 Mark Dexter
-+ New system test for create user - thanks Matt Thomas!
-+ New method for create user in system test
+ + New system test for create user - thanks Matt Thomas!
+ + New method for create user in system test
 
 12-Feb-2010 Jean-Marie Simonet
-^ Refactored mod_search ini/keys
-^ Refactored mod_stats ini/keys + bugs
-^ Refactored mod_syndicate ini/keys
-^ Refactored mod_users_latest ini/keys
+ ^ Refactored mod_search ini/keys
+ ^ Refactored mod_stats ini/keys + bugs
+ ^ Refactored mod_syndicate ini/keys
+ ^ Refactored mod_users_latest ini/keys
 
 11-Feb-2010 jean-Marie Simonet
-^ Refactored mod_related_items ini/keys
-^ Translating Menu Items Titles in Select view
+ ^ Refactored mod_related_items ini/keys
+ ^ Translating Menu Items Titles in Select view
 
 11-Feb-2010 Christophe Demko
-^ Use $db->getNullDate for calendar fields which are empty
-^ Recommit patch 14775
+ ^ Use $db->getNullDate for calendar fields which are empty
+ ^ Recommit patch 14775
 
 10-Feb-2010 Christophe Demko
-+ Adding publish_up and publish_down for modules
+ + Adding publish_up and publish_down for modules
 
 10-Feb-2010 Hannes Papenberg
-# Fixed bug in JFilterInput
+ # Fixed bug in JFilterInput
 
 09-Feb-2010 Christophe Demko
-+ Adding language files facility to package, files and library
+ + Adding language files facility to package, files and library
 
 10-Feb-2010 Jean-Marie Simonet
-+ Added strings for the featured tagging
-+ Translated components admin submenus
-^ Refactored mod_banners ini/keys
-^ Refactored mod_breadcrumbs ini/keys
-^ Refactored mod_footer ini/keys
-^ Refactored mod_languages ini/keys
-^ Refactored mod_login (site) ini/keys + bug
-^ Refactored mod_newsflash ini/keys
-^ Refactored mod_random_image ini/keys
+ + Added strings for the featured tagging
+ + Translated components admin submenus
+ ^ Refactored mod_banners ini/keys
+ ^ Refactored mod_breadcrumbs ini/keys
+ ^ Refactored mod_footer ini/keys
+ ^ Refactored mod_languages ini/keys
+ ^ Refactored mod_login (site) ini/keys + bug
+ ^ Refactored mod_newsflash ini/keys
+ ^ Refactored mod_random_image ini/keys
 
 09-Feb-2010 Jean-Marie Simonet
-^ Refactored mod_articles_archived ini/keys. Updated sql.
-^ Refactored mod_articles_latest ini/keys.
-^ Refactored mod_articles_popular ini/keys.
-- Deleted admin mod_stats and mod_footer in files
+ ^ Refactored mod_articles_archived ini/keys. Updated sql.
+ ^ Refactored mod_articles_latest ini/keys.
+ ^ Refactored mod_articles_popular ini/keys.
+ - Deleted admin mod_stats and mod_footer in files
 
 09-Feb-2010 Christophe Demko
-# Loading the user parameters when he changes them (llow the admin to change its own language for example)
-# Removing unused keys in tpl_bluestork.ini which contains the NO keyword
-# Adding the manifest files directory
-^ Changing the way languages are loaded at install and update phase
-^ Correcting revision 14595 (caused errors in user and menu item edit)
+ # Loading the user parameters when he changes them (llow the admin to change its own language for example)
+ # Removing unused keys in tpl_bluestork.ini which contains the NO keyword
+ # Adding the manifest files directory
+ ^ Changing the way languages are loaded at install and update phase
+ ^ Correcting revision 14595 (caused errors in user and menu item edit)
 
 08-Feb-2010 Jean-Marie Simonet
-^ Refactored mod_popular ini/keys
-^ Refactored mod_quickicon ini/keys. Added Language manager icon.
-^ Refactored mod_status ini/keys. Added logged back-end users to status.
-^ Refactored mod_submenu ini/keys.
-^ Refactored mod_title ini/keys
-^ Refactored mod_unread ini/keys. Updated sql.
+ ^ Refactored mod_popular ini/keys
+ ^ Refactored mod_quickicon ini/keys. Added Language manager icon.
+ ^ Refactored mod_status ini/keys. Added logged back-end users to status.
+ ^ Refactored mod_submenu ini/keys.
+ ^ Refactored mod_title ini/keys
+ ^ Refactored mod_unread ini/keys. Updated sql.
 
 08-Feb-2010 Andrew Eddie
  # Fix bug in JRegistry::setValue - documented as returning the old value, however, the behaviour is to return the set value. Changing this kills JParameter::def.
 
 07-Feb-2010 Hannes Papenberg
-^ Consolidated a few translation strings in en-GB.ini and removed the en-GB.ini.old.ini in frontend
-# Fixed required fields in profile plugin - Thanks Matrikular!
-# Fixed backend menu translation - JLanguage::hasKey() was broken. - Thanks Matrikular!
-# Fixed bug in discover function. When two plugins have the same name, but are in different folders, they were not discovered
+ ^ Consolidated a few translation strings in en-GB.ini and removed the en-GB.ini.old.ini in frontend
+ # Fixed required fields in profile plugin - Thanks Matrikular!
+ # Fixed backend menu translation - JLanguage::hasKey() was broken. - Thanks Matrikular!
+ # Fixed bug in discover function. When two plugins have the same name, but are in different folders, they were not discovered
 
 07-Feb-2010 Jean-Marie Simonet
-^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
-^ Refactored mod_latest ini/keys
-^ Refactored mod_logged ini/keys + added some
-^ Refactored mod_login (admin) ini/keys. Prevented it from being unpublished.
-^ Completed refactoring of mod_menu (admin) ini/keys.
-^ Refactored mod_online ini/keys + bug
+ ^ Refactored mod_feed site and admin modules ini/keys. Enabled desc translation in com_modules select.
+ ^ Refactored mod_latest ini/keys
+ ^ Refactored mod_logged ini/keys + added some
+ ^ Refactored mod_login (admin) ini/keys. Prevented it from being unpublished.
+ ^ Completed refactoring of mod_menu (admin) ini/keys.
+ ^ Refactored mod_online ini/keys + bug
 
 06-Feb-2010 Mark Dexter
-+ Test Commit (remove later)
+ + Test Commit (remove later)
 
 06-Feb-2010 Jean-Marie Simonet
-^ Refactored com_modules inis/keys
-^ Refactored globally modules cache and cache-time keys
+ ^ Refactored com_modules inis/keys
+ ^ Refactored globally modules cache and cache-time keys
 
 06-Feb-2010 Hannes Papenberg
-# Partially fixed the login when site is offline
+ # Partially fixed the login when site is offline
 
 05-Feb-2010 Mark Dexter
-^ Improve documentation for SeleniumConfig sample file
+ ^ Improve documentation for SeleniumConfig sample file
 
 05-Feb-2010 Mark Dexter
-# Revert revision 14595 (caused errors in user and menu item edit)
+ # Revert revision 14595 (caused errors in user and menu item edit)
 
 05-Feb-2010 Jean-Marie Simonet
-^ Refactored mod_custom site and admin ini/keys
+ ^ Refactored mod_custom site and admin ini/keys
 
 05-Feb-2010 Christophe Demko
-^ Adding the possibility to have more than one category tree in an extension.
-^ Consolidating the JCategories class
+ ^ Adding the possibility to have more than one category tree in an extension.
+ ^ Consolidating the JCategories class
 
 05-Feb-2010 Jean-Marie Simonet
-# Translating Toggle Editor button. Correcting Error Key in tiny.
-^ Refactored search plugins ini/keys
+ # Translating Toggle Editor button. Correcting Error Key in tiny.
+ ^ Refactored search plugins ini/keys
 
 05-Feb-2010 Christophe Demko
-^ Having only one translation file per template (in administrator/language for admin ones and language for site ones)
-# Translating buttons in the editor
-^ Adding readonly attribute on some jform fields
+ ^ Having only one translation file per template (in administrator/language for admin ones and language for site ones)
+ # Translating buttons in the editor
+ ^ Adding readonly attribute on some jform fields
 
 04-Feb-2010 Christophe Demko
-# Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist
+ # Correcting a bug in JForm: setFieldAttribute was incorrect when the attribute does not exist
 
 04-Feb-2010 Jean-Marie Simonet
-^ Refactored user plugins ini keys.
-^ Refactored system plugins ini keys
-^ Refactored editors plugins ini keys.
+ ^ Refactored user plugins ini keys.
+ ^ Refactored system plugins ini keys
+ ^ Refactored editors plugins ini keys.
 
 04-Feb-2010 Hannes Papenberg
-^ Changed behaviour of JHTML::image, JHTML::script and JHTML::stylesheet and moved images back into the respective folder
+ ^ Changed behaviour of JHTML::image, JHTML::script and JHTML::stylesheet and moved images back into the respective folder
 
 04-Feb-2010 Andrew Eddie
  + Added JHtmlString
  ^ Changed JQuery to JDatabaseQuery; changed behaviour of JDatabase::getQuery
 
 03-Feb-2010 Jean-Marie Simonet
-^ Refactored editors-xtd plugins ini keys.
+ ^ Refactored editors-xtd plugins ini keys.
 
 03-Feb-2010 Hannes Papenberg
-# Fixed bug in JTable::reset() that don't properly reset the values - Thanks Jonnathan!
-^ Changed JTable::__construct() to create the properties with their default values from the table - Thanks Jonnathan!
-^ Changed queries of all plugins to use JQuery - Thanks Dejan Acman!
-^ Changed queries of all modules to use JQuery - Thanks Omar!
-^ Changed JHTML::script and JHTML::stylesheet to new scheme
-^ Removed unnecessary comment in module
-^ Removed com_poll layout from rhuk_milkyway overrides
+ # Fixed bug in JTable::reset() that don't properly reset the values - Thanks Jonnathan!
+ ^ Changed JTable::__construct() to create the properties with their default values from the table - Thanks Jonnathan!
+ ^ Changed queries of all plugins to use JQuery - Thanks Dejan Acman!
+ ^ Changed queries of all modules to use JQuery - Thanks Omar!
+ ^ Changed JHTML::script and JHTML::stylesheet to new scheme
+ ^ Removed unnecessary comment in module
+ ^ Removed com_poll layout from rhuk_milkyway overrides
 
 02-Feb-2010 Hannes Papenberg
-# - fixed category parameter in mod_latest - Thanks Jonnathan!
-^ - Changed mod_popular to use the contentModelArticles - Thanks Jonnathan!
-# - Fixed the link to edit an article in mod_popular - Thanks Jonnathan!
-+ - Added parameters to mod_popular - Thanks Jonnathan!
-$ - Fixed languages strings for mod_popular - Thanks Jonnathan!
+ # - fixed category parameter in mod_latest - Thanks Jonnathan!
+ ^ - Changed mod_popular to use the contentModelArticles - Thanks Jonnathan!
+ # - Fixed the link to edit an article in mod_popular - Thanks Jonnathan!
+ + - Added parameters to mod_popular - Thanks Jonnathan!
+ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
 
 02-Feb-2010 Jean-Marie Simonet
-^ Customized enabled/published ini keys/values for modules and plugins
-^ Refactored ini keys in authentication plugins
+ ^ Customized enabled/published ini keys/values for modules and plugins
+ ^ Refactored ini keys in authentication plugins
 
 01-Feb-2010 Mark Dexter
-# Fix menu settings in sample data (Elin Waring)
+ # Fix menu settings in sample data (Elin Waring)
 
 01-Feb-2010 Christophe Demko
-^ Save the featured state in the article edit view
-# Corrected a bug in installation joomla.sql file
-# Corrected parse_ini_file for php version >= 5.3.0 (does not deal correctly with _QQ_ defined constant)
+ ^ Save the featured state in the article edit view
+ # Corrected a bug in installation joomla.sql file
+ # Corrected parse_ini_file for php version >= 5.3.0 (does not deal correctly with _QQ_ defined constant)
 
 01-Feb-2010 Hannes Papenberg
-# Fixed com_search router and model
-# Fixed com_search view
-# Fixed routing in content search plugins
+ # Fixed com_search router and model
+ # Fixed com_search view
+ # Fixed routing in content search plugins
 
 01-Feb-2010 Jean-Marie Simonet
-^ Refactored com_plugins ini keys + some
-^ Refactored (again ;) ) tinymce ini keys to standard
-^ Refactored ini keys in content plugins + some
+ ^ Refactored com_plugins ini keys + some
+ ^ Refactored (again ;) ) tinymce ini keys to standard
+ ^ Refactored ini keys in content plugins + some
 
 31-Jan-2010 Hannes Papenberg
-# Fixed group bug in JParameter - Thanks James Kennard
-- Removing unused images from administrator, including the /images folder
-# Fixing routing of JHTML::image()
-# Fixed notice in com_content router
-+ Added $path_only option to JHTML::image()
-# Fixed bug in how com_languages saves the configuration options - Thanks Jonnathan!
-# When module were renamed, the translation files weren't renamed, too.
-# Fixed frontend translation files for modules
-# Fixed plugin translation files
-# Fixed custom module handling in module manager
-# Fixed entries in #__extensions. This fixes a few bugs like the selection list for new modules in the module manager
+ # Fixed group bug in JParameter - Thanks James Kennard
+ - Removing unused images from administrator, including the /images folder
+ # Fixing routing of JHTML::image()
+ # Fixed notice in com_content router
+ + Added $path_only option to JHTML::image()
+ # Fixed bug in how com_languages saves the configuration options - Thanks Jonnathan!
+ # When module were renamed, the translation files weren't renamed, too.
+ # Fixed frontend translation files for modules
+ # Fixed plugin translation files
+ # Fixed custom module handling in module manager
+ # Fixed entries in #__extensions. This fixes a few bugs like the selection list for new modules in the module manager
 
 30-Jan-2010 Hannes Papenberg
-# Fixed translation of parameter labels in com_users
-+ Added ability to add a category.xml file to a component to add parameters to com_categories
-+ Added mod_weblinks Weblink Module - Thanks Amy Stephen!
-# Finished making images overrideable
+ # Fixed translation of parameter labels in com_users
+ + Added ability to add a category.xml file to a component to add parameters to com_categories
+ + Added mod_weblinks Weblink Module - Thanks Amy Stephen!
+ # Finished making images overrideable
 
 29-jan-2010 Jean-Marie Simonet
-# Fixed Form field Spacer display
+ # Fixed Form field Spacer display
 
 28-jan-2010 Ron Severdia
-# Fixed CSS bug (missing CSS for new form element)
+ # Fixed CSS bug (missing CSS for new form element)
 
 27-jan-2010 Christophe Demko
-# Correcting bugs in JForm
-^ Call to $object->toString() changed to (string)$object
+ # Correcting bugs in JForm
+ ^ Call to $object->toString() changed to (string)$object
 
 26-Jan-2010 Mark Dexter
-^ Add sprintf, alternative readmore to com_content, newsflash views (Angie Radtke)
-# Fix bug so you can load a category (Robert Deutz)
-# Bug fixes in com_search, newsflash (Angi Radtke)
-^ Work on com_contact layouts (Elin Waring)
-# Language strings work (Elin Waring)
-# Make view and config labels consistent (Elin Waring)
-# Fix bug in Save & New for non-article categories
-^ Work on com_contact component and model
-# Fix menu assignments in sample data (Elin Waring)
-# Fix routing for subcategories in com_content (Elin Waring)
-# Fix problems saving data in Contact Edit form
-^ Allow for hierarchical params in com_contact
-# Fix default value of published state in contacts and banners
-^ Improvements to sample data (Elin Waring)
-# Make toolbars consistent (Elin Waring)
+ ^ Add sprintf, alternative readmore to com_content, newsflash views (Angie Radtke)
+ # Fix bug so you can load a category (Robert Deutz)
+ # Bug fixes in com_search, newsflash (Angi Radtke)
+ ^ Work on com_contact layouts (Elin Waring)
+ # Language strings work (Elin Waring)
+ # Make view and config labels consistent (Elin Waring)
+ # Fix bug in Save & New for non-article categories
+ ^ Work on com_contact component and model
+ # Fix menu assignments in sample data (Elin Waring)
+ # Fix routing for subcategories in com_content (Elin Waring)
+ # Fix problems saving data in Contact Edit form
+ ^ Allow for hierarchical params in com_contact
+ # Fix default value of published state in contacts and banners
+ ^ Improvements to sample data (Elin Waring)
+ # Make toolbars consistent (Elin Waring)
 
 26-Jan-2010 Louis Landry
  # [#19552] [patch] Error loading xml from string in JFactory::getXML (Thanks to Christopher Garvis)
@@ -1943,50 +1946,50 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
  ^ Moved testing infrastructure from the /testing/ folder into the trunk.
 
 25-Jan-2010 Jean-Marie Simonet
-^ Refactored TinyMCE ini keys
+ ^ Refactored TinyMCE ini keys
 
 24-Jan-2010 Hannes Papenberg
-# changed com_contacts parameters to not use arrays in the XML
-+ Added subgroup support for JForm forms
-+ Added ability to extend user edit screen with parameters and additional fields
+ # changed com_contacts parameters to not use arrays in the XML
+ + Added subgroup support for JForm forms
+ + Added ability to extend user edit screen with parameters and additional fields
 
 23-Jan-2010 Christophe Demko & Jean-Marie Simonet
-^ Refactored plugins language load
+ ^ Refactored plugins language load
 
 23-Jan-2010 Hannes Papenberg
-^ Little performance improvement for JDocument::getTemplate()
+ ^ Little performance improvement for JDocument::getTemplate()
 
 22-Jan-2010 Hannes Papenberg
-^ refactored search plugins to new plugin format
-# Fixed XML manifest of profile plugin
-- Removed JHTMLImage::system()
-^ Deprecated JHTMLImage::site() and JHTMLImage::administrator()
-^ Changed JHTML::image() to support relative paths to images
-^ Changed all system images to be overrideable
-^ moved system images from /images /media/system and from components to /media/images folder
+ ^ refactored search plugins to new plugin format
+ # Fixed XML manifest of profile plugin
+ - Removed JHTMLImage::system()
+ ^ Deprecated JHTMLImage::site() and JHTMLImage::administrator()
+ ^ Changed JHTML::image() to support relative paths to images
+ ^ Changed all system images to be overrideable
+ ^ moved system images from /images /media/system and from components to /media/images folder
 
 21-Jan-2010 Christophe Demko
-^ Rename language loading in the extension folder
+ ^ Rename language loading in the extension folder
 
 20-Jan-2010 Christophe Demko
-# Correcting bugs in JForm
-# Correcting bad display in module and plugin edit
-^ Give priority to language file located in joomla folder versus those located in extension folder
+ # Correcting bugs in JForm
+ # Correcting bad display in module and plugin edit
+ ^ Give priority to language file located in joomla folder versus those located in extension folder
 
 20-Jan-2010 Jean-Marie Simonet
-+ Added xx-XX administrator language for testing purposes. Included an xx-XX.override.ini and a custom transliteration.php.
-^ Modified language.php to look first for site then admin language folders for the custom transliterate function
+ + Added xx-XX administrator language for testing purposes. Included an xx-XX.override.ini and a custom transliteration.php.
+ ^ Modified language.php to look first for site then admin language folders for the custom transliterate function
 
 19-Jan-2010 Hannes Papenberg
-# Renamed the folder for the profile plugin to profile from profiles
-# Improved performance of JArchiveZip by about 30% - Thanks Omar Ramos!
-# Fixed type of the created_by field in the article edit screen - Thanks Omar Ramos!
-# Fixed filter of type selector in plugin manager - Thanks Omar Ramos!
-# Removed obsolete , in media/system/js/rules.js, fixes category saving issue in IE8 - Thanks Omar Ramos!
+ # Renamed the folder for the profile plugin to profile from profiles
+ # Improved performance of JArchiveZip by about 30% - Thanks Omar Ramos!
+ # Fixed type of the created_by field in the article edit screen - Thanks Omar Ramos!
+ # Fixed filter of type selector in plugin manager - Thanks Omar Ramos!
+ # Removed obsolete , in media/system/js/rules.js, fixes category saving issue in IE8 - Thanks Omar Ramos!
 
 
 19-Jan-2010 Jean-Marie Simonet
-^ Modified example content plugin xml. Added a language folder with a sample ini file
+ ^ Modified example content plugin xml. Added a language folder with a sample ini file
 
 19-Jan-2010 Andrew Eddie
  + Added JHtmlImage::system helper.
@@ -1994,30 +1997,30 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
  # Fixed bug in JRegistryFormatINI where stringToObject would not correctly handle sections.
 
 18-Jan-2010 Louis Landry
-^ Adjust copyright notices for 2010
+ ^ Adjust copyright notices for 2010
 
 18-Jan-2010 Jean-Marie Simonet
-^ Added Description metadata in plugins edit screen
+ ^ Added Description metadata in plugins edit screen
 
 18-Jan-2010 Hannes Papenberg
-# Changed default namespace of JRegistry from 'default' to '_default' - Thanks Robert Deutz!
+ # Changed default namespace of JRegistry from 'default' to '_default' - Thanks Robert Deutz!
 
 18-Jan-2010 Jean-Marie Simonet
-# Fixed typos in language and router
+ # Fixed typos in language and router
 
 18-Jan-2010 Jean-Marie Simonet
-^ Improve default alias transliteration
+ ^ Improve default alias transliteration
 
 18-Jan-2010 Andrew Eddie
  # Fixed PHP notice when invalid itemid processed by JRouterSite; JRouter* code-formatting.
 
 16-Jan-2010 Mark Dexter
-^ Partial refactoring of com_contact
-^ Work on com_content layouts (Angie Radtke)
-^ Work on com_menus (Elin Waring)
+ ^ Partial refactoring of com_contact
+ ^ Work on com_content layouts (Angie Radtke)
+ ^ Work on com_menus (Elin Waring)
 
 16-Jan-2010 Mark Dexter
-# Fix invalid language files in login.
+ # Fix invalid language files in login.
 
 16-Jan-2010 Andrew Eddie
  # Fixed integrity of component_id's in jos_menu core and sample data.
@@ -2028,99 +2031,99 @@ $ - Fixed languages strings for mod_popular - Thanks Jonnathan!
  # Accepted [#19357] JForm should use keyword self rather than explicit class name.
 
 16-Jan-2010 Christophe Demko
-^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
-+ Add loading JFormField class in some fields
-# Change the JFormFieldAccessLevel class to use JHtmlAccess::level function.
-# Correct the output of JFormFieldRules (change JHtmlRules::assetFormWidget function)
-# Correct the code of JFormFieldEditor (due to the use of SimpleXML)
-# Correct the code of JForm::setFieldAttribute (due to the use of SimpleXML)
-# Correct the code of JInstaller (due to the use of SimpleXML)
-# Correct the code of JStream::prependFilter (Call-time pass-by-reference has been deprecated)
-# Correct the code of JModelForm and JControllerForm to handle without errors checkin and checkout
-# Correct the code of JTable::__construct to handle asset_id and access correctly
-# Correct the code of JInstallerComponent to create admin menu
-# Correct the code of JFormFieldTimeZone (#19441)
-# Correct the code of the installed view in adminstrator com_languages (SimpleXML issue)
-# Load third party translation when stored in extension folder for admin menu (#18664)
-# Load third party translation when stored in extension folder for CategoriesHelper (#18595)
-# Correct of bug #18458 in JPagination class
-# Correct the JControllerForm class: method_exists return true even for inherited method. Use of property_exists instead
-# Correct the _context property in CategoriesControllerCategory and CategoriesModelCategories
-# Move each plugin content in his own folder (request from Jean-Marie Simonet)
-# Correct the toolip output in JFormField using htmlspecialchars
-$ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
-$ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
+ ^ Change the JHtmlAccess::section function to a JHtmlAccess::level function. Add the possibility to give extraoptions and to give an id
+ + Add loading JFormField class in some fields
+ # Change the JFormFieldAccessLevel class to use JHtmlAccess::level function.
+ # Correct the output of JFormFieldRules (change JHtmlRules::assetFormWidget function)
+ # Correct the code of JFormFieldEditor (due to the use of SimpleXML)
+ # Correct the code of JForm::setFieldAttribute (due to the use of SimpleXML)
+ # Correct the code of JInstaller (due to the use of SimpleXML)
+ # Correct the code of JStream::prependFilter (Call-time pass-by-reference has been deprecated)
+ # Correct the code of JModelForm and JControllerForm to handle without errors checkin and checkout
+ # Correct the code of JTable::__construct to handle asset_id and access correctly
+ # Correct the code of JInstallerComponent to create admin menu
+ # Correct the code of JFormFieldTimeZone (#19441)
+ # Correct the code of the installed view in adminstrator com_languages (SimpleXML issue)
+ # Load third party translation when stored in extension folder for admin menu (#18664)
+ # Load third party translation when stored in extension folder for CategoriesHelper (#18595)
+ # Correct of bug #18458 in JPagination class
+ # Correct the JControllerForm class: method_exists return true even for inherited method. Use of property_exists instead
+ # Correct the _context property in CategoriesControllerCategory and CategoriesModelCategories
+ # Move each plugin content in his own folder (request from Jean-Marie Simonet)
+ # Correct the toolip output in JFormField using htmlspecialchars
+ $ Add the Content_Page_View_article in administrator/language/en-GB/en-GB.com_content.ini
+ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_Show_All_Levels
 
 15-Jan-2010 Mark Dexter
-^ Add language field to category, contact, article, module, newsfeed, weblink (Jean-Marie Simonet)
-^ Fix sample data article (Elin Waring)
+ ^ Add language field to category, contact, article, module, newsfeed, weblink (Jean-Marie Simonet)
+ ^ Fix sample data article (Elin Waring)
 
 13-Jan-2010 Mark Dexter
-^ More sample data changes (Elin Waring)
+ ^ More sample data changes (Elin Waring)
 
 13-Jan-2010 Hannes Papenberg
-# Fixed JFormFieldUsergroup - Thanks Christopher Demko!
-^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)!
+ # Fixed JFormFieldUsergroup - Thanks Christopher Demko!
+ ^ Using PHPs built in SimpleXML instead of JSimpleXML to read XML files. Exception: JParameter. - Thanks Nikolai (elkuku)!
 
 12-Jan-2010 Mark Dexter
-# Improvements to contact parameters (Elin Waring)
-# Fixes in weblinks router (Elin Waring)
-# Newsfeed parameters fixes (Andrea Tarr)
-# Banners module parameter fixes (Andrea Tarr)
-# Newsfeed layout fixes (Angie Radtke)
-^ Working commit of new sample data (Elin Waring)
-# Frontpage layout fixes (Angie Radtke)
-# Bug fix in contact alias field
-# Fix bug when there is no active menu during drill down
+ # Improvements to contact parameters (Elin Waring)
+ # Fixes in weblinks router (Elin Waring)
+ # Newsfeed parameters fixes (Andrea Tarr)
+ # Banners module parameter fixes (Andrea Tarr)
+ # Newsfeed layout fixes (Angie Radtke)
+ ^ Working commit of new sample data (Elin Waring)
+ # Frontpage layout fixes (Angie Radtke)
+ # Bug fix in contact alias field
+ # Fix bug when there is no active menu during drill down
 
 12-Jan-2010 Mark Dexter
-# Fix bug creating new article category (Christophe Demko)
+ # Fix bug creating new article category (Christophe Demko)
 
 12-Jan-2010 Hannes Papenberg
-^ changed JLanguage to use parse_ini_file() to handle translations - big performance improvement!
-^ changed all language files to adhere to the standards required by parse_ini_file() - the files still need to be changed to the new language strings!
-^ changed language strings in the code to adhere to the strings required by parse_ini_file()
-# fixed XML file of mod_banners
-+ Added missing JForm Fields present in JParameter - thank you Christopher Demko!
-# Fixed JParameter Element named incorrectly - thank you Christopher Demko!
-+ Added Javascript onchange option in JForm - thank you Christopher Demko!
-# Fixed JForm Fields to act like the old JParameter Elements  - thank you Christopher Demko!
+ ^ changed JLanguage to use parse_ini_file() to handle translations - big performance improvement!
+ ^ changed all language files to adhere to the standards required by parse_ini_file() - the files still need to be changed to the new language strings!
+ ^ changed language strings in the code to adhere to the strings required by parse_ini_file()
+ # fixed XML file of mod_banners
+ + Added missing JForm Fields present in JParameter - thank you Christopher Demko!
+ # Fixed JParameter Element named incorrectly - thank you Christopher Demko!
+ + Added Javascript onchange option in JForm - thank you Christopher Demko!
+ # Fixed JForm Fields to act like the old JParameter Elements  - thank you Christopher Demko!
 
 11-Jan-2010 Hannes Papenberg
-- Removed obsolete #__core_log_items table
-- Removed obsolete #__stats_agents table
+ - Removed obsolete #__core_log_items table
+ - Removed obsolete #__stats_agents table
 
 09-Jan-2010 Mark Dexter
-# During install, default to English if Joomla! language uses 3-letter ISO code (Jean-Marie Simonet).
+ # During install, default to English if Joomla! language uses 3-letter ISO code (Jean-Marie Simonet).
 
 07-Jan-2010 Andrew Eddie
  ^ Removed ability to call JFilterInput statically.
  # Fixed buggy DB error string in installation.
 
 06-Jan-2010 Hannes Papenberg
-# Fixed default parameters in install-SQL for components
+ # Fixed default parameters in install-SQL for components
 
 05-Jan-2010 Mark Dexter
-# Fix category parameter in content modules (Elin Waring)
-# Fix URL's to remove spaces (Elin Waring)
-# Fix grid.sort to work with images (Andrea Tarr)
-# Remove hard-coding for admin images (Andrea Tarr)
-# Accessibility fixes to rules.php and grid.php (Andrea Tarr)
-^ Auto create linked contact when creating new user (Sam Moffatt)
-# Fix limit on latest users module (Elin Waring)
-# Add missing frontend modules to extensions table (Jonnathan S. Lima)
-# Fix admin/com_template/style error messages (Andrea Tarr)
-# Remove duplicate title attribute in toolbars (Andrea Tarr)
-# Make toolbars consistent in ordering and labels when editing (Elin Waring)
-# Replact &getTable with getTable where it was generating warnings because of arrays (Elin Waring)
-# Change com_user to com_users in the extensions table (Elin Waring)
-# Change weblinks config.xml to use fields (Elin Waring)
-# Fix admin/com_modules to delete associated records in modules_menu when module is deleted (Andrea Tarr)
-^ Step one of adding separate name fields to contact (Elin Waring)
-# Fix Save2Copy to correctly checkin the original content (Elin Waring)
-# Fix module menu assignments modal (Andrea Tarr)
-# Remove extraneous javascript from com_modules modal layout (Andrea Tarr)
-# Fix & standardize the sysinfo check for output buffering (Andrea Tarr)
+ # Fix category parameter in content modules (Elin Waring)
+ # Fix URL's to remove spaces (Elin Waring)
+ # Fix grid.sort to work with images (Andrea Tarr)
+ # Remove hard-coding for admin images (Andrea Tarr)
+ # Accessibility fixes to rules.php and grid.php (Andrea Tarr)
+ ^ Auto create linked contact when creating new user (Sam Moffatt)
+ # Fix limit on latest users module (Elin Waring)
+ # Add missing frontend modules to extensions table (Jonnathan S. Lima)
+ # Fix admin/com_template/style error messages (Andrea Tarr)
+ # Remove duplicate title attribute in toolbars (Andrea Tarr)
+ # Make toolbars consistent in ordering and labels when editing (Elin Waring)
+ # Replact &getTable with getTable where it was generating warnings because of arrays (Elin Waring)
+ # Change com_user to com_users in the extensions table (Elin Waring)
+ # Change weblinks config.xml to use fields (Elin Waring)
+ # Fix admin/com_modules to delete associated records in modules_menu when module is deleted (Andrea Tarr)
+ ^ Step one of adding separate name fields to contact (Elin Waring)
+ # Fix Save2Copy to correctly checkin the original content (Elin Waring)
+ # Fix module menu assignments modal (Andrea Tarr)
+ # Remove extraneous javascript from com_modules modal layout (Andrea Tarr)
+ # Fix & standardize the sysinfo check for output buffering (Andrea Tarr)
 
 
 05-Jan-2010 Hannes Papenberg
@@ -2144,27 +2147,26 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
  ^ Applied [#17818] Refactoring administrator/com_massmail
 
 03-Jan-2010 Hannes Papenberg
-^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately
- not mean that we are removing it from use in core code in 1.6 yet.
-- Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
-^ Set a default date format for JFormFieldCalendar
-# Fixed JElementComponentLayouts. Its now using the new #__template_styles table
+ ^ Deprecated JSimpleXML - Due to time restraints, this does unfortunately not mean that we are removing it from use in core code in 1.6 yet.
+ - Removed JElementAssetgroups JParameter Element. This is a leftover from earlier ACL tests.
+ ^ Set a default date format for JFormFieldCalendar
+ # Fixed JElementComponentLayouts. Its now using the new #__template_styles table
 
 02-Jan-2010 Ron Severdia
-# Fixed bug in CSS for ACL, general CSS cleanup & reformat
-# Visual cleanup on borders and login page
+ # Fixed bug in CSS for ACL, general CSS cleanup & reformat
+ # Visual cleanup on borders and login page
 
 01-Jan-2010 Mark Dexter
-# Fix bug where article global parameters were not showing
+ # Fix bug where article global parameters were not showing
 
 29-Dec-2009 Mark Dexter
-# Add correct initial Article parameters in joomla.sql
-+ Partial implementation of Category List Layout
-^ Standarize CSS class names in com_content - thanks Andrea Tarr
-# Fixes in user modules - thanks Elin Waring
-^ Improvements to Contact layout - thanks Elin Waring
-# Fix but in mod_menu when there is no Itemid. Use default if no active.
-# Fix PHP warning messages in New User Groups and new Access Levels.
+ # Add correct initial Article parameters in joomla.sql
+ + Partial implementation of Category List Layout
+ ^ Standarize CSS class names in com_content - thanks Andrea Tarr
+ # Fixes in user modules - thanks Elin Waring
+ ^ Improvements to Contact layout - thanks Elin Waring
+ # Fix but in mod_menu when there is no Itemid. Use default if no active.
+ # Fix PHP warning messages in New User Groups and new Access Levels.
 
 29-Dec-2009 Hannes Papenberg
  # Fixed reference bug in JCategories
@@ -2196,31 +2198,31 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
  ^ Added chaining support to JDatabase::setQuery method.
 
 21-Dec-2009 Louis Landry
-+ Added setAdditionalUrlParam and getAdditionalUrlParam to JPagination to allow better URL manipulation for GET requests.  (thanks to Robert Deutz)
+ + Added setAdditionalUrlParam and getAdditionalUrlParam to JPagination to allow better URL manipulation for GET requests.  (thanks to Robert Deutz)
 
 21-Dec-2009 Hannes Papenberg
-+ Added unicode-slug ability. See JApplication::stringURLSafe() for usage
-^ Standardized user plugin events. All events are now with "User" instead of "Users"
-# Fixed reference notice in backend com_users user model
-^ Changed JMail from an abstract to a normal class
-^ Updated TinyMCE to 3.2.7
+ + Added unicode-slug ability. See JApplication::stringURLSafe() for usage
+ ^ Standardized user plugin events. All events are now with "User" instead of "Users"
+ # Fixed reference notice in backend com_users user model
+ ^ Changed JMail from an abstract to a normal class
+ ^ Updated TinyMCE to 3.2.7
 
 20-Dec-2009 Mark Dexter
-+ Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)
-+ Implement global and menu item parameters
-# Fix 404 error in archive view (thanks to Elin Waring)
+ + Partial implementation of Category List in com_content (thanks to Andrea Tarr, Elin Waring, Angie Radtke)
+ + Implement global and menu item parameters
+ # Fix 404 error in archive view (thanks to Elin Waring)
 
 14-Dec-2009 Ian MacLennan
-^ Modified JString to use phputf8 to support systems without mb_string
+ ^ Modified JString to use phputf8 to support systems without mb_string
 
 14-Dec-2009 Andrew Eddie
  # Fixed bug in installation and diff SQL. TEXT fields can't have defaults.
 
 13-Dec-2009 Mark Dexter
-^ Merged in com_content changes. Implement some params for Category List layout.
-# Fixed read more param for articles.
-# Fixed problem with reading params for custom layouts. Always load standard params for standard layouts.
-# Fixes to module modal on menu assignments (thanks to Andrea Tarr).
+ ^ Merged in com_content changes. Implement some params for Category List layout.
+ # Fixed read more param for articles.
+ # Fixed problem with reading params for custom layouts. Always load standard params for standard layouts.
+ # Fixes to module modal on menu assignments (thanks to Andrea Tarr).
 
 13-Dec-2009 Andrew Eddie
  # Fixed JHtmlSelect::options so that empy labels would not be translated.
@@ -2256,22 +2258,22 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
  # Minor fixes for modules updates and updates in general
 
 07-Dec-2009 Andrea Tarr
-# Allow admin templates to install correctly
+ # Allow admin templates to install correctly
 
 01-Dec-2009 Ron Severdia
-+ Added CSS for required fields
+ + Added CSS for required fields
 
 01-Dec-2009 Ron Severdia
-+ Added Blueprint framework for Atomic template
+ + Added Blueprint framework for Atomic template
 
 30-Nov-2009 Mark Dexter
-^ Remove Category level parameters for articles
-# Fix bug where category metadata wasn't saving to database
-# Replace eregi with stripos in contact and weblinks table check
-# Fix error when saving a contact with a link URL
+ ^ Remove Category level parameters for articles
+ # Fix bug where category metadata wasn't saving to database
+ # Replace eregi with stripos in contact and weblinks table check
+ # Fix error when saving a contact with a link URL
 
 25-Nov-2009 Mark Dexter
-^ Changed attribs column in jos_content from text to varchar(5120).
+ ^ Changed attribs column in jos_content from text to varchar(5120).
 
 25-Nov-2009 Andrew Eddie
  + Added menu_image param to alias and url menu link types.
@@ -2294,15 +2296,15 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
  ^ Added language field to jos_modules.
 
 23-Nov-2009 Ron Severdia
-^ Added panels on Edit Category screen, new panels added for default params
+ ^ Added panels on Edit Category screen, new panels added for default params
 
 22-Nov-2009 Ron Severdia
-^ CSS button styling, icon update
-# Language fixes
+ ^ CSS button styling, icon update
+ # Language fixes
 
 21-Nov-2009 Ron Severdia
-^ Modal UI fixes
-# BlueStork CSS cleanup for modals, change px to em
+ ^ Modal UI fixes
+ # BlueStork CSS cleanup for modals, change px to em
 
 20-Nov-2009 Louis Landry
  + Added JHtmlSliders
@@ -2317,13 +2319,13 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
  # Fixed bug when trying to delete a user.
 
 19-Nov-2009 Ron Severdia
-^ Restored missing CSS
-# Fixed new CSS issues
-^ Cleaned up UI and language strings for Global Check-in
-- Remove unnecessary markup
-^ Update bluestork images
-+ New CSS
-^ Fix language strings
+ ^ Restored missing CSS
+ # Fixed new CSS issues
+ ^ Cleaned up UI and language strings for Global Check-in
+ - Remove unnecessary markup
+ ^ Update bluestork images
+ + New CSS
+ ^ Fix language strings
 
 19-Nov-2009 Andrew Eddie
  ^ Refactor JModelList _getStoreId and _populateState implementations.
@@ -2334,14 +2336,14 @@ $ Change the language string JOption_Access_Show_All_Sections to JOption_Access_
  # Fixed bug in JUser class.  Initialised groups property to empty array.
 
 14-Nov-2009 Ian MacLennan
-# Fixing atomic template to work with short tags on
+ # Fixing atomic template to work with short tags on
 
 13-Nov-2009 Ron Severdia
-^ Menu Manager UI fixes
-# Menu item modal fixes
-+ Added missing language strings/keys
-+ Added missing User Menu language file
-$ More language string fixes
+ ^ Menu Manager UI fixes
+ # Menu item modal fixes
+ + Added missing language strings/keys
+ + Added missing User Menu language file
+ $ More language string fixes
 
 
 13-Nov-2009 Andrew Eddie
@@ -2371,21 +2373,21 @@ $ More language string fixes
  ^ Change com_content article view to throw a hard 404 if an article not found (or not published).
 
 11-Nov-2009 Mark Dexter
-# Fix bug showing current value of request parameters in menu items
+ # Fix bug showing current value of request parameters in menu items
 
 11-Nov-2009 Elin Waring
-# Fix up comments and URL issues in com_weblinks
+ # Fix up comments and URL issues in com_weblinks
 
 10-Nov-2009 Elin Waring
-# Miscellaneous cleanup in weblinks, newsfeed, content, language strings
-# Tidy up com_menus, delete beez and khepri ini files
+ # Miscellaneous cleanup in weblinks, newsfeed, content, language strings
+ # Tidy up com_menus, delete beez and khepri ini files
 
 10-Nov-2009 Mark Dexter
-# Minor HTML validation issue in mod_login
+ # Minor HTML validation issue in mod_login
 
 05-Nov-2009 Ron Severdia
-^ Template Manager UI cleanup, new images
-# Module Manager image fix
+ ^ Template Manager UI cleanup, new images
+ # Module Manager image fix
 
 05-Nov-2009 Andrew Eddie
  ^ NOTE. Backward incompatible change in the argument list for JEditor::display
@@ -2407,7 +2409,7 @@ $ More language string fixes
  ^ Reconfigured template source edit functions.
 
 29-Oct-2009 Ron Severdia
-^ Template Manager change, new thumbnail preview
+ ^ Template Manager change, new thumbnail preview
 
 29-Oct-2009 Andrew Eddie
  ! Reverted plugin edit form to last good state.
@@ -2431,15 +2433,15 @@ $ More language string fixes
  ^ Renamed modal article selector field.
 
 27-Oct-2009 Louis Landry
-# Fixed failure of JUser to load JSON based parameter strings.
-^ Changed default behavior of JHtml::date() to use user settings for time zones.
-^ Added transparent handling of time zone translation for JForm / JFormFieldCalendar.
+ # Fixed failure of JUser to load JSON based parameter strings.
+ ^ Changed default behavior of JHtml::date() to use user settings for time zones.
+ ^ Added transparent handling of time zone translation for JForm / JFormFieldCalendar.
 
 25-Oct-2009 Ron Severdia
-^ Toolbar UI tweaks
-+ New icons
-+ New Bluestork CSS
-+ Various missing language strings
+ ^ Toolbar UI tweaks
+ + New icons
+ + New Bluestork CSS
+ + Various missing language strings
 
 25-Oct-2009 Ian MacLennan
  # Fixed progress bar image
@@ -2451,10 +2453,10 @@ $ More language string fixes
  # Fixed bug: Move/copy select was not displaying properly in menu item list.
 
 24-Oct-2009 Ron Severdia
-# Clean up views & modals
-- Remove com_users specific JS & CSS from media folder
-$ Language cleanup & new strings
-# CSS cleanup
+ # Clean up views & modals
+ - Remove com_users specific JS & CSS from media folder
+ $ Language cleanup & new strings
+ # CSS cleanup
 
 23-Oct-2009 Andrew Eddie
  ^ Fixed new registered type in User Options to be able to select any group.
@@ -2475,10 +2477,10 @@ $ Language cleanup & new strings
  # Fixed bug: Cancel not working in edit menu form.
 
 23-Oct-2009 Ron Severdia
-- Removed Austere template
-# Style fixes
-# Toolbar fixes
-+ New icons
+ - Removed Austere template
+ # Style fixes
+ # Toolbar fixes
+ + New icons
 
 23-Oct-2009 Andrew Eddie
  ! Working commit of adding permissions checks to admin com_users.
@@ -2488,9 +2490,9 @@ $ Language cleanup & new strings
  ^ Reordered user groups back to the 1.5 way.
 
 22-Oct-2009 Ron Severdia
-^ Migrated Media Manager assets to main media directory.
-# Validation errors fixed and cleanup of Help page.
-^ Migrated User Manager assets to main media directory.
+ ^ Migrated Media Manager assets to main media directory.
+ # Validation errors fixed and cleanup of Help page.
+ ^ Migrated User Manager assets to main media directory.
 
 22-Oct-2009 Louis Landry
  ^ Refactored JDate to extend the native DateTime object.
@@ -2515,138 +2517,138 @@ $ Language cleanup & new strings
  # Fixed regression in flash uploader.
 
 19-Oct-2009 Ron Severdia
-# Fixed small bugs in Media Manager and validation errors
+ # Fixed small bugs in Media Manager and validation errors
 
 19-Oct-2009 Ian MacLennan
  # Fixed updated Uploader to reload Files frame
 
 18-Oct-2009 Mark Dexter
-# Fix problems in jos_menu, jos_categories sample data
+ # Fix problems in jos_menu, jos_categories sample data
 
 18-Oct-2009 Ron Severdia
-+ Version 0.1 of Austere template
+ + Version 0.1 of Austere template
 
 17-Oct-2009 Ron Severdia
-+ New icons, CSS
+ + New icons, CSS
 
 17-Oct-2009 Hannes Papenberg
-# Fixed some bugs with the menu manager and modal windows
-+ Added Article linker plugin for editors
-^ Merged editor windows for article editing
-^ Added/Fixed access field in newsfeeds
-^ Moved com_messages links in admin menu to component menu
-^ com_templates now uses codemirror to edit HTML
+ # Fixed some bugs with the menu manager and modal windows
+ + Added Article linker plugin for editors
+ ^ Merged editor windows for article editing
+ ^ Added/Fixed access field in newsfeeds
+ ^ Moved com_messages links in admin menu to component menu
+ ^ com_templates now uses codemirror to edit HTML
 
 16-Oct-2009 Ron Severdia
-^ Extension Manager fixes
-^ Language fixes
-+ New warning CSS
+ ^ Extension Manager fixes
+ ^ Language fixes
+ + New warning CSS
 
 15-Oct-2009 Ron Severdia
-# BlueStork UI fixes
-^ Replace tables
-+ Language fixes
+ # BlueStork UI fixes
+ ^ Replace tables
+ + Language fixes
 
 15-Oct-2009 Hannes Papenberg
-# Fixed saving in com_modules
+ # Fixed saving in com_modules
 
 14-Oct-2009 Elin Waring
-# Fix link creation when the layout is not called default.
-# Update/add access code for weblinks and contacts.  Fix typos.
-# Correct errors in sample data. Correct errors in joomla.sql (add s to user), add xml for com_users front end.
-# Add required="true" to required elements.
-^ Add modal linked user picker for com_contact. Clean up contact picker modal.
+ #  Fix link creation when the layout is not called default.
+ # Update/add access code for weblinks and contacts.  Fix typos.
+ # Correct errors in sample data. Correct errors in joomla.sql (add s to user), add xml for com_users front end.
+ # Add required="true" to required elements.
+ ^ Add modal linked user picker for com_contact. Clean up contact picker modal.
 
 13-Oct-2009 Ron Severdia
-# CSS and UI fixes for JForm radio button changes.
-# UI fixes with new JForm class
+ # CSS and UI fixes for JForm radio button changes.
+ # UI fixes with new JForm class
 
 14-Oct-2009 Andrew Eddie
-+ Added languages to base install data.
-! Consistency updates to backend Newsfeeds component.
-+ Added access and language fields to newsfeeds table.
-^ Refactored schema of newsfeeds table.
-^ Rolled tight coupling of asset name out of JControllerForm.
-+ Added checkout and checkin base methods to JModelForm (compliments JControllerForm).
-! Consistency updates to backend Content component.
-# Added missing support for saveorder in articles list.
+ + Added languages to base install data.
+ ! Consistency updates to backend Newsfeeds component.
+ + Added access and language fields to newsfeeds table.
+ ^ Refactored schema of newsfeeds table.
+ ^ Rolled tight coupling of asset name out of JControllerForm.
+ + Added checkout and checkin base methods to JModelForm (compliments JControllerForm).
+ ! Consistency updates to backend Content component.
+ # Added missing support for saveorder in articles list.
 
 13-Oct-2009 Andrew Eddie
-^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
-^ Change label of 'inherit' in Global Config permissions.
-+ Add access check to categories form field.
-^ Configure add and edit access controls in com_content (changes to access checks in JControllerForm, article controller and model).
-# Fix bug in JTable::delete when tracking assets.
-! Temporarily disable fulltext display in com_content feeds (need to explicitly retrieve only the required fields to save data overhead).
-^ Correct the inheritance (via user groups) in the JHtml rules widget.
-^ Added component level core.admin check to allow for non Super User's to edit options (configured for Administrator, denied for Manager).
-# Fix permissions in admin mod_menu (Checkin and Cache not correct).
-# Fix permissions in com_config to correctly allow component configuration management.
-^ Change name of first installed user to "Super User".
-- Remove com_members from extensions table.
-+ Added options toolbar check to com_checkin, com_cache and com_search.
+ ^ Reverse the order of Publisher, Editor and Author groups to match admin groups direction.
+ ^ Change label of 'inherit' in Global Config permissions.
+ + Add access check to categories form field.
+ ^ Configure add and edit access controls in com_content (changes to access checks in JControllerForm, article controller and model).
+ # Fix bug in JTable::delete when tracking assets.
+ ! Temporarily disable fulltext display in com_content feeds (need to explicitly retrieve only the required fields to save data overhead).
+ ^ Correct the inheritance (via user groups) in the JHtml rules widget.
+ ^ Added component level core.admin check to allow for non Super User's to edit options (configured for Administrator, denied for Manager).
+ # Fix permissions in admin mod_menu (Checkin and Cache not correct).
+ # Fix permissions in com_config to correctly allow component configuration management.
+ ^ Change name of first installed user to "Super User".
+ - Remove com_members from extensions table.
+ + Added options toolbar check to com_checkin, com_cache and com_search.
 
 11-Oct-2009 Ron Severdia
-^ Standardized all list filters
-^ Front-end core output cleanup
+ ^ Standardized all list filters
+ ^ Front-end core output cleanup
 
 11-Oct-2009 Hannes Papenberg
-+ Adding class to radio button labels
+ + Adding class to radio button labels
 
 10-Oct-2009 Ron Severdia
-^ Replaced tables with CSS
-# Reworked CSS class structure
-^ Added classes to components still using JParam (emulate JForm)
-^ Moved com_redirect CSS to main template.css
-# Com_config UI fix and language fix
-# Redirect component UI cleanup
-# Search component UI cleanup
-# Com_templates UI cleanup
-# Com_users UI cleanup
-# Com_weblinks UI fixes
-- Removed beez template
-# Com_categories UI fixes
-# Com_modules UI fixes
-^ Replace inline styles with classes
+ ^ Replaced tables with CSS
+ # Reworked CSS class structure
+ ^ Added classes to components still using JParam (emulate JForm)
+ ^ Moved com_redirect CSS to main template.css
+ # Com_config UI fix and language fix
+ # Redirect component UI cleanup
+ # Search component UI cleanup
+ # Com_templates UI cleanup
+ # Com_users UI cleanup
+ # Com_weblinks UI fixes
+ - Removed beez template
+ # Com_categories UI fixes
+ # Com_modules UI fixes
+ ^ Replace inline styles with classes
 
 09-Oct-2009 Elin Waring and Andrea Tarr
-+ Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
-^ Redid frontend layouts for contacts and newsfeeds (Andrea Tarr)
-# Fixed error in Add New Access Level
-^ Moved css files of classes that replace inline styles to _html folder in milkyway (Andrea Tarr)
-# Fixed contact picker modal (Elin Waring)
-^ Moved SetState from controllers to models (Elin Waring)
+ + Added categories views to weblinks, newsfeeds, contacts (Elin Waring)
+ ^ Redid frontend layouts for contacts and newsfeeds (Andrea Tarr)
+ # Fixed error in Add New Access Level
+ ^ Moved css files of classes that replace inline styles to _html folder in milkyway (Andrea Tarr)
+ # Fixed contact picker modal (Elin Waring)
+ ^ Moved SetState from controllers to models (Elin Waring)
 
 09-Oct-2009 Hannes Papenberg
-^ Removed the root_user feature.
-# Fixed the userprofile in the backend. This still needs some changes.
+ ^ Removed the root_user feature.
+ # Fixed the userprofile in the backend. This still needs some changes.
 
 08-Oct-2009 Ercan Ozkaya
-# Converted clone calls to be statements
+ # Converted clone calls to be statements
 
 08-Oct-2009 Andrew Eddie
-+ Added SERVER_UTC and USER_UTC filters to JForm::filter to convert user supplied dates to UTC server or UTC user time respectively.
-+ Added access argument to JHtmlJGrid::published to only display the icon without click action if not permitted to perform the action.
-+ Added save-as-copy support to JControllerForm.
-+ Added access control checks to JControllerForm with overrides for extended classes (_allowAdd, _allowEdit, _allowSave).
-+ Hooked in access controls to backend com_content toolbars, views and controllers.
+ + Added SERVER_UTC and USER_UTC filters to JForm::filter to convert user supplied dates to UTC server or UTC user time respectively.
+ + Added access argument to JHtmlJGrid::published to only display the icon without click action if not permitted to perform the action.
+ + Added save-as-copy support to JControllerForm.
+ + Added access control checks to JControllerForm with overrides for extended classes (_allowAdd, _allowEdit, _allowSave).
+ + Hooked in access controls to backend com_content toolbars, views and controllers.
 
 07-Oct-2009 Ercan Ozkaya
  # [#18304] require, require_once, include, & include_once are statements, not functions (Contributed by Joseph LeBlanc)
 
 07-Oct-2009 Andrew Eddie
-# Fixed static/object usage bug for default in JFilterInput::clean (sync'd with 1.5)
+ # Fixed static/object usage bug for default in JFilterInput::clean (sync'd with 1.5)
 
 06-Oct-2009 Ron Severdia
-# BlueStork CSS cleanup
-# Layout fixes for com_contact, com_menus, com_users, com_weblinks
-# Grid CSS fixed.
+ # BlueStork CSS cleanup
+ # Layout fixes for com_contact, com_menus, com_users, com_weblinks
+ # Grid CSS fixed.
 
 06-Oct-2009 Andrew Eddie
-^ Loop optimisation in JDocumentHTML::countModules
+ ^ Loop optimisation in JDocumentHTML::countModules
 
 05-Oct-2009 Mark Dexter
-# Fixed problems when moving & re-ordering Categories in Category Manager
+ # Fixed problems when moving & re-ordering Categories in Category Manager
 
 03-Oct-2009 Ercan Ozkaya
  + Added content form view for frontend
@@ -2658,32 +2660,32 @@ $ Language cleanup & new strings
  # Fixed a fatal error in com_content
 
 02-Oct-2009 Ron Severdia
-# Clean up edit category layout
-# CSS fixes for high-contrast/text sizer parameters
+ # Clean up edit category layout
+ # CSS fixes for high-contrast/text sizer parameters
 
 03-Oct-2009 Andrew Eddie
-# Fixed bug preventing frontend login.
+ # Fixed bug preventing frontend login.
 
 02-Oct-2009 Louis Landry
-! - Merged acl2 branch into trunk with new and improved ACL system.
+ ! Merged acl2 branch into trunk with new and improved ACL system.
 
 02-Oct2009 Andrew Eddie
-# Fix bugs in rules fields (wrong extension given).
-^ Split layout of admin mod_menu into enabled and disabled layouts.
-^ Reverse direction of user groups to allow top-down inheritance.
+ # Fix bugs in rules fields (wrong extension given).
+ ^ Split layout of admin mod_menu into enabled and disabled layouts.
+ ^ Reverse direction of user groups to allow top-down inheritance.
 
 01-Oct-2009 Louis Landry
-- Removed JFormFieldAccessSections
-- Removed JAccessHelper
-^ Drastically simplified JAccess and made all methods static.
-# Fix problem where admin session timeout produces an exception because of the request url.
+ - Removed JFormFieldAccessSections
+ - Removed JAccessHelper
+ ^ Drastically simplified JAccess and made all methods static.
+ # Fix problem where admin session timeout produces an exception because of the request url.
 
 01-Oct-2009 Andrew Eddie
-- Removed JAccessLevel and JSimpleRule
-^ Rename jos_access_assets to jos_assets
-+ Added permissions to global configuration.
-+ Added permissions to component configuration.
-^ Split com_banners helper into site and admin; renamed to BannersHelper.
+ - Removed JAccessLevel and JSimpleRule
+ ^ Rename jos_access_assets to jos_assets
+ + Added permissions to global configuration.
+ + Added permissions to component configuration.
+ ^ Split com_banners helper into site and admin; renamed to BannersHelper.
 
 01-Oct-2009 Ian MacLennan
  # [#16484] Changed addslashes to addcslashes in RegistryFormatPHP so that only \ and ' get slashes added.  (fix from 1.5)
@@ -2693,69 +2695,69 @@ $ Language cleanup & new strings
  + Added transliteration override support for language packs
 
 29-Sep-2009 Louis Landry
-^ Restructured the access control system and simplified the database model to use JRules and a singular nested asset tree.
+ ^ Restructured the access control system and simplified the database model to use JRules and a singular nested asset tree.
 
 29-Sep-2009 Ron Severdia
-# Template Manager cleanup
-# CSS for com_users
-^ Replace tables
-+ New ACL icons
+ # Template Manager cleanup
+ # CSS for com_users
+ ^ Replace tables
+ + New ACL icons
 
 29-Sep-2009 Gergo Erdosi
  # Fixed some call_user_func_array() bugs.
 
 28-Sep-2009 Ron Severdia
-^ CSS cleanup
-^ Changed commented-out to CSS hide in edit category
-# CSS fixes
-$ Missing language strings added
-^ Replaced tables from user config
-# Fix visual issues in config/menus/users
-# Fix form structure & element order
-$ Fix language strings, CSS fixes
+ ^ CSS cleanup
+ ^ Changed commented-out to CSS hide in edit category
+ # CSS fixes
+ $ Missing language strings added
+ ^ Replaced tables from user config
+ # Fix visual issues in config/menus/users
+ # Fix form structure & element order
+ $ Fix language strings, CSS fixes
 
 28-Sep-2009 Gergo Erdosi
  # Fixed bug in installation SQL file.
 
 28-Sep-2009 Andrew Eddie
-+ Added JControllerForm (to support basic edit operations).
-+ Added table jos_languages.
-+ Added support to add and edit content languages.
-^ Updated frontend content router to support more category path scenarios.
-+ Added archived state support to JHtmlJGrid::published
-+ Added ContentLanguages JForm field and JElement.
+ + Added JControllerForm (to support basic edit operations).
+ + Added table jos_languages.
+ + Added support to add and edit content languages.
+ ^ Updated frontend content router to support more category path scenarios.
+ + Added archived state support to JHtmlJGrid::published
+ + Added ContentLanguages JForm field and JElement.
 
 26-Sep-2009 Andrew Eddie
-^ Install from directory now remembers previous path.
-^ Refactored language installation error messages.
-^ Forced language installation file to require client attribute.
-^ Refactored System Debug language strings.
-+ New options in System Debug plugin to more tightly control how the untranslated string present
+ ^ Install from directory now remembers previous path.
+ ^ Refactored language installation error messages.
+ ^ Forced language installation file to require client attribute.
+ ^ Refactored System Debug language strings.
+ + New options in System Debug plugin to more tightly control how the untranslated string present
 
 25-Sep-2009 Mark Dexter
-# Add extension to new Category in Content->Category Manager
+ # Add extension to new Category in Content->Category Manager
 
 23-Sep-2009 Hannes Papenberg
-^ Added class and ID to radio buttons
+ ^ Added class and ID to radio buttons
 
 21-Sep-2009 Elin Waring & Andrea Tarr
-^ Merge from dextercowley branch
-^ Layouts for frontend components
-^ Make com_contact MVC
-^ Fix a number of issues in in com_menus
-^ Fix problem in administrator menu
-^ Update strings
+ ^ Merge from dextercowley branch
+ ^ Layouts for frontend components
+ ^ Make com_contact MVC
+ ^ Fix a number of issues in in com_menus
+ ^ Fix problem in administrator menu
+ ^ Update strings
 
 21-Sep-2009 Ron Severdia
-# BlueStork CSS fixes
-+ New icons
-$ Language fixes
-^ Replace tables in components
+ # BlueStork CSS fixes
+ + New icons
+ $ Language fixes
+ ^ Replace tables in components
 
 20-Sep-2009 Ron Severdia
-# BlueStork CSS fixes
-# Fixed submenu switcher
-# Visual cleanup
+ # BlueStork CSS fixes
+ # Fixed submenu switcher
+ # Visual cleanup
 
 20-Sep-2009 Hannes Papenberg
  ^ Removed static insert for com_redirect. its now properly retrieved from the database.
@@ -2775,16 +2777,16 @@ $ Language fixes
  # Fixed bugs in JTableNested::_getTreeRepositionData and updating of lft and rgt in JTableNested::store (rgt's were being updated first, wrong way round?).
 
 16-Sep-2009 Ron Severdia
-+ BlueStork CSS updates
-# Admin interface fixes
-^ Replace tables in administrator components & mod_online/quickicon/unread
-+ New & updated language strings
+ + BlueStork CSS updates
+ # Admin interface fixes
+ ^ Replace tables in administrator components & mod_online/quickicon/unread
+ + New & updated language strings
 
 15-Sep-2009 Ron Severdia
-# BlueStork CSS fixes/additions
-^ Form tweaks for com_categories & com_content & com_users
-^ Replace tables from com_config & com_menus
-# Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
+ # BlueStork CSS fixes/additions
+ ^ Form tweaks for com_categories & com_content & com_users
+ ^ Replace tables from com_config & com_menus
+ # Accessibility improvements to com_config, mod_status. Thanks to Andrea Tarr.
 
 13-Sep-2009 Hannes Papenberg
  + Added Profile Plugin from experimental branch. This makes it possible to extend your user profile easily.
@@ -2802,11 +2804,11 @@ $ Language fixes
  # Fixed issue with JRoute->parse().
 
 12-Sep-2009 Ron Severdia
-# BlueStork CSS fixes
-# Article Manager cleanup
-^ Replace tables in pane sliders
-+ Robots dropdown added
-+ Missing language strings added
+ # BlueStork CSS fixes
+ # Article Manager cleanup
+ ^ Replace tables in pane sliders
+ + Robots dropdown added
+ + Missing language strings added
 
 11-Sep-2009 Hannes Papenberg
  ^ Ability to add additional layouts with own parameters via a template added to menu manager

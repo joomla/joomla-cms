@@ -76,6 +76,7 @@ var JFormValidator = new Class({
 
 	validate: function(el)
 	{
+		var el = $(el);
 		// If the field is required make sure it has a value
 		if (el.hasClass('required')) {
 			if (el.get('tag')=='fieldset' && (el.hasClass('radio') || el.hasClass('checkboxes'))) {
