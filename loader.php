@@ -55,7 +55,7 @@ abstract class JLoader
 
 			$path = str_replace('.', DS, $filePath);
 
-			if (strpos($filePath, 'joomla') === 0)
+			if (strpos($filePath, 'joomla.') === 0)
 			{
 				// If we are loading a joomla class prepend the classname with a capital J.
 				$className = 'J'.$className;
