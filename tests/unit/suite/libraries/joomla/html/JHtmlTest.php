@@ -649,9 +649,93 @@ class JHtmlTest extends JoomlaTestCase
 	 */
 	public function testTooltip()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		if(!is_array($_SERVER)) {
+			$_SERVER = array();
+		}
+
+		// we save the state of $_SERVER for later and set it to appropriate values
+		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
+		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
+		// we generate a random template name so that we don't collide or hit anything
+		$template = 'mytemplate'.rand(1,10000);
+
+		// we create a stub (not a mock because we don't enforce whether it is called or not)
+		// to return a value from getTemplate
+		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock->expects($this->any())
+			->method('getTemplate')
+			->will($this->returnValue($template));
+
+		JFactory::$application = $mock;
+
+		// Testing classical cases
+		$this->assertThat(
+			JHtml::tooltip('Content'),
+			$this->equalTo('<span class="hasTip" title="Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Basic tooltip failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Tooltip with title and content failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title',null,'Text'),
+			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
+			'Tooltip with title and content and text failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title',null,'Text','http://www.monsite.com'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
+			'Tooltip with title and content and text and href failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title','tooltip.png',null,null,'MyAlt'),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			'Tooltip with title and content and alt failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content','Title','tooltip.png',null,null,'MyAlt','hasTip2'),
+			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			'Tooltip with title and content and alt and class failed'
+		);
+
+		// Testing where title is an array
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Tooltip with title and content failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','text'=>'Text')),
+			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
+			'Tooltip with title and content and text failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','text'=>'Text','href'=>'http://www.monsite.com')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
+			'Tooltip with title and content and text and href failed'
+		);
+
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','alt'=>'MyAlt')),
+			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+			'Tooltip with title and content and alt failed'
+		);
+		$this->assertThat(
+			JHtml::tooltip('Content',array('title'=>'Title','class'=>'hasTip2')),
+			$this->equalTo('<span class="hasTip2" title="Title::Content"><img src="'.JURI::base(true).'/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+			'Tooltip with title and content and class failed'
 		);
 	}
 

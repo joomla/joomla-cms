@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#21136] Missing JBrowser isMobile
  # [#20844] jimport does not work with non-system libraries
  # [#20828] Module Manager : All checkboxes must be selected when choosing "on all pages" in "Menu Assignment"
+ # [#15296] JHTML::tooltip alt attribute for image tooltips
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos
