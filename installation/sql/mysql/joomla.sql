@@ -184,7 +184,12 @@ CREATE TABLE `#__categories` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES
-(1, 0, 0, 0, 1, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*');
+(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
+(2, 27, 1, 1, 2, 1, 'uncategorized', 'com_content', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
+(3, 28, 1, 3, 4, 1, 'uncategorized', 'com_banners', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
+(4, 29, 1, 5, 6, 1, 'uncategorized', 'com_contact', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
+(5, 30, 1, 7, 8, 1, 'uncategorized', 'com_newsfeeds', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
+(6, 31, 1, 9, 10, 1, 'uncategorized', 'com_weblinks', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
 
 # -------------------------------------------------------
 

@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#21135] Contacts insert as first item in backend
  # [#20713] List of weblinks categories is empty for all categories except the root
  # [#21142] Cancel Submit a Web Link redirects wrong
+ # [#20315] com_newsfeed doesnt check for catid when saving
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos

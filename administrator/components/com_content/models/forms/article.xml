@@ -39,7 +39,6 @@
 			label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
-			<option value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"

@@ -19,7 +19,6 @@
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
 			class="inputbox"
 		>
-			<option>JOPTION_NO_CATEGORY</option>
 		</field>
 
 		<field name="url" type="text" class="inputbox"

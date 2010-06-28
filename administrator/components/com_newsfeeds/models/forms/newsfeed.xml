@@ -35,7 +35,6 @@
 			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
-			<option value="0">JOPTION_NO_CATEGORY</option>
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"

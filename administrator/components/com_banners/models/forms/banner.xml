@@ -20,7 +20,6 @@
 			label="COM_BANNERS_FIELD_CATEGORY_LABEL" description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 		>
-			<option>JOPTION_NO_CATEGORY</option>
 		</field>
 
 		<field name="ordering" type="ordering" class="inputbox"
