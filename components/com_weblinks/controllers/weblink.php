@@ -16,7 +16,7 @@ jimport('joomla.application.component.controllerform');
  * @since		1.5
  */
 class WeblinksControllerWeblink extends JControllerForm
-{
+{	
 	/**
 	 * @since	1.6
 	 */
@@ -74,8 +74,56 @@ class WeblinksControllerWeblink extends JControllerForm
 		}
 		$this->setMessage(JText::_('COM_WEBLINK_SUBMIT_SAVE_SUCCESS'));
 	}
+	/**
+	 * Method to cancel an edit
+	 *
+	 * Checks the item in, sets item ID in the session to null, and then redirects to the list page.
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	public function cancel()
+	{
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
 
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
 
+		// Redirect to the list screen.
+		$this->setRedirect($this->_getReturnPage());
+	}
+	
+	protected function _getReturnPage()
+	{
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+
+		if (!($return = $app->getUserState($context.'.return'))) {
+			$return = JRequest::getVar('return', base64_encode(JURI::base()));
+		}
+
+		$return = JFilterInput::getInstance()->clean($return, 'base64');
+		$return = base64_decode($return);
+
+		if (!JURI::isInternal($return)) {
+			$return = JURI::base();
+		}
+
+		return $return;
+	}
+
+	protected function _setReturnPage()
+	{
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+
+		$return = JRequest::getVar('return', null, 'default', 'base64');
+
+		$app->setUserState($context.'return', $return);
+	}
+	
 	/**
 	 * Go to a weblink
 	 *
