@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#20828] Module Manager : All checkboxes must be selected when choosing "on all pages" in "Menu Assignment"
  # [#15296] JHTML::tooltip alt attribute for image tooltips
  # [#21202] Menu assignments showing in admin modules in Hathor
+ # [#21205] Formatting front end weblink submit form
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos
