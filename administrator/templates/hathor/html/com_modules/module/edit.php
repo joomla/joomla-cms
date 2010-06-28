@@ -122,9 +122,11 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			</fieldset>
 		<?php endif; ?>
 		
+		<?php if ($this->item->client_id == 0) :?>
 		<div>
 			<?php echo $this->loadTemplate('assignment'); ?>
 		</div>
+		<?php endif; ?>
 
 	</div>
 
