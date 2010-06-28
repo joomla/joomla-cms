@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21180] [IE8] Cannot create new menu due to JS error
  # [#21197] session timeout while editing article in backend, keepalive issue
  # [#21201] Warning to change name of htaccess.txt when selecting mod_rewrite is missing
+ # [#21213] mod_syndicate class missing
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos
