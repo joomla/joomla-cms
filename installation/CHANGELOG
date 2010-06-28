@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Correcting beez5 typos
 $ Correcting duplicate strings from 20602
 [#21198] Ordering by group broken in modal. Thanks Phil.
+[#21198] Added Hathor to the patch.
 
 27-Jun-2010 Mark Dexter
 # [#20372] components options (IE 8 test)

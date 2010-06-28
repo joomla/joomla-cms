@@ -46,7 +46,7 @@ $function = 'jSelectUser_'.JRequest::getVar('field');
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_USERNAME', 'a.username', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 				<th class="nowrap width=25">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'a.group_names', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'group_names', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
 			</tr>
 		</thead>
