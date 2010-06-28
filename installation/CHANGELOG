@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#15296] JHTML::tooltip alt attribute for image tooltips
  # [#21202] Menu assignments showing in admin modules in Hathor
  # [#21205] Formatting front end weblink submit form
+ # [#21135] Contacts insert as first item in backend
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos

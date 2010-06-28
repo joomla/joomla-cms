@@ -203,6 +203,44 @@ class ContactModelContact extends JModelAdmin
 	}
 
 	/**
+	 * Prepare and sanitise the table prior to saving.
+	 *
+	 * @since	1.6
+	 */
+	protected function prepareTable(&$table)
+	{
+		jimport('joomla.filter.output');
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
+
+		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
+		$table->alias		= JApplication::stringURLSafe($table->alias);
+
+		if (empty($table->alias)) {
+			$table->alias = JApplication::stringURLSafe($table->name);
+		}
+
+		if (empty($table->id)) {
+			// Set the values
+			//$table->created	= $date->toMySQL();
+
+			// Set ordering to the last item if not set
+			if (empty($table->ordering)) {
+				$db = JFactory::getDbo();
+				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
+				$max = $db->loadResult();
+
+				$table->ordering = $max+1;
+			}
+		}
+		else {
+			// Set the values
+			//$table->modified	= $date->toMySQL();
+			//$table->modified_by	= $user->get('id');
+		}
+	}
+	
+	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
 	 * @param	object	A record object.
