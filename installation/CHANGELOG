@@ -45,6 +45,7 @@ $ -> Language fix or change
  # [#21198] Ordering by group broken in modal. Thanks Phil.
  # [#21198] Added Hathor to the patch.
  # [#21210] * Implementing user group ordering in User Manager
+ $ Correcting typo
 
 27-Jun-2010 Mark Dexter
  # [#20372] components options (IE 8 test)
