@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jun-2010 Jean-Marie Simonet
+# Correcting beez5 typos
+
 27-Jun-2010 Mark Dexter
 # [#20372] components options (IE 8 test)
 # [#20793] FTP installation features not working as expected
@@ -37,11 +40,11 @@ $ -> Language fix or change
 # [#21079] weblink - contacts - newsfeed - new item defaults to last order position
 # [#20602] Frontened article submission - 500 - JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND
 
-25-Jun-2010 Jean-Marie Simonet
+27-Jun-2010 Jean-Marie Simonet
 $ Adding missing string, corrected a key
 # Corrected path typos in both beez templates component.php
 
-24-Jun-2010 Jean-Marie Simonet
+26-Jun-2010 Jean-Marie Simonet
 [#21185] Weblink edit misses filter="safehtml"
 [#21184] Correcting and normalizing custom html module edit display
 [#21168] [image file] Missing image file in Hathor. Thanks Andrea

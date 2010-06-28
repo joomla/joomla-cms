@@ -22,7 +22,6 @@ if ($showRightColumn==0 and $showleft==0) {
 JHTML::_('behavior.mootools');
 
 // get params
-$color			= $this->params->get('templatecolor');
 $logo			= $this->params->get('logo');
 $navposition	= $this->params->get('navposition');
 $app			= JFactory::getApplication();
