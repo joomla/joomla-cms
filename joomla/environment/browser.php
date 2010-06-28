@@ -797,6 +797,16 @@ class JBrowser extends JObject
 		}
 		return false;
 	}
+	
+	/**
+	 * Determines if the browser is mobile version or not.
+	 *
+	 * @return boolean  True if browser is a known mobile version.
+	 */
+	public function isMobile()
+	{
+		return $this->_mobile;
+	}
 
 	/**
 	 * Determine if we are using a secure (SSL) connection.
