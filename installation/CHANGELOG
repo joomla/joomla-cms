@@ -43,6 +43,7 @@ $ -> Language fix or change
  # [#20713] List of weblinks categories is empty for all categories except the root
  # [#21142] Cancel Submit a Web Link redirects wrong
  # [#20315] com_newsfeed doesnt check for catid when saving
+ # [#21204] J1.6 can't remember the language selection during install
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos

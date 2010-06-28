@@ -184,13 +184,18 @@ class JInstallationModelDatabase extends JModel
 			{
 				// Build the language parameters for the language manager.
 				$params = array();
+
+				// Set default administrator/site language to sample data values:
+				$params['administrator'] = 'en-GB';
+				$params['site'] = 'en-GB';
+
 				if (in_array($options->language, $languages['admin'])) {
 					$params['administrator'] = $options->language;
 				}
 				if (in_array($options->language, $languages['site'])) {
 					$params['site'] = $options->language;
 				}
-				$params = Json_encode($params);
+				$params = json_encode($params);
 
 				// Update the language settings in the language manager.
 				$db->setQuery(
@@ -198,6 +203,9 @@ class JInstallationModelDatabase extends JModel
 					' SET `params` = '.$db->Quote($params) .
 					' WHERE `element`="com_languages"'
 				);
+
+				// Execute the query.
+				$db->query();
 
 				// Check for errors.
 				if ($db->getErrorNum()) {
