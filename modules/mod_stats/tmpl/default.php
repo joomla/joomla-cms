@@ -10,6 +10,10 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
+<dl class="stats-module<?php echo $params->get('moduleclass_sfx') ?>">
 <?php foreach ($list as $item) : ?>
-<strong><?php echo $item->title ?></strong> : <?php echo $item->data ?><br />
+	<dt><?php echo $item->title;?></dt>
+	<dd><?php echo $item->data;?></dd>
 <?php endforeach; ?>
+</dl>
+
