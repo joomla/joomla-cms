@@ -325,3 +325,10 @@ table.adminlist .pagination {
 #system-debug ol,#system-debug ul {
 	direction: ltr;
 }
+
+/**
+* Mod_rewrite Warning
+*/
+#jform_sef_rewrite-lbl {
+	background: url(../images/admin/icon-16-notice-note.png) left top no-repeat;
+}

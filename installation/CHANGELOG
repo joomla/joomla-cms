@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-Jun-2010 Ian MacLennan
  # [#21180] [IE8] Cannot create new menu due to JS error
  # [#21197] session timeout while editing article in backend, keepalive issue
+ # [#21201] Warning to change name of htaccess.txt when selecting mod_rewrite is missing
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos
