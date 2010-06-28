@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#21202] Menu assignments showing in admin modules in Hathor
  # [#21205] Formatting front end weblink submit form
  # [#21135] Contacts insert as first item in backend
+ # [#20713] List of weblinks categories is empty for all categories except the root
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos

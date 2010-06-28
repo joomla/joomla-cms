@@ -58,6 +58,15 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+		<field name="show_numbers" type="radio"
+			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC"
+			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 			<field name="show_description" type="list"
 				description="JGLOBAL_Show_Category_Description_Desc"
 				label="JGLOBAL_Show_Category_Description_Label"
