@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.6.0 Beta4 Release [28-Jun-2010] ------------------
+
 28-Jun-2010 Ian MacLennan
  # [#21180] [IE8] Cannot create new menu due to JS error
  # [#21197] session timeout while editing article in backend, keepalive issue
@@ -43,14 +45,14 @@ $ -> Language fix or change
  # [#20713] List of weblinks categories is empty for all categories except the root
  # [#21142] Cancel Submit a Web Link redirects wrong
  # [#20315] com_newsfeed doesnt check for catid when saving
- # [#21204] J1.6 can't remember the language selection during install
+ # [#21204] Can't remember the language selection during install
 
 28-Jun-2010 Jean-Marie Simonet
  # Correcting beez5 typos
  $ Correcting duplicate strings from 20602
  # [#21198] Ordering by group broken in modal. Thanks Phil.
  # [#21198] Added Hathor to the patch.
- # [#21210] * Implementing user group ordering in User Manager
+ # [#21210] Implementing user group ordering in User Manager
  $ Correcting typo
 
 27-Jun-2010 Mark Dexter
