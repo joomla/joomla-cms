@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jun-2010 Mark Dexter
+# Fix failing system test
+
 27-Jun-2010 Mark Dexter
 # Fix failing system tests from [#20372] toggle name change
 

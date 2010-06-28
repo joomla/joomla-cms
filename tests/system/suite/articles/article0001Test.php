@@ -115,6 +115,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
 		echo "Drill to Sample Data article and check that edit icon is visible" . "\n";
 		$this->click("link=Home");
+		$this->waitForPageToLoad("30000");
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Park Blog");
