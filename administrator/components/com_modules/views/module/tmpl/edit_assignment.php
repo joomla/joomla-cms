@@ -14,12 +14,40 @@ defined('_JEXEC') or die;
 require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
 ?>
+		<script>
+			window.addEvent('domready', function(){
+				validate();
+				document.getElements('select').addEvent('change', function(e){validate();});
+			});
+			function validate(){
+				var value	= document.id('jform_assignment').value;
+				var button 	= document.id('jform_toggle');
+				var list	= document.id('menu-assignment');
+				if(value == '-' || value == '0'){
+					button.setProperty('disabled', true);
+					list.getElements('input').each(function(el){
+						el.setProperty('disabled', true);
+						if (value == '-'){
+							el.setProperty('checked', false);
+						} else {
+							el.setProperty('checked', true);
+						}
+					});
+				} else {
+					button.setProperty('disabled', false);
+					list.getElements('input').each(function(el){
+						el.setProperty('disabled', false);
+					});
+				}
+			}
+		</script>
+
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
 				<label id="jform_menus-lbl" class="hasTip" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 
 				<fieldset id="jform_menus" class="radio">
-					<select name="jform[assignment]">
+					<select name="jform[assignment]" id="jform_assignment">
 						<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true);?>
 					</select>
 
@@ -27,20 +55,23 @@ $menuTypes = MenusHelper::getMenuLinks();
 
 				<label id="jform_menuselect-lbl" class="hasTip" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
 
-				<button type="button" class="jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
+				<button type="button" id="jform_toggle" class="jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
 					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 				</button>
 				<div class="clr"></div>
 				<div id="menu-assignment">
-
 				<?php foreach ($menuTypes as &$type) : ?>
 					<ul class="menu-links">
 						<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
-						<?php
+						<?php 
 						foreach ($type->links as $link) :
-							if ($this->item->assignment < 0) :
+							if (trim($this->item->assignment) == '-'):							
+								$checked = '';
+							elseif ($this->item->assignment == 0):							
+								$checked = ' checked="checked"';
+							elseif ($this->item->assignment < 0):
 								$checked = in_array(-$link->value, $this->item->assigned) ? ' checked="checked"' : '';
-							else :
+							elseif ($this->item->assignment > 0) :
 								$checked = in_array($link->value, $this->item->assigned) ? ' checked="checked"' : '';
 							endif;
 						?>
