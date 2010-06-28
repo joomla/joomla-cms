@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 28-Jun-2010 Mark Dexter
 # Fix failing system test
++ Added tests for JInstaller
 
 27-Jun-2010 Mark Dexter
 # Fix failing system tests from [#20372] toggle name change
