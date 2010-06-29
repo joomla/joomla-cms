@@ -38,7 +38,8 @@ $ -> Language fix or change
  # [#21231] Search Component Using the same variable. Thanks Bill.
  # [#21233] New Category Image Window Not 100%. Thanks Bill.
  $ Creating keys/strings for Authentification plugins errors.
-
+ # [#21229] Article titles not displayed in category list. Thanks Elin.
+ 
 -------------------- 1.6.0 Beta4 Release [28-Jun-2010] ------------------
 
 28-Jun-2010 Ian MacLennan

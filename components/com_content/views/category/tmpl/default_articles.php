@@ -50,11 +50,11 @@ $listDirn	= $this->state->get('list.direction');
 		<?php if ($this->params->get('show_headings')) :?>
 		<thead>
 			<tr>
-				<?php if ($this->params->get('list_show_title',1)) : ?>
+
 				<th class="list-title" id="tableOrdering">
 					<?php  echo JHTML::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
 				</th>
-				<?php endif; ?>
+
 
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 				<th class="list-date" id="tableOrdering2">
@@ -83,12 +83,11 @@ $listDirn	= $this->state->get('list.direction');
 			<tr class="cat-list-row<?php echo $i % 2; ?>">
 
 				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
-					<?php if ($this->params->get('list_show_title',1)) : ?>
+				
 					<td class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 						<?php echo $this->escape($article->title); ?></a>
 					</td>
-					<?php endif; ?>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
 					<td class="list-date">
