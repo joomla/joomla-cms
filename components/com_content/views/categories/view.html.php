@@ -43,14 +43,12 @@ class ContentViewCategories extends JView
 
 		if ($items === false)
 		{
-			JError::raiseWarning(500, JText::_('COM_CONTENT_ERROR_CATEGORY_NOT_FOUND'));
-			return false;
+			//TODO Raise error for missing category here
 		}
 
 		if ($parent == false)
 		{
-			JError::raiseWarning(500, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
-			return false;
+			//TODO Raise error for missing parent category here
 		}
 
 		$params = &$state->params;
