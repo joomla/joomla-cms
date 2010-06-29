@@ -211,6 +211,9 @@ class ContentModelCategory extends JModelItem
 
 	public function getPagination()
 	{
+		if (empty($this->_pagination)) {
+			return null;
+		}
 		return $this->_pagination;
 	}
 

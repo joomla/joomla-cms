@@ -24,7 +24,12 @@ class plgContentPagenavigation extends JPlugin
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
 		$view = JRequest::getCmd('view');
-
+		$print = JRequest::getBool('print');
+		
+		if ($print) {
+			return false;
+		}
+		
 		if ($params->get('show_item_navigation') && ($context == 'com_content.article')) {
 			$html = '';
 			$db		= JFactory::getDbo();
