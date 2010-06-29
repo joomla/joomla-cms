@@ -661,6 +661,18 @@ class JDocumentTest extends PHPUnit_Framework_TestCase {
 			$this->equalTo('text/xls')
 		);
 	}
+	
+	/**
+	 * @group Document
+	 * @covers JDocument::getMimeEncoding
+	 */
+	public function testGetMimeEncoding() {
+		$document = new JDocument();
+		$document->setMimeEncoding('image');
+		$this->assertEquals('image',$document->getMimeEncoding(),'getMimeEncoding should be image');
+		$document->setMimeEncoding('zip');
+		$this->assertEquals('zip',$document->getMimeEncoding(),'getMimeEncoding should be zip');
+ 	}
 
 	/**
 	 * @todo Implement testSetLineEnd().

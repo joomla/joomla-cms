@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#20959] Single Newsfeed Display Options parameters
  # [#21125] Article manager - view created by - details
  # [#21187] Template styles filter does not display admin templates
+ + [#21028] Add function that returns the current documents MIME type
 
 29-Jun-2010 Jean-Marie Simonet
  # [#20836] Capitalization of "toolbar-popup-Popup". Thanks Matt. + some
