@@ -131,62 +131,6 @@
 	<fields name="params">
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
-			<field name="show_headings" type="list"
-				label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_name" type="list"
-				label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
-				description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_articles" type="list"
-				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_link" type="list"
-				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-
-			<field name="show_cat_description" type="list"
-				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_cat_items" type="list"
-				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-
 			<field name="show_feed_image" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
@@ -214,9 +158,9 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="feed_word_count" type="text" size="6"
-				default="0" label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
-				description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
+			<field name="feed_character_count" type="text" size="6"
+				default="0" label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC" />
 		</fieldset>
 	</fields>
 

@@ -48,14 +48,14 @@
 		</field>
 
 		<field
-			id="feed_word_count"
-			name="feed_word_count"
+			id="feed_character_count"
+			name="feed_character_count"
 			type="text"
 			class="inputbox"
 			size="6"
 			default="0"
-			label="COM_NEWSFEEDS_FIELD_WORD_COUNT_LABEL"
-			description="COM_NEWSFEEDS_FIELD_WORD_COUNT_DESC" />
+			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
+			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC" />
 	</fieldset>
 
 	<fieldset
