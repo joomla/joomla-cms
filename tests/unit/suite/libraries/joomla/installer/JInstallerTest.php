@@ -215,7 +215,7 @@ class JInstallerTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$this->object->abort(),
-			$this->isTrue()
+			$this->isFalse()
 		);
 
 	}
