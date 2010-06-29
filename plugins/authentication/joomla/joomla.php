@@ -39,7 +39,7 @@ class plgAuthenticationJoomla extends JPlugin
 		// Joomla does not like blank passwords
 		if (empty($credentials['password'])) {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message = 'Empty password not allowed';
+			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 			return false;
 		}
 
@@ -71,11 +71,11 @@ class plgAuthenticationJoomla extends JPlugin
 				$response->error_message = '';
 			} else {
 				$response->status = JAUTHENTICATE_STATUS_FAILURE;
-				$response->error_message = 'Invalid password';
+				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		} else {
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message = 'User does not exist';
+			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 		}
 	}
 }

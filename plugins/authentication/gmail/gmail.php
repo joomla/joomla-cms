@@ -64,14 +64,14 @@ class plgAuthenticationGMail extends JPlugin {
 
 					switch ($code) {
 					case 200:
-						$message = 'Access Granted';
+						$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
 						$success = 1;
 					break;
 					case 401:
-						$message = 'Access Denied';
+						$message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
 					break;
 					default:
-						$message = 'Result unknown, access denied.';
+						$message = JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED');
 						break;
 				}
 				} else {
@@ -79,7 +79,7 @@ class plgAuthenticationGMail extends JPlugin {
 					$message = 'User is blacklisted';
 			}
 			} else {
-				$message = 'Username or password blank';
+				$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
 			}
 		} else {
 			$message = 'curl isn\'t insalled';
@@ -102,7 +102,7 @@ class plgAuthenticationGMail extends JPlugin {
 			$response->fullname = $credentials['username'];
 		} else {
 			$response->status		= JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message	= 'Failed to authenticate: ' . $message;
+			$response->error_message	= JText::sprintf('JGLOBAL_AUTH_FAILED', $message);
 		}
 	}
 }

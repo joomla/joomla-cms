@@ -45,7 +45,7 @@ class plgAuthenticationLdap extends JPlugin
 		if (empty($credentials['password']))
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message = 'LDAP can not have blank password';
+			$response->error_message = JText::_('JGLOBAL_AUTH_PASS_BLANK');
 			return false;
 		}
 
@@ -61,7 +61,7 @@ class plgAuthenticationLdap extends JPlugin
 		if (!$ldap->connect())
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			$response->error_message = 'Unable to connect to LDAP server';
+			$response->error_message = JText::_('JGLOBAL_AUTH_NO_CONNECT');
 			return;
 		}
 
@@ -86,13 +86,13 @@ class plgAuthenticationLdap extends JPlugin
 						$userdetails = $binddata;
 					} else {
 						$response->status = JAUTHENTICATE_STATUS_FAILURE;
-						$response->error_message = 'Unable to find user';
+						$response->error_message = JText::_('JGLOBAL_AUTH_USER_NOT_FOUND');
 					}
 				}
 				else
 				{
 					$response->status = JAUTHENTICATE_STATUS_FAILURE;
-					$response->error_message = 'Unable to bind to LDAP';
+					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
 				}
 			}	break;
 
@@ -104,7 +104,7 @@ class plgAuthenticationLdap extends JPlugin
 					$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 				} else {
 					$response->status = JAUTHENTICATE_STATUS_FAILURE;
-					$response->error_message = 'Failed binding to LDAP server';
+					$response->error_message = JText::_('JGLOBAL_AUTH_BIND_FAILED');
 				}
 			}	break;
 		}
@@ -112,7 +112,7 @@ class plgAuthenticationLdap extends JPlugin
 		if (!$success)
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			if (!strlen($response->error_message)) $response->error_message = 'Incorrect username/password';
+			if (!strlen($response->error_message)) $response->error_message = JText::_('JGLOBAL_AUTH_UNCORRECT');
 		}
 		else
 		{
