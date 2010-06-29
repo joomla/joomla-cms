@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 	</div>
 
 	<fieldset class="phrases">
-		<legend><?php echo JText::_('COM_SEARCH_EXACT_PHRASE');?>
+		<legend><?php echo JText::_('COM_SEARCH_FOR');?>
 		</legend>
 			<div class="phrases-box">
 			<?php echo $this->lists['searchphrase']; ?>
