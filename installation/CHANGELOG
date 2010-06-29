@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jun-2010 Jean-Marie Simonet
+[#20836] Capitalization of "toolbar-popup-Popup". Thanks Matt. + some
+
 -------------------- 1.6.0 Beta4 Release [28-Jun-2010] ------------------
 
 28-Jun-2010 Ian MacLennan

@@ -54,7 +54,7 @@ class JButtonPopup extends JButton
 	 * @return		string	Button CSS Id
 	 * @since		1.5
 	 */
-	public function fetchId($name)
+	public function fetchId($type, $name)
 	{
 		return $this->_parent->getName().'-'."popup-$name";
 	}
