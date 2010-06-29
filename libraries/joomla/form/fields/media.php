@@ -101,7 +101,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a class="modal" title="'.JText::_('JSELECT').'"' .
 					' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&view=images&tmpl=component') . '&fieldid='.$this->id.'&folder='.$folder).'"' .
-					' rel="{handler: \'iframe\', size: {x: 650, y: 375}}">';
+					' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = '			'.JText::_('JSELECT').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';

@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#20836] Capitalization of "toolbar-popup-Popup". Thanks Matt. + some
  # [#21224] Alias has trailing dash when there is a space following the word
  # [#21231] Search Component Using the same variable. Thanks Bill.
+ # [#21233] New Category Image Window Not 100%. Thanks Bill.
 
 -------------------- 1.6.0 Beta4 Release [28-Jun-2010] ------------------
 
