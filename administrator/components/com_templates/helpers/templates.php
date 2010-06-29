@@ -77,15 +77,21 @@ class TemplatesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getTemplateOptions($clientId = 0)
+	static function getTemplateOptions($clientId = '*')
 	{
 		// Build the filter options.
 		$db = JFactory::getDbo();
+		
+		if ($clientId == '*') {
+			$where = '';
+		} else {
+			$where = ' WHERE client_id = '.(int) $clientId;
+		}
 
 		$db->setQuery(
 			'SELECT DISTINCT(template) AS value, template AS text' .
 			' FROM #__template_styles' .
-			' WHERE client_id = '.(int) $clientId .
+			$where .
 			' ORDER BY template'
 		);
 		$options = $db->loadObjectList();
