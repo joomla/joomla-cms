@@ -665,6 +665,16 @@ class JDocument extends JObject
 	function setMimeEncoding($type = 'text/html') {
 		$this->_mime = strtolower($type);
 	}
+	
+	/**
+	 * Return the document MIME encoding that is sent to the browser.
+	 *
+	 * @access	public
+	 * @return	string
+	 */
+	function getMimeEncoding() {
+		return $this->_mime;
+	}
 
 	/**
 	 * Sets the line end style to Windows, Mac, Unix or a custom string.

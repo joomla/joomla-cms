@@ -304,6 +304,7 @@ class JInstaller extends JAdapter
 							' WHERE extension_id = '.(int)$step['id'];
 					$db->setQuery($query);
 					$stepval = $db->Query();
+
 					break;
 
 				default :
