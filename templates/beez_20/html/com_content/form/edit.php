@@ -20,12 +20,15 @@ $params = $this->state->get('params');
 ?>
 
 <script type="text/javascript">
-function submitbutton(task) {
-	if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-		<?php //echo $this->form->fields['introtext']->editor->save('jform[introtext]'); ?>
+	function submitbutton(task) {
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+			<?php echo $this->form->getField('text')->save(); ?>
 		submitform(task);
+		}
+		else {
+			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+		}
 	}
-}
 </script>
 <div class="edit item-page<?php echo $this->escape($params->get('pageclass_sfx')); ?>">
 <?php if ($params->get('show_page_heading', 1)) : ?>

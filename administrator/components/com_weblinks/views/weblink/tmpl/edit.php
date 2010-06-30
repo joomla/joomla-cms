@@ -19,10 +19,12 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('weblink-form'))) {
+			<?php echo $this->form->getField('description')->save(); ?>
 			submitform(task);
 		}
-		// @todo Deal with the editor methods
-		submitform(task);
+		else {
+			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+		}
 	}
 // -->
 </script>

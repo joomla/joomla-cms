@@ -25,7 +25,11 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+			<?php echo $this->form->getField('description')->save(); ?>
 			submitform(task);
+		}
+		else {
+			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 // -->

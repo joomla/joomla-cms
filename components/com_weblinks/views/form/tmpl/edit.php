@@ -19,11 +19,15 @@ $params = $this->state->get('params');
 ?>
 
 <script type="text/javascript">
-function submitbutton(task) {
-	if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-		submitform(task);
+	function submitbutton(task) {
+		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+			<?php echo $this->form->getField('description')->save(); ?>
+			submitform(task);
+		}
+		else {
+			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+		}
 	}
-}
 </script>
 <div class="<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 <?php if ($this->params->def('show_page_heading', 1)) : ?>
