@@ -383,13 +383,14 @@ class JDocument extends JObject
 	/**
 	 * Sets or alters a meta tag.
 	 *
-	 * @param string  $name			Value of name or http-equiv tag
-	 * @param string  $content		Value of the content tag
-	 * @param bool	$http_equiv	META type "http-equiv" defaults to null
+	 * @param string	$name			Value of name or http-equiv tag
+	 * @param string	$content		Value of the content tag
+	 * @param bool		$http_equiv		META type "http-equiv" defaults to null
+	 * @param bool		$sync			Should http-equiv="content-type" by synced with HTTP-header?
 	 * @return void
 	 * @access public
 	 */
-	function setMetaData($name, $content, $http_equiv = false)
+	function setMetaData($name, $content, $http_equiv = false, $sync = true)
 	{
 		$name = strtolower($name);
 		if ($name == 'generator') {
@@ -399,6 +400,10 @@ class JDocument extends JObject
 		} else {
 			if ($http_equiv == true) {
 				$this->_metaTags['http-equiv'][$name] = $content;
+				// Syncing with HTTP-header
+				if($sync && strtolower($name) == 'content-type') {
+					$this->setMimeEncoding($content, false);
+				}
 			} else {
 				$this->_metaTags['standard'][$name] = $content;
 			}
@@ -658,12 +663,18 @@ class JDocument extends JObject
 	 * ({@link http://www.w3.org/TR/xhtml-media-types/
 	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.</p>
 	 *
-	 * @param	string	$type
+	 * @param	string		$type
+	 * @param	boolean		Should the type be synced with HTML?
 	 * @access	public
 	 * @return	void
 	 */
-	function setMimeEncoding($type = 'text/html') {
+	function setMimeEncoding($type = 'text/html', $sync = true) {
 		$this->_mime = strtolower($type);
+
+		// Syncing with meta-data
+		if ($sync) {
+			$this->setMetaData('content-type', $type, true, false);
+		}
 	}
 	
 	/**

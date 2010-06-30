@@ -72,11 +72,8 @@ class JDocumentHTML extends JDocument
 		//set document type
 		$this->_type = 'html';
 
-		//set mime type
-		$this->_mime = 'text/html';
-
-		//set default document metadata
-		$this->setMetaData('Content-Type', $this->_mime . '; charset=' . $this->_charset , true);
+		//set default mime type and document metadata (meta data syncs with mime type by default)
+		$this->setMetaData('Content-Type', 'text/html', true);
 		$this->setMetaData('robots', 'index, follow');
 	}
 
