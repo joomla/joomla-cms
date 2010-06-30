@@ -12,8 +12,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>MOD_ARTICLES_ARCHIVE_XML_DESCRIPTION
-	</description>
+	<description>MOD_ARTICLES_ARCHIVE_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_articles_archive">mod_articles_archive.php
 		</filename>
