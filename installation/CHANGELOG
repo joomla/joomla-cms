@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2010 Andrew Eddie
+ # Fixed issue [#21056] Trashing module leaves an erroneous entry in module position dropdown lists
+
 01-Jul-2010 Christophe Demko
  # Fix an error in core-uncompressed.js code for ie7/ie8
 
