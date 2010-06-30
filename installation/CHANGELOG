@@ -30,6 +30,7 @@ $ -> Language fix or change
 30-Jun-2010 Ian MacLennan
  # [#21126] Token Error on Installation
  # [#20964] Token error on logon
+ # [#21150] Restore 1.5 ability for multiple categories for banner module
 
 30-Jur-2010 Mark Dexter
  # Assets table for uncategorised categories in sample data (Elin Waring)
@@ -39,7 +40,7 @@ $ -> Language fix or change
  # [#21170] Changes made in description after toggling the editor are not saved. Thanks CY Lee.
  $ [#21257] Inaccurate string in contact. Thanks Elin.
  $ Correcting key typo.
-# [#21255] module modal - missing module assignment description. Thanks Bill.
+ # [#21255] Module modal - missing module assignment description. Thanks Bill.
 
 29-Jun-2010 Ian MacLennan
  # [#20959] Single Newsfeed Display Options parameters

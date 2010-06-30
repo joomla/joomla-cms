@@ -61,7 +61,7 @@ class BannersModelBanners extends JModelList
 		$ordering	= $this->getState('filter.ordering');
 		$tagSearch	= $this->getState('filter.tag_search');
 		$cid		= $this->getState('filter.client_id');
-		$catid		= $this->getState('filter.category_id');
+		$categoryId = $this->getState('filter.category_id');
 		$keywords	= $this->getState('filter.keywords');
 		$randomise	= ($ordering == 'random');
 		$nullDate	= $db->quote($db->getNullDate());
@@ -88,12 +88,39 @@ class BannersModelBanners extends JModelList
 			$query->select('cl.track_impressions as client_track_impressions');
 			$query->where('cl.state = 1');
 		}
+		
+		// Filter by a single or group of categories
+		$categoryId = $this->getState('filter.category_id');
+		$catid		= $this->getState('filter.category_id', array());
+		
+		if (is_numeric($categoryId)) {
+			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
 
-		if ($catid) {
-			$query->where('a.catid = ' . (int) $catid);
-			$query->join('LEFT', '#__categories AS cat ON cat.id = a.catid');
-			$query->where('cat.published = 1');
-		}
+			// Add subcategory check
+			$includeSubcategories = $this->getState('filter.subcategories', false);
+			$categoryEquals = 'a.catid '.$type.(int) $categoryId;
+
+			if ($includeSubcategories) {
+				$levels = (int) $this->getState('filter.max_category_levels', '1');
+				// Create a subquery for the subcategory list
+				$subQuery = $db->getQuery(true);
+				$subQuery->select('sub.id');
+				$subQuery->from('#__categories as sub');
+				$subQuery->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt');
+				$subQuery->where('this.id = '.(int) $categoryId);
+				$subQuery->where('sub.level <= this.level + '.$levels);
+
+				// Add the subquery to the main query
+				$query->where('('.$categoryEquals.' OR a.catid IN ('.$subQuery->__toString().'))');
+			} else {
+				$query->where($categoryEquals);
+			}
+		} else if (is_array($categoryId)) {
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
+			$query->where('a.catid '.$type.' ('.$categoryId.')');
+		}		
 
 		if ($tagSearch) {
 

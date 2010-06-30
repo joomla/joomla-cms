@@ -22,7 +22,7 @@ class modBannersHelper
 
 		$model = JModel::getInstance('Banners','BannersModel',array('ignore_request'=>true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
-		$model->setState('filter.category_id', (int) $params->get('catid'));
+		$model->setState('filter.category_id', $params->get('catid', array()));
 		$model->setState('list.limit', (int) $params->get('count', 1));
 		$model->setState('list.start', 0);
 		$model->setState('filter.ordering', $params->get('ordering'));
