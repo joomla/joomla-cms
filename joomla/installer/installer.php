@@ -83,7 +83,7 @@ class JInstaller extends JAdapter
 	 * The redirect URL if this extension (can be null if no redirect)
 	 * @var string
 	 */
-	protected $redirct_url = null;
+	protected $redirect_url = null;
 
 	/**
 	 * Constructor
@@ -165,7 +165,7 @@ class JInstaller extends JAdapter
 	 * @since 1.6
 	 */
 	public function setRedirectURL($newurl) {
-		$this->redirecturl = $newurl;
+		$this->redirect_url = $newurl;
 	}
 
 	/**
