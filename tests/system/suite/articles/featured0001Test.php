@@ -24,7 +24,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		echo "Change global param to no category order\n";
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		$this->click("//li[@id='toolbar-popup-Popup']/a/span");
+		$this->click("//li[@id='toolbar-popup-options']/a/span");
 		for ($second = 0;; $second++)
 		{
 			if ($second >= 15) $this->fail("timeout");
@@ -130,7 +130,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		$this->click("//li[@id='toolbar-popup-Popup']/a/span");
+		$this->click("//li[@id='toolbar-popup-options']/a/span");
 		for ($second = 0;; $second++)
 		{
 			if ($second >= 15) $this->fail("timeout");

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jun-2010 Mark Dexter
+# Fix failing system tests
+
 28-Jun-2010 Mark Dexter
 # Fix failing system test
 + Added tests for JInstaller

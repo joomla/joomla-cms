@@ -290,6 +290,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//li[@id='toolbar-new']/a");
 			$this->waitForPageToLoad("30000");
 			break;
+		case 'Toolbar: New':
+			echo "Testng New capability.\n";
+			$this->click("//li[@id='toolbar-popup-Popup']/a/span[@class='icon-32-new']");
+			$this->waitForPageToLoad("30000");
+			break;
 		case 'Delete':
 			echo "Testng Delete capability.\n";
 			$this->click("//li[@id='toolbar-delete']/a");
@@ -315,6 +320,20 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//a[contains(@class,'icon-16-menumgr')]");
 			$this->waitForPageToLoad("30000");
 			break;
+		case 'Menu Items':
+			echo "Navagating to Menu Items Manager.\n";
+			$this->click("//a[contains(@class,'icon-16-menumgr')]");
+			$this->waitForPageToLoad("30000");
+			$this->click("link=Menu Items");
+			$this->waitForPageToLoad("30000");
+			$this->assertTrue($this->isTextPresent("Menu Manager: Menu Items", $this->getText("//div[contains(@class,'pagetitle')]/h2")));						
+			break;
+		case 'Module Manager':
+			echo "Navagating to Menu Manager.\n";
+			$this->click("//a[contains(@class,'icon-16-module')]");
+			$this->waitForPageToLoad("30000");
+			$this->assertTrue($this->isTextPresent("Module Manager: Modules", $this->getText("//div[contains(@class,'pagetitle')]/h2")));
+			break;			
 		case 'Redirect Manager':
 			echo "Navagating to Redirect Manager.\n";
 			$this->click("//a[contains(@class, 'icon-16-redirect')]");
@@ -327,6 +346,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			$this->assertTrue($this->isTextPresent("Web Links Manager: Web Links"));
 			break;
+		case 'Weblink Categories':
+			echo "Navagating to Weblinks.\n";
+			$this->click("//a[contains(@class, 'icon-16-weblinks-cat')]");
+			$this->waitForPageToLoad("30000");
+			$this->assertTrue($this->isTextPresent("Category Manager: Weblinks", $this->getText("//div[contains(@class,'pagetitle')]/h2")));
+			break;			
 		case 'Unpublish':
 			echo "Testng Unpublish capability.\n";
 			$this->click("//li[@id='toolbar-unpublish']/a/span");
@@ -348,13 +373,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			break;
 		case 'Options':
 			echo "Opening options modal.\n";
-			$this->click("//li[@id='toolbar-popup-Popup']/a/span");
-			echo "wait 2 seconds\n";
-			sleep(2);
+			$this->click("//li[@id='toolbar-popup-options']/a/span");
 			for ($second = 0; ; $second++) {
-				if ($second >= 60) $this->fail("timeout");
+				if ($second >= 15) $this->fail("timeout");
 				try {
-					if ($this->isTextPresent("Options")) break;
+					if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
 				} catch (Exception $e) {}
 				sleep(1);
 			}
@@ -372,8 +395,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			$this->assertTrue($this->isTextPresent("Global Configuration",$this->getText("//div[contains(@class,'pagetitle')]/h2")));
 			break;
-			
-			
+		case 'Contacts':
+			echo "Navigating to Contacts.\n";
+			$this->click("//a[contains(@class,'icon-16-contact')]");
+			$this->waitForPageToLoad("30000");
+			$this->assertTrue($this->isTextPresent("Contact Manager: Contacts",$this->getText("//div[contains(@class,'pagetitle')]/h2")));
+			break;			
 		default:
 			$this->click("//li[@id='toolbar-new']/a");
 			$this->waitForPageToLoad("30000");

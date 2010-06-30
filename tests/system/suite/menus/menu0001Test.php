@@ -85,7 +85,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
 		echo "Select New Module\n";
-		$this->click("//li[@id='toolbar-popup-Popup']/a/span");
+		$this->click("//li[@id='toolbar-popup-new']/a/span");
 		for ($second = 0; ; $second++) {
 			if ($second >= 10) $this->fail("timeout");
 			try {
