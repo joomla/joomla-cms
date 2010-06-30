@@ -21,10 +21,10 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 
 	<ul class="adminformlist">
-		<li><label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?>:</label>
+		<li><label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 		<input type="text" id="username" name="username" class="inputbox" value="" /></li>
 		
-		<li><label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>:</label>
+		<li><label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 		<input type="password" id="password" name="password" class="input_box" value="" /></li>
 	</ul>
 

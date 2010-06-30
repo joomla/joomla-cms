@@ -48,6 +48,7 @@ $ -> Language fix or change
  $ Correcting key typo.
  # [#21255] Module modal - missing module assignment description. Thanks Bill.
  # [#21217] [patch] Hathor RTL menu issues. Thanks Andrea.
+ $ Deleting a bunch of hardcoded colons
 
 29-Jun-2010 Ian MacLennan
  # [#20959] Single Newsfeed Display Options parameters

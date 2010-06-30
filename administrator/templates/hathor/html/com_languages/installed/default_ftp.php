@@ -20,11 +20,11 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 
 		<div>
-			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?>:</label>
+			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
 			<input type="text" id="username" name="username" class="inputbox" value="" />
 		</div>
 		<div>
-			<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>:</label>
+			<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 			<input type="password" id="password" name="password" class="inputbox" value="" />
 		</div>
 	</fieldset>
