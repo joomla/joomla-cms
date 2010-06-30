@@ -424,7 +424,7 @@ class JRequest
 		if (!self::getVar($token, '', $method, 'alnum'))
 		{
 			$session = JFactory::getSession();
-			if ($session->isNew() && !self::getVar('format')) {
+			if ($session->isNew()) {
 				// Redirect to login screen.
 				$app = JFactory::getApplication();
 				$return = JRoute::_('index.php');
