@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21150] Restore 1.5 ability for multiple categories for banner module
  # [#21212] Head tags for mod_articles_categories
  # [#21248] Add keepalive functionality to Hathor that was added to core layout in 21197
+ # [#20750] The HTML meta tag for the http-equiv content-type doesn't reflect the mime type stored in JDocument
 
 30-Jur-2010 Mark Dexter
  # Assets table for uncategorised categories in sample data (Elin Waring)

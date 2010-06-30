@@ -59,6 +59,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			foreach ($tag as $name => $content)
 			{
 				if ($type == 'http-equiv') {
+					$content.= '; charset=' . $document->getCharset();
 					$buffer .= $tab.'<meta http-equiv="'.$name.'" content="'.$content.'"'.$tagEnd.$lnEnd;
 				}
 				else if ($type == 'standard') {
@@ -80,7 +81,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		foreach ($document->_styleSheets as $strSrc => $strAttr)
 		{
 			$buffer .= $tab . '<link rel="stylesheet" href="'.$strSrc.'" type="'.$strAttr['mime'].'"';
-			if (!is_null($strAttr['media'])){
+			if (!is_null($strAttr['media'])) {
 				$buffer .= ' media="'.$strAttr['media'].'" ';
 			}
 			if ($temp = JArrayHelper::toString($strAttr['attribs'])) {
@@ -97,7 +98,8 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// This is for full XHTML support.
 			if ($document->_mime == 'text/html') {
 				$buffer .= $tab.$tab.'<!--'.$lnEnd;
-			} else {
+			}
+			else {
 				$buffer .= $tab.$tab.'<![CDATA['.$lnEnd;
 			}
 
@@ -106,7 +108,8 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// See above note
 			if ($document->_mime == 'text/html') {
 				$buffer .= $tab.$tab.'-->'.$lnEnd;
-			} else {
+			}
+			else {
 				$buffer .= $tab.$tab.']]>'.$lnEnd;
 			}
 			$buffer .= $tab.'</style>'.$lnEnd;
