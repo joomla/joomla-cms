@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jun-2010 Mark Dexter
+# Fix assets table for uncategorised categories in sample data (Elin Waring)
+
 30-Jun-2010 Jean-Marie Simonet
 # [#21169] "Save & New" toolbar button in "Templates Manager: Edit Style" saves an empty template. Thanks Joseph
 # [#21170] Changes made in description after toggling the editor are not saved. Thanks CY Lee.

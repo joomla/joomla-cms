@@ -51,7 +51,11 @@ VALUES
 	(23,1,64,65,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 	(24,1,66,67,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 	(25,1,68,75,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-	(26,1,76,77,1,'com_wrapper','com_wrapper','{}');
+	(26,1,76,77,1,'com_wrapper','com_wrapper','{}'),
+	(27, 8, 37, 38, 2, 'com_content.category.2', 'Uncategorized', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(28, 3, 5, 6, 2, 'com_banners.category.3', 'Uncategorized', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(29, 7, 17, 18, 2, 'com_contact.category.4', 'Uncategorized', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+	(30, 19, 63, 64, 2, 'com_newsfeeds.category.5', 'Uncategorized', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 
 # -------------------------------------------------------
 
@@ -185,11 +189,11 @@ CREATE TABLE `#__categories` (
 
 INSERT INTO `#__categories` VALUES
 (1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
-(2, 27, 1, 1, 2, 1, 'uncategorized', 'com_content', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
-(3, 28, 1, 3, 4, 1, 'uncategorized', 'com_banners', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
-(4, 29, 1, 5, 6, 1, 'uncategorized', 'com_contact', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
-(5, 30, 1, 7, 8, 1, 'uncategorized', 'com_newsfeeds', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
-(6, 31, 1, 9, 10, 1, 'uncategorized', 'com_weblinks', 'Uncategorized', 'uncategorized', '', '', 0, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
+(2, 27, 1, 1, 2, 1, 'uncategorized', 'com_content', 'Uncategorized', 'uncategorized', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
+(3, 28, 1, 3, 4, 1, 'uncategorized', 'com_banners', 'Uncategorized', 'uncategorized', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
+(4, 29, 1, 5, 6, 1, 'uncategorized', 'com_contact', 'Uncategorized', 'uncategorized', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
+(5, 30, 1, 7, 8, 1, 'uncategorized', 'com_newsfeeds', 'Uncategorized', 'uncategorized', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
+(6, 31, 1, 9, 10, 1, 'uncategorized', 'com_weblinks', 'Uncategorized', 'uncategorized', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
 
 # -------------------------------------------------------
 

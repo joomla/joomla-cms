@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 30-Jun-2010 Mark Dexter
 # Fix failing system tests
+# Fix system tests for uncategorised category changes
 
 28-Jun-2010 Mark Dexter
 # Fix failing system test
