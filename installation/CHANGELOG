@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#20964] Token error on logon
  # [#21150] Restore 1.5 ability for multiple categories for banner module
  # [#21212] Head tags for mod_articles_categories
+ # [#21248] Add keepalive functionality to Hathor that was added to core layout in 21197
 
 30-Jur-2010 Mark Dexter
  # Assets table for uncategorised categories in sample data (Elin Waring)
