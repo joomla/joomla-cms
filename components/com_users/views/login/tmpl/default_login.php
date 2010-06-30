@@ -9,6 +9,7 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.keepalive');
 ?>
 <div class="login<?php echo $this->params->get('pageclass_sfx')?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>

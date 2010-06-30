@@ -11,6 +11,7 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.mootools');
+JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
 ?>
 <div class="reset-confirm<?php echo $this->params->get('pageclass_sfx')?>">

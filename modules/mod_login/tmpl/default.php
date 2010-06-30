@@ -9,6 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
+JHtml::_('behavior.keepalive');
 ?>
 <?php if ($type == 'logout') : ?>
 <form action="index.php" method="post" name="form-login" id="form-login">

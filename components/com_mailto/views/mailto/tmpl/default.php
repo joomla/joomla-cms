@@ -9,6 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
+JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
 <!--
