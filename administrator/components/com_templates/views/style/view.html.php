@@ -64,7 +64,6 @@ class TemplatesViewStyle extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('style.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('style.save','JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('style.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 
 		// If an existing item, can save to a copy.

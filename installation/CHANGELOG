@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jun-2010 Jean-Marie Simonet
+ [#21169] "Save & New" toolbar button in "Templates Manager: Edit Style" saves an empty template. Thanks Joseph
+
 29-Jun-2010 Ian MacLennan
  # [#20959] Single Newsfeed Display Options parameters
  # [#21125] Article manager - view created by - details
