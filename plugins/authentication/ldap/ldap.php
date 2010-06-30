@@ -112,7 +112,7 @@ class plgAuthenticationLdap extends JPlugin
 		if (!$success)
 		{
 			$response->status = JAUTHENTICATE_STATUS_FAILURE;
-			if (!strlen($response->error_message)) $response->error_message = JText::_('JGLOBAL_AUTH_UNCORRECT');
+			if (!strlen($response->error_message)) $response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
 		}
 		else
 		{
