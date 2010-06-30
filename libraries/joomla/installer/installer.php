@@ -292,6 +292,8 @@ class JInstaller extends JAdapter
 
 				case 'query' :
 					// placeholder in case this is necessary in the future
+					// $stepval is always false because if this step was called it invariably failed
+					$stepval = false;
 					break;
 
 				case 'extension' :
