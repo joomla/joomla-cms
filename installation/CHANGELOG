@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2010 Christophe Demko
+ # Fix an error in core-uncompressed.js code for ie7/ie8
+
 30-Jun-2010 Ian MacLennan
  # [#21126] Token Error on Installation
  # [#20964] Token error on logon
