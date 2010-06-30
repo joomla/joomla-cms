@@ -73,6 +73,17 @@
 		<fieldset name="advanced">
 			<field name="layout" type="modulelayout"
 				label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				 <field name="item_heading" type="list" default="4"
+                                        label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
+                                        description="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_DESC"
+                                >
+                                        <option value="1">MOD_ARTICLES_CATEGORIES_H1</option>
+                                        <option value="2">MOD_ARTICLES_CATEGORIES_H2</option>
+                                        <option value="3">MOD_ARTICLES_CATEGORIES_H3</option>
+                                        <option value="4">MOD_ARTICLES_CATEGORIES_H4</option>
+                                        <option value="5">MOD_ARTICLES_CATEGORIES_H5</option>
+                                        <option value="6">MOD_ARTICLES_CATEGORIeS_H6</option>
+                                </field>
 
 			<field name="moduleclass_sfx" type="text"
 				label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
