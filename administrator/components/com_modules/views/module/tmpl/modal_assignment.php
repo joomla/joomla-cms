@@ -50,17 +50,16 @@ $menuTypes = MenusHelper::getMenuLinks();
 					<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true);?>
 				</select>
 
-				<div class="clr"></div>
-
-				<button type="button" id="jform_toggle" class="button2" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
+				<button type="button" id="jform_toggle" class="jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
 					<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 				</button>
 
+				<div class="clr"></div>
 				<div id="menu-assignment" style="height: 300px; overflow: auto;">
 
 				<?php foreach ($menuTypes as &$type) : ?>
-					<div class="menu-links">
-						<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
+					<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
+					<ul class="menu-links">
 						<?php
 						foreach ($type->links as $link) :
 							if (trim($this->item->assignment) == '-'):							
@@ -73,15 +72,15 @@ $menuTypes = MenusHelper::getMenuLinks();
 								$checked = in_array($link->value, $this->item->assigned) ? ' checked="checked"' : '';
 							endif;
 						?>
-						<div class="menu-link">
+						<li class="menu-link">
 							<input type="checkbox" class="chk-menulink" name="jform[assigned][]" value="<?php echo (int) $link->value;?>" id="link<?php echo (int) $link->value;?>"<?php echo $checked;?>/>
 							<label for="link<?php echo (int) $link->value;?>">
 								<?php echo $link->text; ?>
 							</label>
-						</div>
+						</li>
 						<div class="clr"></div>
 						<?php endforeach; ?>
-					</div>
+					</ul>
 				<?php endforeach; ?>
 				</div>
 

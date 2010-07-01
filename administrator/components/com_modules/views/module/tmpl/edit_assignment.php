@@ -61,8 +61,8 @@ $menuTypes = MenusHelper::getMenuLinks();
 				<div class="clr"></div>
 				<div id="menu-assignment">
 				<?php foreach ($menuTypes as &$type) : ?>
+					<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
 					<ul class="menu-links">
-						<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
 						<?php 
 						foreach ($type->links as $link) :
 							if (trim($this->item->assignment) == '-'):							
