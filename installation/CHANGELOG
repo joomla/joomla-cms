@@ -30,6 +30,7 @@ $ -> Language fix or change
 01-Jul-2010 Jean-Marie Simonet
  $ [#21265] [patch] Inserting new weblink in backend describes new newsfeeds ordering
  # [#21244] Unable to change "Linked User" to "No User" in Contacts. Thanks Bill.
+ # [#21272] * Checkall broken for contacts, cache, languages. messages
 
 01-Jul-2010 Andrew Eddie
  # Fixed issue [#21056] Trashing module leaves an erroneous entry in module position dropdown lists
