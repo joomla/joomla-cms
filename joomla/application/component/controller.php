@@ -385,6 +385,18 @@ class JController extends JObject
 	 */
 	public function authorize($task)
 	{
+		$this->authorise($task);
+	}
+
+	/**
+	 * Authorisation check
+	 *
+	 * @param	string	$task	The ACO Section Value to check access on
+	 * @return	boolean	True if authorised
+	 * @since	1.6
+	 */
+	public function authorise($task)
+	{
 		// Only do access check if the aco section is set
 		if ($this->_acoSection) {
 			// If we have a section value set that trumps the passed task ???
@@ -394,7 +406,7 @@ class JController extends JObject
 			}
 			// Get the JUser object for the current user and return the authorization boolean
 			$user = JFactory::getUser();
-			return $user->authorize($this->_acoSection, $task);
+			return $user->authorise($this->_acoSection, $task);
 		} else {
 			// Nothing set, nothing to check... so obviously its ok :)
 			return true;
@@ -555,7 +567,7 @@ class JController extends JObject
 		$this->doTask = $doTask;
 
 		// Make sure we have access
-		if ($this->authorize($doTask)) {
+		if ($this->authorise($doTask)) {
 			$retval = $this->$doTask();
 			return $retval;
 		} else {
