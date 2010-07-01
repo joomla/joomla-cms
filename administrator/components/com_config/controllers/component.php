@@ -50,7 +50,7 @@ class ConfigControllerComponent extends JController
 		$option	= JRequest::getWord('component');
 
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorize('core.admin', $option))
+		if (!JFactory::getUser()->authorise('core.admin', $option))
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;

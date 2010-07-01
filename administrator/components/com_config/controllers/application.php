@@ -42,7 +42,7 @@ class ConfigControllerApplication extends JController
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorize('core.admin'))
+		if (!JFactory::getUser()->authorise('core.admin'))
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
@@ -125,7 +125,7 @@ class ConfigControllerApplication extends JController
 	function cancel()
 	{
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorize('core.admin', 'com_config'))
+		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
@@ -168,7 +168,7 @@ class ConfigControllerApplication extends JController
 	public function removeroot()
 	{
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorize('core.admin')) {
+		if (!JFactory::getUser()->authorise('core.admin')) {
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jul-2010 Andrew Eddie
+ # Fixed issue [#21181] Consistent use of authorise vs authorize (Rune Sjøen).
+
 01-Jul-2010 Jean-Marie Simonet
  $ [#21265] [patch] Inserting new weblink in backend describes new newsfeeds ordering
  # [#21244] Unable to change "Linked User" to "No User" in Contacts. Thanks Bill.

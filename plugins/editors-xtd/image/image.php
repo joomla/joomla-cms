@@ -41,7 +41,7 @@ class plgButtonImage extends JPlugin
 		// TODO: Fix this ACL call
 		//Make sure the user is authorized to view this page
 		$user = JFactory::getUser();
-		if (!$user->authorize('com_media.popup')) {
+		if (!$user->authorise('com_media.popup')) {
 			//return;
 		}
 		$doc		= JFactory::getDocument();

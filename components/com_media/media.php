@@ -23,7 +23,7 @@ $acl = JFactory::getACL();
 // Make sure the user is authorized to view this page
 $user = JFactory::getUser();
 $app	= JFactory::getApplication();
-if (!$user->authorize('com_media', 'popup')) {
+if (!$user->authorise('com_media', 'popup')) {
 	$app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 }
 

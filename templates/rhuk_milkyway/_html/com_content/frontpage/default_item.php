@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die;
 
-$canEdit	= ($this->user->authorize('core.edit', 'com_content.article.'.$this->item->id));
+$canEdit	= ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id));
 ?>
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">

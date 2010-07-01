@@ -107,7 +107,7 @@ abstract class MediaHelper
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
 						return false;
 					}
-				} else if (!$user->authorize('core.manage')) {
+				} else if (!$user->authorise('core.manage')) {
 					$err = 'COM_MEDIA_ERROR_WARNNOTADMIN';
 					return false;
 				}

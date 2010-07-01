@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die;
 
-$canEdit	= ($this->user->authorize('core.edit', 'com_content.article.'.$this->article->id));
+$canEdit	= ($this->user->authorise('core.edit', 'com_content.article.'.$this->article->id));
 ?>
 <?php if ($this->params->get('show_page_heading', 1) && $this->params->get('page_title') != $this->article->title) : ?>
 	<div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">

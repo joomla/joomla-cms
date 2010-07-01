@@ -129,7 +129,7 @@ final class JSite extends JApplication
 		parent::route();
 
 		$Itemid = JRequest::getInt('Itemid');
-		$this->authorize($Itemid);
+		$this->authorise($Itemid);
 	}
 
 	/**
@@ -261,9 +261,17 @@ final class JSite extends JApplication
 	}
 
 	/**
-	 * Check if the user can access the application
+	 * @deprecated 1.6	Use the authorise method instead.
 	 */
 	public function authorize($itemid)
+	{
+		return $this->authorise($itemid);
+	}
+
+	/**
+	 * Check if the user can access the application
+	 */
+	public function authorise($itemid)
 	{
 		$menus	= $this->getMenu();
 		$user	= JFactory::getUser();

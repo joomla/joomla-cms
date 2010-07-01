@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die; ?>
-<?php if ($this->user->authorize('core.edit', 'com_content.article.'.$this->item->id)) : ?>
+<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
 	<div class="contentpaneopen_edit<?php echo $this->escape($this->item->params->get( 'pageclass_sfx' )); ?>">
 		<?php echo JHTML::_('icon.edit', $this->item, $this->item->params, $this->access); ?>
 	</div>
