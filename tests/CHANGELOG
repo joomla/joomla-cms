@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2010 Mark Dexter
+# Fix problems with system test acl0001Test (Matt Thomas)
+# Fix problems running JElement unit tests stand-alone
+
 30-Jun-2010 Mark Dexter
 # Fix failing system tests
 # Fix system tests for uncategorised category changes

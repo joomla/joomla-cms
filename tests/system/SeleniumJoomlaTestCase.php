@@ -101,7 +101,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	{
 		$this->click("link=User Manager");
 		$this->waitForPageToLoad("30000");
-		echo("Add new user named " . $name . " in Group=" . $group . "\n");
+		echo("Add new user named " . $name . " to " . $group . " group.\n");
 		$this->click("//li[@id='toolbar-new']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->type("jform_name", $name);
@@ -376,9 +376,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//li[@id='toolbar-popup-options']/a/span");
 			for ($second = 0; ; $second++) {
 				if ($second >= 15) $this->fail("timeout");
-				try {
-					if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
-				} catch (Exception $e) {}
+				try
+				{
+					if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;					
+				} 
+				catch (Exception $e) {}
 				sleep(1);
 			}
 			$this->assertTrue($this->isTextPresent("Options"));

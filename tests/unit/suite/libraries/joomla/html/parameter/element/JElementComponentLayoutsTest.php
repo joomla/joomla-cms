@@ -1,6 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/list.php';
 require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/componentlayouts.php';
 
 /**

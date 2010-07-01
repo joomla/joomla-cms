@@ -1,7 +1,11 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'parameter' . DS . 'element' . DS . 'calendar.php';
+
+require_once JPATH_BASE.'/libraries/joomla/filesystem/path.php';
+require_once JPATH_BASE.'/libraries/joomla/html/html.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element.php';
+require_once JPATH_BASE.'/libraries/joomla/html/parameter/element/calendar.php';
 
 /**
  * Test class for JElementCalendar.
