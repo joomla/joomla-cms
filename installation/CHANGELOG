@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jul-2010 Mark Dexter
+# Fix typo from earlier bug fix ([#20634]
+
 02-Jul-2010 Andrew Eddie
  # Fixed issue [#21181] Consistent use of authorise vs authorize (Rune Sjøen).
 

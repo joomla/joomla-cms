@@ -65,8 +65,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$model = $this->getModel();
 
 		// Get the arrays from the Request
-		$idArray = JRequest::getVar(cid);
-		$orderArray = JRequest::getVar(order);
+		$idArray = JRequest::getVar('cid');
+		$orderArray = JRequest::getVar('order');
 		$originalOrderArray = explode(',', JRequest::getString('original_order_values'));
 
 		// Check that they are arrays and the same size
