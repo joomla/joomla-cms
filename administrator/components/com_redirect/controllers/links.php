@@ -35,7 +35,7 @@ class RedirectControllerLinks extends JControllerAdmin
 		$comment	= JRequest::getString('comment');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_LINK_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
 		} else {
 			// Get the model.
 			$model = $this->getModel();

@@ -373,7 +373,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		if (empty($pks)) {
-			$this->setError(JText::_('COM_CATEGORIES_NO_CATEGORIES_SELECTED'));
+			$this->setError(JText::_('COM_CATEGORIES_NO_ITEM_SELECTED'));
 			return false;
 		}
 

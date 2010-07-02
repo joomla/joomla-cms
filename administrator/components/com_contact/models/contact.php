@@ -146,7 +146,7 @@ class ContactModelContact extends JModelAdmin
 		}
 
 		if (empty($pks)) {
-			$this->setError(JText::_('COM_CONTACT_NO_CONTACT_SELECTED'));
+			$this->setError(JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
 			return false;
 		}
 

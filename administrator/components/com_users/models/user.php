@@ -407,7 +407,7 @@ class UsersModelUser extends JModelAdmin
 	{
 		// Ensure there are selected users to operate on.
 		if (empty($user_ids)) {
-			$this->setError(JText::_('COM_USERS_NO_USERS_SELECTED'));
+			$this->setError(JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
 			return false;
 		} else if (!empty($config)) {
 			// Only run operations if a config array is present.

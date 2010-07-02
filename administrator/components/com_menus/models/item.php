@@ -48,7 +48,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		if (empty($pks)) {
-			$this->setError(JText::_('COM_MENUS_NO_MENUITEMS_SELECTED'));
+			$this->setError(JText::_('COM_MENUS_NO_ITEM_SELECTED'));
 			return false;
 		}
 
