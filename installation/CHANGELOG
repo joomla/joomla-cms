@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Jul-2010 Jean-Marie Simonet
  # [#21284] * Language sorting by id broken
+ # Missing icon in Messages toolbar (missing from #20836 patch)
  
 02-Jul-2010 Mark Dexter
 # Fix typo from earlier bug fix ([#20634]

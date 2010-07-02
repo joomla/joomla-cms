@@ -75,7 +75,7 @@ class MessagesViewMessages extends JView
 		//JToolBarHelper::addNew('module.add');
 		JToolBarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'config', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
+		$bar->appendButton('Popup', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_messages');
