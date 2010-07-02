@@ -66,7 +66,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHtml::_('grid.sort',  'JPUBLISHED', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="1%" class="nowrap">
-					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'JGrid_Heading_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
