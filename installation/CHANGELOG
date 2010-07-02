@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21284] * Language sorting by id broken
  # Missing icon in Messages toolbar (missing from #20836 patch)
 .$ [#21279] COM_USERS_GROUPS_NO_ITEM_SELECTED and others similar message undefined
+ $ Adding missing string.
  
 02-Jul-2010 Mark Dexter
 # Fix typo from earlier bug fix ([#20634]
