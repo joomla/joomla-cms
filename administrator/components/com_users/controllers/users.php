@@ -101,7 +101,7 @@ class UsersControllerUsers extends JControllerAdmin
 		$ids	= JRequest::getVar('cid', array(), '', 'array');
 
 		if (empty($ids)) {
-			JError::raiseWarning(500, JText::_('COM_USERS_NO_USERS_SELECTED'));
+			JError::raiseWarning(500, JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
 		} else {
 			// Get the model.
 			$model = $this->getModel();
