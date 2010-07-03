@@ -242,7 +242,7 @@ class JDocumentHTML extends JDocument
 
 			$renderer = $this->loadRenderer($type);
 			if ($this->_caching == true && $type == 'modules') {
-				$cache = JFactory::getCache('testing','');
+				$cache = JFactory::getCache('com_modules','');
 				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
 				$cbuffer = $cache->get('cbuffer_'.$type);
 				
