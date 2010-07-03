@@ -23,6 +23,16 @@
 		<fieldset
 			name="select"
 		>
+			<field type="list"
+				name="enabled"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">COM_INSTALLER_VALUE_STATE_SELECT</option>
+				<option value="0">JDISABLED</option>
+				<option value="1">JENABLED</option>
+			</field>
+			
 			<field type="type"
 				name="type"
 				hidden="true"

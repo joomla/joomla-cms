@@ -49,6 +49,7 @@ class InstallerModelManage extends InstallerModel
 
 		$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
 		$this->setState('filter.hideprotected', isset($filters['hideprotected']) ? $filters['hideprotected'] : 0);
+		$this->setState('filter.enabled', isset($filters['enabled']) ? $filters['enabled'] : '');
 		$this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
 		$this->setState('filter.group', isset($filters['group']) ? $filters['group'] : '');
 		$this->setState('filter.client_id', isset($filters['client_id']) ? $filters['client_id'] : '');
@@ -207,6 +208,7 @@ class InstallerModelManage extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
+		$enabled= $this->getState('filter.enabled');
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
@@ -217,6 +219,9 @@ class InstallerModelManage extends InstallerModel
 		$query->where('state=0');
 		if ($hideprotected) {
 			$query->where('protected!=1');
+		}
+		if ($enabled != '') {
+			$query->where('enabled=' . intval($enabled));
 		}
 		if ($type) {
 			$query->where('type=' . $this->_db->Quote($type));
