@@ -94,7 +94,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 				else
 				{
 					// Rebuild failed.
-					$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_REORDER_FAILED'));
+					$this->setMessage(JText::_('COM_CATEGORIES_ERROR_REORDER_FAILED'));
 					return false;
 				}
 			}
@@ -107,7 +107,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		}
 		else
 		{
-			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_REORDER_FAILED'));
+			$this->setMessage(JText::_('COM_CATEGORIES_ERROR_REORDER_FAILED'));
 			return false;
 		}
 	}

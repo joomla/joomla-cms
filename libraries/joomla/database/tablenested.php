@@ -1506,7 +1506,7 @@ class JTableNested extends JTable
 				// Check for a database error.
 				if (!$this->_db->query())
 				{
-					$e = new JException(JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
+					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_REORDER_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
 					$this->_unlock();
 					return false;
