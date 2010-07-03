@@ -27,10 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jul-2010 Jean-Marie Simonet
+ # [#20796] Joomla! caches ALL HTML in 1 file. Thanks Klas.
+ 
 02-Jul-2010 Jean-Marie Simonet
  # [#21284] * Language sorting by id broken
  # Missing icon in Messages toolbar (missing from #20836 patch)
-.$ [#21279] COM_USERS_GROUPS_NO_ITEM_SELECTED and others similar message undefined
+ $ [#21279] COM_USERS_GROUPS_NO_ITEM_SELECTED and others similar message undefined
  $ Adding missing string.
  
 02-Jul-2010 Mark Dexter

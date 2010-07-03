@@ -53,7 +53,7 @@ class JCacheControllerView extends JCacheController
 		}
 
 		if ($data !== false) {
-			$data		= unserialize($data);
+			$data		= unserialize(trim($data));
 
 			if ($wrkarounds === true) {
 				echo JCache::getWorkarounds($data);

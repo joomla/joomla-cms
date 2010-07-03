@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 			<?php
 			endforeach;
 			?>
-		<?php if ($this->data['cache_handler'] == 'memcache' || $this->data['session_handler'] == 'memcache') : ?>
+		<?php if (isset($this->data['cache_handler']) && $this->data['cache_handler'] == 'memcache' || $this->data['session_handler'] == 'memcache') : ?>
 
 					<?php
 			foreach ($this->form->getFieldset('memcache') as $mfield):

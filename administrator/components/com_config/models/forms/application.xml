@@ -5,15 +5,20 @@
 		name="cache"
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
 		<field
-			name="cachetime"
-			type="text"
-			default="15"
-			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
-			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			name="caching"
+			type="list"
+			default="2"
+			label="COM_CONFIG_FIELD_CACHE_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_DESC"
 			required="true"
-			filter="integer"
-			size="6" />
-
+			filter="integer">
+			<option 
+				value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+			<option
+				value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
+			<option
+				value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
+		</field>
 		<field
 			name="cache_handler"
 			type="cachehandler"
@@ -21,10 +26,19 @@
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word">
-			<option value="">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 		</field>
 		
+		<field
+			name="cachetime"
+			type="text"
+			default="15"
+			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
+			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
+			required="true"
+			filter="integer"
+			size="6" />	
 	</fieldset>
+	
 	<fieldset
 		name="memcache"
 		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">

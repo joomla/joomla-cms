@@ -232,8 +232,13 @@ final class JSite extends JApplication
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
 
+		$caching = false;
+		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2) {
+			$caching = true; 
+		}
+		
 		// Render the document.
-		JResponse::setBody($document->render($this->getCfg('caching'), $params));
+		JResponse::setBody($document->render($caching, $params));
 
 		// Trigger the onAfterRender event.
 		$this->triggerEvent('onAfterRender');

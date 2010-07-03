@@ -101,7 +101,6 @@ class JCacheStorage extends JObject
 		if (!isset($handler)) {
 			$conf = JFactory::getConfig();
 			$handler = $conf->get('cache_handler');
-			$caching = $conf->get('caching');
 			if (empty($handler)) {
 				return JError::raiseWarning(500, JText::_('JLIB_CACHE_ERROR_CACHE_HANDLER_NOT_SET'));
 			}

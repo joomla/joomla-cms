@@ -265,7 +265,8 @@ class JApplication extends JObject
 		$this->triggerEvent('onBeforeRender');
 
 		// Render the document.
-		JResponse::setBody($document->render($this->getCfg('caching'), $params));
+		$caching = ($this->getCfg('caching') >= 2) ? true : false;
+		JResponse::setBody($document->render($caching, $params));
 
 		// Trigger the onAfterRender event.
 		$this->triggerEvent('onAfterRender');

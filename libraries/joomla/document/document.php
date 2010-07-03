@@ -333,6 +333,16 @@ class JDocument extends JObject
 	function setHeadData($data) {
 		// Impelemented in child classes
 	}
+	
+	/**
+	 * Set the document head data
+	 *
+	 * @access	public
+	 * @param	array	$data	The document head data in array form
+	 */
+	function mergeHeadData($data) {
+		// Impelemented in child classes
+	}
 
 	/**
 	 * Get the contents of the document buffer

@@ -98,9 +98,9 @@ class JInstallationModelConfiguration extends JModel
 		$registry->set('smtpport', '25');
 
 		/* Cache Settings */
-		$registry->set('caching', 0);
+		$registry->set('caching', 2);
+		$registry->set('cache_handler', 'file');
 		$registry->set('cachetime', 15);
-		$registry->set('cache_handler', '');
 
 		/* Meta Settings */
 		$registry->set('MetaDesc', JText::_('INSTL_STD_METADESC'));

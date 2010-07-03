@@ -182,7 +182,7 @@ abstract class JFactory
 		$options = array('defaultgroup'	=> $group );
 
 		if (isset($storage)) {
-			$options[] = array('storage' => $storage);
+			$options['storage'] = $storage;
 		}
 
 		jimport('joomla.cache.cache');

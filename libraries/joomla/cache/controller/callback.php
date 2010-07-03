@@ -50,10 +50,11 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	array	Callback arguments
 	 * @param	string	Cache id
 	 * @param	boolean	Perform workarounds on data?
+	 * @param	array	Workaround options
 	 * @return	mixed	Result of the callback
 	 * @since	1.6
 	 */
-	public function get($callback, $args, $id=false, $wrkarounds=false)
+	public function get($callback, $args, $id=false, $wrkarounds=false, $woptions=array())
 	{
 
 		// Normalize callback
@@ -99,8 +100,9 @@ class JCacheControllerCallback extends JCacheController
 
 		if ($data !== false) {
 
-			$cached = unserialize($data);
-			$output = $wrkarounds==false ? $cached['output'] : JCache::getWorkarounds($cached['output']);
+			$cached = unserialize(trim($data));
+			$coptions['mergehead'] = isset($woptions['mergehead']) ? $woptions['mergehead'] : 0;
+			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $woptions['mergehead']);
 			$result = $cached['result'];
 			if ($locktest->locked == true) $this->cache->unlock($id);
 
@@ -119,10 +121,16 @@ class JCacheControllerCallback extends JCacheController
 			ob_end_clean();
 
 			$cached = array();
+			
 			$coptions= array();
-			$coptions['nopathway'] = 1;
-			$cached['output'] = $wrkarounds==false ? $output : JCache::setWorkarounds($output,$coptions);
+			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
+			$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
+			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
+			$coptions['modulemode'] = isset($woptions['modulemode']) ? $woptions['modulemode'] : 0;
+			
+			$cached['output'] = ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions);
 			$cached['result'] = $result;
+			
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
 			if ($locktest->locked == true) $this->cache->unlock($id);
