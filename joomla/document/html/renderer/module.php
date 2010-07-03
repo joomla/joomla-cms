@@ -70,7 +70,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 
 		$cachemode = $mod_params->get('cachemode','oldstatic');  // default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
 
-		if ($mod_params->get('cache', 0) == 1  && $conf->get('caching') && $cachemode != 'id' && $cachemode != 'safeuri')
+		if ($mod_params->get('cache', 0) == 1  && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 
 			// default to itemid creating mehod and workarounds on

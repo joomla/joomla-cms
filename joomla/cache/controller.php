@@ -160,7 +160,7 @@ class JCacheController
 
 		// check again, we might got it from second attempt
 		if ($data !== false) {
-			$data = unserialize($data);
+			$data = unserialize(trim($data));  // trim to fix unserialize errors
 		}
 		return $data;
 	}

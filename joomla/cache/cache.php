@@ -59,7 +59,7 @@ class JCache extends JObject
 			'locking'		=> true,
 			'locktime'		=> 15,
 			'checkTime' 	=> true,
-			'caching'		=> (bool)$conf->get('caching')
+			'caching'		=> ($conf->get('caching') >= 1) ? true : false
 		);
 
 		// Overwrite default options with given options
@@ -395,7 +395,7 @@ class JCache extends JObject
 	 * @return	string	$body		Body of cached data
 	 * @since	1.6
 	 */
-	public static function getWorkarounds($data) {
+	public static function getWorkarounds($data,$options=array()) {
 
 		// Initialise variables.
 		$app 		= JFactory::getApplication();
@@ -403,7 +403,11 @@ class JCache extends JObject
 		$body 		= null;
 
 		// Get the document head out of the cache.
-		$document->setHeadData((isset($data['head'])) ? $data['head'] : array());
+		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])) {
+			$document->mergeHeadData($data['head']);
+		} else if (isset($data['head'])){ 
+			$document->setHeadData($data['head']);
+		}
 
 		// If the pathway buffer is set in the cache data, get it.
 		if (isset($data['pathway']) && is_array($data['pathway'])) {
@@ -446,9 +450,26 @@ class JCache extends JObject
 	{
 		$loptions=array();
 		$loptions['nopathway'] = 0;
+		$loptions['nohead'] = 0;
+		$loptions['nomodules'] = 0;
+		$loptions['modulemode'] = 0;
+
 		if (isset($options['nopathway'])) {
 			$loptions['nopathway'] = $options['nopathway'];
 		}
+
+		if (isset($options['nohead'])) {
+			$loptions['nohead'] = $options['nohead'];
+		}
+
+		if (isset($options['nomodules'])) {
+			$loptions['nomodules'] = $options['nomodules'];
+		}
+		
+		if (isset($options['modulemode'])) {
+			$loptions['modulemode'] = $options['modulemode'];
+		}
+
 		// Initialise variables.
 		$app 		= JFactory::getApplication();
 		$document	= JFactory::getDocument();
@@ -465,25 +486,36 @@ class JCache extends JObject
 		$cached['body'] = $data;
 
 		// Document head data
-		$cached['head'] = $document->getHeadData();
+		if ($loptions['nohead'] != 1) {
+			$cached['head'] = $document->getHeadData();
+			
+			if ($loptions['modulemode'] == 1) {
+					unset($cached['head']['title']);
+					unset($cached['head']['description']);
+					unset($cached['head']['link']);
+					unset($cached['head']['metaTags']);
+			}
+		}
 
 		// Pathway data
 		if ($app->isSite() && $loptions['nopathway'] != 1) {
 			$pathway			= $app->getPathWay();
-			$cached['pathway'] 	= $pathway->getPathway();
+			$cached['pathway'] 	= isset($data['pathway']) ? $data['pathway'] : $pathway->getPathway();
 		}
 
-		// @todo chech if the following is needed, seems like it should be in page cache
-		// Get the module buffer after component execution.
-		$buffer2 = $document->getBuffer();
+		if ($loptions['nomodules'] != 1) {
+			// @todo chech if the following is needed, seems like it should be in page cache
+			// Get the module buffer after component execution.
+			$buffer2 = $document->getBuffer();
 
-		// Make sure the module buffer is an array.
-		if (!isset($buffer2['module']) || !is_array($buffer2['module'])) {
-			$buffer2['module'] = array();
+			// Make sure the module buffer is an array.
+			if (!isset($buffer2['module']) || !is_array($buffer2['module'])) {
+				$buffer2['module'] = array();
+			}
+
+			// Compare the second module buffer against the first buffer.
+			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
 		}
-
-		// Compare the second module buffer against the first buffer.
-		$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
 
 		return $cached;
 	}

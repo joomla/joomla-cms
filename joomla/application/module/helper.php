@@ -378,47 +378,62 @@ abstract class JModuleHelper
 			$cacheparams->methodparams = array($cacheparams->methodparams);
 		}
 
-		$user	= JFactory::getUser();
-		$cache	= JFactory::getCache($cacheparams->cachegroup,'callback');
-		$conf	= JFactory::getConfig();
+		$user = JFactory::getUser();
+		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
+		$conf = JFactory::getConfig();
 
 		// turn cache off for internal callers if parameters are set to off and for all loged in users
-		if($moduleparams->get('owncache', null) == 0  || $conf->get('caching') == 0 || $user->get('id')) $cache->setCaching = false ;
+		if($moduleparams->get('owncache', null) == 0  || $conf->get('caching') == 0 || $user->get('id')) {
+			$cache->setCaching = false;
+		}
 
 		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60));
+
+		$wrkaroundoptions = array (
+			'nopathway' 	=> 1,
+			'nohead' 		=> 0,
+			'nomodules' 	=> 1,
+			'modulemode' 	=> 1,
+			'mergehead' 	=> 1
+		);
+		
+		$wrkarounds = true;
 
 		switch ($cacheparams->cachemode) {
 
 			case 'id':
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method),$cacheparams->methodparams,$cacheparams->modeparams,true);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $cacheparams->modeparams, $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'safeuri':
 				$secureid=null;
 				if (is_array($cacheparams->modeparams)) {
-				$uri = JRequest::get();
-				$safeuri=new stdClass();
-				foreach ($cacheparams->modeparams AS $key => $value) {
-					// use int filter for id/catid to clean out spamy slugs
-					if (isset($uri[$key])) $safeuri->$key = JRequest::_cleanVar($uri[$key], 0,$value);
-				} }
+					$uri = JRequest::get();
+					$safeuri = new stdClass();
+					foreach ($cacheparams->modeparams AS $key => $value) {
+						// use int filter for id/catid to clean out spamy slugs
+						if (isset($uri[$key])) {
+							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0,$value);
+						}
+					} }
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
-				$ret = $cache->get(array($cacheparams->class,$cacheparams->method),$cacheparams->methodparams,$module->id. $user->get('aid', 0).$secureid,true);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).$secureid, $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'static':
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->module.md5(serialize($cacheparams->methodparams)) ,true);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->module.md5(serialize($cacheparams->methodparams)), $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'oldstatic':  // provided for backward compatibility, not really usefull
-				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0),true);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0), $wrkarounds, $wrkaroundoptions);
 				break;
 
 			case 'itemid':
 			default:
-				$ret = $cache->get(array($cacheparams->class,$cacheparams->method), $cacheparams->methodparams , $module->id. $user->get('aid', 0).JRequest::getVar('Itemid',null,'default','INT'), true);
+				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
 				break;
 		}
-	return $ret;
+		
+		return $ret;
 	}
 }

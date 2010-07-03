@@ -514,7 +514,7 @@ class JController extends JObject
 		$conf = JFactory::getConfig();
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && $conf->get('caching')) {
+		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1) {
 			$option	= JRequest::getCmd('option');
 			$cache	= JFactory::getCache($option, 'view');
 
@@ -530,8 +530,9 @@ class JController extends JObject
 				foreach ($urlparams AS $key => $value) {
 					// add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
-					$app->set('registeredurlparams', $registeredurlparams);
 				}
+				
+				$app->set('registeredurlparams', $registeredurlparams);
 			}
 
 			$cache->get($view, 'display');

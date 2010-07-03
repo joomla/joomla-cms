@@ -58,6 +58,7 @@ class JCacheControllerOutput extends JCacheController
 		}
 
 		if ($data !== false) {
+			$data = unserialize(trim($data));
 			echo $data;
 			if ($this->_locktest->locked == true) {
 				$this->cache->unlock($id, $group);
@@ -99,7 +100,7 @@ class JCacheControllerOutput extends JCacheController
 		$this->_group	= null;
 
 		// Get the storage handler and store the cached data
-		$ret = $this->cache->store($data, $id, $group);
+		$ret = $this->cache->store(serialize($data), $id, $group);
 
 		if ($this->_locktest->locked == true) {
 			$this->cache->unlock($id, $group);

@@ -87,7 +87,7 @@ class JCacheControllerPage extends JCacheController
 		}
 
 		if ($data !== false) {
-
+			$data = unserialize(trim($data));
 			if ($wrkarounds === true) {
 				echo JCache::getWorkarounds($data);
 			}
@@ -130,7 +130,7 @@ class JCacheControllerPage extends JCacheController
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
 
-			$sucess = $this->cache->store($data, $id, $group);
+			$sucess = $this->cache->store(serialize($data), $id, $group);
 
 			if ($this->_locktest->locked == true) {
 				$this->cache->unlock($id, $group);

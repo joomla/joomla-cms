@@ -58,7 +58,7 @@ class JCacheStorageFile extends JCacheStorage
 				$data = file_get_contents($path);
 				if ($data) {
 					// Remove the initial die() statement
-					$data	= preg_replace('/^.*\n/', '', $data);
+					$data = str_replace('<?php die("Access Denied"); ?>#x#', '', $data);
 				}
 			}
 
@@ -109,8 +109,8 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
-		$die		= '<?php die("Access Denied"); ?>'."\n";
-
+		$die		= '<?php die("Access Denied"); ?>#x#';
+		
 		// Prepend a die string
 		$data		= $die.$data;
 
@@ -339,7 +339,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!is_dir($dir)) {
 			return false;
 		}
-		return $dir.DS.$name;
+		return $dir.DS.$name.'.php';
 	}
 
 	/**
