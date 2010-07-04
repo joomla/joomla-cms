@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul02919 Mark Dexter
+# Fix failing system tests (turn off caching, adjust for language changes)
+
 01-Jul-2010 Mark Dexter
 # Fix problems with system test acl0001Test (Matt Thomas)
 # Fix problems running JElement unit tests stand-alone

@@ -85,11 +85,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Move Modules category up one." . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
+		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		print("Move Modules category down one." . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Down']");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
+		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php/testCreateRemoveCategory." . "\n");
 
@@ -144,7 +144,8 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
 		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
 		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
-		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
+		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
+		
 		
 		echo "put the categories back in the original order and click Save Order\n";
 		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
@@ -156,7 +157,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		
 		echo "Check for success message and that order has been put back to original\n";
-		$this->assertTrue($this->isTextPresent("Item successfully reordered"));
+		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
 		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
@@ -167,7 +168,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
 		echo "Check that there is no success message and that orders haven't changed\n";
-		$this->assertFalse($this->isTextPresent("Item successfully reordered"));
+		$this->assertFalse($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
 		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
