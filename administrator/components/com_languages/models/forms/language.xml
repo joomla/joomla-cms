@@ -13,8 +13,8 @@
 
 		<field name="lang_code" type="text"
 			class="inputbox"
-			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
-			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
+			description="COM_LANGUAGES_FIELD_LANG_TAG_DESC"
+			label="COM_LANGUAGES_FIELD_LANG_TAG_LABEL"
 			maxlength="7"
 			required="true"
 			size="10"
@@ -39,18 +39,19 @@
 
 		<field name="sef" type="text"
 			class="inputbox"
-			description="COM_LANGUAGES_FIELD_SEF_DESC"
-			label="COM_LANGUAGES_FIELD_SEF_LABEL"
-			maxlength="50"
-			size="40"
+			description="COM_LANGUAGES_FIELD_LANG_CODE_DESC"
+			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
+			maxlength="7"
+			required="true"
+			size="10"
 		/>
 
 		<field name="image" type="text"
 			class="inputbox"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
-			maxlength="50"
-			size="40"
+			maxlength="7"
+			size="10"
 		/>
 
 		<field name="description" type="textarea"

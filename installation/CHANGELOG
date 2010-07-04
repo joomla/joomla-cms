@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul-2010 Jean-Marie Simonet
+ $ [#21304] *More user friendly strings for multilanguage aspects
+
 03-Jul-2010 Jean-Marie Simonet
  # [#20796] Joomla! caches ALL HTML in 1 file. Thanks Klas.
  # [#21285] Missing "State" filter for page Extension Manager: Manage

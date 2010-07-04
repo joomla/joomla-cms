@@ -21,7 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 	<fieldset class="filter">
 		<div class="right">
 			<label for="filter_client_id">
-				<?php echo JText::_('COM_LANGUAGES_FILTER_LOCATION_LABEL'); ?>
+				<?php echo JText::_('COM_LANGUAGES_FILTER_CLIENT_LABEL'); ?>
 			</label>
 			<select id="filter_client_id" name="filter_client_id" class="inputbox" onchange="this.form.submit()">
 				<?php echo JHtml::_('select.options', JHtml::_('languages.clients'), 'value', 'text', $this->state->get('filter.client_id'));?>
