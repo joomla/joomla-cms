@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jul-2010 Jean-Marie Simonet
  $ [#21304] *More user friendly strings for multilanguage aspects
  # [#21245] Global parameters for single contact--Showing Contact list makes links not show. Thanks Elin.
+ # [#21273] Incorrect date format being used during INSERTs to Redirect table when 404 occurs. Thanks CY Lee
 
 03-Jul-2010 Jean-Marie Simonet
  # [#20796] Joomla! caches ALL HTML in 1 file. Thanks Klas.
