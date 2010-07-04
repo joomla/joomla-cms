@@ -294,7 +294,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_links" type="list" default="1"
+			<field name="show_links" type="list" 
 				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			>

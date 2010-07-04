@@ -45,12 +45,11 @@ class ContactViewContact extends JView
 		// Get the parameters of the active menu item
 		$menus	= $app->getMenu();
 		$menu	= $menus->getActive();
-
-		$params =& $state->get('params');
+		$params	= $app->getParams();
+		
 		$item_params = new JRegistry;
 		$item_params->loadJSON($item->params);
-		$active = $app->getMenu()->getActive();
-		$temp = clone ($params);
+		$params->merge($item_params);
 		
 		// check if access is not public
 		$groups	= $user->authorisedLevels();

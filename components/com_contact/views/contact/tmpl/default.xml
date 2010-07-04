@@ -236,7 +236,6 @@
 
 			<field name="show_links" 
 				type="list" 
-				default="1"
 				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
 				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 			>

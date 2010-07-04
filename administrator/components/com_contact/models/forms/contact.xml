@@ -314,6 +314,17 @@
 				<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK
 				</option>
 			</field>
+			
+			<field name="show_contact_list" 
+			type="list"
+			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+			
 			<field name="presentation_style" type="list"
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
@@ -478,9 +489,11 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="show_links" label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC" type="list"
-				default="0"
+			
+			<field name="show_links" 
+			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
+			type="list"			
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

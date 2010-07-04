@@ -410,7 +410,6 @@
 		</field>
 
 		<field name="show_links" type="list"
-			default="0"
 			description="CONTACT_SHOW_LINKS_DESC"
 			label="CONTACT_SHOW_LINKS_LABEL"
 		>
