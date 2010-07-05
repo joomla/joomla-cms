@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-04-Jul02919 Mark Dexter
+05-Jul-2010 Mark Dexter
+# Fix system tests for sample data changes
+
+04-Jul-2010 Mark Dexter
 # Fix failing system tests (turn off caching, adjust for language changes)
 
 01-Jul-2010 Mark Dexter

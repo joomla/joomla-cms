@@ -73,7 +73,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		echo "Go to front page and check article order\n";
 		$this->gotoSite();
 		$this->assertEquals("Professionals", $this->getText("//div[@class='leading-0']/h2"), "Professionals article should be intro");
-		$this->assertTrue((bool) preg_match("/^[\s\S]*Upgraders[\s\S]*Joomla! Beginners[\s\S]*Joomla![\s\S]*$/", $this->getText(
+		$this->assertTrue((bool) preg_match("/^[\s\S]*Upgraders[\s\S]*Beginners[\s\S]*Joomla![\s\S]*$/", $this->getText(
 			"//div[@class='items-row cols-3 row-0']")), "Order in columns should be Upgrader, Beginners, Joomla!");
 
 		echo "Go to back end and change order back to original\n";
@@ -94,7 +94,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		echo "Go to site and check that the articles are in original order.\n";
 		$this->gotoSite();
 		$this->assertEquals("Joomla!", $this->getText("//div[@class='leading-0']/h2"), "Joomla! should be intro article");
-		$this->assertTrue((bool) preg_match("/^[\s\S]*Joomla! Beginners[\s\S]*Upgraders[\s\S]*Professionals[\s\S]*$/", $this->getText(
+		$this->assertTrue((bool) preg_match("/^[\s\S]*Beginners[\s\S]*Upgraders[\s\S]*Professionals[\s\S]*$/", $this->getText(
 			"//div[@class='items-row cols-3 row-0']")), "Articles should be Beginners, Upgraders, Professionals");
 
 		echo "Go back to back end and change menu item to sort by alpha\n";
@@ -110,12 +110,12 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		
 		echo "Goto front page and check alpha article order \n";
 		$this->gotoSite();
-		$this->assertEquals("Joomla!", $this->getText("//div[@class='leading-0']/h2"), "Joomla! should be intro article");
-		$this->assertEquals("Joomla! Beginners", $this->getText("//div[@class='item column-1']/h2"), "Joomla! Beginners should be col 1");
+		$this->assertEquals("Beginners", $this->getText("//div[@class='leading-0']/h2"), "Beginners should be intro article");
+		$this->assertEquals("Joomla!", $this->getText("//div[@class='item column-1']/h2"), "Joomla! should be col 1");
 		$this->assertEquals("Professionals", $this->getText("//div[@class='item column-2']/h2"), "Professionals should be col 2");
 		$this->assertEquals("Upgraders", $this->getText("//div[@class='item column-3']/h2"), "Upgrades should be col 3");
-		$this->assertTrue((bool) preg_match("/^[\s\S]*Joomla! Beginners[\s\S]*Professionals[\s\S]*Upgraders[\s\S]*$/", $this->getText(
-			"//div[@class='items-row cols-3 row-0']")), "Articles should be Beginners, Professionals, Upgraders");
+		$this->assertTrue((bool) preg_match("/^[\s\S]*Joomla![\s\S]*Professionals[\s\S]*Upgraders[\s\S]*$/", $this->getText(
+			"//div[@class='items-row cols-3 row-0']")), "Articles should be Joomla!, Professionals, Upgraders");
 		
 		echo "Go back to back end and change parameters back.\n";
 		$this->gotoAdmin();

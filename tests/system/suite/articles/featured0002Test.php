@@ -51,7 +51,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->assertEquals("Article Categories", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"), "Article Categories should be r2c1");
 		$this->assertEquals("Articles Modules", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"), "Articles Modules should be r0c2");
 		$this->assertEquals("Joomla!", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"), "Joomla! should be r1c2");
-		$this->assertEquals("Joomla! Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"), "Beginners should be r0c3");
+		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"), "Beginners should be r0c3");
 		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-3']/h2"), "Professionals should be r1c3");
 		echo "Go to admin and change sort to reverse alpha.\n";
 		$this->gotoAdmin();
@@ -67,7 +67,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->assertEquals("Upgraders", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"));
 		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-1']/h2"));
-		$this->assertEquals("Joomla! Beginners", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"));
+		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"));
 		$this->assertEquals("Joomla!", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"));
 		$this->assertEquals("Articles Modules", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"));
 		$this->assertEquals("Article Categories", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"));
@@ -95,7 +95,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		echo "Go back to site and make sure original articles are in right positions.\n";
 		$this->gotoSite();
-		$this->assertEquals("Joomla! Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"));
+		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"));
 		$this->assertEquals("Upgraders", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"));
 		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"));
 		echo "Go back to back end and log out.\n";
