@@ -71,8 +71,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 	echo "Check for site menu\n";
 	$this->assertEquals("Site", $this->getText("link=Site"));
 	echo "Change error level to maximum\n";
-	$this->click("link=Global Configuration");
-    $this->waitForPageToLoad("30000");
+	$this->jClick('Global Configuration');
     $this->click("server");
     $this->select("jform_error_reporting", "label=Maximum");
     echo "Turn caching off\n";

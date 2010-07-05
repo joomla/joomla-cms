@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Jul-2010 Mark Dexter
 # Fix system tests for sample data changes
+# Improvements to test methods (Matt Thomas)
 
 04-Jul-2010 Mark Dexter
 # Fix failing system tests (turn off caching, adjust for language changes)

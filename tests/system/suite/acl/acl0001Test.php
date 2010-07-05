@@ -71,17 +71,102 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		try
 		{
 			$this->assertFalse($this->isElementPresent("link=User Manager"),'User Manager Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}			
+		try
+		{			
 			$this->assertFalse($this->isElementPresent("link=Users"),'Users Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Menus"),'Menus Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Banner"),'Banner Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Contacts"),'Contacts Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Messaging"),'Messaging Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=News Feeds"),'News Feeds Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Search"),'Search Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Web Links"),'Web Links Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+			
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Redirect",'Redirect Access Test Failed'));
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Extensions"),'Extensions Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Menu Manager"),'Menu Manager Access Test Failed');
+		}
+			catch (PHPUnit_Framework_AssertionFailedError $e)
+		{
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}				
+		try
+		{				
 			$this->assertFalse($this->isElementPresent("link=Module Manager"),'Module Manager Access Test Failed');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
@@ -94,14 +179,14 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("Article Manager: Articles"), 'Article Manager not shown');
+			$this->assertTrue($this->isTextPresent("Article Manager: Articles"), 'Article Manager not shown when it should be, Acl0001Test line 182');
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
-		$this->doAdminLogout();
 		
+		$this->doAdminLogout();
 		$this->doAdminLogin();
 		$this->deleteTestUsers();
 		$this->gotoAdmin();		
