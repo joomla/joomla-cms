@@ -59,56 +59,20 @@ class CategoriesControllerCategories extends JControllerAdmin
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$this->setRedirect('index.php?option=com_categories&view=categories');
-
-		// Initialise variables.
-		$model = $this->getModel();
-
 		// Get the arrays from the Request
-		$idArray = JRequest::getVar('cid');
-		$orderArray = JRequest::getVar('order');
-		$originalOrderArray = explode(',', JRequest::getString('original_order_values'));
-
-		// Check that they are arrays and the same size
-		if (is_array($idArray) && is_array($orderArray) && is_array($originalOrderArray)
-				&& count($idArray) == count($orderArray) && count($idArray == count($originalOrderArray)))
+		$order	= JRequest::getVar('order',	null,	'post',	'array');
+		$originalOrder = explode(',', JRequest::getString('original_order_values'));
+		
+		// Make sure something has changed
+		if (!($order === $originalOrder))
 		{
-			// Clean up arrays
-			for ($i = 0; $i < count($idArray); $i++)
-			{
-				$idArray[$i] = (int) $idArray[$i];
-				$orderArray[$i] = (int) $orderArray[$i];
-				$originalOrderArray[$i] = (int) $originalOrderArray[$i];
-			}
-
-			// Make sure something has changed
-			if (!($orderArray === $originalOrderArray))
-			{
-
-				if ($model->saveorder($idArray, $orderArray))
-				{
-					// Reorder succeeded.
-					$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ITEM_REORDERED'));
-					return true;
-				}
-				else
-				{
-					// Rebuild failed.
-					$this->setMessage(JText::_('COM_CATEGORIES_ERROR_REORDER_FAILED'));
-					return false;
-				}
-			}
-
-			else
-			{
-				// Nothing to reorder
-				return true;
-			}
+			parent::saveorder();
 		}
 		else
 		{
-			$this->setMessage(JText::_('COM_CATEGORIES_ERROR_REORDER_FAILED'));
-			return false;
+			// Nothing to reorder
+			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+			return true;
 		}
 	}
 }

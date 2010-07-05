@@ -18,6 +18,8 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
+$ordering 	= ($listOrder == 'a.lft');
+$saveorder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
 <?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
@@ -71,7 +73,11 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th width="13%">
 					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Ordering', 'a.lft', $listDirn, $listOrder); ?>
-					<?php echo JHtml::_('grid.order',  $this->items); ?>
+					<?php if (($listOrder == 'a.lft') && ($listDirn == 'asc')) : ?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'items.saveorder'); ?>
+					<?php else: ?>
+						<a class="saveorder inactive" title="Save Order"></a>
+					<?php endif; ?> 				
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
@@ -100,8 +106,8 @@ $listDirn	= $this->state->get('list.direction');
 		<?php // Grid layout ?>
 		<tbody>
 		<?php
+		$originalOrders = array();
 		foreach ($this->items as $i => $item) :
-			$ordering = ($listOrder == 'a.lft');
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')|| $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_menus') && $canCheckin;
@@ -131,8 +137,9 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="order">
 					<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-					<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+					<?php $disabled = $saveorder ?  '' : 'disabled="disabled"'; ?>
 					<input type="text" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
+					<?php $originalOrders[] = $orderkey + 1; ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
@@ -169,6 +176,7 @@ $listDirn	= $this->state->get('list.direction');
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+		<input type="hidden" name="original_order_values" value="<?php echo implode($originalOrders, ','); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Jul-2010 Mark Dexter
 # Sample data fixes - fix assets table, uncategorised issues (Elin Waring)
+# [#21117] Save Order button doesn't work in Menu Manager:Menu Items
 
 05-Jul-2010 Jean-Marie Simonet
 #$ [#21307] * Customising date format missing

@@ -19,7 +19,8 @@ $userId	= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-$ordering 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$ordering 	= ($listOrder == 'a.lft');
+$saveorder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm">
 
@@ -64,7 +65,7 @@ $ordering 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
-					<?php if ($listOrder == 'a.lft' && $listDirn == 'asc') :?>
+					<?php if ($saveorder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'categories.saveorder'); ?>
 					<?php else: ?>
 						<?php echo '<a class="saveorder inactive" title="Save Order"></a>'?>
@@ -119,8 +120,8 @@ $ordering 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<td class="order">
 						<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'categories.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-						<?php $ordering ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $ordering ?> class="text-area-order" />
+						<?php $disabled = $saveorder ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
 						<?php $originalOrders[] = $orderkey + 1; ?>
 					</td>
 					<td class="center">
