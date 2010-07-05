@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jul-2010 Mark Dexter
+# Sample data fixes - fix assets table, uncategorised issues (Elin Waring)
+
 05-Jul-2010 Jean-Marie Simonet
 #$ [#21307] * Customising date format missing
 # Wrong class for date fields in redirect xml

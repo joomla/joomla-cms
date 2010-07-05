@@ -475,11 +475,11 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (414, 'plg_editors-xtd_image', 'plugin', 'image', 'editors-xtd', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (415, 'plg_editors-xtd_pagebreak', 'plugin', 'pagebreak', 'editors-xtd', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
 (416, 'plg_editors-xtd_readmore', 'plugin', 'readmore', 'editors-xtd', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
-(417, 'plg_search_categories', 'plugin', 'categories', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"0","search_uncategorised":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
-(418, 'plg_search_contacts', 'plugin', 'contacts', 'search', 0, 1, 1, 1, '', '{"search_limit":"50","search_content":"0","search_uncategorised":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
-(419, 'plg_search_content', 'plugin', 'content', 'search', 0, 1, 1, 1, '', '{"search_limit":"50","search_content":"1","search_uncategorised":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
-(420, 'plg_search_newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"0","search_uncategorised":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
-(421, 'plg_search_weblinks', 'plugin', 'weblinks', 'search', 0, 1, 1, 1, '', '{"search_limit":"50","search_content":"0","search_uncategorised":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
+(417, 'plg_search_categories', 'plugin', 'categories', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
+(418, 'plg_search_contacts', 'plugin', 'contacts', 'search', 0, 1, 1, 1, '', '{"search_limit":"50","search_content":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
+(419, 'plg_search_content', 'plugin', 'content', 'search', 0, 1, 1, 1, '', '{"search_limit":"50","search_content":"1","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 5, 0),
+(420, 'plg_search_newsfeeds', 'plugin', 'newsfeeds', 'search', 0, 1, 1, 0, '', '{"search_limit":"50","search_content":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
+(421, 'plg_search_weblinks', 'plugin', 'weblinks', 'search', 0, 1, 1, 1, '', '{"search_limit":"50","search_content":"0","search_archived":"0"}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (422, 'plg_system_cache', 'plugin', 'cache', 'system', 0, 0, 1, 1, '', '{"browsercache":"0","cachetime":"15"}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (423, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"profile":"1","queries":"1","memory":"1","language_files":"1","language_strings":"1","strip-first":"1","strip-prefix":"","strip-suffix":""}', '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (424, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 1, '', '{}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
@@ -506,8 +506,6 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(602, 'English (United States)', 'language', 'en-US', '', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(603, 'English (United States)', 'language', 'en-US', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (604, 'XXTestLang', 'language', 'xx-XX', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (605, 'XXTestLang', 'language', 'xx-XX', '', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
@@ -534,10 +532,8 @@ CREATE TABLE `#__languages` (
 
 INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`,`published`)
 VALUES
-	(1,'en-GB','English (UK)','English (UK)','en','en','','','',1),
-	(2,'en-US','English (US)','English (US)','us','en','','','',0),
-	(3,'xx-XX','xx (Test)','xx (Test)','xx','br','','','',1);
-
+(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', 1),
+(3, 'xx-XX', 'xx (Test)', 'xx (Test)', 'xx', 'br', '', '', '', 1);
 #
 # Table structure for table `#__menu`
 #
