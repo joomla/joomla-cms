@@ -89,7 +89,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					<?php echo JHTML::_('date',$item->created, 'Y-m-d'); ?>
+					<?php echo JHTML::_('date',$item->created, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>

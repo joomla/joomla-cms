@@ -74,7 +74,7 @@
 			name="created_date"
 			type="text"
 			id="created_date"
-			class="inputbox"
+			class="readonly"
 			label="COM_REDIRECT_FIELD_CREATED_DATE_LABEL"
 			size="20"
 			readonly="true" />
@@ -83,7 +83,7 @@
 			name="modified_date"
 			type="text"
 			id="modified_date"
-			class="inputbox"
+			class="readonly"
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			size="20"
 			readonly="true" />
