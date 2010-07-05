@@ -65,7 +65,7 @@ class JCacheControllerPage extends JCacheController
 		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 			if ($etag == $id) {
-				$browserCache = isset($this->_options['browsercache']) ? $this->_options['browsercache'] : false;
+				$browserCache = isset($this->options['browsercache']) ? $this->options['browsercache'] : false;
 				if ($browserCache) {
 					$this->_noChange();
 				}

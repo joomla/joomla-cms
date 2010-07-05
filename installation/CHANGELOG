@@ -27,8 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jul-2010 Ian MacLennan
+ # [#21299] Typo in page cache controller
+
 04-Jul-2010 Jean-Marie Simonet
- $ [#21304] *More user friendly strings for multilanguage aspects
+ $ [#21304] More user friendly strings for multilanguage aspects
  # [#21245] Global parameters for single contact--Showing Contact list makes links not show. Thanks Elin.
  # [#21273] Incorrect date format being used during INSERTs to Redirect table when 404 occurs. Thanks CY Lee
 
@@ -38,30 +41,30 @@ $ -> Language fix or change
  $ Correcting some ini/keys
  
 02-Jul-2010 Jean-Marie Simonet
- # [#21284] * Language sorting by id broken
- # Missing icon in Messages toolbar (missing from #20836 patch)
+ # [#21284] Language sorting by id broken
+ # [#20836] Missing icon in Messages toolbar (missing from original patch)
  $ [#21279] COM_USERS_GROUPS_NO_ITEM_SELECTED and others similar message undefined
  $ Adding missing string.
  
 02-Jul-2010 Mark Dexter
-# Fix typo from earlier bug fix ([#20634]
+ # [#20634] Typo from earlier patch.
 
 02-Jul-2010 Andrew Eddie
- # Fixed issue [#21181] Consistent use of authorise vs authorize (Rune Sjøen).
+ # [#21181] Consistent use of authorise vs authorize (Rune Sjøen).
 
 01-Jul-2010 Jean-Marie Simonet
- $ [#21265] [patch] Inserting new weblink in backend describes new newsfeeds ordering
+ $ [#21265] Inserting new weblink in backend describes new newsfeeds ordering
  # [#21244] Unable to change "Linked User" to "No User" in Contacts. Thanks Bill.
- # [#21272] * Checkall broken for contacts, cache, languages. messages
+ # [#21272] Checkall broken for contacts, cache, languages. messages
 
 01-Jul-2010 Andrew Eddie
- # Fixed issue [#21056] Trashing module leaves an erroneous entry in module position dropdown lists
+ # [#21056] Trashing module leaves an erroneous entry in module position dropdown lists
 
 01-Jul-2010 Christophe Demko
- # Fixed issue [#21254] Different markup in modal and non-modal menu assignment dialog + Correcting the misplaced <h3> tag
- # Fixed issue [#21249] [patch] Module menu assignments in modal checkmark boxes
- # Fixed issue [#21269] *User modal forces horizontal scrolling. Search field size too big
- # Fix an error in core-uncompressed.js code for ie7/ie8
+ # [#21254] Different markup in modal and non-modal menu assignment dialog + Correcting the misplaced <h3> tag
+ # [#21249] Module menu assignments in modal checkmark boxes
+ # [#21269] User modal forces horizontal scrolling. Search field size too big
+ # Error in core-uncompressed.js code for ie7/ie8
 
 30-Jun-2010 Ian MacLennan
  # [#21126] Token Error on Installation
@@ -83,7 +86,7 @@ $ -> Language fix or change
  $ [#21257] Inaccurate string in contact. Thanks Elin.
  $ Correcting key typo.
  # [#21255] Module modal - missing module assignment description. Thanks Bill.
- # [#21217] [patch] Hathor RTL menu issues. Thanks Andrea.
+ # [#21217] Hathor RTL menu issues. Thanks Andrea.
  $ Deleting a bunch of hardcoded colons
 
 29-Jun-2010 Ian MacLennan
