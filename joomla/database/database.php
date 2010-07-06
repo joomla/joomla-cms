@@ -595,7 +595,7 @@ abstract class JDatabase extends JObject
 	 * Get the current or query, or new JDatabaseQuery object.
 	 *
 	 * @param	boolean	False to return the last query set by setQuery, True to return a new JDatabaseQuery object.
-	 * @return	string	The current value of the internal SQL vairable
+	 * @return	string	The current value of the internal SQL variable
 	 */
 	public function getQuery($new = false)
 	{

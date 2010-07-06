@@ -20,17 +20,31 @@ jimport('joomla.installer.extension');
  */
 class JPackageManifest extends JObject
 {
+	/** @var string name Name of the package */
 	var $name = '';
+	/** @var string packagename Unique name of the package */
 	var $packagename = '';
+	/** @var string url Website for the package */
 	var $url = '';
+	/** @var string description Description for the package */
 	var $description = '';
+	/** @var string packager Packager of the package */
 	var $packager = '';
+	/** @var string packagerurl Packager's URL of the package */
 	var $packagerurl = '';
+	/** @var string update Update site for the package */
 	var $update = '';
+	/** @var string version Version of the package */
 	var $version = '';
+	/** @var JExtension[] filelist List of files in this package */
 	var $filelist = Array();
+	/** @var string manifest_file Path to the manifest file */
 	var $manifest_file = '';
 
+	/**
+	 * Constructor
+	 * @param string $xmlpath Path to XML manifest file 
+	 */
 	function __construct($xmlpath='')
 	{
 		if (strlen($xmlpath)) {
@@ -38,6 +52,11 @@ class JPackageManifest extends JObject
 		}
 	}
 
+	/**
+	 * Load a manifest from an XML file
+	 * @param string $xmlpath Path to XML manifest file
+	 * @return boolean result of load
+	 */
 	function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
