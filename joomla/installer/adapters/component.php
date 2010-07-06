@@ -1124,6 +1124,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query->from('#__menu AS m');
 		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
 		$query->where('m.parent_id = 1');
+		$query->where("m.menutype = '_adminmenu'");
 		$query->where('e.element = '.$db->quote($option));
 
 		$db->setQuery($query);
