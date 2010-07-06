@@ -17,9 +17,10 @@ defined('JPATH_BASE') or die;
 class plgUserProfile extends JPlugin
 {
 	/**
-	 * @param	string	The context for the data
-	 * @param	int		The user id
+	 * @param	string	$context	The context for the data
+	 * @param	int		$data		The user id
 	 * @param	object
+	 *
 	 * @return	boolean
 	 * @since	1.6
 	 */
@@ -29,6 +30,7 @@ class plgUserProfile extends JPlugin
 		if (!in_array($context, array('com_users.profile', 'com_users.registration'))) {
 			return true;
 		}
+
 		if (is_object($data)){
 			$userId = isset($data->id) ? $data->id : 0;
 
@@ -49,17 +51,20 @@ class plgUserProfile extends JPlugin
 
 			// Merge the profile data.
 			$data->profile = array();
+
 			foreach ($results as $v) {
 				$k = str_replace('profile.', '', $v[0]);
 				$data->profile[$k] = $v[1];
 			}
 		}
+
 		return true;
 	}
 
 	/**
-	 * @param	JForm	The form to be altered.
-	 * @param	array	The associated data for the form.
+	 * @param	JForm	$form	The form to be altered.
+	 * @param	array	$data	The associated data for the form.
+	 *
 	 * @return	boolean
 	 * @since	1.6
 	 */
@@ -73,12 +78,13 @@ class plgUserProfile extends JPlugin
 			$this->_subject->setError('JERROR_NOT_A_FORM');
 			return false;
 		}
+
 		// Check we are manipulating a valid form.
 		if (!in_array($form->getName(), array('com_users.profile', 'com_users.registration','com_users.user'))) {
 			return true;
 		}
-		if ($form->getName()=='com_users.profile')
-		{
+
+		if ($form->getName()=='com_users.profile') {
 			// Add the profile fields to the form.
 			JForm::addFormPath(dirname(__FILE__).'/profiles');
 			$form->loadFile('profile', false);
@@ -152,23 +158,27 @@ class plgUserProfile extends JPlugin
 			} else {
 				$form->removeField('aboutme', 'profile');
 			}
+
 			// Toggle whether the tos field is required.
 			if ($this->params->get('profile-require_tos', 1) > 0) {
 				$form->setFieldAttribute('tos', 'required', $this->params->get('profile-require_tos') == 2, 'profile');
 			} else {
 				$form->removeField('tos', 'profile');
 			}
+
 			// Toggle whether the dob field is required.
 			if ($this->params->get('profile-require_dob', 1) > 0) {
 				$form->setFieldAttribute('dob', 'required', $this->params->get('profile-require_dob') == 2, 'profile');
 			} else {
 				$form->removeField('dob', 'profile');
 			}
+
 			return true;
-		}
-		//In this example, we treat the frontend registration and the back end user create or edit as the same.
-		elseif ($form->getName()=='com_users.registration' || $form->getName()=='com_users.user' )
-		{
+
+		} elseif ($form->getName()=='com_users.registration' || $form->getName()=='com_users.user' ) {
+
+			// In this example, we treat the frontend registration and the back end user create or edit as the same.
+
 			// Add the registration fields to the form.
 			JForm::addFormPath(dirname(__FILE__).'/profiles');
 			$form->loadFile('profile', false);
@@ -242,18 +252,21 @@ class plgUserProfile extends JPlugin
 			} else {
 				$form->removeField('aboutme', 'profile');
 			}
+
 			// Toggle whether the tos field is required.
 			if ($this->params->get('register-require_tos', 1) > 0) {
 				$form->setFieldAttribute('tos', 'required', $this->params->get('register-require_tos') == 2, 'profile');
 			} else {
 				$form->removeField('tos', 'profile');
 			}
+
 			// Toggle whether the dob field is required.
 			if ($this->params->get('register-require_dob', 1) > 0) {
 				$form->setFieldAttribute('dob', 'required', $this->params->get('register-require_dob') == 2, 'profile');
 			} else {
 				$form->removeField('dob', 'profile');
 			}
+
 			return true;
 		}
 	}
@@ -262,28 +275,66 @@ class plgUserProfile extends JPlugin
 	{
 		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
 
-		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
-		{
-			try
-			{
+		if ($userId && $result && isset($data['profile']) && (count($data['profile']))) {
+
+			try {
 				$db = JFactory::getDbo();
 				$db->setQuery('DELETE FROM #__user_profiles WHERE user_id = '.$userId);
+
 				if (!$db->query()) {
 					throw new Exception($db->getErrorMsg());
 				}
 
 				$tuples = array();
 				$order	= 1;
+
 				foreach ($data['profile'] as $k => $v) {
 					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote($v).', '.$order++.')';
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
+
 				if (!$db->query()) {
 					throw new Exception($db->getErrorMsg());
 				}
+
+			} catch (JException $e) {
+				$this->_subject->setError($e->getMessage());
+				return false;
 			}
-			catch (JException $e) {
+		}
+
+		return true;
+	}
+
+	/**
+	 * Remove all user profile information for the given user ID
+	 *
+	 * Method is called after user data is deleted from the database
+	 *
+	 * @param	array		$user		Holds the user data
+	 * @param	boolean		$success	True if user was succesfully stored in the database
+	 * @param	string		$msg		Message
+	 */
+	function onUserAfterDelete($user, $success, $msg)
+	{
+		if (!$success) {
+			return false;
+		}
+
+		$userId	= JArrayHelper::getValue($user, 'id', 0, 'int');
+
+		if ($userId) {
+
+			try {
+				$db = JFactory::getDbo();
+				$db->setQuery('DELETE FROM #__user_profiles WHERE user_id = '.$userId);
+
+				if (!$db->query()) {
+					throw new Exception($db->getErrorMsg());
+				}
+
+			} catch (JException $e) {
 				$this->_subject->setError($e->getMessage());
 				return false;
 			}

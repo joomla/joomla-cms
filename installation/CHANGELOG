@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jul-2010 Andrew Eddie
+ # Fixed issue [#20926] fields in jos_user_profile not removed when user is deleted (Boris Baddenoff, Omar Ramos).
+
 05-Jul-2010 Mark Dexter
 # Sample data fixes - fix assets table, uncategorised issues (Elin Waring)
 # [#21117] Save Order button doesn't work in Menu Manager:Menu Items
