@@ -28,15 +28,15 @@ $ -> Language fix or change
 ! -> Note
 
 06-Jul-2010 Andrew Eddie
- # Fixed issue [#20926] fields in jos_user_profile not removed when user is deleted (Boris Baddenoff, Omar Ramos).
+ # [#20926] Fields in jos_user_profile not removed when user is deleted (Boris Baddenoff, Omar Ramos).
 
 05-Jul-2010 Mark Dexter
-# Sample data fixes - fix assets table, uncategorised issues (Elin Waring)
-# [#21117] Save Order button doesn't work in Menu Manager:Menu Items
+ # Sample data - assets table, uncategorised issues (Elin Waring)
+ # [#21117] Save Order button doesn't work in Menu Manager:Menu Items
 
 05-Jul-2010 Jean-Marie Simonet
-#$ [#21307] * Customising date format missing
-# Wrong class for date fields in redirect xml
+ #$ [#21307] Customising date format missing
+ # Wrong class for date fields in redirect xml
 
 05-Jul-2010 Ian MacLennan
  # [#21299] Typo in page cache controller
