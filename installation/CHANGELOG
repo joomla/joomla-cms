@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2010 Jean-Marie Simonet
+$ [#21313] String in Banner.ini. Thanks Joseph.
+ 
 06-Jul-2010 Andrew Eddie
  # [#20926] Fields in jos_user_profile not removed when user is deleted (Boris Baddenoff, Omar Ramos).
 
