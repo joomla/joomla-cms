@@ -137,16 +137,6 @@
 			filter="user_utc" />
 
 		<field
-			id="ordering"
-			name="ordering"
-			type="ordering"
-			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
-			class="inputbox"
-			size="6"
-			default="0" />
-
-		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"

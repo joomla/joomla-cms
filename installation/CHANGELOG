@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Jul-2010 Jean-Marie Simonet
 $ [#21313] String in Banner.ini. Thanks Joseph.
+#$ [#21325] Ordering parameter in frontend edit doesn't make sense
  
 06-Jul-2010 Andrew Eddie
  # [#20926] Fields in jos_user_profile not removed when user is deleted (Boris Baddenoff, Omar Ramos).

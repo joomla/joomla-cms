@@ -97,10 +97,11 @@ $params = $this->state->get('params');
 		<?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?>
 		</div>
-		<div class="formelm">
-		<?php echo $this->form->getLabel('ordering'); ?>
-		<?php echo $this->form->getInput('ordering'); ?>
-		</div>
+		<?php if (is_null($this->item->id)):?>
+			<div class="form-note">
+			<p><?php echo JText::_('COM_CONTENT_ORDERING'); ?></p>
+			</div>
+		<?php endif; ?>
 	</fieldset>
 
 	<fieldset>
