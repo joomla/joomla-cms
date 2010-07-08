@@ -29,16 +29,16 @@ JHtml::_('behavior.keepalive');
 	$document->addScriptDeclaration($script); ?>
 
 <?php if (isset($this->error)) : ?>
-<div class="jcontact-error">
-	<?php echo $this->error; ?>
-</div>
+	<div class="jcontact-error">
+		<?php echo $this->error; ?>
+	</div>
 <?php endif; ?>
 
 <div class="jcontact-form">
 	<form action="<?php echo JRoute::_('index.php');?>" method="post" name="emailForm" id="emailForm" class="form-validate">
-		<div class="jform-required">
+		<p class="jform-required">
 			<?php echo JText::_('COM_CONTACT_CONTACT_REQUIRED');?>
-		</div>
+		</p>
 		<div class="contact_email">
 			<div>
 				<label for="contact_name">
@@ -74,7 +74,7 @@ JHtml::_('behavior.keepalive');
 			</div>
 			<?php endif; ?>
 			<div>
-			<button class="button validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
+				<button class="button validate" type="submit"><?php echo JText::_('COM_CONTACT_CONTACT_SEND'); ?></button>
 			</div>
 			<input type="hidden" name="option" value="com_contact" />
 			<input type="hidden" name="view" value="contact" />

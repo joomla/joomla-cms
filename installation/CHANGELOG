@@ -30,6 +30,7 @@ $ -> Language fix or change
 08-Jul-2010 Jean-Marie Simonet
  # [#21341] Tinymce has a comma error in JS. Thanks Janich.
  # [#21290] Extension Manager: Manage Message. Thanks Matt.
+ # [#21330] Com_contact Patch. Thanks Angie.
 
 07-Jul-2010 Jean-Marie Simonet
  $ [#21313] String in Banner.ini. Thanks Joseph.
