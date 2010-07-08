@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#21290] Extension Manager: Manage Message. Thanks Matt.
  # [#21330] Com_contact Patch. Thanks Angie.
  ^ [#21266] Clean up code for removal of Uncategorised content
+ # [#21333] com_languages views with wrong id on filter
  
 07-Jul-2010 Jean-Marie Simonet
  $ [#21313] String in Banner.ini. Thanks Joseph.

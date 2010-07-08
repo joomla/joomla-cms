@@ -18,8 +18,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 		<?php echo $this->loadTemplate('ftp');?>
 	<?php endif; ?>
 
-	<fieldset class="filter">
-		<div class="right">
+	<fieldset id="filter-bar">
+		<div class="filter-select fltrt">
 			<label for="filter_client_id">
 				<?php echo JText::_('COM_LANGUAGES_FILTER_CLIENT_LABEL'); ?>
 			</label>
