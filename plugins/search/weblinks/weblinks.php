@@ -58,7 +58,6 @@ class plgSearchWeblinks extends JPlugin
 		}
 
 		$sContent		= $this->params->get('search_content',		1);
-		$sUncategorised = $this->params->get('search_uncategorised',	1);
 		$sArchived		= $this->params->get('search_archived',		1);
 		$limit			= $this->params->def('search_limit',		50);
 		$state = array();

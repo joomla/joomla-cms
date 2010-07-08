@@ -61,7 +61,6 @@ class plgSearchContent extends JPlugin
 		}
 
 		$sContent		= $this->params->get('search_content',		1);
-		$sUncategorised = $this->params->get('search_uncategorised',	1);
 		$sArchived		= $this->params->get('search_archived',		1);
 		$limit			= $this->params->def('search_limit',		50);
 
@@ -170,41 +169,6 @@ class plgSearchContent extends JPlugin
 				}
 			}
 			$rows[] = $list;
-		}
-
-		// search uncategorised content
-		if ($sUncategorised && $limit > 0)
-		{
-			$query->clear();
-			$query->select('a.id as id, a.title AS title, a.created AS created, a.metadesc, a.metakey, '
-						.'CONCAT(a.introtext, a.fulltext) AS text, '
-						.'"2" as browsernav, "'. $db->Quote(JText::_('Uncategorised Content')) .'" AS section');
-			$query->from('#__content AS a');
-			$query->innerJoin('#__categories AS c ON c.id=a.catid');
-			$query->where('('. $where .') AND a.state = 1 AND a.access IN ('. $groups. ') AND a.catid=0 '
-						.'AND (a.publish_up = '. $db->Quote($nullDate) .' OR a.publish_up <= '. $db->Quote($now) .') '
-						.'AND (a.publish_down = '. $db->Quote($nullDate) .' OR a.publish_down >= '. $db->Quote($now) .')');
-			$query->order(($morder ? $morder : $order));
-
-			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-			}
-
-			$db->setQuery($query, 0, $limit);
-			$list2 = $db->loadObjectList();
-			$limit -= count($list2);
-
-			if (isset($list2))
-			{
-				foreach($list2 as $key => $item)
-				{
-					$list2[$key]->href = ContentHelperRoute::getArticleRoute($item->id);
-				}
-			}
-
-			$rows[] = $list2;
 		}
 
 		// search archived content

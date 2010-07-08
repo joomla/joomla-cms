@@ -34,15 +34,6 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="search_uncategorised" type="radio"
-					default="0"
-					description="JFIELD_PLG_SEARCH_UNCATEGORIZED_DESC"
-					label="JFIELD_PLG_SEARCH_UNCATEGORIZED_LABEL"
-				>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
-
 				<field name="search_archived" type="radio"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
