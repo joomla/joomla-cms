@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jul-2010 Jean-Marie Simonet
+[#21341] Tinymce has a comma error in JS. Thanks Janich.
+
 07-Jul-2010 Jean-Marie Simonet
 $ [#21313] String in Banner.ini. Thanks Joseph.
 #$ [#21325] Ordering parameter in frontend edit doesn't make sense
