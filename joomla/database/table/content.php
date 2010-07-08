@@ -79,20 +79,6 @@ class JTableContent extends JTable
 				$assetId = (int) $result;
 			}
 		}
-		// This is an uncategorized article that needs to parent with the extension.
-		elseif ($assetId === null) {
-			// Build the query to get the asset id for the parent category.
-			$query	= $db->getQuery(true);
-			$query->select('id');
-			$query->from('#__assets');
-			$query->where('name = '.$db->quote('com_content'));
-
-			// Get the asset id from the database.
-			$this->_db->setQuery($query);
-			if ($result = $this->_db->loadResult()) {
-				$assetId = (int) $result;
-			}
-		}
 
 		// Return the asset id.
 		if ($assetId) {
