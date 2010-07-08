@@ -1,27 +1,28 @@
 <?php
 /**
- * @version		$Id: blog_item.php 17224 2010-05-23 09:14:11Z infograf768 $
+ * @version		$Id: default_item.php 17816 2010-06-21 13:03:17Z dextercowley $
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
 defined('_JEXEC') or die;
-$params =& $this->item->params;
+
+// Create a shortcut for params.
+$canEdit = $this->user->authorise('core.edit', 'com_content.frontpage.'.$this->item->id);
+$params = &$this->item->params;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
-$canEdit = $this->user->authorise('core.edit', 'com_content.category.' . $this->item->id);
 
 if ($templateparams->get('html5')!=1)
 {
-	require(JPATH_BASE.'/components/com_content/views/category/tmpl/blog_item.php');
+	require(JPATH_BASE.'/components/com_content/views/featured/tmpl/default_item.php');
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
-
 
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
@@ -49,6 +50,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
 		</li>
 		<?php endif; ?>
+
 		<?php if ($canEdit) : ?>
 		<li class="edit-icon">
 			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
@@ -67,13 +69,14 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
  <dl class="article-info">
- <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+ <dt class="article-info-term"><?php  echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_parent_category')) : ?>
 		<dd class="parent-category-name">
 			<?php $title = $this->escape($this->item->parent_title);
-				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_id)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_parent_category')) : ?>
+				$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
+				$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>'; ?>
+			<?php if ($params->get('link_parent_category') AND $this->item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
@@ -82,9 +85,10 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 <?php endif; ?>
 <?php if ($params->get('show_category')) : ?>
 		<dd class="category-name">
-			<?php $title = $this->escape($this->item->category_title);
-					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catid)) . '">' . $title . '</a>'; ?>
-			<?php if ($params->get('link_category')) : ?>
+			<?php 	$title = $this->escape($this->item->category_title);
+					$title = ($title) ? $title : JText::_('JGLOBAL_UNCATEGORISED');
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
+			<?php if ($params->get('link_category') AND $this->item->catslug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
@@ -108,8 +112,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($this->item->author)) : ?>
 	<dd class="createdby">
-		<?php $author = $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$this->item->created_by),$this->item->author) : $this->item->author; ?>
-		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
+		<?php $author = $params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$this->item->created_by),$this->item->author) : $this->item->author; ?>
+		<?php $author=($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
 	<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 		</dd>
 	<?php endif; ?>
@@ -118,8 +122,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
 		</dd>
 <?php endif; ?>
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) :?>
- 	</dl>
+<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date')) or ($params->get('show_parent_category')) or ($params->get('show_hits'))) : ?>
+ </dl>
 <?php endif; ?>
 
 <?php echo $this->item->introtext; ?>
@@ -132,12 +136,12 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 		$active = $menu->getActive();
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug));
+		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 		$link = new JURI($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	endif;
 ?>
-		<p class="readmore">
+<p class="readmore">
 				<a href="<?php echo $link; ?>">
 					<?php if (!$params->get('access-view')) :
 						echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');

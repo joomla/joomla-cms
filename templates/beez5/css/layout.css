@@ -90,15 +90,15 @@ em
 #header ul li a:visited
 {
         text-transform:uppercase;
-        padding:10px 10px !important;
+        padding:10px;
         display:inline
 }
 
 #header ul.menu li
 {
-        display:inline !important;
-        padding:0 !important;
-        margin:0 !important;
+        display:inline ;
+        padding:0 ;
+        margin:0;
 
 }
 
@@ -108,7 +108,7 @@ em
         font-weight:bold;
         text-decoration:none;
         padding:0px 10px;
-        margin:0 !important;
+        margin:0 ;
 }
 
 #header ul li a:hover,
@@ -122,8 +122,11 @@ em
 #header ul li.active a:visited
 {
         text-transform:uppercase;
-        padding:10px 10px !important;
+        padding:10px 10px;
 }
+
+
+
 
 /* ##########################  fontsize  ########################### */
 
@@ -146,7 +149,7 @@ em
 
 #fontsize p
 {
-        margin:0 0 0 2px;
+    margin:0 0 0 2px;
     display:inline;
     font-size:1em;
 }
@@ -225,13 +228,14 @@ em
         margin-bottom:5px;
 }
 
-h3.js_heading
+#nav h3.js_heading,
+#right h3.js_heading
 {
         position:relative;
-        display:block !important;
-        padding:5px 0px 0 0px !important;
-        margin:0px !important;
-        font-size:1.20em;
+        display:block;
+        padding:5px 0px 0 0px ;
+        margin:0px ;
+        font-size:1.40em;
 }
 
 h3.js_heading span.backh
@@ -242,7 +246,7 @@ h3.js_heading span.backh
 
 h3.js_heading span.backh1
 {
-        padding:0px 5px 8px 0px;
+        padding:0px 20px 8px 0px;
         display:block;
 }
 
@@ -266,7 +270,7 @@ h3.js_heading a
         font-size:1.4em;
         margin:5px 0 6px 0;
         font-weight:normal;
-                line-height:1.19em
+        line-height:1.19em
 }
 
 
@@ -287,8 +291,8 @@ h3.js_heading a
 
  ul.menu
 {
-        list-style-type:none !important;
-        margin:0 0 0px 0px !important;
+        list-style-type:none ;
+        margin:0 0 0px 0px ;
         padding: 0px 5px 20px 5px;
 
 }
@@ -330,8 +334,8 @@ ul.menu li a:link,
 /* ++++++++++++++  second level  ++++++++++++++ */
  ul.menu li ul
 {
-        margin:0 !important;
-        padding:0 !important;
+        margin:0 ;
+        padding:0 ;
 }
  ul.menu li ul li
 {
@@ -392,11 +396,13 @@ ul.menu li.active ul li.active ul li a:link,
 
 #main h1
 {
-        margin:0 0 10px 0;
+
         padding: 5px;
         font-size:1.4em;
-                line-height:1.19em;
+        line-height:1.19em;
         font-weight:normal;
+        margin:0 -5px 10px -5px
+
 }
 
 #main h2
@@ -434,20 +440,16 @@ ul.menu li.active ul li.active ul li a:link,
         display:block
 }
 
-.item-page h1
+
+/* h1 on frontpage and blog view */
+
+#main .blog-featured h1,
+#main .blog h1
 {
-        margin-left: -5px !important;
-        margin-right: -5px !important
+
+        margin:0 0px 10px 0px
 }
 
-/* h1 on frontpage */
-/*
-#main .blog-featured h1
-{
-        font-weight:normal;
-        padding:0 5px
-}
-*/
 
 .blog .category-desc
 {
@@ -455,10 +457,16 @@ ul.menu li.active ul li.active ul li a:link,
         margin:10px 0 25px
 }
 
+.blog .cat-children .category-desc
+{
+        padding:0 0px;
+        margin:10px 0 25px
+}
+
 #main .items-row h2
 {
         font-weight:normal;
-        padding:5px 2px 5px 2px !important;
+        padding:5px 2px 5px 2px;
         font-size:1.4em
 }
 #main ul.subcategories
@@ -474,14 +482,15 @@ ul.menu li.active ul li.active ul li a:link,
 {
         list-style-position:outside;
         list-style-type:square;
-        padding:0 0 0 10px;
-        margin:10px 0 10px 30px;
+        padding:0 0 0 15px;
+        margin:10px 0 10px 0px;
 }
 
 #main ol
 {
-        padding:0 0 0 10px;
-        margin:10px 0 10px 30px;
+        padding:0 0 0 20px;
+        margin:10px 0 10px 0px;
+                list-style-position:outside
 }
 
 #main ul li,
@@ -529,7 +538,7 @@ ul.menu li.active ul li.active ul li a:link,
 {
         line-height:1.7em;
         margin:10px 0;
-		padding-left:5px
+        padding-left:0px
 }
 
 .small
@@ -618,29 +627,34 @@ ul#archive-items li
 {
         font-size:1.4em;
         font-weight:normal;
-        padding:5px 0px !important
+        padding:5px 0px
 }
 
 /* ++++++++++++++  readmore  ++++++++++++++ */
 
 #main .readmore a
 {
-        font-weight:normal;
-        padding:2px 5px 2px 25px;
+        font-weight:bold;
+        padding:2px 5px 2px 10px;
         display:inline-block;
-        margin-top:5px
+        margin-top:5px;
+                text-decoration:none
 }
 
-.readmore a:link,
-.readmore a:visited,
-a.readmore:link,
-a.readmore:visited
+.newsflash  a.readmore:link,
+.newsflash a.readmore:visited,
+#main a.readmore:link,
+#main a.readmore:visited
 {
-        padding:4px 5px 4px 10px !important;
+        padding:4px 5px 4px 10px ;
         line-height:1.2em;
         text-decoration:none;
-        font-weight:bold !important
+
 }
+
+.newsflash  a.readmore:link,
+.newsflash a.readmore:visited
+{margin:10px 0;display:block}
 
 a.readmore:hover,
 a.readmore:active,
@@ -700,20 +714,20 @@ dd.createdby
 
 /* ++++++++++++++  icons  ++++++++++++++ */
 
-.actions
+#main ul.actions
 {
         text-align:right;
-        padding:0 !important;
+        padding:0 ;
         width:100%;
-        margin:0 !important
+        margin:0
 }
 
-.actions li
+#main ul.actions li
 {
         display:inline
 }
 
-.actions a
+#main ul.actions a
 {
         text-decoration:none
 }
@@ -815,7 +829,7 @@ p.counter
 
 #right .moduletable
 {
-        margin:0px 0px 10px 00px;
+        margin:0px 0px 0px 0px;
         padding:0px 0 20px 0;
 }
 
@@ -824,7 +838,7 @@ p.counter
         font-size:1.2em;
                 line-height:1.4em;
         margin:5px 0 0 0;
-        font-weight:normal !important;
+        font-weight:normal ;
 }
 
 #right h3 span.backh
@@ -840,7 +854,7 @@ p.counter
 
 #right h3 span.backh3
 {
-        padding:0px 0px 5px 10px;
+        padding:0px 0px 5px 0px;
         display:block;
 }
 
@@ -859,12 +873,13 @@ p.counter
 #right ul
 {
 
-        list-style-type:none;
+    list-style-type:none;
     margin:10px 0;
-    padding:5px 0 0 10px;
+    padding:5px 0 0 0px;
     position:relative;
 }
-
+#right ul.categories-module ul
+{margin: 15px 0 15px 10px}
 #right ul li
 {
 
@@ -888,6 +903,10 @@ p.counter
 #member-registration
 {
         padding:0 5px
+}
+#member-registration fieldset
+{
+border:solid 1px #ddd
 }
 
 form fieldset dt
@@ -1064,28 +1083,98 @@ address span
         display:block
 }
 
+span.contact-image
+{
+    margin-bottom:10px;
+    overflow:hidden;
+    display:block
+}
+
+.jcontact-address
+
+{
+margin:20px 0 10px 0;
+
+}
+
+
 .contact_email div
 {
-        padding:2px 0
+        padding:2px 0;
+        margin:0 0 10px 0;
 }
 
 .contact_email label
 {
         width:17em;
-        float:left
+        float:left;
+
 }
+
+#contact_textmsg
+{padding: 2px 0 10px 0}
 
 #contact_email_copy
 {
         float:left;
-        margin-right:10px
+        margin-right:10px;
+
 }
 
-.button
+.contact .button
 {
-        float:none !important
+        float:none !important;
+        clear:left;
+        display:block;
+        margin:20px 0 0 0
 }
 
+
+
+dl.tabs {
+    float: left;
+    margin: 50px 0 0 0;
+    z-index: 50;
+    clear:both;
+
+
+}
+
+dl.tabs dt {
+    float: left;
+    padding: 4px 10px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin-right: 3px;
+    background: #f0f0f0;
+    color: #666;
+}
+
+dl.tabs dt.open {
+    background: #F9F9F9;
+    border-bottom: 1px solid #F9F9F9;
+    z-index: 100;
+    color: #000;
+
+}
+
+div.current {
+    clear: both;
+    border: 1px solid #ccc;
+    padding: 10px 10px;
+    max-width: 500px;
+}
+
+
+div.current dd {
+    padding: 0;
+    margin: 0;
+}
+
+dl#content-pane.tabs {
+    margin: 1px 0 0 0;
+}
 
 
 /* ##########################  user profile  ########################### */
@@ -1183,6 +1272,9 @@ td p
         margin-right:7px
 }
 
+
+
+
 /* ++++++++++++++  category table  ++++++++++++++ */
 
 table.category th a img
@@ -1192,12 +1284,14 @@ table.category th a img
 
 .filter-search
 {
-        float:left
+        float:left;
+
 }
+.filter-search .inputbox
+{width:6em}
 
 fieldset.filters
 {
-        padding:0
 }
 
 legend.element-invisible
@@ -1471,7 +1565,7 @@ ul.newsflash-horiz li h4
 #nav .module_content ul.latestnews,
 #nav .module_content ul.mostread
 {
-	margin:10px 0 0 0
+        margin:10px 0 0 0
 }
 
 ul.latestnews,
@@ -1492,7 +1586,8 @@ ul.mostread li a
 /* ++++++++++++++  newsflash  ++++++++++++++ */
 .newsflash
 {
-    margin:10px
+    margin:0px;
+
 }
 
 /* ++++++++++++++  newsfeed  ++++++++++++++ */
@@ -1511,6 +1606,9 @@ ul.newsfeed
         padding:5px 0 0 0;
         margin:0
 }
+
+.feed-item-description img
+{margin: 5px 10px 10px 0}
 
 .newsfeed-item h5 a
 {
@@ -1559,9 +1657,9 @@ dl.weblink-count dd
 #form-login label
 {
         margin-right:10px;
-		width:6em;
-		display:block;
-		float:left
+                width:6.8em;
+                display:block;
+                float:left
 }
 
 #form-login-remember label
@@ -1584,7 +1682,7 @@ input.button,
 button.button
 {
         cursor:pointer;
-        padding:3px 5px 3px 7px !important;
+        padding:3px 5px 3px 7px ;
         font-weight:bold;
         line-height:1.2em;
         font-family:arial;
@@ -1625,8 +1723,8 @@ button.button
 .logout-description
 {
         overflow:hidden;
-		padding-left:5px;
-		margin:20px 0 10px 0
+                padding-left:5px;
+                margin:20px 0 10px 0
 }
 
 .logout-description
@@ -1639,12 +1737,13 @@ button.button
 /* ++++++++++++++  tabs/ slide  ++++++++++++++ */
 .slide
 {
-        height:auto !important
+        height:auto !important;
+
 }
 
 ul.tabs
 {
-        overflow:hidden;
+    overflow:hidden;
     padding:0 !important;
     margin:0 !important
 }
@@ -1702,6 +1801,7 @@ ul.tabs li a:focus
 {
         padding:15px 10px;
         margin-top:-1px;
+                position:relative
 }
 
 .tabopen
@@ -1742,6 +1842,10 @@ a.linkopen
 }
 
 
+.module_content
+{border:solid 1px #000;
+padding:10px}
+
 /* ++++++++++++++  random  ++++++++++++++ */
 
 #right .random-image,
@@ -1756,7 +1860,7 @@ a.linkopen
 /* ++++++++++++++  content-module ++++++++++++++ */
 .category-module li
 {
-        padding:10px 0 10px 0
+        padding:5px 0 5px 0
 }
 
 .category-module span
@@ -1841,6 +1945,28 @@ margin:0}
 
   #main .cat-children ul li
   {margin:10px 0 10px 0}
-  
-  /* ++++++++++++++  flashupload  ++++++++++++++ */
-.hide 			{ display: none; }
+
+
+
+
+  /* mod stats  */
+
+
+    .stats dl
+    {margin:10px 0 10px 0}
+    .stats dt
+    {float:left;
+    margin:0 10px 0 0}
+      .stats dt,   .stats dd
+      {padding:2px 0 2px 0 }
+/* syndicate */
+
+a.feed-link
+{
+margin-top:15px;
+display:block;
+text-decoration:none
+}
+
+.feed-link img
+{border:0}

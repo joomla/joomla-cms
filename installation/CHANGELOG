@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jul-2010 Mark Dexter
+# Fixes to beez and beez5 templates (Angie Radtke)
+
 08-Jul-2010 Jean-Marie Simonet
  # [#21341] Tinymce has a comma error in JS. Thanks Janich.
  # [#21290] Extension Manager: Manage Message. Thanks Matt.
@@ -205,7 +208,7 @@ $ -> Language fix or change
  # Fixed issue [#20401] [PATCH] JError::handleDie() does not cause application termination in CLI-program (Artyom Bisyarin).
  
 21-Jun-2010 Mark Dexter
- # Beez template fixes (Angie Radke)
+ # Beez template fixes (Angie Radtke)
 
 21-Jun-2010 Jean-Marie Simonet
  # [#21020] Ordering of weblinks does not work as expected. Thanks Omar.

@@ -16,15 +16,19 @@
 
 #all { width: expression(document . body . clientWidth > 1050 ? "1050" : "auto");  }
 #footer-inner { width: expression(document . body . clientWidth > 1050 ? "1025" : "auto");  }
-#footer { width: expression(document . body . clientWidth > 1050 ? "1020" : "auto");  }
+#footer { width: expression(document . body . clientWidth > 1050 ? "1025" : "auto");  }
 
+
+#header-image
+{overflow:hidden; zoom:1;
+width:100%}
 #all
 {
-        border:solid 1px #fff
+border:solid 0px #fff
 }
 
-
-
+#header ul
+{width:97%}
 
 #header ul.skiplinks li a
 {
@@ -35,12 +39,16 @@ border:0px solid #000
 }
 
 
+
 #contentarea,
 #contentarea2
 {
        display:inline-block;
         position:relative;
-		zoom:1
+       zoom:1;
+
+
+
 }
 
 #main
@@ -51,7 +59,8 @@ border:0px solid #000
 #back
 {
         margin: 0;
-        padding:0 10px;
+        padding:0 0px !important;
+
 }
 
 #right
@@ -108,7 +117,8 @@ h1
 
 ul.tabs
 {
-        text-align:left
+        text-align:left;
+
 }
 
 ul.newsflash-horiz,
@@ -121,8 +131,22 @@ ul.tabs
 .tabcontent
 {
         overflow:hidden !important;
-        width:90%
+        position:relative
 }
 
 #main h1
 { zoom:1}
+
+#footer-outer li
+{height:1%}
+#bottom
+{
+ display:inline-block;
+
+}
+.box
+{width:26%}
+
+.panel,
+div.current
+{zoom:1}

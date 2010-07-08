@@ -20,8 +20,8 @@ h1,
 {
       font-size: 16pt;
       font-weight: bold;
-      color: #000;
       margin: 0.4em 0 0.5em 0;
+      padding:0;
 }
 
 h2,
@@ -29,7 +29,6 @@ h2,
 {
       font-size: 14pt;
       font-weight: bold;
-      color: #0A5E69;
       margin: 0.2em 0 0.5em 0;
       padding: 0.3em 0.3em 0.3em 0;
 }
@@ -38,8 +37,7 @@ h3
 {
       font-size: 12pt;
       font-weight: bold;
-      margin: 0.4em 0 0.3em 0;
-      color:#333
+      margin: 0.4em 0 0.2em 0;
 }
 
 /* Vermeidung von Seitenumbr�chen direkt nach einer �berschrift */
@@ -58,16 +56,29 @@ body
 
 p,
 ul li, ol li,
+address,
 .category-desc,
 table,
-label
+label,
+dt,
+dd
 {
   font-size:10pt
 }
 
+address
+{
+	font-style:normal
+}
+
+.jcontact-address address span
+{
+	display:block
+}
+
 a
 {
-      color: #93246F;
+
       font-weight: bold;
 }
 
@@ -78,15 +89,39 @@ a
 .article-info-term,
 ul.actions,
 #close,
-.display-limit
+.display-limit,
+.moduletable_menu,
+.moduletable_js,
+.tabouter,
+#bottom,
+.pagination,
+#footer,
+#header-image
+
 {
       display: none;
+}
+
+.skiplinks, #suckerfish
+{
+	display:none !important
+}
+
+#header .logoheader
+{
+	border:0
 }
 
 #header
 {
       width: auto;
 }
+
+#all #back #header
+{
+padding-top:0
+}
+
 
 #all
 {
@@ -130,17 +165,16 @@ ul.actions,
   border:0
 }
 
-#top ul.newsflash-horiz
+#main .categories-listalphabet ul
 {
-  padding:0 !important;
-  border:0
+	padding-left:0
 }
 
-#top ul.newsflash-horiz li
+#main .categories-listalphabet ul li
 {
-  width:31%;
-  float:left;
-  margin-right:2%
+	display:inline;
+	padding:5pt;
+	border-right:solid 1pt #ddd
 }
 
 #wrapper
@@ -159,12 +193,16 @@ ul.actions,
 	margin:15pt 0
 }
 
+.items-leading
+{
+	margin-bottom:30pt
+}
+
 #main .items-leading h2,
 #main .item h2
 {
       font-size: 14pt;
       font-weight: bold;
-      color: #0A5E69;
 }
 
 h2 a
@@ -183,23 +221,34 @@ h2 a
   padding-left:0 !important
 }
 
+.image-left {
+	float:left;
+	margin:0 15pt 5pt 0;
+}
+
 table
 {
   margin:20pt 0;
   border-collapse:collapse;
-  width:90%
+  width:90%;
 }
 
 table td,
 table th
 {
-  padding:2pt 5pt
+  padding:2pt 5pt;
+  border:solid 1pt #ddd
 }
 
 .items-more h3
 {
 	padding: 5pt 0;
 	font-size:14pt
+}
+
+.items-more ol li a
+{
+	font-weight:normal
 }
 
 #nav a.readmore
@@ -248,6 +297,12 @@ table th
 	border:solid 0px #000
 }
 
+ul#archive-items
+{
+	list-style-type:none;
+	padding-left:0
+}
+
 .moduletable
 {
   margin:20pt 0
@@ -257,6 +312,11 @@ dl.article-info
 {
 	line-height:120%;
 	font-size:9pt
+}
+
+dl.article-info dd
+{
+	margin-left:0
 }
 
 h3.js_heading a img
@@ -311,6 +371,62 @@ ul.tabs li.tab a
 .tabcontent
 {
   padding:10pt
+}
+
+.contact_email div
+{
+	overflow:hidden
+}
+
+.contact_email label
+{
+	border:solid 0px #000;
+	float:left;
+	width:10em
+}
+
+.login div
+{
+	overflow:hidden
+}
+
+.login label
+{
+	float:left;
+	width:10em
+}
+
+form fieldset dt
+{
+	clear:left;
+	float:left;
+	width:12em;
+}
+
+legend
+{
+	background:#fff;
+	font-size:.85em
+}
+
+.phrases,
+.only
+{
+	margin-bottom:15pt
+}
+
+.newsflash a.readmore:link
+{
+	border: solid 0pt ;
+	font-weight:normal;
+	font-size:0.8em;
+	text-decoration:none
+}
+
+.stats dt
+{
+	float:left;
+	width:10em
 }
 
 #footer-outer

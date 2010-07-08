@@ -20,7 +20,7 @@
 
 body
 {
-        background: #ccc;
+        background: #e0dedf  url(../images/personal/bg2.png) repeat-x;
         color: #333;
         font-family: arial, helvetica, sans-serif;
 }
@@ -29,28 +29,26 @@ body
 {
         color: #333;
         border:solid 0px ;
-        padding-top:7px;
-        background:#fff url(../images/personal/grey_bg.png) repeat-x
+        padding-top:0px;
+        background:#fff
+}
+
+#header
+{
+       padding-top:10em
 }
 
 a:link,
 a:visited
 {
-        color:#333
+        color:#095197
 }
 
 a:hover,
 a:active,
 a:focus
 {
-        background:#990000;
-        color:#FFF;
-}
-
-ul li a.u2:focus,
-p a.u2:active
-{
-        background-color:#000;
+        background:#095197;
         color:#FFF;
 }
 
@@ -87,166 +85,202 @@ fieldset
 
 #logo span
 {
-        color:#fff
+        color:#fff;
+        padding-left:50px;
+        font-size:0.3em !important;
+        text-transform:none;
+        font-family:arial, sans-serif
 }
 #all #header
-{padding-top:2.8em ;
+{padding-top:8.0em ;
 }
 .logoheader
 {
 
-        background:  #171818 URL(../images/personal/personal2.png) no-repeat top left ;
+        background:  #0c1a3e  URL(../images/personal/personal2.png) no-repeat bottom right ;
         color:#fff;
-        min-height:159px;
-        margin:0em 10px 0 10px;
+        min-height:200px;
+        margin:0em 10px 0 10px !important;
 
 }
 
-* html .logoheader
-{
-
- height:168px;
-
-
-
-}
 
 h1#logo
 {
-   font-family: 'Titillium Maps',  Arial;
-   padding:1em 20px 20px 10px;
-   text-transform:uppercase;
-   font-weight:normal;
-   margin-top:0;
-
-
-
+       font-family: 'Titillium Maps',  Arial;
+       padding:0.9em 20px 20px 10px;
+       text-transform:uppercase;
+       font-weight:normal;
+       margin-top:0;
 }
 
-h1#logo span
-{   margin-top:10px;
-        text-transform:none;
 
-
-}
 
 #line
 {
-        top:110px
+                width:98% ;
+                max-width:100% ;
+                top:0px;
+                left:0px;
+                padding:5px 10px !important;
+                margin-right:10px;
+                text-align:right;
+
 }
+
 
 /* ##########################  header  ########################### */
 
 #header
 {
         background:#fff;
+        font-size:1em;
+        position:relative
 
 
 }
 
 /* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
-#header ul
+#header ul.menu
 {
-        width:600px;
 
 
+   /* top:62px; */
+   top:5em;
+
+        padding: 0px 0px 0px 0 ;
+        background:#e0e0e0  url(../images/personal/ecke.gif) top left repeat-x ;
+        border:0 ;
+        text-align:left;
+        left:0px;
+         display:block;
+         margin:0px 10px 0 10px;
+         border-top:solid 1px #ddd;
 
 }
 
 
-#header ul
+#header ul.menu li
+{border:0; margin:0 !important;       }
+#header ul.menu li a:link,
+#header ul.menu li a:visited
 {
-max-width:1030px;
-right:10px}
 
-
-#header ul li a:link,
-#header ul li a:visited
-{
-        background:#fff  ;
         color:#333;
-        border:0;
-        border-left:solid 1px #eee;
+        border:0 ;
+        border-right:solid 1px #ddd;
+        margin:0px 0 0 0 ;
+        padding:12px 15px ;
+        position:relative;
+        background: #e0e0e0 url(../images/personal/ecke.gif) repeat-x top left;
+        display:inline-block
+
 }
 
-#header ul li a:hover,
-#header ul li a:active,
-#header ul li a:focus
+#header ul.menu li a:hover,
+#header ul.menu li a:active,
+#header ul.menu li a:focus
 {
-        background:#990000;
+        background:#0d4c89 ;
         color:#fff;
 }
 
 #header ul li.active a:link,
 #header ul li.active a:visited
 {
-        background:#222;
-        color:#fff;
-}
-
-#header ul li.active a:hover,
-#header ul li.active a:active,
-#header ul li.active a:focus
-{
-        background:#990000;
-        color:#fff;
+        color:#f5f5f5;
+        background:url(../images/personal/navi_active.png) ;
+        text-shadow: 1px 1px 1px #000;
 }
 
 
 #header ul.skiplinks
 {
-width:100%
+        width:100%;
+        text-align:left;
+        background:none;
+        z-index:20000;
+        top:0;
+        display:inline;
+        padding:0
 }
 
-.skiplinks,
-.skiplinks li
-{
-        border:solid 0px #000;
-}
+#header ul.skiplinks li a.u2:active,
+#header ul.skiplinks li a.u2:focus
 
-.skiplinks li a.u2:active,
-.skiplinks li a.u2:focus
 {
-        background:#990000 !important;
+        background:#095197 !important;
         color:#fff !important;
         border:solid 1px;
-		top:0
-
-
+        top:0 !important;
+        z-index:10000;
+        right:auto;
+        left:0 !important;
+        display:block
 }
+
 
 /* ++++++++++++++  fontsize  ++++++++++++++ */
 
 #fontsize
 {
-        background:#171818;
-        color:#eee
+         display:inline;
+
+
 }
 
 #fontsize p a:link,
 #fontsize p a:visited
 {
-        color:#eee
+        color:#222;
+        border-right:solid 1px #ccc
 }
+
+
+#fontsize p a.larger,
+#fontsize p a.reset,
+#fontsize p a.smaller
+{
+        padding-left:5px;
+        padding-right:5px;
+        text-decoration:none;
+        margin:0;
+}
+
+
 
 #fontsize p a:hover,
 #fontsize p a:active,
 #fontsize p a:focus
 {
-        background:#900;
+        background:#095197 !important;
         color:#fff
 }
 
 #fontsize h3
 {
-        color:#fff;
+        color:#222;
+        font-weight:bold
 }
 
 /* ++++++++++++++  search  ++++++++++++++ */
+#header form,
+#header form .search
+{
+display:inline;
+padding-right:1px ;
+
+
+}
 
 #header form .inputbox
 {
         background:url(../images/header-bg.gif) repeat-x;
+        border:solid 1px #ccc;
+        border-bottom:0;
+        border-right:0;
+        padding:5px
+
 }
 
 #header form .inputbox:focus
@@ -256,9 +290,10 @@ width:100%
 
 #header form .button
 {
-        border:solid 1px #ddd;
-        background:#fff;
-        color:#171818
+        border:solid 0px #ddd;
+        background:#ccc url(../images/personal/button.png);
+        color:#333;
+        padding:4px !important
 }
 
 /* ##########################  contentarea  ########################### */
@@ -293,7 +328,7 @@ width:100%
 #breadcrumbs span a:active,
 #breadcrumbs span a:focus
 {
-        background:#990000;
+        background:#095197;
         color:#fff;
 }
 
@@ -303,7 +338,7 @@ width:100%
 .module_content
 {
         border:solid 1px #ddd;
-        /*background:#f8f8f8*/
+
 }
 .moduletable_js
 {
@@ -319,12 +354,12 @@ width:100%
 {
   border-bottom:solid 1px #ddd;
   font-family: 'Titillium Maps', Arial;
+  color:#555
 }
 
 h3.js_heading
 {
         border-bottom:solid 1px #ddd;
-        color:#333 !important;
         background:#eee;
         font-family: 'Titillium Maps', Arial;
 }
@@ -356,10 +391,6 @@ h3.js_heading a.opencloselink:focus
         background:none
 }
 
-#right h3
-{
-        color:#fff;
-}
 
 #right h3 span.backh
 {
@@ -369,13 +400,13 @@ h3.js_heading a.opencloselink:focus
 #right h3 span.backh2
 {
         background:#fff;
-        color:#222;
+        color:#555;
         border-bottom:solid 1px #ddd
 }
 
 #right h3 span.backh3
 {
-
+padding-left:0
 }
 
 h3.js_heading a:link,
@@ -402,8 +433,8 @@ h3.js_heading a:focus
 #nav form a:focus
 {
         color:#fff;
-        background:#990000;
-                text-decoration:none
+        background:#095197;
+        text-decoration:none
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
@@ -430,10 +461,6 @@ ul.menu li
         border-bottom:solid 1px #ddd;
 }
 
-ul.menu li a
-{
-
-}
 
 ul.menu li a:link,
 ul.menu li a:visited
@@ -455,8 +482,8 @@ ul.menu li.active a:hover,
 ul.menu li.active a:active,
 ul.menu li.active a:focus
 {
-        background:#990000 ;
-        color:#fff;
+        background: #fff url(../images/nav_level_1.gif) repeat-x ;
+        color:#095197;
 }
 
 
@@ -479,7 +506,7 @@ ul.menu li ul
         color:#000;
         border:0;
         border-bottom:solid 1px #fff;
-        background:#e8e8e8;
+        background: #e8e8e8
 }
 
  ul.menu li.active ul li.active a:link,
@@ -494,7 +521,7 @@ ul.menu li ul
  ul.menu li.active ul li a:active,
  ul.menu li.active ul li a:focus
 {
-        background:#990000 !important;
+        background:#666 !important;
         color:#fff !important;
 }
 
@@ -528,16 +555,21 @@ ul.menu li.active ul li.active ul li.active a:visited
 ul.menu li ul li ul li ul
 {
         border:solid 1px #eee !important;
-                padding-top:10px !important;
-                padding-bottom:10px !important;
-                background:#fff url(../images/nature/level4.png) repeat-x !important;
+        padding-top:10px !important;
+        padding-bottom:10px !important;
+        background:#fff url(../images/nature/level4.png) repeat-x !important;
 }
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li a:visited
-{font-weight:normal; padding: 3px 2px 3px 40px; font-size:0.9em;
-background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px; color:#444}
+{
+        font-weight:normal;
+        padding: 3px 2px 3px 40px;
+        font-size:0.9em;
+        background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px;
+        color:#444
+}
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
@@ -561,7 +593,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 #main a:active,
 #main a:focus
 {
-        background:#990000;
+        background:#095197;
         color:#fff;
 }
 
@@ -582,7 +614,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 {
         border-bottom:solid 1px #ddd;
         border-top:solid 1px #ddd;
-        color:#000
+        color:#555
 }
 
 .column-1,
@@ -634,21 +666,28 @@ ul#archive-items li
 
 
 /* ++++++++++++++++++++ headings +++++++++++++ */
-
 #main h1
+{ color:#0d4c89;
+
+        border-bottom:solid 1px #ddd;
+        font-family: 'Titillium Maps', Arial;
+
+
+}
+
+
+#main .blog  h1,
+#main .blog-featured  h1
 {
-        color:#444;
+        color:#0d4c89;
         border-top:solid 1px #ddd;
         border-bottom:solid 1px #ddd;
         font-family: 'Titillium Maps', Arial;
+        margin-top:-1px !important
+
 }
 
 /* h1 on frontpage */
-#main .blog-featured h1
-{
-        border-top:solid 0px #ddd;
-        border-bottom:solid 0px #ddd;
-}
 
 .items-row h2
 {
@@ -656,20 +695,24 @@ ul#archive-items li
         border-bottom:solid 1px #ddd;
 }
 
-.items-leading h2
+.items-leading h2,
+#main h3,
+#main h4
 {
-        color:#333;
+        color:#555;
 }
 
 #main h2
+
 {
-        color:#333;
+        color:#555;
         font-family: 'Titillium Maps', Arial;
+
 }
 
 #main h2 a
 {
-        color:#333
+        color:#095197
 }
 
 
@@ -680,7 +723,7 @@ ul#archive-items li
 a.readmore:link,
 a.readmore:visited
 {
-        color:#444;
+        color:#095197;
         background:#eee url(../images/nature/arrow1.gif) repeat-x left top;
         border:solid 1px #ddd;
 }
@@ -727,15 +770,15 @@ a.readmore:focus
 
 #main .items-more ol li a
 {
-        background:#FFFFFF url(../images/personal/arrow2_grey.png) no-repeat 0px center;
-        color:#990000
+        background:#FFFFFF url(../images/blog_more.gif) no-repeat 0px center;
+        color:#095197
 }
 
 #main .items-more ol li a:hover,
 #main .items-more ol li a:active,
 #main .items-more ol li a:focus
 {
-        background: #990000;
+        background: #095197 url(../images/blog_more_hover.gif) no-repeat 0px center;
         color:#fff;
 }
 
@@ -762,11 +805,7 @@ table.contenttoc
         background:#fff
 }
 
-#right .moduletable
-{
-        color:#000;
-        border:solid 0px #ccc
-}
+
 
 #right h3
 {
@@ -775,27 +814,19 @@ table.contenttoc
 
 #right h4
 {
-        color:#000;
+        color:#555;
         border:solid 0;
 }
 
-#right ul
-{
-        border:solid 0 #ccc;
-        color:#000;
-}
 
-#right ul li a:link,
-#right ul li a:visited
-{
-        color:#000;
-}
+
+
 
 #right ul li a:hover,
 #right ul li a:active,
 #right ul li a:focus
 {
-        background:#990000 ;
+        background:#095197;
         color:#fff;
 }
 
@@ -892,6 +923,13 @@ ul.newsflash-horiz li h4
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
+#form-login .inputbox
+{
+        border:solid 1px #ddd;
+        background:url(../images/content_bg.gif) repeat-x;
+
+}
+
 fieldset.input
 {
         border:0 ;
@@ -900,7 +938,7 @@ fieldset.input
 input.button,
 button.button
 {
-       /* background:#990000 ;
+       /* background:#095197 ;
         color:#fff;*/
         background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
         border:1px solid #DDDDDD;
@@ -971,7 +1009,7 @@ ul.tabs li a.linkopen:focus
 #right .category-module h4 a:link,
 #right .category-module h4 a:visited
 {
-        color:#330000
+        color:#0D4C89
 }
 
 #right .category-module h4 a:hover,
@@ -1099,7 +1137,7 @@ label.invalid
 /* ##########################  tables   ########################### */
 table
 {
-        border:solid 1px #ddd
+
 }
 
 tbody
@@ -1130,7 +1168,11 @@ table.jlist-table th
 table.weblinks th a,
 table.newsfeeds th a,
 table.category th a,
-table.jlist-table th a
+table.jlist-table th a,
+table.weblinks th,
+table.newsfeeds th,
+table.category th,
+table.jlist-table th
 {
         color:#fff
 }
@@ -1168,9 +1210,14 @@ tr, td
             border:solid 1px #ddd
 }
 
+
+#main table.moduletable td,
+#main table.moduletable tr
+{border:0;}
 fieldset.filters
 {
-        border:0;
+        border:solid 0px #ddd;
+
 }
 
 /* ##########################  contacts   ########################### */
@@ -1249,8 +1296,18 @@ body.contentpane
 .box h3
 {
         font-family: 'Titillium Maps', Arial;
+                font-size:1.2em
 }
+.box ul
+{padding-left:0}
 
+.box1
+{border-right:solid 1px #ccc}
+.box3
+{border-left:solid 1px #ccc}
+#bottom  ul li a
+{background-image:none;
+padding-left:0}
 /* ##########################  editor  ########################### */
 
 .contentpaneopen_edit img
@@ -1286,22 +1343,101 @@ form#adminForm fieldset
 
 /*-------------------------------*/
 
-.australia
-{
-        background:#f5f5f5 url(../images/nature/koala.png) top right no-repeat;
-        border:solid 1px #ddd
-}
-
-.australia h3
-{
-        font-family: 'Titillium Maps', Arial;
-}
-
 
 table.pagenav,
 table.pagenav tr,
 table.pagenav td
 {border:0 !important}
 
-/* ++++++++++++++  flashupload  ++++++++++++++ */
-.hide 			{ display: none; }
+.cat-children ul ul
+{list-style-type:disc !important;
+
+}
+
+
+
+/* contact  plain */
+#main .contact h3
+{
+    border-bottom:solid 1px #ddd;
+    margin: 20px 0
+}
+
+.jform-required
+{
+    font-weight:bold;
+    margin:10px 0;
+    background:#fff url(../images/req.png) no-repeat;
+    padding:10px 40px
+
+}
+
+.contact .inputbox
+{
+    background:#fff url(../images/content_bg.gif) repeat-x ;
+    border:solid 1px #ccc;
+    padding:3px
+}
+/* contact  slider */
+
+.panel
+{
+    border:solid 1px #ddd;
+    margin-top:-1px
+
+}
+#main .contact .panel h3
+{
+    margin:0px 0 0px 0;
+    padding: 0;
+    background:#eee;
+    border:0
+}
+.panel h3 a
+{
+    display:block;
+    padding:6px;
+    text-decoration:none;
+    color:#444;
+    padding:6px;
+}
+
+
+.panel h3.jpane-toggler a
+{
+    background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
+}
+.panel h3.jpane-toggler-down a
+{
+    background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
+    border-bottom:solid 1px #ddd;
+}
+
+.jpane-slider
+{
+    border:solid 0px;
+    padding:0px 10px !important;
+    margin:0;
+    background: url(../images/nav_level_1.gif) repeat-x ;
+}
+
+.panel .jcontact-form,
+.panel  .contact-miscinfo
+{
+    padding:10px
+}
+
+.contact .panel .jcontact-form form,
+.contact .panel .jcontact-address
+{
+    margin:20px 0 0 0
+}
+
+
+/* tabs */
+
+div.current
+{
+
+    background: url(../images/nav_level_1.gif) repeat-x ;
+}

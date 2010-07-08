@@ -20,8 +20,12 @@
 
 #all
 {
-        border:solid 1px #fff
+        border:solid 1px #fff;
+                zoom:1
 }
+
+#header
+{ position:relative; zoom:1}
 
 .logoheader
 {
@@ -32,6 +36,7 @@
 {
         width:19.0em;
         margin-right:20px;
+
 }
 
 
@@ -59,7 +64,7 @@ border:0px solid #000
 #back
 {
         margin: 0;
-        padding:0 10px;
+        padding:0 0px;
 }
 
 #right
@@ -99,7 +104,8 @@ border:0px solid #000
 }
 
 #nav ul li,
-#right ul li
+#right ul li,
+#bottom ul li
 {
             height:1%
 }
@@ -129,8 +135,18 @@ ul.tabs
 .tabcontent
 {
         overflow:hidden !important;
-        width:90%
+        position:relative
 }
 
 #main h1
 { zoom:1}
+
+.box {width:26%}
+
+#bottom
+{display:inline-block}
+
+.panel,
+div.current
+{zoom:1}
+

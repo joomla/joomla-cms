@@ -1,5 +1,5 @@
 /*
- * @author ( Angie Radtke tets)
+ * @author ( Angie Radtke )
 */
 
 /* not ready */
@@ -8,197 +8,158 @@
 
 
 @font-face {
-    font-family: 'Titillium Maps';
-    src: url("../fonts/TitilliumMaps29L002.eot")
-    }
+font-family: 'Titillium Maps';
+src: url("../fonts/TitilliumMaps29L002.eot")
+}
 @font-face {
-    font-family: 'Titillium Maps';
-    src:
-         url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
-         url("../fonts/TitilliumMaps29L002.woff") format("woff")
-    }
+font-family: 'Titillium Maps';
+src:
+url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
+url("../fonts/TitilliumMaps29L002.woff") format("woff")
+}
 
 body
 {
-     background: #eee url(../images/header_outer.jpg) repeat-x ;
-        color: #333;
-        font-family: arial, helvetica, sans-serif;
+background: #eee url(../images/header_outer.jpg) repeat-x ;
+color: #333;
+font-family: arial, helvetica, sans-serif;
 }
 
 #all
 {
-        color: #333;
-        border:solid 0px #ddd  !important ;
-
+color: #333;
+border:solid 0px #ddd  !important ;
 
 }
-
-* html #back
-{
- padding:0
-}
-
 a:link,
 a:visited
 {
-        color:#7BA428
+color:#7BA428
 }
 
 a:hover,
 a:active,
 a:focus
 {
-        background:#7BA428;
-        color:#FFF;
-}
-
-
-
-ul li a.u2:focus,
-p a.u2:active
-{
-        background-color:#000;
-        color:#FFF;
+background:#669933;
+color:#FFF;
 }
 
 input:focus
 {
-        border:solid 2px;
+border:solid 2px;
 }
 
 fieldset
 {
-        border:solid 0px #ccc
+border:solid 0px #ccc
 }
 
 .article-info
 {
-        color:#444;
+color:#444;
 }
 
 .article-info dd span
 {
-    color:#444;
-    border-right:solid 0px;
+color:#444;
+border-right:solid 0px;
 
 }
-
-
-
 /* ##########################  logo  ########################### */
 #header
 {background:#fff}
 #logo span
 {
-        color:#555 !important;
-                margin-top:6px;
-
-                font-size:0.4em !important; letter-spacing:1px
+color:#555 !important;
+margin-top:6px;
+font-size:0.4em !important;
+letter-spacing:1px
 }
 
 .logoheader
 {
-        border-top:solid 5px #555;
-        color:#555;
-        background: #fff;
-        padding:0
+border-top:solid 5px #555;
+color:#555;
+background: #fff;
+
 }
 
-
 #header-image
-{min-height:20px;
-background:#eee}
-
-
-
+{
+min-height:20px;
+background:#eee
+}
 
 h1#logo
 {
-       margin:40px 20px 10px 20px;
-        font-size:3em;
+margin:1.2em 20px 10px 20px;
+font-size:3em;
 
 }
 
 
 #line
 {
-
-
 text-align:right;
-margin-bottom:10px
-
-
+margin-bottom:10px;
+padding-right:20px
 }
-
-
-
-
-
-
 
 #header #line form,
 #header #line #fontsize,
 #header #line form .search
 
 {
-
 display:inline !important;
-
 }
-
-
 
 /* ##########################  header  ########################### */
 
-#header ul
-{
-        width:600px;
-
-
-
-}
 
 #header ul
 {
 max-width:1030px;
-right:15px}
+right:15px;
+}
 
 /* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
 #header ul.menu
 {
-        background: #fff;
-        margin-top:5px !important;
-        list-style-type:none
+
+margin-top:5px !important;
+list-style-type:none
 }
 
 #header ul.menu li
 {
-        border:0
+border:0
 }
 
-#header ul li a:link,
-#header ul li a:visited
+#header ul.menu li a:link,
+#header ul.menu li a:visited
 {
-        color:#333;
-        border:0;
-        border-right:solid 1px #eee;
-        background:transparent
+color:#333;
+border:0;
+border-right:solid 1px #eee;
+background:transparent;
+padding:10px 15px;
 }
 
-#header ul li a:hover,
-#header ul li a:active,
-#header ul li a:focus
+#header ul.menu li a:hover,
+#header ul.menu li a:active,
+#header ul.menu li a:focus
 {
-        color:#444;
-        background:#ccc
+color:#444;
+background:#ddd
 }
 
-#header ul li.active a:link,
-#header ul li.active a:visited
+#header ul.menu li.active a:link,
+#header ul.menu li.active a:visited
 {
-        color:#fff;
-        border-right:solid 1px #237D85;
-        background:#377A2E!important
+color:#fff;
+border-right:solid 1px #237D85;
+background:#7ba428 !important
 }
 
 #header ul.skiplinks
@@ -211,13 +172,30 @@ width:100%
         border:solid 0px #000;
 }
 
-.skiplinks li a.u2:active,
-.skiplinks li a.u2:focus
+#header ul.skiplinks
 {
-        background:#eee !important;
-        border:solid 1px;
-		top:0
+        width:100%;
+        text-align:left;
+        background:none;
+        z-index:20000;
+        top:0;
+        display:inline;
+        padding:0
+}
 
+#header ul.skiplinks li a.u2:active,
+#header ul.skiplinks li a.u2:focus
+
+{
+        background:#333 !important;
+        color:#fff !important;
+        border:solid 1px;
+        top:0px !important;
+        z-index:1000000000000 !important;
+        left:10px !important;
+        display:block;
+		width:14em;
+		display:block
 }
 
 /* ++++++++++++++  fontsize  ++++++++++++++ */
@@ -269,9 +247,11 @@ width:100%
 /* ##########################  contentarea  ########################### */
 
 #top
-{background:#eee;
-padding:15px;
-border:solid 1px #ddd}
+{
+		background:#eee;
+		padding:15px;
+		border:solid 1px #ddd
+}
 
 #contentarea,
 #contentarea2
@@ -379,6 +359,13 @@ h3.js_heading a img
         border:0
 }
 
+h3.js_heading a.opencloselink:hover,
+h3.js_heading a.opencloselink:active,
+h3.js_heading a.opencloselink:focus
+{
+        background:none
+}
+
 h3.js_heading a:link,
 h3.js_heading a:visited,
 h3.js_heading a:hover,
@@ -408,7 +395,7 @@ h3.js_heading a:focus
 #nav form a:focus
 {
         color:#fff;
-        background:#044b63;
+        background:#669933;
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
@@ -500,7 +487,7 @@ ul.menu li ul
  ul.menu li.active ul li a:active,
  ul.menu li.active ul li a:focus
 {
-        background:#035065 !important;
+        background:#669933 !important;
         color:#fff !important;
 }
 
@@ -534,26 +521,27 @@ ul.menu li.active ul li.active ul li.active a:visited
 ul.menu li ul li ul li ul
 {
         border:solid 1px #eee !important;
-                padding-top:10px !important;
-                padding-bottom:10px !important;
-                background:#fff url(../images/level4.png) repeat-x !important;
+        padding-top:10px !important;
+        padding-bottom:10px !important;
+        background:#fff url(../images/level4.png) repeat-x !important;
 }
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li a:visited
-{font-weight:normal; padding: 3px 2px 3px 40px; font-size:0.9em;
-background:#fff url(../images/arrow_small.png) no-repeat  30px 5px; color:#444}
+{
+		font-weight:normal; padding: 3px 2px 3px 40px;
+		font-size:0.9em;
+		background:#fff url(../images/arrow_small.png) no-repeat  30px 5px;
+		color:#444
+}
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
-{font-weight:bold}
-
-
-
-
-
+{
+	font-weight:bold
+}
 
 /* ##########################  content - main   ########################### */
 
@@ -716,7 +704,7 @@ a.readmore:link,
 a.readmore:visited
 {
         color:#444;
-        background:#eee url(../images/nature/arrow1.gif) repeat-x left top;
+        background:#eee url(../images/arrow1.gif) repeat-x left top;
         border:solid 1px #ddd;
 }
 
@@ -727,7 +715,7 @@ a.readmore a:hover,
 a.readmore a:active,
 a.readmore a:focus
 {
-        background:#555 url(../images/nature/arrow2.gif) no-repeat left 6px !important;
+        background:#555 url(../images/arrow2.gif) no-repeat left 6px !important;
         color:#fff;
 }
 
@@ -770,8 +758,8 @@ a.readmore:focus
 #main .items-more ol li a:active,
 #main .items-more ol li a:focus
 {
-        background: #555 url(../images/nature/arrow2.gif) no-repeat 0px center;
-        color:#377A2E;
+        background: #555 url(../images/arrow2.gif) no-repeat 0px center;
+        color:#333;
 }
 
 /* ++++++++++++++  pagination  ++++++++++++++ */
@@ -800,7 +788,9 @@ table.contenttoc
 #right .moduletable
 {
         border:solid 0px #eee;
-        border-top:0
+        border-top:0;
+                margin-bottom:10px;
+
 }
 
 #right h3
@@ -810,14 +800,14 @@ table.contenttoc
 
 #right h4
 {
-        color:#000;
+        color:#444;
         border:solid 0;
 }
 
 #right ul
 {
         border:solid 0 #ccc;
-        color:#000;
+        color:#333;
 }
 
 .moduletable-custom ul li
@@ -828,9 +818,11 @@ table.contenttoc
 
 #right .moduletable-custom h4
 {
-color:#333
+color:#444
 }
 
+#right .moduletable a img
+{border:0}
 
 /* ++++++++++++++  button for closing right column  ++++++++++++++ */
 #close span
@@ -1039,7 +1031,7 @@ ul.tabs li a.linkopen:focus
 {
         background:#fff;
         border:solid 1px #999;
-        color:#044b63;
+        color:#444;
 }
 
 .only
@@ -1315,10 +1307,6 @@ legend
         border:solid 1px #333;
     background:#ffffcc;
 }
-
-
-
-
 table.pagenav,
 table.pagenav tr,
 table.pagenav td
@@ -1326,3 +1314,88 @@ table.pagenav td
 
 #main .categories-list ul
 {list-style-type:none}
+
+/* contact  plain */
+#main .contact h3
+{
+    border-bottom:solid 1px #ddd;
+    margin: 20px 0
+}
+
+.jform-required
+{
+    font-weight:bold;
+    margin:10px 0;
+    background:#fff url(../images/req.png) no-repeat;
+    padding:10px 40px
+
+}
+
+.contact .inputbox
+{
+    background:#fff url(../images/content_bg.gif) repeat-x ;
+    border:solid 1px #ccc;
+    padding:3px
+}
+/* contact  slider */
+
+.panel
+{
+    border:solid 1px #ddd;
+    margin-top:-1px
+
+}
+#main .contact .panel h3
+{
+    margin:0px 0 0px 0;
+    padding: 0;
+    background:#eee;
+    border:0
+}
+.panel h3 a
+{
+    display:block;
+    padding:6px;
+    text-decoration:none;
+    color:#444;
+    padding:6px;
+}
+
+
+.panel h3.jpane-toggler a
+{
+    background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
+}
+.panel h3.jpane-toggler-down a
+{
+    background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
+    border-bottom:solid 1px #ddd;
+}
+
+.jpane-slider
+{
+    border:solid 0px;
+    padding:0px 10px !important;
+    margin:0;
+    background: url(../images/nav_level_1.gif) repeat-x ;
+}
+
+.panel .jcontact-form,
+.panel  .contact-miscinfo
+{
+    padding:10px
+}
+
+.contact .panel .jcontact-form form,
+.contact .panel .jcontact-address
+{
+    margin:20px 0 0 0
+}
+
+
+/* tabs */
+
+div.current
+{
+
+    background: url(../images/nav_level_1.gif) repeat-x ;

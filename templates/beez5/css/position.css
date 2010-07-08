@@ -39,9 +39,9 @@ body
 
 #header
 {
-    display:block !important;
+    display:block ;
     position:relative;
-    padding:0px 0 0 0;
+    padding:0px;
     overflow:hidden;
 }
 
@@ -54,33 +54,32 @@ body
 #contentarea,
 #contentarea2
 {
-        position:relative;
+	position:relative;
     overflow:hidden;
-    padding:0px 20px !important;
+    padding:0px 20px ;
     margin:0;
 
 }
 
 #wrapper
 {
-        width:53%;
-        float:left;
-        position:relative;
+	width:53%;
+	float:left;
+	position:relative;
 
 }
 
 #wrapper2
 {
-        width:72%;
-    float:left;
-        position:relative;
-		padding-bottom:20px
-
+	width:72%;
+	float:left;
+	position:relative;
+	padding-bottom:20px
 
 }
 
 
-#wrapper2 .item-page,
+#wrapper2 .item-page
 {max-width:660px}
 #main
 {
@@ -380,7 +379,8 @@ h1#logo
         width:27%;
         float:left;
         margin-right:10px;
-        min-height:100px
+        min-height:100px;
+        position:relative
 }
 
 .box1

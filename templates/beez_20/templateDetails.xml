@@ -84,15 +84,10 @@
 
 					<option value="nature">TPL_BEEZ2_OPTION_NATURE</option>
 					<option value="personal">TPL_BEEZ2_OPTION_PERSONAL</option>
+					<option value="black">TPL_BEEZ2_OPTION_BLACK</option>
 				</field>
 
-				<field name="html5" type="list" default="0"
-					label="TPL_BEEZ2_FIELD_HTML5_LABEL"
-					description="TPL_BEEZ2_FIELD_HTML5_DESC"
-				>
-					<option value="0">TPL_BEEZ2_OPTION_XHTML</option>
-					<option value="1">TPL_BEEZ2_OPTION_HTML5</option>
-				</field>
+
 			</fieldset>
 		</fields>
 	</config>

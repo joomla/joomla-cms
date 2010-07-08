@@ -162,12 +162,10 @@ a img.calendar {
 
 #system-message
 {
-        margin:10px 0 20px 0;
-                background:url(../images/nature/nav_level_1.gif) repeat-x;
-                border:solid 2px #ccc;
+                margin:10px 0 20px 0;
                 border-left:0;
                 border-right:0;
-                padding:10px
+
 }
 
 #system-message dt { font-weight: bold; }
@@ -190,12 +188,59 @@ a img.calendar {
 #system-message dd.notice {  }
 #system-message dd.notice ul { color: #000; }
 
-/* ++++++++++++++  login  ++++++++++++++ */
+/* -- SYSTEM MESSAGES ---- */
 
-#form-login .inputbox
-{
-        border:solid 1px #ddd;
-        background:url(../images/content_bg.gif) repeat-x;
+/* Relocated from system.css */
+#system-message {
+    margin-bottom: 10px;
+    padding: 0;
 }
 
+#system-message dt {
+    font-weight: bold;
+}
 
+#system-message dd {
+    margin: 0;
+    font-weight: bold;
+       padding: 0;
+}
+
+#system-message dd ul {
+    color: #0055BB;
+    margin-bottom: 10px;
+    list-style: none;
+    padding: 10px;
+    border-top: 3px solid #84A7DB;
+    border-bottom: 3px solid #84A7DB;
+}
+
+#system-message dt.message {
+    display: none;
+}
+
+#system-message dd.message {
+
+}
+
+#system-message dt.error {
+    display: none;
+}
+
+#system-message dd.error ul {
+    color: #0C2F5A  ;
+    background-color: #D9EBF9;
+    border-top: 3px solid #1967A1;
+    border-bottom: 3px solid #1967A1;
+}
+
+#system-message dt.notice {
+    display: none;
+}
+
+#system-message dd.notice ul {
+    color: #c00;
+    background-color: #EFE7B8;
+    border-top: 3px solid #F0DC7E;
+    border-bottom: 3px solid #F0DC7E;
+}

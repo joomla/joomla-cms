@@ -81,7 +81,7 @@ fieldset
 #logo span
 {
         color:#fff !important;
-                margin-top:6px
+        margin-top:6px
 }
 
 .logoheader
@@ -89,6 +89,7 @@ fieldset
         border-top:solid 1px transparent;
         color:#fff;
         background:url(../images/nature/bar.jpg) repeat-x top left;
+
 }
 
 h1#logo
@@ -105,9 +106,13 @@ h1#logo
 
 /* ##########################  header  ########################### */
 
+#line {
+}
+
 #header
 {
         background:#185359 url(../images/nature/header.jpg) bottom left repeat-x ;
+        position:relative
 }
 
 /* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
@@ -116,29 +121,34 @@ h1#logo
         background: url(../images/nature/navhoriz.png);
         border:0;
         border-bottom:solid 1px #237D85;
-        list-style-type:none
+        list-style-type:none;
+
+
 }
 
 #header ul.menu li
 {
-        border:0
+        border:0;
+
 }
 
-#header ul li a:link,
-#header ul li a:visited
+#header ul.menu li a:link,
+#header ul.menu li a:visited
 {
         color:#fff;
         border:0;
         border-right:solid 1px #237D85;
-        background:transparent
+        background:transparent;
+        padding:10px ;
 }
 
-#header ul li a:hover,
-#header ul li a:active,
-#header ul li a:focus
+#header ul.menu li a:hover,
+#header ul.menu li a:active,
+#header ul.menu li a:focus
 {
         color:#333;
-        background:#bddfb3
+        background:#bddfb3;
+        padding:10px
 }
 
 #header ul li.active a:link,
@@ -146,7 +156,9 @@ h1#logo
 {
         color:#333;
         border-right:solid 1px #237D85;
-        background:#bddfb3 !important
+        background:#bddfb3 !important;
+        padding: 10px  ;
+
 }
 
 .skiplinks,
@@ -154,15 +166,31 @@ h1#logo
 {
         border:solid 0px #000;
 }
-
-.skiplinks li a.u2:active,
-.skiplinks li a.u2:focus
+#header ul.skiplinks
 {
-        background:#eee !important;
-        border:solid 1px;
-
+        width:100%;
+        text-align:left;
+        background:none;
+        z-index:20000;
+        top:0;
+        display:inline;
+        padding:0
 }
 
+#header ul.skiplinks li a.u2:active,
+#header ul.skiplinks li a.u2:focus
+
+{
+        background:#333 !important;
+        color:#fff !important;
+        border:solid 1px;
+        top:0px !important;
+        z-index:1000000000000 !important;
+        left:10px !important;
+        display:block;
+                width:14em;
+                display:block
+}
 /* ++++++++++++++  fontsize  ++++++++++++++ */
 
 #fontsize
@@ -826,6 +854,13 @@ ul.newsflash-horiz li h4
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
+#form-login .inputbox
+{
+        border:solid 1px #ddd;
+        background:url(../images/content_bg.gif) repeat-x;
+
+}
+
 fieldset.input
 {
         border:0;
@@ -1236,3 +1271,92 @@ table.pagenav td
 
 #main .categories-list ul
 {list-style-type:none}
+
+
+
+
+/* contact  plain */
+#main .contact h3
+{
+    border-bottom:solid 1px #ddd;
+    margin: 20px 0
+}
+
+.jform-required
+{
+    font-weight:bold;
+    margin:10px 0;
+    background:#fff url(../images/req.png) no-repeat;
+    padding:10px 40px
+
+}
+
+.contact .inputbox
+{
+    background:#fff url(../images/content_bg.gif) repeat-x ;
+    border:solid 1px #ccc;
+    padding:3px
+}
+/* contact  slider */
+
+.panel
+{
+    border:solid 1px #ddd;
+    margin-top:-1px
+
+}
+#main .contact .panel h3
+{
+    margin:0px 0 0px 0;
+    padding: 0;
+    background:#eee;
+    border:0
+}
+.panel h3 a
+{
+    display:block;
+    padding:6px;
+    text-decoration:none;
+    color:#444;
+    padding:6px;
+}
+
+
+.panel h3.jpane-toggler a
+{
+    background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
+}
+.panel h3.jpane-toggler-down a
+{
+    background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
+    border-bottom:solid 1px #ddd;
+}
+
+.jpane-slider
+{
+    border:solid 0px;
+    padding:0px 10px !important;
+    margin:0;
+    background: url(../images/nav_level_1.gif) repeat-x ;
+}
+
+.panel .jcontact-form,
+.panel  .contact-miscinfo
+{
+    padding:10px
+}
+
+.contact .panel .jcontact-form form,
+.contact .panel .jcontact-address
+{
+    margin:20px 0 0 0
+}
+
+
+/* tabs */
+
+div.current
+{
+
+    background: url(../images/nav_level_1.gif) repeat-x ;
+}

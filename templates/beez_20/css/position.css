@@ -54,7 +54,7 @@ body
 #contentarea,
 #contentarea2
 {
-        position:relative;
+    position:relative;
     overflow:hidden;
     padding:0px 20px !important;
     margin:0;
@@ -71,19 +71,21 @@ body
 
 #wrapper2
 {
-        width:72%;
+    width:72%;
     float:left;
-        position:relative;
-		padding-bottom:20px
+    position:relative;
+    padding-bottom:20px
 
 }
 #wrapper2 .item-page
-{max-width:660px}
+{
+    max-width:660px
+}
 #main
 {
     padding: 10px 0px 20px 0px;
     position: relative;
-    min-height:520px;
+    min-height:420px;
 }
 
 #right
@@ -93,8 +95,6 @@ body
     margin:10px 0px 10px 2%;
     padding:0px 0px 5px 0px;
     position:relative;
-
-
 }
 
 .unseen
@@ -125,12 +125,12 @@ body
     float: left;
     margin:10px 3% 10px 0px;
     width: 21%;
-        position:relative
+    position:relative
 }
 
 .leftbigger
 {
-        width:25%
+     width:25%
 }
 
 
@@ -153,7 +153,7 @@ body
     position: absolute;
     top: -2000px;
     width: 0px;
-    z-index: 200 !important;
+
 }
 
 .skiplinks li a.u2:active,
@@ -161,18 +161,18 @@ body
 {
     position:absolute;
     width:13em;
-    top:100px;
+    top:10px;
     left:10px;
-    z-index:10;
     line-height:1.5em;
     padding:5px;
     font-weight:bold;
-    height:3em
+    height:3em;
+
 }
 
 .wrap
 {
-        border: 0;
+    border: 0;
     clear: both;
     float: none;
     font-size: 1px;
@@ -206,7 +206,7 @@ h1#logo
 #logo img
 {
         display: block;
-        }
+}
 
 #logo span
 {
@@ -233,11 +233,10 @@ h1#logo
 }
 
 #line
-{ padding:5px 0px 2px 2px;
+{       padding:5px 0px 2px 2px;
         position:absolute;
         right :20px;
         top:5em;
-        z-index:10000;
         max-width:38em;
 
 }
@@ -254,8 +253,8 @@ h1#logo
 
 #close span
 {
-        position:absolute;
-        right: 20px;
+    position:absolute;
+    right: 20px;
     z-index:10000;
     top:5px;
     width:7em;
