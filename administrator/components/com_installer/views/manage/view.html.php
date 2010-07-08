@@ -42,7 +42,14 @@ class InstallerViewManage extends InstallerViewDefault
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
+		
+		//Check if there are no matching items
+		if(!count($this->items)){
+			JFactory::getApplication()->enqueueMessage( 
+				JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION')
+			);
+		}
+		
 		// Display the view
 		parent::display($tpl);
 	}

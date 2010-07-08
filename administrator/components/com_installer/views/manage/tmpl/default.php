@@ -69,8 +69,6 @@ $listDirn	= $this->state->get('list.direction');
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-	<?php else : ?>
-	<p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></p>
 	<?php endif; ?>
 
 	<div>
