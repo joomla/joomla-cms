@@ -13,7 +13,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 ?>
 <div class="mod_languages<?php echo $params->get('moduleclass_sfx') ?>">
 <?php if ($headerText) : ?>
-	<div class="header"><?php echo $headerText; ?></div>
+	<div class="header"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>
 		<ul>
 <?php foreach($list as $language):?>
@@ -29,6 +29,6 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 <?php endforeach;?>
 		</ul>
 <?php if ($footerText) : ?>
-	<div class="footer"><?php echo $footerText; ?></div>
+	<div class="footer"><p><?php echo $footerText; ?></p></div>
 <?php endif; ?>
 </div>

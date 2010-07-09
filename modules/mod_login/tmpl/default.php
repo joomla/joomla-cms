@@ -22,7 +22,7 @@ JHtml::_('behavior.keepalive');
 	} endif; ?>
 	</div>
 <?php endif; ?>
-	<div align="center">
+	<div class="logout-button">
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGOUT'); ?>" />
 	</div>
 
