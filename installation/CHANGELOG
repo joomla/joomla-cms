@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Jul-2010 Jean-Marie Simonet
  # [#21351] mod_login (Thanks Angie) + mod_languages html
+ # [#21292] Images inserted into articles always go to the top in Firefox. Thanks Brad
 
 08-Jul-2010 Mark Dexter
 # Fixes to beez and beez5 templates (Angie Radtke)
