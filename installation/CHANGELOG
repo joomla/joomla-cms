@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jul-2010 Jean-Marie Simonet
+ $ Correcting strings
+
 09-Jul-2010 Jean-Marie Simonet
  # [#21351] mod_login (Thanks Angie) + mod_languages html
  # [#21292] Images inserted into articles always go to the top in Firefox. Thanks Brad
