@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Jul-2010 Jean-Marie Simonet
  # [#21366] * Checkin featured articles fails.
+ # [#21365] Search manager - global options. Thanks Bill. + some string consolidation
 
 09-Jul-2010 Jean-Marie Simonet
  $ Correcting strings

@@ -12,13 +12,23 @@
 			<option
 				value="1">JYES</option>
 		</field>
-
+		
+		<field name="search_areas"
+				type="radio"
+				default="1"
+				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
+				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		
 		<field
 			name="show_date"
 			type="radio"
 			default="1"
-			label="COM_SEARCH_CONFIG_SHOW_CREATED_DATE_LABEL"
-			description="COM_SEARCH_CONFIG_SHOW_CREATED_DATE_DESC">
+			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
+			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">
 			<option
 				value="0">JHIDE</option>
 			<option
