@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-19-Jul-2010 Jean-Marie Simonet
+11-Jul-2010 Jean-Marie Simonet
+ # [#21366] * Checkin featured articles fails.
+
+09-Jul-2010 Jean-Marie Simonet
  $ Correcting strings
 
 09-Jul-2010 Jean-Marie Simonet
