@@ -3,7 +3,6 @@
 	<layout title="COM_CONTACT_CATEGORIES_VIEW_DEFAULT_TITLE">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORIES"
-			url = "http://docs.joomla.org/Category:Bug Squad"
 		/>
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORIES_VIEW_DEFAULT_DESC]]>

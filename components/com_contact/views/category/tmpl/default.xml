@@ -2,6 +2,9 @@
 	<!-- $Id$ -->
 <metadata>
 	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_CONTACT_CATEGORY"
+		/>
 		<message>
 			<![CDATA[COM_CONTACT_CATEGORY_VIEW_DEFAULT_DESC]]>
 		</message>
