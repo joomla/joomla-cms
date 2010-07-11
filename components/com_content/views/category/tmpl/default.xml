@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="COM_CONTENT_CATEGORY_VIEW_DEFAULT_TITLE">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CATEGORY_LIST"
+		/>
 		<message>
 			<![CDATA[COM_CONTENT_CATEGORY_VIEW_DEFAULT_DESC]]>
 		</message>

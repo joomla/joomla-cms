@@ -25,6 +25,7 @@
 		<language
 			tag="en-GB">en-GB.mostread.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MOST_READ" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

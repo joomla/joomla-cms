@@ -24,6 +24,7 @@
 		<language
 			tag="en-GB">en-GB.mod_login.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

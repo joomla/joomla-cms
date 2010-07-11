@@ -21,6 +21,7 @@
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_categories.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORIES" />
 	<config>
 	<fields name="params">
 		<fieldset name="basic">

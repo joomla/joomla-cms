@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install
+<extension
 	type="module"
 	version="1.6.0"
 	client="administrator">
@@ -17,6 +17,7 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGGED" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -64,5 +65,5 @@
 			</fieldset>
 		</fields>
 	</config>
-</install>
+</extension>
 

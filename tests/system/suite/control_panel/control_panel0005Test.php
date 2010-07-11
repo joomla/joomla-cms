@@ -17,6 +17,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 {
 	function testMenuTopLevelPresent()
 	{
+		echo "starting testMenuTopLevelPresent\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->assertTrue($this->isElementPresent("link=Site"));
@@ -28,5 +29,51 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Help"));
 		$this->doAdminLogout();
 	}
-}
 
+	function testMenuDetailHelp()
+	{
+		echo "starting testMenuDetailHelp\n";
+		$this->gotoAdmin();
+		$this->doAdminLogin();
+		echo "Open Using Joomla! and check that help links to Single Article help\n";
+		$this->click("link=About Joomla");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Using Joomla!");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Menus_Menu_Item_Article_Single_Article')]"));
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+		echo "Open Categogy Blog and check that help links to Category Blog help\n";
+		$this->click("link=Article Category Blog");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Menus_Menu_Item_Article_Category_Blog')]"));
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+		echo "Open Archived Articles Module and check that help links to detailed help\n";
+		$this->click("link=Module Manager");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Archived Articles");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Extensions_Module_Manager_Articles_Archive')]"));
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+		echo "Open Most Read Module and check that help links to detailed help\n";
+		$this->click("link=Most Read Content");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Extensions_Module_Manager_Most_Read')]"));
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+		echo "Open Admin Logged In Module and check that help links to detailed help\n";
+		$this->select("filter_client_id", "label=Administrator");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Logged-in Users");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Extensions_Module_Manager_Admin_Logged')]"));
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Control Panel");
+		$this->waitForPageToLoad("30000");
+		$this->doAdminLogout();
+		echo "finished with control_panel0005Test/testMenuDetailHelp\n";
+	}
+}

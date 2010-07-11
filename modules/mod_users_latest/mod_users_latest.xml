@@ -20,6 +20,7 @@
 		<filename>helper.php</filename>
 		<filename>index.html</filename>		<filename>mod_users_latest.xml</filename>
 	</files>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LATEST_USERS" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

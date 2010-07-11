@@ -25,6 +25,7 @@
 		<language
 			tag="en-GB">en-GB.mod_wrapper.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WRAPPER" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

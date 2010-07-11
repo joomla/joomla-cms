@@ -19,6 +19,7 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_FEED_DISPLAY" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

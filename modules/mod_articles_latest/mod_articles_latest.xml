@@ -24,6 +24,7 @@
 		<language
 			tag="en-GB">en-GB.latestnews.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LATEST_NEWS" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

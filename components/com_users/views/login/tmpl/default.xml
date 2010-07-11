@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="com_user_login_view_default_title">
-		<message>
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_USER_LOGIN"
+		/>		<message>
 			<![CDATA[com_user_profile_view_default_desc]]>
 		</message>
 	</layout>

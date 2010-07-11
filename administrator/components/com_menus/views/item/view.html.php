@@ -74,6 +74,9 @@ class MenusViewItem extends JView
 			JToolBarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER_EDIT');
+
+		// Get the help information for the menu item.
+		$help = $this->get('Help');
+		JToolBarHelper::help($help->key, $help->local, $help->url);
 	}
 }

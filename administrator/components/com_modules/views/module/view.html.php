@@ -79,6 +79,8 @@ class ModulesViewModule extends JView
 			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER_EDIT');
+		// Get the help information for the menu item.
+		$help = $this->get('Help');
+		JToolBarHelper::help($help->key, $help->local, $help->url);
 	}
 }

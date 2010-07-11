@@ -2,6 +2,9 @@
 
 <metadata>
 	<layout title="com_contact_featured_view_default_title">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_CONTACT_FEATURED"
+		/>
 		<message>
 			<![CDATA[COM_CONTACT_FEATURED_VIEW_DEFAULT_DESC]]>
 		</message>

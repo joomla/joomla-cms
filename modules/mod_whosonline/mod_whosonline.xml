@@ -25,6 +25,7 @@
 		<language
 			tag="en-GB">en-GB.mod_whosonline.ini</language>
 	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WHO_ONLINE" />
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

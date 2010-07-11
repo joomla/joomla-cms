@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
 	<layout title="com_weblinks_category_view_default_title">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_WEBLINK_CATEGORY"
+		/>		
 		<message>
 			<![CDATA[com_weblinks_category_view_default_desc]]>
 		</message>
