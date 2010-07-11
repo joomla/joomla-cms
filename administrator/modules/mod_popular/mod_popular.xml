@@ -35,11 +35,10 @@
 					extension="com_content"
 					label="JCATEGORY"
 					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
+					default=""
 					class="inputbox">
 					<option
 						value="">JOPTION_ANY_CATEGORY</option>
-					<option
-						value="0">JOPTION_NO_CATEGORY</option>
 				</field>
 				<field
 					name="user_id"
