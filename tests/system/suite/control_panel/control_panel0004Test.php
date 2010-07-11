@@ -132,16 +132,16 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Check initial ordering of categories\n";
 		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
-		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
-		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
-		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].11.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].16.1"));
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].17.1"));
 
 		echo "change the order of categories and click Save Order\n";
 		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
 		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/input", "4");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[6]/td[4]/input", "3");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[7]/td[4]/input", "2");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[8]/td[4]/input", "1");
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[11]/td[4]/input", "3");
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[16]/td[4]/input", "2");
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[17]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
 
@@ -149,16 +149,16 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
 		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
-		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
-		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].11.1"));
+		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].17.1"));
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 
 		echo "put the categories back in the original order and click Save Order\n";
 		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
 		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/input", "4");
 		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[6]/td[4]/input", "3");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[7]/td[4]/input", "2");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[8]/td[4]/input", "1");
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[11]/td[4]/input", "2");
+		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[17]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
 
@@ -166,9 +166,9 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
-		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
-		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
-		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].11.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].16.1"));
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].17.1"));
 
 		echo "Try pressing save order with no form changes\n";
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
@@ -177,9 +177,9 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->assertEquals("Components (Alias: components)", $this->getTable("//table[@class=\"adminlist\"].4.1"));
 		$this->assertEquals("Modules (Alias: modules)", $this->getTable("//table[@class=\"adminlist\"].5.1"));
-		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].6.1"));
-		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].7.1"));
-		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].8.1"));
+		$this->assertEquals("Templates (Alias: templates)", $this->getTable("//table[@class=\"adminlist\"].11.1"));
+		$this->assertEquals("Languages (Alias: languages)", $this->getTable("//table[@class=\"adminlist\"].16.1"));
+		$this->assertEquals("Plugins (Alias: plugins)", $this->getTable("//table[@class=\"adminlist\"].17.1"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php/testCategorySaveOrder." . "\n");
 	}

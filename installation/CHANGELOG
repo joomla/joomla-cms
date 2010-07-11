@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jul-2010 Mark Dexter
+# Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
+
 11-Jul-2010 Jean-Marie Simonet
  # [#21366] * Checkin featured articles fails.
  # [#21365] Search manager - global options. Thanks Bill. + some string consolidation

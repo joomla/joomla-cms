@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jul-2010 Mark Dexter
+# Add group0002 test to suite
+# Clean up system tests for sample data changes
+
 05-Jul-2010 Mark Dexter
 # Fix system tests for sample data changes
 # Improvements to test methods (Matt Thomas)
