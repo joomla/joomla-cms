@@ -27,11 +27,11 @@ class JButtonHelp extends JButton
 	 */
 	protected $_name = 'Help';
 
-	public function fetchButton($type='Help', $ref = '', $com = false)
+	public function fetchButton($type='Help', $ref = '', $com = false, $override = null)
 	{
 		$text	= JText::_('JTOOLBAR_HELP');
 		$class	= $this->fetchIconClass('help');
-		$doTask	= $this->_getCommand($ref, $com);
+		$doTask	= $this->_getCommand($ref, $com, $override);
 
 		$html	= "<a href=\"#\" onclick=\"$doTask\" class=\"toolbar\">\n";
 		$html .= "<span class=\"$class\">\n";
@@ -60,16 +60,15 @@ class JButtonHelp extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
-	protected function _getCommand($ref, $com)
+	protected function _getCommand($ref, $com, $override)
 	{
 		// Get Help URL
 		jimport('joomla.language.help');
-		$url = JHelp::createURL($ref, $com);
+		$url = JHelp::createURL($ref, $com, $override);
 		$url = htmlspecialchars($url, ENT_QUOTES);
 		$cmd = "popupWindow('$url', '".JText::_('JHELP', true)."', 700, 500, 1)";
 
