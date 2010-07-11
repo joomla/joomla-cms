@@ -93,7 +93,7 @@ class InstallerModel extends JModelList
 			switch ($item->type) {
 				case 'component':
 					$extension = $item->element;
-					$source = JPATH_ADMINISTRATOR . '/components/' . $item->name;
+					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
 					||	$lang->load("$extension.sys", $source, null, false, false)
 					||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
@@ -106,7 +106,7 @@ class InstallerModel extends JModelList
 				break;
 				case 'module':
 					$extension = $item->element;
-					$source = $path . '/modules/' . $item->name;
+					$source = $path . '/modules/' . $extension;
 						$lang->load("$extension.sys", $path, null, false, false)
 					||	$lang->load("$extension.sys", $source, null, false, false)
 					||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
@@ -126,8 +126,8 @@ class InstallerModel extends JModelList
 					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 				break;
 				case 'template':
-					$extension = 'tpl_' . $item->name;
-					$source = $path . '/templates/' . $item->name;
+					$extension = 'tpl_' . $item->element;
+					$source = $path . '/templates/' . $item->element;
 						$lang->load("$extension.sys", $path, null, false, false)
 					||	$lang->load("$extension.sys", $source, null, false, false)
 					||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
