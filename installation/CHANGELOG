@@ -31,6 +31,7 @@ $ -> Language fix or change
 # Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
 # [#21311] Fix Context Sensitive Help Problem
 # Sample data fixes to joomla.sql for plugins (Elin Waring)
+# Fix beez5 hide.js file (Angie Radtke)
 
 11-Jul-2010 Jean-Marie Simonet
  # [#21366] * Checkin featured articles fails.
