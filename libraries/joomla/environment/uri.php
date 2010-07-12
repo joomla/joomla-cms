@@ -201,16 +201,21 @@ class JURI extends JObject
 				$uri			= self::getInstance();
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
-				if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI']))
+				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 				{
-					//Apache CGI
-					$base['path'] =  rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
+
+					// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
+					// because PHP will not work with PATH_INFO at all.
+					$script_name =  $_SERVER['PHP_SELF'];
 				}
 				else
 				{
 					//Others
-					$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+					$script_name =  $_SERVER['SCRIPT_NAME'];
 				}
+
+				$base['path'] =  rtrim(dirname($script_name), '/\\');
 			}
 		}
 

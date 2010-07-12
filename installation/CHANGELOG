@@ -27,16 +27,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jul-2010 Ian MacLennan
+ # [#20507] SEF w/o .htaccess causes loss of css formatting and/or 404 errors
+
 12-Jul-2010 Mark Dexter
-# [#21196] Save order disk not disabled when not in ordering sort
-# [#20963] Articles » List All Categories and Rss not working
-# [#21332] com_contact tabs aren't working in IE7 Patch
-# [#20957] Batch processing of users is using old tables
-# [#21317] Deleting a category does not delete it's asset
-# [#21214] * Editing an article in front-end displays default site template
-# [#21356] Sorting and filtering in "Contacts" and "Newsfeeds" modals
-# [#21289] Missing Cache Manager Error Message
-# [#21359] Search Button Image in mod_search is not showing properly
+ # [#21196] Save order disk not disabled when not in ordering sort
+ # [#20963] Articles » List All Categories and Rss not working
+ # [#21332] com_contact tabs aren't working in IE7 Patch
+ # [#20957] Batch processing of users is using old tables
+ # [#21317] Deleting a category does not delete it's asset
+ # [#21214] Editing an article in front-end displays default site template
+ # [#21356] Sorting and filtering in "Contacts" and "Newsfeeds" modals
+ # [#21289] Missing Cache Manager Error Message
+ # [#21359] Search Button Image in mod_search is not showing properly
 
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end
@@ -44,24 +47,24 @@ $ -> Language fix or change
  # Getting rid of useless No Category option
  # [#21376] Beez2.0 and Beez5 (Angie Radtke)
  # Missing CSS in front-end Beez (Thanks Angie)
- # [#21363] stats module layout in Beez  Thanks Bill.
+ # [#21363] Stats module layout in Beez  Thanks Bill.
  # [#21373] Restore 1.5 ability for multiple categories for Most Read Content. Thanks Amy.
  # [#21372] Restore 1.5 ability for multiple categories for Module Article Newsflash. Thanks Amy.
  $ Consolidated some strings
  
- 11-Jul-2010 Chris Davenport
+11-Jul-2010 Chris Davenport
  # Follow up to [#21311] - add missing key references for 3 menu items
  
 11-Jul-2010 Mark Dexter
-# Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
-# [#21311] Fix Context Sensitive Help Problem
-# Sample data fixes to joomla.sql for plugins (Elin Waring)
-# Fix beez5 hide.js file (Angie Radtke)
+ # Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
+ # [#21311] Context Sensitive Help Problem
+ # Sample data - joomla.sql for plugins (Elin Waring)
+ # beez5 hide.js file (Angie Radtke)
 
 11-Jul-2010 Jean-Marie Simonet
- # [#21366] * Checkin featured articles fails.
+ # [#21366] Checkin featured articles fails.
  # [#21365] Search manager - global options. Thanks Bill. + some string consolidation
- # [#21350] [PATCH] Language files in extension directory fail to load
+ # [#21350] Language files in extension directory fail to load
 
 09-Jul-2010 Jean-Marie Simonet
  $ Correcting strings
@@ -71,7 +74,7 @@ $ -> Language fix or change
  # [#21292] Images inserted into articles always go to the top in Firefox. Thanks Brad
 
 08-Jul-2010 Mark Dexter
-# Fixes to beez and beez5 templates (Angie Radtke)
+ # beez and beez5 template issues (Angie Radtke)
 
 08-Jul-2010 Jean-Marie Simonet
  # [#21341] Tinymce has a comma error in JS. Thanks Janich.
