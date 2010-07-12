@@ -33,7 +33,8 @@
 					name="catid"
 					type="category"
 					extension="com_content"
-					default="0"
+					multiple="true" 
+					size="10"	
 					label="JCATEGORY"
 					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC" />
 
@@ -81,15 +82,15 @@
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
 					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION">
 					<option
-						value="h1">MOD_ARTICLES_NEWS_H1</option>
+						value="h1">JH1</option>
 					<option
-						value="h2">MOD_ARTICLES_NEWS_H2</option>
-						<option
-						value="h3">MOD_ARTICLES_NEWS_H3</option>
-						<option
-						value="h4">MOD_ARTICLES_NEWS_H4</option>
-							<option
-						value="h5">MOD_ARTICLES_NEWS_H5</option>
+						value="h2">JH2</option>
+					<option
+						value="h3">JH3</option>
+					<option
+						value="h4">JH4</option>
+					<option
+						value="h5">JH5</option>
 				</field>
 
 				<field
@@ -125,6 +126,7 @@
 
 			<fieldset
 				name="advanced">
+					
 				<field
 					name="layout"
 					type="modulelayout"
@@ -163,6 +165,7 @@
 					<option
 						value="static"></option>
 				</field>
+
 			</fieldset>
 		</fields>
 	</config>
