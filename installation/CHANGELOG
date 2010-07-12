@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Jul-2010 Ian MacLennan
  # [#20507] SEF w/o .htaccess causes loss of css formatting and/or 404 errors
+ # [#21031] A number of not well formed errors in the backend
 
 12-Jul-2010 Mark Dexter
  # [#21196] Save order disk not disabled when not in ordering sort

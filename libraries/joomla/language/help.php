@@ -123,7 +123,7 @@ class JHelp
 
 		$url = str_replace($search, $replace, $url);
 
-		return $url;
+		return htmlspecialchars($url);
 	}
 
 	/**

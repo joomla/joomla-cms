@@ -141,7 +141,7 @@ class AdminModelHelp extends JModel
 	function &getLatestVersionCheck()
 	{
 		if (!$this->latest_version_check) {
-			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
+			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
 		return $this->latest_version_check;

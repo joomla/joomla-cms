@@ -82,7 +82,7 @@ abstract class JHtmlRules
 			$html[] = '		<dt><a href="#">'.$actionTitle.'</a></dt>';
 			$html[] = '		<dd>';
 			$html[] = '			<p>'.$actionDesc.'</p>';
-			$html[] = '			<table class="aclmodify-table" summary="'.$actionDesc.'">';
+			$html[] = '			<table class="aclmodify-table" summary="'.strip_tags($actionDesc).'">';
 			$html[] = '			<caption>'.JText::_('JLIB_HTML_ACCESS_MODIFY_DESC_CAPTION_ACL').' '.$actionTitle.' '.JText::_('JLIB_HTML_ACCESS_MODIFY_DESC_CAPTION_TABLE').'</caption>';
 			$html[] = '			<tr>';
 			$html[] = '				<th class="col1 hidelabeltxt">'.JText::_('JGROUPS').'</th>';

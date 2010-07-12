@@ -49,7 +49,7 @@ class JFormFieldMenuType extends JFormFieldList
 		$types = $this->_getTypeList();
 
 		$size	= ($v = $this->element['size']) ? ' size="'.$v.'"' : '';
-		$class	= ($v = $this->element['class']) ? 'class="'.$v.'"' : 'class="text_area"';
+		$class	= ($v = $this->element['class']) ? ' class="'.$v.'"' : 'class="text_area"';
 
 		switch ($this->value)
 		{

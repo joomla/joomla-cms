@@ -38,7 +38,7 @@ class JFormFieldUser extends JFormField
 	{
 		// Initialize variables.
 		$html = array();
-		$link = 'index.php?option=com_users&amp;view=users&layout=modal&amp;tmpl=component&amp;field='.$this->id;
+		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field='.$this->id;
 
 		// Initialize some field attributes.
 		$attr = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';

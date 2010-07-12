@@ -9,26 +9,27 @@
 
 // no direct access
 defined('_JEXEC') or die;
+$script = "\t".'function submitbutton(pressbutton) {'."\n";
+$script .= "\t\t".'var form = document.adminForm;'."\n";
+$script .= "\t\t".'if (pressbutton == \'mail.cancel\') {'."\n";
+$script .= "\t\t\t".'submitform(pressbutton);'."\n";
+$script .= "\t\t\t".'return;'."\n";
+$script .= "\t\t".'}'."\n";
+$script .= "\t\t".'// do field validation'."\n";
+$script .= "\t\t".'if (form.jform_subject.value == ""){'."\n";
+$script .= "\t\t\t".'alert("'.JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true).'");'."\n";
+$script .= "\t\t".'} else if (getSelectedValue(\'adminForm\',\'jform[group]\') < 0){'."\n";
+$script .= "\t\t\t".'alert("'.JText::_('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true).'");'."\n";
+$script .= "\t\t".'} else if (form.jform_message.value == ""){'."\n";
+$script .= "\t\t\t".'alert("'.JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true).'");'."\n";
+$script .= "\t\t".'} else {'."\n";
+$script .= "\t\t\t".'submitform(pressbutton);'."\n";
+$script .= "\t\t".'}'."\n";
+$script .= "\t\t".'}'."\n";
+
+
+JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-<script type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton == 'mail.cancel') {
-			submitform(pressbutton);
-			return;
-		}
-		// do field validation
-		if (form.jform_subject.value == ""){
-			alert("<?php echo JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true); ?>");
-		} else if (getSelectedValue('adminForm','jform[group]') < 0){
-			alert("<?php echo JText::_('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true); ?>");
-		} else if (form.jform_message.value == ""){
-			alert("<?php echo JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true); ?>");
-		} else {
-			submitform(pressbutton);
-		}
-	}
-</script>
 
 <form action="<?php echo(JRoute::_('index.php?option=com_users&view=mail')); ?>" name="adminForm" method="post">
 
