@@ -36,6 +36,7 @@ $ -> Language fix or change
 # [#21214] * Editing an article in front-end displays default site template
 # [#21356] Sorting and filtering in "Contacts" and "Newsfeeds" modals
 # [#21289] Missing Cache Manager Error Message
+# [#21359] Search Button Image in mod_search is not showing properly
 
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end
