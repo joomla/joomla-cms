@@ -35,6 +35,9 @@ $ -> Language fix or change
  # Missing CSS in front-end Beez (Thanks Angie)
  # [#21363] stats module layout in Beez  Thanks Bill.
  
+ 11-Jul-2010 Chris Davenport
+ # Follow up to [#21311] - add missing key references for 3 menu items
+ 
 11-Jul-2010 Mark Dexter
 # Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
 # [#21311] Fix Context Sensitive Help Problem
