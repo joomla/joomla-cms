@@ -621,7 +621,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	public function __call($command, $arguments)
 	{
 		$return = parent::__call($command, $arguments);
-		if ($command == 'waitForPageToLoad' && isset($arguments[1]) && $arguments[1] !== false)
+		if ($command == 'waitForPageToLoad' && (!isset($arguments[1]) || $arguments[1] !== false))
 		{
 			try
 			{

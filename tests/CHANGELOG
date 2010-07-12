@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jul-2010 Mark Dexter
+# Fix SeleniumJoomlaTestCase to report PHP notices
+# System test for [#21083] Category List menu link to unpublished category gives error
+
 12-Jul-2010 Mark Dexter
 # Fix failing system test for sample data changes
 # Update controlpanel0004Test for [#21196] Save order disk not disabled when not in ordering sort

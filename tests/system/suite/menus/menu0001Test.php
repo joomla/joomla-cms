@@ -77,7 +77,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 			} catch (Exception $e) {}
 			sleep(1);
 		}
-		
+
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 
@@ -89,7 +89,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		for ($second = 0; ; $second++) {
 			if ($second >= 10) $this->fail("timeout");
 			try {
-				 if ($this->isElementPresent("//ul[@id='new-modules-list']")) break;
+				if ($this->isElementPresent("//ul[@id='new-modules-list']")) break;
 			} catch (Exception $e) {}
 			sleep(1);
 		}
@@ -103,7 +103,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_published", "label=Published");
 		$this->select("jform[assignment]", "label=No pages");
 		$this->select("jform_position", "label=position-7");
-   	 	$this->select("jform[assignment]", "label=On all pages");
+		$this->select("jform[assignment]", "label=On all pages");
 		$this->select("jform_params_menutype", "label=Functional Test Menu");
 		echo "Save menu\n";
 		$this->click("//li[@id='toolbar-save']/a/span");
@@ -158,6 +158,67 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		echo "Finished testMenuItemAdd()\n";
+	}
+
+	function testUnpublishedCategoryList()
+	{
+		echo "Starting testUnpublishedCategoryList()\n";
+		$this->gotoAdmin();
+		$this->doAdminLogin();
+		echo "Create a new Category List menu item \n";
+		$this->click("link=Control Panel");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Main Menu");
+		$this->waitForPageToLoad("30000");
+		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->click("//input[@value='Select']");
+		for ($second = 0; ; $second++) {
+			if ($second >= 15) $this->fail("timeout");
+			try {
+				if ($this->isElementPresent("//div[contains(@id, 'sbox-content')]")) break;
+			} catch (Exception $e) {}
+			sleep(1);
+		}
+
+		$this->click("link=Category List");
+		$this->waitForPageToLoad("30000");
+		$this->type("jform_title", "Category List Test");
+		$this->select("jform_published", "label=Published");
+		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Category Manager");
+		$this->waitForPageToLoad("30000");
+		// Change to toggle published
+		$this->togglePublished("Sample Data-Articles");
+		$this->doAdminLogout();
+		$this->gotoSite();
+		$this->click("link=Category List Test");
+		$this->waitForPageToLoad("30000");
+		$this->assertElementContainsText("//dl[@id='system-message']", 'Category not found');
+
+		$this->gotoAdmin();
+		$this->doAdminLogin();
+		$this->click("link=Main Menu");
+		$this->waitForPageToLoad("30000");
+		$this->type("filter_search", "Category List Test");
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("checkall-toggle");
+		$this->click("//li[@id='toolbar-trash']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->select("filter_published", "label=Trash");
+		$this->waitForPageToLoad("30000");
+		$this->click("checkall-toggle");
+		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Category Manager");
+		$this->waitForPageToLoad("30000");
+		$this->togglePublished("Sample Data-Articles");
+		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
+		$this->doAdminLogout();
+		echo "Finished testUnpublishedCategoryList()\n";
+
 	}
 }
 
