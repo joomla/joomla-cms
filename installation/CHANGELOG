@@ -34,6 +34,7 @@ $ -> Language fix or change
 # [#20957] Batch processing of users is using old tables
 # [#21317] Deleting a category does not delete it's asset
 # [#21214] * Editing an article in front-end displays default site template
+# [#21356] Sorting and filtering in "Contacts" and "Newsfeeds" modals
 
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end

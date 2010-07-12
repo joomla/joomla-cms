@@ -68,9 +68,6 @@ $listDirn	= $this->state->get('list.direction');
 				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<th class="width-5">
-					<?php echo JHtml::_('grid.sort',  'JDATE', 'a.created', $listDirn, $listOrder); ?>
-				</th>
 				<th class="nowrap id-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
@@ -89,9 +86,6 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<td class="center">
-
 				</td>
 				<td class="center">
 					<?php echo (int) $item->id; ?>
