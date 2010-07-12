@@ -31,6 +31,7 @@ $ -> Language fix or change
 # [#21196] Save order disk not disabled when not in ordering sort
 # [#20963] Articles » List All Categories and Rss not working
 # [#21332] com_contact tabs aren't working in IE7 Patch
+# [#20957] Batch processing of users is using old tables
 
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end

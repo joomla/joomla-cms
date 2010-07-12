@@ -447,14 +447,14 @@ class UsersModelUser extends JModelAdmin
 				// Purge operation, remove the users from all groups.
 				if ($doDelete === 2) {
 					$this->_db->setQuery(
-						'DELETE FROM `#__core_acl_groups_aro_map`' .
-						' WHERE `aro_id` IN ('.implode(',', $user_ids).')'
+						'DELETE FROM `#__user_usergroup_map`' .
+						' WHERE `user_id` IN ('.implode(',', $user_ids).')'
 					);
 				} else {
 					// Remove the users from the group.
 					$this->_db->setQuery(
-						'DELETE FROM `#__core_acl_groups_aro_map`' .
-						' WHERE `aro_id` IN ('.implode(',', $user_ids).')' .
+						'DELETE FROM `#__user_usergroup_map`' .
+						' WHERE `user_id` IN ('.implode(',', $user_ids).')' .
 						' AND `group_id` = '.$group_id
 					);
 				}
@@ -475,7 +475,7 @@ class UsersModelUser extends JModelAdmin
 				}
 
 				$this->_db->setQuery(
-					'INSERT IGNORE INTO `#__core_acl_groups_aro_map` (`aro_id`, `group_id`)' .
+					'INSERT IGNORE INTO `#__user_usergroup_map` (`user_id`, `group_id`)' .
 					' VALUES '.implode(',', $tuples)
 				);
 
