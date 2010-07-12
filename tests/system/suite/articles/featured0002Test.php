@@ -41,15 +41,15 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->toggleFeatured('Administrator Components');
 		$this->toggleFeatured('Archive Module');
-		$this->toggleFeatured('Article Categories');
-		$this->toggleFeatured('Articles Modules');
+		$this->toggleFeatured('Article Categories Module');
+		$this->toggleFeatured('Articles Category Module');
 		
 		echo "Go to front page and check that articles are in desired order.\n";
 		$this->gotoSite();
 		$this->assertEquals("Administrator Components", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"), "Admin Comp should be r0c1");
 		$this->assertEquals("Archive Module", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-1']/h2"), "Archive should be r1c1");
-		$this->assertEquals("Article Categories", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"), "Article Categories should be r2c1");
-		$this->assertEquals("Articles Modules", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"), "Articles Modules should be r0c2");
+		$this->assertEquals("Article Categories Module", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"), "Article Categories should be r2c1");
+		$this->assertEquals("Articles Category Module", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"), "Articles Modules should be r0c2");
 		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"), "Joomla! should be r1c2");
 		$this->assertEquals("Joomla!", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"), "Beginners should be r0c3");
 		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-3']/h2"), "Professionals should be r1c3");
@@ -69,8 +69,8 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->assertEquals("Professionals", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-1']/h2"));
 		$this->assertEquals("Joomla!", $this->getText("//div[@class='items-row cols-3 row-2']/div[@class='item column-1']/h2"));
 		$this->assertEquals("Beginners", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-2']/h2"));
-		$this->assertEquals("Articles Modules", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"));
-		$this->assertEquals("Article Categories", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"));
+		$this->assertEquals("Articles Category Module", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-2']/h2"));
+		$this->assertEquals("Article Categories Module", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-3']/h2"));
 		$this->assertEquals("Archive Module", $this->getText("//div[@class='items-row cols-3 row-1']/div[@class='item column-3']/h2"));
 		$this->gotoAdmin();
 		echo "Go back to article manager and unselect featured articles.\n";
@@ -78,8 +78,8 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->toggleFeatured('Administrator Components');
 		$this->toggleFeatured('Archive Module');
-		$this->toggleFeatured('Article Categories');
-		$this->toggleFeatured('Articles Modules');
+		$this->toggleFeatured('Article Categories Module');
+		$this->toggleFeatured('Articles Category Module');
 		echo "Change Home menu item params back to original values.\n";
 		$this->click("link=Main Menu");
 		$this->waitForPageToLoad("30000");
