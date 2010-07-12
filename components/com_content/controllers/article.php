@@ -153,7 +153,13 @@ class ContentControllerArticle extends JController
 		$app->setUserState($context.'id',	$id);
 		$app->setUserState($context.'data',	null);
 
-		$this->setRedirect('index.php?option=com_content&view=form&layout=edit');
+		// ItemID required on redirect for correct Template Style 
+		$redirect = 'index.php?option=com_content&view=form&layout=edit';
+		if (JRequest::getInt('Itemid') == 0) {
+		} else {
+			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
+		}
+		$this->setRedirect($redirect);
 
 		return true;
 	}
