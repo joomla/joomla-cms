@@ -45,7 +45,6 @@ $listDirn	= $this->state->get('list.direction');
 			</label>
 			<select name="filter_category_id" id="filter_category_id" class="inputbox">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
-				<option value="0"><?php echo JText::_('JOPTION_NO_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 

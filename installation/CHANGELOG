@@ -30,7 +30,8 @@ $ -> Language fix or change
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end
  $ Typo in en-GB.ini + sorting strings
-
+ # Getting rid of useless No Category option
+ 
 11-Jul-2010 Mark Dexter
 # Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
 # [#21311] Fix Context Sensitive Help Problem

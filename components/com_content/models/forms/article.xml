@@ -91,7 +91,7 @@
 			class="inputbox"
 			required="true">
 			<option
-				value="0">JOPTION_NO_CATEGORY</option>
+				value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
 		<field
