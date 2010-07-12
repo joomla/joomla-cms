@@ -8,69 +8,69 @@
 
 
 @font-face {
-    font-family: 'Titillium Maps';
-    src: url("../fonts/TitilliumMaps29L002.eot")
-    }
+	font-family: 'Titillium Maps';
+	src: url("../fonts/TitilliumMaps29L002.eot")
+	}
 @font-face {
-    font-family: 'Titillium Maps';
-    src:
-         url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
-         url("../fonts/TitilliumMaps29L002.woff") format("woff")
-    }
+	font-family: 'Titillium Maps';
+	src:
+	 url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
+	 url("../fonts/TitilliumMaps29L002.woff") format("woff")
+	}
 
 body
 {
-        background: #fff url(../images/nature/header_outer.gif) repeat-x left 0;
-        color: #333;
-        font-family: arial, helvetica, sans-serif;
+	background: #fff url(../images/nature/header_outer.gif) repeat-x left 0;
+	color: #333;
+	font-family: arial, helvetica, sans-serif;
 }
 
 #all
 {
-        color: #333;
-        border:solid 0px #ddd  !important ;
+	color: #333;
+	border:solid 0px #ddd  !important ;
 }
 
 a:link,
 a:visited
 {
-        color:#0A5E69
+	color:#0A5E69
 }
 
 a:hover,
 a:active,
 a:focus
 {
-        background:#0A5E69;
-        color:#FFF;
+	background:#0A5E69;
+	color:#FFF;
 }
 
 ul li a.u2:focus,
 p a.u2:active
 {
-        background-color:#000;
-        color:#FFF;
+	background-color:#000;
+	color:#FFF;
 }
 
 input:focus
 {
-        border:solid 2px;
+	border:solid 2px;
 }
 
 fieldset
 {
-        border:solid 1px #ccc
+	border:solid 1px #ccc
 }
 
 .article-info
 {
-        color:#444;
+	color:#444;
 }
 
 .article-info dd span
 {
-    color:#444;
-    border-right:solid 0px;
+	color:#444;
+	border-right:solid 0px;
 
 }
 
@@ -80,28 +80,28 @@ fieldset
 
 #logo span
 {
-        color:#fff !important;
-        margin-top:6px
+	color:#fff !important;
+	margin-top:6px
 }
 
 .logoheader
 {
-        border-top:solid 1px transparent;
-        color:#fff;
-        background:url(../images/nature/bar.jpg) repeat-x top left;
+	border-top:solid 1px transparent;
+	color:#fff;
+	background:url(../images/nature/bar.jpg) repeat-x top left;
 
 }
 
 h1#logo
 {
-        font-family:  'Titillium Maps', Arial;
-        text-shadow:#333  0.1em 0.1em 0.2em;
+	font-family:  'Titillium Maps', Arial;
+	text-shadow:#333  0.1em 0.1em 0.2em;
 }
 
 
 #logo span.header1
 {
-        color:#fff;
+	color:#fff;
 }
 
 /* ##########################  header  ########################### */
@@ -111,110 +111,110 @@ h1#logo
 
 #header
 {
-        background:#185359 url(../images/nature/header.jpg) bottom left repeat-x ;
-        position:relative
+	background:#185359 url(../images/nature/header.jpg) bottom left repeat-x ;
+	position:relative
 }
 
 /* ++++++++++++++  lists, skiplinks  ++++++++++++++ */
 #header ul.menu
 {
-        background: url(../images/nature/navhoriz.png);
-        border:0;
-        border-bottom:solid 1px #237D85;
-        list-style-type:none;
+	background: url(../images/nature/navhoriz.png);
+	border:0;
+	border-bottom:solid 1px #237D85;
+	list-style-type:none;
 
 
 }
 
 #header ul.menu li
 {
-        border:0;
+	border:0;
 
 }
 
 #header ul.menu li a:link,
 #header ul.menu li a:visited
 {
-        color:#fff;
-        border:0;
-        border-right:solid 1px #237D85;
-        background:transparent;
-        padding:10px ;
+	color:#fff;
+	border:0;
+	border-right:solid 1px #237D85;
+	background:transparent;
+	padding:10px ;
 }
 
 #header ul.menu li a:hover,
 #header ul.menu li a:active,
 #header ul.menu li a:focus
 {
-        color:#333;
-        background:#bddfb3;
-        padding:10px
+	color:#333;
+	background:#bddfb3;
+	padding:10px
 }
 
 #header ul li.active a:link,
 #header ul li.active a:visited
 {
-        color:#333;
-        border-right:solid 1px #237D85;
-        background:#bddfb3 !important;
-        padding: 10px  ;
+	color:#333;
+	border-right:solid 1px #237D85;
+	background:#bddfb3 !important;
+	padding: 10px  ;
 
 }
 
 .skiplinks,
 .skiplinks li
 {
-        border:solid 0px #000;
+	border:solid 0px #000;
 }
 #header ul.skiplinks
 {
-        width:100%;
-        text-align:left;
-        background:none;
-        z-index:20000;
-        top:0;
-        display:inline;
-        padding:0
+	width:100%;
+	text-align:left;
+	background:none;
+	z-index:20000;
+	top:0;
+	display:inline;
+	padding:0
 }
 
 #header ul.skiplinks li a.u2:active,
 #header ul.skiplinks li a.u2:focus
 
 {
-        background:#333 !important;
-        color:#fff !important;
-        border:solid 1px;
-        top:0px !important;
-        z-index:1000000000000 !important;
-        left:10px !important;
-        display:block;
-                width:14em;
-                display:block
+	background:#333 !important;
+	color:#fff !important;
+	border:solid 1px;
+	top:0px !important;
+	z-index:1000000000000 !important;
+	left:10px !important;
+	display:block;
+		width:14em;
+		display:block
 }
 /* ++++++++++++++  fontsize  ++++++++++++++ */
 
 #fontsize
 {
-        color:#00710e;
+	color:#00710e;
 }
 
 #fontsize p a:link,
 #fontsize p a:visited
 {
-        color:#fff
+	color:#fff
 }
 
 #fontsize p a:hover,
 #fontsize p a:active,
 #fontsize p a:focus
 {
-        background:#000;
-        color:#fff
+	background:#000;
+	color:#fff
 }
 
 #fontsize h3
 {
-        color:#fff;
+	color:#fff;
 }
 
 
@@ -222,19 +222,19 @@ h1#logo
 
 #header form .inputbox
 {
-        background:#E1E9E9 !important;
+	background:#E1E9E9 !important;
 }
 
 #header form .inputbox:focus
 {
-        border:solid 2px #000;
+	border:solid 2px #000;
 }
 
 #header form .button
 {
-        border:solid 1px #999;
-        background:#664335 url(../images/nature/searchbutton.png) ;
-        color:#fff;
+	border:solid 1px #999;
+	background:#664335 url(../images/nature/searchbutton.png) ;
+	color:#fff;
 }
 
 /* ##########################  contentarea  ########################### */
@@ -242,7 +242,7 @@ h1#logo
 #contentarea,
 #contentarea2
 {
-        background:#fff url(../images/nature/box1.png) repeat-x;
+	background:#fff url(../images/nature/box1.png) repeat-x;
 }
 
 
@@ -250,27 +250,27 @@ h1#logo
 
 #breadcrumbs
 {
-        color:#555;
+	color:#555;
 }
 
 #breadcrumbs span
 {
-        color:#555;
+	color:#555;
 }
 
 #breadcrumbs span a:link,
 #breadcrumbs span a:visited
 {
-        background:#fff;
-        color:#19545a;
+	background:#fff;
+	color:#19545a;
 }
 
 #breadcrumbs span a:hover,
 #breadcrumbs span a:active,
 #breadcrumbs span a:focus
 {
-        background:#19545a;
-        color:#fff;
+	background:#19545a;
+	color:#fff;
 }
 
 
@@ -278,46 +278,46 @@ h1#logo
 
 .module_content
 {
-        border:solid 1px #ddd;
-        background:#fff
+	border:solid 1px #ddd;
+	background:#fff
 }
 .moduletable_js
 {
-        border:solid 0px #ddd;
+	border:solid 0px #ddd;
 }
 
 #right .moduletable_js
 {
-        border:0
+	border:0
 }
 
 #nav h3
 {
-        border-bottom:solid 1px #ddd;
-        color:#0A5E69;
+	border-bottom:solid 1px #ddd;
+	color:#0A5E69;
 }
 
 h3.js_heading
 {
-        border-bottom:solid 1px #fff !important;
-        background:/*#ddf0f2  #E1E9E9*/ #095469 url(../images/nature/h3_js_bg.gif) bottom left repeat-x;
-        font-family: 'Titillium Maps', Arial;
+	border-bottom:solid 1px #fff !important;
+	background:/*#ddf0f2  #E1E9E9*/ #095469 url(../images/nature/h3_js_bg.gif) bottom left repeat-x;
+	font-family: 'Titillium Maps', Arial;
 }
 
 h3.js_heading span.backh
 {
-        border:solid 0px #000
+	border:solid 0px #000
 }
 
 h3.js_heading span.backh1
 {
-        color:#fff
+	color:#fff
 }
 
 #right h3
 {
-        color:#0a5e69;
-        border-bottom:solid 1px #ddd;
+	color:#0a5e69;
+	border-bottom:solid 1px #ddd;
 }
 
 #right h3 span.backh
@@ -332,17 +332,17 @@ h3.js_heading span.backh1
 
 #right h3 span.backh3
 {
-        color:#664335
+	color:#664335
 }
 
 h3.js_heading a
 {
-        border:0
+	border:0
 }
 
 h3.js_heading a img
 {
-        border:0
+	border:0
 }
 
 h3.js_heading a:link,
@@ -356,7 +356,7 @@ h3.js_heading a:focus
 
 #nav h3
 {
-        font-family: 'Titillium Maps', Arial;
+	font-family: 'Titillium Maps', Arial;
 }
 
 #nav h3.js_heading a:focus
@@ -366,58 +366,53 @@ h3.js_heading a:focus
 
 #nav form
 {
-        color:#000;
+	color:#000;
 }
 
 #nav form a:hover,
 #nav form a:active,
 #nav form a:focus
 {
-        color:#fff;
-        background:#044b63;
+	color:#fff;
+	background:#044b63;
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
-
 #nav .moduletable-example ul.menu
 {
-        background:#fff;
-        border:0;
+	background:#fff;
+	border:0;
 }
 
 ul.menu
 {
-        border:0;
-        background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
-        border:solid 0px #eee;
+	border:0;
+	background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
+	border:solid 0px #eee;
 }
 
 .module_content ul.menu
 {
-        border:0;
+	border:0;
 }
 
 ul.menu li
 {
-        border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
-ul.menu li a
-{
-
-}
 
 ul.menu li a:link,
 ul.menu li a:visited
 {
-        color:#444;
-        background:url(../images/nature/karo.gif) 5px 12px no-repeat
+	color:#444;
+	background:url(../images/nature/karo.gif) 5px 12px no-repeat
 }
 
 ul.menu li.active a:link,
 ul.menu li.active a:visited
 {
-        color:#444;
+	color:#333;
 }
 
 ul.menu li a:hover,
@@ -427,8 +422,8 @@ ul.menu li.active a:hover,
 ul.menu li.active a:active,
 ul.menu li.active a:focus
 {
-        background:#fff url(../images/nature/nav_level_1.gif) repeat-x;
-        color:#444;
+	background: #fff url(../images/nav_level_1.gif) repeat-x ;
+	color:#0A5E69;
 }
 
 
@@ -436,38 +431,38 @@ ul.menu li.active a:focus
 
 ul.menu li ul
 {
-        border:solid 0px #eee;
+	border:solid 0px #eee;
 }
 
  ul.menu li ul li
 {
-        border:solid 0px #000;
-        background:#fff;
+	border:solid 0px #000;
+	background:#fff;
 }
 
  ul.menu li.active ul li a:link,
  ul.menu li.active ul li a:visited
 {
-        color:#000;
-        border:0;
-        border-bottom:solid 1px #fff;
-        background:#e8e8e8 /* url(../images/nature/arrow_nav.gif) no-repeat right 7px */;
+	color:#444;
+	border:0;
+	border-bottom:solid 1px #fff;
+	background: #e8e8e8
 }
 
  ul.menu li.active ul li.active a:link,
  ul.menu li.active ul li.active a:visited
 {
-        border:0;
-        color:#333;
-        border-bottom:solid 1px #fff;
+	border:0;
+	color:#333;
+	border-bottom:solid 1px #fff;
 }
 
  ul.menu li.active ul li a:hover,
  ul.menu li.active ul li a:active,
  ul.menu li.active ul li a:focus
 {
-        background:#035065 !important;
-        color:#fff !important;
+	background:#666 !important;
+	color:#fff !important;
 }
 
 
@@ -475,22 +470,23 @@ ul.menu li ul
 
 ul.menu li ul li ul
 {
-        border:0 !important;
-        background:#f5f5f5 !important;
+	border:0 !important;
+	background:#f5f5f5 !important;
+	padding-bottom:0
 }
 
 ul.menu li.active ul li.active ul li a:link,
 ul.menu li.active ul li.active ul li a:visited
 {
-        background:#f5f5f5 ;
-        border-bottom:solid 1px #fff;
-        color:#444
+	background:#f5f5f5 ;
+	border-bottom:solid 1px #fff;
+	color:#444
 }
 
 ul.menu li.active ul li.active ul li.active a:link,
 ul.menu li.active ul li.active ul li.active a:visited
 {
-        color:#333;
+	color:#333;
 }
 
 
@@ -499,27 +495,58 @@ ul.menu li.active ul li.active ul li.active a:visited
 
 ul.menu li ul li ul li ul
 {
-        border:solid 1px #eee !important;
-                padding-top:10px !important;
-                padding-bottom:10px !important;
-                background:#fff url(../images/nature/level4.png) repeat-x !important;
+	border:solid 1px #eee !important;
+	padding-top:10px !important;
+	padding-bottom:10px !important;
+	background:#fff url(../images/nature/level4.png) repeat-x !important;
 }
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li a:visited
-{font-weight:normal; padding: 3px 2px 3px 40px; font-size:0.9em;
-background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px; color:#444}
+{
+	font-weight:normal;
+	padding: 3px 2px 3px 40px;
+	font-size:0.9em;
+	background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px;
+	color:#444
+}
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
-{font-weight:bold}
+{font-weight:bold;
+color:#333 }
 
 
 
+/* ++++++++++++++  fifth level  ++++++++++++++ */
+
+ul.menu li ul li ul li ul li ul
+{
+	border:solid 0px #eee !important;
+	padding-top:5px !important;
+	padding-bottom:10px !important;
+	background:#fff url(../images/nature/level4.png) repeat-x !important;
+}
 
 
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
+{
+	font-weight:normal;
+	padding: 3px 2px 3px 5px;
+	font-size:0.9em;
+	background:#fff ;
+	color:#444;
+	margin:0 10px  0 35px;
+	border-bottom:solid 1px #ddd
+}
+
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visited
+{font-weight:bold; color:#333}
 
 /* ##########################  content - main   ########################### */
 
@@ -539,16 +566,16 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 #main a:active,
 #main a:focus
 {
-        background:#0A5E69;
-        color:#fff;
+	background:#0A5E69;
+	color:#fff;
 }
 
 #main th a:hover,
 #main th a:active,
 #main th a:focus
 {
-        background:#333;
-        color:#fff;
+	background:#333;
+	color:#fff;
 }
 
 .items-row
@@ -559,12 +586,12 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 .column-1,
 .column-2
 {
-        border: solid 0px;
+	border: solid 0px;
 }
 
 .item-separator
 {
-        border: solid 0px #333333;
+	border: solid 0px #333333;
 }
 
 #main ul li
@@ -574,26 +601,26 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 
 .small
 {
-        border:solid 0;
+	border:solid 0;
 }
 
 ul#archive-items li
 {
-        border-bottom:solid 1px #ddd
+	border-bottom:solid 1px #ddd
 }
 
 /* ++++++++++++++  images  ++++++++++++++ */
 
 .image-left
 {
-        border:solid 1px #ddd;
-                padding:2px
+	border:solid 1px #ddd;
+		padding:2px
 }
 
 .image-right
 {
-          border:solid 1px #ddd;
-                padding:2px
+	  border:solid 1px #ddd;
+		padding:2px
 }
 
 
@@ -609,41 +636,41 @@ ul#archive-items li
 
 #main h1
 {
-        color:#333;
-        border-top:solid 0px #ddd;
-        border-bottom:solid 1px #ddd;
-        font-family: 'Titillium Maps', Arial;
+	color:#333;
+	border-top:solid 0px #ddd;
+	border-bottom:solid 1px #ddd;
+	font-family: 'Titillium Maps', Arial;
 }
 
 /* h1 on frontpage */
 /*
 #main .blog-featured h1
 {
-        border-top:solid 0px #ddd;
-        border-bottom:solid 0px #ddd;
+	border-top:solid 0px #ddd;
+	border-bottom:solid 0px #ddd;
 }
 */
 .items-row h2
 {
-        color:#0A5E69;
-        border-top:solid 1px #ddd;
-        border-bottom:solid 1px #ddd;
+	color:#0A5E69;
+	border-top:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 .items-leading h2
 {
-        color:#0A5E69;
+	color:#0A5E69;
 }
 
 #main h2
 {
-        color:#0A5E69;
-        font-family: 'Titillium Maps', Arial;
+	color:#0A5E69;
+	font-family: 'Titillium Maps', Arial;
 }
 
 #main h2 a
 {
-        color:#333
+	color:#333
 }
 
 
@@ -654,9 +681,9 @@ ul#archive-items li
 a.readmore:link,
 a.readmore:visited
 {
-        color:#444;
-        background:#eee url(../images/nature/arrow1.gif) repeat-x left top;
-        border:solid 1px #ddd;
+	color:#444;
+	background:#eee url(../images/nature/arrow1.gif) repeat-x left top;
+	border:solid 1px #ddd;
 }
 
 .readmore a:hover,
@@ -666,58 +693,58 @@ a.readmore a:hover,
 a.readmore a:active,
 a.readmore a:focus
 {
-        background:#555 url(../images/nature/arrow2.gif) no-repeat left 6px !important;
-        color:#fff;
+	background:#555 url(../images/nature/arrow2.gif) no-repeat left 6px !important;
+	color:#fff;
 }
 
 a.readmore:hover,
 a.readmore:active,
 a.readmore:focus
 {
-        background:#555;
-        color:#fff;
+	background:#555;
+	color:#fff;
 }
 
 /* ++++++++++++++  icons  ++++++++++++++ */
 
 .actions img
 {
-        border:0;
+	border:0;
 }
 
 /* ++++++++++++++  items-more  ++++++++++++++ */
 
 #main .items-more h3
 {
-        border-bottom:solid 1px #ddd;
-        border-top:solid 1px #ddd;
-        color:#444;
+	border-bottom:solid 1px #ddd;
+	border-top:solid 1px #ddd;
+	color:#444;
 }
 
 #main .items-more ol
 {
-        color:#000;
+	color:#000;
 }
 
 #main .items-more ol li a
 {
-        background:#FFF url(../images/nature/blog_more.gif) no-repeat  !important;
-        color:#0A5E69
+	background:#FFF url(../images/nature/blog_more.gif) no-repeat  !important;
+	color:#0A5E69
 }
 
 #main .items-more ol li a:hover,
 #main .items-more ol li a:active,
 #main .items-more ol li a:focus
 {
-        background: #555 url(../images/nature/arrow2.gif) no-repeat 0px center;
-        color:#0A5E69;
+	background: #555 url(../images/nature/arrow2.gif) no-repeat 0px center;
+	color:#0A5E69;
 }
 
 /* ++++++++++++++  pagination  ++++++++++++++ */
 
 #main .pagination
 {
-        border-top:solid 1px #ddd;
+	border-top:solid 1px #ddd;
 }
 
 
@@ -725,7 +752,7 @@ a.readmore:focus
 
 table.contenttoc
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 
@@ -738,33 +765,33 @@ table.contenttoc
 
 #right .moduletable
 {
-        color:#000;
-        border:solid 0px #eee;
-        border-top:0
+	color:#000;
+	border:solid 0px #eee;
+	border-top:0
 }
 
 #right h3
 {
-        color:#333
+	color:#333
 }
 
 #right h4
 {
-        color:#000;
-        border:solid 0;
+	color:#000;
+	border:solid 0;
 }
 
 #right ul
 {
-        border:solid 0 #ccc;
-        color:#000;
+	border:solid 0 #ccc;
+	color:#000;
 }
 
 
 /* ++++++++++++++  button for closing right column  ++++++++++++++ */
 #close span
 {
-        color:#000;
+	color:#000;
 }
 
 /* ##########################  modules  ########################### */
@@ -776,7 +803,7 @@ table.contenttoc
 .latestnews li a:link,
 .latestnews li a:visited
 {
-        background: url(../images/personal/arrow2_grey.png) 2px 7px  no-repeat ;
+	background: url(../images/personal/arrow2_grey.png) 2px 7px  no-repeat ;
 }
 
 .mostread li a:hover,
@@ -786,19 +813,19 @@ table.contenttoc
 .mostread li a:focus,
 .latestnews li a:focus
 {
-        background:#555 url(../images/arrow_white_grey.png) 2px 6px  no-repeat !important;
+	background:#555 url(../images/arrow_white_grey.png) 2px 6px  no-repeat !important;
 }
 
 /* ++++++++++++++  newsfeed  ++++++++++++++ */
 
 ul.newsfeed
 {
-        border:solid 0px #000;
+	border:solid 0px #000;
 }
 
 .newsfeed-item
 {
-        border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 .newsfeed-item h5 a
@@ -811,20 +838,20 @@ ul.newsfeed
 
 ul.newsflash-horiz
 {
-        border:solid 1px #eee;
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+	border:solid 1px #eee;
+	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
 }
 
 .newsflash-horiz li
 {
-        border:solid 0px #eee;
-        background:#f5f5f5;
+	border:solid 0px #eee;
+	background:#f5f5f5;
 }
 
 ul.newsflash-horiz li h4
 {
-    border-bottom:solid 1px #fff;
-    font-family: 'Titillium Maps', Arial;
+	border-bottom:solid 1px #fff;
+	font-family: 'Titillium Maps', Arial;
 }
 
 /* newsflash vertical */
@@ -838,40 +865,40 @@ ul.newsflash-horiz li h4
 
 .banneritem
 {
-        border:0
+	border:0
 }
 
 .banneritem a
 {
-        background:none
+	background:none
 }
 
 .banneritem a img
 {
-        background:none;
-        border:0
+	background:none;
+	border:0
 }
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
 #form-login .inputbox
 {
-        border:solid 1px #ddd;
-        background:url(../images/content_bg.gif) repeat-x;
+	border:solid 1px #ddd;
+	background:url(../images/content_bg.gif) repeat-x;
 
 }
 
 fieldset.input
 {
-        border:0;
+	border:0;
 }
 
 input.button,
 button.button
 {
-        background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
-        border:1px solid #DDDDDD;
-        color:#444444;
+	background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
+	border:1px solid #DDDDDD;
+	color:#444444;
 }
 
 
@@ -879,48 +906,48 @@ button.button
 
 ul.tabs
 {
-        border:solid 1px #ddd;
-        border-bottom:0;
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+	border:solid 1px #ddd;
+	border-bottom:0;
+	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
 }
 
 ul.tabs li
 {
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
-        border-right:solid 1px #ddd
+	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+	border-right:solid 1px #ddd
 }
 
 ul.tabs li a:link,
 ul.tabs li a:visited
 {
-        color:#333;
+	color:#333;
 }
 
 ul.tabs li a:hover,
 ul.tabs li a:active,
 ul.tabs li a:focus
 {
-        color:#000
+	color:#000
 }
 
 .tabcontent
 {
-        border:solid 1px #ddd;
-        background:#fff;
-        color:#000;
+	border:solid 1px #ddd;
+	background:#fff;
+	color:#000;
 }
 
 .tabcontent .linkclosed
 {
-        color:#000;
-        border-bottom:solid 1px #e5e5e5;
+	color:#000;
+	border-bottom:solid 1px #e5e5e5;
 }
 
 ul.tabs li a.linkopen
 {
-        background:#fff;
-        color:#333;
-        border:0
+	background:#fff;
+	color:#333;
+	border:0
 }
 
 ul.tabs li a.linkclosed:hover,
@@ -930,8 +957,8 @@ ul.tabs li a.linkopen:hover,
 ul.tabs li a.linkopen:active,
 ul.tabs li a.linkopen:focus
 {
-        background:#555;
-        color:#fff
+	background:#555;
+	color:#fff
 }
 
 
@@ -939,84 +966,84 @@ ul.tabs li a.linkopen:focus
 
 .category-module li
 {
-        border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 .category-module li li
 {
-        border:0
+	border:0
 }
 
 /* ##########################  search   ########################### */
 
 .searchintro img
 {
-        border:0px
+	border:0px
 }
 
 .inputbox:focus
 {
-        border:solid 2px #000;
+	border:solid 2px #000;
 }
 
 .word
 {
-        background:#fff;
-        border:solid 0px #ccc ;
+	background:#fff;
+	border:solid 0px #ccc ;
 }
 
 .word input
 {
-        background:#fff;
-        border:solid 1px #999;
-        color:#044b63;
+	background:#fff;
+	border:solid 1px #999;
+	color:#044b63;
 }
 
 .only
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 .phrases
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 /* ++++++++++++++  selects  ++++++++++++++ */
 .phrases .inputbox
 {
-        background:#fff;
-        color:#000;
+	background:#fff;
+	color:#000;
 }
 
 .phrases .inputbox option
 {
-        background:#f5f5f5;
-        border-bottom:solid 1px #ccc;
+	background:#f5f5f5;
+	border-bottom:solid 1px #ccc;
 }
 
 .phrases .inputbox option a:hover
 {
-        background:#C00;
-        border-color:#CFD0D6;
-        color:#fff;
+	background:#C00;
+	border-color:#CFD0D6;
+	color:#fff;
 }
 
-/* ++++++++++++++  search results    ++++++++++++++++++ */
+/* ++++++++++++++  search results	++++++++++++++++++ */
 
 dl.search-results
 {
-        background:#f5f5f5;
+	background:#f5f5f5;
 }
 
 dl.search_results dt.result-title
 {
-        border-top:dotted 1px #ddd
+	border-top:dotted 1px #ddd
 }
 
 dl.search_results dd.result-created
 {
-        border-bottom:solid 5px #fff;
+	border-bottom:solid 5px #fff;
 }
 
 /* ##########################  forms   ########################### */
@@ -1025,12 +1052,12 @@ dl.search_results dd.result-created
 
 .invalid
 {
-        border-color:red !important;
+	border-color:red !important;
 }
 
 label.invalid
 {
-        color:red;
+	color:red;
 }
 
 /* ##########################  user profile  ########################### */
@@ -1038,19 +1065,19 @@ label.invalid
 #users-profile-core,
 #users-profile-custom
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 #member-profile fieldset
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 
 /* ##########################  tables   ########################### */
 table
 {
-        border:solid 1px #ddd !important
+	border:solid 1px #ddd !important
 }
 
 tbody
@@ -1061,7 +1088,7 @@ tbody
 tr.odd,
 .cat-list-row1
 {
-        background:url(../images/news.gif)  repeat-x;
+	background:url(../images/news.gif)  repeat-x;
 }
 
 table.newsfeeds td,
@@ -1075,8 +1102,8 @@ table.newsfeeds th,
 table.category th,
 table.jlist-table th
 {
-        background:#444;
-        color:#fff
+	background:#444;
+	color:#fff
 }
 
 table.weblinks th a,
@@ -1084,12 +1111,12 @@ table.newsfeeds th a,
 table.category th a,
 table.jlist-table th a
 {
-        color:#fff !important
+	color:#fff !important
 }
 
 td.table_footer
 {
-        background:#ddd url(../images/table_footer.gif) bottom left repeat-x;
+	background:#ddd url(../images/table_footer.gif) bottom left repeat-x;
 }
 
 td.counter
@@ -1110,18 +1137,18 @@ td p
 
 table.category th a img
 {
-        border:solid 0px ;
+	border:solid 0px ;
 }
 
 /* for opera */
 tr, td
 {
-        border:solid 1px #ddd
+	border:solid 1px #ddd
 }
 
 fieldset.filters
 {
-        border:0;
+	border:0;
 }
 
 
@@ -1129,25 +1156,25 @@ fieldset.filters
 
 .contact form
 {
-        background:#fff;
-        color:#000;
+	background:#fff;
+	color:#000;
 }
 
 .contact input
 {
-        background:#fff;
-        color:#000;
+	background:#fff;
+	color:#000;
 }
 
 .contact input.invalid,
 .contact textarea.invalid
 {
-        border:solid 2px red;
+	border:solid 2px red;
 }
 
 .contact label.invalid
 {
-        color:red;
+	color:red;
 }
 
 
@@ -1155,15 +1182,15 @@ fieldset.filters
 
 p.error
 {
-        color:#044b63;
-    background:#eee;
-    border-top:3px solid #044b63;
-    border-bottom:3px solid #044b63;
+	color:#044b63;
+	background:#eee;
+	border-top:3px solid #044b63;
+	border-bottom:3px solid #044b63;
 }
 
 body.contentpane
 {
-    background:#fff;
+	background:#fff;
 }
 
 
@@ -1180,28 +1207,28 @@ color:#fff}
 
 #footer-outer
 {
-        background:#fff url(../images/nature/headingback.png) repeat-x;
-        border-top:solid 1px #ccc
+	background:#fff url(../images/nature/headingback.png) repeat-x;
+	border-top:solid 1px #ccc
 }
 
 .box1
 {
-        border-right:solid 1px #ddd
+	border-right:solid 1px #ddd
 }
 
 .box3
 {
-        border-left:solid 1px #ddd;
+	border-left:solid 1px #ddd;
 }
 
 .box h3
 {
-        font-family: 'Titillium Maps', Arial;
+	font-family: 'Titillium Maps', Arial;
 }
 
 #bottom a img
 {
-        border:0 none;
+	border:0 none;
 }
 
 
@@ -1210,12 +1237,12 @@ color:#fff}
 
 .contentpaneopen_edit img
 {
-        border:0
+	border:0
 }
 
 form.editor fieldset
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 
@@ -1223,12 +1250,12 @@ form.editor fieldset
 
 form#adminForm
 {
-        border:solid 0px #000
+	border:solid 0px #000
 }
 
 form#adminForm fieldset
 {
-        border:solid 1px #ddd
+	border:solid 1px #ddd
 }
 
 legend
@@ -1236,22 +1263,22 @@ legend
 /* ++++++++++++++  tooltip  ++++++++++++++ */
 .tip
 {
-        border:solid 1px #333;
-    background:#ffffcc;
+	border:solid 1px #333;
+	background:#ffffcc;
 }
 
 
 /*-------------------------------*/
 .australia
 {
-        background:#f5f5f5 url(../images/nature/koala.png) top right no-repeat;
-        border:solid 1px #ddd
+	background:#f5f5f5 url(../images/nature/koala.png) top right no-repeat;
+	border:solid 1px #ddd
 }
 
 .australia h3
 {
-        font-family: 'Titillium Maps', Arial;
-        color:#444
+	font-family: 'Titillium Maps', Arial;
+	color:#444
 }
 
 .australia a
@@ -1278,78 +1305,78 @@ table.pagenav td
 /* contact  plain */
 #main .contact h3
 {
-    border-bottom:solid 1px #ddd;
-    margin: 20px 0
+	border-bottom:solid 1px #ddd;
+	margin: 20px 0
 }
 
 .jform-required
 {
-    font-weight:bold;
-    margin:10px 0;
-    background:#fff url(../images/req.png) no-repeat;
-    padding:10px 40px
+	font-weight:bold;
+	margin:10px 0;
+	background:#fff url(../images/req.png) no-repeat;
+	padding:10px 40px
 
 }
 
 .contact .inputbox
 {
-    background:#fff url(../images/content_bg.gif) repeat-x ;
-    border:solid 1px #ccc;
-    padding:3px
+	background:#fff url(../images/content_bg.gif) repeat-x ;
+	border:solid 1px #ccc;
+	padding:3px
 }
 /* contact  slider */
 
 .panel
 {
-    border:solid 1px #ddd;
-    margin-top:-1px
+	border:solid 1px #ddd;
+	margin-top:-1px
 
 }
 #main .contact .panel h3
 {
-    margin:0px 0 0px 0;
-    padding: 0;
-    background:#eee;
-    border:0
+	margin:0px 0 0px 0;
+	padding: 0;
+	background:#eee;
+	border:0
 }
 .panel h3 a
 {
-    display:block;
-    padding:6px;
-    text-decoration:none;
-    color:#444;
-    padding:6px;
+	display:block;
+	padding:6px;
+	text-decoration:none;
+	color:#444;
+	padding:6px;
 }
 
 
 .panel h3.jpane-toggler a
 {
-    background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
+	background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
 }
 .panel h3.jpane-toggler-down a
 {
-    background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
-    border-bottom:solid 1px #ddd;
+	background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
+	border-bottom:solid 1px #ddd;
 }
 
 .jpane-slider
 {
-    border:solid 0px;
-    padding:0px 10px !important;
-    margin:0;
-    background: url(../images/nav_level_1.gif) repeat-x ;
+	border:solid 0px;
+	padding:0px 10px !important;
+	margin:0;
+	background: url(../images/nav_level_1.gif) repeat-x ;
 }
 
 .panel .jcontact-form,
 .panel  .contact-miscinfo
 {
-    padding:10px
+	padding:10px
 }
 
 .contact .panel .jcontact-form form,
 .contact .panel .jcontact-address
 {
-    margin:20px 0 0 0
+	margin:20px 0 0 0
 }
 
 
@@ -1358,5 +1385,5 @@ table.pagenav td
 div.current
 {
 
-    background: url(../images/nav_level_1.gif) repeat-x ;
+	background: url(../images/nav_level_1.gif) repeat-x ;
 }

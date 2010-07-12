@@ -8,70 +8,70 @@
 
 
 @font-face {
-    font-family: 'Titillium Maps';
-    src: url("../fonts/TitilliumMaps29L002.eot")
-    }
+	font-family: 'Titillium Maps';
+	src: url("../fonts/TitilliumMaps29L002.eot")
+	}
 @font-face {
-    font-family: 'Titillium Maps';
-    src:
-        url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
-        url("../fonts/TitilliumMaps29L002.woff") format("woff")
-    }
+	font-family: 'Titillium Maps';
+	src:
+	url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
+	url("../fonts/TitilliumMaps29L002.woff") format("woff")
+	}
 
 body
 {
-        background: #e0dedf  url(../images/personal/bg2.png) repeat-x;
-        color: #333;
-        font-family: arial, helvetica, sans-serif;
+	background: #e0dedf  url(../images/personal/bg2.png) repeat-x;
+	color: #333;
+	font-family: arial, helvetica, sans-serif;
 }
 
 #all
 {
-        color: #333;
-        border:solid 0px ;
-        padding-top:0px;
-        background:#fff
+	color: #333;
+	border:solid 0px ;
+	padding-top:0px;
+	background:#fff
 }
 
 #header
 {
-       padding-top:10em
+	padding-top:10em
 }
 
 a:link,
 a:visited
 {
-        color:#095197
+	color:#095197
 }
 
 a:hover,
 a:active,
 a:focus
 {
-        background:#095197;
-        color:#FFF;
+	background:#095197;
+	color:#FFF;
 }
 
 input:focus
 {
-        border:solid 2px;
+	border:solid 2px;
 }
 
 fieldset
 {
-        border:solid 0px #ccc
+	border:solid 0px #ccc
 }
 
 .article-info
 {
-        color:#444
+	color:#444
 }
 
 .article-info dd span
 {
-    color:#444;
-    border-right:solid 0px;
-    background:#eee
+	color:#444;
+	border-right:solid 0px;
+	background:#eee
 }
 
 /* ##########################  back  ########################### */
@@ -85,11 +85,11 @@ fieldset
 
 #logo span
 {
-        color:#fff;
-        padding-left:50px;
-        font-size:0.3em !important;
-        text-transform:none;
-        font-family:arial, sans-serif
+	color:#fff;
+	padding-left:50px;
+	font-size:0.3em !important;
+	text-transform:none;
+	font-family:arial, sans-serif
 }
 #all #header
 {padding-top:8.0em ;
@@ -97,34 +97,34 @@ fieldset
 .logoheader
 {
 
-        background:  #0c1a3e  URL(../images/personal/personal2.png) no-repeat bottom right ;
-        color:#fff;
-        min-height:200px;
-        margin:0em 10px 0 10px !important;
+	background:  #0c1a3e  URL(../images/personal/personal2.png) no-repeat bottom right ;
+	color:#fff;
+	min-height:200px;
+	margin:0em 10px 0 10px !important;
 
 }
 
 
 h1#logo
 {
-       font-family: 'Titillium Maps',  Arial;
-       padding:0.9em 20px 20px 10px;
-       text-transform:uppercase;
-       font-weight:normal;
-       margin-top:0;
+	   font-family: 'Titillium Maps',  Arial;
+	   padding:0.9em 20px 20px 10px;
+	   text-transform:uppercase;
+	   font-weight:normal;
+	   margin-top:0;
 }
 
 
 
 #line
 {
-                width:98% ;
-                max-width:100% ;
-                top:0px;
-                left:0px;
-                padding:5px 10px !important;
-                margin-right:10px;
-                text-align:right;
+	width:98% ;
+	max-width:100% ;
+	top:0px;
+	left:0px;
+	padding:5px 10px !important;
+	margin-right:10px;
+	text-align:right;
 
 }
 
@@ -133,9 +133,9 @@ h1#logo
 
 #header
 {
-        background:#fff;
-        font-size:1em;
-        position:relative
+	background:#fff;
+	font-size:1em;
+	position:relative
 
 
 }
@@ -148,32 +148,32 @@ h1#logo
    /* top:62px; */
    top:5em;
 
-        padding: 0px 0px 0px 0 ;
-        background:#e0e0e0  url(../images/personal/ecke.gif) top left repeat-x ;
-        border:0 ;
-        text-align:left;
-        left:0px;
-         display:block;
-         margin:0px 10px 0 10px;
-         border-top:solid 1px #ddd;
+	padding: 0px 0px 0px 0 ;
+	background:#e0e0e0  url(../images/personal/ecke.gif) top left repeat-x ;
+	border:0 ;
+	text-align:left;
+	left:0px;
+	 display:block;
+	 margin:0px 10px 0 10px;
+	 border-top:solid 1px #ddd;
 
 }
 
 
 #header ul.menu li
-{border:0; margin:0 !important;       }
+{border:0; margin:0 !important;	   }
 #header ul.menu li a:link,
 #header ul.menu li a:visited
 {
 
-        color:#333;
-        border:0 ;
-        border-right:solid 1px #ddd;
-        margin:0px 0 0 0 ;
-        padding:12px 15px ;
-        position:relative;
-        background: #e0e0e0 url(../images/personal/ecke.gif) repeat-x top left;
-        display:inline-block
+	color:#333;
+	border:0 ;
+	border-right:solid 1px #ddd;
+	margin:0px 0 0 0 ;
+	padding:12px 15px ;
+	position:relative;
+	background: #e0e0e0 url(../images/personal/ecke.gif) repeat-x top left;
+	display:inline-block
 
 }
 
@@ -181,42 +181,42 @@ h1#logo
 #header ul.menu li a:active,
 #header ul.menu li a:focus
 {
-        background:#0d4c89 ;
-        color:#fff;
+	background:#0d4c89 ;
+	color:#fff;
 }
 
 #header ul li.active a:link,
 #header ul li.active a:visited
 {
-        color:#f5f5f5;
-        background:url(../images/personal/navi_active.png) ;
-        text-shadow: 1px 1px 1px #000;
+	color:#f5f5f5;
+	background:url(../images/personal/navi_active.png) ;
+	text-shadow: 1px 1px 1px #000;
 }
 
 
 #header ul.skiplinks
 {
-        width:100%;
-        text-align:left;
-        background:none;
-        z-index:20000;
-        top:0;
-        display:inline;
-        padding:0
+	width:100%;
+	text-align:left;
+	background:none;
+	z-index:20000;
+	top:0;
+	display:inline;
+	padding:0
 }
 
 #header ul.skiplinks li a.u2:active,
 #header ul.skiplinks li a.u2:focus
 
 {
-        background:#095197 !important;
-        color:#fff !important;
-        border:solid 1px;
-        top:0 !important;
-        z-index:10000;
-        right:auto;
-        left:0 !important;
-        display:block
+	background:#095197 !important;
+	color:#fff !important;
+	border:solid 1px;
+	top:0 !important;
+	z-index:10000;
+	right:auto;
+	left:0 !important;
+	display:block
 }
 
 
@@ -224,7 +224,7 @@ h1#logo
 
 #fontsize
 {
-         display:inline;
+	 display:inline;
 
 
 }
@@ -232,8 +232,8 @@ h1#logo
 #fontsize p a:link,
 #fontsize p a:visited
 {
-        color:#222;
-        border-right:solid 1px #ccc
+	color:#222;
+	border-right:solid 1px #ccc
 }
 
 
@@ -241,10 +241,10 @@ h1#logo
 #fontsize p a.reset,
 #fontsize p a.smaller
 {
-        padding-left:5px;
-        padding-right:5px;
-        text-decoration:none;
-        margin:0;
+	padding-left:5px;
+	padding-right:5px;
+	text-decoration:none;
+	margin:0;
 }
 
 
@@ -253,14 +253,14 @@ h1#logo
 #fontsize p a:active,
 #fontsize p a:focus
 {
-        background:#095197 !important;
-        color:#fff
+	background:#095197 !important;
+	color:#fff
 }
 
 #fontsize h3
 {
-        color:#222;
-        font-weight:bold
+	color:#222;
+	font-weight:bold
 }
 
 /* ++++++++++++++  search  ++++++++++++++ */
@@ -275,25 +275,25 @@ padding-right:1px ;
 
 #header form .inputbox
 {
-        background:url(../images/header-bg.gif) repeat-x;
-        border:solid 1px #ccc;
-        border-bottom:0;
-        border-right:0;
-        padding:5px
+	background:url(../images/header-bg.gif) repeat-x;
+	border:solid 1px #ccc;
+	border-bottom:0;
+	border-right:0;
+	padding:5px
 
 }
 
 #header form .inputbox:focus
 {
-        border:solid 2px #000;
+	border:solid 2px #000;
 }
 
 #header form .button
 {
-        border:solid 0px #ddd;
-        background:#ccc url(../images/personal/button.png);
-        color:#333;
-        padding:4px !important
+	border:solid 0px #ddd;
+	background:#ccc url(../images/personal/button.png);
+	color:#333;
+	padding:4px !important
 }
 
 /* ##########################  contentarea  ########################### */
@@ -301,7 +301,7 @@ padding-right:1px ;
 #contentarea,
 #contentarea2
 {
-        background:#fff
+	background:#fff
 }
 
 
@@ -309,27 +309,27 @@ padding-right:1px ;
 
 #breadcrumbs
 {
-        color:#333;
+	color:#333;
 }
 
 #breadcrumbs span
 {
-        color:#333;
+	color:#333;
 }
 
 #breadcrumbs span a:link,
 #breadcrumbs span a:visited
 {
-        background:#fff;
-        color:#333;
+	background:#fff;
+	color:#333;
 }
 
 #breadcrumbs span a:hover,
 #breadcrumbs span a:active,
 #breadcrumbs span a:focus
 {
-        background:#095197;
-        color:#fff;
+	background:#095197;
+	color:#fff;
 }
 
 
@@ -337,17 +337,17 @@ padding-right:1px ;
 
 .module_content
 {
-        border:solid 1px #ddd;
+	border:solid 1px #ddd;
 
 }
 .moduletable_js
 {
-        border:solid 0px #ddd;
+	border:solid 0px #ddd;
 }
 
 #right .moduletable_js
 {
-        border:0
+	border:0
 }
 
 #nav h3
@@ -359,14 +359,14 @@ padding-right:1px ;
 
 h3.js_heading
 {
-        border-bottom:solid 1px #ddd;
-        background:#eee;
-        font-family: 'Titillium Maps', Arial;
+	border-bottom:solid 1px #ddd;
+	background:#eee;
+	font-family: 'Titillium Maps', Arial;
 }
 
 h3.js_heading span.backh
 {
-        border:solid 0px #000
+	border:solid 0px #000
 }
 
 h3.js_heading span.backh1
@@ -376,19 +376,19 @@ h3.js_heading span.backh1
 
 h3.js_heading a
 {
-        border:0
+	border:0
 }
 
 h3.js_heading a img
 {
-        border:0
+	border:0
 }
 
 h3.js_heading a.opencloselink:hover,
 h3.js_heading a.opencloselink:active,
 h3.js_heading a.opencloselink:focus
 {
-        background:none
+	background:none
 }
 
 
@@ -399,9 +399,9 @@ h3.js_heading a.opencloselink:focus
 
 #right h3 span.backh2
 {
-        background:#fff;
-        color:#555;
-        border-bottom:solid 1px #ddd
+	background:#fff;
+	color:#555;
+	border-bottom:solid 1px #ddd
 }
 
 #right h3 span.backh3
@@ -425,54 +425,54 @@ h3.js_heading a:focus
 
 #nav form
 {
-        color:#000;
+	color:#000;
 }
 
 #nav form a:hover,
 #nav form a:active,
 #nav form a:focus
 {
-        color:#fff;
-        background:#095197;
-        text-decoration:none
+	color:#fff;
+	background:#095197;
+	text-decoration:none
 }
 
 /* ++++++++++++++  first level  ++++++++++++++ */
 #nav .moduletable-example ul.menu
 {
-        background:#fff;
-        border:0;
+	background:#fff;
+	border:0;
 }
 
 ul.menu
 {
-        border:0;
-        background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
-        border:solid 0px #eee;
+	border:0;
+	background:#fff /* url(../images/nature/nav_level_1.gif) repeat-x */;
+	border:solid 0px #eee;
 }
 
 .module_content ul.menu
 {
-        border:0;
+	border:0;
 }
 
 ul.menu li
 {
-        border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 
 ul.menu li a:link,
 ul.menu li a:visited
 {
-        color:#444;
-        background:url(../images/nature/karo.gif) 5px 12px no-repeat
+	color:#444;
+	background:url(../images/nature/karo.gif) 5px 12px no-repeat
 }
 
 ul.menu li.active a:link,
 ul.menu li.active a:visited
 {
-        color:#444;
+	color:#333;
 }
 
 ul.menu li a:hover,
@@ -482,8 +482,8 @@ ul.menu li.active a:hover,
 ul.menu li.active a:active,
 ul.menu li.active a:focus
 {
-        background: #fff url(../images/nav_level_1.gif) repeat-x ;
-        color:#095197;
+	background: #fff url(../images/nav_level_1.gif) repeat-x ;
+	color:#095197;
 }
 
 
@@ -491,38 +491,38 @@ ul.menu li.active a:focus
 
 ul.menu li ul
 {
-        border:solid 0px #eee;
+	border:solid 0px #eee;
 }
 
  ul.menu li ul li
 {
-        border:solid 0px #000;
-        background:#fff;
+	border:solid 0px #000;
+	background:#fff;
 }
 
  ul.menu li.active ul li a:link,
  ul.menu li.active ul li a:visited
 {
-        color:#000;
-        border:0;
-        border-bottom:solid 1px #fff;
-        background: #e8e8e8
+	color:#444;
+	border:0;
+	border-bottom:solid 1px #fff;
+	background: #e8e8e8
 }
 
  ul.menu li.active ul li.active a:link,
  ul.menu li.active ul li.active a:visited
 {
-        border:0;
-        color:#333;
-        border-bottom:solid 1px #fff;
+	border:0;
+	color:#333;
+	border-bottom:solid 1px #fff;
 }
 
  ul.menu li.active ul li a:hover,
  ul.menu li.active ul li a:active,
  ul.menu li.active ul li a:focus
 {
-        background:#666 !important;
-        color:#fff !important;
+	background:#666 !important;
+	color:#fff !important;
 }
 
 
@@ -530,22 +530,23 @@ ul.menu li ul
 
 ul.menu li ul li ul
 {
-        border:0 !important;
-        background:#f5f5f5 !important;
+	border:0 !important;
+	background:#f5f5f5 !important;
+	padding-bottom:0
 }
 
 ul.menu li.active ul li.active ul li a:link,
 ul.menu li.active ul li.active ul li a:visited
 {
-        background:#f5f5f5 ;
-        border-bottom:solid 1px #fff;
-        color:#444
+	background:#f5f5f5 ;
+	border-bottom:solid 1px #fff;
+	color:#444
 }
 
 ul.menu li.active ul li.active ul li.active a:link,
 ul.menu li.active ul li.active ul li.active a:visited
 {
-        color:#333;
+	color:#333;
 }
 
 
@@ -554,27 +555,59 @@ ul.menu li.active ul li.active ul li.active a:visited
 
 ul.menu li ul li ul li ul
 {
-        border:solid 1px #eee !important;
-        padding-top:10px !important;
-        padding-bottom:10px !important;
-        background:#fff url(../images/nature/level4.png) repeat-x !important;
+	border:solid 1px #eee !important;
+	padding-top:10px !important;
+	padding-bottom:10px !important;
+	background:#fff url(../images/nature/level4.png) repeat-x !important;
 }
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li a:visited
 {
-        font-weight:normal;
-        padding: 3px 2px 3px 40px;
-        font-size:0.9em;
-        background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px;
-        color:#444
+	font-weight:normal;
+	padding: 3px 2px 3px 40px;
+	font-size:0.9em;
+	background:#fff url(../images/nature/arrow_small.png) no-repeat  30px 5px;
+	color:#444
 }
 
 
 ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
-{font-weight:bold}
+{font-weight:bold;
+color:#333 }
+
+
+
+/* ++++++++++++++  fifth level  ++++++++++++++ */
+
+ul.menu li ul li ul li ul li ul
+{
+	border:solid 0px #eee !important;
+	padding-top:5px !important;
+	padding-bottom:10px !important;
+	background:#fff url(../images/nature/level4.png) repeat-x !important;
+}
+
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
+{
+	font-weight:normal;
+	padding: 3px 2px 3px 5px;
+	font-size:0.9em;
+	background:#fff ;
+	color:#444;
+	margin:0 10px  0 35px;
+	border-bottom:solid 1px #ddd
+}
+
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visited
+{font-weight:bold; color:#333}
+
 /* ##########################  content - main   ########################### */
 
 
@@ -593,39 +626,39 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 #main a:active,
 #main a:focus
 {
-        background:#095197;
-        color:#fff;
+	background:#095197;
+	color:#fff;
 }
 
 #main th a:hover,
 #main th a:active,
 #main th a:focus
 {
-        background:#333;
-        color:#fff;
+	background:#333;
+	color:#fff;
 }
 
 .items-row
 {
-        background:#fff
+	background:#fff
 }
 
 .items-row h2
 {
-        border-bottom:solid 1px #ddd;
-        border-top:solid 1px #ddd;
-        color:#555
+	border-bottom:solid 1px #ddd;
+	border-top:solid 1px #ddd;
+	color:#555
 }
 
 .column-1,
 .column-2
 {
-        border: solid 0px ;
+	border: solid 0px ;
 }
 
 .item-separator
 {
-        border: solid 0px #333333;
+	border: solid 0px #333333;
 }
 
 #main ul li
@@ -635,26 +668,26 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active a:visited
 
 .small
 {
-        border:solid 0;
+	border:solid 0;
 }
 
 ul#archive-items li
 {
-        border-bottom:solid 1px #ddd
+	border-bottom:solid 1px #ddd
 }
 
 /* ++++++++++++++  images  ++++++++++++++ */
 
 .image-left
 {
-         border:solid 1px #ddd;
-                padding:2px
+	 border:solid 1px #ddd;
+	padding:2px
 }
 
 .image-right
 {
-        border:solid 1px #ddd;
-                padding:2px
+	border:solid 1px #ddd;
+	padding:2px
 }
 
 /* ++++++++++++++  leading  ++++++++++++++ */
@@ -669,8 +702,8 @@ ul#archive-items li
 #main h1
 { color:#0d4c89;
 
-        border-bottom:solid 1px #ddd;
-        font-family: 'Titillium Maps', Arial;
+	border-bottom:solid 1px #ddd;
+	font-family: 'Titillium Maps', Arial;
 
 
 }
@@ -679,11 +712,11 @@ ul#archive-items li
 #main .blog  h1,
 #main .blog-featured  h1
 {
-        color:#0d4c89;
-        border-top:solid 1px #ddd;
-        border-bottom:solid 1px #ddd;
-        font-family: 'Titillium Maps', Arial;
-        margin-top:-1px !important
+	color:#0d4c89;
+	border-top:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
+	font-family: 'Titillium Maps', Arial;
+	margin-top:-1px !important
 
 }
 
@@ -691,28 +724,28 @@ ul#archive-items li
 
 .items-row h2
 {
-        border-top:solid 1px #ddd;
-        border-bottom:solid 1px #ddd;
+	border-top:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 .items-leading h2,
 #main h3,
 #main h4
 {
-        color:#555;
+	color:#555;
 }
 
 #main h2
 
 {
-        color:#555;
-        font-family: 'Titillium Maps', Arial;
+	color:#555;
+	font-family: 'Titillium Maps', Arial;
 
 }
 
 #main h2 a
 {
-        color:#095197
+	color:#095197
 }
 
 
@@ -723,9 +756,9 @@ ul#archive-items li
 a.readmore:link,
 a.readmore:visited
 {
-        color:#095197;
-        background:#eee url(../images/nature/arrow1.gif) repeat-x left top;
-        border:solid 1px #ddd;
+	color:#095197;
+	background:#eee url(../images/nature/arrow1.gif) repeat-x left top;
+	border:solid 1px #ddd;
 }
 
 .readmore a:hover,
@@ -735,65 +768,65 @@ a.readmore a:hover,
 a.readmore a:active,
 a.readmore a:focus
 {
-        background:#555 url(../images/nature/arrow2.gif) no-repeat left 6px !important;
-        color:#fff;
+	background:#555 url(../images/nature/arrow2.gif) no-repeat left 6px !important;
+	color:#fff;
 }
 
 a.readmore:hover,
 a.readmore:active,
 a.readmore:focus
 {
-        background:#555;
-        color:#fff;
+	background:#555;
+	color:#fff;
 }
 
 /* ++++++++++++++  icons  ++++++++++++++ */
 
 .actions img
 {
-        border:0;
+	border:0;
 }
 
 /* ++++++++++++++  items-more  ++++++++++++++ */
 
 #main .items-more h3
 {
-        border-bottom:solid 1px #ddd;
-        border-top:solid 1px #ddd;
-        color:#444;
+	border-bottom:solid 1px #ddd;
+	border-top:solid 1px #ddd;
+	color:#444;
 }
 
 #main .items-more ol
 {
-        color:#000;
+	color:#000;
 }
 
 #main .items-more ol li a
 {
-        background:#FFFFFF url(../images/blog_more.gif) no-repeat 0px center;
-        color:#095197
+	background:#FFFFFF url(../images/blog_more.gif) no-repeat 0px center;
+	color:#095197
 }
 
 #main .items-more ol li a:hover,
 #main .items-more ol li a:active,
 #main .items-more ol li a:focus
 {
-        background: #095197 url(../images/blog_more_hover.gif) no-repeat 0px center;
-        color:#fff;
+	background: #095197 url(../images/blog_more_hover.gif) no-repeat 0px center;
+	color:#fff;
 }
 
 /* ++++++++++++++  pagination  ++++++++++++++ */
 
 #main .pagination
 {
-        border-top:solid 1px #ddd;
+	border-top:solid 1px #ddd;
 }
 
 /* ++++++++++++++  article index  ++++++++++++++ */
 
 table.contenttoc
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 
@@ -801,8 +834,8 @@ table.contenttoc
 
 #right
 {
-        border:solid 0px #e6e6e6;
-        background:#fff
+	border:solid 0px #e6e6e6;
+	background:#fff
 }
 
 
@@ -814,8 +847,8 @@ table.contenttoc
 
 #right h4
 {
-        color:#555;
-        border:solid 0;
+	color:#555;
+	border:solid 0;
 }
 
 
@@ -826,14 +859,14 @@ table.contenttoc
 #right ul li a:active,
 #right ul li a:focus
 {
-        background:#095197;
-        color:#fff;
+	background:#095197;
+	color:#fff;
 }
 
 /* ++++++++++++++  button for closing right column  ++++++++++++++ */
 #close span
 {
-        color:#000;
+	color:#000;
 }
 
 /* ##########################  modules  ########################### */
@@ -845,7 +878,7 @@ table.contenttoc
 .latestnews li a:link,
 .latestnews li a:visited
 {
-        background: url(../images/personal/arrow2_grey.png) 2px 7px  no-repeat ;
+	background: url(../images/personal/arrow2_grey.png) 2px 7px  no-repeat ;
 }
 
 .mostread li a:hover,
@@ -855,19 +888,19 @@ table.contenttoc
 .mostread li a:focus,
 .latestnews li a:focus
 {
-        background:#555 url(../images/arrow_white_grey.png) 2px 7px  no-repeat !important;
+	background:#555 url(../images/arrow_white_grey.png) 2px 7px  no-repeat !important;
 }
 
 /* ++++++++++++++  newsfeed  ++++++++++++++ */
 
 ul.newsfeed
 {
-        border:solid 0px #000;
+	border:solid 0px #000;
 }
 
 .newsfeed-item
 {
-        border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 .newsfeed-item h5 a
@@ -880,19 +913,19 @@ ul.newsfeed
 
 ul.newsflash-horiz
 {
-                background:#F5F5F5 url(../images/nature/box.png) repeat-x;
-                border:1px solid #EEEEEE;
+	background:#F5F5F5 url(../images/nature/box.png) repeat-x;
+	border:1px solid #EEEEEE;
 }
 
 ul.newsflash-horiz li
 {
-        border:solid 0px #eee;
-        background:#f5f5f5;
+	border:solid 0px #eee;
+	background:#f5f5f5;
 }
 
 ul.newsflash-horiz li h4
 {
-    font-family: 'Titillium Maps', Arial;
+	font-family: 'Titillium Maps', Arial;
 }
 
 
@@ -907,90 +940,90 @@ ul.newsflash-horiz li h4
 
 .banneritem
 {
-        border:0
+	border:0
 }
 
 .banneritem a
 {
-        background:none
+	background:none
 }
 
 .banneritem a img
 {
-        background:none;
-        border:0
+	background:none;
+	border:0
 }
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
 #form-login .inputbox
 {
-        border:solid 1px #ddd;
-        background:url(../images/content_bg.gif) repeat-x;
+	border:solid 1px #ddd;
+	background:url(../images/content_bg.gif) repeat-x;
 
 }
 
 fieldset.input
 {
-        border:0 ;
+	border:0 ;
 }
 
 input.button,
 button.button
 {
-       /* background:#095197 ;
-        color:#fff;*/
-        background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
-        border:1px solid #DDDDDD;
-        color:#444444;
+	   /* background:#095197 ;
+	color:#fff;*/
+	background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
+	border:1px solid #DDDDDD;
+	color:#444444;
 }
 
 /* ++++++++++++++  tabs/ slide  ++++++++++++++ */
 
 ul.tabs
 {
-        border:solid 1px #ddd;
-        border-bottom:0;
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+	border:solid 1px #ddd;
+	border-bottom:0;
+	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
 }
 
 ul.tabs li
 {
-        background:#f5f5f5 url(../images/nature/box.png) repeat-x;
-        border-right:solid 1px #ddd
+	background:#f5f5f5 url(../images/nature/box.png) repeat-x;
+	border-right:solid 1px #ddd
 }
 
 ul.tabs li a:link,
 ul.tabs li a:visited
 {
-        color:#333;
+	color:#333;
 }
 
 ul.tabs li a:hover,
 ul.tabs li a:active,
 ul.tabs li a:focus
 {
-        color:#000
+	color:#000
 }
 
 .tabcontent
 {
-        border:solid 1px #ddd;
-        background:#fff;
-        color:#000;
+	border:solid 1px #ddd;
+	background:#fff;
+	color:#000;
 }
 
 .tabcontent .linkclosed
 {
-        color:#000;
-        border-bottom:solid 1px #e5e5e5;
+	color:#000;
+	border-bottom:solid 1px #e5e5e5;
 }
 
 ul.tabs li a.linkopen
 {
-        background:#fff;
-        color:#333;
-        border:0
+	background:#fff;
+	color:#333;
+	border:0
 }
 
 ul.tabs li a.linkclosed:hover,
@@ -1000,8 +1033,8 @@ ul.tabs li a.linkopen:hover,
 ul.tabs li a.linkopen:active,
 ul.tabs li a.linkopen:focus
 {
-        background:#555;
-        color:#fff
+	background:#555;
+	color:#fff
 }
 
 /* ++++++++++++++  category-module  ++++++++++++++ */
@@ -1009,25 +1042,25 @@ ul.tabs li a.linkopen:focus
 #right .category-module h4 a:link,
 #right .category-module h4 a:visited
 {
-        color:#0D4C89
+	color:#0D4C89
 }
 
 #right .category-module h4 a:hover,
 #right .category-module h4 a:active,
 #right .category-module h4 a:focus
 {
-        color:#fff
+	color:#fff
 }
 
 
 .category-module li
 {
-        border-bottom:solid 1px #ddd;
+	border-bottom:solid 1px #ddd;
 }
 
 .category-module li li
 {
-        border:0
+	border:0
 }
 
 
@@ -1036,73 +1069,73 @@ ul.tabs li a.linkopen:focus
 
 .searchintro img
 {
-        border:0px
+	border:0px
 }
 
 .inputbox:focus
 {
-        border:solid 2px #000;
+	border:solid 2px #000;
 }
 
 .word
 {
-        background:#fff;
-        border:solid 0px #ccc ;
+	background:#fff;
+	border:solid 0px #ccc ;
 }
 
 .word input
 {
-        background:#fff;
-        border:solid 1px #999;
-        color:#333;
+	background:#fff;
+	border:solid 1px #999;
+	color:#333;
 }
 
 .only
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 .phrases
 {
-        color:#000;
-        border:solid 1px #ccc;
+	color:#000;
+	border:solid 1px #ccc;
 }
 
 /* ++++++++++++++  selects  ++++++++++++++ */
 .phrases .inputbox
 {
-        background:#fff;
-        color:#000;
+	background:#fff;
+	color:#000;
 }
 
 .phrases .inputbox option
 {
-        background:#f5f5f5;
-        border-bottom:solid 1px #ccc;
+	background:#f5f5f5;
+	border-bottom:solid 1px #ccc;
 }
 
 .phrases .inputbox option a:hover
 {
-        background:#C00;
-        border-color:#CFD0D6;
-        color:#fff;
+	background:#C00;
+	border-color:#CFD0D6;
+	color:#fff;
 }
 
-/* ++++++++++++++   search results    ++++++++++++++++++ */
+/* ++++++++++++++   search results	++++++++++++++++++ */
 
 dl.search-results
 {
-        background:#f5f5f5;
+	background:#f5f5f5;
 }
 
 dl.search_results dt.result-title
 {
-        border-top:dotted 1px #ddd
+	border-top:dotted 1px #ddd
 }
 
 dl.search_results dd.result-created
 {
-        border-bottom:solid 5px #fff;
+	border-bottom:solid 5px #fff;
 }
 
 /* ##########################  forms   ########################### */
@@ -1112,12 +1145,12 @@ dl.search_results dd.result-created
 
 .invalid
 {
-        border-color:red !important;
+	border-color:red !important;
 }
 
 label.invalid
 {
-        color:red;
+	color:red;
 }
 
 
@@ -1125,12 +1158,12 @@ label.invalid
 #users-profile-core,
 #users-profile-custom
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 #member-profile fieldset
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 
@@ -1148,7 +1181,7 @@ tbody
 tr.odd,
 .cat-list-row1
 {
-        background:url(../images/news.gif)  repeat-x;
+	background:url(../images/news.gif)  repeat-x;
 }
 
 table.newsfeeds td,
@@ -1162,7 +1195,7 @@ table.newsfeeds th,
 table.category th,
 table.jlist-table th
 {
-        background:#444 ;
+	background:#444 ;
 }
 
 table.weblinks th a,
@@ -1174,13 +1207,13 @@ table.newsfeeds th,
 table.category th,
 table.jlist-table th
 {
-        color:#fff
+	color:#fff
 }
 
 
 td.table_footer
 {
-        background:#ddd url(../images/table_footer.gif) bottom left repeat-x;
+	background:#ddd url(../images/table_footer.gif) bottom left repeat-x;
 }
 
 td.counter
@@ -1201,13 +1234,13 @@ td p
 
 table.category th a img
 {
-        border:solid 0px ;
+	border:solid 0px ;
 }
 
 /* for opera */
 tr, td
 {
-            border:solid 1px #ddd
+	border:solid 1px #ddd
 }
 
 
@@ -1216,7 +1249,7 @@ tr, td
 {border:0;}
 fieldset.filters
 {
-        border:solid 0px #ddd;
+	border:solid 0px #ddd;
 
 }
 
@@ -1224,14 +1257,14 @@ fieldset.filters
 
 .contact form
 {
-        background:#fff;
-        color:#000;
+	background:#fff;
+	color:#000;
 }
 
 .contact input
 {
-        background:#fff;
-        color:#000;
+	background:#fff;
+	color:#000;
 }
 
 .contact .button
@@ -1242,12 +1275,12 @@ fieldset.filters
 .contact input.invalid,
 .contact textarea.invalid
 {
-        border:solid 2px red;
+	border:solid 2px red;
 }
 
 .contact label.invalid
 {
-        color:red;
+	color:red;
 }
 
 
@@ -1255,15 +1288,15 @@ fieldset.filters
 
 p.error
 {
-        color:#044b63;
-        background:#eee;
-        border-top:3px solid #044b63;
-        border-bottom:3px solid #044b63;
+	color:#044b63;
+	background:#eee;
+	border-top:3px solid #044b63;
+	border-bottom:3px solid #044b63;
 }
 
 body.contentpane
 {
-        background:#fff;
+	background:#fff;
 }
 
 
@@ -1271,32 +1304,32 @@ body.contentpane
 
 #footer
 {
-      /*  background:url(../images/footer_bg.gif) repeat-x;*/
-        background:#333333 url(../images/personal/tabs_back.png) repeat-x;
-        color:#fff;
-        border-top:solid 0px #ccc;
+	  /*  background:url(../images/footer_bg.gif) repeat-x;*/
+	background:#333333 url(../images/personal/tabs_back.png) repeat-x;
+	color:#fff;
+	border-top:solid 0px #ccc;
 }
 
 #footer-inner
 {
-        background:#f5f5f5 url(../images/personal/footer.jpg) repeat-x left bottom;
-        border-top:solid 1px #ddd
+	background:#f5f5f5 url(../images/personal/footer.jpg) repeat-x left bottom;
+	border-top:solid 1px #ddd
 }
 
 #footer a
 {
-        color:#fff;
+	color:#fff;
 }
 
 #bottom a img
 {
-        border:0
+	border:0
 }
 
 .box h3
 {
-        font-family: 'Titillium Maps', Arial;
-                font-size:1.2em
+	font-family: 'Titillium Maps', Arial;
+	font-size:1.2em
 }
 .box ul
 {padding-left:0}
@@ -1312,12 +1345,12 @@ padding-left:0}
 
 .contentpaneopen_edit img
 {
-        border:0
+	border:0
 }
 
 form.editor fieldset
 {
-        border:solid 1px #ccc;
+	border:solid 1px #ccc;
 }
 
 
@@ -1325,19 +1358,19 @@ form.editor fieldset
 
 form#adminForm
 {
-        border:solid 0px #000
+	border:solid 0px #000
 }
 
 form#adminForm fieldset
 {
-        border:solid 1px #ddd
+	border:solid 1px #ddd
 }
 
 /* ++++++++++++++  tooltip  ++++++++++++++ */
 .tip
 {
-        border:solid 1px #333;
-        background:#ffffcc;
+	border:solid 1px #333;
+	background:#ffffcc;
 }
 
 
@@ -1359,78 +1392,78 @@ table.pagenav td
 /* contact  plain */
 #main .contact h3
 {
-    border-bottom:solid 1px #ddd;
-    margin: 20px 0
+	border-bottom:solid 1px #ddd;
+	margin: 20px 0
 }
 
 .jform-required
 {
-    font-weight:bold;
-    margin:10px 0;
-    background:#fff url(../images/req.png) no-repeat;
-    padding:10px 40px
+	font-weight:bold;
+	margin:10px 0;
+	background:#fff url(../images/req.png) no-repeat;
+	padding:10px 40px
 
 }
 
 .contact .inputbox
 {
-    background:#fff url(../images/content_bg.gif) repeat-x ;
-    border:solid 1px #ccc;
-    padding:3px
+	background:#fff url(../images/content_bg.gif) repeat-x ;
+	border:solid 1px #ccc;
+	padding:3px
 }
 /* contact  slider */
 
 .panel
 {
-    border:solid 1px #ddd;
-    margin-top:-1px
+	border:solid 1px #ddd;
+	margin-top:-1px
 
 }
 #main .contact .panel h3
 {
-    margin:0px 0 0px 0;
-    padding: 0;
-    background:#eee;
-    border:0
+	margin:0px 0 0px 0;
+	padding: 0;
+	background:#eee;
+	border:0
 }
 .panel h3 a
 {
-    display:block;
-    padding:6px;
-    text-decoration:none;
-    color:#444;
-    padding:6px;
+	display:block;
+	padding:6px;
+	text-decoration:none;
+	color:#444;
+	padding:6px;
 }
 
 
 .panel h3.jpane-toggler a
 {
-    background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
+	background:#f5f5f5 url(../images/slider_plus.png) right  top no-repeat;
 }
 .panel h3.jpane-toggler-down a
 {
-    background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
-    border-bottom:solid 1px #ddd;
+	background:#f5f5f5  url(../images/slider_minus.png) right  top no-repeat;
+	border-bottom:solid 1px #ddd;
 }
 
 .jpane-slider
 {
-    border:solid 0px;
-    padding:0px 10px !important;
-    margin:0;
-    background: url(../images/nav_level_1.gif) repeat-x ;
+	border:solid 0px;
+	padding:0px 10px !important;
+	margin:0;
+	background: url(../images/nav_level_1.gif) repeat-x ;
 }
 
 .panel .jcontact-form,
 .panel  .contact-miscinfo
 {
-    padding:10px
+	padding:10px
 }
 
 .contact .panel .jcontact-form form,
 .contact .panel .jcontact-address
 {
-    margin:20px 0 0 0
+	margin:20px 0 0 0
 }
 
 
@@ -1439,5 +1472,5 @@ table.pagenav td
 div.current
 {
 
-    background: url(../images/nav_level_1.gif) repeat-x ;
+	background: url(../images/nav_level_1.gif) repeat-x ;
 }

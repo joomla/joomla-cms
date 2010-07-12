@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Getting rid of useless Options in mod latest and mod popular in back-end
  $ Typo in en-GB.ini + sorting strings
  # Getting rid of useless No Category option
+ # [#21376] Beez2.0 and Beez5 (Angie Radtke)
  
 11-Jul-2010 Mark Dexter
 # Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)
