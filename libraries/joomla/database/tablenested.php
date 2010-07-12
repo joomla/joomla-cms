@@ -563,6 +563,37 @@ class JTableNested extends JTable
 			return false;
 		}
 
+		// If tracking assets, remove the asset first.
+		if ($this->_trackAssets) 
+		{
+			$name		= $this->_getAssetName();
+			$asset		= JTable::getInstance('Asset');
+			
+			// Lock the table for writing.
+			if (!$asset->_lock()) 
+			{
+				// Error message set in lock method.
+				return false;
+			}
+			if ($asset->loadByName($name)) 
+			{
+				// Delete the node in assets table.
+				if (!$asset->delete()) 
+				{
+					$this->setError($asset->getError());
+					$asset->_unlock();
+					return false;
+				}
+				$asset->_unlock();
+			}
+			else 
+			{
+				$this->setError($asset->getError());
+				$asset->_unlock();
+				return false;
+			}
+		}
+		
 		// Get the node by id.
 		if (!$node = $this->_getNode($pk))
 		{
