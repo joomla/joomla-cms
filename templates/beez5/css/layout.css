@@ -1952,12 +1952,14 @@ margin:0}
   /* mod stats  */
 
 
-    .stats dl
+    .stats-module dl
     {margin:10px 0 10px 0}
-    .stats dt
+    .stats-module dt
     {float:left;
-    margin:0 10px 0 0}
-      .stats dt,   .stats dd
+    margin:0 10px 0 0;
+    font-weight: bold;    
+    }
+      .stats-module dt,   .stats-module dd
       {padding:2px 0 2px 0 }
 /* syndicate */
 
