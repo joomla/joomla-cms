@@ -25,7 +25,7 @@ var JTabs = new Class({
 			title.addClass('closed').removeClass('open');
 		},
 		titleSelector: 'dt',
-		descriptionSelector: 'dd',
+		descriptionSelector: 'dd'
 	},
 
 	initialize: function(dlist, options){

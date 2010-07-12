@@ -28,7 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 12-Jul-2010 Mark Dexter
-[#21196] Save order disk not disabled when not in ordering sort
+# [#21196] Save order disk not disabled when not in ordering sort
+# [#20963] Articles » List All Categories and Rss not working
+# [#21332] com_contact tabs aren't working in IE7 Patch
 
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end
