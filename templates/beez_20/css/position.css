@@ -97,7 +97,8 @@ body
     position:relative;
 }
 
-.unseen
+.unseen,
+.hidelabeltxt
 {
     display: inline;
     height: 0px;

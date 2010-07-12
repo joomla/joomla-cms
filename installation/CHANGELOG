@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Typo in en-GB.ini + sorting strings
  # Getting rid of useless No Category option
  # [#21376] Beez2.0 and Beez5 (Angie Radtke)
+ # Missing CSS in front-end Beez (Thanks Angie)
  
 11-Jul-2010 Mark Dexter
 # Sample data fixes to assets table to clean up misc. acl issues (Elin Waring)

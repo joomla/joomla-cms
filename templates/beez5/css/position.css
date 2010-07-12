@@ -99,7 +99,8 @@ body
 
 }
 
-.unseen
+.unseen,
+.hidelabeltxt
 {
         display: inline;
     height: 0px;
