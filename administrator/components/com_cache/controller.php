@@ -69,7 +69,12 @@ class CacheController extends JController
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
 		$model = $this->getModel('cache');
-		$model->cleanlist($cid);
+		
+		if(empty($cid)) {
+			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+		} else {
+			$model->cleanlist($cid);
+		}
 
 		$this->setRedirect('index.php?option=com_cache&client='.$model->getClient()->id);
 	}
