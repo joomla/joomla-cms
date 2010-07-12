@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jul-2010 Mark Dexter
+[#21196] Save order disk not disabled when not in ordering sort
+
 12-Jul-2010 Jean-Marie Simonet
  # Getting rid of useless Options in mod latest and mod popular in back-end
  $ Typo in en-GB.ini + sorting strings

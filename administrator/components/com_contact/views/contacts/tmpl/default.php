@@ -17,6 +17,8 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
+$canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
+$saveOrder	= $listOrder == 'ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
@@ -62,7 +64,9 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'contacts.saveorder'); ?>
+					<?php if ($canOrder && $saveOrder) :?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'contacts.saveorder'); ?>
+					<?php endif; ?>
 				</th>
 				<th width="10%"  class="title">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_CATEGORY', 'category_title', $listDirn, $listOrder); ?>
@@ -89,6 +93,7 @@ $listDirn	= $this->state->get('list.direction');
 		<?php
 		$n = count($this->items);
 		foreach ($this->items as $i => $item) :
+			$ordering	= $listOrder == 'ordering';
 			$canCreate	= $user->authorise('core.create',		'com_contact.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_contact.category.'.$item->catid);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
@@ -117,10 +122,13 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange);?>
 				</td>
 				<td class="order">
-					<?php if ($canChange && $listOrder == 'ordering') : ?>
-						<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'contacts.orderup', 'JLIB_HTML_MOVE_UP', true); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'contacts.orderdown', 'JLIB_HTML_MOVE_DOWN', true); ?></span>
-						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" class="text-area-order" title="<?php echo $item->name; ?> order" />
+					<?php if ($canChange) : ?>
+						<?php if ($saveOrder) :?>
+							<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid),'contacts.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+							<span><?php echo $this->pagination->orderDownIcon($i, $n, ($item->catid == @$this->items[$i+1]->catid), 'contacts.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>

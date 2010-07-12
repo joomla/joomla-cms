@@ -18,6 +18,8 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
+$canOrder	= $user->authorise('core.edit.state', 'com_weblinks.category');
+$saveOrder	= $listOrder == 'a.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm">
@@ -92,7 +94,9 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
-					<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'weblinks.saveorder'); ?>
+					<?php if ($canOrder && $saveOrder) :?>
+						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'weblinks.saveorder'); ?>
+					<?php endif; ?>
 				</th>
 				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -145,9 +149,11 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
-						<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid), 'weblinks.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i+1]->catid), 'weblinks.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+						<?php if ($saveOrder) :?>
+							<span><?php echo $this->pagination->orderUpIcon($i, ($item->catid == @$this->items[$i-1]->catid), 'weblinks.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, ($item->catid == @$this->items[$i+1]->catid), 'weblinks.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>

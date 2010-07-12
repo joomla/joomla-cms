@@ -18,8 +18,8 @@ $user	= JFactory::getUser();
 $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-
-
+$canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
+$saveOrder	= $listOrder=='ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -91,7 +91,7 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($listOrder=='ordering'): ?>
+					<?php if ($canOrder && $saveOrder): ?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
 				</th>
@@ -155,10 +155,12 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $this->escape($item->category_title); ?>
 				</td>
 				<td class="order">
-					<?php if ($canChange && $listOrder == 'ordering') : ?>
-						<span><?php echo $this->pagination->orderUpIcon($i, $listOrder=='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid], $listOrder=='asc' ? 'banners.orderup' : 'banners.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $listOrder!='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid], $listOrder=='asc' ? 'banners.orderdown' : 'banners.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-						<?php $disabled = $ordering ?  '' : 'disabled="disabled"'; ?>
+					<?php if ($canChange) : ?>
+						<?php if (saveOrder) :?>
+							<span><?php echo $this->pagination->orderUpIcon($i, $listOrder=='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid], $listOrder=='asc' ? 'banners.orderup' : 'banners.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, $listOrder!='asc' ? $item->ordering!=1 : $item->ordering!=$this->categories[$item->catid], $listOrder=='asc' ? 'banners.orderdown' : 'banners.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->name; ?> order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>

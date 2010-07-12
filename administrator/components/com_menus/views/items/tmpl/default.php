@@ -19,7 +19,8 @@ $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $ordering 	= ($listOrder == 'a.lft');
-$saveorder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$canOrder	= $user->authorise('core.edit.state',	'com_menus');
+$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
 <?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm">
@@ -72,11 +73,9 @@ $saveorder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'a.published', $listDirn, $listOrder); ?>
 				</th>
 				<th width="13%">
-					<?php echo JHtml::_('grid.sort', 'JGrid_Heading_Ordering', 'a.lft', $listDirn, $listOrder); ?>
-					<?php if (($listOrder == 'a.lft') && ($listDirn == 'asc')) : ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'items.saveorder'); ?>
-					<?php else: ?>
-						<a class="saveorder inactive" title="Save Order"></a>
 					<?php endif; ?> 				
 				</th>
 				<th width="10%">
@@ -135,11 +134,17 @@ $saveorder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'items.', $canChange);?>
 				</td>
 				<td class="order">
-					<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-					<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-					<?php $disabled = $saveorder ?  '' : 'disabled="disabled"'; ?>
-					<input type="text" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
-					<?php $originalOrders[] = $orderkey + 1; ?>
+					<?php if ($canChange) : ?>
+						<?php if ($ordering) : ?>
+							<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+						<?php endif; ?>
+						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+						<input type="text" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
+						<?php $originalOrders[] = $orderkey + 1; ?>
+					<?php else : ?>
+						<?php echo $orderkey + 1;?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Jul-2010 Mark Dexter
 # Fix failing system test for sample data changes
+# Update controlpanel0004Test for [#21196] Save order disk not disabled when not in ordering sort
 
 11-Jul-2010 Mark Dexter
 # Add group0002 test to suite

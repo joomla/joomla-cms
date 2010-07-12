@@ -20,7 +20,9 @@ $userId	= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-$ordering 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$ordering 	= ($listOrder == 'a.lft');
+$canOrder	= $user->authorise('core.edit.state', 'com_categories');
+$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 $n = count($this->items);
 ?>
 <div class="categories">
@@ -75,10 +77,8 @@ $n = count($this->items);
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
-					<?php if ($listOrder == 'a.lft' && $listDirn == 'asc') :?>
+					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'categories.saveorder'); ?>
-					<?php else: ?>
-						<?php echo '<a class="saveorder inactive" title="Save Order"></a>'?>
 					<?php endif; ?>
 				</th>
 				<th class="access-col">
@@ -95,8 +95,8 @@ $n = count($this->items);
 
 		<tbody>
 			<?php
+			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
-				$ordering = ($listOrder == 'a.lft');
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')  || $item->checked_out==0;
 				$canChange = $canCheckin;
@@ -122,11 +122,17 @@ $n = count($this->items);
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange);?>
 					</td>
 					<td class="order">
-						<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'categories.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-						<?php $ordering ?  '' : 'disabled="disabled"'; ?>
-						<input type="text" name="order[]" value="<?php echo $orderkey + 1;?>" <?php echo $ordering ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
-						<?php $originalOrders[] = $orderkey + 1; ?>
+						<?php if ($canChange) : ?>
+							<?php if ($ordering) : ?>
+								<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'categories.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+								<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'categories.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+							<?php endif; ?>
+							<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
+							<input type="text" name="order[]" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" />
+							<?php $originalOrders[] = $orderkey + 1; ?>
+						<?php else : ?>
+							<?php echo $orderkey + 1;?>
+						<?php endif; ?>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
