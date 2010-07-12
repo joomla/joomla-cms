@@ -29,6 +29,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				
 				<field
 					name="show_front"
 					type="radio"
@@ -40,31 +41,40 @@
 					<option
 						value="0">JHIDE</option>
 				</field>
+				
 				<field
 					name="count"
 					type="text"
 					default="5"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					description="MOD_POPULAR_FIELD_COUNT_DESC" />
+					
 				<field
 					name="catid"
 					type="category"
 					extension="com_content"
+					multiple="true" 
+					size="10"
 					label="JCATEGORY"
 					description="MOD_POPULAR_FIELD_CATEGORY_DESC" />
+					
 			</fieldset>
+			
 			<fieldset
 				name="advanced">
+					
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					
 				<field
 					name="moduleclass_sfx"
 					type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					
 				<field
 					name="cache"
 					type="list"
@@ -76,12 +86,14 @@
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+				
 				<field
 					name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+					
 				<field
 					name="cachemode"
 					type="hidden"
@@ -89,6 +101,7 @@
 					<option
 						value="static"></option>
 				</field>
+				
 			</fieldset>
 		</fields>
 	</config>

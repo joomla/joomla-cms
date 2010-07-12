@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#21376] Beez2.0 and Beez5 (Angie Radtke)
  # Missing CSS in front-end Beez (Thanks Angie)
  # [#21363] stats module layout in Beez  Thanks Bill.
+ # [#21373] Restore 1.5 ability for multiple categories for Most Read Content. Thanks Amy.
  
  11-Jul-2010 Chris Davenport
  # Follow up to [#21311] - add missing key references for 3 menu items

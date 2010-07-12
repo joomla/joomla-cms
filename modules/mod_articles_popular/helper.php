@@ -35,9 +35,7 @@ abstract class modArticlesPopularHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		if ($catid = $params->get('catid')) {
-			$model->setState('filter.category_id', $catid);
-		}
+		$model->setState('filter.category_id', $params->get('catid', array()));
 
 		// Ordering
 		$model->setState('list.ordering', 'a.hits');
