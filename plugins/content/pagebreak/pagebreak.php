@@ -59,13 +59,14 @@ class plgContentPagebreak extends JPlugin
 		}
 
 		$db = JFactory::getDbo();
+		$view = JRequest::getString('view');
 		$full = JRequest::getBool('fullview');
 
 		if (!$page) {
 			$page = 0;
 		}
 
-		if ($params->get('intro_only') || $params->get('popup') || $full) {
+		if ($params->get('intro_only') || $params->get('popup') || $full || $view != 'article') {
 			$row->text = preg_replace($regex, '', $row->text);
 			return;
 		}
