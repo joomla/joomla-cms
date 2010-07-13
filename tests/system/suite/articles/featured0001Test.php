@@ -24,20 +24,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		echo "Change global param to no category order\n";
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		$this->click("//li[@id='toolbar-popup-options']/a/span");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
-
+		$this->jClick('Options');
 		$this->click("//dl[@id='config-tabs-com_content_configuration']/dt[4]/span");
 		$this->select("jform_orderby_pri", "label=No Order");
 		$this->click("//button[contains(@onclick, 'component.save')]");
@@ -130,20 +117,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
-		$this->click("//li[@id='toolbar-popup-options']/a/span");
-		for ($second = 0;; $second++)
-		{
-			if ($second >= 15) $this->fail("timeout");
-			try
-			{
-				if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
-			}
-			catch (Exception $e)
-			{
-			}
-			sleep(1);
-		}
-
+		$this->jClick('Options');
 		$this->click("//dl[@id='config-tabs-com_content_configuration']/dt[4]/span");
 		$this->select("jform_orderby_pri", "label=Category Manager Order");
 		$this->click("//button[contains(@onclick, 'component.save')]");

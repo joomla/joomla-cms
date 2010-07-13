@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jul-2010 Mark Dexter
+# [#21236] PHP System Tests for Tracker Item 20836 Capitalization of "toolbar-popup-Popup"
+# [#21312] PHP System Test to check error messages associated with actions performed when nothing is selected
+
 13-Jul-2010 Mark Dexter
 # Fix SeleniumJoomlaTestCase to report PHP notices
 # System test for [#21083] Category List menu link to unpublished category gives error
