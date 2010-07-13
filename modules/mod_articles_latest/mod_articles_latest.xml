@@ -18,7 +18,8 @@
 			module="mod_articles_latest">mod_articles_latest.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
-		<filename>index.html</filename>		<filename>mod_articles_latest.xml</filename>
+		<filename>index.html</filename>		
+		<filename>mod_articles_latest.xml</filename>
 	</files>
 	<languages>
 		<language
@@ -63,8 +64,6 @@
 						value="not_me">MOD_LATEST_NEWS_VALUE_NOTADDED_BY_ME</option>
 				</field>
 
-
-
 				<field
 					name="show_front"
 					type="radio"
@@ -81,6 +80,8 @@
 					name="catid"
 					type="category"
 					extension="com_content"
+					multiple="true" 
+					size="10"	
 					label="JCATEGORY"
 					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
 			</fieldset>

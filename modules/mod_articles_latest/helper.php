@@ -38,21 +38,26 @@ abstract class modArticlesLatestHelper
 		$model->setState('filter.access', $access);
 
 		// Category filter
-		if ($catid = $params->get('catid')) {
-			$model->setState('filter.category_id', $catid);
-		}
-
+		$model->setState('filter.category_id', $params->get('catid', array()));
+		
 		// User filter
 		$userId = JFactory::getUser()->get('id');
 		switch ($params->get('user_id'))
 		{
 			case 'by_me':
-				$model->setState('filter.author_id', $userId);
+				$model->setState('filter.author_id', (int) $userId);
 				break;
 			case 'not_me':
 				$model->setState('filter.author_id', $userId);
 				$model->setState('filter.author_id.include', false);
 				break;
+				
+			case 0:
+				break;
+			
+			default:
+				$model->setState('filter.author_id', (int) $params->get('user_id'));			
+				break;	
 		}
 
 		// Set ordering
