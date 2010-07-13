@@ -76,10 +76,11 @@
 				<option value="1">JSHOW</option>
 			</field>
 </fieldset>
-<fieldset name="advanced">
+
+<fieldset name="advanced" label="JGLOBAL_CATEGORY_LIST_DISPLAY">
 			<field name="display_num" type="list"
-				description="JGLOBAL_NUMBER_ITEMS_LIST_DESC"
-				label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
+				description="COM_CONTACT_FIELD_NUM_CONTACTS_DESC"
+				label="COM_CONTACT_FIELD_NUM_CONTACTS_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="5">J5</option>
@@ -101,17 +102,83 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+			
+		<field name="show_position_headings" type="list"
+			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="filter_field" type="list"
-				description="COM_CONTACT_FILTER_DESC"
-				label="COM_CONTACT_FILTER_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="hide">JHIDE</option>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
-			</field>
+		<field name="show_email_headings" type="list"
+			label="COM_CONTACT_FIELD_CONFIG_EMAIL_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_telephone_headings" 
+			type="list"
+			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_mobile_headings" 
+			type="list"
+			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_fax_headings" 
+			type="list"
+			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+		<field name="show_suburb_headings" type="list"
+			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_state_headings" 
+			type="list"
+			label="JGLOBAL_STATE"
+			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+		<field name="show_country_headings" 
+			type="list"
+			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
 			<field name="show_pagination" type="list"
 				description="JGLOBAL_PAGINATION_DESC"

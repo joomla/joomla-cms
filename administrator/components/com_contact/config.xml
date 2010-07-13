@@ -358,18 +358,9 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
-		<field name="allow_vcard_headings" 
-			type="radio"
-			default="0" label="COM_CONTACT_FIELD_CONFIG_VCARD_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_VCARD_DESC"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
+		
 		<field name="show_suburb_headings" type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
+			default="0" label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 		>
 			<option value="0">JHIDE</option>
@@ -378,13 +369,13 @@
 
 		<field name="show_state_headings" 
 			type="radio"
-			default="1" label="JGLOBAL_STATE"
+			default="0" label="JGLOBAL_STATE"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
+		
 		<field name="show_country_headings" 
 			type="radio"
 			default="1" label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
@@ -393,7 +384,9 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+		
 	</fieldset>
+	
 	<fieldset name="Contact_Form"
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 	>

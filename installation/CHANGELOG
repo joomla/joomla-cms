@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jul-2010 Jean-Marie Simonet
+ # [#20760] *Contact Manager Options > Contact List parameters
+ 
 13-Jul-2010 Mark Dexter
 # [#21083] Category List menu link to unpublished category gives error
 
