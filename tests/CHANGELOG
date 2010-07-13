@@ -30,6 +30,7 @@ $ -> Language fix or change
 14-Jul-2010 Mark Dexter
 # [#21236] PHP System Tests for Tracker Item 20836 Capitalization of "toolbar-popup-Popup"
 # [#21312] PHP System Test to check error messages associated with actions performed when nothing is selected
+# Update TestSuite for new test
 
 13-Jul-2010 Mark Dexter
 # Fix SeleniumJoomlaTestCase to report PHP notices
