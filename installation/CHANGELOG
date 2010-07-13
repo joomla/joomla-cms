@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#21377] error caused by page break without readmore (see on visiting component menu item in sample data)
  # [#21382] Fallback template is rhuk_milkyway, not beez_20, and doesn't load properly.
  # [#21371] Restore 1.5 ability for multiple categories for Latest Articles Module. Thanks Amy
+ # [#21215] Consistency in module layouts. Thanks Bill.
  
 13-Jul-2010 Mark Dexter
 # [#21083] Category List menu link to unpublished category gives error

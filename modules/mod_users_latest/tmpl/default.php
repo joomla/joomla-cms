@@ -9,7 +9,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-	<ul  class="latestusers" >
+	<ul  class="latestusers<?php echo $params->get('moduleclass_sfx') ?>" >
 <?php foreach($names as $name) : ?>
 
 		<li>
