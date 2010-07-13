@@ -6,13 +6,6 @@
 		name="params">
 		<fieldset
 			name="basic">
-
-			<field
-				name="foobar"
-				type="text"
-				label="Delete Me"
-				description="This is an example of a category form override. Delete before Beta"
-				/>
-			</fieldset>
+		</fieldset>
 	</fields>
 </form>

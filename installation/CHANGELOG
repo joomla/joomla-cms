@@ -30,6 +30,7 @@ $ -> Language fix or change
 14-Jul-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
 # Fix joomla.sql table for missing row and lft, rgt values (Seline Feigl)
+# [#21286] com_banner test code clean up in category.xml
 
 13-Jul-2010 Jean-Marie Simonet
  # [#20760] *Contact Manager Options > Contact List parameters
