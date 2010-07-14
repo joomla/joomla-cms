@@ -45,7 +45,7 @@ abstract class JHtmlSelect
 	* @return string HTML for the radio list
 	*/
 	public static function booleanlist(
-		$name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false
+		$name, $attribs = null, $selected = null, $yes = 'JYES', $no = 'JNO', $id = false
 	) {
 		$arr = array(
 			JHtml::_('select.option', '0', JText::_($no)),
