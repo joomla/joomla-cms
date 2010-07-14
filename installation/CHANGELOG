@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jul-2010 Jean-Marie Simonet
+ [#21398] [Hathor] saveOrder should be $saveOrder. Thanks Viet.
+
 14-Jul-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
 # Fix joomla.sql table for missing row and lft, rgt values (Seline Feigl)
