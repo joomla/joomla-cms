@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 14-Jul-2010 Jean-Marie Simonet
- [#21398] [Hathor] saveOrder should be $saveOrder. Thanks Viet.
+ # [#21398] [Hathor] saveOrder should be $saveOrder. Thanks Viet.
+ # [#21342] JDocumentRendererHead can generate empty meta description. Thanks Janich.
 
 14-Jul-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
