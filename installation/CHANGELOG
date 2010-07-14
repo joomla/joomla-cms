@@ -33,7 +33,8 @@ $ -> Language fix or change
  # [#21374] Updates to Hathor that were not done when core was updated. Thanks Andrea and Michael.
  # [#21329] com_modules save-as-new with wrong icon
  $ [#21412] Untranslated strings: Default captions for JHtmlSelect::booleanlist. Thanks CY Lee
- #  [#21401] Template beez20 Layout.css issue 
+ # [#21401] Template beez20 Layout.css issue 
+ # [#21415] Restoring deleted title in Hathor. Thanks Michael.
 
 14-Jul-2010 Mark Dexter
 # Sample data fixes (Elin Waring)
