@@ -32,7 +32,8 @@ $ -> Language fix or change
  # [#21342] JDocumentRendererHead can generate empty meta description. Thanks Janich.
  # [#21374] Updates to Hathor that were not done when core was updated. Thanks Andrea and Michael.
  # [#21329] com_modules save-as-new with wrong icon
-.$ [#21412] Untranslated strings: Default captions for JHtmlSelect::booleanlist. Thanks CY Lee
+ $ [#21412] Untranslated strings: Default captions for JHtmlSelect::booleanlist. Thanks CY Lee
+ #  [#21401] Template beez20 Layout.css issue 
 
 14-Jul-2010 Mark Dexter
 # Sample data fixes (Elin Waring)

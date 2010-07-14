@@ -1801,7 +1801,7 @@ ul.tabs li a.linkopen:visited
 
 ul.tabs li a:hover,
 ul.tabs li a:active,
-ul.tabs li a:
+ul.tabs li a:focus
 {
         text-decoration:underline;
 }
