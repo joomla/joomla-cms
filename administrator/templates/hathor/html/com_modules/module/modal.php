@@ -126,7 +126,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 					<li><label>
 						<?php echo JText::_('COM_MODULES_MODULE_DESCRIPTION'); ?>
 					</label>
-					<?php echo $this->escape($text); ?></li>
+					<span class="readonly mod-desc"><?php echo JText::_($text); ?></span></li>
 				<?php endif; ?>
 			<?php else : ?>
 				<li><?php echo JText::_('COM_MODULES_ERR_XML'); ?></li>
