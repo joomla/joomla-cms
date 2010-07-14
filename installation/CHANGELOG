@@ -40,6 +40,7 @@ $ -> Language fix or change
 # Sample data fixes (Elin Waring)
 # Fix joomla.sql table for missing row and lft, rgt values (Seline Feigl)
 # [#21286] com_banner test code clean up in category.xml
+# Missing } in /administrator/components/com_users/views/level/view.html.php
 
 13-Jul-2010 Jean-Marie Simonet
  # [#20760] *Contact Manager Options > Contact List parameters
