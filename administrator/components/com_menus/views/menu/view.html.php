@@ -55,7 +55,7 @@ class MenusViewMenu extends JView
 
 		JToolBarHelper::apply('menu.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::save('menu.save','JTOOLBAR_SAVE');
-		JToolBarHelper::addNew('menu.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+		JToolBarHelper::custom('menu.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 
 		// If an existing item, can save to a copy.
 		if (!$isNew) {

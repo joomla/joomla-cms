@@ -60,7 +60,7 @@ class UsersViewGroup extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('group.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('group.save','JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('group.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::custom('group.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {

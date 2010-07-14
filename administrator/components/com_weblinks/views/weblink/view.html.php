@@ -58,21 +58,19 @@ class WeblinksViewWeblink extends JView
 
 		JToolBarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINK'), 'weblinks.png');
 
-
-
 		// If not checked out, can save the item.
 		if (!$checkedOut && $canDo->get('core.edit'))
 		{
 
 			JToolBarHelper::apply('weblink.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('weblink.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('weblink.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::custom('weblink.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 			// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('weblink.save2copy', 'copy.png', 'copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::custom('weblink.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
-		if (empty($this->item->id))  {
+		if (empty($this->item->id)) {
 			JToolBarHelper::cancel('weblink.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else {

@@ -67,11 +67,11 @@ class ModulesViewModule extends JView
 		if (!$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('module.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('module.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('module.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::custom('module.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 			// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('module.save2copy', 'copy.png', 'copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::custom('module.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CANCEL');

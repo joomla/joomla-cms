@@ -61,8 +61,8 @@ class UsersViewLevel extends JView
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::apply('level.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('level.save','JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('level.save2new', 'JTOOLBAR_SAVE_AND_NEW');
-		}
+			JToolBarHelper::custom('level.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);

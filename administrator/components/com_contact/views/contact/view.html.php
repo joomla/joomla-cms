@@ -59,7 +59,7 @@ class ContactViewContact extends JView
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
 		JToolBarHelper::apply('contact.apply','JTOOLBAR_APPLY');
 		JToolBarHelper::save('contact.save','JTOOLBAR_SAVE');
-		JToolBarHelper::addNew('contact.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+		JToolBarHelper::custom('contact.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 				// If an existing item, can save to a copy.
 		if (!$isNew) {
 			JToolBarHelper::custom('contact.save2copy','save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY',false );

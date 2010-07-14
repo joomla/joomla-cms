@@ -55,7 +55,7 @@ class LanguagesViewLanguage extends JView
 		JToolBarHelper::title(JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'langmanager.png');
 		JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
 		JToolBarHelper::apply('language.apply','JTOOLBAR_APPLY');
-		JToolBarHelper::addNew('language.save2new', 'JToolbar_Save_and_new');
+		JToolBarHelper::custom('language.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		if ($isNew)  {
 			JToolBarHelper::cancel('language.cancel','JTOOLBAR_CANCEL');
 		}

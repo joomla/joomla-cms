@@ -62,7 +62,7 @@ class MenusViewItem extends JView
 		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id')) {
 			JToolBarHelper::apply('item.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('item.save','JTOOLBAR_SAVE');
-			JToolBarHelper::addNew('item.save2new', 'JTOOLBAR_SAVE_AND_NEW');
+			JToolBarHelper::custom('item.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew) {
