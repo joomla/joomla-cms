@@ -19,7 +19,7 @@ JHtml::_('behavior.formvalidation');
 $params = $this->state->get('params');
 ?>
 
-<<script type="text/javascript">
+<script type="text/javascript">
 	function submitbutton(task) {
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 			<?php echo $this->form->getField('text')->save(); ?>
