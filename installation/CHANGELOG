@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jul-2010 Andrew Eddie
+ # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).
+
 15-Jul-2010 Jean-Marie Simonet
  # [#21422] Content Category metadata not displayed 
  # [#21423] Enabling metadata for newsfeed, contacts, weblinks category

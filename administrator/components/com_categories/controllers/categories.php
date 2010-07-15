@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controlleradmin');
 
 /**
- * The Menu Item Controller
+ * The Categories List Controller
  *
  * @package		Joomla.Administrator
  * @subpackage	com_categories
@@ -20,6 +20,11 @@ class CategoriesControllerCategories extends JControllerAdmin
 {
 	/**
 	 * Proxy for getModel
+	 *
+	 * @param	string	$name	The model name. Optional.
+	 * @param	string	$prefix	The class prefix. Optional.
+	 *
+	 * @return	object	The model.
 	 * @since	1.6
 	 */
 	function &getModel($name = 'Category', $prefix = 'CategoriesModel')
@@ -38,14 +43,14 @@ class CategoriesControllerCategories extends JControllerAdmin
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$this->setRedirect('index.php?option=com_categories&view=categories');
+		$extension = JRequest::getCmd('extension');
+		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$extension, false));
 
 		// Initialise variables.
 		$model = $this->getModel();
 
-		if ($model->rebuild())
-		{
-			// Reorder succeeded.
+		if ($model->rebuild()) {
+			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
 			return true;
 		} else {
@@ -55,21 +60,24 @@ class CategoriesControllerCategories extends JControllerAdmin
 		}
 	}
 
+	/**
+	 * Save the manual order inputs from the categories list page.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
 	public function saveorder()
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get the arrays from the Request
-		$order	= JRequest::getVar('order',	null,	'post',	'array');
+		$order	= JRequest::getVar('order',	null, 'post', 'array');
 		$originalOrder = explode(',', JRequest::getString('original_order_values'));
-		
+
 		// Make sure something has changed
-		if (!($order === $originalOrder))
-		{
+		if (!($order === $originalOrder)) {
 			parent::saveorder();
-		}
-		else
-		{
+		} else {
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 			return true;
