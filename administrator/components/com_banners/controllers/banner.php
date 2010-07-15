@@ -28,9 +28,10 @@ class BannersControllerBanner extends JControllerForm
 	/**
 	 * Method override to check if you can add a new record.
 	 *
-	 * @param	array	An array of input data.
+	 * @param	array	$data	An array of input data.
 	 *
 	 * @return	boolean
+	 * @since	1.6
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -39,41 +40,42 @@ class BannersControllerBanner extends JControllerForm
 		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
 		$allow		= null;
 
-		if ($categoryId)
-		{
+		if ($categoryId) {
 			// If the category has been passed in the URL check it.
-			$allow	= $user->authorise('core.create', 'com_banners.category.'.$categoryId);
+			$allow	= $user->authorise('core.create', $this->option.'.category.'.$categoryId);
 		}
-		if ($allow === null)
-		{
+
+		if ($allow === null) {
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd($data);
-		}
-		else {
+		} else {
 			return $allow;
 		}
 	}
 
 	/**
-	 * Method to check if you can add a new record.
+	 * Method override to check if you can edit an existing record.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param	array	$data	An array of input data.
+	 * @param	string	$key	The name of the key for the primary key.
 	 *
 	 * @return	boolean
+	 * @since	1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		// Initialise variables.
-		$categoryId	= (int) isset($data['catid']) ? $data['catid'] : 0;
-		$user		= JFactory::getUser();
-		if ($categoryId)
-		{
-			// The category has been set. Check the category permissions.
-			return $user->authorise('core.edit', 'com_banners.category.'.$categoryId);
+		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
+		$categoryId = 0;
+
+		if ($recordId) {
+			$categoryId = (int) $this->getModel()->getItem($recordId)->catid;
 		}
-		else
-		{
+
+		if ($categoryId) {
+			// The category has been set. Check the category permissions.
+			return $user->authorise('core.edit', $this->option.'.category.'.$categoryId);
+		} else {
 			// Since there is no asset tracking, revert to the component permissions.
 			return parent::allowEdit($data, $key);
 		}
