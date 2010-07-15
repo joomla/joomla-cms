@@ -200,11 +200,11 @@ class ContentViewCategory extends JView
 		$this->document->setTitle($title);
 
 		if ($this->category->metadesc) {
-			$this->document->setDescription($this->item->metadesc);
+			$this->document->setDescription($this->category->metadesc);
 		}
 
 		if ($this->category->metakey) {
-			$this->document->setMetadata('keywords', $this->item->metakey);
+			$this->document->setMetadata('keywords', $this->category->metakey);
 		}
 
 		if ($app->getCfg('MetaTitle') == '1') {
