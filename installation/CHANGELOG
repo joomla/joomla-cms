@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21422] Content Category metadata not displayed 
  # [#21423] Enabling metadata for newsfeed, contacts, weblinks category
  # [#21417] Extra < in <script... tag
+ # [#21426] * Enabling metadata for single contact
  
 14-Jul-2010 Jean-Marie Simonet
  # [#21398] [Hathor] saveOrder should be $saveOrder. Thanks Viet.
