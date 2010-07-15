@@ -399,10 +399,12 @@ class JControllerForm extends JController
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$data = $model->validate($form, $data);
+
+		// Test if the data is valid.
+		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false) {
+		if ($validData === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
@@ -424,9 +426,9 @@ class JControllerForm extends JController
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($data)) {
+		if (!$model->save($validData)) {
 			// Save the data in the session.
-			$app->setUserState($context.'.data', $data);
+			$app->setUserState($context.'.data', $validData);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'notice');
@@ -435,9 +437,9 @@ class JControllerForm extends JController
 		}
 
 		// Save succeeded, check-in the record.
-		if ($checkin && !$model->checkin($data[$key])) {
+		if ($checkin && !$model->checkin($validData[$key])) {
 			// Save the data in the session.
-			$app->setUserState($context.'.data', $data);
+			$app->setUserState($context.'.data', $validData);
 
 			// Check-in failed, go back to the record and display a notice.
 			$message = JText::sprintf('JError_Checkin_saved', $model->getError());

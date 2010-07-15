@@ -21,8 +21,6 @@ JHtml::_('behavior.formvalidation');
 		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
 			submitform(task);
 		}
-		// @todo Deal with the editor methods
-		//submitform(task);
 	}
 	window.addEvent('domready', function() {
 		document.id('jform_type0').addEvent('click', function(e){
@@ -80,17 +78,17 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $this->form->getInput('custombannercode'); ?>
 				</div>
 				</li>
-				
+
 				<li><div id="url">
 				<?php echo $this->form->getLabel('clickurl'); ?>
 				<?php echo $this->form->getInput('clickurl'); ?>
 				</div>
 				</li>
-				
+
 				<li><?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?></li>
-				
-			
+
+
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>

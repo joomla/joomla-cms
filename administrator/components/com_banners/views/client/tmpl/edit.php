@@ -21,8 +21,6 @@ JHtml::_('behavior.formvalidation');
 		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form'))) {
 			submitform(task);
 		}
-		// @todo Deal with the editor methods
-		submitform(task);
 	}
 // -->
 </script>

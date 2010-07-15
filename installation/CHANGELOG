@@ -30,6 +30,7 @@ $ -> Language fix or change
 16-Jul-2010 Andrew Eddie
  # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).
  # Partially fixed issue [#20933] Banner, Contact, Newsfeed, and Weblink Controller Improvements (Omar Ramos).
+ # Fixed issue [#21337] Framework: JControllerForm does not preserve form data on validation error (Anders Knutsson, Bill Richardson).
 
 15-Jul-2010 Jean-Marie Simonet
  # [#21422] Content Category metadata not displayed 

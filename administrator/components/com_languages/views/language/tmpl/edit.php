@@ -21,8 +21,6 @@ JHtml::_('behavior.formvalidation');
 		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form'))) {
 			submitform(task);
 		}
-		// @todo Deal with the editor methods
-		submitform(task);
 	}
 // -->
 </script>
@@ -54,7 +52,7 @@ JHtml::_('behavior.formvalidation');
 
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
-			
+
 			<?php echo $this->form->getLabel('lang_id'); ?>
 			<?php echo $this->form->getInput('lang_id'); ?>
 		</fieldset>
