@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 15-Jul-2010 Jean-Marie Simonet
  # [#21422] Content Category metadata not displayed 
-
+ # [#21423] Enabling metadata for newsfeed, contacts, weblinks category
+ 
 14-Jul-2010 Jean-Marie Simonet
  # [#21398] [Hathor] saveOrder should be $saveOrder. Thanks Viet.
  # [#21342] JDocumentRendererHead can generate empty meta description. Thanks Janich.

@@ -136,6 +136,31 @@ class NewsfeedsViewCategory extends JView
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
+		
+		if ($this->category->metadesc) {
+			$this->document->setDescription($this->category->metadesc);
+		}
+
+		if ($this->category->metakey) {
+			$this->document->setMetadata('keywords', $this->category->metakey);
+		}
+
+		if ($app->getCfg('MetaTitle') == '1') {
+			$this->document->setMetaData('title', $this->category->getMetadata()->get('page_title'));
+		}
+
+		if ($app->getCfg('MetaAuthor') == '1') {
+			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
+		}
+
+		$mdata = $this->category->getMetadata()->toArray();
+
+		foreach ($mdata as $k => $v) {
+			if ($v) {
+				$this->document->setMetadata($k, $v);
+			}
+		}
+		
 
 		// Add alternate feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
