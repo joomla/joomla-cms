@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21434] *Robots list creates numeric values + metadata missing for articles
  # [#21357] Newsfeed categories - routing error with sef enabled. Thanks Mathavan.
  $ Deleting useless JText in grid
+ # [#21437] Rename garbagecron.php to .txt.
  
 16-Jul-2010 Andrew Eddie
  # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).
