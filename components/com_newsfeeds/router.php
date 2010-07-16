@@ -156,7 +156,7 @@ function NewsfeedsParseRoute($segments)
 
 	// From the categories view, we can only jump to a category.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-	$categories = array(JCategories::getInstance('Newsfeeds')->get($id));
+	$categories = JCategories::getInstance('Newsfeeds')->get($id)->getChildren();
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;

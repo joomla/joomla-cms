@@ -31,6 +31,8 @@ $ -> Language fix or change
  # Missing $user in banners and Newsfeed controllers
  # [#21378] Mootols (and possibly other js/css) not loading with cache on. Thanks Klas.
  # [#21434] *Robots list creates numeric values + metadata missing for articles
+ # [#21357] Newsfeed categories - routing error with sef enabled. Thanks Mathavan.
+ $ Deleting useless JText in grid
  
 16-Jul-2010 Andrew Eddie
  # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).

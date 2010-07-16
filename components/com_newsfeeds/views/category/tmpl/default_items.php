@@ -36,19 +36,19 @@ $listDirn	= $this->state->get('list.direction');
 		<thead><tr>
 				<?php if ($this->params->get('show_name')) : ?>
 				<th class="item-title" id="tableOrdering">
-					<?php echo JHtml::_('grid.sort',  JText::_('COM_NEWSFEEDS_FEED_NAME'), 'a.name', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_FEED_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
 
 				<?php if ($this->params->get('show_articles')) : ?>
 				<th class="item-num-art" id="tableOrdering2">
-					<?php echo JHtml::_('grid.sort',  JText::_('COM_NEWSFEEDS_NUM_ARTICLES'), 'a.numarticles', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_NUM_ARTICLES', 'a.numarticles', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
 
 				<?php if ($this->params->get('show_link')) : ?>
 				<th class="item-link" id="tableOrdering3">
-					<?php echo JHtml::_('grid.sort',  JText::_('COM_NEWSFEEDS_FEED_LINK'), 'a.link', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_FEED_LINK', 'a.link', $listDirn, $listOrder); ?>
 				</th>
 				<?php endif; ?>
 
