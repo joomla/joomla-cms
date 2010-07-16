@@ -129,35 +129,7 @@ JHtml::_('behavior.keepalive');
 
 		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('metadesc'); ?>
-				<?php echo $this->form->getInput('metadesc'); ?></li>
-
-				<li><?php echo $this->form->getLabel('metakey'); ?>
-				<?php echo $this->form->getInput('metakey'); ?></li>
-
-				<?php
-				$fieldSets = $this->form->getFieldsets('metadata');
-
-				foreach ($fieldSets as $name => $fieldSet) :
-					echo JHtml::_('sliders.panel',JText::_($label), $name.'-options');
-						if (isset($fieldSet->description) && trim($fieldSet->description)) :
-							echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-						endif;
-						?>
-					<fieldset class="panelform">
-					<ul class="adminformlist">
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<li><?php echo $field->label; ?>
-							<?php echo $field->input; ?></li>
-						<?php endforeach; ?>
-						</ul>
-					</fieldset>
-				<?php endforeach; ?>
-
-				<li><?php echo $this->form->getLabel('xreference'); ?>
-				<?php echo $this->form->getInput('xreference'); ?></li>
-			</ul>
+			<?php echo $this->loadTemplate('metadata'); ?>
 		</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>

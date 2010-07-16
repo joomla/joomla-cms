@@ -232,23 +232,17 @@
 			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"/>
 
-		<field
-			name="robots"
+		<field name="robots" 
 			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC">
-			<option
-				value="">JGLOBAL_USE_GLOBAL</option>
-			<option
-				value="0">JGLOBAL_INDEX_FOLLOW</option>
-			<option
-				value="1">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option
-				value="2">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option
-				value="3">JGLOBAL_NOINDEX_NOFOLLOW</option>
-			<option
-				value="4">JGLOBAL_NO_ROBOTS_TAG</option>
+			label="JFIELD_METADATA_ROBOTS_LABEL" 
+			description="JFIELD_METADATA_ROBOTS_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			<option value=" ">JGLOBAL_NO_ROBOTS_TAG</option>
 		</field>
 	</fields>
 </form>

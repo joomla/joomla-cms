@@ -124,6 +124,11 @@ class NewsfeedsModelNewsfeed extends JModel
 
 			$db->setQuery($query);
 			$this->_data = $db->loadObject();
+			
+			// Convert metadata fields to objects.
+			$registry = new JRegistry;
+			$registry->loadJSON($this->_data->metadata);
+			$this->_data->metadata = $registry;
 
 			return (boolean) $this->_data;
 		}

@@ -477,52 +477,6 @@
 
 	</fieldset>
 
-	<fieldset name="Contact_Config_Meta_Data" 
-		label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
-		>
-		<field name="metakey" 
-			type="textarea"
-			label="JFIELD_META_KEYWORDS_LABEL" 
-			description="JFIELD_META_KEYWORDS_DESC"
-			rows="3" cols="30" />
-
-		<field name="metadesc" 
-			type="textarea"
-			label="JFIELD_META_DESCRIPTION_LABEL" 
-			description="JFIELD_META_DESCRIPTION_DESC"
-			rows="3" 
-			cols="30" 
-		/>
-
-		<field name="robots" 
-			type="text"
-			label="JFIELD_METADATA_ROBOTS_LABEL" 
-			description="JFIELD_METADATA_ROBOTS_DESC"
-			size="20" 
-		/>
-
-		<field name="author" 
-			type="text"
-			label="JAUTHOR" 
-			description="JFIELD_METADATA_AUTHOR_DESC"
-			size="20" 
-		/>
-
-		<field name="rights" 
-			type="text"
-			label="JFIELD_METADATA_RIGHTS_LABEL" 
-			description="JFIELD_METADATA_RIGHTS_DESC"
-			size="20" 
-			/>
-
-		<field name="xreference" 
-			type="hidden"
-			label="JFIELD_METADATA_XREFERENCE_LABEL" 
-			description="JFIELD_METADATA_XREFERENCE_DESC"
-			size="30" 
-			/>
-	</fieldset>
-
 	<fieldset name="permissions" 
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"

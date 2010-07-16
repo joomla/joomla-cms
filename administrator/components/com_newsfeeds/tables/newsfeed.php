@@ -39,13 +39,13 @@ class NewsfeedsTableNewsfeed extends JTable
 		if (isset($array['params']) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
-			$array['params'] = (string)$registry;
+			$array['params'] = (string) $registry;
 		}
 
 		if (isset($array['metadata']) && is_array($array['metadata'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string)$registry;
+			$array['metadata'] = (string) $registry;
 		}
 		return parent::bind($array, $ignore);
 	}

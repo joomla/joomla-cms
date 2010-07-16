@@ -135,5 +135,25 @@ class NewsfeedsViewNewsfeed extends JView
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
+		
+		if ($this->newsfeed->metadesc)
+		{
+			$this->document->setDescription($this->newsfeed->metadesc);
+		}
+
+		if ($this->newsfeed->metakey)
+		{
+			$this->document->setMetadata('keywords', $this->newsfeed->metakey);
+		}
+
+		$mdata = $this->newsfeed->metadata->toArray();
+		foreach ($mdata as $k => $v)
+		{
+			if ($v)
+			{
+				$this->document->setMetadata($k, $v);
+			}
+		}
+		
 	}
 }
