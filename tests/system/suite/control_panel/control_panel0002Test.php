@@ -183,7 +183,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("Category Manager: Add New Category"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-save']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-apply']/a/span"));
-		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
+		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-save-new']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-cancel']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		$this->click("//li[@id='toolbar-cancel']/a/span");

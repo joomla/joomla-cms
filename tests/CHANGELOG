@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jul-2010 Mark Dexter
+# Fix controlpanel0002 for button change
+
 14-Jul-2010 Mark Dexter
 # [#21236] PHP System Tests for Tracker Item 20836 Capitalization of "toolbar-popup-Popup"
 # [#21312] PHP System Test to check error messages associated with actions performed when nothing is selected
