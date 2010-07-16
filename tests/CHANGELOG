@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Jul-2010 Mark Dexter
 # Fix controlpanel0002 for button change
+# Eliminate second doInstall in TestSuite (no longer needed)
 
 14-Jul-2010 Mark Dexter
 # [#21236] PHP System Tests for Tracker Item 20836 Capitalization of "toolbar-popup-Popup"
