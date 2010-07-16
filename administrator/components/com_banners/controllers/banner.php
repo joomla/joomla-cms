@@ -65,6 +65,7 @@ class BannersControllerBanner extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		// Initialise variables.
+		$user		= JFactory::getUser();
 		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 

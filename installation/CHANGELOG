@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jul-2010 Jean-Marie Simonet
+ # Missing $user in banners and Newsfeed controllers
+ 
 16-Jul-2010 Andrew Eddie
  # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).
  # Partially fixed issue [#20933] Banner, Contact, Newsfeed, and Weblink Controller Improvements (Omar Ramos).
