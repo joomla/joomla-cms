@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Jul-2010 Jean-Marie Simonet
  # Missing $user in banners and Newsfeed controllers
+ # [#21378] Mootols (and possibly other js/css) not loading with cache on. Thanks Klas.
  
 16-Jul-2010 Andrew Eddie
  # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).

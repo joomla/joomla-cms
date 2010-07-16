@@ -126,12 +126,12 @@ class JDocumentHTML extends JDocument
 	public function mergeHeadData($data)
 	{	
 		
-		if (empty($data) || !is_array($data)) {
+  		if (empty($data) || !is_array($data)) {
 			return;
 		}
 		
-		$this->title		= (isset($data['title']) && !empty($data['title']) && $data['title'] != $this->title) ? $this->title.$data['title'] : $this->title;
-		$this->description	= (isset($data['description']) && !empty($data['description']) && $data['description'] != $this->description) ? $this->description. $data['description'] : $this->description;
+		$this->title		= (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title'])) ? $this->title.$data['title'] : $this->title;
+		$this->description	= (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description'])) ? $this->description. $data['description'] : $this->description;
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
 		
 		if (isset($data['metaTags'])) {
@@ -148,17 +148,21 @@ class JDocumentHTML extends JDocument
 		
 		if (isset($data['style'])) {
 			foreach($data['style'] AS $type=>$data) {
-				$this->addStyleDeclaration($data, $type);
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$data)) {
+					$this->addStyleDeclaration($data, $type);
+				}
 			}
 		}
-	
 		
-		$this->_scripts		= (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts'])) ? array_unique(array_merge($this->_scripts, $data['scripts'])) : $this->_scripts;
+		$this->_scripts		= (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts'])) ? array_merge($this->_scripts, $data['scripts']) : $this->_scripts;
 		
 		
 		if (isset($data['script'])) {
 			foreach($data['script'] AS $type=>$data) {
-				$this->addScriptDeclaration($data, $type);
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$data)) {
+					$this->addScriptDeclaration($data, $type);	
+				}
+				
 			}
 		}
 		
