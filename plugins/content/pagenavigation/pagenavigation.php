@@ -107,7 +107,7 @@ class plgContentPagenavigation extends JPlugin
 			$query->from('#__content AS a');
 			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
 			$query->where('a.catid = '. (int)$row->catid .' AND a.state = '. (int)$row->state
-						. ($canPublish ? '' : ' AND a.access <= ' .(int)$user->get('aid', 0)) . $xwhere);
+						. ($canPublish ? '' : ' AND a.access = ' .(int)$row->access) . $xwhere);
 			$query->order($orderby);
 
 			$db->setQuery($query);

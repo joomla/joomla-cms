@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jul-2010 Jean-Marie Simonet
+ # [#21172] •Article pagination display. Thanks Bill.
+
 16-Jul-2010 Jean-Marie Simonet
  # Missing $user in banners and Newsfeed controllers
  # [#21378] Mootols (and possibly other js/css) not loading with cache on. Thanks Klas.
