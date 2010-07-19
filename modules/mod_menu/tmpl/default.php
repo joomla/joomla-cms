@@ -32,6 +32,10 @@ foreach ($list as $i => &$item) :
 	{		
 		$class .= 'active ';
 	}
+	if($item->deeper) {
+		$class .= 'parent ';
+	}
+	
 	$class = ' class="'.$class.'item'.$item->id.'"';
 
 	echo '<li'.$id.$class.'>';
