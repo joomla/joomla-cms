@@ -50,8 +50,8 @@ class InstallerModelUpdate extends JModelList
 	{
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__updates');
+		// grab updates ignoring new installs
+		$query->select('*')->from('#__updates')->where('extension_id != 0');
 		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
 
 		return $query;

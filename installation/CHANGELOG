@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jul-2010 Sam Moffatt
+ # Fixed non-updates appear in update list
+
 19-Jul-2010 Jean-Marie Simonet
  # [#21172] •Article pagination display. Thanks Bill.
  # [#21389] Missing addition of css class "parent" to <li> tag for parent item in menu.
