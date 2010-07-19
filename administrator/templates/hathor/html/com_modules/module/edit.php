@@ -106,7 +106,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php else : ?>
 				<?php echo JText::_('COM_MODULES_ERR_XML'); ?>
 			<?php endif; ?>
-			<div class="clr" /></div>
+			<div class="clr"></div>
 		</fieldset>
 
 		<div class="clr"></div>

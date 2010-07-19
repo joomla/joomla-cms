@@ -91,7 +91,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php echo $this->form->getInput('client_id'); ?>
 			</li>
 			</ul>
-			<div class="clr" /></div>
+			<div class="clr"></div>
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
 					<label>
@@ -102,7 +102,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<?php else : ?>
 				<p class="error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></p>
 			<?php endif; ?>
-			<div class="clr" /></div>
+			<div class="clr"></div>
 		</fieldset>
 	</div>
 
