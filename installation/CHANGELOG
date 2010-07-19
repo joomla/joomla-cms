@@ -34,6 +34,8 @@ $ -> Language fix or change
  # [#21455] XML self closing syntax used on a div. Thanks Rune.
  $ [#21454] login module refers to non-existing. Thanks Michael
  $ Deleting redundant string
+ $ [#21424] Untranslated strings: Default captions for various functions in JToolBarHelper class (Part 1) Tks CY Lee
+ $ [#21425] Untranslated strings: Default captions for various functions in JToolBarHelper class (Part 2) Tks CY Lee
 
 16-Jul-2010 Jean-Marie Simonet
  # Missing $user in banners and Newsfeed controllers
