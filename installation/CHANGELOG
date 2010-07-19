@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#21389] Missing addition of css class "parent" to <li> tag for parent item in menu.
  # [#21369] New menu item - Metadata options - Show Page Heading. Thanks Bill.
  # [#21455] XML self closing syntax used on a div. Thanks Rune.
+ $ [#21454] login module refers to non-existing. Thanks Michael
 
 16-Jul-2010 Jean-Marie Simonet
  # Missing $user in banners and Newsfeed controllers
