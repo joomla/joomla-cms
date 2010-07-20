@@ -30,6 +30,7 @@ $ -> Language fix or change
 21-Jul-2010 Andrew Eddie
  # Fixed issue [#21430] User Manager - Blank page if new password and confirmation do not match (Al Kent).
  # Fixed issue [#21451] [patch] Article field "xreference" available in views in 1.5 but missing in 1.6 (Andrea Tarr).
+ # Fixed issue [#21349] Manage view of com_installer does not use the default_item.php sub-template (Rune Sjøen).
 
 20-Jul-2010 Jean-Marie Simonet
  # [#21495] * Tooltip max-width insufficient
