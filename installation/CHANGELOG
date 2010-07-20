@@ -28,24 +28,24 @@ $ -> Language fix or change
 ! -> Note
 
 21-Jul-2010 Andrew Eddie
- # Fixed issue [#21430] User Manager - Blank page if new password and confirmation do not match (Al Kent).
- # Fixed issue [#21451] [patch] Article field "xreference" available in views in 1.5 but missing in 1.6 (Andrea Tarr).
- # Fixed issue [#21349] Manage view of com_installer does not use the default_item.php sub-template (Rune Sjøen).
- # Fixed issue [#21464] bitfolge feedcreator is unnecessary (Hannes Papenberg, Amy Stephen).
+ # [#21430] User Manager - Blank page if new password and confirmation do not match (Al Kent).
+ # [#21451] Article field "xreference" available in views in 1.5 but missing in 1.6 (Andrea Tarr).
+ # [#21349] Manage view of com_installer does not use the default_item.php sub-template (Rune Sjøen).
+ # [#21464] bitfolge feedcreator is unnecessary (Hannes Papenberg, Amy Stephen).
 
 20-Jul-2010 Jean-Marie Simonet
- # [#21495] * Tooltip max-width insufficient
- # [#21484] [patch] Plugin manger error in Hathor from typo in earlier patch. Thanks Andrea.
+ # [#21495] Tooltip max-width insufficient
+ # [#21484] Plugin manger error in Hathor from typo in earlier patch. Thanks Andrea.
 
 20-Jul-2010 Sam Moffatt
  # Fixed non-updates appear in update list
 
 19-Jul-2010 Jean-Marie Simonet
- # [#21172] •Article pagination display. Thanks Bill.
+ # [#21172] Article pagination display. Thanks Bill.
  # [#21389] Missing addition of css class "parent" to <li> tag for parent item in menu.
  # [#21369] New menu item - Metadata options - Show Page Heading. Thanks Bill.
  # [#21455] XML self closing syntax used on a div. Thanks Rune.
- $ [#21454] login module refers to non-existing. Thanks Michael
+ $ [#21454] Login module refers to non-existing. Thanks Michael
  $ Deleting redundant string
  $ [#21424] Untranslated strings: Default captions for various functions in JToolBarHelper class (Part 1) Tks CY Lee
  $ [#21425] Untranslated strings: Default captions for various functions in JToolBarHelper class (Part 2) Tks CY Lee
@@ -53,21 +53,21 @@ $ -> Language fix or change
 16-Jul-2010 Jean-Marie Simonet
  # Missing $user in banners and Newsfeed controllers
  # [#21378] Mootols (and possibly other js/css) not loading with cache on. Thanks Klas.
- # [#21434] *Robots list creates numeric values + metadata missing for articles
+ # [#21434] Robots list creates numeric values + metadata missing for articles
  # [#21357] Newsfeed categories - routing error with sef enabled. Thanks Mathavan.
  $ Deleting useless JText in grid
  # [#21437] Rename garbagecron.php to .txt.
  
 16-Jul-2010 Andrew Eddie
- # Fixed issue [#20929] CategoriesControllerCategories Improvements (Omar Ramos).
- # Partially fixed issue [#20933] Banner, Contact, Newsfeed, and Weblink Controller Improvements (Omar Ramos).
- # Fixed issue [#21337] Framework: JControllerForm does not preserve form data on validation error (Anders Knutsson, Bill Richardson).
+ # [#20929] CategoriesControllerCategories Improvements (Omar Ramos).
+ # Partial [#20933] Banner, Contact, Newsfeed, and Weblink Controller Improvements (Omar Ramos).
+ # [#21337] Framework: JControllerForm does not preserve form data on validation error (Anders Knutsson, Bill Richardson).
 
 15-Jul-2010 Jean-Marie Simonet
  # [#21422] Content Category metadata not displayed 
  # [#21423] Enabling metadata for newsfeed, contacts, weblinks category
  # [#21417] Extra < in <script... tag
- # [#21426] * Enabling metadata for single contact
+ # [#21426] Enabling metadata for single contact
  
 14-Jul-2010 Jean-Marie Simonet
  # [#21398] [Hathor] saveOrder should be $saveOrder. Thanks Viet.
@@ -79,14 +79,14 @@ $ -> Language fix or change
  # [#21415] Restoring deleted title in Hathor. Thanks Michael.
 
 14-Jul-2010 Mark Dexter
-# Sample data fixes (Elin Waring)
-# Fix joomla.sql table for missing row and lft, rgt values (Seline Feigl)
-# [#21286] com_banner test code clean up in category.xml
-# Missing } in /administrator/components/com_users/views/level/view.html.php
+ # Sample data fixes (Elin Waring)
+ # joomla.sql table missing row and lft, rgt values (Seline Feigl)
+ # [#21286] com_banner test code clean up in category.xml
+ # Missing } in /administrator/components/com_users/views/level/view.html.php
 
 13-Jul-2010 Jean-Marie Simonet
- # [#20760] *Contact Manager Options > Contact List parameters
- # [#21377] error caused by page break without readmore (see on visiting component menu item in sample data)
+ # [#20760] Contact Manager Options > Contact List parameters
+ # [#21377] Error caused by page break without readmore (see on visiting component menu item in sample data)
  # [#21382] Fallback template is rhuk_milkyway, not beez_20, and doesn't load properly.
  # [#21371] Restore 1.5 ability for multiple categories for Latest Articles Module. Thanks Amy
  # [#21215] Consistency in module layouts. Thanks Bill.
