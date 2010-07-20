@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jul-2010 Andrew Eddie
+ # Fixed issue [#21430] User Manager - Blank page if new password and confirmation do not match (Al Kent).
+
 20-Jul-2010 Jean-Marie Simonet
  # [#21495] * Tooltip max-width insufficient
  # [#21484] [patch] Plugin manger error in Hathor from typo in earlier patch. Thanks Andrea.
