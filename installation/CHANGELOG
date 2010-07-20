@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jul-2010 Jean-Marie Simonet
+ # [#21495] * Tooltip max-width insufficient
+
 20-Jul-2010 Sam Moffatt
  # Fixed non-updates appear in update list
 
