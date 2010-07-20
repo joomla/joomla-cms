@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 20-Jul-2010 Jean-Marie Simonet
  # [#21495] * Tooltip max-width insufficient
+ # [#21484] [patch] Plugin manger error in Hathor from typo in earlier patch. Thanks Andrea.
 
 20-Jul-2010 Sam Moffatt
  # Fixed non-updates appear in update list

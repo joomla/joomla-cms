@@ -18,7 +18,7 @@ JHtml::_('behavior.tooltip');
 $user = JFactory::getUser();
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
-$canChange	= $user->authorise('core.edit.state',	'com_plugins');
+$canOrder	= $user->authorise('core.edit.state',	'com_plugins');
 $saveOrder	= $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
