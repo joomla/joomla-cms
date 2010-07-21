@@ -84,7 +84,7 @@
 
 	<!-- Extension Update Specification -->
 	<updateservers>
-		<server type="extension" priority="1" name="Extension Update Site">http://jsitepoint.com/update/component/com_alpha/extension.xml</server> <!-- useful for single extensions -->
+		<server type="extension" priority="1" name="Extension Update Site">http://jsitepoint.com/update/components/com_alpha/extension.xml</server> <!-- useful for single extensions -->
 		<server type="collection" priority="2" name="Collection Update Site">http://jsitepoint.com/update/update.xml</server><!-- useful for collections of extensions -->
 	</updateservers>
 
