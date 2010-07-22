@@ -11,13 +11,13 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<fieldset title="<?php echo JText::_('INSTALLER_MSG_DESCFTPTITLE'); ?>">
+<fieldset title="<?php echo JText::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?>">
 	<legend><?php echo JText::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
 
 	<?php echo JText::_('COM_INSTALLER_MSG_DESCFTP'); ?>
 
 	<?php if (JError::isError($this->ftp)): ?>
-		<p><?php echo JText::_($this->ftp->message); ?></p>
+		<p><?php echo JText::_($this->ftp->getMessage()); ?></p>
 	<?php endif; ?>
 
 	<table class="adminform">
