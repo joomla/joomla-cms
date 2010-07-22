@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jul-2010 Jean-Marie Simonet
+ # [#21199] Profile data show in contacts when profile plugin is disabled
+
 21-Jul-2010 Andrew Eddie
  # Fixed issue [#20880] fatal error trying to view template positions (Rob Joyce, Rune Sjøen).
  # Fixed issue [#21394] Problem with submenu translation in 3rd party extensions (Rune Sjøen).

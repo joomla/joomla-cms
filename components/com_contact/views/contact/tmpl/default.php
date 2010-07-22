@@ -81,7 +81,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php if ($this->params->get('show_links')) : ?>
 		<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_articles') &&  $this->contact->user_id) : ?>
+	<?php if ($this->params->get('show_articles') && $this->contact->user_id) : ?>
 		<?php if ($this->params->get('presentation_style')!='plain'):?>
 			<?php echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 			<?php endif; ?>
@@ -90,7 +90,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php endif; ?>
 			<?php echo $this->loadTemplate('articles'); ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('show_profile') &&  $this->contact->user_id) : ?>
+	<?php if ($this->params->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
 		<?php if ($this->params->get('presentation_style')!='plain'):?>
 			<?php echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php endif; ?>
