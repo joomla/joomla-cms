@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Framework
+ * @subpackage	Installer
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -58,9 +60,11 @@ class JInstallerComponent extends JAdapterInstance
 
 		if ($this->manifest->administration->files) {
 			$element = $this->manifest->administration->files;
-		} elseif ($this->manifest->files) {
+		}
+		else if ($this->manifest->files) {
 			$element = $this->manifest->files;
-		} else {
+		}
+		else {
 			$element = null;
 		}
 
@@ -147,12 +151,14 @@ class JInstallerComponent extends JAdapterInstance
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || $updateElement) {
 				return $this->update(); // transfer control to the update function
-			} else if (!$this->parent->getOverwrite()) {
+			}
+			else if (!$this->parent->getOverwrite()) {
 				// overwrite is set
 				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe
 				if (file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')));
-				} else {
+				}
+				else {
 					// if the admin exists say that
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN', $this->parent->getPath('extension_administrator')));
 				}
@@ -453,7 +459,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Set the schema version to be the latest update version
-		if($this->manifest->update) {
+		if ($this->manifest->update) {
 			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
 		}
 
@@ -540,7 +546,8 @@ class JInstallerComponent extends JAdapterInstance
 			if ($tmpInstaller->findManifest()) {
 				$old_manifest = $tmpInstaller->getManifest();
 			}
-		} else {
+		}
+		else {
 			$old_manifest = $tmpInstaller->getManifest();
 		}
 
@@ -548,7 +555,8 @@ class JInstallerComponent extends JAdapterInstance
 		if ($old_manifest) {
 			$this->oldAdminFiles = $old_manifest->administration->files;
 			$this->oldFiles = $old_manifest->files;
-		} else {
+		}
+		else {
 			$this->oldAdminFiles = null;
 			$this->oldFiles = null;
 		}
@@ -572,6 +580,7 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string)$this->manifest->scriptfile;
+
 		if ($manifestScript) {
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 
@@ -749,8 +758,7 @@ class JInstallerComponent extends JAdapterInstance
 			)
 		);
 
-		if($this->manifest->update)
-		{
+		if ($this->manifest->update) {
 			$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $eid);
 
 			if ($result === false) {
@@ -1098,7 +1106,8 @@ class JInstallerComponent extends JAdapterInstance
 			unset ($row);
 
 			return $retval;
-		} else {
+		}
+		else {
 			// No component option defined... cannot delete what we don't know about
 			JError::raiseWarning(100, 'JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION');
 			return false;
@@ -1145,7 +1154,8 @@ class JInstallerComponent extends JAdapterInstance
 			}
 
 			$component_id = $componentrow->extension_id;
-		} else {
+		}
+		else {
 			// Lets Find the extension id
 			$query->clear();
 			$query->select('e.extension_id');
@@ -1183,9 +1193,9 @@ class JInstallerComponent extends JAdapterInstance
 			 * so that if we have to rollback the changes we can undo it.
 			 */
 			$this->parent->pushStep(array ('type' => 'menu'));
-		} else {
-
-			// No menu element was specified, Let's make a generic menu item
+		}
+		// No menu element was specified, Let's make a generic menu item
+		else {
 			$data = array();
 			$data['menutype'] = '_adminmenu';
 			$data['title'] = $option;
@@ -1225,7 +1235,7 @@ class JInstallerComponent extends JAdapterInstance
 		foreach ($this->manifest->administration->submenu->menu as $child) {
 			$data = array();
 			$data['menutype'] = '_adminmenu';
-			$data['title'] = ((string)$child->attributes()->view) ? $option.'_'.$child->attributes()->view : $option;
+			$data['title'] = (string)$child;
 			$data['alias'] = (string)$child;
 			$data['type'] = 'component';
 			$data['published'] = 0;
@@ -1237,7 +1247,8 @@ class JInstallerComponent extends JAdapterInstance
 			// Set the sub menu link
 			if ((string)$child->attributes()->link) {
 				$data['link'] = 'index.php?'.$child->attributes()->link;
-			} else {
+			}
+			else {
 				$request = array();
 
 				if ((string)$child->attributes()->act) {
@@ -1314,11 +1325,14 @@ class JInstallerComponent extends JAdapterInstance
 		// Check for error
 		if ($error = $db->getErrorMsg() || empty($ids)){
 			JError::raiseWarning('Some_code_here', 'Some_message_here');//@todo Some_more_descriptive_message_here =;)
-			if($error && $error != 1) {
+
+			if ($error && $error != 1) {
 				JError::raiseWarning(100, $error);
 			}
+
 			return false;
-		} else {
+		}
+		else {
 			// Iterate the items to delete each one.
 			foreach($ids as $menuid){
 				if (!$table->delete((int) $menuid)) {
@@ -1415,7 +1429,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		try {
 			$this->parent->extension->store();
-		} catch(JException $e) {
+		}
+		catch (JException $e) {
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_DISCOVER_STORE_DETAILS'));
 			return false;
 		}
@@ -1451,7 +1466,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		if ($description) {
 			$this->parent->set('message', JText::_((string)$description));
-		} else {
+		}
+		else {
 			$this->parent->set('message', '');
 		}
 
@@ -1665,7 +1681,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		try {
 			return $this->parent->extension->store();
-		} catch(JException $e) {
+		}
+		catch(JException $e) {
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_COMP_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}
