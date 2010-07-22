@@ -39,6 +39,7 @@ $ -> Language fix or change
  # Fixed issue [#20751] Fix some markup errors and bring installer closer to XHTML strict (Rouven Weßling).
  # Fixed issue [#21339] JFile::Write() returns wrong value (Janich Rasmussen, Artyom Bisyarin).
  # Fixed issue [#21436] Database Error should return "500 Internal Server Error" so Joomla! can operate properly in CDNs (Klas Berlič1).
+ # Fixed issue [#20381] Readme file (Paulo Izidoro).
  
 21-Jul-2010 Jean-Marie Simonet
  $ Changing all occurences of :: to : : in strings' values to avoid breaking tooltips
