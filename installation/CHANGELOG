@@ -34,6 +34,7 @@ $ -> Language fix or change
  # Fixed issue [#21438] Adding categories (Rune Sjøen).
  # Fixed issue [#21247] HTML comments shouldn't be used to guard JavaScript (Rouven Weßling).
  # Fixed issue [#21335] Sort by descending causes issues with ordering in Category and Menu Managers (Michael Babker).
+ # Fixed issue [#21250] Token message Error on Install Sample Data (Pete Nurse).
  
 21-Jul-2010 Jean-Marie Simonet
  $ Changing all occurences of :: to : : in strings' values to avoid breaking tooltips
