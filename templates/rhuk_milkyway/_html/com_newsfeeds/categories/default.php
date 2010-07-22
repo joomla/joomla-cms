@@ -1,7 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die; ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(pressbutton) {
 		var form = document.mailtoForm;
 
@@ -12,7 +11,6 @@ defined('_JEXEC') or die; ?>
 		}
 		form.submit();
 	}
--->
 </script>
 <?php
 $data	= $this->get('data');

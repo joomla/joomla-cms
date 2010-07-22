@@ -15,7 +15,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
@@ -39,7 +38,6 @@ JHtml::_('behavior.formvalidation');
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_banners'); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">

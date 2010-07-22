@@ -9,7 +9,7 @@
  */
 defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
-	$script = '<!--
+	$script = '
 		function validateForm(frm) {
 			var valid = document.formvalidator.isValid(frm);
 			if (valid == false) {
@@ -23,8 +23,7 @@ JHtml::_('behavior.keepalive');
 			} else {
 				frm.submit();
 			}
-		}
-		// -->';
+		}';
 	$document = JFactory::getDocument();
 	$document->addScriptDeclaration($script); ?>
 

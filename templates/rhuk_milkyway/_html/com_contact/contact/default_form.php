@@ -2,7 +2,7 @@
 /** $Id$ */
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-	$script = '<!--
+	$script = '
 		function validateForm( frm ) {
 			var valid = document.formvalidator.isValid(frm);
 			if (valid == false) {
@@ -16,8 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			} else {
 				frm.submit();
 			}
-		}
-		// -->';
+		}';
 	$document = JFactory::getDocument();
 	$document->addScriptDeclaration($script);
 

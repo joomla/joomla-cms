@@ -21,13 +21,11 @@ $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task) {
 		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE',true);?>')) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm">
 	<table class="adminlist">

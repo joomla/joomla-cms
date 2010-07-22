@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 ?>
 <script type="text/javascript">
-<!--
 	window.addEvent('domready', function() {
 		document.id('jform_compressed1').addEvent('click', function(e){
 			document.id('jform_inline0').checked=false;
@@ -23,7 +22,6 @@ JHtml::_('behavior.tooltip');
 			document.id('jform_compressed1').checked=false;
 		});
 	});
-// -->
 </script>
 <form
 	action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw');?>"

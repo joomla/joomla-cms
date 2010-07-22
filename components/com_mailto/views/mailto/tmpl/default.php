@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(pressbutton) {
 		var form = document.mailtoForm;
 
@@ -23,7 +22,6 @@ JHtml::_('behavior.keepalive');
 		}
 		form.submit();
 	}
--->
 </script>
 <?php
 $data	= $this->get('data');

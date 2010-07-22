@@ -12,7 +12,6 @@
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton3(pressbutton) {
 		var form = document.adminForm;
 
@@ -36,7 +35,6 @@ defined('_JEXEC') or die;
 			form.submit();
 		}
 	}
-//-->
 </script>
 
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm">

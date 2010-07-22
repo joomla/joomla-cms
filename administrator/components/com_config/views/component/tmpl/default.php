@@ -17,14 +17,12 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (document.formvalidator.isValid(document.id('component-form'))) {
 			submitform(task);
 		}
 	}
--->
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate">
 	<fieldset>

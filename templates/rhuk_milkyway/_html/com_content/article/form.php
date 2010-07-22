@@ -12,7 +12,6 @@ if (! isset($this->article->publish_down) || $this->article->publish_down == 'Ne
 ?>
 
 <script type="text/javascript">
-<!--
 function setgood() {
 	// TODO: Put setGood back
 	return true;
@@ -56,7 +55,6 @@ function submitbutton(pressbutton) {
 	<?php echo $this->editor->save( 'text' ); ?>
 	submitform(pressbutton);
 }
-//-->
 </script>
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 <div class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $this->escape($this->params->get('page_title')); ?></div>

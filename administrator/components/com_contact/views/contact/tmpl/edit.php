@@ -16,7 +16,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
@@ -27,7 +26,6 @@ JHtml::_('behavior.formvalidation');
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">

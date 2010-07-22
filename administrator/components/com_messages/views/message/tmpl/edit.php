@@ -17,13 +17,11 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task) {
 		if (task == 'message.cancel' || document.formvalidator.isValid(document.id('message-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
 	<div class="width-100">

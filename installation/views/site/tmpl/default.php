@@ -19,7 +19,6 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 ?>
 
 <script type="text/javascript">
-<!--
 	function validateForm(frm, task) {
 		Joomla.submitform(task);
 	}
@@ -31,7 +30,6 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 		el.setAttribute('value','<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>');
 	});
 <?php endif; ?>
-// -->
 </script>
 
 <div id="stepbar">

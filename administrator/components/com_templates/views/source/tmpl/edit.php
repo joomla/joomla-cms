@@ -16,7 +16,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'source.cancel' || document.formvalidator.isValid(document.id('source-form'))) {
@@ -27,7 +26,6 @@ JHtml::_('behavior.keepalive');
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="source-form" class="form-validate">

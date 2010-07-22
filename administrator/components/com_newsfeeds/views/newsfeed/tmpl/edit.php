@@ -18,7 +18,6 @@ JHtml::_('behavior.keepalive');
 
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
@@ -28,7 +27,6 @@ JHtml::_('behavior.keepalive');
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
-// -->
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds'); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">

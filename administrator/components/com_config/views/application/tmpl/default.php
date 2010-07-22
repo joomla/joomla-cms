@@ -20,14 +20,12 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
 			submitform(task);
 		}
 	}
--->
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="application-form" method="post" name="adminForm" class="form-validate">

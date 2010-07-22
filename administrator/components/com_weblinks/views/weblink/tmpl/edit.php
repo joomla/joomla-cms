@@ -15,7 +15,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('weblink-form'))) {
@@ -26,7 +25,6 @@ JHtml::_('behavior.formvalidation');
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">

@@ -17,14 +17,12 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('config-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
 	<fieldset>

@@ -48,7 +48,6 @@ class JFormFieldModuleOrder extends JFormField
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		$html[] = '<script type="text/javascript">';
-		$html[] = '<!-- ';
 
 		$ordering = $this->form->getValue('ordering');
 		$position = $this->form->getValue('position');
@@ -86,7 +85,6 @@ class JFormFieldModuleOrder extends JFormField
 		}
 
 		$html[] = 'writeDynaList(\'name="'.$this->name.'" id="'.$this->id.'"'.$attr.'\', orders, originalPos, originalPos, originalOrder);';
-		$html[] = ' //-->';
 		$html[] = '</script>';
 
 		return implode("\n", $html);

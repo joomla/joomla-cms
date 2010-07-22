@@ -16,14 +16,12 @@ JHtml::_('behavior.formvalidation');
 $user = JFactory::getUser();
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

@@ -19,14 +19,12 @@ JHtml::_('behavior.formvalidation');
 ?>
 
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'menu.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <div class="menu-edit">

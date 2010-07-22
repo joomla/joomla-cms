@@ -18,14 +18,12 @@ JHtml::_('behavior.formvalidation');
 ?>
 
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'menu.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form">

@@ -20,7 +20,6 @@ JHtml::_('behavior.keepalive');
 ?>
 
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
@@ -31,7 +30,6 @@ JHtml::_('behavior.keepalive');
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
-// -->
 </script>
 
 <div class="article-edit">

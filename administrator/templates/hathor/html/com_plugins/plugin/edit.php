@@ -15,14 +15,12 @@ JHTML::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_plugins'); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

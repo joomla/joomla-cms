@@ -19,7 +19,6 @@ JHtml::_('behavior.formvalidation');
 ?>
 
 <script type="text/javascript">
-<!--
 function submitbutton(task)
 {
 	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form'))) {
@@ -85,7 +84,6 @@ window.addEvent('domready', function(){
 	});
 });
 */
-// -->
 </script>
 
 

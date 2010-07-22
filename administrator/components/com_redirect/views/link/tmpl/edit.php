@@ -18,14 +18,12 @@ JHtml::_('behavior.keepalive');
 
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect'); ?>" method="post" name="adminForm" id="link-form" class="form-validate">

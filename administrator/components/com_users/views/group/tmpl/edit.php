@@ -19,14 +19,12 @@ JHtml::_('behavior.formvalidation');
 ?>
 
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'group.cancel' || document.formvalidator.isValid(document.id('group-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">

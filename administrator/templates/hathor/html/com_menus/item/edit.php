@@ -20,7 +20,6 @@ JHTML::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
@@ -35,7 +34,6 @@ JHTML::_('behavior.modal');
 			});
 		}
 	}
-// -->
 </script>
 
 <div class="menuitem-edit">

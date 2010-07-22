@@ -15,14 +15,12 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form'))) {
 			submitform(task);
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_languages'); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
