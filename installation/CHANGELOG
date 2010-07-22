@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jul-2010 Andrew Eddie
+ # Fixed issue [#20880] fatal error trying to view template positions (Rob Joyce, Rune Sjøen).
+
 21-Jul-2010 Jean-Marie Simonet
  $ Changing all occurences of :: to : : in strings' values to avoid breaking tooltips
  

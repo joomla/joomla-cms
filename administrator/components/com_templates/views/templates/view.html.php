@@ -19,18 +19,38 @@ jimport('joomla.application.component.view');
  */
 class TemplatesViewTemplates extends JView
 {
+	/**
+	 * @var		array
+	 * @since	1.6
+	 */
 	protected $items;
+
+	/**
+	 * @var		object
+	 * @since	1.6
+	 */
 	protected $pagination;
+
+	/**
+	 * @var		object
+	 * @since	1.6
+	 */
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Display the view.
+	 *
+	 * @param	string
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public function display($tpl = null)
 	{
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->preview		= JFactory::getConfig()->get('debug_modules');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -45,6 +65,7 @@ class TemplatesViewTemplates extends JView
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function addToolbar()

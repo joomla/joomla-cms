@@ -5,6 +5,7 @@
  * @subpackage	com_templates
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.6
  */
 
 // No direct access.
@@ -15,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 
-$user = JFactory::getUser();
+$user		= JFactory::getUser();
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 ?>
@@ -75,7 +76,18 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td class="template-name">
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
-					<?php echo  JText::sprintf( 'COM_TEMPLATES_TEMPLATE_DETAILS', $item->name) ;?></a>
+						<?php echo  JText::sprintf( 'COM_TEMPLATES_TEMPLATE_DETAILS', $item->name) ;?></a>
+					<p>
+					<?php if($this->preview && $item->client_id == '0'): ?>
+						<a href="<?php echo JURI::root(true).'?tp=1&template='.$item->element; ?>" target="_blank">
+							<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
+					<?php elseif ($item->client_id == '1'): ?>
+						<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
+					<?php else: ?>
+						<span class="hasTip" title="<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>::<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
+							<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+					<?php endif; ?>
+					</p>
 				</td>
 				<td class="center">
 					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
