@@ -337,7 +337,22 @@ class JControllerForm extends JController
 	}
 
 	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param	JModel	$model	The data model object.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function postSaveHook(JModel &$model)
+	{
+	}
+
+	/**
 	 * Method to save a record.
+	 *
+	 * @return	boolean
+	 * @since	1.6
 	 */
 	public function save()
 	{
@@ -478,6 +493,9 @@ class JControllerForm extends JController
 				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 				break;
 		}
+
+		// Invoke the postSave method to allow for the child class to access the model.
+		$this->postSaveHook($model);
 
 		return true;
 	}
