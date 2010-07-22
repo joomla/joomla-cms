@@ -496,7 +496,8 @@ abstract class JToolBarHelper
 		$left = 0;
 		$bar = JToolBar::getInstance('toolbar');
 		// Add a configuration button.
-		$bar->appendButton('Popup', 'options', $alt, 'index.php?option=com_config&amp;view=component&amp;component='.$component.'&amp;path='.$path.'&amp;tmpl=component', $width, $height);
+		$bar->appendButton('Popup', 'options', $alt, 'index.php?option=com_config&amp;view=component&amp;component='.$component.'&amp;path='.$path.'&amp;tmpl=component', $width, $height, $top, $left, $onClose);
+		
 	}
 }
 
