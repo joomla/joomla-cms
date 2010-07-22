@@ -30,6 +30,7 @@ $ -> Language fix or change
 21-Jul-2010 Andrew Eddie
  # Fixed issue [#20880] fatal error trying to view template positions (Rob Joyce, Rune Sjøen).
  # Fixed issue [#21394] Problem with submenu translation in 3rd party extensions (Rune Sjøen).
+ # Fixed issue [#21452] Use rel="help" for the help button in the toolbar (Rouven Weßling).
 
 21-Jul-2010 Jean-Marie Simonet
  $ Changing all occurences of :: to : : in strings' values to avoid breaking tooltips
