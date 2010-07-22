@@ -526,8 +526,8 @@ abstract class JFactory
 		$user		= $conf->get('user');
 		$password	= $conf->get('password');
 		$database	= $conf->get('db');
-		$prefix	= $conf->get('dbprefix');
-		$driver	= $conf->get('dbtype');
+		$prefix		= $conf->get('dbprefix');
+		$driver		= $conf->get('dbtype');
 		$debug		= $conf->get('debug');
 
 		$options	= array ('driver' => $driver, 'host' => $host, 'user' => $user, 'password' => $password, 'database' => $database, 'prefix' => $prefix);
@@ -535,7 +535,8 @@ abstract class JFactory
 		$db = JDatabase::getInstance($options);
 
 		if (JError::isError($db)) {
-			jexit('Database Error: ' . (string)$db);
+			header('HTTP/1.1 500 Internal Server Error');
+			jexit('Database Error: ' . (string) $db);
 		}
 
 		if ($db->getErrorNum() > 0) {
