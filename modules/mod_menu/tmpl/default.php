@@ -29,13 +29,13 @@ foreach ($list as $i => &$item) :
 	}
 	$class = '';
 	if(in_array($item->id, $path))
-	{		
+	{
 		$class .= 'active ';
 	}
 	if($item->deeper) {
 		$class .= 'parent ';
 	}
-	
+
 	$class = ' class="'.$class.'item'.$item->id.'"';
 
 	echo '<li'.$id.$class.'>';

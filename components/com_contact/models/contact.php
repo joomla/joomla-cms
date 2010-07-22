@@ -163,7 +163,7 @@ class ContactModelContact extends JModelItem
 
 
 	protected function  getContactQuery($pk = null)
-	{   
+	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= $this->getDbo();
 		$user	= JFactory::getUser();
@@ -236,5 +236,5 @@ class ContactModelContact extends JModelItem
 		return $result;
 		}
 	}
-}	
+}
 

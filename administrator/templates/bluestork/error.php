@@ -21,20 +21,20 @@ $app = JFactory::getApplication();
 	<jdoc:include type="head" />
 	<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 	<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-	
+
 	<?php if ($this->direction == 'rtl') : ?>
 		<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	<?php endif; ?>
-	
+
 	<?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	<?php endif; ?>
-	
+
 	<!--[if gte IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
-	
-	
+
+
 </head>
 <body id="minwidth-body">
 	<div id="border-top" class="h_blue">
@@ -61,7 +61,7 @@ $app = JFactory::getApplication();
 			<?php echo  JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
 	</noscript>
 	<div class="clr"></div>
-	<div id="border-bottom"><div><div></div></div></div>	
-		
+	<div id="border-bottom"><div><div></div></div></div>
+
 </body>
 </html>

@@ -436,7 +436,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 	 * @return void
 	 */
 	public function testRemove()
-	{	
+	{
 		$options = array('storage'		=> 'file');
 		$this->object = JCache::getInstance('output',$options);
 		$this->object->setCaching(true);

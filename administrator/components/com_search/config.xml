@@ -12,7 +12,7 @@
 			<option
 				value="1">JYES</option>
 		</field>
-		
+
 		<field name="search_areas"
 				type="radio"
 				default="1"
@@ -22,7 +22,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		<field
 			name="show_date"
 			type="radio"

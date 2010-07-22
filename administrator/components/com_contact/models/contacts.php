@@ -141,10 +141,10 @@ class ContactModelContacts extends JModelList
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');				
+				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
-		
+
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
 			$query->where('a.language = ' . $db->quote($language));

@@ -904,7 +904,7 @@ class MenusModelItem extends JModelAdmin
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to save the reordered nested set tree.
 	 * First we save the new order values in the lft values of the changed ids.
@@ -928,7 +928,7 @@ class MenusModelItem extends JModelAdmin
 		return true;
 
 	}
-	
+
 
 	/**
 	 * Method to change the home state of one or more items.

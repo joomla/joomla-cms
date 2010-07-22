@@ -34,7 +34,7 @@ $listDirn	= $this->state->get('list.direction');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
-		
+
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
@@ -50,7 +50,7 @@ $listDirn	= $this->state->get('list.direction');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
-			
+
 			<button type="button" id="filter-go" onclick="this.form.submit();">
 				<?php echo JText::_('JSUBMIT'); ?></button>
 		</div>
@@ -94,9 +94,9 @@ $listDirn	= $this->state->get('list.direction');
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	
+
 	<?php echo $this->pagination->getListFooter(); ?>
-	
+
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

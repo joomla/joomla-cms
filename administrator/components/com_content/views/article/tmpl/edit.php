@@ -56,10 +56,10 @@ JHtml::_('behavior.keepalive');
 
 		<li><?php echo $this->form->getLabel('featured'); ?>
 		<?php echo $this->form->getInput('featured'); ?></li>
-		
+
 		<li><?php echo $this->form->getLabel('id'); ?>
 		<?php echo $this->form->getInput('id'); ?></li>
-		
+
 		</ul>
 		<div class="clr"></div>
 		<?php echo $this->form->getLabel('articletext'); ?>

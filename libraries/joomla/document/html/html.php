@@ -101,11 +101,11 @@ class JDocumentHTML extends JDocument
 	 * @param	array	$data	The document head data in array form
 	 */
 	public function setHeadData($data)
-	{	
+	{
 		if (empty($data) || !is_array($data)) {
 			return;
 		}
-		
+
 		$this->title		= (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
 		$this->description	= (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
 		$this->link			= (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
@@ -117,35 +117,35 @@ class JDocumentHTML extends JDocument
 		$this->_script		= (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
 		$this->_custom		= (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 	}
-	
+
 	/**
 	 * Merge the html document head data
 	 *
 	 * @param	array	$data	The document head data in array form
 	 */
 	public function mergeHeadData($data)
-	{	
-		
+	{
+
   		if (empty($data) || !is_array($data)) {
 			return;
 		}
-		
+
 		$this->title		= (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title'])) ? $this->title.$data['title'] : $this->title;
 		$this->description	= (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description'])) ? $this->description. $data['description'] : $this->description;
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
-		
+
 		if (isset($data['metaTags'])) {
 			foreach($data['metaTags'] AS $type1=>$data1) {
-				$booldog = $type1 == 'http-equiv' ? true : false; 
+				$booldog = $type1 == 'http-equiv' ? true : false;
 				foreach($data1 AS $name2=>$data2) {
 					$this->setMetaData($name2, $data2, $booldog);
 				}
 			}
 		}
-		
+
 		$this->_links		= (isset($data['links']) && !empty($data['links']) && is_array($data['links'])) ? array_unique(array_merge($this->_links, $data['links'])) : $this->_links;
 		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_unique(array_merge($this->_styleSheets, $data['styleSheets'])) : $this->_styleSheets;
-		
+
 		if (isset($data['style'])) {
 			foreach($data['style'] AS $type=>$data) {
 				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$data)) {
@@ -153,20 +153,20 @@ class JDocumentHTML extends JDocument
 				}
 			}
 		}
-		
+
 		$this->_scripts		= (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts'])) ? array_merge($this->_scripts, $data['scripts']) : $this->_scripts;
-		
-		
+
+
 		if (isset($data['script'])) {
 			foreach($data['script'] AS $type=>$data) {
 				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$data)) {
-					$this->addScriptDeclaration($data, $type);	
+					$this->addScriptDeclaration($data, $type);
 				}
-				
+
 			}
 		}
-		
-		
+
+
 		$this->_custom		= (isset($data['custom']) && !empty($data['custom'])&& is_array($data['custom'])) ? array_unique(array_merge($this->_custom, $data['custom'])) : $this->_custom;
 	}
 
@@ -249,31 +249,31 @@ class JDocumentHTML extends JDocument
 				$cache = JFactory::getCache('com_modules','');
 				$hash = md5(serialize(array($name, $attribs, $result, $renderer)));
 				$cbuffer = $cache->get('cbuffer_'.$type);
-				
+
 				if (isset($cbuffer[$hash])) {
 					return JCache::getWorkarounds($cbuffer[$hash], array('mergehead' => 1));
 				} else {
-					
+
 					$options = array();
 					$options['nopathway'] = 1;
 					$options['nomodules'] = 1;
 					$options['modulemode'] = 1;
-					
+
 					$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
-					$data = parent::$_buffer[$type][$name];					
-					
+					$data = parent::$_buffer[$type][$name];
+
 					$tmpdata = JCache::setWorkarounds($data, $options);
-					
-					
+
+
 					$cbuffer[$hash] = $tmpdata;
-					
+
 					$cache->store($cbuffer, 'cbuffer_'.$type);
 				}
-				
+
 			} else {
 				$this->setBuffer($renderer->render($name, $attribs, $result), $type, $name);
 			}
-			
+
 		return parent::$_buffer[$type][$name];
 	}
 
@@ -315,14 +315,14 @@ class JDocumentHTML extends JDocument
 	public function render($caching = false, $params = array())
 	{
 		$this->_caching = $caching;
-		
+
 			if (!empty($this->_template)) {
 				$data = $this->_renderTemplate();
 			} else {
 				$this->parse($params);
 				$data = $this->_renderTemplate();
 			}
-			
+
 		parent::render();
 		return $data;
 	}

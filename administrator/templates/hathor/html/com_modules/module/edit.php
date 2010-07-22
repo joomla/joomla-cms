@@ -43,20 +43,20 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 			<li><?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('custom_position'); ?>
 			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible"><?php echo JText::_('TPL_HATHOR_COM_MODULES_CUSTOM_POSITION_LABEL');?></label>
 			<?php echo $this->form->getInput('position'); ?></li>
-		
+
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<li><?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?></li>
 			<?php endif; ?>
-		
+
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 
@@ -81,16 +81,16 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
 			<?php endif; ?>
-			
+
 			<li><?php echo $this->form->getLabel('module'); ?>
 			<?php echo $this->form->getInput('module'); ?>
 			<span class="faux-input"><?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_(MODULES_ERR_XML);?></span></li>
-			
+
 			<li><?php echo $this->form->getLabel('client_id'); ?>
 			<input type="text" size="35" id="jform_client_id" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 			<?php echo $this->form->getInput('client_id'); ?></li>
 			</ul>
-		
+
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
 					<span class="faux-label">
@@ -119,7 +119,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 				</ul>
 			</fieldset>
 		<?php endif; ?>
-		
+
 		<?php if ($this->item->client_id == 0) :?>
 		<div>
 			<?php echo $this->loadTemplate('assignment'); ?>

@@ -16,7 +16,7 @@ jimport('joomla.application.component.controllerform');
  * @since		1.5
  */
 class WeblinksControllerWeblink extends JControllerForm
-{	
+{
 	/**
 	 * @since	1.6
 	 */
@@ -94,7 +94,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		// Redirect to the list screen.
 		$this->setRedirect($this->_getReturnPage());
 	}
-	
+
 	protected function _getReturnPage()
 	{
 		$app		= JFactory::getApplication();
@@ -123,7 +123,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		$app->setUserState($context.'return', $return);
 	}
-	
+
 	/**
 	 * Go to a weblink
 	 *

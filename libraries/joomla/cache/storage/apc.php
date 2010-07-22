@@ -198,7 +198,7 @@ class JCacheStorageApc extends JCacheStorage
 
 		}
 		$returning->locked = $data_lock;
-		
+
 		return $returning;
 	}
 

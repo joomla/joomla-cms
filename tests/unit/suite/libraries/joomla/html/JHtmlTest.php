@@ -356,7 +356,7 @@ class JHtmlTest extends JoomlaTestCase
 		rmdir(JPATH_ROOT .'/media/'. $extension.'/images/'.$element);
 		rmdir(JPATH_ROOT .'/media/'. $extension.'/images');
 		rmdir(JPATH_ROOT .'/media/'. $extension);
-		
+
 		mkdir(JPATH_ROOT .'/media/system/images/'. $element.'/'. $urlpath, 0777, true);
 		file_put_contents(JPATH_ROOT .'/media/system/images/'. $element.'/'. $urlpath.$urlfilename, 'test');
 

@@ -32,7 +32,7 @@ class ContentController extends JController
 			JHTML::_('stylesheet','system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
-	
+
 		parent::__construct($config);
 	}
 

@@ -153,7 +153,7 @@ textarea:focus {
 	font-weight: bold;
 }
 
-.disabled, 
+.disabled,
 p.error {
 	color: red;
 	font-weight: bold;
@@ -876,7 +876,7 @@ span.readonly {
 }
 
 #jform_params_alt,
-#jform_clickurl { 
+#jform_clickurl {
 	width: 355px;
 }
 
@@ -1373,7 +1373,7 @@ th.center,
 	float: none;
 }
 
-td.center img, 
+td.center img,
 th.center img {
 	float: none;
 }
@@ -1382,7 +1382,7 @@ td.right,th.right {
 	text-align: right;
 }
 
-td.nowrap, 
+td.nowrap,
 th.nowrap {
 	white-space: nowrap;
 }

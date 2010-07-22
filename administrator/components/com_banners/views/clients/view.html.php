@@ -85,7 +85,7 @@ class BannersViewClients extends JView
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('clients.trash','JTOOLBAR_TRASH');
 		}
-		
+
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_banners');

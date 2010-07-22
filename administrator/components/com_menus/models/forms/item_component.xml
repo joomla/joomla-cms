@@ -47,9 +47,9 @@
 				label="JFIELD_META_KEYWORDS_LABEL" description="COM_MENUS_ITEM_FIELD_META_KEYWORDS_DESC"
 				rows="3" cols="40" />
 
-			<field name="robots" 
+			<field name="robots"
 			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL" 
+			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>

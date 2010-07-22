@@ -121,16 +121,16 @@ class JCacheControllerCallback extends JCacheController
 			ob_end_clean();
 
 			$cached = array();
-			
+
 			$coptions= array();
 			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
 			$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
 			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
 			$coptions['modulemode'] = isset($woptions['modulemode']) ? $woptions['modulemode'] : 0;
-			
+
 			$cached['output'] = ($wrkarounds == false) ? $output : JCache::setWorkarounds($output, $coptions);
 			$cached['result'] = $result;
-			
+
 			// Store the cache data
 			$this->cache->store(serialize($cached), $id);
 			if ($locktest->locked == true) $this->cache->unlock($id);

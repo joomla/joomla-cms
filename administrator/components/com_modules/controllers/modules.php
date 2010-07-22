@@ -36,7 +36,7 @@ class ModulesControllerModules extends JControllerAdmin
 			$cache->clean();
 		}
 	}
-	
+
 	/**
 	 * Method to clone an existing module.
 	 * @since	1.6

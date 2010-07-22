@@ -55,11 +55,11 @@ $app = JFactory::getApplication();
 			<div class="container">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
-		<?php endif; ?>	
+		<?php endif; ?>
 		<?php if($this->countModules('position-2')) : ?>
 			<jdoc:include type="modules" name="position-2" style="none" />
-		<?php endif; ?>			
-		
+		<?php endif; ?>
+
 		<div class="container">
 			<div class="span-16 append-1">
 				<jdoc:include type="message" />
@@ -85,7 +85,7 @@ $app = JFactory::getApplication();
 			<?php endif; ?>
 			<?php if($this->countModules('position-8')) : ?>
         		<jdoc:include type="modules" name="position-8" style="none" />
-			<?php endif; ?>			
+			<?php endif; ?>
 			<?php if($this->countModules('position-9')) : ?>
         		<jdoc:include type="modules" name="position-9" style="none" />
 			<?php endif; ?>
@@ -94,10 +94,10 @@ $app = JFactory::getApplication();
 			<?php endif; ?>
 			<?php if($this->countModules('position-11')) : ?>
         		<jdoc:include type="modules" name="position-11" style="none" />
-			<?php endif; ?>			
+			<?php endif; ?>
 			<?php if($this->countModules('position-12')) : ?>
         		<jdoc:include type="modules" name="position-12" style="none" />
-			<?php endif; ?>			
+			<?php endif; ?>
 
 		</div>
 		<div class="joomla-footer span-16 append-1">

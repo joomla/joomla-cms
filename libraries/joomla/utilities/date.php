@@ -274,7 +274,7 @@ class JDate extends DateTime
 	{
 		return $this->format($format, $local);
 	}
-	
+
 	/**
 	 * Gets the date as a formatted string.
 	 *

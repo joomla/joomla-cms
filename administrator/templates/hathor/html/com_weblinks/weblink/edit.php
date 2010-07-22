@@ -36,28 +36,28 @@ JHtml::_('behavior.formvalidation');
 		<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('url'); ?>
 			<?php echo $this->form->getInput('url'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('state'); ?>
 			<?php echo $this->form->getInput('state'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>
-		
+
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
 		</ul>
@@ -76,7 +76,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 		<ul class="adminformlist">
-		
+
 			<li><?php echo $this->form->getLabel('created_by'); ?>
 			<?php echo $this->form->getInput('created_by'); ?></li>
 
@@ -104,7 +104,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $this->loadTemplate('params'); ?>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
-	
+
 	</div>
 	<div class="clr"></div>
 

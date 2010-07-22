@@ -165,7 +165,7 @@ function auf(key) {
 			});
 			elternbild.focus();
 		}
-		
+
 		if (key == 'right') {
 			document.getElementById('right').setStyle('display', 'none');
 			wrapperwidth(big);

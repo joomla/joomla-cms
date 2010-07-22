@@ -64,7 +64,7 @@ class ContentModelArticle extends JModelAdmin
 		if($table->state == 1 && intval($table->publish_up) == 0) {
 			$table->publish_up = JFactory::getDate()->toMySQL();
 		}
-		
+
 		// Increment the content version number.
 		$table->version++;
 	}

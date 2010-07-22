@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 <ul class="adminformlist">
 	<li><?php echo $this->form->getLabel('metadesc'); ?>
 	<?php echo $this->form->getInput('metadesc'); ?></li>
-	
+
 	<li><?php echo $this->form->getLabel('metakey'); ?>
 	<?php echo $this->form->getInput('metakey'); ?></li>
-	
+
 	<?php foreach($this->form->getGroup('metadata') as $field): ?>
 		<?php if ($field->hidden): ?>
 			<li><?php echo $field->input; ?></li>
@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?></li>
 		<?php endif; ?>
 	<?php endforeach; ?>
-	
+
 <?php if ($this->item->created_time) : ?>
 	<li><?php echo $this->form->getLabel('created_time'); ?>
 	<?php echo $this->form->getInput('created_time'); ?></li>

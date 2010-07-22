@@ -55,7 +55,7 @@
 			required="true"
 			size="45"
 		/>
-		
+
 		<field
 			name="language"
 			type="contentlanguage"
@@ -64,6 +64,6 @@
 			class="inputbox">
 			<option value="*">JALL</option>
 		</field>
-		
+
 	</fieldset>
 </form>

@@ -51,5 +51,5 @@ class ContactController extends JController
 		parent::display($cachable,$safeurlparams);
 
 		return $this;
-	}	
+	}
 }

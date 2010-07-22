@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version
  * @package		Joomla.Site
  * @subpackage	tpl_beez2
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.

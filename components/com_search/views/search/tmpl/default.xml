@@ -3,7 +3,7 @@
 	<layout title="COM_SEARCH_SEARCH_VIEW_DEFAULT_TITLE">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_SEARCH_RESULTS"
-		/>		
+		/>
 		<message>
 			<![CDATA[COM_SEARCH_SEARCH_VIEW_DEFAULT_DESC]]>
 		</message>
@@ -16,7 +16,7 @@
 		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
 			<field name="search_areas" type="list"
-				
+
 				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
 				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
 			>
@@ -26,7 +26,7 @@
 			</field>
 
 			<field name="show_date" type="list"
-				
+
 				description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC"
 				label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
 			>

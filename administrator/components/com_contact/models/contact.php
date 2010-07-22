@@ -239,7 +239,7 @@ class ContactModelContact extends JModelAdmin
 			//$table->modified_by	= $user->get('id');
 		}
 	}
-	
+
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *

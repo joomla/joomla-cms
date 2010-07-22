@@ -52,7 +52,7 @@ class JDocumentRAWTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$headers = JResponse::getHeaders();
-		
+
 		foreach($headers AS $head) {
 			if ($head['name'] == 'Expires') {
 				$this->assertThat(

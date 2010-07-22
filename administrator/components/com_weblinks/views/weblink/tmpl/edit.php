@@ -74,22 +74,22 @@ JHtml::_('behavior.formvalidation');
 			<ul class="adminformlist">
 				<li><?php echo $this->form->getLabel('created_by'); ?>
 				<?php echo $this->form->getInput('created_by'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('created_by_alias'); ?>
 				<?php echo $this->form->getInput('created_by_alias'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('created'); ?>
 				<?php echo $this->form->getInput('created'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('publish_up'); ?>
 				<?php echo $this->form->getInput('publish_up'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('publish_down'); ?>
 				<?php echo $this->form->getInput('publish_down'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('modified'); ?>
 				<?php echo $this->form->getInput('modified'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('version'); ?>
 				<?php echo $this->form->getInput('version'); ?></li>
 			</ul>

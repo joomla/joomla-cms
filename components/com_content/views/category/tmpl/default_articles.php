@@ -83,7 +83,7 @@ $listDirn	= $this->state->get('list.direction');
 			<tr class="cat-list-row<?php echo $i % 2; ?>">
 
 				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
-				
+
 					<td class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 						<?php echo $this->escape($article->title); ?></a>

@@ -145,8 +145,8 @@ class ContactViewCategory extends JView
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
-		
-		
+
+
 		if ($this->category->metadesc) {
 			$this->document->setDescription($this->category->metadesc);
 		}
@@ -170,7 +170,7 @@ class ContactViewCategory extends JView
 				$this->document->setMetadata($k, $v);
 			}
 		}
-		
+
 		// Add alternate feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{

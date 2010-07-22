@@ -234,9 +234,9 @@ final class JSite extends JApplication
 
 		$caching = false;
 		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2) {
-			$caching = true; 
+			$caching = true;
 		}
-		
+
 		// Render the document.
 		JResponse::setBody($document->render($caching, $params));
 

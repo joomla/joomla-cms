@@ -141,7 +141,7 @@ class ConfigModelApplication extends JModelForm
 		if (empty($data['cache_handler'])) {
 			$data['caching'] = 0;
 		}
-		
+
 		// Clean the cache if disabled but previously enabled.
 		if (!$data['caching'] && $prev['caching']) {
 			$cache = JFactory::getCache();

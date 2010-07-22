@@ -3,7 +3,7 @@
 	<layout title="com_weblinks_categories_view_default_title">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_WEBLINK_CATEGORIES"
-		/>		
+		/>
 		<message>
 			<![CDATA[com_weblinks_categories_view_default_desc]]>
 		</message>

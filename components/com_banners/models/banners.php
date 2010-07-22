@@ -88,11 +88,11 @@ class BannersModelBanners extends JModelList
 			$query->select('cl.track_impressions as client_track_impressions');
 			$query->where('cl.state = 1');
 		}
-		
+
 		// Filter by a single or group of categories
 		$categoryId = $this->getState('filter.category_id');
 		$catid		= $this->getState('filter.category_id', array());
-		
+
 		if (is_numeric($categoryId)) {
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
 
@@ -120,7 +120,7 @@ class BannersModelBanners extends JModelList
 			$categoryId = implode(',', $categoryId);
 			$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
 			$query->where('a.catid '.$type.' ('.$categoryId.')');
-		}		
+		}
 
 		if ($tagSearch) {
 

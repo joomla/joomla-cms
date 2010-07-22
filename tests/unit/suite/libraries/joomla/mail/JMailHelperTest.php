@@ -198,7 +198,7 @@ class JMailHelperTest extends PHPUnit_Framework_TestCase
 			// @TODO should this be case sensitive
 		);
 	}
-	
+
 	/**
 	 * Test data for cleanAddress method
 	 *
@@ -214,7 +214,7 @@ class JMailHelperTest extends PHPUnit_Framework_TestCase
 			array( "test ;,me", false ),
 		);
 	}
-	
+
 	/**
 	 * Test data for isEmailAddress method
 	 *

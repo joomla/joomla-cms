@@ -63,11 +63,11 @@ $menuTypes = MenusHelper::getMenuLinks();
 				<?php foreach ($menuTypes as &$type) : ?>
 					<h3><?php echo $type->title ? $type->title : $type->menutype; ?></h3>
 					<ul class="menu-links">
-						<?php 
+						<?php
 						foreach ($type->links as $link) :
-							if (trim($this->item->assignment) == '-'):							
+							if (trim($this->item->assignment) == '-'):
 								$checked = '';
-							elseif ($this->item->assignment == 0):							
+							elseif ($this->item->assignment == 0):
 								$checked = ' checked="checked"';
 							elseif ($this->item->assignment < 0):
 								$checked = in_array(-$link->value, $this->item->assigned) ? ' checked="checked"' : '';

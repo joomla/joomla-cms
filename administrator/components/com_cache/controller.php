@@ -69,7 +69,7 @@ class CacheController extends JController
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 
 		$model = $this->getModel('cache');
-		
+
 		if(empty($cid)) {
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		} else {

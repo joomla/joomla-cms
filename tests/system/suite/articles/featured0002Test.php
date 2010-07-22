@@ -23,7 +23,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 
 		$this->click("link=Main Menu");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Open Home menu item and change to 0 leading, 7 intro, alpha sort.\n";
 		$this->click("//td/a['Home']");
 		$this->waitForPageToLoad("30000");
@@ -35,7 +35,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->select("jform_params_orderby_sec", "label=Title Alphabetical");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Select featured articles in article manager.\n";
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -43,7 +43,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->toggleFeatured('Archive Module');
 		$this->toggleFeatured('Article Categories Module');
 		$this->toggleFeatured('Articles Category Module');
-		
+
 		echo "Go to front page and check that articles are in desired order.\n";
 		$this->gotoSite();
 		$this->assertEquals("Administrator Components", $this->getText("//div[@class='items-row cols-3 row-0']/div[@class='item column-1']/h2"), "Admin Comp should be r0c1");

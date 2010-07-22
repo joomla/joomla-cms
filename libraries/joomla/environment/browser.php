@@ -797,7 +797,7 @@ class JBrowser extends JObject
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Determines if the browser is mobile version or not.
 	 *

@@ -52,7 +52,7 @@ $listDirn	= $this->state->get('list.direction');
 	<table class="adminlist">
 		<thead>
 			<tr>
-	
+
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>

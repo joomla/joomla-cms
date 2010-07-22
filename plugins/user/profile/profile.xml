@@ -145,7 +145,7 @@
 				<field
 					name="register-require_dob"
 					type="list"
-					default="0"					
+					default="0"
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 					description="PLG_USER_PROFILE_FIELD_DOB_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>

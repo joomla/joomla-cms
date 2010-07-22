@@ -76,7 +76,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'items.saveorder'); ?>
-					<?php endif; ?> 				
+					<?php endif; ?>
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>

@@ -62,9 +62,9 @@ $menuTypes = MenusHelper::getMenuLinks();
 					<ul class="menu-links">
 						<?php
 						foreach ($type->links as $link) :
-							if (trim($this->item->assignment) == '-'):							
+							if (trim($this->item->assignment) == '-'):
 								$checked = '';
-							elseif ($this->item->assignment == 0):							
+							elseif ($this->item->assignment == 0):
 								$checked = ' checked="checked"';
 							elseif ($this->item->assignment < 0):
 								$checked = in_array(-$link->value, $this->item->assigned) ? ' checked="checked"' : '';

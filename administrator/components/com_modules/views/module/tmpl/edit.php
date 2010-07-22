@@ -127,7 +127,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			</ul>
 		</fieldset>
 	</div>
-	
+
 	<div class="clr"></div>
 	<?php endif; ?>
 	<?php if ($this->item->client_id == 0) :?>

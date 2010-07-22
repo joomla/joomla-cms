@@ -64,7 +64,7 @@
 					type="category"
 					extension="com_banners"
 					label="JCATEGORY"
-					multiple="true" size="5"											
+					multiple="true" size="5"
 					description="MOD_BANNERS_FIELD_CATEGORY_DESC" />
 
 				<field

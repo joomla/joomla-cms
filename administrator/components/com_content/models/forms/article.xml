@@ -118,7 +118,7 @@
 			description="COM_CONTENT_FIELD_RULES_DESC" class="inputbox" filter="rules"
 			component="com_content" section="article"
 		/>
-			
+
 	</fieldset>
 
 	<fields name="attribs">
@@ -260,9 +260,9 @@
 
 	<fields name="metadata">
 
-		<field name="robots" 
+		<field name="robots"
 			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL" 
+			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -284,7 +284,7 @@
 			label="COM_CONTENT_FIELD_XREFERENCE_LABEL" description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 			class="inputbox" size="20" />
 
-		
+
 	</fields>
 
 </form>

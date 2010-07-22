@@ -94,7 +94,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->select("jform_params_orderby_sec", "label=Title Alphabetical");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Goto front page and check alpha article order \n";
 		$this->gotoSite();
 		$this->assertEquals("Beginners", $this->getText("//div[@class='leading-0']/h2"), "Beginners should be intro article");
@@ -103,7 +103,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->assertEquals("Upgraders", $this->getText("//div[@class='item column-3']/h2"), "Upgrades should be col 3");
 		$this->assertTrue((bool) preg_match("/^[\s\S]*Joomla![\s\S]*Professionals[\s\S]*Upgraders[\s\S]*$/", $this->getText(
 			"//div[@class='items-row cols-3 row-0']")), "Articles should be Joomla!, Professionals, Upgraders");
-		
+
 		echo "Go back to back end and change parameters back.\n";
 		$this->gotoAdmin();
 		$this->click("link=Main Menu");

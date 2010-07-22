@@ -232,9 +232,9 @@
 			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"/>
 
-		<field name="robots" 
+		<field name="robots"
 			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL" 
+			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>

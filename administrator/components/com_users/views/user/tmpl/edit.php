@@ -73,7 +73,7 @@ $fieldsets = $this->form->getFieldsets();
 		</fieldset>
 		<?php endforeach; ?>
 		<?php echo JHTML::_('sliders.end'); ?>
-		
+
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>

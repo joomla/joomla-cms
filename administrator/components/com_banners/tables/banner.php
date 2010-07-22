@@ -95,12 +95,12 @@ class BannersTableBanner extends JTable
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 				return false;
 			}
-			
+
 			if((int) $registry->get('height', 0) < 0){
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 				return false;
-			}			
-			
+			}
+
 			// Converts the width and height to an absolute numeric value:
 			$width = abs((int) $registry->get('width', 0));
 			$height = abs((int) $registry->get('height', 0));

@@ -81,7 +81,7 @@ class TemplatesHelper
 	{
 		// Build the filter options.
 		$db = JFactory::getDbo();
-		
+
 		if ($clientId == '*') {
 			$where = '';
 		} else {

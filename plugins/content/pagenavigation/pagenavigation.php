@@ -25,11 +25,11 @@ class plgContentPagenavigation extends JPlugin
 	{
 		$view = JRequest::getCmd('view');
 		$print = JRequest::getBool('print');
-		
+
 		if ($print) {
 			return false;
 		}
-		
+
 		if ($params->get('show_item_navigation') && ($context == 'com_content.article')) {
 			$html = '';
 			$db		= JFactory::getDbo();

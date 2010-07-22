@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 						<div id="logo"></div>
 						<jdoc:include type="modules" name="top" />
 						<jdoc:include type="modules" name="position-12" />
-					
+
 					</div>
 				</div>
 			</div>
@@ -66,7 +66,7 @@ defined('_JEXEC') or die;
 			<div id="search">
 				<jdoc:include type="modules" name="user4" />
 				<jdoc:include type="modules" name="position-12" />
-				<jdoc:include type="modules" name="position-0" />					
+				<jdoc:include type="modules" name="position-0" />
 			</div>
 
 			<div id="pathway">

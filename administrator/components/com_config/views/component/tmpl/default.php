@@ -47,7 +47,7 @@ JHtml::_('behavior.formvalidation');
 				echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
 			endif;
 	?>
-		
+
 			<?php
 			foreach ($this->form->getFieldset($name) as $field):
 			?>
@@ -57,7 +57,7 @@ JHtml::_('behavior.formvalidation');
 			<?php
 			endforeach;
 			?>
-			
+
 
 	<div class="clr"></div>
 	<?php

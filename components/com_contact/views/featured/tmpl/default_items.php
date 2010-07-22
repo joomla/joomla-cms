@@ -68,25 +68,25 @@ $params = &$this->item->params;
 				<?php echo JText::_('COM_CONTACT_FAX'); ?>
 			</th>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('show_suburb_headings')) : ?>
 			<th class="item-suburb">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('show_state_headings')) : ?>
 			<th class="item-state">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('show_country_headings')) : ?>
 			<th class="item-state">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
-			
+
 			</tr>
 		</thead>
 		<?php endif; ?>
@@ -132,19 +132,19 @@ $params = &$this->item->params;
 						<?php echo $item->fax; ?>
 					</td>
 					<?php endif; ?>
-					
+
 					<?php if ($this->params->get('show_suburb_headings')) : ?>
 					<td class="item-suburb">
 						<?php echo $item->suburb; ?>
 					</td>
 					<?php endif; ?>
-					
+
 					<?php if ($this->params->get('show_state_headings')) : ?>
 					<td class="item-state">
 						<?php echo $item->state; ?>
 					</td>
 					<?php endif; ?>
-					
+
 					<?php if ($this->params->get('show_country_headings')) : ?>
 					<td class="item-state">
 						<?php echo $item->country; ?>

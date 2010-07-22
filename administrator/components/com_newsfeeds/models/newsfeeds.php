@@ -145,7 +145,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			else
 			{
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');			
+				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 

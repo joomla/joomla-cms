@@ -369,7 +369,7 @@ class ModulesModelModule extends JModelAdmin
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL, 'local' => $this->helpLocal);
 	}
-	
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -456,8 +456,8 @@ class ModulesModelModule extends JModelAdmin
 				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 				$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
-			}		
-		
+			}
+
 		}
 
 		// Trigger the default form events.

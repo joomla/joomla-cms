@@ -30,7 +30,7 @@ class ContentModelArticles extends JModelList
 		// Initialise variables.
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
-		
+
 		// Adjust the context to support modal layouts.
 		if ($layout = JRequest::getVar('layout', 'default')) {
 			$this->context .= '.'.$layout;
@@ -50,7 +50,7 @@ class ContentModelArticles extends JModelList
 
 		// set the value of the category filter for the single record edit view
 		$session->set('com_content.article.filter.category_id',$categoryId);
-		
+
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
@@ -166,12 +166,12 @@ class ContentModelArticles extends JModelList
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
-		
+
 		// Filter on the language.
 		if ($language = $this->getState('filter.language')) {
 			$query->where('a.language = '.$db->quote($language));
 		}
-		
+
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');

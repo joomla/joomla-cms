@@ -60,12 +60,12 @@ JHtml::_('behavior.formvalidation');
 						</label>
 						<div class="clr"></div>
 						<span class="readonly plg-desc"><?php echo JText::_($text); ?></span>
-					
+
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>
 			<?php endif; ?>
-			
+
 		</fieldset>
 	</div>
 

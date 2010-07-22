@@ -3,7 +3,7 @@
 	<layout title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_WRAPPER"
-		/>		
+		/>
 		<message>
 			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>
 		</message>

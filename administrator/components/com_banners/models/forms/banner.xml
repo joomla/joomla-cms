@@ -52,7 +52,7 @@
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
 		<field name="clickurl" type="text" class="inputbox"
-				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />	
+				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
 
 	</fieldset>
 
@@ -82,7 +82,7 @@
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL" description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
 			filter="user_utc" />
-			
+
 			<field name="sticky" type="list" default="0"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
@@ -182,7 +182,7 @@
 				label="COM_BANNERS_FIELD_ALT_LABEL" description="COM_BANNERS_FIELD_ALT_DESC" />
 		</fieldset>
 	</fields>
-	
+
 	<fieldset name="custom">
 		<field name="bannercode" type="textarea" class="inputbox"
 			rows="3" cols="30" filter="raw"

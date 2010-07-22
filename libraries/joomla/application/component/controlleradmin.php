@@ -235,7 +235,7 @@ class JControllerAdmin extends JController
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_REORDER_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false), $message, 'error');
 			return false;
-		} else 
+		} else
 		{
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_ORDERING_SAVED'));

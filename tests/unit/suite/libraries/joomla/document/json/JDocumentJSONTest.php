@@ -53,7 +53,7 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$headers = JResponse::getHeaders();
-		
+
 		$expires = false;
 		$disposition = false;
 

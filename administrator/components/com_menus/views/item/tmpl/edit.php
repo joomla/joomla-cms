@@ -87,7 +87,7 @@ JHTML::_('behavior.modal');
 
 				<li><?php echo $this->form->getLabel('template_style_id'); ?>
 				<?php echo $this->form->getInput('template_style_id'); ?></li>
-				
+
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 		</ul>

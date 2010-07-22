@@ -46,51 +46,51 @@ JHTML::_('behavior.modal');
 			<ul class="adminformlist">
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
-				
+
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-	
+
 				<?php if ($this->item->type =='url'): ?>
 					<?php $this->form->setFieldAttribute('link','readonly','false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>
-	
+
 				<li><?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('note'); ?>
 				<?php echo $this->form->getInput('note'); ?></li>
-	
+
 				<?php if ($this->item->type !=='url'): ?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>
-	
+
 				<li><?php echo $this->form->getLabel('published'); ?>
 				<?php echo $this->form->getInput('published'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('menutype'); ?>
 				<?php echo $this->form->getInput('menutype'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('parent_id'); ?>
 				<?php echo $this->form->getInput('parent_id'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('home'); ?>
 				<?php echo $this->form->getInput('home'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
-	
+
 				<li><?php echo $this->form->getLabel('template_style_id'); ?>
 				<?php echo $this->form->getInput('template_style_id'); ?></li>
-				
+
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 		</ul>

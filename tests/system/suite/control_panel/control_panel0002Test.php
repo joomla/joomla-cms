@@ -106,7 +106,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Open Options modal \n";
 		$this->click("//li[@id='toolbar-popup-options']/a[contains(., 'Options')]");
 		for ($second = 0; ; $second++) {

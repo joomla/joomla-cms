@@ -47,5 +47,5 @@ JHtml::_('behavior.keepalive');
 
 	<?php echo $this->form->getInput('extension_id'); ?>
 	<?php echo $this->form->getInput('filename'); ?>
-	
+
 </form>

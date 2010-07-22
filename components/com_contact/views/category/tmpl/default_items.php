@@ -72,13 +72,13 @@ $listDirn	= $this->state->get('list.direction');
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_SUBURB', 'a.suburb', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('show_state_headings')) : ?>
 			<th class="item-state">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_STATE', 'a.state', $listDirn, $listOrder); ?>
 			</th>
 			<?php endif; ?>
-			
+
 			<?php if ($this->params->get('show_country_headings')) : ?>
 			<th class="item-state">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_COUNTRY', 'a.country', $listDirn, $listOrder); ?>
@@ -142,7 +142,7 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $item->state; ?>
 					</td>
 					<?php endif; ?>
-					
+
 					<?php if ($this->params->get('show_country_headings')) : ?>
 					<td class="item-state">
 						<?php echo $item->country; ?>

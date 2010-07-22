@@ -83,10 +83,10 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '</div>';
 
 		// The active article id field.
-		if (0 == (int)$this->value) { 
+		if (0 == (int)$this->value) {
 			$value = '';
 		} else {
-			$value = (int)$this->value; 
+			$value = (int)$this->value;
 		}
 
 		// class='required' for client side validation
@@ -94,7 +94,7 @@ class JFormFieldModal_Article extends JFormField
 		if ($this->required) {
 			$class = ' class="required modal-value"';
 		}
-		
+
 		$html[] = '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
 
 		return implode("\n", $html);

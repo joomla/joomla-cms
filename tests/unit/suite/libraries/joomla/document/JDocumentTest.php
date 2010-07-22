@@ -287,7 +287,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase {
 			'JDocument::getMetaData or setMetaData returned http_equiv when it should not have'
 		);
 
-		
+
 	}
 
 	/**
@@ -661,7 +661,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase {
 			$this->equalTo('text/xls')
 		);
 	}
-	
+
 	/**
 	 * @group Document
 	 * @covers JDocument::getMimeEncoding
@@ -707,7 +707,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase {
 			$this->object->_lineEnd,
 			$this->equalTo("<br />")
 		);
-		
+
 	}
 
 	/**
@@ -721,7 +721,7 @@ class JDocumentTest extends PHPUnit_Framework_TestCase {
 		$this->assertThat(
 			$this->object->_getLineEnd(),
 			$this->equalTo("\12")
-		);		
+		);
 	}
 
 	/**

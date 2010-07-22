@@ -405,7 +405,7 @@ class JCache extends JObject
 		// Get the document head out of the cache.
 		if (isset($options['mergehead']) && $options['mergehead'] == 1 && isset($data['head']) && !empty($data['head'])) {
 			$document->mergeHeadData($data['head']);
-		} else if (isset($data['head'])){ 
+		} else if (isset($data['head'])){
 			$document->setHeadData($data['head']);
 		}
 
@@ -465,7 +465,7 @@ class JCache extends JObject
 		if (isset($options['nomodules'])) {
 			$loptions['nomodules'] = $options['nomodules'];
 		}
-		
+
 		if (isset($options['modulemode'])) {
 			$loptions['modulemode'] = $options['modulemode'];
 		}
@@ -488,7 +488,7 @@ class JCache extends JObject
 		// Document head data
 		if ($loptions['nohead'] != 1) {
 			$cached['head'] = $document->getHeadData();
-			
+
 			if ($loptions['modulemode'] == 1) {
 					unset($cached['head']['title']);
 					unset($cached['head']['description']);

@@ -28,7 +28,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS') ?></legend>
 			<ul class="adminformlist">
-			
+
 			<li><?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?>
 			<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span></li>
@@ -56,7 +56,7 @@ JHtml::_('behavior.formvalidation');
 			<!-- Plugin metadata -->
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
-				
+
 					<label id="jform_extdescription-lbl">
 						<?php echo JText::_('JGLOBAL_DESCRIPTION'); ?>
 					</label>
@@ -64,12 +64,12 @@ JHtml::_('behavior.formvalidation');
 					<div class="readonly plg-desc extdescript">
 						<?php echo JText::_($text); ?>
 					</div>
-					
+
 				<?php endif; ?>
 			<?php else : ?>
 				<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>
 			<?php endif; ?>
-			
+
 		</fieldset>
 	</div>
 

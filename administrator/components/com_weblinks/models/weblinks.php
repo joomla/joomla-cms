@@ -143,7 +143,7 @@ class WeblinksModelWeblinks extends JModelList
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');	
+				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 

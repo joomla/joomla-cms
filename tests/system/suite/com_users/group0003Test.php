@@ -14,12 +14,12 @@ class Group0003Test extends SeleniumJoomlaTestCase
 	{
 		$this->setUp();
 		$this->gotoAdmin();
-		$this->doAdminLogin();		
-		
+		$this->doAdminLogin();
+
 		echo "Browse to User Manager: Groups.\n";
 		$this->click("link=Groups");
 		$this->waitForPageToLoad("30000");
-		
+
 		echo "Check deletion when no groups are selected.\n";
 		$badName='doesNotExist';
 		echo "Filter on " . $badName . ".\n";
@@ -39,7 +39,7 @@ class Group0003Test extends SeleniumJoomlaTestCase
 		{
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
-						
+
         $this->doAdminLogout();
   }
 }

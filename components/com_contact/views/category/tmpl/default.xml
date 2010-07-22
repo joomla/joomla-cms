@@ -102,7 +102,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 		<field name="show_position_headings" type="list"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
@@ -121,7 +121,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_telephone_headings" 
+		<field name="show_telephone_headings"
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
@@ -131,7 +131,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_mobile_headings" 
+		<field name="show_mobile_headings"
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
@@ -141,7 +141,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_fax_headings" 
+		<field name="show_fax_headings"
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
@@ -150,7 +150,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 		<field name="show_suburb_headings" type="list"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
@@ -160,7 +160,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field name="show_state_headings" 
+		<field name="show_state_headings"
 			type="list"
 			label="JGLOBAL_STATE"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
@@ -169,8 +169,8 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
-		<field name="show_country_headings" 
+
+		<field name="show_country_headings"
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
@@ -205,7 +205,7 @@
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>			
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
 				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>

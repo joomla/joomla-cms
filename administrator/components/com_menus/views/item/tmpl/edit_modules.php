@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 					<?php $link = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;id='. $module->id.'&amp;tmpl=component&amp;view=module&amp;layout=modal' ; ?>
 					<a class="modal" href="<?php echo $link;?>" rel="{handler: 'iframe', size: {x: 1024, y: 450}}" title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS');?>">
 						<?php echo JText::sprintf('COM_MENUS_MODULE_ACCESS_POSITION', $this->escape($module->title), $this->escape($module->access_title), $this->escape($module->position)); ?></a>
-					
+
 				</td>
 				<td class="center">
 				<?php if (is_null($module->menuid)) : ?>

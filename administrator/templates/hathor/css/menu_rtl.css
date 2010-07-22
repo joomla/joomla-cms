@@ -14,7 +14,7 @@
 /**
  * Menu Styling
  */
- 
+
 #menu ul li.node {
 	background: #ffffff url(../images/j_arrow_left.png) no-repeat left 50%;
 }
@@ -23,7 +23,7 @@
 	padding: 0.35em 2em 0.35em 2.5em;
 	background-position: right 50%;
 }
- 
+
 #menu li {
 	float: right;
 	border-left: 1px solid #e3e4ca;

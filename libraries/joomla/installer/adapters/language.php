@@ -413,7 +413,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$extension->load($eid);
 		// grab a copy of the client details
 		$client = JApplicationHelper::getClientInfo($extension->get('client_id'));
-		
+
 		// check the element isn't blank to prevent nuking the languages directory...just in case
 		$element = $extension->get('element');
 		if (empty($element))
@@ -466,9 +466,9 @@ class JInstallerLanguage extends JAdapterInstance
 		if($client->name == 'administrator') {
 			$param_name = 'admin_language';
 		} else {
-			$param_name = 'language';	
+			$param_name = 'language';
 		}
-		
+
 		$count = 0;
 		foreach ($users as $user) {
 			$registry = new JRegistry;

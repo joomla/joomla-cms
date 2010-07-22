@@ -1310,7 +1310,7 @@ th.ordering-col a {
 th.ordering-col a img {
 	margin-left: 4px;
 	margin-right: 4px;
-} 
+}
 
 .categories th.ordering-col input, .categories td.order input {
 	font-size: 1em;
@@ -1583,11 +1583,11 @@ table.noshow fieldset {
 a.saveorder {
 	width: 16px;
 	height: 16px;
-	display:block; 
+	display:block;
 	overflow: hidden;
 	background: url(../images/admin/filesave.png) no-repeat;
 	float:right;
-	margin-right: 8px; 
+	margin-right: 8px;
 }
 
 a.saveorder.inactive {
@@ -1805,27 +1805,27 @@ div.pagination {
 	margin: 0 10px;
 	font-size: 1.2em;
 	height: 1.8em;
-	line-height: 1.8em; 
+	line-height: 1.8em;
 }
 
 .pagination div.limit label {
 	font-size: 100%;
 	height: 1.8em;
-	line-height: 1.8em; 
+	line-height: 1.8em;
 }
 
 .pagination div.limit select {
 	font-size: 100%;
 	height: 1.8em;
-	line-height: 1.8em; 
+	line-height: 1.8em;
 
 }
 
 	/* The Go submittal button */
 .pagination button {
-	font-size: 100%; 
+	font-size: 100%;
 	height: 1.8em;
-	line-height: 1.8em; 
+	line-height: 1.8em;
 	margin-right: 20px;
 }
 
@@ -1879,28 +1879,28 @@ div.pagination {
 	margin: 0 10px;
 	font-size: 1.2em;
 	height: 1.6em;
-	line-height: 1.6em; 
-	
+	line-height: 1.6em;
+
 }
 
 .pagination div.limit label {
 	font-size: 100%;
 	height: 1.6em;
-	line-height: 1.6em; 
+	line-height: 1.6em;
 }
 
 .pagination div.limit select {
 	font-size: 100%;
 	height: 1.6em;
-	line-height: 1.6em; 
+	line-height: 1.6em;
 	padding: 0;
 }
 
 	/* The Go submittal button */
 .pagination button {
-	font-size: 100%; 
+	font-size: 100%;
 	height: 1.6em;
-	line-height: 1.6em; 
+	line-height: 1.6em;
 	margin-right: 20px;
 	padding-bottom: 5px;
 }

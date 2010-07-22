@@ -12,7 +12,7 @@
 			description="COM_CONFIG_FIELD_CACHE_DESC"
 			required="true"
 			filter="integer">
-			<option 
+			<option
 				value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option
 				value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
@@ -27,7 +27,7 @@
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
 			filter="word">
 		</field>
-		
+
 		<field
 			name="cachetime"
 			type="text"
@@ -36,9 +36,9 @@
 			description="COM_CONFIG_FIELD_CACHE_TIME_DESC"
 			required="true"
 			filter="integer"
-			size="6" />	
+			size="6" />
 	</fieldset>
-	
+
 	<fieldset
 		name="memcache"
 		label="COM_CONFIG_MEMCACHE_SETTINGS_LABEL">

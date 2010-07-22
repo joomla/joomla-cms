@@ -42,25 +42,25 @@ JHtml::_('behavior.formvalidation');
 				<ul class="adminformlist">
 					<li><?php echo $this->form->getLabel('title'); ?>
 					<?php echo $this->form->getInput('title'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('extension'); ?>
 					<?php echo $this->form->getInput('extension'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('parent_id'); ?>
 					<?php echo $this->form->getInput('parent_id'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('language'); ?>
 					<?php echo $this->form->getInput('language'); ?></li>
-				
+
 					<li><?php echo $this->form->getLabel('id'); ?>
 					<?php echo $this->form->getInput('id'); ?></li>
 				</ul>

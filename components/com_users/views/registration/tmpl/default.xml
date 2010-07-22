@@ -3,7 +3,7 @@
 	<layout title="COM_USER_REGISTRATION_DEFAULT_TITLE">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_USER_REGISTRATION"
-		/>		
+		/>
 		<message>
 			<![CDATA[COM_USER_REGISTRATION_DEFAULT_DESC]]>
 		</message>

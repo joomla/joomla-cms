@@ -217,9 +217,9 @@
 		<!-- Metadata options. -->
 		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-			<field name="robots" 
+			<field name="robots"
 			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL" 
+			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>

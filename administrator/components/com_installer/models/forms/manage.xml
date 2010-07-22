@@ -32,7 +32,7 @@
 				<option value="0">JDISABLED</option>
 				<option value="1">JENABLED</option>
 			</field>
-			
+
 			<field type="type"
 				name="type"
 				hidden="true"

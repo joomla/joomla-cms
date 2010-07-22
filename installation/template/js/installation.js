@@ -31,7 +31,7 @@ Install.sampleData = function(el) {
 			} catch(e) {
 				var r = false;
 			}
-			
+
 			if (r)
 			{
 				Joomla.replaceTokens(r.token);
@@ -63,7 +63,7 @@ Install.sampleData = function(el) {
 				$('theDefaultError').setStyle('display','block');
 				$('theDefaultErrorMessage').set('html', r.message);
 			}
-			el.set('disabled', '');			
+			el.set('disabled', '');
 		}
 	}).send();
 };

@@ -3,7 +3,7 @@
 	<layout title="com_user_reset_default_title">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_USER_PASSWORD_RESET"
-		/>		
+		/>
 		<message>
 			<![CDATA[com_user_reset_view_default_desc]]>
 		</message>

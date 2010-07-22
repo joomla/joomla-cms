@@ -67,13 +67,13 @@ class JDocumentRendererHead extends JDocumentRenderer
 				}
 			}
 		}
-		
+
 		// dont add empty descriptions
 		$documentDescription = $document->getDescription();
 		if ($documentDescription) {
 			$buffer .= $tab.'<meta name="description" content="'.$documentDescription.'" />'.$lnEnd;
 		}
-		
+
 		$buffer .= $tab.'<meta name="generator" content="'.$document->getGenerator().'" />'.$lnEnd;
 		$buffer .= $tab.'<title>'.htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8').'</title>'.$lnEnd;
 

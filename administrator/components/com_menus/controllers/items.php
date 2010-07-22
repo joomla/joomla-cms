@@ -59,7 +59,7 @@ class MenusControllerItems extends JControllerAdmin
 			return false;
 		}
 	}
-	
+
 	public function saveorder()
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -67,7 +67,7 @@ class MenusControllerItems extends JControllerAdmin
 		// Get the arrays from the Request
 		$order	= JRequest::getVar('order',	null,	'post',	'array');
 		$originalOrder = explode(',', JRequest::getString('original_order_values'));
-		
+
 		// Make sure something has changed
 		if (!($order === $originalOrder))
 		{
@@ -80,7 +80,7 @@ class MenusControllerItems extends JControllerAdmin
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Method to set the home property for a list of items
 	 *

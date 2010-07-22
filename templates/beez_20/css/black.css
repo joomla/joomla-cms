@@ -60,7 +60,7 @@ fieldset {
 
 /* ##########################  back  ########################### */
 #back {
-	
+
 }
 
 /* ##########################  logo  ########################### */
@@ -244,7 +244,7 @@ h3.js_heading span.backh {
 }
 
 h3.js_heading span.backh1 {
-	
+
 }
 
 h3.js_heading a {
@@ -265,7 +265,7 @@ h3.js_heading a.opencloselink:hover,h3.js_heading a.opencloselink:active,h3.js_h
 }
 
 #right h3 span.backh {
-	
+
 }
 
 #right h3 span.backh2 {
@@ -275,16 +275,16 @@ h3.js_heading a.opencloselink:hover,h3.js_heading a.opencloselink:active,h3.js_h
 }
 
 #right h3 span.backh3 {
-	
+
 }
 
 h3.js_heading a:link,h3.js_heading a:visited,h3.js_heading a:hover,h3.js_heading a:active,h3.js_heading a:focus
 	{
-	
+
 }
 
 #nav h3.js_heading a:focus {
-	
+
 }
 
 #nav form {
@@ -318,7 +318,7 @@ ul.menu li {
 }
 
 ul.menu li a {
-	
+
 }
 
 ul.menu li a:link,ul.menu li a:visited {
@@ -409,11 +409,11 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,ul.menu li.a
 
 /* ##########################  content - main   ########################### */
 #main {
-	
+
 }
 
 #main a:link,#main a:visited {
-	
+
 }
 
 #main a:hover,#main a:active,#main a:focus {
@@ -445,7 +445,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active  a:link,ul.menu li.a
 }
 
 #main ul li {
-	
+
 }
 
 .small {
@@ -469,7 +469,7 @@ ul#archive-items li {
 
 /* ++++++++++++++  leading  ++++++++++++++ */
 .items-leading {
-	
+
 }
 
 /* ++++++++++++++++++++ headings +++++++++++++ */
@@ -574,7 +574,7 @@ table.contenttoc {
 }
 
 #right h3 {
-	
+
 }
 
 #right h4 {
@@ -624,7 +624,7 @@ ul.newsfeed {
 }
 
 .newsfeed-item h5 a {
-	
+
 }
 
 /* ++++++++++++++  newsflash  ++++++++++++++ */
@@ -645,7 +645,7 @@ ul.newsflash-horiz li h4 {
 
 /* newsflash vertical */
 .newsflash-vert {
-	
+
 }
 
 /* ++++++++++++++  banner  ++++++++++++++ */
@@ -819,7 +819,7 @@ table {
 }
 
 tbody {
-	
+
 }
 
 tr.odd,.cat-list-row1 {
@@ -827,7 +827,7 @@ tr.odd,.cat-list-row1 {
 }
 
 table.newsfeeds td,table.weblinks td {
-	
+
 }
 
 table.weblinks th,table.newsfeeds th,table.category th,table.jlist-table th
@@ -845,15 +845,15 @@ td.table_footer {
 }
 
 td.counter {
-	
+
 }
 
 td.num,td.hits {
-	
+
 }
 
 td p {
-	
+
 }
 
 table.category th a img {
@@ -881,7 +881,7 @@ fieldset.filters {
 }
 
 .contact .button {
-	
+
 }
 
 .contact input.invalid,.contact textarea.invalid {

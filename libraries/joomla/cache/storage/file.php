@@ -110,7 +110,7 @@ class JCacheStorageFile extends JCacheStorage
 		$written	= false;
 		$path		= $this->_getFilePath($id, $group);
 		$die		= '<?php die("Access Denied"); ?>#x#';
-		
+
 		// Prepend a die string
 		$data		= $die.$data;
 
@@ -231,7 +231,7 @@ class JCacheStorageFile extends JCacheStorage
 	{
 		$returning = new stdClass();
 		$returning->locklooped = false;
-		
+
 		$looptime 	= $locktime * 10;
 		$path		= $this->_getFilePath($id, $group);
 
