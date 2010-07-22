@@ -87,6 +87,9 @@ class CategoriesControllerCategory extends JController
 		// Get the model.
 		$model	= $this->getModel('Category');
 
+		// Check if we are adding for a particular extension
+		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
+
 		// Check that this is not a new category.
 		if ($id > 0) {
 			$item = $model->getItem($id);
@@ -96,14 +99,11 @@ class CategoriesControllerCategory extends JController
 				if (!$model->checkout($id)) {
 					// Check-out failed, go back to the list and display a notice.
 					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
-					$this->setRedirect('index.php?option=com_categories&view=category&item_id='.$id, $message, 'error');
+					$this->setRedirect('index.php?option=com_categories&view=category&item_id='.$id.'&extension='.$extension, $message, 'error');
 					return false;
 				}
 			}
 		}
-
-		// Check if we are adding for a particular extension
-		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
 
 		// Push the new row id into the session.
 		$app->setUserState('com_categories.edit.category.id',	$id);
@@ -133,14 +133,19 @@ class CategoriesControllerCategory extends JController
 		// Get the previous row id.
 		$previousId	= (int) $app->getUserState('com_categories.edit.category.id');
 
+		$extension = JRequest::getCmd('extension', '');
+		if ($extension) {
+			$extension = '&extension='.$extension;
+		}
+
 		// If rows ids do not match, checkin previous row.
 		if ($model->checkin($previousId)) {
 			// Redirect to the list screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories'.$extension, false));
 		} else {
 			// Check-in failed
 			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_categories&view=categories', $message, 'error');
+			$this->setRedirect('index.php?option=com_categories&view=categories'.$extension, $message, 'error');
 		}
 
 		// Clear the row edit information from the session.
@@ -171,13 +176,18 @@ class CategoriesControllerCategory extends JController
 		// Populate the row id from the session.
 		$data['id'] = (int) $app->getUserState('com_categories.edit.category.id');
 
+		$extension = JRequest::getCmd('extension', '');
+		if ($extension) {
+			$extension = '&extension='.$extension;
+		}
+
 		// The save2copy task needs to be handled slightly differently.
 		if ($task == 'save2copy') {
 			// Check-in the original row.
 			if (!$model->checkin()) {
 				// Check-in failed, go back to the item and display a notice.
 				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-				$this->setRedirect('index.php?option=com_categories&view=category&layout=edit', $message, 'error');
+				$this->setRedirect('index.php?option=com_categories&view=category&layout=edit'.$extension, $message, 'error');
 				return false;
 			}
 
@@ -213,7 +223,7 @@ class CategoriesControllerCategory extends JController
 			$app->setUserState('com_categories.edit.category.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
 			return false;
 		}
 
@@ -224,7 +234,7 @@ class CategoriesControllerCategory extends JController
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
-			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
 			return false;
 		}
 
@@ -232,7 +242,7 @@ class CategoriesControllerCategory extends JController
 		if (!$model->checkin()) {
 			// Check-in failed, go back to the row and display a notice.
 			$message = JText::sprintf('JERROR_CHECKIN_SAVED', $model->getError());
-			$this->setRedirect('index.php?option=com_categories&view=category&layout=edit', $message, 'error');
+			$this->setRedirect('index.php?option=com_categories&view=category&layout=edit'.$extension, $message, 'error');
 			return false;
 		}
 
@@ -248,7 +258,7 @@ class CategoriesControllerCategory extends JController
 				$app->setUserState('com_categories.edit.category.type',	null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
 				break;
 
 			case 'save2new':
@@ -259,8 +269,7 @@ class CategoriesControllerCategory extends JController
 				$app->setUserState('com_categories.edit.category.type',	null);
 
 				// Redirect back to the edit screen.
-				$extension = JRequest::getString('extension');
-				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit&extension='.$extension, false));
+				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
 				break;
 
 			default:
@@ -271,7 +280,7 @@ class CategoriesControllerCategory extends JController
 				$app->setUserState('com_categories.edit.category.type',	null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories'.$extension, false));
 				break;
 		}
 	}
@@ -291,8 +300,13 @@ class CategoriesControllerCategory extends JController
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
+		$extension = JRequest::getCmd('extension', '');
+		if ($extension) {
+			$extension = '&extension='.$extension;
+		}
+
 		// Preset the redirect
-		$this->setRedirect('index.php?option=com_categories&view=categories');
+		$this->setRedirect('index.php?option=com_categories&view=categories'.$extension);
 
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
