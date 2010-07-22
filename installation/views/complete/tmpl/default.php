@@ -18,12 +18,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
 ?>
 
-<script type="text/javascript">
-	function validateForm(frm, task) {
-		Joomla.submitform(task);
-	}
-</script>
-
 <div id="stepbar">
 	<div class="t">
 		<div class="t">
@@ -91,19 +85,19 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 						<fieldset>
 							<table class="final-table">
 								<tr>
-									<td class="error" align="center">
+									<td class="error">
 										<?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?>
 									</td>
 								</tr>
 								<tr>
-									<td align="center">
+									<td>
 										<h3>
 										<?php echo JText::_('INSTL_COMPLETE_ADMINISTRATION_LOGIN_DETAILS'); ?>
 										</h3>
 									</td>
 								</tr>
 								<tr>
-									<td align="center" class="notice">
+									<td class="notice">
 										<?php echo JText::_('JUSERNAME'); ?>: <?php echo $this->options['admin_user']; ?>
 									</td>
 								</tr>
@@ -111,7 +105,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									<td>&#160;</td>
 								</tr>
 								<tr>
-									<td align="center" class="notice">
+									<td class="notice">
 										<div id="cpanel">
 											<div>
 												<div class="icon">
@@ -137,7 +131,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									</td>
 								</tr>
 								<tr>
-									<td align="center">
+									<td>
 										<textarea rows="5" cols="49" name="configcode" onclick="this.form.configcode.focus();this.form.configcode.select();" ><?php echo $this->config; ?></textarea>
 									</td>
 								</tr>

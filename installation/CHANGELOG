@@ -36,6 +36,7 @@ $ -> Language fix or change
  # Fixed issue [#21335] Sort by descending causes issues with ordering in Category and Menu Managers (Michael Babker).
  # Fixed issue [#21250] Token message Error on Install Sample Data (Pete Nurse).
  # Fixed issue [#21178] Dropdown on Extension manager>Manage to filter results in error - ? due to ftp fields attempting to be populated (Ruth Cheesley, Bill Richardson).
+ # Fixed issue [#20751] Fix some markup errors and bring installer closer to XHTML strict (Rouven Weßling).
  
 21-Jul-2010 Jean-Marie Simonet
  $ Changing all occurences of :: to : : in strings' values to avoid breaking tooltips

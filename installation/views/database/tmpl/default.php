@@ -18,12 +18,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
 ?>
 
-<script type="text/javascript">
-	function validateForm(frm, task) {
-		Joomla.submitform(task);
-	}
-</script>
-
 <div id="stepbar">
 	<div class="t">
 		<div class="t">

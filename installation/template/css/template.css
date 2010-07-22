@@ -54,6 +54,14 @@ form {
 	padding: 0;
 }
 
+td:first-child {
+	width: 100px;
+}
+
+td.item + td {
+	text-align: center;
+}
+
 /* installer */
 #header1 {
 	background: url(../images/j_header_middle.png) repeat-x;
@@ -361,7 +369,10 @@ div.moofx-slider {
   background: #fbfbfb;
 }
 
-.final-table { width: 100%; }
+.final-table { 
+	width: 100%;
+	text-align: center;
+}
 
 td em {
 	color: #666;
@@ -506,6 +517,15 @@ div#installer div.b div.b div.b {
 }
 
 /* error messages and notices */
+
+.invalid {
+	color: red;
+	font-weight: bold;
+}
+
+input.invalid {
+	border: 1px solid red;
+}
 
 div.inlineError {
 	margin: 0 0.3em;
