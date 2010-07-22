@@ -16,11 +16,19 @@ defined('_JEXEC') or die;
  * @static
  * @package		Joomla.Site
  * @subpackage	com_content
- * @since 1.5
+ * @since		1.5
  */
 class ContentHelperQuery
 {
-	function orderbyPrimary($orderby)
+	/**
+	 * Translate an order code to a field for primary category ordering.
+	 *
+	 * @param	string	$orderby	The ordering code.
+	 *
+	 * @return	string	The SQL field(s) to order by.
+	 * @since	1.5
+	 */
+	public static function orderbyPrimary($orderby)
 	{
 		switch ($orderby)
 		{
@@ -44,7 +52,16 @@ class ContentHelperQuery
 		return $orderby;
 	}
 
-	function orderbySecondary($orderby, $orderDate = 'created')
+	/**
+	 * Translate an order code to a field for secondary category ordering.
+	 *
+	 * @param	string	$orderby	The ordering code.
+	 * @param	string	$orderDate	The ordering code for the date.
+	 *
+	 * @return	string	The SQL field(s) to order by.
+	 * @since	1.5
+	 */
+	public static function orderbySecondary($orderby, $orderDate = 'created')
 	{
 		$queryDate = self::getQueryDate($orderDate);
 
@@ -98,7 +115,15 @@ class ContentHelperQuery
 		return $orderby;
 	}
 
-	function getQueryDate($orderDate) {
+	/**
+	 * Translate an order code to a field for primary category ordering.
+	 *
+	 * @param	string	$orderDate	The ordering code.
+	 *
+	 * @return	string	The SQL field(s) to order by.
+	 * @since	1.6
+	 */
+	public static function getQueryDate($orderDate) {
 
 		switch ($orderDate)
 		{
@@ -116,10 +141,19 @@ class ContentHelperQuery
 				$queryDate = ' a.created ';
 				break;
 		}
+
 		return $queryDate;
 	}
 
-	function buildVotingQuery($params=null)
+	/**
+	 * Get join information for the voting query.
+	 *
+	 * @param	JRegistry	$param	An options object for the article.
+	 *
+	 * @return	array		A named array with "select" and "join" keys.
+	 * @since	1.5
+	 */
+	public static function buildVotingQuery($params=null)
 	{
 		if (!$params) {
 			$params = JComponentHelper::getParams('com_content');
@@ -131,7 +165,8 @@ class ContentHelperQuery
 			// calculate voting count
 			$select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
 			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
-		} else {
+		}
+		else {
 			$select = '';
 			$join = '';
 		}
@@ -149,23 +184,22 @@ class ContentHelperQuery
 	 * across columns in the layout, the result is that the
 	 * desired article ordering is achieved down the columns.
 	 *
-	 * @access	public
 	 * @param	array	$articles	Array of intro text articles
 	 * @param	integer	$numColumns	Number of columns in the layout
+	 *
 	 * @return	array	Reordered array to achieve desired ordering down columns
 	 * @since	1.6
 	 */
-	function orderDownColumns(&$articles, $numColumns = 1)
+	public static function orderDownColumns(&$articles, $numColumns = 1)
 	{
 		$count = count($articles);
+
 		// just return the same array if there is nothing to change
-		if ($numColumns == 1 || !is_array($articles) || $count <= $numColumns)
-		{
+		if ($numColumns == 1 || !is_array($articles) || $count <= $numColumns) {
 			$return = $articles;
 		}
 		// we need to re-order the intro articles array
-		else
-		{
+		else {
 			// we need to preserve the original array keys
 			$keys = array_keys($articles);
 
@@ -180,18 +214,15 @@ class ContentHelperQuery
 			// fill in all cells of the array
 			// put -1 in empty cells so we can skip later
 
-			$i = 1;
-			for ($row = 1; $row <= $maxRows; $row++)
+			for ($row = 1, $i = 1; $row <= $maxRows; $row++)
 			{
 				for ($col = 1; $col <= $numColumns; $col++)
 				{
-					if ($numEmpty > ($numCells - $i))
-					{
+					if ($numEmpty > ($numCells - $i)) {
 						// put -1 in empty cells
 						$index[$row][$col] = -1;
 					}
-					else
-					{
+					else {
 						// put in zero as placeholder
 						$index[$row][$col] = 0;
 					}
@@ -205,8 +236,7 @@ class ContentHelperQuery
 			{
 				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
 				{
-					if ($index[$row][$col] != - 1)
-					{
+					if ($index[$row][$col] != - 1) {
 						$index[$row][$col] = $keys[$i];
 						$i++;
 					}
