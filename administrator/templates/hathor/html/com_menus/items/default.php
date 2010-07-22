@@ -149,7 +149,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
-						<?php if ($ordering) : ?>
+						<?php if ($saveOrder) : ?>
 							<span><?php echo $this->pagination->orderUpIcon($i, isset($this->ordering[$item->parent_id][$orderkey - 1]), 'items.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 							<span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, isset($this->ordering[$item->parent_id][$orderkey + 1]), 'items.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 						<?php endif; ?>
