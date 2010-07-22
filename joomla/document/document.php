@@ -333,7 +333,7 @@ class JDocument extends JObject
 	function setHeadData($data) {
 		// Impelemented in child classes
 	}
-	
+
 	/**
 	 * Set the document head data
 	 *
@@ -686,7 +686,7 @@ class JDocument extends JObject
 			$this->setMetaData('content-type', $type, true, false);
 		}
 	}
-	
+
 	/**
 	 * Return the document MIME encoding that is sent to the browser.
 	 *

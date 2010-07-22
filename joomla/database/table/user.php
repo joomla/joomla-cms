@@ -244,7 +244,7 @@ class JTableUser extends JTable
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 

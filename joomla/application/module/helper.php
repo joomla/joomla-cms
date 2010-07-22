@@ -396,7 +396,7 @@ abstract class JModuleHelper
 			'modulemode' 	=> 1,
 			'mergehead' 	=> 1
 		);
-		
+
 		$wrkarounds = true;
 
 		switch ($cacheparams->cachemode) {
@@ -433,7 +433,7 @@ abstract class JModuleHelper
 				$ret = $cache->get(array($cacheparams->class, $cacheparams->method), $cacheparams->methodparams, $module->id. $user->get('aid', 0).JRequest::getVar('Itemid',null,'default','INT'), $wrkarounds, $wrkaroundoptions);
 				break;
 		}
-		
+
 		return $ret;
 	}
 }

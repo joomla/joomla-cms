@@ -90,7 +90,7 @@ class JFilterOutput
 
 		// lowercase and trim
 		$str = trim(strtolower($str));
-		
+
 		// remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array('-',''), $str);
 

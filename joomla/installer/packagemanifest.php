@@ -43,7 +43,7 @@ class JPackageManifest extends JObject
 
 	/**
 	 * Constructor
-	 * @param string $xmlpath Path to XML manifest file 
+	 * @param string $xmlpath Path to XML manifest file
 	 */
 	function __construct($xmlpath='')
 	{
@@ -60,7 +60,7 @@ class JPackageManifest extends JObject
 	function loadManifestFromXML($xmlfile)
 	{
 		$this->manifest_file = JFile::stripExt(basename($xmlfile));
-		
+
 		$xml = JFactory::getXML($xmlfile);
 
 		if( ! $xml)

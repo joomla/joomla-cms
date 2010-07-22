@@ -564,21 +564,21 @@ class JTableNested extends JTable
 		}
 
 		// If tracking assets, remove the asset first.
-		if ($this->_trackAssets) 
+		if ($this->_trackAssets)
 		{
 			$name		= $this->_getAssetName();
 			$asset		= JTable::getInstance('Asset');
-			
+
 			// Lock the table for writing.
-			if (!$asset->_lock()) 
+			if (!$asset->_lock())
 			{
 				// Error message set in lock method.
 				return false;
 			}
-			if ($asset->loadByName($name)) 
+			if ($asset->loadByName($name))
 			{
 				// Delete the node in assets table.
-				if (!$asset->delete()) 
+				if (!$asset->delete())
 				{
 					$this->setError($asset->getError());
 					$asset->_unlock();
@@ -586,14 +586,14 @@ class JTableNested extends JTable
 				}
 				$asset->_unlock();
 			}
-			else 
+			else
 			{
 				$this->setError($asset->getError());
 				$asset->_unlock();
 				return false;
 			}
 		}
-		
+
 		// Get the node by id.
 		if (!$node = $this->_getNode($pk))
 		{
@@ -1510,7 +1510,7 @@ class JTableNested extends JTable
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to update order of table rows
 	 *

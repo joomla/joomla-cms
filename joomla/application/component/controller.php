@@ -531,7 +531,7 @@ class JController extends JObject
 					// add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
-				
+
 				$app->set('registeredurlparams', $registeredurlparams);
 			}
 

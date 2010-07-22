@@ -34,7 +34,7 @@ class JCacheStorageHelper
 	 * @since	1.6
 	 */
 	public $count = 0;
-	
+
 	/**
 	 * Constructor
 	 *
@@ -43,7 +43,7 @@ class JCacheStorageHelper
 	public function __construct($group)
 	{
 		$this->group = $group;
-	}	
+	}
 
 	/**
 	 * Increase cache items count.

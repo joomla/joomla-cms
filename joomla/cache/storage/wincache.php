@@ -53,7 +53,7 @@ class JCacheStorageWincache extends JCacheStorage
 	public function getAll()
 	{
 		parent::getAll();
-		
+
 		$allinfo 	= wincache_ucache_info();
 		$keys 		= $allinfo['cache_entries'];
 		$secret 	= $this->_hash;

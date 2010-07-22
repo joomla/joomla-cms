@@ -642,7 +642,7 @@ abstract class JHtml
 		} else {
 			$tip = $text;
 		}
-		
+
 		if ($title) {
 			$tooltip = $title.'::'.$tooltip;
 		}
