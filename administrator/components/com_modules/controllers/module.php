@@ -90,14 +90,28 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
-	 * Override parent save method.
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param	JModel	$model	The data model object.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	public function save()
+	protected function postSaveHook(JModel &$model)
 	{
-		if ($result = parent::save()) {
-			$app = JFactory::getApplication();
-			$app->setUserState('com_modules.add.module.extension_id', null);
+		// Initialise variables.
+		$app = JFactory::getApplication();
+		$task = $this->getTask();
+
+		switch ($task)
+		{
+			case 'save2new':
+				$app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
+				break;
+
+			default:
+				$app->setUserState('com_modules.add.module.extension_id', null);
+				break;
 		}
-		return $result;
 	}
 }

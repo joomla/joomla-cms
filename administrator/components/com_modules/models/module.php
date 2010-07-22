@@ -579,7 +579,7 @@ class ModulesModelModule extends JModelAdmin
 					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES '.
 					implode(',', $tuples)
 				);
-				if (!$this->_db->query()) {
+				if (!$db->query()) {
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
@@ -589,7 +589,23 @@ class ModulesModelModule extends JModelAdmin
 		// Trigger the onExtensionAfterSave event.
 		$dispatcher->trigger('onExtensionAfterSave', array('com_modules.module', &$table, $isNew));
 
-		$this->setState('module.id', $table->id);
+		// Compute the extension id of this module in case the controller wants it.
+		$query	= $db->getQuery(true);
+		$query->select('extension_id');
+		$query->from('#__extensions AS e');
+		$query->leftJoin('#__modules AS m ON e.element = m.module');
+		$query->where('m.id = '.(int) $table->id);
+		$db->setQuery($query);
+
+		$extensionId = $db->loadResult();
+
+		if ($error = $db->getErrorMsg()) {
+			JError::raiseWarning(500, $error);
+			return;
+		}
+
+		$this->setState('module.extension_id',	$extensionId);
+		$this->setState('module.id',			$table->id);
 
 		// Clear module cache
 		$cache = JFactory::getCache($table->module);
