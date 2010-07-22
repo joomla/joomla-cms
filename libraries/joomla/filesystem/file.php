@@ -341,7 +341,7 @@ class JFile
 				$ret = $ftp->write($file, $buffer);
 			} else {
 				$file = JPath::clean($file);
-				$ret = file_put_contents($file, $buffer);
+				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
 			}
 
 			return $ret;
