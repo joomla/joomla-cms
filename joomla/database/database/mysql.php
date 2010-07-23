@@ -572,7 +572,7 @@ class JDatabaseMySQL extends JDatabase
 	 *
 	 * @param [type] $updateNulls
 	 */
-	public function updateObject($table, &$object, $keyName, $updateNulls=true)
+	public function updateObject($table, &$object, $keyName, $updateNulls=false)
 	{
 		$fmtsql = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
 		$tmp = array();
