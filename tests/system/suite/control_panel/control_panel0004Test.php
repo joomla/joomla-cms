@@ -116,7 +116,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("link=Ordering");
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'saveorder')][@class = 'saveorder']"));
-		$this->assertTrue($this->isElementPresent("//span[@class='state downarrow']"));
+		$this->assertFalse($this->isElementPresent("//span[@class='state downarrow']"));
 		$this->assertTrue($this->isElementPresent("//input[@class='text-area-order'][@disabled='disabled']"));
 		echo "Sort by Access and Language to verify all ordering items either hidden or disabled\n";
 		$this->click("link=Access");
@@ -210,7 +210,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'saveorder')][@class = 'saveorder']"));
 		$this->assertTrue($this->isElementPresent("//input[@class='text-area-order'][@disabled='disabled']"));
-		$this->assertTrue($this->isElementPresent("//span[@class='state downarrow']"));
+		$this->assertFalse($this->isElementPresent("//span[@class='state downarrow']"));
 		echo "Change sort to Access and Language and make sure all three are disabled\n";
 		$this->click("link=Access");
 		$this->waitForPageToLoad("30000");

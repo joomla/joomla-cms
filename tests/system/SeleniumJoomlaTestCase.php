@@ -113,7 +113,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->click($id);
 		$this->click("link=Save & Close");
 		$this->waitForPageToLoad("30000");
-			try
+		try
 		{
 			 $this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Creation of Test User(s) failed.');
 		}

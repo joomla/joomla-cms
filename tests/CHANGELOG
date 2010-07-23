@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jul-2010 Mark Dexter
+# Fix control_panel0004Test and add new acl003Test (Matt Thomas)
+
 16-Jul-2010 Mark Dexter
 # Fix controlpanel0002 for button change
 # Eliminate second doInstall in TestSuite (no longer needed)
