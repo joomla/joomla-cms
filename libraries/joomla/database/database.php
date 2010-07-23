@@ -737,7 +737,7 @@ abstract class JDatabase extends JObject
 	 * @param	string
 	 * @param	boolean
 	 */
-	abstract public function updateObject($table, &$object, $keyName, $updateNulls=true);
+	abstract public function updateObject($table, &$object, $keyName, $updateNulls=false);
 
 	/**
 	 * Print out an error statement
