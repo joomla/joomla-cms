@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Jul-2010 Jean-Marie Simonet
+ # [#21478] Ordering issues when sorted in descending. Thanks Michael
+
 23-Jul-2010 Sam Moffatt
  # Fix for updateNulls being inconsistent, ref: http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/79f6431147a223ba/
 
