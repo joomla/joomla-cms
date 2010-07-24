@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21563] Contact Manager Ordering display issues. Thanks Michael.
  # [#21530] Milkyway template has two positions 12. Thanks Michael.
  # [#21566] Reordering Access Levels produces error. Thanks Omar.
+ # [#21528] clear cache check all box doesn't check all. Thanks Andrea
 
 23-Jul-2010 Sam Moffatt
  # Fix for updateNulls being inconsistent, ref: http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/79f6431147a223ba/
