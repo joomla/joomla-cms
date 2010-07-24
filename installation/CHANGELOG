@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21478] Ordering issues when sorted in descending. Thanks Michael
  # [#21562] Banner Manager: Banners does not display ordering arrow for first item. Thanks Omar.
  # [#21563] Contact Manager Ordering display issues. Thanks Michael.
+ # [#21530] Milkyway template has two positions 12. Thanks Michael.
 
 23-Jul-2010 Sam Moffatt
  # Fix for updateNulls being inconsistent, ref: http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/79f6431147a223ba/

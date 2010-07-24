@@ -65,7 +65,6 @@ defined('_JEXEC') or die;
 
 			<div id="search">
 				<jdoc:include type="modules" name="user4" />
-				<jdoc:include type="modules" name="position-12" />
 				<jdoc:include type="modules" name="position-0" />
 			</div>
 
