@@ -18,7 +18,7 @@ $userId	= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
-$saveOrder	= $listOrder == 'ordering';
+$saveOrder	= $listOrder == 'a.ordering';
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
@@ -63,7 +63,7 @@ $saveOrder	= $listOrder == 'ordering';
 					<?php echo JHtml::_('grid.sort',  'JPUBLISHED', 'a.state', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'contacts.saveorder'); ?>
 					<?php endif; ?>
@@ -93,7 +93,7 @@ $saveOrder	= $listOrder == 'ordering';
 		<?php
 		$n = count($this->items);
 		foreach ($this->items as $i => $item) :
-			$ordering	= $listOrder == 'ordering';
+			$ordering	= $listOrder == 'a.ordering';
 			$canCreate	= $user->authorise('core.create',		'com_contact.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_contact.category.'.$item->catid);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
