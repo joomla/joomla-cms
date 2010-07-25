@@ -144,13 +144,13 @@ class plgContentPagenavigation extends JPlugin
 			}
 
 			if ($row->prev) {
-				$row->prev = JRoute::_('index.php?option=com_content&view=article&catid='.$row->prev->catslug.'&id='.$row->prev->slug);
+				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
 			} else {
 				$row->prev = '';
 			}
 
 			if ($row->next) {
-				$row->next = JRoute::_('index.php?option=com_content&view=article&catid='.$row->next->catslug.'&id='.$row->next->slug);
+				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
 			} else {
 				$row->next = '';
 			}
