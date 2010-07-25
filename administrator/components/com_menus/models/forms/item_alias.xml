@@ -20,7 +20,7 @@
 
 			<field name="menu-anchor_title" type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
-				description="COM_MENUS_FIELD_ITEM_ANCHOR_TITLE_DESC" />
+				description="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_DESC" />
 
 			<field name="menu-anchor_css" type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
