@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#20753] Bluestork Template For RTL languge
  # [#21564] Pagenavigation between articles does not work. Thanks Hannes.
  # [#21516] 'Disabled' state is not used in Content Languages view. Thanks CY Lee and Michael.
+ $ [#21453] module - archived articles - label. Thanks Bill.
 
 24-Jul-2010 Jean-Marie Simonet
  # [#21478] Ordering issues when sorted in descending. Thanks Michael
