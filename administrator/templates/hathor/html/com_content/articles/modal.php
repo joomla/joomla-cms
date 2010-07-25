@@ -88,7 +88,7 @@ $listDirn	= $this->state->get('list.direction');
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<td class="center">
+				<td class="center nowrap">
 					<?php echo JHTML::_('date',$item->created, JText::_('DATE_FORMAT_LC4')); ?>
 				</td>
 				<td class="center">

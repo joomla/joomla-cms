@@ -186,6 +186,10 @@ span.unwritable  {
 .hidebtn 		{ border: 0; padding: 0;margin:0;width: 0;height: 0;}
 .hidelabeltxt	{ text-indent: -9999em; }
 
+.nowrap {
+	white-space: nowrap; 
+}
+
 /* -- OVERALL STYLES ----------------------------- */
 
 /* Header */
@@ -1380,11 +1384,6 @@ th.center img {
 
 td.right,th.right {
 	text-align: right;
-}
-
-td.nowrap,
-th.nowrap {
-	white-space: nowrap;
 }
 
 .container {

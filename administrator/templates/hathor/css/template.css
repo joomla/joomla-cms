@@ -136,6 +136,7 @@ span.writable 		{ color: #005800;}
 span.unwritable		{ color: #a20000;}
 .none 		{ color: #aaaaaa;}
 .pointer	{ cursor: pointer;}
+.nowrap { white-space: nowrap; }
 
 /* end new styles */
 

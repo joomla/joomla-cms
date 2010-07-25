@@ -23,7 +23,7 @@ defined('_JEXEC') or die; ?>
 	</td>
 	<?php endif; ?>
 	<?php if ( $this->params->get( 'show_articles' ) ) : ?>
-	<td height="20" width="10%" class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" align="center" nowrap="nowrap">
+	<td height="20" width="10%" class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" align="center" class="nowrap">
 		<?php echo JText::_( 'Num Articles' ); ?>
 	</td>
 	<?php endif; ?>

@@ -51,7 +51,7 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="15%">
 					<?php echo JHtml::_('grid.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 				</th>
-				<th width="20%" nowrap="nowrap">
+				<th width="20%" class="nowrap">
 					<?php echo JHtml::_('grid.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

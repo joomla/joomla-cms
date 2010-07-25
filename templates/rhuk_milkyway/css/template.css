@@ -42,6 +42,8 @@ p { margin-top: 0; margin-bottom: 5px; }
 
 img { border: 0 none; }
 
+.nowrap { white-space: nowrap; }
+
 /*****************************************/
 /*** Template specific layout elements ***/
 /*****************************************/

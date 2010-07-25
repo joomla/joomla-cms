@@ -74,7 +74,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<th class="nowrap" width="10%">
 					<?php echo JHTML::_('grid.sort', 'COM_PLUGINS_ELEMENT_HEADING', 'element', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" nowrap="nowrap">
+				<th class="nowrap" width="1%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>

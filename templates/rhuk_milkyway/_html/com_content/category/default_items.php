@@ -19,13 +19,13 @@ defined('_JEXEC') or die; ?>
 		<table>
 		<tr>
 		<?php if ($this->params->get('filter')) : ?>
-			<td align="left" width="60%" nowrap="nowrap">
+			<td align="left" width="60%" class="nowrap">
 				<?php echo JText::_($this->params->get('filter_type') . ' Filter').'&#160;'; ?>
 				<input type="text" name="filter" value="<?php echo $this->escape($this->lists['filter']);?>" class="inputbox" onchange="document.adminForm.submit();" />
 			</td>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<td align="right" width="40%" nowrap="nowrap">
+			<td align="right" width="40%" class="nowrap">
 			<?php
 				echo '&#160;&#160;&#160;'.JText::_('JGLOBAL_DISPLAY_NUM').'&#160;';
 				echo $this->pagination->getLimitBox();
@@ -58,7 +58,7 @@ defined('_JEXEC') or die; ?>
 	</td>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_hits')) : ?>
-	<td align="center" class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" width="5%" nowrap="nowrap">
+	<td align="center" class="sectiontableheader<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>" width="5%" class="nowrap">
 		<?php echo JHTML::_('grid.sort',  'JGLOBAL_HITS', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>

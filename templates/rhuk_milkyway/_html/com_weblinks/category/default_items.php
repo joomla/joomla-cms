@@ -29,7 +29,7 @@
 	</td>
 	<?php if ( $this->params->get( 'show_link_hits' ) ) : ?>
 
-	<td width="30" height="20" class="sectiontableheader<?php echo $this->escape($this->params->get( 'pageclass_sfx' )); ?>" style="text-align:center;" nowrap="nowrap">
+	<td width="30" height="20" class="sectiontableheader<?php echo $this->escape($this->params->get( 'pageclass_sfx' )); ?>" style="text-align:center;" class="nowrap">
 		<?php echo JHTML::_('grid.sort',  'JGLOBAL_HITS', 'hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 	</td>
 	<?php endif; ?>
