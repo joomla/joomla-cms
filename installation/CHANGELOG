@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21516] 'Disabled' state is not used in Content Languages view. Thanks CY Lee and Michael.
  $ [#21453] module - archived articles - label. Thanks Bill.
  # [#21294] Cells of "Date" columns is not in one line in com_content grids in IE. Thanks Artyom.
+ # [#21524] Atom feed renderer reports wrong Joomla! version. Thanks Franklin.
 
 24-Jul-2010 Jean-Marie Simonet
  # [#21478] Ordering issues when sorted in descending. Thanks Michael
