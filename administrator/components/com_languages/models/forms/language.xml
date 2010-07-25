@@ -71,7 +71,6 @@
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
-			<option value="-1">JDISABLED</option>
 			<option value="-2">JTRASH</option>
 		</field>
 	</fieldset>
