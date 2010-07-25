@@ -102,19 +102,18 @@ body{
 	padding: 25px 0 0 5px;
 }
 
-#border-top .title{
-	padding-right: 180px;
-	padding-left: 0px;
+#border-top .title{ 
+	padding-right: 10px;
+	padding-left: 10px;
 	float: right;
 }
 
 #module-status {
 	float:left;
-	background-position: right 5px;
 }
 
-#module-status span{
-	padding: 4px 22px 0pt 10px;
+#module-status span {
+	padding: 4px 22px 0 10px;
 }
 
 #module-status .legacy-mode 		  { background-position: right 5px; }
@@ -123,6 +122,7 @@ body{
 #module-status .no-unread-messages { background-position: right 3px; }
 #module-status .loggedin-users     { background-position: right 3px; }
 #module-status .logout             { background-position: right 3px; }
+#module-status .viewsite 		  { background-position: right 5px; }
 
 fieldset.filter {border: 0; padding: 0; margin:0 0 10px;}
 div.left { float: right; }
@@ -223,9 +223,9 @@ div.col{
 	margin-right: 10px;
 }
 
-#form-login label{
-	float: right;
-	text-align: left;
+#form-login label{  
+float:right;
+	text-align: right;
 }
 
 #form-login div.button_holder{
@@ -281,9 +281,127 @@ form .inputbox {
 	display: -moz-inline-box;
 }
 
-/**
-* Mod_rewrite Warning
-*/
-#jform_sef_rewrite-lbl {
-	background: url(../images/admin/icon-16-notice-note.png) left top no-repeat;
+
+#form-login .button-holder {
+	float: left;
+	padding-left: 5px;
+	clear:left;
+}
+input#mod-login-username,
+input#mod-login-password,
+select#lang {
+	float:left;
+	margin: 0 20px 0 0;
+	clear:left;
+}
+fieldset label {
+	float: right;
+	clear: right;
+}
+div.cpanel-left {
+	width: 54%;
+	float: right;
+}
+div.cpanel-right {
+	width: 45%;
+	float: left;
+}
+#cpanel div.icon {
+	float: right;
+}
+div.pagetitle {
+	padding-right: 60px;
+	background-position:right;
+	margin-right: 10px;
+}
+div.toolbar-list {
+	float: left;
+}
+div.toolbar-list li {
+	float: right;
+}
+td.left,th.left {
+	text-align: right;
+}
+fieldset input,
+fieldset textarea,
+fieldset select,
+fieldset img,
+fieldset button {
+	float: right;
+	text-align:right;
+}
+
+#jform_id {
+	float:right;
+}
+
+li#jform_menutype_label,
+li#jform_parentid_label,
+li#jform_published_label,
+li#jform_access_label {
+	float: right;
+	clear: right;
+}
+
+fieldset.adminform fieldset.radio,
+fieldset.panelform fieldset.radio,
+fieldset.adminform-legacy fieldset.radio {
+	border: 0;
+	float: right;
+	padding: 0;
+	margin: 0 5px 5px 0;
+	clear: left;
+}
+
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label {
+	float: right;
+}
+
+fieldset.panelform-legacy label,
+fieldset.adminform-legacy label {
+	float: right;
+}
+dl.tabs {
+	float: right;
+}
+
+dl.tabs dt {
+	float: right;
+}
+td.col1 {
+	text-align: right;
+}
+.clrlft		{clear: right;}
+.clrrt		{clear: left;}
+.fltlft		{float: right;}
+.fltrt		{float: left;}
+.fltnone	{float: none;}
+
+#user-groups li {
+float:right; text-align:right;
+}
+
+/* -------- Batch Section ---------- */
+fieldset.batch {
+	margin: 20px 10px 0px 0px;
+}
+
+fieldset#batch-choose-action {
+	clear: right;
+}
+fieldset.batch label {
+	float: right;
+}
+fieldset label#batch-choose-action-lbl {
+	clear: right;
+}
+select#batch-menu-id {
+	margin-left: 30px;
+	margin-right: 0px;
+}
+label#batch-access-lbl {
+	margin-left: 10px;
+	margin-right: 0px;
 }

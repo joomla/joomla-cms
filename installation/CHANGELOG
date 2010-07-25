@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jul-2010 Jean-Marie Simonet
+ # [#20753] Bluestork Template For RTL languge
+
 24-Jul-2010 Jean-Marie Simonet
  # [#21478] Ordering issues when sorted in descending. Thanks Michael
  # [#21562] Banner Manager: Banners does not display ordering arrow for first item. Thanks Omar.
