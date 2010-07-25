@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#21294] Cells of "Date" columns is not in one line in com_content grids in IE. Thanks Artyom.
  # [#21524] Atom feed renderer reports wrong Joomla! version. Thanks Franklin.
  $ [#21479] menu alias string error. Thanks Bill.
+ # [#21534] Breadcrumbs: last Seperator apper even if "Show Last" set to "no". Thanks Rune.
 
 24-Jul-2010 Jean-Marie Simonet
  # [#21478] Ordering issues when sorted in descending. Thanks Michael
