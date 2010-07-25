@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#21524] Atom feed renderer reports wrong Joomla! version. Thanks Franklin.
  $ [#21479] menu alias string error. Thanks Bill.
  # [#21534] Breadcrumbs: last Seperator apper even if "Show Last" set to "no". Thanks Rune.
+ $ Ini value Typo.
 
 24-Jul-2010 Jean-Marie Simonet
  # [#21478] Ordering issues when sorted in descending. Thanks Michael
