@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+-------------------- 1.6.0 Beta6 Release [26-Jul-2010] ------------------
+
 26-Jul-2010 Jean-Marie Simonet
  # [#21586] Implementing menu items title and image params
  # [#21458] css Error - Beez_50. Thanks Bill.
@@ -53,28 +56,28 @@ $ -> Language fix or change
  # [#21528] clear cache check all box doesn't check all. Thanks Andrea
 
 23-Jul-2010 Sam Moffatt
- # Fix for updateNulls being inconsistent, ref: http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/79f6431147a223ba/
+ # updateNulls being ref: http://groups.google.com/group/joomla-dev-framework/browse_thread/thread/79f6431147a223ba/
 
 22-Jul-2010 Jean-Marie Simonet
  # [#21199] Profile data show in contacts when profile plugin is disabled
  # [#21550] Flash Uploader issue
 
 21-Jul-2010 Andrew Eddie
- # Fixed issue [#20880] fatal error trying to view template positions (Rob Joyce, Rune Sjøen).
- # Fixed issue [#21394] Problem with submenu translation in 3rd party extensions (Rune Sjøen).
- # Fixed issue [#21452] Use rel="help" for the help button in the toolbar (Rouven Weßling).
- # Fixed issue [#21438] Adding categories (Rune Sjøen).
- # Fixed issue [#21247] HTML comments shouldn't be used to guard JavaScript (Rouven Weßling).
- # Fixed issue [#21335] Sort by descending causes issues with ordering in Category and Menu Managers (Michael Babker).
- # Fixed issue [#21250] Token message Error on Install Sample Data (Pete Nurse).
- # Fixed issue [#21178] Dropdown on Extension manager>Manage to filter results in error - ? due to ftp fields attempting to be populated (Ruth Cheesley, Bill Richardson).
- # Fixed issue [#20751] Fix some markup errors and bring installer closer to XHTML strict (Rouven Weßling).
- # Fixed issue [#21339] JFile::Write() returns wrong value (Janich Rasmussen, Artyom Bisyarin).
- # Fixed issue [#21436] Database Error should return "500 Internal Server Error" so Joomla! can operate properly in CDNs (Klas Berlič1).
- # Fixed issue [#20381] Readme file (Paulo Izidoro).
- # Fixed issue [#21517] modSearchHelper's methods should be public static (Franklin Tse).
- # Fixed issue [#20879] missing functionality Save and New (Rob Joyce, Joseph LeBlanc).
- # Fixed issue [#21515] ContentHelperQuery's methods should be public static (Franklin Tse).
+ # [#20880] fatal error trying to view template positions (Rob Joyce, Rune Sjøen).
+ # [#21394] Problem with submenu translation in 3rd party extensions (Rune Sjøen).
+ # [#21452] Use rel="help" for the help button in the toolbar (Rouven Weßling).
+ # [#21438] Adding categories (Rune Sjøen).
+ # [#21247] HTML comments shouldn't be used to guard JavaScript (Rouven Weßling).
+ # [#21335] Sort by descending causes issues with ordering in Category and Menu Managers (Michael Babker).
+ # [#21250] Token message Error on Install Sample Data (Pete Nurse).
+ # [#21178] Dropdown on Extension manager>Manage to filter results in error - ? due to ftp fields attempting to be populated (Ruth Cheesley, Bill Richardson).
+ # [#20751] Fix some markup errors and bring installer closer to XHTML strict (Rouven Weßling).
+ # [#21339] JFile::Write() returns wrong value (Janich Rasmussen, Artyom Bisyarin).
+ # [#21436] Database Error should return "500 Internal Server Error" so Joomla! can operate properly in CDNs (Klas Berlič1).
+ # [#20381] Readme file (Paulo Izidoro).
+ # [#21517] modSearchHelper's methods should be public static (Franklin Tse).
+ # [#20879] missing functionality Save and New (Rob Joyce, Joseph LeBlanc).
+ # [#21515] ContentHelperQuery's methods should be public static (Franklin Tse).
  
 21-Jul-2010 Jean-Marie Simonet
  $ Changing all occurences of :: to : : in strings' values to avoid breaking tooltips
@@ -144,7 +147,7 @@ $ -> Language fix or change
  # [#21215] Consistency in module layouts. Thanks Bill.
  
 13-Jul-2010 Mark Dexter
-# [#21083] Category List menu link to unpublished category gives error
+ # [#21083] Category List menu link to unpublished category gives error
 
 -------------------- 1.6.0 Beta5 Release [12-Jul-2010] ------------------
 
