@@ -58,6 +58,7 @@ class JFormFieldMenuParent extends JFormFieldList
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
 
+		$query->where('a.published != -2');
 		$query->group('a.id');
 		$query->order('a.lft ASC');
 

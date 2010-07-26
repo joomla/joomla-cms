@@ -129,7 +129,8 @@ class MenusHelper
 			if (is_array($published)) $published = '(' . implode(',',$published) .')';
 			$query->where('a.published IN ' . $published);
 		}
-
+		
+		$query->where('a.published != -2');
 		$query->group('a.id');
 		$query->order('a.lft ASC');
 
