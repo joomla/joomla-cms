@@ -30,6 +30,7 @@ $ -> Language fix or change
 26-Jul-2010 Jean-Marie Simonet
  # [#21586] Implementing menu items title and image params
  # [#21458] css Error - Beez_50. Thanks Bill.
+ # [#21546] plgEditorTinymce->_toogleButton is not well-formed. Thanks Franklin.
 
 25-Jul-2010 Jean-Marie Simonet
  # [#20753] Bluestork Template For RTL languge
