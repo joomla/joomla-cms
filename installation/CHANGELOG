@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jul-2010 Jean-Marie Simonet
+ # [#21586] Implementing menu items title and image params
+
 25-Jul-2010 Jean-Marie Simonet
  # [#20753] Bluestork Template For RTL languge
  # [#21564] Pagenavigation between articles does not work. Thanks Hannes.

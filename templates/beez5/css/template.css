@@ -32,6 +32,8 @@ body.contentpane {
 		text-align: left;
 }
 
+img { border: 0 none; }
+
 /* TOC */
 table.contenttoc{
         float: right;

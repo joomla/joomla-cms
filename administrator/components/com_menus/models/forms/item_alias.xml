@@ -8,8 +8,8 @@
 		<fieldset name="request">
 
 			<field name="aliasoptions" type="menuitem"
-				description="COM_MENUS_ITEM_FIELD_ALIAS_DESC"
-				label="JFIELD_ALIAS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
+				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
 				required="true" />
 
 		</fieldset>
@@ -26,7 +26,7 @@
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_DESC" />
 
-			<field name="menu_image" type="text"
+			<field name="menu_image" type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
 

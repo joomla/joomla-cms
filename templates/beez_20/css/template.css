@@ -31,6 +31,7 @@ body.contentpane {
 		line-height: 1.4em;
 		text-align: left;
 }
+img { border: 0 none; }
 
 /* TOC */
 table.contenttoc{
