@@ -114,7 +114,6 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
-	<div class="clr"></div>
 	<?php if ($hasContent) : ?>
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
@@ -128,13 +127,14 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 		</fieldset>
 	</div>
 
-	<div class="clr"></div>
 	<?php endif; ?>
 	<?php if ($this->item->client_id == 0) :?>
 	<div class="width-60 fltlft">
 		<?php echo $this->loadTemplate('assignment'); ?>
 	</div>
 	<?php endif; ?>
+
+	<div class="clr"></div>
 
 	<div>
 		<input type="hidden" name="task" value="" />
