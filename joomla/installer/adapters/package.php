@@ -57,7 +57,7 @@ class JInstallerPackage extends JAdapterInstance
 		// Set the extensions name
 		$filter	= JFilterInput::getInstance();
 		$name	= (string) $this->manifest->packagename;
-		$name	= $fitler->clean($name, 'cmd');
+		$name	= $filter->clean($name, 'cmd');
 		$this->set('name', $name);
 
 		$element = 'pkg_' . $filter->clean($this->manifest->packagename, 'cmd');
