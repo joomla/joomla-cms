@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jul-2010 Ian MacLennan
+ # [#21578] mod_articles_popular Ordering Correction
+
 27-Jul-2010 Jean-Marie Simonet
  # [#21159] Using Save as Copy in Categery - no indication is a copy
  # [#21596] Small typo in installer adapters. Thanks Viet.
