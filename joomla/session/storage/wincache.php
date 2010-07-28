@@ -125,7 +125,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test() {
+	static function test() {
 		return (extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), "1"));
 	}
 }

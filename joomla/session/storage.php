@@ -163,7 +163,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public function test()
+	public static function test()
 	{
 		return true;
 	}

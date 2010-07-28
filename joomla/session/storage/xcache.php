@@ -130,7 +130,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function test() {
+	static function test() {
 		return (extension_loaded('xcache'));
 	}
 }
