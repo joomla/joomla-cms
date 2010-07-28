@@ -223,7 +223,12 @@ class JTableContent extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
-
+	// Verify that the alias is unique
+		$table = JTable::getInstance('Content','JTable');
+		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			return false;
+		}
 		return parent::store($updateNulls);
 	}
 
