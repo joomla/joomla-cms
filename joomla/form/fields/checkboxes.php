@@ -61,7 +61,7 @@ class JFormFieldCheckboxes extends JFormField
 		foreach ($options as $i => $option) {
 
 			// Initialize some option attributes.
-			$checked	= ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
+			$checked	= (in_array((string)$option->value,(array)$this->value) ? ' checked="checked"' : '');
 			$class		= !empty($option->class) ? ' class="'.$option->class.'"' : '';
 			$disabled	= !empty($option->disable) ? ' disabled="disabled"' : '';
 
