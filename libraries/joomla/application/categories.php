@@ -402,7 +402,7 @@ class JCategoryNode extends JObject
 			if(count($parent->_children) > 1)
 			{
 				end($parent->_children);
-				$this->_leftSibling = &prev($parent->_children);
+				$this->_leftSibling = prev($parent->_children);
 				$this->_leftSibling->_rightsibling = &$this;
 			}
 		}
