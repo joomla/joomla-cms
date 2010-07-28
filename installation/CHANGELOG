@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#21553] "Add Site Name to Page Titles" does not work in Atom and RSS feeds
  # [#21559] Joomla! Form Field Checkboxes
  # [#21473] Remove garbage output from system test classes
+ # [#21521] JSessionStorage*::test() should be static
 
 28-Jul-2010 Jean-Marie Simonet
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
