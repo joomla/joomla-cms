@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
  # [#21584] Robots metadata useless Option
  # [#21569] article categories - not showing no of articles in each category. Thanks Bill.
+ # [#21589] Menu items - link,display and metadata all in one panel slider. Thanks Bill.
 
 27-Jul-2010 Ian MacLennan
  # [#21578] mod_articles_popular Ordering Correction

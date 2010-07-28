@@ -3,7 +3,8 @@
 <form>
 	<fields name="params" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 	>
-		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
+		<fieldset name="menu-options"
+			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 		>
 
 			<field name="menu-anchor_title" type="text"
@@ -18,6 +19,11 @@
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
 
+		</fieldset>
+		
+		<fieldset name="page-options"
+			label="COM_MENUS_PAGE_OPTIONS_LABEL"
+		>
 			<field name="show_page_heading" type="radio"
 				label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
@@ -38,6 +44,14 @@
 			<field name="pageclass_sfx" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC" />
+			
+
+		</fieldset>
+		
+		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
+		>
+
+			
 
 			<field name="menu-meta_description" type="textarea"
 				label="JFIELD_META_DESCRIPTION_LABEL" description="COM_MENUS_ITEM_FIELD_META_DESCRIPTION_DESC"
