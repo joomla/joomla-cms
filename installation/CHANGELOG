@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jul-2010 Jean-Marie Simonet
+ # [#21605] small change in menu manager: new menu item. Thanks Bill.
+
 27-Jul-2010 Ian MacLennan
  # [#21578] mod_articles_popular Ordering Correction
  # [#21547] Make installation work with XHTML parsed as XML
