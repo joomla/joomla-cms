@@ -57,14 +57,9 @@ class NewsfeedsTableNewsfeed extends JTable
 	 */
 	function check()
 	{
-		if (empty($this->name)) {
-			$this->setError(JText::_('Newsfeed_must_have_title'));
-			return false;
-		}
-
 		// Check for valid name.
 		if (trim($this->name) == '') {
-			$this->setError(JText::_('COM_NEWSFEED_WARNING_PROVIDE_VALID_NAME'));
+			$this->setError(JText::_('COM_NEWSFEEDS_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
 
@@ -134,7 +129,12 @@ class NewsfeedsTableNewsfeed extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
-
+	// Verify that the alias is unique
+		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
+		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
+			return false;
+		}
 		return parent::store($updateNulls);
 	}
 

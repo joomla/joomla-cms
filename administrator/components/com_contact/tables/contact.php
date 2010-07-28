@@ -84,6 +84,13 @@ class ContactTableContact extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
+		// Verify that the alias is unique
+		$table = JTable::getInstance('Contact', 'ContactTable');
+		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+			return false;
+		}
+
 		// Attempt to store the data.
 		return parent::store($updateNulls);
 	}
@@ -124,7 +131,7 @@ class ContactTableContact extends JTable
 
 		$xid = intval($this->_db->loadResult());
 		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::sprintf('COM_CONTACT_WARNING_SAME_NAME', $this->id));
+			$this->setError(JText::_('COM_CONTACT_WARNING_SAME_NAME'));
 			return false;
 		}
 
