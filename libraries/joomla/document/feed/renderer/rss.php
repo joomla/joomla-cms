@@ -37,16 +37,23 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	function render()
 	{
+		$app	= JFactory::getApplication();
 		$now	= JFactory::getDate();
 		$data	= &$this->_doc;
 
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
+		
+		$feed_title = htmlspecialchars(
+			$app->getCfg('sitename_pagetitles',0)?
+			JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $data->title):
+			$data->title
+		, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed.= "	<channel>\n";
-		$feed.= "		<title>".$data->title."</title>\n";
+		$feed.= "		<title>".$feed_title."</title>\n";
 		$feed.= "		<description>".$data->description."</description>\n";
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
