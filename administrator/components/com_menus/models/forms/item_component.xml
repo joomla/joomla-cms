@@ -57,7 +57,6 @@
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
 			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-			<option value=" ">JGLOBAL_NO_ROBOTS_TAG</option>
 		</field>
 
 			<field name="secure" type="radio"

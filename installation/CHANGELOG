@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 28-Jul-2010 Jean-Marie Simonet
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
+ # [#21584] Robots metadata useless Option
 
 27-Jul-2010 Ian MacLennan
  # [#21578] mod_articles_popular Ordering Correction
