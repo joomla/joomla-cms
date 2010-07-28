@@ -30,6 +30,7 @@ $ -> Language fix or change
 28-Jul-2010 Ian MacLennan
  # [#21361] Contact Component (Category Contact List-No Query)
  # [#21553] "Add Site Name to Page Titles" does not work in Atom and RSS feeds
+ # [#21559] Joomla! Form Field Checkboxes
 
 28-Jul-2010 Jean-Marie Simonet
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
