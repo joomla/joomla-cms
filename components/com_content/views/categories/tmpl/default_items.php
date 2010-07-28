@@ -32,9 +32,9 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevel != 0) :
 				<?php echo JHtml::_('content.prepare', $item->description); ?>
 			</div>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_item_count') == 1) :?>
+		<?php if ($this->params->get('show_cat_num_articles') == 1) :?>
 			<dl class="article-count"><dt>
-				<?php echo JText::_('COM_CONTENT_COUNT:'); ?></dt>
+				<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>
 			</dl>
 		<?php endif; ?>

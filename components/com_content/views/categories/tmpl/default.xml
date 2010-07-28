@@ -78,9 +78,10 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			<field name="show_cat_num_articles" type="radio"
-				label="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_LABEL"
-				description="JGLOBAL_FIELD_NUM_CATEGORY_ITEMS_DESC"
+			
+			<field name="show_cat_num_articles" type="list"
+				label="JGLOBAL_NUMBER_CATEGORY_ITEMS_LABEL"
+				description="JGLOBAL_NUMBER_CATEGORY_ITEMS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
