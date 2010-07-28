@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#21521] JSessionStorage*::test() should be static
  # [#21520] JSession::getStores() should be static
  # [#21518] Only variables should be assigned by reference in JCategories->setParent()
+ # [#21539] Extraneous edit_params.php in banner view
 
 28-Jul-2010 Jean-Marie Simonet
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
