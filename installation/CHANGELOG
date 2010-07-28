@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#21518] Only variables should be assigned by reference in JCategories->setParent()
  # [#21539] Extraneous edit_params.php in banner view
  # [#21544] The a element in JButtonHelp->fetchButton is not well-formed
+ # [#21555] Fields of type=media do not have an obvious way to clear the data
 
 28-Jul-2010 Jean-Marie Simonet
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
