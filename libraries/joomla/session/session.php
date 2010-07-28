@@ -252,7 +252,7 @@ class JSession extends JObject
 	 *
 	 * @return array An array of available session handlers
 	 */
-	public function getStores()
+	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
 		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php$');
