@@ -35,7 +35,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 	</div>
 </div>
 
-<form action="index.php" method="post" name="adminForm" class="form-validate">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 <div id="right">
 	<div id="rightpad">
 		<div id="step">

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 $script = "\n\t".'function validateForm(frm, task) {';
-$script .= "\n\t\t".'Joomla.submitform(task);';
+$script .= "\n\t\t".'Joomla.submitform(task, frm);';
 $script .= "\n\t".'}';
 
 JFactory::getDocument()->addScriptDeclaration($script);

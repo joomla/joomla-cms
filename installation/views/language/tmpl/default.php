@@ -43,7 +43,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 	</noscript>
 </div>
 
-<form action="index.php" method="post" name="adminForm" class="form-validate">
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="right">
 		<div id="rightpad">
 			<div id="step">
@@ -55,9 +55,9 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				<div class="m">
 					<div class="far-right">
 					<?php if ($this->document->direction == 'ltr') : ?>
-						<div class="button1-left"><div class="next"><a onclick="validateForm(adminForm, 'setup.setlanguage');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
+						<div class="button1-left"><div class="next"><a onclick="validateForm(document.getElementById('adminForm'), 'setup.setlanguage');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
 					<?php elseif ($this->document->direction == 'rtl') : ?>
-						<div class="button1-right"><div class="prev"><a onclick="validateForm(adminForm, 'setup.setlanguage');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
+						<div class="button1-right"><div class="prev"><a onclick="validateForm(document.getElementById('adminForm'), 'setup.setlanguage');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
 					<?php endif; ?>
 					</div>
 					<span class="step"><?php echo JText::_('INSTL_LANGUAGE_TITLE'); ?></span>
