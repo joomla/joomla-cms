@@ -105,6 +105,15 @@ class JFormFieldMedia extends JFormField
 		$html[] = '			'.JText::_('JSELECT').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
+		
+		$html[] = '<div class="button2-left">';
+		$html[] = '	<div class="blank">';
+		$html[] = '		<a title="'.JText::_('JCLEAR').'"' .
+					' href="#"'.
+					' onclick="javascript:document.getElementById(\''.$this->id.'\').value=\'\';">';
+		$html[] = '			'.JText::_('JCLEAR').'</a>';
+		$html[] = '	</div>';
+		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}
