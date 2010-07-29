@@ -126,6 +126,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->doFrontEndLogout();
 		echo "Go to home and check that edit icon is not visible." . "\n";
 		$this->click("link=Home");
+		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isElementPresent("//img[@alt='Edit']"));
 		echo "Drill to Sample Data article and check that edit icon is not visible." . "\n";
 		$this->click("link=Sample Sites");
