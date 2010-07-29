@@ -406,6 +406,22 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JRegistry::makeNamespace method.
+	 */
+	public function testLoadSetupFile()
+	{
+		$a = new JRegistry;
+
+		$this->assertThat(
+			$a->loadSetupFile(),
+			$this->equalTo(true),
+			'loadSetupFile does not exist or did not return true.'
+		);
+	}
+
+
+
+	/**
 	 * Test the JRegistry::merge method.
 	 */
 	public function testMerge()
