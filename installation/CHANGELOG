@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jul-2010 Mark Dexter
+# Remove trashed category from sample data
+
 29-Jul-2010 Ian MacLennan
  # [#21605] Change committed without appropriately modifying system tests.
 
