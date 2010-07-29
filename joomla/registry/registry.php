@@ -517,4 +517,19 @@ class JRegistry
 		}
 		return $this->set($path, $value);
 	}
+
+	/**
+	 * This method is added as an interim solution for API references in Joomla! 1.6 to the JRegistry
+	 * object where in 1.5 a JParameter object existed.  Because many extensions may call this method
+	 * we add it here as a means of "pain relief" until the 1.7 release.
+	 *
+	 * @return      boolean  True.
+	 *
+	 * @deprecated  1.6 - Jun 17, 2010
+	 * @todo        Remove this method for the 1.7 release.
+	 */
+	public function loadSetupFile()
+	{
+		return true;
+	}
 }
