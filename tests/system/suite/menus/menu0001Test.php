@@ -56,7 +56,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_published", "label=Published");
 		$this->select("jform_menutype", "label=Functional Test Menu");
 		echo "Open Select Article modal\n";
-		$this->click("link=Change");
+		$this->click("link=Select / Change");
 
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
