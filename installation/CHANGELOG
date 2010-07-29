@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#21602] Preventing saving same alias in same category
  # [#20690] Call to undefined method JRegistry::loadSetupFile()
  # [#21283] System test article0001 failing
+ # [#21537] Hathor metadata
 
 28-Jul-2010 Jean-Marie Simonet
  # [#21605] small change in menu manager: new menu item. Thanks Bill.
