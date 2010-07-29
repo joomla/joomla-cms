@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jul-2010 Jean-Marie Simonet
+ # [#21619] Normalizing menu items sliders to be more explicit over the UI
+
 28-Jul-2010 Ian MacLennan
  # [#21361] Contact Component (Category Contact List-No Query)
  # [#21553] "Add Site Name to Page Titles" does not work in Atom and RSS feeds

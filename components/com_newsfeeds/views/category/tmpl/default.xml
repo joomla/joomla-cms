@@ -27,7 +27,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
-<fieldset name="basic">
+<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -75,7 +75,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 </fieldset>
-<fieldset name="advanced">
+<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="display_num" type="list"
 				description="JGLOBAL_Number_Items_List_Desc"
 				label="JGLOBAL_Number_Items_List_Label"

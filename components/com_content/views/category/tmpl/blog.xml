@@ -25,7 +25,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
-<fieldset name="basic">
+<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXLEVEL_DESC"
 				label="JGLOBAL_MAXLEVEL_LABEL"
@@ -83,7 +83,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 </fieldset>
-<fieldset name="advanced">
+<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
 			<field name="num_leading_articles" type="text"
 				default="1"
 				description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"

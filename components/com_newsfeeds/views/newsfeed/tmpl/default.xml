@@ -27,9 +27,7 @@
 	<fields name="params">
 
 		<!-- Basic options. -->
-		<fieldset name="basic"
-		>
-
+<fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
