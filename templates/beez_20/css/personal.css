@@ -1474,3 +1474,12 @@ div.current
 
 	background: url(../images/nav_level_1.gif) repeat-x ;
 }
+
+/* image upload modal */
+
+#all #upload-flash ul li a:hover,
+#all .item a:hover span {
+	background:#095197;
+	color:#fff;
+}
+

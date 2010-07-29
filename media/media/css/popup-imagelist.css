@@ -4,26 +4,46 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- html, body { margin: 0 !important; padding: 0 !important; font: 10px Tahoma, Verdana, sans-serif !important; }
+ html, body {
+	 margin: 0 !important;
+	 padding: 0 !important;
+	 font-family:  Tahoma, Verdana, sans-serif !important;
+}
 
-.item { float: left; border: 1px solid #ccc; margin: 3px;	 position: relative; }
+ .item {
+	float: left;
+	border: 1px solid #ccc !important;
+	margin: 3px;
+	position: relative;
+	padding:0 !important;
 
-.item a       {
+}
+
+.item a {
 	display: table-cell !important;
 	display: block;
-	width: 80px; height: 90px;
+	width: 80px;
+	height: 90px;
 	overflow: hidden;
 	vertical-align: middle;
 	text-align: center;
 	text-decoration: none;
 	color: black;
-
 	line-height: 90px;
+	background:#fff !important;
+
+
 }
 
-.item img { display: inline; margin-top: expression(( 80 - this.height ) / 2);}
+.item img {
+	display: inline;
+	margin-top: expression(( 80 - this.height ) / 2);
+	border:0
+}
 
-html>body .item img {margin: auto;}
+html>body .item img {
+	margin: auto;
+}
 
 .item span {
 	line-height: 100%;
@@ -36,5 +56,22 @@ html>body .item img {margin: auto;}
 	padding: 2px 0;
 	background-color: #eee;
 	overflow: hidden;
+	font-family:  Tahoma, Verdana, sans-serif !important;
+	font-size:11px
+
+
 }
 
+.item  a:link span,
+.item a:visited span {
+	background:eee;
+	color:#333
+}
+
+
+.item  a:hover span,
+.item a:active span,
+.item a:active focus {
+	background:eee;
+	color:#095197;
+}

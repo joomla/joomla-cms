@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 29-Jul-2010 Jean-Marie Simonet
  # [#21619] Normalizing menu items sliders to be more explicit over the UI
+ # [#21618] Modal CSS various issues, mostly related to bluestork loading media/system/css/adminlist.css. Thanks Matt & Angie.
 
 28-Jul-2010 Ian MacLennan
  # [#21361] Contact Component (Category Contact List-No Query)
