@@ -43,10 +43,18 @@ class plgSystemLanguageFilter extends JPlugin
 			self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
 			$uri = JFactory::getURI();
 			if (self::$mode_sef) {
-				$path = $uri->getPath();
-				$path = substr($path,strpos($path,'index.php'));
+				// Get the route path from the request.
+				$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
+
+				// Trim any spaces or slashes from the ends of the path and explode into segments.
+				$path  = JString::trim($path, '/ ');
 				$parts = explode('/', $path);
-				$sef = isset($parts[1]) ? $parts[1] : '';
+
+				// The language segment is always at the beginning of the route path if it exists.
+				$sef = '';
+				if (!empty($parts)) {
+					$sef = reset($parts);
+				}
 			}
 			else {
 				$sef = $uri->getVar('lang');

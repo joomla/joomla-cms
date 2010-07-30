@@ -26,6 +26,9 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+ 
+30-Jul-2010 Louis Landry
+ # [21576] Language switcher don't affect document language - sef routing issue
 
 30-Jul-2010 Jean-Marie Simonet
  # [#21588] Readonly calendar field pops up. Thanks Roland
