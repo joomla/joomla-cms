@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jul-2010 Jean-Marie Simonet
+ # [#21588] Readonly calendar field pops up. Thanks Roland
+ 
 29-Jul-2010 Mark Dexter
 # Remove trashed category from sample data
 
