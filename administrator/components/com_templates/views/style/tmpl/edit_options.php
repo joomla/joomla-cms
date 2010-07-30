@@ -21,7 +21,9 @@ defined('_JEXEC') or die;
 			?>
 		<fieldset class="panelform">
 			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+				<?php if (!$field->hidden) : ?>
 				<?php echo $field->label; ?>
+				<?php endif; ?>
 				<?php echo $field->input; ?>
 			<?php endforeach; ?>
 		</fieldset>

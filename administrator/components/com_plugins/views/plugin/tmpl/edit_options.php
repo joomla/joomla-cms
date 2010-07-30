@@ -20,11 +20,18 @@ foreach ($fieldSets as $name => $fieldSet) :
 	endif;
 	?>
 	<fieldset class="panelform">
-	<ul class="adminformlist">
-		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-			<li><?php echo $field->label; ?>
-			<?php echo $field->input; ?></li>
-		<?php endforeach; ?>
+		<?php $hidden_fields = ''; ?>
+		<ul class="adminformlist">
+			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+			<?php if (!$field->hidden) : ?>
+			<li>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			</li>
+			<?php else : $hidden_fields.= $field->input; ?>
+			<?php endif; ?>
+			<?php endforeach; ?>
 		</ul>
+		<?php echo $hidden_fields; ?>
 	</fieldset>
 <?php endforeach; ?>

@@ -20,13 +20,18 @@ defined('_JEXEC') or die;
 			endif;
 			?>
 		<fieldset class="panelform">
+		<?php $hidden_fields = ''; ?>
 		<ul class="adminformlist">
 			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+			<?php if (!$field->hidden) : ?>
 			<li>
 				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
-				</li>
+			</li>
+			<?php else : $hidden_fields.= $field->input; ?>
+			<?php endif; ?>
 			<?php endforeach; ?>
-			</ul>
+		</ul>
+		<?php echo $hidden_fields; ?>
 		</fieldset>
 	<?php endforeach; ?>

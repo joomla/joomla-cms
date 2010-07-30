@@ -21,11 +21,18 @@ defined('_JEXEC') or die;
 			?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_($label) ?></legend>
-			<ul class="adminformlist">
-				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-					<li><?php echo $field->label; ?>
-					<?php echo $field->input; ?></li>
-				<?php endforeach; ?>
-			</ul>
+		<?php $hidden_fields = ''; ?>
+		<ul class="adminformlist">
+			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+			<?php if (!$field->hidden) : ?>
+			<li>
+				<?php echo $field->label; ?>
+				<?php echo $field->input; ?>
+			</li>
+			<?php else : $hidden_fields.= $field->input; ?>
+			<?php endif; ?>
+			<?php endforeach; ?>
+		</ul>
+		<?php echo $hidden_fields; ?>
 		</fieldset>
 	<?php endforeach; ?>

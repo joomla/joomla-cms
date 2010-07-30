@@ -51,9 +51,10 @@ JHtml::_('behavior.formvalidation');
 			<?php
 			foreach ($this->form->getFieldset($name) as $field):
 			?>
-					<?php echo $field->label; ?>
-					<?php echo $field->input; ?>
-
+				<?php if (!$field->hidden) : ?>
+				<?php echo $field->label; ?>
+				<?php endif; ?>
+				<?php echo $field->input; ?>
 			<?php
 			endforeach;
 			?>
