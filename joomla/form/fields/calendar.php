@@ -97,7 +97,17 @@ class JFormFieldCalendar extends JFormField
 				}
 				break;
 		}
-
-		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
+		
+		if ((string) $this->element['readonly'] == 'true') 
+		{
+			$field = JFormHelper::loadFieldType('Text');
+			$field->setup($this->element, $this->value);
+			
+			return $field->getInput(); 
+        }
+        else 
+        {
+        	return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
+        }
 	}
 }
