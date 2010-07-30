@@ -30,6 +30,7 @@ $ -> Language fix or change
 30-Jul-2010 Jean-Marie Simonet
  # [#21588] Readonly calendar field pops up. Thanks Roland
  # [#20628] Titles of hidden fields are shown in module edit page, menu edit page, article edit page. Thanks Artyom.
+ $ Correcting some inis. Deleted redundant one.
  
 29-Jul-2010 Mark Dexter
 # Remove trashed category from sample data
