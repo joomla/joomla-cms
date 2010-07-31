@@ -46,6 +46,9 @@ class plgSystemLanguageFilter extends JPlugin
 				// Get the route path from the request.
 				$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
 
+				// Apache mod_rewrite is Off
+				$path = JFactory::getConfig()->get('sef_rewrite') ? $path : JString::substr($path, 10);
+
 				// Trim any spaces or slashes from the ends of the path and explode into segments.
 				$path  = JString::trim($path, '/ ');
 				$parts = explode('/', $path);

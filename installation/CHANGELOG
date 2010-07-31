@@ -29,9 +29,10 @@ $ -> Language fix or change
  
  31-Jul-2010 Jean-Marie Simonet
  # [#21653] Mod_login redirections
+ # [#21576] Missing code when mod_rewrite is off. Thanks Cherif
  
 30-Jul-2010 Louis Landry
- # [21576] Language switcher don't affect document language - sef routing issue
+ # [#21576] Language switcher don't affect document language - sef routing issue
 
 30-Jul-2010 Jean-Marie Simonet
  # [#21588] Readonly calendar field pops up. Thanks Roland
