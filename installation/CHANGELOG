@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
  
+ 31-Jul-2010 Jean-Marie Simonet
+ # [#21653] Mod_login redirections
+ 
 30-Jul-2010 Louis Landry
  # [21576] Language switcher don't affect document language - sef routing issue
 
