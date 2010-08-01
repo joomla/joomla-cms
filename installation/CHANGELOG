@@ -26,6 +26,9 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+31-Jul-2010 Ian MacLennan
+ # [#21588] Reverting commit that broke unit tests.
  
  31-Jul-2010 Jean-Marie Simonet
  # [#21653] Mod_login redirections
@@ -41,7 +44,7 @@ $ -> Language fix or change
  $ Correcting some inis. Deleted redundant one.
  
 29-Jul-2010 Mark Dexter
-# Remove trashed category from sample data
+ # Remove trashed category from sample data
 
 29-Jul-2010 Ian MacLennan
  # [#21605] Change committed without appropriately modifying system tests.
