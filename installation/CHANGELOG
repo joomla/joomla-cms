@@ -30,6 +30,7 @@ $ -> Language fix or change
  1-Aug-2010 Jean-Marie Simonet
  # [#21646] Text fields do not accept html tags
  $ [#21636] home menu error string. Thanks Bill.
+ # [#21673] Patch committed  (17913) without placing the image in the right folder
  
 31-Jul-2010 Ian MacLennan
  # [#21588] Reverting commit that broke unit tests.
