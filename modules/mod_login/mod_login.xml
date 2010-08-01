@@ -31,6 +31,7 @@
 				<field
 					name="pretext"
 					type="textarea"
+					filter="safehtml"
 					cols="30"
 					rows="5"
 					label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
@@ -38,6 +39,7 @@
 				<field
 					name="posttext"
 					type="textarea"
+					filter="safehtml"
 					cols="30"
 					rows="5"
 					label="MOD_LOGIN_FIELD_POST_TEXT_LABEL"

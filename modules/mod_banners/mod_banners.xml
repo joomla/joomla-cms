@@ -93,6 +93,7 @@
 				<field
 					name="header_text"
 					type="textarea"
+					filter="safehtml"
 					rows="3"
 					cols="40"
 					label="MOD_BANNERS_FIELD_HEADER_LABEL"
@@ -101,10 +102,11 @@
 				<field
 					name="footer_text"
 					type="textarea"
+					filter="safehtml"
 					rows="3"
 					cols="40"
 					label="MOD_BANNERS_FIELD_FOOTER_LABEL"
-					description="MOD_BANNERS_FIELD_HEADER_DESC" />
+					description="MOD_BANNERS_FIELD_FOOTER_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">

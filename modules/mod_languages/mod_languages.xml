@@ -39,6 +39,7 @@
 				<field
 					name="header_text"
 					type="textarea"
+					filter="safehtml"
 					rows="3"
 					cols="40"
 					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
@@ -47,6 +48,7 @@
 				<field
 					name="footer_text"
 					type="textarea"
+					filter="safehtml"
 					rows="3"
 					cols="40"
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"

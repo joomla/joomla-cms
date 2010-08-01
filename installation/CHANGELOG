@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+ 1-Aug-2010 Jean-Marie Simonet
+ # [#21646] Text fields do not accept html tags
+ 
 31-Jul-2010 Ian MacLennan
  # [#21588] Reverting commit that broke unit tests.
  

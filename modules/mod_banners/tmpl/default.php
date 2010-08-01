@@ -15,7 +15,7 @@ $baseurl = JURI::base();
 ?>
 <div class="bannergroup<?php echo $params->get('moduleclass_sfx') ?>">
 <?php if ($headerText) : ?>
-	<h3><?php echo $headerText; ?></h3>
+	<?php echo $headerText; ?>
 <?php endif; ?>
 
 <?php foreach($list as $item):?>
