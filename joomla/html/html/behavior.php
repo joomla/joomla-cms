@@ -22,9 +22,9 @@ abstract class JHtmlBehavior
 	 *
 	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
 	 *
-	 * @static
 	 * @param	string	$type	Mootools file to load
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 *
 	 * @return	void
 	 * @since	1.6
 	 */
@@ -64,8 +64,8 @@ abstract class JHtmlBehavior
 	/**
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
-	 * @static
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 *
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -74,20 +74,43 @@ abstract class JHtmlBehavior
 		self::framework(true, $debug);
 	}
 
+	/**
+	 * Add unobtrusive javascript support for image captions.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function caption()
 	{
-		JHtml::_('script','system/caption.js', false, true);
+		JHtml::_('script','system/caption.js', true, true);
 	}
 
+	/**
+	 * Add unobtrusive javascript support for form validation.
+	 *
+	 * To enable form validation the form tag must have class="form-validate".
+	 * Each field that needs to be validated need to have class="validate".
+	 * Additional handlers can be added to the handler for username, password,
+	 * numberic and email. To use these add class="validate-email" and so on.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function formvalidation()
 	{
-		JHtml::_('script','system/validate.js', false, true);
+		JHtml::_('script','system/validate.js', true, true);
 	}
 
+	/**
+	 * Add unobtrusive javascript support for submenu switcher support in
+	 * Global Configuration and System Information.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function switcher()
 	{
-		JHtml::_('behavior.framework');
-		JHtml::_('script','system/switcher.js', false, true);
+		JHtml::_('script','system/switcher.js', true, true);
 
 		$script = "
 			document.switcher = null;
@@ -102,11 +125,44 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptDeclaration($script);
 	}
 
+	/**
+	 * Add unobtrusive javascript support for a comboox effect.
+	 *
+	 * Note that this control is only reliable in absolutely positioned elements.
+	 * Avoid using a combobox in a slider or dynamic pane.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function combobox()
 	{
-		JHtml::_('script','system/combobox.js', false, true);
+		JHtml::_('script','system/combobox.js', true, true);
 	}
 
+	/**
+	 * Add unobtrusive javascript support for a hover tooltips.
+	 *
+	 * Add a title attribute to any element in the form
+	 * title="title::text"
+	 *
+	 * Options for the tooltip can be:
+	 * - maxTitleChars	int		The maximum number of characters in the tooltip title (defaults to 50).
+	 * - offsets		object	The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
+	 * - showDelay		int		The millisecond delay the show event is fired (defaults to 100).
+	 * - hideDelay		int		The millisecond delay the hide hide is fired (defaults to 100).
+	 * - className		string	The className your tooltip container will get.
+	 * - fixed			boolean	If set to true, the toolTip will not follow the mouse.
+	 * - onShow			func	The default function for the show event, passes the tip element and the currently hovered element.
+	 * - onHide			func	The default function for the hide event, passes the currently hovered element.
+	 *
+	 * Uses the core Tips class in mootools.
+	 *
+	 * @param	string	$selector	The class selector for the tooltip.
+	 * @param	array	$params		An array of options for the tooltip.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function tooltip($selector='.hasTip', $params = array())
 	{
 		static $tips;
@@ -156,6 +212,26 @@ abstract class JHtmlBehavior
 		return;
 	}
 
+	/**
+	 * Add unobtrusive javascript support for modal links.
+	 *
+	 * Options for the modal behaviour can be:
+	 * - ajaxOptions
+	 * - size
+	 * - shadow
+	 * - onOpen
+	 * - onClose
+	 * - onUpdate
+	 * - onResize
+	 * - onShow
+	 * - onHide
+	 *
+	 * @param	string	$selector	The class selector for which a modal behaviour is to be applied.
+	 * @param	array	$params		An array of parameters for the modal behaviour.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function modal($selector='a.modal', $params = array())
 	{
 		static $modals;
@@ -166,8 +242,7 @@ abstract class JHtmlBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
 			// Load the javascript and css
-			JHtml::_('behavior.framework');
-			JHtml::_('script','system/modal.js', false, true);
+			JHtml::_('script','system/modal.js', true, true);
 			JHtml::_('stylesheet','system/modal.css', array(), true);
 
 			$included = true;
@@ -211,11 +286,21 @@ abstract class JHtmlBehavior
 		return;
 	}
 
+	/**
+	 * Add unobtrusive javascript support for the advanced uploader.
+	 *
+	 * @param	string	$id
+	 * @param	array	$params	An array of options for the uploader.
+	 * @param	string	$upload_queue
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		JHtml::_('script','system/swf.js', false, true);
-		JHtml::_('script','system/progressbar.js', false, true);
-		JHtml::_('script','system/uploader.js', false, true);
+		JHtml::_('script','system/swf.js', true, true);
+		JHtml::_('script','system/progressbar.js', true, true);
+		JHtml::_('script','system/uploader.js', true, true);
 
 		$document = JFactory::getDocument();
 
@@ -246,7 +331,6 @@ abstract class JHtmlBehavior
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_IOERROR');
 		}
 
-
 		if (isset($uploaders[$id]) && ($uploaders[$id])) {
 			return;
 		}
@@ -263,8 +347,6 @@ abstract class JHtmlBehavior
 					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\', \'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
 			}
 		}';
-
-
 
 		// Setup options object
 		$opt['verbose']				= true;
@@ -352,6 +434,16 @@ abstract class JHtmlBehavior
 		return;
 	}
 
+	/**
+	 * Add unobtrusive javascript support for a collapsible tree.
+	 *
+	 * @param	$id		string
+	 * @param	$params	array	An array of options.
+	 * @param	$root	array
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
 		static $trees;
@@ -361,8 +453,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include mootools framework
-		JHtml::_('behavior.framework');
-		JHtml::_('script','system/mootree.js', false, true, false, false);
+		JHtml::_('script','system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet','system/mootree.css', array(), true);
 
 		if (isset($trees[$id]) && ($trees[$id])) {
@@ -406,6 +497,12 @@ abstract class JHtmlBehavior
 		return;
 	}
 
+	/**
+	 * Add unobtrusive javascript support for a calendar control.
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
 	public static function calendar()
 	{
 		$document = JFactory::getDocument();
@@ -422,6 +519,9 @@ abstract class JHtmlBehavior
 
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
 	public static function keepalive()
 	{
@@ -451,6 +551,7 @@ abstract class JHtmlBehavior
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
 	 * @param	array	$array	The array to convert to JavaScript object notation
+	 *
 	 * @return	string	JavaScript object notation representation of the array
 	 * @since	1.5
 	 */
