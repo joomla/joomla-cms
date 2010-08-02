@@ -35,6 +35,7 @@ $ -> Language fix or change
 ^ [# 21368] Changed alignment of column items
 ^ Fixed CSS ordering for BlueStork (table styles out of place)
 ^ Separated out IE7 & IE8 CSS files (BlueStork)
+^ Fixed module positions, chrome & overrides for Atomic
  
  1-Aug-2010 Jean-Marie Simonet
  # [#21646] Text fields do not accept html tags
