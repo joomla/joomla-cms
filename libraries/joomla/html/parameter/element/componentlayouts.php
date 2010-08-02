@@ -46,7 +46,7 @@ class JElementComponentLayouts extends JElementList
 			$extn	= preg_replace('#\W#', '', $extn);
 			$path1	= JPATH_SITE.DS.'components'.DS.$extn.DS.'views'.DS.$view.DS.'tmpl';
 			$path2	= JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.$extn.DS.$view;
-			$options[]	= JHTML::_('select.option', '', JText::_('JOption_Use_Menu_Request_Setting'));
+			$options[]	= JHTML::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
 		}
 
 		if ($path1 && $path2)
@@ -66,6 +66,7 @@ class JElementComponentLayouts extends JElementList
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 			}
 		}
 

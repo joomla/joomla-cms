@@ -105,14 +105,21 @@ abstract class JHtmlMenu
 			self::$items = array();
 
 			foreach ($menus as &$menu) {
+				// Start group:
 				self::$items[] = JHtml::_('select.optgroup',	$menu->text);
+
+				// Special "Add to this Menu" option:
 				self::$items[] = JHtml::_('select.option', $menu->value.'.0', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
 
+				// Menu items:
 				if (isset($lookup[$menu->value])) {
 					foreach ($lookup[$menu->value] as &$item) {
 						self::$items[] = JHtml::_('select.option', $menu->value.'.'.$item->value, $item->text);
 					}
 				}
+
+				// Finish group:
+				self::$items[] = JHtml::_('select.optgroup',	$menu->text);
 			}
 		}
 

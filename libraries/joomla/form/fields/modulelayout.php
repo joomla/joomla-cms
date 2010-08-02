@@ -102,6 +102,7 @@ class JFormFieldModuleLayout extends JFormFieldList
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 			}
 		}
 
