@@ -71,7 +71,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="20%">
+				<th width="15%">
 					<?php echo JHtml::_('grid.sort',  'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
@@ -89,7 +89,7 @@ $saveOrder	= $listOrder == 'ordering';
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'modules.saveorder'); ?>
 					<?php endif; ?>
 				</th>
-				<th width="5%">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
@@ -135,7 +135,7 @@ $saveOrder	= $listOrder == 'ordering';
 						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="left">
 					<?php echo $item->position; ?>
 				</td>
 				<td class="center">

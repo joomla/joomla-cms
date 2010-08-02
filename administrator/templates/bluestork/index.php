@@ -24,8 +24,12 @@ $app = JFactory::getApplication();
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
 
-<!--[if gte IE 7]>
+<!--[if IE 7]>
 <link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<!--[if gte IE 8]>
+<link href="templates/<?php echo  $this->template ?>/css/ie8.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
 <?php if ($this->params->get('useRoundedCorners')) : ?>
