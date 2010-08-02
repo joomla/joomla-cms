@@ -63,10 +63,11 @@ class JElementModuleLayouts extends JElementList
 			}
 
 			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOption_From_Default'));
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 				foreach ($files as $file) {
 					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 			}
 		}
 
