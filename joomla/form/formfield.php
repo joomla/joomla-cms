@@ -56,7 +56,23 @@ abstract class JFormField
 	 * @var		boolean
 	 * @since	1.6
 	 */
-	protected $hidden;
+	protected $hidden = false;
+
+	/**
+	 * True to translate the field label string.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $translateLabel = true;
+
+	/**
+	 * True to translate the field description string.
+	 *
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected $translateDescription = true;
 
 	/**
 	 * The document id for the form field.
@@ -286,6 +302,10 @@ abstract class JFormField
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
 
+		// Determine whether to translate the field label and/or description.
+		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
+		$this->translateDescription = !((string) $this->element['translate_description'] == 'false' || (string) $this->element['translate_description'] == '0');
+
 		// Set the field name and id.
 		$this->fieldname 	= $name;
 		$this->name			= $this->getName($name, $group);
@@ -364,6 +384,7 @@ abstract class JFormField
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+		$text = $this->translateLabel ? JText::_($text) : $text;
 
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTip' : '';
@@ -374,12 +395,12 @@ abstract class JFormField
 
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description)) {
-			$label .= ' title="'.htmlspecialchars(trim(JText::_($text), ':').'::' .
-						JText::_($this->description), ENT_COMPAT, 'UTF-8').'"';
+			$label .= ' title="'.htmlspecialchars(trim($text, ':').'::' .
+						($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
 		}
 
 		// Add the label text and closing tag.
-		$label .= '>'.JText::_($text).'</label>';
+		$label .= '>'.$text.'</label>';
 
 		return $label;
 	}
