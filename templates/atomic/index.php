@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 /* The following line loads the MooTools JavaScript Library */
 JHTML::_('behavior.mootools');
 
+/* The following line gets the application object for things like displaying the site name */
 $app = JFactory::getApplication();
 ?>
 <?php echo '<?'; ?>xml version="1.0" encoding="<?php echo $this->_charset ?>"?>
@@ -21,21 +22,21 @@ $app = JFactory::getApplication();
 		<jdoc:include type="head" />
 
 		<!-- The following four lines load the Blueprint CSS Framework (http://blueprintcss.org). If you don't want to use this framework, delete these lines. -->
-		<!--  link  rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/screen.css" type="text/css" media="screen, projection" -->
-		<!-- link // rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/print.css" type="text/css" media="print" -->
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/screen.css" type="text/css" media="screen, projection" />
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/print.css" type="text/css" media="print" />
 		<!--[if lt IE 8]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    	<!--link rel="stylesheet" href="blueprint/plugins/joomla-nav/screen.css" type="text/css" media="screen" -->
+    	<link rel="stylesheet" href="blueprint/plugins/joomla-nav/screen.css" type="text/css" media="screen" />
 
 		<!-- The following line loads the template CSS file located in the template folder. -->
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
 
-		<!-- The following two lines load the Blueprint CSS Framework (http://blueprintcss.org) for right-to-left languages. If you don't want to use this framework, delete these lines. -->
+		<!-- The following four lines load the Blueprint CSS Framework and the template CSS file for right-to-left languages. If you don't want to use these, delete these lines. -->
 		<?php if($this->direction == 'rtl') : ?>
 			<!--link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/plugins/rtl/screen.css" type="text/css" />
 			<!--link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 		<?php endif; ?>
 
-		<!-- The following line loads the template JavaScript file located in the template folder. -->
+		<!-- The following line loads the template JavaScript file located in the template folder. It's blank by default. -->
 		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/js/template.js"></script>
 	</head>
 
@@ -45,62 +46,51 @@ $app = JFactory::getApplication();
 			<div class="joomla-header span-16 append-1">
 				<h1><?php echo $app->getCfg('sitename'); ?></h1>
 			</div>
-			<?php if($this->countModules('position-0')) : ?>
+			<?php if($this->countModules('atomic-search')) : ?>
 				<div class="joomla-search span-7 last">
-	  	 			<jdoc:include type="modules" name="position-0" style="none" />
+	  	 			<jdoc:include type="modules" name="atomic-search" style="none" />
 				</div>
 			<?php endif; ?>
 		</div>
-		<?php if($this->countModules('position-1')) : ?>
+		<?php if($this->countModules('atomic-topmenu')) : ?>
 			<div class="container">
-				<jdoc:include type="modules" name="position-1" style="none" />
+				<jdoc:include type="modules" name="atomic-topmenu" style="none" />
 			</div>
 		<?php endif; ?>
-		<?php if($this->countModules('position-2')) : ?>
-			<jdoc:include type="modules" name="position-2" style="none" />
+		
+		<?php if($this->countModules('atomic-topquote')) : ?>
+			<hr>
+			<jdoc:include type="modules" name="atomic-topquote" style="none" />
+			<hr>
 		<?php endif; ?>
-
+		
 		<div class="container">
 			<div class="span-16 append-1">
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
         	</div>
 		</div>
-		<div class="span-7 last">
+		<hr />
+		<?php if($this->countModules('atomic-bottomleft')) : ?>
+		 	<div class="span-7 colborder">
+				<jdoc:include type="modules" name="atomic-bottomleft" style="bottommodule" />
+        	</div>
+        <?php endif; ?>
 
-			<?php if($this->countModules('position-3')) : ?>
-        		<jdoc:include type="modules" name="position-3" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-4')) : ?>
-        		<jdoc:include type="modules" name="position-4" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-5')) : ?>
-        		<jdoc:include type="modules" name="position-5" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-6')) : ?>
-        		<jdoc:include type="modules" name="position-6" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-7')) : ?>
-        		<jdoc:include type="modules" name="position-7" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-8')) : ?>
-        		<jdoc:include type="modules" name="position-8" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-9')) : ?>
-        		<jdoc:include type="modules" name="position-9" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-10')) : ?>
-        		<jdoc:include type="modules" name="position-10" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-11')) : ?>
-        		<jdoc:include type="modules" name="position-11" style="none" />
-			<?php endif; ?>
-			<?php if($this->countModules('position-12')) : ?>
-        		<jdoc:include type="modules" name="position-12" style="none" />
-			<?php endif; ?>
-
-		</div>
+        <?php if($this->countModules('atomic-bottommiddle')) : ?>
+			<div class="span-7 last">
+        		<jdoc:include type="modules" name="atomic-bottommiddle" style="bottommodule" />
+			</div>
+		<?php endif; ?>
+		
+		<?php if($this->countModules('atomic-sidebar')) : ?>
+			<div class="span-7 last">
+        		<jdoc:include type="modules" name="atomic-sidebar" style="sidebar" />
+			</div>
+		<?php endif; ?>
+		
 		<div class="joomla-footer span-16 append-1">
+			<jdoc:include type="modules" name="atomic-topmenu" style="none" />
 			&copy; <?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>
 		</div>
 	</body>
