@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Aug-2010 Andrew Eddie
  # Fixed issue [#21545] </optgroup> is not generated for menu items admin page (Franklin Tse, Omar Ramos).
+ # Fixed issue [#21670] Implementing the ability to NOT translate label and description (Jean-Marie Simonet, Artyom Bisyarin).
 
  1-Aug-2010 Ron Severdia
 ^ [# 21368] Changed alignment of column items
