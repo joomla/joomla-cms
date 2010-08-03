@@ -4,7 +4,7 @@
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_USER_LOGIN"
 		/>		<message>
-			<![CDATA[com_user_profile_view_default_desc]]>
+			<![CDATA[COM_USER_LOGIN_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 

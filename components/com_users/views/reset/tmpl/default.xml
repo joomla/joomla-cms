@@ -5,7 +5,7 @@
 			key="JHELP_MENUS_MENU_ITEM_USER_PASSWORD_RESET"
 		/>
 		<message>
-			<![CDATA[com_user_reset_view_default_desc]]>
+			<![CDATA[COM_USER_RESET_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
