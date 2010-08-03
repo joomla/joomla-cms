@@ -36,11 +36,9 @@ $listDirn	= $this->state->get('list.direction');
 		<?php if ($this->params->get('show_headings')==1) : ?>
 
 		<thead><tr>
-			<th class="num">
-				<?php echo JText::_('COM_WEBLINKS_NUM'); ?>
-			</th>
+			
 			<th class="title">
-					<?php echo JHtml::_('grid.sort',  'COM_WEBLINKS_GRID_SORT', 'title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort',  'COM_WEBLINKS_GRID_TITLE', 'title', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_link_hits')) : ?>
 			<th class="hits">
@@ -53,9 +51,7 @@ $listDirn	= $this->state->get('list.direction');
 	<tbody>
 	<?php foreach ($this->items as $i => $item) : ?>
 		<tr class="<?php echo $i % 2 ? 'odd' : 'even';?>">
-			<td class="num">
-				<?php echo $this->pagination->getRowOffset($i); ?>
-			</td>
+			
 			<td class="title">
 			<p>
 				<?php if ($this->params->get('link_icons') <> -1) : ?>

@@ -18,9 +18,9 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('show_category_title', 1) && $this->params->get('page_subheading')) : ?>
+<?php if($this->params->get('show_category_title', 1)) : ?>
 <h2>
-	<?php echo $this->escape($this->params->get('page_subheading')); ?>
+	<?php echo JHtml::_('content.prepare', $this->category->title); ?>
 </h2>
 <?php endif; ?>
 <?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
@@ -36,9 +36,9 @@ $pageClass = $this->params->get('pageclass_sfx');
 <?php endif; ?>
 
 <?php echo $this->loadTemplate('items'); ?>
-
-<?php if (!empty($this->children[$this->category->id])) : ?>
 <div class="cat-children">
+<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
+
 	<h3><?php echo JText::_('JGLOBAL_SUBCATEGORIES') ; ?></h3>
 	<?php echo $this->loadTemplate('children'); ?>
 </div>

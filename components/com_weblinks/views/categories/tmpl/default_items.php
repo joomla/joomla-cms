@@ -27,12 +27,14 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevel != 0) :
 		<span class="jitem-title"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getCategoryRoute($item->id));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
+		<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 		<?php if ($item->description) : ?>
 			<div class="category-desc">
 				<?php echo JHtml::_('content.prepare', $item->description); ?>
 			</div>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_numbers') == 1) :?>
+        <?php endif; ?>
+		<?php if ($this->params->get('show_cat_num_links') == 1) :?>
 			<dl class="weblink-count"><dt>
 				<?php echo JText::_('COM_WEBLINKS_NUM'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>

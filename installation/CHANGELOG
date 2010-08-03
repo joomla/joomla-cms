@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Adding missing strings, deleting redundant ones for com_contact.
  $ Adding/normalizing some .sys.ini strings/values com_user, com_weblinks
  # [#21706] Modifying [#21159] to let cat have the same name/alias when not in same tree when save&copy
+ #$ [#21712] Weblinks /menu-items params correction. Thanks Bill.
  
 03-Aug-2010 Andrew Eddie
  # Fixed issue [#21346] Error in loading order of JS scripts in components (g p).
