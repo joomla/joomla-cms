@@ -16,7 +16,6 @@
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>javascript</folder>
-		<folder>language</folder>
 		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>params.ini</filename>
@@ -27,7 +26,7 @@
 	</files>
 
 	<positions>
-	    <position>position-0</position>
+		<position>position-0</position>
 		<position>position-1</position>
 		<position>position-2</position>
 		<position>position-3</position>
@@ -45,6 +44,7 @@
 	</positions>
 	 <languages>
 		<language tag="en-GB">en-GB.tpl_beez_20.ini</language>
+		<language tag="en-GB">en-GB.tpl_beez_20.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

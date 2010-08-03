@@ -1,90 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <install version="1.6" type="template" client="site">
-        <name>beez5</name>
-        <creationDate>21 May 2010</creationDate>
-        <author>Angie Radtke</author>
-        <authorEmail>a.radtke@derauftritt.de</authorEmail>
-        <authorUrl>http://www.der-auftritt.de</authorUrl>
-        <copyright>Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.</copyright>
-        <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-        <version>1.6.0</version>
-        <description>TPL_BEEZ5_XML_DESCRIPTION</description>
+	<name>beez5</name>
+	<creationDate>21 May 2010</creationDate>
+	<author>Angie Radtke</author>
+	<authorEmail>a.radtke@derauftritt.de</authorEmail>
+	<authorUrl>http://www.der-auftritt.de</authorUrl>
+	<copyright>Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>1.6.0</version>
+	<description>TPL_BEEZ5_XML_DESCRIPTION</description>
 
-        <files>
-                <folder>css</folder>
-                <folder>html</folder>
-                <folder>images</folder>
-                <folder>javascript</folder>
-                <folder>language</folder>
-                <filename>index.html</filename>
-                <filename>index.php</filename>
-                <filename>templateDetails.xml</filename>
-                <filename>template_thumbnail.png</filename>
-                <filename>favicon.ico</filename>
-                <filename>component.php</filename>
-        </files>
+	<files>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>javascript</folder>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>favicon.ico</filename>
+		<filename>component.php</filename>
+	</files>
 
-        <positions>
-            <position>position-0</position>
-                <position>position-15</position>
-                <position>position-1</position>
-                <position>position-2</position>
-                <position>position-3</position>
-                <position>position-4</position>
-                <position>position-5</position>
-                <position>position-6</position>
-                <position>position-7</position>
-                <position>position-8</position>
-                <position>position-9</position>
-                <position>position-10</position>
-                <position>position-11</position>
-                <position>position-12</position>
-                <position>position-13</position>
-                <position>position-14</position>
-        </positions>
-        <languages>
-                <language tag="en-GB">en-GB.tpl_beez5.ini</language>
-                <language tag="en-GB">en-GB.tpl_beez5.sys.ini</language>
-        </languages>
-        <config>
-                <fields name="params">
-                        <fieldset name="advanced">
-                                 <field name="wrapperSmall" type="text" default="53"
-                                        label="TPL_BEEZ5_FIELD_WRAPPERSMALL_LABEL"
-                                        description="TPL_BEEZ5_FIELD_WRAPPERSMALL_DESC" />
+	<positions>
+		<position>position-0</position>
+		<position>position-15</position>
+		<position>position-1</position>
+		<position>position-2</position>
+		<position>position-3</position>
+		<position>position-4</position>
+		<position>position-5</position>
+		<position>position-6</position>
+		<position>position-7</position>
+		<position>position-8</position>
+		<position>position-9</position>
+		<position>position-10</position>
+		<position>position-11</position>
+		<position>position-12</position>
+		<position>position-13</position>
+		<position>position-14</position>
+	</positions>
+	<languages>
+		<language tag="en-GB">en-GB.tpl_beez5.ini</language>
+		<language tag="en-GB">en-GB.tpl_beez5.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				 <field name="wrapperSmall" type="text" default="53"
+					label="TPL_BEEZ5_FIELD_WRAPPERSMALL_LABEL"
+					description="TPL_BEEZ5_FIELD_WRAPPERSMALL_DESC" />
 
-                                <field name="wrapperLarge" type="text" default="72"
-                                        label="TPL_BEEZ5_FIELD_WRAPPERLARGE_LABEL"
-                                        description="TPL_BEEZ5_FIELD_WRAPPERLARGE_DESC" />
-                                <field name="logo" type="media"
-                                        hide_default="1"
-                                        label="TPL_BEEZ5_FIELD_LOGO_LABEL" description="TPL_BEEZ5_FIELD_LOGO_DESC" />
+				<field name="wrapperLarge" type="text" default="72"
+					label="TPL_BEEZ5_FIELD_WRAPPERLARGE_LABEL"
+					description="TPL_BEEZ5_FIELD_WRAPPERLARGE_DESC" />
+				<field name="logo" type="media"
+					hide_default="1"
+					label="TPL_BEEZ5_FIELD_LOGO_LABEL" description="TPL_BEEZ5_FIELD_LOGO_DESC" />
 
-                                <field name="sitetitle"  type="text" default=""
-                                        label="TPL_BEEZ5_FIELD_SITETITLE_LABEL"
-                                        description="TPL_BEEZ5_FIELD_SITETITLE_DESC" />
+				<field name="sitetitle"  type="text" default=""
+					label="TPL_BEEZ5_FIELD_SITETITLE_LABEL"
+					description="TPL_BEEZ5_FIELD_SITETITLE_DESC" />
 
-                                <field name="sitedescription"  type="text" default=""
-                                        label="TPL_BEEZ5_FIELD_DESCRIPTION_LABEL"
-                                        description="TPL_BEEZ5_FIELD_DESCRIPTION_DESC" />
+				<field name="sitedescription"  type="text" default=""
+					label="TPL_BEEZ5_FIELD_DESCRIPTION_LABEL"
+					description="TPL_BEEZ5_FIELD_DESCRIPTION_DESC" />
 
-                                <field name="navposition" type="list" default="center"
-                                        label="TPL_BEEZ5_FIELD_NAVPOSITION_LABEL"
-                                        description="TPL_BEEZ5_FIELD_NAVPOSITION_DESC"
-                                >
-                                        <option value="center">TPL_BEEZ5_OPTION_AFTER_CONTENT</option>
-                                        <option value="left">TPL_BEEZ5_OPTION_BEFORE_CONTENT</option>
-                                </field>
+				<field name="navposition" type="list" default="center"
+					label="TPL_BEEZ5_FIELD_NAVPOSITION_LABEL"
+					description="TPL_BEEZ5_FIELD_NAVPOSITION_DESC"
+				>
+					<option value="center">TPL_BEEZ5_OPTION_AFTER_CONTENT</option>
+					<option value="left">TPL_BEEZ5_OPTION_BEFORE_CONTENT</option>
+				</field>
 
-                                <field name="html5" type="list" default="0"
-                                        label="TPL_BEEZ5_FIELD_HTML5_LABEL"
-                                        description="TPL_BEEZ5_FIELD_HTML5_DESC"
-                                >
-                                        <option value="0">TPL_BEEZ5_OPTION_XHTML</option>
-                                        <option value="1">TPL_BEEZ5_OPTION_HTML5</option>
-                                </field>
-                        </fieldset>
-                </fields>
-        </config>
+				<field name="html5" type="list" default="0"
+					label="TPL_BEEZ5_FIELD_HTML5_LABEL"
+					description="TPL_BEEZ5_FIELD_HTML5_DESC"
+				>
+					<option value="0">TPL_BEEZ5_OPTION_XHTML</option>
+					<option value="1">TPL_BEEZ5_OPTION_HTML5</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
 </install>
