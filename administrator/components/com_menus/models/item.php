@@ -929,7 +929,6 @@ class MenusModelItem extends JModelAdmin
 
 	}
 
-
 	/**
 	 * Method to change the home state of one or more items.
 	 *
@@ -945,29 +944,40 @@ class MenusModelItem extends JModelAdmin
 		$pks		= (array) $pks;
 		$user		= JFactory::getUser();
 
-		$languages = array();
-		$onehome=false;
-		foreach ($pks as $i => $pk) {
+		$languages	= array();
+		$onehome	= false;
+
+		// Remember that we can set a home page for different languages,
+		// so we need to loop through the primary key array.
+		foreach ($pks as $i => $pk)
+		{
 			if ($table->load($pk)) {
-				if (!array_key_exists($table->language,$languages)) {
+				if (!array_key_exists($table->language, $languages)) {
 					$languages[$table->language] = true;
-					if ($table->home==$value) {
+					if ($table->home == $value) {
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
 					else {
 						$table->home = $value;
-						if ($table->language=='*') {
-							$table->published=1;
+						if ($table->language == '*') {
+							$table->published = 1;
 						}
+
 						if (!$this->canSave($table)) {
 							// Prune items that you can't change.
 							unset($pks[$i]);
 							JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 						}
-						if (!$table->store()) {
-							$this->setError($table->getError());
-							return false;
+						else if (!$table->check()) {
+							// Prune the items that failed pre-save checks.
+							unset($pks[$i]);
+							JError::raiseWarning(403, $table->getError());
+						}
+						else if (!$table->store()) {
+							// Prune the items that could not be stored.
+							unset($pks[$i]);
+							JError::raiseWarning(403, $table->getError());
 						}
 					}
 				}
@@ -1001,7 +1011,7 @@ class MenusModelItem extends JModelAdmin
 		// Default menu item existence checks.
 		if ($value != 1) {
 			foreach ($pks as $i => $pk) {
-				if ($table->load($pk) && $table->home && $table->language=='*') {
+				if ($table->load($pk) && $table->home && $table->language == '*') {
 					// Prune items that you can't change.
 					JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_UNPUBLISH_DEFAULT_HOME'));
 					unset($pks[$i]);
