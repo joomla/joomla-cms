@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Aug-2010 Andrew Eddie
  # Fixed issue [#21346] Error in loading order of JS scripts in components (g p).
+ # Fixed issue [#21704] *Re-enabling Published state per default when creating new items (Jean-Marie Simonet).
 
 02-Aug-2010 Andrew Eddie
  # Fixed issue [#21545] </optgroup> is not generated for menu items admin page (Franklin Tse, Omar Ramos).
