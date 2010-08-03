@@ -278,13 +278,22 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 		
 		// Alter the title for save as copy
-		if (!$isNew && $data['id'] == 0 && $table->parent_id == $data['parent_id']) {
+		if(!$isNew & $data['id'] == 0){
 			$m = null;
-			$data['alias'] = '';
 			if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
 				$data['title'] = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
 			} else {
 				$data['title'] .= ' (2)';
+			}
+		}
+		
+		// Alter the alias for save as copy
+		if(!$isNew & $data['id'] == 0){
+			$m = null;
+			if (preg_match('#-(\d+)$#', $table->alias, $m)) {
+				$data['alias'] = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $table->alias);
+			} else {
+				$data['alias'] .= '-2';
 			}
 		}
 		

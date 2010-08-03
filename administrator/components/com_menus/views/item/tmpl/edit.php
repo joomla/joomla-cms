@@ -79,10 +79,8 @@ JHTML::_('behavior.modal');
 				<li><?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?></li>
 
-				<?php if ($this->item->type == 'component') : ?>
-					<li><?php echo $this->form->getLabel('home'); ?>
-					<?php echo $this->form->getInput('home'); ?></li>
-				<?php endif; ?>
+				<li><?php echo $this->form->getLabel('home'); ?>
+				<?php echo $this->form->getInput('home'); ?></li>
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>

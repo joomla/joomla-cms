@@ -154,9 +154,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php echo $this->escape($item->item_type); ?></span>
 				</td>
 				<td class="center">
-					<?php if ($item->type == 'component') : ?>
-						<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
-					<?php endif; ?>
+					<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 				</td>
 				<td class="center">
 					<?php if ($item->language==''):?>
