@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+ 3-Aug-2010 Jean-Marie Simonet
+ $ Adding missing strings, deleting redundant ones for com_contact
+ 
 03-Aug-2010 Andrew Eddie
  # Fixed issue [#21346] Error in loading order of JS scripts in components (g p).
  # Fixed issue [#21704] *Re-enabling Published state per default when creating new items (Jean-Marie Simonet).
