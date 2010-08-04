@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-Aug-2010 Andrew Eddie
  # Fixed issue [#21536] admin/com_users: report view. Is this being used or worked on?
+ # Fixed issue [#20899] Changing 'Home' to a 'External Link' or 'Menu Item Alias' causes '404 Component Not Found' error on homepage (Zach Garner, Tim Plummer, Christophe, Michael Babker).
 
  3-Aug-2010 Jean-Marie Simonet
  $ Adding missing strings, deleting redundant ones for com_contact.

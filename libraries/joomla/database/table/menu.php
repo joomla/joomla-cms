@@ -67,12 +67,24 @@ class JTableMenu extends JTableNested
 	 */
 	public function check()
 	{
+		// If the alias field is empty, set it to the title.
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}
+
+		// Make the alias URL safe.
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-','',$this->alias)) == '') {
+		if (trim(str_replace('-', '', $this->alias)) == '') {
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
+		}
+
+		// Cast the home property to an int for checking.
+		$this->home = (int) $this->home;
+
+		// Verify that the home item a component.
+		if ($this->home && $this->type != 'component') {
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
+			return false;
 		}
 
 		return true;
