@@ -27,13 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Aug-2010 Jean-Marie Simonet
+ [#21662] Single contact view not treating category access issue correctly. Thanks Elin.
+ 
 04-Aug-2010 Andrew Eddie
  # Fixed issue [#21536] admin/com_users: report view. Is this being used or worked on?
  # Fixed issue [#20899] Changing 'Home' to a 'External Link' or 'Menu Item Alias' causes '404 Component Not Found' error on homepage (Zach Garner, Tim Plummer, Christophe, Michael Babker).
  # Fixed issue [#21711] Global Configuration button in Control Panel (Sander Potjer, Michael Babker).
  # Fixed issue [#21318] Caching causes problems with admin parameters (Elin Waring, Klas Berlič1).
 
- 3-Aug-2010 Jean-Marie Simonet
+03-Aug-2010 Jean-Marie Simonet
  $ Adding missing strings, deleting redundant ones for com_contact.
  $ Adding/normalizing some .sys.ini strings/values com_user, com_weblinks
  # [#21706] Modifying [#21159] to let cat have the same name/alias when not in same tree when save&copy
@@ -48,13 +51,13 @@ $ -> Language fix or change
  # Fixed issue [#21545] </optgroup> is not generated for menu items admin page (Franklin Tse, Omar Ramos).
  # Fixed issue [#21670] Implementing the ability to NOT translate label and description (Jean-Marie Simonet, Artyom Bisyarin).
 
- 1-Aug-2010 Ron Severdia
+01-Aug-2010 Ron Severdia
 ^ [# 21368] Changed alignment of column items
 ^ Fixed CSS ordering for BlueStork (table styles out of place)
 ^ Separated out IE7 & IE8 CSS files (BlueStork)
 ^ Fixed module positions, chrome & overrides for Atomic
  
- 1-Aug-2010 Jean-Marie Simonet
+01-Aug-2010 Jean-Marie Simonet
  # [#21646] Text fields do not accept html tags
  $ [#21636] home menu error string. Thanks Bill.
  # [#21673] Patch committed  (17913) without placing the image in the right folder

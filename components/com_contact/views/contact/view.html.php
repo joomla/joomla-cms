@@ -66,11 +66,9 @@ class ContactViewContact extends JView
 			$uri		= JFactory::getURI();
 			$return		= (string)$uri;
 
-			$url  = 'index.php?option=com_users&view=login';
-			$url .= '&return='.base64_encode($return);
-
-			//$app->redirect($url, JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
-
+				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+				return;
+			
 		}
 
 		$options['category_id']	= $item->catid;
