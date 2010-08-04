@@ -26,11 +26,14 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param	array		holds the old user data
-	 * @param	boolean		true if a new user is stored
-	 * @param	array		holds the new user data
+	 * @param	array		$user	Holds the old user data.
+	 * @param	boolean		$isnew	True if a new user is stored.
+	 * @param	array		$new	Holds the new user data.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	function onUserBeforeSave($user, $isnew, $new)
+	public function onUserBeforeSave($user, $isnew, $new)
 	{
 		$app = JFactory::getApplication();
 	}
@@ -40,12 +43,15 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called after user data is stored in the database
 	 *
-	 * @param	array		holds the new user data
-	 * @param	boolean		true if a new user is stored
-	 * @param	boolean		true if user was succesfully stored in the database
-	 * @param	string		message
+	 * @param	array		$user		Holds the new user data.
+	 * @param	boolean		$isnew		True if a new user is stored.
+	 * @param	boolean		$success	True if user was succesfully stored in the database.
+	 * @param	string		$msg		Message.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$app = JFactory::getApplication();
 
@@ -58,13 +64,11 @@ class plgUserExample extends JPlugin
 		$args['fullname']	= $user['name'];
 		$args['password']	= $user['password'];
 
-		if ($isnew)
-		{
+		if ($isnew) {
 			// Call a function in the external app to create the user
 			// ThirdPartyApp::createUser($user['id'], $args);
 		}
-		else
-		{
+		else {
 			// Call a function in the external app to update the user
 			// ThirdPartyApp::updateUser($user['id'], $args);
 		}
@@ -75,9 +79,12 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called before user data is deleted from the database
 	 *
-	 * @param	array		holds the user data
+	 * @param	array		$user	Holds the user data.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	function onUserBeforeDelete($user)
+	public function onUserBeforeDelete($user)
 	{
 		$app = JFactory::getApplication();
 	}
@@ -87,11 +94,14 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		holds the user data
-	 * @param	boolean		true if user was succesfully stored in the database
-	 * @param	string		message
+	 * @param	array		$user	Holds the user data.
+	 * @param	boolean		$succes	True if user was succesfully stored in the database.
+	 * @param	string		$msg	Message.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
-	function onUserAfterDelete($user, $succes, $msg)
+	public function onUserAfterDelete($user, $succes, $msg)
 	{
 		$app = JFactory::getApplication();
 
@@ -104,13 +114,13 @@ class plgUserExample extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @access	public
-	 * @param	array	holds the user data
-	 * @param	array	extra options
+	 * @param	array	$user		Holds the user data.
+	 * @param	array	$options	Extra options.
+	 *
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function onUserLogin($user, $options)
+	public function onUserLogin($user, $options)
 	{
 		// Initialise variables.
 		$success = false;
@@ -132,12 +142,12 @@ class plgUserExample extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @access public
-	 * @param array holds the user data
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @param	array	$user	Holds the user data.
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.5
 	 */
-	function onUserLogout($user)
+	public function onUserLogout($user)
 	{
 		// Initialise variables.
 		$success = false;
