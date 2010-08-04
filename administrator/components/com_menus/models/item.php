@@ -17,7 +17,7 @@ require_once JPATH_COMPONENT.'/helpers/menus.php';
  *
  * @package		Joomla.Administrator
  * @subpackage	com_menus
- * @version		1.6
+ * @since		1.6
  */
 class MenusModelItem extends JModelAdmin
 {
@@ -48,8 +48,8 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
-	 * @param	array	An array of commands to perform.
-	 * @param	array	An array of category ids.
+	 * @param	array	$commands	An array of commands to perform.
+	 * @param	array	$pks		An array of category ids.
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.6
@@ -76,6 +76,7 @@ class MenusModelItem extends JModelAdmin
 			if (!$this->batchAccess($commands['assetgroup_id'], $pks)) {
 				return false;
 			}
+
 			$done = true;
 		}
 
@@ -84,7 +85,8 @@ class MenusModelItem extends JModelAdmin
 
 			if ($cmd == 'c' && !$this->batchCopy($commands['menu_id'], $pks)) {
 				return false;
-			} else if ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks)) {
+			}
+			else if ($cmd == 'm' && !$this->batchMove($commands['menu_id'], $pks)) {
 				return false;
 			}
 			$done = true;
@@ -101,8 +103,8 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch access level changes for a group of rows.
 	 *
-	 * @param	int		The new value matching an Asset Group ID.
-	 * @param	array	An array of row IDs.
+	 * @param	int		$value	The new value matching an Asset Group ID.
+	 * @param	array	$pks	An array of row IDs.
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 * @since	1.6
@@ -110,7 +112,9 @@ class MenusModelItem extends JModelAdmin
 	protected function batchAccess($value, $pks)
 	{
 		$table = $this->getTable();
-		foreach ($pks as $pk) {
+
+		foreach ($pks as $pk)
+		{
 			$table->reset();
 			$table->load($pk);
 			$table->access = (int) $value;
@@ -121,14 +125,19 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
+		// Clear the component's cache
+		$cache = JFactory::getCache();
+		$cache->clean('com_modules');
+		$cache->clean('mod_menu');
+
 		return true;
 	}
 
 	/**
 	 * Batch copy menu items to a new menu or parent.
 	 *
-	 * @param	int		The new menu or sub-item.
-	 * @param	array	An array of row IDs.
+	 * @param	int		$value	The new menu or sub-item.
+	 * @param	array	$pks	An array of row IDs.
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 * @since	1.6
@@ -150,7 +159,8 @@ class MenusModelItem extends JModelAdmin
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					// Non-fatal error
 					$this->setError(JText::_('COM_MENUS_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
@@ -182,7 +192,8 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Parent exists so we let's proceed
-		while (!empty($pks) && $count > 0) {
+		while (!empty($pks) && $count > 0)
+		{
 			// Pop the first id off the stack
 			$pk = array_shift($pks);
 
@@ -194,7 +205,8 @@ class MenusModelItem extends JModelAdmin
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					// Not fatal error
 					$this->setError(JText::sprintf('COM_MENUS_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
@@ -210,7 +222,8 @@ class MenusModelItem extends JModelAdmin
 			$childIds = $db->loadResultArray();
 
 			// Add child ID's to the array only if they aren't already there.
-			foreach ($childIds as $childId) {
+			foreach ($childIds as $childId)
+			{
 				if (!in_array($childId, $pks)) {
 					array_push($pks, $childId);
 				}
@@ -267,8 +280,8 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Batch move menu items to a new menu or parent.
 	 *
-	 * @param	int		The new menu or sub-item.
-	 * @param	array	An array of row IDs.
+	 * @param	int		$value	The new menu or sub-item.
+	 * @param	array	$pks	An array of row IDs.
 	 *
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 * @since	1.6
@@ -289,8 +302,10 @@ class MenusModelItem extends JModelAdmin
 				if ($error = $table->getError()) {
 					// Fatal error
 					$this->setError($error);
+
 					return false;
-				} else {
+				}
+				else {
 					// Non-fatal error
 					$this->setError(JText::_('COM_MENUS_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
@@ -302,14 +317,16 @@ class MenusModelItem extends JModelAdmin
 		$children = array();
 
 		// Parent exists so we let's proceed
-		foreach ($pks as $pk) {
+		foreach ($pks as $pk)
+		{
 			// Check that the row actually exists
 			if (!$table->load($pk)) {
 				if ($error = $table->getError()) {
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					// Not fatal error
 					$this->setError(JText::sprintf('COM_MENUS_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
@@ -375,8 +392,8 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to check if you can save a record.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param	array	$data	An array of input data.
+	 * @param	string	$key	The name of the key for the primary key.
 	 *
 	 * @return	boolean
 	 * @since	1.6
@@ -401,7 +418,8 @@ class MenusModelItem extends JModelAdmin
 			$item		= $this->getItem();
 			$this->setState('item.link', $item->link);
 			// The type should already be set.
-		} else {
+		}
+		else {
 			$this->setState('item.link', JArrayHelper::getValue($data, 'link'));
 			$this->setState('item.type', JArrayHelper::getValue($data, 'type'));
 		}
@@ -447,7 +465,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to get a menu item.
 	 *
-	 * @param	integer	An optional id of the object to get, otherwise the id from the model state is used.
+	 * @param	integer	$pk	An optional id of the object to get, otherwise the id from the model state is used.
 	 *
 	 * @return	mixed	Menu item data object on success, false on failure.
 	 * @since	1.6
@@ -490,8 +508,8 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
-
-		switch ($table->type) {
+		switch ($table->type)
+		{
 			case 'alias':
 				$table->component_id = 0;
 				$args = array();
@@ -564,7 +582,6 @@ class MenusModelItem extends JModelAdmin
 			$args = array();
 			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
 			$result->params = array_merge($result->params, $args);
-
 		}
 
 		if ($table->type == 'url') {
@@ -617,9 +634,9 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	type	$type	The table type to instantiate
+	 * @param	string	$prefix	A prefix for the table class name. Optional.
+	 * @param	array	$config	Configuration array for model. Optional.
 	 *
 	 * @return	JTable	A database object
 	 * @since	1.6
@@ -634,6 +651,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -673,12 +691,12 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param	object	$form	A form object.
+	 * @param	mixed	$data	The data expected for the form.
 	 *
 	 * @return	void
-	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
+	 * @throws	Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm($form, $data)
 	{
@@ -714,7 +732,8 @@ class MenusModelItem extends JModelAdmin
 				// Determine the layout to search for.
 				if (isset($args['layout'])) {
 					$layout = $args['layout'];
-				} else {
+				}
+				else {
 					$layout = 'default';
 				}
 
@@ -730,7 +749,9 @@ class MenusModelItem extends JModelAdmin
 				// TODO: only look in the template folder for the menu item's template
 				if (!$formFile) {
 					$folders = JFolder::folders(JPATH_SITE.'/templates','',false,true);
-					foreach($folders as $folder) {
+
+					foreach($folders as $folder)
+					{
 						if (JFile::exists($folder.'/html/'.$option.'/'.$view.'/'.$layout.'.xml')) {
 							$formFile = $folder.'/html/'.$option.'/'.$view.'/'.$layout.'.xml';
 							break;
@@ -773,7 +794,8 @@ class MenusModelItem extends JModelAdmin
 			// TODO: Work out why 'fixing' this breaks JForm
 			if ($isNew = false) {
 				$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
-			} else {
+			}
+			else {
 				$path='null';
 			}
 
@@ -825,7 +847,8 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$registry = new JRegistry;
 			$registry->loadJSON($item->params);
 			$params = (string)$registry;
@@ -839,8 +862,14 @@ class MenusModelItem extends JModelAdmin
 				$this->setError($error);
 				return false;
 			}
+
 			unset($registry);
 		}
+
+		// Clear the component's cache
+		$cache = JFactory::getCache();
+		$cache->clean('com_modules');
+		$cache->clean('mod_menu');
 
 		return true;
 	}
@@ -848,7 +877,8 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param	array	$data	The form data.
+	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
@@ -910,8 +940,9 @@ class MenusModelItem extends JModelAdmin
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param	array	id's of rows to be reordered
-	 * @param	array	lft values of rows to be reordered
+	 * @param	array	$idArray	id's of rows to be reordered
+	 * @param	array	$lft_array	lft values of rows to be reordered
+	 *
 	 * @return	boolean false on failuer or error, true otherwise
 	 * @since	1.6
 	*/
@@ -925,15 +956,20 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		return true;
+		// Clear the component's cache
+		$cache = JFactory::getCache();
+		$cache->clean('com_modules');
+		$cache->clean('mod_menu');
 
+		return true;
 	}
 
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param	array	A list of the primary keys to change.
-	 * @param	int		The value of the home state.
+	 * @param	array	$pks	A list of the primary keys to change.
+	 * @param	int		$value	The value of the home state.
+	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
@@ -954,6 +990,7 @@ class MenusModelItem extends JModelAdmin
 			if ($table->load($pk)) {
 				if (!array_key_exists($table->language, $languages)) {
 					$languages[$table->language] = true;
+
 					if ($table->home == $value) {
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
@@ -991,14 +1028,20 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
+		// Clear the component's cache
+		$cache = JFactory::getCache();
+		$cache->clean('com_modules');
+		$cache->clean('mod_menu');
+
 		return true;
 	}
 
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param	array	A list of the primary keys to change.
-	 * @param	int		The value of the published state.
+	 * @param	array	$pks	A list of the primary keys to change.
+	 * @param	int		$value	The value of the published state.
+	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
@@ -1010,7 +1053,8 @@ class MenusModelItem extends JModelAdmin
 
 		// Default menu item existence checks.
 		if ($value != 1) {
-			foreach ($pks as $i => $pk) {
+			foreach ($pks as $i => $pk)
+			{
 				if ($table->load($pk) && $table->home && $table->language == '*') {
 					// Prune items that you can't change.
 					JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_UNPUBLISH_DEFAULT_HOME'));
@@ -1020,6 +1064,34 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
+		// Clear the component's cache
+		$cache = JFactory::getCache();
+		$cache->clean('com_modules');
+		$cache->clean('mod_menu');
+
 		return parent::publish($pks,$value);
+	}
+
+	/**
+	 * Method to adjust the ordering of a row.
+	 *
+	 * Returns NULL if the user did not have edit
+	 * privileges for any of the selected primary keys.
+	 *
+	 * @param	int				$pks	The ID of the primary key to move.
+	 * @param	integer			$delta	Increment, usually +1 or -1
+	 *
+	 * @return	boolean|null	False on failure or error, true on success.
+	 * @since	1.6
+	 */
+
+	public function reorder($pks, $delta = 0) {
+
+		// Clear the component's cache
+		$cache = JFactory::getCache();
+		$cache->clean('com_modules');
+		$cache->clean('mod_menu');
+
+		return parent::reorder($pks, $delta);
 	}
 }

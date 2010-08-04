@@ -45,7 +45,8 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected $helpLocal = false;
 
-	/**	 * Method to auto-populate the model state.
+	/**
+	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
@@ -60,7 +61,8 @@ class ModulesModelModule extends JModelAdmin
 		if (!($pk = (int) $app->getUserState('com_modules.edit.module.id'))) {
 			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
 				$this->setState('extension.id', $extensionId);
-			} else {
+			}
+			else {
 				$pk = (int) JRequest::getInt('id');
 			}
 		}
@@ -74,7 +76,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param	array	An array of item ids.
+	 * @param	array	$pks	An array of item ids.
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.6
@@ -87,7 +89,8 @@ class ModulesModelModule extends JModelAdmin
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk) {
+		foreach ($pks as $i => $pk)
+		{
 			if ($table->load($pk)) {
 
 				// Access checks.
@@ -97,7 +100,8 @@ class ModulesModelModule extends JModelAdmin
 
 				if (!$table->delete($pk)) {
 					throw new Exception($table->getError());
-				} else {
+				}
+				else {
 					// Delete the menu assignments
 					$db		= $this->getDbo();
 					$query	= $db->getQuery(true);
@@ -107,10 +111,19 @@ class ModulesModelModule extends JModelAdmin
 					$db->setQuery((string)$query);
 					$db->query();
 				}
-			} else {
+
+				// Clear module cache
+				$cache = JFactory::getCache($table->module);
+				$cache->clean();
+			}
+			else {
 				throw new Exception($table->getError());
 			}
 		}
+
+		// Clear module cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
 
 		return true;
 	}
@@ -118,11 +131,11 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to duplicate modules.
 	 *
-	 * @param	array	An array of primary key IDs.
+	 * @param	array	$pks	An array of primary key IDs.
 	 *
 	 * @return	boolean	True if successful.
-	 * @throws	Exception
 	 * @since	1.6
+	 * @throws	Exception
 	 */
 	public function duplicate(&$pks)
 	{
@@ -137,7 +150,8 @@ class ModulesModelModule extends JModelAdmin
 
 		$table = $this->getTable();
 
-		foreach ($pks as $pk) {
+		foreach ($pks as $pk)
+		{
 			if ($table->load($pk, true)) {
 				// Reset the id to create a new record.
 				$table->id = 0;
@@ -146,7 +160,8 @@ class ModulesModelModule extends JModelAdmin
 				$m = null;
 				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
 					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-				} else {
+				}
+				else {
 					$table->title .= ' (2)';
 				}
 
@@ -167,10 +182,16 @@ class ModulesModelModule extends JModelAdmin
 				$this->_db->setQuery((string)$query);
 				$rows = $this->_db->loadResultArray();
 
-				foreach ($rows as $menuid) {
+				foreach ($rows as $menuid)
+				{
 					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
 				}
-			} else {
+
+				// Clear module cache
+				$cache = JFactory::getCache($table->module);
+				$cache->clean();
+			}
+			else {
 				throw new Exception($table->getError());
 			}
 		}
@@ -179,10 +200,15 @@ class ModulesModelModule extends JModelAdmin
 			// Module-Menu Mapping: Do it in one query
 			$query = 'INSERT INTO #__modules_menu (moduleid,menuid) VALUES '.implode(',', $tuples);
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query()) {
 				return JError::raiseWarning(500, $row->getError());
 			}
 		}
+
+		// Clear module cache
+		$cache = JFactory::getCache('com_modules');
+		$cache->clean();
 
 		return true;
 	}
@@ -190,7 +216,8 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get the client object
 	 *
-	 * @since 1.6
+	 * @return	void
+	 * @since	1.6
 	 */
 	function &getClient()
 	{
@@ -213,7 +240,8 @@ class ModulesModelModule extends JModelAdmin
 			$item		= $this->getItem();
 			$clientId	= $item->client_id;
 			$module		= $item->module;
-		} else {
+		}
+		else {
 			$clientId	= JArrayHelper::getValue($data, 'client_id');
 			$module		= JArrayHelper::getValue($data, 'module');
 		}
@@ -254,7 +282,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	The id of the primary key.
+	 * @param	integer	$pk	The id of the primary key.
 	 *
 	 * @return	mixed	Object on success, false on failure.
 	 * @since	1.6
@@ -294,7 +322,8 @@ class ModulesModelModule extends JModelAdmin
 					if (empty($extension)) {
 						if ($error = $db->getErrorMsg()) {
 							$this->setError($error);
-						} else {
+						}
+						else {
 							$this->setError('COM_MODULES_ERROR_CANNOT_FIND_MODULE');
 						}
 						return false;
@@ -303,7 +332,8 @@ class ModulesModelModule extends JModelAdmin
 					// Extension found, prime some module values.
 					$table->module		= $extension->element;
 					$table->client_id	= $extension->client_id;
-				} else {
+				}
+				else {
 					$app = JFactory::getApplication();
 					$app->redirect(JRoute::_('index.php?option=com_modules&view=modules',false));
 					return false;
@@ -329,15 +359,19 @@ class ModulesModelModule extends JModelAdmin
 			if (empty($pk)) {
 				// If this is a new module, assign to all pages.
 				$assignment = 0;
-			} else if (empty($assigned)) {
+			}
+			else if (empty($assigned)) {
 				// For an existing module it is assigned to none.
 				$assignment = '-';
-			} else {
+			}
+			else {
 				if ($assigned[0] > 0) {
 					$assignment = +1;
-				} else if ($assigned[0] < 0) {
+				}
+				else if ($assigned[0] < 0) {
 					$assignment = -1;
-				} else {
+				}
+				else {
 					$assignment = 0;
 				}
 			}
@@ -351,7 +385,8 @@ class ModulesModelModule extends JModelAdmin
 
 			if (file_exists($path)) {
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			} else {
+			}
+			else {
 				$this->_cache[$pk]->xml = null;
 			}
 		}
@@ -402,7 +437,8 @@ class ModulesModelModule extends JModelAdmin
 		if (empty($table->id)) {
 			// Set the values
 			//$table->created	= $date->toMySQL();
-		} else {
+		}
+		else {
 			// Set the values
 			//$table->modified	= $date->toMySQL();
 			//$table->modified_by	= $user->get('id');
@@ -441,6 +477,7 @@ class ModulesModelModule extends JModelAdmin
 			if (!$form->loadFile($formFile, false, '//config')) {
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
+
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile)) {
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
@@ -467,7 +504,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param	array	$data	The form data.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
@@ -565,7 +602,8 @@ class ModulesModelModule extends JModelAdmin
 					$this->setError($db->getErrorMsg());
 					return false;
 				}
-			} else if (!empty($data['assigned'])) {
+			}
+			else if (!empty($data['assigned'])) {
 				// Get the sign of the number.
 				$sign = $assignment < 0 ? -1 : +1;
 
@@ -579,6 +617,7 @@ class ModulesModelModule extends JModelAdmin
 					'INSERT INTO #__modules_menu (moduleid, menuid) VALUES '.
 					implode(',', $tuples)
 				);
+
 				if (!$db->query()) {
 					$this->setError($db->getErrorMsg());
 					return false;
@@ -608,8 +647,9 @@ class ModulesModelModule extends JModelAdmin
 		$this->setState('module.id',			$table->id);
 
 		// Clear module cache
-		$cache = JFactory::getCache($table->module);
-		$cache->clean();
+		$cache = JFactory::getCache();
+		$cache->clean($table->module);
+		$cache->clean('com_modules');
 
 		return true;
 	}
@@ -617,7 +657,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param	object	A record object.
+	 * @param	object	$table	A record object.
 	 *
 	 * @return	array	An array of conditions to add to add to ordering queries.
 	 * @since	1.6
@@ -627,6 +667,7 @@ class ModulesModelModule extends JModelAdmin
 		$condition = array();
 		$condition[] = 'client_id = '.(int) $table->client_id;
 		$condition[] = 'position = '. $this->_db->Quote($table->position);
+
 		return $condition;
 	}
 }

@@ -28,6 +28,7 @@ class ContentModelArticle extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	A record object.
+	 *
 	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since	1.6
 	 */
@@ -42,6 +43,7 @@ class ContentModelArticle extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param	object	A record object.
+	 *
 	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since	1.6
 	 */
@@ -56,6 +58,8 @@ class ContentModelArticle extends JModelAdmin
 	 * Prepare and sanitise the table data prior to saving.
 	 *
 	 * @param	JTable	A JTable object.
+	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function prepareTable($table)
@@ -75,6 +79,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @param	type	The table type to instantiate
 	 * @param	string	A prefix for the table class name. Optional.
 	 * @param	array	Configuration array for model. Optional.
+	 *
 	 * @return	JTable	A database object
 	*/
 	public function getTable($type = 'Content', $prefix = 'JTable', $config = array())
@@ -113,6 +118,7 @@ class ContentModelArticle extends JModelAdmin
 	 *
 	 * @param	array	$data		Data for the form.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 *
 	 * @return	mixed	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
@@ -128,7 +134,8 @@ class ContentModelArticle extends JModelAdmin
 		if ($this->getState('article.id')) {
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		} else {
+		}
+		else {
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
@@ -158,6 +165,7 @@ class ContentModelArticle extends JModelAdmin
 	 * Method to save the form data.
 	 *
 	 * @param	array	The form data.
+	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
@@ -169,6 +177,9 @@ class ContentModelArticle extends JModelAdmin
 			}
 			return true;
 		}
+
+		$cache = JFactory::getCache('com_content');
+		$cache->clean();
 
 		return false;
 	}
@@ -249,6 +260,7 @@ class ContentModelArticle extends JModelAdmin
 	 * A protected method to get a set of ordering conditions.
 	 *
 	 * @param	object	A record object.
+	 *
 	 * @return	array	An array of conditions to add to add to ordering queries.
 	 * @since	1.6
 	 */

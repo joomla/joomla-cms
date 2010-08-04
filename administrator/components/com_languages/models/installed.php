@@ -64,6 +64,7 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -91,6 +92,7 @@ class LanguagesModelInstalled extends JModelList
 	 * ordering requirements.
 	 *
 	 * @param	string		$id	A prefix for the store id.
+	 *
 	 * @return	string		A store id.
 	 * @since	1.6
 	 */
@@ -105,51 +107,56 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the client object
 	 *
-	 * @return object
+	 * @return	object
+	 * @since	1.6
 	 */
 	public function &getClient()
 	{
 		if (is_null($this->client)) {
 			$this->client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
 		}
+
 		return $this->client;
 	}
 
 	/**
 	 * Method to get the ftp credentials
 	 *
-	 * @return object
+	 * @return	object
+	 * @since	1.6
 	 */
 	public function &getFtp()
 	{
-		if (is_null($this->ftp))
-		{
+		if (is_null($this->ftp)) {
 			jimport('joomla.client.helper');
 			$this->ftp = JClientHelper::setCredentialsFromRequest('ftp');
 		}
+
 		return $this->ftp;
 	}
 
 	/**
 	 * Method to get the option
 	 *
-	 * @return object
+	 * @return	object
+	 * @since	1.6
 	 */
 	public function &getOption()
 	{
 		$option = $this->getState('option');
+
 		return $option;
 	}
 
 	/**
 	 * Method to get Languages item data
 	 *
-	 * @return array
+	 * @return	array
+	 * @since	1.6
 	 */
 	public function &getData()
 	{
-		if (is_null($this->data))
-		{
+		if (is_null($this->data)) {
 			// Get information
 			$folders	= $this->getFolders();
 			$path		= $this->getPath();
@@ -157,8 +164,7 @@ class LanguagesModelInstalled extends JModelList
 
 			// Compute all the languages
 			$data	= array ();
-			foreach ($folders as $folder)
-			{
+			foreach ($folders as $folder) {
 				$file = $path.DS.$folder.DS.$folder.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject();
@@ -167,9 +173,12 @@ class LanguagesModelInstalled extends JModelList
 				if (!is_array($info)) {
 					continue;
 				}
-				foreach($info as $key => $value) {
+
+				foreach($info as $key => $value)
+				{
 					$row->$key = $value;
 				}
+
 				// if current than set published
 				$params = JComponentHelper::getParams('com_languages');
 				if ($params->get($client->name, 'en-GB') == $row->language) {
@@ -189,17 +198,16 @@ class LanguagesModelInstalled extends JModelList
 			$start = $this->getState('list.start');
 			$total = $this->getTotal();
 
-			if ($limit == 0)
-			{
+			if ($limit == 0) {
 				$start = 0;
 				$end = $total;
 			}
-			else
-			{
+			else {
 				if ($start > $total) {
 					$start = $total - $total % $limit;
 				}
 				$end = $start + $limit;
+
 				if ($end > $total) {
 					$end = $total;
 				}
@@ -207,7 +215,8 @@ class LanguagesModelInstalled extends JModelList
 
 			// Compute the displayed languages
 			$this->data	= array();
-			for ($i = $start;$i < $end;$i++) {
+			for ($i = $start;$i < $end;$i++)
+			{
 				$this->data[] = & $data[$i];
 			}
 		}
@@ -217,22 +226,24 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the total number of Languages items
 	 *
-	 * @return integer
+	 * @return	integer
+	 * @since	1.6
 	 */
 	public function &getTotal()
 	{
-		if (is_null($this->total))
-		{
+		if (is_null($this->total)) {
 			$folders = $this->getFolders();
 			$this->total = count($folders);
 		}
+
 		return $this->total;
 	}
 
 	/**
 	 * Method to set the default language
 	 *
-	 * return boolean
+	 * @return	boolean
+	 * @since	1.6
 	 */
 	public function publish($cid)
 	{
@@ -250,6 +261,7 @@ class LanguagesModelInstalled extends JModelList
 				$this->setError($table->getError());
 				return false;
 			}
+
 			$table->params = (string)$params;
 			// pre-save checks
 			if (!$table->check()) {
@@ -267,46 +279,56 @@ class LanguagesModelInstalled extends JModelList
 			$this->setError(JText::_('COM_LANGUAGES_ERR_NO_LANGUAGE_SELECTED'));
 			return false;
 		}
+
+		// Clean the cache.
+		$cache = JFactory::getCache();
+		$cache->clean('com_languages');
+		$cache->clean('_system');
+
 		return true;
 	}
 
 	/**
 	 * Method to get the folders
 	 *
-	 * @return array languages folders
+	 * @return	array	Languages folders
+	 * @since	1.6
 	 */
 	protected function getFolders()
 	{
-		if (is_null($this->folders))
-		{
+		if (is_null($this->folders)) {
 			$path = $this->getPath();
 			jimport('joomla.filesystem.folder');
 			$this->folders = JFolder::folders($path, '.', false, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'pdf_fonts','overrides'));
 		}
+
 		return $this->folders;
 	}
 
 	/**
 	 * Method to get the path
 	 *
-	 * @return string the path to the languages folders
+	 * @return	string	The path to the languages folders
+	 * @since	1.6
 	 */
 	protected function getPath()
 	{
-		if (is_null($this->path))
-		{
+		if (is_null($this->path)) {
 			$client = $this->getClient();
 			$this->path = JLanguage::getLanguagePath($client->path);
 		}
+
 		return $this->path;
 	}
 
 	/**
 	 * Method to compare two languages in order to sort them
 	 *
-	 * @param object $lang1 the first language
-	 * @param object $lang2 the second language
-	 * @return integer
+	 * @param	object	$lang1 the first language
+	 * @param	object	$lang2 the second language
+	 *
+	 * @return	integer
+	 * @since	1.6
 	 */
 	protected function compareLanguages($lang1,$lang2)
 	{

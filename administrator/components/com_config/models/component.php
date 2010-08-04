@@ -23,6 +23,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -44,6 +45,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * @param	array	$data		Data for the form.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 *
 	 * @return	mixed	A JForm object on success, false on failure
 	 * @since	1.6
 	 */
@@ -54,7 +56,8 @@ class ConfigModelComponent extends JModelForm
 		if ($path = $this->getState('component.path')) {
 			// Add the search path for the admin component config.xml file.
 			JForm::addFormPath($path);
-		} else {
+		}
+		else {
 			// Add the search path for the admin component config.xml file.
 			JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/'.$this->getState('component.option'));
 		}
@@ -102,6 +105,7 @@ class ConfigModelComponent extends JModelForm
 	 * Method to save the configuration data.
 	 *
 	 * @param	array	An array containing all global config data.
+	 *
 	 * @return	bool	True on success, false on failure.
 	 * @since	1.6
 	 */
@@ -128,6 +132,7 @@ class ConfigModelComponent extends JModelForm
 				$this->setError($asset->getError());
 				return false;
 			}
+
 			// We don't need this anymore
 			unset($data['option']);
 			unset($data['params']['rules']);
@@ -138,6 +143,7 @@ class ConfigModelComponent extends JModelForm
 			$this->setError($table->getError());
 			return false;
 		}
+
 		unset($data['id']);
 
 		// Bind the data.
@@ -159,7 +165,7 @@ class ConfigModelComponent extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache('com_config');
+		$cache = JFactory::getCache('_system');
 		$cache->clean();
 
 		return true;

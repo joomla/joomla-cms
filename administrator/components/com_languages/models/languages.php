@@ -15,7 +15,7 @@ jimport('joomla.application.component.modellist');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_languages
- * @version		1.5
+ * @since		1.6
  */
 class LanguagesModelLanguages extends JModelList
 {
@@ -24,6 +24,7 @@ class LanguagesModelLanguages extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -39,7 +40,7 @@ class LanguagesModelLanguages extends JModelList
 		$this->setState('filter.published', $published);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_languages');
+		$params = JComponentHelper::getParams('com_languages');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -54,6 +55,7 @@ class LanguagesModelLanguages extends JModelList
 	 * ordering requirements.
 	 *
 	 * @param	string		$id	A prefix for the store id.
+	 *
 	 * @return	string		A store id.
 	 * @since	1.6
 	 */
@@ -86,7 +88,8 @@ class LanguagesModelLanguages extends JModelList
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = '.(int) $published);
-		} else if ($published === '') {
+		}
+		else if ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
@@ -103,8 +106,21 @@ class LanguagesModelLanguages extends JModelList
 		return $query;
 	}
 
+	/**
+	 * Set the published language(s)
+	 *
+	 * @param	array	$cid	An array of language IDs.
+	 * @param	int		$value	The value of the published state.
+	 *
+	 * @return	boolean	True on success, false otherwise.
+	 * @since	1.6
+	 */
 	public function setPublished($cid, $value = 0)
 	{
+		// Clean the cache.
+		$cache = JFactory::getCache('com_languages');
+		$cache->clean();
+
 		return JTable::getInstance('Language')->publish($cid, $value);
 	}
 
@@ -114,6 +130,7 @@ class LanguagesModelLanguages extends JModelList
 	 * @param	array	An array of item primary keys.
 	 *
 	 * @return	boolean	Returns true on success, false on failure.
+	 * @since	1.6
 	 */
 	public function delete($pks)
 	{
@@ -126,12 +143,16 @@ class LanguagesModelLanguages extends JModelList
 		// Iterate the items to delete each one.
 		foreach ($pks as $itemId)
 		{
-			if (!$table->delete((int) $itemId))
-			{
+			if (!$table->delete((int) $itemId)) {
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
+
+		// Clean the cache.
+		$cache = JFactory::getCache('com_languages');
+		$cache->clean();
 
 		return true;
 	}
