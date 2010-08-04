@@ -23,37 +23,44 @@ defined('JPATH_BASE') or die;
 class JFilterInput extends JObject
 {
 	/**
-	 * @var array	An array of permitted tags.
+	 * @var		array	An array of permitted tags.
+	 * @since	1.5
 	 */
 	var $tagsArray;
 
 	/**
-	 * @var array	An array of permitted tag attributes.
+	 * @var		array	An array of permitted tag attributes.
+	 * @since	1.5
 	 */
-	var $attrArray; // default = empty array
+	var $attrArray;
 
 	/**
-	 * @var	int	WhiteList method = 0 (default), BlackList method = 1
+	 * @var		int		WhiteList method = 0 (default), BlackList method = 1
+	 * @since	1.5
 	 */
 	var $tagsMethod;
 
 	/**
-	 * @var	int	WhiteList method = 0 (default), BlackList method = 1
+	 * @var		int		WhiteList method = 0 (default), BlackList method = 1
+	 * @since	1.5
 	 */
 	var $attrMethod;
 
 	/**
-	 * @var int	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @var		int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @since	1.5
 	 */
 	var $xssAuto;
 
 	/**
-	 * @var	array	A list of the default blacklisted tags.
+	 * @var		array	A list of the default blacklisted tags.
+	 * @since	1.5
 	 */
 	var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
 
 	/**
-	 * @var	array	A list of the default blacklisted tag attributes.
+	 * @var		array	A list of the default blacklisted tag attributes.
+	 * @since	1.5
 	 */
 	var $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
 
@@ -61,11 +68,11 @@ class JFilterInput extends JObject
 	 * Constructor for inputFilter class. Only first parameter is required.
 	 *
 	 * @access	protected
-	 * @param	array	List of user-defined tags
-	 * @param	array	List of user-defined attributes
-	 * @param	int		WhiteList method = 0, BlackList method = 1
-	 * @param	int		WhiteList method = 0, BlackList method = 1
-	 * @param	int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param	array	$tagsArray	List of user-defined tags
+	 * @param	array	$attrArray	List of user-defined attributes
+	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
+	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
+	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @since	1.5
 	 */
 	function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
@@ -85,11 +92,11 @@ class JFilterInput extends JObject
 	/**
 	 * Returns an input filter object, only creating it if it doesn't already exist.
 	 *
-	 * @param	array	List of user-defined tags
-	 * @param	array	List of user-defined attributes
-	 * @param	int		WhiteList method = 0, BlackList method = 1
-	 * @param	int		WhiteList method = 0, BlackList method = 1
-	 * @param	int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param	array	$tagsArray	List of user-defined tags
+	 * @param	array	$attrArray	List of user-defined attributes
+	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
+	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
+	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @return	object	The JFilterInput object.
 	 * @since	1.5
 	 */
@@ -212,7 +219,7 @@ class JFilterInput extends JObject
 	/**
 	 * Function to determine if contents of an attribute is safe
 	 *
-	 * @param	array	A 2 element array for attributes name,value
+	 * @param	array	$attrSubSet	A 2 element array for attributes name,value
 	 * @return	boolean True if bad code is detected
 	 * @since	1.5
 	 */
@@ -226,7 +233,7 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param	string	Input string to be 'cleaned'
+	 * @param	string	$source	Input string to be 'cleaned'
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	1.5
 	 */
@@ -419,7 +426,7 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a tag of certain attributes
 	 *
-	 * @param	array	Array of attribute pairs to filter
+	 * @param	array	$attrSet	Array of attribute pairs to filter
 	 * @return	array	Filtered array of attribute pairs
 	 * @since	1.5
 	 */
@@ -496,7 +503,7 @@ class JFilterInput extends JObject
 	/**
 	 * Try to convert to plaintext
 	 *
-	 * @param	string
+	 * @param	string	$source The source string.
 	 * @return	string	Plaintext string
 	 * @since	1.5
 	 */
