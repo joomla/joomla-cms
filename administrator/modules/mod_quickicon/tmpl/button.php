@@ -9,9 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
-
 ?>
-
 <div class="icon-wrapper">
 	<div class="icon">
 		<a href="<?php echo $button['link']; ?>">

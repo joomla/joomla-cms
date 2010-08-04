@@ -122,7 +122,7 @@ abstract class QuickIconHelper
 					'link' => JRoute::_('index.php?option=com_config'),
 					'image' => 'icon-48-config.png',
 					'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-					'access' => array('core.manage', 'com_config')
+					'access' => array('core.admin', 'com_config')
 				)
 			);
 		}
