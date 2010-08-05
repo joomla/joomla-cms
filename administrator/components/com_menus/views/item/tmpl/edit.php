@@ -41,11 +41,13 @@ JHTML::_('behavior.modal');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
 			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?></li>
+				
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
+
+				<li><?php echo $this->form->getLabel('title'); ?>
+				<?php echo $this->form->getInput('title'); ?></li>
 
 				<?php if ($this->item->type =='url'): ?>
 					<?php $this->form->setFieldAttribute('link','readonly','false');?>
