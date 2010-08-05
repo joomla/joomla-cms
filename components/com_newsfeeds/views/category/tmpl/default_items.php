@@ -34,11 +34,11 @@ $listDirn	= $this->state->get('list.direction');
 	<table class="category">
 		<?php if ($this->params->get('show_headings')==1) : ?>
 		<thead><tr>
-				<?php if ($this->params->get('show_name')) : ?>
+				
 				<th class="item-title" id="tableOrdering">
 					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_FEED_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-				<?php endif; ?>
+				
 
 				<?php if ($this->params->get('show_articles')) : ?>
 				<th class="item-num-art" id="tableOrdering2">

@@ -26,14 +26,16 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevel != 0) :
 		<span class="jitem-title"><a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id));?>">
 			<?php echo $this->escape($item->title); ?></a>
 		</span>
+		<?php if ($this->params->get('show_subcat_desc') == 1) :?>
 		<?php if ($item->description) : ?>
 			<div class="category-desc">
 				<?php echo JHtml::_('content.prepare', $item->description); ?>
 			</div>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_item_count') == 1) :?>
+        <?php endif; ?>
+		<?php if ($this->params->get('show_cat_items') == 1) :?>
 			<dl class="newsfeed-count"><dt>
-				<?php echo JText::_('COM_NEWSFEED_COUNT:'); ?></dt>
+				<?php echo JText::_('COM_NEWSFEEDS_CAT_NUM'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>
 			</dl>
 		<?php endif; ?>

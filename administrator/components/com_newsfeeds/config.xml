@@ -63,6 +63,99 @@
 		label="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_LABEL"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_DESC">
 
+		<field name="show_category_title" type="radio"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+				default="0"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			id="show_description"
+			name="show_description"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+
+			<field
+			name="show_description_image"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_DESC">
+	 			<option value="0">JHIDE</option>
+	 			<option value="1">JSHOW</option>
+	 	</field>
+		
+		<field name="maxLevel" type="list"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+				default="-1"
+			>
+				<option value="0">JNONE</option>
+				<option value="-1">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>				
+		</field>
+		
+		<field name="show_empty_categories" type="radio"
+				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_EMPTY_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_EMPTY_DESC"
+				default="0"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		
+		<field name="show_subcat_desc" type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_SUBCAT_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_SUBCAT_DESC"			
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+			
+		<field
+			id="show_cat_items"
+			name="show_cat_items"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		
+	</fieldset>
+	<fieldset
+		name="listlayout"
+		label="COM_NEWSFEEDS_FIELD_CONFIG_LIST_SETTINGS_LABEL"
+		description="COM_NEWSFEEDS_FIELD_CONFIG_LIST_SETTINGS_DESC">
+
+		<field
+			name="show_pagination_limit"
+			type="radio"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL"
+			description="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		
 		<field
 			id="show_headings"
 			name="show_headings"
@@ -74,20 +167,7 @@
 				value="0">JHIDE</option>
 			<option
 				value="1">JSHOW</option>
-		</field>
-
-		<field
-			id="show_name"
-			name="show_name"
-			type="radio"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_NAME_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NAME_COLUMN_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
-		</field>
+		</field>		
 
 		<field
 			id="show_articles"
@@ -114,71 +194,15 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-
-		<field
-		name="spacer1"
-		type="spacer"
-		hr="true"
-		/>
-
-		<field
-			id="show_description"
-			name="show_description"
-			type="radio"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_DESC_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
-		</field>
-
-			<field
-			name="show_description_image"
-			type="radio"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_IMAGE_DESC">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
-	 	</field>
-
-	 		<field
-			name="display_num"
+	 		
+		<field name="show_pagination"
 			type="list"
-			label="COM_NEWSFEEDS_FIELD_NUMBER_ITEMS_LIST_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUMBER_ITEMS_LIST_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="5">J5</option>
-				<option value="10">J10</option>
-				<option value="15">J15</option>
-				<option value="20">J20</option>
-				<option value="25">J25</option>
-				<option value="30">J30</option>
-				<option value="50">J50</option>
-				<option value="100">J100</option>
-				<option value="0">JALL</option>
-		</field>
-
-		<field
-			name="show_pagination_limit"
-			type="radio"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL"
-			description="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_DESC">
+			default="2"
+			label="JGLOBAL_PAGINATION_LABEL"
+			description="JGLOBAL_PAGINATION_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="show_pagination"
-			type="radio"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_PAGINATION_LABEL"
-			description="COM_NEWSFEEDS_FIELD_PAGINATION_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
 			<field
@@ -193,20 +217,10 @@
 					value="1">JSHOW</option>
 			</field>
 
-		<field
-			id="show_cat_items"
-			name="show_cat_items"
-			type="radio"
-			default="1"
-			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
-		</field>
+		
 
 	</fieldset>
+
 
 	<fieldset
 		name="permissions"

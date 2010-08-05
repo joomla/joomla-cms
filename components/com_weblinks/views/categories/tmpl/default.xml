@@ -28,6 +28,7 @@
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 
 			<field name="show_base_description" type="radio"
+				default="1"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
@@ -41,12 +42,11 @@
 				rows="5"
 			/>
 			<field name="maxLevel" type="list"
+				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="-1">JALL</option>
-				<option value="0">JNONE</option>
 				<option value="1">J1</option>
 				<option value="2">J2</option>
 				<option value="3">J3</option>
@@ -55,29 +55,29 @@
 				
 			</field>
 
-			<field name="show_empty_categories" type="list"
+			<field name="show_empty_categories" type="radio"
+				default="0"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 			
-			<field name="show_subcat_desc" type="list"
+			<field name="show_subcat_desc" type="radio"
+			default="0"
 			label="COM_WEBLINKS_FIELD_CONFIG_SUBCAT_LABEL"
 			description="COM_WEBLINKS_FIELD_CONFIG_SUBCAT_DESC"			
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 			
-			<field name="show_cat_num_links" type="list"
+			<field name="show_cat_num_links" type="radio"
+			default="0"
 			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 			</field>	
