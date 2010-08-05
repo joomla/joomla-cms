@@ -140,7 +140,6 @@ $templateparams	= $app->getTemplate(true)->params;
 		<div id="<?php echo $showRightColumn ? 'contentarea2' : 'contentarea'; ?>">
 					<div id="breadcrumbs">
 						<p>
-							<?php echo JText::_('TPL_BEEZ5_YOU_ARE_HERE'); ?>
 							<jdoc:include type="modules" name="position-2" />
 						</p>
 					</div>

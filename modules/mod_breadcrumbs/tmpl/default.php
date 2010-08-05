@@ -11,6 +11,11 @@
 defined('_JEXEC') or die;
 ?>
 <span class="breadcrumbs<?php echo $params->get('moduleclass_sfx'); ?> pathway">
+<?php if ($params->get('showHere', 1))
+	{
+		echo JText::_('MOD_BREADCRUMBS_HERE');
+	}
+?>
 <?php for ($i = 0; $i < $count; $i ++) :
 
 	// If not the last item in the breadcrumbs add the separator
