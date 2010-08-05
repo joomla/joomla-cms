@@ -125,6 +125,10 @@ class ContentModelArticles extends JModelList
 			)
 		);
 		$query->from('#__content AS a');
+		
+		// Join over the frontpage articles.
+		if($this->context != 'com_content.featured')
+			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the categories.
 		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias');

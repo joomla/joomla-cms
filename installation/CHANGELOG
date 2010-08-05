@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Aug-2010 Jean-Marie Simonet
+ # [#21599] Featured articles - article link to parent category - 500 error. Thanks Mathavan
+
 04-Aug-2010 Jean-Marie Simonet
  [#21662] Single contact view not treating category access issue correctly. Thanks Elin.
  
