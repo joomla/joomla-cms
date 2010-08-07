@@ -85,7 +85,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php if (!$item->element) : ?>
 					<strong>X</strong>
 					<?php else : ?>
-						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'manage.', !$item->protected);?>
+						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'manage.');?>
 					<?php endif; ?>
 				</td>
 				<td class="center">

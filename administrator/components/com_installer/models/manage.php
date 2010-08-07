@@ -86,7 +86,7 @@ class InstallerModelManage extends InstallerModel
 			// Enable the extension in the table and store it in the database
 			foreach($eid as $id) {
 				$table->load($id);
-				$table->enabled = $value || $table->protected;
+				$table->enabled = $value;
 				if (!$table->store()) {
 					$this->setError($table->getError());
 					$result = false;
