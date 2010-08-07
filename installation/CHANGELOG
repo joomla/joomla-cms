@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Aug-2010 Jean-Marie Simonet
  # [#21750] Default module position
+ # [#21744] Implementing drill-down options for weblinks and newsfeeds categorieS menu items
  
 06-Aug-2010 Ian MacLennan
  # [#21598] Unable to logout ( front end ) if cache enabled

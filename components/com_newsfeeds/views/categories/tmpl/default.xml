@@ -24,8 +24,8 @@
 	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
-<fields name="params">
-<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+	<fields name="params">
+		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 			<field name="show_base_description" type="radio"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
@@ -80,7 +80,120 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+		</fieldset>
+
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+			
+			<field
+			name="show_pagination_limit"
+			type="list"
+			
+			label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL"
+			description="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_DESC">
+			
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		
+		<field
+			id="show_headings"
+			name="show_headings"
+			type="list"
+			
+			label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC">
+			
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>	
+
+		<field
+			id="show_articles"
+			name="show_articles"
+			type="list"
+			
+			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
+			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC">
+			
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			id="show_link"
+			name="show_link"
+			type="list"
+			
+			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC">
+			
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+	 		
+		<field name="show_pagination"
+			type="list"
+			
+			label="JGLOBAL_PAGINATION_LABEL"
+			description="JGLOBAL_PAGINATION_DESC">
+			
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+		</field>
+
+		<field
+			name="show_pagination_results"
+			type="list"
+			label="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>		
+
 	</fieldset>
-	
+	<fieldset name="newsfeed" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
+
+			<field name="show_feed_image" type="list"
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_feed_description" type="list"
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_item_description" type="list"
+				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="feed_character_count" type="text"
+				default="0"
+				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
+				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
+				size="6"
+			/>
+	</fieldset>	
 </fields>
 </metadata>
