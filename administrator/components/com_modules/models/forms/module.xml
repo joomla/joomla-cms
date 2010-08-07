@@ -78,7 +78,7 @@
 		</field>
 
 		<field name="position" type="moduleposition"
-			default="position-7"
+			default=""
 			description="COM_MODULES_FIELD_POSITION_DESC"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"
