@@ -7,7 +7,7 @@
 
 defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.controller' );
+jimport( 'joomla.application.component.controllerform' );
 
 /**
  * The Menu Type Controller
@@ -16,7 +16,7 @@ jimport( 'joomla.application.component.controller' );
  * @subpackage	com_menus
  * @since		1.6
  */
-class MenusControllerMenu extends JController
+class MenusControllerMenu extends JControllerForm
 {
 	/**
 	 * Constructor
@@ -185,8 +185,17 @@ class MenusControllerMenu extends JController
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 				break;
 
+			case 'save2new':
+				// Clear the menu id and data from the session.
+				$app->setUserState('com_menus.edit.menu.id', null);
+				$app->setUserState('com_menus.edit.menu.data', null);
+
+				// Redirect back to the edit screen.
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+				break;
+
 			default:
-				// Clear the menu item id and data from the session.
+				// Clear the menu id and data from the session.
 				$app->setUserState('com_menus.edit.menu.id', null);
 				$app->setUserState('com_menus.edit.menu.data', null);
 
