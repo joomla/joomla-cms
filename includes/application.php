@@ -231,9 +231,9 @@ final class JSite extends JApplication
 		// Trigger the onBeforeRender event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
-
+		
 		$caching = false;
-		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2) {
+		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2 && !$user->get('id')) {
 			$caching = true;
 		}
 
