@@ -94,9 +94,25 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->click("server");
 		$this->select("jform_error_reporting", "label=Maximum");
 
-		echo "Turn caching off\n";
+		echo "Set caching to $cfg->cache\n";
 		$this->click("system");
-		$this->select("jform_caching", "label=OFF - Caching disabled");
+		
+		switch ($cfg->cache) 
+		{
+			case 'on-basic':
+				$this->select("jform_caching", "label=ON - Conservative caching");
+				break;
+				
+			case 'on-full' :
+				$this->select("jform_caching", "label=ON - Progressive caching");
+				break;
+			
+			case 'off'	:
+			default:
+				$this->select("jform_caching", "label=OFF - Caching disabled");
+				break;
+		}
+		
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();

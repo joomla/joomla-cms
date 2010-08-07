@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Aug-2010 Mark Dexter
+^ Added new var to configdef.php to allow doInstall to set caching to different values
+
 22-Jul-2010 Mark Dexter
 # Fix control_panel0004Test and add new acl003Test (Matt Thomas)
 

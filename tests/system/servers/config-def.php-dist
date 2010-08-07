@@ -32,6 +32,10 @@ class SeleniumConfig
 	var $db_user = 'root';
 	var $db_pass = 'password';
 	var $db_name = 'joomla-1-6_source';
+	
+	// optional setting to turn on Cache: values are off, on-basic, on-full
+	// change this value to set the caching in the doInstall.php test
+	var $cache = 'off';
 
 	// set the site name
 	var $site_name = 'Joomla! 1.6 Source';
