@@ -3169,3 +3169,18 @@ label#jform_rules-lbl {display:none;}
 #jform_sef_rewrite-lbl {
 	background: url(../images/admin/icon-16-notice-note.png) right top no-repeat;
 }
+
+/**
+* Options modal- config
+*/
+ul.config-option-list,
+ul.config-option-list li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+ul.config-option-list fieldset {
+	margin: 0;
+	padding-left: 0;
+	padding-right: 0;
+}

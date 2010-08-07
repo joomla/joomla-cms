@@ -47,17 +47,20 @@ JHtml::_('behavior.formvalidation');
 				echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
 			endif;
 	?>
-
+			<ul class="config-option-list">
 			<?php
 			foreach ($this->form->getFieldset($name) as $field):
 			?>
+				<li>
 				<?php if (!$field->hidden) : ?>
 				<?php echo $field->label; ?>
 				<?php endif; ?>
 				<?php echo $field->input; ?>
+				</li>
 			<?php
 			endforeach;
 			?>
+			</ul>
 
 
 	<div class="clr"></div>
