@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21598] Unable to logout ( front end ) if cache enabled
  # [#21630] Dropdown order in plug in manager
  # [#21632] Dropdown order in article manager
+ # [#21633] dropdown order in category manager
 
 06-Aug-2010 Jean-Marie Simonet
  # [#21740] Media Manager Submenu not indicating active option. Thanks Andrea.
