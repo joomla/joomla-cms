@@ -38,7 +38,22 @@ $saveOrder	= $listOrder == 'ordering';
 			<select name="filter_client_id" id="filter_client_id" class="inputbox">
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
-
+            
+            <label class="selectlabel" for="filter_position">
+				<?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?>
+			</label>
+			<select name="filter_position" id="filter_position" class="inputbox">
+				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION');?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'));?>
+			</select>
+            
+			<label class="selectlabel" for="filter_module">
+				<?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE'); ?>
+			</label>
+			<select name="filter_module" id="filter_module" class="inputbox">
+				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE');?></option>
+				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'));?>
+			</select>
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
@@ -53,23 +68,7 @@ $saveOrder	= $listOrder == 'ordering';
 			<select name="filter_access" id="filter_access" class="inputbox">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-			</select>
-
-			<label class="selectlabel" for="filter_position">
-				<?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?>
-			</label>
-			<select name="filter_position" id="filter_position" class="inputbox">
-				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position'));?>
-			</select>
-
-			<label class="selectlabel" for="filter_module">
-				<?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE'); ?>
-			</label>
-			<select name="filter_module" id="filter_module" class="inputbox">
-				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_MODULE');?></option>
-				<?php echo JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'));?>
-			</select>
+			</select>		
 
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>

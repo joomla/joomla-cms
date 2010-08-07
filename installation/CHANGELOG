@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21632] Dropdown order in article manager
  # [#21633] Dropdown order in category manager
  # [#21634] Dropdown order in menu manager
+ # [#21637] Dropdown order in module manager
 
 06-Aug-2010 Jean-Marie Simonet
  # [#21740] Media Manager Submenu not indicating active option. Thanks Andrea.
