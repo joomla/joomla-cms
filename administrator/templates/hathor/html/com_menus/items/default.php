@@ -32,22 +32,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
-		<div class="filter-select">
-			<label class="selectlabel" for="filter_access">
-				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
-			</label>
-			<select name="filter_access" id="filter_access" class="inputbox">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-			</select>
-
-			<label class="selectlabel" for="filter_published">
-				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
-			</label>
-			<select name="filter_published" id="filter_published" class="inputbox">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
-			</select>
+		<div class="filter-select">			
 
 			<label class="selectlabel" for="menutype">
 				<?php echo JText::_('TPL_HATHOR_COM_MENUS_MENU'); ?>
@@ -62,6 +47,22 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<select name="filter_level" id="filter_level" class="inputbox">
 				<option value=""><?php echo JText::_('COM_MENUS_OPTION_SELECT_LEVEL');?></option>
 				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
+			</select>
+            
+            <label class="selectlabel" for="filter_published">
+				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
+			</label>
+			<select name="filter_published" id="filter_published" class="inputbox">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true);?>
+			</select>			
+            
+            <label class="selectlabel" for="filter_access">
+				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
+			</label>
+			<select name="filter_access" id="filter_access" class="inputbox">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_language">
