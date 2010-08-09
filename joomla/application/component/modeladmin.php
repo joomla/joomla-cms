@@ -459,7 +459,8 @@ abstract class JModelAdmin extends JModelForm
 		// Initialise variables;
 		$dispatcher = JDispatcher::getInstance();
 		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName().'.id');
+		$key			= $table->getKeyName();
+		$pk			= (!empty($data[$key])) ? $data[$key] : (int)$this->getState($this->getName().'.id');
 		$isNew		= true;
 
 		// Include the content plugins for the on save events.

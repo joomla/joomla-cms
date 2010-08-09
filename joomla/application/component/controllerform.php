@@ -396,7 +396,7 @@ class JControllerForm extends JController
 			}
 
 			// Reset the ID and then treat the request as for Apply.
-			$data['id']	= 0;
+			$data[$key]	= 0;
 			$task		= 'apply';
 		}
 

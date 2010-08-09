@@ -760,9 +760,9 @@ class JTableNested extends JTable
 		if ($this->parent_id > 0)
 		{
 			$query = $this->_db->getQuery(true);
-			$query->select('COUNT(id)');
+			$query->select('COUNT('.$this->_tbl_key.')');
 			$query->from($this->_tbl);
-			$query->where('id = '.$this->parent_id);
+			$query->where($this->_tbl_key.' = '.$this->parent_id);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadResult()) {
@@ -1397,7 +1397,7 @@ class JTableNested extends JTable
 		if (!isset($this->_cache['rebuild.sql']))
 		{
 			$query	= $this->_db->getQuery(true);
-			$query->select('id, alias');
+			$query->select($this->_tbl_key.', alias');
 			$query->from($this->_tbl);
 			$query->where('parent_id = %d');
 
@@ -1425,7 +1425,7 @@ class JTableNested extends JTable
 			// $rightId is the current right value, which is incremented on recursion return.
 			// Increment the level for the children.
 			// Add this item's alias to the path (but avoid a leading /)
-			$rightId = $this->rebuild($node->id, $rightId, $level + 1, $path.(empty($path) ? '' : '/').$node->alias);
+			$rightId = $this->rebuild($node->{$this->_tbl_key}, $rightId, $level + 1, $path.(empty($path) ? '' : '/').$node->alias);
 
 			// If there is an update failure, return false to break out of the recursion.
 			if ($rightId === false) return false;
@@ -1439,7 +1439,7 @@ class JTableNested extends JTable
 		$query->set('rgt = '. (int) $rightId);
 		$query->set('level = '.(int) $level);
 		$query->set('path = '.$this->_db->quote($path));
-		$query->where('id = '. (int)$parentId);
+		$query->where($this->_tbl_key.' = '. (int)$parentId);
 		$this->_db->setQuery($query);
 
 		// If there is an update failure, return false to break out of the recursion.
@@ -1703,13 +1703,13 @@ class JTableNested extends JTable
 		if ($showData)
 		{
 			$query = $this->_db->getQuery(true);
-			$query->select('id, parent_id, lft, rgt, level');
+			$query->select($this->_tbl_key.', parent_id, lft, rgt, level');
 			$query->from($this->_tbl);
-			$query->order('id');
+			$query->order($this->_tbl_key);
 			$this->_db->setQuery($query);
 
 			$rows = $this->_db->loadRowList();
-			$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", 'id', 'par', 'lft', 'rgt');
+			$buffer .= sprintf("\n| %4s | %4s | %4s | %4s |", $this->_tbl_key, 'par', 'lft', 'rgt');
 			$buffer .= $sep;
 
 			foreach ($rows as $row) {
