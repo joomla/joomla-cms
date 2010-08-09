@@ -52,8 +52,7 @@
 				JARCHIVED</option>
 			<option value="-2">
 				JTRASHED</option>
-			<option value="-3">
-				JOPTION_REPORTED</option>
+			
 		</field>
 
 		<field name="catid"
