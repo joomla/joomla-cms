@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class RedirectHelper
 {
-	public static $extention = 'com_redirect';
+	public static $extension = 'com_redirect';
 
 	/**
 	 * Configure the Linkbar.

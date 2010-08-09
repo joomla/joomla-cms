@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class ContentHelper
 {
-	public static $extention = 'com_content';
+	public static $extension = 'com_content';
 
 	/**
 	 * Configure the Linkbar.

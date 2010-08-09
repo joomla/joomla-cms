@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class PluginsHelper
 {
-	public static $extention = 'com_plugins';
+	public static $extension = 'com_plugins';
 
 	/**
 	 * Configure the Linkbar.

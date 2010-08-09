@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsHelper
 {
-	public static $extention = 'com_newsfeeds';
+	public static $extension = 'com_newsfeeds';
 
 	/**
 	 * Configure the Linkbar.
