@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+
+-------------------- 1.6.0 Beta7 Release [09-Aug-2010] ------------------
+
 09-Aug-2010 Ian MacLennan
  # [#20289] FTP Server: Do not save credentials through the Web Interface
  # [#21476] Not using correct Primary Key while saving
