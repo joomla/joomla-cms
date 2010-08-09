@@ -102,6 +102,11 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									<td>
 										<?php echo $this->form->getInput('ftp_user'); ?>
 									</td>
+									<td>
+										<em>
+										<?php echo JText::_('INSTL_FTP_USER_DESC'); ?>
+										</em>
+									</td>	
 								</tr>
 								<tr>
 									<td>
@@ -109,6 +114,11 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									</td>
 									<td>
 										<?php echo $this->form->getInput('ftp_pass'); ?>
+									</td>
+									<td>
+										<em>
+										<?php echo JText::_('INSTL_FTP_PASSWORD_DESC'); ?>
+										</em>
 									</td>
 								</tr>
 								<tr id="rootPath">

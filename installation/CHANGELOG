@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+09-Aug-2010 Ian MacLennan
+ # [#20289] FTP Server: Do not save credentials through the Web Interface
+
 08-Aug-2010 Jean-Marie Simonet
  # [#21387] Weird Display Issue Administrator Template In Safari 4 & 5
 
