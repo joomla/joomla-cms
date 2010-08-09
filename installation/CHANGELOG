@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+08-Aug-2010 Jean-Marie Simonet
+ # [#21387] Weird Display Issue Administrator Template In Safari 4 & 5
+
 08-Aug-2010 Ron Severdia
  # Cleaned up Atomic template (ready to go once sample data is committed).
  

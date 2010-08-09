@@ -39,7 +39,7 @@ endif;
 
 // Print the back-end logged in users.
 if ($params->get('show_loggedin_users_admin', 1)) :
-	$output[] = '<span class="loggedin-users">'.$count.' '.JText::_('MOD_STATUS_BACKEND_USERS').'</span>';
+	$output[] = '<span class="backloggedin-users">'.$count.' '.JText::_('MOD_STATUS_BACKEND_USERS').'</span>';
 endif;
 
 // Reverse rendering order for rtl display.

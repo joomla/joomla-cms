@@ -840,6 +840,10 @@ button:hover,button:focus {
 	background-image: url(../images/menu/icon-16-user.png);
 }
 
+.icon-16-back-user {
+	background-image: url(../images/menu/icon-16-back-user.png);
+}
+
 .icon-16-writemess {
 	background-image: url(../images/menu/icon-16-writemess.png);
 }
