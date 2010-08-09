@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#21710] Root user notice only on username
  # [#21719] Create and delete action in plugins permissions configuration
  # [#21726] Possible mispelling of "extension" in assorted helper files
+ # [#21751] Missing JErrors in com_contact
 
 08-Aug-2010 Jean-Marie Simonet
  # [#21387] Weird Display Issue Administrator Template In Safari 4 & 5

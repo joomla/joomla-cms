@@ -54,7 +54,7 @@ class ContactViewCategory extends JView
 
 		if($parent == false)
 		{
-			//TODO Raise error for missing parent category here
+			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.

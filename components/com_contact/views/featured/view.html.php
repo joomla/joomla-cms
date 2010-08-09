@@ -52,6 +52,15 @@ class ContactViewFeatured extends JView
 			return false;
 		}
 
+		if($category == false)
+		{
+			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
+
+		if($parent == false)
+		{
+			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
 
 		// Check whether category access level allows access.
 		$user	= JFactory::getUser();
