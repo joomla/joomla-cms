@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#21597] New Menu Item - using filter in modal
  # [#21616] Page scrolls to top when click on Contact Slider
  # [#21643] Login screen with google chrome 5.0.375 fields misaligned
+ # [#21710] Root user notice only on username
 
 08-Aug-2010 Jean-Marie Simonet
  # [#21387] Weird Display Issue Administrator Template In Safari 4 & 5
