@@ -31,6 +31,7 @@ $ -> Language fix or change
 09-Aug-2010 Ian MacLennan
  # [#20289] FTP Server: Do not save credentials through the Web Interface
  # [#21476] Not using correct Primary Key while saving
+ # [#21579] E_STRICT error in JCacheCallback due to modRelatedItemsHelper::getList() being non-static
 
 08-Aug-2010 Jean-Marie Simonet
  # [#21387] Weird Display Issue Administrator Template In Safari 4 & 5

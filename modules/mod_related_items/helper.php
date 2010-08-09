@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
-class modRelatedItemsHelper
+abstract class modRelatedItemsHelper
 {
-	function getList($params)
+	public static function getList($params)
 	{
 		$db			= JFactory::getDbo();
 		$app		= JFactory::getApplication();
