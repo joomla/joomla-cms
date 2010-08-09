@@ -215,6 +215,7 @@ span.unwritable  {
 }
 
 #border-bottom {
+	clear: both;
 	background: url(../images/j_bottom.png) repeat-x;
 }
 
@@ -252,6 +253,8 @@ p.footer-tip {
 #content-box {
 	border-left: 1px solid #ccc;
 	border-right: 1px solid #ccc;
+	float: left;
+	width: 99.85%;
 }
 
 #content-box .padding {
