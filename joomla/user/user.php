@@ -155,7 +155,8 @@ class JUser extends JObject
 		// Load the user if it exists
 		if (!empty($identifier)) {
 			$this->load($identifier);
-		} else {
+		}
+		else {
 			//initialise
 			$this->id		= 0;
 			$this->sendEmail = 0;
@@ -188,7 +189,8 @@ class JUser extends JObject
 				$retval = false;
 				return $retval;
 			}
-		} else {
+		}
+		else {
 			$id = $identifier;
 		}
 
@@ -269,9 +271,11 @@ class JUser extends JObject
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser) {
 				self::$isRoot = true;
-			} else if ($this->username && $this->username == $rootUser) {
+			}
+			else if ($this->username && $this->username == $rootUser) {
 				self::$isRoot = true;
-			} else {
+			}
+			else {
 				// Get all groups against which the user is mapped.
 				$identities = JAccess::getGroupsByUser($this->id);
 				array_unshift($identities, $this->id * -1);
@@ -423,9 +427,11 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			if ($array['password'] != $array['password2']) {
-					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
-					return false;
+			// TODO: Backend controller checks the password, frontend doesn't but should.
+			// Hence this code is required:
+			if (isset($array['password2']) && $array['password'] != $array['password2']) {
+				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+				return false;
 			}
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
@@ -451,7 +457,8 @@ class JUser extends JObject
 				$password = substr($password, 0, 100);
 				$this->set('password', $password);
 			}
-		} else {
+		}
+		else {
 			// Updating an existing user
 			if (!empty($array['password'])) {
 				if ($array['password'] != $array['password2']) {
@@ -464,7 +471,8 @@ class JUser extends JObject
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
 				$array['password'] = $crypt.':'.$salt;
-			} else {
+			}
+			else {
 				$array['password'] = $this->password;
 			}
 		}
@@ -475,9 +483,11 @@ class JUser extends JObject
 		if (array_key_exists('params', $array)) {
 			$params	= '';
 			$this->_params->merge(new JRegistry($array['params']));
+
 			if (is_array($array['params'])) {
 				$params	= (string)$this->_params;
-			} else {
+			}
+			else {
 				$params = $array['params'];
 			}
 
@@ -538,7 +548,7 @@ class JUser extends JObject
 //		}
 
 		//are we creating a new user
-		$isnew = !$this->id;
+		$isnew = empty($this->id);
 
 		// If we aren't allowed to create new users return
 		if ($isnew && $updateOnly) {
