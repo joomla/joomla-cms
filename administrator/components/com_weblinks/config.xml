@@ -18,7 +18,7 @@
 		
 		<field	name="count_clicks" type="radio"
 			
-				default="0"
+				default="1"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
 						
@@ -41,7 +41,7 @@
 		<field name="show_category_title" type="radio"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				default="0"
+				default="1"
 			>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -49,7 +49,7 @@
 
 		<field name="show_description"
 	 		type="radio"
-	 		default="0"
+	 		default="1"
 	 		label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 	 		description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
 	 			<option value="0">JHIDE</option>
@@ -58,7 +58,7 @@
 
 		<field name="show_description_image"
 			type="radio"
-			default="0"
+			default="1"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
 	 			<option value="0">JHIDE</option>
@@ -68,7 +68,7 @@
 		<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-				default="0"
+				default="-1"
 			>
 				<option value="0">JNONE</option>
 				<option value="-1">JALL</option>
@@ -77,7 +77,7 @@
 				<option value="3">J3</option>
 				<option value="4">J4</option>
 				<option value="5">J5</option>				
-		</field>
+		</field>	
 		
 		<field name="show_empty_categories" type="radio"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
@@ -90,23 +90,81 @@
 		
 		<field name="show_subcat_desc" type="radio"
 			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_SUBCAT_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SUBCAT_LABEL"
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_cat_num_links" type="radio"
-			default="0"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
+			default="1"
+			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
+			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 		
+		
 	</fieldset>
+	
+	<fieldset name="categories"
+		label="COM_WEBLINKS_CATEGORIES_LABEL"
+		description="COM_WEBLINKS_CATEGORIES_DESC"
+	>
+			<field name="show_base_description" type="radio"
+				default="1"
+				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
+				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+			
+		<field name="maxLevelcat" type="list"
+				default="-1"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			>
+				<option value="-1">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+				
+			</field>
+			<field name="show_empty_categories_cat" type="radio"
+				default="0"		
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_subcat_desc_cat" type="radio"	
+			default="1"		
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"			
+		>		
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_cat_num_links_cat" type="radio"	
+			default="1"	
+			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
+			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
+		>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+	
+	</fieldset>
+	
 	
 	<fieldset name="list_layout"
 		label="COM_WEBLINKS_LIST_LAYOUT_LABEL"
@@ -124,8 +182,8 @@
 
 		<field name="show_headings" type="radio"
 			default="1"
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SHOWHEADINGS_LABEL"
+			description="JGLOBAL_SHOW_HEADINGS_DESC"
+			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -169,7 +227,36 @@
 		</field>
 		
 	</fieldset>
+	
+	<fieldset
+		name="integration"
+		label="COM_WEBLINKS_CONFIG_INTEGRATION_SETTINGS_LABEL"
+		description="COM_WEBLINKS_CONFIG_INTEGRATION_SETTINGS_DESC"
+		>
 
+		<field
+			name="show_feed_link"
+			type="radio"
+			default="1"
+			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+			description="JGLOBAL_SHOW_FEED_LINK_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="feed_summary"
+			type="radio"
+			label="JGLOBAL_FEED_SUMMARY_LABEL"
+			description="JGLOBAL_FEED_SUMMARY_DESC"
+			default="0">
+			<option
+				value="0">JGLOBAL_INTRO_TEXT</option>
+			<option
+				value="1">JGLOBAL_FULL_TEXT</option>
+		</field>
+
+	</fieldset>
 
 	<fieldset name="permissions"
 		description="JCONFIG_PERMISSIONS_DESC"

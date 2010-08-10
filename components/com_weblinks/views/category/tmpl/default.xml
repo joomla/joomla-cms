@@ -26,6 +26,9 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+			<field name="subslider" type="spacer"
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			/>
 			
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
@@ -79,8 +82,8 @@
 			</field>
 			
 			<field name="show_subcat_desc" type="list"
-			label="COM_WEBLINKS_FIELD_CONFIG_SUBCAT_LABEL"
-			description="COM_WEBLINKS_FIELD_CONFIG_SUBCAT_DESC"			
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
@@ -88,9 +91,8 @@
 		</field>
 		
 			<field name="show_cat_num_links" type="list"
-			
-			description="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_SHOWNUMBERS_LABEL"
+			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
+			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
@@ -100,6 +102,9 @@
 	</fieldset>
 	
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+			<field name="subslider" type="spacer"
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			/>
 			
 			<field	name="show_pagination_limit" type="list"			
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
