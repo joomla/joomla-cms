@@ -76,7 +76,7 @@ class JApplication extends JObject
 	/**
 	 * Class constructor.
 	 *
-	 * @param	integer	A client identifier.
+	 * @param	integer	$config	A client identifier.
 	 * @since	1.5
 	 */
 	public function __construct($config = array())
@@ -121,9 +121,9 @@ class JApplication extends JObject
 	 * Returns the global JApplication object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param	mixed		A client identifier or name.
-	 * @param	array		An optional associative array of configuration settings.
-	 * @return	JApplication	The appliction object.
+	 * @param	mixed			$client	A client identifier or name.
+	 * @param	array			$config	An optional associative array of configuration settings.
+	 * @return	JApplication	$prefix	The appliction object.
 	 * @since	1.5
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
@@ -146,7 +146,8 @@ class JApplication extends JObject
 				// Create a JRouter object.
 				$classname = $prefix.ucfirst($client);
 				$instance = new $classname($config);
-			} else {
+			}
+			else {
 				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $client));
 				return $error;
 			}
@@ -317,10 +318,12 @@ class JApplication extends JObject
 		if (!preg_match('#^http#i', $url)) {
 			$uri = JURI::getInstance();
 			$prefix = $uri->toString(Array('scheme', 'user', 'pass', 'host', 'port'));
+
 			if ($url[0] == '/') {
 				// We just need the prefix since we have a path relative to the root.
 				$url = $prefix . $url;
-			} else {
+			}
+			else {
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
@@ -345,9 +348,17 @@ class JApplication extends JObject
 		// so we will output a javascript redirect statement.
 		if (headers_sent()) {
 			echo "<script>document.location.href='$url';</script>\n";
-		} else {
-			header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
-			header('Location: '.$url);
+		}
+		else {
+			if (!$moved && strstr(strtolower($_SERVER['HTTP_USER_AGENT']),'webkit') !== false) {
+				// WebKit browser - Do not use 303, as it causes subresources reload (https://bugs.webkit.org/show_bug.cgi?id=38690)
+				echo '<html><head><meta http-equiv="refresh" content="0;'. $url .'" /></head><body></body></html>';
+			}
+			else {
+				// All other browsers, use the more efficient HTTP header method
+				header($moved ? 'HTTP/1.1 301 Moved Permanently' : 'HTTP/1.1 303 See other');
+				header('Location: '.$url);
+			}
 		}
 		$this->close();
 	}
@@ -366,6 +377,7 @@ class JApplication extends JObject
 		if (!count($this->_messageQueue)) {
 			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
+
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
 				$session->set('application.queue', null);
@@ -387,6 +399,7 @@ class JApplication extends JObject
 		if (!count($this->_messageQueue)) {
 			$session = JFactory::getSession();
 			$sessionQueue = $session->get('application.queue');
+
 			if (count($sessionQueue)) {
 				$this->_messageQueue = $sessionQueue;
 				$session->set('application.queue', null);
@@ -445,9 +458,11 @@ class JApplication extends JObject
 	{
 		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
+
 		if (!is_null($registry)) {
 			return $registry->get($key);
 		}
+
 		return null;
 	}
 
@@ -463,9 +478,11 @@ class JApplication extends JObject
 	{
 		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
+
 		if (!is_null($registry)) {
 			return $registry->set($key, $value);
 		}
+
 		return null;
 	}
 
@@ -488,7 +505,8 @@ class JApplication extends JObject
 		// Save the new value only if it was set in this request.
 		if ($new_state !== null) {
 			$this->setUserState($key, $new_state);
-		} else {
+		}
+		else {
 			$new_state = $cur_state;
 		}
 
@@ -520,6 +538,7 @@ class JApplication extends JObject
 	function triggerEvent($event, $args=null)
 	{
 		$dispatcher = JDispatcher::getInstance();
+
 		return $dispatcher->trigger($event, $args);
 	}
 
@@ -582,6 +601,7 @@ class JApplication extends JObject
 					$cookie_path = $this->getCfg('cookie_path', '/');
 					setcookie( JUtility::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain );
 				}
+
 				return true;
 			}
 		}
@@ -641,7 +661,8 @@ class JApplication extends JObject
 			// Use domain and path set in config for cookie if it exists.
 			$cookie_domain = $this->getCfg('cookie_domain', '');
 			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain );
+			setcookie(JUtility::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+
 			return true;
 		}
 
@@ -680,9 +701,11 @@ class JApplication extends JObject
 
 		jimport('joomla.application.router');
 		$router = JRouter::getInstance($name, $options);
+
 		if (JError::isError($router)) {
 			return null;
 		}
+
 		return $router;
 	}
 
@@ -698,11 +721,14 @@ class JApplication extends JObject
 	static public function stringURLSafe($string)
 	{
 		$app = JFactory::getApplication();
+
 		if (self::getCfg('unicodeslugs') == 1) {
 			$output = JFilterOutput::stringURLUnicodeSlug($string);
-		} else {
+		}
+		else {
 			$output = JFilterOutput::stringURLSafe($string);
 		}
+
 		return $output;
 	}
 
@@ -723,9 +749,11 @@ class JApplication extends JObject
 
 		jimport('joomla.application.pathway');
 		$pathway = JPathway::getInstance($name, $options);
+
 		if (JError::isError($pathway)) {
 			return null;
 		}
+
 		return $pathway;
 	}
 
@@ -764,6 +792,7 @@ class JApplication extends JObject
 	public static function getHash($seed)
 	{
 		$conf = JFactory::getConfig();
+
 		return md5($conf->get('secret').$seed);
 	}
 
@@ -808,12 +837,15 @@ class JApplication extends JObject
 	{
 		$options = array();
 		$options['name'] = $name;
-		switch($this->_clientId) {
+
+		switch($this->_clientId)
+		{
 			case 0:
 				if ($this->getCfg('force_ssl') == 2) {
 					$options['force_ssl'] = true;
 				}
 				break;
+
 			case 1:
 				if ($this->getCfg('force_ssl') >= 1) {
 					$options['force_ssl'] = true;
@@ -908,7 +940,8 @@ class JApplication extends JObject
 	 * @since	1.5
 	 * @static
 	 */
-	static function isWinOS() {
+	static function isWinOS()
+	{
 		return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
 	}
 
@@ -921,6 +954,7 @@ class JApplication extends JObject
 	public function __toString()
 	{
 		$compress = $this->getCfg('gzip', false);
+
 		return JResponse::toString($compress);
 	}
 }

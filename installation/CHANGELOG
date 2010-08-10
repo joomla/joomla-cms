@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Aug-2010 Andrew Eddie
+ # Fixed issue [#21623] 303 redirections cause page subresources to be reloaded on WebKit browsers (Nicholas Dionysopoulos).
+
 10-Aug-2010 Jean-Marie Simonet
  # [#21787] weblinks - provide specific params for categories (Bill and JM)
  # [#21783] Single newsfeed layout on drill down is using title not name. Thanks Elin.
