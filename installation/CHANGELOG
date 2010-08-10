@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed issue [#21648] No e-mail sent to newly created users (via back-end) (Mārcis Kaksis).
  # Fixed issue [#21601] JDatabaseQuery fails on delete (Harald Leithner, Omar Ramos).
  # Fixed issue [#21600] single article - sef routing issues (bill richardson, Mathavan Jeyadev).
+ # Fixed issue [#21672] Fix a number of issues in the single newsfeed view (Elin Waring).
 
 -------------------- 1.6.0 Beta7 Release [09-Aug-2010] ------------------
 
