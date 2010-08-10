@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Aug-2010 Jean-Marie Simonet
  # [#21787] weblinks - provide specific params for categories (Bill and JM)
+ # [#21783] Single newsfeed layout on drill down is using title not name. Thanks Elin.
 
 10-Aug-2010 Andrew Eddie
  # Fixed issue [#21648] No e-mail sent to newly created users (via back-end) (Mārcis Kaksis).

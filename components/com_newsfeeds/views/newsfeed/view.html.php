@@ -210,7 +210,7 @@ class NewsfeedsViewNewsfeed extends JView
 
 		if ($menu && $menu->query['view'] != 'newsfeed') {
 			$id = (int) @$menu->query['id'];
-			$path = array($this->item->title  => '');
+			$path = array($this->item->name  => '');
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
 
 			while ($id != $category->id && $category->id > 1)
