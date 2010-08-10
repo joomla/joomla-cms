@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 10-Aug-2010 Andrew Eddie
  # Fixed issue [#21648] No e-mail sent to newly created users (via back-end) (Mārcis Kaksis).
+ # Fixed issue [#21601] JDatabaseQuery fails on delete (Harald Leithner, Omar Ramos).
 
 -------------------- 1.6.0 Beta7 Release [09-Aug-2010] ------------------
 
