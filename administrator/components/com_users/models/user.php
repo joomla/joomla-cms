@@ -22,22 +22,25 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	type	$type	The table type to instantiate
+	 * @param	string	$prefix	A prefix for the table class name. Optional.
+	 * @param	array	$config	Configuration array for model. Optional.
+	 *
 	 * @return	JTable	A database object
 	 * @since	1.6
 	*/
 	public function getTable($type = 'User', $prefix = 'JTable', $config = array())
 	{
 		$table = JTable::getInstance($type, $prefix, $config);
+
 		return $table;
 	}
 
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	The id of the primary key.
+	 * @param	integer	$pk		The id of the primary key.
+	 *
 	 * @return	mixed	Object on success, false on failure.
 	 * @since	1.6
 	 */
@@ -113,6 +116,8 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @param	object	A form object.
 	 * @param	mixed	The data expected for the form.
+	 *
+	 * @return	void
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
@@ -124,90 +129,34 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param	array	$data	The form data.
+	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
 	public function save($data)
 	{
 		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
-		$table		= $this->getTable();
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-		$isNew		= true;
-
-		// Include the content plugins for events.
-		JPluginHelper::importPlugin('user');
-
-		// Load the row if saving an existing record.
-		if ($pk > 0) {
-			$table->load($pk);
-			$isNew = false;
-		}
-
-		// The password field is a special case.
-		if (!empty($data['password'])) {
-			// Generate a password hash.
-			jimport('joomla.user.helper');
-			$salt  = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($data['password'], $salt);
-			$data['password'] = $crypt.':'.$salt;
-		} else {
-			// Do nothing to the password field.
-			unset($data['password']);
-		}
+		$user		= JUser::getInstance($pk);
 
 		// Bind the data.
-		if (!$table->bind($data)) {
-			$this->setError($table->getError());
+		if (!$user->bind($data)) {
+			$this->setError($user->getError());
 			return false;
 		}
 
-		// Prepare the row for saving.
-		$this->prepareTable($table);
-
-		// Check the data.
-		if (!$table->check()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Get the old user.
-		$old = JUser::getInstance($table->id);
-
-		// Merge the table back into the raw data for plugin processing.
-		$data = array_merge($data, $table->getProperties(true));
-
-		// Trigger the onUserBeforeSave event.
-		$result = $dispatcher->trigger('onUserBeforeSave', array($old->getProperties(true), $isNew, $data));
-		if (in_array(false, $result, true)) {
-			$this->setError($table->getError());
-			return false;
-		}
+		// Bind the groups
+		// Note, we need to flip the array because the JUser object expects a groupdId => groupName format.
+		$user->groups = array_flip($data['groups']);
 
 		// Store the data.
-		if (!$table->store()) {
-			$this->setError($table->getError());
+		if (!$user->save()) {
+			$this->setError($user->getError());
 			return false;
 		}
 
-		// Insert the ID into the data if this is a new user.
-		// Otherwise the AfterSave plugins won't work.
-		if ($isNew) {
-			$data['id'] = $table->id;
-		}
-
-		$user = JFactory::getUser();
-		if ($user->id == $table->id) {
-			$registry = new JRegistry;
-			$registry->loadJSON($table->params);
-			$user->setParameters($registry);
-		}
-
-		// Trigger the onAftereStoreUser event
-		$dispatcher->trigger('onUserAfterSave', array($data, $isNew, true, null));
-
-		$this->setState('user.id', $table->id);
+		$this->setState('user.id', $user->id);
 
 		return true;
 	}
@@ -215,7 +164,8 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param	array	An array of item ids.
+	 * @param	array	$pks	An array of item ids.
+	 *
 	 * @return	boolean	Returns true on success, false on failure.
 	 * @since	1.6
 	 */
@@ -236,7 +186,8 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk) {
+		foreach ($pks as $i => $pk)
+		{
 			if ($table->load($pk)) {
 				// Access checks.
 				$allow = $user->authorise('core.edit.state', 'com_users');
@@ -255,12 +206,14 @@ class UsersModelUser extends JModelAdmin
 						// Trigger the onUserAfterDelete event.
 						$dispatcher->trigger('onUserAfterDelete', array($user->getProperties(), true, $this->getError()));
 					}
-				} else {
+				}
+				else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
-			} else {
+			}
+			else {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -272,8 +225,8 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Method to block user records.
 	 *
-	 * @param	array	The ids of the items to publish.
-	 * @param	int		The value of the published state
+	 * @param	array	$pks	The ids of the items to publish.
+	 * @param	int		$value	The value of the published state
 	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
@@ -290,13 +243,15 @@ class UsersModelUser extends JModelAdmin
 		JPluginHelper::importPlugin('user');
 
 		// Access checks.
-		foreach ($pks as $i => $pk) {
+		foreach ($pks as $i => $pk)
+		{
 			if ($value == 1 && $pk == $user->get('id')) {
 				// Cannot block yourself.
 				unset($pks[$i]);
 				JError::raiseWarning(403, JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
 
-			} else if ($table->load($pk)) {
+			}
+			else if ($table->load($pk)) {
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
 
@@ -329,7 +284,8 @@ class UsersModelUser extends JModelAdmin
 					if ($value) {
 						$app->logout($table->id, $options);
 					}
-				} else {
+				}
+				else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
@@ -343,7 +299,7 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Method to activate user records.
 	 *
-	 * @param	array	The ids of the items to activate.
+	 * @param	array	$pks	The ids of the items to activate.
 	 *
 	 * @return	boolean	True on success.
 	 * @since	1.6
@@ -357,7 +313,8 @@ class UsersModelUser extends JModelAdmin
 		$pks		= (array) $pks;
 
 		// Access checks.
-		foreach ($pks as $i => $pk) {
+		foreach ($pks as $i => $pk)
+		{
 			if ($table->load($pk)) {
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
@@ -365,7 +322,8 @@ class UsersModelUser extends JModelAdmin
 				if (empty($table->activation)) {
 					// Ignore activated accounts.
 					unset($pks[$i]);
-				} else if ($allow) {
+				}
+				else if ($allow) {
 					$table->block		= 0;
 					$table->activation	= '';
 
@@ -385,7 +343,8 @@ class UsersModelUser extends JModelAdmin
 
 					// Fire the onAftereStoreUser event
 					$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
-				} else {
+				}
+				else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
@@ -399,8 +358,8 @@ class UsersModelUser extends JModelAdmin
 	/**
 	 * Perform batch operations
 	 *
-	 * @param	array	An array of variable for the batch operation
-	 * @param	array	An array of IDs on which to operate
+	 * @param	array	$config		An array of variable for the batch operation
+	 * @param	array	$user_ids	An array of IDs on which to operate
 	 * @since	1.6
 	 */
 	public function batch($config, $user_ids)
@@ -408,14 +367,17 @@ class UsersModelUser extends JModelAdmin
 		// Ensure there are selected users to operate on.
 		if (empty($user_ids)) {
 			$this->setError(JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+
 			return false;
-		} else if (!empty($config)) {
+		}
+		else if (!empty($config)) {
 			// Only run operations if a config array is present.
 			// Ensure there is a valid group.
 			$group_id = JArrayHelper::getValue($config, 'group_id', 0, 'int');
 
 			if ($group_id < 1) {
 				$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
+
 				return false;
 			}
 
@@ -424,7 +386,8 @@ class UsersModelUser extends JModelAdmin
 			$oldAclMode = $acl->setCheckMode(1);
 
 			$groupLogic	= JArrayHelper::getValue($config, 'group_logic');
-			switch ($groupLogic) {
+			switch ($groupLogic)
+			{
 				case 'set':
 					$doDelete		= 2;
 					$doAssign		= true;
@@ -450,7 +413,8 @@ class UsersModelUser extends JModelAdmin
 						'DELETE FROM `#__user_usergroup_map`' .
 						' WHERE `user_id` IN ('.implode(',', $user_ids).')'
 					);
-				} else {
+				}
+				else {
 					// Remove the users from the group.
 					$this->_db->setQuery(
 						'DELETE FROM `#__user_usergroup_map`' .
@@ -462,6 +426,7 @@ class UsersModelUser extends JModelAdmin
 				// Check for database errors.
 				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
@@ -470,7 +435,8 @@ class UsersModelUser extends JModelAdmin
 			if ($doAssign) {
 				// Build the tuples array for the assignment query.
 				$tuples = array();
-				foreach ($user_ids as $id) {
+				foreach ($user_ids as $id)
+				{
 					$tuples[] = '('.$id.','.$group_id.')';
 				}
 
@@ -502,6 +468,7 @@ class UsersModelUser extends JModelAdmin
 	public function getGroups()
 	{
 		$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+
 		return $model->getItems();
 	}
 
@@ -522,7 +489,8 @@ class UsersModelUser extends JModelAdmin
 			if ($groupId = $config->get('new_usertype')) {
 				$result[$groupId] = null;
 			}
-		} else {
+		}
+		else {
 			jimport('joomla.user.helper');
 			$result = JUserHelper::getUserGroups($userId);
 		}
