@@ -15,7 +15,7 @@ jimport('joomla.application.categories');
  *
  * @param	array	An array of URL arguments
  * @return	array	The URL arguments to use to assemble the subsequent URL.
- * @since	1.6
+ * @since	1.5
  */
 function ContentBuildRoute(&$query)
 {
@@ -29,7 +29,8 @@ function ContentBuildRoute(&$query)
 
 	if (empty($query['Itemid'])) {
 		$menuItem = $menu->getActive();
-	} else {
+	}
+	else {
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
@@ -45,53 +46,47 @@ function ContentBuildRoute(&$query)
 		unset($query['view']);
 	};
 
-	// are we dealing with an article that is attached to a menu item?
-	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == intval($query['id']))) {
-		unset($query['view']);
-		unset($query['catid']);
-		unset($query['id']);
-		return $segments;
-	}
-
 	if (isset($view) && $view == 'article' && isset($query['catid'])) {
 		$catid = $query['catid'];
-	} elseif (isset($view) && $view != 'article' && isset($query['id'])) {
+	}
+	elseif (isset($view) && $view != 'article' && isset($query['id'])) {
 		$catid = $query['id'];
-	} else {
+	}
+	else {
 		$catid = false;
 	}
+
 	if (isset($view) and ($view == 'category' or $view == 'article') and $catid) {
-		if ($mId != intval($query['id']) || $mView != $view) {
-			$menuCatid = $mId;
-			$categories = JCategories::getInstance('Content');
-			$category = $categories->get($catid);
-			if ($category)
+		$menuCatid = $mId;
+		$categories = JCategories::getInstance('Content');
+		$category = $categories->get($catid);
+
+		if ($category) {
+			//TODO Throw error that the category either not exists or is unpublished
+			$path = array_reverse($category->getPath());
+
+			$array = array();
+			foreach($path as $id)
 			{
-				//TODO Throw error that the category either not exists or is unpublished
-				$path = array_reverse($category->getPath());
-
-				$array = array();
-				foreach($path as $id) {
-					if ((int) $id == (int)$menuCatid) {
-						break;
-					}
-					if ($advanced) {
-						list($tmp, $id) = explode(':', $id, 2);
-					}
-					$array[] = $id;
-				}
-
-				$segments = array_merge($segments, array_reverse($array));
-			}
-			if ($view == 'article') {
 				if ($advanced) {
-					list($tmp, $id) = explode(':', $query['id'], 2);
-				} else {
-					$id = $query['id'];
+					list($tmp, $id) = explode(':', $id, 2);
 				}
-				$segments[] = $id;
+				$array[] = $id;
 			}
+
+			$segments = array_merge($segments, array_reverse($array));
 		}
+
+		if ($view == 'article') {
+			if ($advanced) {
+				list($tmp, $id) = explode(':', $query['id'], 2);
+			}
+			else {
+				$id = $query['id'];
+			}
+			$segments[] = $id;
+		}
+
 		unset($query['id']);
 		unset($query['catid']);
 	}
@@ -116,15 +111,15 @@ function ContentBuildRoute(&$query)
 
 				unset($query['layout']);
 			}
-		} else {
+		}
+		else {
 			if ($query['layout'] == 'default') {
 				unset($query['layout']);
 			}
 		}
 	}
 
-	if(isset($query['id']))
-	{
+	if (isset($query['id'])) {
 		$segments[] = $query['id'];
 		unset($query['id']);
 	}
@@ -138,6 +133,7 @@ function ContentBuildRoute(&$query)
  * @param	array	The segments of the URL to parse.
  *
  * @return	array	The URL attributes to be used by the application.
+ * @since	1.5
  */
 function ContentParseRoute($segments)
 {
@@ -157,80 +153,63 @@ function ContentParseRoute($segments)
 	if (!isset($item)) {
 		$vars['view']	= $segments[0];
 		$vars['id']		= $segments[$count - 1];
+
 		return $vars;
 	}
 
 	// Handle View and Identifier.
-	switch ($item->query['view']) {
+	$id = 'root';
+	$category = JCategories::getInstance('Content')->get($id);
 
-		case 'categories':
-		case 'category':
-		case 'featured':
-			// From the categories view, we can only jump to a category.
-			$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
-			$category = JCategories::getInstance('Content')->get($id);
+	if (!$category) {
+		die('The category is not published or does not exist');
+		//TODO Throw error that the category either not exists or is unpublished
+	}
 
-			if (!$category) {
-				die('The category is not published or does not exist');
-				//TODO Throw error that the category either not exists or is unpublished
+	$categories = $category->getChildren();
+	$vars['catid'] = $id;
+	$vars['id'] = $id;
+	$found = 0;
+
+	foreach($segments as $segment)
+	{
+		$segment = $advanced ? str_replace(':', '-',$segment) : $segment;
+		foreach($categories as $category)
+		{
+			if ($category->slug == $segment || $category->alias == $segment) {
+				$vars['id'] = $category->id;
+				$vars['catid'] = $category->id;
+				$vars['view'] = 'category';
+				$categories = $category->getChildren();
+				$found = 1;
+				break;
+			}
+		}
+
+		if ($found == 0) {
+			if ($advanced) {
+				$db = JFactory::getDBO();
+				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+				$db->setQuery($query);
+				$cid = $db->loadResult();
+			}
+			else {
+				$cid = $segment;
 			}
 
-			$categories = $category->getChildren();
-			$vars['catid'] = $id;
-			$vars['id'] = $id;
-			$found = 0;
+			$vars['id'] = $cid;
 
-			foreach($segments as $segment) {
-
-				$segment = $advanced ? str_replace(':', '-',$segment) : $segment;
-				foreach($categories as $category) {
-					if ($category->slug == $segment || $category->alias == $segment) {
-						$vars['id'] = $category->id;
-						$vars['catid'] = $category->id;
-						$vars['view'] = 'category';
-						$categories = $category->getChildren();
-						$found = 1;
-						break;
-					}
-				}
-
-				if ($found == 0) {
-					if ($advanced) {
-						$db = JFactory::getDBO();
-						$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
-						$db->setQuery($query);
-						$cid = $db->loadResult();
-					} else {
-						$cid = $segment;
-					}
-					$vars['id'] = $cid;
-					$vars['view'] = 'article';
-				}
-				$found = 0;
-			}
-			break;
-
-		case 'featured':
-			$vars['id']		= $segments[$count-1];
-			$vars['view']	= 'article';
-			break;
-
-		case 'archive':
-			if ($count != 1) {
+			if ($item->query['view'] == 'archive' && $count != 1){
 				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
 				$vars['month'] = $segments[$count-1];
 				$vars['view']	= 'archive';
-			} else {
-				$vars['id']		= $segments[$count-1];
+			}
+			else {
 				$vars['view'] = 'article';
 			}
-			break;
+		}
 
-		case 'article':
-			if ($count == 1) {
-				$vars['id']		= $segments[0];
-			}
-			break;
+		$found = 0;
 	}
 
 	return $vars;
