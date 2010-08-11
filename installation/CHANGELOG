@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Aug-2010 Jean-Marie Simonet
+ # [#21807] newsfeeds - implement drilldown from categories (Bill and JM)
+
 10-Aug-2010 Andrew Eddie
  # Fixed issue [#21623] 303 redirections cause page subresources to be reloaded on WebKit browsers (Nicholas Dionysopoulos).
 

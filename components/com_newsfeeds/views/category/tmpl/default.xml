@@ -28,20 +28,22 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+		<field name="subslider" type="spacer"
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			/>
 			
 		<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				
-			>
+				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>
+			</field>
 			
 			<field name="show_description" type="list"
-				description="JGLOBAL_Show_Category_Description_Desc"
-				label="JGLOBAL_Show_Category_Description_Label"
+				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -49,8 +51,8 @@
 			</field>
 
 			<field name="show_description_image" type="list"
-				description="JGLOBAL_Show_Category_Image_Desc"
-				label="JGLOBAL_Show_Category_Image_Label"
+				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -72,8 +74,8 @@
 			</field>
 
 			<field name="show_empty_categories" type="list"
-				label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_EMPTY_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_EMPTY_DESC"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -81,107 +83,98 @@
 			</field>
 			
 			<field name="show_subcat_desc" type="list"
-			label="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_SUBCAT_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CATEGORY_SUBCAT_DESC"			
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>			
-			</field>
-		
-			<field
-			id="show_cat_items"
-			name="show_cat_items"
-			type="list"
-			
-			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC">
-			
-			<option value="">JGLOBAL_USE_GLOBAL</option>
+				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>	
+			</field>
+		
+			<field id="show_cat_items"
+				name="show_cat_items"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>	
 			
 	</fieldset>
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			
-			<field
-			name="show_pagination_limit"
-			type="list"
-			
-			label="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_LABEL"
-			description="COM_NEWSFEEDS_FIELD_DISPLAY_SELECT_DESC">
-			
+			<field name="subslider" type="spacer"
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			/>
+			<field name="show_pagination_limit"
+				type="list"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				description="JGLOBAL_DISPLAY_SELECT_DESC"
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>
+			</field>
 		
-		<field
-			id="show_headings"
-			name="show_headings"
-			type="list"
-			
-			label="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_TABLE_HEADINGS_DESC">
+			<field
+				id="show_headings"
+				name="show_headings"
+				type="list"
+				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+				description="JGLOBAL_SHOW_HEADINGS_DESC">
 			
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>	
+			</field>	
 
-		<field
-			id="show_articles"
-			name="show_articles"
-			type="list"
+			<field
+				id="show_articles"
+				name="show_articles"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
+				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC">
 			
-			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC">
-			
-			<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>
+			</field>
 
-		<field
-			id="show_link"
-			name="show_link"
-			type="list"
+			<field
+				id="show_link"
+				name="show_link"
+				type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC">
 			
-			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC">
-			
-			<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>
+			</field>
 	 		
-		<field name="show_pagination"
-			type="list"
-			
-			label="JGLOBAL_PAGINATION_LABEL"
-			description="JGLOBAL_PAGINATION_DESC">
+			<field name="show_pagination"
+				type="list"
+				label="JGLOBAL_PAGINATION_LABEL"
+				description="JGLOBAL_PAGINATION_DESC">
 			
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
-		</field>
+			</field>
 
 			<field
 				name="show_pagination_results"
 				type="list"
-				
-				label="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_PAGINATION_RESULTS_DESC">
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				description="JGLOBAL_PAGINATION_RESULTS_DESC">
 				
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				
-			</field>		
-			
-
+			</field>
 			
 	</fieldset>
 
