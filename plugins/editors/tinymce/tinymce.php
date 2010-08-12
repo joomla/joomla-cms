@@ -336,7 +336,6 @@ class plgEditorTinymce extends JPlugin
 		// blockquote
 		$blockquote	= $this->params->def( 'blockquote', 1 );
 		if ( $blockquote ) {
-			$plugins[] = 'blockquote';
 			$buttons4[] = 'blockquote';
 		}
 
@@ -367,7 +366,13 @@ class plgEditorTinymce extends JPlugin
 			$plugins[]	= 'advlink';
 			$elements[]	= 'a[id|class|name|href|target|title|onclick|rel|style]';
 		}
-
+		
+		//advlist
+		$advlist	= $this->params->def('advlist', 1);
+		if ($advlist) {
+			$plugins[]	= 'advlist';
+		}
+		
 		// autosave
 		$autosave = $this->params->def('autosave', 1);
 		if ($autosave) {
@@ -387,12 +392,6 @@ class plgEditorTinymce extends JPlugin
 			$dialog_type = "dialog_type : \"modal\",";
 		} else {
 			$dialog_type = "";
-		}
-
-		// Safari compatibility
-		$safari	= $this->params->def('safari', 0);
-		if ($safari) {
-			$plugins[]	= 'safari';
 		}
 
 		$custom_plugin = $this->params->def('custom_plugin', '');
@@ -709,7 +708,7 @@ class plgEditorTinymce extends JPlugin
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
-                    $onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';
+					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';
 					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$button->get('text')."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";
 				}
 			}

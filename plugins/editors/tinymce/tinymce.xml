@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.6" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
-	<version>3.2.7</version>
-	<creationDate>2005-2009</creationDate>
+	<version>3.3.8</version>
+	<creationDate>2005-2010</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl>tinymce.moxiecode.com/</authorUrl>
@@ -18,7 +18,7 @@
 
 			<fieldset name="basic">
 				<field name="mode" type="list"
-					default="1"
+					default="2"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
 					label="PLG_TINY_FIELD_FUNCTIONALITY_LABEL"
 				>
@@ -210,7 +210,7 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="extended" type="spacer"
+				<field name="subslider" type="spacer"
 					label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
 				/>
 
@@ -427,6 +427,15 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
+				
+				<field name="advlist" type="radio"
+					default="1"
+					description="PLG_TINY_FIELD_ADVLIST_DESC"
+					label="PLG_TINY_FIELD_ADVLIST_LABEL"
+				>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
+				</field>
 
 				<field name="autosave" type="radio"
 					default="1"
@@ -448,15 +457,6 @@
 					default="1"
 					description="PLG_TINY_FIELD_INLINEPOPUPS_DESC"
 					label="PLG_TINY_FIELD_INLINEPOPUPS_LABEL"
-				>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
-
-				<field name="safari" type="radio"
-					default="0"
-					description="PLG_TINY_FIELD_SAFARI_DESC"
-					label="PLG_TINY_FIELD_SAFARI_LABEL"
 				>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>

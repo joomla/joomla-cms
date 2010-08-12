@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -12,7 +15,7 @@
 
 			t.editor = ed;
 
-			// Force absolute CSS urls
+			// Force absolute CSS urls	
 			tinymce.each(css, function(u, k) {
 				css[k] = ed.documentBaseURI.toAbsolute(u);
 			});

@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -82,7 +85,7 @@
 			rep(/&gt;/gi,">");
 			rep(/&amp;/gi,"&");
 
-			return s;
+			return s; 
 		},
 
 		// BBCode -> HTML from PunBB dialect
@@ -108,7 +111,7 @@
 			rep(/\[code\](.*?)\[\/code\]/gi,"<span class=\"codeStyle\">$1</span>&nbsp;");
 			rep(/\[quote.*?\](.*?)\[\/quote\]/gi,"<span class=\"quoteStyle\">$1</span>&nbsp;");
 
-			return s;
+			return s; 
 		}
 	});
 

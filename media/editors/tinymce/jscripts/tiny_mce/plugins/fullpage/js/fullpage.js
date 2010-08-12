@@ -1,8 +1,18 @@
+/**
+ * fullpage.js
+ *
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
+ */
+
 tinyMCEPopup.requireLangPack();
 
 var doc;
 
-var defaultDocTypes =
+var defaultDocTypes = 
 	'XHTML 1.0 Transitional=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">,' +
 	'XHTML 1.0 Frameset=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">,' +
 	'XHTML 1.0 Strict=<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">,' +
@@ -11,7 +21,7 @@ var defaultDocTypes =
 	'HTML 4.01 Strict=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">,' +
 	'HTML 4.01 Frameset=<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">';
 
-var defaultEncodings =
+var defaultEncodings = 
 	'Western european (iso-8859-1)=iso-8859-1,' +
 	'Central European (iso-8859-2)=iso-8859-2,' +
 	'Unicode (UTF-8)=utf-8,' +
@@ -22,7 +32,7 @@ var defaultEncodings =
 	'Korean (iso-2022-kr)=iso-2022-kr,' +
 	'ASCII (us-ascii)=us-ascii';
 
-var defaultMediaTypes =
+var defaultMediaTypes = 
 	'all=all,' +
 	'screen=screen,' +
 	'print=print,' +
@@ -114,7 +124,7 @@ function init() {
 	// Preprocess the HTML disable scripts and urls
 	h = h.replace(/<script>/gi, '<script type="text/javascript">');
 	h = h.replace(/type=([\"\'])?/gi, 'type=$1-mce-');
-	h = h.replace(/(src=|href=)/g, 'mce_$1');
+	h = h.replace(/(src=|href=)/g, '_mce_$1');
 
 	// Write in the content in the iframe
 	doc.write(h + '</body></html>');
@@ -170,7 +180,7 @@ function init() {
 		var m = l.getAttribute('media', 2) || '', t = l.getAttribute('type', 2) || '';
 
 		if (t == "-mce-text/css" && (m == "" || m == "screen" || m == "all") && (l.getAttribute('rel', 2) || '') == "stylesheet") {
-			f.stylesheet.value = l.getAttribute('mce_href', 2) || '';
+			f.stylesheet.value = l.getAttribute('_mce_href', 2) || '';
 			return false;
 		}
 	});
@@ -268,8 +278,8 @@ function updateAction() {
 	// Fix scripts without a type
 	nl = doc.getElementsByTagName('script');
 	for (i=0; i<nl.length; i++) {
-		if (tinyMCEPopup.dom.getAttrib(nl[i], 'mce_type') == '')
-			nl[i].setAttribute('mce_type', 'text/javascript');
+		if (tinyMCEPopup.dom.getAttrib(nl[i], '_mce_type') == '')
+			nl[i].setAttribute('_mce_type', 'text/javascript');
 	}
 
 	// Get primary stylesheet
@@ -279,13 +289,13 @@ function updateAction() {
 
 		tmp = tinyMCEPopup.dom.getAttrib(l, 'media');
 
-		if (tinyMCEPopup.dom.getAttrib(l, 'mce_type') == "text/css" && (tmp == "" || tmp == "screen" || tmp == "all") && tinyMCEPopup.dom.getAttrib(l, 'rel') == "stylesheet") {
+		if (tinyMCEPopup.dom.getAttrib(l, '_mce_type') == "text/css" && (tmp == "" || tmp == "screen" || tmp == "all") && tinyMCEPopup.dom.getAttrib(l, 'rel') == "stylesheet") {
 			addlink = false;
 
 			if (f.stylesheet.value == '')
 				l.parentNode.removeChild(l);
 			else
-				l.setAttribute('mce_href', f.stylesheet.value);
+				l.setAttribute('_mce_href', f.stylesheet.value);
 
 			break;
 		}
@@ -296,7 +306,7 @@ function updateAction() {
 		l = doc.createElement('link');
 
 		l.setAttribute('type', 'text/css');
-		l.setAttribute('mce_href', f.stylesheet.value);
+		l.setAttribute('_mce_href', f.stylesheet.value);
 		l.setAttribute('rel', 'stylesheet');
 
 		head.appendChild(l);

@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -83,18 +86,6 @@
 			ed.addButton('ins', {title : 'xhtmlxtras.ins_desc', cmd : 'mceIns'});
 			ed.addButton('attribs', {title : 'xhtmlxtras.attribs_desc', cmd : 'mceAttributes'});
 
-			if (tinymce.isIE) {
-				function fix(ed, o) {
-					if (o.set) {
-						o.content = o.content.replace(/<abbr([^>]+)>/gi, '<html:abbr $1>');
-						o.content = o.content.replace(/<\/abbr>/gi, '</html:abbr>');
-					}
-				};
-
-				ed.onBeforeSetContent.add(fix);
-				ed.onPostProcess.add(fix);
-			}
-
 			ed.onNodeChange.add(function(ed, cm, n, co) {
 				n = ed.dom.getParent(n, 'CITE,ACRONYM,ABBR,DEL,INS');
 
@@ -117,6 +108,11 @@
 						cm.setActive(n.nodeName.toLowerCase(), 1);
 					} while (n = n.parentNode);
 				}
+			});
+
+			ed.onPreInit.add(function() {
+				// Fixed IE issue where it can't handle these elements correctly
+				ed.dom.create('abbr');
 			});
 		},
 

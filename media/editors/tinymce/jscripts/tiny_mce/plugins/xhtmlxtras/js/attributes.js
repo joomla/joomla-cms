@@ -1,8 +1,11 @@
- /**
- * $Id$
+/**
+ * attributes.js
  *
- * @author Moxiecode - based on work by Andrew Tetlaw
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 function init() {
@@ -50,7 +53,7 @@ function insertAction() {
 	var inst = tinyMCEPopup.editor;
 	var elm = inst.selection.getNode();
 
-	tinyMCEPopup.execCommand("mceBeginUndoLevel");
+	tinyMCEPopup.execCommand("mceBeginUndoLevel");	
 	setAllAttribs(elm);
 	tinyMCEPopup.execCommand("mceEndUndoLevel");
 	tinyMCEPopup.close();

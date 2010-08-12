@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -16,7 +19,7 @@
 			var t = this, last = 0;
 
 			t.countre = ed.getParam('wordcount_countregex', /\S\s+/g);
-			t.cleanre = ed.getParam('wordcount_cleanregex', /[0-9.(),;:!?%#$¿'"_+=\\/-]*/g);
+			t.cleanre = ed.getParam('wordcount_cleanregex', /[0-9.(),;:!?%#$¿'"_+=\\\/-]*/g);
 			t.id = ed.id + '-word-count';
 
 			ed.onPostRender.add(function(ed, cm) {

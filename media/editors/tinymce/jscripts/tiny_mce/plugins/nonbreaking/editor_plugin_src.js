@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -14,7 +17,7 @@
 
 			// Register commands
 			ed.addCommand('mceNonBreaking', function() {
-				ed.execCommand('mceInsertContent', false, (ed.plugins.visualchars && ed.plugins.visualchars.state) ? '<span class="mceItemHidden mceVisualNbsp">&middot;</span>' : '&nbsp;');
+				ed.execCommand('mceInsertContent', false, (ed.plugins.visualchars && ed.plugins.visualchars.state) ? '<span _mce_bogus="1" class="mceItemHidden mceItemNbsp">&nbsp;</span>' : '&nbsp;');
 			});
 
 			// Register buttons

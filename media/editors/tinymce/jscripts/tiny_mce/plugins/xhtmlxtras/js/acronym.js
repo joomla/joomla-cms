@@ -1,8 +1,11 @@
- /**
- * $Id$
+/**
+ * acronym.js
  *
- * @author Moxiecode - based on work by Andrew Tetlaw
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 function init() {

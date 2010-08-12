@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -11,7 +14,7 @@
 	tinymce.create('tinymce.plugins.MediaPlugin', {
 		init : function(ed, url) {
 			var t = this;
-
+			
 			t.editor = ed;
 			t.url = url;
 
@@ -222,7 +225,7 @@
 
 		_buildObj : function(o, n) {
 			var ob, ed = this.editor, dom = ed.dom, p = this._parse(n.title), stc;
-
+			
 			stc = ed.getParam('media_strict', true) && o.type == 'application/x-shockwave-flash';
 
 			p.width = o.width = dom.getAttrib(n, 'width') || 100;
@@ -234,7 +237,7 @@
 			if (stc) {
 				ob = dom.create('span', {
 					id : p.id,
-					mce_name : 'object',
+					_mce_name : 'object',
 					type : 'application/x-shockwave-flash',
 					data : p.src,
 					style : dom.getAttrib(n, 'style'),
@@ -244,7 +247,7 @@
 			} else {
 				ob = dom.create('span', {
 					id : p.id,
-					mce_name : 'object',
+					_mce_name : 'object',
 					classid : "clsid:" + o.classid,
 					style : dom.getAttrib(n, 'style'),
 					codebase : o.codebase,
@@ -260,12 +263,12 @@
 						k = 'url';
 
 					if (v)
-						dom.add(ob, 'span', {mce_name : 'param', name : k, '_mce_value' : v});
+						dom.add(ob, 'span', {_mce_name : 'param', name : k, '_mce_value' : v});
 				}
 			});
 
 			if (!stc)
-				dom.add(ob, 'span', tinymce.extend({mce_name : 'embed', type : o.type, style : dom.getAttrib(n, 'style')}, p));
+				dom.add(ob, 'span', tinymce.extend({_mce_name : 'embed', type : o.type, style : dom.getAttrib(n, 'style')}, p));
 
 			return ob;
 		},
@@ -304,7 +307,7 @@
 						default:
 							dom.replace(t._createImg('mceItemFlash', n), n);
 					}
-
+					
 					return;
 				}
 
@@ -334,14 +337,14 @@
 						default:
 							dom.replace(t._createImg('mceItemFlash', n), n);
 					}
-				}
+				}			
 			});
 		},
 
 		_createImg : function(cl, n) {
 			var im, dom = this.editor.dom, pa = {}, ti = '', args;
 
-			args = ['id', 'name', 'width', 'height', 'bgcolor', 'align', 'flashvars', 'src', 'wmode', 'allowfullscreen', 'quality', 'data'];
+			args = ['id', 'name', 'width', 'height', 'bgcolor', 'align', 'flashvars', 'src', 'wmode', 'allowfullscreen', 'quality', 'data'];	
 
 			// Create image
 			im = dom.create('img', {

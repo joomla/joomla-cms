@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -82,7 +85,7 @@
 					if (s)
 						dom.addClass(e, 'mceItemVisualAid');
 					else
-						dom.removeClass(e, 'mceItemVisualAid');
+						dom.removeClass(e, 'mceItemVisualAid');	
 				}
 			});
 		},
@@ -93,7 +96,7 @@
 			nl = [];
 			tinymce.walk(ed.getBody(), function(n) {
 				if (n.nodeType == 1 && /^(absolute|relative|static)$/i.test(n.style.position))
-					nl.push(n);
+					nl.push(n); 
 			}, 'childNodes');
 
 			// Find z-indexes

@@ -151,8 +151,8 @@ var ImageDialog = {
 			}
 
 			// Merge
-			st = tinyMCEPopup.dom.parseStyle(dom.serializeStyle(st));
-			this.styleVal = dom.serializeStyle(st);
+			st = tinyMCEPopup.dom.parseStyle(dom.serializeStyle(st), 'img');
+			this.styleVal = dom.serializeStyle(st, 'img');
 		}
 	},
 
@@ -218,7 +218,7 @@ var ImageDialog = {
 	resetImageData : function() {
 		var f = document.forms[0];
 
-		f.width.value = f.height.value = "";
+		f.width.value = f.height.value = "";	
 	},
 
 	updateImageData : function() {

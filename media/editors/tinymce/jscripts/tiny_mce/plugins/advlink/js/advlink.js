@@ -52,7 +52,7 @@ function init() {
 	if (elm != null && elm.nodeName == "A")
 		action = "update";
 
-	formObj.insert.value = tinyMCEPopup.getLang(action, 'Insert', true);
+	formObj.insert.value = tinyMCEPopup.getLang(action, 'Insert', true); 
 
 	setPopupControlsDisabled(true);
 
@@ -354,7 +354,7 @@ function setAttrib(elm, attrib, value) {
 
 	// Clean up the style
 	if (attrib == 'style')
-		value = dom.serializeStyle(dom.parseStyle(value));
+		value = dom.serializeStyle(dom.parseStyle(value), 'a');
 
 	dom.setAttrib(elm, attrib, value);
 }

@@ -1,8 +1,11 @@
 /**
- * $Id$
+ * editor_plugin_src.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -62,7 +65,7 @@
 
 					// Fixes an IE bug where the scrollbars doesn't reappear
 					if (tinymce.isIE && (s.fullscreen_html_overflow == 'visible' || s.fullscreen_html_overflow == 'scroll'))
-						s.fullscreen_html_overflow = 'auto';
+						s.fullscreen_html_overflow = 'auto'; 
 
 					if (s.fullscreen_overflow == '0px')
 						s.fullscreen_overflow = '';
@@ -107,16 +110,19 @@
 					});
 
 					t.fullscreenEditor.render();
-					tinyMCE.add(t.fullscreenEditor);
 
 					t.fullscreenElement = new tinymce.dom.Element('mce_fullscreen_container');
 					t.fullscreenElement.update();
 					//document.body.overflow = 'hidden';
 
 					t.resizeFunc = tinymce.dom.Event.add(DOM.win, 'resize', function() {
-						var vp = tinymce.DOM.getViewPort();
+						var vp = tinymce.DOM.getViewPort(), fed = t.fullscreenEditor, outerSize, innerSize;
 
-						t.fullscreenEditor.theme.resizeTo(vp.w, vp.h);
+						// Get outer/inner size to get a delta size that can be used to calc the new iframe size
+						outerSize = fed.dom.getSize(fed.getContainer().firstChild);
+						innerSize = fed.dom.getSize(fed.getContainer().getElementsByTagName('iframe')[0]);
+
+						fed.theme.resizeTo(vp.w - outerSize.w + innerSize.w, vp.h - outerSize.h + innerSize.h);
 					});
 				}
 			});
