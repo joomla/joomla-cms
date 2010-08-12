@@ -95,7 +95,28 @@ $app = JFactory::getApplication();
 
 	<!-- Status Module -->
 	<div id="module-status">
-		<jdoc:include type="modules" name="status"  />
+		<jdoc:include type="modules" name="status"/>
+		<?php
+			//Display an harcoded logout
+			$task = JRequest::getCmd('task');
+			if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
+				$logoutLink = '';
+			} else {
+				$logoutLink = JRoute::_('index.php?option=com_login&task=logout');
+			}
+			$hideLinks	= JRequest::getBool('hidemainmenu');
+			$output = array();
+			// Print the logout link.
+			$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
+			// Reverse rendering order for rtl display.
+			if ($this->direction == "rtl") :
+				$output = array_reverse($output);
+			endif;
+			// Output the items.
+			foreach ($output as $item) :
+			echo $item;
+			endforeach;
+		?>
 	</div>
 
 	<!-- Content Area -->

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Aug-2010 Jean-Marie Simonet
  ^ [#21690] filter order in extension manager:manage. Thanks Bill and Amy
+ # [#21609] Force admin logout button for all user levels
 
 11-Aug-2010 Jean-Marie Simonet
  # [#21807] newsfeeds - implement drilldown from categories (Bill and JM)

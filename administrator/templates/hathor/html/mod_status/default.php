@@ -31,9 +31,6 @@ endif;
 // Print the Preview link to Main site.
 	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('MOD_STATUS_VIEW_SITE')."</a></span>";
 
-// Print the logout link.
-	$output[] = "<span class=\"logout\"><a href=\"$logoutLink\">".JText::_('MOD_STATUS_LOG_OUT')."</a></span>";
-
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) :
 	$output = array_reverse($output);

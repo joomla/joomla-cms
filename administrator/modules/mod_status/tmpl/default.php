@@ -30,13 +30,6 @@ endif;
 // Print the Preview link to Main site.
 	$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('MOD_STATUS_VIEW_SITE').'</a></span>';
 
-// Print the logout link.
-	$output[] = '<span class="logout">' .
-			($hideLinks ? '' : '<a href="'.$logoutLink.'">').
-			JText::_('MOD_STATUS_LOG_OUT').
-			($hideLinks ? '' : '</a>').
-			'</span>';
-
 // Print the back-end logged in users.
 if ($params->get('show_loggedin_users_admin', 1)) :
 	$output[] = '<span class="backloggedin-users">'.$count.' '.JText::_('MOD_STATUS_BACKEND_USERS').'</span>';
