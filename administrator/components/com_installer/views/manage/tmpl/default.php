@@ -34,12 +34,12 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th class="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
-				</th>
-				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
-				</th>
+				</th>				
 				<th width="10%" class="center">
 					<?php echo JHTML::_('grid.sort', 'JENABLED', 'enabled', $listDirn, $listOrder); ?>
+				</th>
+                <th>
+					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="center">
 					<?php echo JText::_('JVERSION'); ?>
@@ -77,16 +77,16 @@ $listDirn	= $this->state->get('list.direction');
 				<td>
 					<span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>">
 						<?php echo $item->name; ?></span>
-				</td>
-				<td class="center">
-					<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
-				</td>
+				</td>				
 				<td class="center">
 					<?php if (!$item->element) : ?>
 					<strong>X</strong>
 					<?php else : ?>
 						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'manage.');?>
 					<?php endif; ?>
+				</td>
+                <td class="center">
+					<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 				</td>
 				<td class="center">
 					<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
