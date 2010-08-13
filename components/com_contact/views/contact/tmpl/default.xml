@@ -26,21 +26,6 @@
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 
-		<!-- Integration options. -->
-		<fieldset name="integration"
-		>
-
-			<field name="show_category_crumb" type="list"
-				description="COM_CONTACT_FIELD_BREADCRUMBS_DESC"
-				label="COM_CONTACT_FIELD_BREADCRUMBS_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-		</fieldset>
-
 		<!-- Basic options. -->
 		<fieldset name="params"
 			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"

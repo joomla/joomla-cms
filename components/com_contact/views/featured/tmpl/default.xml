@@ -27,23 +27,47 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
-<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field name="display_num" type="list"
-				description="COM_CONTACT_FIELD_NUM_CONTACTS_DESC"
-				label="COM_CONTACT_FIELD_NUM_CONTACTS_LABEL"
+	<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+			<field name="show_category_title"
+				type="list"
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="5">J5</option>
-				<option value="10">J10</option>
-				<option value="15">J15</option>
-				<option value="20">J20</option>
-				<option value="25">J25</option>
-				<option value="30">J30</option>
-				<option value="50">J50</option>
-				<option value="100">J100</option>
-				<option value="0">JALL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_description" type="list"
+				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_description_image" type="list"
+				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+	</fieldset>
+	
+	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+			
+			<field name="show_pagination_limit" type="list"
+				description="JGLOBAL_DISPLAY_SELECT_DESC"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>	
+			
 			<field name="show_headings" type="list"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
@@ -139,18 +163,23 @@
 			<option value="1">JSHOW</option>
 			<option value="2">JGLOBAL_AUTO</option>
 		</field>
-
-		<field name="show_noauth" type="list"
-			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
-			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JNo</option>
-			<option value="1">JYes</option>
+		
+		<field
+				name="show_pagination_results"
+				type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				description="JGLOBAL_PAGINATION_RESULTS_DESC">
+				
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				
 		</field>
-</fieldset>
 
-<fieldset name="contact" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
+	</fieldset>
+
+	<fieldset name="contact" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
+						
 			<field name="presentation_style" type="list"
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
@@ -343,9 +372,9 @@
 				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
 				size="30"
 			/>
-</fieldset>
-		<!-- Form options. -->
-		<fieldset name="Contact_Form" label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL">
+	</fieldset>
+
+	<fieldset name="Contact_Form" label="COM_CONTACT_FIELDSET_CONTACTFORM_LABEL">
 
 			<field name="show_email_form" type="list"
 				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
@@ -409,28 +438,7 @@
 				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 				size="30"
 			/>
-		</fieldset>
+	</fieldset>
 
-		<fieldset name="integration"
-		>
-
-			<field name="show_feed_link" type="list"
-				description="JGLOBAL_Show_Feed_Link_Desc"
-				label="JGLOBAL_Show_Feed_Link_Label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="feed_summary" type="list"
-				description="JGLOBAL_Feed_Summary_Desc"
-				label="JGLOBAL_Feed_Summary_Label"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JGLOBAL_INTRO_TEXT</option>
-				<option value="1">JGLOBAL_FULL_TEXT</option>
-			</field>
-		</fieldset>
 </fields>
 </metadata>

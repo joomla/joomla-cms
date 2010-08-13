@@ -132,16 +132,24 @@ class ContactViewContact extends JView
 				$params->set('marker_class',		'jicons-icons');
 				break;
 		}
+		
+		// Add links to contacts
+		if ($params->get('show_contact_list') && count($contacts) > 1) {
+			foreach($contacts as &$contact) {
+				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
+			}
+			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
+		}
 
 		JHtml::_('behavior.formvalidation');
 
 		$this->assignRef('contact',		$item);
 		$this->assignRef('params',		$params);
 		$this->assignRef('return',		$return);
-		$this->assignRef('state', $state);
-		$this->assignRef('item', $item);
-		$this->assignRef('user', $user);
-		$this->assignRef('contacts', $contacts);
+		$this->assignRef('state', 		$state);
+		$this->assignRef('item', 		$item);
+		$this->assignRef('user', 		$user);
+		$this->assignRef('contacts', 	$contacts);
 
 		$this->_prepareDocument();
 

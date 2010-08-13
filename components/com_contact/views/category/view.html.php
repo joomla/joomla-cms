@@ -122,7 +122,7 @@ class ContactViewCategory extends JView
 		$id = (int) @$menu->query['id'];
 		if($menu && $menu->query['view'] != 'contact' && $id != $this->category->id)
 		{
-			$this->params->set('page_subheading', $this->category->title);
+			
 			$path = array($this->category->title => '');
 			$category = $this->category->getParent();
 			while($id != $category->id && $category->id > 1)

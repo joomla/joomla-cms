@@ -3,6 +3,7 @@
 
 	<fieldset name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
+		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 	>
 		<field name="show_contact_category"
 			type="list"
@@ -20,8 +21,8 @@
 		<field name="show_contact_list"
 			type="radio"
 			default="0"
-			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
+				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -253,7 +254,10 @@
 			/>
 
 	</fieldset>
-	<fieldset name="Icons" label="COM_CONTACT_ICONS_SETTINGS">
+	<fieldset name="Icons"
+			 label="COM_CONTACT_ICONS_SETTINGS"
+			 description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
+			 >
 
 		<field name="contact_icons"
 			type="list"
@@ -301,24 +305,177 @@
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
 	</fieldset>
-
-	<fieldset name="contacts"
-		label="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS"
+	
+	<fieldset name="Category" 
+			label="COM_CONTACT_FIELD_CONFIG_CATEGORY_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
 	>
-		<field name="show_headings"
-			type="radio"
-			default="1"
-			label="COM_CONTACT_FIELD_CONFIG_TABLE_HEADINGS_LABEL"
-			description="COM_CONTACT_FIELD_CONFIG_TABLE_HEADINGS_DESC"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+			
+			<field name="show_category_title" type="radio"
+				default="1"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_description" type="radio"
+				default="1"
+				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_description_image" type="radio"
+				default="0"
+				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="maxLevel" type="list"
+				default="-1"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			>
+				<option value="-1">JALL</option>
+				<option value="0">JNONE</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+			</field>
+
+			<field name="show_empty_categories" type="radio"
+				default="0"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+						
+			<field name="show_subcat_desc" type="radio"
+				default="1"
+				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_cat_items" type="radio"
+				default="1"
+				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+	
+	</fieldset>
+	
+			<fieldset name="categories"
+			label="COM_CONTACT_FIELD_CONFIG_CATEGORIES_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
+	>
+			<field name="show_base_description" type="radio"
+				default="1"
+				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
+				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="maxLevelcat" type="list"
+				default="-1"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			>
+				<option value="-1">JALL</option>				
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+			</field>
+
+			<field name="show_empty_categories_cat" type="radio"
+				default="0"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_subcat_desc_cat" type="radio"
+				default="1"
+				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_cat_items_cat" type="radio"
+				default="1"
+				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+	
+	</fieldset>
+	
+	<fieldset name="contacts"
+		label="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_LABEL"
+		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
+	>
+		<field name="show_pagination_limit" type="radio"
+				default="1"
+				description="JGLOBAL_DISPLAY_SELECT_DESC"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>		
+			
+			<field name="show_headings" type="radio"
+				default="1"
+				description="JGLOBAL_SHOW_HEADINGS_DESC"
+				label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 		<field name="show_position_headings" type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
+			default="1"
+			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -328,67 +485,105 @@
 			label="COM_CONTACT_FIELD_CONFIG_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_telephone_headings"
 			type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
+			default="1"
+			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_mobile_headings"
 			type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
+			default="0"
+			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_fax_headings"
 			type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
+			default="0"
+			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_suburb_headings" type="radio"
-			default="0" label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
+			default="0"
+			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_state_headings"
 			type="radio"
-			default="0" label="JGLOBAL_STATE"
+			default="0"
+			label="JGLOBAL_STATE"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
 
 		<field name="show_country_headings"
 			type="radio"
-			default="1" label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
+			default="0"
+			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
 		>
+			
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+
+			<field name="show_pagination" type="list"
+				default="2"
+				description="JGLOBAL_PAGINATION_DESC"
+				label="JGLOBAL_PAGINATION_LABEL"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+			
+			<field
+				name="show_pagination_results"
+				type="radio"
+				default="1"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				description="JGLOBAL_PAGINATION_RESULTS_DESC">
+				
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				
+			</field>
 
 	</fieldset>
 
 	<fieldset name="Contact_Form"
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
+		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 	>
 
 		<field name="show_email_form"
@@ -464,15 +659,29 @@
 
 	<fieldset name="integration"
 		label="JGLOBAL_MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL"
+		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
 
-		<field name="show_category_crumb"
+		<field
+			name="show_feed_link"
 			type="radio"
-			default="0" label="COM_CONTACT_FIELD_BREADCRUMBS_LABEL"
-			description="COM_CONTACT_FIELD_BREADCRUMBS_DESC"
-		>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
+			default="1"
+			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+			description="JGLOBAL_SHOW_FEED_LINK_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="feed_summary"
+			type="radio"
+			label="JGLOBAL_FEED_SUMMARY_LABEL"
+			description="JGLOBAL_FEED_SUMMARY_DESC"
+			default="0">
+			<option
+				value="0">JGLOBAL_INTRO_TEXT</option>
+			<option
+				value="1">JGLOBAL_FULL_TEXT</option>
 		</field>
 
 	</fieldset>

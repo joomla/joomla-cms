@@ -88,7 +88,9 @@ class ContactModelCategory extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*'));
+		$query->select($this->getState('list.select', 'a.*') . ','
+		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
+		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 		$query->from('`#__contact_details` AS a');
 		$query->where('a.access IN ('.$groups.')');
 
@@ -177,7 +179,7 @@ class ContactModelCategory extends JModelList
 			$params = new JRegistry();
 			$params->loadJSON($active->params);
 			$options = array();
-			$options['countItems'] = $params->get('show_contacts', 0);
+			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
 			$categories = JCategories::getInstance('Contact', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 			if(is_object($this->_item))

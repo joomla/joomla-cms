@@ -36,12 +36,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 		</h3>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
-		<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="selectForm" id="selectForm">
+		<form action="#" method="get" name="selectForm" id="selectForm">
 			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>:
-			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'id', 'class="inputbox" onchange="this.form.submit()"', 'id', 'name', $this->contact->id);?>
-			<div>
-				<input type="hidden" name="option" value="com_contact" />
-			</div>
+			<?php echo JHtml::_('select.genericlist',  $this->contacts, 'id', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link);?>
 		</form>
 	<?php endif; ?>
 	<?php  if ($this->params->get('presentation_style')!='plain'){?>
