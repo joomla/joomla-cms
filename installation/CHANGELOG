@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Aug-2010 Mark Dexter
+ # Sample data fixes (spelling errors and rebuild #__menus)
+
 13-Aug-2010 Jean-Marie Simonet
  # [#21828] Params and drilldown refactorings in contacts. Thanks Bill and Dennis
 
