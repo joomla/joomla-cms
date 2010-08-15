@@ -23,10 +23,14 @@ $hide = JRequest::getInt('hidemainmenu');
 			?><span class="nolink"><?php echo $item[0]; ?></span><?php
 		endif;
 	else :
-		if (isset ($item[2]) && $item[2] == 1) :
-			?><a class="active" href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
+		if(strlen($item[1])) :
+			if (isset ($item[2]) && $item[2] == 1) :
+				?><a class="active" href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
+			else :
+				?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
+			endif;
 		else :
-			?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
+			?><?php echo $item[0]; ?><?php 
 		endif;
 	endif;
 	?>

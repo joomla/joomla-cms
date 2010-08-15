@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2010 Jean-Marie Simonet
+ # [#21832] Submenu renders <a>-tag without link. Thanks Hannes.
+ 
 13-Aug-2010 Mark Dexter
  # Sample data fixes (spelling errors and rebuild #__menus)
  # Oops! Fixed syntax error in sample_data.sql.
