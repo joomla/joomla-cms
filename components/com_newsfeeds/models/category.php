@@ -103,9 +103,9 @@ class NewsfeedsModelCategory extends JModelList
 		}
 
 		// Filter by state
-		$state = $this->getState('filter.state');
+		$state = $this->getState('filter.published');
 		if (is_numeric($state)) {
-			$query->where('a.state = '.(int) $state);
+			$query->where('a.published = '.(int) $state);
 		}
 				// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
