@@ -30,6 +30,7 @@ $ -> Language fix or change
 15-Aug-2010 Jean-Marie Simonet
  # [#21832] Submenu renders <a>-tag without link. Thanks Hannes.
  # [#21834] Featured contact only showing items from the root category and ignoring state. Thanks Elin.
+ $ Correcting a string value.
  
 13-Aug-2010 Mark Dexter
  # Sample data fixes (spelling errors and rebuild #__menus)
