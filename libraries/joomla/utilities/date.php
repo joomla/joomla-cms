@@ -452,7 +452,7 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
-		return $this->format(DATE_ISO8601, $local);
+		return $this->format(DateTime::RFC3339, $local);
 	}
 
 	/**
@@ -481,7 +481,7 @@ class JDate extends DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(DATE_RFC822, $local);
+		return $this->format(DateTime::RFC2822, $local);
 	}
 
 	/**
