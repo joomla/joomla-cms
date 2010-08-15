@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Aug-2010 Mark Dexter
  # [#21558] Feed datetime formats are invalid
+ # [#21756] Notices when a contact is unpublished but linked 
 
 15-Aug-2010 Jean-Marie Simonet
  # [#21832] Submenu renders <a>-tag without link. Thanks Hannes.

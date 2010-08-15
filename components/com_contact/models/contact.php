@@ -154,11 +154,14 @@ class ContactModelContact extends JModelItem
 			}
 
 		}
+		if ($this->_item[$pk])
+		{
+			$extendedData = $this->getContactQuery($pk);
+ 			$this->_item[$pk]->articles = $extendedData->articles;
+  			$this->_item[$pk]->profile = $extendedData->profile;
+		}
+  		return $this->_item[$pk];
 
-		$extendedData = $this->getContactQuery($pk);
- 		$this->_item[$pk]->articles = $extendedData->articles;
-  		$this->_item[$pk]->profile = $extendedData->profile;
-		return $this->_item[$pk];
 	}
 
 
@@ -196,7 +199,7 @@ class ContactModelContact extends JModelItem
 			}
 
 			if (empty($result)) {
-				throw new Exception(JText::_('Contact_Error_Contact_not_found'), 404);
+					throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 			}
 
 			// If we are showing a contact list, then the contact parameters take priority
