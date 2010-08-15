@@ -52,16 +52,6 @@ class ContactViewFeatured extends JView
 			return false;
 		}
 
-		if($category == false)
-		{
-			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		if($parent == false)
-		{
-			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
 		// Check whether category access level allows access.
 		$user	= JFactory::getUser();
 		$groups	= $user->authorisedLevels();
@@ -86,7 +76,7 @@ class ContactViewFeatured extends JView
 			}
 		}
 
-		$children = array($category->id => $children);
+
 
 		$this->assignRef('maxLevel',	$params->get('maxLevel', -1));
 		$this->assignRef('state',		$state);
@@ -122,21 +112,7 @@ class ContactViewFeatured extends JView
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 		$id = (int) @$menu->query['id'];
-		if($menu && $menu->query['view'] != 'contact' && $id != $this->category->id)
-		{
-			
-			$path = array($this->category->title => '');
-			while($id != $category->id && $category->id > 1)
-			{
-				$path[$category->title] = ContactHelperRoute::getCategoryRoute($category->id);
-				$category = $category->getParent();
-			}
-			$path = array_reverse($path);
-			foreach($path as $title => $link)
-			{
-				$pathway->addItem($title, $link);
-			}
-		}
+
 
 		$title = $this->params->get('page_title', '');
 		if (empty($title)) {

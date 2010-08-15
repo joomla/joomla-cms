@@ -10,54 +10,16 @@
 		</message>
 	</layout>
 
-	<!-- Add fields to the request variables for the layout. -->
-	<fields name="request">
-		<fieldset name="request"
-			addfieldpath="/administrator/components/com_contact/models/fields"
-		>
 
-			<field name="id" type="category"
-				description="COM_CONTACT_FIELD_CATEGORY_DESC"
-				extension="com_contact"
-				label="COM_CONTACT_FIELD_CATEGORY_LABEL"
-				required="true"
-			/>
-		</fieldset>
-	</fields>
+
 
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
-	<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
-			<field name="show_category_title"
-				type="list"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-			
-			<field name="show_description" type="list"
-				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_description_image" type="list"
-				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-	</fieldset>
-	
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
+			
+			<field name="subslider" type="spacer"
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+			/>
 			
 			<field name="show_pagination_limit" type="list"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
