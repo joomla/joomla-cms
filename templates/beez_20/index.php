@@ -22,11 +22,11 @@ if ($showRightColumn==0 and $showleft==0) {
 JHTML::_('behavior.mootools');
 
 // get params
-$color                        = $this->params->get('templatecolor');
-$logo                        = $this->params->get('logo');
+$color              = $this->params->get('templatecolor');
+$logo               = $this->params->get('logo');
 $navposition        = $this->params->get('navposition');
-$app                        = JFactory::getApplication();
-$templateparams        = $app->getTemplate(true)->params;
+$app                = JFactory::getApplication();
+$templateparams     = $app->getTemplate(true)->params;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -93,6 +93,13 @@ $templateparams        = $app->getTemplate(true)->params;
                         var bildzu='<?php echo $this->baseurl ?>/templates/beez_20/images/minus.png';
                         var rightopen='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTOPEN',true); ?>';
                         var rightclose='<?php echo JText::_('TPL_BEEZ2_TEXTRIGHTCLOSE'); ?>';
+                        var fontSizeTitle='<?php echo JText::_('TPL_BEEZ2_FONTSIZE'); ?>';
+                        var bigger='<?php echo JText::_('TPL_BEEZ2_BIGGER'); ?>';
+                        var reset='<?php echo JText::_('TPL_BEEZ2_RESET'); ?>';
+                        var smaller='<?php echo JText::_('TPL_BEEZ2_SMALLER'); ?>';
+                        var biggerTitle='<?php echo JText::_('TPL_BEEZ2_INCREASE_SIZE'); ?>';
+                        var resetTitle='<?php echo JText::_('TPL_BEEZ2_REVERT_STYLES_TO_DEFAULT'); ?>';
+                        var smallerTitle='<?php echo JText::_('TPL_BEEZ2_DECREASE_SIZE'); ?>';
                 </script>
 
         </head>
@@ -126,16 +133,7 @@ $templateparams        = $app->getTemplate(true)->params;
                                         <h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_NAVIGATION'); ?></h3>
                                         <jdoc:include type="modules" name="position-1" />
                                         <div id="line">
-                                        <div id="fontsize">
-                                                        <script type="text/javascript">
-                                                        //<![CDATA[
-                                                        document.write('<h3><?php echo JText::_('TPL_BEEZ2_FONTSIZE'); ?></h3><p class="fontsize">');
-                                                        document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ2_INCREASE_SIZE'); ?>" onclick="changeFontSize(2); return false;" class="larger"><?php echo JText::_('TPL_BEEZ2_BIGGER'); ?></a><span class="unseen">&#160;</span>');
-                                                        document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ2_REVERT_STYLES_TO_DEFAULT'); ?>" onclick="revertStyles(); return false;" class="reset"><?php echo JText::_('TPL_BEEZ2_RESET'); ?></a> ');
-                                                        document.write('<a href="index.php" title="<?php echo JText::_('TPL_BEEZ2_DECREASE_SIZE'); ?>" onclick="changeFontSize(-2); return false;" class="smaller"><?php echo JText::_('TPL_BEEZ2_SMALLER'); ?></a><span class="unseen">&#160;</span></p>');
-                                                        //]]>
-                                                        </script>
-                                        </div>
+                                        <div id="fontsize"></div>
                                         <h3 class="unseen"><?php echo JText::_('TPL_BEEZ2_SEARCH'); ?></h3>
                                         <jdoc:include type="modules" name="position-0" />
                                         </div> <!-- end line -->
