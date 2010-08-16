@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Aug-2010 Mark Dexter
+ # Reverted [#21558] since it breaks JDateTest unit tests
+
 16-Aug-2010 Andrew Eddie
  # Fixed issue [#21822] Add footer to Bluestork template (Michael Babker).
  # Fixed issue [#21831] JFormFieldCategory relies on a reference to a form (Artyom Bisyarin).
