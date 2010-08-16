@@ -106,6 +106,7 @@ class JFormFieldRules extends JFormField
 		foreach ($groups as $group) {
 			$html[] = '	<tr>';
 			$html[] = '		<th class="acl-groups">';
+			$html[] = '			'.str_repeat('<span class="gi">|&ndash;</span>', $group->level);
 			$html[] = '			'.$group->text;
 			$html[] = '		</th>';
 			foreach ($actions as $action) {
@@ -145,11 +146,6 @@ class JFormFieldRules extends JFormField
 			' ORDER BY a.lft ASC'
 		);
 		$options = $db->loadObjectList();
-
-		// Pad the option text with spaces using depth level as a multiplier.
-		foreach ($options as $option) {
-			$option->text = str_repeat('&#160;&#160;',$option->level).$option->text;
-		}
 
 		return $options;
 	}
