@@ -102,7 +102,7 @@
 		
 		<field name="show_empty_categories" type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
 		>
 			<option value="0">JHIDE</option>
@@ -161,7 +161,7 @@
 		<field name="show_empty_categories_cat" type="radio"
 			default="0"		
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>

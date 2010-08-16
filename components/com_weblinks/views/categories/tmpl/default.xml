@@ -60,7 +60,7 @@
 
 			<field name="show_empty_categories_cat" type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -136,7 +136,7 @@
 
 			<field name="show_empty_categories" type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

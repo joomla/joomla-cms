@@ -138,7 +138,8 @@
 		<field name="show_fax"
 			type="radio"
 			default="1"
-			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL" description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
+			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL" 
+			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -357,7 +358,7 @@
 			<field name="show_empty_categories" type="radio"
 				default="0"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				
 				<option value="0">JHIDE</option>
@@ -417,7 +418,7 @@
 			<field name="show_empty_categories_cat" type="radio"
 				default="0"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
+				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			>
 				
 				<option value="0">JHIDE</option>

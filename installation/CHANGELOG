@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Aug-2010 Jean-Marie Simonet
+ $ Customizing a global string in weblinks, newsfeeds, contacts
+ 
 16-Aug-2010 Mark Dexter
  # Reverted [#21558] since it breaks JDateTest unit tests
 
