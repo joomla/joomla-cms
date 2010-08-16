@@ -106,7 +106,7 @@
 		</field>
 
 		<field name="featured" type="radio"
-			label="COM_CONTENT_FIELD_FEATURED_LABEL"
+			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
 		>
