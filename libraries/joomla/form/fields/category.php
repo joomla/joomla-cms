@@ -73,8 +73,8 @@ class JFormFieldCategory extends JFormFieldList
 					}
 				}
 			}
-			if(isset($this->element['show_root']))
-			{
+
+			if (isset($this->element['show_root'])) {
 				array_unshift($options, JHtml::_('select.option', '0', JText::_('JGLOBAL_ROOT')));
 			}
 		}
@@ -83,8 +83,8 @@ class JFormFieldCategory extends JFormFieldList
 		}
 
 		// if no value exists, try to load a selected filter category from the list view
-		$context = $this->form->getName();
-		if( !$this->value ) {
+		if (!$this->value && ($this->form instanceof JForm)) {
+			$context = $this->form->getName();
 			$this->value = $session->get($context.'.filter.category_id', $this->value);
 		}
 
@@ -94,4 +94,3 @@ class JFormFieldCategory extends JFormFieldList
 		return $options;
 	}
 }
-
