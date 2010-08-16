@@ -38,6 +38,7 @@ $ -> Language fix or change
  # Fixed issue [#21786] Add uncompressed versions of calendar.js and calendar-setup.js (Rouven Weßling).
  # Fixed issue [#21771] Consistency of ordering status bar items (Michael Babker).
  # Fixed issue [#21227] com_menus don't bind the request data into fields that has multiple="true" (Jonnathan S. Lima, Louis Landry).
+ # Fixed issue [#21772] Joomla! doesn't play nicely with other frameworks (Samuel Moffatt).
 
 15-Aug-2010 Mark Dexter
  # [#21558] Feed datetime formats are invalid
