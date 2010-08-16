@@ -40,6 +40,7 @@ $ -> Language fix or change
  # Fixed issue [#21227] com_menus don't bind the request data into fields that has multiple="true" (Jonnathan S. Lima, Louis Landry).
  # Fixed issue [#21772] Joomla! doesn't play nicely with other frameworks (Samuel Moffatt).
  # Fixed issue [#21853] Add featured view to com_contacts (like com_content) or just toggle (Roland Dalmulder, Jean-Marie Simonet).
+ # Fixed issue [#20662] Joomla home page doesn't work from anything except index.php (Jeff Booher, Louis Landry).
 
 15-Aug-2010 Mark Dexter
  # [#21558] Feed datetime formats are invalid

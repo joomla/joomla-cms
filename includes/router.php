@@ -39,9 +39,27 @@ class JRouterSite extends JRouter
 			$app->redirect((string)$uri);
 		}
 
-
 		// Get the path
 		$path = $uri->getPath();
+
+		// Remove the base URI path.
+		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
+
+		// Check to see if a request to a specific entry point has been made.
+		if (preg_match("#.*\.php#u", $path, $matches)) {
+
+			// Get the current entry point path relative to the site path.
+			$scriptPath = realpath($_SERVER['SCRIPT_FILENAME'] ? $_SERVER['SCRIPT_FILENAME'] : str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']));
+			$relativeScriptPath = str_replace('\\', '/', str_replace(JPATH_SITE, '', $scriptPath));
+
+			// If a php file has been found in the request path, check to see if it is a valid file.
+			// Also verify that it represents the same file from the server variable for entry script.
+			if (file_exists(JPATH_SITE.$matches[0]) && ($matches[0] == $relativeScriptPath)) {
+
+				// Remove the entry point segments from the request path for proper routing.
+				$path = str_replace($matches[0], '', $path);
+			}
+		}
 
 		//Remove the suffix
 		if ($this->_mode == JROUTER_MODE_SEF) {
@@ -52,12 +70,6 @@ class JRouterSite extends JRouter
 				}
 			}
 		}
-
-		//Remove basepath
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
-
-		//Remove prefix
-		$path = str_replace('index.php', '', $path);
 
 		//Set the route
 		$uri->setPath(trim($path , '/'));
