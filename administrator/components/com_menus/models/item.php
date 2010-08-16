@@ -551,10 +551,6 @@ class MenusModelItem extends JModelAdmin
 						$table->component_id = $component->id;
 					}
 				}
-
-				// Set the parsed request arguments to the object.
-				$table->request = $args;
-
 				break;
 		}
 
@@ -572,8 +568,7 @@ class MenusModelItem extends JModelAdmin
 		// Merge the request arguments in to the params for a component.
 		if ($table->type == 'component') {
 			// Note that all request arguments become reserved parameter names.
-			$args = array();
-			parse_str(parse_url($table->link, PHP_URL_QUERY), $args);
+			$result->request = $args;
 			$result->params = array_merge($result->params, $args);
 		}
 

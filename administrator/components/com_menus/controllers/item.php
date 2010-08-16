@@ -206,7 +206,7 @@ class MenusControllerItem extends JControllerForm
 
 			// Merge in the user supplied request arguments.
 			$args = array_merge($args, $data['request']);
-			$data['link'] = 'index.php?'.http_build_query($args,'','&');
+			$data['link'] = 'index.php?'.urldecode(http_build_query($args,'','&'));
 			unset($data['request']);
 		}
 
