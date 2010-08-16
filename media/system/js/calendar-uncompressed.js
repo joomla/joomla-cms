@@ -843,7 +843,7 @@ Calendar.prototype.create = function (_par) {
 		cell = Calendar.createElement("td", row);
 		cell.className = "time";
 		cell.colSpan = 2;
-		cell.innerHTML = Calendar._TT["TIME"] || "&nbsp;";
+		cell.innerHTML = Calendar._TT["TIME"] || "&#160;";
 
 		cell = Calendar.createElement("td", row);
 		cell.className = "time";
@@ -888,7 +888,7 @@ Calendar.prototype.create = function (_par) {
 			if (t12)
 				AP = makeTimePart("ampm", pm ? "pm" : "am", ["am", "pm"]);
 			else
-				cell.innerHTML = "&nbsp;";
+				cell.innerHTML = "&#160;";
 
 			cal.onSetTime = function() {
 				var pm, hrs = this.date.getHours(),
@@ -1141,7 +1141,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 					cell.otherMonth = true;
 				} else {
 					cell.className = "emptycell";
-					cell.innerHTML = "&nbsp;";
+					cell.innerHTML = "&#160;";
 					cell.disabled = true;
 					continue;
 				}
