@@ -33,6 +33,7 @@ $ -> Language fix or change
 16-Aug-2010 Mark Dexter
  # Reverted [#21558] since it breaks JDateTest unit tests
  # [#21558] Feed datetime formats are invalid (with updated unit test)
+ # [#21768] Sample Data for Atomic Template
 
 16-Aug-2010 Andrew Eddie
  # Fixed issue [#21822] Add footer to Bluestork template (Michael Babker).
