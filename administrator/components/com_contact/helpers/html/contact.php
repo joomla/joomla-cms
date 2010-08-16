@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -10,21 +12,23 @@ defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @subpackage	com_contact
  */
 abstract class JHtmlContact
 {
 	/**
 	 * @param	int $value	The featured value
 	 * @param	int $i
+	 *
+	 * @return	string	The anchor tag to toggle featured/unfeatured contacts.
+	 * @since	1.6
 	 */
-
 	function featured($value = 0, $i)
 	{
 		// Array of image, task, title, action
 		$states	= array(
-			0	=> array('disabled.png',	'contact.featured',	'CONTACT_TOGGLE_FEATURED',	'CONTACT_TOGGLE_FEATURED'),
-			1	=> array('tick.png',		'contact.unfeatured',	'CONTACT_TOGGLE_FEATURED',	'CONTACT_TOGGLE_FEATURED'),
+			0	=> array('disabled.png', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'COM_CONTACT_TOGGLE_TO_FEATURE'),
+			1	=> array('featured.png', 'contacts.unfeatured', 'JFEATURED', 'COM_CONTACT_TOGGLE_TO_UNFEATURE'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
@@ -35,7 +39,10 @@ abstract class JHtmlContact
 
 
 	/**
-	 * Displays the publishing state legend for contacts
+	 * Displays the publishing state legend for contacts.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	function Legend()
 	{

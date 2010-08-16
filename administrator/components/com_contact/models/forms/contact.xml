@@ -227,7 +227,7 @@
 		</field>
 		<field name="featured"
 			type="radio"
-			label="COM_CONTACT_FIELD_FEATURED_LABEL"
+			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
 		>

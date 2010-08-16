@@ -62,14 +62,17 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JPUBLISHED', 'a.state', $listDirn, $listOrder); ?>
 				</th>
+				<th width="5%">
+					<?php echo JHtml::_('grid.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+				</th>
+				<th width="10%"  class="title">
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_CATEGORY', 'category_title', $listDirn, $listOrder); ?>
+				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'contacts.saveorder'); ?>
 					<?php endif; ?>
-				</th>
-				<th width="10%"  class="title">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_CATEGORY', 'category_title', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%"  class="title">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
@@ -121,6 +124,12 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<td align="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange);?>
 				</td>
+				<td class="center">
+					<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
+				</td>
+				<td align="center">
+					<?php echo $item->category_title; ?>
+				</td>
 				<td class="order">
 					<?php if ($canChange) : ?>
 						<?php if ($saveOrder) :?>
@@ -132,9 +141,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
-				</td>
-				<td align="center">
-					<?php echo $item->category_title; ?>
 				</td>
 				<td align="center">
 					<?php echo $item->access_level; ?>
