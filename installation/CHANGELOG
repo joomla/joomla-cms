@@ -35,6 +35,8 @@ $ -> Language fix or change
  # Fixed issue [#21831] JFormFieldCategory relies on a reference to a form (Artyom Bisyarin).
  # Fixed issue [#20994] [patch] Use DOM instead of document.write for font size controls (Rouven Weßling).
  # Fixed issue [#21777] No root user notice on admin login screen with userid (Sander Potjer, Mark Dexter).
+ # Fixed issue [#21786] Add uncompressed versions of calendar.js and calendar-setup.js (Rouven Weßling).
+ 
 
 15-Aug-2010 Mark Dexter
  # [#21558] Feed datetime formats are invalid
