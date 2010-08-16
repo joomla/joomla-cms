@@ -136,8 +136,13 @@ $app = JFactory::getApplication();
 </div>
 </div>
 	<div id="border-bottom"><div><div></div></div></div>
-
-	<jdoc:include type="modules" name="footer" style="none"  />
-
+		<jdoc:include type="modules" name="footer" style="none"  />
+	<div id="footer">
+		<p class="copyright">
+			<?php $joomla= '<a href="http://www.joomla.org">Joomla!</a>';
+				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
+			<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
+		</p>
+	</div>
 </body>
 </html>
