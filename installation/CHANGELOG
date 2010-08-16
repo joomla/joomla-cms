@@ -48,6 +48,7 @@ $ -> Language fix or change
  # Fixed issue [#21841] Make atomic well formed (Rouven Weßling).
  # Fixed issue [#21764] calendar.js doesn't work with Firefox and Safari when XHTML is used (Rouven Weßling).
  # Fixed issue [#21631] user menu module [sample data] (Brian Teeman, Michael Babker).
+ # Fixed issue [#21611] Permissions and groups usability (Brian Teeman, Mathavan Jeyadev, Andrea Tarr, Michael Babker).
 
 15-Aug-2010 Mark Dexter
  # [#21558] Feed datetime formats are invalid

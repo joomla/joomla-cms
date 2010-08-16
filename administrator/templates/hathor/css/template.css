@@ -3133,7 +3133,7 @@ table#acl-config{
 
 table#acl-config th,
 table#acl-config td {
-	height: 2em;
+	height: 2em; 
 	background: #f9fade;
 	text-align: center;
 	vertical-align: middle;
@@ -3143,8 +3143,18 @@ table#acl-config td {
 table#acl-config th.acl-groups {
 	padding-left: 8px;
 	font-weight: bold;
+	text-align: left;
 	border-right: 1px solid #c7c8b2;
 }
+
+table#acl-config th.acl-groups span.gi {
+	margin-right: 2px;
+}
+
+table#acl-config td {
+	width: 9em;
+}
+
 table#acl-config td select {
 	float:none;
 }

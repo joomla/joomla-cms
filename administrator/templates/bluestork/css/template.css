@@ -2768,7 +2768,13 @@ table#acl-config td {
 
 table#acl-config th.acl-groups {
 	padding-left: 8px;
+	text-align: left;
 }
+
+table#acl-config th.acl-groups span.gi {
+	margin-right: 2px;
+}
+
 table#acl-config td select {
 	float:none;
 }

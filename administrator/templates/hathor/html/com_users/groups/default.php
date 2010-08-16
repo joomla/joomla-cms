@@ -61,8 +61,8 @@ $listDirn	= $this->state->get('list.direction');
 				<td>
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
-<!-- TO DO: UI system for representing levels and parent-child relationships <span class="gi">|&mdash;</span> -->
-				<td class="indent-<?php echo intval(($item->level)*15)+4; ?>">
+				<td>
+					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
 					<?php if ($canCreate || $canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
