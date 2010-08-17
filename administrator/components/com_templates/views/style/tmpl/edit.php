@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
 ?>
 <script type="text/javascript">
@@ -39,10 +40,11 @@ $user = JFactory::getUser();
 			<?php echo $this->form->getInput('client_id'); ?>
 			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 
-
 			<?php echo $this->form->getLabel('home'); ?>
 			<?php echo $this->form->getInput('home'); ?>
-		<div class="clr"></div>
+
+			<div class="clr"></div>
+
 			<?php if ($this->item->id) : ?>
 				<?php echo $this->form->getLabel('id'); ?>
 				<span class="readonly"><?php echo $this->item->id; ?></span>
