@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Aug-2010 Jean-Marie Simonet
+ [#21812] contact form not sending email. Thanks Joseph.
+ 
 17-Aug-2010 Andrew Eddie
  # Fixed issue [#21380] session timeout while editing template style in backend, keepalive issue (Elin Waring, Michael Babker).
 

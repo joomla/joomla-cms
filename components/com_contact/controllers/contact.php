@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
  * @package		Joomla.Site
  * @subpackage	com_content
  */
-class ContentControllerContact extends JController
+class ContactControllerContact extends JController
 {
 	/**
 	 * Method to send an email to a contact
@@ -95,7 +95,7 @@ class ContentControllerContact extends JController
 			$FromName	= $app->getCfg('fromname');
 
 			// Prepare email body
-			$prefix = JText::sprintf('CONTACT_ENQUIRY_TEXT', JURI::base());
+			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JURI::base());
 			$body	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 			$mail = JFactory::getMailer();
@@ -118,9 +118,9 @@ class ContentControllerContact extends JController
 			// check whether email copy function activated
 			if ($emailCopy && $emailcopyCheck)
 			{
-				$copyText		= JText::sprintf('COPY_OF', $contact->name, $SiteName);
+				$copyText		= JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $SiteName);
 				$copyText		.= "\r\n\r\n".$body;
-				$copySubject	= JText::_('COPY_OF')." ".$subject;
+				$copySubject	= JText::sprintf('COM_CONTACT_COPYSUBJECT_OF', $subject);
 
 				$mail = JFactory::getMailer();
 
@@ -135,16 +135,16 @@ class ContentControllerContact extends JController
 
 		$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
 		//redirect if it is set
-		if ($this->contact->params->$link)
+		if ($contact->params->get('redirect'))
 		{
-			$link=$contact->redirect;
+			$link=$contact->params->get('redirect');
 		}
 		else
 		{
 			// stay on the same  contact page
-
-		$link = JRoute::_('index.php?option=com_contact&view=contact&id='.(int) $contact->id, false);
+			$link = JRoute::_('index.php?option=com_contact&view=contact&id='.(int) $contact->id, false);
 		}
+
 		$this->setRedirect($link, $msg);
 	}
 

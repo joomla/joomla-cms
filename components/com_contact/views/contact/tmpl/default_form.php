@@ -78,7 +78,7 @@ JHtml::_('behavior.keepalive');
 			<input type="hidden" name="option" value="com_contact" />
 			<input type="hidden" name="view" value="contact" />
 			<input type="hidden" name="id" value="<?php echo $this->contact->id; ?>" />
-			<input type="hidden" name="task" value="submit" />
+			<input type="hidden" name="task" value="contact.submit" />
 			<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
