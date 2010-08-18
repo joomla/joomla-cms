@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Aug-2010 Jean-Marie Simonet
+ ^# [#21917] Mootools more needs updating to 1.2.4.4. Thanks Matt.
+ 
 17-Aug-2010 Jean-Marie Simonet
  [#21812] contact form not sending email. Thanks Joseph.
  
