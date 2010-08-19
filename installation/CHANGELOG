@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Aug-2010 Jean-Marie Simonet
+ # [#21929] Language String Error. Thanks Prasit
+
 18-Aug-2010 Jean-Marie Simonet
  ^# [#21917] Mootools more needs updating to 1.2.4.4. Thanks Matt.
  
