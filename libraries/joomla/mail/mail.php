@@ -300,16 +300,19 @@ class JMail extends PHPMailer
 		$this->Username = $user;
 		$this->Password = $pass;
 		$this->Port		= $port;
-
+		
 		if ($secure == 'ssl' || $secure == 'tls') {
 			$this->SMTPSecure = $secure;
 		}
-
-		if ($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) {
+		
+		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) 
+			|| ($this->SMTPAuth === null && $this->Host !== null)) {
 			$this->IsSMTP();
 			return true;
-		} else {
+		}
+		else {
 			$this->IsMail();
+			
 			return false;
 		}
 	}

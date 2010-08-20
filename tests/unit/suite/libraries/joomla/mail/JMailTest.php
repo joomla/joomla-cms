@@ -152,14 +152,38 @@ class JMailTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	public function useSmtpData()
+	{
+		return array(
+			'SMTP without Authentication' => array(
+				null,
+				'example.com',
+				null,
+				null,
+				false,
+				null,
+				array(
+					'called' => 'IsSMTP',
+					'return' => true
+				)
+			)
+		);
+	}
+
 	/**
 	 * @todo Implement testUseSMTP().
+	 * @dataProvider useSmtpData
 	 */
-	public function testUseSMTP()
+	public function testUseSMTP($auth, $host, $user, $pass, $secure, $port, $expected)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$mail = $this->getMock('JMail', array('SetLanguage', 'IsSMTP', 'IsMail'));
+
+		$mail->expects($this->once())
+			->method($expected['called']);
+
+		$this->assertThat(
+			$mail->useSMTP($auth, $host, $user, $pass, $secure, $port),
+			$this->equalTo($expected['return'])
 		);
 	}
 }
