@@ -63,7 +63,7 @@ class BannersViewClient extends JView
 		if (!$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('client.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('client.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::custom('client.save2new', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::custom('client.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {

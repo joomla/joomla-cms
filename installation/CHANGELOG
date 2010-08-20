@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Aug-2010 Jean-Marie Simonet
+ # [#21947] Banner Client Editing missing Save & New icon and text. Thanks Roland
+
 19-Aug-2010 Jean-Marie Simonet
  # [#21929] Language String Error. Thanks Prasit
  # [#21913] Banner ad component issues. Thanks Prasit
