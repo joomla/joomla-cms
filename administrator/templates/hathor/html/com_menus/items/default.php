@@ -130,15 +130,15 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
-				<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
-
+				<td>
+					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level-1) ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 					<?php endif; ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
-
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
+						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
 						<?php if (empty($item->note)) : ?>
 							<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 						<?php else : ?>

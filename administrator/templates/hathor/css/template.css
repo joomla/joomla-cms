@@ -1122,6 +1122,11 @@ span.gi {
 	margin-right: 5px;
 }
 
+span.gtr {
+	visibility:hidden;
+	margin-right: 5px;
+}
+
 /**
  * Admintable Styles
  */

@@ -107,13 +107,15 @@ $n = count($this->items);
 					<th class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</th>
-					<td class="indent-<?php echo intval(($item->level-1)*15)+4; ?>">
+					<td>
+						<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level-1) ?>
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 						<?php endif; ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
 							<?php echo $this->escape($item->title); ?></a>
 						<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
+							<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
 							<?php if (empty($item->note)) : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 							<?php else : ?>

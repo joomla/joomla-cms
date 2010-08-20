@@ -1322,6 +1322,11 @@ span.gi {
 	margin-right: 5px;
 }
 
+span.gtr {
+	visibility:hidden;
+	margin-right: 5px;
+}
+
 ul#legend li {
 	float: left;
 	margin: 20px;

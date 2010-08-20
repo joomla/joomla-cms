@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21947] Banner Client Editing missing Save & New icon and text. Thanks Roland
  #$ Wrong key in Hathor.
  # [#21912] Inconsistencies with submenus in Bluestork admin menus. Thanks Klas.
+ # [#21872] Categories overview & Menu items indentations. Thanks Michael.
 
 19-Aug-2010 Jean-Marie Simonet
  # [#21929] Language String Error. Thanks Prasit
