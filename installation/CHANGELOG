@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21912] Inconsistencies with submenus in Bluestork admin menus. Thanks Klas.
  # [#21872] Categories overview & Menu items indentations. Thanks Michael.
  # [#21906] SMTP without authentication not working. Thanks Roland and Ian.
+ # [#21954] Registration form data gets lost if save fails. Thanks Nikolai
 
 19-Aug-2010 Jean-Marie Simonet
  # [#21929] Language String Error. Thanks Prasit

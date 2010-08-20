@@ -105,7 +105,7 @@ class UsersControllerRegistration extends UsersController
 		$model	= $this->getModel('Registration', 'UsersModel');
 
 		// Get the user data.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$requestData = JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Validate the posted data.
 		$form	= $model->getForm();
@@ -113,7 +113,7 @@ class UsersControllerRegistration extends UsersController
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
-		$data	= $model->validate($form, $data);
+		$data	= $model->validate($form, $requestData);
 
 		// Check for validation errors.
 		if ($data === false) {
@@ -130,7 +130,7 @@ class UsersControllerRegistration extends UsersController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_users.registration.data', $data);
+			$app->setUserState('com_users.registration.data', $requestData);
 
 			// Redirect back to the registration screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
