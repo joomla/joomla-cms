@@ -205,9 +205,9 @@ class JMenuNode extends JNode
 	 */
 	public $active = false;
 
-	public function __construct($title, $link = null, $class = null, $active = false, $target = null)
+	public function __construct($title, $link = null, $class = null, $active = false, $target = null, $titleicon = null)
 	{
-		$this->title	= $title;
+		$this->title	= $titleicon ? $title.$titleicon : $title;
 		$this->link		= JFilterOutput::ampReplace($link);
 		$this->class	= $class;
 		$this->active	= $active;

@@ -10,14 +10,17 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+$shownew 	= (boolean)$params->get('shownew', 1);
+$showhelp 	= $params->get('showhelp', 1);
+
 //
 // Site SubMenu
 //
 $menu->addChild(
-	new JMenuNode(JText::_('JSITE'), '#'), true
+new JMenuNode(JText::_('JSITE'), '#'), true
 );
 $menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), 'index.php', 'class:cpanel')
+new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), 'index.php', 'class:cpanel')
 );
 
 $menu->addSeparator();
@@ -33,7 +36,7 @@ $cam = $user->authorise('core.manage', 'com_cache');
 if ($chm || $cam )
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_SITE_MAINTENANCE'), '#', 'class:maintenance'), true
+	new JMenuNode(JText::_('MOD_MENU_SITE_MAINTENANCE'), '#', 'class:maintenance'), true
 	);
 
 	if ($chm)
@@ -51,8 +54,8 @@ if ($chm || $cam )
 }
 
 $menu->addSeparator();
-	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_SYSTEM_INFORMATION'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
+$menu->addChild(
+new JMenuNode(JText::_('MOD_MENU_SYSTEM_INFORMATION'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
 );
 $menu->addSeparator();
 
@@ -67,33 +70,39 @@ $menu->getParent();
 if ($user->authorise('core.manage', 'com_users'))
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#'), true
+	new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_USER_MANAGER'), 'index.php?option=com_users&view=users', 'class:user')
+	new JMenuNode(JText::_('MOD_MENU_COM_USERS_USER_MANAGER'), 'index.php?option=com_users&view=users', 'class:user'), $shownew
 	);
+	if ($shownew == true) {
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_USER'), 'index.php?option=com_users&task=user.add', 'class:newarticle')
+		);
+		$menu->getParent();
+	}
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_GROUPS'), 'index.php?option=com_users&view=groups', 'class:groups')
+	new JMenuNode(JText::_('MOD_MENU_COM_USERS_GROUPS'), 'index.php?option=com_users&view=groups', 'class:groups'), $shownew
 	);
+	if ($shownew == true) {
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_GROUP'), 'index.php?option=com_users&task=group.add', 'class:newarticle')
+		);
+		$menu->getParent();
+	}
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_LEVELS'), 'index.php?option=com_users&view=levels', 'class:levels')
+	new JMenuNode(JText::_('MOD_MENU_COM_USERS_LEVELS'), 'index.php?option=com_users&view=levels', 'class:levels'), $shownew
 	);
+	if ($shownew == true) {
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_LEVEL'), 'index.php?option=com_users&task=level.add', 'class:newarticle')
+		);
+		$menu->getParent();
+	}
 
 	$menu->addSeparator();
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_USER'), 'index.php?option=com_users&task=user.add', 'class:newuser')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_GROUP'), 'index.php?option=com_users&task=group.add', 'class:newgroup')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_LEVEL'), 'index.php?option=com_users&task=level.add', 'class:newlevel')
-	);
-
-	$menu->addSeparator();
-
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail')
+	new JMenuNode(JText::_('MOD_MENU_MASS_MAIL_USERS'), 'index.php?option=com_users&view=mail', 'class:massmail')
 	);
 
 	$menu->getParent();
@@ -105,22 +114,33 @@ if ($user->authorise('core.manage', 'com_users'))
 if ($user->authorise('core.manage', 'com_menus'))
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_MENUS'), '#'), true
+	new JMenuNode(JText::_('MOD_MENU_MENUS'), '#'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr')
+	new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER'), 'index.php?option=com_menus&view=menus', 'class:menumgr'), $shownew
 	);
+	if ($shownew == true) {
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU'), 'index.php?option=com_menus&view=menu&layout=edit', 'class:newarticle')
+		);
+		$menu->getParent();
+	}
 	$menu->addSeparator();
 
 	// Menu Types
 	foreach (ModMenuHelper::getMenus() as $menuType)
-	{
+	{	
+		$titleicon = $menuType->home ? ' <span>'.JHTML::_('image','menu/icon-16-default.png', NULL, NULL, true).'</span>' : '';
 		$menu->addChild(
-			new JMenuNode(
-				$menuType->title.($menuType->home ? ' <span>'.JHTML::_('image','menu/icon-16-default.png', NULL, NULL, true).'</span>' : ''),
-				'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu'
-			)
-		);
+		new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $shownew
+				);
+
+		if ($shownew == true) {
+				$menu->addChild(
+				new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType->menutype, 'class:newarticle')
+				);
+				$menu->getParent();
+		}
 	}
 	$menu->getParent();
 }
@@ -131,26 +151,30 @@ if ($user->authorise('core.manage', 'com_menus'))
 if ($user->authorise('core.manage', 'com_content'))
 {
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#'), true
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT'), '#'), true
 	);
 	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content', 'class:article')
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_ARTICLE_MANAGER'), 'index.php?option=com_content', 'class:article'), $shownew
 	);
-
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_CATEGORY_MANAGER'), 'index.php?option=com_categories&extension=com_content', 'class:category')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured')
-	);
-	$menu->addSeparator();
-	$menu->addChild(
+	if ($shownew == true) {
+		$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_ARTICLE'), 'index.php?option=com_content&task=article.add', 'class:newarticle')
-	);
-	$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_content', 'class:newcategory')
-	);
+		);
+		$menu->getParent();
+	}
 
+	$menu->addChild(
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_CATEGORY_MANAGER'), 'index.php?option=com_categories&extension=com_content', 'class:category'), $shownew
+	);
+	if ($shownew == true) {
+		$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_NEW_CATEGORY'), 'index.php?option=com_categories&task=category.add&extension=com_content', 'class:newarticle')
+		);
+		$menu->getParent();
+	}
+	$menu->addChild(
+	new JMenuNode(JText::_('MOD_MENU_COM_CONTENT_FEATURED'), 'index.php?option=com_content&view=featured', 'class:featured')
+	);
 	$menu->addSeparator();
 	if ($user->authorise('core.manage', 'com_media')) {
 		$menu->addChild(new JMenuNode(JText::_('MOD_MENU_MEDIA_MANAGER'), 'index.php?option=com_media', 'class:media'));
@@ -224,40 +248,46 @@ if ($im || $mm || $pm || $tm || $lm)
 //
 // Help Submenu
 //
-$menu->addChild(
+if ($showhelp == 1) {
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP'), '#'), true
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_JOOMLA'), 'index.php?option=com_admin&view=help', 'class:help')
-);
-$menu->addSeparator();
+	);
+	$menu->addSeparator();
 
-$menu->addChild(
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_SUPPORT_FORUM'), 'http://forum.joomla.org', 'class:help-forum', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_DOCUMENTATION'), 'http://docs.joomla.org', 'class:help-docs', false, '_blank')
-);
-$menu->addSeparator();
-$menu->addChild(
+	);
+	$menu->addSeparator();
+	$menu->addChild(
+	new JMenuNode(JText::_('MOD_MENU_HELP_LINKS'), '#', 'class:weblinks', false, '_blank'), true
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensions.joomla.org', 'class:help-jed', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_TRANSLATIONS'), 'http://community.joomla.org/translations.html', 'class:help-trans', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_RESOURCES'), 'http://resources.joomla.org', 'class:help-jrd', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_COMMUNITY'), 'http://community.joomla.org', 'class:help-community', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_SECURITY'), 'http://developer.joomla.org/security.html', 'class:help-security', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_DEVELOPER'), 'http://developer.joomla.org', 'class:help-dev', false, '_blank')
-);
-$menu->addChild(
+	);
+	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_SHOP'), 'http://shop.joomla.org', 'class:help-shop', false, '_blank')
-);
-$menu->getParent();
+	);
+	$menu->getParent();
+	$menu->getParent();
+}

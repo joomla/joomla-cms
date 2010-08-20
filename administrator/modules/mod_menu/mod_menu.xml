@@ -33,7 +33,27 @@
 					type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
+				
+				<field
+					name="shownew"
+					type="list"
+					default="1"
+					label="MOD_MENU_FIELD_SHOWNEW"
+					description="MOD_MENU_FIELD_SHOWNEW_DESC">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				
+				<field
+					name="showhelp"
+					type="list"
+					default="1"
+					label="MOD_MENU_FIELD_SHOWHELP"
+					description="MOD_MENU_FIELD_SHOWHELP_DESC">
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+				
 				<field
 					name="cache"
 					type="list"
