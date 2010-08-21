@@ -2,12 +2,20 @@
 <!-- $Id$ -->
 <form>
 	<fieldset name="default" label="COM_USERS_RESET_CONFIRM_LABEL">
+		<field name="username" type="text"
+			description="COM_USERS_FIELD_RESET_CONFIRM_USERNAME_DESC"
+			filter="username"
+			label="COM_USERS_FIELD_RESET_CONFIRM_USERNAME_LABEL"
+			required="true"
+			size="30"
+			validate="rules"/>
+
 		<field name="token" type="text"
 			description="COM_USERS_FIELD_RESET_CONFIRM_TOKEN_DESC"
 			filter="alnum"
 			label="COM_USERS_FIELD_RESET_CONFIRM_TOKEN_LABEL"
 			required="true"
 			size="32"
-			validate="rules"		/>
+			validate="rules"/>
 	</fieldset>
 </form>

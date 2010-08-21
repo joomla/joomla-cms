@@ -191,6 +191,8 @@ class UsersModelReset extends JModelForm
 	 */
 	function processResetConfirm($data)
 	{
+		jimport('joomla.user.helper');
+		
 		// Get the form.
 		$form = $this->getResetConfirmForm();
 
@@ -220,9 +222,11 @@ class UsersModelReset extends JModelForm
 		// Find the user id for the given token.
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('*');
+		$query->select('activation');
+		$query->select('id');
+		$query->select('block');
 		$query->from('`#__users`');
-		$query->where('`activation` = '.$db->Quote($data['token']));
+		$query->where('`username` = '.$db->Quote($data['username']));
 
 		// Get the user id.
 		$db->setQuery((string) $query);
@@ -239,6 +243,22 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		$parts	= explode( ':', $user->activation );
+		$crypt	= $parts[0];
+		if (!isset($parts[1])) {
+			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
+			return false;
+		}
+		$salt	= $parts[1];
+		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt);
+
+		// Verify the token
+		if (!($crypt == $testcrypt))
+		{
+			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
+			return false;
+		}		
+		
 		// Make sure the user isn't blocked.
 		if ($user->block) {
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
@@ -247,7 +267,7 @@ class UsersModelReset extends JModelForm
 
 		// Push the user data into the session.
 		$app = JFactory::getApplication();
-		$app->setUserState('com_users.reset.token', $data['token']);
+		$app->setUserState('com_users.reset.token', $crypt.':'.$salt);
 		$app->setUserState('com_users.reset.user', $user->id);
 
 		return true;
@@ -324,7 +344,10 @@ class UsersModelReset extends JModelForm
 
 		// Set the confirmation token.
 		$token = JUtility::getHash(JUserHelper::genRandomPassword());
-		$user->activation = $token;
+		$salt = JUserHelper::getSalt('crypt-md5');
+		$hashedToken = md5($token.$salt).':'.$salt;
+		
+		$user->activation = $hashedToken;
 
 		// Save the user to the database.
 		if (!$user->save(true)) {
