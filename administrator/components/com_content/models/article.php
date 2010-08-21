@@ -178,9 +178,6 @@ class ContentModelArticle extends JModelAdmin
 			return true;
 		}
 
-		$cache = JFactory::getCache('com_content');
-		$cache->clean();
-
 		return false;
 	}
 

@@ -245,6 +245,10 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 		}
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache($this->option);
+		$cache->clean();
 
 		return true;
 	}
@@ -382,6 +386,10 @@ abstract class JModelAdmin extends JModelForm
 			$this->setError($table->getError());
 			return false;
 		}
+		
+		// Clear the component's cache
+		$cache = JFactory::getCache($this->option);
+		$cache->clean();
 
 		return true;
 	}
@@ -442,7 +450,13 @@ abstract class JModelAdmin extends JModelForm
 		if ($allowed === false && empty($pks)) {
 			$result = null;
 		}
-
+		
+		if ($result == true) {
+			// Clear the component's cache
+			$cache = JFactory::getCache($this->option);
+			$cache->clean();
+		}
+		
 		return $result;
 	}
 

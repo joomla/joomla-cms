@@ -926,7 +926,14 @@ class MenusModelItem extends JModelAdmin
 		$cache = JFactory::getCache('com_modules');
 		$cache->clean();
 		$cache->clean('mod_menu');
-
+		
+		if (isset($data['link'])) {
+			$base = JURI::base();
+			$juri = JURI::getInstance($base.$data['link']);
+			$com = $juri->getVar('option');
+			$cache->clean($com);
+		}
+		
 		return true;
 	}
 
