@@ -13,7 +13,7 @@ define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
 define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 
 if (!defined('DS')) {
-	/** string Shortcut for the DIRECTORY_SEPARATOR define */
+	/** string Shortcut for the DS define */
 	define('DS', DIRECTORY_SEPARATOR);
 }
 
@@ -133,7 +133,7 @@ class JPath
 	 * @return	string	A cleaned version of the path
 	 * @since	1.5
 	 */
-	public static function check($path, $ds = DIRECTORY_SEPARATOR)
+	public static function check($path, $ds = DS)
 	{
 		if (strpos($path, '..') !== false) {
 			JError::raiseError(20, 'JPath::check Use of relative paths not permitted'); // don't translate
@@ -157,7 +157,7 @@ class JPath
 	 * @return	string	The cleaned path
 	 * @since	1.5
 	 */
-	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
+	public static function clean($path, $ds = DS)
 	{
 		$path = trim($path);
 
@@ -185,7 +185,7 @@ class JPath
 
 		$tmp = md5(JUserHelper::genRandomPassword(16));
 		$ssp = ini_get('session.save_path');
-		$jtp = JPATH_SITE.DS.'tmp';
+		$jtp = JPATH_SITE.'/tmp';
 
 		// Try to find a writable directory
 		$dir = is_writable('/tmp') ? '/tmp' : false;
@@ -193,7 +193,7 @@ class JPath
 		$dir = (!$dir && is_writable($jtp)) ? $jtp : false;
 
 		if ($dir) {
-			$test = $dir.DS.$tmp;
+			$test = $dir.'/'.$tmp;
 
 			// Create the test file
 			$blank = '';

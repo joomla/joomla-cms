@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-require_once dirname(__FILE__).DS.'list.php';
+require_once dirname(__FILE__).'/list.php';
 
 /**
  * Parameter to display a list of the layouts for a module from the module or default template overrides.
@@ -47,8 +47,8 @@ class JElementModuleLayouts extends JElementList
 		if ($module = $node->attributes('module')) {
 			$base	= ($clientId == 1) ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$module	= preg_replace('#\W#', '', $module);
-			$path1	= $base.DS.'modules'.DS.$module.DS.'tmpl';
-			$path2	= $base.DS.'templates'.DS.$template.DS.'html'.DS.$module;
+			$path1	= $base.'/modules/'.$module.'/tmpl';
+			$path2	= $base.'/templates/'.$template.'/html/'.$module;
 			$options[]	= JHTML::_('select.option', '', '');
 		}
 

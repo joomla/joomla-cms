@@ -120,15 +120,15 @@ class JComponentHelper
 		$file	= substr($option, 4);
 
 		// Define component path.
-		define('JPATH_COMPONENT',				JPATH_BASE.DS.'components'.DS.$option);
-		define('JPATH_COMPONENT_SITE',			JPATH_SITE.DS.'components'.DS.$option);
-		define('JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$option);
+		define('JPATH_COMPONENT',				JPATH_BASE.'/components/'.$option);
+		define('JPATH_COMPONENT_SITE',			JPATH_SITE.'/components/'.$option);
+		define('JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.'/components/'.$option);
 
 		// get component path
-		if ($app->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php')) {
-			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
+		if ($app->isAdmin() && file_exists(JPATH_COMPONENT.'/admin.'.$file.'.php')) {
+			$path = JPATH_COMPONENT.'/admin.'.$file.'.php';
 		} else {
-			$path = JPATH_COMPONENT.DS.$file.'.php';
+			$path = JPATH_COMPONENT.'/'.$file.'.php';
 		}
 
 		// If component disabled throw error

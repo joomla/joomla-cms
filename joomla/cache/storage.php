@@ -96,7 +96,7 @@ class JCacheStorage extends JObject
 	{
 		static $now = null;
 
-		JCacheStorage::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage');
+		JCacheStorage::addIncludePath(JPATH_LIBRARIES.'/joomla/cache/storage');
 
 		if (!isset($handler)) {
 			$conf = JFactory::getConfig();
@@ -151,7 +151,7 @@ class JCacheStorage extends JObject
 	public function getAll()
 	{
 		if (!class_exists('JCacheStorageHelper', false)) {
-			require_once JPATH_ROOT.DS.'libraries'.DS.'joomla'.DS.'cache'.DS.'storage'.DS.'helpers'.DS.'helper.php';
+			require_once JPATH_ROOT.'/libraries/joomla/cache/storage/helpers/helper.php';
 		}
 		return;
 	}

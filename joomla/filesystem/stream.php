@@ -116,7 +116,7 @@ class JStream extends JObject
 		{
 			// if we're dealing with a Joomla! stream, load it
 			if(JFilesystemHelper::isJoomlaStream($url['scheme'])) {
-				require_once dirname(__FILE__).DS.'streams'.DS.$url['scheme'].'.php';
+				require_once dirname(__FILE__).'/streams/'.$url['scheme'].'.php';
 			}
 
 			// we have a scheme! force the method to be f

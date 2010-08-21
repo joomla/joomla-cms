@@ -393,21 +393,21 @@ class JDocumentHTML extends JDocument
 		$contents = '';
 
 		//Check to see if we have a valid template file
-		if (file_exists($directory.DS.$filename))
+		if (file_exists($directory.'/'.$filename))
 		{
 			//store the file path
-			$this->_file = $directory.DS.$filename;
+			$this->_file = $directory.'/'.$filename;
 
 			//get the file content
 			ob_start();
-			require_once $directory.DS.$filename;
+			require_once $directory.'/'.$filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
 
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . DS;
-		$dirs = array($path, JPATH_BASE.DS);
+		$dirs = array($path, JPATH_BASE.'/');
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir.'favicon.ico';
@@ -436,7 +436,7 @@ class JDocumentHTML extends JDocument
 		$template	= $filter->clean($params['template'], 'cmd');
 		$file		= $filter->clean($params['file'], 'cmd');
 
-		if (!file_exists($directory.DS.$template.DS.$file)) {
+		if (!file_exists($directory.'/'.$template.'/'.$file)) {
 			$template = 'system';
 		}
 
@@ -445,9 +445,9 @@ class JDocumentHTML extends JDocument
 		// 1.5 or core then
 		// 1.6
 			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_'.$template, $directory.DS.$template, null, false, false)
+		||	$lang->load('tpl_'.$template, $directory.'/'.$template, null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_'.$template, $directory.DS.$template, $lang->getDefault(), false, false);
+		||	$lang->load('tpl_'.$template, $directory.'/'.$template, $lang->getDefault(), false, false);
 
 		// Assign the variables
 		$this->template = $template;
@@ -455,7 +455,7 @@ class JDocumentHTML extends JDocument
 		$this->params	= isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// load
-		$this->_template = $this->_loadTemplate($directory.DS.$template, $file);
+		$this->_template = $this->_loadTemplate($directory.'/'.$template, $file);
 	}
 
 	/**

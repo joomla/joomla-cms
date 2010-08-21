@@ -104,7 +104,7 @@ class JApplication extends JObject
 		}
 
 		// Create the configuration object.
-		$this->_createConfiguration(JPATH_CONFIGURATION.DS.$config['config_file']);
+		$this->_createConfiguration(JPATH_CONFIGURATION.'/'.$config['config_file']);
 
 		// Create the session if a session name is passed.
 		if ($config['session'] !== false) {
@@ -139,7 +139,7 @@ class JApplication extends JObject
 			jimport('joomla.application.helper');
 			$info = JApplicationHelper::getClientInfo($client, true);
 
-			$path = $info->path.DS.'includes'.DS.'application.php';
+			$path = $info->path.'/includes/application.php';
 			if (file_exists($path)) {
 				require_once $path;
 

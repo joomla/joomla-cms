@@ -11,10 +11,10 @@
 defined('JPATH_BASE') or die;
 
 //Register the storage class with the loader
-JLoader::register('JCacheStorage', dirname(__FILE__).DS.'storage.php');
+JLoader::register('JCacheStorage', dirname(__FILE__).'/storage.php');
 
 //Register the controller class with the loader
-JLoader::register('JCacheController', dirname(__FILE__).DS.'controller.php');
+JLoader::register('JCacheController', dirname(__FILE__).'/controller.php');
 
 /**
  * Joomla! Cache base object
@@ -51,7 +51,7 @@ class JCache extends JObject
 		$conf = JFactory::getConfig();
 
 		$this->_options = array(
-			'cachebase'		=> $conf->get('cache_path', JPATH_ROOT.DS.'cache'),
+			'cachebase'		=> $conf->get('cache_path', JPATH_ROOT.'/cache'),
 			'lifetime'		=> (int)$conf->get('cachetime'),
 			'language'		=> $conf->get('language', 'en-GB'),
 			'storage'		=> $conf->get('cache_handler',''),
@@ -95,7 +95,7 @@ class JCache extends JObject
 	public static function getStores()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__).DS.'storage', '.php');
+		$handlers = JFolder::files(dirname(__FILE__).'/storage', '.php');
 
 		$names = array();
 		foreach($handlers as $handler) {
@@ -103,7 +103,7 @@ class JCache extends JObject
 			$class = 'JCacheStorage'.$name;
 
 			if (!class_exists($class)) {
-				require_once dirname(__FILE__).DS.'storage'.DS.$name.'.php';
+				require_once dirname(__FILE__).'/storage/'.$name.'.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array())) {
