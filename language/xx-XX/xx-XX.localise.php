@@ -19,7 +19,7 @@ abstract class xx_XXLocalise {
 	 * @return	array  An array of potential suffixes.
 	 * @since	1.6
 	 */
-	public static function getPluralSuffices($count) {
+	public static function getPluralSuffixes($count) {
 		if ($count == 0) {
 			$return =  array('0');
 		}

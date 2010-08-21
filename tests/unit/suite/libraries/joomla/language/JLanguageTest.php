@@ -268,32 +268,32 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			array('0'),
-			$lang->getpluralSuffices(0),
+			$lang->getPluralSuffixes(0),
 			'Line: '.__LINE__
 		);
 
 		$this->assertEquals(
 			array('1'),
-			$lang->getPluralSuffices(1),
+			$lang->getPluralSuffixes(1),
 			'Line: '.__LINE__
 		);
 
 		$this->assertEquals(
 			array('MORE'),
-			$lang->getPluralSuffices(5),
+			$lang->getPluralSuffixes(5),
 			'Line: '.__LINE__
 		);
     }
 
     /**
-     * @todo Implement testGetPluralSufficesCallback().
+     * @todo Implement testgetPluralSuffixesCallback().
      */
-    public function testGetPluralSufficesCallback()
+    public function testgetPluralSuffixesCallback()
     {
 		$lang = new JLanguage('');
 
 		$this->assertTrue(
-			is_callable($lang->getPluralSufficesCallback())
+			is_callable($lang->getPluralSuffixesCallback())
 		);
     }
 
@@ -307,14 +307,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$lang		= new JLanguage('');
 
 		$this->assertTrue(
-			is_callable($lang->getPluralSufficesCallback())
+			is_callable($lang->getPluralSuffixesCallback())
 		);
 
 		$this->assertTrue(
 			is_callable($lang->setPluralSufficesCallback($function1))
 		);
 
-		$get = $lang->getPluralSufficesCallback();
+		$get = $lang->getPluralSuffixesCallback();
 		$this->assertEquals(
 			$function1,
 			$get,
@@ -343,13 +343,13 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$function2,
-			$lang->getPluralSufficesCallback(),
+			$lang->getPluralSuffixesCallback(),
 			'Line: '.__LINE__
 		);
 
 		$this->assertNotEquals(
 			$function1,
-			$lang->getPluralSufficesCallback(),
+			$lang->getPluralSuffixesCallback(),
 			'Line: '.__LINE__
 		);
     }
