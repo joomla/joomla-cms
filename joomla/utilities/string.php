@@ -329,6 +329,10 @@ abstract class JString
 	*/
 	public static function ltrim($str, $charlist = FALSE)
 	{
+		if (empty($charlist) && $charlist !== false) {
+			return $str;
+		}
+
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
 			return utf8_ltrim( $str );
@@ -353,6 +357,10 @@ abstract class JString
 	*/
 	public static function rtrim($str, $charlist = FALSE)
 	{
+		if (empty($charlist) && $charlist !== false) {
+			return $str;
+		}
+
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
 			return utf8_rtrim($str);
@@ -377,6 +385,10 @@ abstract class JString
 	*/
 	public static function trim($str, $charlist = FALSE)
 	{
+		if (empty($charlist) && $charlist !== false) {
+			return $str;
+		}
+
 		jimport('phputf8.trim');
 		if ( $charlist === FALSE ) {
 			return utf8_trim( $str );
