@@ -18,7 +18,7 @@ if (file_exists('config.php')) {
 
 // Define expected Joomla constants.
 
-define('DS',			DIRECTORY_SEPARATOR);
+define('DS',DIRECTORY_SEPARATOR);
 define('_JEXEC',		1);
 
 if (!defined('JPATH_BASE'))

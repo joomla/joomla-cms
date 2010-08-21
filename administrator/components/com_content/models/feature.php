@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
 
-require_once dirname(__FILE__).DS.'article.php';
+require_once dirname(__FILE__).'/article.php';
 
 /**
  * Feature model.

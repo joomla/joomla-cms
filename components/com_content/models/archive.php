@@ -10,7 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . DS . 'articles.php';
+require_once dirname(__FILE__) . '/articles.php';
 
 /**
  * Content Component Archive Model

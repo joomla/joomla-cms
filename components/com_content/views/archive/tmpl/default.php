@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <div class="archive<?php echo $pageClass;?>">

@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'weblink.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/weblink.php';
 
 /**
  * Weblinks model.

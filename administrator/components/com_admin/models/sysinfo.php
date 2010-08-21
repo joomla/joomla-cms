@@ -158,43 +158,43 @@ class AdminModelSysInfo extends JModel
 			jimport('joomla.filesystem.folder');
 			$cparams = JComponentHelper::getParams('com_media');
 			$this->directory = array();
-			$this->directory['administrator'.DS.'components']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'components'), 'message' => '');
-			$this->directory['administrator'.DS.'language']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'language'), 'message' => '');
+			$this->directory['administrator/components']	= array('writable' => is_writable(JPATH_SITE.'/administrator/components'), 'message' => '');
+			$this->directory['administrator/language']		= array('writable' => is_writable(JPATH_SITE.'/administrator/language'), 'message' => '');
 
 			// List all admin languages
-			$admin_langs = JFolder::folders(JPATH_ADMINISTRATOR.DS.'language');
+			$admin_langs = JFolder::folders(JPATH_ADMINISTRATOR.'/language');
 			foreach($admin_langs as $alang) {
-				$this->directory['administrator'.DS.'language'.DS.$alang] = array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'language'.DS.$alang), 'message' => '');
+				$this->directory['administrator/language/'.$alang] = array('writable' => is_writable(JPATH_SITE.'/administrator/language/'.$alang), 'message' => '');
 			}
 
-			$this->directory['administrator'.DS.'modules']		= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'modules'), 'message' => '');
-			$this->directory['administrator'.DS.'templates']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'templates'), 'message' => '');
+			$this->directory['administrator/modules']		= array('writable' => is_writable(JPATH_SITE.'/administrator/modules'), 'message' => '');
+			$this->directory['administrator/templates']	= array('writable' => is_writable(JPATH_SITE.'/administrator/templates'), 'message' => '');
 
-			$this->directory['components']					= array('writable' => is_writable(JPATH_SITE.DS.'components'), 'message' => '');
-			$this->directory['images']						= array('writable' => is_writable(JPATH_SITE.DS.'images'), 'message' => '');
-			$this->directory['images'.DS.'banners']			= array('writable' => is_writable(JPATH_SITE.DS.'images'.DS.'banners'), 'message' => '');
-			$this->directory[$cparams->get('image_path') ]	= array('writable' => is_writable(JPATH_SITE.DS.$cparams->get('image_path')), 'message' => '');
-			$this->directory['language']					= array('writable' => is_writable(JPATH_SITE.DS.'language'), 'message' => '');
+			$this->directory['components']					= array('writable' => is_writable(JPATH_SITE.'/components'), 'message' => '');
+			$this->directory['images']						= array('writable' => is_writable(JPATH_SITE.'/images'), 'message' => '');
+			$this->directory['images/banners']			= array('writable' => is_writable(JPATH_SITE.'/images/banners'), 'message' => '');
+			$this->directory[$cparams->get('image_path') ]	= array('writable' => is_writable(JPATH_SITE.'/'.$cparams->get('image_path')), 'message' => '');
+			$this->directory['language']					= array('writable' => is_writable(JPATH_SITE.'/language'), 'message' => '');
 
 			// List all site languages
-			$site_langs = JFolder::folders(JPATH_SITE.DS.'language');
+			$site_langs = JFolder::folders(JPATH_SITE.'/language');
 			foreach ($site_langs as $slang) {
-				$this->directory['language'.DS.$slang] = array('writable' => is_writable(JPATH_SITE.DS.'language'.DS.$slang), 'message' => '');
+				$this->directory['language/'.$slang] = array('writable' => is_writable(JPATH_SITE.'/language/'.$slang), 'message' => '');
 			}
-			$this->directory['media']		= array('writable' => is_writable(JPATH_SITE.DS.'media'), 'message' => '');
-			$this->directory['modules']		= array('writable' => is_writable(JPATH_SITE.DS.'modules'), 'message' => '');
-			$this->directory['plugins']		= array('writable' => is_writable(JPATH_SITE.DS.'plugins'), 'message' => '');
-			$this->directory['plugins'.DS.'content']		= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'content'), 'message' => '');
-			$this->directory['plugins'.DS.'editors']		= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'editors'), 'message' => '');
-			$this->directory['plugins'.DS.'editors-xtd']	= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'editors-xtd'), 'message' => '');
-			$this->directory['plugins'.DS.'search']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'search'), 'message' => '');
-			$this->directory['plugins'.DS.'system']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'system'), 'message' => '');
-			$this->directory['plugins'.DS.'user']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'user'), 'message' => '');
-			$this->directory['cache']						= array('writable' => is_writable(JPATH_SITE.DS.'cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
-			$this->directory['administrator'.DS.'cache']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
+			$this->directory['media']		= array('writable' => is_writable(JPATH_SITE.'/media'), 'message' => '');
+			$this->directory['modules']		= array('writable' => is_writable(JPATH_SITE.'/modules'), 'message' => '');
+			$this->directory['plugins']		= array('writable' => is_writable(JPATH_SITE.'/plugins'), 'message' => '');
+			$this->directory['plugins/content']		= array('writable' => is_writable(JPATH_SITE.'/plugins/content'), 'message' => '');
+			$this->directory['plugins/editors']		= array('writable' => is_writable(JPATH_SITE.'/plugins/editors'), 'message' => '');
+			$this->directory['plugins/editors-xtd']	= array('writable' => is_writable(JPATH_SITE.'/plugins/editors-xtd'), 'message' => '');
+			$this->directory['plugins/search']			= array('writable' => is_writable(JPATH_SITE.'/plugins/search'), 'message' => '');
+			$this->directory['plugins/system']			= array('writable' => is_writable(JPATH_SITE.'/plugins/system'), 'message' => '');
+			$this->directory['plugins/user']			= array('writable' => is_writable(JPATH_SITE.'/plugins/user'), 'message' => '');
+			$this->directory['cache']						= array('writable' => is_writable(JPATH_SITE.'/cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
+			$this->directory['administrator/cache']	= array('writable' => is_writable(JPATH_SITE.'/administrator/cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
 
-			$this->directory[$registry->get('log_path', JPATH_ROOT.DS.'log') ] = array('writable' => is_writable($registry->get('log_path', JPATH_ROOT.DS.'log')), 'message' => 'COM_ADMIN_LOG_DIRECTORY');
-			$this->directory[$registry->get('tmp_path', JPATH_ROOT.DS.'log') ] = array('writable' => is_writable($registry->get('tmp_path', JPATH_ROOT.DS.'tmp')), 'message' => 'COM_ADMIN_TEMP_DIRECTORY');
+			$this->directory[$registry->get('log_path', JPATH_ROOT.'/log') ] = array('writable' => is_writable($registry->get('log_path', JPATH_ROOT.'/log')), 'message' => 'COM_ADMIN_LOG_DIRECTORY');
+			$this->directory[$registry->get('tmp_path', JPATH_ROOT.'/log') ] = array('writable' => is_writable($registry->get('tmp_path', JPATH_ROOT.'/tmp')), 'message' => 'COM_ADMIN_TEMP_DIRECTORY');
 		}
 		return $this->directory;
 	}

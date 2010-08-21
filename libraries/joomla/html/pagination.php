@@ -259,7 +259,7 @@ class JPagination extends JObject
 		$itemOverride = false;
 		$listOverride = false;
 
-		$chromePath = JPATH_THEMES.DS.$app->getTemplate().DS.'html'.DS.'pagination.php';
+		$chromePath = JPATH_THEMES.'/'.$app->getTemplate().'/html/pagination.php';
 		if (file_exists($chromePath))
 		{
 			require_once $chromePath;
@@ -353,7 +353,7 @@ class JPagination extends JObject
 		$list['pagescounter']	= $this->getPagesCounter();
 		$list['pageslinks']		= $this->getPagesLinks();
 
-		$chromePath	= JPATH_THEMES.DS.$app->getTemplate().DS.'html'.DS.'pagination.php';
+		$chromePath	= JPATH_THEMES.'/'.$app->getTemplate().'/html/pagination.php';
 		if (file_exists($chromePath))
 		{
 			require_once $chromePath;

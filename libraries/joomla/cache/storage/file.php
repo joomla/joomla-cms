@@ -84,11 +84,11 @@ class JCacheStorageFile extends JCacheStorage
 
 		foreach ($folders as $folder) {
 			$files 	= array();
-			$files 	= $this->_filesInFolder($path.DS.$folder);
+			$files 	= $this->_filesInFolder($path.'/'.$folder);
 			$item 	= new JCacheStorageHelper($folder);
 
 			foreach ($files as $file) {
-				$item->updateSize(filesize($path.DS.$folder.DS.$file) / 1024);
+				$item->updateSize(filesize($path.'/'.$folder.'/'.$file) / 1024);
 			}
 			$data[$folder] = $item;
 		}
@@ -172,14 +172,14 @@ class JCacheStorageFile extends JCacheStorage
 				$folders = $this->_folders($this->_root);
 				for ($i=0, $n=count($folders); $i<$n; $i++) {
 					if ($folders[$i] != $folder) {
-						$return |= $this->_deleteFolder($this->_root.DS.$folders[$i]);
+						$return |= $this->_deleteFolder($this->_root.'/'.$folders[$i]);
 					}
 				}
 				break;
 			case 'group':
 			default:
-				if (is_dir($this->_root.DS.$folder)) {
-					$return = $this->_deleteFolder($this->_root.DS.$folder);
+				if (is_dir($this->_root.'/'.$folder)) {
+					$return = $this->_deleteFolder($this->_root.'/'.$folder);
 				}
 				break;
 		}
@@ -215,7 +215,7 @@ class JCacheStorageFile extends JCacheStorage
 	public static function test()
 	{
 		$conf = JFactory::getConfig();
-		return is_writable($conf->get('cache_path', JPATH_ROOT.DS.'cache'));
+		return is_writable($conf->get('cache_path', JPATH_ROOT.'/cache'));
 	}
 
 	/**
@@ -325,7 +325,7 @@ class JCacheStorageFile extends JCacheStorage
 	private function _getFilePath($id, $group)
 	{
 		$name	= $this->_getCacheId($id, $group);
-		$dir	= $this->_root.DS.$group;
+		$dir	= $this->_root.'/'.$group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir)) {
@@ -339,7 +339,7 @@ class JCacheStorageFile extends JCacheStorage
 		if (!is_dir($dir)) {
 			return false;
 		}
-		return $dir.DS.$name.'.php';
+		return $dir.'/'.$name.'.php';
 	}
 
 	/**

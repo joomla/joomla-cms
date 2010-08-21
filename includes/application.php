@@ -212,7 +212,7 @@ final class JSite extends JApplication
 					$this->setUserState('users.login.form.data',array( 'return' => $return ) );
 					$file = 'offline';
 				}
-				if (!is_dir(JPATH_THEMES.DS.$template->template) && !$this->getCfg('offline')) {
+				if (!is_dir(JPATH_THEMES.'/'.$template->template) && !$this->getCfg('offline')) {
 					$file = 'component';
 				}
 				$params = array(
@@ -435,10 +435,10 @@ final class JSite extends JApplication
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php')) {
+		if (!file_exists(JPATH_THEMES.'/'.$template->template.'/index.php')) {
 			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
 		    $template->template = 'beez_20';
-		    if (!file_exists(JPATH_THEMES.DS.'beez_20'.DS.'index.php')) {
+		    if (!file_exists(JPATH_THEMES.'/beez_20/index.php')) {
 		    	$template->template = '';
 		    }
 		}
@@ -458,7 +458,7 @@ final class JSite extends JApplication
 	 */
 	public function setTemplate($template)
 	{
-		if (is_dir(JPATH_THEMES.DS.$template)) {
+		if (is_dir(JPATH_THEMES.'/'.$template)) {
 			$this->template = new stdClass();
 			$this->template->params = new JRegistry;
 			$this->template->template = $template;

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Load the loader class.
 if (!class_exists('JLoader')) {
-	require_once JPATH_LIBRARIES.DS.'loader.php';
+	require_once JPATH_LIBRARIES.'/loader.php';
 }
 
 //
@@ -52,5 +52,5 @@ JLoader::import('joomla.filter.filterinput');
 JLoader::import('joomla.filter.filteroutput');
 
 // Register class that don't follow one file per class naming conventions.
-JLoader::register('JText', dirname(__FILE__).DS.'methods.php');
-JLoader::register('JRoute', dirname(__FILE__).DS.'methods.php');
+JLoader::register('JText', dirname(__FILE__).'/methods.php');
+JLoader::register('JRoute', dirname(__FILE__).'/methods.php');

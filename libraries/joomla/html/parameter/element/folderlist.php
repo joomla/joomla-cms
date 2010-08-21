@@ -33,7 +33,7 @@ class JElementFolderlist extends JElement
 		jimport('joomla.filesystem.folder');
 
 		// Initialise variables.
-		$path		= JPATH_ROOT.DS.$node->attributes('directory');
+		$path		= JPATH_ROOT.'/'.$node->attributes('directory');
 		$filter		= $node->attributes('filter');
 		$exclude	= $node->attributes('exclude');
 		$folders	= JFolder::folders($path, $filter);

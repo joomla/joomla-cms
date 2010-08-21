@@ -108,10 +108,10 @@ class MediaHelper
 			$d = dir($dir);
 
 			while (false !== ($entry = $d->read())) {
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
+				if (substr($entry, 0, 1) != '.' && is_file($dir . DS . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
 					$total_file++;
 				}
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
+				if (substr($entry, 0, 1) != '.' && is_dir($dir . DS . $entry)) {
 					$total_dir++;
 				}
 			}

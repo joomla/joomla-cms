@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'router.php';
-JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_content'.DS.'models');
+require_once JPATH_SITE.'/components/com_content/router.php';
+JModel::addIncludePath(JPATH_SITE.'/components/com_content/models');
 
 abstract class modArticlesCategoryHelper
 {

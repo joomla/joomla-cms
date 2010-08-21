@@ -193,7 +193,7 @@ abstract class JDatabase extends JObject
 			$database	= array_key_exists('database', $options)	? $options['database']	: null;
 
 			$driver = preg_replace('/[^A-Z0-9_\.-]/i', '', $driver);
-			$path	= dirname(__FILE__).DS.'database'.DS.$driver.'.php';
+			$path	= dirname(__FILE__).'/database/'.$driver.'.php';
 
 			if (file_exists($path)) {
 				require_once $path;
@@ -235,7 +235,7 @@ abstract class JDatabase extends JObject
 	public function getConnectors()
 	{
 		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__).DS.'database', '.php$');
+		$handlers = JFolder::files(dirname(__FILE__).'/database', '.php$');
 
 		$names = array();
 		foreach($handlers as $handler) {
@@ -243,7 +243,7 @@ abstract class JDatabase extends JObject
 			$class = 'JDatabase'.ucfirst($name);
 
 			if (!class_exists($class)) {
-				require_once dirname(__FILE__).DS.'database'.DS.$name.'.php';
+				require_once dirname(__FILE__).'/database/'.$name.'.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array())) {

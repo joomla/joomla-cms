@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Include the whosonline functions only once
-require_once dirname(__FILE__).DS.'helper.php';
+require_once dirname(__FILE__).'/helper.php';
 
 $showmode = $params->get('showmode', 0);
 

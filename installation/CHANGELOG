@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Aug-2010 Ian MacLennan
+ # [#21949] Systematic elimination of DS as directory separator
+
 21-Aug-2010 Jean-Marie Simonet
  # [#21964] Help menu item visible in edit mode if hidden in module settings. Thanks Sander and Bill.
  # [#21921] coding remnant left in module.php. Thanks Troy.

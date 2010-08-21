@@ -45,7 +45,7 @@ class MediaControllerFile extends JController
 		$file['name']	= JFile::makeSafe($file['name']);
 
 		if (isset($file['name'])) {
-			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
+			$filepath = JPath::clean(COM_MEDIA_BASE.'/'.$folder.'/'.strtolower($file['name']));
 
 			if (!MediaHelper::canUpload($file, $err)) {
 
@@ -118,7 +118,7 @@ class MediaControllerFile extends JController
 					continue;
 				}
 
-				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.$path);
+				$fullPath = JPath::clean(COM_MEDIA_BASE.'/'.$folder.'/'.$path);
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
 				} else if (is_dir($fullPath)) {

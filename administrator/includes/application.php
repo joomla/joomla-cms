@@ -257,7 +257,7 @@ class JAdministrator extends JApplication
 			$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
 			$template->params = new JRegistry($template->params);
 
-			if (!file_exists(JPATH_THEMES.DS.$template->template.DS.'index.php'))
+			if (!file_exists(JPATH_THEMES.'/'.$template->template.'/index.php'))
 			{
 				$template->params = new JRegistry();
 				$template->template = 'bluestork';

@@ -165,7 +165,7 @@ class LanguagesModelInstalled extends JModelList
 			// Compute all the languages
 			$data	= array ();
 			foreach ($folders as $folder) {
-				$file = $path.DS.$folder.DS.$folder.'.xml';
+				$file = $path.'/'.$folder.'/'.$folder.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject();
 				$row->language = $folder;

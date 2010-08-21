@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 /*
  * Installation check, and check on removal of the install directory.
  */
-if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_CONFIGURATION.DS.'configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.DS.'index.php')*/) {
+if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.'/index.php')*/) {
 	header('Location: ../installation/index.php');
 	exit();
 }
@@ -30,10 +30,10 @@ if (!file_exists(JPATH_CONFIGURATION.DS.'configuration.php') || (filesize(JPATH_
  */
 
 // System includes.
-require_once JPATH_LIBRARIES.DS.'joomla'.DS.'import.php';
+require_once JPATH_LIBRARIES.'/joomla/import.php';
 
 // Pre-Load configuration.
-require_once JPATH_CONFIGURATION.DS.'configuration.php';
+require_once JPATH_CONFIGURATION.'/configuration.php';
 
 // System configuration.
 $CONFIG = new JConfig();

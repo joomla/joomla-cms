@@ -52,7 +52,7 @@ class MediaControllerFolder extends JController
 					continue;
 				}
 
-				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.$path);
+				$fullPath = JPath::clean(COM_MEDIA_BASE.'/'.$folder.'/'.$path);
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
 				} else if (is_dir($fullPath)) {
@@ -106,12 +106,12 @@ class MediaControllerFolder extends JController
 		}
 
 		if (strlen($folder) > 0) {
-			$path = JPath::clean(COM_MEDIA_BASE.DS.$parent.DS.$folder);
+			$path = JPath::clean(COM_MEDIA_BASE.'/'.$parent.'/'.$folder);
 			if (!is_dir($path) && !is_file($path)) {
 				jimport('joomla.filesystem.*');
 				JFolder::create($path);
 				$data = "<html>\n<body bgcolor=\"#FFFFFF\">\n</body>\n</html>";
-				JFile::write($path.DS."index.html", $data);
+				JFile::write($path."/index.html", $data);
 			}
 			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
 		}

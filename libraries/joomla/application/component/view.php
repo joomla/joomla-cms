@@ -152,7 +152,7 @@ class JView extends JObject
 			// user-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
-			$this->_setPath('template', $this->_basePath.DS.'views'.DS.$this->getName().DS.'tmpl');
+			$this->_setPath('template', $this->_basePath.'/views/'.$this->getName().'/tmpl');
 		}
 
 		// set the default helper search path
@@ -160,7 +160,7 @@ class JView extends JObject
 			// user-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
 		} else {
-			$this->_setPath('helper', $this->_basePath.DS.'helpers');
+			$this->_setPath('helper', $this->_basePath.'/helpers');
 		}
 
 		// set the layout
@@ -624,7 +624,7 @@ class JView extends JObject
 				if (isset($app))
 				{
 					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback	= JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
+					$fallback	= JPATH_BASE.'/templates/'.$app->getTemplate().'/html/'.$component.'/'.$this->getName();
 					$this->_addPath('template', $fallback);
 				}
 				break;
@@ -649,9 +649,9 @@ class JView extends JObject
 			$dir = trim($dir);
 
 			// add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
+			if (substr($dir, -1) != DS) {
 				// directory
-				$dir .= DIRECTORY_SEPARATOR;
+				$dir .= DS;
 			}
 
 			// add to the top of the search dirs

@@ -59,7 +59,7 @@ abstract class JLoader
 			{
 				// If we are loading a joomla class prepend the classname with a capital J.
 				$className = 'J'.$className;
-				$classes = JLoader::register($className, $base.DS.$path.'.php');
+				$classes = JLoader::register($className, $base.'/'.$path.'.php');
 				$rs = isset($classes[strtolower($className)]);
 			}
 			else
@@ -68,7 +68,7 @@ abstract class JLoader
 				// it uses our pattern for class names/files so just include
 				// if the file exists or set it to false if not
 
-				$filename = $base.DS.$path.'.php';
+				$filename = $base.'/'.$path.'.php';
 				if (is_file($filename))
 				{
 					$rs   = (bool) include $filename;
