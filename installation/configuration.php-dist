@@ -87,9 +87,9 @@ class JConfig {
 	public $MetaAuthor = '1';
 
 	/* SEO Settings */
-	public $sef = '0';
+	public $sef = '1';
 	public $sef_rewrite = '0';
-	public $sef_suffix = '';
+	public $sef_suffix = '0';
 	public $unicodeslugs = '0';
 
 	/* Feed Settings */

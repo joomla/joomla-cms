@@ -425,7 +425,7 @@
 		<field
 			name="sef"
 			type="radio"
-			default="0"
+			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
 			filter="integer">

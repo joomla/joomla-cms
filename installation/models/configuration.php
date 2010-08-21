@@ -111,7 +111,7 @@ class JInstallationModelConfiguration extends JModel
 		/* SEO Settings */
 		$registry->set('sef', 1);
 		$registry->set('sef_rewrite', 0);
-		$registry->set('sef_suffix', 1);
+		$registry->set('sef_suffix', 0);
 		$registry->set('unicodeslugs', 0);
 
 		/* Feed Settings */
