@@ -35,7 +35,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_modules&layout=modal&tmpl=component'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=modal&tmpl=component'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
 		<div class="fltrt">
 			<button type="button" onclick="Joomla.submitform('module.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">

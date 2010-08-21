@@ -28,7 +28,7 @@ JHtml::_('behavior.keepalive');
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="source-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_templates'); ?>" method="post" name="adminForm" id="source-form" class="form-validate">
 	<fieldset class="adminform">
 		<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
 

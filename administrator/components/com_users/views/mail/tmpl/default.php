@@ -31,7 +31,7 @@ $script .= "\t\t".'}'."\n";
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 
-<form action="<?php echo(JRoute::_('index.php?option=com_users&view=mail')); ?>" name="adminForm" method="post">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post">
 
 	<div class="width-30 fltlft">
 		<fieldset class="adminform">

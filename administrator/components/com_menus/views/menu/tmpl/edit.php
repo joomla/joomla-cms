@@ -26,7 +26,7 @@ JHtml::_('behavior.formvalidation');
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form">
+<form action="<?php echo JRoute::_('index.php?option=com_menus'); ?>" method="post" name="adminForm" id="item-form">
 <div class="width-40">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_MENU_DETAILS');?></legend>

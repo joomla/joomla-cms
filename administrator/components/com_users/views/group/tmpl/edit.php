@@ -27,7 +27,7 @@ JHtml::_('behavior.formvalidation');
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="group-form" class="form-validate">
 	<div class="width-100">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_USERGROUP_DETAILS');?></legend>

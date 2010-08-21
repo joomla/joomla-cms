@@ -87,7 +87,7 @@ window.addEvent('domready', function(){
 </script>
 
 
-<form action="<?php JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_users'); ?>" method="post" name="adminForm" id="level-form" class="form-validate">
 	<div class="width-100">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_USERS_LEVEL_DETAILS');?></legend>
