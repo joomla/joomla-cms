@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	HTML
  * @since		1.6
  */
-class JHtmlString
+abstract class JHtmlString
 {
 	/**
 	 * Truncates text blocks over the specified character limit and closes
@@ -28,7 +28,7 @@ class JHtmlString
 	 * @param	int		$length		The maximum length of the text.
 	 * @return	string	The truncated text.
 	 */
-	function truncate($text, $length = 0)
+	public static function truncate($text, $length = 0)
 	{
 		// Truncate the item text if it is too long.
 		if ($length > 0 && JString::strlen($text) > $length)
@@ -93,7 +93,7 @@ class JHtmlString
 	 * @param	int		$intro		The maximum length of the intro text.
 	 * @return	string	The abridged text.
 	 */
-	function abridge($text, $length = 50, $intro = 30)
+	public static function abridge($text, $length = 50, $intro = 30)
 	{
 		// Abridge the item text if it is too long.
 		if (JString::strlen($text) > $length) {

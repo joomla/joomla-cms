@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#20343] Update phpmailer to v5.1 (latest version) for php5
  # [#21462] Sample Data Typo
  # [#21474] UTF8 trim lib throws warning if char list is empty
+ # [#21580] E_STRICT error in JCacheCallback due to JHtmlString::truncate() being non-static
 
 20-Aug-2010 Mark Dexter
  # [#21774] patch for failing system tests [cache related]
