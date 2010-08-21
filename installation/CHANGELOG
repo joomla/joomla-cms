@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21951] Action URLs missing in half of the backend forms
  # [#21953] Registration form can be displayed and submitted if registration is disabled
  # [#19223] MySQL strict mode incompatibility
+ # [#20343] Update phpmailer to v5.1 (latest version) for php5
 
 20-Aug-2010 Mark Dexter
  # [#21774] patch for failing system tests [cache related]
