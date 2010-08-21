@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21915] SEF URL Defaults. Thanks Amy.
  # [#21861] Incorrect plural of "suffix" in method names. Thanks Chris.
  # [#21737] Password reset tokens stored plaintext in the database. Thanks Ian.
+ # [#21971] Backend Cache Settings Tooltip Typo. Thanks Rouven.
  
 20-Aug-2010 Ian MacLennan
  # [#21951] Action URLs missing in half of the backend forms
