@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 21-Aug-2010 Jean-Marie Simonet
  # [#21964] Help menu item visible in edit mode if hidden in module settings. Thanks Sander and Bill.
+ #  [#21921] coding remnant left in module.php. Thanks Troy.
  
 20-Aug-2010 Ian MacLennan
  # [#21951] Action URLs missing in half of the backend forms
