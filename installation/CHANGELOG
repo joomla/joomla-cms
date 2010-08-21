@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#21953] Registration form can be displayed and submitted if registration is disabled
  # [#19223] MySQL strict mode incompatibility
  # [#20343] Update phpmailer to v5.1 (latest version) for php5
+ # [#21462] Sample Data Typo
 
 20-Aug-2010 Mark Dexter
  # [#21774] patch for failing system tests [cache related]
