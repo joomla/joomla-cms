@@ -96,6 +96,9 @@ class JDatabaseMySQLi extends JDatabase
 		// finalize initialization
 		parent::__construct($options);
 
+		// Set sqli_mode to non_strict mode
+		mysqli_query($this->_connection, "SET @@SESSION.sql_mode = '';");
+
 		// select the database
 		if ($select) {
 			$this->select($database);
