@@ -84,10 +84,6 @@ class JInstallerModule extends JAdapterInstance
 	 */
 	public function install()
 	{
-		// if this is an update, set the route accordingly
-		/*if ($this->parent->getUpgrade()) {
-		$this->route = 'Update';
-		}*/
 
 		// Get a database connector object
 		$db = $this->parent->getDbo();
