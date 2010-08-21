@@ -209,7 +209,7 @@ class JLanguage extends JObject
 		if (class_exists($class)) {
 			/* Class exists. Try to find
 			 * -a transliterate method,
-			 * -a getPluralSuffices method,
+			 * -a getPluralSuffixes method,
 			 * -a getIgnoredSearchWords method
 			 * -a getLowerLimitSearchWord method
 			 * -a getUpperLimitSearchWord method
@@ -218,8 +218,8 @@ class JLanguage extends JObject
 			if (method_exists($class, 'transliterate')) {
 				$this->transliterator = array($class, 'transliterate');
 			}
-			if (method_exists($class, 'getPluralSuffices')) {
-				$this->pluralSufficesCallback = array($class, 'getPluralSuffices');
+			if (method_exists($class, 'getPluralSuffixes')) {
+				$this->pluralSufficesCallback = array($class, 'getPluralSuffixes');
 			}
 			if (method_exists($class, 'getIgnoredSearchWords')) {
 				$this->ignoredSearchWordsCallback = array($class, 'getIgnoredSearchWords');
@@ -361,7 +361,7 @@ class JLanguage extends JObject
 	 * @return	array	The array of suffices
 	 * @since	1.6
 	 */
-	public function getPluralSuffices($count) {
+	public function getPluralSuffixes($count) {
 		if ($this->pluralSufficesCallback !== null) {
 			return call_user_func($this->pluralSufficesCallback, $count);
 		}
@@ -376,7 +376,7 @@ class JLanguage extends JObject
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       1.6
 	 */
-	public function getPluralSufficesCallback() {
+	public function getPluralSuffixesCallback() {
 		return $this->pluralSufficesCallback;
 	}
 
