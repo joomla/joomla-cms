@@ -27,15 +27,15 @@ $listDirn	= $this->state->get('list.direction');
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
-				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
-				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
-			</select>
-		</div>
-		<div class="filter-select fltrt">
 			<select name="filter_template" class="inputbox" onchange="this.form.submit()">
 				<option value="0"><?php echo JText::_('COM_TEMPLATES_FILTER_TEMPLATE'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getTemplateOptions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.template'));?>
+			</select>
+		</div>
+		<div class="filter-select fltrt">
+			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
+				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>
 	</fieldset>
@@ -50,11 +50,11 @@ $listDirn	= $this->state->get('list.direction');
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
+				<th width="10%">
+					<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
+				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
-				</th>
-				<th width="10%">
-					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TYPE', 'a.client_id', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
@@ -93,13 +93,13 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $this->escape($item->title);?>
 					<?php endif; ?>
 				</td>
+				<td class="center">
+					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
+				</td>
 				<td>
 					<label for="cb<?php echo $i;?>">
 						<?php echo $this->escape($item->template);?>
 					</label>
-				</td>
-				<td class="center">
-					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'styles.', $canChange && !$item->home);?>

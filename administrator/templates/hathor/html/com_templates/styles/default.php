@@ -61,11 +61,11 @@ $listDirn	= $this->state->get('list.direction');
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
+				<th class="width-10">
+					<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
+				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
-				</th>
-				<th class="width-10">
-					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TYPE', 'a.client_id', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
@@ -97,13 +97,13 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $this->escape($item->title);?>
 					<?php endif; ?>
 				</td>
+				<td class="center">
+					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
+				</td>
 				<td>
 					<label for="cb<?php echo $i;?>">
 						<?php echo $this->escape($item->template);?>
 					</label>
-				</td>
-				<td class="center">
-					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'styles.', $canChange && !$item->home);?>

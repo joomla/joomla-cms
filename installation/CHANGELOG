@@ -33,6 +33,8 @@ $ -> Language fix or change
  # [#21981] Add ability to display all modules for both site and admin to Module Manager. Thanks Michael
  $ [#21984] Template Manager: Templates Language String Fix. Thanks Michael.
  # [#21989] Filters - correct position. Thanks Bill.
+ # [#21983] Reverse filter order in Template Manager: Styles on Hathor Template. Thanks Michael. 
+ $ Normalizing some string.
 
 21-Aug-2010 Ian MacLennan
  # [#21949] Systematic elimination of DS as directory separator
