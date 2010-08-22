@@ -31,7 +31,7 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 		<div class="filter-select fltrt">
 			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
-				<option value="*"><?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_CLIENT'); ?></option>
+				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 		</div>

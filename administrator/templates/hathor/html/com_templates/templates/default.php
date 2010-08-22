@@ -32,10 +32,10 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 		<div class="filter-select">
 			<label class="selectlabel" for="filter_client_id">
-				<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_CLIENT'); ?>
+				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
 			<select name="filter_client_id" id="filter_client_id" class="inputbox">
-				<option value="*"><?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_CLIENT'); ?></option>
+				<option value="*"><?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?></option>
 				<?php echo JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
