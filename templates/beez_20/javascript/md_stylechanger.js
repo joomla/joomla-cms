@@ -2,22 +2,33 @@ var prefsLoaded = false;
 var defaultFontSize =100;
 var currentFontSize = defaultFontSize;
 
-function revertStyles(){
-
-        currentFontSize = defaultFontSize;
-        changeFontSize(0);
-
+if (document.addEventListener) {
+	document.addEventListener("DOMContentLoaded", onLoadEvents, false)
+} else {
+	window.onload = onLoadEvents;
 }
 
-function toggleColors(){
+window.onunload = saveSettings;
+
+function onLoadEvents() {
+	setUserOptions();
+	addControls();
+};
+
+function revertStyles() {
+        currentFontSize = defaultFontSize;
+        changeFontSize(0);
+};
+
+function toggleColors() {
         if(currentStyle == "White"){
                 setColor("Black");
         }else{
                 setColor("White");
         }
-}
+};
 
-function changeFontSize(sizeDifference){
+function changeFontSize(sizeDifference) {
         currentFontSize = parseInt(currentFontSize) + parseInt(sizeDifference * 5);
 
         if(currentFontSize > 180){
@@ -30,12 +41,10 @@ function changeFontSize(sizeDifference){
 
 };
 
-function setFontSize(fontSize){
+function setFontSize(fontSize) {
         var stObj = (document.getElementById) ? document.getElementById('content_area') : document.all('content_area');
         document.body.style.fontSize = fontSize + '%';
         $('header').style.fontSize=fontSize + '%';
-
-        //alert (document.body.style.fontSize);
 };
 
 
@@ -60,19 +69,15 @@ function readCookie(name) {
   return null;
 };
 
-window.onload = onLoadEvents;
-
 function setUserOptions(){
         if(!prefsLoaded){
-
                 cookie = readCookie("fontSize");
                 currentFontSize = cookie ? cookie : defaultFontSize;
                 setFontSize(currentFontSize);
 
                 prefsLoaded = true;
         }
-
-}
+};
 
 function addControls() {
 	var container = document.getElementById('fontsize');
@@ -120,16 +125,8 @@ function addControls() {
 	
 	container.appendChild(heading);
 	container.appendChild(p);
-}
+};
 
-function onLoadEvents() {
-	addControls();
-	setUserOptions();
-}
-
-window.onunload = saveSettings;
-
-function saveSettings()
-{
-  createCookie("fontSize", currentFontSize, 365);
-}
+function saveSettings() {
+	createCookie("fontSize", currentFontSize, 365);
+};
