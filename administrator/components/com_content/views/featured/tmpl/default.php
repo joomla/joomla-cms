@@ -28,15 +28,16 @@ $saveOrder	= $listOrder == 'fp.ordering';
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSearch_Filter_Clear'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<select name="filter_access" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-			</select>
-
+        
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
+            
+            <select name="filter_access" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>	</select>
+			
 			<select name="filter_language" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>

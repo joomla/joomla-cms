@@ -34,13 +34,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select fltrt">
-			<label class="selectlabel" for="filter_access">
-				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
-			</label>
-			<select name="filter_access" class="inputbox" id="filter_access">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-			</select>
+			
 
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
@@ -56,6 +50,14 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<select name="filter_category_id" class="inputbox" id="filter_category_id">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'));?>
+			</select>
+            
+            <label class="selectlabel" for="filter_access">
+				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
+			</label>
+			<select name="filter_access" class="inputbox" id="filter_access">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 
 			<label class="selectlabel" for="filter_language">

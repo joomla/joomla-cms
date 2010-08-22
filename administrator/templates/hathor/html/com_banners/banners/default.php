@@ -32,7 +32,15 @@ $saveOrder	= $listOrder=='ordering';
 		</div>
 		<div class="filter-select">
 
-			<label class="selectlabel" for="filter_state">
+			<label class="selectlabel" for="filter_client_id">
+				<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
+			</label>
+			<select name="filter_client_id" id="filter_client_id" class="inputbox">
+				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
+				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			</select>
+            
+            <label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_state" id="filter_state" class="inputbox">
@@ -48,13 +56,7 @@ $saveOrder	= $listOrder=='ordering';
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
-			<label class="selectlabel" for="filter_client_id">
-				<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
-			</label>
-			<select name="filter_client_id" id="filter_client_id" class="inputbox">
-				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
-				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
-			</select>
+			
 
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>

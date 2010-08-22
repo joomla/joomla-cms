@@ -32,13 +32,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
 		<div class="filter-select">
-			<label class="selectlabel" for="filter_access">
-				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
-			</label>
-			<select name="filter_access" id="filter_access" class="inputbox">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
-			</select>
+			
 
 			<label class="selectlabel" for="filter_published">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
@@ -55,12 +49,12 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_weblinks'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
-			<label class="selectlabel" for="filter_language">
-				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
+            <label class="selectlabel" for="filter_access">
+				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
-			<select name="filter_language" id="filter_language" class="inputbox">
-				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+			<select name="filter_access" id="filter_access" class="inputbox">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
 			<label class="selectlabel" for="filter_language">
 				<?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?>
@@ -69,6 +63,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
+			
 
 			<button type="button" id="filter-go" onclick="this.form.submit();">
 				<?php echo JText::_('JSUBMIT'); ?></button>

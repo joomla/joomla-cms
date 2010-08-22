@@ -31,8 +31,9 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 		<div class="filter-select fltrt">
 
-			<select name="filter_type" class="inputbox" onchange="this.form.submit()">
-				<?php echo JHtml::_('select.options', array(JHtml::_('select.option', '0', JText::_('COM_BANNERS_SELECT_TYPE')), JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'));?>
+			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
+				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
 			<?php $category = $this->state->get('filter.category_id');?>
@@ -40,10 +41,9 @@ $listDirn	= $this->state->get('list.direction');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $category);?>
 			</select>
-
-			<select name="filter_client_id" class="inputbox" onchange="this.form.submit()">
-				<option value=""><?php echo JText::_('COM_BANNERS_SELECT_CLIENT');?></option>
-				<?php echo JHtml::_('select.options', JFormFieldBannerClient::getOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
+			
+            <select name="filter_type" class="inputbox" onchange="this.form.submit()">
+				<?php echo JHtml::_('select.options', array(JHtml::_('select.option', '0', JText::_('COM_BANNERS_SELECT_TYPE')), JHtml::_('select.option', 1, JText::_('COM_BANNERS_IMPRESSION')), JHtml::_('select.option', 2, JText::_('COM_BANNERS_CLICK'))), 'value', 'text', $this->state->get('filter.type'));?>
 			</select>
 		</div>
 	</fieldset>
