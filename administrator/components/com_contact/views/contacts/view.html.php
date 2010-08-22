@@ -75,8 +75,6 @@ class ContactViewContacts extends JView
 			JToolBarHelper::custom('contacts.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('contacts.archive','JTOOLBAR_ARCHIVE');
-		}
-		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
 			JToolBarHelper::custom('contacts.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {

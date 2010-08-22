@@ -63,7 +63,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
-					<?php if ($canCreate || $canEdit) : ?>
+					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=group.edit&id='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
 					<?php else : ?>

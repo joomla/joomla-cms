@@ -58,27 +58,24 @@ class UsersViewLevel extends JView
 
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
 
-		if ($canDo->get('core.edit'))
-		{
+		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
 			JToolBarHelper::apply('level.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('level.save','JTOOLBAR_SAVE');
+		}
+		if ($canDo->get('core.create')) {						
 			JToolBarHelper::custom('level.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-
-			// If an existing item, can save to a copy.
-			if (!$isNew && $canDo->get('core.create'))
-			{
+		}
+		// If an existing item, can save to a copy.
+		if (!$isNew && $canDo->get('core.create')){
 				JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 			}
-
-			if (empty($this->item->id))
-			{
+		if (empty($this->item->id)){
 				JToolBarHelper::cancel('level.cancel','JTOOLBAR_CANCEL');
-			} else {
+		} else {
 				JToolBarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
-			}
+		}
 
 			JToolBarHelper::divider();
 			JToolBarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
-		}
 	}
 }

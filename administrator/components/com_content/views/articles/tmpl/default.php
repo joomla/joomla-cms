@@ -110,7 +110,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 			$item->max_ordering = 0; //??
 			$ordering	= ($listOrder == 'a.ordering');
 			$canCreate	= $user->authorise('core.create',		'com_content.category.'.$item->catid);
-			$canEdit	= $user->authorise('core.edit',			'com_content.article.'.$item->id);
+			$canEdit	= $user->authorise('core.edit',			'com_content.category.article.'.$item->id);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_content.article.'.$item->id) && $canCheckin;
 			?>
@@ -122,7 +122,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 					<?php endif; ?>
-					<?php if ($canCreate || $canEdit) : ?>
+					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
 						<?php echo $this->escape($item->title); ?></a>
 					<?php else : ?>

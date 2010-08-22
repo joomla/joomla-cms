@@ -86,7 +86,7 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 
 				<td>
-					<?php if ($canCreate || $canEdit) : ?>
+					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">
 						<?php echo $this->escape($item->title);?></a>
 					<?php else : ?>

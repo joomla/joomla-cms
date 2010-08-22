@@ -54,11 +54,20 @@ class UsersViewUser extends JView
 	{
 		JRequest::setVar('hidemainmenu', 1);
 
+		$user		= JFactory::getUser();
+		$isNew		= ($this->item->id == 0);
+		$canDo		= UsersHelper::getActions();
+		
+		
 		$isNew	= ($this->item->id == 0);
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE'), 'user-add');
-		JToolBarHelper::apply('user.apply','JTOOLBAR_APPLY');
-		JToolBarHelper::save('user.save','JTOOLBAR_SAVE');
-		JToolBarHelper::custom('user.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
+			JToolBarHelper::apply('user.apply','JTOOLBAR_APPLY');
+			JToolBarHelper::save('user.save','JTOOLBAR_SAVE');
+		}
+		if ($canDo->get('core.create')) {			
+			JToolBarHelper::custom('user.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('user.cancel','JTOOLBAR_CANCEL');
 		} else {

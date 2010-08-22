@@ -74,34 +74,33 @@ class CategoriesViewCategories extends JView
 			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 		}
 		JToolBarHelper::title($title, 'categories.png');
-		JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
-		JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
-		if ($this->state->get('filter.published') != 2){
-			JToolBarHelper::divider();
-			JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+		if(JFactory::getUser()->authorise('core.create')) {
+			JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
 		}
-		if ($this->state->get('filter.published') != -1 ) {
-				JToolBarHelper::divider();
-				if ($this->state->get('filter.published') != 2) {
-					JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
-				}
-				else if ($this->state->get('filter.published') == 2) {
-					JToolBarHelper::unarchiveList('categories.publish', 'JTOOLBAR_UNARCHIVE');
-				}
+		if(JFactory::getUser()->authorise('core.edit')) {		
+			JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
 		}
-		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+			if(JFactory::getUser()->authorise('core.edit.state')) {
+		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
+		JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
+		JToolBarHelper::divider();
+		JToolBarHelper::archiveList('categories.archive','JTOOLBAR_ARCHIVE');
+
 			JToolBarHelper::custom('categories.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($this->state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
 		} else {
+			if(JFactory::getUser()->authorise('core.edit.state')) {
 			JToolBarHelper::trash('categories.trash','JTOOLBAR_TRASH');
+			}
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-		JToolBarHelper::divider();
+		if(JFactory::getUser()->authorise('core.edit.state')) {		
+			JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+			JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_'.strtoupper(substr($component,4)).'_CATEGORIES');
 	}
 }

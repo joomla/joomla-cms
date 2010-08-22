@@ -57,9 +57,11 @@ class UsersViewGroup extends JView
 
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'groups-add');
 
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
 			JToolBarHelper::apply('group.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('group.save','JTOOLBAR_SAVE');
+		}
+		if ($canDo->get('core.create')) {			
 			JToolBarHelper::custom('group.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.

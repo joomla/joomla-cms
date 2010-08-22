@@ -68,9 +68,11 @@ class ContentViewArticle extends JView
 		JToolBarHelper::title(JText::_('COM_CONTENT_PAGE_'.($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit')) {
+		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
 			JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
+		}
+		if (!$checkedOut && $canDo->get('core.create')) {		
 			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 

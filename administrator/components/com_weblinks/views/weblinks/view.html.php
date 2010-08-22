@@ -67,17 +67,9 @@ class WeblinksViewWeblinks extends JView
 			JToolBarHelper::custom('weblinks.publish', 'publish.png', 'publish_f2.png','JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::custom('weblinks.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 
-			if ($state->get('filter.state') != -1 ) {
-				JToolBarHelper::divider();
-				if ($state->get('filter.state') != 2) {
-					JToolBarHelper::archiveList('weblinks.archive','JTOOLBAR_ARCHIVE');
-				}
-				else if ($state->get('filter.state') == 2) {
-					JToolBarHelper::unarchiveList('weblinks.publish', 'JTOOLBAR_UNARCHIVE');
-				}
-			}
-		}
-		if(JFactory::getUser()->authorise('core.manage','com_checkin')) {
+
+			JToolBarHelper::divider();
+			JToolBarHelper::archiveList('weblinks.archive','JTOOLBAR_ARCHIVE');
 			JToolBarHelper::custom('weblinks.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {

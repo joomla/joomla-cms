@@ -64,9 +64,11 @@ class ModulesViewModule extends JView
 		JToolBarHelper::title( JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit')) {
+		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') )) {
 			JToolBarHelper::apply('module.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('module.save', 'JTOOLBAR_SAVE');
+		}
+		if (!$checkedOut && $canDo->get('core.create')) {		
 			JToolBarHelper::custom('module.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 			// If an existing item, can save to a copy.

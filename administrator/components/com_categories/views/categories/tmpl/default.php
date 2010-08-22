@@ -20,7 +20,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state', 'com_categories');
+$canOrder	= $user->authorise('core.edit.state', $extension);
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm">
@@ -94,9 +94,19 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
-				$canChange = $canCheckin;
-				?>
+				$item->max_ordering = 0; //??
+				$ordering	= ($listOrder == 'a.ordering');
+				$assetId	= 'com_content.category.'.$item->id;
+				$canCreate	= $user->authorise('core.create',		$extension.'.category.'.$item->id);
+				$canEdit	= $user->authorise('core.edit',			$extension.'.category.'.$item->id);
+				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+				if ($extension != 'com_content') {
+					$canChange	= $user->authorise('core.edit.state',	$extension.'.category.'.$item->id) && $canCheckin;
+				}
+				else {
+					$canChange	= $user->authorise('core.edit.state',	$extension.'.article.'.$item->id) && $canCheckin;
+				}
+			?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -106,8 +116,12 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 						<?php endif; ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
-							<?php echo $this->escape($item->title); ?></a>
+						<?php if ($canEdit) : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
+								<?php echo $this->escape($item->title); ?></a>
+						<?php else : ?>
+							<?php echo $this->escape($item->title); ?>
+						<?php endif; ?>
 						<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 							<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
 							<?php if (empty($item->note)) : ?>
