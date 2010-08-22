@@ -35,7 +35,8 @@ $ -> Language fix or change
  # [#21989] Filters - correct position. Thanks Bill.
  # [#21983] Reverse filter order in Template Manager: Styles on Hathor Template. Thanks Michael. 
  $ Normalizing some string.
-
+ # [#21941] Full Path Disclosure. Thanks all.
+ 
 21-Aug-2010 Ian MacLennan
  # [#21949] Systematic elimination of DS as directory separator
 

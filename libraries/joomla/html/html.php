@@ -7,6 +7,9 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// no direct access
+defined('JPATH_BASE') or die;
+
 JHtml::addIncludePath(JPATH_LIBRARIES.'/joomla/html/html');
 
 jimport('joomla.environment.uri');

@@ -7,8 +7,12 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// no direct access
+defined('JPATH_BASE') or die;
+
 /** boolean True if a Windows based host */
 define('JPATH_ISWIN', (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN'));
+
 /** boolean True if a Mac based host */
 define('JPATH_ISMAC', (strtoupper(substr(PHP_OS, 0, 3)) === 'MAC'));
 
