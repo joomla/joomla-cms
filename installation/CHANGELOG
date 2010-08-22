@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-Aug-2010 Jean-Marie Simonet
  # [#21659] Beez 2 template (default) restless. Thanks Rouven
+ $ [#21973] Inconsistant labels for dropdown lists in Template Manager. Normalizing string. Creating new JGlobal
 
 21-Aug-2010 Ian MacLennan
  # [#21949] Systematic elimination of DS as directory separator
