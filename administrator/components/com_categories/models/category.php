@@ -171,6 +171,20 @@ class CategoriesModelCategory extends JModelAdmin
 
 		return $form;
 	}
+	
+	/**
+	 * A protected method to get the where clause for the reorder
+	 * This ensures that the row will be moved relative to a row with the same extension
+	 *
+	 * @param	JCategoryTable	current table instance
+	 *
+	 * @return	array	An array of conditions to add to add to ordering queries.
+	 * @since	1.6
+	 */
+	protected function getReorderConditions($table)
+	{
+		return 'extension = ' . $this->_db->Quote($table->extension);
+	}	
 
 	/**
 	 * Method to get the data that should be injected in the form.

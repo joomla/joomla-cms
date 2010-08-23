@@ -29,6 +29,8 @@ $ -> Language fix or change
 
 22-Aug-2010 Mark Dexter
  # [#22005] Regression on categories ordering (broken with #21980)
+ # [#21441] Error ordering items
+ 
 
 22-Aug-2010 Ian MacLennan
  # [#21980] Clean up ACL back end for people with create and not edit and edit and not create

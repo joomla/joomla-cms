@@ -627,6 +627,20 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
+	 * A protected method to get the where clause for the reorder
+	 * This ensures that the row will be moved relative to a row with the same menutype
+	 *
+	 * @param	JTableMenu $table instance
+	 *
+	 * @return	array	An array of conditions to add to add to ordering queries.
+	 * @since	1.6
+	 */
+	protected function getReorderConditions($table)
+	{
+		return 'menutype = ' . $this->_db->Quote($table->menutype);
+	}	
+	
+	/**
 	 * Returns a Table object, always creating it
 	 *
 	 * @param	type	$type	The table type to instantiate
