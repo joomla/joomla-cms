@@ -72,11 +72,22 @@ class LanguagesViewInstalled extends JView
 	 */
 	protected function addToolbar()
 	{
+		require_once JPATH_COMPONENT.'/helpers/languages.php';
+		
+		$canDo	= LanguagesHelper::getActions();
+
 		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
-		JToolBarHelper::makeDefault('installed.setDefault','JTOOLBAR_DEFAULT');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_languages');
-		JToolBarHelper::divider();
+
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::makeDefault('installed.setDefault','JTOOLBAR_DEFAULT');
+			JToolBarHelper::divider();
+		}
+		
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::preferences('com_languages');
+			JToolBarHelper::divider();
+		}
+
 		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
 	}
 }

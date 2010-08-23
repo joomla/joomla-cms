@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
+$user	= JFactory::getUser();
+$userId	= $user->get('id');
 $n = count($this->items);
-
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 ?>
@@ -80,7 +81,10 @@ $listDirn	= $this->state->get('list.direction');
 		<tbody>
 		<?php
 		foreach ($this->items as $i => $item) :
-			?>
+			$canCreate	= $user->authorise('core.create',		'com_languages');
+			$canEdit	= $user->authorise('core.edit',			'com_languages');
+			$canChange	= $user->authorise('core.edit.state',	'com_languages');
+		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
 					<?php echo $this->pagination->getRowOffset($i); ?>
@@ -90,8 +94,13 @@ $listDirn	= $this->state->get('list.direction');
 				</td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $item->title; ?>">
+					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&id='.(int) $item->lang_id); ?>">
-							<?php echo $item->title; ?></a></span>
+							<?php echo $item->title; ?></a>
+					<?php else : ?>
+							<?php echo $item->title; ?>
+					<?php endif; ?>
+					</span>
 				</td>
 				<td class="center">
 					<?php echo $item->title_native; ?>
@@ -106,7 +115,7 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $item->image; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.');?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
 				</td>
 				<td class="center">
 					<?php echo $item->lang_id; ?>

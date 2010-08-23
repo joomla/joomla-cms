@@ -49,20 +49,43 @@ class LanguagesViewLanguages extends JView
 	 */
 	protected function addToolbar()
 	{
+		require_once JPATH_COMPONENT.'/helpers/languages.php';
+		
+		$canDo	= LanguagesHelper::getActions();
+
+		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
+
 		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'langmanager.png');
-		JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
-		JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
-		JToolBarHelper::divider();
-		JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
-		JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
-		if ($this->state->get('filter.published') == -2) {
-			JToolBarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} else {
-			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
+
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_languages');
-		JToolBarHelper::divider();
+		
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
+			JToolBarHelper::divider();
+		}
+		
+		if ($canDo->get('core.edit.state')) {
+			if ($this->state->get('filter.state') != 2) {
+				JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
+				JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
+			}
+		}
+			
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'languages.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
+		} else if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::divider();
+		}
+				
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::preferences('com_languages');
+			JToolBarHelper::divider();
+		}
+
 		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
 	}
 }

@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+$user	= JFactory::getUser();
+$userId	= $user->get('id');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed'); ?>" method="post" name="adminForm">
 
@@ -66,7 +68,11 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->rows as $i => $row):?>
+		<?php foreach ($this->rows as $i => $row) :
+			$canCreate	= $user->authorise('core.create',		'com_languages');
+			$canEdit	= $user->authorise('core.edit',			'com_languages');
+			$canChange	= $user->authorise('core.edit.state',	'com_languages');
+		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td width="20">
 					<?php echo $this->pagination->getRowOffset($i); ?>
@@ -78,7 +84,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 					<?php echo $row->name;?>
 				</td>
 				<td width="5%" align="center">
-					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published);?>
+					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.',  $canChange, !$row->published);?>
 				</td>
 				<td align="center">
 					<?php echo $row->version; ?>
