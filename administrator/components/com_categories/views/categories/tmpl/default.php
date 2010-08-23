@@ -20,7 +20,8 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state', $extension);
+$canOrder	= $user->authorise('core.edit.state');
+$canEdit	= $user->authorise('core.edit');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm">
@@ -94,19 +95,9 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-				$item->max_ordering = 0; //??
-				$ordering	= ($listOrder == 'a.ordering');
-				$assetId	= 'com_content.category.'.$item->id;
-				$canCreate	= $user->authorise('core.create',		$extension.'.category.'.$item->id);
-				$canEdit	= $user->authorise('core.edit',			$extension.'.category.'.$item->id);
-				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
-				if ($extension != 'com_content') {
-					$canChange	= $user->authorise('core.edit.state',	$extension.'.category.'.$item->id) && $canCheckin;
-				}
-				else {
-					$canChange	= $user->authorise('core.edit.state',	$extension.'.article.'.$item->id) && $canCheckin;
-				}
-			?>
+				$canCheckin	= $user->authorise('core.manage', 'com_checkin') || $item->checked_out==$user->get('id');
+				$canChange = $canCheckin;
+				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
