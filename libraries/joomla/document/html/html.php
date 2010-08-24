@@ -144,7 +144,7 @@ class JDocumentHTML extends JDocument
 		}
 
 		$this->_links		= (isset($data['links']) && !empty($data['links']) && is_array($data['links'])) ? array_unique(array_merge($this->_links, $data['links'])) : $this->_links;
-		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_unique(array_merge($this->_styleSheets, $data['styleSheets'])) : $this->_styleSheets;
+		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
 
 		if (isset($data['style'])) {
 			foreach($data['style'] AS $type=>$data) {
