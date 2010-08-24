@@ -184,9 +184,7 @@ class JResponse
 
 		if (self::allowCache() === false)
 		{
-			self::setHeader('Expires', 'Mon, 1 Jan 2001 00:00:00 GMT', true);				// Expires in the past
-			self::setHeader('Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT', true);		// Always modified
-			self::setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+			self::setHeader('Cache-Control', 'no-cache', false);
 			self::setHeader('Pragma', 'no-cache');											// HTTP 1.0
 		}
 

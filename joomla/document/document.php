@@ -803,7 +803,6 @@ class JDocument extends JObject
 	 */
 	function render($cache = false, $params = array())
 	{
-		JResponse::setHeader('Expires', gmdate('D, d M Y H:i:s', time() + 900) . ' GMT');
 		if ($mdate = $this->getModifiedDate()) {
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
