@@ -118,7 +118,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				}
 
 				if (empty($data)) {
-					JError::raiseError(404, JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'));
+					throw new JException(JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
@@ -145,13 +145,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
 					$user = JFactory::getUser();
 					$groups = $user->authorisedLevels();
-
-					if ($data->catid == 0 || $data->category_access === null) {
-						$data->params->set('access-view', in_array($data->access, $groups));
-					}
-					else {
-						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
-					}
+					$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 				}
 
 				$this->_item[$pk] = $data;

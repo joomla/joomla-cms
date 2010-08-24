@@ -43,12 +43,12 @@ class WeblinksViewCategories extends JView
 
 		if($items === false)
 		{
-			//TODO Raise error for missing category here
+			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		if($parent == false)
 		{
-			//TODO Raise error for missing parent category here
+			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		$params = &$state->params;

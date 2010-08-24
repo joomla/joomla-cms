@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#21795] Articles - Newsflash and Banners: Invalid argument
  # [#21817] JDocumentHTML::mergeHeadData() inappropriate use of array_unique
  # [#21833] Point in time to render the submenu of components
+ # [#21838] TODO Raise error for missing category or parent category
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)

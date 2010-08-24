@@ -67,14 +67,14 @@ class NewsfeedsModelCategory extends JModelList
 			$item = &$items[$i];
 			if (!isset($this->_params)) {
 				$params = new JRegistry();
-				$params->loadJSON($item->params);
 				$item->params = $params;
+				$params->loadJSON($item->params);
 			}
 		}
 
 		return $items;
 	}
-
+	
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
@@ -107,7 +107,8 @@ class NewsfeedsModelCategory extends JModelList
 		if (is_numeric($state)) {
 			$query->where('a.published = '.(int) $state);
 		}
-				// Filter by start and end dates.
+		
+		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
 		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
 
@@ -178,10 +179,7 @@ class NewsfeedsModelCategory extends JModelList
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry();
-			if ($active)
-			{
-				$params->loadJSON($active->params);
-			}
+			$params->loadJSON($active->params);
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
 			$categories = JCategories::getInstance('Newsfeeds', $options);
@@ -206,7 +204,7 @@ class NewsfeedsModelCategory extends JModelList
 	}
 
 	/**
-	 * Get the parent categorie.
+	 * Get the parent category.
 	 *
 	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
@@ -214,7 +212,7 @@ class NewsfeedsModelCategory extends JModelList
 	 */
 	public function getParent()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -228,7 +226,7 @@ class NewsfeedsModelCategory extends JModelList
 	 */
 	function &getLeftSibling()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}

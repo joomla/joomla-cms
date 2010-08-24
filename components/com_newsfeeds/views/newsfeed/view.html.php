@@ -58,6 +58,15 @@ class NewsfeedsViewNewsfeed extends JView
 		$state = $this->get('State');
 		$item = $this->get('Item');
 
+		if ($item) {
+		// Get Category Model data
+		$categoryModel = JModel::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
+		$categoryModel->setState('category.id', $item->catid);
+		$categoryModel->setState('list.ordering', 'a.title');
+		$categoryModel->setState('list.direction', 'asc');		
+		$items = $categoryModel->getItems();
+		}
+		
 		// Check for errors.
 		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors'))) {
@@ -105,10 +114,11 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		$offset = $state->get('list.offset');
+
 		// Check the access to the newsfeed
 		$levels = $user->authorisedLevels();
 
-		if (!in_array($item->access, $levels) OR (in_array($item->access,$levels) AND (!in_array($item->category_access, $levels)))) {
+		if (!in_array($item->access, $levels) OR ((in_array($item->access,$levels) AND (!in_array($item->category_access, $levels))))) {
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return;
@@ -212,13 +222,14 @@ class NewsfeedsViewNewsfeed extends JView
 			$id = (int) @$menu->query['id'];
 			$path = array($this->item->name  => '');
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
-
-			while ($id != $category->id && $category->id > 1)
-			{
-				$path[$category->title] = NewsfeedsHelperRoute::getCategoryRoute($category->id);
-				$category = $category->getParent();
-			}
-			$path = array_reverse($path);
+			if ($category){
+				while ($id != $category->id && $category->id > 1)
+				{
+					$path[$category->title] = NewsfeedHelperRoute::getCategoryRoute($category->id);
+					$category = $category->getParent();
+				}
+				$path = array_reverse($path);
+ 			}
 		}
 
 		if (empty($title)) {

@@ -24,12 +24,13 @@ class NewsfeedsViewCategory extends JView
 	protected $state;
 	protected $items;
 	protected $category;
-	protected $children;
+	protected $categories;
 	protected $pagination;
 
 	function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
 		$params		= $app->getParams();
 
 		// Get some data from the models
@@ -46,18 +47,15 @@ class NewsfeedsViewCategory extends JView
 			return false;
 		}
 
-		if($category == false)
-		{
+		if ($category == false) {
 			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
-		if($parent == false)
-		{
-			//TODO Raise error for missing parent category here
+		if ($parent == false) {
+			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.
-		$user	= JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		if (!in_array($category->access, $groups)) {
 			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
