@@ -58,6 +58,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed.= "		<link>".str_replace(' ','%20',$url.$data->link)."</link>\n";
 		$feed.= "		<lastBuildDate>".htmlspecialchars($now->toRFC822(), ENT_COMPAT, 'UTF-8')."</lastBuildDate>\n";
 		$feed.= "		<generator>".$data->getGenerator()."</generator>\n";
+		$feed.= '		<atom:link rel="self" type="application/rss+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
 
 		if ($data->image!=null)
 		{

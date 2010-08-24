@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#21899] Bug in utf8_stristr()
  # [#21962] Add display of missing edit icons
  # [#21967] Language files are not loaded for a 3pd extension in com_categories if a 'section' is specified
+ # [#21986] Use atom:link on rss feeds to identify the feeds url
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)
