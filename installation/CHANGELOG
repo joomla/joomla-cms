@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#21613] Add an id of the same value for every form that only has a name
  # [#21614] Make administrator login work with the XML serialization and bring the form closer to XHTML strict
  # [#21767] Make pagebreak well formed
+ # [#21795] Articles - Newsflash and Banners: Invalid argument
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)

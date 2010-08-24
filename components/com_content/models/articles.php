@@ -218,7 +218,7 @@ class ContentModelArticles extends JModelList
 			} else {
 				$query->where($categoryEquals);
 			}
-		} else if (is_array($categoryId)) {
+		} else if (is_array($categoryId) && (count($categoryId) > 0)) {
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
