@@ -9,16 +9,32 @@
  */
 defined('_JEXEC') or die;
 ?>
-<?php $fields = $this->form->getFieldset('profile');?>
-<?php if (count($fields)):;?>
+<?php $fields = $this->form->getFieldset('profile'); ?>
+<?php if (count($fields)): ?>
 <fieldset id="users-profile-custom">
 	<legend><?php echo JText::_('COM_USERS_PROFILE_CUSTOM_LEGEND'); ?></legend>
 	<dl>
-	<?php foreach($fields as $field):?>
-		<?php if (!$field->hidden) :?>
+	<?php foreach ($fields as $field):
+		if (!$field->hidden) :?>
 		<dt><?php echo $field->label; ?></dt>
 		<dd>
-			<?php echo !empty($this->data->profile[$field->fieldname]) ? $this->data->profile[$field->fieldname] : JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+			<?php
+				if (empty($this->data->profile[$field->fieldname])) {
+					echo JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
+				} else {
+					if ($field->id == 'jform_profile_website') {
+						$v_http = substr ($this->data->profile[$field->fieldname], 0, 4);
+
+						if($v_http == "http"){
+							echo '<a href="'.$this->data->profile[$field->fieldname].'">'.$this->data->profile[$field->fieldname].'</a>';
+						} else {
+							echo '<a href="http://'.$this->data->profile[$field->fieldname].'">'.$this->data->profile[$field->fieldname].'</a>';
+						}
+					} else {
+						echo $this->data->profile[$field->fieldname];
+					}
+				}
+			?>
 		</dd>
 		<?php endif;?>
 	<?php endforeach;?>

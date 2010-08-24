@@ -12,13 +12,29 @@ defined('_JEXEC') or die;
 <?php if (JPluginHelper::isEnabled('user', 'profile')) : ?>
 <div class="jcontact-profile">
 	<ol>
-		<?php foreach ($this->contact->profile as $profile) :	?>
-			<li>
+	<?php foreach ($this->contact->profile as $profile) :
+		if ($profile->profile_value) {
 
-				<?php echo $profile->text = htmlspecialchars($profile->profile_value, ENT_COMPAT, 'UTF-8'); ?>
+			$profile->text = htmlspecialchars($profile->profile_value, ENT_COMPAT, 'UTF-8')
 
-			</li>
-		<?php endforeach; ?>
+			switch ($profile->profile_key)
+			{
+				case "profile.website":
+					$v_http = substr ($profile->profile_value, 0, 4);
+
+					if ($v_http == "http") {
+						echo '<li><a href="'.$profile->text.'">'.$profile->text.'</a></li>';
+					} else {
+						echo '<li><a href="http://'.$profile->text.'">'.$profile->text.'</a></li>';
+					}
+					break;
+
+				default:
+					echo '<li>'.$profile->text.'</li>';
+					break;
+			}
+		}
+	endforeach; ?>
 	</ol>
 </div>
 <?php endif; ?>

@@ -8,277 +8,535 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
- * Main CSS file for the template for RTL changes
+ * RTL CSS file for the template
  */
 
-/**
- * General styles
- */
 body {
 	direction: rtl;
 }
 
 /**
- * Button styling
+ * CSS Reset
  */
-.button1 {
-	background: url(../images/j_button1_right.png) 100% 0 no-repeat;
-	margin-left: 5px;
-	padding-right: 10px;
-	white-space: nowrap;
-	padding-left: 0px;
+ 
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	background-position: transparent none repeat scroll top right;
 }
 
-.button1 .next {
-	background: url(../images/j_button1_prev.png) no-repeat;
-}
+/* new styles */
 
-.button1 a {
-	padding: 0 6px 0 30px;
-}
 
-.button1,.button1 div {
-	float: left;
-}
 
-.button2-left a,.button2-left span {
-	padding: 0pt 6px 0pt 24px;
-}
-
-.button2-left {
-	background: transparent url(../images/j_button2_right.png) no-repeat
-		scroll 100%;
-	float: right;
-}
-
-.button2-left .end {
-	background: transparent url(../images/j_button2_first.png) no-repeat
-		scroll 0% 0;
-}
-
-.button2-left.off .end {
-	background: transparent url(../images/j_button2_first_off.png) no-repeat
-		scroll 0% 0;
-}
-
-.button2-left .next {
-	background: transparent url(../images/j_button2_prev.png) no-repeat
-		scroll 0% 0;
-}
-
-.button2-left.off .next {
-	background: transparent url(../images/j_button2_prev_off.png) no-repeat
-		scroll 0% 0;
-}
-
-.button2-left .page,.button2-left .blank {
-	background: url(../images/j_button2_left_cap.png) 0 no-repeat;
-}
-
-.button2-right a,.button2-right span {
-	padding: 0pt 24px 0pt 6px;
-}
-
-.button2-left .image {
-	background: transparent url(../images/j_button2_image_rtl.png) no-repeat
-		scroll 0% 0pt;
-}
-
-.button2-left .pagebreak {
-	background: transparent url(../images/j_button2_pagebreak_rtl.png)
-		no-repeat scroll 0% 0pt;
-}
-
-.button2-left .readmore {
-	background: transparent url(../images/j_button2_readmore_rtl.png)
-		no-repeat scroll 0% 0pt;
-}
-
-.button2-right {
-	background: transparent url(../images/j_button2_left.png) no-repeat
-		scroll 0% 0pt;
-	float: right;
-}
-
-.button2-right .prev {
-	background: transparent url(../images/j_button2_next.png) no-repeat
-		scroll 100%;
-}
-
-.button2-right.off .prev {
-	background: transparent url(../images/j_button2_next_off.png) no-repeat
-		scroll 100%;
-}
-
-.button2-right .start {
-	background: transparent url(../images/j_button2_last.png) no-repeat
-		scroll 100%;
-}
-
-.button2-right.off .start {
-	background: transparent url(../images/j_button2_last_off.png) no-repeat
-		scroll 100%;
-}
-
-.button2-left .page a,.button2-right .page a,
-.button2-left .page span,.button2-right .page span,
-.button2-left .blank a,.button2-right .blank a,
-.button2-left .blank span,.button2-right .blank span
-	{
-	float: right;
-}
-
+/* end new styles */
 
 /**
  * Overall Styles
  */
-#header .version {
-	float: left;
-	padding: 25px 0 0 5px;
+#header {
+	background: #ffffff url(../images/j_logo.png) no-repeat top right;
 }
 
-#header .title {
-	padding-right: 180px;
-	padding-left: 0px;
-	float: right;
+#header h1.title {
+	padding: 0 120px 0 0;
+}
+
+#footer {
+	padding: 10px 20px;
+}
+
+#content {
+	margin: 5px 20px 20px 20px;
+}
+
+#element-box {
+	border-left: 1px solid #c7c8b2;
+	border-right: 1px solid #c7c8b2;
+}
+
+#element-box.cpanel {
+	padding: 15px;
 }
 
 /**
  * Status layout
  */
 #module-status {
-	float: left;
-	background-position: right 5px;
+	left: 0;
+	right: none;
 }
 
 #module-status span {
-	padding: 4px 22px 0pt 10px;
+	float: left;
+	padding: 4px 22px 0 20px;
 }
 
-#module-status .legacy-mode {
-	background-position: right 5px;
+#module-status { /* @TODO check the x position */
+	background: url(../images/mini_icon.png) 3px 5px no-repeat;
 }
 
 #module-status .preview {
-	background-position: right 3px;
+	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
+}
+
+#module-status .viewsite {
+	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
 }
 
 #module-status .unread-messages,#module-status .no-unread-messages {
-	background-position: right 3px;
+	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
 }
 
 #module-status .loggedin-users {
-	background-position: right 3px;
+	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
 }
 
 #module-status .logout {
-	background-position: right 3px;
+	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
 }
 
 /**
- * Form Styles
+ * Various Styles
  */
-fieldset#filter-bar {
-	border: 0;
-	padding: 0;
-	margin: 0 0 10px;
+
+div.checkin-tick { /* @TODO check the x position */
+	background: url(../images/admin/tick.png) 20px 50% no-repeat;
+	text-indent: -9999px; 
 }
 
-fieldset {
+/**
+ * Overlib
+ */
+
+
+
+/**
+ * Subheader, toolbar, page title
+ */
+
+div.pagetitle {
+	padding: 0 0 5px 0px;
+	background-position: right 50%;
+	line-height: 54px;
+}
+
+.pagetitle h2 {
+	padding: 0 50px 0 0;
+}
+
+div.configuration {
+	padding-right: 30px;
+	margin-right: 10px;
+}
+
+div.toolbar-box {
+	border-left: 1px solid #c7c8b2;
+	border-right: 1px solid #c7c8b2;
+}
+
+div.toolbar-list {
+	float: right;
+	text-align: left;
+}
+
+div.toolbar-list li {
+	padding: 5px 4px 5px 1px;
+	float: right;
+}
+
+div.toolbar-list li.divider {
+	border-left:1px dotted #e3e4ca;
+	border-right:none;
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+div.toolbar-list span {
+	margin: 0 auto;
+}
+
+div.toolbar-list a {
+	float: right;
+	padding: 1px 5px;
+}
+
+div.toolbar-list a:hover {
+	border-right: 1px solid #e3e4ca;
+	border-left: 1px solid #c7c8b2;
+}
+
+/**
+ * Massmail component
+ */
+
+
+/**
+ * Pane Slider Jpane Toggler styles
+ */
+div.pane-sliders {
+	margin-left: 10px;
+}
+
+.jpane-toggler  span { /* @TODO check the x position */
+	background: transparent url(../images/j_arrow_left.png) 5px 50% no-repeat;
+	padding-right: 20px;
+}
+
+.jpane-toggler-down span { /* @TODO check the x position */
+	background: transparent url(../images/j_arrow_down.png) 5px 50%
+		no-repeat;
+	padding-right: 20px;
+}
+
+/**
+ * Tabs
+ */
+dl.tabs {
+	float: right;
+	margin: 10px 0 -1px 0;
+}
+
+dl.tabs dt {
+	float: right;
+	padding: 4px 10px;
+	margin-right: 3px;
+}
+
+div.current {
+	padding: 10px 10px;
+}
+
+/* New parameter styles (check rtl) */
+
+dl#content-pane.tabs {
+	margin: 1px 0 0 0;
+}
+
+div.current label, div.current span.faux-label {
+	float:right;
+	clear:right;
+}
+
+div.current fieldset.radio {
+	float:right;
+}
+
+div.current fieldset.radio input {
+	float:right;
+	margin: 3px 2px 0 0;
+}
+
+div.current fieldset.radio label {
+	float:right;
+	margin: 3px 2px 0 0;
+}
+
+div.current input,
+div.current span.faux-input,
+div.current textarea,
+div.current select {
+	float:right;
+	margin: 3px 2px 0 0;
+}
+
+div.current table#acl-config th.acl-groups {
 	text-align: right;
 }
 
-fieldset#filter-bar .filter-search {
+div#menu-assignment {
+	clear:right;
+}
+
+div#menu-assignment h3 {
+	clear:right;
+}
+
+div#menu-assignment ul.menu-links li.menu-link label {
+	float: right;
+	margin: 3px 2px 0 0;
+}
+div#menu-assignment ul.menu-links li.menu-link input {
+	clear: right;
+	float: right;
+}
+
+p.tab-description {
+	margin-right: 0;
+}
+/* end new parameter styles */
+
+/**
+ * Login Settings
+ */
+#login-page form .inputbox {
+	margin-right: 5px;
+}
+#login-page input, #login-page select {
 	float: left;
 }
 
-fieldset#filter-bar .filter-select {
+#login-page .login {
+	margin: 0 auto;
+}
+
+#login-page .pagetitle h2 {
+	margin: -70px 0 30px 0;
+}
+
+#login-page .login-inst {
 	float: right;
+}
+
+#login-page .login-box {
+	float: left;
+}
+
+#login-page .button {
+	text-align: left;
+}
+
+#login-page .login-text {
+	text-align: right;
+	float: right;
+}
+
+#form-login {
+	float: left;
+}
+
+#form-login label {
+	float: right;
+	clear: right;
+	text-align: left;
+}
+
+#form-login div.button1 div.next {
+	float: right;
+}
+
+#form-login div.button1 a {
+	padding: 0 15px 0 15px;
+	/* padding: 0 6px 0 30px; use this if you use images */
+}
+
+/**
+ * Cpanel Settings
+ */
+#cpanel div.icon {
+	margin-left: 5px;
+	float: right;
+}
+
+#cpanel div.icon a {
+	float: right;
+}
+
+#cpanel div.icon a:hover,
+#cpanel div.icon a:focus {
+	border-right: 1px solid #e3e4ca;
+	border-left: 1px solid #c7c8b2;
+}
+
+#cpanel img {
+	padding: 10px 0;
+	margin: 0 auto;
+}
+
+div.cpanel-icons {
+	float: right;
+}
+
+div.cpanel-component {
+	float: left;
 }
 
 /**
  * Standard Layout Styles
  */
-div.left {
-	float: right;
-}
 
-div.right {
-	float: left;
-}
 
 div.col {
 	float: right;
 }
 
-/**
- * Login Page styles
- */
-#form-login label {
+div.col1 {
 	float: right;
-	text-align: left;
 }
 
-#form-login div.button_holder {
-	padding-left: 0px;
+div.col2 {
+	float: left;
 }
 
-#login-page form  {
+	/* Avoid using the width divs. They are here for 3PD Extensions if needed
+	 * Use the specific layout divs listed after. See also the th.width entries */
+
+
+.clrlft { clear: right; }
+.clrrt { clear: left; }
+.fltlft { float: right; }
+.fltrt { float: left; }
+.fltnone { float: none; }
+
+
+	/* Layout Divs */
+div.main-section {
+	width: 60%;
+}
+
+div.options-section {
+	width: 40%;
+}
+
+/**
+ * Form Styles
+ */
+
+fieldset {
+	margin: 2px 10px 2px 10px;
+	text-align: right;
+}
+
+fieldset p {
+	margin: 10px 0px;
+}
+
+/* new form fields (check rtl) */
+
+fieldset.adminform fieldset.radio,
+fieldset.panelform fieldset.radio,
+fieldset.adminform-legacy fieldset.radio  {
+	float:right;
+	margin: 0 0 5px 0;
+	clear:left;
+}
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label,
+fieldset.adminform fieldset.radio span.faux-label,
+fieldset.panelform fieldset.radio span.faux-label {
+	float:right;
+}
+
+fieldset.panelform-legacy label,
+fieldset.adminform-legacy label,
+fieldset.panelform-legacy span.faux-label,
+fieldset.adminform-legacy span.faux-label {
+	float:right;
+
+}
+/* JParameter classes on radio button labels  */
+
+p.jform_desc {
+	clear:right;
+}
+
+fieldset ul.checklist {
+	margin-right: 27px;
 	margin-left: 0px;
+}
+
+/* end new form fields */
+
+fieldset#filter-bar {
+	border-left: none;
+	border-right: none;
+	margin: 0;
+	padding: 5px 10px 5px 10px;
+}
+
+fieldset#filter-bar ol, fieldset#filter-bar ul {
+	padding: 5px 0 0;
+}
+
+fieldset#filter-bar ol li, fieldset#filter-bar ul li {
+	float: right;
+	padding: 0 0 0 5px;
+}
+
+fieldset#filter-bar .filter-search {
+	float: right;
+}
+
+fieldset#filter-bar .filter-select {
+	float: left;
+}
+
+
+	/* Note: these visual cues should be augmented by aria */
+
+	/* must be augmented by aria at the same time if changed dynamically by js
+	aria-invalid=true or aria-invalid=false */
+
+
+	/* augmented by aria in template javascript */
+
+span.readonly {
+	float: right;
+}
+
+div.extdescript {
 	margin-right: 10px;
 }
 
+input[type="button"] {
+	padding: 1px 6px;
+}
+
+label.selectlabel {
+/*	position: absolute;
+	left: 0;
+	right: -1000em;*/
+}
+
 /**
- * Cpanel styles
+ * Option or Parameter styles
  */
-#cpanel div.icon {
-	margin-right: 0px;
+
+
+/* end from alpha2 */
+
+span.gi {
 	margin-left: 5px;
 }
 
 /**
- * Pane Slider Jpane Toggler styles
+ * Admintable Styles
  */
-.jpane-toggler span,.jpane-toggler-down span {
-	background-position: right;
-	padding-right: 20px;
-	padding-left: 0px;
-}
 
-.jpane-toggler span {
-	background-image: url(../images/j_arrow_left.png);
-}
-
-/**
- * Subheader, toolbar, page title
- */
-div.toolbar-list {
-	float: left;
-	padding: 0pt;
+table.admintable td.key,table.admintable td.paramlist_key {
 	text-align: left;
+	border-left: 1px solid #e9e9e9;
+	border-right: none;
 }
 
-div.pagetitle {
-	margin-right: 10px;
-	margin-left: 0px;
-	padding-right: 55px;
-	padding-left: 0px;
-}
-
-.pagetitle {
-	background-position: right;
+table.paramlist td.paramlist_description {
+	text-align: right;
+	border-left: 1px solid #e9e9e9;
+	border-right: none;
 }
 
 /**
- * Adminform Styles
+ * Admin Form Styles
  */
-table.adminlist tbody tr {
-	text-align: right;
+fieldset.adminform {
+	margin: 0 10px 10px 10px;
 }
+
+	/* Table styles are for use with tabular data */
+table.adminform {
+	margin: 8px 0 10px 0;
+}
+
 
 table.adminform th {
-	text-align: right;
 	padding: 6px 4px 4px 2px;
+	text-align: right;
 }
 
 table.adminform td {
@@ -293,37 +551,579 @@ table.adminform td.helpMenu {
 	text-align: left;
 }
 
-/**
- * Adminlist Table Styles
- */
-table.adminlist .pagination {
-	display: -moz-box;
+table.adminform tr {
+	padding-right: 10px;
+	padding-left: 10px;
+	border-left: 1px solid #c7c8b2;
+	border-right: none;
 }
 
 /**
- * Pagination
+ * Table formating styles
  */
+
+	/* Avoid using the width classes. They are here for 3PD Extensions if needed
+	 * Use the specific layout table headers listed after. See also the div.width entries */
+
+	/* Table header layout classes */
+
+th.ordering-col a {
+	float:right;
+	margin-right: 3px;
+}
+
+th.ordering-col a img {
+	margin-right: 4px;
+	margin-left: 4px;
+} 
+
+/**
+ * Adminlist Table layout
+ */
+
+table.adminlist.modal {
+	border-right: 1px solid #c7c8b2;
+	border-left: 1px solid #c7c8b2;
+}
+
+
+	/* Table row styles */
+table.adminlist tr {
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+table.adminlist tbody tr {
+	text-align: right;
+}
+
+table.adminlist tbody tr td,
+table.adminlist tbody tr th {
+	border-left: 1px solid #c7c8b2;
+	border-right: none;
+}
+
+table.adminlist tbody tr td:last-child {
+	border-left: none;
+}
+
+	/* Table td/th styles */
+table.adminlist td.order span {
+	float: right;
+}
+
+/**
+ * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :
+ */
+table.adminlist td.indent-4 	{ padding-right:4px; }
+table.adminlist td.indent-19 	{ padding-right:19px; }
+table.adminlist td.indent-34 	{ padding-right:34px; }
+table.adminlist td.indent-49 	{ padding-right:49px; }
+table.adminlist td.indent-64 	{ padding-right:64px; }
+table.adminlist td.indent-79 	{ padding-right:79px; }
+table.adminlist td.indent-94 	{ padding-right:94px; }
+table.adminlist td.indent-109 	{ padding-right:109px; }
+table.adminlist td.indent-124 	{ padding-right:124px; }
+table.adminlist td.indent-139 	{ padding-right:139px; }
+
+/**
+ * Adminlist buttons
+ */
+table.adminlist tr td.btns a {
+	padding: 3px 20px;
+}
+
+/**
+ * Modal Modules styles
+ */
+ul#new-modules-list {
+	margin-right: 50px;
+	margin-left: 0;
+}
+
+/**
+ * Utility styles
+ */
+	/* General Clearing Class */
+.menu-module-list {
+	padding-right: 10px;
+	margin-right: 5px;
+}
+
+	/* stu nicholls solution for centering divs */
+
+	/* table solution for global config */
+
+table.noshow fieldset {
+	margin: 15px 7px 7px 7px;
+}
+
+/**
+ * Saving order icon styling in admin tables
+ */
+a.saveorder {
+	background: url(../images/admin/filesave.png) no-repeat;
+	float:left;
+	margin-left: 8px; 
+}
+
+a.saveorder.inactive { /* @TODO check the x position */
+	background-position: 0px -16px;
+}
+
+/**
+ * Button styling
+ */
+#editor-xtd-buttons {
+	padding: 5px;
+}
+
+/* Button 1 Type */
+.button1,.button1 div {
+	float: left;
+}
+
+	/* Use this if you add images to the buttons such as directional arrows */
+
+.button1 a {
+	float: right;
+	padding: 0 6px 0 6px;
+	/* add padding if you are using the directional images */
+	/* padding: 0 6px 0 30px; */
+}
+
+	/* Button 2 Type */
+.button2-left,.button2-right {
+	float: right;
+}
+
+.button2-left a,.button2-right a,.button2-left span,.button2-right span
+	{
+	float: right;
+}
+
+	/* these are inactive buttons */
+
+.button2-left .page a,.button2-right .page a,
+.button2-left .page span,.button2-right .page span,
+.button2-left .blank a,.button2-right .blank a,
+.button2-left .blank span,.button2-right .blank span
+	{
+	padding: 0 6px;
+}
+
+.button2-left a,.button2-left span {
+	padding: 0 6px 0 24px;
+}
+
+.button2-right a,.button2-right span {
+	padding: 0 24px 0 6px;
+}
+
+.button2-left {
+	float: right;
+	margin-right: 5px;
+}
+
+.button2-right {
+	float: right;
+	margin-right: 5px;
+}
+
+.button2-right .prev {
+	background-image: url(../images/j_button2_prev.png);
+	background-position: right center;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background-image: url(../images/j_button2_first.png);
+	background-position: right center;
+}
+
+.button2-left .next {
+	background-image: url(../images/j_button2_next.png);
+	background-position: left center;
+}
+
+.button2-left.off .next { /* @TODO check the x position */
+	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .end {
+	background-image: url(../images/j_arrow_left.png);
+	background-position: left center;
+}
+
+.button2-left.off .end { /* @TODO check the x position */
+	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .image {
+	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+
+/**
+ * Pagination styles
+ */
+
+	/* Normal pagination styles */
+div.containerpg {
+	position: relative;
+	right: 50%;
+	float: right;
+	clear: right;
+}
+
+div.pagination {
+	right: -50%;
+	margin: 0 auto;
+}
+
 .pagination div.limit {
 	float: right;
-	margin: 0 0 0 10px;
+	margin: 0 10px;
+}
+
+	/* The Go submittal button */
+.pagination button { 
+	margin-left: 20px;
+}
+
+	/* Style if pagination is part of the table (old style) */
+table.adminlist .pagination {
+	margin: 0 auto;
+}
+
+table.adminlist .pagination button {
+	margin-left: 20px;
 }
 
 /**
- * System Messages
+ * Pagination styles
  */
-#system-message dd.message ul {
-	background-position: 99% center;
+
+	/* Normal pagination styles */
+div.containerpg {
+	right: 50%;
+	float: right;
+	clear: right;
 }
 
-#system-message dd {
-	text-indent: 35px;
+div.pagination {
+	right: -50%;
+	margin: 0 auto;
+}
+
+.pagination div.limit {
+	float: right;
+	margin: 0 10px;
+}
+
+	/* The Go submittal button */
+.pagination button {
+	margin-left: 20px;
+}
+
+
+	/* Grey out the current page number */
+
+
+	/* Style if pagination is part of the table (old style) */
+
+table.adminlist .pagination button {
+	margin-left: 20px;
 }
 
 /**
- * Debug
+ * MCE Editor
  */
-#system-debug ol,#system-debug ul {
-	direction: ltr;
+div.toggle-editor {
+	margin-top: -15px;
+}
+
+/**
+ * Tooltips
+ */
+.tip {
+	float: right;
+}
+
+.tip-title { /* @TODO is there a different image */
+	background: url(../images/selector-arrow-rtl.png) no-repeat right top;
+}
+
+
+/**
+ * Calendar
+ */
+a img.calendar {
+	margin-right: 3px;
+}
+
+/**
+ * System Standard Messages
+ */
+#system-message dd.message ul { /* @TODO check the x position */
+	background: #C3D2E5 url(../images/notice-info.png) 99.5% center no-repeat;
+}
+
+/**
+ * System Error Messages
+ */
+#system-message dd.error ul {
+	background: #E6C0C0 url(../images/notice-alert.png) 99.5% top no-repeat;
+}
+
+/**
+ * System Notice Messages
+ */
+#system-message dd.notice ul {
+	background: #EFE7B8 url(../images/notice-note.png) 99%.5 top no-repeat;
+}
+
+/**
+ * JGrid styles
+ */
+
+/**
+ * Menu Icons
+ * These icons are used on the Administrator menu
+ * The classes are constructed dynamically when the menu is generated
+ */
+
+
+/**
+ * Toolbar icons
+ * These icons are used for the toolbar buttons
+ * The classes are constructed dynamically when the toolbar is created
+ */
+
+/**
+ * Quick Icons
+ * Also knows as Header Icons
+ * These are used for the Quick Icons on the Control Panel
+ * The same classes are also assigned the Component Title
+ */
+
+/**
+ * General styles
+ */
+
+.helpFrame {
+	border-right: 0px solid #222;
+	border-left: none;
+	border-top: none;
+	padding: 0px 10px 0px 5px;
+}
+
+#treecellhelp {
+	float: right;
+}
+
+#datacellhelp {
+	float: right;
+	padding: 2px 0px 0px 0px;
+}
+
+/* -- MODAL STYLES ----------- */
+
+h2.modal-title {
+	margin-right: 15px;
+}
+
+ul.menu_types {
+	padding: 0 15px 0 0;
+}
+ul.menu_types li,
+dl.menu_type dd ul li {
+	float:right;
+	margin-left: 10px;
+}
+
+dl.menu_type dt {
+	float:right;
+	margin: 13px 0 5px 0;
+}
+dl.menu_type dd {
+	clear:right;
+}
+
+/**
+ * User Accessibility
+ */
+
+	/* Skip to Content Structural Styling */
+#skiplinkholder a,#skiplinkholder a:link,#skiplinkholder a:visited {
+	right: -200%;
+}
+
+#skiplinkholder a:focus, #skiplinkholder a:active {
+	right: 0;
+	top: 0;
+}
+
+#skiplinkholder p {
+	margin: 0px;
+}
+
+#skiptargetholder {
+	right: -200%;
+}
+
+	/* Skip to Content Visual Styling */
+#skiplinkholder a, #skiplinkholder a:link, #skiplinkholder a:visited {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+	/* For elements that aren't to be seen by users unless the user does something
+	 * like clicking on a header to see the collapsed section. */
+
+	/* For elements that aren't to be seen by visual users but do need to be read by screenreaders.
+	 * Cannot be used for elements that can get focus such as links and form elements */
+
+	/* Firefox has issues styling legend so this is a universal fix
+	for making the legend invisible (i.e. visually it's not there, but screen readers see it */
+
+legend.element-invisible {
+	/*margin: 0;
+	margin-right: -10000px; */
+}
+
+fieldset.adminform label,
+fieldset.panelform label,
+fieldset.adminform span.faux-label,
+fieldset.panelform span.faux-label {
+	clear:right;
+	float:right;
+	margin-right: 10px;
+}
+
+fieldset.adminform fieldset.radio label,
+fieldset.panelform fieldset.radio label,
+fieldset.adminform fieldset.radio span.faux-label,
+fieldset.panelform fieldset.radio span.faux-label {
+	margin-right: 0;
+}
+
+
+fieldset.adminform input, fieldset.adminform span.faux-input, fieldset.adminform textarea, fieldset.adminform select, fieldset.adminform img,
+fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform textarea, fieldset.panelform select, fieldset.panelform img {
+	float:right;
+	margin:5px 0 5px 5px;
+}
+
+fieldset.batch label {
+	float:right;
+	margin-left: 10px;
+	margin-right: 0;
+}
+
+fieldset.batch input, fieldset.batch textarea, fieldset.batch select, fieldset.batch img {
+	float:right;
+	margin:5px 0 5px 25px;
+}
+
+fieldset.batch input[type="radio"] {
+	margin-left: 5px;
+}
+
+/* Banner edit */
+
+
+/* -- ACL STYLES relocated from com_users/media/grid.css ----------- */
+
+/* -- ACL PANEL STYLES  ----------- */
+
+
+/* All Tabs */
+
+td.col1 {
+	text-align:right;
+}
+
+
+table.aclsummary-table td.col2,
+table.aclsummary-table th.col2,
+table.aclsummary-table td.col3,
+table.aclsummary-table th.col3,
+table.aclsummary-table td.col4,
+table.aclsummary-table th.col4,
+table.aclsummary-table td.col5,
+table.aclsummary-table th.col5,
+table.aclmodify-table td.col2,
+table.aclmodify-table th.col2 {
+	border-right: 1px solid #cbcbcb;
+	border-left: none;
+}
+
+/* Icons */
+label.icon-16-allow,
+label.icon-16-deny,
+a.icon-16-allow,
+a.icon-16-deny,
+a.icon-16-allowinactive,
+a.icon-16-denyinactive {
+	margin: 0 auto;
+}
+label.icon-16-allow {
+	right: 40%;
+}
+label.icon-16-deny {
+	right: 40%;
+}
+
+ul.acllegend li {
+	float: right;
+	padding-left: 20px;
+	margin: 15px 10px 15px 0;
+}
+ul.acllegend li.acl-allowed {
+	padding-right: 20px;
+	padding-left: 10px;
+	background:url(../images/admin/icon-16-allow.png) no-repeat right;
+}
+ul.acllegend li.acl-denied {
+	padding-right: 20px;
+	padding-left: 20px;
+	background:url(../images/admin/icon-16-deny.png) no-repeat right;
+}
+ul.acllegend li.acl-editgroups {
+	padding-left: 10px;
+}
+ul.acllegend li.acl-resetbtn {
+	padding-left: 0px;
+}
+
+li.acl-editgroups,
+li.acl-resetbtn {
+	float:right;
+}
+
+table#acl-config th.acl-groups {
+	padding-right: 8px;
+	border-left: 1px solid #c7c8b2;
+}
+
+table#acl-config th.acl-groups {
+	text-align: right;
+}
+
+.acl-action {
+	margin: auto 0;
 }
 
 /**
@@ -332,3 +1132,12 @@ table.adminlist .pagination {
 #jform_sef_rewrite-lbl {
 	background: url(../images/admin/icon-16-notice-note.png) left top no-repeat;
 }
+
+/**
+* Modal S-Box overrides
+*/
+
+#sbox-window {
+	text-align:right;
+}
+
