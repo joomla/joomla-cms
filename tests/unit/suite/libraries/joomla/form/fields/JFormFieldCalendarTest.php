@@ -300,7 +300,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JHtml::register('calendar', array($mock, 'calendar'));		// register our mock with JHtml
 
 		$calendar->getInput();			// invoke our method
-		JHtml::unregister('calendar');	// unregister the mock
+		JHtml::unregister('jhtml..calendar');	// unregister the mock
 	}
 
 	public function testGetInputServer_UTC()
@@ -369,7 +369,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JHtml::register('calendar', array($mock, 'calendar'));		// register our mock with JHtml
 
 		$calendar->getInput();			// invoke our method
-		JHtml::unregister('calendar');	// unregister the mock
+		JHtml::unregister('jhtml..calendar');	// unregister the mock
 	}
 
 	public function testGetInputUser_UTC()
@@ -440,7 +440,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JHtml::register('calendar', array($mock, 'calendar'));		// register our mock with JHtml
 
 		$calendar->getInput();			// invoke our method
-		JHtml::unregister('calendar');	// unregister the mock
+		JHtml::unregister('jhtml..calendar');	// unregister the mock
 
 		// create the mock to implant into JHtml so that we can check our values
 		$mock2 = $this->getMock('calendarHandler', array('calendar'));
@@ -463,7 +463,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		JHtml::register('calendar', array($mock2, 'calendar'));		// register our mock with JHtml
 
 		$calendar->getInput();			// invoke our method
-		JHtml::unregister('calendar');	// unregister the mock
+		JHtml::unregister('jhtml..calendar');	// unregister the mock
 	}
 
 	/**
