@@ -10,6 +10,13 @@
 // no direct access
 defined('_JEXEC') or die;
 
+// Get the user object.
+$user = JFactory::getUser();
+// Check if user is allowed to add/edit based on content permissinos.
+$canEdit = $this->user->authorise('core.edit', 'com_content.category.');
+$canCreate = $this->user->authorise('core.create', 'com_content');
+
+
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::core();
@@ -87,6 +94,12 @@ $listDirn	= $this->state->get('list.direction');
 					<td class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 						<?php echo $this->escape($article->title); ?></a>
+
+						<?php if ($canEdit) : ?>
+							<span class="hasTip" title="<?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?>"><a href="<?php echo JRoute::_(ContentHelperRoute::getFormRoute((int) $article->id));?>">
+							<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
+						<?php endif; ?>
+						
 					</td>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
@@ -98,7 +111,7 @@ $listDirn	= $this->state->get('list.direction');
 
 					<?php if ($this->params->get('list_show_author',1)) : ?>
 					<td class="list-author">
-						<?php echo $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&member_id='.$article->created_by),$article->author) : $article->author; ?>
+						<?php echo $this->params->get('link_author', 0) ? JHTML::_('link',JRoute::_('index.php?option=com_users&view=profile&id='.$article->created_by),$article->author) : $article->author; ?>
 					</td>
 					<?php endif; ?>
 
@@ -128,7 +141,11 @@ $listDirn	= $this->state->get('list.direction');
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-
+<?php // Code to add a link to submit an article. ?>
+<?php if ($canCreate) : ?>
+<span class="hasTip" title="<?php echo JText::_('COM_CONTENT_CREATE_ARTICLE'); ?>"><a href="<?php echo JRoute::_('index.php?option=com_content&task=article.add');?>">
+	<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
+<?php  endif; ?>
 	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 	<div class="pagination">
 

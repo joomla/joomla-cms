@@ -9,6 +9,13 @@
 
 // no direct access
 defined('_JEXEC') or die;
+// Code to support edit links for weblinks
+
+// Get the user object.
+$user = JFactory::getUser();
+// Check if user is allowed to add/edit based on weblinks permissinos.
+$canEdit = $user->authorise('core.edit', 'com_weblinks.weblink.');
+$canCreate = $user->authorise('core.create', 'com_weblinks');
 
 JHtml::core();
 
@@ -88,6 +95,11 @@ $listDirn	= $this->state->get('list.direction');
 							break;
 					}
 				?>
+				<?php // Code to add the edit link for the weblink. ?>
+				<?php if ($canEdit) : ?>
+					<span class="hasTip" title="<?php echo JText::_('COM_WEBLINKS_EDIT'); ?>"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getFormRoute($item->id));?>">
+							<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
+				<?php endif; ?>				
 			</p>
 
 			<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
@@ -105,19 +117,25 @@ $listDirn	= $this->state->get('list.direction');
 	<?php endforeach; ?>
 </tbody>
 </table>
-	<?php if ($this->params->get('show_pagination')) : ?>
-	 <div class="pagination">
-	<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-						<p class="counter">
-							<?php echo $this->pagination->getPagesCounter(); ?>
-						</p>
-   <?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?>
+
+	<?php // Code to add a link to submit a weblink. ?>
+	<?php if ($canCreate) : ?>
+		<span class="hasTip" title="<?php echo JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'); ?>"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getFormRoute(0));?>">
+		<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
+	<?php  endif; ?>
+		<?php if ($this->params->get('show_pagination')) : ?>
+		 <div class="pagination">
+			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
+				<p class="counter">
+					<?php echo $this->pagination->getPagesCounter(); ?>
+				</p>
+			<?php endif; ?>
+				<?php echo $this->pagination->getPagesLinks(); ?>
+			</div>
+		<?php endif; ?>
+		<div>
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		</div>
-	<?php endif; ?>
-	<div>
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-	</div>
-</form>
+	</form>
 <?php endif; ?>

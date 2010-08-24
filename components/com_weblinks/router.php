@@ -58,15 +58,13 @@ function WeblinksBuildRoute(&$query)
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
-		return $segments;
-	}
+		return $segments;	}
 
-	if (isset($view) and ($view == 'category' or $view == 'weblink')) {
+	if (isset($view) and ($view == 'category' or $view == 'weblink' )) {
 		if ($mId != intval($query['id']) || $mView != $view) {
-			if($view == 'weblink' && isset($query['catid']))
-			{
+			if($view == 'weblink' && isset($query['catid'])) {
 				$catid = $query['catid'];
-			} elseif(isset($query['id'])) {
+			} elseif (isset($query['id'])) {
 				$catid = $query['id'];
 			}
 			$menuCatid = $mId;
@@ -81,12 +79,11 @@ function WeblinksBuildRoute(&$query)
 				$array = array();
 				foreach($path as $id)
 				{
-					if((int) $id == (int)$menuCatid)
-					{
+					if ((int) $id == (int)$menuCatid) {
 						break;
 					}
-					if($advanced)
-					{
+
+					if ($advanced) {
 						list($tmp, $id) = explode(':', $id, 2);
 					}
 					$array[] = $id;
@@ -131,7 +128,7 @@ function WeblinksBuildRoute(&$query)
  * @return	array	The URL attributes to be used by the application.
  */
 function WeblinksParseRoute($segments)
-{
+{ 
 	$vars = array();
 
 	//Get the active menu item.
@@ -154,6 +151,8 @@ function WeblinksParseRoute($segments)
 
 	// From the categories view, we can only jump to a category.
 	$id = (isset($item->query['id']) && $item->query['id'] > 1) ? $item->query['id'] : 'root';
+
+	
 	$category = JCategories::getInstance('Weblinks')->get($id);
 
 	$categories = $category->getChildren();
@@ -189,5 +188,5 @@ function WeblinksParseRoute($segments)
 		$found = 0;
 	}
 
-	return $vars;
+	return $vars; 
 }

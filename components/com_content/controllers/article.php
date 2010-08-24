@@ -16,10 +16,25 @@ jimport('joomla.application.component.controller');
  */
 class ContentControllerArticle extends JController
 {
+	/**
+	 * @since	1.6
+	 */
 	protected $_context = 'com_content.edit.article';
 
 	/**
+	 * @since	1.6
+	 */
+	protected $view_item = 'form';
+
+	/**
+	 * @since	1.6
+	 */
+	protected $view_list = 'categories';
+	
+	/**
 	 * Constructor
+	 *
+	 * @since	1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -36,6 +51,7 @@ class ContentControllerArticle extends JController
 	 * @param	string	The model name. Optional.
 	 * @param	string	The class prefix. Optional.
 	 * @param	array	Configuration array for model. Optional.
+	 *
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
@@ -92,11 +108,22 @@ class ContentControllerArticle extends JController
 
 		// Clear the record edit information from the session.
 		$app->setUserState($context.'id', null);
-		$app->setUserState($context.'data', null);
+		$app->setUserState($context.'data', null); 
 		$this->_setReturnPage();
+		$id='0';
+	
+		// Check-out succeeded, push the new row id into the session.
+		$app->setUserState($context.'id',	$id);
+		$app->setUserState($context.'data',	null);
 
-		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
+		// ItemID required on redirect for correct Template Style
+		$redirect = 'index.php?option=com_content&view=form&layout=edit';
+		if (JRequest::getInt('Itemid') != 0) {
+			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
+		}
+		$this->setRedirect($redirect);
+
+		return true;
 	}
 
 	/**
@@ -113,7 +140,7 @@ class ContentControllerArticle extends JController
 		$app		= JFactory::getApplication();
 		$context	= $this->_context.'.';
 		$ids		= JRequest::getVar('cid', array(), '', 'array');
-
+	
 		// Get the id of the group to edit.
 		$id =  (int) (empty($ids) ? JRequest::getInt('id') : array_pop($ids));
 
@@ -132,31 +159,31 @@ class ContentControllerArticle extends JController
 		$model = $this->getModel();
 
 		// Check that this is not a new item.
+
 		if ($id > 0)
 		{
 			$item = $model->getItem($id);
 
-			// If not already checked out, do so.
-			if ($item->checked_out == 0)
-			{
-				if (!$model->checkout($id))
+				// If not already checked out, do so.
+				if ($item->checked_out == 0)
 				{
-					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
-					$this->setRedirect('index.php?option=com_content&view=article&item_id='.$id, $message, 'error');
-					return false;
+					if (!$model->checkout($id))
+					{
+						// Check-out failed, go back to the list and display a notice.
+						$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
+						$this->setRedirect('index.php?option=com_content&view=article&item_id='.$id, $message, 'error');
+						return false;
+					}
 				}
-			}
+			
 		}
-
 		// Check-out succeeded, push the new row id into the session.
 		$app->setUserState($context.'id',	$id);
 		$app->setUserState($context.'data',	null);
 
 		// ItemID required on redirect for correct Template Style
 		$redirect = 'index.php?option=com_content&view=form&layout=edit';
-		if (JRequest::getInt('Itemid') == 0) {
-		} else {
+		if (JRequest::getInt('Itemid') != 0) {
 			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
 		}
 		$this->setRedirect($redirect);
@@ -188,7 +215,7 @@ class ContentControllerArticle extends JController
 		$model = $this->getModel();
 
 		// If rows ids do not match, checkin previous row.
-		if (!$model->checkin($previousId))
+		if (!$model->checkin($previousId) && $previousId)
 		{
 			// Check-in failed, go back to the menu item and display a notice.
 			$message = JText::sprintf('JError_Checkin_failed', $model->getError());

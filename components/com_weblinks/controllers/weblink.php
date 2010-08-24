@@ -75,6 +75,71 @@ class WeblinksControllerWeblink extends JControllerForm
 		$this->setMessage(JText::_('COM_WEBLINK_SUBMIT_SAVE_SUCCESS'));
 	}
 	/**
+	 * Method to edit a object
+	 *
+	 * Sets object ID in the session from the request, checks the item out, and then redirects to the edit page.
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	public function edit()
+	{
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+		$ids		= JRequest::getVar('cid', array(), '', 'array');
+
+		// Get the id of the group to edit.
+		$id =  (int) (empty($ids) ? JRequest::getInt('id') : array_pop($ids));
+
+		// Access check
+		if (!JFactory::getUser()->authorise('core.edit', 'com_weblinks.weblink.'.$id)) {
+			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			return false;
+		}
+
+		// Get the previous row id (if any) and the current row id.
+		$previousId	= (int) $app->getUserState($context.'id');
+		$app->setUserState($context.'id', $id);
+		$this->_setReturnPage();
+
+		// Get the menu item model.
+		$model = $this->getModel();
+
+		// Check that this is not a new item.
+		if ($id > 0)
+		{
+			$item = $model->getItem($id);
+
+			// If not already checked out, do so.
+			if ($item->checked_out == 0)
+			{
+				if (!$model->checkout($id))
+				{
+					// Check-out failed, go back to the list and display a notice.
+					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
+					$this->setRedirect('index.php?option=com_weblinks&view=categories', $message, 'error');
+					return false;
+				}
+			}
+		}
+
+		// Check-out succeeded, push the new row id into the session.
+		$app->setUserState($context.'id',	$id);
+		$app->setUserState($context.'data',	null);
+
+		// ItemID required on redirect for correct Template Style
+		$redirect = 'index.php?option=com_weblinks&view=form&layout=edit&id='.$id;
+		if (JRequest::getInt('Itemid') == 0) {
+		} else {
+			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
+		}
+		$this->setRedirect($redirect);
+
+		return true;
+	}
+	
+	/**
 	 * Method to cancel an edit
 	 *
 	 * Checks the item in, sets item ID in the session to null, and then redirects to the list page.

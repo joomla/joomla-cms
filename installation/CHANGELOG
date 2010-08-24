@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#21838] TODO Raise error for missing category or parent category
  # [#21866] Notice in template style save method
  # [#21899] Bug in utf8_stristr()
+ # [#21962] Add display of missing edit icons
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)

@@ -53,7 +53,17 @@ abstract class WeblinksHelperRoute
 
 		return $link;
 	}
+	public static function getFormRoute($id)
+	{ 
+		//Create the link
+		if ($id){
+			$link = 'index.php?option=com_weblinks&task=weblink.edit&id='. $id;	
+		} else {
+			$link = 'index.php?option=com_weblinks&task=weblink.edit&id=0';
+		}
 
+		return $link;
+	}
 	public static function getCategoryRoute($catid)
 	{
 		$categories = JCategories::getInstance('Weblinks');

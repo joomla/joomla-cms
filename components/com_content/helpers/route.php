@@ -24,6 +24,7 @@ jimport('joomla.application.categories');
 abstract class ContentHelperRoute
 {
 	protected static $lookup;
+
 	/**
 	 * @param	int	The route of the content item
 	 */
@@ -48,7 +49,7 @@ abstract class ContentHelperRoute
 
 		if ($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
-		};
+		}
 
 		return $link;
 	}
@@ -84,7 +85,19 @@ abstract class ContentHelperRoute
 
 		if ($item = ContentHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
-		};
+		}
+
+		return $link;
+	}
+
+	public static function getFormRoute($id)
+	{ 
+		//Create the link
+		if ($id) {
+			$link = 'index.php?option=com_content&task=article.edit&id='. $id;	
+		} else {
+			$link = 'index.php?option=com_content&task=article.edit&id=0';
+		}
 
 		return $link;
 	}
@@ -114,6 +127,7 @@ abstract class ContentHelperRoute
 				}
 			}
 		}
+
 		foreach ($needles as $view => $ids)
 		{
 			if (isset(self::$lookup[$view]))
