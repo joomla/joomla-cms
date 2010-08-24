@@ -11,7 +11,7 @@ defined('_JEXEC') or die; ?>
 		document.adminForm.submit( task );
 	}
 </script>
-<form action="<?php echo $this->action; ?>" method="post" name="adminForm">
+<form action="<?php echo $this->action; ?>" method="post" name="adminForm" id="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <?php if ($this->params->get('filter') || $this->params->get('show_pagination_limit')) : ?>
 <tr>

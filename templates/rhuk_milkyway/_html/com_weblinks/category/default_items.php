@@ -9,7 +9,7 @@
 }
 </script>
 
-<form action="<?php echo JFilterOutput::ampReplace($this->action); ?>" method="post" name="adminForm">
+<form action="<?php echo JFilterOutput::ampReplace($this->action); ?>" method="post" name="adminForm" id="adminForm">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td align="right" colspan="4">

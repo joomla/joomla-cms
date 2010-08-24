@@ -16,7 +16,7 @@ $function = 'jSelectUser_'.$field;
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset class="filter">
 		<div class="left">
 			<label for="filter_search"><?php echo JText::_('JSEARCH_FILTER'); ?></label>

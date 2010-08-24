@@ -24,7 +24,7 @@ $canOrder	= $user->authorise('core.edit.state');
 $canEdit	= $user->authorise('core.edit');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm" id="adminForm">
 
 	<fieldset id="filter-bar">
 		<div class="filter-search fltlft">

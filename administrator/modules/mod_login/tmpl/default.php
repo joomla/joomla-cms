@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
 	<fieldset class="loginform">
 
 				<label id="mod-login-username-lbl" for="mod-login-username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
@@ -26,7 +26,7 @@ JHtml::_('behavior.keepalive');
 				<div class="button-holder">
 					<div class="button1">
 						<div class="next">
-							<a href="#" onclick="login.submit();">
+							<a href="#" onclick="document.getElementById('form-login').submit();">
 								<?php echo JText::_('MOD_LOGIN_LOGIN'); ?></a>
 						</div>
 					</div>

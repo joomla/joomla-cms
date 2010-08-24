@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-60 fltlft">
 		<ul class="adminformlist">
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_USER_ID_FROM_LABEL'); ?>

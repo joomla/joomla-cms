@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.language.help');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_admin&amp;view=help'); ?>" method="post" name="adminForm" id="adminForm">
 <div class="width-40 fltlft">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_ADMIN_SEARCH'); ?></legend>

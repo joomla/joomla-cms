@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.switcher');
 ?>
 
-<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm">
+<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="config-document">
 		<div id="page-site" class="tab">
 			<div class="noshow">

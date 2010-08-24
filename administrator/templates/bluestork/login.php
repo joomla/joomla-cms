@@ -40,8 +40,8 @@ $app = JFactory::getApplication();
 
 <script type="text/javascript">
 	function setFocus() {
-		document.login.username.select();
-		document.login.username.focus();
+		document.getElementById('form-login').username.select();
+		document.getElementById('form-login').username.focus();
 	}
 </script>
 </head>

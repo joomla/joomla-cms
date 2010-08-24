@@ -33,6 +33,8 @@ $ -> Language fix or change
  # [#21540] pre-check=0, post-check=0 should not be added to Cache-Control HTTP header
  # [#21561] Display/Function of ordering arrows when sorted in descending order
  # [#21588] Readonly calendar field pops up
+ # [#21613] Add an id of the same value for every form that only has a name
+ # [#21614] Make administrator login work with the XML serialization and bring the form closer to XHTML strict
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)
