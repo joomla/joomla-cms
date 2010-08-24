@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2010 Mark Dexter
+ # Sample Data fixes (Elin Waring)
+
 23-Aug-2010 Andrew Eddie
  # Fixed issue [#21721] ACL settings not working on language manager (Sander Potjer, Michael Babker).
 
