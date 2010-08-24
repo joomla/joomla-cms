@@ -669,27 +669,29 @@ abstract class JHtml
 			$done = array();
 		}
 
-		// Load the calendar behavior
-		JHtml::_('behavior.calendar');
-		JHtml::_('behavior.tooltip');
-
-		$readonly=isset($attribs['readonly']) && $attribs['readonly']=='readonly';
+		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		// Only display the triggers once for each control.
-		if (!in_array($id, $done))
-		{
-			$document = JFactory::getDocument();
-			$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-			inputField: "'.$id.'",		// id of the input field
-			ifFormat: "'.$format.'",	// format of the input field
-			button: "'.$id.'_img",		// trigger for the calendar (button ID)
-			align: "Tl",				// alignment (defaults to "Bl")
-			singleClick: true
-		});});');
-			$done[] = $id;
+		if (!$readonly) {
+			// Load the calendar behavior
+			JHtml::_('behavior.calendar');
+			JHtml::_('behavior.tooltip');
+
+			// Only display the triggers once for each control.
+			if (!in_array($id, $done))
+			{
+				$document = JFactory::getDocument();
+				$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
+				inputField: "'.$id.'",		// id of the input field
+				ifFormat: "'.$format.'",	// format of the input field
+				button: "'.$id.'_img",		// trigger for the calendar (button ID)
+				align: "Tl",				// alignment (defaults to "Bl")
+				singleClick: true
+				});});');
+				$done[] = $id;
+			}
 		}
 
 		return '<input type="text" title="'.(0!==(int)$value ? JHtml::_('date',$value):'').'" name="'.$name.'" id="'.$id.'" value="'.htmlspecialchars($value, ENT_COMPAT, 'UTF-8').'" '.$attribs.' />'.
