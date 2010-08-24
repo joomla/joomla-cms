@@ -37,10 +37,10 @@ class ContactController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/contact.php';
 
-		parent::display();
-
 		// Load the submenu.
 		ContactHelper::addSubmenu(JRequest::getWord('view', 'contacts'));
+		
+		parent::display();
 
 		return $this;
 	}

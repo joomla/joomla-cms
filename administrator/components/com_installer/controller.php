@@ -56,11 +56,9 @@ class InstallerController extends JController
 
 			// Push document object into the view.
 			$view->assignRef('document', $document);
-
-			$view->display();
-
 			// Load the submenu.
 			InstallerHelper::addSubmenu($vName);
+			$view->display();
 		}
 
 		return $this;

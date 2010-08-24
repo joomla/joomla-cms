@@ -32,11 +32,11 @@ class BannersController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 		BannersHelper::updateReset();
-
-		parent::display();
-
+		
 		// Load the submenu.
 		BannersHelper::addSubmenu(JRequest::getWord('view', 'banners'));
+
+		parent::display();
 
 		return $this;
 	}

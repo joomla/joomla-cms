@@ -32,9 +32,9 @@ class PluginsController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/plugins.php';
 
-		parent::display();
-
 		// Load the submenu.
 		PluginsHelper::addSubmenu(JRequest::getWord('view', 'plugins'));
+		
+		parent::display();
 	}
 }

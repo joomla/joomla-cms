@@ -37,11 +37,11 @@ class ContentController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/content.php';
 
-		parent::display();
-
 		// Load the submenu.
 		ContentHelper::addSubmenu(JRequest::getWord('view', 'articles'));
 
+		parent::display();
+		
 		return $this;
 	}
 }

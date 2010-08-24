@@ -32,9 +32,9 @@ class NewsfeedsController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
-		parent::display();
-
 		// Load the submenu.
 		NewsfeedsHelper::addSubmenu(JRequest::getWord('view', 'newsfeeds'));
+		
+		parent::display();
 	}
 }

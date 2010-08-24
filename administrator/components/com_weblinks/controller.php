@@ -32,10 +32,10 @@ class WeblinksController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
 
-		parent::display();
-
 		// Load the submenu.
 		WeblinksHelper::addSubmenu(JRequest::getWord('view', 'weblinks'));
+		
+		parent::display();
 
 		return $this;
 	}

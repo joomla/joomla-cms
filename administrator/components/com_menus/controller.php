@@ -32,10 +32,10 @@ class MenusController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
-		parent::display();
-
 		// Load the submenu.
 		MenusHelper::addSubmenu(JRequest::getWord('view'));
+
+		parent::display();
 
 		return $this;
 	}

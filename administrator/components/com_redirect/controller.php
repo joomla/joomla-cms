@@ -37,9 +37,9 @@ class RedirectController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/redirect.php';
 
-		parent::display();
-
 		// Load the submenu.
 		RedirectHelper::addSubmenu(JRequest::getWord('view', 'links'));
+		
+		parent::display();
 	}
 }

@@ -32,9 +32,9 @@ class ModulesController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/modules.php';
 
-		parent::display();
-
 		// Load the submenu.
 		ModulesHelper::addSubmenu(JRequest::getWord('view', 'modules'));
+		
+		parent::display();
 	}
 }

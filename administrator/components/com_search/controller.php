@@ -38,9 +38,9 @@ class SearchController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/search.php';
 
-		parent::display();
-
 		// Load the submenu.
 		SearchHelper::addSubmenu(JRequest::getWord('view', 'searches'));
+		
+		parent::display();
 	}
 }

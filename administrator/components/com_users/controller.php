@@ -32,9 +32,9 @@ class UsersController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/users.php';
 
-		parent::display();
-
 		// Load the submenu.
 		UsersHelper::addSubmenu(JRequest::getWord('view', 'users'));
+		
+		parent::display();
 	}
 }

@@ -38,10 +38,10 @@ class TemplatesController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/templates.php';
 
-		parent::display();
-
 		// Load the submenu.
 		TemplatesHelper::addSubmenu(JRequest::getWord('view', 'styles'));
+		
+		parent::display();
 	}
 
 	/**
