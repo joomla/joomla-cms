@@ -22,7 +22,7 @@ class JVersion
 	/** @public int Main Release Level */
 	public $RELEASE	= '1.6';
 	/** @public string Development Status */
-	public $DEV_STATUS	= 'Beta7';
+	public $DEV_STATUS	= 'Beta8';
 	/** @public int Sub Release Level */
 	public $DEV_LEVEL	= '0';
 	/** @public int build Number */
@@ -30,7 +30,7 @@ class JVersion
 	/** @public string Codename */
 	public $CODENAME	= 'Hope';
 	/** @public string Date */
-	public $RELDATE	= '9-Aug-2010';
+	public $RELDATE	= '23-Aug-2010';
 	/** @public string Time */
 	public $RELTIME	= '23:00';
 	/** @public string Timezone */
