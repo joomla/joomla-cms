@@ -55,24 +55,36 @@ class MenusViewItem extends JView
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-
+		$canDo		= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		
 		JToolBarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'menu-add');
 
+		// If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
+		if ($isNew && $canDo->get('core.create')) {
+			if ($canDo->get('core.edit')) {
+				JToolBarHelper::apply('item.apply','JTOOLBAR_APPLY');
+			}
+			JToolBarHelper::save('item.save', 'JTOOLBAR_SAVE');
+		}
+		
 		// If not checked out, can save the item.
-		if ($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id')) {
+		if (!$isNew && !$checkedOut && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('item.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('item.save','JTOOLBAR_SAVE');
 			JToolBarHelper::custom('item.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
+		
 		// If an existing item, can save to a copy.
-		if (!$isNew) {
+		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('item.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
-		if ($isNew) {
+		
+		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('item.cancel','JTOOLBAR_CANCEL');
 		} else {
 			JToolBarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
 		}
+		
 		JToolBarHelper::divider();
 
 		// Get the help information for the menu item.

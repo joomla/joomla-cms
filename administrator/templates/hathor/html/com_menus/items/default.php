@@ -123,9 +123,11 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			// $lang = JFactory::getLanguage();
 			// $lang->load($item->componentname, JPATH_ADMINISTRATOR);
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canCreate	= $user->authorise('core.create',		'com_menus');
+			$canEdit	= $user->authorise('core.edit',			'com_menus');
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')|| $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_menus') && $canCheckin;
-			?>
+		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -135,8 +137,12 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 					<?php endif; ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
-						<?php echo $this->escape($item->title); ?></a>
+					<?php if ($canEdit) : ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_menus&task=item.edit&cid[]='.$item->id);?>">
+							<?php echo $this->escape($item->title); ?></a>
+					<?php else : ?>
+						<?php echo $this->escape($item->title); ?>
+					<?php endif; ?>
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
 						<?php if (empty($item->note)) : ?>

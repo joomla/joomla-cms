@@ -50,16 +50,28 @@ class MenusViewMenus extends JView
 	 */
 	protected function addToolbar()
 	{
+		require_once JPATH_COMPONENT.'/helpers/menus.php';
+
+		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+
 		JToolBarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
 
-		JToolBarHelper::custom('menu.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
-		JToolBarHelper::custom('menu.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
-		JToolBarHelper::divider();
-		JToolBarHelper::deleteList('', 'menus.delete','JTOOLBAR_DELETE');
-		JToolBarHelper::divider();
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('menu.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
+		}
+		if ($canDo->get('core.edit')) {
+			JToolBarHelper::custom('menu.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
+		}
+		if ($canDo->get('core.delete')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::deleteList('', 'menus.delete','JTOOLBAR_DELETE');
+		}
+
 		JToolBarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_menus');
+		if ($canDo->get('core.admin')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::preferences('com_menus');
+		}
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}

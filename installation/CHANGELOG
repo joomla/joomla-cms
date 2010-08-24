@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 23-Aug-2010 Ian MacLennan
  # [#21251] Hathor RTL CSS fixes
+ # [#21449] Add ACL Create, Edit, & Edit State checks to Menu Manager
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)
