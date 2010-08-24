@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#21251] Hathor RTL CSS fixes
  # [#21449] Add ACL Create, Edit, & Edit State checks to Menu Manager
  # [#21540] pre-check=0, post-check=0 should not be added to Cache-Control HTTP header
+ # [#21561] Display/Function of ordering arrows when sorted in descending order
 
 23-Aug-2010 Mark Dexter
  # Sample Data fixes (Elin Waring)
