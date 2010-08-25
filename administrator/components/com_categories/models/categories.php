@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_categories
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -36,7 +38,8 @@ class CategoriesModelCategories extends JModelList
 		$app		= JFactory::getApplication();
 		$context	= $this->context;
 
-		$extension = $app->getUserStateFromRequest($this->context.'.filter.extension', 'extension');
+		$extension = $app->getUserStateFromRequest($this->context.'.filter.extension', 'extension', 'com_content');
+
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.',$extension);
 		// extract the component name
@@ -74,6 +77,7 @@ class CategoriesModelCategories extends JModelList
 	 * @param	string		$id	A prefix for the store id.
 	 *
 	 * @return	string		A store id.
+	 * @since	1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -87,11 +91,10 @@ class CategoriesModelCategories extends JModelList
 	}
 
 	/**
-	 * @param	boolean	True to join selected foreign information
-	 *
 	 * @return	string
+	 * @since	1.6
 	 */
-	function getListQuery($resolveFKs = true)
+	function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -139,7 +142,8 @@ class CategoriesModelCategories extends JModelList
 		$published = $this->getState('filter.published');
 		if (is_numeric($published)) {
 			$query->where('a.published = ' . (int) $published);
-		} else if ($published === '') {
+		}
+		else if ($published === '') {
 			$query->where('(a.published IN (0, 1))');
 		}
 
@@ -148,10 +152,12 @@ class CategoriesModelCategories extends JModelList
 		if (!empty($search)) {
 			if (stripos($search, 'id:') === 0) {
 				$query->where('a.id = '.(int) substr($search, 3));
-			} else if (stripos($search, 'author:') === 0) {
+			}
+			else if (stripos($search, 'author:') === 0) {
 				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
-			} else {
+			}
+			else {
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Aug-2010 Andrew Eddie
+ # Fixed issue [#22032] Category editing gives error on saving/canceling (Roland Dalmulder).
+
 -------------------- 1.6.0 Beta8 Release [23-Aug-2010] ------------------
 
 23-Aug-2010 Ian MacLennan
