@@ -22,7 +22,6 @@ JHtml::_('behavior.formvalidation');
 
 	<form id="member-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=registration.register'); ?>" method="post" class="form-validate">
 <?php foreach ($this->form->getFieldsets() as $fieldset): // Iterate through the form fieldsets and display each one.?>
-	<p><?php echo JText::_($fieldset->label); ?></p>
 	<?php $fields = $this->form->getFieldset($fieldset->name);?>
 	<?php if (count($fields)):?>
 		<fieldset>
