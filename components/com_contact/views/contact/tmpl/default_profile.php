@@ -13,27 +13,26 @@ defined('_JEXEC') or die;
 <div class="jcontact-profile">
 	<ol>
 	<?php foreach ($this->contact->profile as $profile) :
-		if ($profile->profile_value) {
+		if ($profile->profile_value) :
 
-			$profile->text = htmlspecialchars($profile->profile_value, ENT_COMPAT, 'UTF-8')
+			$profile->text = htmlspecialchars($profile->profile_value, ENT_COMPAT, 'UTF-8');
 
-			switch ($profile->profile_key)
-			{
+			switch ($profile->profile_key) :
 				case "profile.website":
 					$v_http = substr ($profile->profile_value, 0, 4);
 
-					if ($v_http == "http") {
+					if ($v_http == "http") :
 						echo '<li><a href="'.$profile->text.'">'.$profile->text.'</a></li>';
-					} else {
+					else :
 						echo '<li><a href="http://'.$profile->text.'">'.$profile->text.'</a></li>';
-					}
+					endif;
 					break;
 
 				default:
 					echo '<li>'.$profile->text.'</li>';
 					break;
-			}
-		}
+			endswitch;
+		endif;
 	endforeach; ?>
 	</ol>
 </div>
