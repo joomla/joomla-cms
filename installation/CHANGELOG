@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-Aug-2010 Andrew Eddie
  # Fixed issue [#22032] Category editing gives error on saving/canceling (Roland Dalmulder).
  # Fixed issue [#21976] deprecated function ereg_replace mod_footer (Ronald Pijpers, Bill Richardson).
+ # Fixed issue [#18506] Category Manager / Edit Category: Edit Groups + Reset to Inherit links do not work (Andy Tasch, Bill Richardson).
 
 -------------------- 1.6.0 Beta8 Release [23-Aug-2010] ------------------
 
