@@ -38,8 +38,7 @@
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0" class="inputbox"
 		>
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_1</option>
 			<option value="2">COM_BANNERS_FIELD_VALUE_2</option>
 			<option value="3">COM_BANNERS_FIELD_VALUE_3</option>
@@ -51,8 +50,7 @@
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 		>
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECOMPONENTDEFAULT
-			</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -60,8 +58,7 @@
 		<field name="track_clicks" type="list" default="0"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 		>
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECOMPONENTDEFAULT
-			</option>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

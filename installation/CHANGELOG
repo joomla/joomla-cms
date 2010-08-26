@@ -28,13 +28,14 @@ $ -> Language fix or change
 ! -> Note
 
 26-Aug-2010 Jean-Marie Simonet
-[#22044] Menu level filter wording. Thanks Bill.
+ # [#22044] Menu level filter wording. Thanks Bill.
 
 26-Aug-2010 Andrew Eddie
  # Fixed issue [#22064] Non-functional, unfinished, duplicated and outdated form field: mediamanager (Artyom Bisyarin).
  # Fixed issue [#21977] Warning: Invalid argument supplied for foreach() in \libraries\joomla\document\html\html.php on line 161 (Ronald Pijpers, Bill Richardson).
  # Fixed issue [#21717] Create action in installer permissions configuration (Sander Potjer, Michael Babker).
-
+ # Fixed issue [#22060] Banners Options refactoring- Code missing (Jean-Marie Simonet).
+ 
 25-Aug-2010 Andrew Eddie
  # Fixed issue [#22032] Category editing gives error on saving/canceling (Roland Dalmulder).
  # Fixed issue [#21976] deprecated function ereg_replace mod_footer (Ronald Pijpers, Bill Richardson).
