@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Aug-2010 Jean-Marie Simonet
+[#22044] Menu level filter wording. Thanks Bill.
+
 26-Aug-2010 Andrew Eddie
  # Fixed issue [#22064] Non-functional, unfinished, duplicated and outdated form field: mediamanager (Artyom Bisyarin).
  # Fixed issue [#21977] Warning: Invalid argument supplied for foreach() in \libraries\joomla\document\html\html.php on line 161 (Ronald Pijpers, Bill Richardson).

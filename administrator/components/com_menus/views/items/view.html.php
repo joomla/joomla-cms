@@ -127,6 +127,13 @@ class MenusViewItems extends JView
 		$options[]	= JHtml::_('select.option', '2');
 		$options[]	= JHtml::_('select.option', '3');
 		$options[]	= JHtml::_('select.option', '4');
+		$options[]	= JHtml::_('select.option', '5');
+		$options[]	= JHtml::_('select.option', '6');
+		$options[]	= JHtml::_('select.option', '7');
+		$options[]	= JHtml::_('select.option', '8');
+		$options[]	= JHtml::_('select.option', '9');
+		$options[]	= JHtml::_('select.option', '10');
+				
 		$this->assign('f_levels', $options);
 
 		parent::display($tpl);
