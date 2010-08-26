@@ -135,9 +135,11 @@ class JDocumentHTML extends JDocument
 		$this->link			= (isset($data['link'])) ? $data['link'] : $this->link;
 
 		if (isset($data['metaTags'])) {
-			foreach($data['metaTags'] AS $type1=>$data1) {
+			foreach($data['metaTags'] AS $type1=>$data1)
+			{
 				$booldog = $type1 == 'http-equiv' ? true : false;
-				foreach($data1 AS $name2=>$data2) {
+				foreach($data1 AS $name2=>$data2)
+				{
 					$this->setMetaData($name2, $data2, $booldog);
 				}
 			}
@@ -147,10 +149,11 @@ class JDocumentHTML extends JDocument
 		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
 
 		if (isset($data['style'])) {
-			foreach($data['style'] AS $type=>$data) {
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$data)) {
-					$this->addStyleDeclaration($data, $type);
-				}
+			foreach ($data['style'] AS $type=>$style)
+			{
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$style)) {
+					$this->addStyleDeclaration($style, $type);
+ 				}
 			}
 		}
 
@@ -158,16 +161,15 @@ class JDocumentHTML extends JDocument
 
 
 		if (isset($data['script'])) {
-			foreach($data['script'] AS $type=>$data) {
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$data)) {
-					$this->addScriptDeclaration($data, $type);
+			foreach ($data['script'] AS $type=>$script)
+			{
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$script)) {
+					$this->addScriptDeclaration($script, $type);
 				}
-
 			}
 		}
 
-
-		$this->_custom		= (isset($data['custom']) && !empty($data['custom'])&& is_array($data['custom'])) ? array_unique(array_merge($this->_custom, $data['custom'])) : $this->_custom;
+		$this->_custom = (isset($data['custom']) && !empty($data['custom'])&& is_array($data['custom'])) ? array_unique(array_merge($this->_custom, $data['custom'])) : $this->_custom;
 	}
 
 	/**
