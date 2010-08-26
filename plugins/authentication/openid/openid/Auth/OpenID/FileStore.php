@@ -57,14 +57,14 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
         $this->directory = $directory;
         $this->active = true;
 
-        $this->nonce_dir = $directory . DS . 'nonces';
+        $this->nonce_dir = $directory . DIRECTORY_SEPARATOR . 'nonces';
 
-        $this->association_dir = $directory . DS .
+        $this->association_dir = $directory . DIRECTORY_SEPARATOR .
             'associations';
 
         // Temp dir must be on the same filesystem as the assciations
         // $directory.
-        $this->temp_dir = $directory . DS . 'temp';
+        $this->temp_dir = $directory . DIRECTORY_SEPARATOR . 'temp';
 
         $this->max_nonce_age = 6 * 60 * 60; // Six hours, in seconds
 
@@ -173,7 +173,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
         $filename = sprintf('%s-%s-%s-%s', $proto, $domain, $url_hash,
                             $handle_hash);
 
-        return $this->association_dir. DS . $filename;
+        return $this->association_dir. DIRECTORY_SEPARATOR . $filename;
     }
 
     /**
@@ -384,7 +384,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
 
         $filename = sprintf('%08x-%s-%s-%s-%s', $timestamp, $proto,
                             $domain, $url_hash, $salt_hash);
-        $filename = $this->nonce_dir . DS . $filename;
+        $filename = $this->nonce_dir . DIRECTORY_SEPARATOR . $filename;
 
         $result = @fopen($filename, 'x');
 
@@ -450,7 +450,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
         // Check all nonces for expiry
         foreach ($nonces as $nonce) {
             if (!Auth_OpenID_checkTimestamp($nonce, $now)) {
-                $filename = $this->nonce_dir . DS . $nonce;
+                $filename = $this->nonce_dir . DIRECTORY_SEPARATOR . $nonce;
                 Auth_OpenID_FileStore::_removeIfPresent($filename);
             }
         }
@@ -468,8 +468,8 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
      */
     function _rmtree($dir)
     {
-        if ($dir[strlen($dir) - 1] != DS) {
-            $dir .= DS;
+        if ($dir[strlen($dir) - 1] != DIRECTORY_SEPARATOR) {
+            $dir .= DIRECTORY_SEPARATOR;
         }
 
         if ($handle = opendir($dir)) {
@@ -522,7 +522,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
     function _mkdtemp($dir)
     {
         foreach (range(0, 4) as $i) {
-            $name = $dir . strval(DS) . strval(getmypid()) .
+            $name = $dir . strval(DIRECTORY_SEPARATOR) . strval(getmypid()) .
                 "-" . strval(rand(1, time()));
             if (!mkdir($name, 0700)) {
                 return false;
@@ -542,7 +542,7 @@ class Auth_OpenID_FileStore extends Auth_OpenID_OpenIDStore {
         $files = array();
         while (false !== ($filename = readdir($handle))) {
             if (!in_array($filename, array('.', '..'))) {
-                $files[] = $dir . DS . $filename;
+                $files[] = $dir . DIRECTORY_SEPARATOR . $filename;
             }
         }
         return $files;

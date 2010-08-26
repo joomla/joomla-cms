@@ -17,7 +17,7 @@ $canEdit = $this->user->authorise('core.edit', 'com_content.category.');
 $canCreate = $this->user->authorise('core.create', 'com_content');
 
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::core();
 

@@ -957,7 +957,7 @@ $language_data = array(
             'zlib_get_coding_type'
             ),
         4 => array(
-            'DEFAULT_INCLUDE_PATH', 'DS', 'E_ALL',
+            'DEFAULT_INCLUDE_PATH', 'DIRECTORY_SEPARATOR', 'E_ALL',
             'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_CORE_ERROR',
             'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE', 'E_STRICT',
             'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING', 'E_WARNING',

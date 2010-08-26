@@ -28,14 +28,14 @@ if (!$user->authorise('com_media', 'popup')) {
 }
 
 // Set the path definitions
-define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get('image_path', 'images'));
+define('COM_MEDIA_BASE',	JPATH_ROOT.DS.$params->get('image_path', 'images'));
 define('COM_MEDIA_BASEURL', JURI::root().'/'.$params->get('image_path', 'images'));
 
 // Load the admin HTML view
-require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/media.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php';
 
 // Require the base controller
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $cmd = JRequest::getCmd('task', null);
 if (strpos($cmd, '.') != false)
@@ -45,7 +45,7 @@ if (strpos($cmd, '.') != false)
 
 	// Define the controller name and path
 	$controllerName	= strtolower($controllerName);
-	$controllerPath	= JPATH_COMPONENT_ADMINISTRATOR.'/controllers/'.$controllerName.'.php';
+	$controllerPath	= JPATH_COMPONENT_ADMINISTRATOR.DS.'controllers'.DS.$controllerName.'.php';
 
 	// If the controller file path exists, include it ... else lets die with a 500 error
 	if (file_exists($controllerPath)) {
@@ -69,8 +69,8 @@ if (class_exists($controllerClass)) {
 }
 
 // Set the model and view paths to the administrator folders
-$controller->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.'/views');
-$controller->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.'/models');
+$controller->addViewPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views');
+$controller->addModelPath(JPATH_COMPONENT_ADMINISTRATOR.DS.'models');
 
 // Perform the Request task
 $controller->execute($task);

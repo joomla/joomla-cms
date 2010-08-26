@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 // Create shortcut to parameters.
 $params = $this->item->params;

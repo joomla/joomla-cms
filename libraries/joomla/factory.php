@@ -70,7 +70,7 @@ abstract class JFactory
 	{
 		if (!self::$config) {
 			if ($file === null) {
-				$file = dirname(__FILE__).'/config.php';
+				$file = dirname(__FILE__).DS.'config.php';
 			}
 
 			self::$config = self::_createConfig($file, $type);
@@ -674,7 +674,7 @@ abstract class JFactory
 				$prefix .= $SCPOptions['port'] ? ':'. $SCPOptions['port'] : '';
 				$prefix .= $SCPOptions['root'];
 			} else {
-				$prefix = JPATH_ROOT.'/';
+				$prefix = JPATH_ROOT.DS;
 			}
 
 			$retval = new JStream($prefix, JPATH_ROOT, $context);

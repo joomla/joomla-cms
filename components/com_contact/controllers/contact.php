@@ -164,7 +164,7 @@ class ContactControllerContact extends JController
 		$SiteName = $app->getCfg('sitename');
 		$contactId = JRequest::getVar('contact_id', 0, '', 'int');
 		// Get a Contact table object and load the selected contact details
-		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'tables');
 		$contact = JTable::getInstance('contact', 'Table');
 		$contact->load($contactId);
 		$user = JFactory::getUser();
@@ -211,7 +211,7 @@ class ContactControllerContact extends JController
 			$middlename = trim($middlename);
 
 			// Create a new vcard object and populate the fields
-			require_once JPATH_ADMINISTRATOR.'/components/com_contact/helpers/vcard.php';
+			require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_contact'.DS.'helpers'.DS.'vcard.php';
 			$v = new JvCard();
 
 			$v->setPhoneNumber($contact->telephone, 'PREF;WORK;VOICE');

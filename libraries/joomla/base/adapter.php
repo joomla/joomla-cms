@@ -89,7 +89,7 @@ class JAdapter extends JObject {
 	{
 		if (!is_object($adapter))
 		{
-			$fullpath = $this->_basepath.'/'.$this->_adapterfolder.'/'.strtolower($name).'.php';
+			$fullpath = $this->_basepath.DS.$this->_adapterfolder.DS.strtolower($name).'.php';
 			if(!file_exists($fullpath)) {
 				return false;
 			}
@@ -126,11 +126,11 @@ class JAdapter extends JObject {
 	 * @params array	$options	Adapter options
 	 */
 	public function loadAllAdapters($options = Array()) {
-		$list = JFolder::files($this->_basepath.'/'.$this->_adapterfolder);
+		$list = JFolder::files($this->_basepath.DS.$this->_adapterfolder);
 		foreach($list as $filename) {
 			if(JFile::getExt($filename) == 'php') {
 				// Try to load the adapter object
-				require_once $this->_basepath.'/'.$this->_adapterfolder.'/'.$filename;
+				require_once $this->_basepath.DS.$this->_adapterfolder.DS.$filename;
 				$name = JFile::stripExt($filename);
 				$class = $this->_classprefix.ucfirst($name);
 				if (!class_exists($class)) {

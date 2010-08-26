@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.application.component.helper');
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT.DS.'controller.php';
 
 $controller = JController::getInstance('Mailto');
 $controller->registerDefaultTask('mailto');

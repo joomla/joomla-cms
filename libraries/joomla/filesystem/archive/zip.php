@@ -194,7 +194,7 @@ class JArchiveZip extends JObject
 			$lastPathCharacter = substr($this->_metadata[$i]['name'], -1, 1);
 			if ($lastPathCharacter !== '/' && $lastPathCharacter !== '\\') {
 				$buffer = $this->_getFileData($i);
-				$path = JPath::clean($destination.'/'.$this->_metadata[$i]['name']);
+				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path))) {
 					$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_CREATE_DESTINATION'));
@@ -234,7 +234,7 @@ class JArchiveZip extends JObject
 					if (zip_entry_open($zip, $file, "r")) {
 						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/") {
 							$buffer = zip_entry_read($file, zip_entry_filesize($file));
-							if (JFile::write($destination.'/'.zip_entry_name($file), $buffer, true) === false) {
+							if (JFile::write($destination.DS.zip_entry_name($file), $buffer, true) === false) {
 								$this->set('error.message', 'Unable to write entry');
 								return false;
 							}

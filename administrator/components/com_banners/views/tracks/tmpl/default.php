@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHTML::_('script','system/multiselect.js',false,true);
 JHtml::_('behavior.modal', 'a.modal');

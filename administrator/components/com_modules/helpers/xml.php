@@ -28,7 +28,7 @@ class ModulesHelperXML
 			}
 			else
 			{
-				$data = JApplicationHelper::parseXMLInstallFile($row->path.'/'.$row->file);
+				$data = JApplicationHelper::parseXMLInstallFile($row->path.DS.$row->file);
 
 				if ($data['type'] == 'module')
 				{

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).'/helper.php';
+require_once dirname(__FILE__).DS.'helper.php';
 
 $list = modArticlesNewsHelper::getList($params);
 require JModuleHelper::getLayoutPath('mod_articles_news', $params->get('layout', 'default'));

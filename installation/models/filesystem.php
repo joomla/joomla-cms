@@ -89,7 +89,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Check all possible paths for the real Joomla installation by comparing version files.
 		$rootPath = false;
-		$checkValue = file_get_contents(JPATH_LIBRARIES.'/joomla/version.php');
+		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
 		foreach($paths as $tmp)
 		{
 			$filePath = rtrim($tmp, '/').'/libraries/joomla/version.php';
@@ -197,7 +197,7 @@ class JInstallationModelFilesystem extends JModel
 		}
 
 		// Verify valid root path, part two
-		$checkValue = file_get_contents(JPATH_LIBRARIES.'/joomla/version.php');
+		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
 		if ($buffer !== $checkValue) {
 			$ftp->quit();
 			$this->setError(JText::_('INSTL_FTP_INVALIDROOT'));
@@ -349,7 +349,7 @@ class JInstallationModelFilesystem extends JModel
 		}
 
 		// Verify valid root path, part two
-		$checkValue = file_get_contents(JPATH_LIBRARIES.'/joomla/version.php');
+		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
 		if ($buffer !== $checkValue) {
 			$ftp->quit();
 			$this->setError(JText::_('INSTL_FTP_INVALIDROOT'));
@@ -405,7 +405,7 @@ class JInstallationModelFilesystem extends JModel
 		$ftpRoot = $options->ftpRoot;
 
 		// Determine if the path is "chmodable".
-		if (!JPath::canChmod(JPath::clean(JPATH_SITE.'/'.$folder))) {
+		if (!JPath::canChmod(JPath::clean(JPATH_SITE.DS.$folder))) {
 			$ftpFlag = true;
 		}
 
@@ -437,7 +437,7 @@ class JInstallationModelFilesystem extends JModel
 		} else
 		{
 
-			$path = JPath::clean(JPATH_SITE.'/'.$folder);
+			$path = JPath::clean(JPATH_SITE.DS.$folder);
 
 			if (!@ chmod($path, octdec('0755')))
 			{

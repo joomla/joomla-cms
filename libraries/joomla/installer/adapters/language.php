@@ -113,7 +113,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->set('tag', $tag);
 
 		// Set the language installation path
-		$this->parent->setPath('extension_site', $basePath.'/language/'.$tag);
+		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.$tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		if ($element && count($element->children()))
@@ -130,7 +130,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Either we are installing a core pack or a core pack must exist for the language we are installing.
 		if (!$this->_core)
 		{
-			if (!JFile::exists($this->parent->getPath('extension_site').'/'.$this->get('tag').'.xml')) {
+			if (!JFile::exists($this->parent->getPath('extension_site').DS.$this->get('tag').'.xml')) {
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_NO_CORE_LANGUAGE', $this->get('tag'))));
 				return false;
 			}
@@ -191,7 +191,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->parseMedia($this->manifest->media);
 
 		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath.'/language/pdf_fonts');
+		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
 		if ($this->parent->parseFiles($this->manifest->fonts) === false)
 		{
@@ -288,7 +288,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$folder = $tag;
 
 		// Set the language installation path
-		$this->parent->setPath('extension_site', $basePath.'/language/'.$this->get('tag'));
+		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.$this->get('tag'));
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		if (count($xml->files->children()))
@@ -306,7 +306,7 @@ class JInstallerLanguage extends JAdapterInstance
 		// Either we are installing a core pack or a core pack must exist for the language we are installing.
 		if (!$this->_core)
 		{
-			if (!JFile::exists($this->parent->getPath('extension_site').'/'.$this->get('tag').'.xml'))
+			if (!JFile::exists($this->parent->getPath('extension_site').DS.$this->get('tag').'.xml'))
 			{
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_NO_CORE_LANGUAGE', $this->get('tag'))));
 				return false;
@@ -325,7 +325,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->parseMedia($xml->media);
 
 		// Copy all the necessary font files to the common pdf_fonts directory
-		$this->parent->setPath('extension_site', $basePath.'/language/pdf_fonts');
+		$this->parent->setPath('extension_site', $basePath.DS.'language'.DS.'pdf_fonts');
 		$overwrite = $this->parent->setOverwrite(true);
 		if ($this->parent->parseFiles($xml->fonts) === false)
 		{
@@ -430,7 +430,7 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 
 		// construct the path from the client, the language and the extension element name
-		$path = $client->path.'/language/'.$element;
+		$path = $client->path.DS.'language'.DS.$element;
 
 		// Get the package manifest object and remove media
 		$this->parent->setPath('source', $path);
@@ -499,13 +499,13 @@ class JInstallerLanguage extends JAdapterInstance
 	public function discover()
 	{
 		$results = Array();
-		$site_languages = JFolder::folders(JPATH_SITE.'/language');
-		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR.'/language');
+		$site_languages = JFolder::folders(JPATH_SITE.DS.'language');
+		$admin_languages = JFolder::folders(JPATH_ADMINISTRATOR.DS.'language');
 		foreach ($site_languages as $language)
 		{
-			if (file_exists(JPATH_SITE.'/language/'.$language.'/'.$language.'.xml'))
+			if (file_exists(JPATH_SITE.DS.'language'.DS.$language.DS.$language.'.xml'))
 			{
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.'/language/'.$language.'/'.$language.'.xml');
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.DS.'language'.DS.$language.DS.$language.'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'language');
 				$extension->set('client_id', 0);
@@ -518,9 +518,9 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		foreach ($admin_languages as $language)
 		{
-			if (file_exists(JPATH_ADMINISTRATOR.'/language/'.$language.'/'.$language.'.xml'))
+			if (file_exists(JPATH_ADMINISTRATOR.DS.'language'.DS.$language.DS.$language.'.xml'))
 			{
-				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.'/language/'.$language.'/'.$language.'.xml');
+				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR.DS.'language'.DS.$language.DS.$language.'.xml');
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'language');
 				$extension->set('client_id', 1);
@@ -543,10 +543,10 @@ class JInstallerLanguage extends JAdapterInstance
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$short_element = $this->parent->extension->element;
-		$manifestPath = $client->path . '/language/' . $short_element . DS . $short_element . '.xml';
+		$manifestPath = $client->path . DS . 'language'. DS . $short_element . DS . $short_element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$this->parent->setPath('source', $client->path . '/language/' . $short_element);
+		$this->parent->setPath('source', $client->path . DS . 'language'. DS . $short_element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = serialize($manifest_details);

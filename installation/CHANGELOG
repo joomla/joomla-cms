@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Aug-2010 Ian MacLennan
+ # [!21949] Reverted systematic elimination of DS as directory separator
+
 26-Aug-2010 Jean-Marie Simonet
  # [#22044] Menu level filter wording. Thanks Bill.
 

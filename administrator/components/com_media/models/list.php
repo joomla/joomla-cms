@@ -81,7 +81,7 @@ class MediaModelList extends JModel
 
 		// Initialise variables.
 		if (strlen($current) > 0) {
-			$basePath = COM_MEDIA_BASE.'/'.$current;
+			$basePath = COM_MEDIA_BASE.DS.$current;
 		} else {
 			$basePath = COM_MEDIA_BASE;
 		}
@@ -99,10 +99,10 @@ class MediaModelList extends JModel
 		if ($fileList !== false) {
 			foreach ($fileList as $file)
 			{
-				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
+				if (is_file($basePath.DS.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					$tmp = new JObject();
 					$tmp->name = $file;
-					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.'/'.$file));
+					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
@@ -146,15 +146,15 @@ class MediaModelList extends JModel
 							break;
 						// Non-image document
 						default:
-							// $iconfile_32 = JPATH_ADMINISTRATOR."/components/com_media/images/mime-icon-32/".$ext.".png";
-							$iconfile_32 = "media/images/media/mime-icon-32/".$ext.".png";
+							// $iconfile_32 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$ext.".png";
+							$iconfile_32 = "media".DS."images".DS."media".DS."mime-icon-32".DS.$ext.".png";
 							if (file_exists($iconfile_32)) {
 								$tmp->icon_32 = "media/mime-icon-32/".$ext.".png";
 							} else {
 								$tmp->icon_32 = "media/con_info.png";
 							}
-							// $iconfile_16 = JPATH_ADMINISTRATOR."/components/com_media/images/mime-icon-16/".$ext.".png";
-							$iconfile_16 = "media/images/media/mime-icon-16/".$ext.".png";
+							// $iconfile_16 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$ext.".png";
+							$iconfile_16 = "media".DS."images".DS."media".DS."mime-icon-16".DS.$ext.".png";
 							if (file_exists($iconfile_16)) {
 								$tmp->icon_16 = "media/mime-icon-16/".$ext.".png";
 							} else {
@@ -172,7 +172,7 @@ class MediaModelList extends JModel
 			foreach ($folderList as $folder) {
 				$tmp = new JObject();
 				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DS, '/', JPath::clean($basePath.'/'.$folder));
+				$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = MediaHelper::countFiles($tmp->path);
 				$tmp->files = $count[0];

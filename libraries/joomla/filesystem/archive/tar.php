@@ -140,7 +140,7 @@ class JArchiveTar extends JObject
 				$type = strtolower( $file['type'] );
 				if ($type == 'file' || $type == 'unix file')
 				{
-					$path = JPath::clean($destination.'/'.$file['name']);
+					$path = JPath::clean($destination.DS.$file['name']);
 					// Make sure the destination folder exists
 					if (!JFolder::create(dirname($path)))
 					{

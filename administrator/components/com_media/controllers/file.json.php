@@ -54,7 +54,7 @@ class MediaControllerFile extends JController
 		$file['name']	= JFile::makeSafe($file['name']);
 
 		if (isset($file['name'])) {
-			$filepath = JPath::clean(COM_MEDIA_BASE.'/'.$folder.'/'.strtolower($file['name']));
+			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
 
 			if (!MediaHelper::canUpload($file, $err)) {
 				jimport('joomla.error.log');
