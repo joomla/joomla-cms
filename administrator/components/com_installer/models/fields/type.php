@@ -41,13 +41,19 @@ class JFormFieldType extends JFormField
 		foreach ($this->element->children() as $option) {
 			$options[] = JHtml::_('select.option', $option->attributes('value'), JText::_(trim($option->data())));
 		}
-		$options[] = JHtml::_('select.option', 'component', JText::sprintf('COM_INSTALLER_TYPE_COMPONENT'));
-		$options[] = JHtml::_('select.option', 'module', JText::sprintf('COM_INSTALLER_TYPE_MODULE'));
-		$options[] = JHtml::_('select.option', 'plugin', JText::sprintf('COM_INSTALLER_TYPE_PLUGIN'));
-		$options[] = JHtml::_('select.option', 'template', JText::sprintf('COM_INSTALLER_TYPE_TEMPLATE'));
-		$options[] = JHtml::_('select.option', 'language', JText::sprintf('COM_INSTALLER_TYPE_LANGUAGE'));
-		$options[] = JHtml::_('select.option', 'library', JText::sprintf('COM_INSTALLER_TYPE_LIBRARY'));
+
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('type')->from('#__extensions');
+		$db->setQuery($query);
+		$types = array_unique($db->loadResultArray());
+		foreach($types as $type)
+		{
+			$options[] = JHtml::_('select.option', $type, JText::_('COM_INSTALLER_TYPE_'. strtoupper($type)));
+		}
+
 		$return = JHtml::_('select.genericlist', $options, $this->name, $onchange, 'value', 'text', $this->value, $this->id);
+
 		return $return;
 	}
 }
