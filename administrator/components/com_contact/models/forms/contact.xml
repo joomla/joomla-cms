@@ -640,8 +640,8 @@
 			<field name="redirect"
 				type="text"
 				size="30"
-				label="COM_CONTACT_FIELD_EMAIL_REDIRECT_LABEL"
-				description="COM_CONTACT_FIELD_EMAIL_REDIRECT_DESC" />
+				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC" />
 		</fieldset>
 	</fields>
 	<fields name="metadata">

@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 26-Aug-2010 Jean-Marie Simonet
  # [#22044] Menu level filter wording. Thanks Bill.
+ # [#22056] incomplete language strings in admin contact. Thanks Bill.
 
 26-Aug-2010 Andrew Eddie
  # Fixed issue [#22064] Non-functional, unfinished, duplicated and outdated form field: mediamanager (Artyom Bisyarin).

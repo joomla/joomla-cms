@@ -554,8 +554,8 @@
 		</field>
 
 		<field name="redirect" type="text"
-			description="CONTACT_EMAIL_REDIRECT_DESC"
-			label="CONTACT_EMAIL_REDIRECT_LABEL"
+			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
+			label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
 			size="30"
 		/>
 
