@@ -23,10 +23,6 @@
 				title="JACTION_MANAGE"
 				description="JACTION_MANAGE_COMPONENT_DESC" />
 			<action
-				name="core.create"
-				title="JACTION_CREATE"
-				description="JACTION_CREATE_COMPONENT_DESC" />
-			<action
 				name="core.delete"
 				title="JACTION_DELETE"
 				description="JACTION_DELETE_COMPONENT_DESC" />

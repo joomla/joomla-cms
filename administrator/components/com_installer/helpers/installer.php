@@ -67,7 +67,7 @@ class InstallerHelper
 		$assetName = 'com_installer';
 
 		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit.state', 'core.delete'
+			'core.admin', 'core.manage', 'core.edit.state', 'core.delete'
 		);
 
 		foreach ($actions as $action) {
