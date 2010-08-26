@@ -41,8 +41,8 @@ class JFormFieldGroupedList extends JFormField
 		$groups = array();
 		$label = 0;
 
-		foreach ($this->element->children() as $element) {
-
+		foreach ($this->element->children() as $element)
+		{
 			switch ($element->getName())
 			{
 				// The element is an <option />
@@ -92,15 +92,15 @@ class JFormFieldGroupedList extends JFormField
 
 						// Create a new option object based on the <option /> element.
 						$tmp = JHtml::_('select.option',
-							($element['value']) ? (string) $element['value'] : JText::_(trim((string) $element)),
-							JText::_(trim((string) $element)), 'value', 'text',
-							((string) $element['disabled']=='true'));
+							($option['value']) ? (string) $option['value'] : JText::_(trim((string) $option)),
+							JText::_(trim((string) $option)), 'value', 'text',
+							((string) $option['disabled']=='true'));
 
 						// Set some option attributes.
-						$tmp->class = (string) $element['class'];
+						$tmp->class = (string) $option['class'];
 
 						// Set some JavaScript option attributes.
-						$tmp->onclick = (string) $element['onclick'];
+						$tmp->onclick = (string) $option['onclick'];
 
 						// Add the option.
 						$groups[$label][] = $tmp;

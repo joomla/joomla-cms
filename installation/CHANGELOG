@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed issue [#21977] Warning: Invalid argument supplied for foreach() in \libraries\joomla\document\html\html.php on line 161 (Ronald Pijpers, Bill Richardson).
  # Fixed issue [#21717] Create action in installer permissions configuration (Sander Potjer, Michael Babker).
  # Fixed issue [#22060] Banners Options refactoring- Code missing (Jean-Marie Simonet).
+ # Fixed issue [#22063] Select with optgroup not works in admin component form (Tomasz Narloch, Bill Richardson).
  
 25-Aug-2010 Andrew Eddie
  # Fixed issue [#22032] Category editing gives error on saving/canceling (Roland Dalmulder).
