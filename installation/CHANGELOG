@@ -38,6 +38,7 @@ $ -> Language fix or change
  # Fixed issue [#22063] Select with optgroup not works in admin component form (Tomasz Narloch, Bill Richardson).
  # Fixed issue [#22045] block users error message (Brian Teeman, Bill Richardson, Michael Babker).
  # Fixed issue [#22079] Installer item types hard coded (Samuel Moffatt).
+ # Fixed issue [#22078] Install Data update for extension update (Samuel Moffatt).
  
 25-Aug-2010 Andrew Eddie
  # Fixed issue [#22032] Category editing gives error on saving/canceling (Roland Dalmulder).
