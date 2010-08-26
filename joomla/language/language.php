@@ -679,50 +679,84 @@ class JLanguage extends JObject
 	/**
 	 * Parses a language file
 	 *
-	 * @param	string The name of the file
+	 * @param	string	$filename	The name of the file.
+	 *
+	 * @return	array	The array of parsed strings.
 	 * @since	1.6
 	 */
 	protected function parse($filename)
 	{
 		$version = phpversion();
-		if($version >= "5.3.1") {
+
+		// Capture hidden PHP errors from the parsing.
+		$php_errormsg	= null;
+		$track_errors	= ini_get('track_errors');
+		ini_set('track_errors', true);
+
+		if ($version >= '5.3.1') {
 			$contents = file_get_contents($filename);
 			$contents = str_replace('_QQ_','"\""',$contents);
-			$strings = (array) @parse_ini_string($contents);
-		} else {
-			$strings = (array) @parse_ini_file($filename);
-			if ($version == "5.3.0") {
+			$strings = @parse_ini_string($contents);
+		}
+		else {
+			$strings = @parse_ini_file($filename);
+			if ($version == '5.3.0' && is_array($strings)) {
 				foreach($strings as $key => $string) {
 					$strings[$key]=str_replace('_QQ_','"',$string);
 				}
 			}
 		}
+
+		// Restore error tracking to what it was before.
+		ini_set('track_errors',$track_errors);
+
+		if (!is_array($strings)) {
+			$strings = array();
+		}
+
 		if ($this->debug) {
+			// Initialise variables for manually parsing the file for common errors.
+			$blacklist	= array('YES','NO','NULL','FALSE','ON','OFF','NONE','TRUE');
+			$regex		= '/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/';
 			$this->debug = false;
-			$errors = array();
-			$lineNumber = 0;
-			$stream = new JStream();
+			$errors		= array();
+			$lineNumber	= 0;
+
+			// Open the file as a stream.
+			$stream		= new JStream();
 			$stream->open($filename);
-			while(!$stream->eof())
+
+			while (!$stream->eof())
 			{
 				$line = $stream->gets();
 				$lineNumber++;
-				if (!preg_match('/^(|(\[[^\]]*\])|([A-Z][A-Z0-9_\-]*\s*=(\s*(("[^"]*")|(_QQ_)))+))\s*(;.*)?$/',$line))
-				{
+
+				// Check that the key is not in the blacklist and that the line format passes the regex.
+				$key = strtoupper(trim(substr($line, 0, strpos($line, '='))));
+				if (!preg_match($regex, $line) || in_array($key, $blacklist)) {
 					$errors[] = $lineNumber;
 				}
 			}
+
 			$stream->close();
+
+			// Check if we encountered any errors.
 			if (count($errors)) {
-				if (basename($filename)!=$this->lang.'.ini') {
-					$this->errorfiles[$filename] = $filename.JText::sprintf('JERROR_PARSING_LANGUAGE_FILE',implode(', ',$errors));
+				if (basename($filename) != $this->lang.'.ini') {
+					$this->errorfiles[$filename] = $filename.JText::sprintf('JERROR_PARSING_LANGUAGE_FILE', implode(', ', $errors));
 				}
 				else {
-					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ',$errors);
+					$this->errorfiles[$filename] = $filename . '&#160;: error(s) in line(s) ' . implode(', ', $errors);
 				}
 			}
+			else if ($php_errormsg) {
+				// We didn't find any errors but there's probably a parse notice.
+				$this->errorfiles['PHP'.$filename] = 'PHP parser errors :'.$php_errormsg;
+			}
+
 			$this->debug = true;
 		}
+
 		return $strings;
 	}
 
