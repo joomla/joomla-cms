@@ -77,8 +77,8 @@ class JFile
 	{
 		// Prepend a base path if it exists
 		if ($path) {
-			$src = JPath::clean($path.'/'.$src);
-			$dest = JPath::clean($path.'/'.$dest);
+			$src = JPath::clean($path.DS.$src);
+			$dest = JPath::clean($path.DS.$dest);
 		}
 
 		//Check src path
@@ -197,8 +197,8 @@ class JFile
 	public static function move($src, $dest, $path = '', $use_streams=false)
 	{
 		if ($path) {
-			$src = JPath::clean($path.'/'.$src);
-			$dest = JPath::clean($path.'/'.$dest);
+			$src = JPath::clean($path.DS.$src);
+			$dest = JPath::clean($path.DS.$dest);
 		}
 
 		//Check src path

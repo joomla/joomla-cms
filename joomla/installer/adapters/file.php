@@ -157,7 +157,7 @@ class JInstallerFile extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS.'/files/'.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS.DS.'files'.DS.basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
@@ -214,13 +214,13 @@ class JInstallerFile extends JAdapterInstance
 		}
 
 		$retval = true;
-		$manifestFile = JPATH_MANIFESTS.'/files/' . $row->element .'.xml';
+		$manifestFile = JPATH_MANIFESTS.DS.'files' . DS . $row->element .'.xml';
 
 		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT); //.'/files/'.$manifest->filename);
+			$this->parent->setPath('extension_root', JPATH_ROOT); //.DS.'files'.DS.$manifest->filename);
 
 			$xml =JFactory::getXML($manifestFile);
 
@@ -256,7 +256,7 @@ class JInstallerFile extends JAdapterInstance
 					}
 					else
 					{
-						$targetFolder = JPATH_ROOT.'/'.$target;
+						$targetFolder = JPATH_ROOT.DS.$target;
 					}
 
 					$folderList = array();
@@ -267,10 +267,10 @@ class JInstallerFile extends JAdapterInstance
 						foreach ($eFiles->children() as $eFileName)
 						{
 							if ($eFileName->getName() == 'folder') {
-								$folderList[] = $targetFolder.'/'.$eFileName;
+								$folderList[] = $targetFolder.DS.$eFileName;
 
 							} else {
-								$fileName = $targetFolder.'/'.$eFileName;
+								$fileName = $targetFolder.DS.$eFileName;
 								JFile::delete($fileName);
 							}
 						}
@@ -377,7 +377,7 @@ class JInstallerFile extends JAdapterInstance
 			{
 				if(empty($dir)) continue ;
 
-				$folderName .= '/'.$dir;
+				$folderName .= DS.$dir;
 				// Check if folder exists, if not then add to the array for folder creation
 				if (!JFolder::exists($folderName)) {
 					array_push($this->folderList, $folderName);
@@ -386,8 +386,8 @@ class JInstallerFile extends JAdapterInstance
 
 
 			//Create folder path
-			$sourceFolder = empty($folder)?$packagePath:$packagePath.'/'.$folder;
-			$targetFolder = empty($target)?$jRootPath:$jRootPath.'/'.$target;
+			$sourceFolder = empty($folder)?$packagePath:$packagePath.DS.$folder;
+			$targetFolder = empty($target)?$jRootPath:$jRootPath.DS.$target;
 
 			//Check if source folder exists
 			if (! JFolder::exists($sourceFolder)) {
@@ -403,11 +403,11 @@ class JInstallerFile extends JAdapterInstance
 				// loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
 				{
-					$path['src'] = $sourceFolder.'/'.$eFileName;
-					$path['dest'] = $targetFolder.'/'.$eFileName;
+					$path['src'] = $sourceFolder.DS.$eFileName;
+					$path['dest'] = $targetFolder.DS.$eFileName;
 					$path['type'] = 'file';
 					if ($eFileName->getName() == 'folder') {
-						$folderName = $targetFolder.'/'.$eFileName;
+						$folderName = $targetFolder.DS.$eFileName;
 						array_push($this->folderList, $folderName);
 						$path['type'] = 'folder';
 					}
@@ -417,8 +417,8 @@ class JInstallerFile extends JAdapterInstance
 			} else {
 				$files = JFolder::files($sourceFolder);
 				foreach ($files as $file) {
-					$path['src'] = $sourceFolder.'/'.$file;
-					$path['dest'] = $targetFolder.'/'.$file;
+					$path['src'] = $sourceFolder.DS.$file;
+					$path['dest'] = $targetFolder.DS.$file;
 
 					array_push($this->fileList, $path);
 				}

@@ -105,7 +105,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_ROOT.'/libraries/'.implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.implode(DS,explode('/',$group)));
 		}
 
 		/**
@@ -178,7 +178,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS.'/libraries/'.basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = JPATH_MANIFESTS.DS.'libraries'.DS.basename($this->parent->getPath('manifest'));
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
 			// Install failed, rollback changes
@@ -254,14 +254,14 @@ class JInstallerLibrary extends JAdapterInstance
 			return false;
 		}
 
-		$manifestFile = JPATH_MANIFESTS.'/libraries/' . $row->element .'.xml';
+		$manifestFile = JPATH_MANIFESTS.DS.'libraries' . DS . $row->element .'.xml';
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
 			$manifest = new JLibraryManifest($manifestFile);
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT.'/libraries/'.$manifest->libraryname);
+			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
 
 			$xml = JFactory::getXML($manifestFile);
 
@@ -327,7 +327,7 @@ class JInstallerLibrary extends JAdapterInstance
 	function discover()
 	{
 		$results = Array();
-		$file_list = JFolder::files(JPATH_MANIFESTS.'/libraries','\.xml$');
+		$file_list = JFolder::files(JPATH_MANIFESTS.DS.'libraries','\.xml$');
 		foreach ($file_list as $file)
 		{
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_MANIFESTS.'/libraries/'.$file);
@@ -365,7 +365,7 @@ class JInstallerLibrary extends JAdapterInstance
 		 * time they can be adequately removed.
 		 */
 
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath = JPATH_MANIFESTS . DS . 'libraries' . DS . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));

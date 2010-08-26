@@ -383,9 +383,9 @@ class JParameter extends JRegistry
 			$dir = trim($dir);
 
 			// Add trailing separators as needed.
-			if (substr($dir, -1) != DS) {
+			if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
 				// Directory
-				$dir .= DS;
+				$dir .= DIRECTORY_SEPARATOR;
 			}
 
 			// Add to the top of the search dirs.

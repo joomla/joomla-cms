@@ -153,7 +153,7 @@ class JInstallerModule extends JAdapterInstance
 			}
 		}
 		if (!empty ($element)) {
-			$this->parent->setPath('extension_root', $basePath.'/modules/'.$element);
+			$this->parent->setPath('extension_root', $basePath.DS.'modules'.DS.$element);
 		}
 		else {
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_MOD_INSTALL_NOFILE', JText::_('JLIB_INSTALLER_'.$this->route)));
@@ -222,7 +222,7 @@ class JInstallerModule extends JAdapterInstance
 		$manifestScript = (string)$this->manifest->scriptfile;
 		if ($manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('source').'/'.$manifestScript;
+			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 			if (is_file($manifestScriptFile))
 			{
 				// load the file
@@ -451,8 +451,8 @@ class JInstallerModule extends JAdapterInstance
 	public function discover()
 	{
 		$results = Array();
-		$site_list = JFolder::folders(JPATH_SITE.'/modules');
-		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR.'/modules');
+		$site_list = JFolder::folders(JPATH_SITE.DS.'modules');
+		$admin_list = JFolder::folders(JPATH_ADMINISTRATOR.DS.'modules');
 		$site_info = JApplicationHelper::getClientInfo('site', true);
 		$admin_info = JApplicationHelper::getClientInfo('administrator', true);
 		foreach ($site_list as $module)
@@ -495,7 +495,7 @@ class JInstallerModule extends JAdapterInstance
 		// Modules are like templates, and are one of the easiest
 		// If its not in the extensions table we just add it
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
+		$manifestPath = $client->path . DS . 'modules'. DS . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string)$this->parent->manifest->description;
 		if ($description) {
@@ -525,7 +525,7 @@ class JInstallerModule extends JAdapterInstance
 	function refreshManifestCache()
 	{
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/modules/' . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
+		$manifestPath = $client->path . DS . 'modules'. DS . $this->parent->extension->element . DS . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
@@ -582,7 +582,7 @@ class JInstallerModule extends JAdapterInstance
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ERROR_MOD_UNINSTALL_UNKNOWN_CLIENT', $row->client_id));
 			return false;
 		}
-		$this->parent->setPath('extension_root', $client->path.'/modules/'.$element);
+		$this->parent->setPath('extension_root', $client->path.DS.'modules'.DS.$element);
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
@@ -597,7 +597,7 @@ class JInstallerModule extends JAdapterInstance
 		$manifestScript = (string)$this->manifest->scriptfile;
 		if ($manifestScript)
 		{
-			$manifestScriptFile = $this->parent->getPath('extension_root').'/'.$manifestScript;
+			$manifestScriptFile = $this->parent->getPath('extension_root').DS.$manifestScript;
 			if (is_file($manifestScriptFile))
 			{
 				// load the file

@@ -10,7 +10,7 @@
 // no direct access
 defined('JPATH_BASE') or die;
 
-JHtml::addIncludePath(JPATH_LIBRARIES.'/joomla/html/html');
+JHtml::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
 
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');

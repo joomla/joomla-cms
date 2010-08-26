@@ -144,7 +144,7 @@ class JFilesystemHelper {
 	 */
 	function getJStreams() {
 		static $streams;
-		if(!$streams) $streams = array_map(array('JFile','stripExt'),JFolder::files(dirname(__FILE__).'/streams','.php'));
+		if(!$streams) $streams = array_map(array('JFile','stripExt'),JFolder::files(dirname(__FILE__).DS.'streams','.php'));
 		return $streams;
 	}
 
