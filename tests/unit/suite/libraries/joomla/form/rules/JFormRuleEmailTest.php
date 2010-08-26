@@ -76,4 +76,33 @@ class JFormRuleEmailTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The unique rule should pass and return true.'
 		);
 	}
+
+	public function emailData()
+	{
+		return array(
+			array('test@example.com', true),
+			array('badaddress.com', false),
+			array('firstnamelastname@domain.tld', true),
+			array('firstname+lastname@domain.tld', true),
+			array('firstname+middlename+lastname@domain.tld', true),
+			array('firstnamelastname@subdomain.domain.tld', true),
+			array('firstname+lastname@subdomain.domain.tld', true),
+			array('firstname+middlename+lastname@subdomain.domain.tld', true)
+		);
+	}
+
+
+	/**
+	 * @dataProvider emailData
+	 */
+	public function testEmailData($emailAddress, $expectedResult)
+	{
+		$rule = new JFormRuleEmail;
+		$xml = simplexml_load_string('<form><field name="email1" /></form>', 'JXMLElement');
+		$this->assertThat(
+			$rule->test($xml->field[0], $emailAddress),
+			$this->equalTo($expectedResult),
+			$emailAddress.' should have returned '.($expectedResult ? 'true' : 'false').' but did not'
+		);
+	}
 }
