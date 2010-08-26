@@ -28,6 +28,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->object = new JLanguage;
+
+		include_once 'inspectors.php';
 	}
 
 	/**
@@ -36,6 +38,46 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+	}
+
+	/**
+	 * Test the JLanguage::parse method
+	 */
+	public function testParse()
+	{
+		$lang = new JLanguageInspector('', true);
+
+		$strings = $lang->parse(dirname(__FILE__).'/_ini/good.ini');
+
+		$this->assertThat(
+			$strings,
+			$this->logicalNot($this->equalTo(array())),
+			'Line: '.__LINE__.' good ini file should load properly.'
+		);
+
+		$strings = $lang->parse(dirname(__FILE__).'/_ini/bad.ini');
+
+		$this->assertThat(
+			$strings,
+			$this->equalTo(array()),
+			'Line: '.__LINE__.' good ini file should load properly.'
+		);
+
+		$errors = $lang->getProperty('errorfiles');
+		$this->assertThat(
+			count($errors),
+			$this->equalTo(1),
+			'Line: '.__LINE__.' bad ini file should have one error.'
+		);
+
+		// Slice the error string.
+		$parts = explode('line(s)', array_pop($errors));
+
+		$this->assertThat(
+			trim($parts[1]),
+			$this->equalTo('4, 5, 6, 7, 9, 10, 11, 12'),
+			'Line: '.__LINE__.' bad ini file should have several lines marked.'
+		);
 	}
 
     /**
