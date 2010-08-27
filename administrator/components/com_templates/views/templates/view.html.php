@@ -50,7 +50,7 @@ class TemplatesViewTemplates extends JView
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
-		$this->preview		= JFactory::getConfig()->get('debug_modules');
+		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

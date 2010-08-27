@@ -165,19 +165,6 @@
 			<option
 				value="0">JNO</option>
 		</field>
-
-		<field
-			name="debug_modules"
-			type="radio"
-			default="0"
-			label="COM_CONFIG_FIELD_DEBUG_MODULES_LABEL"
-			description="COM_CONFIG_FIELD_DEBUG_MODULES_DESC"
-			filter="integer">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
-		</field>
 	</fieldset>
 
 	<fieldset
