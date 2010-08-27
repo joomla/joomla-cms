@@ -84,7 +84,7 @@ $userId	= $user->get('id');
 					<?php echo $row->name;?>
 				</td>
 				<td width="5%" align="center">
-					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.',  $canChange, !$row->published);?>
+					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.',  !$row->published && $canChange);?>
 				</td>
 				<td align="center">
 					<?php echo $row->version; ?>
