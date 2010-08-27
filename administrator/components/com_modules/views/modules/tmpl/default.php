@@ -76,13 +76,13 @@ $saveOrder	= $listOrder == 'ordering';
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort',  'JCLIENT', 'client_id', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%">
+				<th width="10%" class="left">
 					<?php echo JHtml::_('grid.sort',  'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%">
+				<th width="10%" class="left" >
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">

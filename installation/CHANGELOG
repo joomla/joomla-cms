@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Fixed issue [#17689] Menu Creation - "Contained in Menu" set to main menu (Christopher Garvis, Ian MacLennan, Mark Dexter).
  # Fixed issue [#22088] Cannot change default language in Language Manager: Installed Languages view (Michael Babker).
  # Fixed issue [#22054] extra tip in contact form (Brian Teeman, Bill Richardson).
+ # Fixed issue [#22043] Manager layout consistency (Brian Teeman, Bill Richardson).
 
 27-Aug-2010 Sam Moffatt
  # Fixed issue with com_admin XML manifest file (excessive new line)
