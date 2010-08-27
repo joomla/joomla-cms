@@ -5,6 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once JPATH_BASE.'/libraries/joomla/document/renderer.php';
 require_once JPATH_BASE.'/libraries/joomla/document/feed/renderer/rss.php';
 
 /**
