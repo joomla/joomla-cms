@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="1.6" type="file" method="upgrade">
+	<name>files_joomla</name>
+	<author>Joomla!</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>(C) 2010 Open Source Matters. All rights reserved</copyright>
+	<license>GNU General Public License version 2 or later; see     LICENSE.txt</license>
+	<version>1.6b9</version>
+	<creationDate>August 2010</creationDate>
+	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
+
+	<fileset>
+		<files>
+			<folder>administrator</folder>
+			<folder>cache</folder>
+			<folder>components</folder>
+			<folder>images</folder>
+			<folder>includes</folder>
+			<folder>installation</folder>
+			<folder>language</folder>
+			<folder>libraries</folder>
+			<folder>logs</folder>
+			<folder>media</folder>
+			<folder>modules</folder>
+			<folder>plugins</folder>
+			<folder>templates</folder>
+			<folder>tmp</folder>
+			<file>htaccess.txt</file>
+			<file>LICENSE.txt</file>
+			<file>README.txt</file>
+			<file>index.php</file>
+		</files>
+	</fileset>
+
+	<updateservers>
+		<server type="collection">http://update.joomla.org/core/list.xml</server>
+		<server type="collection">http://update.joomla.org/jed/list.xml</server>
+	</updateservers>
+</extension>

@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2010 Sam Moffatt
+ # Fixed issue with com_admin XML manifest file (excessive new line)
+ + Added joomla.xml file for future updates and tracking
+
 26-Aug-2010 Ian MacLennan
  # [!21949] Reverted systematic elimination of DS as directory separator
 
