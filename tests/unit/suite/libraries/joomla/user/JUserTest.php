@@ -442,7 +442,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$testUser->getErrors(),
 			$this->equalTo(
-				array('Please enter a valid e-mail address.')
+				array('Please enter a valid email address.')
 			),
 			'Should have caused valid email error'
 		);

@@ -14,7 +14,7 @@ jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
 
 /**
- * E-Mail Class.  Provides a common interface to send e-mail from the Joomla! Framework
+ * Email Class.  Provides a common interface to send email from the Joomla! Framework
  *
  * @package		Joomla.Framework
  * @subpackage	Mail
@@ -32,7 +32,7 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Returns the global e-mail object, only creating it
+	 * Returns the global email object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * NOTE: If you need an instance to use that does not have the global configuration
@@ -79,11 +79,11 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Set the E-Mail sender
+	 * Set the email sender
 	 *
-	 * @param	array	E-Mail address and Name of sender
+	 * @param	array	email address and Name of sender
 	 *		<pre>
-	 *			array([0] => E-Mail Address [1] => Name)
+	 *			array([0] => email Address [1] => Name)
 	 *		</pre>
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
@@ -108,9 +108,9 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Set the E-Mail subject
+	 * Set the email subject
 	 *
-	 * @param	string	Subject of the e-mail
+	 * @param	string	Subject of the email
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
 	 */
@@ -122,9 +122,9 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Set the E-Mail body
+	 * Set the email body
 	 *
-	 * @param	string	Body of the e-mail
+	 * @param	string	Body of the email
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
 	 */
@@ -142,7 +142,7 @@ class JMail extends PHPMailer
 	/**
 	 * Add recipients to the email
 	 *
-	 * @param	mixed	Either a string or array of strings [e-mail address(es)]
+	 * @param	mixed	Either a string or array of strings [email address(es)]
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
 	 */
@@ -165,7 +165,7 @@ class JMail extends PHPMailer
 	/**
 	 * Add carbon copy recipients to the email
 	 *
-	 * @param	mixed	Either a string or array of strings [e-mail address(es)]
+	 * @param	mixed	Either a string or array of strings [email address(es)]
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
 	 */
@@ -190,7 +190,7 @@ class JMail extends PHPMailer
 	/**
 	 * Add blind carbon copy recipients to the email
 	 *
-	 * @param	mixed	Either a string or array of strings [e-mail address(es)]
+	 * @param	mixed	Either a string or array of strings [email address(es)]
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
 	 */
@@ -236,11 +236,11 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Add Reply to e-mail address(es) to the e-mail
+	 * Add Reply to email address(es) to the email
 	 *
 	 * @param	array	Either an array or multi-array of form
 	 *		<pre>
-	 *			array([0] => E-Mail Address [1] => Name)
+	 *			array([0] => email Address [1] => Name)
 	 *		</pre>
 	 * @return	JMail	Returns this object for chaining.
 	 * @since	1.5
@@ -264,7 +264,7 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Use sendmail for sending the e-mail
+	 * Use sendmail for sending the email
 	 *
 	 * @param	string	Path to sendmail [optional]
 	 * @return	boolean	True on success
@@ -284,7 +284,7 @@ class JMail extends PHPMailer
 	}
 
 	/**
-	 * Use SMTP for sending the e-mail
+	 * Use SMTP for sending the email
 	 *
 	 * @param	string	SMTP Authentication [optional]
 	 * @param	string	SMTP Host [optional]
@@ -300,34 +300,34 @@ class JMail extends PHPMailer
 		$this->Username = $user;
 		$this->Password = $pass;
 		$this->Port		= $port;
-		
+
 		if ($secure == 'ssl' || $secure == 'tls') {
 			$this->SMTPSecure = $secure;
 		}
-		
-		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null) 
+
+		if (($this->SMTPAuth !== null && $this->Host !== null && $this->Username !== null && $this->Password !== null)
 			|| ($this->SMTPAuth === null && $this->Host !== null)) {
 			$this->IsSMTP();
 			return true;
 		}
 		else {
 			$this->IsMail();
-			
+
 			return false;
 		}
 	}
 
 	/**
-	 * Function to send an e-mail
+	 * Function to send an email
 	 *
-	 * @param	string	From e-mail address
+	 * @param	string	From email address
 	 * @param	string	From name
-	 * @param	mixed	Recipient e-mail address(es)
-	 * @param	string	E-mail subject
+	 * @param	mixed	Recipient email address(es)
+	 * @param	string	email subject
 	 * @param	string	Message body
 	 * @param	boolean	false = plain text, true = HTML
-	 * @param	mixed	CC e-mail address(es)
-	 * @param	mixed	BCC e-mail address(es)
+	 * @param	mixed	CC email address(es)
+	 * @param	mixed	BCC email address(es)
 	 * @param	mixed	Attachment file name(s)
 	 * @param	mixed	Reply to email address(es)
 	 * @param	mixed	Reply to name(s)

@@ -1306,7 +1306,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("link=Mass Mail Users");
 	$screen='Mass Mail';
     $this->waitForPageToLoad("30000");
-	$this->click("link=Send e-mail");
+	$this->click("link=Send email");
 	try
 	{
 	    $this->assertEquals("Please enter a subject", $this->getAlert());
@@ -1316,7 +1316,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	    array_push($this->verificationErrors, $this->getTraceFiles($e));
 	}
 	$this->type("jform_subject", "test");
-	$this->click("link=Send e-mail");
+	$this->click("link=Send email");
     try
 	{
 	     $this->assertEquals("Please enter a message", $this->getAlert());

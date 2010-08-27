@@ -276,7 +276,7 @@ class ContactControllerContact extends JController
 			}
 		}
 
-		// Determine banned e-mails
+		// Determine banned emails
 		$configEmail	= $pparams->get('banned_email', '');
 		$paramsEmail	= $params->get('banned_mail', '');
 		$bannedEmail	= $configEmail . ($paramsEmail ? ';'.$paramsEmail : '');

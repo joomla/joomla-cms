@@ -23,14 +23,14 @@ class JUtility
 	/**
 	 * Mail function (uses phpMailer)
 	 *
-	 * @param string $from From e-mail address
+	 * @param string $from From email address
 	 * @param string $fromname From name
-	 * @param mixed $recipient Recipient e-mail address(es)
-	 * @param string $subject E-mail subject
+	 * @param mixed $recipient Recipient email address(es)
+	 * @param string $subject email subject
 	 * @param string $body Message body
 	 * @param boolean $mode false = plain text, true = HTML
-	 * @param mixed $cc CC e-mail address(es)
-	 * @param mixed $bcc BCC e-mail address(es)
+	 * @param mixed $cc CC email address(es)
+	 * @param mixed $bcc BCC email address(es)
 	 * @param mixed $attachment Attachment file name(s)
 	 * @param mixed $replyto Reply to email address(es)
 	 * @param mixed $replytoname Reply to name(s)

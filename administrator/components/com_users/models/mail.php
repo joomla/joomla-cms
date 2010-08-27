@@ -124,7 +124,7 @@ class UsersModelMail extends JModelAdmin
 		$mailer = JFactory::getMailer();
 		$params = JComponentHelper::getParams('com_users');
 
-		// Build e-mail message format.
+		// Build email message format.
 		$mailer->setSender(array($app->getCfg('mailfrom'), $app->getCfg('fromname')));
 		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));

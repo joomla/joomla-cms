@@ -91,7 +91,7 @@ class UsersModelRemind extends JModelForm
 			return false;
 		}
 
-		// Find the user id for the given e-mail address.
+		// Find the user id for the given email address.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('*');
@@ -128,7 +128,7 @@ class UsersModelRemind extends JModelForm
 		$link	= 'index.php?option=com_users&view=login'.$itemid;
 		$mode	= $config->get('force_ssl', 0) == 2 ? 1 : -1;
 
-		// Put together the e-mail template data.
+		// Put together the email template data.
 		$data = JArrayHelper::fromObject($user);
 		$data['fromname']	= $config->get('fromname');
 		$data['mailfrom']	= $config->get('mailfrom');
@@ -147,7 +147,7 @@ class UsersModelRemind extends JModelForm
 			$data['link_text']
 		);
 
-		// Send the password reset request e-mail.
+		// Send the password reset request email.
 		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.

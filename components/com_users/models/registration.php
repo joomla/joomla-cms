@@ -177,7 +177,7 @@ class UsersModelRegistration extends JModelForm
 		$template = JxSimpleTemplate::getInstance('com_users.registration.confirm');
 		$template->bind($data);
 
-		// Send the registration e-mail.
+		// Send the registration email.
 		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $template->getTitle(), $template->getBody());
 
 		// Check for an error.
@@ -363,7 +363,7 @@ class UsersModelRegistration extends JModelForm
 		$data['sitename']	= $config->get('sitename');
 		$data['siteurl']	= JUri::base();
 
-		// Handle account activation/confirmation e-mails.
+		// Handle account activation/confirmation emails.
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
@@ -425,7 +425,7 @@ class UsersModelRegistration extends JModelForm
 			);
 		}
 
-		// Send the registration e-mail.
+		// Send the registration email.
 		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 		// Check for an error.

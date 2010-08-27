@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
- * E-mail cloack plugin class.
+ * Email cloack plugin class.
  *
  * @package		Joomla
  * @subpackage	plg_emailcloak
@@ -38,7 +38,7 @@ class plgContentEmailcloak extends JPlugin
 	/**
 	 * Genarate a search pattern based on link and text.
 	 *
-	 * @param	string	The target of an e-mail link.
+	 * @param	string	The target of an email link.
 	 * @param	string	The text enclosed by the link.
 	 * @return	string	A regular expression that matches a link containing the parameters.
 	 */

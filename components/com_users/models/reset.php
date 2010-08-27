@@ -310,7 +310,7 @@ class UsersModelReset extends JModelForm
 
 		jimport('joomla.user.helper');
 
-		// Find the user id for the given e-mail address.
+		// Find the user id for the given email address.
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->select('id');
@@ -360,7 +360,7 @@ class UsersModelReset extends JModelForm
 		$itemid = $itemid !== null ? '&Itemid='.$itemid : '';
 		$link = 'index.php?option=com_users&view=reset&layout=confirm'.$itemid;
 
-		// Put together the e-mail template data.
+		// Put together the email template data.
 		$data = $user->getProperties();
 		$data['fromname']	= $config->get('fromname');
 		$data['mailfrom']	= $config->get('mailfrom');
@@ -381,7 +381,7 @@ class UsersModelReset extends JModelForm
 			$data['link_text']
 		);
 
-		// Send the password reset request e-mail.
+		// Send the password reset request email.
 		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 		// Check for an error.
 		if ($return !== true) {

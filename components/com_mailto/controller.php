@@ -69,7 +69,7 @@ class MailtoController extends JController
 			return $this->mailto();
 		}
 
-		// An array of e-mail headers we do not want to allow as input
+		// An array of email headers we do not want to allow as input
 		$headers = array (	'Content-Type:',
 							'MIME-Version:',
 							'Content-Transfer-Encoding:',
