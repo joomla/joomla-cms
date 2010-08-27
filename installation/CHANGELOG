@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 27-Aug-2010 Jean-Marie Simonet
  # [#22020] Move Template Positions Parameter tp=1 into Template Options from Global Configuration. Thanks Amy, Hannes, Michael.
+ $ [#22084] Publishing Options Language changes and inconsistencies. Thanks Bill.
 
 27-Aug-2010 Andrew Eddie
  # Fixed issue [#17689] Menu Creation - "Contained in Menu" set to main menu (Christopher Garvis, Ian MacLennan, Mark Dexter).

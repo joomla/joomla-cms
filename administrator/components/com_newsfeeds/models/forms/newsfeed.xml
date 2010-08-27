@@ -102,12 +102,12 @@
 			readonly="true" filter="unset" />
 
 		<field name="publish_up" type="calendar"
-			label="JGLOBAL_FIELD_Publish_up_Label" description="JGLOBAL_FIELD_Publish_up_Desc"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"
-			label="JGLOBAL_FIELD_Publish_down_Label" description="JGLOBAL_FIELD_Publish_down_Desc"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
 			filter="user_utc" />
 
