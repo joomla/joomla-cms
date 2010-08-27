@@ -90,7 +90,7 @@ abstract class JModuleHelper
 		}
 		if (count($result) == 0)
 		{
-			if ($app->getCfg('debug_modules') && JRequest::getBool('tp'))
+			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
 				$result[0] = JModuleHelper::getModule('mod_'.$position);
 				$result[0]->title = $position;
@@ -186,7 +186,7 @@ abstract class JModuleHelper
 		}
 
 		//dynamically add outline style
-		if ($app->getCfg('debug_modules') && JRequest::getBool('tp')) {
+		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 			$attribs['style'] .= ' outline';
 		}
 
