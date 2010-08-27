@@ -301,8 +301,12 @@ class MenusControllerItem extends JControllerForm
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
+		// Get the posted values from the request.
+		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+
 		// Get the type.
-		$type = JRequest::getVar('type');
+		$type = $data['type'];
+
 		$type = json_decode(base64_decode($type));
 		$title = isset($type->title) ? $type->title : null;
 		if ($title != 'alias' && $title != 'separator' && $title != 'url') {
@@ -328,6 +332,13 @@ class MenusControllerItem extends JControllerForm
 		else if ($title == 'alias') {
 			$app->setUserState('com_menus.edit.item.link', 'index.php?Itemid=');
 		}
+
+		unset($data['request']);
+		$data['type'] = $title;
+		$data['link'] = $app->getUserState('com_menus.edit.item.link');
+
+		//Save the data in the session.
+		$app->setUserState('com_menus.edit.item.data', $data);
 
 		$this->type = $type;
 		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');

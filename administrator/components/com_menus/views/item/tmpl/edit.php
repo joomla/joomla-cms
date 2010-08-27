@@ -19,9 +19,12 @@ JHTML::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
-	function submitbutton(task)
+	function submitbutton(task, type)
 	{
-		if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		if (task == 'item.setType') {
+			document.id('item-form').elements['jform[type]'].value = type;
+			submitform(task);
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			submitform(task);
 		} else {
 			// special case for modal popups validation response
@@ -41,7 +44,6 @@ JHTML::_('behavior.modal');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
 			<ul class="adminformlist">
-				
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
@@ -119,5 +121,3 @@ JHTML::_('behavior.modal');
 	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>
-
-

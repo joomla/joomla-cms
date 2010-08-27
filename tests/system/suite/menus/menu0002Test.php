@@ -1,0 +1,219 @@
+<?php
+/**
+ * @version		$Id$
+ * @package		Joomla.SystemTest
+ * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * Creates test group and assigns priviledges with the ACL.
+ */
+require_once 'SeleniumJoomlaTestCase.php';
+
+class Menu0002 extends SeleniumJoomlaTestCase
+{
+
+	public function testSelectTypeWithoutSave()
+	{
+		// get logged in
+		$this->setUp();
+		$this->gotoAdmin();
+		$this->doAdminLogin();
+
+		$this->click("link=User Menu");
+		$this->waitForPageToLoad("30000");
+
+		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		echo "Enter the Title\n";
+		$this->type("jform_title", "Test Menu Item");
+		echo "Select the menu item type\n";
+		$this->click("//input[@value='Select']");
+		for ($second = 0;; $second++)
+		{
+			if ($second >= 15) $this->fail("timeout");
+			try
+			{
+				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
+			}
+			catch (Exception $e)
+			{
+			}
+			sleep(1);
+		}
+		
+		echo "Select External URL\n";
+
+		$this->click("Link=External URL");
+		$this->waitForPageToLoad("60000");
+
+		echo "Check that name is still there\n";
+		$this->assertEquals("Test Menu Item", $this->getValue("jform_title"));
+
+		echo "Save the menu item\n";
+		$this->click("//li[@id='toolbar-apply']/a/span");
+		$this->waitForPageToLoad("30000");
+		echo "Change the title\n";
+		$this->type("jform_title", "Test Menu Item - Edit");
+		echo "Change the menu item type\n";
+		$this->click("//input[@value='Select']");
+
+		for ($second = 0;; $second++)
+		{
+			if ($second >= 15) $this->fail("timeout");
+			try
+			{
+				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
+			}
+			catch (Exception $e)
+			{
+			}
+			sleep(1);
+		}
+
+		$this->click("Link=Menu Item Alias");
+		$this->waitForPageToLoad("60000");
+		echo "Check that new name is still there\n";
+		$this->assertEquals("Test Menu Item - Edit", $this->getValue("jform_title"));
+		
+		echo "Change the title again\n";
+		$this->type("jform_title", "Test Menu Item - Edit Again");
+		$this->click("//input[@value='Select']");
+		for ($second = 0;; $second++)
+		{
+			if ($second >= 15) $this->fail("timeout");
+			try
+			{
+				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
+			}
+			catch (Exception $e)
+			{
+			}
+			sleep(1);
+		}
+
+		$this->click("Link=Text Separator");
+		$this->waitForPageToLoad("30000");
+		$this->assertEquals("Test Menu Item - Edit Again", $this->getValue("jform_title"));
+
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		$this->type("filter_search", "Test Menu Item");
+
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+
+		$this->click("cb0");
+		$this->click("//li[@id='toolbar-trash']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->select("filter_published", "label=Trash");
+		$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		$this->doAdminLogout();
+	}
+
+	public function testSelectAndSave()
+	{
+		// get logged in
+		$this->setUp();
+		$this->gotoAdmin();
+		$this->doAdminLogin();
+
+		$this->click("link=User Menu");
+		$this->waitForPageToLoad("30000");
+
+		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		$saltGroup = mt_rand();
+
+		$this->type("jform_title", "Test Menu Item" . $saltGroup);
+		$this->click("//input[@value='Select']");
+		for ($second = 0;; $second++)
+		{
+			if ($second >= 15) $this->fail("timeout");
+			try
+			{
+				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
+			}
+			catch (Exception $e)
+			{
+			}
+			sleep(1);
+		}
+
+		// we select a menu item type
+		$this->click("link=List All News Feed Categories");
+		$this->waitForPageToLoad("60000");
+
+		// we make sure our changes were kept
+		$this->assertEquals("Test Menu Item" . $saltGroup, $this->getValue("jform_title"), 'Our title edits were not retained.');
+		$this->click("//li[@id='toolbar-apply']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		// we edit the title again and select a different type
+		$this->type("jform_title", "Test Menu Item - Edit");
+		$this->click("//input[@value='Select']");
+		for ($second = 0;; $second++)
+		{
+			if ($second >= 15) $this->fail("timeout");
+			try
+			{
+				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
+			}
+			catch (Exception $e)
+			{
+			}
+			sleep(1);
+		}
+
+		$this->click("Link=Single Contact");
+		$this->waitForPageToLoad("30000");
+		$this->assertEquals("Test Menu Item - Edit", $this->getValue("jform_title"), 'Our title edits were not retained.');
+
+		$this->type("jform_title", "Test Menu Item - Edit Again");
+		$this->click("//input[@value='Select']");
+		for ($second = 0;; $second++)
+		{
+			if ($second >= 15) $this->fail("timeout");
+			try
+			{
+				if ($this->isElementPresent("//div[@id='sbox-content']")) break;
+			}
+			catch (Exception $e)
+			{
+			}
+			sleep(1);
+		}
+		$this->click("link=External URL");
+		$this->waitForPageToLoad("30000");
+
+		$this->assertEquals("Test Menu Item - Edit Again", $this->getValue("jform_title"), 'Our title edits were not retained.');
+		$this->click("//li[@id='toolbar-cancel']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		// now we try to clean up - we trash and delete our item and then log out
+		$this->type("filter_search", "Test Menu Item" . $saltGroup);
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//li[@id='toolbar-trash']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->select("filter_published", "label=Trash");
+		$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//li[@id='toolbar-delete']/a/span");
+		$this->waitForPageToLoad("30000");
+
+		$this->gotoAdmin();
+		$this->doAdminLogout();
+	}
+}
