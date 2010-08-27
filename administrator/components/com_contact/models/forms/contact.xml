@@ -577,8 +577,7 @@
 		</fieldset>
 
 		<fieldset name="email"
-			label="COM_CONTACT_FIELDSET_CONTACT_FORM"
-			description="COM_CONTACT_EMAIL_FORM_DETAILS"
+			label="COM_CONTACT_FIELDSET_CONTACT_FORM"			
 		>
 
 			<field name="show_email_form" type="list"
