@@ -33,7 +33,8 @@ $ -> Language fix or change
  # Fixed issue [#22054] extra tip in contact form (Brian Teeman, Bill Richardson).
  # Fixed issue [#22043] Manager layout consistency (Brian Teeman, Bill Richardson).
  # Fixed issue [#22055] Email or e-mail inconsistency (Brian Teeman, Bill Richardson).
- # Fixed issue [#20847] Replace target="_blank" with class="external" and MT (Amy Stephen, Rouven Weßling).
+ # Fixed issue [#20847] Remove _self in mod_random_image (Amy Stephen, Rouven Weßling).
+ # Fixed issue [#9627] Installation of admin e-mail with plus symbol not validating (Richard Vazquez, Hannes Papenberg, Christophe Demko, Ian MacLennan).
 
 27-Aug-2010 Sam Moffatt
  # Fixed issue with com_admin XML manifest file (excessive new line)

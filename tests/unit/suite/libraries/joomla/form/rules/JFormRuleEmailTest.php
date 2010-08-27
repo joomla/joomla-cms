@@ -91,7 +91,6 @@ class JFormRuleEmailTest extends JoomlaTestCase
 		);
 	}
 
-
 	/**
 	 * @dataProvider emailData
 	 */
