@@ -330,7 +330,7 @@ abstract class JFormField
 	 */
 	protected function getId($fieldId, $fieldName, $group = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$id = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -379,8 +379,12 @@ abstract class JFormField
 	 */
 	protected function getLabel()
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$label = '';
+
+		if ($this->hidden) {
+			return $label;
+		}
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
@@ -417,7 +421,7 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName, $group = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.

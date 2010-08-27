@@ -35,7 +35,8 @@ $ -> Language fix or change
  # Fixed issue [#22055] Email or e-mail inconsistency (Brian Teeman, Bill Richardson).
  # Fixed issue [#20847] Remove _self in mod_random_image (Amy Stephen, Rouven Weßling).
  # Fixed issue [#9627] Installation of admin e-mail with plus symbol not validating (Richard Vazquez, Hannes Papenberg, Christophe Demko, Ian MacLennan).
-
+ # Fixed issue [#21924] form element "hidden" not entirely hidden (Boris Baddenoff, Bill Richardson).
+ 
 27-Aug-2010 Sam Moffatt
  # Fixed issue with com_admin XML manifest file (excessive new line)
  + Added joomla.xml file for future updates and tracking
