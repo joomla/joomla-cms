@@ -11,8 +11,8 @@
 defined('JPATH_BASE') or die;
 
 /**
- * E-Mail helper class, provides static methods to perform various tasks relevant
- * to the Joomla e-mail routines.
+ * Email helper class, provides static methods to perform various tasks relevant
+ * to the Joomla email routines.
  *
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
@@ -48,16 +48,16 @@ abstract class JMailHelper
 	}
 
 	/**
-	 * Cleans any injected headers from the E-Mail body.
+	 * Cleans any injected headers from the email body.
 	 *
 	 * @static
-	 * @param	string	$body	E-Mail body string.
-	 * @return	string	Cleaned E-Mail body string.
+	 * @param	string	$body	email body string.
+	 * @return	string	Cleaned email body string.
 	 * @since	1.5
 	 */
 	public static function cleanBody($body)
 	{
-		// Strip all E-Mail headers from a string
+		// Strip all email headers from a string
 		return preg_replace("/((From:|To:|Cc:|Bcc:|Subject:|Content-type:) ([\S]+))/", "", $body);
 	}
 
@@ -65,8 +65,8 @@ abstract class JMailHelper
 	 * Cleans any injected headers from the subject string.
 	 *
 	 * @static
-	 * @param	string	$subject	E-Mail subject string.
-	 * @return	string	Cleaned E-Mail subject string.
+	 * @param	string	$subject	email subject string.
+	 * @return	string	Cleaned email subject string.
 	 * @since	1.5
 	 */
 	public static function cleanSubject($subject)
@@ -75,11 +75,11 @@ abstract class JMailHelper
 	}
 
 	/**
-	 * Verifies that an e-mail address does not have any extra headers injected into it.
+	 * Verifies that an email address does not have any extra headers injected into it.
 	 *
 	 * @static
-	 * @param	string	$address	E-Mail address.
-	 * @return	string|false	E-Mail address string or boolean false if injected headers are present.
+	 * @param	string	$address	email address.
+	 * @return	string|false	email address string or boolean false if injected headers are present.
 	 * @since	1.5
 	 */
 	public static function cleanAddress($address)
@@ -91,7 +91,7 @@ abstract class JMailHelper
 	}
 
 	/**
-	 * Verifies that the string is in a proper e-mail address format.
+	 * Verifies that the string is in a proper email address format.
 	 *
 	 * @static
 	 * @param	string	$email	String to be verified.
