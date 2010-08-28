@@ -751,7 +751,12 @@ class JHtmlTest extends JoomlaTestCase
 
 		$cfg = new JObject();
 		JFactory::$session = $this->getMock('JSession', array('_start'));
+		JFactory::$application = $this->getMock('JApplication', array('getTemplate'));
 		JFactory::$config = $cfg;
+
+		JFactory::$application->expects($this->any())
+								->method('getTemplate')
+								->will($this->returnValue('atomic'));
 
 		$cfg->live_site = 'http://example.com';
 		$cfg->offset = 'Europe/Kiev';
