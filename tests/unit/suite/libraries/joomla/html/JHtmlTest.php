@@ -751,7 +751,6 @@ class JHtmlTest extends JoomlaTestCase
 
 		$cfg = new JObject();
 		JFactory::$session = $this->getMock('JSession', array('_start'));
-		JFactory::$application = new JApplication(array('clientId' => 0, 'session' => false));
 		JFactory::$config = $cfg;
 
 		$cfg->live_site = 'http://example.com';
