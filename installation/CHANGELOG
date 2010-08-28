@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2010 Mark Dexter
+ # Revert issue [#17689] Menu Creation - "Contained in Menu" set to main menu
+
 27-Aug-2010 Jean-Marie Simonet
  # [#22020] Move Template Positions Parameter tp=1 into Template Options from Global Configuration. Thanks Amy, Hannes, Michael.
  $ [#22084] Publishing Options Language changes and inconsistencies. Thanks Bill.
