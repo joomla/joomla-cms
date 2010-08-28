@@ -19,9 +19,12 @@ JHTML::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
-	function submitbutton(task)
+	function submitbutton(task, type)
 	{
-		if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		if (task == 'item.setType') {
+			document.id('item-form').elements['jform[type]'].value = type;
+			submitform(task);
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			submitform(task);
 		} else {
 			// special case for modal popups validation response
