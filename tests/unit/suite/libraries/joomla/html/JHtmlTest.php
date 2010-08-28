@@ -751,7 +751,7 @@ class JHtmlTest extends JoomlaTestCase
 
 		$cfg = new JObject();
 		JFactory::$session = $this->getMock('JSession', array('_start'));
-		JFactory::$application = $this->getMock('JApplication', array('getTemplate'));
+		JFactory::$application = $this->getMock('ApplicationMock');
 		JFactory::$config = $cfg;
 
 		JFactory::$application->expects($this->any())
@@ -902,5 +902,14 @@ class JHtmlTest extends JoomlaTestCase
 		$this->markTestIncomplete(
 		'This test has not been implemented yet.'
 		);
+	}
+}
+
+
+class ApplicationMock
+{
+	public function getTemplate()
+	{
+
 	}
 }
