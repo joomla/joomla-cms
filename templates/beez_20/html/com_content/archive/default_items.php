@@ -33,9 +33,21 @@ $params = &$this->params;
 		<?php endif; ?>
 		</h2>
 <?php endif; ?>
-<?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) : ?>
+<?php if (($params->get('show_author'))  or ($params->get('show_parent_category')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) : ?>
  <dl class="article-info">
  <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+<?php endif; ?>
+
+<?php if ($params->get('show_parent_category')) : ?>
+		<dd class="parent-category-name">
+			<?php	$title = $this->escape($item->parent_title);
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)).'">'.$title.'</a>';?>
+			<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
+				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
+				<?php else : ?>
+				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+			<?php endif; ?>
+		</dd>
 <?php endif; ?>
 
 <?php if ($params->get('show_category')) : ?>

@@ -57,7 +57,7 @@ class ContentViewCategories extends JView
 
 		$items = array($parent->id => $items);
 
-		$this->assign('maxLevel',	$params->get('maxLevel', -1));
+		$this->assign('maxLevelcat',	$params->get('maxLevelcat', -1));
 		$this->assignRef('params',		$params);
 		$this->assignRef('parent',		$parent);
 		$this->assignRef('items',		$items);

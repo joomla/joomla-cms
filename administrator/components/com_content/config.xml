@@ -3,7 +3,7 @@
 	<fieldset
 		name="articles"
 		label="JGLOBAL_ARTICLES"
-		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC">
+		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC">
 
 		<field
 			name="show_title"
@@ -88,7 +88,6 @@
 			<option
 				value="1">JYes</option>
 		</field>
-
 
 		<field
 			name="spacer1"
@@ -232,51 +231,206 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+		
+		<field
+			name="show_noauth"
+			type="radio"
+			default="0"
+			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
 
 	</fieldset>
 
-	<fieldset
-		name="blog_default_parameters"
+	<fieldset name="category"
+		label="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
+		>
+
+		<field name="show_category_title" type="radio"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+				default="1"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_description"
+			type="radio"
+			default="1"
+			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_description_image"
+			type="radio"
+			default="0"
+			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>	
+		
+		<field name="maxLevel" type="list"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+				default="-1"
+			>
+				<option value="0">JNONE</option>
+				<option value="-1">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>				
+		</field>
+			
+		<field name="show_empty_categories" type="radio"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
+				default="0"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+		<field name="show_subcat_desc" type="radio"
+			
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			default="1"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_cat_num_articles" type="radio"
+				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
+				description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>		
+	
+	</fieldset>
+	
+	<fieldset name="categories"
+		label="COM_CONTENT_CONFIG_CATEGORIES_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_CATEGORIES_SETTINGS_DESC"
+		>
+		<field name="show_base_description" type="radio"
+				default="1"
+				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
+				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
+			>
+				
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>			
+			
+			<field name="maxLevelcat" type="list"
+				default="-1"
+				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			>
+				
+				<option value="-1">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+			</field>
+
+			<field name="show_empty_categories_cat" type="radio"
+				default="0"
+				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+				description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_subcat_desc_cat" type="radio"
+			default="1"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+				
+			<field name="show_cat_num_articles_cat" type="radio"
+				default="1"
+				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
+				description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="spacer1"
+			type="spacer"
+			hr="true"
+			/>
+			
+			<field name="subslider" type="spacer"
+			label="COM_CONTENT_DRILL_CATEGORIES_LABEL"
+			/>
+			
+			<field
+				name="drill_down_layout"
+				type="radio"
+				default="0"
+				label="COM_CONTENT_DRILL_DOWN_LAYOUT_LABEL"
+				description="COM_CONTENT_DRILL_DOWN_LAYOUT_DESC">
+				<option value="0">JGLOBAL_LIST</option>
+				<option value="1">JGLOBAL_BLOG</option>
+			</field>
+		
+	</fieldset>
+	<fieldset name="blog_default_parameters"
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
 
-		<field
-			name="num_leading_articles"
+		<field name="num_leading_articles"
 			type="text"
 			default="1"
 			label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 			description="JGLOBAL_NUM_LEADING_ARTICLES_DESC">
 		</field>
 
-		<field
-			name="num_intro_articles"
+		<field name="num_intro_articles"
 			type="text"
 			default="4"
 			label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 			description="JGLOBAL_NUM_INTRO_ARTICLES_DESC">
 		</field>
 
-		<field
-			name="num_columns"
+		<field name="num_columns"
 			type="text"
 			default="2"
 			label="JGLOBAL_NUM_COLUMNS_LABEL"
 			description="JGLOBAL_NUM_COLUMNS_DESC">
 		</field>
 
-		<field
-			name="num_links"
+		<field name="num_links"
 			type="text"
 			default="4"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			description="JGLOBAL_NUM_LINKS_DESC">
 		</field>
 
-
-
-		<field
-			name="multi_column_order"
+		<field name="multi_column_order"
 			type="radio"
 			default="0"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
@@ -286,212 +440,13 @@
 			<option
 				value="1">JGLOBAL_ACROSS</option>
 		</field>
-
-		<field
-			name="show_pagination"
-			type="list"
-			default="2"
-			label="JGLOBAL_Pagination_Label"
-			description="JGLOBAL_Pagination_Desc">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-				<option value="2">JGLOBAL_AUTO</option>
-		</field>
-
-		<field
-			name="show_pagination_results"
-			type="radio"
-			default="1"
-			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			description="JGLOBAL_PAGINATION_RESULTS_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-		</fieldset>
-
-	<fieldset
-		name="list_default_parameters"
-		label="COM_CONTENT_CONFIG_LIST_SETTINGS_LABEL"
-		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
-		>
-
-		<field
-			name="display_num"
-			type="list"
-			default="10"
-			label="JGLOBAL_NUMBER_ITEMS_LIST_LABEL"
-			description="JGLOBAL_NUMBER_ITEMS_LIST_DESC">
-				<option value="5">J5</option>
-				<option value="10">J10</option>
-				<option value="15">J15</option>
-				<option value="20">J20</option>
-				<option value="25">J25</option>
-				<option value="30">J30</option>
-				<option value="50">J50</option>
-				<option value="100">J100</option>
-				<option value="0">JALL</option>
-		</field>
-
-		<field
-			name="show_headings"
-			type="radio"
-			default="1"
-			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			description="JGLOBAL_SHOW_HEADINGS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
-		</field>
-
-         <field name="list_show_title" type="radio"
-				description="JGLOBAL_LIST_TITLE_DESC"
-				label="JGLOBAL_LIST_TITLE_LABEL"
-				default="0"
-			>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="list_show_date"
-			type="list"
-			default="0"
-			label="JGLOBAL_SHOW_DATE_LABEL"
-			description="JGLOBAL_SHOW_DATE_DESC">
-				<option value="0">JHIDE</option>
-				<option value="created">JGLOBAL_CREATED</option>
-				<option value="modified">JGLOBAL_MODIFIED</option>
-				<option value="published">JPUBLISHED</option>
-		</field>
-
-		<field name="date_format"
-			type="text"
-			size="15"
-			label="JGLOBAL_DATE_FORMAT_LABEL"
-			description="JGLOBAL_DATE_FORMAT_DESC" />
-
-		<field
-			name="list_hits"
-			type="radio" default="1"
-			label="JGLOBAL_LIST_HITS_LABEL"
-			description="JGLOBAL_LIST_HITS_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="list_author"
-			type="radio" default="1"
-			label="JGLOBAL_LIST_AUTHOR_LABEL"
-			description="JGLOBAL_LIST_AUTHOR_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-		<field
-			name="filter_field"
-			type="list"
-			default="hide"
-			label="JGLOBAL_FILTER_FIELD_LABEL"
-			description="JGLOBAL_FILTER_FIELD_DESC">
-				<option value="hide">JHIDE</option>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
-		</field>
-
-		<field
-			name="show_pagination_limit"
-			type="radio" default="1"
-			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			description="JGLOBAL_DISPLAY_SELECT_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-	</fieldset>
-
-	<fieldset
-		name="categories"
-		label="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_LABEL"
-		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
-		>
-
-		<field name="maxLevel" type="list"
-				description="JGLOBAL_MAXLEVEL_DESC"
-				label="JGLOBAL_MAXLEVEL_LABEL"
-				default="1"
-			>
-				<option value="0">JNONE</option>
-				<option value="1">J1</option>
-				<option value="2">J2</option>
-				<option value="3">J3</option>
-				<option value="4">J4</option>
-				<option value="5">J5</option>
-			</field>
-
-	   	<field name="show_category_title" type="list"
-				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				default="0"
-			>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-		<field name="show_empty_categories" type="radio"
-				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="JGLOBAL_SHOW_EMPTY_CATEGORIES_DESC"
-				default="0"
-			>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-	 	<field
-	 		name="show_description"
-	 		type="radio"
-	 		default="0"
-	 		label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-	 		description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
-	 	</field>
-
-		<field
-			name="show_description_image"
-			type="radio"
-			default="0"
-			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
-	 	</field>
-
-
-		<field name="show_cat_num_articles" type="radio"
-				label="JGLOBAL_NUMBER_CATEGORY_ITEMS_LABEL"
-				description="JGLOBAL_NUMBER_CATEGORY_ITEMS_DESC"
-				default="0"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-		</field>
-
-	 	<field
-			name="drill_down_layout"
-			type="radio"
-			default="0"
-			label="JGLOBAL_DRILL_DOWN_LAYOUT_LABEL"
-			description="JGLOBAL_DRILL_DOWN_LAYOUT_DESC">
-	 			<option value="0">JGLOBAL_LIST</option>
-	 			<option value="1">JGLOBAL_BLOG</option>
-	 	</field>
-
-		<field
-			name="orderby_pri"
+		
+		<field name="spacer1"
+			type="spacer"
+			hr="true"
+			/>
+		
+		<field name="orderby_pri"
 			type="list"
 			default="none"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
@@ -506,8 +461,7 @@
 				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
 		</field>
 
-		<field
-			name="orderby_sec"
+		<field name="orderby_sec"
 			type="list"
 			default="rdate"
 			label="JGLOBAL_Article_Order_Label"
@@ -531,23 +485,112 @@
 			<option
 				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 		</field>
+		
+		<field name="order_date" type="list"
+				default="published"
+				description="JGLOBAL_ORDERING_DATE_DESC"
+				label="JGLOBAL_ORDERING_DATE_LABEL"
+			>
+				
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+			</field>		
 
-		<field
-			name="show_noauth"
+		</fieldset>
+
+	<fieldset name="list_default_parameters"
+		label="COM_CONTENT_CONFIG_LIST_SETTINGS_LABEL"
+		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
+		>
+
+		<field name="show_pagination_limit"
+			type="radio" default="1"
+			label="JGLOBAL_DISPLAY_SELECT_LABEL"
+			description="JGLOBAL_DISPLAY_SELECT_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+		
+		<field name="filter_field"
+			type="list"
+			default="hide"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			description="JGLOBAL_FILTER_FIELD_DESC">
+				<option value="hide">JHIDE</option>
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="author">JAUTHOR</option>
+				<option value="hits">JGLOBAL_HITS</option>
+		</field>
+		
+		<field name="show_headings"
 			type="radio"
-			default="0"
-			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
-			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
+			default="1"
+			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+			description="JGLOBAL_SHOW_HEADINGS_DESC">
 			<option
-				value="0">JNO</option>
+				value="0">JHIDE</option>
 			<option
-				value="1">JYES</option>
+				value="1">JSHOW</option>
 		</field>
 
-	</fieldset>
+         
 
-	<fieldset
-		name="integration"
+		<field name="list_show_date"
+			type="list"
+			default="0"
+			label="JGLOBAL_SHOW_DATE_LABEL"
+			description="JGLOBAL_SHOW_DATE_DESC">
+				<option value="0">JHIDE</option>
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+		</field>
+
+		<field name="date_format"
+			type="text"
+			size="15"
+			label="JGLOBAL_DATE_FORMAT_LABEL"
+			description="JGLOBAL_DATE_FORMAT_DESC" />
+
+		<field name="list_show_hits"
+			type="radio" default="1"
+			label="JGLOBAL_LIST_HITS_LABEL"
+			description="JGLOBAL_LIST_HITS_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field name="list_show_author"
+			type="radio" default="1"
+			label="JGLOBAL_LIST_AUTHOR_LABEL"
+			description="JGLOBAL_LIST_AUTHOR_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_pagination"
+			type="list"
+			default="2"
+			label="JGLOBAL_Pagination_Label"
+			description="JGLOBAL_Pagination_Desc">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+		</field>
+
+		<field name="show_pagination_results"
+			type="radio"
+			default="1"
+			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+			description="JGLOBAL_PAGINATION_RESULTS_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>	
+		
+	</fieldset>
+	
+	<fieldset name="integration"
 		label="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>

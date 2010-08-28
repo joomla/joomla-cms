@@ -30,16 +30,6 @@
 			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
 
 		<field
-			name="show_noauth"
-			type="list"
-			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
-			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="show_title"
 			type="list"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
@@ -207,7 +197,17 @@
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
 		</field>
-
+		
+		<field
+			name="show_noauth"
+			type="list"
+			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
+			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		
 		</fieldset>
 	</fields>
 </metadata>
