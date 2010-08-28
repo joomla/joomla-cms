@@ -17,7 +17,7 @@ require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'utilities' . D
  * @package	Joomla.UnitTest
  * @subpackage Utilities
  */
-class JSimpleCryptTest extends PHPUnit_Framework_TestCase
+class JSimpleCryptTest extends JoomlaTestCase
 {
 	/**
 	 * @var JSimpleCrypt
@@ -33,6 +33,7 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		//$this->object = new JSimpleCrypt;
+		$this->saveFactoryState();
 	}
 
 	/**
@@ -43,6 +44,7 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -97,6 +99,14 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecrypt( $expected, $key, $text )
 	{
+		$cfg = $this->getMock('JObject', array('get'));
+
+		$cfg->expects($this->any())
+			->method('get')
+			->will($this->returnValue(''));
+
+		JFactory::$config = $cfg;
+
 		$this->object = new JSimpleCrypt($key);
 
 		$this->assertThat(
@@ -117,6 +127,14 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEncrypt( $text, $key, $expected )
 	{
+		$cfg = $this->getMock('JObject', array('get'));
+
+		$cfg->expects($this->any())
+			->method('get')
+			->will($this->returnValue(''));
+
+		JFactory::$config = $cfg;
+
 		$this->object = new JSimpleCrypt($key);
 
 		$this->assertThat(
@@ -125,4 +143,4 @@ class JSimpleCryptTest extends PHPUnit_Framework_TestCase
 		);
 	}
 }
-?>
+

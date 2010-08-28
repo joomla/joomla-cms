@@ -75,7 +75,7 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			trim($parts[1]),
-			$this->equalTo('4, 5, 6, 7, 9, 10, 11, 12'),
+			$this->equalTo('4, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15'),
 			'Line: '.__LINE__.' bad ini file should have several lines marked.'
 		);
 	}

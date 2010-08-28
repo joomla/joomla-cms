@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+28-Aug-2010 Ian MacLennan
+ # Fixed errors in tests and added mocks to deal with some failures properly
+
 26-Aug-2010 Ian MacLennan
  + Added unit test for JFormRuleEmail
 

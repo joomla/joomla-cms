@@ -37,11 +37,19 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testGetInstance()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->assertThat(
 			$this->object = JInstaller::getInstance(),
 			$this->isInstanceOf('JInstaller'),
 			'JInstaller::getInstance failed'
 		);
+
+		$this->restoreFactoryState();
 	}
 
 	public function testMyOnlyTest()
@@ -57,6 +65,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testGetAndSetOverwrite()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->object = JInstaller::getInstance();
 		$this->object->setOverwrite(false);
 
@@ -78,6 +92,7 @@ class JInstallerTest extends JoomlaTestCase
 			'getOverwrite did not return the expected value.'
 		);
 
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -85,6 +100,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testGetAndSetRedirectUrl()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->object = JInstaller::getInstance();
 		$this->object->setRedirectUrl('http://www.example.com');
 
@@ -94,6 +115,7 @@ class JInstallerTest extends JoomlaTestCase
 			'Get or Set Redirect Url failed'
 		);
 
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -101,6 +123,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testGetAndSetUpgrade()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->object = JInstaller::getInstance();
 		$this->object->setUpgrade(false);
 
@@ -122,6 +150,7 @@ class JInstallerTest extends JoomlaTestCase
 			'getUpgrade did not return the expected value.'
 		);
 
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -140,6 +169,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testGetPath()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->object = JInstaller::getInstance();
 
 		$this->assertThat(
@@ -155,6 +190,8 @@ class JInstallerTest extends JoomlaTestCase
 			$this->equalTo(JPATH_BASE.'/required_path'),
 			'getPath did not return the previously set value for the path'
 		);
+
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -162,6 +199,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortFile()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		copy(JPATH_BASE.'/tests/_data/installer_packages/com_alpha/com_alpha.jpg', dirname(__FILE__).'/tmp/com_alpha.jpg');
 
 		$this->object = JInstaller::getInstance();
@@ -178,6 +221,7 @@ class JInstallerTest extends JoomlaTestCase
 			$this->isFalse()
 		);
 
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -185,6 +229,16 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortFolder()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
+		//TODO - remove dependence on JFolder
+		if (file_exists(dirname(__FILE__).'/tmp/en-GB')) {
+			JFolder::delete(dirname(__FILE__).'/tmp/en-GB');
+		}
 		JFolder::copy(JPATH_BASE.'/tests/_data/installer_packages/com_alpha/language/en-GB', dirname(__FILE__).'/tmp/en-GB');
 
 		$this->object = JInstaller::getInstance();
@@ -201,6 +255,7 @@ class JInstallerTest extends JoomlaTestCase
 			$this->isFalse()
 		);
 
+		$this->restoreFactoryState();
 	}
 
 
@@ -209,6 +264,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortQuery()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->object = JInstaller::getInstance();
 		$this->object->pushStep(array('type' => 'query'));
 
@@ -218,6 +279,7 @@ class JInstallerTest extends JoomlaTestCase
 			$this->isFalse()
 		);
 
+		$this->restoreFactoryState();
 	}
 
 
@@ -251,8 +313,6 @@ class JInstallerTest extends JoomlaTestCase
 		);
 
 		$this->restoreFactoryState();
-
-
 	}
 
 
@@ -261,6 +321,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortDefault()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$adapterMock = $this->getMock('test', array('_rollback_testtype'));
 
 		$adapterMock->expects($this->once())
@@ -281,6 +347,7 @@ class JInstallerTest extends JoomlaTestCase
 			$this->isTrue()
 		);
 
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -288,6 +355,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortMsg()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		//$this->object = JInstaller::getInstance();
 		$this->object = new JInstaller;
 
@@ -298,6 +371,7 @@ class JInstallerTest extends JoomlaTestCase
 			$this->isTrue()
 		);
 
+		$this->restoreFactoryState();
 	}
 
 
@@ -306,6 +380,12 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortBadType()
 	{
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		//$this->object = JInstaller::getInstance();
 		$this->object = new JInstaller;
 
@@ -316,6 +396,7 @@ class JInstallerTest extends JoomlaTestCase
 			$this->isFalse()
 		);
 
+		$this->restoreFactoryState();
 	}
 
 
@@ -324,6 +405,7 @@ class JInstallerTest extends JoomlaTestCase
 	 */
 	public function testAbortDebug()
 	{
+
 
 		$configMock = $this->getMock('test', array('get'));
 
@@ -334,9 +416,14 @@ class JInstallerTest extends JoomlaTestCase
 		$this->setExpectedError(array('code' => 500));
 
 		//$this->object = JInstaller::getInstance();
+		$this->saveFactoryState();
+
+		$newDbo = $this->getMock('test');
+
+		JFactory::$database = &$newDbo;
+
 		$this->object = new JInstaller;
 
-		$this->saveFactoryState();
 		JFactory::$config = $configMock;
 
 		$this->assertThat(
@@ -602,4 +689,4 @@ class JInstallerTest extends JoomlaTestCase
 		);
 	}
 }
-?>
+
