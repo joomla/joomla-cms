@@ -34,11 +34,14 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<th class="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
-				</th>				
+				</th>
+				<th>
+					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
+				</th>
 				<th width="10%" class="center">
 					<?php echo JHTML::_('grid.sort', 'JENABLED', 'enabled', $listDirn, $listOrder); ?>
 				</th>
-                <th>
+				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="center">
@@ -47,14 +50,11 @@ $listDirn	= $this->state->get('list.direction');
 				<th width="10%">
 					<?php echo JText::_('JDATE'); ?>
 				</th>
-				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
-				</th>
-				<th>
-					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
-				</th>
 				<th width="15%">
 					<?php echo JText::_('JAUTHOR'); ?>
+				</th>
+				<th>
+					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10">
 					<?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?>
@@ -77,7 +77,10 @@ $listDirn	= $this->state->get('list.direction');
 				<td>
 					<span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>">
 						<?php echo $item->name; ?></span>
-				</td>				
+				</td>
+				<td class="center">
+					<?php echo $item->client; ?>
+				</td>
 				<td class="center">
 					<?php if (!$item->element) : ?>
 					<strong>X</strong>
@@ -85,7 +88,7 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'manage.');?>
 					<?php endif; ?>
 				</td>
-                <td class="center">
+				<td class="center">
 					<?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?>
 				</td>
 				<td class="center">
@@ -95,14 +98,11 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 				</td>
 				<td class="center">
-					<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
-				</td>
-				<td class="center">
-					<?php echo $item->client; ?>
-				</td>
-				<td class="center">
 					<span class="editlinktip hasTip" title="<?php echo addslashes(htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION').'::'.$item->author_info)); ?>">
 						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?></span>
+				</td>
+				<td class="center">
+					<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 				</td>
 				<td>
 					<?php echo $item->extension_id ?>

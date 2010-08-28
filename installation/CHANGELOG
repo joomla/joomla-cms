@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2010 Jean-Marie Simonet
+ # [#22048] manager column order inconsistency. Thanks Bill.
+
 27-Aug-2010 Mark Dexter
  # Revert issue [#17689] Menu Creation - "Contained in Menu" set to main menu
 

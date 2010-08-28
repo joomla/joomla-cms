@@ -24,6 +24,16 @@
 			name="select"
 		>
 			<field type="list"
+				name="client_id"
+				hidden="true"
+				onchange="this.form.submit();"
+			>
+				<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
+				<option value="0">JSITE</option>
+				<option value="1">JADMINISTRATOR</option>
+			</field>
+			
+			<field type="list"
 				name="enabled"
 				hidden="true"
 				onchange="this.form.submit();"
@@ -47,15 +57,6 @@
 			>
 				<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 				<option value="*">COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE</option>
-			</field>
-			<field type="list"
-				name="client_id"
-				hidden="true"
-				onchange="this.form.submit();"
-			>
-				<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
-				<option value="0">JSITE</option>
-				<option value="1">JADMINISTRATOR</option>
 			</field>
 		</fieldset>
 	</fields>
