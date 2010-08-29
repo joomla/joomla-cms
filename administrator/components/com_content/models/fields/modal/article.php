@@ -72,7 +72,7 @@ class JFormFieldModal_Article extends JFormField
 
 		// The current user display field.
 		$html[] = '<div class="fltlft">';
-		$html[] = '  <input type="text" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" />';
+		$html[] = '  <input type="text" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" size="35" />';
 		$html[] = '</div>';
 
 		// The user select button.
