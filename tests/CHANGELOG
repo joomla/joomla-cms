@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Aug-2010 Mark Dexter
++ [#20726] Unit tests for JUserHelper
 
 28-Aug-2010 Ian MacLennan
  # Fixed errors in tests and added mocks to deal with some failures properly
