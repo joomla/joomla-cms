@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 28-Aug-2010 Mark Dexter
  # [#17689] Menu Creation - "Contained in Menu" set to main menu
+ # [#21819] Cannot save editted article using frontend with cache enabled
 
 28-Aug-2010 Jean-Marie Simonet
  # [#22048] manager column order inconsistency. Thanks Bill.

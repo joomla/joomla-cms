@@ -85,7 +85,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function setTinyText($text)
 	{
-		$this->selectFrame("text_ifr");
+		$this->selectFrame("jform_text_ifr");
 		$this->type("tinymce", $text);
 		$this->selectFrame("relative=top");
 	}
@@ -590,7 +590,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function togglePublished($articleTitle)
 	{
-		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+		echo "Toggling publishing of article " . $articleTitle . "\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" .
 			$articleTitle . "')]/../../td[3]/a");
 		$this->waitForPageToLoad("30000");
