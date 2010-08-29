@@ -149,10 +149,10 @@ class JDocumentHTML extends JDocument
 		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
 
 		if (isset($data['style'])) {
-			foreach ($data['style'] AS $type=>$style)
+			foreach($data['style'] AS $type=>$stdata) 
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$style)) {
-					$this->addStyleDeclaration($style, $type);
+				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$stdata)) {
+					$this->addStyleDeclaration($stdata, $type);
  				}
 			}
 		}
@@ -161,10 +161,10 @@ class JDocumentHTML extends JDocument
 
 
 		if (isset($data['script'])) {
-			foreach ($data['script'] AS $type=>$script)
+			foreach($data['script'] AS $type=>$sdata) 
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$script)) {
-					$this->addScriptDeclaration($script, $type);
+				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$sdata)) {
+					$this->addScriptDeclaration($sdata, $type);
 				}
 			}
 		}

@@ -383,8 +383,8 @@ abstract class JModuleHelper
 		$conf = JFactory::getConfig();
 
 		// turn cache off for internal callers if parameters are set to off and for all loged in users
-		if($moduleparams->get('owncache', null) == 0  || $conf->get('caching') == 0 || $user->get('id')) {
-			$cache->setCaching = false;
+		if($moduleparams->get('owncache', null) === 0  || $conf->get('caching') == 0 || $user->get('id')) {
+			$cache->setCaching(false);
 		}
 
 		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60));

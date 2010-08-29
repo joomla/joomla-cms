@@ -97,12 +97,14 @@ class JCacheControllerCallback extends JCacheController
 				$data = $this->cache->get($id);
 			}
 		}
-
+		
+		$coptions= array();
+		
 		if ($data !== false) {
 
 			$cached = unserialize(trim($data));
 			$coptions['mergehead'] = isset($woptions['mergehead']) ? $woptions['mergehead'] : 0;
-			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $woptions['mergehead']);
+			$output = ($wrkarounds == false) ? $cached['output'] : JCache::getWorkarounds($cached['output'], $coptions);
 			$result = $cached['result'];
 			if ($locktest->locked == true) $this->cache->unlock($id);
 
@@ -122,7 +124,6 @@ class JCacheControllerCallback extends JCacheController
 
 			$cached = array();
 
-			$coptions= array();
 			$coptions['nopathway'] = isset($woptions['nopathway']) ? $woptions['nopathway'] : 1;
 			$coptions['nohead'] = isset($woptions['nohead']) ? $woptions['nohead'] : 1;
 			$coptions['nomodules'] = isset($woptions['nomodules']) ? $woptions['nomodules'] : 1;
