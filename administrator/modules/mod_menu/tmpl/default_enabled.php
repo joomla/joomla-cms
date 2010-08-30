@@ -265,7 +265,7 @@ if ($showhelp == 1) {
 	);
 	$menu->addSeparator();
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_HELP_LINKS'), '#', 'class:weblinks', false, '_blank'), true
+	new JMenuNode(JText::_('MOD_MENU_HELP_LINKS'), '#', 'class:weblinks'), true
 	);
 	$menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensions.joomla.org', 'class:help-jed', false, '_blank')
