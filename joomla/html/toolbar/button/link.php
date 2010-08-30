@@ -21,8 +21,6 @@ class JButtonLink extends JButton
 {
 	/**
 	 * Button type
-	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = 'Link';
@@ -45,11 +43,13 @@ class JButtonLink extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
+	 * @param	string	$type	The button type.
+	 * @param	string	$name	The name of the button.
+	 *
 	 * @return	string	Button CSS Id
 	 * @since	1.5
 	 */
-	public function fetchId($name)
+	public function fetchId($type = 'Link', $name = '')
 	{
 		return $this->_parent->getName().'-'.$name;
 	}
@@ -57,8 +57,8 @@ class JButtonLink extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @access	private
 	 * @param	object	$definition	Button definition
+	 *
 	 * @return	string	JavaScript command string
 	 * @since	1.5
 	 */
