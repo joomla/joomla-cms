@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 30-Aug-2010 Andrew Eddie
  # Fixed issue [#21952] JButtonLink does not set toolbar id correctly (Daniel Reibelt, Hannes Papenberg).
+ # Fixed issue [#21868] 500 bad query error on saving a template style not assigned to anything (Elin Waring).
 
 29-Aug-2010 Jean-Marie Simonet
  # [#22023] Enlarge inputbox for article title on modal select. 

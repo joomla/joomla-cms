@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_templates
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -61,7 +63,8 @@ class TemplatesModelStyle extends JModelForm
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk) {
+		foreach ($pks as $i => $pk)
+		{
 			if ($table->load($pk)) {
 				// Access checks.
 				if (!$user->authorise('core.delete', 'com_templates')) {
@@ -72,7 +75,8 @@ class TemplatesModelStyle extends JModelForm
 					$this->setError($table->getError());
 					return false;
 				}
-			} else {
+			}
+			else {
 				$this->setError($table->getError());
 				return false;
 			}
@@ -102,7 +106,8 @@ class TemplatesModelStyle extends JModelForm
 
 		$table = $this->getTable();
 
-		foreach ($pks as $pk) {
+		foreach ($pks as $pk)
+		{
 			if ($table->load($pk, true)) {
 				// Reset the id to create a new record.
 				$table->id = 0;
@@ -114,14 +119,16 @@ class TemplatesModelStyle extends JModelForm
 				$m = null;
 				if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
 					$table->title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-				} else {
+				}
+				else {
 					$table->title .= ' (2)';
 				}
 
 				if (!$table->check() || !$table->store()) {
 					throw new Exception($table->getError());
 				}
-			} else {
+			}
+			else {
 				throw new Exception($table->getError());
 			}
 		}
@@ -148,7 +155,8 @@ class TemplatesModelStyle extends JModelForm
 			$item		= $this->getItem();
 			$clientId	= $item->client_id;
 			$template	= $item->template;
-		} else {
+		}
+		else {
 			$clientId	= JArrayHelper::getValue($data, 'client_id');
 			$template	= JArrayHelper::getValue($data, 'template');
 		}
@@ -276,10 +284,11 @@ class TemplatesModelStyle extends JModelForm
 
 		// Disable home field if it is default style
 
-		if((is_array($data) && array_key_exists('home',$data))
+		if ((is_array($data) && array_key_exists('home',$data))
 			|| ((is_object($data) && $data->home))){
 			$form->setFieldAttribute('home','readonly','true');
 		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data);
 	}
@@ -337,31 +346,40 @@ class TemplatesModelStyle extends JModelForm
 
 		$user = JFactory::getUser();
 		if ($user->authorise('core.edit','com_menus') && $table->client_id==0) {
-			$n=0;
+			$n		= 0;
+			$db		= JFactory::getDbo();
+			$user	= JFactory::getUser();
 
-			$db = JFactory::getDbo();
-			$user = JFactory::getUser();
-			$app = JFactory::getApplication();
-			$query=$db->getQuery(true);
-			$query->update('#__menu');
-			$query->set('template_style_id='.(int)$table->id);
-			$query->where('id IN ('.implode(',',$data['assigned']).')');
-			$query->where('template_style_id!='.(int)$table->id);
-			$query->where('checked_out in (0,'.(int)$user->id.')');
-			$db->setQuery($query);
-			$db->query();
-			$n = $n + $db->getAffectedRows();
+			if (!empty($data['assigned'])) {
+				// Update the mapping for menu items that this style IS assigned to.
+				$query = $db->getQuery(true);
+				$query->update('#__menu');
+				$query->set('template_style_id='.(int)$table->id);
+				$query->where('id IN ('.implode(',', $data['assigned']).')');
+				$query->where('template_style_id!='.(int) $table->id);
+				$query->where('checked_out in (0,'.(int) $user->id.')');
+				$db->setQuery($query);
+				$db->query();
+				$n += $db->getAffectedRows();
+			}
 
-			$query=$db->getQuery(true);
+			// Remove style mappings for menu items this style is NOT assigned to.
+			// If unassigned then all existing maps will be removed.
+			$query = $db->getQuery(true);
 			$query->update('#__menu');
 			$query->set('template_style_id=0');
-			$query->where('id NOT IN ('.implode(',',$data['assigned']).')');
-			$query->where('template_style_id='.(int)$table->id);
-			$query->where('checked_out in (0,'.(int)$user->id.')');
+			if (!empty($data['assigned'])) {
+				$query->where('id NOT IN ('.implode(',', $data['assigned']).')');
+			}
+
+			$query->where('template_style_id='.(int) $table->id);
+			$query->where('checked_out in (0,'.(int) $user->id.')');
 			$db->setQuery($query);
 			$db->query();
-			$n = $n + $db->getAffectedRows();
-			if ($n>0) {
+
+			$n += $db->getAffectedRows();
+			if ($n > 0) {
+				$app = JFactory::getApplication();
 				$app->enQueueMessage(JText::plural('COM_TEMPLATES_MENU_CHANGED',$n));
 			}
 		}
@@ -407,7 +425,8 @@ class TemplatesModelStyle extends JModelForm
 
 		if ($error = $db->getErrorMsg()) {
 			throw new Exception($error);
-		} else if (!is_numeric($clientId)) {
+		}
+		else if (!is_numeric($clientId)) {
 			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
 		}
 
