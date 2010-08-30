@@ -64,6 +64,7 @@ class UsersViewUsers extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::custom('users.activate', 'publish.png', 'publish_f2.png', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			JToolBarHelper::custom('users.block', 'unpublish.png', 'unpublish_f2.png', 'COM_USERS_TOOLBAR_BLOCK', true);
+			JToolBarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
 		}
 
 		if ($canDo->get('core.delete')) {

@@ -254,13 +254,19 @@ class UsersModelUser extends JModelAdmin
 			else if ($table->load($pk)) {
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
-
+				
 				// Prepare the logout options.
 				$options = array(
 					'clientid' => array(0, 1)
 				);
 
 				if ($allow) {
+					// Skip changing of same state
+					if ($table->block == $value) {
+						unset($pks[$i]);
+						continue;
+					}
+					
 					$table->block = (int) $value;
 
 					if (!$table->check()) {

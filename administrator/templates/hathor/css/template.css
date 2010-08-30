@@ -2423,6 +2423,10 @@ a.jgrid:hover {
 	background-image: url(../images/toolbar/icon-32-publish.png);
 }
 
+.icon-32-unblock {
+	background-image: url(../images/toolbar/icon-32-unblock.png);
+}
+
 .icon-32-unpublish {
 	background-image: url(../images/toolbar/icon-32-unpublish.png);
 }
