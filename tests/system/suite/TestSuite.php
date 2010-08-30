@@ -35,6 +35,7 @@ require_once 'sample_data/sample_data0001Test.php';
 require_once 'acl/acl0001Test.php';
 require_once 'acl/acl0002Test.php';
 require_once 'acl/acl0003Test.php';
+require_once 'acl/acl0004Test.php';
 require_once 'language/language0001Test.php';
 
 
@@ -70,7 +71,8 @@ class TestSuite
 		$suite->addTestSuite('Acl0001Test');
 		$suite->addTestSuite('Acl0002Test');
 		$suite->addTestSuite('DoInstall');
-		$suite->addTestSuite('Acl0003Test');				
+		$suite->addTestSuite('Acl0003Test');
+		$suite->addTestSuite('Acl0004Test');				
 		$suite->addTestSuite('Language0001Test');
 
 		return $suite;

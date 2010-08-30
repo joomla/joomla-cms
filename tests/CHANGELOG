@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 29-Aug-2010 Mark Dexter
 + [#20726] Unit tests for JUserHelper
++ [#22021] ACL System Tests
 
 28-Aug-2010 Ian MacLennan
  # Fixed errors in tests and added mocks to deal with some failures properly
