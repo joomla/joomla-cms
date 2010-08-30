@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,6 +19,26 @@ jimport('joomla.application.component.controllerform');
 class ContentControllerArticle extends JControllerForm
 {
 	/**
+	 * Class constructor.
+	 *
+	 * @param	array	$config	A named array of configuration variables.
+	 *
+	 * @return	JControllerForm
+	 * @since	1.6
+	 */
+	function __construct($config = array())
+	{
+		// An article edit form can come from the articles or featured view.
+		// Adjust the redirect view on the value of 'return' in the request.
+		if (JRequest::getCmd('return') == 'featured') {
+			$this->view_list = 'featured';
+			$this->view_item = 'article&return=featured';
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method override to check if you can add a new record.
 	 *
 	 * @param	array	An array of input data.
@@ -30,13 +52,12 @@ class ContentControllerArticle extends JControllerForm
 		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('filter_category_id'), 'int');
 		$allow		= null;
 
-		if ($categoryId)
-		{
+		if ($categoryId) {
 			// If the category has been passed in the URL check it.
 			$allow	= $user->authorise('core.create', 'com_content.category.'.$categoryId);
 		}
-		if ($allow === null)
-		{
+
+		if ($allow === null) {
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd();
 		}
