@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed issue [#21868] 500 bad query error on saving a template style not assigned to anything (Elin Waring).
  # Fixed issue [#20468] Featured Articles editing returns to articles pages (Greg Daynes, Hannes Papenberg).
  # Fixed issue [#21999] Error on creating a group with an existing name (Elin Waring).
+ # Fixed issue [#22102] E-mail field in contact editing does not validate (Roland Dalmulder).
 
 29-Aug-2010 Jean-Marie Simonet
  # [#22023] Enlarge inputbox for article title on modal select. 

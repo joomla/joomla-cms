@@ -101,7 +101,7 @@
 		<field name="email_to" type="text"
 			label="COM_CONTACT_FIELD_INFORMATION_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
-			class="inputbox"
+			class="inputbox validate-email"
 			size="30"
 		/>
 
