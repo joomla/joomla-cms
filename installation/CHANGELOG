@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Aug-2010 Jean-Marie Simonet
+ # [#22150] hathor menu type - unable to select type. Thanks Bill.
+
 30-Aug-2010 Jean-Marie Simonet
  # [#22050] useful joomla links menu. Thanks Bill.
  # [#22046] cannot unblock users. Thanks Michael and Dennis.
