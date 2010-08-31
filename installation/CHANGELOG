@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ Reordered front-end en-GB.ini strings
  $ Modified publish/unpublish to enable/disable in Extension Manager->Manage toolbars
  $ [#22156] edit weblink - order description missing. Thanks Bill.
+ $ [#22152] permissions edit terms inconsistency. Thanks Bill.
  
 30-Aug-2010 Jean-Marie Simonet
  # [#22050] useful joomla links menu. Thanks Bill.
