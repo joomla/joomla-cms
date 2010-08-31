@@ -33,8 +33,8 @@ $ -> Language fix or change
  # [#21932] checkall-toggle does not work with Hathor template on User Manager: Users screen. Thanks Andrea.
  # [#20920] Featured Button Missing on Front End Article Submission. Thanks Hannes.
  $ Reordered front-end en-GB.ini strings
- # [#22172] Edit icon not showing on front-end for single article
-
+ $ Modified publish/unpublish to enable/disable in Extension Manager->Manage toolbars
+ 
 30-Aug-2010 Jean-Marie Simonet
  # [#22050] useful joomla links menu. Thanks Bill.
  # [#22046] cannot unblock users. Thanks Michael and Dennis.
