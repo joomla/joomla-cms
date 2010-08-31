@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 // Create shortcut to parameters.
 $params = $this->item->params;
+$canEdit = $this->user->authorise('core.edit', 'com_content.frontpage.'.$this->item->id);
 ?>
 <div class="item-page<?php echo $params->get('pageclass_sfx')?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -33,7 +34,7 @@ $params = $this->item->params;
 <?php endif; ?>
 
 
-<?php if ($params->get('access-edit') ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+<?php if ($canEdit ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 		<ul class="actions">
 		<?php if (!$this->print) : ?>
 				<?php if ($params->get('show_print_icon')) : ?>
@@ -47,7 +48,7 @@ $params = $this->item->params;
 						<?php echo JHtml::_('icon.email',  $this->item, $params); ?>
 				</li>
 				<?php endif; ?>
-				<?php if ($this->user->authorise('core.edit', 'com_content.article.'.$this->item->id)) : ?>
+				<?php if ($canEdit) : ?>
 						<li class="edit-icon">
 							<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
 						</li>
