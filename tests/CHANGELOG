@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Aug-2010 Mark Dexter
+^ Improve documentation for JUserHelper unit tests (Thanks Niels Braczek!)
+
 29-Aug-2010 Mark Dexter
 + [#20726] Unit tests for JUserHelper
 + [#22021] ACL System Tests

@@ -66,31 +66,40 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 		);
 	}
 
-	/**
-	 * Test cases for userGroups
-	 *
-	 * @return array
-	 */
-	function casesGetUserGroups()
-	{
-		return array(
-			'42' => array(
-				42,
-				array( 8 => 
-				'Super Users',),
-				array(),
-			),
-			'1000' => array(
-				1000,
-				array(),
-				array(
-					'code' => 'SOME_ERROR_CODE',
-					'msg' => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
-					'info' => ''
-				),
-			),
-		);
-	}
+ /**
+    * Test cases for userGroups
+    *
+    * Each test case provides
+    * - integer  userid  a user id
+    * - array    group   user group, given as hash
+    *                    group_id => group_name,
+    *                    empty if undefined
+    * - array    error   error info, given as hash
+    *                    with indices 'code', 'msg', and
+    *                    'info', empty, if no error occured
+    * @see ... (link to where the group and error structures are
+    *      defined)
+    * @return array
+    */
+   function casesGetUserGroups()
+   {
+       return array(
+           'validSuperUser' => array(
+               42,
+               array( 8 => 'Super Users' ),
+               array(),
+           ),
+           'unknownUser' => array(
+               1000,
+               array(),
+               array(
+                   'code' => 'SOME_ERROR_CODE',
+                   'msg'  => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
+                   'info' => ''
+               ),
+           ),
+       );
+   }
 	
 	/**
 	 * TestingGetUserGroups().
@@ -104,10 +113,9 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 	 */
 	public function testGetUserGroups( $userid, $expected, $error )
 	{
-		$expResult = $expected;
 		$this->assertThat(
 			JUserHelper::getUserGroups($userid),
-			$this->equalTo($expResult)
+			$this->equalTo($expected)
 		);
 		$this->assertThat(
 			JUserHelperTest::$actualError,
