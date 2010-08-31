@@ -31,6 +31,8 @@ $ -> Language fix or change
  # [#22150] hathor menu type - unable to select type. Thanks Bill.
  # [#22161] edit article - show icons and + param missing 
  # [#21932] checkall-toggle does not work with Hathor template on User Manager: Users screen. Thanks Andrea.
+ # [#20920] Featured Button Missing on Front End Article Submission. Thanks Hannes.
+ $ Reordered front-end en-GB.ini strings
 
 30-Aug-2010 Jean-Marie Simonet
  # [#22050] useful joomla links menu. Thanks Bill.

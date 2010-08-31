@@ -220,6 +220,7 @@ class ContentModelForm extends JModelForm
 		JPluginHelper::importPlugin('content');
 
 		$result = $dispatcher->trigger('onContentBeforeSave', array('com_content.article', &$table, $isNew));
+
 		if (in_array(false, $result, true)) {
 			JError::raiseError(500, $table->getError());
 			return false;
@@ -231,6 +232,45 @@ class ContentModelForm extends JModelForm
 			return false;
 		}
 
+		// Adjust the mapping table.
+		// Clear the existing features settings.
+		$this->_db->setQuery(
+			'DELETE FROM #__content_frontpage' .
+			' WHERE content_id = '.$table->id
+		);
+		if (!$this->_db->query()) {
+			throw new Exception($this->_db->getErrorMsg());
+		}
+		
+		if($data['featured'] == 1) {
+			$frontpage = $this->getTable('Featured', 'ContentTable');
+
+			try {
+				$this->_db->setQuery(
+					'UPDATE #__content AS a' .
+					' SET a.featured = 1'.
+					' WHERE a.id = '.$table->id
+				);
+				if (!$this->_db->query()) {
+					throw new Exception($this->_db->getErrorMsg());
+				}
+
+				// Featuring.
+				$this->_db->setQuery(
+					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+					' VALUES ('.$table->id.',1)'
+				);
+				if (!$this->_db->query()) {
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+			} catch (Exception $e) {
+				$this->setError($e->getMessage());
+				return false;
+			}
+
+			$frontpage->reorder();
+		}
 		// Clean the cache.
 		$cache = JFactory::getCache('com_content');
 		$cache->clean();

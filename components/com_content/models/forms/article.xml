@@ -80,7 +80,20 @@
 				value="-2">
 				JTRASHED</option>
 		</field>
-
+		
+		<field 
+			id="featured"
+			name="featured" 
+			type="list"
+			label="JGLOBAL_FIELD_FEATURED_LABEL"
+			description="JGLOBAL_FIELD_FEATURED_DESC"
+			class="inputbox"
+			default="0"
+		>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		
 		<field
 			id="catid"
 			name="catid"

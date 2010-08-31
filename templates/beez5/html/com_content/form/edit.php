@@ -83,6 +83,12 @@ $params = $this->state->get('params');
 		<?php echo $this->form->getLabel('state'); ?>
 		<?php echo $this->form->getInput('state'); ?>
 		</div>
+		
+		<div class="formelm">
+		<?php echo $this->form->getLabel('featured'); ?>
+		<?php echo $this->form->getInput('featured'); ?>
+		</div>
+		
 		<div class="formelm">
 		<?php echo $this->form->getLabel('publish_up'); ?>
 		<?php echo $this->form->getInput('publish_up'); ?>
