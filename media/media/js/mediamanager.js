@@ -72,7 +72,7 @@ var MediaManager = this.MediaManager = {
 		if (node) {
 			this.tree.select(node);
 		}
-return;
+
 		$(viewstyle).addClass('active');
 
 		a = this._getUriObject($('uploadForm').getProperty('action'));
