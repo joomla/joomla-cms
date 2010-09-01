@@ -93,29 +93,28 @@ abstract class ModMenuHelper
 					}
 
 					if (!empty($component->element)) {
-						$langs[$component->element.'.sys'] = true;
+						// Load the core file then
+						// Load extension-local file.
+						$lang->load($component->element.'.sys', JPATH_BASE, null, false, false)
+					||	$lang->load($component->element.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component->element, null, false, false)
+					||	$lang->load($component->element.'.sys', JPATH_BASE, $lang->getDefault(), false, false)
+					||	$lang->load($component->element.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component->element, $lang->getDefault(), false, false);
 					}
+					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 				}
 			} else {
 				// Sub-menu level.
 				if (isset($result[$component->parent_id])) {
 					// Add the submenu link if it is defined.
 					if (isset($result[$component->parent_id]->submenu) && !empty($component->link)) {
+						$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 						$result[$component->parent_id]->submenu[] = &$component;
 					}
 				}
 			}
 		}
-
-		// Load additional language files.
-		foreach (array_keys($langs) as $langName) {
-			// Load the core file then
-			// Load extension-local file.
-				$lang->load($langName, JPATH_BASE, null, false, false)
-			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.sys', '', $langName), null, false, false)
-			||	$lang->load($langName, JPATH_BASE, $lang->getDefault(), false, false)
-			||	$lang->load($langName, JPATH_ADMINISTRATOR.'/components/'.str_replace('.sys', '', $langName), $lang->getDefault(), false, false);
-		}
+		
+		$result = JArrayHelper::sortObjects($result, 'text', 1, false);
 
 		return $result;
 	}

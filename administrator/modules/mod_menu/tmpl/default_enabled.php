@@ -193,21 +193,18 @@ $components = ModMenuHelper::getComponents( true );
 
 foreach ($components as &$component)
 {
-	$text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
-
 	if (!empty($component->submenu))
 	{
 		// This component has a db driven submenu.
-		$menu->addChild(new JMenuNode($text, $component->link, $component->img), true);
+		$menu->addChild(new JMenuNode($component->text, $component->link, $component->img), true);
 		foreach ($component->submenu as $sub)
 		{
-			$text = $lang->hasKey($sub->title) ? JText::_($sub->title) : $sub->alias;
-			$menu->addChild(new JMenuNode($text, $sub->link, $sub->img));
+			$menu->addChild(new JMenuNode($sub->text, $sub->link, $sub->img));
 		}
 		$menu->getParent();
 	}
 	else {
-		$menu->addChild(new JMenuNode($text, $component->link, $component->img));
+		$menu->addChild(new JMenuNode($component->text, $component->link, $component->img));
 	}
 }
 $menu->getParent();

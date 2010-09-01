@@ -30,6 +30,7 @@ $ -> Language fix or change
 01-Sep-2010 Andrew Eddie (and Happy 5th Birthday Joomla!)
  # Fixed issue [#22118] The setRedirect method() overwrites an already set messageType (Roland Dalmulder, Artyom Bisyarin).
  # Fixed issue [#21604] The "Memory Usage" debug info has no measurement unit (Javier Gómez, Nikolai Plath, Omar Ramos).
+ # Fixed issue [#21862] Backend menu components are not ordered alphabetically (Hannes Papenberg).
 
 31-Aug-2010 Jean-Marie Simonet
  # [#22150] hathor menu type - unable to select type. Thanks Bill.
