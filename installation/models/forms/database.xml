@@ -36,8 +36,8 @@
 				default="backup"
 				required="true"
 			>
-				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
 				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
+				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
 			</field>
 			<field name="db_prefix" type="text" id="db_prefix" class="inputbox"
 				label="INSTL_DATABASE_PREFIX_LABEL"

@@ -150,32 +150,6 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 										</em>
 									</td>
 								</tr>
-							</table>
-							<br /><br />
-						</div>
-
-						<h3 class="title-smenu moofx-toggler" title="<?php echo JText::_('JADVANCED'); ?>">
-							<?php echo JText::_('INSTL_ADVANCED_SETTINGS'); ?>
-						</h3>
-						<div class="section-smenu moofx-slider">
-							<table class="content2">
-								<tr>
-									<td></td>
-									<td></td>
-									<td></td>
-								</tr>
-								<tr>
-									<td colspan="2">
-										<?php echo $this->form->getLabel('db_old'); ?>
-										<br />
-										<?php echo $this->form->getInput('db_old'); ?>
-									</td>
-									<td>
-										<em>
-										<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_DESC'); ?>
-										</em>
-									</td>
-								</tr>
 								<tr>
 									<td colspan="2">
 										<?php echo $this->form->getLabel('db_prefix'); ?>
@@ -188,6 +162,18 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 										</em>
 									</td>
 								</tr>
+								<tr>
+									<td colspan="2">
+										<?php echo $this->form->getLabel('db_old'); ?>
+										<br />
+										<?php echo $this->form->getInput('db_old'); ?>
+									</td>
+									<td>
+										<em>
+										<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_DESC'); ?>
+										</em>
+									</td>
+								</tr>																
 							</table>
 						</div>
 						<div class="clr"></div>

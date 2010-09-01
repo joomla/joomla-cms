@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#21862] Backend menu components are not ordered alphabetically (Hannes Papenberg).
  # Fixed issue [#21879] Speed improvement for Beez tempalte's use of html5.js (Rouven Weßling).
  # Fixed issue [#22037] Module manager - varies only (Brian Teeman, Bill Richardson).
+ # Fixed issue [#21880] Relocate Database Prefix Portion of Database Configuration Installer Screen (Matt Thomas).
 
 31-Aug-2010 Jean-Marie Simonet
  # [#22150] hathor menu type - unable to select type. Thanks Bill.
