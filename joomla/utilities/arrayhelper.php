@@ -252,14 +252,16 @@ class JArrayHelper
 	 * @param	array			$arr		An array of objects
 	 * @param	string|array	$k			The key or a array of key to sort on
 	 * @param	int|array		$direction	Direction or an array of direction to sort in [1 = Ascending] [-1 = Descending]
+	 * @param	bool			$casesensitive Let sort occur casesensitive or insensitive
 	 * @return	array						The sorted array of objects
 	 * @since	1.5
 	 */
-	public static function sortObjects(&$a, $k, $direction=1)
+	public static function sortObjects(&$a, $k, $direction=1, $casesensitive=true)
 	{
 		$GLOBALS['JAH_so'] = array(
 			'key'		=> (array)$k,
-			'direction'	=> (array)$direction
+			'direction'	=> (array)$direction,
+			'casesensitive' => $casesensitive
 		);
 		usort($a, array('JArrayHelper', '_sortObjects'));
 		unset($GLOBALS['JAH_so']);
@@ -281,19 +283,32 @@ class JArrayHelper
 	{
 		$params = $GLOBALS['JAH_so'];
 
-		for($i=0,$count=count($params['key']);$i<$count;$i++) {
-			if (array_key_exists($i,$params['direction'])) {
+		for ($i = 0, $count = count($params['key']); $i < $count; $i++)
+		{
+			if (array_key_exists($i, $params['direction'])) {
 				$direction = $params['direction'][$i];
 			}
 
-			if ($a->$params['key'][$i] > $b->$params['key'][$i]) {
-				return $direction;
-			}
+			if ($params['casesensitive']) {
+				if ($a->$params['key'][$i] > $b->$params['key'][$i]) {
+					return $direction;
+				}
 
-			if ($a->$params['key'][$i] < $b->$params['key'][$i]) {
-				return -1 * $direction;
+				if ($a->$params['key'][$i] < $b->$params['key'][$i]) {
+					return -1 * $direction;
+				}
+			}
+			else {
+				if (JString::strtoupper($a->$params['key'][$i]) > JString::strtoupper($b->$params['key'][$i])) {
+					return $direction;
+				}
+
+				if (JString::strtoupper($a->$params['key'][$i]) < JString::strtoupper($b->$params['key'][$i])) {
+					return -1 * $direction;
+				}
 			}
 		}
+
 		return 0;
 	}
 }
