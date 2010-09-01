@@ -86,7 +86,9 @@ class plgSystemDebug extends JPlugin
 
 		if ($this->params->get('memory', 1)) {
 			echo '<h4>'.JText::_('PLG_DEBUG_MEMORY_USAGE').'</h4>';
-			echo number_format($profiler->getMemory());
+			$bytes = $profiler->getMemory();
+			echo JHtml::_('number.bytes', $bytes);
+			echo ' ('.number_format($bytes).' Bytes)';
 		}
 
 		if ($this->params->get('queries', 1)) {
@@ -98,12 +100,75 @@ class plgSystemDebug extends JPlugin
 
 			if ($log = $db->getLog()) {
 				echo '<ol>';
+				$selectQueryTypeTicker = array();
+				$otherQueryTypeTicker = array();
 				foreach ($log as $k => $sql) {
+					// Start Query Type Ticker Additions
+					$fromStart = stripos($sql, 'from');
+					$whereStart = stripos($sql, 'where', $fromStart);
+					if ($whereStart === false) {
+						$whereStart = stripos($sql, 'order by', $fromStart);
+					}
+					if ($whereStart === false) {
+						$whereStart = strlen($sql) - 1;
+					}
+					$fromString = substr($sql, 0, $whereStart);
+					$fromString = str_replace("\t", " ", $fromString);
+					$fromString = str_replace("\n", " ", $fromString);
+					$fromString = trim($fromString);
+
+					// Initialize the select/other query type counts the first time:
+					if (!isset($selectQueryTypeTicker[$fromString])) {
+						$selectQueryTypeTicker[$fromString] = 0;
+					}
+					if (!isset($otherQueryTypeTicker[$fromString])) {
+						$otherQueryTypeTicker[$fromString] = 0;
+					}
+					// Increment the count:
+					if (stripos($sql, 'select') === 0) {
+						$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
+						unset($otherQueryTypeTicker[$fromString]);
+					} else {
+						$otherQueryTypeTicker[$fromString] = $otherQueryTypeTicker[$fromString] + 1;
+						unset($selectQueryTypeTicker[$fromString]);
+					}
+					// Finish Query Type Ticker Additions
+
+
 					$text = htmlspecialchars($sql, ENT_QUOTES);
 					$text = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $text);
 					echo '<li>'.$text.'</li>';
 				}
 				echo '</ol>';
+
+				if ($this->params->get('query_types', 1)) {
+					// Get the totals for the query types:
+					$totalSelectQueryTypes = count($selectQueryTypeTicker);
+					$totalOtherQueryTypes = count($otherQueryTypeTicker);
+					$totalQueryTypes = $totalSelectQueryTypes + $totalOtherQueryTypes;
+
+					echo '<h4>'.JText::sprintf('PLG_DEBUG_QUERY_TYPES_LOGGED', $totalQueryTypes) . '</h4>';
+
+					if ($totalSelectQueryTypes) {
+						echo '<h5>'.JText::sprintf('PLG_DEBUG_SELECT_QUERIES').'</h5>';
+						arsort($selectQueryTypeTicker);
+						echo '<ol>';
+						foreach($selectQueryTypeTicker as $table => $occurrences) {
+							echo '<li>'.JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $table, $occurrences).'</li>';
+						}
+						echo '</ol>';
+					}
+
+					if ($totalOtherQueryTypes) {
+						echo '<h5>'.JText::sprintf('PLG_DEBUG_OTHER_QUERIES').'</h5>';
+						arsort($otherQueryTypeTicker);
+						echo '<ol>';
+						foreach($otherQueryTypeTicker as $table => $occurrences) {
+							echo '<li>'.JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $table, $occurrences).'</li>';
+						}
+						echo '</ol>';
+					}
+				}
 			}
 		}
 

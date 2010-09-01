@@ -43,6 +43,15 @@
 					<option value="0">JNo</option>
 				</field>
 
+				<field name="query_types" type="radio"
+					default="1"
+					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
+					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
+				>
+					<option value="1">JYes</option>
+					<option value="0">JNo</option>
+				</field>
+
 				<field name="memory" type="radio"
 					default="1"
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
