@@ -82,7 +82,6 @@ $templateparams     = $app->getTemplate(true)->params;
                 <![endif]-->
                 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez_20/javascript/md_stylechanger.js"></script>
                 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez_20/javascript/hide.js"></script>
-                <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez_20/javascript/html5.js"></script>
 
                 <script type="text/javascript">
                         var big ='<?php echo $this->params->get('wrapperLarge');?>%';

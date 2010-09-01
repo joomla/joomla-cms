@@ -62,9 +62,13 @@ $templateparams	= $app->getTemplate(true)->params;
 		<!--[if IE 7]>
 			<link href="<?php echo $this->baseurl ?>/templates/beez5/css/ie7only.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
+<?php if($templateparams->get('html5', 0)) { ?>
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/html5.js"></script>
+		<![endif]-->
+<?php } ?>
 		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/md_stylechanger.js"></script>
 		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/hide.js"></script>
-		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/html5.js"></script>
 
 		<script type="text/javascript">
 			var big ='<?php echo $this->params->get('wrapperLarge');?>%';
