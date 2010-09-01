@@ -20,6 +20,20 @@ class JControllerInspector extends JController
 	{
 		return $this->paths;
 	}
+
+	/**
+	 * Method for inspecting protected variables
+	 */
+	public function __get($name)
+	{
+		if (property_exists($this, $name)) {
+			return $this->$name;
+		}
+		else {
+			trigger_error('Undefined or private property: ' . __CLASS__.'::'.$name, E_USER_ERROR);
+			return;
+		}
+	}
 }
 
 class TestController extends JController

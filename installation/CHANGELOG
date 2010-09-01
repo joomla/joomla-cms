@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Sep-2010 Andrew Eddie (and Happy 5th Birthday Joomla!)
+ # Fixed issue [#22118] The setRedirect method() overwrites an already set messageType (Roland Dalmulder, Artyom Bisyarin).
+
 31-Aug-2010 Jean-Marie Simonet
  # [#22150] hathor menu type - unable to select type. Thanks Bill.
  # [#22161] edit article - show icons and + param missing 

@@ -289,8 +289,22 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetMessage()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$controller = new JControllerInspector;
+		$controller->setMessage('Hello World');
+
+		$this->assertEquals($controller->message, 'Hello World',
+							'Line:'.__LINE__.' The message text does not equal with previuosly set one');
+
+		$this->assertEquals($controller->messageType, 'message',
+							'Line:'.__LINE__.' Default message type should be "message"');
+
+		$controller->setMessage('Morning Universe', 'notice');
+
+		$this->assertEquals($controller->message, 'Morning Universe',
+							'Line:'.__LINE__.' The message text does not equal with previuosly set one');
+
+		$this->assertEquals($controller->messageType, 'notice',
+							'Line:'.__LINE__.' The message type does not equal with previuosly set one');
 	}
 
 	/**
@@ -307,7 +321,245 @@ class JControllerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetRedirect()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$controller = new JControllerInspector;
+
+		// Set the URL only
+		$controller->setRedirect('index.php?option=com_foobar');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertNull(
+			$controller->message,
+			'Line:'.__LINE__.' The message is not set, so it should be null'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'message',
+			'Line:'.__LINE__.' Default message type should be "message"'
+		);
+
+		// Set the URL and message
+		$controller->setRedirect('index.php?option=com_foobar', 'Hello World');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Hello World',
+			'Line:'.__LINE__.' The message text does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'message',
+			'Line:'.__LINE__.' Default message type should be "message"'
+		);
+
+		// URL, message and message type
+		$controller->setRedirect('index.php?option=com_foobar', 'Morning Universe', 'notice');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Morning Universe',
+			'Line:'.__LINE__.' The message text does not equal with passed one');
+
+		$this->assertEquals(
+			$controller->messageType,
+			'notice',
+			'Line:'.__LINE__.' The message type does not equal with passed one'
+		);
+
+		// With previously set message
+		// URL
+		$controller->setMessage('Hi all');
+		$controller->setRedirect('index.php?option=com_foobar');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Hi all',
+			'Line:'.__LINE__.' The message text does not equal with previously set one'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'message',
+			'Line:'.__LINE__.' Default message type should be "message"'
+		);
+
+		// URL and message
+		$controller->setMessage('Hi all');
+		$controller->setRedirect('index.php?option=com_foobar', 'Bye all');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Bye all',
+			'Line:'.__LINE__.' The message text should be overridden'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'message',
+			'Line:'.__LINE__.' Default message type should be "message"'
+		);
+
+		// URL, message and message type
+		$controller->setMessage('Hi all');
+		$controller->setRedirect('index.php?option=com_foobar', 'Bye all', 'notice');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Bye all',
+			'Line:'.__LINE__.' The message text should be overridden'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'notice',
+			'Line:'.__LINE__.' The message type should be overridden'
+		);
+
+		// URL and message type
+		$controller->setMessage('Hi all');
+		$controller->setRedirect('index.php?option=com_foobar', null, 'notice');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Hi all',
+			'Line:'.__LINE__.' The message text should not be overridden'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'notice',
+			'Line:'.__LINE__.' The message type should be overridden'
+		);
+
+		// With previously set message and message type
+		// URL
+		$controller->setMessage('Hello folks', 'notice');
+		$controller->setRedirect('index.php?option=com_foobar');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Hello folks',
+			'Line:'.__LINE__.' The message text does not equal with previously set one'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'notice',
+			'Line:'.__LINE__.' The message type does not equal with previously set one'
+		);
+
+		// URL and message
+		$controller->setMessage('Hello folks', 'notice');
+		$controller->setRedirect('index.php?option=com_foobar', 'Bye, Folks');
+
+		$this->assertEquals(
+		$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Bye, Folks',
+			'Line:'.__LINE__.' The message text should be overridden'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'notice',
+			'Line:'.__LINE__.' The message type does not equal with previously set one'
+		);
+
+		// URL, message and message type
+		$controller->setMessage('Hello folks', 'notice');
+		$controller->setRedirect('index.php?option=com_foobar', 'Bye, folks', 'notice');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Bye, folks',
+			'Line:'.__LINE__.' The message text should be overridden'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'notice',
+			'Line:'.__LINE__.' The message type should be overridden'
+		);
+
+		// URL and message type
+		$controller->setMessage('Folks?', 'notice');
+		$controller->setRedirect('index.php?option=com_foobar', null, 'question');
+
+		$this->assertEquals(
+			$controller->redirect,
+			'index.php?option=com_foobar',
+			'Line:'.__LINE__.' The redirect address does not equal with passed one'
+		);
+
+		$this->assertEquals(
+			$controller->message,
+			'Folks?',
+			'Line:'.__LINE__.' The message text should not be overridden'
+		);
+
+		$this->assertEquals(
+			$controller->messageType,
+			'question',
+			'Line:'.__LINE__.' The message type should be overridden'
+		);
 	}
 }

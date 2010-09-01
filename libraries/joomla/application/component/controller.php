@@ -809,7 +809,15 @@ class JController extends JObject
 		}
 
 		// Ensure the type is not overwritten by a previous call to setMessage.
-		$this->messageType	= ($type === null || empty($this->messageType)) ? 'message' : $type;
+		if (empty($type)) {
+			if (empty($this->messageType)) {
+				$this->messageType = 'message';
+			}
+		}
+		// If the type is explicitly set, set it.
+		else {
+			$this->messageType = $type;
+		}
 
 		return $this;
 	}
