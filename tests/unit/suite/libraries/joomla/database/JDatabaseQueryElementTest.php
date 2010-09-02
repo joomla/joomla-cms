@@ -5,6 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once 'PHPUnit/Framework.php';
 require_once JPATH_BASE.'/libraries/joomla/database/databasequery.php';
 
 /**
@@ -25,7 +26,6 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 * @access protected
 	 */
 	protected function setUp() {
-		//$this->object = new JDatabaseQueryElement;
 	}
 
 	/**
@@ -36,21 +36,153 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function tearDown() {
 	}
-
+	
 	/**
-	 * @todo Implement test__toString().
+	 * Test cases for constructor
+	 *
+	 * Each test case provides
+	 * - array	element	the base element for the test, given as hash
+	 * 				name => element_name, 
+	 * 				elements => array or string
+	 * 				glue => glue
+	 * - array	expected values in same hash format
+	 * 
 	 */
-	public function test__toString() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	function casesConstruct()
+	{
+		return array(
+       		'array-element' => array( 
+					array(
+						'name' => 'FROM',
+						'elements' => array('field1', 'field2'),
+						'glue' => ','
+						),
+					array(
+						'name' => 'FROM',
+						'elements' => array('field1', 'field2'),
+						'glue' => ','
+						)
+			),
+        		'non-array-element' => array( 
+					array(
+						'name' => 'TABLE',
+						'elements' => 'my_table_name',
+						'glue' => ','
+						),
+					array(
+						'name' => 'TABLE',
+						'elements' => array('my_table_name'),
+						'glue' => ','
+						)
+			)
+		);
+	}
+	
+	/** test__Construct
+	 * 
+	 * @param	array	values for base element
+	 * @param	array	values for expected fields
+	 * 
+	 * @return	void
+	 * @dataProvider casesConstruct
+	 */
+	public function test__Construct($element, $expected) {
+		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
+		$this->assertAttributeEquals($expected['name'], '_name', $baseElement, 'Line ' . __LINE__. ' _name should be set');
+		$this->assertAttributeEquals($expected['elements'], '_elements', $baseElement, 'Line ' . __LINE__. ' _elements should be set');
+		$this->assertAttributeEquals($expected['glue'], '_glue', $baseElement, 'Line ' . __LINE__. ' _glue should be set');
 	}
 
 	/**
-	 * @todo Implement testAppend().
+	 * Test cases for append and __toString
+	 *
+	 * Each test case provides
+	 * - array	element	the base element for the test, given as hash
+	 * 				name => element_name, 
+	 * 				elements => element array, 
+	 * 				glue => glue
+	 * - array	appendElement	the element to be appended (same format as above)
+	 * - array 	expected	array of elements that should be the value of the _elements attribute after the merge
+	 * - string	expected value of __toString() for element after append
 	 */
-	public function testAppend() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+	function casesAppend()
+	{
+		return array(
+       		'array-element' => array(
+				array(
+					'name' => 'SELECT',
+					'elements' => array(),
+					'glue' => ','
+					),
+				array(
+					'name' => 'FROM',
+					'elements' => array('my_table_name'),
+					'glue' => ','
+					),
+				array(				
+					'name' => 'FROM',
+					'elements' => array('my_table_name'),
+					'glue' => ','
+					),
+				PHP_EOL . 'SELECT ' . PHP_EOL . 'FROM my_table_name',
+				),
+      		'non-array-element' => array(
+				array(
+					'name' => 'SELECT',
+					'elements' => array(),
+					'glue' => ','
+					),
+				array(
+					'name' => 'FROM',
+					'elements' => array('my_table_name'),
+					'glue' => ','
+					),
+				array(				
+					'name' => 'FROM',
+					'elements' => array('my_table_name'),
+					'glue' => ','
+					),
+				PHP_EOL . 'SELECT ' . PHP_EOL . 'FROM my_table_name',
+				)
+		);
+	}	
+	
+	/**
+	 * TestAppend().
+	 *
+	 * @param	array 	base element values
+	 * @param	array 	append element values
+	 * @param	array	expected element values for _elements field after append
+	 * @param	string	expected value of toString (not used in this test)
+	 *
+	 * @return void
+	 * @dataProvider casesAppend
+	 */
+	
+	public function testAppend($element, $append, $expected, $string) {
+		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
+		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
+		$expectedElement = new JDatabaseQueryElement($expected['name'], $expected['elements'], $expected['glue']);
+		$baseElement->append($appendElement);
+		$this->assertAttributeEquals(array($expectedElement), '_elements', $baseElement);
+	}
+
+	/**
+	 * test__toString()
+	 *
+	 * @param	array 	base element values
+	 * @param	array 	append element values
+	 * @param	array	expected element values for _elements field after append
+	 * @param	string	expected value of toString 
+	 *
+	 * @return void
+	 * @dataProvider casesAppend
+	 */
+	public function test__toString($element, $append, $expected, $string) {
+		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
+		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
+		$baseElement->append($appendElement);
+		$this->assertEquals($string, $baseElement->__toString());
 	}
 }
 ?>

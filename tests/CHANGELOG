@@ -27,11 +27,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-1-Sep-2010 Ian MacLennan
+01-Sep-2010 Mark Dexter
+ + Added JDatabaseQueryElementTest
+
+01-Sep-2010 Ian MacLennan
  + Added JUser::save test
 
 30-Aug-2010 Mark Dexter
-^ Improve documentation for JUserHelper unit tests (Thanks Niels Braczek!)
+^ Improved documentation for JUserHelper unit tests (Thanks Niels Braczek!)
 
 29-Aug-2010 Mark Dexter
 + [#20726] Unit tests for JUserHelper
