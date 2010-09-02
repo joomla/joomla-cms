@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed issue [#22211] module - latest news - typo error (Bill Richardson).
  # Fixed issue [#22169] After selecting cannot set -use default- (Klas Berlič1, Ian MacLennan).
  # Fixed issue [#22052] sample data menu capitalisation (Brian Teeman, Tim Plummer).
+ # Fixed issue [#22170] Unable to Save Weblinks on Edit (Jennifer Marriott, Elin Waring).
 
 01-Sep-2010 Andrew Eddie (and Happy 5th Birthday Joomla!)
  # Fixed issue [#22118] The setRedirect method() overwrites an already set messageType (Roland Dalmulder, Artyom Bisyarin).

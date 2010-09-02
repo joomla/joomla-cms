@@ -62,18 +62,152 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		return $model;
 	}
+	protected function _getReturnPage()
+	{
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+
+		if (!($return = $app->getUserState($context.'.return'))) {
+			$return = JRequest::getVar('return', base64_encode(JURI::base()));
+		}
+
+		$return = JFilterInput::getInstance()->clean($return, 'base64');
+		$return = base64_decode($return);
+
+		if (!JURI::isInternal($return)) {
+			$return = JURI::base();
+		}
+
+		return $return;
+	}
+
+	protected function _setReturnPage()
+	{
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+
+		$return = JRequest::getVar('return', null, 'default', 'base64');
+
+		$app->setUserState($context.'return', $return);
+	}
+
 	/**
 	 * Save the record
 	 */
 	public function save()
 	{
-		if( parent::save() === true ) {
-			$cid = JRequest::getVar( 'jform' );
-			$cid = ( int ) $cid[ 'catid' ];
-			$this->setRedirect( JRoute::_( 'index.php?option=com_weblinks&view=category&id='.$cid, false ) );
+		// Check for request forgeries.
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+		$model		= $this->getModel();
+		$task		= $this->getTask();
+
+		// Get posted form variables.
+		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		$catid		= $data['catid'];
+		// Populate the row id from the session.
+		$data['id'] = (int) $app->getUserState($context.'id');
+
+
+		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$context	= $this->context.'.';
+		$model		= $this->getModel();
+		$task		= $this->getTask();
+
+		// Get posted form variables.
+		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+
+		// Populate the row id from the session.
+		$data['id'] = (int) $app->getUserState($context.'id');
+		// Validate the posted data.
+		$form	= $model->getForm();
+
+		if (!$form) {
+			JError::raiseError(500, $model->getError());
+			return false;
 		}
+
+		$data	= $model->validate($form, $data);
+
+		// Check for validation errors.
+		if ($data === false) {
+			// Get the validation messages.
+			$errors	= $model->getErrors();
+
+			// Push up to three validation messages out to the user.
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if (JError::isError($errors[$i])) {
+					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+				}
+				else {
+					$app->enqueueMessage($errors[$i], 'notice');
+				}
+			}
+
+			// Save the data in the session.
+			$app->setUserState($context.'data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=form&layout=edit', false));
+			return false;
+		}
+			// Attempt to save the data.
+		if (!$model->save($data)) {
+			// Save the data in the session.
+			$app->setUserState($context.'data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=form&layout=edit', false));
+			return false;
+		}
+
+		// Save succeeded, check-in the row.
+		if (!$model->checkin()) {
+			// Check-in failed, go back to the row and display a notice.
+			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
+			$this->setRedirect('index.php?option=com_weblinks&view=form&layout=edit', $message, 'error');
+			return false;
+		}
+
+		$this->setMessage(JText::_('COM_WEBLINKS_WEBLINK_SAVE_SUCCESS'));
+
+		// Redirect the user and adjust session state based on the chosen task.
+		switch ($task)
+		{
+			case 'apply':
+				// Set the row data in the session.
+				$app->setUserState($context.'id',	$model->getState('weblink.id'));
+				$app->setUserState($context.'data',	null);
+
+				// Redirect back to the edit screen.
+				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=form&layout=edit', false));
+				break;
+
+			case 'save2new':
+				// Clear the row id and data in the session.
+				$app->setUserState($context.'id',	null);
+				$app->setUserState($context.'data',	null);
+
+				// Redirect back to the edit screen.
+				$this->setRedirect(JRoute::_('index.php?option=com_weblinks&task=edit.weblink', false));
+				break;
+
+			default:
+				// Clear the row id and data in the session.
+				$app->setUserState($context.'id',	null);
+				$app->setUserState($context.'data',	null);
+				$this->setRedirect( JRoute::_( 'index.php?option=com_weblinks&view=category&id='.$catid, false ) );
+		}
+
 		$this->setMessage(JText::_('COM_WEBLINK_SUBMIT_SAVE_SUCCESS'));
 	}
+
 	/**
 	 * Method to edit a object
 	 *
@@ -107,15 +241,12 @@ class WeblinksControllerWeblink extends JControllerForm
 		$model = $this->getModel();
 
 		// Check that this is not a new item.
-		if ($id > 0)
-		{
+		if ($id > 0) {
 			$item = $model->getItem($id);
 
 			// If not already checked out, do so.
-			if ($item->checked_out == 0)
-			{
-				if (!$model->checkout($id))
-				{
+			if ($item->checked_out == 0) {
+				if (!$model->checkout($id)) {
 					// Check-out failed, go back to the list and display a notice.
 					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
 					$this->setRedirect('index.php?option=com_weblinks&view=categories', $message, 'error');
@@ -131,14 +262,15 @@ class WeblinksControllerWeblink extends JControllerForm
 		// ItemID required on redirect for correct Template Style
 		$redirect = 'index.php?option=com_weblinks&view=form&layout=edit&id='.$id;
 		if (JRequest::getInt('Itemid') == 0) {
-		} else {
+		}
+		else {
 			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
 		}
 		$this->setRedirect($redirect);
 
 		return true;
 	}
-	
+
 	/**
 	 * Method to cancel an edit
 	 *
@@ -160,34 +292,6 @@ class WeblinksControllerWeblink extends JControllerForm
 		$this->setRedirect($this->_getReturnPage());
 	}
 
-	protected function _getReturnPage()
-	{
-		$app		= JFactory::getApplication();
-		$context	= $this->context.'.';
-
-		if (!($return = $app->getUserState($context.'.return'))) {
-			$return = JRequest::getVar('return', base64_encode(JURI::base()));
-		}
-
-		$return = JFilterInput::getInstance()->clean($return, 'base64');
-		$return = base64_decode($return);
-
-		if (!JURI::isInternal($return)) {
-			$return = JURI::base();
-		}
-
-		return $return;
-	}
-
-	protected function _setReturnPage()
-	{
-		$app		= JFactory::getApplication();
-		$context	= $this->context.'.';
-
-		$return = JRequest::getVar('return', null, 'default', 'base64');
-
-		$app->setUserState($context.'return', $return);
-	}
 
 	/**
 	 * Go to a weblink
@@ -242,7 +346,8 @@ class WeblinksControllerWeblink extends JControllerForm
 		if ($link->url) {
 			$modelLink->hit($id);
 			JFactory::getApplication()->redirect($link->url);
-		} else {
+		}
+		else {
 			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_URL_INVALID'));
 		}
 	}
