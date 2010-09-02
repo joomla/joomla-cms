@@ -409,6 +409,62 @@ class JUserTest extends JoomlaDatabaseTestCase
 	}
 
 	/**
+	 *	Testing save() for the case where check() returns false
+	 *
+	 * @return void
+	 */
+	public function testSaveCheckIsFalse()
+	{
+		// This is the error message that check is going to return.
+		$myErrorMessage = 'This is the error that bind returns';
+
+		// we need two mock objects - one to mock the other methods of JUser, and one to serve as a JTable mock
+		// the false in the $tableMock means that our constructor doesn't get called
+		$testObject = $this->getMock('JUser', array('getTable', 'getProperties', 'setError'));
+		$tableMock = $this->getMock('JTableUser', array('bind', 'check', 'getError'), array(), '', false);
+
+		// we expect getTable to be called once.  We are going to return our mock table object.
+		$testObject->expects($this->once())
+					->method('getTable')
+					->will($this->returnValue($tableMock));
+
+		// we expect getProperties to be called once.  We are going to return some random user data
+		// this data should get passed to the bind method.
+		$testObject->expects($this->once())
+					->method('getProperties')
+					->will($this->returnValue(array('id' => 5, 'username' => 'jimbo')));
+
+		// We expect setError to be called with the error message that check returned.
+		$testObject->expects($this->once())
+					->method('setError')
+					->with($this->equalTo($myErrorMessage));
+
+		// We expect bind to be called with the data that was returned from getProperties
+		$tableMock->expects($this->once())
+					->method('bind')
+					->with($this->equalTo(array('id' => 5, 'username' => 'jimbo')));
+
+		// We expect check to be called.  We will return false.
+		$tableMock->expects($this->once())
+					->method('check')
+					->will($this->returnValue(false));
+
+		// If check behaves properly, it will have set the error message in the table object.  So we expect getError to be called on
+		// the table object and it should return the error message.
+		$tableMock->expects($this->once())
+					->method('getError')
+					->will($this->returnValue($myErrorMessage));
+
+		// Now when we call our actual save() method, it will return false
+		$this->assertThat(
+			$testObject->save(),
+			$this->equalTo(false),
+			'JUser::save() did not return false when JTable::check returned failed'
+		);
+	}
+		
+
+	/**
 	 * Testing creation and deletion of users
 	 *
 	 * @return void

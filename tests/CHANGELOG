@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+1-Sep-2010 Ian MacLennan
+ + Added JUser::save test
+
 30-Aug-2010 Mark Dexter
 ^ Improve documentation for JUserHelper unit tests (Thanks Niels Braczek!)
 
