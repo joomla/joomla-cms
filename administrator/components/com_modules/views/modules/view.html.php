@@ -78,16 +78,16 @@ class ModulesViewModules extends JView
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'modules.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::divider();			
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_modules');
+			JToolBarHelper::divider();
 		}
-
-		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 	}
 }

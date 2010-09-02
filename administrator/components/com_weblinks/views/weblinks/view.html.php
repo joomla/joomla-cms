@@ -74,14 +74,16 @@ class WeblinksViewWeblinks extends JView
 		}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'weblinks.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('weblinks.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_weblinks');
+			JToolBarHelper::divider();
 		}
-		JToolBarHelper::divider();
+
 		JToolBarHelper::help('JHELP_COMPONENTS_WEBLINKS_LINKS');
 	}
 }

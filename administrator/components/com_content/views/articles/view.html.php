@@ -66,21 +66,20 @@ class ContentViewArticles extends JView
 			JToolBarHelper::custom('articles.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('articles.archive','JTOOLBAR_ARCHIVE');
-		}
-		if ($canDo->get('core.edit.state'))  {
 			JToolBarHelper::custom('articles.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::preferences('com_content');
+			JToolBarHelper::divider();
 		}
-		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER');
 	}
 }

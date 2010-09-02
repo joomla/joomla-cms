@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Sep-2010 Jean-Marie Simonet
+ # [#22149] Tool bar clean up focused on users with delete only. Thanks Elin.
+
 02-Sep-2010 Andrew Eddie
  # Fixed issue [#22210] module latest users (Bill Richardson).
  # Fixed issue [#22211] module - latest news - typo error (Bill Richardson).

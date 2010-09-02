@@ -90,17 +90,18 @@ class CategoriesViewCategories extends JView
 		}
 		if ($this->state->get('filter.published') == -2 && JFactory::getUser()->authorise('core.delete', 'com_content')) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
+			JToolBarHelper::divider();
 		} else {
 			if(JFactory::getUser()->authorise('core.edit.state')) {
 			JToolBarHelper::trash('categories.trash','JTOOLBAR_TRASH');
+			JToolBarHelper::divider();
 			}
 		}
-
-		JToolBarHelper::divider();
 		if(JFactory::getUser()->authorise('core.edit.state')) {		
 			JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-		}
 			JToolBarHelper::divider();
+		}
+
 		JToolBarHelper::help('JHELP_COMPONENTS_'.strtoupper(substr($component,4)).'_CATEGORIES');
 	}
 }

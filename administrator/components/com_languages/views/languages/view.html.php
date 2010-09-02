@@ -50,7 +50,6 @@ class LanguagesViewLanguages extends JView
 	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
-		
 		$canDo	= LanguagesHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
@@ -67,13 +66,13 @@ class LanguagesViewLanguages extends JView
 		}
 		
 		if ($canDo->get('core.edit.state')) {
-			if ($this->state->get('filter.state') != 2) {
+			if ($this->state->get('filter.published') != 2) {
 				JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
 				JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
 			}
 		}
 			
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'languages.delete','JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
