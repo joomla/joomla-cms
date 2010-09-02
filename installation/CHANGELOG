@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Sep-2010 Ian MacLennan
  # Fixed typo in 15 to 16 diff sql file
+ # Added missing semicolon in diff sql file.
 
 02-Sep-2010 Jean-Marie Simonet
  # [#22149] Tool bar clean up focused on users with delete only. Thanks Elin.

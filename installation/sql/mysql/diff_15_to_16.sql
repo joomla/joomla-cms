@@ -459,7 +459,7 @@ CREATE TABLE `#__languages` (
   `description` varchar(512) NOT NULL,
   `published` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`description`,`published`)
 VALUES
