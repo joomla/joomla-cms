@@ -146,6 +146,11 @@ class JUser extends JObject
 
 	/**
 	 * Constructor activating the default information of the language
+	 *
+	 * @param	int		$identifier	The primary key of the user to load (optional).
+	 *
+	 * @return	JUser
+	 * @since	1.5
 	 */
 	public function __construct($identifier = 0)
 	{
@@ -169,7 +174,8 @@ class JUser extends JObject
 	 * Returns the global User object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @param	int		The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 * @param	int		$identifier	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 *
 	 * @return	JUser	The User object.
 	 * @since	1.5
 	 */
@@ -205,8 +211,9 @@ class JUser extends JObject
 	/**
 	 * Method to get a parameter value
 	 *
-	 * @param	string	Parameter key
-	 * @param	mixed	Parameter default value
+	 * @param	string	$key		Parameter key
+	 * @param	mixed	$default	Parameter default value
+	 *
 	 * @return	mixed	The value or the default if it did not exist
 	 * @since	1.5
 	 */
@@ -218,8 +225,9 @@ class JUser extends JObject
 	/**
 	 * Method to set a parameter
 	 *
-	 * @param	string	Parameter key
-	 * @param	mixed	Parameter value
+	 * @param	string	$key	Parameter key
+	 * @param	mixed	$value	Parameter value
+	 *
 	 * @return	mixed	Set parameter value
 	 * @since	1.5
 	 */
@@ -231,8 +239,9 @@ class JUser extends JObject
 	/**
 	 * Method to set a default parameter if it does not exist
 	 *
-	 * @param	string	Parameter key
-	 * @param	mixed	Parameter value
+	 * @param	string	$key	Parameter key
+	 * @param	mixed	$value	Parameter value
+	 *
 	 * @return	mixed	Set parameter value
 	 * @since	1.5
 	 */
@@ -253,8 +262,9 @@ class JUser extends JObject
 	 * Method to check JUser object authorisation against an access control
 	 * object and optionally an access extension object
 	 *
-	 * @param	string	The name of the action to check for permission.
-	 * @param	string	The name of the asset on which to perform the action.
+	 * @param	string	$action		The name of the action to check for permission.
+	 * @param	string	$assetname	The name of the asset on which to perform the action.
+	 *
 	 * @return	boolean	True if authorised
 	 * @since	1.6
 	 */
@@ -293,9 +303,8 @@ class JUser extends JObject
 	/**
 	 * Gets an array of the authorised access levels for the user
 	 *
-	 * @param	string	The action to apply (type 3 rule). Defaults to 'core.view'.
-	 *
 	 * @return	array
+	 * @since	1.6
 	 */
 	public function authorisedLevels()
 	{
@@ -313,11 +322,12 @@ class JUser extends JObject
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
-	 * @param	int		The timestamp, defaults to 'now'.
+	 * @param	int		$timestamp	The timestamp, defaults to 'now'.
+	 *
 	 * @return	boolean	True on success.
 	 * @since	1.5
 	 */
-	public function setLastVisit($timestamp=null)
+	public function setLastVisit($timestamp = null)
 	{
 		// Create the user table object
 		$table	= $this->getTable();
@@ -333,8 +343,9 @@ class JUser extends JObject
 	 * file is the same as the usertype. The functionals has a static variable to store the parameters
 	 * setup file base path. You can call this function statically to set the base path if needed.
 	 *
-	 * @param	boolean	If true, loads the parameters setup file. Default is false.
-	 * @param	path	Set the parameters setup file base path to be used to load the user parameters.
+	 * @param	boolean	$loadsetupfile	If true, loads the parameters setup file. Default is false.
+	 * @param	path	$path			Set the parameters setup file base path to be used to load the user parameters.
+	 *
 	 * @return	object	The user parameters object.
 	 * @since	1.5
 	 */
@@ -362,13 +373,16 @@ class JUser extends JObject
 
 			$this->_params->loadSetupFile($file);
 		}
+
 		return $this->_params;
 	}
 
 	/**
 	 * Method to get the user parameters
 	 *
-	 * @param	object	The user parameters object
+	 * @param	object	$params	The user parameters object
+	 *
+	 * @return	void
 	 * @since	1.5
 	 */
 	public function setParameters($params)
@@ -383,8 +397,9 @@ class JUser extends JObject
 	 * it instantiates. You can call this function statically to set the table name if
 	 * needed.
 	 *
-	 * @param	string	The user table name to be used
-	 * @param	string	The user table prefix to be used
+	 * @param	string	$type	The user table name to be used
+	 * @param	string	$prefix	The user table prefix to be used
+	 *
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
@@ -411,9 +426,10 @@ class JUser extends JObject
 	/**
 	 * Method to bind an associative array of data to a user object
 	 *
-	 * @param	array	The associative array to bind to the object
+	 * @param	array	$array	The associative array to bind to the object
+	 *
 	 * @return	boolean	True on success
-	 * @since 1.5
+	 * @since	1.5
 	 */
 	public function bind(& $array)
 	{
@@ -482,7 +498,8 @@ class JUser extends JObject
 
 		if (array_key_exists('params', $array)) {
 			$params	= '';
-			$this->_params->merge(new JRegistry($array['params']));
+
+			$this->_params->loadArray($array['params']);
 
 			if (is_array($array['params'])) {
 				$params	= (string)$this->_params;
@@ -509,7 +526,8 @@ class JUser extends JObject
 	/**
 	 * Method to save the JUser object to the database
 	 *
-	 * @param	boolean	Save the object only if not a new user
+	 * @param	boolean	$updateOnly	Save the object only if not a new user
+	 *
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
@@ -532,20 +550,6 @@ class JUser extends JObject
 		// @todo ACL - this needs to be acl checked
 		//
 		$my = JFactory::getUser();
-//		if ($this->get('gid') == 25 && $my->get('gid') != 25)
-//		{
-//			// disallow creation of Super Admin by non Super Admin users
-//			$this->setError(JText::_('WARNSUPERADMINCREATE'));
-//			return false;
-//		}
-//
-//		// If user is made an Admin group and user is NOT a Super Admin
-//		if ($this->get('gid') == 24 && !($my->get('gid') == 25 || ($this->get('id') == $my->id && $my->get('gid') == 24)))
-//		{
-//			// disallow creation of Admin by non Super Admin users
-//			$this->setError(JText::_('WARNSUPERADMINCREATE'));
-//			return false;
-//		}
 
 		//are we creating a new user
 		$isnew = empty($this->id);
@@ -587,7 +591,6 @@ class JUser extends JObject
 	/**
 	 * Method to delete the JUser object from the database
 	 *
-	 * @param	boolean	Save the object only if not a new user
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
@@ -609,15 +612,15 @@ class JUser extends JObject
 
 		//trigger the onUserAfterDelete event
 		$dispatcher->trigger('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
-		return $result;
 
+		return $result;
 	}
 
 	/**
 	 * Method to load a JUser object by user id number
 	 *
-	 * @param	mixed	The user id of the user to load
-	 * @param	string	Path to a parameters xml file
+	 * @param	mixed	$id	The user id of the user to load
+	 *
 	 * @return	boolean	True on success
 	 * @since	1.6
 	 */
