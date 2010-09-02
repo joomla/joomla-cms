@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Sep-2010 Ian MacLennan
+ # Fixed typo in 15 to 16 diff sql file
+
 02-Sep-2010 Jean-Marie Simonet
  # [#22149] Tool bar clean up focused on users with delete only. Thanks Elin.
  # [#22002] Edit state ACL in edit views. Thanks Elin.

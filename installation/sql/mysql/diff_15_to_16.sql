@@ -31,7 +31,7 @@ ALTER TABLE `#__banner`
 ALTER TABLE `#__banners`
  CHANGE COLUMN `bid` `id` INTEGER NOT NULL auto_increment;
  
-ALTER TABLE `#__banner`
+ALTER TABLE `#__banners`
  CHANGE `custombannercode` `custombannercode` varchar(2048) NOT NULL;
 
 ALTER TABLE `#__banners`
