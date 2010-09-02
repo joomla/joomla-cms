@@ -163,7 +163,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_langauges.language', &$table, $isNew));
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_languages.language', &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true)) {
@@ -178,7 +178,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_langauges.language', &$table, $isNew));
+		$dispatcher->trigger('onExtensionAfterSave', array('com_languages.language', &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 

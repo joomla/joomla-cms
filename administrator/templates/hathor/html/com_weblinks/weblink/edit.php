@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+$canDo = WeblinksHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -43,12 +44,14 @@ JHtml::_('behavior.formvalidation');
 			<li><?php echo $this->form->getLabel('url'); ?>
 			<?php echo $this->form->getInput('url'); ?></li>
 
-			<li><?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?></li>
-
-			<li><?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?></li>
-
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<li><?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?></li>
+			<?php }?>
+			<?php if ($canDo->get('core.create')) { ?>
+				<li><?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?></li>
+			<?php }?>
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+$canDo	= BannersHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -38,8 +39,10 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('email'); ?>
 				<?php echo $this->form->getInput('email'); ?></li>
 
-				<li><?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?></li>
+				<?php if ($canDo->get('core.edit.state')) { ?>
+						<li><?php echo $this->form->getLabel('state'); ?>
+						<?php echo $this->form->getInput('state'); ?></li>
+				<?php }?>		
 
 				<li><?php echo $this->form->getLabel('purchase_type'); ?>
 				<?php echo $this->form->getInput('purchase_type'); ?></li>

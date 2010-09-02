@@ -21,7 +21,14 @@
 			class="inputbox" required="true"
 		>
 		</field>
-
+		<field name="state" type="list"
+			label="JGLOBAL_STATE" description="COM_BANNERS_FIELD_STATE_DESC"
+			class="inputbox" size="1" default="1" >
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASH</option>
+		</field>
 		<field name="ordering" type="ordering" class="inputbox"
 
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
@@ -59,14 +66,6 @@
 	<fieldset name="publish"
 		label="COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS"
 	>
-		<field name="state" type="list"
-			label="JGLOBAL_STATE" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="inputbox" size="1" default="1" >
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASH</option>
-		</field>
 
 		<field name="created" type="calendar"
 			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"

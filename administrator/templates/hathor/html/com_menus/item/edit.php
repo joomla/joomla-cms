@@ -17,6 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHTML::_('behavior.modal');
+$canDo		= MenusHelper::getActions();
 ?>
 
 <script type="text/javascript">
@@ -69,10 +70,12 @@ JHTML::_('behavior.modal');
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>
-
-				<li><?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?></li>
-
+				
+				<?php if ($canDo->get('core.edit.state')) : ?>	
+					<li><?php echo $this->form->getLabel('published'); ?>
+					<?php echo $this->form->getInput('published'); ?></li>
+				<?php endif ?>
+				
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
 
@@ -84,10 +87,10 @@ JHTML::_('behavior.modal');
 
 				<li><?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?></li>
-
-				<li><?php echo $this->form->getLabel('home'); ?>
-				<?php echo $this->form->getInput('home'); ?></li>
-
+				<?php if ($canDo->get('core.edit.state')) : ?>	
+					<li><?php echo $this->form->getLabel('home'); ?>
+					<?php echo $this->form->getInput('home'); ?></li>
+				<?php endif ?>
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 

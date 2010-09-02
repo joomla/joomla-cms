@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-
+$canDo		= RedirectHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -50,9 +50,12 @@ JHtml::_('behavior.keepalive');
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDIRECT_OPTIONS'); ?></legend>
 			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?></li>
-				</ul>
+				<?php if ($canDo->get('core.edit.state')) { ?>
+					<li><?php echo $this->form->getLabel('published'); ?>
+					<?php echo $this->form->getInput('published'); ?></li>
+				<?php }?>	
+			</ul>
+				
 		</fieldset>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDIRECT_DETAILS'); ?></legend>

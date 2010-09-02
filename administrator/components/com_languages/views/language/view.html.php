@@ -62,11 +62,15 @@ class LanguagesViewLanguage extends JView
 			JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
 		}
 		
-		//If an existing item, allow to Apply and Save & New.
+		//If an existing item, allow to Apply and Save.
 		if (!$isNew && $canDo->get('core.edit')) {
-			JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
 			JToolBarHelper::apply('language.apply','JTOOLBAR_APPLY');
-			JToolBarHelper::custom('language.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
+		}
+		
+		// If an existing item, can save to a copy only if we have create rights.
+		if (!$isNew && $canDo->get('core.create')) {
+		JToolBarHelper::custom('language.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		
 		if ($isNew) {

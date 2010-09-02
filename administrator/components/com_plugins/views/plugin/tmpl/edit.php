@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHTML::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+$canDo		= PluginsHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -32,9 +33,10 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getInput('name'); ?>
 			<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span></li>
 
-			<li><?php echo $this->form->getLabel('enabled'); ?>
-			<?php echo $this->form->getInput('enabled'); ?></li>
-
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<li><?php echo $this->form->getLabel('enabled'); ?>
+				<?php echo $this->form->getInput('enabled'); ?></li>
+			<?php }?>
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
 

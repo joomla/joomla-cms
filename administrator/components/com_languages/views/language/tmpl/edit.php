@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+$canDo		= LanguagesHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -45,9 +46,11 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getLabel('lang_code'); ?>
 			<?php echo $this->form->getInput('lang_code'); ?>
 
-			<?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?>
-
+			<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?>
+			<?php endif; ?>
+			
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
 

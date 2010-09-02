@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-
+$canDo		= NewsfeedsHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -40,15 +40,19 @@ JHtml::_('behavior.keepalive');
 			<li><?php echo $this->form->getLabel('link'); ?>
 			<?php echo $this->form->getInput('link'); ?></li>
 
-			<li><?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?></li>
-
+			<?php if ($canDo->get('core.create')) { ?>	
+				<li><?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?></li>
+			<?php }?>
+			
 			<li><?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?></li>
 
-			<li><?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?></li>
-
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+			<?php }?>
+			
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
 

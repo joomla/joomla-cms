@@ -15,6 +15,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 $user = JFactory::getUser();
+$canDo = TemplatesHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -40,9 +41,10 @@ $user = JFactory::getUser();
 			<?php echo $this->form->getInput('client_id'); ?>
 			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 
-			<?php echo $this->form->getLabel('home'); ?>
-			<?php echo $this->form->getInput('home'); ?>
-
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<?php echo $this->form->getLabel('home'); ?>
+				<?php echo $this->form->getInput('home'); ?>
+			<?php }?>
 			<div class="clr"></div>
 
 			<?php if ($this->item->id) : ?>
@@ -65,10 +67,12 @@ $user = JFactory::getUser();
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<?php if ($user->authorise('core.edit','com_menu') && $this->item->client_id==0):?>
-	<div class="width-60 fltlft">
-		<?php echo $this->loadTemplate('assignment'); ?>
-	</div>
-	<?php endif;?>
+		<?php if ($canDo->get('core.edit.state')) { ?>
+			<div class="width-60 fltlft">
+			<?php echo $this->loadTemplate('assignment'); ?>
+			</div>
+			<?php }?>
+		<?php endif;?>
 
 	<div class="clr"></div>
 </form>

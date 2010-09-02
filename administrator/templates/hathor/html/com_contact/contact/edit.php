@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+$canDo		= ContactHelper::getActions();
 ?>
 <script type="text/javascript">
 <!--
@@ -47,20 +48,23 @@ JHtml::_('behavior.formvalidation');
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
 
-			<li><?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?></li>
-
-			<li><?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?></li>
-
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+			<?php }?>
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<li><?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?></li>
+			<?php }?>
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>
-
-			<li><?php echo $this->form->getLabel('featured'); ?>
-			<?php echo $this->form->getInput('featured'); ?></li>
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<li><?php echo $this->form->getLabel('featured'); ?>
+				<?php echo $this->form->getInput('featured'); ?></li>
+			<?php }?>
 
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>

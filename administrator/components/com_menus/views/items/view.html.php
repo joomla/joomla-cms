@@ -170,18 +170,19 @@ class MenusViewItems extends JView
 		else if ($canDo->get('core.edit.state')) {
 				JToolBarHelper::trash('items.trash','JTOOLBAR_TRASH');
 		}
-		if (JFactory::getUser()->authorise('core.manage','com_checkin')) {
+		if (JFactory::getUser()->authorise('core.admin')) {
 			JToolBarHelper::divider();
 			JToolBarHelper::custom('items.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
+		JToolBarHelper::divider();
 		}
-		JToolBarHelper::divider();
+		if (JFactory::getUser()->authorise('core.admin')) {
 		JToolBarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
-
 		JToolBarHelper::divider();
+		}
 		JToolBarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 }

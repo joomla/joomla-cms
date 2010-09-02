@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
+$canDo		= ModulesHelper::getActions();
 
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 ?>
@@ -49,10 +50,12 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible"><?php echo JText::_('TPL_HATHOR_COM_MODULES_CUSTOM_POSITION_LABEL');?></label>
 			<?php echo $this->form->getInput('position'); ?></li>
 
-			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-			<li><?php echo $this->form->getLabel('published'); ?>
-			<?php echo $this->form->getInput('published'); ?></li>
-			<?php endif; ?>
+			<?php if ($canDo->get('core.edit.state')) { ?>
+				<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+				<?php endif; ?>
+			<?php }?>
 
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
