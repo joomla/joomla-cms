@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Sep-2010 Andrew Eddie
  # Fixed issue [#22210] module latest users (Bill Richardson).
+ # Fixed issue [#22211] module - latest news - typo error (Bill Richardson).
 
 01-Sep-2010 Andrew Eddie (and Happy 5th Birthday Joomla!)
  # Fixed issue [#22118] The setRedirect method() overwrites an already set messageType (Roland Dalmulder, Artyom Bisyarin).
