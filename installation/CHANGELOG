@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Sep-2010 Jean-Marie Simonet
+ # [#22186] beez2 - Park links right module displacement.
+ 
 03-Sep-2010 Andrew Eddie
  # Fixed issue [#22248] Fix inappropriate code comment (Brian Teeman, Bill Richardson).
  # Fixing issue [#21447] - Added user.debug task to user controller to assist with access control testing.
