@@ -533,6 +533,7 @@ class JUser extends JObject
 	 */
 	public function save($updateOnly = false)
 	{
+		// NOTE: $updateOnly is currently only used in the user reset password method.
 		// Create the user table object
 		$table = $this->getTable();
 		$this->params = (string)$this->_params;
