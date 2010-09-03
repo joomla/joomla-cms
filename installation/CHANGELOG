@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Sep-2010 Andrew Eddie
  # Fixed issue [#22248] Fix inappropriate code comment (Brian Teeman, Bill Richardson).
+ # Fixing issue [#21447] - Added user.debug task to user controller to assist with access control testing.
 
 02-Sep-2010 Ian MacLennan
  # Fixed typo in 15 to 16 diff sql file
