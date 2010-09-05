@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Sep-2010 Jean-Marie Simonet
  # [#22219] Remove overrides from Beez2.
+ # [#22203] toolbar icon consistency. Thanks Michael and Bill.
 
 03-Sep-2010 Mark Dexter
  # Fix syntax errors in diff_15_to_16.sql (Elin Waring)
