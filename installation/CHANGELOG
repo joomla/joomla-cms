@@ -31,7 +31,8 @@ $ -> Language fix or change
  # [#22219] Remove overrides from Beez2.
  # [#22203] toolbar icon consistency. Thanks Michael and Bill.
  # [#22257] User with Delete permission unable to delete a user. Thanks Michael.
-
+ # [#22191] Search image. Thanks Christophe and Bill.
+ 
 03-Sep-2010 Mark Dexter
  # Fix syntax errors in diff_15_to_16.sql (Elin Waring)
 
