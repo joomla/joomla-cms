@@ -65,7 +65,6 @@ class NewsfeedsViewNewsfeeds extends JView
 			JToolBarHelper::custom('newsfeeds.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
 			JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
-			JToolBarHelper::custom('newsfeeds.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::custom('newsfeeds.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);		

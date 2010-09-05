@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#22257] User with Delete permission unable to delete a user. Thanks Michael.
  # [#22191] Search image. Thanks Christophe and Bill.
  $ [#22192] Code Mirror tab mode description missing.Thanks Bill.
+ # [#22275] Two check-in buttons in Newsfeeds. Thanks Michael.
  
 03-Sep-2010 Mark Dexter
  # Fix syntax errors in diff_15_to_16.sql (Elin Waring)
