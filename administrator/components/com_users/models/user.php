@@ -190,7 +190,7 @@ class UsersModelUser extends JModelAdmin
 		{
 			if ($table->load($pk)) {
 				// Access checks.
-				$allow = $user->authorise('core.edit.state', 'com_users');
+				$allow = $user->authorise('core.delete', 'com_users');
 
 				if ($allow) {
 					// Get user data for the user to delete.
