@@ -79,6 +79,7 @@ class CategoriesViewCategories extends JView
 		}
 		if(JFactory::getUser()->authorise('core.edit')) {		
 			JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
+			JToolBarHelper::divider();
 		}
 			if(JFactory::getUser()->authorise('core.edit.state')) {
 		JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);

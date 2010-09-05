@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#22191] Search image. Thanks Christophe and Bill.
  $ [#22192] Code Mirror tab mode description missing.Thanks Bill.
  # [#22275] Two check-in buttons in Newsfeeds. Thanks Michael.
+ # [#22207] toolbar icon divider in administrator template. Thanks Bill.
  
 03-Sep-2010 Mark Dexter
  # Fix syntax errors in diff_15_to_16.sql (Elin Waring)
