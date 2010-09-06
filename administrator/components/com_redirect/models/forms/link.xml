@@ -7,7 +7,6 @@
 			name="id"
 			type="text"
 			default="0"
-			required="true"
 			readonly="true"
 			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"

@@ -8,7 +8,6 @@
 			type="hidden"
 			default="0"
 			filter="int"
-			required="true"
 			readonly="true"/>
 
 		<field

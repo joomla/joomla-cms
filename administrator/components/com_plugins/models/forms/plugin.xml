@@ -8,7 +8,6 @@
 			description ="JGLOBAL_FIELD_ID_DESC"
 			type="text"
 			default="0"
-			required="true"
 			readonly="true"
 			class="readonly" />
 

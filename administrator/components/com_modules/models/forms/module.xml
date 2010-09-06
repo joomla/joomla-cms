@@ -7,7 +7,6 @@
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
-			required="true"
 		/>
 
 		<field name="title" type="text"

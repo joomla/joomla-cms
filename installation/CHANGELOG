@@ -30,6 +30,7 @@ $ -> Language fix or change
 06-Sep-2010 Andrew Eddie
  # Fixed issue [#22246] Remove potty mouth language from htaccess (Brian Teeman, Bill Richardson).
  # Fixed issue [#22273] This is a demo. Delete for beta (Michael Babker).
+ # Fixed issue [#21658] Marking items as required (Michael Babker, Bill Richardson).
 
 05-Sep-2010 Jean-Marie Simonet
  # [#22219] Remove overrides from Beez2.
