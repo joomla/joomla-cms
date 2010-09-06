@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Sep-2010 Jean-Marie Simonet
  # [#22053] sample data article capitalisation. Thanks Tim.
+ $ [#22272] Database Error. Thanks Bill.
 
 06-Sep-2010 Andrew Eddie
  # Fixed issue [#22246] Remove potty mouth language from htaccess (Brian Teeman, Bill Richardson).
