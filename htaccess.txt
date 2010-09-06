@@ -27,7 +27,7 @@ RewriteEngine On
 # If you experience problems on your site block out the operations listed below
 # This attempts to block the most common type of exploit `attempts` to Joomla!
 #
-# Block out any script trying to base64_encode crap to send via URL.
+# Block out any script trying to base64_encode data within the URL.
 RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
 # Block out any script that includes a <script> tag in URL.
 RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
