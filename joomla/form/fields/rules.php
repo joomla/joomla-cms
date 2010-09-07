@@ -94,7 +94,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '			<span class="acl-action">'.JText::_('JACTION_USER_GROUP').'</span>';
 		$html[] = '		</th>';
 		foreach ($actions as $action) {
-			$html[] = '		<th>';
+			$html[] = '		<th class="acl-action-top" >';
 			$html[] = '			<span class="acl-action" title="'.JText::_($action->description).'">'.JText::_($action->title).'</span>';
 			$html[] = '		</th>';
 		}
