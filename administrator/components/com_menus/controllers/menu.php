@@ -180,6 +180,11 @@ class MenusControllerMenu extends JControllerForm
 		switch ($task)
 		{
 			case 'apply':
+				//New menu
+				if (!$data['id']){
+					$app->setUserState('com_menus.edit.menu.id', $model->getState('menu.id'));
+				}
+				
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 				break;

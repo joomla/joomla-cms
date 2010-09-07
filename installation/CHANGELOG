@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Sep-2010 Jean-Marie Simonet
+ # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.
 
 -------------------- 1.6.0 Beta9 Release [07-Sep-2010] ------------------
 
