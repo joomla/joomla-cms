@@ -9,7 +9,7 @@
 		/>
 
 		<field name="title" type="text"
-			class="inputbox"
+			class="inputbox" required="true"
 			description="COM_USERS_GROUP_FIELD_TITLE_DESC"
 			label="COM_USERS_GROUP_FIELD_TITLE_LABEL"
 			size="40"

@@ -27,7 +27,8 @@
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
 			description="COM_REDIRECT_FIELD_NEW_URL_DESC"
-			size="50" />
+			size="50"
+			required="true" />
 
 		<field
 			name="comment"
