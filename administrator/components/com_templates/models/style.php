@@ -81,6 +81,10 @@ class TemplatesModelStyle extends JModelForm
 				return false;
 			}
 		}
+		
+		$cache = JFactory::getCache();
+		$cache->clean('com_templates');
+		$cache->clean('_system');
 
 		return true;
 	}
@@ -132,7 +136,10 @@ class TemplatesModelStyle extends JModelForm
 				throw new Exception($table->getError());
 			}
 		}
-
+		
+		$cache = JFactory::getCache();
+		$cache->clean('com_templates');
+		$cache->clean('_system');
 
 		return true;
 	}
@@ -385,7 +392,7 @@ class TemplatesModelStyle extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache('com_templates');
+		$cache = JFactory::getCache();
 		$cache->clean();
 
 		// Trigger the onExtensionAfterSave event.
@@ -451,6 +458,11 @@ class TemplatesModelStyle extends JModelForm
 		if (!$db->query()) {
 			throw new Exception($db->getErrorMsg());
 		}
+		
+		// Clean the cache.
+		$cache = JFactory::getCache();
+		$cache->clean('com_templates');
+		$cache->clean('_system');
 
 		return true;
 	}

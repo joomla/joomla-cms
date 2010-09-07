@@ -38,8 +38,9 @@ class TemplatesControllerStyle extends JControllerForm
 
 		// Clear the component's cache
 		if (!in_array($task, array('display', 'edit', 'cancel'))) {
-			$cache = JFactory::getCache('com_templates');
-			$cache->clean();
+			$cache = JFactory::getCache();
+			$cache->clean('com_templates');
+			$cache->clean('_system');
 		}
 	}
 }
