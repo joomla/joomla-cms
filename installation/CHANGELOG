@@ -30,6 +30,7 @@ $ -> Language fix or change
 07-Sep-2010 Jean-Marie Simonet
  # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.
  # [#22287] Save & New button in Menu Edit views. Thanks Michael.
+ # [#22245] Default site metadata. Thanks Ole.
 
 -------------------- 1.6.0 Beta9 Release [07-Sep-2010] ------------------
 

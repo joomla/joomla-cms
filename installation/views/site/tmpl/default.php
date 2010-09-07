@@ -101,6 +101,22 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 										<?php echo $this->form->getInput('site_name'); ?>
 									</td>
 								</tr>
+								<tr>
+									<td class="item">
+										<?php echo $this->form->getLabel('site_metadesc'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_metadesc'); ?>
+									</td>
+								</tr>
+								<tr>
+									<td class="item">
+										<?php echo $this->form->getLabel('site_metakeys'); ?>
+									</td>
+									<td>
+										<?php echo $this->form->getInput('site_metakeys'); ?>
+									</td>
+								</tr>
 							</table>
 						</fieldset>
 					</div>
