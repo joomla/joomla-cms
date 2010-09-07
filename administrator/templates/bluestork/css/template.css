@@ -520,6 +520,9 @@ textarea#mm_message {
 }
 
 /* -- PANE SLIDER STYLES ----------------------------- */
+.pane-sliders {
+	margin: 18px 0 0 0;
+}
 .pane-sliders .title {
 	margin: 0;
 	padding: 2px 2px 2px 5px;
@@ -1131,7 +1134,7 @@ fieldset.adminform-legacy fieldset.radio {
 	float: left;
 	padding: 0;
 	margin: 0 0 5px 5px;
-	clear: right;
+	/* clear: right; */
 }
 
 fieldset.adminform fieldset.radio label,
@@ -1140,6 +1143,7 @@ fieldset.panelform fieldset.radio label {
 	float: left;
 	clear: none;
 	width: 40px;
+	display:inline;
 }
 
 fieldset.panelform-legacy label,

@@ -27,6 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Sep-2010 Ron Severdia
+ # [#20942] Fixed extra whitespace in fieldsets (Thanks Viet Hoang Vu)
+ ^ Updated Blueprint cheatsheet
+ ^ Updated backend users icon
+ 
 06-Sep-2010 Ian MacLennan
  # [#21573] Error in flash uploader
  # [#22018] The alert of "failed" creating a menu item doesn't look like a Failed (admin default template)
