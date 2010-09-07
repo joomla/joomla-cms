@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#20942] Fixed extra whitespace in fieldsets (Thanks Viet Hoang Vu)
  ^ Updated Blueprint cheatsheet
  ^ Updated backend users icon
+ # [#21746] Bluestork display issue with Permissions views in IE7
  
 06-Sep-2010 Ian MacLennan
  # [#21573] Error in flash uploader

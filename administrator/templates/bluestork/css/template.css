@@ -2770,7 +2770,6 @@ table#acl-config th {
 
 table#acl-config thead th,
 table#acl-config td {
-	width: 10px;
 	text-align:center;
 	vertical-align:middle;
 	height: 30px;
@@ -2793,7 +2792,6 @@ table#acl-config td select {
 	font-size: 1.091em;
 	margin: auto 0;
 }
-
 .acl-groups {
 	font-size: 1.091em;
 	font-weight: normal;
