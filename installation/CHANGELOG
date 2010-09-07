@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#22198] Weblinks module follow/no follow description
  # [#22204] surplus image in bluestork
  # [#22205] unpublished menu items visible
+ # [#22220] Admin Menu Flyouts not respecting ACL
 
 06-Sep-2010 Jean-Marie Simonet
  # [#22053] sample data article capitalisation. Thanks Tim.

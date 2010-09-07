@@ -68,7 +68,7 @@ abstract class QuickIconHelper
 					'link' => JRoute::_('index.php?option=com_content&task=article.add'),
 					'image' => 'icon-48-article-add.png',
 					'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
-					'access' => array('core.manage', 'com_content')
+					'access' => array('core.create', 'com_content')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_content'),
