@@ -64,4 +64,38 @@ class CategoriesHelper
 			}
 		}
 	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param	string	$extension	The extension.
+	 * @param	int		$categoryId	The category ID.
+	 *
+	 * @return	JObject
+	 * @since	1.6
+	 */
+	public static function getActions($extension, $categoryId = 0)
+	{
+		$user		= JFactory::getUser();
+		$result		= new JObject;
+		$parts		= explode('.',$extension);
+		$component	= $parts[0];
+
+		if (empty($categoryId)) {
+			$assetName = $component;
+		}
+		else {
+			$assetName = $component.'.category.'.(int) $categoryId;
+		}
+
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+		);
+
+		foreach ($actions as $action) {
+			$result->set($action, $user->authorise($action, $assetName));
+		}
+
+		return $result;
+	}
 }

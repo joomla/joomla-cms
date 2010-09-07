@@ -30,6 +30,7 @@ $ -> Language fix or change
 08-Sep-2010 Andrew Eddie
  # Fixed issue [#22274] Mark items as required that prevent save (Michael Babker).
  # Fixed issue [#21902] Cannot assign template style to components [cache] (Jen Kramer McKibben, Klas Berlič1).
+ # Fixed issue [#21447] Updated: Add ACL Create, Edit, & Edit State checks to Category Manager (Michael Babker, Elin Waring).
 
 07-Sep-2010 Jean-Marie Simonet
  # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.

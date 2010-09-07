@@ -22,7 +22,6 @@ $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state');
-$canEdit	= $user->authorise('core.edit');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 $n = count($this->items);
 ?>
@@ -101,7 +100,7 @@ $n = count($this->items);
 			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
 				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-				$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id');
+				$canCheckin	= $user->authorise('core.manage',	'com_checkin') || $item->checked_out==$user->get('id');
 				$canChange = $canCheckin;
 			?>
 				<tr class="row<?php echo $i % 2; ?>">
