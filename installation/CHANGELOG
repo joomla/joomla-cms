@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Sep-2010 Ian MacLennan
+ # [#21573] Error in flash uploader
+
 06-Sep-2010 Jean-Marie Simonet
  # [#22053] sample data article capitalisation. Thanks Tim.
  $ [#22272] Database Error. Thanks Bill.

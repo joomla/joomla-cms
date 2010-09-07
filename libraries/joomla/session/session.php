@@ -397,6 +397,14 @@ class JSession extends JObject
 		//  start session if not startet
 		if ($this->_state == 'restart') {
 			session_id($this->_createId());
+		} else {
+			$session_name = session_name();
+			if (!JRequest::getVar($session_name, false, 'COOKIE')) {
+				if (JRequest::getVar($session_name)) {
+					session_id(JRequest::getVar($session_name));
+					setcookie($session_name, '', time() - 3600);
+				}
+			}
 		}
 
 		session_cache_limiter('none');
