@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#22205] unpublished menu items visible
  # [#22220] Admin Menu Flyouts not respecting ACL
  # [#22241] Everyone with Manage can checkin
+ # [#22256] Language string definition missing on front end.
 
 06-Sep-2010 Jean-Marie Simonet
  # [#22053] sample data article capitalisation. Thanks Tim.
