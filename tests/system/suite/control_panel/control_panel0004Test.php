@@ -361,7 +361,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].10.1"));
 
 		echo "Move Getting Started menu item down one\n";
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting started')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Down']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		echo "Check that Using Joomla! is now in first row\n";
@@ -369,11 +369,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Move Gettingi Started back up one\n";
 		$this->select("limit", "label=All");
 		$this->waitForPageToLoad("30000");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting started')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
-		echo "Check that Getting started is now in first row\n";
-		$this->assertContains("Getting started", $this->getTable("//table[@class='adminlist'].1.1"));
+		echo "Check that Getting Started is now in first row\n";
+		$this->assertContains("Getting Started", $this->getTable("//table[@class='adminlist'].1.1"));
 		$this->select("limit", "label=20");
 		$this->waitForPageToLoad("30000");
 
