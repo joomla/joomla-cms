@@ -197,7 +197,12 @@ ALTER TABLE `#__categories`
 ALTER TABLE `#__categories`
  ADD COLUMN   `extension` varchar(50) NOT NULL default '' AFTER `path`;
 
- ALTER TABLE `#__categories`
+ UPDATE #__categories
+ SET extension = section WHERE SUBSTR(section,1,3) = 'com';
+UPDATE #__categories
+ SET extension = 'com_content' WHERE SUBSTR(section,1,3) != 'com';
+
+ALTER TABLE `#__categories`
  ADD COLUMN `note` VARCHAR(255) NOT NULL DEFAULT '' AFTER `alias`;
 
 ALTER TABLE `#__categories`
@@ -256,20 +261,20 @@ ALTER TABLE `#__categories`
  
 ALTER TABLE `#__categories`
  DROP COLUMN `name`;
-
-INSERT INTO `#__categories` (asset_id,parent_id,lft,rgt,level,path,extension,title,alias,note,description,published,checked_out,checked_out_time,access,params,metadesc,metakey,metadata,created_user_id,created_time,modified_user_id,modified_time,hits,language)
-VALUES
-( 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*');
+UPDATE #__categories SET  parent_id=0
+	WHERE SUBSTR(section,1,3)='com';
+UPDATE #__categories SET  parent_id=section
+	WHERE SUBSTR(section,1,3) !='com';
 INSERT INTO `#__categories` (parent_id,lft,rgt,level,path,extension,title,alias,note,description,published,checked_out,checked_out_time,access,params,metadesc,metakey,metadata,created_user_id,created_time,modified_user_id,modified_time,hits,language)
 VALUES
-( 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
-( 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
-( 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
-( 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
-( 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
+( 0, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
+( 0, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
+( 0, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
+( 0, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
+( 0, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
 INSERT INTO `#__categories` (parent_id,lft,rgt,level,path,extension,title,alias,note,description,published,checked_out,checked_out_time,access,params,metadesc,metakey,metadata,created_user_id,created_time,modified_user_id,modified_time,hits,language)
 SELECT
-'1',				# parent_id
+'0',				# parent_id
 '',					# lft
 '',					# rgt
 '1',				# level
@@ -277,7 +282,7 @@ alias,				# path
 'com_content',		# extension
 title,				# title
 alias,				# alias
-'',					# note
+id,					# note
 description,		# description
 published,			# published
 checked_out,		# checked_out
@@ -296,6 +301,13 @@ params,				# params
 FROM #__sections; 
 
 
+INSERT INTO `#__categories`
+(asset_id,parent_id,lft,rgt,level,path,extension,title,alias,note,description,published,checked_out,checked_out_time,access,params,metadesc,metakey,metadata,created_user_id,created_time,modified_user_id,modified_time,hits,language)
+VALUES
+( 0, 0, 0, 0, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*');
+UPDATE  #__categories
+ SET parent_id=LAST_INSERT_ID() WHERE parent_id=0 AND id !=LAST_INSERT_ID() ;
+
 -- TODO: Merge from sections and add uncategorised nodes.
 
 -- ----------------------------------------------------------------
@@ -310,9 +322,7 @@ UPDATE `#__components`
  WHERE link = 'option=com_content';
 
 INSERT INTO `#__components` VALUES
- (null, 'Articles', '', 0, 0, 'option=com_content&view=articles', 'com_content_Articles', 'com_content', 1, '', 1, '{}', 1),
  (null, 'Categories', '', 0, 0, 'option=com_categories&view=categories&extension=com_content', 'com_content_Categories', 'com_content', 2, '', 1, '{}', 1),
- (null, 'Featured', '', 0, 0, 'option=com_content&view=featured', 'com_content_Featured', 'com_content', 3, '', 1, '{}', 1),
  (null, 'Redirects', '', 0, 0, 'option=com_redirect', 'Manage Redirects', 'com_redirect', 0, 'js/ThemeOffice/component.png', 1, '{}', 1),
  (null, 'Checkin', '', 0, 0, 'option=com_checkin', 'Checkin', 'com_checkin', 0, 'js/ThemeOffice/component.png', 1, '{}', 1);
 
@@ -957,72 +967,49 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
-INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)
-VALUES
-	(1,0,0,61,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1}}'),
-	(2,1,1,2,1,'com_admin','com_admin','{}'),
-	(3,1,3,6,1,'com_banners','com_banners','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(4,1,7,8,1,'com_cache','com_cache','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-	(5,1,9,10,1,'com_checkin','com_checkin','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-	(6,1,11,12,1,'com_config','com_config','{}'),
-	(7,1,13,16,1,'com_contact','com_contact','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(8,1,17,20,1,'com_content','com_content','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-	(9,1,21,22,1,'com_cpanel','com_cpanel','{}'),
-	(10,1,23,24,1,'com_installer','com_installer','{"core.admin":{"7":1},"core.manage":{"7":1},"core.create":[],"core.delete":[],"core.edit.state":[]}'),
-	(11,1,25,26,1,'com_languages','com_languages','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(12,1,27,28,1,'com_login','com_login','{}'),
-	(13,1,29,30,1,'com_mailto','com_mailto','{}'),
-	(14,1,31,32,1,'com_massmail','com_massmail','{}'),
-	(15,1,33,34,1,'com_media','com_media','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1},"core.edit":[],"core.edit.state":[]}'),
-	(16,1,35,36,1,'com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(17,1,37,38,1,'com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-	(18,1,39,40,1,'com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(19,1,41,44,1,'com_newsfeeds','com_newsfeeds','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(20,1,45,46,1,'com_plugins','com_plugins','{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
-	(21,1,47,48,1,'com_redirect','com_redirect','{"core.admin":{"7":1},"core.manage":[]}'),
-	(22,1,49,50,1,'com_search','com_search','{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-	(23,1,51,52,1,'com_templates','com_templates','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(24,1,53,54,1,'com_users','com_users','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-	(25,1,55,58,1,'com_weblinks','com_weblinks','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1}}'),
-	(26,1,59,60,1,'com_wrapper','com_wrapper','{}');
-
-INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) 
+INSERT INTO `#__assets` (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`)       
 SELECT
-     '0',						# parent_id
+     '1',						# parent_id
      '',						# lft
      '',						# rgt
      '2',	                    # level
-     CONCAT('com_content.category.',id), # name
+     `option`, 					# name
      name,                 		# title
-     '{}'	                    # rules
-     FROM #__sections;         	# Each section is an asset with a parent of its component.	
-
+	'{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}' # rules
+     FROM #__components        # Each component is an asset with a parent of 0.	
+	WHERE parent = 0; 
+UPDATE #__assets 
+	SET rules='{}' WHERE NAME='com_admin'  OR NAME='com_wrapper' OR
+		NAME='com_login'  OR NAME='com_cpanel';
+UPDATE #__assets
+	SET rules='{"core.admin":{"7":1},"core.manage":{"7":1},"core.create":{"7":1},"core.delete":{"7":1},"core.edit":{"7":1},"core.edit.state":{"7":1}}'
+    WHERE NAME= 'com_mailto' OR NAME='com_massmail' OR NAME='com_config';
 INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) 
 SELECT
      '',						# parent_id
      '',						# lft
      '',						# rgt
      '2',	                    # level
-     CONCAT(section,'.category.',id), # name
-     section,                 		# title
+     CONCAT(extension,'.category.',id), # name
+     section,                 	# title
      '{}'	                    # rules
      FROM #__categories        # Each existing category is an asset with a parent of its component or section.
 	WHERE SUBSTR(section,1,3) = 'com';
 INSERT INTO #__assets (`parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) 
 SELECT
-     '9',						# parent_id
+     '',						# parent_id
      '',						# lft
      '',						# rgt
      '3',	                    # level
      CONCAT('com_content.article.',id),   # name
      title,                 	# title
      '{}'	                    # rules
-     FROM #__categories          # Uncategorized content becomes assets int the uncategorized category.
-	WHERE SUBSTR(section,1,3) != 'com';
+     FROM #__content          	# Uncategorized articles becomes assets in the uncategorized category.
+								#other articles becomes assets with parent of their category.
+	 ;
 
 -- We can now drop the section column, since we have done the queries above.
 
-ALTER TABLE `#__categories`
- DROP COLUMN `section`;
+#ALTER TABLE `#__categories` DROP COLUMN `section`;
 
 

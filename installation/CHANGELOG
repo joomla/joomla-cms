@@ -30,6 +30,9 @@ $ -> Language fix or change
 
 -------------------- 1.6.0 Beta9 Release [07-Sep-2010] ------------------
 
+07-Sep-2010 Ian MacLennan
+ # Updating sample data
+
 06-Sep-2010 Ron Severdia
  # [#20942] Fixed extra whitespace in fieldsets (Thanks Viet Hoang Vu)
  ^ Updated Blueprint cheatsheet
