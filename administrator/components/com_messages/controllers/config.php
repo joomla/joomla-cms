@@ -46,9 +46,9 @@ class MessagesControllerConfig extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
-					$app->enqueueMessage($errors[$i], 'notice');
+					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
@@ -61,7 +61,7 @@ class MessagesControllerConfig extends JController
 		if (!$model->save($data))
 		{
 			// Redirect back to the main list.
-			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_messages&view=messages', false));
 			return false;
 		}

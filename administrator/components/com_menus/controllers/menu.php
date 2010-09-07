@@ -149,12 +149,11 @@ class MenusControllerMenu extends JControllerForm
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
 				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
-					$app->enqueueMessage($errors[$i], 'notice');
+					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
-
 			// Save the data in the session.
 			$app->setUserState('com_menus.edit.menu.data', $data);
 
@@ -170,7 +169,7 @@ class MenusControllerMenu extends JControllerForm
 			$app->setUserState('com_menus.edit.menu.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 			return false;
 		}

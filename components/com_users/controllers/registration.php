@@ -58,7 +58,7 @@ class UsersControllerRegistration extends UsersController
 		// Check for errors.
 		if ($return === false) {
 			// Redirect back to the homepage.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect('index.php');
 			return false;
 		}
@@ -129,9 +129,9 @@ class UsersControllerRegistration extends UsersController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
-					$app->enqueueMessage($errors[$i], 'notice');
+					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
@@ -152,7 +152,7 @@ class UsersControllerRegistration extends UsersController
 			$app->setUserState('com_users.registration.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration', false));
 			return false;
 		}

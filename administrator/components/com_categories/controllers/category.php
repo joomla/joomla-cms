@@ -212,10 +212,10 @@ class CategoriesControllerCategory extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
 				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
+					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {
-					$app->enqueueMessage($errors[$i], 'notice');
+					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
@@ -233,7 +233,7 @@ class CategoriesControllerCategory extends JController
 			$app->setUserState('com_categories.edit.category.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'notice');
+			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
 			return false;
 		}
