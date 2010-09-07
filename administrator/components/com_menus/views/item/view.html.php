@@ -73,9 +73,13 @@ class MenusViewItem extends JView
 			JToolBarHelper::save('item.save','JTOOLBAR_SAVE');
 		}
 		
+		// If the user can create new items, allow them to see Save & New
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('menu.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		}
+
 		// If an existing item, can save to a copy only if we have create rights.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('item.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);		
 			JToolBarHelper::custom('item.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
 		
