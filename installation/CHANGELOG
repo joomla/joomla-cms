@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#22018] The alert of "failed" creating a menu item doesn't look like a Failed (admin default template)
  # [#22076] Update Site manager tries to create duplicate entries on second install if extension adapter behaves pathologically
  # [#22198] Weblinks module follow/no follow description
+ # [#22204] surplus image in bluestork
 
 06-Sep-2010 Jean-Marie Simonet
  # [#22053] sample data article capitalisation. Thanks Tim.
