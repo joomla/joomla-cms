@@ -164,29 +164,6 @@ class UsersModelRegistration extends JModelForm
 			return false;
 		}
 
-		/*
-		// TODO: Should we send a confirming email for activation? We don't in 1.5.
-		// Compile the notification mail values.
-		$data = $user->getProperties();
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
-
-		// Load the message template and bind the data.
-		jimport('joomla.utilities.simpletemplate');
-		$template = JxSimpleTemplate::getInstance('com_users.registration.confirm');
-		$template->bind($data);
-
-		// Send the registration email.
-		$return = JUtility::sendMail($data['mailfrom'], $data['fromname'], $data['email'], $template->getTitle(), $template->getBody());
-
-		// Check for an error.
-		if ($return !== true) {
-			$this->setError(JText::_('USERS ACTIVATION SEND MAIL FAILED'));
-			return false;
-		}
-		*/
-
 		return $user;
 	}
 
