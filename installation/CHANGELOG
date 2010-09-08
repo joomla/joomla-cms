@@ -36,6 +36,7 @@ $ -> Language fix or change
  # Fixed issue [#20932] com_categories CategoryParent Field Permissions Check Additions (Omar Ramos).
  # Fixed issue [#22222] Newsflash inopérant (C. Tapuscrine, Omar Ramos, Bill Richardson, Michael Babker).
  # Fixed issue [#22322] Inappropriate language in code (Amy Stephen).
+ # Fixed issue [#22095] Userfield shows button even when "readonly" (Thomas Hunziker, Michael Babker).
 
 07-Sep-2010 Jean-Marie Simonet
  # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.
