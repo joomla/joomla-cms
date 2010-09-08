@@ -46,18 +46,15 @@ abstract class modArticlesNewsHelper
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
 		// Set ordering
-		$order_map = array(
-			'm_dsc' => 'a.modified DESC, a.created',
-			'mc_dsc' => 'CASE WHEN (a.modified = '.$db->quote($db->getNullDate()).') THEN a.created ELSE a.modified END',
-			'c_dsc' => 'a.created'
-		);
-
-		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.created');
-		$dir = 'DESC';
-
+		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
-		$model->setState('list.direction', $dir);
+		if (trim($ordering) == 'rand()') {
+			$model->setState('list.direction', '');			
+		} else {
+			$model->setState('list.direction', 'DESC');
+		}
 
+		//	Retrieve Content
 		$items = $model->getItems();
 
 		foreach ($items as &$item) {
@@ -77,7 +74,6 @@ abstract class modArticlesNewsHelper
 			}
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext);
-
 
 			//new
 			if (!$params->get('image')) {

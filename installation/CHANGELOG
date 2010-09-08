@@ -34,6 +34,7 @@ $ -> Language fix or change
  # Changed default caching level to disabled on installation.
  # Fixed issue [#22171] Cannot edit a group to change parent once it is created (Jennifer Marriott, Amy Stephen).
  # Fixed issue [#20932] com_categories CategoryParent Field Permissions Check Additions (Omar Ramos).
+ # Fixed issue [#22222] Newsflash inopérant (C. Tapuscrine, Omar Ramos, Bill Richardson, Michael Babker).
 
 07-Sep-2010 Jean-Marie Simonet
  # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.

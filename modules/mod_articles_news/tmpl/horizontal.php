@@ -24,5 +24,4 @@ defined('_JEXEC') or die;
 	<?php endif; ?>
 	</li>
 <?php endfor; ?>
-
 </ul>
