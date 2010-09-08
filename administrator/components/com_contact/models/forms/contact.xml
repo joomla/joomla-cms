@@ -225,7 +225,7 @@
 			<option value="*">JALL</option>
 		</field>
 		<field name="featured"
-			type="radio"
+			type="list"
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"

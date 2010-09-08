@@ -63,6 +63,18 @@ class PluginsModelPlugin extends JModelAdmin
 			return false;
 		}
 
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data)) {
+			// Disable fields for display.
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('enabled', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('enabled', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 

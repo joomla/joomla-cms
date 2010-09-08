@@ -51,7 +51,18 @@ class ContentModelArticle extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		return $user->authorise('core.edit.state', 'com_content.article.'.(int) $record->id);
+		// Check for existing article.
+		if (!empty($record->id)) {
+			return $user->authorise('core.edit.state', 'com_content.article.'.(int) $record->id);
+		}
+		// New article, so check against the category.
+		else if (!empty($record->catid)) {
+			return $user->authorise('core.edit.state', 'com_content.category.'.(int) $record->catid);
+		}
+		// Default to component settings if neither article nor category known.
+		else {
+			return parent::canEditState($record);
+		}
 	}
 
 	/**
@@ -131,13 +142,31 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Determine correct permissions to check.
-		if ($this->getState('article.id')) {
+		if ($id = (int) $this->getState('article.id')) {
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 		}
 		else {
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
+		}
+
+		// Modify the form based on Edit State access controls.
+		if (!$this->canEditState((object) $data)) {
+			// Disable fields for display.
+			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('publish_up', 'disabled', 'true');
+			$form->setFieldAttribute('publish_down', 'disabled', 'true');
+			$form->setFieldAttribute('state', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is an article you can edit.
+			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('publish_up', 'filter', 'unset');
+			$form->setFieldAttribute('publish_down', 'filter', 'unset');
+			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
 		return $form;

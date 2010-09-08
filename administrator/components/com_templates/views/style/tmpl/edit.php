@@ -41,10 +41,8 @@ $canDo = TemplatesHelper::getActions();
 			<?php echo $this->form->getInput('client_id'); ?>
 			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
 
-			<?php if ($canDo->get('core.edit.state')) { ?>
-				<?php echo $this->form->getLabel('home'); ?>
-				<?php echo $this->form->getInput('home'); ?>
-			<?php }?>
+			<?php echo $this->form->getLabel('home'); ?>
+			<?php echo $this->form->getInput('home'); ?>
 			<div class="clr"></div>
 
 			<?php if ($this->item->id) : ?>
@@ -67,11 +65,11 @@ $canDo = TemplatesHelper::getActions();
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<?php if ($user->authorise('core.edit','com_menu') && $this->item->client_id==0):?>
-		<?php if ($canDo->get('core.edit.state')) { ?>
+		<?php if ($canDo->get('core.edit.state')) : ?>
 			<div class="width-60 fltlft">
 			<?php echo $this->loadTemplate('assignment'); ?>
 			</div>
-			<?php }?>
+			<?php endif; ?>
 		<?php endif;?>
 
 	<div class="clr"></div>

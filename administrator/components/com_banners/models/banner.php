@@ -36,9 +36,10 @@ class BannersModelBanner extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if ($record->catid) {
+		if (!empty($record->catid)) {
 			return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
-		} else {
+		}
+		else {
 			return parent::canDelete($record);
 		}
 	}
@@ -54,9 +55,12 @@ class BannersModelBanner extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if ($record->catid) {
+		// Check against the category.
+		if (!empty($record->catid)) {
 			return $user->authorise('core.edit.state', 'com_banners.category.'.(int) $record->catid);
-		} else {
+		}
+		// Default to component settings if category not known.
+		else {
 			return parent::canEditState($record);
 		}
 	}
@@ -98,6 +102,24 @@ class BannersModelBanner extends JModelAdmin
 		} else {
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
+		}
+
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data)) {
+			// Disable fields for display.
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('publish_up', 'disabled', 'true');
+			$form->setFieldAttribute('publish_down', 'disabled', 'true');
+			$form->setFieldAttribute('state', 'disabled', 'true');
+			$form->setFieldAttribute('sticky', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('publish_up', 'filter', 'unset');
+			$form->setFieldAttribute('publish_down', 'filter', 'unset');
+			$form->setFieldAttribute('state', 'filter', 'unset');
+			$form->setFieldAttribute('sticky', 'filter', 'unset');
 		}
 
 		return $form;

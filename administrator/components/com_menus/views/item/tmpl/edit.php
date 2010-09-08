@@ -16,7 +16,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHTML::_('behavior.modal');
-$canDo		= MenusHelper::getActions();
 ?>
 
 <script type="text/javascript">
@@ -45,7 +44,7 @@ $canDo		= MenusHelper::getActions();
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
 			<ul class="adminformlist">
-				
+
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
@@ -70,10 +69,9 @@ $canDo		= MenusHelper::getActions();
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>	
-						<li><?php echo $this->form->getLabel('published'); ?>
-						<?php echo $this->form->getInput('published'); ?></li>
-				<?php endif ?>
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
+
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
 

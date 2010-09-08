@@ -16,7 +16,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-$canDo		= ContentHelper::getActions();
 ?>
 
 <script type="text/javascript">
@@ -43,27 +42,21 @@ $canDo		= ContentHelper::getActions();
 		<li><?php echo $this->form->getLabel('alias'); ?>
 		<?php echo $this->form->getInput('alias'); ?></li>
 
-		<?php if ($canDo->get('core.create')) { ?>	
-			<li><?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?></li>
-		<?php }?>
-		
-		<?php if ($canDo->get('core.edit.state')) { ?>	
-			<li><?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?></li>
-		<?php }?>
-		
+		<li><?php echo $this->form->getLabel('catid'); ?>
+		<?php echo $this->form->getInput('catid'); ?></li>
+
+		<li><?php echo $this->form->getLabel('state'); ?>
+		<?php echo $this->form->getInput('state'); ?></li>
+
 		<li><?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?></li>
 
 		<li><?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?></li>
 
-		<?php if ($canDo->get('core.edit.state')) { ?>
-			<li><?php echo $this->form->getLabel('featured'); ?>
-			<?php echo $this->form->getInput('featured'); ?></li>
-		<?php }?>
-		
+		<li><?php echo $this->form->getLabel('featured'); ?>
+		<?php echo $this->form->getInput('featured'); ?></li>
+
 		<li><?php echo $this->form->getLabel('id'); ?>
 		<?php echo $this->form->getInput('id'); ?></li>
 

@@ -53,9 +53,11 @@ class ContactModelContact extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if ($record->catid) {
+		// Check against the category.
+		if (!empty($record->catid)) {
 			return $user->authorise('core.edit.state', 'com_contact.category.'.(int) $record->catid);
 		}
+		// Default to component settings if category not known.
 		else {
 			return parent::canEditState($record);
 		}
@@ -94,6 +96,20 @@ class ContactModelContact extends JModelAdmin
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
 			return false;
+		}
+
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data)) {
+			// Disable fields for display.
+			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('published', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is a record you can edit.
+			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('published', 'filter', 'unset');
 		}
 
 		return $form;

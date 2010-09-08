@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-$canDo	= BannersHelper::getActions();
 ?>
 <script type="text/javascript">
 	function submitbutton(task)
@@ -54,18 +53,16 @@ $canDo	= BannersHelper::getActions();
 
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
-				<?php if ($canDo->get('core.create')) { ?>
-					<li><?php echo $this->form->getLabel('catid'); ?>
-					<?php echo $this->form->getInput('catid'); ?></li>
-				<?php }?>	
-				
+
+				<li><?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?></li>
+
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-				
-				<?php if ($canDo->get('core.edit.state')) { ?>
-					<li><?php echo $this->form->getLabel('state'); ?>
-					<?php echo $this->form->getInput('state'); ?></li>
-				<?php }?>	
+
+				<li><?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?></li>
+
 				<li>
 				<div id="image">
 					<?php foreach($this->form->getFieldset('image') as $field): ?>

@@ -72,7 +72,13 @@ class MenusModelItem extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		return $user->authorise('core.edit.state', 'com_menus.item.'.(int) $record->id);
+		if (!empty($record->id)) {
+			return $user->authorise('core.edit.state', 'com_menus.item.'.(int) $record->id);
+		}
+		// Default to component settings if menu item not known.
+		else {
+			return parent::canEditState($record);
+		}
 	}
 
 	/**
@@ -460,6 +466,18 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
+		// Modify the form based on access controls.
+		if (!$this->canEditState((object) $data)) {
+			// Disable fields for display.
+			$form->setFieldAttribute('ordering', 'disabled', 'true');
+			$form->setFieldAttribute('published', 'disabled', 'true');
+
+			// Disable fields while saving.
+			// The controller has already verified this is an article you can edit.
+			$form->setFieldAttribute('ordering', 'filter', 'unset');
+			$form->setFieldAttribute('published', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -668,8 +686,8 @@ class MenusModelItem extends JModelAdmin
 	protected function getReorderConditions($table)
 	{
 		return 'menutype = ' . $this->_db->Quote($table->menutype);
-	}	
-	
+	}
+
 	/**
 	 * Returns a Table object, always creating it
 	 *
@@ -970,14 +988,14 @@ class MenusModelItem extends JModelAdmin
 		$cache = JFactory::getCache('com_modules');
 		$cache->clean();
 		$cache->clean('mod_menu');
-		
+
 		if (isset($data['link'])) {
 			$base = JURI::base();
 			$juri = JURI::getInstance($base.$data['link']);
 			$com = $juri->getVar('option');
 			$cache->clean($com);
 		}
-		
+
 		return true;
 	}
 

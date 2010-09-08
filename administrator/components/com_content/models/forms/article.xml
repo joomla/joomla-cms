@@ -105,7 +105,7 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="featured" type="radio"
+		<field name="featured" type="list"
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"

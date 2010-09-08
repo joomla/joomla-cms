@@ -30,9 +30,10 @@ class BannersModelClient extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if ($record->catid) {
+		if (!empty($record->catid)) {
 			return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
-		} else {
+		}
+		else {
 			return $user->authorise('core.delete', 'com_banners');
 		}
 	}
@@ -48,9 +49,10 @@ class BannersModelClient extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if ($record->catid) {
+		if (!empty($record->catid)) {
 			return $user->authorise('core.edit.state', 'com_banners.category.'.(int) $record->catid);
-		} else {
+		}
+		else {
 			return $user->authorise('core.edit.state', 'com_banners');
 		}
 	}
