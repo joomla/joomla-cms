@@ -83,10 +83,12 @@ class JFormFieldUser extends JFormField
 		// Create the user select button.
 		$html[] = '<div class="button2-left">';
 		$html[] = '  <div class="blank">';
-		$html[] = '		<a class="modal_'.$this->id.'" title="'.JText::_('JLIB_FORM_CHANGE_USER').'"' .
-							' href="'.($this->element['readonly'] ? '' : $link).'"' .
+		if ($this->element['readonly'] != 'true') {
+			$html[] = '		<a class="modal_'.$this->id.'" title="'.JText::_('JLIB_FORM_CHANGE_USER').'"' .
+							' href="'.$link.'"' .
 							' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = '			'.JText::_('JLIB_FORM_CHANGE_USER').'</a>';
+			$html[] = '			'.JText::_('JLIB_FORM_CHANGE_USER').'</a>';
+		}
 		$html[] = '  </div>';
 		$html[] = '</div>';
 
