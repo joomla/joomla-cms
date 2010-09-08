@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed issue [#22222] Newsflash inopérant (C. Tapuscrine, Omar Ramos, Bill Richardson, Michael Babker).
  # Fixed issue [#22322] Inappropriate language in code (Amy Stephen).
  # Fixed issue [#22095] Userfield shows button even when "readonly" (Thomas Hunziker, Michael Babker).
+ # Fixed issue [#22185] beez2 missing level 4 image (Klas Berlič1, Angie Radtke).
 
 07-Sep-2010 Jean-Marie Simonet
  # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.
