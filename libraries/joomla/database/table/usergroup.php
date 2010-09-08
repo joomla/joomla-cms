@@ -50,7 +50,8 @@ class JTableUsergroup extends JTable
 		$query = $db->getQuery(true)
 			->select('COUNT(title)')
 			->from($this->_tbl)
-			->where('title = '.$db->quote(trim($this->title)));
+			->where('title = '.$db->quote(trim($this->title)))
+			->where('id <> '.(int) $this->id);
 		$db->setQuery($query);
 
 		if ($db->loadResult() > 0) {
