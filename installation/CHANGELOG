@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#21447] Updated: Add ACL Create, Edit, & Edit State checks to Category Manager (Michael Babker, Elin Waring).
  # Changed default caching level to disabled on installation.
  # Fixed issue [#22171] Cannot edit a group to change parent once it is created (Jennifer Marriott, Amy Stephen).
+ # Fixed issue [#20932] com_categories CategoryParent Field Permissions Check Additions (Omar Ramos).
 
 07-Sep-2010 Jean-Marie Simonet
  # [#21666] New menu : form is empty when using the "Save" button. Thanks Michael.
