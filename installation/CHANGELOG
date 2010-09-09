@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 09-Sep-2010 Jean-Marie Simonet
-[#22319] American english spelling in en-GB language files. Thanks Bill.
+ # [#22319] American english spelling in en-GB language files. Thanks Bill.
+ # [#22320] <br> <br/> <br />. Thanks Amy and Bill.
 
 08-Sep-2010 Andrew Eddie
  # Fixed issue [#22274] Mark items as required that prevent save (Michael Babker).
