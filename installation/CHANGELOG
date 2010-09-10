@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 10-Sep-2010 Jean-Marie Simonet
-[#22334] Recent articles featured. Thanks Amy
+ # [#22334] Recent articles featured. Thanks Amy.
+ $ [#22357] Patch: Step 5 FTP - Header text too wide. Thanks Ole.
 
 09-Sep-2010 Jean-Marie Simonet
  # [#22319] American english spelling in en-GB language files. Thanks Bill.
