@@ -49,7 +49,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	
 	
 	<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
-	<div class="jcat-children">
+	<div class="cat-children">
 		<h3>
 			<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
 		</h3>

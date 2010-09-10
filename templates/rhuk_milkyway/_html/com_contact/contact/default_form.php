@@ -29,14 +29,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 	<td colspan="2">
 	<br /><br />
 	<form action="<?php echo JRoute::_( 'index.php' );?>" method="post" name="emailForm" id="emailForm" class="form-validate">
-		<div class="contact_email<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+		<div class="contact-email<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 			<label for="contact_name">
 				&#160;<?php echo JText::_( 'Enter your name' );?>:
 			</label>
 			<br />
-			<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
+			<input type="text" name="name" id="contact-name" size="30" class="inputbox" value="" />
 			<br />
-			<label id="contact_emailmsg" for="contact_email">
+			<label id="contact-emailmsg" for="contact_email">
 				&#160;<?php echo JText::_( 'Email address' );?>:
 			</label>
 			<br />
@@ -46,16 +46,16 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				&#160;<?php echo JText::_( 'COM_CONTACT_MESSAGE_SUBJECT' );?>:
 			</label>
 			<br />
-			<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
+			<input type="text" name="subject" id="contact-subject" size="30" class="inputbox" value="" />
 			<br /><br />
 			<label id="contact_textmsg" for="contact_text">
 				&#160;<?php echo JText::_( 'Enter your message' );?>:
 			</label>
 			<br />
-			<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
+			<textarea cols="50" rows="10" name="text" id="contact-text" class="inputbox required"></textarea>
 			<?php if ($this->contact->params->get( 'show_email_copy' )) : ?>
 			<br />
-				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
+				<input type="checkbox" name="email_copy" id="contact-email-copy" value="1"  />
 				<label for="contact_email_copy">
 					<?php echo JText::_( 'EMAIL_A_COPY' ); ?>
 				</label>

@@ -64,27 +64,26 @@ label.invalid { color: #ff0000; }
 }
 
 .button2-left {
-        background: url(../images_general/j_button2_left.png) no-repeat;
         float: left;
         margin-left: 5px;
 }
 
 .button2-right {
-        background: url(../images_general/j_button2_right.png) 100% 0 no-repeat;
+	
         float: left;
         margin-left: 5px;
 }
 
 .button2-left .image {
-        background: url(../images_general/j_button2_image.png) 100% 0 no-repeat;
+      
 }
 
 .button2-left .readmore {
-        background: url(../images_general/j_button2_readmore.png) 100% 0 no-repeat;
+        
 }
 
 .button2-left .pagebreak {
-        background: url(../images_general/j_button2_pagebreak.png) 100% 0 no-repeat;
+       
 }
 
 /* Tooltips */
@@ -104,7 +103,7 @@ div.tooltip h4 {
         margin-top: -15px;
         padding-top: 15px;
         padding-bottom: 5px;
-        background: url(../images_general/selector-arrow.png) no-repeat;
+      
 }
 
 div.tooltip p {
@@ -138,7 +137,6 @@ a img.calendar {
         width: 16px;
         height: 16px;
         margin-left: 3px;
-        background: url(../images_general/calendar.png) no-repeat;
         cursor: pointer;
         vertical-align: middle;
 }

@@ -71,7 +71,7 @@ address
 	font-style:normal
 }
 
-.jcontact-address address span
+.contact-address address span
 {
 	display:block
 }
@@ -373,12 +373,12 @@ ul.tabs li.tab a
   padding:10pt
 }
 
-.contact_email div
+.contact-email div
 {
 	overflow:hidden
 }
 
-.contact_email label
+.contact-email label
 {
 	border:solid 0px #000;
 	float:left;

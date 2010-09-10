@@ -28,46 +28,46 @@ JHtml::_('behavior.keepalive');
 	$document->addScriptDeclaration($script); ?>
 
 <?php if (isset($this->error)) : ?>
-	<div class="jcontact-error">
+	<div class="contact-error">
 		<?php echo $this->error; ?>
 	</div>
 <?php endif; ?>
 
-<div class="jcontact-form">
+<div class="contact-form">
 	<form action="<?php echo JRoute::_('index.php');?>" method="post" name="emailForm" id="emailForm" class="form-validate">
-		<p class="jform-required">
+		<p class="form-required">
 			<?php echo JText::_('COM_CONTACT_CONTACT_REQUIRED');?>
 		</p>
-		<div class="contact_email">
+		<div class="contact-email">
 			<div>
-				<label for="contact_name">
+				<label for="contact-formname">
 					<?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_NAME');?>
 				</label>
-				<input type="text" name="name" id="contact_name" size="30" class="inputbox" value="" />
+				<input type="text" name="name" id="contact-formname" size="30" class="inputbox" value="" />
 			</div>
 			<div>
-				<label id="contact_emailmsg" for="contact_email">
+				<label id="contact-emailmsg" for="contact-email">
 					<?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS');?>*
 				</label>
-				<input type="text" id="contact_email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
+				<input type="text" id="contact-email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			</div>
 			<div>
-				<label for="contact_subject">
+				<label for="contact-subject">
 					<?php echo JText::_('COM_CONTACT_CONTACT_MESSAGE_SUBJECT');?>:
 				</label>
-				<input type="text" name="subject" id="contact_subject" size="30" class="inputbox" value="" />
+				<input type="text" name="subject" id="contact-subject" size="30" class="inputbox" value="" />
 			</div>
 			<div>
-				<label id="contact_textmsg" for="contact_text">
+				<label id="contact-textmsg" for="contact-text">
 					<?php echo JText::_('COM_CONTACT_CONTACT_ENTER_MESSAGE');?>:
 				</label>
-				<textarea cols="50" rows="10" name="text" id="contact_text" class="inputbox required"></textarea>
+				<textarea cols="50" rows="10" name="text" id="contact-text" class="inputbox required"></textarea>
 			</div>
 
 			<?php if ($this->params->get('show_email_copy')) : ?>
 			<div>
-				<input type="checkbox" name="email_copy" id="contact_email_copy" value="1"  />
-				<label for="contact_email_copy">
+				<input type="checkbox" name="email_copy" id="contact-email-copy" value="1"  />
+				<label for="contact-email-copy">
 					<?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_A_COPY'); ?>
 				</label>
 			</div>

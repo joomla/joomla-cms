@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<dl class="search_results<?php echo $this->params->get('pageclass_sfx'); ?>">
+<dl class="search-results<?php echo $this->params->get('pageclass_sfx'); ?>">
 <?php foreach($this->results as $result) : ?>
 	<dt class="result-title">
 		<?php echo $this->pagination->limitstart + $result->count.'. ';?>
@@ -24,8 +24,7 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 	</dt>
 	<?php if ($result->section) : ?>
-		<dd class="result-category">
-			<br />
+		<dd class="result-category">		
 			<span class="small<?php echo $this->params->get('pageclass_sfx'); ?>">
 				(<?php echo $this->escape($result->section); ?>)
 			</span>

@@ -29,7 +29,8 @@ h4
 fieldset
 {
         margin:10px 0 ;
-        padding:15px 5px;
+        padding:15px 0px;
+        border:solid 1px
 }
 
 p
@@ -578,7 +579,8 @@ ul#archive-items
         padding:0
 }
 
-ul#archive-items li
+ul#archive-items li.row0,
+ul#archive-items li.row1
 {
         padding:10px 0;
         margin:10px 0;
@@ -935,7 +937,7 @@ form fieldset dd
         padding:0 5px
 }
 
-.form_limit
+.form-limit
 {
         margin:20px 0 0;
         text-align:right;
@@ -1032,33 +1034,37 @@ form .search label
 
 /* ++++++++++++++  search results  ++++++++++++++++++ */
 
-dl.search_results
+dl.search-results
 {
 
 }
 
-dl.search_results dt.result-title
+dl.search-results dt.result-title
 {
         padding:15px 15px 0px 5px;
         font-weight:bold;
 }
 
-dl.search_results dd
+dl.search-results dd
 {
         padding:2px 15px 2px 5px
 }
 
-dl.search_results dd.result-text
+dl.search-results dd.result-text
 {
         padding:10px 15px 10px 5px;
         line-height:1.7em
 }
 
-dl.search_results dd.result-created
+dl.search-results dd.result-created
 {
         padding:2px 15px 15px 5px
 }
 
+dl.search-results dd.result-category
+{
+	 padding:10px 15px 5px 5px
+}
 
 /* ########################### contacts ########################### */
 
@@ -1070,6 +1076,25 @@ dl.search_results dd.result-created
 .contact-category
 {
         padding:0 10px
+}
+
+.contact-category  #adminForm fieldset.filters
+{
+	border:0;
+	padding:0
+}
+
+.contact-image
+{
+	margin:10px 0;
+	overflow:hidden;
+}
+
+.contact-image img
+{
+/* as you like
+float:right;
+float:left */
 }
 
 address
@@ -1090,7 +1115,7 @@ span.contact-image
     display:block
 }
 
-.jcontact-address
+.contact-address
 
 {
 margin:20px 0 10px 0;
@@ -1098,13 +1123,13 @@ margin:20px 0 10px 0;
 }
 
 
-.contact_email div
+.contact-email div
 {
         padding:2px 0;
         margin:0 0 10px 0;
 }
 
-.contact_email label
+.contact-email label
 {
         width:17em;
         float:left;
@@ -1114,7 +1139,7 @@ margin:20px 0 10px 0;
 #contact_textmsg
 {padding: 2px 0 10px 0}
 
-#contact_email_copy
+#contact-email-copy
 {
         float:left;
         margin-right:10px;
@@ -1200,10 +1225,18 @@ dl#content-pane.tabs {
         padding:3px 0
 }
 
-#member-profile fieldset
+#member-profile fieldset,
+.registration fieldset
 {
         margin:10px 0 15px 0;
         padding:15px;
+}
+
+#users-profile-core legend,
+.profile-edit legend,
+.registration legend
+{
+		font-weight:bold
 }
 
 /*#################### tables ############################ */
@@ -1289,10 +1322,6 @@ table.category th a img
 }
 .filter-search .inputbox
 {width:6em}
-
-fieldset.filters
-{
-}
 
 legend.element-invisible
 {
@@ -1435,7 +1464,7 @@ form#adminForm
 
 }
 
-form#adminForm fieldset
+.edit form#adminForm fieldset
 {
         padding:20px 15px;
         margin:10px 0 15px 0;
@@ -1454,19 +1483,19 @@ form#adminForm fieldset
         vertical-align:top;
 }
 
-form#adminForm .formelm_area
+form#adminForm .formelm-area
 {
         padding:5px 0
 }
 
-form#adminForm .formelm_area label
+form#adminForm .formelm-area label
 {
         vertical-align:top;
         display:inline-block;
         width:7.9em
 }
 
-.formelm_buttons
+.formelm-buttons
 {
         text-align:right;
         margin-bottom:10px
@@ -1628,7 +1657,6 @@ dl.weblink-count dt,
 dl.weblink-count dd
 {
         display:inline;
-        font-size:0.85em
 }
 
 /* ++++++++++++++  login  ++++++++++++++ */
@@ -1908,43 +1936,55 @@ a.mod-articles-category-title
 /* ###########  Categories list ############ */
 #main .categories-listalphabet ul
 {
-padding:0;
-margin:20px 10px 10px 0;
-list-style-type:none;
-list-style-position:inside
+	padding:0;
+	margin:20px 10px 10px 0;
+	list-style-type:none;
+	list-style-position:inside
  }
 #main .categories-listalphabet ul li
 {
-display :inline;
-padding:5px;
-border-right:solid 1px #ddd
+	display :inline;
+	padding:5px;
+	border-right:solid 1px #ddd
 }
 
 
 #main .categories-list ul
-{list-style-type:none;
-margin:0}
+{
+	list-style-type:none;
+	margin:0
+}
 
 #main .cat-children
-{ padding-left:5px
+{ 
+	padding-left:5px
 }
 #main .cat-children ul dl dt,
-#main .cat-children ul dl dd
+#main .cat-children ul dl dd,
+#main dl.article-count dt,
+#main dl.article-count dd
 
 { display:inline}
 
 #main .cat-children ul
-{list-style-type:none;
- margin:0;
- padding:0;
+{
+	list-style-type:none;
+	margin:0;
+	padding:0;
 }
  #main .cat-children ul
- {margin:20px 20px 20px 0;}
-  #main .cat-children ul ul
-  {margin:20px}
+{
+	margin:20px 20px 20px 0;
+}
+#main .cat-children ul ul
+{
+	margin:20px
+}
 
-  #main .cat-children ul li
-  {margin:10px 0 10px 0}
+#main .cat-children ul li
+{
+	margin:10px 0 10px 0
+}
 
 
 
@@ -1952,15 +1992,21 @@ margin:0}
   /* mod stats  */
 
 
-    .stats-module dl
-    {margin:10px 0 10px 0}
-    .stats-module dt
-    {float:left;
-    margin:0 10px 0 0;
-    font-weight: bold;
-    }
-      .stats-module dt,   .stats-module dd
-      {padding:2px 0 2px 0 }
+.stats-module dl
+{
+	margin:10px 0 10px 0
+}
+.stats-module dt
+{
+	float:left;
+	margin:0 10px 0 0;
+	font-weight: bold;
+}
+.stats-module dt,
+.stats-module dd
+{
+	padding:2px 0 2px 0 
+}
 /* syndicate */
 
 a.feed-link

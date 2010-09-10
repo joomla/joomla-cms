@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (JPluginHelper::isEnabled('user', 'profile')) : ?>
-<div class="jcontact-profile">
+<div class="contact-profile">
 	<ol>
 	<?php foreach ($this->contact->profile as $profile) :
 		if ($profile->profile_value) :

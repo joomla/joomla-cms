@@ -671,11 +671,18 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visi
 	border:solid 0;
 }
 
-ul#archive-items li
+ul#archive-items li.row0,
+ul#archive-items li.row1
 {
-	border-bottom:solid 1px #ddd
+	border-bottom:solid 1px #ddd 
 }
 
+.archive #adminForm fieldset
+{
+	border:0;
+	padding:0;
+	margin:20px 0
+}
 /* ++++++++++++++  images  ++++++++++++++ */
 
 .image-left
@@ -1128,12 +1135,12 @@ dl.search-results
 	background:#f5f5f5;
 }
 
-dl.search_results dt.result-title
+dl.search-results dt.result-title
 {
 	border-top:dotted 1px #ddd
 }
 
-dl.search_results dd.result-created
+dl.search-results dd.result-created
 {
 	border-bottom:solid 5px #fff;
 }
@@ -1361,11 +1368,14 @@ form#adminForm
 	border:solid 0px #000
 }
 
-form#adminForm fieldset
+.edit form#adminForm fieldset
 {
 	border:solid 1px #ddd
 }
-
+.edit form#adminForm  legend
+{
+	font-weight:bold
+}
 /* ++++++++++++++  tooltip  ++++++++++++++ */
 .tip
 {
@@ -1382,11 +1392,19 @@ table.pagenav tr,
 table.pagenav td
 {border:0 !important}
 
-.cat-children ul ul
-{list-style-type:disc !important;
+.cat-children ul ul,  
+.categories-list ul ul
+{
+	list-style-type:none; 
 
 }
 
+.cat-children ul ul ul,
+.categories-list ul ul ul
+{
+	list-style-type:circle !important; 
+
+}
 
 
 /* contact  plain */
@@ -1396,7 +1414,7 @@ table.pagenav td
 	margin: 20px 0
 }
 
-.jform-required
+.form-required
 {
 	font-weight:bold;
 	margin:10px 0;
@@ -1454,14 +1472,14 @@ table.pagenav td
 	background: url(../images/nav_level_1.gif) repeat-x ;
 }
 
-.panel .jcontact-form,
+.panel .contact-form,
 .panel  .contact-miscinfo
 {
 	padding:10px
 }
 
-.contact .panel .jcontact-form form,
-.contact .panel .jcontact-address
+.contact .panel .contact-form form,
+.contact .panel .contact-address
 {
 	margin:20px 0 0 0
 }

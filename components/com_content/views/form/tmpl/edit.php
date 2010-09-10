@@ -53,7 +53,7 @@ $params = $this->state->get('params');
 			</div>
 		<?php endif; ?>
 
-			<div class="formelm_buttons">
+			<div class="formelm-buttons">
 			<button type="button" onclick="submitbutton('article.save')">
 				<?php echo JText::_('JSAVE') ?>
 			</button>
@@ -112,7 +112,7 @@ $params = $this->state->get('params');
 
 	<fieldset>
 		<legend><?php echo JText::_('JFIELD_LANGUAGE_LABEL'); ?></legend>
-		<div class="formelm_area">
+		<div class="formelm-area">
 		<?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?>
 		</div>
@@ -120,11 +120,11 @@ $params = $this->state->get('params');
 
 	<fieldset>
 		<legend><?php echo JText::_('COM_CONTENT_METADATA'); ?></legend>
-		<div class="formelm_area">
+		<div class="formelm-area">
 		<?php echo $this->form->getLabel('metadesc'); ?>
 		<?php echo $this->form->getInput('metadesc'); ?>
 		</div>
-		<div class="formelm_area">
+		<div class="formelm-area">
 		<?php echo $this->form->getLabel('metakey'); ?>
 		<?php echo $this->form->getInput('metakey'); ?>
 		</div>

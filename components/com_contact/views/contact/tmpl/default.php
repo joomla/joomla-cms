@@ -48,9 +48,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 		<?php  echo '<h3>'. JText::_('COM_CONTACT_DETAILS').'</h3>';  ?>
 	<?php endif; ?>	
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
-		<span class="contact-image">
+		<div class="contact-image">
 			<?php echo JHTML::_('image',$this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
-		</span>
+		</div>
 	<?php endif; ?> 	
 
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>

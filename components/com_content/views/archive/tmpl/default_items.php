@@ -118,7 +118,7 @@ $params = &$this->params;
 	</li>
 <?php endforeach; ?>
 </ul>
-<div id="navigation">
+<div id="pagination">
 	<span><?php echo $this->pagination->getPagesLinks(); ?></span>
 	<span><?php echo $this->pagination->getPagesCounter(); ?></span>
 </div>

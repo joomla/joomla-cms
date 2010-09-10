@@ -14,10 +14,10 @@ defined('_JEXEC') or die;
 <form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post" name="searchForm">
 
 	<fieldset class="word">
-		<label for="search_searchword">
+		<label for="search-searchword">
 			<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>
 		</label>
-		<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
+		<input type="text" name="searchword" id="search-searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
 		<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_('COM_SEARCH_SEARCH');?></button>
 	</fieldset>
 
@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
 
 <?php if ($this->total > 0) : ?>
 
-	<div class="form_limit">
+	<div class="form-limit">
 		<label for="limit">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
 		</label>

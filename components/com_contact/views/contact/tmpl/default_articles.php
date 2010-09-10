@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
-<div class="jcontact-articles">
+<div class="contact-articles">
 
 	<ol>
 		<?php foreach ($this->item->articles as $article) :	?>

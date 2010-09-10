@@ -29,7 +29,7 @@ $params = $this->state->get('params');
 		}
 	}
 </script>
-<div class="<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
+<div class="edit<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 <?php if ($this->params->def('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -65,8 +65,8 @@ $params = $this->state->get('params');
 			<?php echo $this->form->getInput('description'); ?>
 			</div>
 	</fieldset>
-	<fieldset>
-		<div class="formelm_buttons">
+
+		<div class="formelm-buttons">
 		<button type="button" onclick="submitbutton('weblink.save')">
 			<?php echo JText::_('JSAVE') ?>
 		</button>
@@ -76,6 +76,6 @@ $params = $this->state->get('params');
 		<input type="hidden" name="task" value="" />
 		<?php echo JHTML::_( 'form.token' ); ?>
 		</div>
-	</fieldset>
+
 </form>
 </div>

@@ -130,15 +130,15 @@ $canEdit = $this->user->authorise('core.edit', 'com_content.frontpage.'.$this->i
 		$link->setVar('return', base64_encode($returnURL));
 	endif;
 ?>
-		<p class="readmore">
+			<p class="readmore">
 				<a href="<?php echo $link; ?>">
-						<?php if (!$params->get('access-view')) :
-								echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-						elseif ($readmore = $params->get('alternative_readmore')) :
-								echo $readmore;
-						else :
-								echo JText::sprintf('COM_CONTENT_READ_MORE', $this->escape($this->item->title));
-						endif; ?></a>
+					<?php if (!$params->get('access-view')) :
+						echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
+					elseif ($readmore = $this->item->alternative_readmore) :
+						echo $readmore;
+					else :
+						echo JText::sprintf('COM_CONTENT_READ_MORE', $this->escape($this->item->title));
+					endif; ?></a>
 		</p>
 <?php endif; ?>
 

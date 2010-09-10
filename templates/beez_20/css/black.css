@@ -786,11 +786,11 @@ dl.search-results {
 	background: #f5f5f5;
 }
 
-dl.search_results dt.result-title {
+dl.search-results dt.result-title {
 	border-top: dotted 1px #ddd
 }
 
-dl.search_results dd.result-created {
+dl.search-results dd.result-created {
 	border-bottom: solid 5px #fff;
 }
 

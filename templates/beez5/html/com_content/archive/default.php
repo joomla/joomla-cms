@@ -20,21 +20,15 @@ if (!$templateparams->get('html5', 0))
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 $pageClass = $this->params->get('pageclass_sfx');
-?>
-<div class="archive<?php echo $pageClass;?>">
-	<?php if ($this->params->get('show_page_title', 1)) : ?>
-	<h1>
-		<?php if ($this->escape($this->params->get('page_heading'))) :?>
-			<?php echo $this->escape($this->params->get('page_heading')); ?>
-		<?php else : ?>
-			<?php echo $this->escape($this->params->get('page_title')); ?>
-		<?php endif; ?>
-	</h1>
-	<?php endif; ?>
-
-<form id="jForm" action="<?php JRoute::_('index.php')?>" method="post">
+?><div class="archive<?php echo $pageClass;?>">
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
+<h1>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
+</h1>
+<?php endif; ?>
+<form id="adminForm" action="<?php JRoute::_('index.php')?>" method="post">
 	<fieldset class="filters">
-	<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
+	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') != 'hide') : ?>
 		<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
@@ -48,6 +42,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	</div>
 	<input type="hidden" name="view" value="archive" />
 	<input type="hidden" name="option" value="com_content" />
+	<input type="hidden" name="limitstart" value="0" />
 	</fieldset>
 
 	<?php echo $this->loadTemplate('items'); ?>

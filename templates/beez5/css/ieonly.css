@@ -150,3 +150,8 @@ ul.tabs
 .panel,
 div.current
 {zoom:1}
+
+.contact-image
+{
+	display:inline-bock
+}

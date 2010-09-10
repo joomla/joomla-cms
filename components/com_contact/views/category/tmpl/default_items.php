@@ -20,16 +20,16 @@ $listDirn	= $this->state->get('list.direction');
 <?php else : ?>
 
 <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+<?php if ($this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters">
 	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
-	<?php if ($this->params->get('show_pagination_limit')) : ?>
+	
 		<div class="display-limit">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
-	<?php endif; ?>
 	</fieldset>
-
+<?php endif; ?>
 	<table class="category">
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
