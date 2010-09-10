@@ -132,7 +132,7 @@ $canEdit = $this->user->authorise('core.edit', 'com_content.category.' . $this->
 		<p class="readmore">
 				<a href="<?php echo $link; ?>">
 					<?php if (!$params->get('access-view')) :
-						echo JText::_('REGISTER_TO_READ_MORE');
+						echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
 					elseif ($readmore = $this->item->alternative_readmore) :
 						echo $readmore;
 					else :
