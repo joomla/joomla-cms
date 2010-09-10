@@ -29,6 +29,15 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+			<field
+					name="catid"
+					type="category"
+					extension="com_content"
+					multiple="true"
+					size="10"
+					label="JCATEGORY"
+					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
+
 				<field
 					name="count"
 					type="text"
@@ -39,13 +48,15 @@
 				<field
 					name="ordering"
 					type="list"
-					default="create_dsc"
+					default="published"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC">
 					<option
 						value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 					<option
 						value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
+					<option
+						value="p_dsc">MOD_LATEST_NEWS_VALUE_RECENT_PUBLISHED</option>
 					<option
 						value="mc_dsc">MOD_LATEST_NEWS_VALUE_RECENT_TOUCHED</option>
 				</field>
@@ -65,29 +76,24 @@
 				</field>
 
 				<field
-					name="show_front"
-					type="radio"
-					default="1"
+					name="show_featured"
+					type="list"
+					default=""
 					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC">
 					<option
-						value="1">JSHOW</option>
+						value="">JSHOW</option>
 					<option
 						value="0">JHIDE</option>
+					<option
+						value="1">MOD_LATEST_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
 				</field>
 
-				<field
-					name="catid"
-					type="category"
-					extension="com_content"
-					multiple="true"
-					size="10"
-					label="JCATEGORY"
-					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
 			</fieldset>
 
 			<fieldset
 				name="advanced">
+				
 				<field
 					name="layout"
 					type="modulelayout"

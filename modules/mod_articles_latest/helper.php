@@ -60,14 +60,28 @@ abstract class modArticlesLatestHelper
 				break;
 		}
 
+		//  Featured switch
+		switch ($params->get('show_featured'))
+		{
+			case 1:
+				$model->setState('filter.featured', 'only');
+				break;
+			case 0:
+				$model->setState('filter.featured', 'hide');
+				break;
+			default:
+				$model->setState('filter.featured', 'show');
+				break;
+		}
+
 		// Set ordering
 		$order_map = array(
 			'm_dsc' => 'a.modified DESC, a.created',
 			'mc_dsc' => 'CASE WHEN (a.modified = '.$db->quote($db->getNullDate()).') THEN a.created ELSE a.modified END',
-			'c_dsc' => 'a.created'
+			'c_dsc' => 'a.created',
+			'p_dsc' => 'a.publish_up',
 		);
-
-		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.created');
+		$ordering = JArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
 		$dir = 'DESC';
 
 		$model->setState('list.ordering', $ordering);
