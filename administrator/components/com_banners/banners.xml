@@ -35,13 +35,13 @@
 			-->
 			<menu link="index.php?option=com_banners" view="banners" img="class:banners"
 				alt="Banners/Banners">Banners</menu>
+			<menu link="index.php?option=com_categories&amp;extension=com_banners"
+				view="categories" img="class:banners-cat" alt="Banners/Categories">Categories
+			</menu>
 			<menu link="index.php?option=com_banners&amp;view=clients" view="clients"
 				img="class:banners-clients" alt="Banners/Clients">Clients</menu>
 			<menu link="index.php?option=com_banners&amp;view=tracks" view="tracks"
 				img="class:banners-tracks" alt="Banners/Tracks">Tracks</menu>
-			<menu link="index.php?option=com_categories&amp;extension=com_banners"
-				view="categories" img="class:banners-cat" alt="Banners/Categories">Categories
-			</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>

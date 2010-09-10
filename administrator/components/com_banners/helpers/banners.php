@@ -27,12 +27,7 @@ class BannersHelper
 			'index.php?option=com_banners&view=banners',
 			$vName == 'banners'
 		);
-		JSubMenuHelper::addEntry(
-			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
-			'index.php?option=com_banners&view=clients',
-			$vName == 'clients'
-		);
-
+		
 		JSubMenuHelper::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_banners',
@@ -43,6 +38,13 @@ class BannersHelper
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_banners')),
 				'banners-categories');
 		}
+
+		JSubMenuHelper::addEntry(
+			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
+			'index.php?option=com_banners&view=clients',
+			$vName == 'clients'
+		);
+
 		JSubMenuHelper::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_TRACKS'),
 			'index.php?option=com_banners&view=tracks',
