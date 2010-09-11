@@ -53,9 +53,9 @@ class JDocumentRendererMessage extends JDocumentRenderer
 			{
 				if (count($msgs))
 				{
-					if ( ($type == 'notice') || ($type == 'warning') || ($type == 'error') ) {
+					if ( ($type == 'message') || ($type == 'notice') || ($type == 'warning') || ($type == 'error') ) {
 					} else {
-						$type = 'notice';
+						$type = 'message';
 					}									
 					$buffer .= "\n<dt class=\"".strtolower($type)."\">".JText::_($type)."</dt>";
 					$buffer .= "\n<dd class=\"".strtolower($type)." message fade\">";
