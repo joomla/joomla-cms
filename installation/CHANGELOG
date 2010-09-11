@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#22301] Adding new group has a notice message, not a normal message
  # [#22352] Module cache calls - PHP 5.3.x warnings
  # [#22376] Undefined $canEdit in Hathor Categories view
+ # [#22375] Use uncompressed version of calendar.js when debug is turned on
 
 10-Sep-2010 Jean-Marie Simonet
  # [#22334] Recent articles featured. Thanks Amy.

@@ -505,11 +505,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function calendar()
 	{
-		$document = JFactory::getDocument();
-		$tag = JFactory::getLanguage()->getTag();
+		$document		= JFactory::getDocument();
+		$tag			= JFactory::getLanguage()->getTag();
+		//Add uncompressed versions when debug is enabled
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('stylesheet','system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') ,' media' => 'all'), true);
-		JHtml::_('script',$tag.'/calendar.js', false, true);
-		JHtml::_('script',$tag.'/calendar-setup.js', false, true);
+		JHtml::_('script',$tag.'/calendar'.$uncompressed.'.js', false, true);
+		JHtml::_('script',$tag.'/calendar-setup'.$uncompressed.'.js', false, true);
 
 		$translation = JHtmlBehavior::_calendartranslation();
 		if ($translation) {
