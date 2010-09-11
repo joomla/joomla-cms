@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 11-Sep-2010 Jean-Marie Simonet
- [#22383] Patch: Language file corrections, minor typos. Thanks Ole.
+ $ [#22383] Patch: Language file corrections, minor typos. Thanks Ole.
+ ^ Correcting double semi-colons in css files
  
 10-Sep-2010 Ian MacLennan
  # [#22086] Inconsistency with files installer return type

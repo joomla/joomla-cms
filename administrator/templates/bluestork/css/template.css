@@ -863,7 +863,7 @@ fieldset.adminform ul.checklist li label {
 
 input.readonly {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1.091em;;
+	font-size: 1.091em;
 	padding-top: 1px;
 	border: 0;
 	font-weight: bold;
@@ -873,7 +873,7 @@ input.readonly {
 #jform_id,
 span.readonly {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 1.091em;;
+	font-size: 1.091em;
 	margin:5px 5px 5px 0;
 	font-weight: bold;
 	float: left;

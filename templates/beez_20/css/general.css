@@ -167,7 +167,7 @@ a img.calendar {
 }
 
 #system-message dt { font-weight: bold; }
-#system-message dd { margin: 0;  font-weight: bold; text-indent: 0px;;padding:0 }
+#system-message dd { margin: 0;  font-weight: bold; text-indent: 0px;padding:0 }
 #system-message dd ul { color: #000; margin: 10px 0; list-style: none; padding: 0px; }
 #system-message dd ul li{ line-height:1.5em }
 
@@ -179,7 +179,7 @@ a img.calendar {
 /* System Error Messages */
 #system-message dt.error { display: none; }
 #system-message dd.error {  }
-#system-message dd.error ul { color: #000;;margin:0}
+#system-message dd.error ul { color: #000;margin:0}
 
 /* System Notice Messages */
 #system-message dt.notice { display: none; }
