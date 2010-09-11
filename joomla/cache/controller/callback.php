@@ -111,13 +111,16 @@ class JCacheControllerCallback extends JCacheController
 		} else {
 
 			if (!is_array($args)) {
-				$args = (array) $args;
+				$Args = !empty($args) ? array( &$args) : array();
+			} else {
+				 $Args = &$args;				
 			}
+			
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id);
 			ob_start();
 			ob_implicit_flush(false);
 
-			$result = call_user_func_array($callback, $args);
+			$result = call_user_func_array($callback, $Args);
 			$output = ob_get_contents();
 
 			ob_end_clean();
