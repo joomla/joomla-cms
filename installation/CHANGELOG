@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sep-2010 Ian MacLennan
+ # [#22086] Inconsistency with files installer return type
+
 10-Sep-2010 Jean-Marie Simonet
  # [#22334] Recent articles featured. Thanks Amy.
  $ [#22357] Patch: Step 5 FTP - Header text too wide. Thanks Ole.
