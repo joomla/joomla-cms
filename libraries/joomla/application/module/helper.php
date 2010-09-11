@@ -374,10 +374,6 @@ abstract class JModuleHelper
 			$cacheparams->cachegroup = $module->module;
 		}
 
-		if (!is_array($cacheparams->methodparams)) {
-			$cacheparams->methodparams = array($cacheparams->methodparams);
-		}
-
 		$user = JFactory::getUser();
 		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 		$conf = JFactory::getConfig();
