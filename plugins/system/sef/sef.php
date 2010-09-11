@@ -34,10 +34,10 @@ class plgSystemSef extends JPlugin
 		$base	= JURI::base(true).'/';
 		$buffer = JResponse::getBody();
 
-			$regex  = '#href="index.php\?([^"]*)#m';
+		$regex  = '#href="index.php\?([^"]*)#m';
 		$buffer = preg_replace_callback($regex, array('plgSystemSEF', 'route'), $buffer);
 
-			$protocols	= '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
+		$protocols	= '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :
 		$regex		= '#(src|href)="(?!/|'.$protocols.'|\#|\')([^"]*)"#m';
 		$buffer		= preg_replace($regex, "$1=\"$base\$2\"", $buffer);
 		$regex		= '#(onclick="window.open\(\')(?!/|'.$protocols.'|\#)([^/]+[^\']*?\')#m';
