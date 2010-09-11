@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#22376] Undefined $canEdit in Hathor Categories view
  # [#22375] Use uncompressed version of calendar.js when debug is turned on
  # [#21133] Voting Plugin - missing token and needs parameters and logic in Views
+ # [#21965] Ordering values not set properly with creation of new article
 
 10-Sep-2010 Jean-Marie Simonet
  # [#22334] Recent articles featured. Thanks Amy.
