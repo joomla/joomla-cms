@@ -144,6 +144,10 @@ class ContentModelArticles extends JModelList
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
+		// Join on voting table
+		$query->select('ROUND( v.rating_sum / v.rating_count ) AS rating, v.rating_count as rating_count');
+		$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
 			$user	= JFactory::getUser();

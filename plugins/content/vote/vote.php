@@ -19,53 +19,58 @@ jimport('joomla.plugin.plugin');
 class plgContentVote extends JPlugin
 {
 	/**
-	 * @since	1.6
-	 */
+	* @since	1.6
+	*/
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
-		$uri = JFactory::getURI();
-
-		$id = $row->id;
 		$html = '';
 
-		if (isset($row->rating_count) && $params->get('show_vote') && !$params->get('popup'))
+		if ($params->get('show_vote'))
 		{
-			$html .= '<form method="post" action="' . $uri . '">';
+			$rating = intval(@$row->rating);
+			$rating_count = intval(@$row->rating_count);
+
+			$view = JRequest::getString('view', '');
 			$img = '';
 
-			// Look for images in template if available.
+			// look for images in template if available
 			$starImageOn = JHTML::_('image','system/rating_star.png', NULL, NULL, true);
 			$starImageOff = JHTML::_('image','system/rating_star_blank.png', NULL, NULL, true);
-			for ($i=0; $i < $row->rating; $i++) {
+
+			for ($i=0; $i < $rating; $i++) {
 				$img .= $starImageOn;
 			}
-			for ($i=$row->rating; $i < 5; $i++) {
+			for ($i=$rating; $i < 5; $i++) {
 				$img .= $starImageOff;
 			}
 			$html .= '<span class="content_rating">';
-			$html .= JText::_('PLG_VOTE_USER_RATING') .':'. $img .'&#160;/&#160;';
-			$html .= intval($row->rating_count);
+			$html .= JText::_( 'PLG_VOTE_USER_RATING' ) .':'. $img .'&nbsp;/&nbsp;';
+			$html .= $rating_count;
 			$html .= "</span>\n<br />\n";
 
-			if (!$params->get('intro_only'))
+			if ( $view == 'article' && $row->state == 1)
 			{
+				$uri = &JFactory::getURI();
+				$uri->setQuery($uri->getQuery().'&hitcount=0');
+
+				$html .= '<form method="post" action="' . $uri->toString() . '">';
 				$html .= '<span class="content_vote">';
-				$html .= JText::_('PLG_VOTE_POOR');
+				$html .= JText::_( 'PLG_VOTE_POOR' );
 				$html .= '<input type="radio" alt="vote 1 star" name="user_rating" value="1" />';
 				$html .= '<input type="radio" alt="vote 2 star" name="user_rating" value="2" />';
 				$html .= '<input type="radio" alt="vote 3 star" name="user_rating" value="3" />';
 				$html .= '<input type="radio" alt="vote 4 star" name="user_rating" value="4" />';
 				$html .= '<input type="radio" alt="vote 5 star" name="user_rating" value="5" checked="checked" />';
-				$html .= JText::_('PLG_VOTE_BEST');
-				$html .= '&#160;<input class="button" type="submit" name="submit_vote" value="'. JText::_('PLG_VOTE_RATE') .'" />';
+				$html .= JText::_( 'PLG_VOTE_BEST' );
+				$html .= '&nbsp;<input class="button" type="submit" name="submit_vote" value="'. JText::_( 'PLG_VOTE_RATE' ) .'" />';
 				$html .= '<input type="hidden" name="task" value="vote" />';
-				$html .= '<input type="hidden" name="option" value="com_content" />';
-				$html .= '<input type="hidden" name="cid" value="'. $id .'" />';
-				$html .= '<input type="hidden" name="url" value="'.  $uri .'" />';
+				$html .= '<input type="hidden" name="hitcount" value="0" />';
+				$html .= '<input type="hidden" name="url" value="'.  $uri->toString() .'" />';
 				$html .= '</span>';
+				$html .= '</form>';
 			}
-			$html .= '</form>';
 		}
+
 		return $html;
 	}
 }

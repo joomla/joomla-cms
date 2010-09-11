@@ -168,6 +168,17 @@
 		</field>
 
 		<field
+			name="show_vote"
+			type="radio"
+			label="JGLOBAL_SHOW_VOTE_LABEL"
+			description="JGLOBAL_SHOW_VOTE_DESC"
+			default="0">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		<field
 			name="show_readmore"
 			type="radio"
 			label="JGLOBAL_SHOW_READMORE_LABEL"

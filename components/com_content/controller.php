@@ -63,9 +63,28 @@ class ContentController extends JController
 		$safeurlparams = array('catid'=>'INT','id'=>'INT','cid'=>'ARRAY','year'=>'INT','month'=>'INT','limit'=>'INT','limitstart'=>'INT',
 			'showall'=>'INT','return'=>'BASE64','filter'=>'STRING','filter_order'=>'CMD','filter_order_Dir'=>'CMD','filter-search'=>'STRING','print'=>'BOOLEAN','lang'=>'CMD');
 
-		parent::display($cachable,$safeurlparams);
+		parent::display($cachable, $safeurlparams);
 
 		return $this;
+	}
+
+
+	function vote() {
+		$user_rating = JRequest::getInt('user_rating', -1);
+
+		if ( $user_rating > -1 )
+		{
+			$url = JRequest::getString('url', '');
+			$id = JRequest::getInt('id', 0);
+			$viewName = JRequest::getString('view', $this->default_view);
+			$model = $this->getModel($viewName);
+
+			if ($model->storeVote($id, $user_rating)) {
+				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
+			} else {
+				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
+			}
+		}
 	}
 
 }
