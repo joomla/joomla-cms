@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 12-Sep-2010 Sam Moffatt
+ # [#22381] Sample missing banner white.png
  - Removed OpenID support
 
 11-Sep-2010 Jean-Marie Simonet
