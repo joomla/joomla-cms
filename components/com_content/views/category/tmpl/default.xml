@@ -76,12 +76,19 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
+			<field name="show_no_articles" type="list"
+				label="COM_CONTENT_NO_ARTICLES_LABEL"
+				description="COM_CONTENT_NO_ARTICLES_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="show_subcat_desc" type="list"
-			
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -91,7 +98,7 @@
 			<field name="show_cat_num_articles" type="list"
 				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
 				description="COM_CONTENT_NUMBER_CATEGORY_ITEMS_DESC"
-				>
+			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -104,6 +111,7 @@
 			/>
 			
 </fieldset>
+
 <fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 
 			<field name="show_pagination_limit" type="list"
@@ -180,7 +188,7 @@
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 			
-			<field name="show_pagination_results" type="list"						
+			<field name="show_pagination_results" type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
 			

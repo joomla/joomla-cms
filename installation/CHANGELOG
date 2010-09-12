@@ -30,6 +30,7 @@ $ -> Language fix or change
 12-Sep-2010 Jean-Marie Simonet
  # [#21762] Menu module displaying levels incorrectly. Thanks Bill.
  $ Updated xx-XX.ini admin.
+ # [#21295] No articles in this category below of sub-category list. Thanks Bill.
  
 12-Sep-2010 Sam Moffatt
  # [#22381] Sample missing banner white.png

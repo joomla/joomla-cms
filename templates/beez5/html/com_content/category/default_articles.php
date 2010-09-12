@@ -30,7 +30,9 @@ $listDirn	= $this->state->get('list.direction');
 
 <?php if (empty($this->items)) : ?>
 
-<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+	<?php if ($this->params->get('show_no_articles',1)) : ?>
+		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+	<?php endif; ?>
 
 <?php else : ?>
 

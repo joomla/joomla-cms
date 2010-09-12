@@ -302,7 +302,7 @@
 				<option value="4">J4</option>
 				<option value="5">J5</option>				
 		</field>
-			
+
 		<field name="show_empty_categories" type="radio"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_CONTENT_SHOW_EMPTY_CATEGORIES_DESC"
@@ -310,8 +310,17 @@
 			>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>
-			
+		</field>
+
+		<field name="show_no_articles" type="radio"
+				label="COM_CONTENT_NO_ARTICLES_LABEL"
+				description="COM_CONTENT_NO_ARTICLES_DESC"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
 		<field name="show_subcat_desc" type="radio"
 			
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -329,8 +338,7 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>		
-	
+		</field>	
 	</fieldset>
 	
 	<fieldset name="categories"

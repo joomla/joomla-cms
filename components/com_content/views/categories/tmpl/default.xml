@@ -159,12 +159,20 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
-			<field name="show_subcat_desc" type="list"
-			
+
+			<field name="show_no_articles" type="list"
+				label="COM_CONTENT_NO_ARTICLES_LABEL"
+				description="COM_CONTENT_NO_ARTICLES_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_subcat_desc" 
+			type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -185,9 +193,6 @@
 				<field name="subslider" type="spacer"
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
-
-
-
 
 			<field name="num_leading_articles" type="text"
 				default="1"
