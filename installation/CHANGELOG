@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Sep-2010 Jean-Marie Simonet
+ # [#21762] Menu module displaying levels incorrectly. Thanks Bill.
+ $ Updated xx-XX.ini admin.
+ 
 12-Sep-2010 Sam Moffatt
  # [#22381] Sample missing banner white.png
  - Removed OpenID support

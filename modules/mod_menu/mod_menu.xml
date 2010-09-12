@@ -31,19 +31,42 @@
 					description="MOD_MENU_FIELD_MENUTYPE_DESC" />
 				<field
 					name="startLevel"
-					type="text"
-					default="0"
-					size="5"
+					type="list"
+					default="1"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
-					description="MOD_MENU_FIELD_STARTLEVEL_DESC" />
+					description="MOD_MENU_FIELD_STARTLEVEL_DESC" 
+				>
+					<option value="1">J1</option>
+					<option value="2">J2</option>
+					<option value="3">J3</option>
+					<option value="4">J4</option>
+					<option value="5">J5</option>
+					<option value="6">J6</option>
+					<option value="7">J7</option>
+					<option value="8">J8</option>
+					<option value="9">J9</option>
+					<option value="10">J10</option>
+				</field>
 
 				<field
 					name="endLevel"
-					type="text"
+					type="list"
 					default="0"
-					size="5"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
-					description="MOD_MENU_FIELD_ENDLEVEL_DESC" />
+					description="MOD_MENU_FIELD_ENDLEVEL_DESC" 
+					>
+					<option value="0">JALL</option>
+					<option value="1">J1</option>
+					<option value="2">J2</option>
+					<option value="3">J3</option>
+					<option value="4">J4</option>
+					<option value="5">J5</option>
+					<option value="6">J6</option>
+					<option value="7">J7</option>
+					<option value="8">J8</option>
+					<option value="9">J9</option>
+					<option value="10">J10</option>
+				</field>
 
 				<field
 					name="showAllChildren"
@@ -90,7 +113,7 @@
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-								<field
+				<field
 					name="cache"
 					type="list"
 					default="1"
