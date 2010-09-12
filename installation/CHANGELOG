@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Sep-2010 Sam Moffatt
+ - Removed OpenID support
+
 11-Sep-2010 Jean-Marie Simonet
  $ [#22383] Patch: Language file corrections, minor typos. Thanks Ole.
  ^ Correcting double semi-colons in css files
