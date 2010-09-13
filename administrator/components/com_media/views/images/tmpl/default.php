@@ -91,6 +91,6 @@ echo $params->get('image_path', 'images');?>/';
 		<ul class="upload-queue" id="upload-queue">
 			<li style="display: none" />
 		</ul>
-		<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&e_name='.JRequest::getCmd('e_name')); ?>" />
+		<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid='.JRequest::getCmd('fieldid', '').'&e_name='.JRequest::getCmd('e_name')); ?>" />
 	</fieldset>
 </form>
