@@ -27,10 +27,9 @@ $params = &$this->params;
 		<?php endif; ?>
 		</h2>
 
-
 <?php if (($params->get('show_author')) or ($params->get('show_parent_category')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) : ?>
- <dl class="article-info">
- <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
+<dl class="article-info">
+<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
 <?php if ($params->get('show_parent_category')) : ?>
 		<dd class="parent-category-name">
@@ -83,13 +82,13 @@ $params = &$this->params;
 		</dd>
 <?php endif; ?>
 <?php if (($params->get('show_author')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) :?>
-	 </dl>
+	</dl>
 <?php endif; ?>
 
-<?php  if ($params->get('show_intro')) :?>
-		<div class="intro">
-			<?php echo JHTML::_('string.truncate', $item->introtext, $params->get('introtext_limit')); ?>
-		</div>
+<?php if ($params->get('show_intro')) :?>
+	<div class="intro">
+		<?php echo JHTML::_('string.truncate', $item->introtext, $params->get('introtext_limit')); ?>
+	</div>
 <?php if ($params->get('show_readmore') && $item->readmore) :
 	if ($item->params->get('access-view')) :
 		$link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
@@ -118,7 +117,12 @@ $params = &$this->params;
 	</li>
 <?php endforeach; ?>
 </ul>
-<div id="pagination">
-	<span><?php echo $this->pagination->getPagesLinks(); ?></span>
-	<span><?php echo $this->pagination->getPagesCounter(); ?></span>
+
+<div class="pagination">
+	<p class="counter">
+		<?php echo $this->pagination->getPagesCounter(); ?>
+	</p>
+	<?php echo $this->pagination->getPagesLinks(); ?>
 </div>
+
+<div>
