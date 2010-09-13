@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ [#22294] Newsflash Read more issue. Thanks Bill.
  $ [#22085] sending emails to new users not working correctly. Thanks Bill
  $ Normalizing redundant keys/values
+ # Taking off one divider too much in contact manager toolbar.
 
 12-Sep-2010 Jean-Marie Simonet
  # [#21762] Menu module displaying levels incorrectly. Thanks Bill.

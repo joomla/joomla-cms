@@ -83,7 +83,6 @@ class ContactViewContacts extends JView
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('contacts.trash','JTOOLBAR_TRASH');
 			JToolBarHelper::divider();
-			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
 
