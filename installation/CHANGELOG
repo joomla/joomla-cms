@@ -37,6 +37,8 @@ $ -> Language fix or change
  $ Normalizing redundant keys/values
  # Taking off one divider too much in contact manager toolbar.
  - Removing remaining OpenID references and language files/strings.
+ # [#22382] Sample wrong outgoing url at Getting Help article. Thanks Michael.
+ # [#22339] Aproaching Sample data Article from category list gives wrong URL, Title, Breadcrumbs. Thanks Bill.
 
 12-Sep-2010 Jean-Marie Simonet
  # [#21762] Menu module displaying levels incorrectly. Thanks Bill.
