@@ -1002,14 +1002,6 @@ button:hover,button:focus {
 /**
  * System Standard Messages
  */
-	/* OpenID icon style */
-input.system-openid,input.com-system-openid {
-	background: url(http://openid.net/login-bg.gif) no-repeat;
-	background-color: #10254a;
-	background-position: 0 50%;
-	color: #fcff20;
-	padding-left: 18px;
-}
 
 /* System Messages */
 #system-message {

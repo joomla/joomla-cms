@@ -1903,15 +1903,6 @@ p#login-error-message {
 
 }
 
-/* OpenID icon style */
-input.system-openid,input.com-system-openid {
-	background: url(http://openid.net/login-bg.gif) no-repeat;
-	background-color: #fff;
-	background-position: 0 50%;
-	color: #000;
-	padding-left: 18px;
-}
-
 /* -- JGRID STYLES ----------------------------- */
 
 /* Admin backend grid table elements */

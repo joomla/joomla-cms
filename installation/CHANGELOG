@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ [#22085] sending emails to new users not working correctly. Thanks Bill
  $ Normalizing redundant keys/values
  # Taking off one divider too much in contact manager toolbar.
+ - Removing remaining OpenID references and language files/strings.
 
 12-Sep-2010 Jean-Marie Simonet
  # [#21762] Menu module displaying levels incorrectly. Thanks Bill.

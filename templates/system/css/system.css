@@ -4,16 +4,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* OpenID icon style */
-input.system-openid, input.com-system-openid {
-   background: url(http://openid.net/login-bg.gif) no-repeat;
-   background-color: #fff;
-   background-position: 0 50%;
-   color: #000;
-   padding-left: 18px;
-}
-
-
 /* Unpublished */
 .system-unpublished {
 background: #e8edf1;

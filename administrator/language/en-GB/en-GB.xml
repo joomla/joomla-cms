@@ -97,8 +97,6 @@
 		<filename>en-GB.plg_authentication_joomla.sys.ini</filename>
 		<filename>en-GB.plg_authentication_ldap.ini</filename>
 		<filename>en-GB.plg_authentication_ldap.sys.ini</filename>
-		<filename>en-GB.plg_authentication_openid.ini</filename>
-		<filename>en-GB.plg_authentication_openid.sys.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.ini</filename>
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_geshi.ini</filename>
