@@ -19,21 +19,25 @@ defined('JPATH_BASE') or die;
  */
 class JAdapterInstance extends JObject {
 
-	/** Parent
-	 * @var object */
+	/**
+	 * @var		object	Parent
+	 * @since	1.6
+	 */
 	protected $parent = null;
 
-	/** Database
-	 * @var object */
+	/**
+	 * @var		object	Database
+	 * @since	1.6
+	 */
 	protected $db = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @access	public
 	 * @param	object	$parent		Parent object [JAdapter instance]
 	 * @param	object	$db			Database object [JDatabase instance]
 	 * @param 	array	$options	Configuration Options
+	 *
 	 * @return	void
 	 * @since	1.6
 	 */
@@ -41,6 +45,7 @@ class JAdapterInstance extends JObject {
 	{
 		// set the properties from the options array that is passed in
 		$this->setProperties($options);
+
 		// set the parent and db in case $options for some reason overrides it
 		$this->parent = &$parent;
 		$this->db = &$db ? $db : JFactory::getDBO(); // pull in the global dbo in case
@@ -48,7 +53,7 @@ class JAdapterInstance extends JObject {
 
 	/**
 	 * Retrieves the parent object
-	 * @access  public
+	 *
 	 * @return 	object parent
 	 * @since 	1.6
 	 */
