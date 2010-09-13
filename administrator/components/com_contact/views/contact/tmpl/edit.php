@@ -20,7 +20,7 @@ JHtml::_('behavior.formvalidation');
 	{
 		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
 			<?php echo $this->form->getField('misc')->save(); ?>
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('contact-form'));
 		}
 		else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');

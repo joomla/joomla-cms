@@ -2,9 +2,9 @@
 <script type="text/javascript">
 function submitbutton(pressbutton)
 {
-	var form = document.adminForm;
+	var form = document.getElementById('adminForm');
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		Joomla.submitform( pressbutton );
 		return;
 	}
 
@@ -16,7 +16,7 @@ function submitbutton(pressbutton)
 	} else if (document.getElementById('jformurl').value == ""){
 		alert( "<?php echo JText::_( 'You must have a url.', true ); ?>" );
 	} else {
-		submitform( pressbutton );
+		Joomla.submitform( pressbutton );
 	}
 }
 </script>

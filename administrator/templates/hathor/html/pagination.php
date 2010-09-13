@@ -72,17 +72,17 @@ function pagination_list_footer($list)
 	/**
 	 * Fix javascript jump menu
 	 *
-	 * Remove the onchange=submitform from the select tag
+	 * Remove the onchange=Joomla.submitform from the select tag
 	 * Add in a button with onclick instead
 	 */
 	$fixlimit = $list['limitfield'];
-	$fixlimit = preg_replace('/onchange="submitform\(\);"/', '', $fixlimit);
+	$fixlimit = preg_replace('/onchange="Joomla.submitform\(\);"/', '', $fixlimit);
 
 	$html = "<div class=\"containerpg\"><div class=\"pagination\">\n";
 
 	$html .= "\n<div class=\"limit\"><label for=\"limit\">".JText::_('JGLOBAL_DISPLAY_NUM')." </label>";
 	$html .= "\n".$fixlimit;
-	$html .= "\n<button id=\"pagination-go\" type=\"button\" onclick=\"submitform()\">" . JText::_('JSUBMIT') . "</button></div>";
+	$html .= "\n<button id=\"pagination-go\" type=\"button\" onclick=\"Joomla.submitform()\">" . JText::_('JSUBMIT') . "</button></div>";
 	$html .= "\n" . $list['pageslinks'];
 	$html .= "\n<div class=\"limit\">".$list['pagescounter']."</div>";
 
@@ -132,9 +132,9 @@ function pagination_list_render($list)
 function pagination_item_active(&$item)
 {
 	if ($item->base>0)
-		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm." . $item->prefix . "limitstart.value=".$item->base."; submitform();return false;\">".$item->text."</a>";
+		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm." . $item->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
 	else
-		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm." . $item->prefix . "limitstart.value=0; submitform();return false;\">".$item->text."</a>";
+		return "<a href=\"#\" title=\"".$item->text."\" onclick=\"javascript: document.adminForm." . $item->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
 }
 
 function pagination_item_inactive(&$item)

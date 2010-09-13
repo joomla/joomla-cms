@@ -20,7 +20,7 @@ JHtml::_('behavior.keepalive');
 	function submitbutton(task)
 	{
 		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('link-form'));
 		}
 	}
 </script>

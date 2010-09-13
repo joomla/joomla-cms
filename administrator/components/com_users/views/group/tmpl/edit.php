@@ -22,7 +22,7 @@ $canDo = UsersHelper::getActions();
 	function submitbutton(task)
 	{
 		if (task == 'group.cancel' || document.formvalidator.isValid(document.id('group-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('group-form'));
 		}
 	}
 </script>

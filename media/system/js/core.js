@@ -18,7 +18,7 @@ Joomla.editors.instances = {};
  */
 Joomla.submitform = function(task, form) {
 	if (typeof(form) === 'undefined') {
-		form = document.adminForm;
+		form = document.getElementById('adminForm');
 	}
 	form.task.value = task;
 
@@ -31,6 +31,13 @@ Joomla.submitform = function(task, form) {
 	}
 	form.submit();
 };
+
+/**
+ * Default function. Usually would be overriden by the component
+ */
+Joomla.submitbutton = function(pressbutton) {
+	Joomla.submitform(pressbutton);
+}
 
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6

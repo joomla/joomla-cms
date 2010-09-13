@@ -22,7 +22,7 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (task == 'menu.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
 </script>

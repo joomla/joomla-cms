@@ -17,18 +17,16 @@ JHtml::_('behavior.formvalidation');
 $canDo		= ContactHelper::getActions();
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
 			<?php echo $this->form->getField('misc')->save(); ?>
-			submitform(task);
+			Joomla.submitform(task, document.getElementByID('contact-form'));
 		}
 		else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">

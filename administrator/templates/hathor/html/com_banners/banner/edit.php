@@ -16,11 +16,10 @@ JHtml::_('behavior.formvalidation');
 $canDo		= BannersHelper::getActions();
 ?>
 <script type="text/javascript">
-<!--
 	function submitbutton(task)
 	{
 		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
 	window.addEvent('domready', function() {
@@ -40,7 +39,6 @@ $canDo		= BannersHelper::getActions();
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
-// -->
 </script>
 
 <form action="<?php JRoute::_('index.php?option=com_banners'); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">

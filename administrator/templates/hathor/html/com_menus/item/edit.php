@@ -25,9 +25,9 @@ $canDo		= MenusHelper::getActions();
 	{
 		if (task == 'item.setType') {
 			document.id('item-form').elements['jform[type]'].value = type;
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('item-form'));
 		} else {
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field){

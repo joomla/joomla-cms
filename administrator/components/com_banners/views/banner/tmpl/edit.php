@@ -18,7 +18,7 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
 	window.addEvent('domready', function() {

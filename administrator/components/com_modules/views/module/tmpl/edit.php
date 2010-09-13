@@ -25,7 +25,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 				echo $this->form->getField('content')->save();
 			endif;
 			?>
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('module-form'));
 		}
 		else {
 			alert('<?php echo $this->escape(JText::_('COM_MODULES_ERROR_TITLE'));?>');

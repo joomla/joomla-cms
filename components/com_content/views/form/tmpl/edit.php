@@ -23,7 +23,7 @@ $params = $this->state->get('params');
 	function submitbutton(task) {
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 			<?php echo $this->form->getField('text')->save(); ?>
-			submitform(task);
+			Joomla.submitform(task);
 		}
 		else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');

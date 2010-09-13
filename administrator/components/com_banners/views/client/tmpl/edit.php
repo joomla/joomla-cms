@@ -19,7 +19,7 @@ $canDo	= BannersHelper::getActions();
 	function submitbutton(task)
 	{
 		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('client-form'));
 		}
 	}
 </script>

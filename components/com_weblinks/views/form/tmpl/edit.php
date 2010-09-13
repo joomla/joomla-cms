@@ -22,7 +22,7 @@ $params = $this->state->get('params');
 	function submitbutton(task) {
 		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 			<?php echo $this->form->getField('description')->save(); ?>
-			submitform(task);
+			Joomla.submitform(task);
 		}
 		else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');

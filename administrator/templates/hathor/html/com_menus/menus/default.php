@@ -26,7 +26,7 @@ $listDirn	= $this->state->get('list.direction');
 <script type="text/javascript">
 	function submitbutton(task) {
 		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE',true);?>')) {
-			submitform(task);
+			Joomla.submitform(task);
 		}
 	}
 </script>

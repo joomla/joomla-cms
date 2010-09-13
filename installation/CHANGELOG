@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 13-Sep-2010 Christophe Demko
+ # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
  # [#22280] Banner image can't be selected after upload
 
 13-Sep-2010 Jean-Marie Simonet

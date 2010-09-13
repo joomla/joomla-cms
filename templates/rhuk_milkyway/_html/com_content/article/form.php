@@ -29,9 +29,9 @@ foreach ($this->lists['sectioncategories'] as $k=>$items) {
 
 
 function submitbutton(pressbutton) {
-	var form = document.adminForm;
+	var form = document.getElementById('adminForm');
 	if (pressbutton == 'cancel') {
-		submitform( pressbutton );
+		Joomla.submitform( pressbutton );
 		return;
 	}
 	try {
@@ -53,7 +53,7 @@ function submitbutton(pressbutton) {
 		}
 	}
 	<?php echo $this->editor->save( 'text' ); ?>
-	submitform(pressbutton);
+	Joomla.submitform(pressbutton);
 }
 </script>
 <?php if ($this->params->get('show_page_heading', 1)) : ?>

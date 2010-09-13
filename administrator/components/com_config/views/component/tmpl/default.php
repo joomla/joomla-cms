@@ -20,7 +20,7 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (document.formvalidator.isValid(document.id('component-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('component-form'));
 		}
 	}
 </script>

@@ -18,7 +18,7 @@ JHtml::_('behavior.formvalidation');
 	function submitbutton(task)
 	{
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementById('style-form'));
 		}
 	}
 </script>

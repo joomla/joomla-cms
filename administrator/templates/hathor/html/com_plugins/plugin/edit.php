@@ -19,7 +19,7 @@ $canDo		= PluginsHelper::getActions();
 	function submitbutton(task)
 	{
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
-			submitform(task);
+			Joomla.submitform(task, document.getElementByID('style-form'));
 		}
 	}
 </script>

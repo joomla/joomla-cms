@@ -22,7 +22,7 @@ $canDo = UsersHelper::getActions();
 function submitbutton(task)
 {
 	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form'))) {
-		submitform(task);
+		Joomla.submitform(task, document.getElementById('level-form'));
 	}
 }
 /*
