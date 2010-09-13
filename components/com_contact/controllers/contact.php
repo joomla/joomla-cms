@@ -283,7 +283,7 @@ class ContactControllerContact extends JController
 
 		// Prevent form submission if one of the banned text is discovered in the email field
 		if (false === $this->_checkText($email, $bannedEmail)) {
-			$this->setError(JText::sprintf('COM_CONTACT_EMAIL_BANNEDTEXT', JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS')));
+			$this->setError(JText::sprintf('COM_CONTACT_EMAIL_BANNEDTEXT', JText::_('JGLOBAL_EMAIL')));
 			return false;
 		}
 

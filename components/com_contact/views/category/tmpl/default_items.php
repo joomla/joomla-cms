@@ -46,7 +46,7 @@ $listDirn	= $this->state->get('list.direction');
 			<?php endif; ?>
 			<?php if ($this->params->get('show_email_headings')) : ?>
 			<th class="item-email">
-				<?php echo JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS'); ?>
+				<?php echo JText::_('JGLOBAL_EMAIL'); ?>
 			</th>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_telephone_headings')) : ?>

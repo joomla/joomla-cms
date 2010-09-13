@@ -44,7 +44,7 @@
 	<field name="email" type="text"
 		class="inputbox validate-email"
 		description="COM_USERS_USER_FIELD_EMAIL_DESC"
-		label="COM_USERS_USER_FIELD_EMAIL_LABEL"
+		label="JGLOBAL_EMAIL"
 		required="true"
 		size="30"
 		validate="email"

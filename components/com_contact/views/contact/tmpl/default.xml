@@ -85,7 +85,7 @@
 			<field name="show_email"
 				type="list"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
-				label="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_LABEL"
+				label="JGLOBAL_EMAIL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

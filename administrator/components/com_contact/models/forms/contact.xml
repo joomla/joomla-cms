@@ -98,7 +98,7 @@
 		/>
 
 		<field name="email_to" type="text"
-			label="COM_CONTACT_FIELD_INFORMATION_EMAIL_LABEL"
+			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
 			class="inputbox validate-email"
 			size="30"
@@ -351,7 +351,7 @@
 			</field>
 
 			<field name="show_email" type="list"
-				label="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_LABEL"
+				label="JGLOBAL_EMAIL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>

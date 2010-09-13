@@ -97,7 +97,7 @@ class ContactViewContact extends JView
 			case 1 :
 				// text
 				$params->set('marker_address',	JText::_('COM_CONTACT_ADDRESS').": ");
-				$params->set('marker_email',		JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS').": ");
+				$params->set('marker_email',		JText::_('JGLOBAL_EMAIL').": ");
 				$params->set('marker_telephone',	JText::_('COM_CONTACT_TELEPHONE').": ");
 				$params->set('marker_fax',		JText::_('COM_CONTACT_FAX').": ");
 				$params->set('marker_mobile',		JText::_('COM_CONTACT_MOBILE').": ");
@@ -119,7 +119,7 @@ class ContactViewContact extends JView
 			default :
 				// icons
 				$image1 = JHTML::_('image','contacts/'.$params->get('icon_address','con_address.png'), JText::_('COM_CONTACT_ADDRESS').": ", NULL, true);
-				$image2 = JHTML::_('image','contacts/'.$params->get('icon_email','emailButton.png'), JText::_('COM_CONTACT_CONTACT_EMAIL_ADDRESS').": ", NULL, true);
+				$image2 = JHTML::_('image','contacts/'.$params->get('icon_email','emailButton.png'), JText::_('JGLOBAL_EMAIL').": ", NULL, true);
 				$image3 = JHTML::_('image','contacts/'.$params->get('icon_telephone','con_tel.png'), JText::_('COM_CONTACT_TELEPHONE').": ", NULL, true);
 				$image4 = JHTML::_('image','contacts/'.$params->get('icon_fax','con_fax.png'), JText::_('COM_CONTACT_FAX').": ", NULL, true);
 				$image5 = JHTML::_('image','contacts/'.$params->get('icon_misc','con_info.png'), JText::_('COM_CONTACT_OTHER_INFORMATION').": ", NULL, true);

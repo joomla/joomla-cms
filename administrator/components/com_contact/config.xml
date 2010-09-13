@@ -59,7 +59,7 @@
 		<field name="show_email"
 			type="radio"
 			default="0"
-			label="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_LABEL"
+			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
 		>
 			<option value="0">JHIDE</option>
@@ -483,7 +483,7 @@
 
 		<field name="show_email_headings" type="radio"
 			default="0"
-			label="COM_CONTACT_FIELD_CONFIG_EMAIL_LABEL"
+			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 		>
 			
