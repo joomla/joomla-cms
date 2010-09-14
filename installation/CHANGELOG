@@ -29,18 +29,19 @@ $ -> Language fix or change
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.
- $ [#22403] typo in installation language files
- $ [#22404] typo in en-GB.com_users.ini language file
- $ [#22405] typo in en-GB.ini language file
- $ [#22407] us spelling in template language file
- $ [#22408] language file capitalisation
- $ [#22409] language file typos, spelling 
- $ [#22411] US spelling in plugin language file
- $ [#22412] typo in en-GB.com_content.sys.ini language file
- $ [#22413] extra capital in language file
- $ [#22414] missing letter in language file
- $ [#22406] typos in administrator en-GB.ini language file
+ $ [#22403] typo in installation language files. Thanks Brian and Bill.
+ $ [#22404] typo in en-GB.com_users.ini language file. Thanks Brian and Bill.
+ $ [#22405] typo in en-GB.ini language file. Thanks Brian and Bill.
+ $ [#22407] us spelling in template language file. Thanks Brian and Bill.
+ $ [#22408] language file capitalisation. Thanks Brian and Bill.
+ $ [#22409] language file typos, spelling. Thanks Brian and Bill.
+ $ [#22411] US spelling in plugin language file. Thanks Brian and Bill.
+ $ [#22412] typo in en-GB.com_content.sys.ini language file. Thanks Brian and Bill.
+ $ [#22413] extra capital in language file. Thanks Brian and Bill.
+ $ [#22414] missing letter in language file. Thanks Brian and Bill.
+ $ [#22406] typos in administrator en-GB.ini language file. Thanks Brian and Bill.
  $ [#22431] Incorrect English spellings (British/American differences). Thanks Chris.
+ # [#22423] Patch: Typo in template style edit style-form give js error. Thanks Ole.
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)

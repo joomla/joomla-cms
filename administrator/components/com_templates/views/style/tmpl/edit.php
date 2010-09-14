@@ -21,7 +21,7 @@ $canDo = TemplatesHelper::getActions();
 	function submitbutton(task)
 	{
 		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
-			Joomla.submitform(task, document.getElementById('user-form'));
+			Joomla.submitform(task, document.getElementById('style-form'));
 		}
 	}
 </script>
