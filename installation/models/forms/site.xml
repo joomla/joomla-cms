@@ -6,13 +6,14 @@
 			label="INSTL_SITE_NAME_LABEL"
 			required="true"
 		/>
-		<field name="site_metadesc" type="text" id="site_metadesc" class="inputbox"
+		<field name="site_metadesc" type="textarea" id="site_metadesc" class="inputbox"
 			label="INSTL_SITE_METADESC_LABEL"
-			required="true"
+			
+			rows="3"
 		/>
 		<field name="site_metakeys" type="text" id="site_metakeys" class="inputbox"
 			label="INSTL_SITE_METAKEYS_LABEL"
-			required="true"
+
 		/>
 
 		<field name="admin_email" type="text" id="admin_email" class="inputbox"

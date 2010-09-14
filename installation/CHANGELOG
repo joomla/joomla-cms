@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Sep-2010 Andrew Eddie
  # Fixed issue [#22125] We don't have CSS for system "warning" messages (Artyom Bisyarin, Elin Waring).
+ # Fixed issue [#22385] Make meta data not required (Elin Waring).
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.
