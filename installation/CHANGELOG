@@ -42,6 +42,7 @@ $ -> Language fix or change
  $ [#22406] typos in administrator en-GB.ini language file. Thanks Brian and Bill.
  $ [#22431] Incorrect English spellings (British/American differences). Thanks Chris.
  # [#22423] Patch: Typo in template style edit style-form give js error. Thanks Ole.
+ $ [#22417] Improving sense of com_user parameters. Thanks Dennis and Bill.
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
