@@ -23,7 +23,7 @@ $app	= JFactory::getApplication();
 <!-- Load Template CSS -->
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
-<!-- Load CSS for Alternate Menu or Standard Accessible Menu -->
+<!-- Load CSS for Alternative Menu or Standard Accessible Menu -->
 <?php if ($this->params->get('altMenu')) : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/menu2.css" rel="stylesheet" type="text/css" />
 <?php else : ?>
@@ -34,7 +34,7 @@ $app	= JFactory::getApplication();
 <?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 
-	<!-- Load additional CSS for Alternate Menu or Standard Accessible Menu for rtl sites-->
+	<!-- Load additional CSS for Alternative Menu or Standard Accessible Menu for rtl sites-->
 	<?php if ($this->params->get('altMenu')) : ?>
 		<link href="templates/<?php echo  $this->template ?>/css/menu2_rtl.css" rel="stylesheet" type="text/css" />
 	<?php else : ?>
@@ -61,7 +61,7 @@ $app	= JFactory::getApplication();
 	<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 
-<!-- Load JavaScript for Alternate Menu or standard Accessible Administrator Menu -->
+<!-- Load JavaScript for Alternative Menu or standard Accessible Administrator Menu -->
 <?php if ($this->params->get('altMenu')) : ?>
 	<script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/menu2.js"></script>
 <?php else : ?>

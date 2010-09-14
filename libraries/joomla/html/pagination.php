@@ -403,7 +403,7 @@ class JPagination extends JObject
 	 * @param	int				$i			The row index.
 	 * @param	boolean			$condition	True to show the icon.
 	 * @param	string			$task		The task to fire.
-	 * @param	string			$alt		The image alternate text string.
+	 * @param	string			$alt		The image alternative text string.
 	 * @param	boolean			$enabled	An optional setting for access control on the action.
 	 * @param	string			$checkbox	An optional prefix for checkboxes.
 	 *
@@ -427,7 +427,7 @@ class JPagination extends JObject
 	 * @param	int				$n			The number of items in the list.
 	 * @param	boolean			$condition	True to show the icon.
 	 * @param	string			$task		The task to fire.
-	 * @param	string			$alt		The image alternate text string.
+	 * @param	string			$alt		The image alternative text string.
 	 * @param	boolean			$enabled	An optional setting for access control on the action.
 	 * @param	string			$checkbox	An optional prefix for checkboxes.
 	 *

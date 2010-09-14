@@ -167,7 +167,7 @@ class WeblinksViewCategory extends JView
 		}
 
 
-		// Add alternate feed link
+		// Add alternative feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';

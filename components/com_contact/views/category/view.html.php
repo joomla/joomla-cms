@@ -122,7 +122,7 @@ class ContactViewCategory extends JView
 		$id = (int) @$menu->query['id'];
 		if($menu && $menu->query['view'] != 'contact' && $id != $this->category->id)
 		{
-			
+
 			$path = array($this->category->title => '');
 			$category = $this->category->getParent();
 			while($id != $category->id && $category->id > 1)
@@ -171,7 +171,7 @@ class ContactViewCategory extends JView
 			}
 		}
 
-		// Add alternate feed link
+		// Add alternative feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';
