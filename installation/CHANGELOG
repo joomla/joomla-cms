@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Sep-2010 Jean-Marie Simonet
+ # [#22288] Content category - displaying title twice. Thanks Bill.
+
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
  # [#22280] Banner image can't be selected after upload

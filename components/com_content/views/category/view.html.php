@@ -173,7 +173,7 @@ class ContentViewCategory extends JView
 		$id = @$menu->query['id'];
 
 		if ($menu && $menu->query['view'] != 'article' && $id != $this->category->id) {
-			$this->params->set('page_subheading', $this->category->title);
+			
 			$path = array($this->category->title  => '');
 			$category = $this->category->getParent();
 
