@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ [#22407] us spelling in template language file
  $ [#22408] language file capitalisation
  $ [#22409] language file typos, spelling 
+ $ [#22411] US spelling in plugin language file
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
