@@ -23,6 +23,7 @@ $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 <head>
 <jdoc:include type="head" />
 
+<link href="templates/system/css/system.css" type="text/css" rel="stylesheet" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 <link href="templates/<?php echo $this->template ?>/css/menu.css" rel="stylesheet" type="text/css" />
 

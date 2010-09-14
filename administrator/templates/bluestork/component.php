@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 <head>
 <jdoc:include type="head" />
 
+<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
 <?php if ($this->direction == 'rtl') : ?>

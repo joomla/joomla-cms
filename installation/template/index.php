@@ -19,6 +19,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 	<head>
 		<jdoc:include type="head" />
 
+		<link href="../media/system/css/system.css" rel="stylesheet" type="text/css" />
 		<link href="template/css/template.css" rel="stylesheet" type="text/css" />
 		<?php if ($this->direction == 'rtl') : ?>
 			<link href="template/css/template_rtl.css" rel="stylesheet" type="text/css" />
