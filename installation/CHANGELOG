@@ -39,6 +39,7 @@ $ -> Language fix or change
  $ [#22412] typo in en-GB.com_content.sys.ini language file
  $ [#22413] extra capital in language file
  $ [#22414] missing letter in language file
+ $ [#22406] typos in administrator en-GB.ini language file
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
