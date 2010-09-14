@@ -37,6 +37,7 @@ $ -> Language fix or change
  $ [#22409] language file typos, spelling 
  $ [#22411] US spelling in plugin language file
  $ [#22412] typo in en-GB.com_content.sys.ini language file
+ $ [#22413] extra capital in language file
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
