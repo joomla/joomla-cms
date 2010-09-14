@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ [#22404] typo in en-GB.com_users.ini language file
  $ [#22405] typo in en-GB.ini language file
  $ [#22407] us spelling in template language file
+ $ [#22408] language file capitalisation
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
