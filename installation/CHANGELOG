@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#22288] Content category - displaying title twice. Thanks Bill.
  $ [#22403] typo in installation language files
  $ [#22404] typo in en-GB.com_users.ini language file
+ $ [#22405] typo in en-GB.ini language file
 
 13-Sep-2010 Christophe Demko
  # [#22106] Use Joomla.submitform() instead of submitform (thanks Rouven Weßling)
