@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Fixed issue [#22125] We don't have CSS for system "warning" messages (Artyom Bisyarin, Elin Waring).
  # Fixed issue [#22385] Make meta data not required (Elin Waring).
  # Fixed issue [#22245] Default site metadata (Brian Teeman, Matt Thomas, Ole Bang Ottosen, Michael Babker).
+ # Fixed issue [#22030] Full Path Disclosure 2 (Brian Teeman, Hannes Papenberg, Roland Dalmulder, Michael Babker).
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.
