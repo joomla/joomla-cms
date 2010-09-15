@@ -34,9 +34,9 @@ class ModulesModelSelect extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.filter.client_id', null);
-		$this->setState('filter.client_id', $clientId);
-		
+		$clientId = $app->getUserState('com_modules.modules.filter.client_id', 0);
+		$this->setState('filter.client_id', (int) $clientId);
+
 		// Load the parameters.
 		$params	= JComponentHelper::getParams('com_modules');
 		$this->setState('params', $params);
@@ -82,7 +82,7 @@ class ModulesModelSelect extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.extension_id, a.name, a.client_id, a.element AS module'
+				'a.extension_id, a.name, a.element AS module'
 			)
 		);
 		$query->from('`#__extensions` AS a');
@@ -92,13 +92,8 @@ class ModulesModelSelect extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
-		if (is_numeric($clientId)) {
-			$query->where('a.client_id = '.(int) $clientId);
-		}
-		else if ($clientId === '') {
-			$query->where('(a.client_id IN (0, 1))');
-		}
-		
+		$query->where('a.client_id = '.(int) $clientId);
+
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
@@ -117,25 +112,25 @@ class ModulesModelSelect extends JModelList
 		$items = parent::getItems();
 
 		// Initialise variables.
+		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
 		$lang	= JFactory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
 		foreach ($items as &$item) {
-			$cPath	= $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
-			$path = JPath::clean($cPath.'/modules/'.$item->module.'/'.$item->module.'.xml');
+			$path = JPath::clean($client->path.'/modules/'.$item->module.'/'.$item->module.'.xml');
 			if (file_exists($path)) {
 				$item->xml = simplexml_load_file($path);
 			} else {
 				$item->xml = null;
 			}
 
-			// 1.5 Format; Core files or language packs then
+					// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
-				$lang->load($item->module.'.sys', $cPath, null, false, false)
-			||	$lang->load($item->module.'.sys', $cPath.'/modules/'.$item->module, null, false, false)
-			||	$lang->load($item->module.'.sys', $cPath, $lang->getDefault(), false, false)
-			||	$lang->load($item->module.'.sys', $cPath.'/modules/'.$item->module, $lang->getDefault(), false, false);
+				$lang->load($item->module.'.sys', $client->path, null, false, false)
+			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, null, false, false)
+			||	$lang->load($item->module.'.sys', $client->path, $lang->getDefault(), false, false)
+			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, $lang->getDefault(), false, false);
 		}
 
 		// TODO: Use the cached XML from the extensions table?

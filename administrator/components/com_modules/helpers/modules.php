@@ -82,20 +82,14 @@ class ModulesHelper
 		jimport('joomla.filesystem.folder');
 
 		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
 
-		if ($clientId == '*') {
-			$where = '';
-		} else {
-			$where = ' WHERE client_id = '.(int) $clientId;
-		}
+		$query->select('DISTINCT(position)');
+		$query->from('#__modules');
+		$query->where('`client_id` = '.(int) $clientId);
+		$query->order('position');
 
-		$db->setQuery(
-			'SELECT DISTINCT(position)' .
-			' FROM #__modules' .
-			$where .
-			' ORDER BY position'
-		);
-
+		$db->setQuery($query);
 		$positions = $db->loadResultArray();
 		$positions = (is_array($positions)) ? $positions : array();
 
@@ -124,16 +118,10 @@ class ModulesHelper
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		if ($clientId == '*') {
-			$where = '';
-		} else {
-			$where = 'm.`client_id` = '.(int)$clientId;
-		}
-
 		$query->select('DISTINCT(m.module) AS value, e.name AS text');
 		$query->from('#__modules AS m');
 		$query->join('LEFT', '#__extensions AS e ON e.element=m.module');
-		$query->where($where);
+		$query->where('m.`client_id` = '.(int)$clientId);
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();

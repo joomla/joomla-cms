@@ -27,35 +27,18 @@ class ModulesViewSelect extends JView
 	 */
 	function display($tpl = null)
 	{
-		$this->state	= $this->get('State');
-		$this->items	= $this->get('Items');
+		$state		= $this->get('State');
+		$items		= $this->get('Items');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		// Group the items list by the client (site/admin).
-		$groups = array(
-			0 => array(),
-			1 => array(),
-		);
-
-		foreach ($this->items as &$item)
-		{
-			// Preprocess the XML description.
-			if (isset($item->xml)) {
-				$item->description = trim($item->xml->description);
-			}
-			else {
-				$item->description = JText::_('COM_MODULES_NODESCRIPTION');
-			}
-
-			$groups[$item->client_id][] = &$item;
-		}
-
-		$this->groups = &$groups;
+		$this->assignRef('state',		$state);
+		$this->assignRef('items',		$items);
 
 		parent::display($tpl);
 	}

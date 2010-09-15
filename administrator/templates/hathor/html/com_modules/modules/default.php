@@ -36,7 +36,6 @@ $saveOrder	= $listOrder == 'ordering';
 				<?php echo JText::_('JGLOBAL_FILTER_CLIENT'); ?>
 			</label>
 			<select name="filter_client_id" id="filter_client_id" class="inputbox">
-				<option value=""><?php echo JText::_('JGLOBAL_FILTER_CLIENT');?></option>
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
             <label class="selectlabel" for="filter_state">
@@ -95,13 +94,10 @@ $saveOrder	= $listOrder == 'ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 				</th>                
-				<th class="width-5">
-					<?php echo JHtml::_('grid.sort',  'JCLIENT', 'client_id', $listDirn, $listOrder); ?>
-				</th>
                 <th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'published', $listDirn, $listOrder); ?>
 				</th>
-				<th class="width-15">
+				<th class="width-20">
 					<?php echo JHtml::_('grid.sort',  'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
                 <th class="nowrap ordering-col">
@@ -154,9 +150,6 @@ $saveOrder	= $listOrder == 'ordering';
 					<p class="smallsub">
 						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
 					<?php endif; ?>
-				</td>
-				<td class="center">
-					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
 				</td>
                 <td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange);?>

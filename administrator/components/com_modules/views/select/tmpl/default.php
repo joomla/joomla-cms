@@ -15,26 +15,25 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 ?>
 
-<?php foreach ($this->groups as $clientId => &$group) : ?>
-	<?php if (!empty($group)) : ?>
-	<h3>
-		<?php echo $clientId == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
-	</h3>
+<ul id="new-modules-list">
+<?php foreach ($this->items as &$item) : ?>
+	<li>
+		<?php
+		// Prepare variables for the link.
 
-	<ul id="new-modules-list">
-	<?php foreach ($group as &$item) : ?>
-		<li>
-			<?php
-			// Prepare variables for the link.
-			$link	= 'index.php?option=com_modules&task=module.add&eid='. $item->extension_id;
-			$name	= $this->escape(JText::_($item->name));
-			$desc	= $this->escape(JText::_($item->description));
-			?>
-			<span class="editlinktip hasTip" title="<?php echo $name.' :: '.$desc; ?>">
-				<a href="<?php echo JRoute::_($link);?>" target="_top">
-					<?php echo $name; ?></a></span>
-		</li>
-	<?php endforeach; ?>
-	</ul>
-	<?php endif; ?>
+		$link	= 'index.php?option=com_modules&task=module.add&eid='. $item->extension_id;
+		$name	= $this->escape(JText::_($item->name));
+		$desc	= $this->escape(JText::_('COM_MODULES_NODESCRIPTION'));
+
+		if (isset($item->xml)) {
+			if ($text = trim($item->xml->description)) {
+				$desc = $this->escape(JText::_($text));
+			}
+		}
+		?>
+		<span class="editlinktip hasTip" title="<?php echo $name.' :: '.$desc; ?>">
+			<a href="<?php echo JRoute::_($link);?>" target="_top">
+				<?php echo $name; ?></a></span>
+	</li>
 <?php endforeach; ?>
+</ul>

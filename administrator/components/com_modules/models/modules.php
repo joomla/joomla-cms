@@ -47,7 +47,7 @@ class ModulesModelModules extends JModelList
 		$module = $app->getUserStateFromRequest($this->context.'.filter.module', 'filter_module', '', 'string');
 		$this->setState('filter.module', $module);
 
-		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', null);
+		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('filter.client_id', $clientId);
 
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
@@ -132,15 +132,15 @@ class ModulesModelModules extends JModelList
 	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
+		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
 		foreach($items as $item) {
-			$path = $item->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$extension = $item->module;
-			$source = $path . '/modules/' . $extension;
-				$lang->load("$extension.sys", $path, null, false, false)
+			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
+				$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)
 			||	$lang->load("$extension.sys", $source, null, false, false)
-			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
+			||	$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
-				$item->name = JText::_($item->name);
+			$item->name = JText::_($item->name);
 			if (is_null($item->pages)) {
 				$item->pages = JText::_('JNONE');
 			} else if ($item->pages < 0) {
@@ -168,7 +168,7 @@ class ModulesModelModules extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.note, a.client_id, a.position, a.module, a.language,' .
+				'a.id, a.title, a.note, a.position, a.module, a.language,' .
 				'a.checked_out, a.checked_out_time, a.published, a.access, a.ordering'
 			)
 		);
@@ -227,10 +227,7 @@ class ModulesModelModules extends JModelList
 		if (is_numeric($clientId)) {
 			$query->where('a.client_id = '.(int) $clientId);
 		}
-		else if ($clientId === '') {
-			$query->where('(a.client_id IN (0, 1))');
-		}
-		
+
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search))
