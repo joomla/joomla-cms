@@ -23,6 +23,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -52,8 +53,13 @@ class MenusModelItems extends JModelList
 			}
 		}
 		else {
-			$menuType = $app->getUserState($this->context.'.filter.menutype','mainmenu');
+			$menuType = $app->getUserState($this->context.'.filter.menutype');
+
+			if (!$menuType) {
+				$menuType = $this->getDefaultMenuType();
+			}
 		}
+
 		$this->setState('filter.menutype', $menuType);
 
 		$language = $app->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
@@ -75,7 +81,9 @@ class MenusModelItems extends JModelList
 	 * ordering requirements.
 	 *
 	 * @param	string		$id	A prefix for the store id.
+	 *
 	 * @return	string		A store id.
+	 * @since	1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -88,6 +96,28 @@ class MenusModelItems extends JModelList
 		$id	.= ':'.$this->getState('filter.menutype');
 
 		return parent::getStoreId($id);
+	}
+
+	/**
+	 * Finds the default menu type.
+	 *
+	 * In the absence of better information, this is the first menu ordered by title.
+	 *
+	 * @return	string	The default menu type
+	 * @since	1.6
+	 */
+	protected function getDefaultMenuType()
+	{
+		// Create a new query object.
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true)
+			->select('menutype')
+			->from('#__menu_types')
+			->order('title');
+		$db->setQuery($query, 0, 1);
+		$menuType = $db->loadResult();
+
+		return $menuType;
 	}
 
 	/**
