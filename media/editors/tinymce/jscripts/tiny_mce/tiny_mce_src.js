@@ -5954,7 +5954,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 				});
 			}
 
-			// Remove XHTML element endings i.e. produce crap :) XHTML is better
+			// Remove XHTML element endings
 			if (s.element_format == 'html') {
 				t.onPostProcess.add(function(se, o) {
 					o.content = o.content.replace(/<([^>]+) \/>/g, '<$1>');

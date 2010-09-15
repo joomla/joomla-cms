@@ -3721,7 +3721,6 @@ class GeSHi {
     function finalise(&$parsed_code) {
         // Remove end parts of important declarations
         // This is BUGGY!! My fault for bad code: fix coming in 1.2
-        // @todo Remove this crap
         if ($this->enable_important_blocks &&
             (strpos($parsed_code, $this->hsc(GESHI_START_IMPORTANT)) === false)) {
             $parsed_code = str_replace($this->hsc(GESHI_END_IMPORTANT), '', $parsed_code);
