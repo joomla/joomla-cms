@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+15-Sep-2010 Christophe Demko
+ # [#22418] Category Manager page title no longer includes component name (thanks Andrew and Matt Thomas)
+ 
 15-Sep-2010 Jean-Marie Simonet
  # [#22450] Add level filter to admin categories view. Thanks Andrew and Christophe.
  $ Changed figures to strings in Menu items manager maxlevels filter

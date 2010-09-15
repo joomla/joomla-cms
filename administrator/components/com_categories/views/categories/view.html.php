@@ -101,12 +101,13 @@ class CategoriesViewCategories extends JView
 		// Get the results for each action.
 		$canDo = CategoriesHelper::getActions($component, $categoryId);
 
-		// If the section is defined, component supports multiple category groups.
-		if ($section) {
+		// If the string is present, let's use it.
+		if ($this->escape(JText::_($component.($section?"_$section":''))) !=NULL) {
 			$title = JText::sprintf(
 				'COM_CATEGORIES_CATEGORIES_TITLE',
 				$this->escape(JText::_($component.($section?"_$section":'')))
 			);
+			echo $this->escape(JText::_($component.($section?"_$section":'')));
 		}
 		else {
 			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
