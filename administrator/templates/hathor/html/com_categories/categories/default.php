@@ -41,6 +41,13 @@ $n = count($this->items);
 		<div class="filter-select">
 			
 
+			<label class="selectlabel" for="filter_level"><?php echo JText::_('COM_CATEGORIES_OPTION_SELECT_LEVEL'); ?></label>
+			<select name="filter_level" class="inputbox" id="filter_level">
+				<option value=""><?php echo JText::_('COM_CATEGORIES_OPTION_SELECT_LEVEL');?></option>
+				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
+			</select>
+
+
 			<label class="selectlabel" for="filter_published"><?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?></label>
 			<select name="filter_published" class="inputbox" id="filter_published">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>

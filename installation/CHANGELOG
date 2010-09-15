@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Sep-2010 Jean-Marie Simonet
+ [#22450] Add level filter to admin categories view. Thanks Andrew and Christophe.
+ 
 15-Sep-2010 Andrew Eddie
  # Fixed issue [#22125] We don't have CSS for system "warning" messages (Artyom Bisyarin, Elin Waring).
  # Fixed issue [#22385] Make meta data not required (Elin Waring).

@@ -33,13 +33,18 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
 			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 		</div>
-		<div class="filter-select fltrt">			
+		<div class="filter-select fltrt">
+
+			<select name="filter_level" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_CATEGORIES_OPTION_SELECT_LEVEL');?></option>
+				<?php echo JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'));?>
+			</select>
 
 			<select name="filter_published" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
-            
+
             <select name="filter_access" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>

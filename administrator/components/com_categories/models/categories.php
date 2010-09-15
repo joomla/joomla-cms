@@ -54,6 +54,9 @@ class CategoriesModelCategories extends JModelList
 		$search = $app->getUserStateFromRequest($context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$level = $app->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
 		$access = $app->getUserStateFromRequest($context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
@@ -131,6 +134,11 @@ class CategoriesModelCategories extends JModelList
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension')) {
 			$query->where('a.extension = '.$db->quote($extension));
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level')) {
+			$query->where('a.level <= '.(int) $level);
 		}
 
 		// Filter by access level.
