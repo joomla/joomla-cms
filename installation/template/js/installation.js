@@ -79,6 +79,18 @@ Install.detectFtpRoot = function(el) {
 		url: 'index.php?'+document.id(el.form).toQueryString(),
 		data: {'task':'setup.detectFtpRoot', 'format':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
+		onFailure: function(xhr) {
+			var r = JSON.decode(xhr.responseText);
+			if (r)
+			{
+				Joomla.replaceTokens(r.token)
+				alert(xhr.status+': '+r.message);
+			}
+			else
+			{
+				alert(xhr.status+': '+xhr.statusText);
+			}				
+		},
 		onComplete: function(response) {
 			var r = JSON.decode(response);
 			if (r)
@@ -86,6 +98,9 @@ Install.detectFtpRoot = function(el) {
 				Joomla.replaceTokens(r.token)
 				if (r.error == false) {
 					document.id('jform_ftp_root').set('value', r.data.root);
+				}
+				else {
+					alert(r.message);
 				}
 			}
 			el.set('disabled', '');
@@ -104,19 +119,34 @@ Install.verifyFtpSettings = function(el) {
 		url: 'index.php?'+document.id(el.form).toQueryString(),
 		data: {'task':'setup.verifyFtpSettings', 'format':'json'},
 		onRequest: function() { el.set('disabled', 'disabled'); },
+		onFailure: function(xhr) {
+			var r = JSON.decode(xhr.responseText);
+			if (r)
+			{
+				Joomla.replaceTokens(r.token)
+				alert(xhr.status+': '+r.message);
+			}
+			else
+			{
+				alert(xhr.status+': '+xhr.statusText);
+			}				
+		},
 		onComplete: function(response) {
 			var r = JSON.decode(response);
 			if (r)
 			{
 				Joomla.replaceTokens(r.token)
 				if (r.error == false) {
-					alert('Settings Correct');
+					alert(Joomla.JText._('INSTL_FTP_SETTINGS_CORRECT'));
 				}
 				else {
 					alert(r.message);
 				}
 			}
 			el.set('disabled', '');
+		},
+		onError: function(response) {
+			alert('error');
 		}
 	}).send();
 };

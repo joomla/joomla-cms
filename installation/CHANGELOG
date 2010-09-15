@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#22245] Default site metadata (Brian Teeman, Matt Thomas, Ole Bang Ottosen, Michael Babker).
  # Fixed issue [#22030] Full Path Disclosure 2 (Brian Teeman, Hannes Papenberg, Roland Dalmulder, Michael Babker).
  # Fixed issue [#22434] poor choice of language (Brian Teeman, Bill Richardson).
+ # Fixed issue [#20794] ftp host and port fields, not validated (Rob Joyce, Roland Dalmulder, Troy Hall, Christophe Demko).
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.

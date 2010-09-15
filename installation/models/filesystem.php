@@ -40,7 +40,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
-			$this->setError('tutu'.$options->get('ftp_host').$options->get('ftp_port').JText::_('INSTL_FTP_NOCONNECT'));
+			$this->setError($options->get('ftp_host').':'.$options->get('ftp_port').' '.JText::_('INSTL_FTP_NOCONNECT'));
 			return false;
 		}
 		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass'))) {
@@ -132,7 +132,7 @@ class JInstallationModelFilesystem extends JModel
 
 		// Check to make sure FTP is connected and authenticated.
 		if (!$ftp->isConnected()) {
-			$this->setError('coucou'.JText::_('INSTL_FTP_NOCONNECT'));
+			$this->setError(JText::_('INSTL_FTP_NOCONNECT'));
 			return false;
 		}
 		if (!$ftp->login($options->get('ftp_user'), $options->get('ftp_pass'))) {
