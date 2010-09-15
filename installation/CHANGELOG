@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed issue [#22434] poor choice of language (Brian Teeman, Bill Richardson).
  # Fixed issue [#20794] ftp host and port fields, not validated (Rob Joyce, Roland Dalmulder, Troy Hall, Christophe Demko).
  # Fixed issue [#21839] Incorrect display in Menu manager - showing 8 pages (Bill Richardson, Ian MacLennan).
+ # Fixed issue [#22212] Create New Module (Brian Teeman, Michael Babker).
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.
