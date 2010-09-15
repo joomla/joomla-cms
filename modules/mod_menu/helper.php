@@ -11,11 +11,17 @@ defined('_JEXEC') or die;
 /**
  * @package		Joomla.Site
  * @subpackage	mod_menu
+ * @since		1.5
  */
 class modMenuHelper
 {
 	/**
 	 * Get a list of the menu items.
+	 *
+	 * @param	JRegistry	$params	The module options.
+	 *
+	 * @return	array
+	 * @since	1.5
 	 */
 	static function getList(&$params)
 	{
@@ -37,31 +43,33 @@ class modMenuHelper
 		$items 		= $menu->getItems('menutype',$params->get('menutype'));
 
 		$lastitem	= 0;
+
 		if ($items) {
 			foreach($items as $i => $item)
 			{
-				if(($start && $start > $item->level)
-				|| ($end && $item->level > $end)
-				|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-				|| ($maxdepth && $item->level > $maxdepth))
-				{
+				if (($start && $start > $item->level)
+					|| ($end && $item->level > $end)
+					|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
+					|| ($maxdepth && $item->level > $maxdepth)
+				) {
 					unset($items[$i]);
 					continue;
 				}
+
 				$item->deeper = false;
 				$item->shallower = false;
 				$item->level_diff = 0;
 
-				if(isset($items[$lastitem]))
-				{
+				if (isset($items[$lastitem])) {
 					$items[$lastitem]->deeper		= ($item->level > $items[$lastitem]->level);
 					$items[$lastitem]->shallower	= ($item->level < $items[$lastitem]->level);
 					$items[$lastitem]->level_diff	= ($items[$lastitem]->level - $item->level);
 				}
+
 				$lastitem			= $i;
 				$item->active		= false;
-				$item->params		= new JObject(json_decode($item->params));
 				$item->flink = $item->link;
+
 				switch ($item->type)
 				{
 					case 'separator':
@@ -84,13 +92,16 @@ class modMenuHelper
 						$router = JSite::getRouter();
 						if ($router->getMode() == JROUTER_MODE_SEF) {
 							$item->flink = 'index.php?Itemid='.$item->id;
-						} else {
+						}
+						else {
 							$item->flink .= '&Itemid='.$item->id;
 						}
 						break;
 				}
+
 				$item->flink = JRoute::_($item->flink);
 			}
+
 			if (isset($items[$lastitem])) {
 				$items[$lastitem]->deeper		= (($start?$start:1) > $items[$lastitem]->level);
 				$items[$lastitem]->shallower	= (($start?$start:1) < $items[$lastitem]->level);

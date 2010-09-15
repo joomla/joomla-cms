@@ -38,6 +38,7 @@ $ -> Language fix or change
  # Fixed issue [#22212] Create New Module (Brian Teeman, Michael Babker).
  # Fixed issue [#22244] control_panel0004Test.php system test failing (Matt Thomas).
  # Fixed issue [#22021] ACL System Tests (Matt Thomas).
+ # Fixed issue [#21791] Menu Item Alias (Stian Totland, Christophe Demko).
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.

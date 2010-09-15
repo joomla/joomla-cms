@@ -21,6 +21,9 @@ class JPathwaySite extends JPathway
 	 * Class constructor.
 	 *
 	 * @param	array
+	 *
+	 * @return	JPathwaySite
+	 * @since	1.5
 	 */
 	public function __construct($options = array())
 	{
@@ -30,13 +33,11 @@ class JPathwaySite extends JPathway
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();
 
-		if ($item = $menu->getActive())
-		{
+		if ($item = $menu->getActive()) {
 			$menus = $menu->getMenu();
 			$home = $menu->getDefault();
 
-			if (is_object($home) && ($item->id != $home->id))
-			{
+			if (is_object($home) && ($item->id != $home->id)) {
 				foreach($item->tree as $menupath)
 				{
 					$url = '';
@@ -44,17 +45,34 @@ class JPathwaySite extends JPathway
 
 					switch($link->type)
 					{
-						case 'menulink':
-						case 'url':
-							$url = $link->link;
-							break;
-
 						case 'separator':
 							$url = null;
 							break;
 
+						case 'url':
+							if ((strpos($link->link, 'index.php?') === 0) && (strpos($link->link, 'Itemid=') === false)) {
+								// If this is an internal Joomla link, ensure the Itemid is set.
+								$url = $link->link.'&Itemid='.$link->id;
+							}
+							else {
+								$url = $link->link;
+							}
+							break;
+
+						case 'alias':
+							// If this is an alias use the item id stored in the parameters to make the link.
+							$url = 'index.php?Itemid='.$link->params->get('aliasoptions');
+							break;
+
 						default:
-							$url = 'index.php?Itemid='.$link->id;
+							$router = JSite::getRouter();
+							if ($router->getMode() == JROUTER_MODE_SEF) {
+								$url = 'index.php?Itemid='.$link->id;
+							}
+							else {
+								$url .= '&Itemid='.$link->id;
+							}
+							break;
 					}
 
 					$this->addItem($menus[$menupath]->title, $url);
