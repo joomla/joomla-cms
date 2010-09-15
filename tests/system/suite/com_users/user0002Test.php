@@ -19,10 +19,10 @@ class User0002Test extends SeleniumJoomlaTestCase
 	$this->doAdminLogin();
 
 	$salt1 = mt_rand();
-	$userName = 'My Test User' . $salt1;
+	$username = 'My Test User' . $salt1;
 	$login = 'TestUser' . $salt1;
 	$email = $login . '@test.com';
-	$this->createUser($userName, $login, 'password', $email, 'Author');
+	$this->createUser($username, $login, 'password', $email, 'Author');
 
     echo("Verify existence of new user.\n");
     try {
@@ -50,7 +50,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     echo("Verify existence of new user.\n");
     try {
-        $this->assertTrue($this->isTextPresent($userName));
+        $this->assertTrue($this->isTextPresent($username));
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
@@ -66,7 +66,7 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
 
     echo "Filter on user name\n";
-    $this->type("filter_search", $userName);
+    $this->type("filter_search", $username);
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");
 

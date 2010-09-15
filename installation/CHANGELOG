@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed issue [#21839] Incorrect display in Menu manager - showing 8 pages (Bill Richardson, Ian MacLennan).
  # Fixed issue [#22212] Create New Module (Brian Teeman, Michael Babker).
  # Fixed issue [#22244] control_panel0004Test.php system test failing (Matt Thomas).
+ # Fixed issue [#22021] ACL System Tests (Matt Thomas).
 
 14-Sep-2010 Jean-Marie Simonet
  # [#22288] Content category - displaying title twice. Thanks Bill.

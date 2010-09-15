@@ -34,19 +34,63 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }		
 	}
+	
+	function changeAssignedGroup($username,$group)
+	{
+		$this->jClick('User Manager');
+	    $this->click("link=$username");
+	    $this->waitForPageToLoad("30000");		
+		echo "Changing $username group assignment of $group group.\n";         
+		$id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$group.'\')]/label@for');
+		$this->click($id);
+        $this->jClick('Save & Close');
+		try {
+	        $this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'User successfully saved.')]"), 'User group save message not displayed or message changed, SeleniumJoomlaTestCase line 49');	
+	    }
+	    catch (PHPUnit_Framework_AssertionFailedError $e){
+	        array_push($this->verificationErrors, $this->getTraceFiles($e));
+	    }        
+		
+	}
+	
+	function createUser($name = 'Test User', $username = 'TestUser', $password = 'password', $email = 'testuser@test.com', $group = 'Manager')
+	{
+		$this->click("link=User Manager");
+		$this->waitForPageToLoad("30000");
+		echo("Add new user named " . $name . " to " . $group . " group.\n");
+		$this->click("//li[@id='toolbar-new']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->type("jform_name", $name);
+		$this->type("jform_username", $username);
+		$this->type("jform_password", $password);
+		$this->type("jform_password2", $password);
+		$this->type("jform_email", $email);
+        $id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$group.'\')]/label@for');
+        $this->click($id);
+		$this->click("link=Save & Close");
+		$this->waitForPageToLoad("30000");
+		try	{
+			 $this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Creation of Test User(s) failed.');
+		}
+		catch (PHPUnit_Framework_AssertionFailedError $e) {
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+		}
+	}	
 
-	function doAdminLogin()
+	function doAdminLogin($username = null,$password = null)
 	{
 		echo "Logging in to back end.\n";
 		$cfg = new SeleniumConfig();
+		if(!isset($username))$username=$cfg->username;
+		if(!isset($password))$password=$cfg->password;			
 		if (!$this->isElementPresent("mod-login-username"))
 		{
 			$this->gotoAdmin();
 			$this->click("link=Log out");
 			$this->waitForPageToLoad("30000");
 		}
-		$this->type("mod-login-username", $cfg->username);
-		$this->type("mod-login-password", $cfg->password);
+		$this->type("mod-login-username", $username);
+		$this->type("mod-login-password", $password);
 		$this->click("link=Log in");
 		$this->waitForPageToLoad("30000");
 	}
@@ -54,7 +98,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	function doAdminLogout()
 	{
 		echo "Logging out of back end.\n";
-		$this->click("link=Logout");
+		$this->click("link=Log out");
 		$this->waitForPageToLoad("30000");
 	}
 
@@ -95,13 +139,6 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}		
 
-	function setTinyText($text)
-	{
-		$this->selectFrame("jform_text_ifr");
-		$this->type("tinymce", $text);
-		$this->selectFrame("relative=top");
-	}
-
 	function doFrontEndLogout()
 	{
 		echo "Logging out of front end.\n";
@@ -109,35 +146,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function createUser($name = 'Test User', $userName = 'TestUser', $password = 'password', $email = 'testuser@test.com', $group = 'Manager')
-	{
-		$this->click("link=User Manager");
-		$this->waitForPageToLoad("30000");
-		echo("Add new user named " . $name . " to " . $group . " group.\n");
-		$this->click("//li[@id='toolbar-new']/a/span");
-		$this->waitForPageToLoad("30000");
-		$this->type("jform_name", $name);
-		$this->type("jform_username", $userName);
-		$this->type("jform_password", $password);
-		$this->type("jform_password2", $password);
-		$this->type("jform_email", $email);
-        $id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$group.'\')]/label@for');
-        $this->click($id);
-		$this->click("link=Save & Close");
-		$this->waitForPageToLoad("30000");
-		try
-		{
-			 $this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Creation of Test User(s) failed.');
-		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
-			array_push($this->verificationErrors, $this->getTraceFiles($e));
-		}
-	}
-
-	function toggleAssignedGroupCheckbox($groupName) {
-	        $id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$groupName.'\')]/label@for');
-	        $this->click($id);
+	function toggleAssignedGroupCheckbox($groupName)
+	{		
+	    $id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$groupName.'\')]/label@for');
+	    $this->click($id);	    
 	}
 
 	function deleteTestUsers($partialName = 'test')
@@ -156,12 +168,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		echo("Delete new user.\n");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
-		try
-		{
+		try	{
 			$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Deletion of Test User(s) failed.');
 		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+		catch (PHPUnit_Framework_AssertionFailedError $e) {
 			echo "** ERROR in deleteTestUsers, SeleniumJoomlaTestCase, line 142 **\n";
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
@@ -177,13 +187,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->type("jform_title", $groupName);
 		$this->select("id=jform_parent_id", "label=regexp:.*".$groupParent);
 		$this->jClick("Save & Close");
-		try
-		{
+		try {
 			$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Creation of ' . $groupName . ' failed.');
 			echo "Creation of " . $groupName . " succeeded.\n";
 		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+		catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 	}
@@ -203,22 +211,18 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("checkall-toggle");
 		$this->click("//li[@id='toolbar-delete']/a");
 		$this->waitForPageToLoad("30000");
-		try
-		{
+		try	{
 			$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"), 'Group deletion failed or confirm text wrong, SeleniumJoomlaTestCase line 197');
 			echo "Deletion succeeded.\n";
 		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+		catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 
-		try
-		{
+		try	{
 			$this->assertFalse($this->isTextPresent("No Groups selected"), 'No Groups selected for deletion, SeleniumJoomlaTestCase line 207');
 		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+		catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 	}
@@ -257,14 +261,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$id = $this->getAttribute('//fieldset[@class=\'adminform\']/ul/li[contains(label,\''.$groupName.'\')]/label@for');
         $this->click($id);
         $this->jClick('Save & Close');
-		try
-		{
+		try	{
 			$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 			echo "Addding group " . $groupName . " to " . $levelName . " access level succeeded.\n";
 		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
-			array_push($this->verificationErrors, $e->toString());
+		catch (PHPUnit_Framework_AssertionFailedError $e) {
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 
 	}
@@ -311,12 +313,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-levels')]");
 			$this->waitForPageToLoad("30000");
-		    try
-		    {
+		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -325,12 +325,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-article')]");
 			$this->waitForPageToLoad("30000");
-		    try
-		    {
+		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -339,12 +337,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-contact')]");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 		    break;
@@ -352,13 +348,11 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Testng Delete capability.\n";
 			$this->click("//li[@id='toolbar-delete']/a");
 			$this->waitForPageToLoad("30000");
-			try
-			{
+			try {
 				$this->assertTrue(($this->isTextPresent("deleted") OR $this->isTextPresent("removed") OR $this->isTextPresent("trashed")), 'Deletion failed or confirm text wrong, SeleniumJoomlaTestCase line 310');
 				echo "Deletion of item(s) succeeded.\n";
 			}
-			catch (PHPUnit_Framework_AssertionFailedError $e)
-			{
+			catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 			}
 			break;
@@ -373,26 +367,35 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-config')]");
 			$this->waitForPageToLoad("30000");
-			try
-			{
-			$this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
+			try {
+				$this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
 			}
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
+		case 'Global Configuration: Permissions':
+			$screen='Global Configuration';
+			echo "Navigating to $screen: Permissions.\n";
+			$this->click("//a[contains(@class,'icon-16-config')]");
+			$this->waitForPageToLoad("30000");
+	    	$this->click("permissions");			
+			try {
+				$this->assertTrue($this->isElementPresent("//a[contains(@id,'permissions')][contains(@class,'active')]"));
+			}
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
+				array_push($this->verificationErrors, $this->getTraceFiles($e));
+		    }
+			break;			
 		case 'Groups':
 			$screen="User Manager: Groups";
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-groups')]");
 			$this->waitForPageToLoad("30000");
-		    try
-		    {
+		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -401,12 +404,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-menumgr')]");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -417,13 +418,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 			$this->click("link=Menu Items");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
-
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -432,13 +430,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-module')]");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
-
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -452,12 +447,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//li[@id='toolbar-popup-options']/a/span");
 			for ($second = 0; ; $second++) {
 				if ($second >= 15) $this->fail("timeout");
-				try
-				{
+				try {
 					if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
 				}
-				catch (PHPUnit_Framework_AssertionFailedError $e)
-				{
+				catch (PHPUnit_Framework_AssertionFailedError $e) {
 					array_push($this->verificationErrors, $this->getTraceFiles($e));
 				}
 				sleep(1);
@@ -469,13 +462,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class, 'icon-16-redirect')]");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
-
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -483,14 +473,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Clicking Save & Close toolbar button.\n";
 			$this->click("//li[@id='toolbar-save']/a");
 			$this->waitForPageToLoad("30000");
-			try
-			{
+			try {
 				$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"), "Save success text not present, SeleniumTestCase line 327");
-				 $this->assertFalse($this->isElementPresent("//dl[@id='system-message'][contains(., 'error')]"), "Error message present, SeleniumTestCase line 328");
+				$this->assertFalse($this->isElementPresent("//dl[@id='system-message'][contains(., 'error')]"), "Error message present, SeleniumTestCase line 328");
 				echo "Item successfully saved.\n";
 			}
-			catch (PHPUnit_Framework_AssertionFailedError $e)
-			{
+			catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 			}
 			break;
@@ -498,13 +486,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Clicking Trash toolbar button.\n";
 			$this->click("//li[@id='toolbar-trash']/a/span");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Error trashing item, SeleniumTestCase line 491.');
-
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -512,21 +497,16 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Clicking Unpublish toolbar button.\n";
 			$this->click("//li[@id='toolbar-unpublish']/a/span");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"),'Error unpublishing item, SeleniumTestCase line 505.');
-
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
-			try
-		    {
+			try {
 		        $this->assertFalse($this->isTextPresent("Edit state is not permitted"),"Access issues with unpublishing item, SeleniumTestCase line 515.");
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -535,12 +515,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class, 'icon-16-user')]");
 			$this->waitForPageToLoad("30000");
-		    try
-		    {
+		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -549,12 +527,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class, 'icon-16-weblinks')]");
 			$this->waitForPageToLoad("30000");
-		    try
-		    {
+		    try {
 		        $this->assertTrue($this->isTextPresent($screen),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -563,12 +539,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class, 'icon-16-weblinks-cat')]");
 			$this->waitForPageToLoad("30000");
-			try
-		    {
+			try {
 		        $this->assertTrue($this->isTextPresent($screen,$this->getText("//div[contains(@class,'pagetitle')]/h2")),'Error navigating to '.$screen.' or page title changed.');
 		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e)
-		    {
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 		    }
 			break;
@@ -591,32 +565,170 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		{
 			$this->click("//dt[contains(span,'$formTab')]");
 		}
-
-	function toggleFeatured($articleTitle)
+		
+	function restoreDefaultGlobalPermissions()
 	{
-		echo "Toggling Featured on/off for article " . $articleTitle . "\n";
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" .
-			$articleTitle . "')]/../../td[4]/a/img");
-		$this->waitForPageToLoad("30000");
-	}
+		$this->jClick('Global Configuration: Permissions');
+		echo "Restoring default global permissions.\n";
+		$this->select("//tr[1]/td[1]/select", "label=...");
+		$this->select("//tr[2]/td[1]/select", "label=Allow");
+		$this->select("//tr[3]/td[1]/select", "label=...");
+		$this->select("//tr[4]/td[1]/select", "label=...");
+		$this->select("//tr[5]/td[1]/select", "label=Allow");
+		$this->select("//tr[6]/td[1]/select", "label=...");
+		$this->select("//tr[7]/td[1]/select", "label=...");
+		$this->select("//tr[8]/td[1]/select", "label=...");
+		$this->select("//tr[9]/td[1]/select", "label=...");
+		$this->select("//tr[10]/td[1]/select", "label=...");
+		$this->select("//tr[1]/td[2]/select", "label=...");
+		$this->select("//tr[2]/td[2]/select", "label=Allow");
+		$this->select("//tr[3]/td[2]/select", "label=...");
+		$this->select("//tr[4]/td[2]/select", "label=...");
+		$this->select("//tr[5]/td[2]/select", "label=...");
+		$this->select("//tr[6]/td[2]/select", "label=...");
+		$this->select("//tr[7]/td[2]/select", "label=...");
+		$this->select("//tr[8]/td[2]/select", "label=...");
+		$this->select("//tr[9]/td[2]/select", "label=...");
+		$this->select("//tr[10]/td[2]/select", "label=...");
+		$this->select("//tr[1]/td[3]/select", "label=...");
+		$this->select("//tr[2]/td[3]/select", "label=...");
+		$this->select("//tr[3]/td[3]/select", "label=...");
+		$this->select("//tr[4]/td[3]/select", "label=Allow");
+		$this->select("//tr[5]/td[3]/select", "label=...");
+		$this->select("//tr[6]/td[3]/select", "label=...");
+		$this->select("//tr[7]/td[3]/select", "label=...");
+		$this->select("//tr[8]/td[3]/select", "label=...");
+		$this->select("//tr[9]/td[3]/select", "label=...");
+		$this->select("//tr[10]/td[3]/select", "label=...");
+		$this->select("//tr[1]/td[4]/select", "label=...");
+		$this->select("//tr[2]/td[4]/select", "label=...");
+		$this->select("//tr[3]/td[4]/select", "label=Allow");
+		$this->select("//tr[4]/td[4]/select", "label=...");
+		$this->select("//tr[5]/td[4]/select", "label=...");
+		$this->select("//tr[6]/td[4]/select", "label=...");
+		$this->select("//tr[7]/td[4]/select", "label=...");
+		$this->select("//tr[8]/td[4]/select", "label=...");
+		$this->select("//tr[9]/td[4]/select", "label=...");
+		$this->select("//tr[10]/td[4]/select", "label=...");
+		$this->select("//tr[1]/td[5]/select", "label=...");
+		$this->select("//tr[2]/td[5]/select", "label=Allow");
+		$this->select("//tr[3]/td[5]/select", "label=...");
+		$this->select("//tr[4]/td[5]/select", "label=...");
+		$this->select("//tr[5]/td[5]/select", "label=...");
+		$this->select("//tr[6]/td[5]/select", "label=Allow");
+		$this->select("//tr[7]/td[5]/select", "label=...");
+		$this->select("//tr[8]/td[5]/select", "label=...");
+		$this->select("//tr[9]/td[5]/select", "label=...");
+		$this->select("//tr[10]/td[5]/select", "label=...");
+		$this->select("//tr[1]/td[6]/select", "label=...");
+		$this->select("//tr[2]/td[6]/select", "label=Allow");
+		$this->select("//tr[3]/td[6]/select", "label=...");
+		$this->select("//tr[4]/td[6]/select", "label=...");
+		$this->select("//tr[5]/td[6]/select", "label=...");
+		$this->select("//tr[6]/td[6]/select", "label=...");
+		$this->select("//tr[7]/td[6]/select", "label=...");
+		$this->select("//tr[8]/td[6]/select", "label=...");
+		$this->select("//tr[9]/td[6]/select", "label=...");
+		$this->select("//tr[10]/td[6]/select", "label=...");
+		$this->select("//tr[1]/td[7]/select", "label=...");
+		$this->select("//tr[2]/td[7]/select", "label=Allow");
+		$this->select("//tr[3]/td[7]/select", "label=...");
+		$this->select("//tr[4]/td[7]/select", "label=...");
+		$this->select("//tr[5]/td[7]/select", "label=...");
+		$this->select("//tr[6]/td[7]/select", "label=...");
+		$this->select("//tr[7]/td[7]/select", "label=Allow");
+		$this->select("//tr[8]/td[7]/select", "label=...");
+		$this->select("//tr[9]/td[7]/select", "label=...");
+		$this->select("//tr[10]/td[7]/select", "label=...");
+		$this->select("//tr[1]/td[8]/select", "label=...");
+		$this->select("//tr[2]/td[8]/select", "label=Allow");
+		$this->select("//tr[3]/td[8]/select", "label=...");
+		$this->select("//tr[4]/td[8]/select", "label=...");
+		$this->select("//tr[5]/td[8]/select", "label=...");
+		$this->select("//tr[6]/td[8]/select", "label=...");
+		$this->select("//tr[7]/td[8]/select", "label=...");
+		$this->select("//tr[8]/td[8]/select", "label=Allow");
+		$this->select("//tr[9]/td[8]/select", "label=...");
+		$this->select("//tr[10]/td[8]/select", "label=...");		
+	  	$this->click("//li[@id='toolbar-save']/a/span");
+	    $this->waitForPageToLoad("30000");
+		try {
+	        $this->assertTrue($this->isTextPresent("Configuration successfully saved."));
+	    } catch (PHPUnit_Framework_AssertionFailedError $e){
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+	    }		
+	}		
+		
+	function setGlobalPermission($action,$group,$permission)
+		{			
+		$this->jClick('Global Configuration: Permissions');
+		echo "Setting $action action for $group to $permission.\n";
+		switch ($action)
+			{
+				case 'Site Login':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[1]/select", "label=$permission");
+				break;
+				case 'Admin Login':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[2]/select", "label=$permission");
+				break;
+				case 'Admin':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[3]/select", "label=$permission");
+				break;
+				case 'Manage':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[4]/select", "label=$permission");
+				break;
+				case 'Create':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[5]/select", "label=$permission");
+				break;
+				case 'Delete':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[6]/select", "label=$permission");
+				break;
+				case 'Edit':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[7]/select", "label=$permission");
+				break;
+				case 'Edit State':	    	    
+				$this->select("//tr[contains(th,'$group')]/td[8]/select", "label=$permission");
+				break;				
+			}		
+  	    $this->click("//li[@id='toolbar-save']/a/span");
+	    $this->waitForPageToLoad("30000");
+		try {
+		        $this->assertTrue($this->isTextPresent("Configuration successfully saved."));
+		    }
+		    catch (PHPUnit_Framework_AssertionFailedError $e) {
+				array_push($this->verificationErrors, $this->getTraceFiles($e));
+		    }
+ 			    			
+		}		
+
+	function setTinyText($text)
+		{
+			$this->selectFrame("jform_text_ifr");
+			$this->type("tinymce", $text);
+			$this->selectFrame("relative=top");
+		}
+	
+	function toggleFeatured($articleTitle)
+		{
+			echo "Toggling Featured on/off for article " . $articleTitle . "\n";
+			$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" . $articleTitle . "')]/../../td[4]/a/img");
+			$this->waitForPageToLoad("30000");
+		}
 
 	function togglePublished($articleTitle)
 	{
 		echo "Toggling publishing of article " . $articleTitle . "\n";
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" .
-			$articleTitle . "')]/../../td[3]/a");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" .	$articleTitle . "')]/../../td[3]/a");
 		$this->waitForPageToLoad("30000");
 	}
 
 
 	function checkNotices()
 	{
-		try
-		{
+		try {
 			$this->assertFalse($this->isTextPresent("( ! ) Notice"), "**Warning: PHP Notice found on page!");
 		}
-		catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+		catch (PHPUnit_Framework_AssertionFailedError $e) {
 			echo "**Warning: PHP Notice found on page\n";
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
@@ -635,12 +747,10 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$return = parent::__call($command, $arguments);
 		if ($command == 'waitForPageToLoad' && (!isset($arguments[1]) || $arguments[1] !== false))
 		{
-			try
-			{
+			try {
 				$this->assertFalse($this->isTextPresent("( ! ) Notice"), "**Warning: PHP Notice found on page!");
 			}
-			catch (PHPUnit_Framework_AssertionFailedError $e)
-			{
+			catch (PHPUnit_Framework_AssertionFailedError $e) {
 				echo "**Warning: PHP Notice found on page\n";
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
 			}

@@ -22,11 +22,11 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		$this->createGroup($groupName, $groupParent);
    
 	    //Add new user to Restricted Manager Group
-		$userName = 'Restricted User' . $salt1;
+		$username = 'Restricted User' . $salt1;
 		$login = 'RestrictedUser' . $salt1;
 		$email = $login . '@test.com';
 		$group = $groupName;
-	    $this->createUser($userName, $login, 'password', $email, $group);
+	    $this->createUser($username, $login, 'password', $email, $group);
 		
 		echo "Set Weblinks access permissions for ". $groupName.".\n";
 	    $this->click("link=Control Panel");
@@ -78,7 +78,7 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogout();
 		
 		$this->doAdminLogin();		
-		$this->deleteTestUsers($userName);
+		$this->deleteTestUsers($username);
 		$this->deleteGroup($groupName);		
   }
 }

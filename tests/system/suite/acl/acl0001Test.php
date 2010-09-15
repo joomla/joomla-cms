@@ -54,20 +54,20 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->jClick('Save & Close');
 
 		$group = $groupName;
-		$userName = 'Test User' . $saltGroup;
+		$username = 'Test User' . $saltGroup;
 		$login = 'TestUser' . $saltGroup;
 		$email = $login . '@test.com';
-		$this->createUser($userName, $login, 'password' , $email, $group);
+		$this->createUser($username, $login, 'password' , $email, $group);
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		sleep(3);
 
-		echo("Log in to back end as " . $userName . ".\n");
+		echo("Log in to back end as " . $username . ".\n");
 		$this->type("mod-login-username", $login);
 		$this->type("mod-login-password", 'password');
 		$this->click("link=Log in");
 		$this->waitForPageToLoad("30000");
-		echo("Testing " .  $userName . " access.\n");
+		echo("Testing " .  $username . " access.\n");
 		try
 		{
 			$this->assertFalse($this->isElementPresent("link=User Manager"),'User Manager Access Test Failed');
