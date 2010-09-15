@@ -124,7 +124,6 @@ class CategoriesViewCategories extends JView
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
 			JToolBarHelper::custom('categories.publish', 'publish.png', 'publish_f2.png', 'JTOOLBAR_PUBLISH', true);
 			JToolBarHelper::custom('categories.unpublish', 'unpublish.png', 'unpublish_f2.png', 'JTOOLBAR_UNPUBLISH', true);
 			JToolBarHelper::divider();
