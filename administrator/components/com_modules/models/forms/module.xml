@@ -72,15 +72,14 @@
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
 			size="1"
-		>
-
-		</field>
+		/>
 
 		<field name="position" type="moduleposition"
 			default=""
 			description="COM_MODULES_FIELD_POSITION_DESC"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"
+			required="true"
 			onchange="setModulePosition(this);"
 		/>
 

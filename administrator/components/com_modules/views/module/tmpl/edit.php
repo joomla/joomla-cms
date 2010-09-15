@@ -28,7 +28,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			Joomla.submitform(task, document.getElementById('module-form'));
 		}
 		else {
-			alert('<?php echo $this->escape(JText::_('COM_MODULES_ERROR_TITLE'));?>');
+			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
