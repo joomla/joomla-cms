@@ -4,6 +4,9 @@
 * Modified PHP vCard class v2.0
  */
 
+// no direct access
+defined('_JEXEC') or die;
+
 /***************************************************************************
 PHP vCard class v2.0
 (cKai Blankenhorn
