@@ -366,7 +366,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		echo "Check that Using Joomla! is now in first row\n";
 		$this->assertContains("Using Joomla!", $this->getTable("//table[@class='adminlist'].1.1"));
-		echo "Move Gettingi Started back up one\n";
+		echo "Move Getting Started back up one\n";
 		$this->select("limit", "label=All");
 		$this->waitForPageToLoad("30000");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Up']");
