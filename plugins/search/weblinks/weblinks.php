@@ -107,7 +107,7 @@ class plgSearchWeblinks extends JPlugin
 		switch ($ordering)
 		{
 			case 'oldest':
-				$order = 'a.date ASC';
+				$order = 'a.created ASC';
 				break;
 
 			case 'popular':
@@ -124,13 +124,13 @@ class plgSearchWeblinks extends JPlugin
 
 			case 'newest':
 			default:
-				$order = 'a.date DESC';
+				$order = 'a.created DESC';
 		}
 
 		$return = array();
 		if (!empty($state)) {
 			$query	= $db->getQuery(true);
-			$query->select('a.title AS title, a.description AS text, a.date AS created, a.url, '
+			$query->select('a.title AS title, a.description AS text, a.created AS created, a.url, '
 						.'CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 						.'CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END as catslug, '
 						.'CONCAT_WS(" / ", '.$db->Quote($section).', c.title) AS section, "1" AS browsernav');

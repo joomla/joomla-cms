@@ -30,6 +30,7 @@ $ -> Language fix or change
 16-Sep-2010 Jean-Marie Simonet
  $ [#22461] Module articles - newsflash - description. Thanks Bill
  # Took off forgotten echo from 22418
+ # [#22448] Weblink search year gives -0001 for new weblinks. Thanks Ole.
  
 15-Sep-2010 Mark Dexter
 # Sample data fixes (Thanks Elin Waring) 
