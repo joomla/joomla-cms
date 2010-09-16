@@ -30,6 +30,7 @@ $ -> Language fix or change
 15-Sep-2010 Mark Dexter
 # [#22419] Fixes for Language0001 System Test (Thanks Matt Thomas)
 # Fixed restoreDefaultGlobalPermissions method in SeleniumJoomlaTestCase
+# Fixed problem in controlpanel0005 from sample data change
 
 01-Sep-2010 Mark Dexter
  + Added JDatabaseQueryElementTest

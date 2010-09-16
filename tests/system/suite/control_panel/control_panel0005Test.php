@@ -57,7 +57,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-cancel']/a/span");
 		$this->waitForPageToLoad("30000");
 		echo "Open Most Read Module and check that help links to detailed help\n";
-		$this->click("link=Most Read Content");
+		$this->click("link=Articles Most Read");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//li/a[contains(@onclick, 'Help16:Extensions_Module_Manager_Most_Read')]"));
 		$this->click("//li[@id='toolbar-cancel']/a/span");

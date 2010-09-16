@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Sep-2010 Mark Dexter
+# Sample data fixes (Thanks Elin Waring) 
 
 15-Sep-2010 Christophe Demko
  # [#22418] Category Manager page title no longer includes component name (thanks Andrew and Matt Thomas)
