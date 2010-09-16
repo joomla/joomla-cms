@@ -27,11 +27,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2010 Jean-Marie Simonet
+ $ [#22461] Module articles - newsflash - description. Thanks Bill
+ # Took off forgotten echo from 22418
+ 
 15-Sep-2010 Mark Dexter
 # Sample data fixes (Thanks Elin Waring) 
 
 15-Sep-2010 Christophe Demko
- # [#22418] Category Manager page title no longer includes component name (thanks Andrew and Matt Thomas)
+ # [#22418] Category Manager page title no longer includes component name
  
 15-Sep-2010 Jean-Marie Simonet
  # [#22450] Add level filter to admin categories view. Thanks Andrew and Christophe.
