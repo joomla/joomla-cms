@@ -107,7 +107,6 @@ class CategoriesViewCategories extends JView
 				'COM_CATEGORIES_CATEGORIES_TITLE',
 				$this->escape(JText::_($component.($section?"_$section":'')))
 			);
-			echo $this->escape(JText::_($component.($section?"_$section":'')));
 		}
 		else {
 			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
