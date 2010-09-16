@@ -440,7 +440,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//ul[@id='submenu']/li[2]/a");
+    $this->click("//ul[@id='submenu']/li/a[contains(., 'Clients')]");
 	$screen='Banner Manager: Clients';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
@@ -509,7 +509,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//ul[@id='submenu']/li[3]/a");
+    $this->click("//ul[@id='submenu']/li/a[contains(., 'Categories')]");
 	$screen='Category Manager: Banners';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
@@ -647,7 +647,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//ul[@id='submenu']/li[2]/a");
+    $this->click("//ul[@id='submenu']/li/a[contains(., 'Categories')]");
 	$screen='Category Manager: Contacts';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
@@ -785,7 +785,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//ul[@id='submenu']/li[2]/a");
+    $this->click("//ul[@id='submenu']/li/a[contains(., 'Categories')]");
 	$screen='Category Manager: Newsfeeds';
 	$this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
@@ -923,7 +923,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//ul[@id='submenu']/li[2]/a");
+    $this->click("//ul[@id='submenu']/li/a[contains(., 'Categories')]");
 	$screen='Category Manager: Weblinks';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
@@ -1260,7 +1260,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
 	$this->click("link=Language Manager");
     $this->waitForPageToLoad("30000");
-    $this->click("//ul[@id='submenu']/li[2]/a");
+    $this->click("//ul[@id='submenu']/li/a[contains(., 'Content')]");
 	$screen='Language Manager: Content Languages';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
