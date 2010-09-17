@@ -1748,18 +1748,22 @@ a img.calendar {
 
 #system-message dd.message ul {
 	background-image: url(../images/notice-info.png);
+	background-position: 5px 50%;
 }
 
 #system-message dd.error ul {
 	background-image: url(../images/notice-alert.png);
+	background-position: 5px 50%;
 }
 
 #system-message dd.warning ul {
 	background-image: url(../images/notice-note.png);
+	background-position: 5px 50%;
 }
 
 #system-message dd.notice ul {
 	background-image: url(../images/notice-note.png);
+	background-position: 5px 50%;
 }
 
 /* -- LOGIN STYLES ----------------------------- */

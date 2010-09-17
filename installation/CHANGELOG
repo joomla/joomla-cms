@@ -32,7 +32,8 @@ $ -> Language fix or change
  # [#22100] Unable to view unpublished article in frontend. Thanks Elin.
  # [#22481] Patch: Templates Date column blank. Thanks Ole.
  $ [#22471] Module banners - description. Thanks Bill.
-
+ # [#22470] Incorrect vertical align of system message icon in Bluestork. Thanks Viet.
+ 
 16-Sep-2010 Jean-Marie Simonet
  $ [#22461] Module articles - newsflash - description. Thanks Bill
  # Took off forgotten echo from 22418
