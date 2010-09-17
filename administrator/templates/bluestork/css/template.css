@@ -813,6 +813,10 @@ ul.adminformlist li {
 	list-style: none;
 }
 
+ul.adminformlist pre {
+	font-size:1.3em;
+}
+
 fieldset label {
 	float: left;
 	clear: left;

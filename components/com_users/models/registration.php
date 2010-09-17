@@ -408,6 +408,28 @@ class UsersModelRegistration extends JModelForm
 		// Check for an error.
 		if ($return !== true) {
 			$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
+			
+			// Send a system message to administrators receiving system mails
+			$db = JFactory::getDBO();
+			$q = "SELECT id
+				FROM #__users
+				WHERE block = 0
+				AND sendEmail = 1";
+			$db->setQuery($q);
+			$sendEmail = $db->loadResultArray();
+			if (count($sendEmail) > 0) {
+				$jdate = new JDate();
+				// Build the query to add the messages
+				$q = "INSERT INTO `#__messages` (`user_id_from`, `user_id_to`, `date_time`, `subject`, `message`)
+					VALUES ";
+				$messages = array();
+				foreach ($sendEmail as $userid) {
+					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toMySQL()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
+				}
+				$q .= implode(',', $messages);
+				$db->setQuery($q);
+				$db->query();
+			}
 			return false;
 		}
 

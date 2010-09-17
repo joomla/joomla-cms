@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Sep-2010 Jean-Marie Simonet
+ # [#22466] Registration failed message when mail function doesn't work. Thanks Roland.
+
 16-Sep-2010 Jean-Marie Simonet
  $ [#22461] Module articles - newsflash - description. Thanks Bill
  # Took off forgotten echo from 22418

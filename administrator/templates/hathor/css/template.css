@@ -1190,6 +1190,10 @@ dl.adminformlist li {
 	list-style: none;
 }
 
+ul.adminformlist pre {
+	font-size:1.3em;
+}
+
 ul.adminformlist .button2-left, ul.adminformlist .button2-left {
 	margin-top: 5px;
 }
