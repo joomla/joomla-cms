@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Sep-2010 Jean-Marie Simonet
  # [#22466] Registration failed message when mail function doesn't work. Thanks Roland.
+ # [#22100] Unable to view unpublished article in frontend. Thanks Elin.
 
 16-Sep-2010 Jean-Marie Simonet
  $ [#22461] Module articles - newsflash - description. Thanks Bill

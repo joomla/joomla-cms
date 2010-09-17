@@ -24,7 +24,7 @@ class JHTMLIcon
 	{
 		$uri = JFactory::getURI();
 
-		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&id=0&sectionid='.$article->sectionid;
+		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&id=0';
 
 		if ($params->get('show_icons')) {
 			$text = JHTML::_('image','system/new.png', JText::_('JNEW'), NULL, true);
@@ -63,7 +63,7 @@ class JHTMLIcon
 		$user = JFactory::getUser();
 		$uri = JFactory::getURI();
 
-		if ($params->get('popup')) {
+		if ($params && $params->get('popup')) {
 			return;
 		}
 

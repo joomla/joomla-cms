@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
@@ -42,9 +42,10 @@ $pageClass = $this->params->get('pageclass_sfx');
 		<div class="clr"></div>
 	</div>
 	<?php endif; ?>
-    
-	<div class="cat-items">
+<?php // var_dump($this->items );die; ?>
+	<div class="cat-items">			
 		<?php echo $this->loadTemplate('articles'); ?>
+	
 	</div>
 	
 	

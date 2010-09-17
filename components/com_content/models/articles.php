@@ -50,9 +50,11 @@ class ContentModelArticles extends JModelList
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
-
-		$this->setState('filter.published', 1);
-
+		$user		= JFactory::getUser();		
+		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
+			// filter on published for those who do not have edit or edit.state rights.
+			$this->setState('filter.published', 1);
+		}
 		$this->setState('filter.language',$app->getLanguageFilter());
 
 		// process show_noauth parameter

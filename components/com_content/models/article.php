@@ -51,8 +51,11 @@ class ContentModelArticle extends JModelItem
 		$this->setState('params', $params);
 
 		// TODO: Tune these values based on other permissions.
-		$this->setState('filter.published', 1);
-		$this->setState('filter.archived', 2);
+		$user		= JFactory::getUser();		
+		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
+			$this->setState('filter.published', 1);
+			$this->setState('filter.archived', 2);
+		}
 	}
 
 	/**
