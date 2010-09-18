@@ -176,15 +176,33 @@ class InstallerModelManage extends InstallerModel
 					$failed[] = $id;
 				}
 			}
+			if ($row->type == file) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_FILE');
+			} else if ($row->type == component) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_COMPONENT');
+			} else if ($row->type == language) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_LANGUAGE');
+			} else if ($row->type == library) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_LIBRARY');
+			} else if ($row->type == module) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_MODULE');
+			} else if ($row->type == package) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_PACKAGE');
+			} else if ($row->type == plugin) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_PLUGIN');
+			} else if ($row->type == template) {
+				$rowtype= JText::_('COM_INSTALLER_TYPE_TEMPLATE');
+			}
+			
 			if (count($failed)) {
 
 				// There was an error in uninstalling the package
-				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $row->type);
+				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 				$result = false;
 			} else {
 
 				// Package uninstalled sucessfully
-				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $row->type);
+				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
 			}
 			$app = JFactory::getApplication();
