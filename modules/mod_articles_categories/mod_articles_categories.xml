@@ -54,22 +54,42 @@
 				<option
 					 value="1">JYES</option>
 			</field>
-			<field
-				name="maxlevel"
-				type="text"
-				default="0"
-				first="0"
-				last="100"
-				label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
-				description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"/>
-			<field
-				name="count"
-				type="text"
-				default="0"
-				first="0"
-				last="100"
+			<field name="count" type="list"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"
-				description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"/>
+				description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
+				default="0"
+			>
+				<option value="0">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+				<option value="6">J6</option>
+				<option value="7">J7</option>
+				<option value="8">J8</option>
+				<option value="9">J9</option>
+				<option value="10">J10</option>
+		</field>
+			
+			<field name="maxlevel" type="list"
+				label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
+				description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
+				default="0"
+			>
+				<option value="0">JALL</option>
+				<option value="1">J1</option>
+				<option value="2">J2</option>
+				<option value="3">J3</option>
+				<option value="4">J4</option>
+				<option value="5">J5</option>
+				<option value="6">J6</option>
+				<option value="7">J7</option>
+				<option value="8">J8</option>
+				<option value="9">J9</option>
+				<option value="10">J10</option>
+		</field>
+				
 		</fieldset>
 		<fieldset name="advanced">
 			<field name="layout" type="modulelayout"
