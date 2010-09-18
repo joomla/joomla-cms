@@ -79,7 +79,6 @@
 			description="COM_MODULES_FIELD_POSITION_DESC"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"
-			required="true"
 			onchange="setModulePosition(this);"
 		/>
 

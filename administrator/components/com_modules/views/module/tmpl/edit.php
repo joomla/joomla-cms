@@ -19,16 +19,24 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 <script type="text/javascript">
 	function submitbutton(task)
 	{
-		if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
-			<?php
-			if ($hasContent) :
-				echo $this->form->getField('content')->save();
-			endif;
-			?>
-			Joomla.submitform(task, document.getElementById('module-form'));
+		if (task != 'module.cancel' && $('jform_custom_position').get('value') == '' && $('jform_position').get('value') == '') {
+			$('jform_custom_position').addClass('invalid');
+			$('jform_position').addClass('invalid');
+			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			return false;
 		}
 		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
+				<?php
+				if ($hasContent) :
+					echo $this->form->getField('content')->save();
+				endif;
+				?>
+				Joomla.submitform(task, document.getElementById('module-form'));
+			}
+			else {
+				alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			}
 		}
 	}
 </script>
@@ -45,7 +53,8 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<li><?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('custom_position'); ?>
 			<?php echo $this->form->getInput('position'); ?></li>
-
+			<script type="text/javascript">$('jform_position-lbl').addClass('required');</script>
+			
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<li><?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?></li>
