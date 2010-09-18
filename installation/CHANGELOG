@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Correcting some components xml (extraneous files)
  # [#22497] Adding Written by in Article Edit icon overlib in front-end
  # [#22498] Translating Manager Extensions Types for install/uninstall messages.
+ $ Added missing string.
   
 17-Sep-2010 Jean-Marie Simonet
  # [#22466] Registration failed message when mail function doesn't work. Thanks Roland.
