@@ -22,10 +22,6 @@
 		<folder>helpers</folder>
 		<folder>models</folder>
 	</files>
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_banners.ini
-		</language>
-	</languages>
 	<administration>
 		<menu>Banners</menu>
 		<submenu>
@@ -46,7 +42,6 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>banners.php</filename>
-			<filename>category.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>index.html</filename>

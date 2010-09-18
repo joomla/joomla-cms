@@ -42,7 +42,6 @@
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
-			<filename>category.xml</filename>
 			<filename>config.xml</filename>
 			<filename>contact.php</filename>
 			<filename>controller.php</filename>

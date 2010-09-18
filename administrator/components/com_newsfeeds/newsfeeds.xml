@@ -40,7 +40,6 @@
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
-			<filename>category.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
