@@ -30,7 +30,8 @@ $ -> Language fix or change
 19-Sep-2010 Jean-Marie Simonet
  # [#22498] Translating Manager Extensions Types for install/uninstall messages. Thanks Sam.
  # [#22433] Editor-xtd plugins not working when no editor is selected. Thanks Mathavan.
-
+ # [#22500] Save 2 New for menu items doesn't save and sends you to new menu. Thanks Elin.
+ 
 18-Sep-2010 Jean-Marie Simonet
  #$ [#22462] Module articles Categories - update options. Thanks Bill.
  # [#22496] Commit 22440 prevents custom position from being entered. Thanks Roland
