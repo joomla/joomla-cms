@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Sep-2010 Jean-Marie Simonet
+[#22498] Translating Manager Extensions Types for install/uninstall messages. Thanks Sam.
+
 18-Sep-2010 Jean-Marie Simonet
  #$ [#22462] Module articles Categories - update options. Thanks Bill.
  # [#22496] Commit 22440 prevents custom position from being entered. Thanks Roland

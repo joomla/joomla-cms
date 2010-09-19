@@ -176,22 +176,11 @@ class InstallerModelManage extends InstallerModel
 					$failed[] = $id;
 				}
 			}
-			if ($row->type == file) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_FILE');
-			} else if ($row->type == component) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_COMPONENT');
-			} else if ($row->type == language) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_LANGUAGE');
-			} else if ($row->type == library) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_LIBRARY');
-			} else if ($row->type == module) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_MODULE');
-			} else if ($row->type == package) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_PACKAGE');
-			} else if ($row->type == plugin) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_PLUGIN');
-			} else if ($row->type == template) {
-				$rowtype= JText::_('COM_INSTALLER_TYPE_TEMPLATE');
+			
+			$langstring = 'COM_INSTALLER_TYPE_'. strtoupper($row->type);
+			$rowtype = JText::_($langstring);
+			if(strpos($rowtype, $langstring) !== false) {
+				$rowtype = $row->type;
 			}
 			
 			if (count($failed)) {
