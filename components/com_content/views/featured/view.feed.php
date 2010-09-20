@@ -32,6 +32,7 @@ class ContentViewFeatured extends JView
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		$categories = JCategories::getInstance('Content');
 		$rows		= $this->get('Items');
 		foreach ($rows as $row)
 		{
@@ -57,7 +58,16 @@ class ContentViewFeatured extends JView
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $row->created;
-			$item->category		= 'featured';
+			
+			$item_category		= $categories->get($row->catid);
+			$item->category		= array();
+			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
+			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent()) {
+				if ($item_category->id > 1) { // Only add non-root categories
+					$item->category[] = $item_category->title;
+				}
+			}
+			
 			$item->author		= $author;
 			if ($feedEmail == 'site') {
 				$item->authorEmail = $siteEmail;

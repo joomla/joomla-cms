@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2010 Mark Dexter
+# [#21816] JFeedItem->category should now be an array
+
 19-Sep-2010 Jean-Marie Simonet
  # [#22498] Translating Manager Extensions Types for install/uninstall messages. Thanks Sam.
  # [#22433] Editor-xtd plugins not working when no editor is selected. Thanks Mathavan.

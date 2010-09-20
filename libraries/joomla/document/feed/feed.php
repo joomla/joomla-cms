@@ -311,7 +311,7 @@ class JFeedItem extends JObject
 	 *
 	 * optional
 	 *
-	 * @var		string
+	 * @var		array or string
 	 * @access	public
 	 */
 	 var $category;

@@ -94,7 +94,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$pubDate = JFactory::getDate($data->pubDate);
 			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
-		if ($data->category!="") {
+		if (empty($data->category) === false) {
 			$feed.= "		<category>".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."</category>\n";
 		}
 		if ($data->docs!="") {
@@ -134,8 +134,15 @@ class JDocumentRendererRSS extends JDocumentRenderer
 					$data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			}
 			*/
-			if ($data->items[$i]->category!="") {
-				$feed.= "			<category>".htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8')."</category>\n";
+			if (empty($data->items[$i]->category) === false) {
+				if (is_array($data->items[$i]->category)) {
+					foreach ($data->items[$i]->category as $cat) {
+						$feed.= "			<category>".htmlspecialchars($cat, ENT_COMPAT, 'UTF-8')."</category>\n";
+					}
+				}
+				else {
+					$feed.= "			<category>".htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8')."</category>\n";
+				}
 			}
 			if ($data->items[$i]->comments!="") {
 				$feed.= "			<comments>".htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8')."</comments>\n";
