@@ -29,6 +29,9 @@ $ -> Language fix or change
 
 -------------------- 1.6.0 Beta10 Release [20-Sep-2010] ------------------
 
+21-Sep-2010 Christophe Demko
+ # [#22451] Categories save for categories at root is not accounting for extensions (thanks Elin)
+
 20-Sep-2010 Mark Dexter
 # [#21816] JFeedItem->category should now be an array
 
