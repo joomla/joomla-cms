@@ -1,6 +1,6 @@
 /**
  * Tinymce template_list.js sample file
- * @version tinymce 3.2.6
+ * @version tinymce 3.3.9
  * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -10,6 +10,10 @@
  * other free or open source software licenses.
  * See COPYRIGHT.php for copyright notices and details.
  */
+
+// This list may be created by a server logic page PHP/ASP/ASPX/JSP in some backend system.
+// There templates will be displayed as a dropdown in all media dialog if the "template_external_list_url"
+// option is defined in TinyMCE init.
 
 var tinyMCETemplateList = [
 	// Name, URL, Description

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2010 Jean-Marie Simonet
+ ^ [#22514] Upgrade TinyMCE to 3.3.9. Thanks Michael.
+
 -------------------- 1.6.0 Beta10 Release [20-Sep-2010] ------------------
 
 21-Sep-2010 Christophe Demko
