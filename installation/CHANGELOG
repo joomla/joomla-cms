@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-Sep-2010 Jean-Marie Simonet
  ^ [#22514] Upgrade TinyMCE to 3.3.9. Thanks Michael.
+ #$ [#21970] Some_message_here language string needs proper message.
 
 -------------------- 1.6.0 Beta10 Release [20-Sep-2010] ------------------
 
