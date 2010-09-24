@@ -34,7 +34,7 @@
 	</fieldset>
 	
 	<fieldset name="category"
-		label="COM_WEBLINKS_CATEGORY_LABEL"
+		label="JCATEGORY"
 		description="COM_WEBLINKS_CATEGORY_DESC"
 	>
 		
@@ -110,7 +110,7 @@
 	</fieldset>
 	
 	<fieldset name="categories"
-		label="COM_WEBLINKS_CATEGORIES_LABEL"
+		label="JCATEGORIES"
 		description="COM_WEBLINKS_CATEGORIES_DESC"
 	>
 			<field name="show_base_description" type="radio"
@@ -167,7 +167,7 @@
 	
 	
 	<fieldset name="list_layout"
-		label="COM_WEBLINKS_LIST_LAYOUT_LABEL"
+		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_WEBLINKS_LIST_LAYOUT_DESC"
 	>
 
@@ -230,7 +230,7 @@
 	
 	<fieldset
 		name="integration"
-		label="COM_WEBLINKS_CONFIG_INTEGRATION_SETTINGS_LABEL"
+		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_WEBLINKS_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
 

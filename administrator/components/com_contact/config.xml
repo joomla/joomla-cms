@@ -308,7 +308,7 @@
 	</fieldset>
 	
 	<fieldset name="Category" 
-			label="COM_CONTACT_FIELD_CONFIG_CATEGORY_LABEL"
+			label="JCATEGORY"
 			description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
 	>
 			
@@ -389,7 +389,7 @@
 	</fieldset>
 	
 			<fieldset name="categories"
-			label="COM_CONTACT_FIELD_CONFIG_CATEGORIES_LABEL"
+			label="JCATEGORIES"
 			description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
 	>
 			<field name="show_base_description" type="radio"
@@ -448,7 +448,7 @@
 	</fieldset>
 	
 	<fieldset name="contacts"
-		label="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_LABEL"
+		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
 	>
 		<field name="show_pagination_limit" type="radio"
@@ -659,7 +659,7 @@
 	</fieldset>
 
 	<fieldset name="integration"
-		label="JGLOBAL_MENUS_LAYOUT_INTEGRATION_OPTIONS_LABEL"
+		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
 

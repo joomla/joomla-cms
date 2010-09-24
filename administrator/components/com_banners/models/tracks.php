@@ -381,7 +381,7 @@ class BannersModelTracks extends JModelList
 			$this->content.=
 			'"'.str_replace('"','""',JText::_('COM_BANNERS_HEADING_NAME')).'","'.
 				str_replace('"','""',JText::_('COM_BANNERS_HEADING_CLIENT')).'","'.
-				str_replace('"','""',JText::_('JGRID_HEADING_CATEGORY')).'","'.
+				str_replace('"','""',JText::_('JCATEGORY')).'","'.
 				str_replace('"','""',JText::_('COM_BANNERS_HEADING_TYPE')).'","'.
 				str_replace('"','""',JText::_('COM_BANNERS_HEADING_COUNT')).'","'.
 				str_replace('"','""',JText::_('JDATE')).'"'."\n";

@@ -52,7 +52,7 @@
 
 	<fieldset
 		name="category"
-		label="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_LABEL"
+		label="JCATEGORY"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_DESC">
 
 		<field name="show_category_title" type="radio"
@@ -133,7 +133,7 @@
 	</fieldset>
 	
 	<fieldset name="categories"
-		label="COM_NEWSFEEDS_CATEGORIES_LABEL"
+		label="JCATEGORIES"
 		description="COM_NEWSFEEDS_CATEGORIES_DESC">
 		
 		<field name="show_base_description" type="radio"
@@ -189,7 +189,7 @@
 	
 	<fieldset
 		name="listlayout"
-		label="COM_NEWSFEEDS_FIELD_CONFIG_LIST_SETTINGS_LABEL"
+		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_LIST_SETTINGS_DESC">
 
 		<field
