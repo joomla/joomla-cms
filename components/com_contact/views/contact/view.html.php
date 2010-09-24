@@ -177,20 +177,22 @@ class ContactViewContact extends JView
 		} else {
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
-		if($menu && $menu->query['view'] != 'contact')
+		$id = (int) @$menu->query['id'];
+
+		// if the menu item does not concern this newsfeed
+		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id))
 		{
-			$id = (int) @$menu->query['id'];
-			$path = array($this->contact->name => '');
+			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
-			while($id != $category->id && $category->id > 1)
+			while (($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $category->id) && $category->id > 1)
 			{
-				$path[$category->title] = ContactHelperRoute::getCategoryRoute($this->contact->catid);
+				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
-			foreach($path as $name => $link)
+			foreach($path as $item)
 			{
-				$pathway->addItem($title, $link);
+				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
 
@@ -202,19 +204,6 @@ class ContactViewContact extends JView
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
 		$this->document->setTitle($title);
-
-		if ($menu && $menu->query['view'] != 'contact')
-		{
-			$id = (int) @$menu->query['id'];
-			$path = array($this->item->name  => '');
-			$category = JCategories::getInstance('Contact')->get($this->item->catid);
-			while ($id != $category->id && $category->id > 1)
-			{
-				$path[$category->title] = ContactHelperRoute::getCategoryRoute($category->id);
-				$category = $category->getParent();
-			}
-			$path = array_reverse($path);
-		}
 
 		if (empty($title))
 		{

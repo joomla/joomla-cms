@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Sep-2010 Jean-Marie Simonet
+ # [#22016] Breadcrumbs missing from single items. Thanks Christophe.
+
 22-Sep-2010 Jean-Marie Simonet
  ^ [#22514] Upgrade TinyMCE to 3.3.9. Thanks Michael.
  #$ [#21970] Some_message_here language string needs proper message.

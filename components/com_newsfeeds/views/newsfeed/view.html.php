@@ -62,7 +62,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Get Category Model data
 		$categoryModel = JModel::getInstance('Category', 'NewsfeedsModel', array('ignore_request' => true));
 		$categoryModel->setState('category.id', $item->catid);
-		$categoryModel->setState('list.ordering', 'a.title');
+		$categoryModel->setState('list.ordering', 'a.name');
 		$categoryModel->setState('list.direction', 'asc');		
 		$items = $categoryModel->getItems();
 		}
@@ -218,18 +218,23 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 		$this->document->setTitle($title);
 
-		if ($menu && $menu->query['view'] != 'newsfeed') {
-			$id = (int) @$menu->query['id'];
-			$path = array($this->item->name  => '');
+		$id = (int) @$menu->query['id'];
+
+		// if the menu item does not concern this newsfeed
+		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] != 'newsfeed' || $id != $this->item->id))
+		{
+			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
-			if ($category){
-				while ($id != $category->id && $category->id > 1)
-				{
-					$path[$category->title] = NewsfeedHelperRoute::getCategoryRoute($category->id);
-					$category = $category->getParent();
-				}
-				$path = array_reverse($path);
- 			}
+			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
+			{
+				$path[] = array('title' => $category->title, 'link' => NewsfeedHelperRoute::getCategoryRoute($category->id));
+				$category = $category->getParent();
+			}
+ 			$path = array_reverse($path);
+			foreach($path as $item)
+			{
+				$pathway->addItem($item['title'], $item['link']);
+			}
 		}
 
 		if (empty($title)) {

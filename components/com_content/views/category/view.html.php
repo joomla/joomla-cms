@@ -170,22 +170,22 @@ class ContentViewCategory extends JView
 			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
 		}
 
-		$id = @$menu->query['id'];
-
-		if ($menu && $menu->query['view'] != 'article' && $id != $this->category->id) {
-			
-			$path = array($this->category->title  => '');
+		$id = (int) @$menu->query['id'];
+		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $this->category->id))
+		{
+			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while ($id != $category->id && $category->id > 1) {
-				$path[$category->title] = ContentHelperRoute::getCategoryRoute($category->id);
+			while (($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
+			{
+				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 
 			$path = array_reverse($path);
 
-			foreach ($path as $title => $link) {
-				$pathway->addItem($title, $link);
+			foreach ($path as $item) {
+				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
 

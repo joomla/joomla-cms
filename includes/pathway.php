@@ -70,7 +70,7 @@ class JPathwaySite extends JPathway
 								$url = 'index.php?Itemid='.$link->id;
 							}
 							else {
-								$url .= '&Itemid='.$link->id;
+								$url .= $link->link.'&Itemid='.$link->id;
 							}
 							break;
 					}

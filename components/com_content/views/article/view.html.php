@@ -176,17 +176,23 @@ class ContentViewArticle extends JView
 		}
 		$this->document->setTitle($title);
 
-		if ($menu && $menu->query['view'] != 'article')
+		$id = (int) @$menu->query['id'];
+		
+		// if the menu item does not concern this article
+		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
 		{
-			$id = (int) @$menu->query['id'];
-			$path = array($this->item->title  => '');
+			$path = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
-			while ($id != $category->id && $category->id > 1)
+			while (($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[$category->title] = ContentHelperRoute::getCategoryRoute($category->id);
+				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
+			foreach($path as $item)
+			{
+				$pathway->addItem($item['title'], $item['link']);
+			}
 		}
 
 		if (empty($title))
@@ -229,19 +235,6 @@ class ContentViewArticle extends JView
 		{
 			$this->item->title = $this->item->title . ' - ' . $this->item->page_title;
 			$this->document->setTitle($this->item->page_title . ' - ' . JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $this->state->get('list.offset') + 1));
-		}
-
-		//
-		// Handle the breadcrumbs
-		//
-		if ($menu && $menu->query['view'] != 'article')
-		{
-			switch ($menu->query['view'])
-			{
-			case 'category':
-				$pathway->addItem($this->item->title, '');
-				break;
-			}
 		}
 
 		if ($this->print)
