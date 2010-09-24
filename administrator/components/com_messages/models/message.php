@@ -88,13 +88,13 @@ class MessagesModelMessage extends JModelAdmin
 						$item->set('subject', $re.$message->subject);
 					}
 				}
-			} else {
-				// Get the user name for an existing messasge.
-				if ($item->user_id_from && $fromUser = new JUser($item->user_id_from)) {
-					$item->set('from_user_name', $fromUser->name);
-				}
 			}
 		}
+		
+		// Get the user name for an existing messasge.
+		if ($item->user_id_from && $fromUser = new JUser($item->user_id_from)) {
+			$item->set('from_user_name', $fromUser->name);
+		}		
 
 		return $item;
 	}

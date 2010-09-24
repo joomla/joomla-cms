@@ -30,6 +30,7 @@ $ -> Language fix or change
 24-Sep-2010 Jean-Marie Simonet
  # [#22016] Breadcrumbs missing from single items. Thanks Christophe.
  #$ [#22576] Component Manager Options - needless use of name options in tab headings + Normalizing some strings.
+ # [#22549] No from user shown on Private Messages. Thanks Tim.
 
 22-Sep-2010 Jean-Marie Simonet
  ^ [#22514] Upgrade TinyMCE to 3.3.9. Thanks Michael.
