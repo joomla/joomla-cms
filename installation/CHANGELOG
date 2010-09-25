@@ -27,6 +27,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
 24-Sep-2010 Jean-Marie Simonet
  # [#22016] Breadcrumbs missing from single items. Thanks Christophe.
  #$ [#22576] Component Manager Options - needless use of name options in tab headings + Normalizing some strings.
