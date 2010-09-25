@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+25-Sep-2010 Jean-Marie Simonet
+ # [#22493] Can not register user fatal error message
+
 24-Sep-2010 Jean-Marie Simonet
  # [#22016] Breadcrumbs missing from single items. Thanks Christophe.
  #$ [#22576] Component Manager Options - needless use of name options in tab headings + Normalizing some strings.

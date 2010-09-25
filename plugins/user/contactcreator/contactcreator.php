@@ -80,7 +80,7 @@ class plgUserContactCreator extends JPlugin
 			$result = $contact->store();
 		}
 		if(!(isset($result)) || !$result) {
-			JError::raiseError(42, JText::sprintf('PLG_CONTACTCREATOR_ERR_FAILED_UPDATE', $contact->getErrorMsg()));
+			JError::raiseError(42, JText::sprintf('PLG_CONTACTCREATOR_ERR_FAILED_UPDATE', $db->getErrorMsg()));
 		}
 	}
 
