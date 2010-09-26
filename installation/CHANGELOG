@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+26-Sep-2010 Jean-Marie Simonet
+[#22596] Implementing language filtering in modals + normalizing filters/columns + fixing Newsfeeds language filtering
+
 25-Sep-2010 Jean-Marie Simonet
  # [#22493] Can not register user fatal error message
 

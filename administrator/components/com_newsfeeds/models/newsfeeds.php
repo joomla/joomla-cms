@@ -73,6 +73,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.state');
 		$id	.= ':'.$this->getState('filter.category_id');
+		$id .= ':'.$this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -147,6 +148,11 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
 				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
+		}
+		
+		// Filter on the language.
+		if ($language = $this->getState('filter.language')) {
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
