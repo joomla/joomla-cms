@@ -30,9 +30,10 @@ $ -> Language fix or change
 
 27-Sep-2010 Jean-Marie Simonet
  # [#21825] Pagebreak and Article Buttons don't work when using CodeMirror. Thanks Mathavan.
+ $ Adding missing strings in front-end
  
 26-Sep-2010 Jean-Marie Simonet
-[#22596] Implementing language filtering in modals + normalizing filters/columns + fixing Newsfeeds language filtering
+ # [#22596] Implementing language filtering in modals + normalizing filters/columns + fixing Newsfeeds language filtering
 
 25-Sep-2010 Jean-Marie Simonet
  # [#22493] Can not register user fatal error message
