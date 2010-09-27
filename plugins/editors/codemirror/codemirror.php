@@ -227,7 +227,7 @@ class plgEditorCodemirror extends JPlugin
 				// Results should be an object
 				if ($button->get('name')) {
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.$button->get('link').'"' : null;
+					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$html[] = '<div class="button2-left"><div class="'.$button->get('name').'">';
 					$html[] = '<a '.$modal.' title="'.$button->get('text').'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';

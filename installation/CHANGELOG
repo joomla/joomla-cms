@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+27-Sep-2010 Jean-Marie Simonet
+ # [#21825] Pagebreak and Article Buttons don't work when using CodeMirror. Thanks Mathavan.
+ 
 26-Sep-2010 Jean-Marie Simonet
 [#22596] Implementing language filtering in modals + normalizing filters/columns + fixing Newsfeeds language filtering
 
