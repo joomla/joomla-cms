@@ -1790,8 +1790,7 @@ p {
 
 #section-box {
 	float: right;
-	width: auto;
-	max-width: 300px;
+	width: 300px;
 	margin-left: 10px;
 	margin-right: 10px;
 	background-color: #fff;

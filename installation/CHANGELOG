@@ -31,6 +31,7 @@ $ -> Language fix or change
 27-Sep-2010 Jean-Marie Simonet
  # [#21825] Pagebreak and Article Buttons don't work when using CodeMirror. Thanks Mathavan.
  $ Adding missing strings in front-end
+ #  [#22432] Administrator login form not consistent in Chrome. Thanks Bill and Viet.
  
 26-Sep-2010 Jean-Marie Simonet
  # [#22596] Implementing language filtering in modals + normalizing filters/columns + fixing Newsfeeds language filtering
