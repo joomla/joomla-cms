@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 28-Sep-2010 Christophe Demko
+ # [#22603] XML well formedness errors in com_messages and com_weblinks (thanks Rouven Weßling)
  # [#22125] We don't have CSS for system "warning" messages - deleting and moving icons
 
 28-Sep-2010 Mark Dexter
