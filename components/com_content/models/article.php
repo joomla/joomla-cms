@@ -125,7 +125,7 @@ class ContentModelArticle extends JModelItem
 				}
 
 				if (empty($data)) {
-					JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
+					throw new JException(JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.

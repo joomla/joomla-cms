@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2010 Mark Dexter
+ # [#21766] If an unpublished article is linked there are errors instead of a message/model change
+
 28-Sep-2010 Jean-Marie Simonet
  $ Adding missing strings in installation.
 
