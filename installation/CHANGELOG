@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2010 Christophe Demko
+ # [#22125] We don't have CSS for system "warning" messages - deleting and moving icons
+
 28-Sep-2010 Mark Dexter
  # [#21766] If an unpublished article is linked there are errors instead of a message/model change
 
