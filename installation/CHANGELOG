@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Sep-2010 Jean-Marie Simonet
+ $ Adding missing strings in installation.
+
 27-Sep-2010 Jean-Marie Simonet
  # [#21825] Pagebreak and Article Buttons don't work when using CodeMirror. Thanks Mathavan.
  $ Adding missing strings in front-end

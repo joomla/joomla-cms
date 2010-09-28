@@ -127,7 +127,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 								<?php if ($this->config) : ?>
 								<tr>
 									<td class="small">
-										<?php echo JText::_('confProblem'); ?>
+										<?php echo JText::_('INSTL_CONFPROBLEM'); ?>
 									</td>
 								</tr>
 								<tr>
