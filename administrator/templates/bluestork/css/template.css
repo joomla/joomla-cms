@@ -1985,12 +1985,16 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-generic					{	background-image: url(../images/header/icon-48-generic.png);	}
 .icon-48-banners					{	background-image: url(../images/header/icon-48-banner.png);	}
 .icon-48-banners-categories			{	background-image: url(../images/header/icon-48-banner-categories.png);	}
+.icon-48-banners-category-edit		{	background-image: url(../images/header/icon-48-banner-categories.png);	}
+.icon-48-banners-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-banners-clients			{	background-image: url(../images/header/icon-48-banner-client.png);	}
 .icon-48-banners-tracks				{	background-image: url(../images/header/icon-48-banner-tracks.png);	}
 .icon-48-checkin					{	background-image: url(../images/header/icon-48-checkin.png);	}
 .icon-48-clear						{	background-image: url(../images/header/icon-48-clear.png);	}
 .icon-48-contact					{	background-image: url(../images/header/icon-48-contacts.png);	}
 .icon-48-contact-categories			{	background-image: url(../images/header/icon-48-contacts-categories.png);	}
+.icon-48-contact-category-edit		{	background-image: url(../images/header/icon-48-contacts-categories.png);	}
+.icon-48-contact-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-purge						{	background-image: url(../images/header/icon-48-purge.png);	}
 .icon-48-cpanel						{	background-image: url(../images/header/icon-48-cpanel.png);	}
 .icon-48-config						{	background-image: url(../images/header/icon-48-config.png);	}
@@ -2003,6 +2007,8 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-menu-add					{	background-image: url(../images/header/icon-48-menu-add.png);	}
 .icon-48-menumgr					{	background-image: url(../images/header/icon-48-menumgr.png);	}
 .icon-48-newsfeeds-categories		{	background-image: url(../images/header/icon-48-newsfeeds-cat.png);	}
+.icon-48-newsfeeds-category-edit	{	background-image: url(../images/header/icon-48-newsfeeds-cat.png);	}
+.icon-48-newsfeeds-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-trash						{	background-image: url(../images/header/icon-48-trash.png);	}
 .icon-48-user						{	background-image: url(../images/header/icon-48-user.png);	}
 .icon-48-user-add					{	background-image: url(../images/header/icon-48-user-add.png);	}
@@ -2023,6 +2029,9 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-article-add				{	background-image: url(../images/header/icon-48-article-add.png);	}
 .icon-48-article-edit				{	background-image: url(../images/header/icon-48-article-edit.png);	}
 .icon-48-article					{	background-image: url(../images/header/icon-48-article.png);	}
+.icon-48-content-categories			{	background-image: url(../images/header/icon-48-category.png);	}
+.icon-48-content-category-edit		{	background-image: url(../images/header/icon-48-category.png);	}
+.icon-48-content-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-categories					{	background-image: url(../images/header/icon-48-category.png);	}
 .icon-48-category-add				{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-install					{	background-image: url(../images/header/icon-48-extension.png);	}
@@ -2037,6 +2046,8 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-newsfeeds-cat				{	background-image: url(../images/header/icon-48-newsfeeds-cat.png);	}
 .icon-48-weblinks					{	background-image: url(../images/header/icon-48-links.png);	}
 .icon-48-weblinks-categories		{	background-image: url(../images/header/icon-48-links-cat.png);	}
+.icon-48-weblinks-category-edit		{	background-image: url(../images/header/icon-48-links-cat.png);	}
+.icon-48-weblinks-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
 
 /* -- BASIC MENU STYLES ----------------------------- */
 

@@ -2467,6 +2467,14 @@ a.jgrid:hover {
 	background-image: url(../images/header/icon-48-banner-categories.png);
 }
 
+.icon-48-banners-category-edit {
+	background-image: url(../images/header/icon-48-banner-categories.png);
+}
+
+.icon-48-banners-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
+}
+
 .icon-48-banners-clients {
 	background-image: url(../images/header/icon-48-banner-client.png);
 }
@@ -2489,6 +2497,14 @@ a.jgrid:hover {
 
 .icon-48-contact-categories {
 	background-image: url(../images/header/icon-48-contacts-categories.png);
+}
+
+.icon-48-contact-category-edit {
+	background-image: url(../images/header/icon-48-contacts-categories.png);
+}
+
+.icon-48-contact-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
 }
 
 .icon-48-purge {
@@ -2619,6 +2635,18 @@ a.jgrid:hover {
 	background-image: url(../images/header/icon-48-category.png);
 }
 
+.icon-48-content-categories {
+	background-image: url(../images/header/icon-48-category.png);
+}
+
+.icon-48-content-category-edit {
+	background-image: url(../images/header/icon-48-category.png);
+}
+
+.icon-48-content-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
+}
+
 .icon-48-category-add {
 	background-image: url(../images/header/icon-48-category-add.png);
 }
@@ -2655,11 +2683,28 @@ a.jgrid:hover {
 	background-image: url(../images/header/icon-48-newsfeeds-cat.png);
 }
 
+.icon-48-newsfeeds-category-edit {
+	background-image: url(../images/header/icon-48-newsfeeds-cat.png);
+}
+
+.icon-48-newsfeeds-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
+}
+
 .icon-48-weblinks {
 	background-image: url(../images/header/icon-48-links.png);
 }
+
 .icon-48-weblinks-categories {
 	background-image: url(../images/header/icon-48-links-cat.png);
+}
+
+.icon-48-weblinks-category-edit {
+	background-image: url(../images/header/icon-48-links-cat.png);
+}
+
+.icon-48-weblinks-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
 }
 
 /**

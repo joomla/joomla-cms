@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2010 Jean-Marie Simonet
+[#22512] Category didn't load component translations. Thanks Christophe and Marcelo.
+
 28-Sep-2010 Ron Severdia
  # Fixed misplaced DIV in Atomic
  ^ Updated Atomic preview & thumbnail

@@ -65,6 +65,14 @@ class CategoriesViewCategory extends JView
  		// The extension can be in the form com_foo.section
 		$parts = explode('.',$extension);
 		$component = $parts[0];
+		$section = (count($parts) > 1) ? $parts[1] : null;
+
+		// Need to load the menu language file as mod_menu hasn't been loaded yet.
+		$lang = JFactory::getLanguage();
+			$lang->load($component.'.sys', JPATH_BASE, null, false, false)
+		||	$lang->load($component.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component, null, false, false)
+		||	$lang->load($component.'.sys', JPATH_BASE, $lang->getDefault(), false, false)
+		||	$lang->load($component.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
 		// Load the category helper.
 		require_once JPATH_COMPONENT.'/helpers/categories.php';
@@ -72,7 +80,24 @@ class CategoriesViewCategory extends JView
 		// Get the results for each action.
 		$canDo = CategoriesHelper::getActions($component, $this->item->id);
 
-		JToolBarHelper::title(JText::_($isNew ? 'COM_CATEGORIES_CATEGORY_ADD_TITLE' : 'COM_CATEGORIES_CATEGORY_EDIT_TITLE'), 'category-add');
+		// If a component categories title string is present, let's use it.
+		if ($lang->hasKey($component_title_key = $component.($section?"_$section":'').'_CATEGORY'.($isNew?'_ADD':'_EDIT').'_TITLE')) {
+			$title = JText::_($component_title_key);
+		}
+		// Else if the component section string exits, let's use it
+		elseif ($lang->hasKey($component_section_key = $component.($section?"_$section":''))) {
+			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORY'.($isNew?'_ADD':'_EDIT').'_TITLE', $this->escape(JText::_($component_section_key)));
+		}
+		// Else use the base title
+		else {
+			$title = JText::_('COM_CATEGORIES_CATEGORY_BASE'.($isNew?'_ADD':'_EDIT').'_TITLE');
+		}
+
+		// Load specific css component 
+		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
+		
+		// Prepare the toolbar.
+		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-category'.($isNew?'-add':'-edit').'.png');
 
 		// If a new item, can save the item.
 		if ($isNew && $canDo->get('core.create') && !$canDo->get('core.edit')) {

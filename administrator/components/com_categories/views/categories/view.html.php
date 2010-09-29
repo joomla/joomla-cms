@@ -91,29 +91,31 @@ class CategoriesViewCategories extends JView
 		||	$lang->load($component.'.sys', JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load($component.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
- 		// The extension can be in the form com_foo.section
-		$parts = explode('.',$extension);
-		$component = $parts[0];
-
-		// Load the category helper.
+ 		// Load the category helper.
 		require_once JPATH_COMPONENT.'/helpers/categories.php';
 
 		// Get the results for each action.
 		$canDo = CategoriesHelper::getActions($component, $categoryId);
 
-		// If the string is present, let's use it.
-		if ($this->escape(JText::_($component.($section?"_$section":''))) !=NULL) {
-			$title = JText::sprintf(
-				'COM_CATEGORIES_CATEGORIES_TITLE',
-				$this->escape(JText::_($component.($section?"_$section":'')))
-			);
+		// If a component categories title string is present, let's use it.
+		if ($lang->hasKey($component_title_key = $component.($section?"_$section":'').'_CATEGORIES'.'_TITLE')) {
+			$title = JText::_($component_title_key);
 		}
+		// Else if the component section string exits, let's use it
+		elseif ($lang->hasKey($component_section_key = $component.($section?"_$section":''))) {
+			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(JText::_($component_section_key)));
+		}
+		// Else use the base title
 		else {
 			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 		}
 
+		// Load specific css component 
+		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
+		
 		// Prepare the toolbar.
-		JToolBarHelper::title($title, 'categories.png');
+		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-categories.png');
+
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
 		}
