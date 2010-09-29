@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 29-Sep-2010 Jean-Marie Simonet
-[#22512] Category didn't load component translations. Thanks Christophe and Marcelo.
+ # [#22512] Category didn't load component translations. Thanks Christophe and Marcelo.
+ # [#22591] Trashing an item in Featured Articles view redirects to non-Featured Articles view. Thanks Mathavan.
 
 28-Sep-2010 Ron Severdia
  # Fixed misplaced DIV in Atomic
