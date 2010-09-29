@@ -41,7 +41,6 @@ $app = JFactory::getApplication();
 		<!-- The following line loads the template JavaScript file located in the template folder. It's blank by default. -->
 		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/js/template.js"></script>
 	</head>
-
 	<body>
 		<div class="container">
 			<hr class="space" />
@@ -66,28 +65,28 @@ $app = JFactory::getApplication();
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
 				<hr />
+			<?php if($this->countModules('atomic-bottomleft')) : ?>
+			 	<div class="span-7 colborder">
+					<jdoc:include type="modules" name="atomic-bottomleft" style="bottommodule" />
+	        	</div>
+	        <?php endif; ?>
+	       
+	        <?php if($this->countModules('atomic-bottommiddle')) : ?>
+				<div class="span-7 last">
+	        		<jdoc:include type="modules" name="atomic-bottommiddle" style="bottommodule" />
+				</div>
+			<?php endif; ?>
 			</div>
-		<?php if($this->countModules('atomic-bottomleft')) : ?>
-		 	<div class="span-7 colborder">
-				<jdoc:include type="modules" name="atomic-bottomleft" style="bottommodule" />
-        	</div>
-        <?php endif; ?>
-
-        <?php if($this->countModules('atomic-bottommiddle')) : ?>
-			<div class="span-7 last">
-        		<jdoc:include type="modules" name="atomic-bottommiddle" style="bottommodule" />
+			<?php if($this->countModules('atomic-sidebar')) : ?>
+				<div class="span-7 last">
+	        		<jdoc:include type="modules" name="atomic-sidebar" style="sidebar" />
+				</div>
+			<?php endif; ?>
+			
+			<div class="joomla-footer span-16 append-1">
+				<hr />
+				&copy;<?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>
 			</div>
-		<?php endif; ?>
-		</div>
-		<?php if($this->countModules('atomic-sidebar')) : ?>
-			<div class="span-7 last">
-        		<jdoc:include type="modules" name="atomic-sidebar" style="sidebar" />
-			</div>
-		<?php endif; ?>
-		
-		<div class="joomla-footer span-16 append-1">
-			<hr />
-			&copy;<?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>
 		</div>
 	</body>
 </html>

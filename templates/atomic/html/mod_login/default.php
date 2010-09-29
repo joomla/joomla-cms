@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
 <?php if ($type == 'logout') : ?>
-<form action="index.php" method="post" name="form-login" id="form-login">
+<form action="index.php" method="post" id="form-login">
 <?php if ($params->get('greeting')) : ?>
 	<div>
 	<?php if($params->get('name') == 0) : {
@@ -31,7 +31,7 @@ JHtml::_('behavior.keepalive');
 	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
-<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="form-login" id="form-login" >
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login" >
 	<?php echo $params->get('pretext'); ?>
 	<fieldset class="input">
 	<p id="form-login-username">
