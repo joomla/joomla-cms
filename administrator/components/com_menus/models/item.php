@@ -983,6 +983,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		$this->setState('item.id', $table->id);
+		$this->setState('item.menutype', $table->menutype);
 
 		// Clear the component's cache
 		$cache = JFactory::getCache('com_modules');

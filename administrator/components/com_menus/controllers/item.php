@@ -54,7 +54,7 @@ class MenusControllerItem extends JControllerForm
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Item');
+		$model	= $this->getModel('Item', '', array());
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
@@ -166,7 +166,7 @@ class MenusControllerItem extends JControllerForm
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Item');
+		$model	= $this->getModel('Item', '', array());
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
@@ -272,6 +272,7 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
 				$app->setUserState('com_menus.edit.item.link',	null);
+				$app->setUserState('com_menus.edit.item.menutype',	$model->getState('item.menutype'));
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));

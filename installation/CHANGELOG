@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Sep-2010 Jean-Marie Simonet
+ # [#22582] Menu location lost after pressing "Save & New". Thanks Mathavan
+ 
 29-Sep-2010 Jean-Marie Simonet
  # [#22512] Category didn't load component translations. Thanks Christophe and Marcelo.
  # [#22591] Trashing an item in Featured Articles view redirects to non-Featured Articles view. Thanks Mathavan.
