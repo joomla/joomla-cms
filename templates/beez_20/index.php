@@ -142,9 +142,9 @@ $templateparams     = $app->getTemplate(true)->params;
                         </div><!-- end header -->
                         <div id="<?php echo $showRightColumn ? 'contentarea2' : 'contentarea'; ?>">
                                         <div id="breadcrumbs">
-                                                <p>
+                                            
                                                         <jdoc:include type="modules" name="position-2" />
-                                                </p>
+                                            
                                         </div>
 
                                         <?php if ($navposition=='left' AND $showleft) : ?>

@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 
+2-Oct-2010 Jean-Marie Simonet
+ # [#22306] Module CSS class and id changes  Thanks Angie.
+
 30-Sep-2010 Jean-Marie Simonet
  # [#22582] Menu location lost after pressing "Save & New". Thanks Mathavan
  

@@ -180,7 +180,7 @@ em
 {
         padding:0 0 0 0px;
         text-align:left;
-        margin:5px 20px 5px 0px;
+        margin:15px 20px 15px 0px;
         font-size:0.85em
 }
 
@@ -192,7 +192,7 @@ em
 
 #breadcrumbs span
 {
-        padding:7px;
+        padding:0px;
 }
 
 #breadcrumbs span a:link,
@@ -449,7 +449,8 @@ ul.menu li.active ul li.active ul li a:link,
 .item-page
 {
         padding:0 5px;
-        display:block
+        display:block;
+        overflow:hidden
 }
 
 
@@ -1673,28 +1674,29 @@ dl.weblink-count dd
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
-#form-login
+#login-form
 {
         padding-top:5px
 }
 
-#form-login fieldset
+#login-form fieldset
 {
-        padding:0
+        padding:0px;
+  
 }
 
-#form-login .inputbox
+#login-form .inputbox
 {
         padding:2px
 }
 
-#form-login fieldset.input
+#login-form fieldset.input
 {
         padding:10px 0 0 0;
         margin:0px 0 10px 5px
 }
 
-#form-login label
+#login-form label
 {
         margin-right:10px;
                 width:8.4em;
@@ -1706,17 +1708,14 @@ dl.weblink-count dd
 {float:none;
 width:auto;
 display:inline}
-#form-login ul
-{
-        margin-left:5px
-}
 
-#form-login div
+/* #login-form div
 {
         margin:0 0 10px 5px;
         padding:10px 0 0;
         text-align:left
 }
+*/
 
 input.button,
 button.button
@@ -1728,8 +1727,8 @@ button.button
         font-family:arial;
 }
 
-#modlgn_username,
-#modlgn_passwd
+#modlgn-username,
+#modlgn-passwd
 {
         width:9em
 }
@@ -2012,3 +2011,37 @@ text-decoration:none
 
 .feed-link img
 {border:0}
+
+/* pagenav */
+#main ul.pagenav {
+	list-style-type:none;
+	padding:0;
+	overflow:hidden
+}
+ul.pagenav li
+{
+	display:inline-block;
+	padding:0px;
+	margin:0;
+}
+#main ul.pagenav li 
+{
+	line-height:2em
+}
+ul.pagenav li a
+{
+	border:solid 1px #ccc; 
+	display:inline; 
+	background:#eee; 
+	padding:2px; 
+	text-decoration:none
+}
+ul.pagenav li.pagenav_prev 
+{float:left}
+ul.pagenav li.pagenav_next 
+{float:right}
+
+/* mod_languages */
+
+.mod-languages ul li
+{display:inline}

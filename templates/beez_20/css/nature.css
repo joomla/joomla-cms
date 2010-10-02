@@ -185,11 +185,11 @@ h1#logo
 	color:#fff !important;
 	border:solid 1px;
 	top:0px !important;
-	z-index:1000000000000 !important;
+	z-index:1000000 !important;
 	left:10px !important;
 	display:block;
-		width:14em;
-		display:block
+	width:14em;
+	display:block
 }
 /* ++++++++++++++  fontsize  ++++++++++++++ */
 
@@ -621,13 +621,13 @@ ul#archive-items li.row1
 
 .image-left
 {
-	border:solid 1px #ddd;
+	
 		padding:2px
 }
 
 .image-right
 {
-	  border:solid 1px #ddd;
+	  
 		padding:2px
 }
 
@@ -889,7 +889,7 @@ ul.newsflash-horiz li h4
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
-#form-login .inputbox
+#login-form .inputbox
 {
 	border:solid 1px #ddd;
 	background:url(../images/content_bg.gif) repeat-x;
@@ -1388,7 +1388,9 @@ table.pagenav td
 	margin:20px 0 0 0
 }
 
-
+.categories-list .category-desc ul li
+{list-style-type:square
+}
 /* tabs */
 
 div.current
@@ -1396,3 +1398,5 @@ div.current
 
 	background: url(../images/nav_level_1.gif) repeat-x ;
 }
+#close a
+{text-decoration:none}

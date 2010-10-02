@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <form action="<?php echo JRoute::_('index.php');?>" method="post">
 	<div class="search<?php echo $params->get('moduleclass_sfx') ?>">
 		<?php
-			$output = '<label for="mod_search_searchword">'.JText::_('MOD_SEARCH_FIELD_TEXT_LABEL').'</label><input name="searchword" id="mod_search_searchword" maxlength="'.$maxlength.'"  class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
+			$output = '<label for="mod-search-searchword">'.JText::_('MOD_SEARCH_FIELD_TEXT_LABEL').'</label><input name="searchword" id="mod-search-searchword" maxlength="'.$maxlength.'"  class="inputbox'.$moduleclass_sfx.'" type="text" size="'.$width.'" value="'.$text.'"  onblur="if (this.value==\'\') this.value=\''.$text.'\';" onfocus="if (this.value==\''.$text.'\') this.value=\'\';" />';
 
 			if ($button) :
 				if ($imagebutton) :

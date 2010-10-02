@@ -11,9 +11,9 @@
 defined('_JEXEC') or die('Restricted access');
 JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 ?>
-<div class="mod_languages<?php echo $params->get('moduleclass_sfx') ?>">
+<div class="mod-languages<?php echo $params->get('moduleclass_sfx') ?>">
 <?php if ($headerText) : ?>
-	<div class="header"><p><?php echo $headerText; ?></p></div>
+	<div class="pretext"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>
 		<ul>
 <?php foreach($list as $language):?>
@@ -29,6 +29,6 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 <?php endforeach;?>
 		</ul>
 <?php if ($footerText) : ?>
-	<div class="footer"><p><?php echo $footerText; ?></p></div>
+	<div class="posttext"><p><?php echo $footerText; ?></p></div>
 <?php endif; ?>
 </div>

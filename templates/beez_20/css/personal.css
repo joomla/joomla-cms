@@ -687,8 +687,7 @@ ul#archive-items li.row1
 
 .image-left
 {
-	 border:solid 1px #ddd;
-	padding:2px
+	padding:2px;
 }
 
 .image-right
@@ -963,7 +962,7 @@ ul.newsflash-horiz li h4
 
 /* ++++++++++++++  login  ++++++++++++++ */
 
-#form-login .inputbox
+#login-form .inputbox
 {
 	border:solid 1px #ddd;
 	background:url(../images/content_bg.gif) repeat-x;
@@ -1402,10 +1401,12 @@ table.pagenav td
 .cat-children ul ul ul,
 .categories-list ul ul ul
 {
-	list-style-type:circle !important; 
+	
 
 }
-
+.categories-list .category-desc ul li
+{list-style-type:square
+}
 
 /* contact  plain */
 #main .contact h3
@@ -1500,4 +1501,5 @@ div.current
 	background:#095197;
 	color:#fff;
 }
-
+#close a
+{text-decoration:none}
