@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
 <div class="weblink-category<?php echo $pageClass;?>">

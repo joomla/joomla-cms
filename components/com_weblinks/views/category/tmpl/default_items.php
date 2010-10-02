@@ -10,14 +10,17 @@
 // no direct access
 defined('_JEXEC') or die;
 // Code to support edit links for weblinks
-
+// Create a shortcut for params.
+$params = &$this->item->params;
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
+JHtml::core();
 // Get the user object.
 $user = JFactory::getUser();
 // Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks.weblink.');
+$canEdit = $user->authorise('core.edit', 'com_weblinks');
 $canCreate = $user->authorise('core.create', 'com_weblinks');
-
-JHtml::core();
+$canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 
 $n = count($this->items);
 $listOrder	= $this->state->get('list.ordering');
@@ -96,10 +99,14 @@ $listDirn	= $this->state->get('list.direction');
 					}
 				?>
 				<?php // Code to add the edit link for the weblink. ?>
-				<?php if ($canEdit) : ?>
-					<span class="hasTip" title="<?php echo JText::_('COM_WEBLINKS_EDIT'); ?>"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getFormRoute($item->id));?>">
-							<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
-				<?php endif; ?>				
+	
+						<?php if ($canEdit) : ?>
+							<ul class="actions">
+								<li class="edit-icon">
+									<?php echo JHtml::_('icon.edit',$item, $params); ?>
+								</li>
+							</ul>
+						<?php endif; ?>		
 			</p>
 
 			<?php if (($this->params->get('show_link_description')) AND ($item->description !='')): ?>
