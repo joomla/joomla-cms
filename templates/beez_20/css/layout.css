@@ -2045,3 +2045,28 @@ ul.pagenav li.pagenav_next
 
 .mod-languages ul li
 {display:inline}
+
+/* pagebreak */
+
+#article-index
+{
+	width:25%;
+	float:right; 
+	border:solid 1px #eee;
+	padding:10px;
+	margin: 10px 0px 20px 30px;
+	background:#f9faf9
+}
+#article-index h3
+{
+	margin:0;
+	font-size:1em;
+
+
+}
+
+#article-index ul
+{
+	list-style-type:disc;
+	color:#666
+}

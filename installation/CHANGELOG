@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+3-Oct-2010 Jean-Marie Simonet
+ # [#22683] Pagebreak_css. Thanks Angie.
 
 2-Oct-2010 Jean-Marie Simonet
  # [#22306] Module CSS class and id changes  Thanks Angie.
