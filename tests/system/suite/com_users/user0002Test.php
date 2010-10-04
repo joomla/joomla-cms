@@ -44,8 +44,8 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->click("link=Go to site home page.");
     $this->waitForPageToLoad("30000");
     echo("Log in as TestUser.\n");
-    $this->type("modlgn_username", "TestUser" . $salt1);
-    $this->type("modlgn_passwd", "password");
+    $this->type("modlgn-username", "TestUser" . $salt1);
+    $this->type("modlgn-passwd", "password");
     $this->click("Submit");
     $this->waitForPageToLoad("30000");
     echo("Verify existence of new user.\n");
