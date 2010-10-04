@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+4-oct-2010 Christophe Demko
+ # [#22580] Categories - No reset to show - when moving between components (thanks bill richardson and Mathavan Jeyadev)
+
 3-Oct-2010 Jean-Marie Simonet
  # [#22683] Pagebreak_css. Thanks Angie.
 
