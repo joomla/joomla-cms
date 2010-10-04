@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+-------------------- 1.6.0 Beta11 Release [04-Oct-2010] ------------------
+
 4-oct-2010 Christophe Demko
  # [#22580] Categories - No reset to show - when moving between components (thanks bill richardson and Mathavan Jeyadev)
 
