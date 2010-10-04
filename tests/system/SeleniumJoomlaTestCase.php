@@ -133,8 +133,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->waitForPageToLoad("30000");
 		}
 		echo "Logging in to front end.\n";
-		$this->type("modlgn_username", $username);
-		$this->type("modlgn_passwd", $password);
+		$this->type("modlgn-username", $username);
+		$this->type("modlgn-passwd", $password);
 		$this->click("Submit");
 		$this->waitForPageToLoad("30000");
 	}		
