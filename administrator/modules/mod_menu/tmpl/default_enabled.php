@@ -36,7 +36,7 @@ $cam = $user->authorise('core.manage', 'com_cache');
 if ($chm || $cam )
 {
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_SITE_MAINTENANCE'), '#', 'class:maintenance'), true
+	new JMenuNode(JText::_('MOD_MENU_SITE_MAINTENANCE'), 'index.php?option=com_checkin', 'class:maintenance'), true
 	);
 
 	if ($chm)

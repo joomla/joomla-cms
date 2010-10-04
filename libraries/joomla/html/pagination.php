@@ -116,7 +116,7 @@ class JPagination extends JObject
 		}
 
 		// If we are viewing all records set the view all flag to true.
-		if ($this->limit == $total) {
+		if ($limit == 0) {
 			$this->_viewall = true;
 		}
 	}

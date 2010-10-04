@@ -30,6 +30,8 @@ class CacheController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		require_once JPATH_COMPONENT.'/helpers/cache.php';
+		
 		// Get the document object.
 		$document	= JFactory::getDocument();
 
@@ -57,6 +59,9 @@ class CacheController extends JController
 			// Push document object into the view.
 			$view->assignRef('document', $document);
 
+			// Load the submenu.
+			CacheHelper::addSubmenu(JRequest::getWord('view', 'cache'));
+			
 			$view->display();
 		}
 	}

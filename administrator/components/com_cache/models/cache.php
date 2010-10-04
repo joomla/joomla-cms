@@ -52,8 +52,8 @@ class CacheModelCache extends JModelList
 	protected function populateState()
 	{
 		$app = JFactory::getApplication();
-
-		$clientId = JRequest::getInt('client', 0);
+		
+		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
 
 		$client	= JApplicationHelper::getClientInfo($clientId);
