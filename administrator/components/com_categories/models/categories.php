@@ -38,7 +38,7 @@ class CategoriesModelCategories extends JModelList
 		$app		= JFactory::getApplication();
 		$context	= $this->context;
 
-		$extension = $app->getUserStateFromRequest($this->context.'.filter.extension', 'extension', 'com_content');
+		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content');
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.',$extension);
@@ -46,10 +46,6 @@ class CategoriesModelCategories extends JModelList
 		$this->setState('filter.component', $parts[0]);
 		// extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
-
-		if (!empty($extension)) {
-			$context .= '.'.$extension;
-		}
 
 		$search = $app->getUserStateFromRequest($context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);

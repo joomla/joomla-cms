@@ -58,13 +58,13 @@ class CategoriesControllerCategory extends JController
 		// Initialise variables.
 		$app = JFactory::getApplication();
 
-		// Clear the row edit information from the session.
-		$app->setUserState('com_categories.edit.category.id',	null);
-		$app->setUserState('com_categories.edit.category.data',	null);
-		$app->setUserState('com_categories.edit.category.type',	null);
-
 		// Check if we are adding for a particular extension
 		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
+
+		// Clear the row edit information from the session.
+		$app->setUserState('com_categories.edit.'.substr($extension, 4).'.id',	null);
+		$app->setUserState('com_categories.edit.'.substr($extension, 4).'.data',	null);
+		$app->setUserState('com_categories.edit.'.substr($extension, 4).'.type',	null);
 
 		// Redirect to the edit screen.
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit&extension='.$extension, false));
@@ -84,11 +84,11 @@ class CategoriesControllerCategory extends JController
 		// Get the id of the group to edit.
 		$id		=  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
 
-		// Get the model.
-		$model	= $this->getModel('Category');
-
 		// Check if we are adding for a particular extension
 		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
+
+		// Get the model.
+		$model = $this->getModel('Category', 'CategoriesModel', array('name' => 'category.' . substr($extension, 4)));
 
 		// Check that this is not a new category.
 		if ($id > 0) {
@@ -106,9 +106,9 @@ class CategoriesControllerCategory extends JController
 		}
 
 		// Push the new row id into the session.
-		$app->setUserState('com_categories.edit.category.id',	$id);
-		$app->setUserState('com_categories.edit.category.data',	null);
-		$app->setUserState('com_categories.edit.category.type',	null);
+		$app->setUserState('com_categories.edit.'.$model->getName().'.id',	$id);
+		$app->setUserState('com_categories.edit.'.$model->getName().'.data',	null);
+		$app->setUserState('com_categories.edit.'.$model->getName().'.type',	null);
 
 		$this->setRedirect('index.php?option=com_categories&view=category&layout=edit&extension='.$extension);
 
@@ -128,10 +128,14 @@ class CategoriesControllerCategory extends JController
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Category');
+
+		// Check if we are adding for a particular extension
+		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
+
+		$model = $this->getModel('Category', 'CategoriesModel', array('name' => 'category.' . substr($extension, 4)));
 
 		// Get the previous row id.
-		$previousId	= (int) $app->getUserState('com_categories.edit.category.id');
+		$previousId	= (int) $app->getUserState('com_categories.edit.' . $model->getName() . '.id');
 
 		$extension = JRequest::getCmd('extension', '');
 		if ($extension) {
@@ -149,10 +153,10 @@ class CategoriesControllerCategory extends JController
 		}
 
 		// Clear the row edit information from the session.
-		$app->setUserState('com_categories.edit.category.id',	null);
-		$app->setUserState('com_categories.edit.category.extension',	null);
-		$app->setUserState('com_categories.edit.category.data',	null);
-		$app->setUserState('com_categories.edit.category.type',	null);
+		$app->setUserState('com_categories.edit.' . $model->getName() . '.id',	null);
+		$app->setUserState('com_categories.edit.' . $model->getName() . '.extension',	null);
+		$app->setUserState('com_categories.edit.' . $model->getName() . '.data',	null);
+		$app->setUserState('com_categories.edit.' . $model->getName() . '.type',	null);
 	}
 
 	/**
@@ -167,14 +171,18 @@ class CategoriesControllerCategory extends JController
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Category');
+
+		// Check if we are adding for a particular extension
+		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
+
+		$model = $this->getModel('Category', 'CategoriesModel', array('name' => 'category.' . substr($extension, 4)));
 		$task	= $this->getTask();
 
 		// Get the posted values from the request.
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState('com_categories.edit.category.id');
+		$data['id'] = (int) $app->getUserState('com_categories.edit.' . $model->getName() . '.id');
 
 		$extension = JRequest::getCmd('extension', '');
 		if ($extension) {
@@ -220,7 +228,7 @@ class CategoriesControllerCategory extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState('com_categories.edit.category.data', $data);
+			$app->setUserState('com_categories.edit.' . $model->getName() . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
@@ -230,7 +238,7 @@ class CategoriesControllerCategory extends JController
 		// Attempt to save the data.
 		if (!$model->save($data)) {
 			// Save the data in the session.
-			$app->setUserState('com_categories.edit.category.data', $data);
+			$app->setUserState('com_categories.edit.' . $model->getName() . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
@@ -252,10 +260,10 @@ class CategoriesControllerCategory extends JController
 		switch ($task) {
 			case 'apply':
 				// Set the row data in the session.
-				$app->setUserState('com_categories.edit.category.id',	$model->getState('category.id'));
-				$app->setUserState('com_categories.edit.category.extension', $data['extension']);
-				$app->setUserState('com_categories.edit.category.data',	null);
-				$app->setUserState('com_categories.edit.category.type',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.id',	$model->getState($model->getName() . '.id'));
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.extension', $data['extension']);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.data',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.type',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
@@ -263,10 +271,10 @@ class CategoriesControllerCategory extends JController
 
 			case 'save2new':
 				// Clear the row id and data in the session.
-				$app->setUserState('com_categories.edit.category.id',	null);
-				$app->setUserState('com_categories.edit.category.extension', $data['extension']);
-				$app->setUserState('com_categories.edit.category.data',	null);
-				$app->setUserState('com_categories.edit.category.type',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.id',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.extension', $data['extension']);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.data',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.type',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=category&layout=edit'.$extension, false));
@@ -274,10 +282,10 @@ class CategoriesControllerCategory extends JController
 
 			default:
 				// Clear the row id and data in the session.
-				$app->setUserState('categories.edit.category.id',	null);
-				$app->setUserState('com_categories.edit.category.extension', null);
-				$app->setUserState('com_categories.edit.category.data',	null);
-				$app->setUserState('com_categories.edit.category.type',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.id',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.extension', null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.data',	null);
+				$app->setUserState('com_categories.edit.' . $model->getName() . '.type',	null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories'.$extension, false));
@@ -296,7 +304,11 @@ class CategoriesControllerCategory extends JController
 
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Category');
+
+		// Check if we are adding for a particular extension
+		$extension = $app->getUserStateFromRequest('com_categories.filter.extension', 'extension', 'com_content');
+
+		$model = $this->getModel('Category', 'CategoriesModel', array('name' => 'category.' . substr($extension, 4)));
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 

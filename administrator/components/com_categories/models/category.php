@@ -89,20 +89,21 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		$app = JFactory::getApplication('administrator');
 
-		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_categories.edit.category.id'))) {
-			$pk = (int) JRequest::getInt('item_id');
-		}
-		$this->setState('category.id', $pk);
-
-		if (!($parentId = $app->getUserState('com_categories.edit.category.parent_id'))) {
+		if (!($parentId = $app->getUserState('com_categories.edit.'.$this->getName().'.parent_id'))) {
 			$parentId = JRequest::getInt('parent_id');
 		}
 		$this->setState('category.parent_id', $parentId);
 
-		if (!($extension = $app->getUserState('com_categories.edit.category.extension'))) {
+		if (!($extension = $app->getUserState('com_categories.edit.'.$this->getName().'.extension'))) {
 			$extension = JRequest::getCmd('extension', 'com_content');
 		}
+		// Load the User state.
+		if (!($pk = (int) $app->getUserState('com_categories.edit.'.$this->getName().'.id'))) {
+			$pk = (int) JRequest::getInt('item_id');
+		}
+		$this->setState($this->getName().'.id', $pk);
+
+
 		$this->setState('category.extension', $extension);
 		$parts = explode('.',$extension);
 		// extract the component name
@@ -222,7 +223,7 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_categories.edit.category.data', array());
+		$data = JFactory::getApplication()->getUserState('com_categories.edit.'.$this->getName().'.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
@@ -301,7 +302,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState('category.id');
+		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName().'.id');
 		$isNew	= true;
 
 		// Get a row instance.
@@ -359,7 +360,7 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$this->setState('category.id', $table->id);
+		$this->setState($this->getName().'.id', $table->id);
 
 		return true;
 	}
