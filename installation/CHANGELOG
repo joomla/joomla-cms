@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-5-oct-2010 Christophe Demko
+6-Oct-2010 Andrew Eddie
+ # Partially Fixed [#21260] ACL Permissions for Authors to Edit Own Content Items Missing.
+ 
+5-Oct-2010 Christophe Demko
  # [#22438] Wrong value before the search input box (I think) (thanks Ronald de Vries, bill richardson, Rouven Weßling, Elin Waring)
  # [#22675] Com_Categories mistake in xml (thanks Elin)
 
