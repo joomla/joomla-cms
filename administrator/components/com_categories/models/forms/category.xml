@@ -201,11 +201,11 @@
 			name="basic">
 
 			<field
-				name="target"
+				name="layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				view="categories"
+				view="category"
 				/>
 
 			<field
