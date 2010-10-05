@@ -33,6 +33,7 @@ $ -> Language fix or change
 5-Oct-2010 Christophe Demko
  # [#22438] Wrong value before the search input box (I think) (thanks Ronald de Vries, bill richardson, Rouven Weßling, Elin Waring)
  # [#22675] Com_Categories mistake in xml (thanks Elin)
+ # [#22595] Users with Edit permission assigned at category level in com_content cannot edit (thanks Michael Babker)
 
 5-Oct-2010 Jean-Marie Simonet
  $ Normalizing some strings.
