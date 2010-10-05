@@ -123,13 +123,14 @@ abstract class JToolBarHelper
 	 * @param	string	$ref		The name of the popup file (excluding the file extension for an xml file).
 	 * @param	bool	$com		Use the help file in the component directory.
 	 * @param	string	$override	Use this URL instead of any other
+	 * @param	string	$component	Name of component to get Help (null for current component)
 	 * @since	1.0
 	 */
-	public static function help($ref, $com = false, $override = null)
+	public static function help($ref, $com = false, $override = null, $component = null)
 	{
 		$bar = JToolBar::getInstance('toolbar');
 		// Add a help button.
-		$bar->appendButton('Help', $ref, $com, $override);
+		$bar->appendButton('Help', $ref, $com, $override, $component);
 	}
 
 	/**

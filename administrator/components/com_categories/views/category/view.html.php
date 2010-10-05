@@ -81,23 +81,23 @@ class CategoriesViewCategory extends JView
 		$canDo = CategoriesHelper::getActions($component, $this->item->id);
 
 		// If a component categories title string is present, let's use it.
-		if ($lang->hasKey($component_title_key = $component.($section?"_$section":'').'_CATEGORY'.($isNew?'_ADD':'_EDIT').'_TITLE')) {
+		if ($lang->hasKey($component_title_key = $component.($section?"_$section":'').'_CATEGORY_'.($isNew?'ADD':'EDIT').'_TITLE')) {
 			$title = JText::_($component_title_key);
 		}
 		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = $component.($section?"_$section":''))) {
-			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORY'.($isNew?'_ADD':'_EDIT').'_TITLE', $this->escape(JText::_($component_section_key)));
+			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORY_'.($isNew?'ADD':'EDIT').'_TITLE', $this->escape(JText::_($component_section_key)));
 		}
 		// Else use the base title
 		else {
-			$title = JText::_('COM_CATEGORIES_CATEGORY_BASE'.($isNew?'_ADD':'_EDIT').'_TITLE');
+			$title = JText::_('COM_CATEGORIES_CATEGORY_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
 		}
 
 		// Load specific css component 
 		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
 		
 		// Prepare the toolbar.
-		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-category'.($isNew?'-add':'-edit').'.png');
+		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-category-'.($isNew?'add':'edit').'.png');
 
 		// If a new item, can save the item.
 		if ($isNew && $canDo->get('core.create') && !$canDo->get('core.edit')) {
@@ -126,6 +126,21 @@ class CategoriesViewCategory extends JView
 		}
 
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_'.strtoupper(substr($component,4)).'_CATEGORIES_EDIT');
+
+		// Compute the ref_key if it does exist in the component
+		if (!$lang->hasKey($ref_key = strtoupper($component.($section?"_$section":'')).'_CATEGORY_'.($isNew?'ADD':'EDIT').'_HELP_KEY')) {
+			$ref_key = 'JHELP_COMPONENTS_'.strtoupper(substr($component,4).($section?"_$section":'')).'_CATEGORY_'.($isNew?'ADD':'EDIT');
+		}
+
+		// Get help for the category/section view for the component by
+		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
+		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
+		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		JToolBarHelper::help(
+			$ref_key,
+			JComponentHelper::getParams( $component )->exists('helpURL'),
+			$lang->hasKey($lang_help_url = strtoupper($component).'_HELP_URL') ? JText::_($lang_help_url) : null,
+			$component
+		);
 	}
 }

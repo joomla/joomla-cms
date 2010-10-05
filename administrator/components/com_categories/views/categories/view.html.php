@@ -98,11 +98,11 @@ class CategoriesViewCategories extends JView
 		$canDo = CategoriesHelper::getActions($component, $categoryId);
 
 		// If a component categories title string is present, let's use it.
-		if ($lang->hasKey($component_title_key = $component.($section?"_$section":'').'_CATEGORIES'.'_TITLE')) {
+		if ($lang->hasKey($component_title_key = strtoupper($component.($section?"_$section":'')).'_CATEGORIES_TITLE')) {
 			$title = JText::_($component_title_key);
 		}
 		// Else if the component section string exits, let's use it
-		elseif ($lang->hasKey($component_section_key = $component.($section?"_$section":''))) {
+		elseif ($lang->hasKey($component_section_key = strtoupper($component.($section?"_$section":'')))) {
 			$title = JText::sprintf( 'COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(JText::_($component_section_key)));
 		}
 		// Else use the base title
@@ -150,6 +150,20 @@ class CategoriesViewCategories extends JView
 			JToolBarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_COMPONENTS_'.strtoupper(substr($component,4)).'_CATEGORIES');
+		// Compute the ref_key if it does exist in the component
+		if (!$lang->hasKey($ref_key = strtoupper($component.($section?"_$section":'')).'_CATEGORIES_HELP_KEY')) {
+			$ref_key = 'JHELP_COMPONENTS_'.strtoupper(substr($component,4).($section?"_$section":'')).'_CATEGORIES';
+		}
+
+		// Get help for the categories view for the component by
+		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
+		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
+		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		JToolBarHelper::help(
+			$ref_key,
+			JComponentHelper::getParams( $component )->exists('helpURL'),
+			$lang->hasKey($lang_help_url = strtoupper($component).'_HELP_URL') ? JText::_($lang_help_url) : null,
+			$component
+		);
 	}
 }

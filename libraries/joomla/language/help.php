@@ -23,12 +23,15 @@ class JHelp
 	 * @param	string	$ref			The name of the help screen (its key reference)
 	 * @param	boolean	$useComponent	Use the help file in the component directory
 	 * @param	string	$override		Use this URL instead of any other
+	 * @param	string	$component		Name of component (or null for current component)
 	 */
-	static function createURL($ref, $useComponent = false, $override = null)
+	static function createURL($ref, $useComponent = false, $override = null, $component = null)
 	{
 		$local = false;
 		$app		= JFactory::getApplication();
-		$component	= JApplicationHelper::getComponentName();
+		if (is_null($component)) {
+			$component = JApplicationHelper::getComponentName();
+		}
 
 		/*
 		 *  Determine the location of the help file.  At this stage the URL
@@ -58,7 +61,7 @@ class JHelp
 				$url = $params->get('helpURL');
 				if ($url == '') {
 					$local = true;
-					$url = 'components/{component}/help/{keyref}';
+					$url = 'components/{component}/help/{language}/{keyref}';
 				}
 
 			}
