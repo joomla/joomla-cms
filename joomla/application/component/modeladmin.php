@@ -580,7 +580,8 @@ abstract class JModelAdmin extends JModelForm
 				}
 
 				if (!$found) {
-					$conditions[] = array ($table->id, $condition);
+					$key = $table->getKeyName();
+					$conditions[] = array ($table->$key, $condition);
 				}
 			}
 		}
