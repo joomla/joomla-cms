@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#22675] Com_Categories mistake in xml (thanks Elin)
  # [#22595] Users with Edit permission assigned at category level in com_content cannot edit (thanks Michael Babker)
  # [#22711] Fixes to example content plugin (thanks Matt Thomas)
+ # [#22269] JModelAdmin uses hard coded "id" field (Thanks Sam)
 
 5-Oct-2010 Jean-Marie Simonet
  $ Normalizing some strings.
