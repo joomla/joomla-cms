@@ -54,10 +54,12 @@ if ($chm || $cam )
 }
 
 $menu->addSeparator();
-$menu->addChild(
-new JMenuNode(JText::_('MOD_MENU_SYSTEM_INFORMATION'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
-);
-$menu->addSeparator();
+if ($user->authorise('core.admin')) {
+	$menu->addChild(
+		new JMenuNode(JText::_('MOD_MENU_SYSTEM_INFORMATION'), 'index.php?option=com_admin&view=sysinfo', 'class:info')
+	);
+	$menu->addSeparator();
+}
 
 $menu->addChild(new JMenuNode(JText::_('MOD_MENU_LOGOUT'), 'index.php?option=com_login&task=logout', 'class:logout'));
 

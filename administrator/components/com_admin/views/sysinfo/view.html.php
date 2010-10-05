@@ -45,6 +45,11 @@ class AdminViewSysinfo extends JView
 	 */
 	function display($tpl = null)
 	{
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.admin')) {
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
 		// Initialise variables.
 		$this->php_settings	= $this->get('PhpSettings');
 		$this->config			= $this->get('config');
