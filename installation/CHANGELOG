@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+5-Oct-2010 Jean-Marie Simonet
+ $ Normalizing some strings.
+ 
 4-oct-2010 Christophe Demko
  # [#22049] Site Maintenance Menu (thanks bill richardson, Mathavan Jeyadev)
 
