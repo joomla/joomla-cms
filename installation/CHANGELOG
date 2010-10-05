@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+5-oct-2010 Christophe Demko
+ # [#22438] Wrong value before the search input box (I think) (thanks Ronald de Vries, bill richardson, Rouven Weßling, Elin Waring)
+
 5-Oct-2010 Jean-Marie Simonet
  $ Normalizing some strings.
  

@@ -29,6 +29,11 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="label"
+					type="label"
+					label="MOD_SEARCH_FIELD_LABEL_TEXT_LABEL"
+					description="MOD_SEARCH_FIELD_LABEL_TEXT_DESC" />
+				<field
 					name="width"
 					type="text"
 					default="20"
