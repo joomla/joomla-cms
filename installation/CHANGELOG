@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 6-Oct-2010 Andrew Eddie
  # Partially Fixed [#21260] ACL Permissions for Authors to Edit Own Content Items Missing.
+ # Partially Fixed [#22529] Permissions UI patch backend (Angie Radtke, Michael Babker, Elin Waring, Christophe Demko).
  
 5-Oct-2010 Christophe Demko
  # [#22438] Wrong value before the search input box (I think) (thanks Ronald de Vries, bill richardson, Rouven Weßling, Elin Waring)

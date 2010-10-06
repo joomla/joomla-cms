@@ -101,8 +101,8 @@ abstract class JHtmlRules
 				$html[] = '				<td class="col3">';
 				$html[] = '					<select id="'.$idPrefix.'_'.$action->name.'_'.$group->value.'" class="inputbox" size="1" name="'.$control.'['.$action->name.']['.$group->value.']" title="'.JText::sprintf('JSELECT_ALLOW_DENY_GROUP', $actionTitle, $group->text).'">';
 				$html[] = '						<option value=""'.($selected === null ? ' selected="selected"' : '').'>'.JText::_('JINHERIT').'</option>';
-				$html[] = '						<option value="1"'.($selected === true ? ' selected="selected"' : '').'>'.JText::_('JALLOW').'</option>';
-				$html[] = '						<option value="0"'.($selected === false ? ' selected="selected"' : '').'>'.JText::_('JDENY').'</option>';
+				$html[] = '						<option value="1"'.($selected === true ? ' selected="selected"' : '').'>'.JText::_('JRULE_ALLOWED').'</option>';
+				$html[] = '						<option value="0"'.($selected === false ? ' selected="selected"' : '').'>'.JText::_('JRULE_FORBIDDEN').'</option>';
 				$html[] = '					</select>';
 				$html[] = '				</td>';
 				$html[] = '				<td class="col4">'.($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny']) : ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])).'</td>';
@@ -118,9 +118,9 @@ abstract class JHtmlRules
 		// Build the footer with legend and special purpose buttons.
 		$html[] = '	<div class="clr"></div>';
 		$html[] = '	<ul class="acllegend fltlft">';
-		$html[] = '		<li class="acl-allowed">'.JText::_('JALLOWED').'</li>';
-		$html[] = '		<li class="acl-denied">'.JText::_('JDENIED').'</li>';
-		$html[] = '	</ul>';		
+		$html[] = '		<li class="acl-allowed">'.JText::_('JRULE_ALLOWED').'</li>';
+		$html[] = '		<li class="acl-denied">'.JText::_('JRULE_FORBIDDEN').'</li>';
+		$html[] = '	</ul>';
 		$html[] = '</div>';
 
 		return implode("\n", $html);
@@ -176,12 +176,12 @@ abstract class JHtmlRules
 	protected static function _getImagesArray()
 	{
 		$base = JURI::root(true);
-		$images['allow-l'] = '<label class="icon-16-allow" title="'.JText::_('JALLOWED').'">'.JText::_('JALLOWED').'</label>';
-		$images['deny-l'] = '<label class="icon-16-deny" title="'.JText::_('JDENIED').'">'.JText::_('JDENIED').'</label>';
-		$images['allow'] = '<a class="icon-16-allow" title="'.JText::_('JALLOWED').'"> </a>';
-		$images['deny'] = '<a class="icon-16-deny" title="'.JText::_('JDENIED').'"> </a>';
-		$images['allow-i'] = '<a class="icon-16-allowinactive" title="'.JText::_('JALLOW_INHERITED').'"> </a>';
-		$images['deny-i'] = '<a class="icon-16-denyinactive" title="'.JText::_('JDENY_INHERITED').'"> </a>';
+		$images['allow-l'] = '<label class="icon-16-allow" title="'.JText::_('JRULE_ALLOWED').'">'.JText::_('JRULE_ALLOWED').'</label>';
+		$images['deny-l'] = '<label class="icon-16-deny" title="'.JText::_('JRULE_FORBIDDEN').'">'.JText::_('JRULE_FORBIDDEN').'</label>';
+		$images['allow'] = '<a class="icon-16-allow" title="'.JText::_('JRULE_ALLOWED').'"> </a>';
+		$images['deny'] = '<a class="icon-16-deny" title="'.JText::_('JRULE_FORBIDDEN').'"> </a>';
+		$images['allow-i'] = '<a class="icon-16-allowinactive" title="'.JText::_('JRULE_ALLOWED_INHERITED').'"> </a>';
+		$images['deny-i'] = '<a class="icon-16-denyinactive" title="'.JText::_('JRULE_FORBIDDEN_INHERITED').'"> </a>';
 
 		return $images;
 	}
