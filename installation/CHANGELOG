@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+6-Oct-2010 Ron Severdia
+ ^ Updated Blueprint to 1.0 in Atomic (Thanks Christian Montoya)
+ 
 6-Oct-2010 Andrew Eddie
  # Partially Fixed [#21260] ACL Permissions for Authors to Edit Own Content Items Missing.
  # Partially Fixed [#22529] Permissions UI patch backend (Angie Radtke, Michael Babker, Elin Waring, Christophe Demko).

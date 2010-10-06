@@ -34,7 +34,6 @@ Remember to include trailing slashes (" />") in these lines if you're using XHTM
 
 h2. Tutorials
 
-* "Tutorial on BlueFlavor":http://blueflavor.com/blog/design/blueprintcss_101.php
 * "How to customize BP with the compressor script":http://jdclayton.com/blueprints_compress_a_walkthrough.html
 * "How to use a grid in a layout":http://subtraction.com/2007/03/18/oh-yeeaahh
 * "How to use a baseline in your typography":http://alistapart.com/articles/settingtypeontheweb
@@ -54,6 +53,8 @@ Source files:
 This file resets CSS values that browsers tend to set for you.
 * @blueprint/src/grid.css@<br/>
 This file sets up the grid (it's true). It has a lot of classes you apply to @<div/>@ elements to set up any sort of column-based grid.
+* @blueprint/lib/blueprint/grid.css.erb@<br/>
+This file is used by the compressor (see below) when generating grids. All changes to grid.css are mirrored in this file, manually. 
 * @blueprint/src/typography.css@<br/>
 This file sets some default typography. It also has a few methods for some really fancy stuff to do with your text.
 * @blueprint/src/forms.css@<br/>

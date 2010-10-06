@@ -1,7 +1,7 @@
 /* -----------------------------------------------------------------------
 
 
- Blueprint CSS Framework 0.9
+ Blueprint CSS Framework 1.0
  http://blueprintcss.org
 
    * Copyright (c) 2007-Present. See LICENSE for more info.
@@ -12,14 +12,17 @@
 ----------------------------------------------------------------------- */
 
 /* reset.css */
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
-body {line-height:1.5;}
+html {margin:0;padding:0;border:0;}
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
+article, aside, dialog, figure, footer, header, hgroup, nav, section {display:block;}
+body {line-height:1.5;background:white;}
 table {border-collapse:separate;border-spacing:0;}
-caption, th, td {text-align:left;font-weight:normal;}
-table, td, th {vertical-align:middle;}
-blockquote:before, blockquote:after, q:before, q:after {content:"";}
+caption, th, td {text-align:left;font-weight:normal;float:none !important;}
+table, th, td {vertical-align:middle;}
+blockquote:before, blockquote:after, q:before, q:after {content:'';}
 blockquote, q {quotes:"" "";}
 a img {border:none;}
+:focus {outline:0;}
 
 /* typography.css */
 html {font-size:100.01%;}
@@ -33,14 +36,15 @@ h5 {font-size:1em;font-weight:bold;margin-bottom:1.5em;}
 h6 {font-size:1em;font-weight:bold;}
 h1 img, h2 img, h3 img, h4 img, h5 img, h6 img {margin:0;}
 p {margin:0 0 1.5em;}
-p img.left {float:left;margin:1.5em 1.5em 1.5em 0;padding:0;}
-p img.right {float:right;margin:1.5em 0 1.5em 1.5em;}
-a:focus, a:hover {color:#000;}
-a {color:#009;text-decoration:underline;}
+.left {float:left !important;}
+p .left {margin:1.5em 1.5em 1.5em 0;padding:0;}
+.right {float:right !important;}
+p .right {margin:1.5em 0 1.5em 1.5em;padding:0;}
+a:focus, a:hover {color:#09f;}
+a {color:#06c;text-decoration:underline;}
 blockquote {margin:1.5em;color:#666;font-style:italic;}
-strong {font-weight:bold;}
+strong, dfn {font-weight:bold;}
 em, dfn {font-style:italic;}
-dfn {font-weight:bold;}
 sup, sub {line-height:0;}
 abbr, acronym {border-bottom:1px dotted #666;}
 address {margin:0 0 1.5em;font-style:italic;}
@@ -48,7 +52,7 @@ del {color:#666;}
 pre {margin:1.5em 0;white-space:pre;}
 pre, code, tt {font:1em 'andale mono', 'lucida console', monospace;line-height:1.5;}
 li ul, li ol {margin:0;}
-ul, ol {margin:0 1.5em 1.5em 0;padding-left:3.333em;}
+ul, ol {margin:0 1.5em 1.5em 0;padding-left:1.5em;}
 ul {list-style-type:disc;}
 ol {list-style-type:decimal;}
 dl {margin:0 0 1.5em 0;}
@@ -58,7 +62,7 @@ table {margin-bottom:1.4em;width:100%;}
 th {font-weight:bold;}
 thead th {background:#c3d9ff;}
 th, td, caption {padding:4px 10px 4px 5px;}
-tr.even td {background:#e5ecf9;}
+tbody tr:nth-child(even) td, tbody tr.even td {background:#e5ecf9;}
 tfoot {font-style:italic;}
 caption {background:#eee;}
 .small {font-size:.8em;margin-bottom:1.875em;line-height:1.875em;}
@@ -76,30 +80,34 @@ caption {background:#eee;}
 
 /* forms.css */
 label {font-weight:bold;}
-fieldset {padding:1.4em;margin:0 0 1.5em 0;border:1px solid #ccc;}
-legend {font-weight:bold;font-size:1.2em;}
-input[type=text], input[type=password], input.text, input.title, textarea, select {background-color:#fff;border:1px solid #bbb;}
-input[type=text]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus, select:focus {border-color:#666;}
+fieldset {padding:0 1.4em 1.4em 1.4em;margin:0 0 1.5em 0;border:1px solid #ccc;}
+legend {font-weight:bold;font-size:1.2em;margin-top:-0.2em;margin-bottom:1em;}
+fieldset, #IE8#HACK {padding-top:1.4em;}
+legend, #IE8#HACK {margin-top:0;margin-bottom:0;}
+input[type=text], input[type=password], input.text, input.title, textarea {background-color:#fff;border:1px solid #bbb;}
+input[type=text]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus {border-color:#666;}
+select {background-color:#fff;border-width:1px;border-style:solid;}
 input[type=text], input[type=password], input.text, input.title, textarea, select {margin:0.5em 0;}
 input.text, input.title {width:300px;padding:5px;}
 input.title {font-size:1.5em;}
 textarea {width:390px;height:250px;padding:5px;}
-input[type=checkbox], input[type=radio], input.checkbox, input.radio {position:relative;top:.25em;}
 form.inline {line-height:3;}
 form.inline p {margin-bottom:0;}
-.error, .notice, .success {padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
-.error {background:#FBE3E4;color:#8a1f11;border-color:#FBC2C4;}
-.notice {background:#FFF6BF;color:#514721;border-color:#FFD324;}
-.success {background:#E6EFC2;color:#264409;border-color:#C6D880;}
-.error a {color:#8a1f11;}
+.error, .alert, .notice, .success, .info {padding:0.8em;margin-bottom:1em;border:2px solid #ddd;}
+.error, .alert {background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
+.notice {background:#fff6bf;color:#514721;border-color:#ffd324;}
+.success {background:#e6efc2;color:#264409;border-color:#c6d880;}
+.info {background:#d5edf8;color:#205791;border-color:#92cae4;}
+.error a, .alert a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
+.info a {color:#205791;}
 
 /* grid.css */
 .container {width:950px;margin:0 auto;}
 .showgrid {background:url(src/grid.png);}
-.column, div.span-1, div.span-2, div.span-3, div.span-4, div.span-5, div.span-6, div.span-7, div.span-8, div.span-9, div.span-10, div.span-11, div.span-12, div.span-13, div.span-14, div.span-15, div.span-16, div.span-17, div.span-18, div.span-19, div.span-20, div.span-21, div.span-22, div.span-23, div.span-24 {float:left;margin-right:10px;}
-.last, div.last {margin-right:0;}
+.column, .span-1, .span-2, .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9, .span-10, .span-11, .span-12, .span-13, .span-14, .span-15, .span-16, .span-17, .span-18, .span-19, .span-20, .span-21, .span-22, .span-23, .span-24 {float:left;margin-right:10px;}
+.last {margin-right:0;}
 .span-1 {width:30px;}
 .span-2 {width:70px;}
 .span-3 {width:110px;}
@@ -123,32 +131,32 @@ form.inline p {margin-bottom:0;}
 .span-21 {width:830px;}
 .span-22 {width:870px;}
 .span-23 {width:910px;}
-.span-24, div.span-24 {width:950px;margin-right:0;}
-input.span-1, textarea.span-1, input.span-2, textarea.span-2, input.span-3, textarea.span-3, input.span-4, textarea.span-4, input.span-5, textarea.span-5, input.span-6, textarea.span-6, input.span-7, textarea.span-7, input.span-8, textarea.span-8, input.span-9, textarea.span-9, input.span-10, textarea.span-10, input.span-11, textarea.span-11, input.span-12, textarea.span-12, input.span-13, textarea.span-13, input.span-14, textarea.span-14, input.span-15, textarea.span-15, input.span-16, textarea.span-16, input.span-17, textarea.span-17, input.span-18, textarea.span-18, input.span-19, textarea.span-19, input.span-20, textarea.span-20, input.span-21, textarea.span-21, input.span-22, textarea.span-22, input.span-23, textarea.span-23, input.span-24, textarea.span-24 {border-left-width:1px!important;border-right-width:1px!important;padding-left:5px!important;padding-right:5px!important;}
-input.span-1, textarea.span-1 {width:18px!important;}
-input.span-2, textarea.span-2 {width:58px!important;}
-input.span-3, textarea.span-3 {width:98px!important;}
-input.span-4, textarea.span-4 {width:138px!important;}
-input.span-5, textarea.span-5 {width:178px!important;}
-input.span-6, textarea.span-6 {width:218px!important;}
-input.span-7, textarea.span-7 {width:258px!important;}
-input.span-8, textarea.span-8 {width:298px!important;}
-input.span-9, textarea.span-9 {width:338px!important;}
-input.span-10, textarea.span-10 {width:378px!important;}
-input.span-11, textarea.span-11 {width:418px!important;}
-input.span-12, textarea.span-12 {width:458px!important;}
-input.span-13, textarea.span-13 {width:498px!important;}
-input.span-14, textarea.span-14 {width:538px!important;}
-input.span-15, textarea.span-15 {width:578px!important;}
-input.span-16, textarea.span-16 {width:618px!important;}
-input.span-17, textarea.span-17 {width:658px!important;}
-input.span-18, textarea.span-18 {width:698px!important;}
-input.span-19, textarea.span-19 {width:738px!important;}
-input.span-20, textarea.span-20 {width:778px!important;}
-input.span-21, textarea.span-21 {width:818px!important;}
-input.span-22, textarea.span-22 {width:858px!important;}
-input.span-23, textarea.span-23 {width:898px!important;}
-input.span-24, textarea.span-24 {width:938px!important;}
+.span-24 {width:950px;margin-right:0;}
+input.span-1, textarea.span-1, input.span-2, textarea.span-2, input.span-3, textarea.span-3, input.span-4, textarea.span-4, input.span-5, textarea.span-5, input.span-6, textarea.span-6, input.span-7, textarea.span-7, input.span-8, textarea.span-8, input.span-9, textarea.span-9, input.span-10, textarea.span-10, input.span-11, textarea.span-11, input.span-12, textarea.span-12, input.span-13, textarea.span-13, input.span-14, textarea.span-14, input.span-15, textarea.span-15, input.span-16, textarea.span-16, input.span-17, textarea.span-17, input.span-18, textarea.span-18, input.span-19, textarea.span-19, input.span-20, textarea.span-20, input.span-21, textarea.span-21, input.span-22, textarea.span-22, input.span-23, textarea.span-23, input.span-24, textarea.span-24 {border-left-width:1px;border-right-width:1px;padding-left:5px;padding-right:5px;}
+input.span-1, textarea.span-1 {width:18px;}
+input.span-2, textarea.span-2 {width:58px;}
+input.span-3, textarea.span-3 {width:98px;}
+input.span-4, textarea.span-4 {width:138px;}
+input.span-5, textarea.span-5 {width:178px;}
+input.span-6, textarea.span-6 {width:218px;}
+input.span-7, textarea.span-7 {width:258px;}
+input.span-8, textarea.span-8 {width:298px;}
+input.span-9, textarea.span-9 {width:338px;}
+input.span-10, textarea.span-10 {width:378px;}
+input.span-11, textarea.span-11 {width:418px;}
+input.span-12, textarea.span-12 {width:458px;}
+input.span-13, textarea.span-13 {width:498px;}
+input.span-14, textarea.span-14 {width:538px;}
+input.span-15, textarea.span-15 {width:578px;}
+input.span-16, textarea.span-16 {width:618px;}
+input.span-17, textarea.span-17 {width:658px;}
+input.span-18, textarea.span-18 {width:698px;}
+input.span-19, textarea.span-19 {width:738px;}
+input.span-20, textarea.span-20 {width:778px;}
+input.span-21, textarea.span-21 {width:818px;}
+input.span-22, textarea.span-22 {width:858px;}
+input.span-23, textarea.span-23 {width:898px;}
+input.span-24, textarea.span-24 {width:938px;}
 .append-1 {padding-right:40px;}
 .append-2 {padding-right:80px;}
 .append-3 {padding-right:120px;}
@@ -195,8 +203,8 @@ input.span-24, textarea.span-24 {width:938px!important;}
 .prepend-21 {padding-left:840px;}
 .prepend-22 {padding-left:880px;}
 .prepend-23 {padding-left:920px;}
-div.border {padding-right:4px;margin-right:5px;border-right:1px solid #eee;}
-div.colborder {padding-right:24px;margin-right:25px;border-right:1px solid #eee;}
+.border {padding-right:4px;margin-right:5px;border-right:1px solid #ddd;}
+.colborder {padding-right:24px;margin-right:25px;border-right:1px solid #ddd;}
 .pull-1 {margin-left:-40px;}
 .pull-2 {margin-left:-80px;}
 .pull-3 {margin-left:-120px;}
@@ -246,11 +254,11 @@ div.colborder {padding-right:24px;margin-right:25px;border-right:1px solid #eee;
 .push-22 {margin:0 -880px 1.5em 880px;}
 .push-23 {margin:0 -920px 1.5em 920px;}
 .push-24 {margin:0 -960px 1.5em 960px;}
-.push-1, .push-2, .push-3, .push-4, .push-5, .push-6, .push-7, .push-8, .push-9, .push-10, .push-11, .push-12, .push-13, .push-14, .push-15, .push-16, .push-17, .push-18, .push-19, .push-20, .push-21, .push-22, .push-23, .push-24 {float:right;position:relative;}
-.prepend-top {margin-top:1.5em;}
-.append-bottom {margin-bottom:1.5em;}
-.box {padding:1.5em;margin-bottom:1.5em;background:#E5ECF9;}
-hr {background:#ddd;color:#ddd;clear:both;float:none;width:100%;height:.1em;margin:0 0 1.45em;border:none;}
+.push-1, .push-2, .push-3, .push-4, .push-5, .push-6, .push-7, .push-8, .push-9, .push-10, .push-11, .push-12, .push-13, .push-14, .push-15, .push-16, .push-17, .push-18, .push-19, .push-20, .push-21, .push-22, .push-23, .push-24 {float:left;position:relative;}
+div.prepend-top, .prepend-top {margin-top:1.5em;}
+div.append-bottom, .append-bottom {margin-bottom:1.5em;}
+.box {padding:1.5em;margin-bottom:1.5em;background:#e5eCf9;}
+hr {background:#ddd;color:#ddd;clear:both;float:none;width:100%;height:1px;margin:0 0 1.45em;border:none;}
 hr.space {background:#fff;color:#fff;visibility:hidden;}
 .clearfix:after, .container:after {content:"\0020";display:block;height:0;clear:both;visibility:hidden;overflow:hidden;}
 .clearfix, .container {display:block;}

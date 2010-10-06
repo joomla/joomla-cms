@@ -9,9 +9,9 @@
 
 /* Use this class if a link gets an icon when it shouldn't. */
 body a.noicon {
-	background:transparent none !important;
-	padding:0 !important;
-	margin:0 !important;
+  background:transparent none !important;
+  padding:0 !important;
+  margin:0 !important;
 }
 
 /* Make sure the icons are not cut */

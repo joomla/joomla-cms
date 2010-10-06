@@ -51,9 +51,9 @@
      14.4px / 10px = 1.44 (new line height in em's) */
 
 p.incr, .incr p {
-	font-size: 10px;
-	line-height: 1.44em;
-	margin-bottom: 1.5em;
+  font-size: 10px;
+  line-height: 1.44em;
+  margin-bottom: 1.5em;
 }
 
 
