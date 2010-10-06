@@ -79,7 +79,7 @@ class JInstallerFile extends JAdapterInstance
 
 
 		//Check if the extension by the same name is already installed
-		if ($this->extensionExistsInSystem($name)) 
+		if ($this->extensionExistsInSystem($element)) 
 		{
 			// Package with same name already exists
 			if(!$this->parent->getOverwrite()) 
@@ -219,6 +219,23 @@ class JInstallerFile extends JAdapterInstance
 			$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_INSTALL_COPY_SETUP'));
 			return false;
 		}
+
+                // Clobber any possible pending updates
+                $update = JTable::getInstance('update');
+                $uid = $update->find(
+                        array(
+                                'element'       => $this->get('element'),
+                                'type'          => 'file',
+                                'client_id'     => '',
+                                'folder'        => ''
+                        )
+                );
+
+                if ($uid) {
+                        $update->delete($uid);
+                }
+
+
 		return $row->get('extension_id');
 	}
 
@@ -350,12 +367,12 @@ class JInstallerFile extends JAdapterInstance
 	 * function used to check if extension is already installed
 	 *
 	 * @access	private
-	 * @param	string	$name	The name of the extension to install
+	 * @param	string	$element The element name of the extension to install
 	 * @return	boolean	True if extension exists
 	 * @since	1.6
 	 */
 
-	private function extensionExistsInSystem($name = null)
+	private function extensionExistsInSystem($extension = null)
 	{
 
 		// Get a database connector object
@@ -363,7 +380,7 @@ class JInstallerFile extends JAdapterInstance
 
 		$query = 'SELECT `extension_id`' .
 				' FROM `#__extensions`' .
-				' WHERE name = '.$db->Quote($name) .
+				' WHERE element = '.$db->Quote($extension) .
 				' AND type = "file"';
 
 		$db->setQuery($query);
