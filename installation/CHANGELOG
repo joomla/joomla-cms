@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#21656] Ability to limit System Info access (thanks Mathavan Jeyadev)
  # [#22335] Random "HTTP 500 Internal Server Error" on Contact (single) page (thanks Artyom Bisyarin)
  # [#22710] com_categories component does not manage well help url
+ # [#22679] Files installer uses name not element to find unique instances
 
 5-Oct-2010 Jean-Marie Simonet
  $ Normalizing some strings.
