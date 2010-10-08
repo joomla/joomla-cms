@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)
+ # [#22734] Add Hathor support for tracker #21614 (thanks Andrea Tarr, Ole Bang Ottosen, bill richardson)
 
 6-Oct-2010 Ron Severdia
  ^ Updated Blueprint to 1.0 in Atomic (Thanks Christian Montoya)

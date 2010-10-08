@@ -14,8 +14,8 @@
  */
 function setFocus() {
 	if (document.getElementById("login-page")) {
-		document.login.username.select();
-		document.login.username.focus();
+		document.getElementById("form-login").username.select();
+		document.getElementById("form-login").username.focus();
 	}
 }
 
