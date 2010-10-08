@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Oct-2010 Mark Dexter
+^ Changed JAccessTest to use test.xml data instead of database data and added testCheckGroup method
+
 15-Sep-2010 Mark Dexter
 # [#22419] Fixes for Language0001 System Test (Thanks Matt Thomas)
 # Fixed restoreDefaultGlobalPermissions method in SeleniumJoomlaTestCase

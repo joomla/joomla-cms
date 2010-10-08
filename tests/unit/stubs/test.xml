@@ -37,7 +37,7 @@
 			<value>1</value>
 			<value>com_banners</value>
 			<value>com_banners</value>
-			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:{&quot;6&quot;:1},&quot;core.create&quot;:[],&quot;core.delete&quot;:[],&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
+			<value>{&quot;core.admin&quot;:{&quot;7&quot;:1},&quot;core.manage&quot;:{&quot;6&quot;:1},&quot;core.create&quot;:{&quot;4&quot;:0},&quot;core.delete&quot;:{&quot;4&quot;:0,&quot;5&quot;:1},&quot;core.edit&quot;:[],&quot;core.edit.state&quot;:[]}</value>
 		</row>
 		<row>
 			<value>4</value>
@@ -3527,6 +3527,14 @@ separator=
 			<value>42</value>
 			<value>8</value>
 		</row>
+		<row>
+			<value>43</value>
+			<value>5</value>
+		</row>
+		<row>
+			<value>44</value>
+			<value>6</value>
+		</row>
 	</table>
 	<table name="jos_usergroups">
 		<column>id</column>
@@ -3617,6 +3625,34 @@ separator=
 			<value>0000-00-00 00:00:00</value>
 			<value></value>
 			<value></value>
+		</row>
+		<row>
+			<value>43</value>
+			<value>Publisher</value>
+			<value>publisher</value>
+			<value>publisher@example.com</value>
+			<value>b69eafa62e549e5fa875e127fadc3c83:VapLaQZx00iYDRwgMjgsfyIHgoe01DK8</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
+		</row>
+		<row>
+			<value>44</value>
+			<value>Manager</value>
+			<value>manager</value>
+			<value>manager@example.com</value>
+			<value>b69eafa62e549e5fa875e127fadc3c83:VapLaQZx00iYDRwgMjgsfyIHgoe01DK8</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
 		</row>
 	</table>
 	<table name="jos_viewlevels">
