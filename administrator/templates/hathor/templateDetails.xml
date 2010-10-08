@@ -2,7 +2,7 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <install type="template" version="1.6" client="administrator">
 	<name>hathor</name>
-	<creationDate>05/02/10</creationDate>
+	<creationDate>May 2010</creationDate>
 	<author>Andrea Tarr</author>
 	<authorEmail>hathor@tarrconsulting.com</authorEmail>
 	<authorUrl>http://www.tarrconsulting.com</authorUrl>
@@ -25,7 +25,9 @@
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>js</folder>
-		<folder>language</folder>
+		<!-- For a non-core admin template, the language files would be -->
+		<!-- inside the language/en-GB folder -->
+		<!-- <folder>language</folder>  -->
 	</files>
 
 	<positions>
@@ -40,6 +42,10 @@
 		<position>login</position>
 		<position>debug</position>
 	</positions>
+	 <languages>
+		<language tag="en-GB">en-GB.tpl_hathor.ini</language>
+		<language tag="en-GB">en-GB.tpl_hathor.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
