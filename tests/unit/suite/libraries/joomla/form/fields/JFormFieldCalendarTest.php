@@ -280,6 +280,7 @@ class JFormFieldCalendarTest extends JoomlaTestCase
 		$calendar = new JFormFieldCalendarInspector;
 
 		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')') {
+			date_default_timezone_set('UTC');
 			$expectedParameters[0] = strftime('%Y-%m-%d');
 		}
 
