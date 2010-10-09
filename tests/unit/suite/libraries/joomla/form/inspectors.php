@@ -106,9 +106,9 @@ class JFormFieldInspector extends JFormField
 		return $this->form;
 	}
 
-	public function getId($fieldId, $fieldName, $group = null)
+	public function getId($fieldId, $fieldName)
 	{
-		return parent::getId($fieldId, $fieldName, $group);
+		return parent::getId($fieldId, $fieldName);
 	}
 
 	public function getLabel()

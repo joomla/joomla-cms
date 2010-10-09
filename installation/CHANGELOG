@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 9-Oct-2010 Christophe Demko
  # [#22057] [patch] Broken unit tests for some form fields (Artyom Bisyarin)
+ # [#21644] [patch] Unable to get group of a form field (Artyom Bisyarin)
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)

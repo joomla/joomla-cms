@@ -102,7 +102,8 @@ class JFormFieldTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
-			$field->getId($field->id, $field->name),
+			// use original 'id' and 'name' here (from XML definition of the form field)
+			$field->getId((string) $colours['id'], (string) $colours['name']),
 			$this->equalTo('params_colours'),
 			'Line:'.__LINE__.' The property should be computed from the XML.'
 		);
@@ -270,6 +271,12 @@ class JFormFieldTest extends JoomlaTestCase
 			$field->multiple,
 			$this->isTrue(),
 			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+
+		$this->assertEquals(
+			$field->group,
+			'params',
+			'Line:'.__LINE__.' The property should be set to the the group name.'
 		);
 
 		// Test hidden field type.
