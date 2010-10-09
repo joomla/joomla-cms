@@ -195,7 +195,7 @@ $templateparams     = $app->getTemplate(true)->params;
 
 
                                         <div id="right">
-                                                <a name="additional"></a>
+                                                <a id="additional"></a>
                                                 <jdoc:include type="modules" name="position-6" style="beezDivision" headerLevel="3"/>
                                                 <jdoc:include type="modules" name="position-8" style="beezDivision" headerLevel="3"  />
                                                 <jdoc:include type="modules" name="position-3" style="beezDivision" headerLevel="3"  />

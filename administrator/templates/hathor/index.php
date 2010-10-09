@@ -147,7 +147,7 @@ $app = JFactory::getApplication();
 
 		<!-- Beginning of Actual Content -->
 		<div id="element-box">
-			<p id="skiptargetholder"><a id="skiptarget" name="skiptarget" class="skip" tabindex="-1"></a></p>
+			<p id="skiptargetholder"><a id="skiptarget" class="skip" tabindex="-1"></a></p>
 
 			<!-- The main component -->
 			<jdoc:include type="component" />

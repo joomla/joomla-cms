@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#22770] System - Language filter plugin is buggy if the link is comes from the home page menu
  # [#22769] Some language filtering missing
  # [#22777] Module breadcrumbs does not deal correctly with language filter plugin
+ # [#22557] Remove all occurrences name attribute on the a element (Rouven Weßling, Andrea Tarr)
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)
