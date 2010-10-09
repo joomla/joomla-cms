@@ -102,14 +102,35 @@ class plgSystemLanguageFilter extends JPlugin
 		}
 
 		$Itemid = $uri->getVar('Itemid', 'absent');
-
 		if ($Itemid != 'absent') {
 			$app	= JFactory::getApplication();
 			$menu 	= $app->getMenu()->getItem($Itemid);
-			// if no menu - that means that we are routing home menu item of none-current language or alias to home
-			if (!$menu || $menu->home && $uri->getVar('option')!='com_search') {
-				$uri->delVar('option');
-				$uri->delVar('Itemid');
+			if ($menu && $menu->home && $uri->getVar('option')!='com_search')
+			{
+				$link = $menu->link;
+				$parts = parse_url($link);
+				if (isset ($parts['query']) && strpos($parts['query'], '&amp;')) {
+					$parts['query'] = str_replace('&amp;', '&', $parts['query']);
+				}
+				parse_str($parts['query'], $vars);
+
+				// test if the url contains same vars as in menu link
+				$test = true;
+				foreach ($vars as $key=>$value)
+				{
+					if ($uri->getVar($key) != $value) 
+					{
+						$test = false;
+						break;
+					}
+				}
+				if ($test) {
+					foreach ($vars as $key=>$value)
+					{
+						$uri->delVar($key); 
+					}
+					$uri->delVar('Itemid');
+				}
 			}
 		}
 
