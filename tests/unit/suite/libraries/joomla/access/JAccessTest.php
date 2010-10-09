@@ -61,16 +61,28 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 		);
 
 		$this->assertThat(
-			$array1,
-			$this->equalTo($access->getAuthorisedViewLevels(42))
+			$access->getAuthorisedViewLevels(42),
+			$this->equalTo($array1),
+			'Line:'.__Line__.' Super user gets Public, Special (levels 1,3)'
 		);
 
 		$array2 = array(
 		0       => 1
 		);
 		$this->assertThat(
-			$array2,
-			$this->equalTo($access->getAuthorisedViewLevels(50))
+			$access->getAuthorisedViewLevels(50),
+			$this->equalTo($array2),
+			'Line:'.__Line__.' User 50 gets Public (level 1)'
+		);
+
+		$array3 = array(
+		0       => 1,
+		1		=> 4
+		);
+		$this->assertThat(
+			$access->getAuthorisedViewLevels(99),
+			$this->equalTo($array3),
+			'Line:'.__Line__.' User 99 gets Level 4'
 		);
 	}
 
@@ -87,103 +99,152 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 *
 	 * @return array
 	 */
-	function casesGetUserGroups()
+	function casesCheck()
 	{
 		return array(
            'valid_superuser_site_login' => array(
-		42, 7, 'core.login.site', 3, true,
+			   42, 'core.login.site', 3, true,
                'Line:'.__LINE__.' Administrator group can login to site'
                ),
             'valid_editor_site_login' => array(
-               42, 4, 'core.login.site', 1, true,
+               42, 'core.login.site', 1, true,
                'Line:'.__LINE__.' Editor group'
                ),
             'valid_manager_admin_login' => array(
-               44, 6, 'core.login.admin', 1, true,
+               44, 'core.login.admin', 1, true,
                'Line:'.__LINE__.' Administrator group can login to admin'
                ),
             'valid_manager_login' => array(
-               44, 6, 'core.admin', 1, false,
+               44, 'core.admin', 1, false,
                'Line:'.__LINE__.' Administrator group cannot login to admin core'
                ),
             'super_user_admin' => array(
-               42, 8, 'core.admin', 3, true,
+               42, 'core.admin', 3, true,
               'Line:'.__LINE__.' Super User group can do anything'
               ),
-            'super_user_manage' => array(
-              42, 8, 'core.manage', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
-              ),
-            'super_user_create' => array(
-              42, 8, 'core.create', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
-              ),
-            'super_user_delete' => array(
-              42, 8, 'core.delete', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
-              ),
-            'super_user_edit' => array(
-              42, 8, 'core.edit', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
-              ),
-            'super_user_edit_state' => array(
-              42, 8, 'core.edit.state', 3, true,
-              'Line:'.__LINE__.' Super User group can do anything'
+            'super_user_admin' => array(
+               42, 'core.admin', null, true,
+              'Line:'.__LINE__.' Null asset should default to 1'
               ),
             'publisher_create_banner' => array(
-              43, 5, 'core.create', 3, false,
+              43, 'core.create', 3, false,
               'Line:'.__LINE__.' Editor has explicit deny on banner create'
               ),
             'publisher_delete_banner' => array(
-              43, 5, 'core.delete', 3, false,
+              43, 'core.delete', 3, false,
               'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
               ),
             'invalid_user_group_login' => array(
-              58, 99, 'core.login.site',3, null,
+              58, 'core.login.site',3, null,
               'Line:'.__LINE__.' Invalid user and group cannot log in to site'
               ),
             'invalid_action' => array(
-              42, 8, 'complusoft',3, null,
+              42, 'complusoft',3, null,
               'Line:'.__LINE__.' Invalid action returns null permission'
               ),
             'invalid_asset_id' => array(
-              42, 8, 'core.login.site', 345, true,
+              42, 'core.login.site', 345, true,
               'Line:'.__LINE__.' Super user has permissions even for invalid asset id'
               ),
             'publisher_login_admin' => array(
-              43, 5, 'core.login.admin', 1, null,
+              43, 'core.login.admin', 1, null,
               'Line:'.__LINE__.' Publisher may not log into admin'
               ),
-              );
+         );
 	}
 
 	/**
 	 * testCheck
 	 *
 	 * @param	integer		user id
-	 * @param	integer		group id (not used in this test)
 	 * @param	string		action to test
 	 * @param	integer		asset id
 	 * @param	mixed		true if success, null if not
 	 * @param	string		fail message
 	 *
 	 * return	void
-	 *@dataProvider casesGetUserGroups()
+	 * @dataProvider casesCheck()
 	 */
 
-	public function testCheck($userId, $groupId, $action, $assetId, $result, $message)
+	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
 		$access = new JAccess();
 		$this->assertThat(
 			$access->check($userId, $action, $assetId),
 			$this->equalTo($result),
 			$message);
-	}
+	}	
 
+	/**
+	 * Test cases for testCheck and testCheckGroups
+	 *
+	 * Each test case provides
+	 * - integer		userid	a user id
+	 * - integer		groupid  a group id
+	 * - string	    action	an action to test permission for
+	 * - integer		assetid id of asset to check
+	 * - mixed		true is have permission, null if no permission
+	 * - string		message if fails
+	 *
+	 * @return array
+	 */
+	function casesCheckGroup()
+	{
+		return array(
+           'valid_superuser_site_login' => array(
+			   7, 'core.login.site', 3, true,
+               'Line:'.__LINE__.' Administrator group can login to site'
+               ),
+            'valid_editor_site_login' => array(
+               4, 'core.login.site', 1, true,
+               'Line:'.__LINE__.' Editor group'
+               ),
+            'valid_manager_admin_login' => array(
+               6, 'core.login.admin', 1, true,
+               'Line:'.__LINE__.' Administrator group can login to admin'
+               ),
+            'valid_manager_login' => array(
+               6, 'core.admin', 1, false,
+               'Line:'.__LINE__.' Administrator group cannot login to admin core'
+               ),
+            'super_user_admin' => array(
+               8, 'core.admin', 3, true,
+              'Line:'.__LINE__.' Super User group can do anything'
+              ),
+            'super_user_admin' => array(
+               8, 'core.admin', null, true,
+              'Line:'.__LINE__.' Null asset should default to 1'
+              ),
+            'publisher_create_banner' => array(
+              5, 'core.create', 3, false,
+              'Line:'.__LINE__.' Editor has explicit deny on banner create'
+              ),
+            'publisher_delete_banner' => array(
+              5, 'core.delete', 3, false,
+              'Line:'.__LINE__.' Explicit deny for editor overrides allow for publisher'
+              ),
+            'invalid_user_group_login' => array(
+              99, 'core.login.site',3, null,
+              'Line:'.__LINE__.' Invalid user and group cannot log in to site'
+              ),
+            'invalid_action' => array(
+              8, 'complusoft',3, null,
+              'Line:'.__LINE__.' Invalid action returns null permission'
+              ),
+            'invalid_asset_id' => array(
+              8, 'core.login.site', 123, true,
+              'Line:'.__LINE__.' Super user has permissions even for invalid asset id'
+              ),
+            'publisher_login_admin' => array(
+              5, 'core.login.admin', 1, null,
+              'Line:'.__LINE__.' Publisher may not log into admin'
+              ),
+         );
+	}	
+	
 	/**
 	 * testCheckGroups
 	 *
-	 * @param	integer		user id (not used in this test)
 	 * @param	integer		group id
 	 * @param	string		action to test
 	 * @param	integer		asset id
@@ -191,10 +252,10 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 * @param	string		fail message
 	 *
 	 * return	void
-	 *@dataProvider casesGetUserGroups()
+	 * @dataProvider casesCheckGroup()
 	 */
 
-	public function testCheckGroup($userId, $groupId, $action, $assetId, $result, $message)
+	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
 		$access = new JAccess();
 		$this->assertThat(
@@ -226,6 +287,14 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 		);
 
 		$ObjArrayJrules = $access->getAssetRules(1550, False);
+		$string1 = '[]';
+		$this->assertThat(
+			(string)$ObjArrayJrules,
+			$this->equalTo($string1),
+			'Line: ' . __LINE__
+		);
+		
+		$ObjArrayJrules = $access->getAssetRules('testasset', False);
 		$string1 = '[]';
 		$this->assertThat(
 			(string)$ObjArrayJrules,

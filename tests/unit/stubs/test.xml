@@ -3670,13 +3670,19 @@ separator=
 			<value>2</value>
 			<value>Registered</value>
 			<value>1</value>
-			<value>[2]</value>
+			<value>[&quot;2&quot;]</value>
 		</row>
 		<row>
 			<value>3</value>
 			<value>Special</value>
 			<value>2</value>
 			<value>[&quot;6&quot;,&quot;7&quot;,&quot;8&quot;]</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>Test</value>
+			<value>3</value>
+			<value>[&quot;-99&quot;]</value>
 		</row>
 	</table>
 	<table name="jos_weblinks">

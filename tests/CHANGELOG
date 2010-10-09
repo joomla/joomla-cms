@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Oct-2010 Mark Dexter
+^ Changed JAccessTest to provide 100% code coverage
+
 08-Oct-2010 Mark Dexter
 ^ Changed JAccessTest to use test.xml data instead of database data and added testCheckGroup method
 
