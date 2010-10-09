@@ -141,6 +141,7 @@ class ContentModelCategory extends JModelItem
 			$this->setState('filter.subcategories', true);
 		}
 
+		$this->setState('filter.language',$app->getLanguageFilter());
 	}
 
 	/**
@@ -165,6 +166,7 @@ class ContentModelCategory extends JModelItem
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));
 			$model->setState('filter.access', $this->getState('filter.access'));
+			$model->setState('filter.language', $this->getState('filter.language'));
 			$model->setState('list.ordering', $this->_buildContentOrderBy());
 			$model->setState('list.start', $this->getState('list.start'));
 			$model->setState('list.limit', $limit);

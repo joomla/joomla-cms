@@ -22,7 +22,8 @@ class modWeblinksHelper
 		$model = JModel::getInstance('Category', 'WeblinksModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
 		// Set the filters based on the module params
@@ -50,6 +51,9 @@ class modWeblinksHelper
 		DATE_FORMAT(a.date, "%Y-%m-%d") AS created');
 
 		$model->setState('filter.c.published', 1);
+
+		// Filter by language
+		$model->setState('filter.language',$app->getLanguageFilter());
 
 		$items = $model->getItems();
 

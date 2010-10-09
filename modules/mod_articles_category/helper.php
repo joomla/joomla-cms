@@ -23,7 +23,8 @@ abstract class modArticlesCategoryHelper
 		$articles = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
 		// Set the filters based on the module params
@@ -137,6 +138,9 @@ abstract class modArticlesCategoryHelper
 			$articles->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
 			$articles->setState('filter.relative_date', $params->get('relative_date', 30));
 		}
+		
+		// Filter by language
+		$articles->setState('filter.language',$app->getLanguageFilter());
 
 		$items = $articles->getItems();
 

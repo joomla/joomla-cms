@@ -22,6 +22,11 @@ class modArchiveHelper
 		$query->where('state = 2 AND checked_out = 0');
 		$query->group('created_year DESC, created_month DESC');
 
+		// Filter by language
+		if (JFactory::getApplication()->getLanguageFilter()) {
+			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+		}
+
 		$db->setQuery($query, 0, intval($params->get('count')));
 		$rows = $db->loadObjectList();
 

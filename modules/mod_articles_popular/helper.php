@@ -21,7 +21,8 @@ abstract class modArticlesPopularHelper
 		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
 		// Set the filters based on the module params
@@ -36,6 +37,9 @@ abstract class modArticlesPopularHelper
 
 		// Category filter
 		$model->setState('filter.category_id', $params->get('catid', array()));
+
+		// Filter by language
+		$model->setState('filter.language',$app->getLanguageFilter());
 
 		// Ordering
 		$model->setState('list.ordering', 'a.hits');

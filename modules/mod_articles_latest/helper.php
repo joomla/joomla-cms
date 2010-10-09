@@ -24,7 +24,8 @@ abstract class modArticlesLatestHelper
 		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
-		$appParams = JFactory::getApplication()->getParams();
+		$app = JFactory::getApplication();
+		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
 		// Set the filters based on the module params
@@ -59,6 +60,9 @@ abstract class modArticlesLatestHelper
 				$model->setState('filter.author_id', (int) $params->get('user_id'));
 				break;
 		}
+
+		// Filter by language
+		$model->setState('filter.language',$app->getLanguageFilter());
 
 		//  Featured switch
 		switch ($params->get('show_featured'))
