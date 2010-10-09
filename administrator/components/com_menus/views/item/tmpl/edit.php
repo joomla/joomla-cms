@@ -19,7 +19,7 @@ JHTML::_('behavior.modal');
 ?>
 
 <script type="text/javascript">
-	function submitbutton(task, type)
+	Joomla.submitbutton = function(task, type)
 	{
 		if (task == 'item.setType') {
 			document.id('item-form').elements['jform[type]'].value = type;

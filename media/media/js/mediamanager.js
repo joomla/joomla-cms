@@ -97,7 +97,7 @@ var MediaManager = this.MediaManager = {
 	{
 		if ($('foldername').value.length) {
 			$('dirpath').value = this.getFolder();
-			submitbutton('createfolder');
+			Joomla.submitbutton('createfolder');
 		}
 	},
 

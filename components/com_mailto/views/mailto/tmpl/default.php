@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.mailtoForm;
+	Joomla.submitbutton = function(pressbutton) {
+		var form = document.getElementById('mailtoForm');
 
 		// do field validation
 		if (form.mailto.value == "" || form.from.value == "") {
@@ -27,7 +27,7 @@ JHtml::_('behavior.keepalive');
 $data	= $this->get('data');
 ?>
 
-<form action="<?php echo JURI::base() ?>index.php" name="mailtoForm" method="post">
+<form action="<?php echo JURI::base() ?>index.php" id="mailtoForm" method="post">
 
 <div style="padding: 10px;">
 	<div style="text-align:right">
@@ -64,7 +64,7 @@ $data	= $this->get('data');
 	</p>
 
 	<p>
-		<button class="button" onclick="return submitbutton('send');">
+		<button class="button" onclick="return Joomla.submitbutton('send');">
 			<?php echo JText::_('COM_MAILTO_SEND'); ?>
 		</button>
 		<button class="button" onclick="window.close();return false;">

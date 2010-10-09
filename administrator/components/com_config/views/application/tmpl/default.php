@@ -20,7 +20,7 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
 			Joomla.submitform(task, document.getElementById('application-form'));

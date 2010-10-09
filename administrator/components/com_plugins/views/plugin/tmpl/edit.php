@@ -15,7 +15,7 @@ JHTML::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));

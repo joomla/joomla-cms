@@ -20,7 +20,7 @@ $params = $this->state->get('params');
 ?>
 
 <script type="text/javascript">
-	function submitbutton(task) {
+	Joomla.submitbutton = function(task) {
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 			<?php echo $this->form->getField('text')->save(); ?>
 			Joomla.submitform(task);
@@ -54,10 +54,10 @@ $params = $this->state->get('params');
 		<?php endif; ?>
 
 			<div class="formelm-buttons">
-			<button type="button" onclick="submitbutton('article.save')">
+			<button type="button" onclick="Joomla.submitbutton('article.save')">
 				<?php echo JText::_('JSAVE') ?>
 			</button>
-			<button type="button" onclick="submitbutton('article.cancel')">
+			<button type="button" onclick="Joomla.submitbutton('article.cancel')">
 				<?php echo JText::_('JCANCEL') ?>
 			</button>
 			</div>

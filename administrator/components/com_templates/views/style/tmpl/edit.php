@@ -18,7 +18,7 @@ $user = JFactory::getUser();
 $canDo = TemplatesHelper::getActions();
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));

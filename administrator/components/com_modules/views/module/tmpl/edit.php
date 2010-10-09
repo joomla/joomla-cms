@@ -15,32 +15,28 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
-?>
-<script type="text/javascript">
-	function submitbutton(task)
+
+$script = "Joomla.submitbutton = function(task)
 	{
 		if (task != 'module.cancel' && $('jform_custom_position').get('value') == '' && $('jform_position').get('value') == '') {
 			$('jform_custom_position').addClass('invalid');
 			$('jform_position').addClass('invalid');
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+			alert('".$this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'))."');
 			return false;
-		}
-		else {
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
-				<?php
-				if ($hasContent) :
-					echo $this->form->getField('content')->save();
-				endif;
-				?>
-				Joomla.submitform(task, document.getElementById('module-form'));
-			}
-			else {
-				alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
+		} else {
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
+if ($hasContent) {
+	$script .= $this->form->getField('content')->save();
+}
+$script .= "Joomla.submitform(task, document.getElementById('module-form'));
+			} else {
+				alert('".$this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'))."');
 			}
 		}
-	}
-</script>
+	}";
 
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">

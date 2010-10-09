@@ -20,7 +20,7 @@ $canDo		= NewsfeedsHelper::getActions();
 
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));

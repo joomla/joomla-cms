@@ -16,7 +16,7 @@ JHtml::_('behavior.formvalidation');
 $canDo		= PluginsHelper::getActions();
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			Joomla.submitform(task, document.getElementByID('style-form'));

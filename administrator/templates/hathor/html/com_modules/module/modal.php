@@ -22,7 +22,7 @@ $pane = JPane::getInstance('sliders');
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
 			<?php

@@ -16,7 +16,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
-	function submitbutton(task)
+	Joomla.submitbutton = function(task)
 	{
 		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
 			<?php echo $this->form->getField('misc')->save(); ?>

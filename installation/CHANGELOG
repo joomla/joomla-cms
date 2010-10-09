@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#22557] Remove all occurrences name attribute on the a element (Rouven Weßling, Andrea Tarr)
  # [#22168] patch for [#21804] "Your Profile" has too narrow a focus (Tomasz Narloch)
  # [#21804] "Your Profile" has too narrow a focus (Mathavan Jeyadev, Boris Baddenoff)
+ # [#22555] Use Joomla.submitbutton() instead of submitbutton() (Rouven Weßling)
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)

@@ -1,6 +1,6 @@
 <?php defined('_JEXEC') or die; ?>
 <script type="text/javascript">
-function submitbutton(pressbutton)
+Joomla.submitbutton = function(pressbutton)
 {
 	var form = document.getElementById('adminForm');
 	if (pressbutton == 'cancel') {
@@ -91,10 +91,10 @@ function submitbutton(pressbutton)
 </table>
 
 <div>
-	<button type="button" onclick="submitbutton('save')">
+	<button type="button" onclick="Joomla.submitbutton('save')">
 		<?php echo JText::_('Save') ?>
 	</button>
-	<button type="button" onclick="submitbutton('cancel')">
+	<button type="button" onclick="Joomla.submitbutton('cancel')">
 		<?php echo JText::_('Cancel') ?>
 	</button>
 </div>

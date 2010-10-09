@@ -70,9 +70,9 @@ class JButtonStandard extends JButton
 		$message	= addslashes($message);
 
 		if ($list) {
-			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{ submitbutton('$task')}";
+			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
 		} else {
-			$cmd = "javascript:submitbutton('$task')";
+			$cmd = "javascript:Joomla.submitbutton('$task')";
 		}
 
 

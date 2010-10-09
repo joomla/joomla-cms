@@ -9,7 +9,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
-$script = "\t".'function submitbutton(pressbutton) {'."\n";
+$script = "\t".'Joomla.submitbutton = function(pressbutton) {'."\n";
 $script .= "\t\t".'var form = document.adminForm;'."\n";
 $script .= "\t\t".'if (pressbutton == \'mail.cancel\') {'."\n";
 $script .= "\t\t\t".'Joomla.submitform(pressbutton);'."\n";

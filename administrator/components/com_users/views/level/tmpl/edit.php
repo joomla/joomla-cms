@@ -19,7 +19,7 @@ $canDo = UsersHelper::getActions();
 ?>
 
 <script type="text/javascript">
-function submitbutton(task)
+Joomla.submitbutton = function(task)
 {
 	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form'))) {
 		Joomla.submitform(task, document.getElementById('level-form'));

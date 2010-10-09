@@ -1,8 +1,8 @@
 <?php // no direct access
 defined('_JEXEC') or die; ?>
 <script type="text/javascript">
-	function submitbutton(pressbutton) {
-		var form = document.mailtoForm;
+	Joomla.submitbutton = function(pressbutton) {
+		var form = document.getElementById('mailtoForm');
 
 		// do field validation
 		if (form.mailto.value == "" || form.from.value == "") {
@@ -16,7 +16,7 @@ defined('_JEXEC') or die; ?>
 $data	= $this->get('data');
 ?>
 
-<form action="<?php echo JURI::base() ?>index.php" name="mailtoForm" method="post">
+<form action="<?php echo JURI::base() ?>index.php" id="mailtoForm" method="post">
 
 <div style="padding: 10px;">
 	<div style="text-align:right">
@@ -53,7 +53,7 @@ $data	= $this->get('data');
 	</p>
 
 	<p>
-		<button class="button" onclick="return submitbutton('send');">
+		<button class="button" onclick="return Joomla.submitbutton('send');">
 			<?php echo JText::_('SEND'); ?>
 		</button>
 		<button class="button" onclick="window.close();return false;">

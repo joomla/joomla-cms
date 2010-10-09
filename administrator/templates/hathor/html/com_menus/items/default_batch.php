@@ -36,7 +36,7 @@ $published = $this->state->get('filter.published');
 					<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 			<?php endif; ?>
 
-		<button type="submit" onclick="submitbutton('item.batch');">
+		<button type="submit" onclick="Joomla.submitbutton('item.batch');">
 			<?php echo JText::_('COM_MENUS_BATCH_PROCESS'); ?>
 		</button>
 </fieldset>
