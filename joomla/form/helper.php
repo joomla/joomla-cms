@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+jimport('joomla.filesystem.path');
+
 /**
  * JForm's helper class.
  * Provides a storage for filesystem's paths where JForm's entities resides and methods for creating this entities.
