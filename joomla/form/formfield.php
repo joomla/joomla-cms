@@ -124,6 +124,14 @@ abstract class JFormField
 	protected $fieldname;
 
 	/**
+	 * The group of the field.
+	 *
+	 * @var		string
+	 * @since	1.6
+	 */
+	protected $group;
+
+	/**
 	 * The required state for the form field.  If true then there must be a value for the field to
 	 * be considered valid.
 	 *
@@ -197,6 +205,7 @@ abstract class JFormField
 			case 'validate':
 			case 'value':
 			case 'fieldname':
+			case 'group':
 				return $this->$name;
 				break;
 
@@ -306,10 +315,13 @@ abstract class JFormField
 		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
 		$this->translateDescription = !((string) $this->element['translate_description'] == 'false' || (string) $this->element['translate_description'] == '0');
 
+		// Set the group of the field.
+		$this->group = $group;
+
 		// Set the field name and id.
 		$this->fieldname 	= $name;
-		$this->name			= $this->getName($name, $group);
-		$this->id			= $this->getId($id, $name, $group);
+		$this->name			= $this->getName($name);
+		$this->id			= $this->getId($id, $name);
 
 		// Set the field default value.
 		$this->value = $value;
@@ -322,13 +334,11 @@ abstract class JFormField
 	 *
 	 * @param	string	$fieldId	The field element id.
 	 * @param	string	$fieldName	The field element name.
-	 * @param	string	$group		The optional name of the group that the field element is a
-	 * 								member of.
 	 *
 	 * @return	string	The id to be used for the field input tag.
 	 * @since	1.6
 	 */
-	protected function getId($fieldId, $fieldName, $group = null)
+	protected function getId($fieldId, $fieldName)
 	{
 		// Initialise variables.
 		$id = '';
@@ -339,13 +349,13 @@ abstract class JFormField
 		}
 
 		// If the field is in a group add the group control to the field id.
-		if ($group) {
+		if ($this->group) {
 			// If we already have an id segment add the group control as another level.
 			if ($id) {
-				$id .= '_'.str_replace('.', '_', $group);
+				$id .= '_'.str_replace('.', '_', $this->group);
 			}
 			else {
-				$id .= str_replace('.', '_', $group);
+				$id .= str_replace('.', '_', $this->group);
 			}
 		}
 
@@ -413,13 +423,11 @@ abstract class JFormField
 	 * Method to get the name used for the field input tag.
 	 *
 	 * @param	string	$fieldName	The field element name.
-	 * @param	string	$group		The optional name of the group that the field element is a
-	 * 								member of.
 	 *
 	 * @return	string	The name to be used for the field input tag.
 	 * @since	1.6
 	 */
-	protected function getName($fieldName, $group = null)
+	protected function getName($fieldName)
 	{
 		// Initialise variables.
 		$name = '';
@@ -430,9 +438,9 @@ abstract class JFormField
 		}
 
 		// If the field is in a group add the group control to the field name.
-		if ($group) {
+		if ($this->group) {
 			// If we already have a name segment add the group control as another level.
-			$groups = explode('.', $group);
+			$groups = explode('.', $this->group);
 			if ($name) {
 				foreach ($groups as $group) {
 					$name .= '['.$group.']';
