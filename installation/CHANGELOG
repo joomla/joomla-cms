@@ -32,7 +32,7 @@ $ -> Language fix or change
  # [#21644] [patch] Unable to get group of a form field (Artyom Bisyarin)
  # [#22770] System - Language filter plugin is buggy if the link is comes from the home page menu
  # [#22769] Some language filtering missing
-
+ # [#22777] Module breadcrumbs does not deal correctly with language filter plugin
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)

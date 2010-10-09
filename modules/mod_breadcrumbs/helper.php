@@ -30,7 +30,7 @@ class modBreadCrumbsHelper
 		{
 			$item = new stdClass();
 			$item->name = $params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME'));
-			$item->link = JURI::base();
+			$item->link = JRoute::_('index.php?Itemid='.$app->getMenu()->getDefault()->id);
 			array_unshift($items, $item);
 		}
 
