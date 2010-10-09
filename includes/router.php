@@ -199,17 +199,22 @@ class JRouterSite extends JRouter
 			//Need to reverse the array (highest sublevels first)
 			$items = array_reverse($menu->getMenu());
 
+			$found = false;
 			foreach ($items as $item) {
-				$lenght = strlen($item->route); //get the lenght of the route
+				$length = strlen($item->route); //get the length of the route
 
-				if ($lenght > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
-					$route = substr($route, $lenght);
-
-					$vars['Itemid'] = $item->id;
-					$vars['option'] = $item->component;
+				if ($length > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
+					$route = substr($route, $length);
+					$found = true;
 					break;
 				}
 			}
+			if (!$found)
+			{
+				$item = $menu->getDefault(JFactory::getLanguage()->getTag());
+			}
+			$vars['Itemid'] = $item->id;
+			$vars['option'] = $item->component;
 		}
 
 		// Set the active menu item
@@ -225,7 +230,6 @@ class JRouterSite extends JRouter
 		 */
 		if (!empty($route) && isset($this->_vars['option'])) {
 			$segments = explode('/', $route);
-			array_shift($segments);
 
 			// Handle component	route
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
@@ -332,7 +336,12 @@ class JRouterSite extends JRouter
 			$tmp = 'component/'.substr($query['option'], 4).'/'.$tmp;
 		}
 
-		$route .= '/'.$tmp;
+		if ($tmp) {
+			$route .= '/'.$tmp;
+		}
+		elseif ($route=='index.php') {
+			$route = '';
+		}
 
 		// Unset unneeded query information
 		if (isset($item) && $query['option'] == $item->component) {

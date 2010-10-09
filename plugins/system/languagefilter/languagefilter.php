@@ -136,7 +136,7 @@ class plgSystemLanguageFilter extends JPlugin
 
 		if (self::$mode_sef) {
 			$uri->delVar('lang');
-			$uri->setPath($uri->getPath().'/'.$sef.'/');
+			$uri->setPath($uri->getPath().'/'.$sef);
 		}
 		else {
 			$uri->setVar('lang', $sef);
