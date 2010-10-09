@@ -8,30 +8,43 @@
  * @since		1.6
  */
 defined('_JEXEC') or die;
+
+$fieldsets = $this->form->getFieldsets();
+if (isset($fieldsets['core']))   unset($fieldsets['core']);
+if (isset($fieldsets['params'])) unset($fieldsets['params']);
+
+foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldsets
+	$fields = $this->form->getFieldset($group);
+	if (count($fields)):
 ?>
-<?php $fields = $this->form->getFieldset('profile'); ?>
-<?php if (count($fields)): ?>
-<fieldset id="users-profile-custom">
-	<legend><?php echo JText::_('COM_USERS_PROFILE_CUSTOM_LEGEND'); ?></legend>
+<fieldset id="users-profile-custom" class="users-profile-custom-<?php echo $group;?>">
+	<?php if (isset($fieldset->label)):// If the fieldset has a label set, display it as the legend.?>
+	<legend><?php echo JText::_($fieldset->label); ?></legend>
+	<?php endif;?>
 	<dl>
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->label; ?></dt>
 		<dd>
 			<?php
-				if (empty($this->data->profile[$field->fieldname])) {
+				if (!$value = trim($field->value)) {
 					echo JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 				} else {
 					if ($field->id == 'jform_profile_website') {
-						$v_http = substr ($this->data->profile[$field->fieldname], 0, 4);
+						$v_http = substr ($value, 0, 4);
 
 						if($v_http == "http"){
-							echo '<a href="'.$this->data->profile[$field->fieldname].'">'.$this->data->profile[$field->fieldname].'</a>';
+							echo '<a href="'.$value.'">'.$value.'</a>';
 						} else {
-							echo '<a href="http://'.$this->data->profile[$field->fieldname].'">'.$this->data->profile[$field->fieldname].'</a>';
+							echo '<a href="http://'.$value.'">'.$value.'</a>';
 						}
 					} else {
-						echo $this->data->profile[$field->fieldname];
+						if (method_exists($field, 'getText')) {
+							if (($value = $field->getText()) === null) {
+								$value = JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
+							}
+						}
+						echo $value;
 					}
 				}
 			?>
@@ -40,4 +53,5 @@ defined('_JEXEC') or die;
 	<?php endforeach;?>
 	</dl>
 </fieldset>
-<?php endif;?>
+	<?php endif;?>
+<?php endforeach;?>

@@ -38,7 +38,7 @@ class plgUserProfile extends JPlugin
 			$db = JFactory::getDbo();
 			$db->setQuery(
 				'SELECT profile_key, profile_value FROM #__user_profiles' .
-				' WHERE user_id = '.(int) $userId .
+				' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
 				' ORDER BY ordering'
 			);
 			$results = $db->loadRowList();
@@ -279,7 +279,10 @@ class plgUserProfile extends JPlugin
 
 			try {
 				$db = JFactory::getDbo();
-				$db->setQuery('DELETE FROM #__user_profiles WHERE user_id = '.$userId);
+				$db->setQuery(
+					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
+					" AND profile_key LIKE 'profile.%'"
+				);
 
 				if (!$db->query()) {
 					throw new Exception($db->getErrorMsg());
@@ -328,7 +331,10 @@ class plgUserProfile extends JPlugin
 
 			try {
 				$db = JFactory::getDbo();
-				$db->setQuery('DELETE FROM #__user_profiles WHERE user_id = '.$userId);
+				$db->setQuery(
+					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
+					" AND profile_key LIKE 'profile.%'"
+				);
 
 				if (!$db->query()) {
 					throw new Exception($db->getErrorMsg());
