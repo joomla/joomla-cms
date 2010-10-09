@@ -44,6 +44,30 @@ class JFormRuleBooleanTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The rule should fail and return false.'
 		);
 
+		$this->assertThat(
+			$rule->test($xml->field, '0_anything'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The rule should fail and return false.'
+		);
+
+		$this->assertThat(
+			$rule->test($xml->field, 'anything_1_anything'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The rule should fail and return false.'
+		);
+
+		$this->assertThat(
+			$rule->test($xml->field, 'anything_true_anything'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The rule should fail and return false.'
+		);
+
+		$this->assertThat(
+			$rule->test($xml->field, 'anything_false'),
+			$this->isFalse(),
+			'Line:'.__LINE__.' The rule should fail and return false.'
+		);
+
 		// Test pass conditions.
 
 		$this->assertThat(

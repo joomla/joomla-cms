@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#21804] "Your Profile" has too narrow a focus (Mathavan Jeyadev, Boris Baddenoff)
  # [#22555] Use Joomla.submitbutton() instead of submitbutton() (Rouven Weßling)
  # [#22775] Router does not redirect correctly
+ # [#22621] Boolean validation in JForm (Rune Sjøen)
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)

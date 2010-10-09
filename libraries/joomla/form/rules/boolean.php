@@ -26,7 +26,7 @@ class JFormRuleBoolean extends JFormRule
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $regex = '^0|1|true|false$';
+	protected $regex = '^(?:[01]|true|false)$'; 
 
 	/**
 	 * The regular expression modifiers to use when testing a form field value.
