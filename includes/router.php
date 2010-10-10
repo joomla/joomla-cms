@@ -205,6 +205,9 @@ class JRouterSite extends JRouter
 
 				if ($length > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
 					$route = substr($route, $length);
+					if ($route) {
+						$route = substr($route, 1);
+					}
 					$found = true;
 					break;
 				}
@@ -230,7 +233,6 @@ class JRouterSite extends JRouter
 		 */
 		if (!empty($route) && isset($this->_vars['option'])) {
 			$segments = explode('/', $route);
-			array_shift($segments);
 
 			// Handle component	route
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
