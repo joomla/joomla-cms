@@ -13,19 +13,19 @@ class DoInstall extends SeleniumJoomlaTestCase
 {
 	function testDoInstall()
 	{
-	  	$this->setUp();
-	  	$cfg = $this->cfg;
-	   	$configFile = "../../configuration.php";
+		$this->setUp();
+		$cfg = $this->cfg;
+		$configFile = "../../configuration.php";
 
-	  	if (file_exists($configFile)) {
-	  		echo "Delete configuration file\n";
-	  		unlink($configFile);
-	  	}
-	  	else {
-	  		echo "No configuration file found\n";
-	  	}
+		if (file_exists($configFile)) {
+			echo "Delete configuration file\n";
+			unlink($configFile);
+		}
+		else {
+			echo "No configuration file found\n";
+		}
 
-	  	echo("Starting Installation\n");
+		echo("Starting Installation\n");
 		echo "Page through screen 1\n";
 		$this->open($cfg->path ."/installation/index.php");
 		$this->click("link=Next");
@@ -57,26 +57,33 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->type("jform_admin_password", $cfg->password);
 		$this->type("jform_admin_password2", $cfg->password);
 
-		echo "Install sample data and wait for success message\n";
-		$this->click("instDefault");
+		// Default is install with sample data
+		if ($cfg->sample_data !== false)
+		{
+			echo "Install sample data and wait for success message\n";
+			$this->click("instDefault");
 
-		// wait up to 30 seconds for success message on sample data
-		for ($second = 0; ; $second++) {
-			if ($second >= 30) {
-				$this->fail('timeout');
-			}
-
-			try {
-				if (stripos($this->getValue("instDefault"),'SUCCESS')) {
-					break;
+			// wait up to 30 seconds for success message on sample data
+			for ($second = 0; ; $second++) {
+				if ($second >= 30) {
+					$this->fail('timeout');
 				}
-			}
-			catch (Exception $e) {
-			}
 
-			sleep(1);
+				try {
+					if (stripos($this->getValue("instDefault"),'SUCCESS')) {
+						break;
+					}
+				}
+				catch (Exception $e) {
+				}
+
+				sleep(1);
+			}
 		}
-
+		else {
+			echo "Install without sample data\n";
+		}
+		
 		echo "Finish installation\n";
 		$this->click("link=Next");
 		$this->waitForPageToLoad("30000");
@@ -96,23 +103,23 @@ class DoInstall extends SeleniumJoomlaTestCase
 
 		echo "Set caching to $cfg->cache\n";
 		$this->click("system");
-		
-		switch ($cfg->cache) 
+
+		switch ($cfg->cache)
 		{
 			case 'on-basic':
 				$this->select("jform_caching", "label=ON - Conservative caching");
 				break;
-				
+
 			case 'on-full' :
 				$this->select("jform_caching", "label=ON - Progressive caching");
 				break;
-			
+					
 			case 'off'	:
 			default:
 				$this->select("jform_caching", "label=OFF - Caching disabled");
 				break;
 		}
-		
+
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();

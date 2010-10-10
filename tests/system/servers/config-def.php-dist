@@ -37,6 +37,10 @@ class SeleniumConfig
 	// change this value to set the caching in the doInstall.php test
 	var $cache = 'off';
 
+	// optional setting to install sample data
+	// If not set or true, sample data is installed. Set to false to not install sample data
+	//	var $sample_data = false;
+
 	// set the site name
 	var $site_name = 'Joomla! 1.6 Source';
 

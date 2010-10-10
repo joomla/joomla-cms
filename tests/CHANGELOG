@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2010 Mark Dexter
+^ Added option in configdef.php and doInstall.php to install without sample data
+
 09-Oct-2010 Mark Dexter
 ^ Changed JAccessTest to provide 100% code coverage
 
