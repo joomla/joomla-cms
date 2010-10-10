@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2010 Mark Dexter
+# Fix invalid lft,rgt values in jos_menus in sample data
+
 10-Oct-2010 Christophe Demko
  # [#22794] XML self closing tag syntax used on li in com_media (Rouven Weßling)
 
