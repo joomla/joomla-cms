@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Oct-2010 Christophe Demko
  # Fix language filter plugin for routing
+ # [#22038] PHP information (Dennis Hermacki)
 
 10-Oct-2010 Mark Dexter
 # Fix invalid lft,rgt values in jos_menus in sample data

@@ -131,15 +131,17 @@ class AdminModelSysInfo extends JModel
 		if (is_null($this->php_info))
 		{
 			ob_start();
+			date_default_timezone_set('UTC');
 			phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
 			$phpinfo = ob_get_contents();
 			ob_end_clean();
 			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
-			$output = preg_replace('#<table#', '<table class="adminlist" ', $output[1][0]);
+			$output = preg_replace('#<table[^>]*>#', '<table class="adminlist">', $output[1][0]);
 			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
-			$output = preg_replace('#border="0" cellpadding="3" width="600"#', 'border="0" cellspacing="1" cellpadding="4" width="95%"', $output);
 			$output = preg_replace('#<hr />#', '', $output);
 			$output = str_replace('<div class="center">', '', $output);
+			$output = preg_replace('#<tr class="h">(.*)<\/tr>#', '<thead><tr class="h">$1</tr></thead><tbody>', $output); 
+			$output = str_replace('</table>', '</tbody></table>', $output);
 			$output = str_replace('</div>', '', $output);
 			$this->php_info = $output;
 		}
