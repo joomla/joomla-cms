@@ -101,42 +101,47 @@ class plgSystemLanguageFilter extends JPlugin
 			$sef = self::$default_sef;
 		}
 
-		$Itemid = $uri->getVar('Itemid', 'absent');
-		if ($Itemid != 'absent') {
-			$app	= JFactory::getApplication();
-			$menu 	= $app->getMenu()->getItem($Itemid);
-			if ($menu && $menu->home && $uri->getVar('option')!='com_search')
+		$Itemid = $uri->getVar('Itemid');
+		if (!is_null($Itemid)) {
+			if ($item = JFactory::getApplication()->getMenu()->getItem($Itemid))
 			{
-				$link = $menu->link;
-				$parts = parse_url($link);
-				if (isset ($parts['query']) && strpos($parts['query'], '&amp;')) {
-					$parts['query'] = str_replace('&amp;', '&', $parts['query']);
-				}
-				parse_str($parts['query'], $vars);
-
-				// test if the url contains same vars as in menu link
-				$test = true;
-				foreach ($vars as $key=>$value)
+				if ($item->home && $uri->getVar('option')!='com_search')
 				{
-					if ($uri->getVar($key) != $value) 
-					{
-						$test = false;
-						break;
+					$link = $item->link;
+					$parts = parse_url($link);
+					if (isset ($parts['query']) && strpos($parts['query'], '&amp;')) {
+						$parts['query'] = str_replace('&amp;', '&', $parts['query']);
 					}
-				}
-				if ($test) {
+					parse_str($parts['query'], $vars);
+
+					// test if the url contains same vars as in menu link
+					$test = true;
 					foreach ($vars as $key=>$value)
 					{
-						$uri->delVar($key); 
+						if ($uri->hasVar($key) && $uri->getVar($key) != $value) 
+						{
+							$test = false;
+							break;
+						}
 					}
-					$uri->delVar('Itemid');
+					if ($test) {
+						foreach ($vars as $key=>$value)
+						{
+							$uri->delVar($key); 
+						}
+						$uri->delVar('Itemid');
+					}
 				}
+			}
+			else
+			{
+				$uri->delVar('Itemid');
 			}
 		}
 
 		if (self::$mode_sef) {
 			$uri->delVar('lang');
-			$uri->setPath($uri->getPath().'/'.$sef);
+			$uri->setPath($uri->getPath().'/'.$sef.'/');
 		}
 		else {
 			$uri->setVar('lang', $sef);
