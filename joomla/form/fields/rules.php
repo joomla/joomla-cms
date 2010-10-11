@@ -48,7 +48,8 @@ class JFormFieldRules extends JFormField
 		// Iterate over the children and add to the actions.
 		foreach($this->element->children() as $el)
 		{
-			if ($el->getName() == 'action') {
+			if ($el->getName() == 'action') 
+			{
 				$actions[] = (object) array(
 					'name'			=> (string) $el['name'],
 					'title'			=> (string) $el['title'],
@@ -58,21 +59,25 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Get the explicit rules for this asset.
-		if ($section == 'component') {
+		if ($section == 'component') 
+		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
 			$db->setQuery('SELECT id FROM #__assets WHERE name = ' . $db->quote($component));
 			$assetId = (int)$db->loadResult();
 
-			if ($error = $db->getErrorMsg()) {
+			if ($error = $db->getErrorMsg()) 
+			{
 				JError::raiseNotice(500, $error);
 			}
 		}
-		else {
+		else 
+		{
 			$assetId = $this->form->getValue($assetField);
 		}
 
-		if (!empty($component) && $section != 'component') {
+		if (!empty($component) && $section != 'component') 
+		{
 			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
 		}
 
@@ -97,10 +102,12 @@ class JFormFieldRules extends JFormField
 		foreach($groups as $group)
 		{
 			$difLevel = $group->level - $curLevel;
-			if ($difLevel > 0) {
+			if ($difLevel > 0) 
+			{
 				$html[] = '<ul>';
 			}
-			else if ($difLevel < 0) {
+			else if ($difLevel < 0) 
+			{
 				$html[] = str_repeat('</li></ul>', -$difLevel);
 			}
 			$html[] = '<li>';
@@ -120,13 +127,15 @@ class JFormFieldRules extends JFormField
 			$html[] = '</th>';
 			$html[] = '<th class="settings" id="settings-th' . $group->value . '">';
 
-			if ($component != '') {
+			if ($component != '') 
+			{
 				$html[] = '<span class="acl-action">' . JText::_('JACTION_COMPONENT_SETTINGS') . '</span></th>';
 				$html[] = '<th class="global-settings" id="global_th' . $group->value . '">';
 				$html[] = '<span class="acl-action">' . JText::_('JACTION_GLOBAL_SETTINGS') . '</span>';
 				$html[] = '</th>';
 			}
-			else {
+			else 
+			{
 				$html[] = '<span class="acl-action">' . JText::_('JACTION_SELECT_SETTINGS') . '</span>';
 				$html[] = '</th>';
 				$html[] = '<th id="aclactionth' . $group->value . '">';
@@ -150,144 +159,130 @@ class JFormFieldRules extends JFormField
 
 				$html[] = '<select name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="' . JText::sprintf('JSELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
-				$groupaccess = JAccess::checkGroup($group->value, $action->name);
+				$groupaccess = JAccess::checkGroup($group->value, $action->name,$assetId);
 				$globalrule = $globalRules->allow($action->name, $group->value);
 				$rule = $rules->allow($action->name, $group->value);
 
 				// Build the dropdowns for the permissions sliders
 				// Don't do this for groups with global admin since they are allowed everything.
 				// Check whether this is a component or global. If it is component use the asset rules.
-				if ($component != '') {
-					if ($globalRules->allow('core.admin', $group->value) !== true) {
+				if ($component != '') 
+				{
+					if ($globalRules->allow('core.admin', $group->value) !== true) 
+					{
 						// 'Not Allowed' if nothing else is specified. Not saved in the database. Can be changed to 'Allowed' or 'Forbidden'.
-						$html[] = '<option value=""' . (($groupaccess == null && $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_NOT_ALLOWED') . '</option>';
-						$html[] = '<option value="0"' . ((($groupaccess === false && $rule === false) || ($groupaccess === true && $rule === false) || ($groupaccess === false && $rule === null) || ($groupaccess === false && $rule === true) || ($groupaccess === true && $rule === false)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-						$html[] = '<option value="1"' . ((($groupaccess === true && $rule === true) || ($groupaccess === null && $rule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-						$html[] = '<option value=""' . (($groupaccess === true && $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED_INHERITED') . '</option>';
-						$html[] = '<option value=""' . (($groupaccess === false && $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN_INHERITED') . '</option>';
+						$html[] = '<option value=""' . (( $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
+						$html[] = '<option value="1"' . (( $rule === true) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
+						$html[] = '<option value="0"' . (($rule === false)  ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
 					}
-					else {
+					else 
+					{
 						// Just the core.admin groups. These work the same whether in global configuration or a component configuration.
 						// Groups with global admin permission always have allow on every other action
-						$html[] = '<option value="1"' . ((($groupaccess === true && $rule === true) || ($groupaccess === true && $rule === null)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-						$html[] = '<option value="">' . JText::_('JRULE_NOT_ALLOWED') . '</option>';
-						$html[] = '<option value="0">' . JText::_('JRULE_FORBIDDEN') . '</option>';
-						$html[] = '<option value="">' . JText::_('JRULE_FORBIDDEN_INHERITED') . '</option>';
-						$html[] = '<option value="">' . JText::_('JRULE_ALLOWED_INHERITED') . '</option>';
-						$html[] = '<option value=""' . ((!($groupaccess === true && $rule === true) && !($groupaccess === true && $rule === null)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED_ADMIN') . '</option>';
+						$html[] = '<option value=""' .(( $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
+						$html[] = '<option value="1"' . ((($rule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
+						$html[] = '<option value="0"'.(( $rule === false) ? ' selected="selected"' : '') .'>' . JText::_('JRULE_FORBIDDEN') . '</option>';
 					}
 				}
-				else {
+				else 
+				{
 					// If it global config we need to handle a little differently.
 					// Groups with global core.admin permissions inherit allow from that.
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true) {
+					if (JAccess::checkGroup($group->value, 'core.admin') !== true) 
+					{
 						// Soft deny if nothing else is specified. Not saved in the database. Can be changed to Allow or Deny
-						$html[] = '<option value=""' . (($groupaccess == null && $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_NOT_ALLOWED') . '</option>';
-						$html[] = '<option value="0"' . ((($groupaccess === false && $globalrule === false) || ($groupaccess === true && $globalrule === false)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-						$html[] = '<option value="1"' . ((($groupaccess === true && $globalrule === true) || ($groupaccess === null && $globalrule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-						$html[] = '<option value=""' . (($groupaccess === true && $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED_INHERITED') . '</option>';
-						$html[] = '<option value=""' . (($groupaccess === false && $globalrule === true) || ($groupaccess === null && $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN_INHERITED') . '</option>';
+
+						$html[] = '<option value=""' . (( $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
+						$html[] = '<option value="0"' . (( $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
+						$html[] = '<option value="1"' . (($globalrule === true) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
 					}
-					else {
+					else 
+					{
 						//Just the core.admin groups. These work the same whether in global configuration or a component configuration.
 						//Groups with global admin permission always have allow on every other action
-						if ($action->name === 'core.admin') {
-							$html[] = '<option value="1"' . ($groupaccess === true && $globalrule == true ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-							$html[] = '<option value=""' . (($groupaccess === null && $globalrule == null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_NOT_ALLOWED') . '</option>';
-							$html[] = '<option value="0"' . (($groupaccess === false && $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-							$html[] = '<option value=""' . (($groupaccess === true && $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED_INHERITED') . '</option>';
-							$html[] = '<option value=""' . (($groupaccess === false && $globalrule === true) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN_INHERITED') . '</option>';
+						if ($action->name === 'core.admin') 
+						{
+							$html[] = '<option value=""' . (( $globalrule == null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
+							$html[] = '<option value="1"' . ( $globalrule == true ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
+							$html[] = '<option value="0"' . (( $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
 						}
-						else {
-							$html[] = '<option value=""' . (($groupaccess === null && $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_NOT_ALLOWED') . '</option>';
-							$html[] = '<option value="0"' . (($groupaccess === false && $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-							$html[] = '<option value="1"' . ((($groupaccess === true && $globalrule === true) || ($groupaccess === null && $globalrule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-							$html[] = '<option value=""' . (($groupaccess === true && $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED_INHERITED') . '</option>';
-							$html[] = '<option value=""' . (($groupaccess === false && $globalrule === true) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN_INHERITED') . '</option>';
-							$html[] = '<option value=""' . (($groupaccess === null && $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED_ADMIN') . '</option>';
+						else 
+						{
+							$html[] = '<option value=""' . (($globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
+							$html[] = '<option value="1"' . ((( $globalrule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
+							$html[] = '<option value="0"' . (( $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
 						}
 					}
 				}
 
-				$html[] = '</select>';
+				$html[] = '</select>&nbsp; ';
+				if (($rule === true) && ($groupaccess === false))
+				{
+					$html[] = JText::_('JRULE_CONFLICT');  
+				}
 				$html[] = '</td>';
 				$html[] = '<td headers="global_th' . $group->value . '">';
 
 				// This is where we show the current effective settings considering currrent group, path and cascade.
 				// Check whether this is a component or global. Change the text slightly.
-				if ($component != '') {
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true) {
-						if ($rules->allow($action->name, $group->value) === null && !$groupaccess) {
+				if ($component != '') 
+				{
+					if (JAccess::checkGroup($group->value, 'core.admin') !== true) 
+					{
+						if ( $groupaccess === null) 
+						{
 							$html[] = JText::_('JRULE_NOT_ALLOWED');
 						}
-						else if (!$groupaccess == true && $globalRules->allow($action->name, $group->value) === false) {
+						else if ( $groupaccess === false) 
+						{
 							$html[] = JText::_('JRULE_FORBIDDEN');
+												
 						}
-						else if ($groupaccess == true && $rules->allow($action->name, $group->value) === null) {
-							$html[] = JText::_('JRULE_ALLOWED_INHERITED');
-						}
-						else if ($groupaccess === true && $rule === true) {
-							$html[] = JText::_('JRULE_ALLOWED');
-						}
-						else {
+						else if ($groupaccess === true) 
+						{
 							$html[] = JText::_('JRULE_ALLOWED');
 						}
 
 						//Now handle the groups with core.admin who always inherit an allow.
-					}
-					else {
-						//Other actions cannot be changed.
-						if ($groupaccess === false || $rule === false) {
-							$html[] = JText::_('JRULE_ALLOWED_ADMIN_CONFLICT');
-						}
-						else {
+					} else 
+					{
 							$html[] = JText::_('JRULE_ALLOWED_ADMIN');
-						}
 					}
 				}
-				else {
+				else 
+				{
 					// Global configuration actions.
 					// Handle groups that do not have global admin.
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true) {
-						if ($groupaccess === null && $globalrule === null) {
+					if (JAccess::checkGroup($group->value, 'core.admin') !== true) 
+					{
+						if ($groupaccess === null ) 
+						{
 							$html[] = JText::_('JRULE_NOT_ALLOWED');
 						}
-						else if ($groupaccess === false && $globalrule === false) {
+						else if ($groupaccess === false ) 
+						{
 							$html[] = JText::_('JRULE_FORBIDDEN');
 						}
-						else if ($groupaccess === false && $globalrule === null) {
-							$html[] = JText::_('JRULE_FORBIDDEN_INHERITED');
-						}
-						else if ($groupaccess === true && $globalrule === null) {
-							$html[] = JText::_('JRULE_ALLOWED_INHERITED');
-						}
-						else if ($groupaccess == true && $globalrule === true) {
+						else if ($groupaccess == true) 
+						{
 							$html[] = JText::_('JRULE_ALLOWED');
-						}
-						else if ($groupaccess == true && $globalrule === false) {
-							$html[] = JText::_('JRULE_ALLOWED_CONFLICT');
-						}
-						else if ($groupaccess === null && $globalrule === true) {
-							$html[] = JText::_('JRULE_ALLOWED_CONFLICT');
-						}
-						else if ($groupaccess === false && $globalrule === true) {
-							$html[] = JText::_('JRULE_FORBIDDEN_CONFLICT');
-						}
-						else if ($groupaccess === null && $globalrule === false) {
-							$html[] = JText::_('JRULE_FORBIDDEN_CONFLICT');
 						}
 					}
-					else {
+					else 
+					{
 						//Special handling for  groups that have global admin because they can't  be denied.
 						//The admin rights can be changed.
-						if ($action->name === 'core.admin') {
+						if ($action->name === 'core.admin') 
+						{
 							$html[] = JText::_('JRULE_ALLOWED');
 						}
-						elseif ($groupaccess === false || $globalrule === false) {
+						elseif ($groupaccess === false || $globalrule === false) 
+						{
 							//Other actions cannot be changed.
 							$html[] = JText::_('JRULE_ALLOWED_ADMIN_CONFLICT');
 						}
-						else {
+						else 
+						{
 							$html[] = JText::_('JRULE_ALLOWED_ADMIN');
 						}
 					}
@@ -298,8 +293,9 @@ class JFormFieldRules extends JFormField
 			}
 
 			$html[] = '</tbody>';
-			$html[] = '</table>';
+			$html[] = '</table>';$html[] = JText::_('JRULE_CONFLICT_DESC');
 			$html[] = '</div></div></div>';
+
 		} // endforeach
 
 		$html[] = str_repeat('</li></ul>', $curLevel);
