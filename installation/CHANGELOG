@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Oct-2010 Mark Dexter
+# [#22819] Clean up errors in new ACL UI
+
 11-Oct-2010 Christophe Demko
  # Fix language filter plugin for routing
  # [#22038] PHP information (Dennis Hermacki)
