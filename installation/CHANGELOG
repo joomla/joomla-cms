@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Oct-2010 Mark Dexter
+# [#22837] Commit of #22710 leads to display errors when trashing, deleting or archiving category
+
 12-Oct-2010 Jean-Marie Simonet
  # [#22755] Backend module menu assignment improvements and fixes. Thanks Dennis.
  # [#21792] Alternate Page Title does not show. Thanks Bill.

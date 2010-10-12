@@ -70,19 +70,15 @@ class CategoriesViewCategories extends JView
 	protected function addToolbar()
 	{
 		// Initialise variables.
-		$extension	= JRequest::getCmd('extension');
 		$categoryId	= $this->state->get('filter.category_id');
+		$component	= $this->state->get('filter.component');
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
 
 		// Avoid nonsense situation.
-		if ($extension == 'com_categories') {
+		if ($component == 'com_categories') {
 			return;
 		}
-
- 		// The extension can be in the form com_foo.section
-		$parts		= explode('.',$extension);
-		$component	= $parts[0];
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
@@ -136,7 +132,7 @@ class CategoriesViewCategories extends JView
 			JToolBarHelper::custom('categories.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $extension)) {
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component)) {
 			JToolBarHelper::deleteList('', 'categories.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 		else if ($canDo->get('core.edit.state')) {
@@ -146,7 +142,7 @@ class CategoriesViewCategories extends JView
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-			JToolBarHelper::preferences($extension);
+			JToolBarHelper::preferences($component);
 			JToolBarHelper::divider();
 		}
 
