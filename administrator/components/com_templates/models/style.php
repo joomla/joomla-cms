@@ -429,7 +429,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Access checks.
 		if (!$user->authorise('core.edit.state', 'com_templates')) {
-			throw new Exception(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 		}
 
 		// Lookup the client_id.

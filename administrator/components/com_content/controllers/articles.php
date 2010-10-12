@@ -61,7 +61,7 @@ class ContentControllerArticles extends JControllerAdmin
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JError_Core_Edit_State_not_permitted'));
+				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 			}
 		}
 

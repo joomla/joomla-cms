@@ -294,7 +294,7 @@ class UsersModelUser extends JModelAdmin
 				else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -353,7 +353,7 @@ class UsersModelUser extends JModelAdmin
 				else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 				}
 			}
 		}

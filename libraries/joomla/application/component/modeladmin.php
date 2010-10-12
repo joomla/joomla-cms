@@ -425,7 +425,7 @@ abstract class JModelAdmin extends JModelForm
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 					$allowed = false;
 					continue;
 				}

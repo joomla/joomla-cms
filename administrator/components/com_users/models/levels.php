@@ -131,7 +131,7 @@ class UsersModelLevels extends JModelList
 
 		if (!$allow)
 		{
-			$this->setError(JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 			return false;
 		}
 
@@ -171,7 +171,7 @@ class UsersModelLevels extends JModelList
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JERROR_CORE_EDIT_STATE_NOT_PERMITTED'));
+				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
 			}
 			else if ($table->ordering != $order[$i])
 			{
