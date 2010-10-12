@@ -33,7 +33,7 @@ class Group0003Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isTextPresent("No Groups selected"), 'Group(s) selected or message incorrect or not present');
+			$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dt[@class='error']"));
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{

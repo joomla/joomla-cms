@@ -33,7 +33,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 			if ($second >= 15) $this->fail("timeout");
 			try
 			{
-				if (!$this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
+				if (!$this->isElementPresent("//dl[contains(@id, 'configuration')]")) break;
 			}
 			catch (Exception $e)
 			{

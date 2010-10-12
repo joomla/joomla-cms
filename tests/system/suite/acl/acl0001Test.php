@@ -23,35 +23,15 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$levelName = 'Special';
         $this->changeAccessLevel($levelName,$groupName);
         echo "Change " . $groupName . " article permissions.\n";
-		$this->jClick('Article Manager');
-		$this->jClick('Options');
-		$this->click("//dt[contains(span,'Permissions')]");
-		$i=1;
-		while($i<=6)
-  		{
-			$this->select("//tr[contains(th,'$groupName')]/td[$i]/select", "label=Allow");
-  			$i++;
-  		}
-		echo "Saving Article Administrator article permissions\n";
-		$this->click("//button[contains(text(),'Save')]");
-
-		//
-		//	---- No confirmation message exists ----
-		//
+        echo "Grant allow for all actions in article manager\n";
+        $actions = array('Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
+        $permissions = array('Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed');
+        $this->setPermissions('Article Manager', $groupName, $actions, $permissions);
 
 		echo "Allow" . $groupName . " back end access, deny admin access\n";
-		$this->jClick('Global Configuration');
-		$this->click("permissions");
-		$this->select("//tr[contains(th,'$groupName')]/td[1]/select", "label=...");
-		$this->select("//tr[contains(th,'$groupName')]/td[2]/select", "label=Allow");
-		$this->select("//tr[contains(th,'$groupName')]/td[3]/select", "label=Deny");
-		$this->select("//tr[contains(th,'$groupName')]/td[4]/select", "label=...");
-		$this->select("//tr[contains(th,'$groupName')]/td[5]/select", "label=...");
-		$this->select("//tr[contains(th,'$groupName')]/td[6]/select", "label=...");
-		$this->select("//tr[contains(th,'$groupName')]/td[7]/select", "label=...");
-		$this->select("//tr[contains(th,'$groupName')]/td[8]/select", "label=...");
-		sleep(2);
-		$this->jClick('Save & Close');
+		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
+		$permissions = array('Inherited', 'Allowed', 'Locked', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', $groupName, $actions, $permissions);
 
 		$group = $groupName;
 		$username = 'Test User' . $saltGroup;

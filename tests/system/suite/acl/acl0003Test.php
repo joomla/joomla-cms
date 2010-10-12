@@ -31,55 +31,31 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		echo "Set Weblinks access permissions for ". $groupName.".\n";
 	    $this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
-	    $this->click("//ul[@id='menu-weblinks']/li[2]/a");
-	    $this->waitForPageToLoad("30000");
-	    
-	    $this->click("link=Sample Data-Weblinks");
-	    $this->waitForPageToLoad("30000");
-	    $this->click("//h3[@id='meta-rules']/a/span");
-	    $this->click("link=Create");
-	    $this->select("jform_rules_core.create_13", "label=Deny");
-	    $this->click("link=Delete");
-	    $this->select("jform_rules_core.delete_13", "label=Deny");
-	    $this->click("link=Edit");
-	    $this->select("jform_rules_core.edit_13", "label=Deny");
-	    $this->click("link=Edit State");
-	    $this->select("jform_rules_core.edit.state_13", "label=Deny");
-	    $this->click("//li[@id='toolbar-save']/a/span");
-	    $this->waitForPageToLoad("30000");
+	    $component = 'Weblinks';
+	    $actions = array('Create', 'Delete', 'Edit', 'Edit State');
+	    $permissions = array ('Locked', 'Locked', 'Locked', 'Locked');
+	    $this->setPermissions($component, $groupName, $actions, $permissions);
 		$this->doAdminLogout();
 		
 		//Test access for Test User beloning to Restricted Manager Group
 		echo "Testng access of ". $login.".\n";		
 		$this->gotoAdmin();
 		echo "Log in as ". $login.".\n";
-	    $this->type("mod-login-username", $login);
-	    $this->type("mod-login-password", "password");
-	    $this->click("//input[@value='Log in']");
-	    $this->waitForPageToLoad("30000");
+		$this->doAdminLogin($login, 'password');
 		$this->jClick('Weblinks');
-	    $this->click("cb1");
-	    $this->click("cb6");
-		echo "Testng Unpublish capability.\n";	    
-		$this->click("//li[@id='toolbar-unpublish']/a/span");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Edit state is not permitted"));
-	    $this->click("cb1");
-		echo "Testng Trash capability.\n";
-		$this->click("//li[@id='toolbar-trash']/a/span");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Edit state is not permitted"));
-	    $this->click("cb1");
-		echo "Testng Edit capability.\n";
-		$this->click("//li[@id='toolbar-edit']/a/span");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isTextPresent("Edit not permitted"));
+		echo "Check that user cannot edit, publish, unpublish, or trash weblinks.\n";
+		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-edit']/a/span"));
+		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-publish']/a/span"));
+		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-unpublish']/a/span"));
+		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-trash']/a/span"));
+		
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		
 		$this->doAdminLogin();		
 		$this->deleteTestUsers($username);
-		$this->deleteGroup($groupName);		
+		$this->deleteGroup($groupName);
+		$this->doAdminLogout();
   }
 }
 ?>

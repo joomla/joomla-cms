@@ -262,8 +262,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
         $this->click($id);
         $this->jClick('Save & Close');
 		try	{
-			$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
-			echo "Addding group " . $groupName . " to " . $levelName . " access level succeeded.\n";
+			$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"), "Line: ".__LINE__);
+			echo "Adding group " . $groupName . " to " . $levelName . " access level succeeded.\n";
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
@@ -309,7 +309,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		switch ($item)
 		{
 		case 'Access Levels':
-			$screen="User Manager: Access Levels";
+			$screen="User Manager: View Permissions Levels";
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-levels')]");
 			$this->waitForPageToLoad("30000");
@@ -375,10 +375,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		    }
 			break;
 		case 'Global Configuration: Permissions':
-			$screen='Global Configuration';
-			echo "Navigating to $screen: Permissions.\n";
-			$this->click("//a[contains(@class,'icon-16-config')]");
-			$this->waitForPageToLoad("30000");
+			$this->jClick('Global Configuration');
 	    	$this->click("permissions");			
 			try {
 				$this->assertTrue($this->isElementPresent("//a[contains(@id,'permissions')][contains(@class,'active')]"));
@@ -388,7 +385,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		    }
 			break;			
 		case 'Groups':
-			$screen="User Manager: Groups";
+			$screen="User Manager: Action Permission Groups";
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-groups')]");
 			$this->waitForPageToLoad("30000");
@@ -448,7 +445,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			for ($second = 0; ; $second++) {
 				if ($second >= 15) $this->fail("timeout");
 				try {
-					if ($this->isElementPresent("//dl[@id='config-tabs-com_content_configuration']")) break;
+					if ($this->isElementPresent("//dl[contains(@id, 'configuration')]")) break;
 				}
 				catch (PHPUnit_Framework_AssertionFailedError $e) {
 					array_push($this->verificationErrors, $this->getTraceFiles($e));
@@ -568,138 +565,124 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		
 	function restoreDefaultGlobalPermissions()
 	{
-		$this->jClick('Global Configuration: Permissions');
-		echo "Restoring default global permissions.\n";
-		$this->select("//tr[1]/td[1]/select", "label=...");
-		$this->select("//tr[2]/td[1]/select", "label=Allow");
-		$this->select("//tr[3]/td[1]/select", "label=...");
-		$this->select("//tr[4]/td[1]/select", "label=Allow");
-		$this->select("//tr[5]/td[1]/select", "label=...");
-		$this->select("//tr[6]/td[1]/select", "label=...");
-		$this->select("//tr[7]/td[1]/select", "label=...");
-		$this->select("//tr[8]/td[1]/select", "label=...");
-		$this->select("//tr[9]/td[1]/select", "label=...");
-		$this->select("//tr[10]/td[1]/select", "label=...");
-		$this->select("//tr[1]/td[2]/select", "label=...");
-		$this->select("//tr[2]/td[2]/select", "label=Allow");
-		$this->select("//tr[3]/td[2]/select", "label=...");
-		$this->select("//tr[4]/td[2]/select", "label=...");
-		$this->select("//tr[5]/td[2]/select", "label=...");
-		$this->select("//tr[6]/td[2]/select", "label=...");
-		$this->select("//tr[7]/td[2]/select", "label=...");
-		$this->select("//tr[8]/td[2]/select", "label=...");
-		$this->select("//tr[9]/td[2]/select", "label=...");
-		$this->select("//tr[10]/td[2]/select", "label=...");
-		$this->select("//tr[1]/td[3]/select", "label=...");
-		$this->select("//tr[2]/td[3]/select", "label=...");
-		$this->select("//tr[3]/td[3]/select", "label=...");
-		$this->select("//tr[4]/td[3]/select", "label=...");
-		$this->select("//tr[5]/td[3]/select", "label=...");
-		$this->select("//tr[6]/td[3]/select", "label=...");
-		$this->select("//tr[7]/td[3]/select", "label=...");
-		$this->select("//tr[8]/td[3]/select", "label=...");
-		$this->select("//tr[9]/td[3]/select", "label=...");
-		$this->select("//tr[10]/td[3]/select", "label=Allow");
-		$this->select("//tr[1]/td[4]/select", "label=...");
-		$this->select("//tr[2]/td[4]/select", "label=...");
-		$this->select("//tr[3]/td[4]/select", "label=Allow");
-		$this->select("//tr[4]/td[4]/select", "label=...");
-		$this->select("//tr[5]/td[4]/select", "label=...");
-		$this->select("//tr[6]/td[4]/select", "label=...");
-		$this->select("//tr[7]/td[4]/select", "label=...");
-		$this->select("//tr[8]/td[4]/select", "label=...");
-		$this->select("//tr[9]/td[4]/select", "label=...");
-		$this->select("//tr[10]/td[4]/select", "label=...");
-		$this->select("//tr[1]/td[5]/select", "label=...");
-		$this->select("//tr[2]/td[5]/select", "label=Allow");
-		$this->select("//tr[3]/td[5]/select", "label=...");
-		$this->select("//tr[4]/td[5]/select", "label=...");
-		$this->select("//tr[5]/td[5]/select", "label=Allow");
-		$this->select("//tr[6]/td[5]/select", "label=...");
-		$this->select("//tr[7]/td[5]/select", "label=...");
-		$this->select("//tr[8]/td[5]/select", "label=...");
-		$this->select("//tr[9]/td[5]/select", "label=...");
-		$this->select("//tr[10]/td[5]/select", "label=...");
-		$this->select("//tr[1]/td[6]/select", "label=...");
-		$this->select("//tr[2]/td[6]/select", "label=Allow");
-		$this->select("//tr[3]/td[6]/select", "label=...");
-		$this->select("//tr[4]/td[6]/select", "label=...");
-		$this->select("//tr[5]/td[6]/select", "label=...");
-		$this->select("//tr[6]/td[6]/select", "label=...");
-		$this->select("//tr[7]/td[6]/select", "label=...");
-		$this->select("//tr[8]/td[6]/select", "label=...");
-		$this->select("//tr[9]/td[6]/select", "label=...");
-		$this->select("//tr[10]/td[6]/select", "label=...");
-		$this->select("//tr[1]/td[7]/select", "label=...");
-		$this->select("//tr[2]/td[7]/select", "label=Allow");
-		$this->select("//tr[3]/td[7]/select", "label=...");
-		$this->select("//tr[4]/td[7]/select", "label=...");
-		$this->select("//tr[5]/td[7]/select", "label=...");
-		$this->select("//tr[6]/td[7]/select", "label=Allow");
-		$this->select("//tr[7]/td[7]/select", "label=...");
-		$this->select("//tr[8]/td[7]/select", "label=...");
-		$this->select("//tr[9]/td[7]/select", "label=...");
-		$this->select("//tr[10]/td[7]/select", "label=...");
-		$this->select("//tr[1]/td[8]/select", "label=...");
-		$this->select("//tr[2]/td[8]/select", "label=Allow");
-		$this->select("//tr[3]/td[8]/select", "label=...");
-		$this->select("//tr[4]/td[8]/select", "label=...");
-		$this->select("//tr[5]/td[8]/select", "label=...");
-		$this->select("//tr[6]/td[8]/select", "label=...");
-		$this->select("//tr[7]/td[8]/select", "label=Allow");
-		$this->select("//tr[8]/td[8]/select", "label=...");
-		$this->select("//tr[9]/td[8]/select", "label=...");
-		$this->select("//tr[10]/td[8]/select", "label=...");		
-	  	$this->click("//li[@id='toolbar-save']/a/span");
-	    $this->waitForPageToLoad("30000");
-		try {
-	        $this->assertTrue($this->isTextPresent("Configuration successfully saved."));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e){
-			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }		
-	}		
+		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Public', $actions, $permissions);
 		
-	function setGlobalPermission($action,$group,$permission)
-		{			
-		$this->jClick('Global Configuration: Permissions');
-		echo "Setting $action action for $group to $permission.\n";
-		switch ($action)
+		$permissions = array('Allowed', 'Allowed', 'Inherited', 'Inherited', 'Allowed', 'Allowed', 'Allowed', 'Allowed');
+		$this->setPermissions('Global Configuration', 'Manager', $actions, $permissions);
+
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Allowed', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Administrator', $actions, $permissions);
+		
+		$permissions = array('Allowed', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Registered', $actions, $permissions);
+		
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Allowed', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Author', $actions, $permissions);
+		
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Allowed', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Editor', $actions, $permissions);
+		
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Allowed');		
+		$this->setPermissions('Global Configuration', 'Publisher', $actions, $permissions);
+		
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Shop Suppliers', $actions, $permissions);
+
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Customer Group', $actions, $permissions);
+		
+		$permissions = array('Inherited', 'Inherited', 'Allowed', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$this->setPermissions('Global Configuration', 'Super Users', $actions, $permissions);
+		
+	}
+
+	/**
+	 * 
+	 * Sets permissions in Global Configuration or Component for a group
+	 * @param string $component	Name of Component: Global Configuration, Article Manager, Contacts, etc.
+	 * @param string $group	Name of the Group
+	 * @param string or array $actions Actions to set: Site Login, Admin Login, Configure, Access Component, Create, Delete, Edit, Edit State
+	 * @param string or array $permissions Permissions to set for corresponding Action: Inherited, Allowed, or Locked
+	 */
+		
+	function setPermissions($component, $group, $actions, $permissions)
+	{
+		$this->jClick($component);
+		if ($component == 'Global Configuration')
+		{
+			$this->click('permissions');
+		}
+		else
+		{
+			$this->jClick('Options');
+			$this->click("//dt[contains(span,'Permissions')]");
+		}
+		if (!is_array($actions)) {
+			$actions = array($actions);
+		}
+		if (!is_array($permissions)) {
+			$permissions = array($permissions);
+		}
+		echo "Open panel for group '$group'\n";
+		$this->click("//ul[@id='rules']//li/div[@class='panel']//h3[contains(.,'$group')]");	
+		
+		for ($i = 0; $i < count($actions); $i++) {
+			$action = $actions[$i];
+			$permission = $permissions[$i];			
+			echo "Setting $action action for $group to $permission in $component.\n";
+			switch ($action)
 			{
-				case 'Site Login':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[1]/select", "label=$permission");
-				break;
-				case 'Admin Login':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[2]/select", "label=$permission");
-				break;
-				case 'Admin':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[3]/select", "label=$permission");
-				break;
-				case 'Manage':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[4]/select", "label=$permission");
-				break;
-				case 'Create':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[5]/select", "label=$permission");
-				break;
-				case 'Delete':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[6]/select", "label=$permission");
-				break;
-				case 'Edit':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[7]/select", "label=$permission");
-				break;
-				case 'Edit State':	    	    
-				$this->select("//tr[contains(th,'$group')]/td[8]/select", "label=$permission");
-				break;				
-			}		
-  	    $this->click("//li[@id='toolbar-save']/a/span");
-	    $this->waitForPageToLoad("30000");
-		try {
-		        $this->assertTrue($this->isTextPresent("Configuration successfully saved."));
-		    }
-		    catch (PHPUnit_Framework_AssertionFailedError $e) {
+				case 'Site Login':
+					$doAction = 'login.site';
+					break;
+				case 'Admin Login':
+					$doAction = 'login.admin';
+					break;
+				case 'Configure':
+					$doAction = 'core.admin';
+					break;
+				case 'Access Component':
+					$doAction = 'core.manage';
+					break;
+				case 'Create':
+					$doAction = 'create';
+					break;
+				case 'Delete':
+					$doAction = 'delete';
+					break;
+				case 'Edit':
+					$doAction = 'edit';
+					break;
+				case 'Edit State':
+					$doAction = 'edit.state';
+					break;
+			}
+
+			$this->select("//select[contains(@id,'$doAction')][contains(@title,'$group')]", "label=$permission");
+		}
+		if ($component == 'Global Configuration') {
+			$this->click("//li[@id='toolbar-save']/a/span");
+			$this->waitForPageToLoad("30000");
+			try {
+				$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
+			}
+			catch (PHPUnit_Framework_AssertionFailedError $e) {
 				array_push($this->verificationErrors, $this->getTraceFiles($e));
-		    }
- 			    			
-		}		
+			}
+		}
+		else {
+			$this->click("//button[contains(text(),'Save')]");
+			for ($second = 0; ; $second++) {
+				if ($second >= 60) $this->fail("timeout");
+				try {
+					if (!$this->isElementPresent("//dl[contains(@id, 'configuration')]")) break;
+				} catch (Exception $e) {}
+				sleep(1);
+			}
+		}
+	}
 
 	function setTinyText($text)
 		{
