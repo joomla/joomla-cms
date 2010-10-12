@@ -217,13 +217,7 @@
 	</fields>
 
 	<fields name="metadata">
-		<field
-			name="page_title"
-			type="text"
-			label="JFIELD_ALT_PAGE_TITLE_LABEL"
-			description="JFIELD_ALT_PAGE_TITLE_DESC"
-			size="30"/>
-
+		
 		<field
 			name="author"
 			type="text"

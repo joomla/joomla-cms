@@ -317,10 +317,7 @@
 				hr="true"
 			/>
 			
-			<field name="page_title" type="text"
-				label="JFIELD_ALT_PAGE_TITLE_LABEL" 
-				description="JFIELD_ALT_PAGE_TITLE_DESC"
-				size="25" />
+
 
 			<field name="alternative_readmore" type="inputbox"
 				label="JFIELD_READMORE_LABEL" 

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Oct-2010 Jean-Marie Simonet
  # [#22755] Backend module menu assignment improvements and fixes. Thanks Dennis.
+ # [#21792] Alternate Page Title does not show. Thanks Bill.
  
 11-Oct-2010 Mark Dexter
 # [#22819] Clean up errors in new ACL UI
