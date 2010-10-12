@@ -618,8 +618,6 @@ div.current {
 	clear: both;
 	border: 1px solid #ccc;
 	padding: 10px 10px;
-	width: 740px;
-	
 }
 
 
@@ -993,11 +991,7 @@ label#batch-access-lbl {
 
 /* -------- Menu Assigments ---------- */
 div#menu-assignment {
-	height: 300px;
-	overflow: auto;
 	clear:left;
-	border: 1px solid #CCCCCC;
-	padding: 0 17px;
 }
 div#menu-assignment input,
 div#menu-assignment h3 {
@@ -1005,23 +999,25 @@ div#menu-assignment h3 {
 	padding-bottom: 0;
 	margin-bottom: 0;
 }
-div#menu-assignment h3 {
-	border-bottom: 1px solid #CCCCCC;
-	width: 90%;
-	line-height: 1.182em;
+div#menu-assignment ul.menu-links {
+	float:left;
+	width:49%;
 }
 div#menu-assignment ul.menu-links li:last-child label {
 	margin-bottom: 20px;
 }
 
 fieldset.adminform .menu-links label {
-	width:400px;
+	white-space:nowrap;
 }
 fieldset.adminform .menu-links input {
-	margin-top: 1px;
+	margin: 8px 5px 0 0;
 }
 
-button.jform-rightbtn { float:right;margin-right: 0; }
+button.jform-rightbtn { 
+	float:right;
+	margin-right: 0;
+}
 
 #jform_impmade,
 #jform_clicks {

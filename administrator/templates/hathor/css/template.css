@@ -594,29 +594,27 @@ li.acl-resetbtn:hover {
 
 }
 
+/* -------- Menu Assigments ---------- */
 div#menu-assignment {
-	height: 300px;
-	overflow: auto;
 	clear:left;
 }
-
-div#menu-assignment h3 {
-	padding-top: 15px;
-	padding-bottom: 0;
-	margin-bottom: 0;
-	border-bottom: 1px solid #c7c8b2;
-	width: 90%;
-	clear:left;
+div#menu-assignment ul.menu-links {
+	float:left;
+	width:49%;
 }
-
-div#menu-assignment ul.menu-links li.menu-link label {
+div#menu-assignment ul.menu-links label {
 	clear:none;
 	float: left;
 	margin: 3px 0 0 2px;
 }
-div#menu-assignment ul.menu-links li.menu-link input {
+div#menu-assignment ul.menu-links input {
 	clear: left;
 	float: left;
+}
+
+button.jform-rightbtn { 
+	float:right;
+	margin-right: 0;
 }
 
 p.tab-description {

@@ -28,7 +28,10 @@ $script = "Joomla.submitbutton = function(task)
 if ($hasContent) {
 	$script .= $this->form->getField('content')->save();
 }
-$script .= "Joomla.submitform(task, document.getElementById('module-form'));
+$script .= "	Joomla.submitform(task, document.getElementById('module-form'));
+				if (self != top) {
+					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
+				}
 			} else {
 				alert('".$this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'))."');
 			}
@@ -109,12 +112,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 	</div>
 
 	<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start','plugin-sliders-'.$this->item->id); ?>
-
+	<?php echo JHtml::_('sliders.start', 'module-sliders'); ?>
 		<?php echo $this->loadTemplate('options'); ?>
-
 		<div class="clr"></div>
-
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
