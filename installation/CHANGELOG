@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2010 Andrew Eddie
+ # Fixed issue [#21343] Email is not spamprotected in search (Janich Rasmussen, Joseph LeBlanc, Hannes Papenberg).
+
 12-Oct-2010 Mark Dexter
 # [#22837] Commit of #22710 leads to display errors when trashing, deleting or archiving category
 
