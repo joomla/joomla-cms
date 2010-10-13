@@ -45,7 +45,8 @@ class plgContentLoadmodule extends JPlugin
 		foreach ($matches as $match) {
 			// $match[0] is full pattern match, $match[1] is the position
 			$output = $this->_load($match[1], $style);
-			$article->text = str_replace($match[0], $output, $article->text);
+			// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
+			$article->text = preg_replace("|$match[0]|", $output, $article->text, 1);
 		}
 
 		self::$test = 1;

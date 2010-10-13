@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Oct-2010 Andrew Eddie
  # Fixed issue [#21343] Email is not spamprotected in search (Janich Rasmussen, Joseph LeBlanc, Hannes Papenberg).
+ # Fixed issue [#22809] [patch] loadmodule plugin incorrectly handles positions with the same name (Artyom Bisyarin).
 
 12-Oct-2010 Mark Dexter
 # [#22837] Commit of #22710 leads to display errors when trashing, deleting or archiving category
