@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Loading new lib_joomla.ini file through includes/application.php breaks langswitcher. Correcting until final decision is taken to separate Framework.
  # [#22835] Enabling browser lang sniffing in langfilter system plugin.
  # [#22858] news feed - 2 level subcategory feed name link causes error. Thanks Bill.
+ # [#22535] Missing always fulltext value in com_content article view. Thanks Angie and Christophe.
  
 13-Oct-2010 Andrew Eddie
  # Fixed issue [#21343] Email is not spamprotected in search (Janich Rasmussen, Joseph LeBlanc, Hannes Papenberg).

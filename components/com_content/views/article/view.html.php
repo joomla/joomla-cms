@@ -99,10 +99,11 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		if ($item->params->get('show_intro', 1) == 1) {
-			$item->text = $item->introtext . ' ' . $item->fulltext;
-		} else {
+		if (!$item->params->get('show_intro') && !empty($item->fulltext)) {
 			$item->text = $item->fulltext;
+		}
+		else {
+			$item->text = $item->introtext;
 		}
 
 		//
