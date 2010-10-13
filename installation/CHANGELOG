@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Oct-2010 Christophe Demko
  ^ Fix loading .ini files instead of .sys.ini files for #22710
+ # [#21780] JHtmlTabs not compatible with JHtmlRules
 
 13-Oct-2010 Mark Dexter
 + [#22848] Debug User Group View
