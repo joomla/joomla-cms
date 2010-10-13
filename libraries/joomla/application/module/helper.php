@@ -364,7 +364,7 @@ abstract class JModuleHelper
 	*
 	* @since	1.6
 	*/
-	public static function ModuleCache($module, $moduleparams, $cacheparams)
+	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
 		if(!isset ($cacheparams->modeparams)) {
 			$cacheparams->modeparams=null;

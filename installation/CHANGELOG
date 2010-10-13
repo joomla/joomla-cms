@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Oct-2010 Christophe Demko
  # [#22846] Joomla.submitform does not act exactly as submitform
+ ! Respecting coding convention
 
 13-Oct-2010 Jean-Marie Simonet
  # Loading new lib_joomla.ini file through includes/application.php breaks langswitcher. Correcting until final decision is taken to separate Framework.
