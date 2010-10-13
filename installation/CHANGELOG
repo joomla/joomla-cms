@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2010 Mark Dexter
+ # [#21661] Article access check is only using the current category, not checking further up the branch
+
 14-Oct-2010 Christophe Demko
  ^ Fix loading .ini files instead of .sys.ini files for #22710
  # [#21780] JHtmlTabs not compatible with JHtmlRules

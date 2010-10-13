@@ -704,8 +704,47 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" .	$articleTitle . "')]/../../td[3]/a");
 		$this->waitForPageToLoad("30000");
 	}
+	
+	function toggleCheckBox($itemTitle)
+	{
+		echo "Toggling check box selection of article " . $itemTitle . "\n";
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), '" .	$itemTitle . "')]/../../td[1]/input");
+	}
+	
+	/**
+	 * 
+	 * Sets state of component category or item
+	 * @param string 	Title or Category or Item 
+	 * @param string	Name of Menu: Article Manager, Banners, Contacts, Newsfeeds, Weblinks
+	 * @param string	Category or Item
+	 * @param string	last part of toolbar name: publish, unpublish, archive, trash
+	 */
 
-
+	function changeState($title = null, $menu = 'Article Manager', $type = 'Category', $newState = 'publish')
+	{
+		$this->gotoAdmin();
+		echo "Changing state of " . $type . " " . $title . " in " . $menu . " to " . $newState .  "\n";
+		$this->click("link=" . $menu);
+		$this->waitForPageToLoad("30000");
+		if ($type == 'Category')
+		{
+			$this->click("//ul[@id='submenu']/li[2]/a");
+			$this->waitForPageToLoad("30000");
+		}
+		$filter = ($menu == 'Banners') ? 'filter_state' : 'filter_published';
+		$this->select($filter, "label=All");
+		$this->waitForPageToLoad("30000");
+		$this->type("filter_search", $title);
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->toggleCheckBox($title);
+		$this->click("//li[@id='toolbar-" . $newState . "']/a/span");
+		$this->waitForPageToLoad("30000");
+		$this->click("//button[@type='button']");
+		$this->waitForPageToLoad("30000");
+		$this->gotoAdmin();
+	}
+	
 	function checkNotices()
 	{
 		try {

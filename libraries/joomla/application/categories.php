@@ -30,6 +30,13 @@ class JCategories
 	 * @var mixed
 	 */
 	protected $_nodes;
+	
+	/**
+	 * Array of checked categories -- used to save values when _nodes are null
+	 * 
+	 * @var array
+	 */
+	protected $_checkedCategories;
 
 	/**
 	 * Name of the extension the categories belong to
@@ -139,14 +146,21 @@ class JCategories
 				$id = 'root';
 			}
 		}
-		if (!isset($this->_nodes[$id]) || $forceload)
+		// If this $id has not been processed yet, execute the _load method
+		if ((!isset($this->_nodes[$id]) && !isset($this->_checkedCategories[$id])) || $forceload)
 		{
 			$this->_load($id);
 		}
 
+		// If we already have a value in _nodes for this $id, then use it
 		if(isset($this->_nodes[$id]))
 		{
 			return $this->_nodes[$id];
+		}
+		// If we processed this $id already and it was not valid, then return null
+		elseif (isset($this->_checkedCategories[$id]))
+		{
+			return null;
 		}
 		return false;
 	}
@@ -157,6 +171,8 @@ class JCategories
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
+		// Record that this $id has been checked
+		$this->_checkedCategories[$id] = true;
 
 		$query = new JDatabaseQuery;
 
@@ -183,6 +199,12 @@ class JCategories
 			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
 			$query->where('s.id='.(int)$id);
 		}
+		
+		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' . 
+					'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+					' AND parent.published != 1 GROUP BY cat.id) ';
+		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
+		$query->where('badcats.id is null');
 
 		// i for item
 		if(isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
@@ -226,13 +248,18 @@ class JCategories
 				// Create the node
 				if (!isset($this->_nodes[$result->id]))
 				{
-					// Create the JCategoryNode
+					// Create the JCategoryNode and add to _nodes
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
+					
+					// If this is not root, and if the current nodes parent is in the list or the current node parent is 0
 					if($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
-						// Compute relationship between node and its parent
+						// Compute relationship between node and its parent - set the parent in the _nodes field
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
+					
+					// if the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove this nodes from the list 
 					if(!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0))
 					{
 						unset($this->_nodes[$result->id]);
@@ -244,7 +271,9 @@ class JCategories
 						$this->_nodes[$result->id]->setAllLoaded();
 						$childrenLoaded = true;
 					}
-				} elseif($result->id == $id || $childrenLoaded) {
+				}
+				elseif($result->id == $id || $childrenLoaded) 
+				{
 					// Create the JCategoryNode
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 					if($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))

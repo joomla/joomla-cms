@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2010 Mark Dexter
++ article0003Test added to test effect of up-path category state on article menu items
+
 12-Oct-2010 Mark Dexter
 # Fix multiple system tests for ACL UI changes
 # Fix problem in language0001test.php from Category Manager UI change
