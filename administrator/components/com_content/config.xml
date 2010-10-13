@@ -401,7 +401,7 @@
 			hr="true"
 			/>
 			
-			<field name="subslider" type="spacer"
+			<field name="spacer" type="spacer" class="spacer"
 			label="COM_CONTENT_DRILL_CATEGORIES_LABEL"
 			/>
 			

@@ -922,7 +922,7 @@ label#jform_grouptitle-lbl {
 	padding-top: 3px;
 }
 
-label#jform_params_subslider-lbl {
+span.spacer label {
 	white-space: nowrap;
 	font-weight: bold;
 	color: #666;

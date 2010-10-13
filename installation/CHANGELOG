@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#22846] Joomla.submitform does not act exactly as submitform
  ! Respecting coding convention
  # [#20830] missing error messages when fields empty when installing
+ # [#22820] The css style label#jform_params_subslider-lbl cannot be applied on nested groups
 
 13-Oct-2010 Jean-Marie Simonet
  # Loading new lib_joomla.ini file through includes/application.php breaks langswitcher. Correcting until final decision is taken to separate Framework.

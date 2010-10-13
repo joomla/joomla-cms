@@ -80,7 +80,7 @@
 			
 </fieldset>
 <fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">
-			<field name="subslider" type="spacer"
+			<field name="spacer1" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
 			
@@ -157,7 +157,7 @@
 
 <fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 				
-			<field name="subslider" type="spacer"
+			<field name="spacer2" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
 

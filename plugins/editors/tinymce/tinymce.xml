@@ -210,7 +210,7 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="subslider" type="spacer"
+				<field name="spacer" type="spacer" class="spacer"
 					label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
 				/>
 

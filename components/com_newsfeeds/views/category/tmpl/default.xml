@@ -28,7 +28,7 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
-		<field name="subslider" type="spacer"
+		<field name="spacer1" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
 			
@@ -104,7 +104,7 @@
 			
 	</fieldset>
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field name="subslider" type="spacer"
+			<field name="spacer2" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
 			<field name="show_pagination_limit"

@@ -59,9 +59,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 
 	<?php echo $this->loadTemplate('address'); ?>
 
-	<?php if ($this->params->get('allow_vcard')) :	//TODO either reimplement vcard or delete this.?>
+	<?php if ($this->params->get('allow_vcard')) :	?>
 		<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS');?>
-			<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;view=contact&amp;task=vcard&amp;contact_id=<?php echo $this->contact->id; ?>&amp;format=vcard&amp;tmpl=component">
+			<a href="<?php echo JURI::base(); ?>index.php?option=com_contact&amp;view=contact&amp;id=<?php echo $this->contact->id; ?>&amp;format=vcf">
 				<?php echo JText::_('COM_CONTACT_VCARD');?></a>
 	<?php endif; ?>
 	<p></p>

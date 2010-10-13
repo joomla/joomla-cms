@@ -17,7 +17,7 @@
 <fields name="params">
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			
-			<field name="subslider" type="spacer"
+			<field name="spacer" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
 			
