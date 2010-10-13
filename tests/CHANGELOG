@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Oct-2010 Mark Dexter
 # Fix multiple system tests for ACL UI changes
+# Fix problem in language0001test.php from Category Manager UI change
 
 10-Oct-2010 Mark Dexter
 ^ Added option in configdef.php and doInstall.php to install without sample data
