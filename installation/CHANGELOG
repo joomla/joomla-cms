@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Oct-2010 Mark Dexter
++ [#22848] Debug User Group View
+
 13-Oct-2010 Christophe Demko
  # [#22846] Joomla.submitform does not act exactly as submitform
  ! Respecting coding convention
