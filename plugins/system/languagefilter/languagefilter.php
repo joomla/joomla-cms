@@ -74,6 +74,11 @@ class plgSystemLanguageFilter extends JPlugin
 			}
 		}
 		parent::__construct($subject, $config);
+		// 	Detect browser feature
+		if ($app->isSite()) {
+			$app->setDetectBrowser($this->params->get('detect_browser', '1')=='1');
+		}
+
 	}
 
 	public function onAfterInitialise()

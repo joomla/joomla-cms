@@ -34,7 +34,8 @@ $ -> Language fix or change
 
 13-Oct-2010 Jean-Marie Simonet
  # Loading new lib_joomla.ini file through includes/application.php breaks langswitcher. Correcting until final decision is taken to separate Framework.
-
+ # [#22835] Enabling browser lang sniffing in langfilter system plugin.
+ 
 13-Oct-2010 Andrew Eddie
  # Fixed issue [#21343] Email is not spamprotected in search (Janich Rasmussen, Joseph LeBlanc, Hannes Papenberg).
  # Fixed issue [#22809] [patch] loadmodule plugin incorrectly handles positions with the same name (Artyom Bisyarin).
