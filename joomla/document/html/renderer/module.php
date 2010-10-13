@@ -80,7 +80,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$cacheparams->method = 'renderModule';
 			$cacheparams->methodparams = array($module, $params);
 
-			$contents = JModuleHelper::ModuleCache($module, $mod_params,$cacheparams);
+			$contents = JModuleHelper::moduleCache($module, $mod_params,$cacheparams);
 
 		}
 		else {
