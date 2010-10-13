@@ -95,6 +95,9 @@ class JInstallationControllerSetup extends JController
 
 		// Check for validation errors.
 		if ($return === false) {
+			// Store the options in the session.
+			$vars = $model->storeOptions($data);
+
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
