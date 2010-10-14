@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
+	<description>en-GB site language</description>
 	<files>
 		<filename>en-GB.com_contact.ini</filename>
 		<filename>en-GB.com_content.ini</filename>
@@ -70,6 +70,9 @@
 		<filename>en-GB.mod_wrapper.ini</filename>
 		<filename>en-GB.mod_wrapper.sys.ini</filename>
 		<filename>en-GB.tpl_beez_20.ini</filename>
+		<filename>en-GB.tpl_beez_20.sys.ini</filename>
+		<filename>en-GB.tpl_beez5.ini</filename>
+		<filename>en-GB.tpl_beez5.sys.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.ini</filename>
 		<filename>en-GB.tpl_rhuk_milkyway.sys.ini</filename>
 	</files>

@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
+	<description>en-GB administrator language</description>
 	<files>
 		<filename>en-GB.com_admin.ini</filename>
 		<filename>en-GB.com_admin.sys.ini</filename>
@@ -60,6 +60,7 @@
 		<filename>en-GB.com_weblinks.sys.ini</filename>
 		<filename>en-GB.com_wrapper.ini</filename>
 		<filename>en-GB.com_wrapper.sys.ini</filename>
+		<filename>en-GB.lib_joomla.ini</filename>
 		<filename>en-GB.ini</filename>
 		<filename>en-GB.mod_custom.ini</filename>
 		<filename>en-GB.mod_custom.sys.ini</filename>
