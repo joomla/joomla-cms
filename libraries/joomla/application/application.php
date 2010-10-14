@@ -181,10 +181,6 @@ class JApplication extends JObject
 		$editor	= $user->getParam('editor', $this->getCfg('editor'));
 		$editor	= JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
 		$config->set('editor', $editor);
-		
-		// Load Library language
-		$lang = JFactory::getLanguage();
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2010 Louis Landry
+ ^ Decoupled JPATH_ADMINISTRATOR from JApplication::initialise() method call when loading framework language file.
+
 14-Oct-2010 Jean-Marie Simonet
  # [#22659] Debug plugin doesn't show 'afterRender' profiler mark and can't gather statistics of other system plugins. Thanks Dennis.
  $ Updating language xml files.

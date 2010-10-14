@@ -116,8 +116,13 @@ final class JSite extends JApplication
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
 			}
 		}
-		
+
+		// Execute the parent initialise method.
 		parent::initialise($options);
+
+		// Load Library language
+		$lang = JFactory::getLanguage();
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
@@ -231,7 +236,7 @@ final class JSite extends JApplication
 		// Trigger the onBeforeRender event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onBeforeRender');
-		
+
 		$caching = false;
 		if ($this->getCfg('caching') && $this->getCfg('caching',2) == 2 && !$user->get('id')) {
 			$caching = true;

@@ -77,8 +77,13 @@ class JAdministrator extends JApplication
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
 			}
 		}
-		
+
+		// Execute the parent initialise method.
 		parent::initialise($options);
+
+		// Load Library language
+		$lang = JFactory::getLanguage();
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

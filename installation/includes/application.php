@@ -152,6 +152,10 @@ class JInstallation extends JApplication
 		$conf = JFactory::getConfig();
 		$conf->set('language', $options['language']);
 		$conf->set('debug_lang', $forced['debug']);
+
+		// Load Library language
+		$lang = JFactory::getLanguage();
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
