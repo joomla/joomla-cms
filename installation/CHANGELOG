@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2010 Ian MacLennan
+ # [#21189] vcard not working in contact, needs a vcard class in JView
+
 14-Oct-2010 Mark Dexter
  # [#21661] Article access check is only using the current category, not checking further up the branch
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	Contact
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -29,43 +29,47 @@ class ContactViewContact extends JView
 		}
 
 		$doc = JFactory::getDocument();
-		$doc->setMetaData('ContentType','text/directory', true);
-		$mimeType = 'text/directory';
-		$doc->setMimeEncoding($mimeType);
-		// Initialise variables.		
+		$doc->setMetaData('Content-Type','text/directory', true);
+
+		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$params 	= $app->getParams();		
+		$params 	= $app->getParams();
 		$user		= JFactory::getUser();
 		$dispatcher =& JDispatcher::getInstance();
 		
 		// Compute lastname, firstname and middlename
-		$item->name=trim($item->name);
-		$namearray = explode(',',$item->name);
-		if (count($namearray) > 1) {
-			$lastname=$namearray[0];
-			$namearray=explode(' ',trim($namearray[1]));
-			$firstname=$namearray[0];
-			if (count($namearray) > 1) {
-				$middlename=$namearray[1];
-			}
-			else {
-				$middlename='';
+		$item->name = trim($item->name);
+
+		// "Lastname, Firstname Midlename" format support
+		// e.g. "de Gaulle, Charles"
+		$namearray = explode(',', $item->name);
+		if (count($namearray) > 1 ) {
+			$lastname = $namearray[0];
+			$card_name = $lastname;
+			$name_and_midname = trim($namearray[1]);
+
+			$firstname = '';
+			if (!empty($name_and_midname)) {
+				$namearray = explode(' ', $name_and_midname);
+
+				$firstname = $namearray[0];
+				$middlename = (count($namearray) > 1) ? $namearray[1] : '';
+				$card_name = $firstname . ' ' . ($middlename ? $middlename . ' ' : '') .  $card_name;
 			}
 		}
+		// "Firstname Middlename Lastname" format support
 		else {
-			$namearray=explode(' ',$item->name);
-			$firstname=$namearray[0]; 
-			$lastname=end($namearray);
-			if (count($namearray) > 2){
-				$middlename = $namearray[1];
-			}
-			else {
-				$middlename='';
-			}
+			$namearray = explode(' ', $item->name);
+
+			$middlename = (count($namearray) > 2) ? $namearray[1] : '';
+			$firstname = array_shift($namearray);
+			$lastname = count($namearray) ? end($namearray) : '';
+			$card_name = $firstname . ($middlename ? ' ' . $middlename : '') . ($lastname ? ' ' . $lastname : '');
 		}
-		
+
 		$rev = date('c',strtotime($item->modified));
-		JResponse::setHeader('Content-disposition: attachment; filename="'.$item->name.'.vcf"', true);
+
+		JResponse::setHeader('Content-disposition: attachment; filename="'.$card_name.'.vcf"', true);
 		
 		$vcard = array();
 		$vcard[].= 'BEGIN:VCARD';
@@ -84,7 +88,7 @@ class ContactViewContact extends JView
 		$vcard[] = 'END:VCARD';
 
 		echo implode("\n",$vcard);
-		return true;;	
-	}	
+		return true;
+	}
 }	
 
