@@ -165,6 +165,9 @@ $n = count($this->items);
 	</table>
 
 <?php echo $this->pagination->getListFooter(); ?>
+	<div class="clr"> </div>
+
+	<?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="extension" value="<?php echo $extension;?>" />
 	<input type="hidden" name="task" value="" />

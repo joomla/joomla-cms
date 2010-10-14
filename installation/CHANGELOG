@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#22825] Duplicated queries in global configuration.  (Thanks to Dennis Hermacki)
  # [#22553] Switcher function for submenu uses incompatible function for IE7 and chrome. (Thanks to Angie Radtke)
  # [#21541] When trying to delete a folder which contains images, the error message only displays for < 1 second. (Thanks to Mathavan Jeyadev)
+ # [#21225] Copy and Move missing from each Manager - Categories & Menus. (Thanks to Michael Babker)
 
 14-Oct-2010 Jean-Marie Simonet
  # [#22659] Debug plugin doesn't show 'afterRender' profiler mark and can't gather statistics of other system plugins. Thanks Dennis.

@@ -129,7 +129,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		if (!$done) {
-			$this->setError('COM_MENUS_ERROR_INSUFFICIENT_BATCH_INFORMATION');
+			$this->setError(JText::_('JGLOBAL_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 			return false;
 		}
 
@@ -198,7 +198,7 @@ class MenusModelItem extends JModelAdmin
 				}
 				else {
 					// Non-fatal error
-					$this->setError(JText::_('COM_MENUS_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -244,7 +244,7 @@ class MenusModelItem extends JModelAdmin
 				}
 				else {
 					// Not fatal error
-					$this->setError(JText::sprintf('COM_MENUS_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -343,7 +343,7 @@ class MenusModelItem extends JModelAdmin
 				}
 				else {
 					// Non-fatal error
-					$this->setError(JText::_('COM_MENUS_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -364,7 +364,7 @@ class MenusModelItem extends JModelAdmin
 				}
 				else {
 					// Not fatal error
-					$this->setError(JText::sprintf('COM_MENUS_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}

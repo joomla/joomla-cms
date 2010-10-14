@@ -322,10 +322,10 @@ class CategoriesControllerCategory extends JController
 
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
-			$this->setMessage(JText::_('Categories_Batch_success'));
+			$this->setMessage(JText::_('JGLOBAL_BATCH_SUCCESS'));
 			return true;
 		} else {
-			$this->setMessage(JText::_(JText::sprintf('COM_CATEGORIES_ERROR_BATCH_FAILED', $model->getError())));
+			$this->setMessage(JText::_(JText::sprintf('JGLOBAL_ERROR_BATCH_FAILED', $model->getError())));
 			return false;
 		}
 	}

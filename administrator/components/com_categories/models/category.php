@@ -451,7 +451,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		if (!$done) {
-			$this->setError('COM_CATEGORIES_ERROR_INSUFFICIENT_BATCH_INFORMATION');
+			$this->setError(JText::_('JGLOBAL_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 			return false;
 		}
 
@@ -483,26 +483,250 @@ class CategoriesModelCategory extends JModelAdmin
 	}
 
 	/**
-	 * Batch move categories to a new parent.
+	 * Batch copy categories to a new category.
 	 *
-	 * @param	int		The new category or sub-category.
-	 * @param	array	An array of row IDs.
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
-	 * @since	1.6
-	 */
-	protected function batchMove($value, $pks)
-	{
-	}
-
-	/**
-	 * Batch copy categories to a new parent.
+	 * @param	int		$value	The new category or sub-item.
+	 * @param	array	$pks	An array of row IDs.
 	 *
-	 * @param	int		The new category or sub-category.
-	 * @param	array	An array of row IDs.
 	 * @return	booelan	True if successful, false otherwise and internal error is set.
 	 * @since	1.6
 	 */
 	protected function batchCopy($value, $pks)
 	{
+		// $value comes as {parent_id}.{extension}
+		$parts		= explode('.', $value);
+		$parentId	= (int) JArrayHelper::getValue($parts, 0, 1);
+
+		$table	= $this->getTable();
+		$db		= $this->getDbo();
+
+		// Check that the parent exists
+		if ($parentId) {
+			if (!$table->load($parentId)) {
+				if ($error = $table->getError()) {
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else {
+					// Non-fatal error
+					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$parentId = 0;
+				}
+			}
+		}
+
+		// If the parent is 0, set it to the ID of the root item in the tree
+		if (empty($parentId)) {
+			if (!$parentId = $table->getRootId()) {
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
+		}
+
+		// We need to log the parent ID
+		$parents = array();
+
+		// Calculate the emergency stop count as a precaution against a runaway loop bug
+		$db->setQuery(
+			'SELECT COUNT(id)' .
+			' FROM #__categories'
+		);
+		$count = $db->loadResult();
+
+		if ($error = $db->getErrorMsg()) {
+			$this->setError($error);
+			return false;
+		}
+
+		// Parent exists so we let's proceed
+		while (!empty($pks) && $count > 0)
+		{
+			// Pop the first id off the stack
+			$pk = array_shift($pks);
+
+			$table->reset();
+
+			// Check that the row actually exists
+			if (!$table->load($pk)) {
+				if ($error = $table->getError()) {
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else {
+					// Not fatal error
+					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					continue;
+				}
+			}
+
+			// Copy is a bit tricky, because we also need to copy the children
+			$db->setQuery(
+				'SELECT id' .
+				' FROM #__categories' .
+				' WHERE lft > '.(int) $table->lft.' AND rgt < '.(int) $table->rgt
+			);
+			$childIds = $db->loadResultArray();
+
+			// Add child ID's to the array only if they aren't already there.
+			foreach ($childIds as $childId)
+			{
+				if (!in_array($childId, $pks)) {
+					array_push($pks, $childId);
+				}
+			}
+
+			// Make a copy of the old ID and Parent ID
+			$oldId				= $table->id;
+			$oldParentId		= $table->parent_id;
+
+			// Reset the id because we are making a copy.
+			$table->id			= 0;
+
+			// If we a copying children, the Old ID will turn up in the parents list
+			// otherwise it's a new top level item
+			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+			
+			// Set the new location in the tree for the node.
+			$table->setLocation($table->parent_id, 'last-child');
+			
+			// TODO: Deal with ordering?
+			//$table->ordering	= 1;
+			$table->level		= null;
+			$table->asset_id	= null;
+			$table->lft			= null;
+			$table->rgt			= null;
+			
+			// Store the row.
+			if (!$table->store()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Now we log the old 'parent' to the new 'parent'
+			$parents[$oldId] = $table->id;
+			$count--;
+		}
+
+		// Rebuild the hierarchy.
+		if (!$table->rebuild()) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$table->rebuildPath($table->id)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_categories');
+		$cache->clean();
+
+		return true;
+	}
+
+	/**
+	 * Batch move categories to a new category.
+	 *
+	 * @param	int		$value	The new category or sub-item.
+	 * @param	array	$pks	An array of row IDs.
+	 *
+	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 * @since	1.6
+	 */
+	protected function batchMove($value, $pks)
+	{
+		// $value comes as {parent_id}
+		$parts		= explode('.', $value);
+		$parentId	= (int) JArrayHelper::getValue($parts, 0, 1);
+
+		$table	= $this->getTable();
+		$db		= $this->getDbo();
+
+		// Check that the parent exists.
+		if ($parentId) {
+			if (!$table->load($parentId)) {
+				if ($error = $table->getError()) {
+					// Fatal error
+					$this->setError($error);
+
+					return false;
+				}
+				else {
+					// Non-fatal error
+					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$parentId = 0;
+				}
+			}
+		}
+
+		// We are going to store all the children and just move the category
+		$children = array();
+
+		// Parent exists so we let's proceed
+		foreach ($pks as $pk)
+		{
+			// Check that the row actually exists
+			if (!$table->load($pk)) {
+				if ($error = $table->getError()) {
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else {
+					// Not fatal error
+					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					continue;
+				}
+			}
+
+			// Set the new location in the tree for the node.
+			$table->setLocation($parentId, 'last-child');
+
+			// Check if we are moving to a different parent
+			if ($parentId != $table->parent_id) {
+				// Add the child node ids to the children array.
+				$db->setQuery(
+					'SELECT `id`' .
+					' FROM `#__categories`' .
+					' WHERE `lft` BETWEEN '.(int) $table->lft.' AND '.(int) $table->rgt
+				);
+				$children = array_merge($children, (array) $db->loadResultArray());
+			}
+
+			// Store the row.
+			if (!$table->store()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Rebuild the tree path.
+			if (!$table->rebuildPath()) {
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+
+		// Process the child rows
+		if (!empty($children)) {
+			// Remove any duplicates and sanitize ids.
+			$children = array_unique($children);
+			JArrayHelper::toInteger($children);
+
+			// Check for a database error.
+			if ($db->getErrorNum()) {
+				$this->setError($db->getErrorMsg());
+				return false;
+			}
+		}
+
+		// Clear the component's cache
+		$cache = JFactory::getCache('com_categories');
+		$cache->clean();
+
+		return true;
 	}
 }
