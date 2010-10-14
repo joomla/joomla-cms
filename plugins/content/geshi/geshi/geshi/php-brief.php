@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
  * -------------
  * Author: Nigel McNie (nigel@geshi.org)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.8.4
+ * Release Version: 1.0.8.8
  * Date Started: 2004/06/02
  *
  * PHP (brief version) language file for GeSHi.
@@ -188,7 +188,7 @@ $language_data = array (
         3 => array(
             '<script language="php">' => '</script>'
             ),
-        4 => "/(?<start><\\?(?>php\b)?)(?:".
+        4 => "/(?P<start><\\?(?>php\b)?)(?:".
             "(?>[^\"'?\\/<]+)|".
             "\\?(?!>)|".
             "(?>'(?>[^'\\\\]|\\\\'|\\\\\\\|\\\\)*')|".
@@ -197,9 +197,9 @@ $language_data = array (
             "\\/\\/(?>.*?$)|".
             "\\/(?=[^*\\/])|".
             "<(?!<<)|".
-            "<<<(?<phpdoc>\w+)\s.*?\s\k<phpdoc>".
-            ")*(?<end>\\?>|\Z)/sm",
-        5 => "/(?<start><%)(?:".
+            "<<<(?P<phpdoc>\w+)\s.*?\s\k<phpdoc>".
+            ")*(?P<end>\\?>|\Z)/sm",
+        5 => "/(?P<start><%)(?:".
             "(?>[^\"'%\\/<]+)|".
             "%(?!>)|".
             "(?>'(?>[^'\\\\]|\\\\'|\\\\\\\|\\\\)*')|".
@@ -208,8 +208,8 @@ $language_data = array (
             "\\/\\/(?>.*?$)|".
             "\\/(?=[^*\\/])|".
             "<(?!<<)|".
-            "<<<(?<phpdoc>\w+)\s.*?\s\k<phpdoc>".
-            ")*(?<end>%>)/sm"
+            "<<<(?P<phpdoc>\w+)\s.*?\s\k<phpdoc>".
+            ")*(?P<end>%>)/sm"
         ),
     'HIGHLIGHT_STRICT_BLOCK' => array(
         0 => true,

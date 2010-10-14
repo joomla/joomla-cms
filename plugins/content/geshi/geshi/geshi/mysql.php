@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
  * ---------
  * Author: Marjolein Katsma (marjolein.is.back@gmail.com)
  * Copyright: (c) 2008 Marjolein Katsma (http://blog.marjoleinkatsma.com/)
- * Release Version: 1.0.8.4
+ * Release Version: 1.0.8.8
  * Date Started: 2008-12-12
  *
  * MySQL language file for GeSHi.
@@ -394,35 +394,35 @@ $language_data = array (
             )
         ),
     'URLS' => array(
-        1 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        2 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        3 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        4 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        5 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        6 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        7 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        8 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
-        9 => 'http://search.mysql.com/search?site=refman-51&amp;q={FNAME}&amp;lr=lang_en',
+        1 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        2 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        3 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        4 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        5 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        6 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        7 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        8 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
+        9 => 'http://search.mysql.com/search?site=refman-%35%31&amp;q={FNAME}',
 
-        10 => 'http://dev.mysql.com/doc/refman/5.1/en/non-typed-operators.html',
-        11 => 'http://dev.mysql.com/doc/refman/5.1/en/non-typed-operators.html',
+        10 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/non-typed-operators.html',
+        11 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/non-typed-operators.html',
 
-        12 => 'http://dev.mysql.com/doc/refman/5.1/en/control-flow-functions.html',
-        13 => 'http://dev.mysql.com/doc/refman/5.1/en/string-functions.html',
-        14 => 'http://dev.mysql.com/doc/refman/5.1/en/string-functions.html',
-        15 => 'http://dev.mysql.com/doc/refman/5.1/en/numeric-functions.html',
-        16 => 'http://dev.mysql.com/doc/refman/5.1/en/numeric-functions.html',
-        17 => 'http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html',
-        18 => 'http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html',
-        19 => 'http://dev.mysql.com/doc/refman/5.1/en/comparison-operators.html',
-        20 => 'http://dev.mysql.com/doc/refman/5.1/en/comparison-operators.html',
-        21 => 'http://dev.mysql.com/doc/refman/5.1/en/encryption-functions.html',
-        22 => 'http://dev.mysql.com/doc/refman/5.1/en/group-by-functions-and-modifiers.html',
-        23 => 'http://dev.mysql.com/doc/refman/5.1/en/information-functions.html',
-        24 => 'http://dev.mysql.com/doc/refman/5.1/en/information-functions.html',
-        25 => 'http://dev.mysql.com/doc/refman/5.1/en/func-op-summary-ref.html',
-        26 => 'http://dev.mysql.com/doc/refman/5.1/en/func-op-summary-ref.html',
-        27 => 'http://dev.mysql.com/doc/refman/5.1/en/analysing-spatial-information.html',
+        12 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/control-flow-functions.html',
+        13 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/string-functions.html',
+        14 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/string-functions.html',
+        15 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/numeric-functions.html',
+        16 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/numeric-functions.html',
+        17 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/date-and-time-functions.html',
+        18 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/date-and-time-functions.html',
+        19 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/comparison-operators.html',
+        20 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/comparison-operators.html',
+        21 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/encryption-functions.html',
+        22 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/group-by-functions-and-modifiers.html',
+        23 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/information-functions.html',
+        24 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/information-functions.html',
+        25 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/func-op-summary-ref.html',
+        26 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/func-op-summary-ref.html',
+        27 => 'http://dev.mysql.com/doc/refman/%35%2E%31/en/analysing-spatial-information.html',
         ),
     'OOLANG' => false,
     'OBJECT_SPLITTERS' => array(
