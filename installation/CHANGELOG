@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Oct-2010 Louis Landry
  ^ Decoupled JPATH_ADMINISTRATOR from JApplication::initialise() method call when loading framework language file.
+ # [#22825] Duplicated queries in global configuration.  (Thanks to Dennis Hermacki)
 
 14-Oct-2010 Jean-Marie Simonet
  # [#22659] Debug plugin doesn't show 'afterRender' profiler mark and can't gather statistics of other system plugins. Thanks Dennis.
