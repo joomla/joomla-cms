@@ -109,19 +109,30 @@ class JAccess
 	 */
 	protected static function getGroupPath($groupId)
 	{
-		// TODO: Should we load the whole groups table an build a reverse lookup rather than performing dozens of queries.
-		// Initialise variables.
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
-			->select('parent.id')
-			->from('#__usergroups AS parent')
-			->innerJoin('#__usergroups AS a ON a.lft BETWEEN parent.lft AND parent.rgt')
-			->where('a.id='.(int) $groupId)
-			->order('parent.lft');
-		$db->setQuery($query);
-		$groupPath = $db->loadResultArray();
-
-		return $groupPath;
+		static $groups, $paths;
+		
+		// Preload all groups
+		if (empty($groups)) {
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true)
+				->select('parent.id, parent.lft, parent.rgt')
+				->from('#__usergroups AS parent')
+				->order('parent.lft');
+			$db->setQuery($query);
+			$groups = $db->loadObjectList('id');
+		}
+		
+		// Get parent groups and leaf group
+		if (!isset($paths[$groupId])) {
+			$paths[$groupId] = array();
+			foreach($groups as $group) {
+				if ($group->lft <= $groups[$groupId]->lft && $group->rgt >= $groups[$groupId]->rgt) {
+					$paths[$groupId][] = $group->id; 
+				}
+			}
+		}
+		
+		return $paths[$groupId];
 	}
 
 	/**
