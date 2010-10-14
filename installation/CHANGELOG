@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Oct-2010 Jean-Marie Simonet
+ # [#22659] Debug plugin doesn't show 'afterRender' profiler mark and can't gather statistics of other system plugins. Thanks Dennis.
+
 14-Oct-2010 Ian MacLennan
  # [#21189] vcard not working in contact, needs a vcard class in JView
 

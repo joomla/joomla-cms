@@ -30,27 +30,37 @@ class plgSystemDebug extends JPlugin
 	function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-
+		
+		// Only if debugging is enabled
+		if (JDEBUG) {
+			ob_start();
+			ob_implicit_flush(false);
+		}
 	}
-
+	
 	/**
-	* Converting the site URL to fit to the HTTP request
+	* Shows the debug info
 	*
 	*/
-	function onAfterRender()
+	function __destruct()
 	{
 		global $_PROFILER;
 
-		// Do not render if debugging is not enabled
+		// Only if debugging is enabled
 		if (!JDEBUG) {
 			return;
 		}
+		
+		// Capture output
+		$contents = ob_get_contents();
+		ob_end_clean();
 
 		$document	= JFactory::getDocument();
 		$doctype	= $document->getType();
 
 		// Only render for HTML output
 		if ($doctype !== 'html') {
+			echo $contents;
 			return;
 		}
 
@@ -59,11 +69,15 @@ class plgSystemDebug extends JPlugin
 		if (!empty($filterGroups)) {
 			$userGroups = JFactory::getUser()->get('groups');
 			if (!array_intersect($filterGroups, array_keys($userGroups))) {
+				echo $contents;
 				return;
 			}
-		}
+		}		
 
-		$profiler	= &$_PROFILER;
+		// Load language file
+		$this->loadLanguage('plg_system_debug');
+
+		$profiler = &$_PROFILER;
 
 		ob_start();
 		echo '<div id="system-debug" class="profiler">';
@@ -253,7 +267,6 @@ class plgSystemDebug extends JPlugin
 						$key = preg_replace('#\W#', '', $key);
 
 						// Prepare the text
-
 						$guesses[$file][] = $key.'="'.$guess.'"';
 					}
 				}
@@ -268,11 +281,9 @@ class plgSystemDebug extends JPlugin
 			echo '</pre>';
 		}
 		echo '</div>';
-
+		
 		$debug = ob_get_clean();
-
-		$body = JResponse::getBody();
-		$body = str_replace('</body>', $debug.'</body>', $body);
-		JResponse::setBody($body);
+		
+		echo str_replace('</body>', $debug.'</body>', $contents);
 	}
 }
