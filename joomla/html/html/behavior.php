@@ -118,7 +118,7 @@ abstract class JHtmlBehavior
 				toggler = document.id('submenu');
 				element = document.id('config-document');
 				if(element) {
-					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getAttribute('class')});
+					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
 				}
 			});";
 
