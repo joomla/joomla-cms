@@ -62,7 +62,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");
-		$this->assertFalse($this->isTextPresent("Functional Test Category"));
+		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		print("Filter Trashed categories." . "\n");
 		$this->select("filter_published", "label=Trash");
 		$this->clickGo();
@@ -72,12 +72,12 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");
-		$this->assertFalse($this->isTextPresent("Functional Test Category"));
+		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		print("Change filter to Select State." . "\n");
 		$this->click("//button[@type='button']");
 		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");
-		$this->assertFalse($this->isTextPresent("Functional Test Category"));
+		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		print("Check that reordering still works." . "\n");
 		print("Move Modules category down one." . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Down']");
