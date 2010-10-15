@@ -16,12 +16,15 @@
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>javascript</folder>
+		<folder>fonts</folder>
+		<folder>language</folder>
 		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_thumbnail.png</filename>
 		<filename>favicon.ico</filename>
 		<filename>component.php</filename>
+		<filename>error.php</filename>
 	</files>
 
 	<positions>
@@ -42,10 +45,14 @@
 		<position>position-13</position>
 		<position>position-14</position>
 	</positions>
-	<languages>
-		<language tag="en-GB">en-GB.tpl_beez5.ini</language>
-		<language tag="en-GB">en-GB.tpl_beez5.sys.ini</language>
+	
+	<!-- 	For core templates, we also install/uninstall the language files in the core language folders.
+	-->
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_beez5.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_beez5.sys.ini</language>
 	</languages>
+	
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Oct-2010 Jean-Marie Simonet
+ # Making core site templates installable/uninstallable. Changed protected template from milkyway to beez2.
+
 14-Oct-2010 Louis Landry
  ^ Decoupled JPATH_ADMINISTRATOR from JApplication::initialise() method call when loading framework language file.
  # [#22825] Duplicated queries in global configuration.  (Thanks to Dennis Hermacki)
