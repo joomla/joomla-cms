@@ -259,7 +259,7 @@ class JTableNested extends JTable
 
 		$this->_db->setQuery($query);
 		$referenceId = $this->_db->loadResult();
-
+		
 		if ($referenceId) {
 			return $this->moveByReference($referenceId, $position, $pk);
 		}
@@ -347,7 +347,7 @@ class JTableNested extends JTable
 		$this->_db->setQuery($query);
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
-
+		
 		// Compress the right values.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
@@ -454,15 +454,6 @@ class JTableNested extends JTable
 		{
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
-
-			// Update the title and alias fields if they exist for the table.
-			if (property_exists($this, 'title')) {
-	            $query->set('title = '.$this->_db->Quote($this->title));
-			}
-			if (property_exists($this, 'alias')) {
-	            $query->set('alias = '.$this->_db->Quote($this->alias));
-			}
-
 			$query->set('parent_id = '.(int) $repositionData->new_parent_id);
 			$query->where($this->_tbl_key.' = '.(int) $node->$k);
 			$this->_db->setQuery($query);
@@ -550,7 +541,7 @@ class JTableNested extends JTable
 			$query->delete();
 			$query->from($this->_tbl);
 			$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
-			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
+			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');		
 
 			// Compress the left values.
 			$query = $this->_db->getQuery(true);
@@ -1566,7 +1557,7 @@ class JTableNested extends JTable
 		}
 		echo $buffer;
 	}
-
+	
 	// Run an update query and check for a database error
 	protected function _runQuery($query, $errorMessage)
 	{
