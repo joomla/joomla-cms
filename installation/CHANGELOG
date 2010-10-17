@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 16-Oct-2010 Jean-Marie Simonet
- [#21635] fail to copy menu item. Thanks Mathavan and Louis
+ # [#21635] fail to copy menu item. Thanks Mathavan and Louis
+ $ [#22914] COM_SEARCH_EXACT_PHRASE doesn't need the colon at end. Thanks Bill.
  
 15-Oct-2010 Jean-Marie Simonet
  # Making core site templates installable/uninstallable. Changed protected template from milkyway to beez2.
