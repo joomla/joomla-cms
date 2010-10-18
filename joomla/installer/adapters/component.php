@@ -784,6 +784,34 @@ class JInstallerComponent extends JAdapterInstance
 		 */
 
 		/*
+		 * If we have an install script, lets include it, execute the custom
+		 * install method, and append the return value from the custom install
+		 * method to the installation message.
+		 */
+		// start legacy support
+		if ($this->get('install_script')) {
+			if (is_file($this->parent->getPath('extension_administrator').DS.$this->get('install_script')) || $this->parent->getOverwrite()) {
+				$notdef = false;
+				$ranwell = false;
+				ob_start();
+				ob_implicit_flush(false);
+
+				require_once $this->parent->getPath('extension_administrator').DS.$this->get('install_script');
+
+				if (function_exists('com_install')) {
+					if (com_install() === false) {
+						$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_COMP_INSTALL_CUSTOM_INSTALL_FAILURE'));
+
+						return false;
+					}
+				}
+
+				$msg .= ob_get_contents(); // append messages
+				ob_end_clean();
+			}
+		}
+
+		/*
 		 * If we have an update script, lets include it, execute the custom
 		 * update method, and append the return value from the custom update
 		 * method to the installation message.
