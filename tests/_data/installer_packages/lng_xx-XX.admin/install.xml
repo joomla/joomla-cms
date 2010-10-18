@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" client="administrator" method="upgrade" type="language">
+<extension version="1.6" client="administrator" method="upgrade" type="language">
 	<name>Examplish (Example)</name>
 	<tag>xx-XX</tag>
 	<version>1.6.0</version>
@@ -16,4 +16,4 @@
 		<filename file="meta">xx-XX.xml</filename>
 	</files>
 	<params />
-</install>
+</extension>

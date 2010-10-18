@@ -77,6 +77,11 @@ class TemplatesViewStyle extends JView
 			JToolBarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT');
+		// Get the help information for the template item.
+
+		$lang = JFactory::getLanguage();
+
+		$help = $this->get('Help');
+		JToolBarHelper::help($help->key, false, $lang->hasKey($help->url) ? JText::_($help->url) : null);
 	}
 }

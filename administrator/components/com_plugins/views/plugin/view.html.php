@@ -63,6 +63,11 @@ class PluginsViewPlugin extends JView
 		}
 		JToolBarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
 		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT');
+		// Get the help information for the plugin item.
+
+		$lang = JFactory::getLanguage();
+
+		$help = $this->get('Help');
+		JToolBarHelper::help($help->key, false, $lang->hasKey($help->url) ? JText::_($help->url) : null);
 	}
 }

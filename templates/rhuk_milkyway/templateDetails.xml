@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
-<install
+<extension
 	version="1.6"
 	type="template">
 	<name>rhuk_milkyway</name>
@@ -125,4 +125,4 @@
 		</fields>
 	</config>
 
-</install>
+</extension>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
-<install type="template" version="1.6" client="administrator">
+<extension type="template" version="1.6" client="administrator">
 	<name>hathor</name>
 	<creationDate>May 2010</creationDate>
 	<author>Andrea Tarr</author>
@@ -68,4 +68,4 @@
 			</fieldset>
 		</fields>
 	</config>
-</install>
+</extension>

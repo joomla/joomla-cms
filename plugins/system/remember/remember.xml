@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="system">
+<extension version="1.6" type="plugin" group="system">
 	<name>plg_system_remember</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2007</creationDate>
@@ -13,4 +13,4 @@
 		<filename plugin="remember">remember.php</filename>
 		<filename>index.html</filename>
 	</files>
-</install>
+</extension>

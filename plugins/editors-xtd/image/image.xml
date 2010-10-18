@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="editors-xtd">
+<extension version="1.6" type="plugin" group="editors-xtd">
 	<name>plg_editors-xtd_image</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2004</creationDate>
@@ -12,4 +12,4 @@
 	<files>
 		<filename plugin="image">image.php</filename>
 		<filename>index.html</filename>	</files>
-</install>
+</extension>

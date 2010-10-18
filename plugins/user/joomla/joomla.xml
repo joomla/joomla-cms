@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="user">
+<extension version="1.6" type="plugin" group="user">
 	<name>plg_user_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
@@ -34,4 +34,4 @@
 
 		</fields>
 	</config>
-</install>
+</extension>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
-<install version="1.6" type="plugin" group="user">
+<extension version="1.6" type="plugin" group="user">
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
@@ -280,4 +280,4 @@
 
 		</fields>
 	</config>
-</install>
+</extension>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
-<install version="1.6" type="plugin" group="content">
+<extension version="1.6" type="plugin" group="content">
 	<name>plg_content_emailcloak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -31,4 +31,4 @@
 
 		</fields>
 	</config>
-</install>
+</extension>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="auth">
+<extension version="1.6" type="plugin" group="auth">
 	<name>plg_authentication_joomla</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
@@ -13,4 +13,4 @@
 		<filename plugin="joomla">joomla.php</filename>
 		<filename>index.html</filename>
 	</files>
-</install>
+</extension>
