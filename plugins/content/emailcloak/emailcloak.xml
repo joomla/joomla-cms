@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <extension version="1.6" type="plugin" group="content">
 	<name>plg_content_emailcloak</name>
 	<author>Joomla! Project</author>
