@@ -30,6 +30,7 @@ $ -> Language fix or change
 18-Oct-2010 Christophe Demko
  # [#22802] Contact category feed is blank (Elin Waring)
  # [#22918] install file not working when using method "update" (marius van rijnsoever)
+ # [#21345] Form field Select list does not handle <optgroup>
 
 16-Oct-2010 Jean-Marie Simonet
  # [#21635] fail to copy menu item. Thanks Mathavan and Louis
