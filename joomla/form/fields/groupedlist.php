@@ -74,7 +74,7 @@ class JFormFieldGroupedList extends JFormField
 
 					// Get the group label.
 					if ($groupLabel = (string) $element['label']) {
-						$label = $groupLabel;
+						$label = JText::_($groupLabel);
 					}
 
 					// Initialize the group if necessary.
