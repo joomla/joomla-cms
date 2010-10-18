@@ -138,7 +138,13 @@ class ContactModelCategory extends JModelList
 		$params	= JComponentHelper::getParams('com_contact');
 
 		// List state information
-		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		$format = JRequest::getWord('format');
+		if ($format=='feed') {
+			$limit = $app->getCfg('feed_limit');
+		}
+		else {
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
+		}
 		$this->setState('list.limit', $limit);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');

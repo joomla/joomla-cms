@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Oct-2010 Christophe Demko
+ # [#22802] Contact category feed is blank (Elin Waring)
+
 16-Oct-2010 Jean-Marie Simonet
  # [#21635] fail to copy menu item. Thanks Mathavan and Louis
  $ [#22914] COM_SEARCH_EXACT_PHRASE doesn't need the colon at end. Thanks Bill.

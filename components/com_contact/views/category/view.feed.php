@@ -13,61 +13,51 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * @pacakge Joomla
- * @subpackage	Contacts
+ * HTML View class for the Contact component
+ *
+ * @package		Joomla.Site
+ * @subpackage	com_content
+ * @since 1.5
  */
 class ContactViewCategory extends JView
 {
 	function display()
 	{
+		// Get some data from the models
+		$category	= $this->get('Category');
+		$rows		= $this->get('Items');
 
-		$app		= JFactory::getApplication();
-		$db			= JFactory::getDbo();
-		$document	= JFactory::getDocument();
-		$document->link = JRoute::_(ContactHelperRoute::getCategoryRoute(JRequest::getVar('id',null, '', 'int')));
-
-		$siteEmail = $app->getCfg('mailfrom');
-		$fromName = $app->getCfg('fromname');
-		$document->editor = $fromName;
-		$document->editorEmail = $siteEmail;
-
-		$limit		= JRequest::getVar('limit', $app->getCfg('feed_limit'), '', 'int');
-		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
-		$catid		= JRequest::getVar('catid', 0, '', 'int');
-
-		$where		= ' WHERE a.published = 1';
-
-		if ($catid) {
-			$where .= ' AND a.catid = '. (int) $catid;
+		// Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
 		}
 
-		$query = 'SELECT'
-		. ' a.name AS title,'
-		. ' CONCAT(a.con_position, \' - \', a.misc) AS description,'
-		. ' "" AS date,'
-		. ' c.title AS category,'
-		. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
-		. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as catslug'
-		. ' FROM #__contact_details AS a'
-		. ' LEFT JOIN #__categories AS c ON c.id = a.catid'
-		. $where
-		. ' ORDER BY a.catid, a.ordering'
-		;
-		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+		$app = JFactory::getApplication();
+
+		$doc	= JFactory::getDocument();
+		$params = $app->getParams();
+
+		$doc->link = JRoute::_(ContactHelperRoute::getCategoryRoute($category->id));
 
 		foreach ($rows as $row)
 		{
 			// strip html from feed item title
-			$title = $this->escape($row->title);
+			$title = $this->escape($row->name);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
+			// Compute the contact slug
+			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
+
 			// url link to article
-			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug,$row->catslug));
+			// & used instead of &amp; as this is converted by feed creator
+			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug, $row->catid), false);
 
 			// strip html from feed item description text
-			$description = $row->description;
-			$date = ($row->date ? date('r', strtotime($row->date)) : '');
+			// TODO: Only pull fulltext if necessary (actually, just get the necessary fields).
+			$description	= ($params->get('feed_summary', 0) ? $row->introtext/*.$row->fulltext*/ : $row->introtext);
+			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
+			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
 			// load individual item creator class
 			$item = new JFeedItem();
@@ -78,7 +68,7 @@ class ContactViewCategory extends JView
 			$item->category		= $row->category;
 
 			// loads item info into rss array
-			$document->addItem($item);
+			$doc->addItem($item);
 		}
 	}
 }
