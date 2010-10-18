@@ -211,38 +211,40 @@ abstract class JHtmlSelect
 		{
 			$label = $dataKey;
 			$id = '';
+			$noGroup = is_int($dataKey);
 			if ($options['group.items'] == null)
 			{
 				// Sub-list is an associative array
 				$subList = $group;
-				$noGroup = is_int($dataKey);
 			}
 			elseif (is_array($group))
 			{
 				// Sub-list is in an element of an array.
 				$subList = $group[$options['group.items']];
-				$noGroup = false;
 				if (isset($group[$options['group.label']]))
 				{
 					$label = $group[$options['group.label']];
+					$noGroup = false;
 				}
 				if (isset($options['group.id']) && isset($group[$options['group.id']]))
 				{
 					$id = $group[$options['group.id']];
+					$noGroup = false;
 				}
 			}
 			elseif (is_object($group))
 			{
 				// Sub-list is in a property of an object
 				$subList = $group->$options['group.items'];
-				$noGroup = false;
 				if (isset($group->$options['group.label']))
 				{
 					$label = $group->$options['group.label'];
+					$noGroup = false;
 				}
 				if (isset($options['group.id']) && isset($group->$options['group.id']))
 				{
 					$id = $group->$options['group.id'];
+					$noGroup = false;
 				}
 			}
 			else
