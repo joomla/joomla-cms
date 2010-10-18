@@ -40,12 +40,6 @@ class ModulesModelModule extends JModelAdmin
 	protected $helpURL;
 
 	/**
-	 * @var		boolean	True to use local lookup for the help screen.
-	 * @since	1.6
-	 */
-	protected $helpLocal = false;
-
-	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -418,7 +412,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function getHelp()
 	{
-		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL, 'local' => $this->helpLocal);
+		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
 	}
 
 	/**
@@ -504,11 +498,9 @@ class ModulesModelModule extends JModelAdmin
 			if (!empty($help)) {
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
-				$helpLoc = trim((string) $help[0]['local']);
 
 				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
-				$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 			}
 
 		}
