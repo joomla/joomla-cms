@@ -65,7 +65,7 @@ class plgSystemRedirect extends JPlugin
 
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1)) {
-				$app->redirect($link->new_url, null, null, true);
+				$app->redirect($link->new_url, null, null, true, false);
 			}
 			else
 			{

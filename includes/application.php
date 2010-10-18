@@ -565,4 +565,30 @@ final class JSite extends JApplication
 		$this->_detect_browser=$state;
 		return $old;
 	}
+
+	/**
+	 * Redirect to another URL.
+	 *
+	 * Optionally enqueues a message in the system message queue (which will be displayed
+	 * the next time a page is loaded) using the enqueueMessage method. If the headers have
+	 * not been sent the redirect will be accomplished using a "301 Moved Permanently"
+	 * code in the header pointing to the new location. If the headers have already been
+	 * sent this will be accomplished using a JavaScript statement.
+	 *
+	 * @param	string	The URL to redirect to. Can only be http/https URL
+	 * @param	string	An optional message to display on redirect.
+	 * @param	string  An optional message type.
+	 * @param	boolean	True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param	boolean	True if the enqueued messages are passed to the redirection, false else.
+	 * @return	none; calls exit().
+	 * @since	1.5
+	 * @see		JApplication::enqueueMessage()
+	 */
+	public function redirect($url, $msg='', $msgType='message', $moved = false, $persistMsg = true)
+	{
+		if (!$persistMsg) {
+			$this->_messageQueue = array();
+		}
+		parent::redirect($url, $msg, $msgType, $moved);
+	}
 }

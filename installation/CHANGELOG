@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fix JHtmlSelect class
  # [#22843] Enable the capacity to use specific help url when editing a plugin or a template style
  # [#22833] The com_modules component cannot redirect help to specific international help site
+ # [#21946] Redirect component produces error (Joseph LeBlanc, bill richardson)
 
 16-Oct-2010 Jean-Marie Simonet
  # [#21635] fail to copy menu item. Thanks Mathavan and Louis
