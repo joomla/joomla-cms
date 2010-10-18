@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Oct-2010 Andrew Eddie
+ # Reverting changes in [#22659] (causing very annoying screen flicker).
+
 18-Oct-2010 Christophe Demko
  # [#22802] Contact category feed is blank (Elin Waring)
  # [#22918] install file not working when using method "update" (marius van rijnsoever)
