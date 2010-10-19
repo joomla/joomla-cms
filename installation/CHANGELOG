@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2010 Andrew Eddie
+ # Fixed issue [#22251] params field in table #__template_styles too small (Jason D'Souza, Bill Richardson, Christophe Demko).
+
 19-Oct-2010 Andrew Eddie
  # Fixed issue [#21635] fail to copy menu item (Brian Teeman, Mathavan Jeyadev, Jean-Marie Simonet, Louis Landry).
 

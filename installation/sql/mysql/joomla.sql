@@ -896,7 +896,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `home` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL DEFAULT '',
-  `params` varchar(2048) NOT NULL DEFAULT '',
+  `params` varchar(10240) NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_home` (`home`)
