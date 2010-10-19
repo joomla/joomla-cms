@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Oct-2010 Andrew Eddie
+ # Fixed issue [#21635] fail to copy menu item (Brian Teeman, Mathavan Jeyadev, Jean-Marie Simonet, Louis Landry).
 
 -------------------- 1.6.0 Beta12 Release [18-Oct-2010] ------------------
 
