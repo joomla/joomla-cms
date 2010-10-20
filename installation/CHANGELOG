@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Oct-2010 Christophe Demko
+ # [#22811] Get the proper model in the category controller (bill richardson)
+
 20-Oct-2010 Andrew Eddie
  # Fixed issue [#22251] params field in table #__template_styles too small (Jason D'Souza, Bill Richardson, Christophe Demko).
 
