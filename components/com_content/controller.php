@@ -49,6 +49,8 @@ class ContentController extends JController
 	{
 		$cachable = true;
 
+		JHTML::_('behavior.caption');
+
 		// Set the default view name and format from the Request.
 		$vName		= JRequest::getWord('view', 'categories');
 		JRequest::setVar('view', $vName);

@@ -56,7 +56,12 @@ echo $params->get('image_path', 'images');?>/';
 				<td><label for="f_title"><?php echo JText::_('COM_MEDIA_TITLE') ?></label></td>
 				<td><input type="text" id="f_title" value="" /></td>
 				<td><label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label></td>
-				<td><input type="checkbox" id="f_caption" /></td>
+				<td>
+					<select size="1" id="f_caption" title="caption">
+						<option value="" selected="selected" ><?php echo JText::_('JNO') ?></option>
+						<option value="1"><?php echo JText::_('JYES') ?></option>
+					</select>
+				</td>
 			</tr>
 			<?php endif;?>
 		</table>

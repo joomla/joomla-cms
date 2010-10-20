@@ -13,59 +13,56 @@
  * @since		1.5
  * @version	 1.0
  */
-(function() {
-	var _createCaption	= function(element, selector) {
-		var caption		= document.createTextNode(element.title);
-		var container	= document.createElement("div");
-		var text		= document.createElement("p");
-		var width		= element.getAttribute("width");
-		var align		= element.getAttribute("align");
+var JCaption = new Class({
+	initialize: function(selector)
+	{
+		this.selector = selector;
+
+		var images = $$(selector);
+		images.each(function(image){ this.createCaption(image); }, this);
+	},
+
+	createCaption: function(element)
+	{
+		var caption   = document.createTextNode(element.title);
+		var container = document.createElement("div");
+		var text      = document.createElement("p");
+		var width     = element.getAttribute("width");
+		var align     = element.getAttribute("align");
 
 		if(!width) {
 			width = element.width;
 		}
 
+		//Windows fix
+		if (!align)
+			align = element.getStyle("float");  // Rest of the world fix
+		if (!align) // IE DOM Fix
+			align = element.style.styleFloat;
+
+		if (align=="" || !align) {
+			align="none";
+		}
+
 		text.appendChild(caption);
+		text.className = this.selector.replace('.', '_');
+
 		element.parentNode.insertBefore(container, element);
 		container.appendChild(element);
-		if (element.title != "") {
+		if ( element.title != "" ) {
 			container.appendChild(text);
 		}
+		container.className   = this.selector.replace('.', '_');
+		container.className   = container.className + " " + align;
+		container.setAttribute("style","float:"+align);
 
-		container.className = selector.replace('.', '_');
-		if (align) {
-			container.className = container.className+' '+align;
-			container.setAttribute("style","float:"+align);
-		}
 		container.style.width = width + "px";
-	};
 
-	var JCaption = function(className) {
-		var els = document.getElementsByTagName('img');
-		var regexp = new RegExp('\\b'+className+'\\b', 'i');
-
-		for (var i = 0, j = els.length; i < j; i++) {
-			var el = els[i];
-			if (regexp.test(el.className)) {
-				_createCaption(el, className);
-			}
-		}
-	};
-
-	JCaption.create = function() {
-		this.apply(this, arguments);
-	};
-
-	// Expose to global scope
-	this.JCaption = JCaption;
-})();
-
-(function() {
-	var tmp = window.onload || null;
-	window.onload = function() {
-		if (typeof tmp === 'function') {
-			tmp();
-		}
-		JCaption.create('caption');
 	}
-})();
+});
+
+document.caption = null;
+window.addEvent('load', function() {
+	var caption = new JCaption('img.caption')
+	document.caption = caption
+});

@@ -132,6 +132,16 @@ div.tooltip p {
         text-align: center;
 }
 
+.img_caption  {
+	text-align: center!important;
+}
+
+.img_caption.none {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+
 /* Calendar */
 a img.calendar {
         width: 16px;
