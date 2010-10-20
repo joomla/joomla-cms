@@ -1198,3 +1198,109 @@ table.aclmodify-table th.col2 {
 	border-left: 1px solid #cbcbcb;
 }
 
+/* CSS Rules Permission Angie with changes for Hathor */
+
+#permissions-sliders ul#rules,
+#permissions-sliders ul#rules ul
+{  
+    border:solid 0px #1b3f7c; 
+    background:#163365; 
+}
+
+ul#rules li .pane-sliders .panel h3.title
+{
+	border:solid 0px #1b3f7c;
+}
+
+#permissions-sliders ul#rules li h3
+{
+	background:#1c4181;
+}
+
+#permissions-sliders ul#rules li h3.jpane-toggler-down a
+{	
+	border:solid 0px;
+}
+
+#permissions-sliders ul#rules li h3.jpane-toggler-down
+{ 
+	/* color:#2c2c2c; */
+	background:#10254a; /*** find this ***/
+}
+    
+#permissions-sliders ul#rules li h3.jpane-toggler-down span
+{ 
+	color:#fff; 
+}
+        
+        
+#permissions-sliders ul#rules .group-kind
+{
+	color:#fcff20;
+}
+            
+#permissions-sliders ul#rules table.group-rules caption
+{
+	background: #1c4181;
+}
+
+#permissions-sliders ul#rules table.group-rules td
+{
+    border:solid 1px #1b3f7c; 
+}
+
+#permissions-sliders ul#rules table.group-rules th
+{
+    background:#163365; 
+    border:solid 1px #1b3f7c; 
+    color:#fcff20;
+}
+
+ul#rules table.aclmodify-table
+{
+	border:solid 1px #fcff20;
+}
+	
+ul#rules table.group-rules td label
+{
+	border:solid 0px #1b3f7c;
+}
+
+#permissions-sliders ul#rules .mypanel
+{
+	border:solid 0px #1b3f7c; 
+	/*background:#f9fade;  */
+}
+
+#permissions-sliders .mypanel table.group-rules caption
+{
+	border:solid 1px #10254a;
+}  
+
+#permissions-sliders  ul#rules  table.group-rules td
+{
+   /* background: #f9fade; */
+   background: #163365;
+}
+#permissions-sliders span.level
+{
+	color:#ffffff; 
+	background-image:none;
+}
+
+#permissions-sliders .jpane-toggler span
+{
+	background-image:none;
+}
+
+#permissions-sliders .jpane-toggler-down span
+	{
+	background-image:none;
+}
+
+#permissions-sliders ul#rules .panel h3
+	{
+	background:#1c4181 url(../images/j_arrow_right.png) top right no-repeat
+}
+	
+/* global_config permissions */
