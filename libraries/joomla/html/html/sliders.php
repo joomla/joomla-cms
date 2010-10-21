@@ -29,8 +29,8 @@ abstract class JHtmlSliders
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
-		JHtmlSliders::_loadBehavior($group,$params);
-		array_push(JHtmlSliders::$opened,false);
+		self::_loadBehavior($group,$params);
+		array_push(self::$opened,false);
 
 		return '<div id="'.$group.'" class="pane-sliders">';
 	}
@@ -43,7 +43,7 @@ abstract class JHtmlSliders
 	 */
 	public static function end()
 	{
-		if (array_pop(JHtmlSliders::$opened))
+		if (array_pop(self::$opened))
 		{
 			$close = '</div></div>';
 		}
@@ -65,13 +65,13 @@ abstract class JHtmlSliders
 	 */
 	public static function panel($text, $id)
 	{
-		if (JHtmlSliders::$opened[count(JHtmlSliders::$opened)-1])
+		if (self::$opened[count(self::$opened)-1])
 		{
 			$close = '</div></div>';
 		}
 		else
 		{
-			JHtmlSliders::$opened[count(JHtmlSliders::$opened)-1] = true;
+			self::$opened[count(self::$opened)-1] = true;
 			$close = '';
 		}
 
@@ -100,8 +100,8 @@ abstract class JHtmlSliders
 			$display = (isset($params['startOffset']) && isset($params['startTransition'])  && $params['startTransition']) ? (int)$params['startOffset'] : null;
 			$show = (isset($params['startOffset']) && !(isset($params['startTransition']) && $params['startTransition'])) ? (int)$params['startOffset'] : null;
 			$options = '{';
-			$opt['onActive']		= 'function(toggler, i) {toggler.addClass(\'jpane-toggler-down\');toggler.removeClass(\'jpane-toggler\');Cookie.write(\'jpanesliders_'.$group.'\',$$(\'div#'.$group.'.pane-sliders .panel h3\').indexOf(toggler));}';
-			$opt['onBackground']	= "function(toggler, i) {toggler.addClass('jpane-toggler');toggler.removeClass('jpane-toggler-down');if($$('div#".$group.".pane-sliders .panel h3').length==$$('div#".$group.".pane-sliders .panel h3.jpane-toggler').length) Cookie.write('jpanesliders_".$group."',-1);}";
+			$opt['onActive']		= "function(toggler, i) {toggler.addClass('jpane-toggler-down');toggler.removeClass('jpane-toggler');Cookie.write('jpanesliders_".$group."',$$('div#".$group.".pane-sliders > .panel > h3').indexOf(toggler));}";
+			$opt['onBackground']	= "function(toggler, i) {toggler.addClass('jpane-toggler');toggler.removeClass('jpane-toggler-down');if($$('div#".$group.".pane-sliders > .panel > h3').length==$$('div#".$group.".pane-sliders > .panel > h3.jpane-toggler').length) Cookie.write('jpanesliders_".$group."',-1);}";
 			$opt['duration']		= (isset($params['duration'])) ? (int)$params['duration'] : 300;
 			$opt['display']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $display, 'cookie') : $display ;
 			$opt['show']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $show, 'cookie') : $show ;
@@ -118,7 +118,7 @@ abstract class JHtmlSliders
 			}
 			$options .= '}';
 
-			$js = '	window.addEvent(\'domready\', function(){ new Accordion($$(\'div#'.$group.'.pane-sliders .panel h3.jpane-toggler\'), $$(\'div#'.$group.'.pane-sliders .panel div.jpane-slider\'), '.$options.'); });';
+			$js = "window.addEvent('domready', function(){ new Accordion($$('div#".$group.".pane-sliders > .panel > h3.jpane-toggler'), $$('div#".$group.".pane-sliders > .panel > div.jpane-slider'), ".$options."); });";
 
 			$document->addScriptDeclaration($js);
 		}
