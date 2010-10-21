@@ -28,6 +28,14 @@
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_SITE_LANGUAGE</option>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_BROWSER_SETTINGS</option>
 				</field>
+				<field name="automatic_change" type="radio"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_LABEL"
+					default="1"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

@@ -141,7 +141,7 @@ class UsersControllerProfile extends UsersController
 
 				// Redirect back to the edit screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1', false));
+				$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1', false));
 				break;
 
 			default:
@@ -156,7 +156,7 @@ class UsersControllerProfile extends UsersController
 
 				// Redirect to the list screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile&user_id='.$return, false));
+				$this->setRedirect(JRoute::_(($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id='.$return, false));
 				break;
 		}
 
