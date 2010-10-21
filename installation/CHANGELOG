@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#22960] Sliders within sliders do not work
  # [#21300] Problem with Options Lightbox and Sessions (Omar Ramos)
  # [#22935] Automatic site language change when a user change its frontend language
+ # [#22535] Missing always fulltext value in com_content article view (second time)
 
 20-Oct-2010 Andrew Eddie
  # Fixed issue [#22251] params field in table #__template_styles too small (Jason D'Souza, Bill Richardson, Christophe Demko).
