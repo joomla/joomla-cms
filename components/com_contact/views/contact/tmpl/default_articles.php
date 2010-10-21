@@ -15,7 +15,8 @@ defined('_JEXEC') or die;
 	<ol>
 		<?php foreach ($this->item->articles as $article) :	?>
 			<li>
-				<a href="<?php $article->link = JRoute::_('index.php?option=com_content&view=article&id='.$article->id)?>">
+			<?php $link = JRoute::_('index.php?option=com_content&view=article&id='.$article->id); ?>
+			<?php echo '<a href="'.$link.'">' ?>
 				<?php echo $article->text = htmlspecialchars($article->title, ENT_COMPAT, 'UTF-8'); ?>
 				</a>
 			</li>

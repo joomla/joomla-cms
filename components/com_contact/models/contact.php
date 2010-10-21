@@ -190,17 +190,17 @@ class ContactModelContact extends JModelItem
 			$groups		= implode(',', $user->authorisedLevels());
 			$query->where('a.access IN ('.implode(',', $user->authorisedLevels()).')');
 
-		try {
-			$db->setQuery($query);
-			$result = $db->loadObject();
-
-			if ($error = $db->getErrorMsg()) {
-				throw new Exception($error);
-			}
-
-			if (empty($result)) {
-					throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
-			}
+			try {
+				$db->setQuery($query);
+				$result = $db->loadObject();
+	
+				if ($error = $db->getErrorMsg()) {
+					throw new Exception($error);
+				}
+	
+				if (empty($result)) {
+						throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+				}
 
 			// If we are showing a contact list, then the contact parameters take priority
 			// So merge the contact parameters with the merged parameters
@@ -209,36 +209,48 @@ class ContactModelContact extends JModelItem
 					$registry->loadJSON($result->params);
 					$this->getState('params')->merge($registry);
 				}
-		} catch (Exception $e) {
-			$this->setError($e);
-			return false;
-		}
+			} catch (Exception $e) {
+				$this->setError($e);
+				return false;
+			}
 
-		if ($result) {
-			$user	= JFactory::getUser();
-			$groups	= implode(',', $user->authorisedLevels());
-			//get the content by the linked user
-			$query = 'SELECT id, title, state, access, created' .
-				' FROM #__content' .
-				' WHERE created_by = '.(int)$result->user_id .
-				' AND access IN ('. $groups . ')' .
-				' ORDER BY state DESC, created DESC' ;
-			$db->setQuery($query, 0, 10);
-			$articles = $db->loadObjectList();
-			$result->articles = $articles;
+			if ($result) {
+				$user	= JFactory::getUser();
+				$groups	= implode(',', $user->authorisedLevels());
+				//get the content by the linked user
+				$query = 'SELECT id, title, state, access, created' .
+					' FROM #__content' .
+					' WHERE created_by = '.(int)$result->user_id .
+					' AND access IN ('. $groups . ')' .
+					' ORDER BY state DESC, created DESC' ;
+				$db->setQuery($query, 0, 10);
+				$articles = $db->loadObjectList();
+				$result->articles = $articles;
 
 			//get the profile information for the linked user
-			$query = 'SELECT user_id, profile_key, profile_value, ordering' .
-				' FROM #__user_profiles' .
-				' WHERE user_id = '.(int)$result->user_id .
-				' ORDER BY ordering ASC' ;
+			if ($result) {
+					require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_users'.DS.'models'.DS.'user.php';
+					$userModel = JModel::getInstance('User','UsersModel',array('ignore_request' => true));
+						$data = $userModel->getItem((int)$result->user_id);
+			
+					JPluginHelper::importPlugin('user');
+					$form = new JForm('com_users.profile');
+					// Get the dispatcher.
+					$dispatcher	= JDispatcher::getInstance();
+	
+					// Trigger the form preparation event.
+					$dispatcher->trigger('onContentPrepareForm', array($form, $data));
+					// Trigger the data preparation event.
+					$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
+	
+					// Load the data into the form after the plugins have operated.
+					$form->bind($data);
+					$result->profile = $form;
+				}
 
-			$db->setQuery($query, 0, 10);
-			$profile = $db->loadObjectList();
-			$result->profile = $profile;
-		}
-		$this->contact = $result;
-		return $result;
+			$this->contact = $result;
+			return $result;
+			}
 		}
 	}
 }
