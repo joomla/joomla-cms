@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#22951] PHP semi colon closing issue. (Vasanth V, bill richardson)
  # [#22519] Image caption does not work (Jean-Marie Simonnet)
  # [#22960] Sliders within sliders do not work
+ # [#21300] Problem with Options Lightbox and Sessions (Omar Ramos)
 
 20-Oct-2010 Andrew Eddie
  # Fixed issue [#22251] params field in table #__template_styles too small (Jason D'Souza, Bill Richardson, Christophe Demko).

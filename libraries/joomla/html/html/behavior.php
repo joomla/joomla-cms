@@ -550,6 +550,19 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Break us out of any containing iframes
+	 *
+	 * @return	void
+	 * @since	1.5
+	 */
+	public static function noframes($location='top.location.href')
+	{
+		$js = "window.addEvent('domready', function () {if (top != self) {top.location.replace(".$location.");}});";
+		$document = JFactory::getDocument();
+		$document->addScriptDeclaration($js);
+	}
+
+	/**
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
 	 * @param	array	$array	The array to convert to JavaScript object notation
