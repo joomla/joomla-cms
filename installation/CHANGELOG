@@ -27,7 +27,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-212-Oct-2010 Christophe Demko
+22-Oct-2010 Christophe Demko
  # [#21386] Category field includes categories user does not have permission to save to. (Elin Waring)
 
 21-Oct-2010 Christophe Demko
