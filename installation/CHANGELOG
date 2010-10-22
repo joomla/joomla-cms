@@ -30,6 +30,7 @@ $ -> Language fix or change
 22-Oct-2010 Jean-Marie Simonet
  # [#22970] Menu item set to "registered" does not display when superuser logs in. Thanks Elin
  # [#22959] Language switcher forbids you from reading content in a second language. No way to disable filtering. Thanks Christophe.
+ # [#22783] Error on front end, "the template for this display is not available" Thanks I Otura, Christophe and Bill.
  
 22-Oct-2010 Christophe Demko
  # [#21386] Category field includes categories user does not have permission to save to. (Elin Waring)
