@@ -133,14 +133,12 @@ class JForm
 		// Process the input data.
 		foreach ($data as $k => $v) {
 
-			if (is_scalar($v) || (is_array($v) && !JArrayHelper::isAssociative($v))) {
-				// If the value is a scalar or unassociative array just process it.
-				if ($this->findField($k)) {
-					// If the field exists set the value.
-					$this->data->set($k, $v);
-				}
-			} else {
-				// If the value is not a scalar hand it off to the recursive bind level method.
+			if ($this->findField($k)) {
+				// If the field exists set the value.
+				$this->data->set($k, $v);
+			}
+			elseif (is_object($v) || JArrayHelper::isAssociative($v)) {
+				// If the value is an object or an associative array hand it off to the recursive bind level method.
 				$this->bindLevel($k, $v);
 			}
 		}
@@ -164,14 +162,13 @@ class JForm
 
 		// Process the input data.
 		foreach ($data as $k => $v) {
-			// If the value is a scalar or unassociative array just process it.
-			if (is_scalar($v) || (is_array($v) && !JArrayHelper::isAssociative($v))) {
-				if ($this->findField($k, $group)) {
-					// If the field exists set the value.
-					$this->data->set($group.'.'.$k, $v);
-				}
-			} else {
-				// If the value is not a scalar hand it off to the recursive bind level method.
+
+			if ($this->findField($k, $group)) {
+				// If the field exists set the value.
+				$this->data->set($group.'.'.$k, $v);
+			}
+			elseif (is_object($v) || JArrayHelper::isAssociative($v)) {
+				// If the value is an object or an associative array, hand it off to the recursive bind level method
 				$this->bindLevel($group.'.'.$k, $v);
 			}
 		}

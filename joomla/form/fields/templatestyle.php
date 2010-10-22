@@ -46,6 +46,9 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 		$client = (string) $this->element['client'];
 		$clientId = ($client == 'administrator') ? 1 : 0;
 
+		// Get the template.
+		$template = (string) $this->element['template'];
+
 		// Get the database object and a new query object.
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
@@ -56,6 +59,9 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 		$query->where('client_id = '.(int) $clientId);
 		$query->order('template');
 		$query->order('title');
+		if ($template) {
+			$query->where('template = '.$db->quote($template));
+		}
 
 		// Set the query and load the styles.
 		$db->setQuery($query);
