@@ -10,6 +10,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
+jimport('joomla.database.table');
 jimport('joomla.database.tableasset');
 
 /**
@@ -67,7 +68,7 @@ class JTableModule extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (is_array($array['params'])) {
+		if (isset($array['params']) && is_array($array['params'])) {
 			$registry = new JRegistry();
 			$registry->loadArray($array['params']);
 			$array['params'] = (string)$registry;

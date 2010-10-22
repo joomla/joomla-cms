@@ -66,9 +66,5 @@
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC" />
 
-		<field
-			name="params"
-			type="hidden" />
-
 	</fieldset>
 </form>

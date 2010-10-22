@@ -112,8 +112,6 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="params" type="hidden" />
-
 		<field name="assignment" type="hidden" />
 
 		<field name="assigned" type="hidden" />

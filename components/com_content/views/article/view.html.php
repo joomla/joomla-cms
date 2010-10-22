@@ -132,7 +132,7 @@ class ContentViewArticle extends JView
 		$this->assign('print', $print);
 
 		// Override the layout.
-		if ($layout = $params->get('layout'))
+		if ($layout = $item->params->get('layout'))
 		{
 			$this->setLayout($layout);
 		}

@@ -327,6 +327,7 @@
 			<field name="layout" type="componentlayout" 
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				size="5"
 				extension="com_content" view="article" />
 
 		</fieldset>

@@ -54,9 +54,6 @@
 			description="COM_TEMPLATES_FIELD_TITLE_DESC"
 			required="true" />
 
-		<field
-			name="params"
-			type="hidden" />
 		<field name="assigned" type="hidden" />
 
 	</fieldset>

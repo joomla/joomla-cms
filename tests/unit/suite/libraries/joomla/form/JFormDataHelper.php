@@ -34,6 +34,7 @@ class JFormDataHelper
 			<field
 				name="categories" />
 		</fields>
+		<field name="keywords" />
 	</fields>
 </form>';
 

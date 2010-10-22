@@ -191,7 +191,8 @@ class JFormTest extends JoomlaTestCase
 				'categories'	=> array(
 					1,
 					2
-				)
+				),
+			'keywords'	=> array('en-GB'=>'Joomla', 'fr-FR'=>'Joomla')
 			)
 		);
 

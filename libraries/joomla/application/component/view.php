@@ -385,11 +385,22 @@ class JView extends JObject
 	* Get the layout.
 	*
 	* @access public
-	* @return string The layout name
+	* @return string The layout name for the current template
 	*/
 	function getLayout()
 	{
-		return $this->_layout;
+		$template = JFactory::getApplication()->getTemplate();
+		$layout = (array) $this->_layout;
+		if (isset($layout[$template]) && $layout[$template]!='') {
+			$layout = $layout[$template];
+		}
+		elseif (isset($layout['_']) && $layout['_']!='') {
+			$layout = $layout['_'];
+		}
+		else {
+			$layout = 'default';
+		}
+		return $layout;
 	}
 
 	/**
@@ -449,15 +460,22 @@ class JView extends JObject
 	* Sets the layout name to use
 	*
 	* @access	public
-	* @param	string The layout name.
-	* @return	string Previous value
+	* @param	string|array The layout name or an array whose keys are template names or '_' for component layout and values are corresponding layouts
+	* @return	string|array Previous value
 	* @since	1.5
 	*/
 
 	function setLayout($layout)
 	{
-		$previous		= $this->_layout;
-		$this->_layout = $layout;
+		$previous = $this->_layout;
+		if (is_string($layout))
+		{
+			$this->_layout = array('_'=>$layout);
+		}
+		else
+		{
+			$this->_layout = array_merge((array) $previous, (array) $layout);
+		}
 		return $previous;
 	}
 
@@ -523,16 +541,17 @@ class JView extends JObject
 		// clear prior output
 		$this->_output = null;
 
+		$template = JFactory::getApplication()->getTemplate();
+		$layout = $this->getLayout();
+
 		//create the template file name based on the layout
-		$file = isset($tpl) ? $this->_layout.'_'.$tpl : $this->_layout;
+		$file = isset($tpl) ? $layout.'_'.$tpl : $layout;
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
 		$tpl  = preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl);
 
 		// Load the language file for the template
 		$lang	= JFactory::getLanguage();
-		$app	= JFactory::getApplication();
-		$template = $app->getTemplate();
 			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)

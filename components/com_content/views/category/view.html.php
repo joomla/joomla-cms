@@ -104,7 +104,7 @@ class ContentViewCategory extends JView
 
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interrogate the arrays.
-		if ($this->_layout == 'blog') {
+		if ($this->getLayout() == 'blog') {
 			$max = count($items);
 
 			// The first group is the leading articles.

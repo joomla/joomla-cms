@@ -33,10 +33,10 @@ class UsersViewReset extends JView
 	function display($tpl = null)
 	{
 		// Get the view data.
-                if ($this->_layout == 'default') {
+                if ($this->getLayout() == 'default') {
                     $formname = "Form";
                 } else {
-                    $formname = ucfirst($this->_name).ucfirst($this->_layout)."Form";
+                    $formname = ucfirst($this->_name).ucfirst($this->getLayout())."Form";
                 }
 
 		$this->form	= $this->get($formname);

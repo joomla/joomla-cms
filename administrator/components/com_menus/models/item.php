@@ -836,7 +836,7 @@ class MenusModelItem extends JModelAdmin
 				// If an XML file was found in the component, load it first.
 				// We need to qualify the full path to avoid collisions with component file names.
 
-				if ($form->loadFile($formFile, false, '/metadata') == false) {
+				if ($form->loadFile($formFile, true, '/metadata') == false) {
 					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 				}
 
