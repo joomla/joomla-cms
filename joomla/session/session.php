@@ -342,7 +342,7 @@ class JSession extends JObject
 	}
 
 	/**
-	 * Check wheter data exists in the session store
+	 * Check whether data exists in the session store
 	 *
 	 * @param	string	Name of variable
 	 * @param	string	Namespace to use, default to 'default'
