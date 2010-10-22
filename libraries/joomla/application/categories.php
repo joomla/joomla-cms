@@ -223,7 +223,7 @@ class JCategories
 
 		// Filter by language
 		if ($app->isSite() && $app->getLanguageFilter()) {
-			$query->where('c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where('(' . ($id!='root' ? 'c.id=s.id OR ':'') .'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . '))');
 		}
 
 		// Get the results

@@ -233,6 +233,9 @@ class JRouterSite extends JRouter
 		 */
 		if (!empty($route) && isset($this->_vars['option'])) {
 			$segments = explode('/', $route);
+			if (empty($segments[0])) {
+				array_shift($segments);
+			}
 
 			// Handle component	route
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
