@@ -186,7 +186,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$row = JTable::getInstance('extension');
 		$row->name = $this->get('name');
 		$row->type = 'template';
-		$row->element = $this->get('name');
+		$row->element = $this->get('element');
 		$row->folder = ''; // There is no folder for templates
 		$row->enabled = 1;
 		$row->protected = 0;
@@ -205,7 +205,7 @@ class JInstallerTemplate extends JAdapterInstance
 		//insert record in #__template_styles
 		$query = $db->getQuery(true);
 		$query->insert('#__template_styles');
-		$query->set('template='.$db->Quote($row->name));
+		$query->set('template='.$db->Quote($row->element));
 		$query->set('client_id='.$db->Quote($clientId));
 		$query->set('home=0');
 		$query->set('title='.$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->get('name'))));
@@ -307,7 +307,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$query = 'UPDATE #__menu INNER JOIN #__template_styles'.
 				' ON #__template_styles.id = #__menu.template_style_id'.
 				' SET #__menu.template_style_id = 0'.
-				' WHERE #__template_styles.template = '.$db->Quote($name).
+				' WHERE #__template_styles.template = '.$db->Quote(strtolower($name)).
 				' AND #__template_styles.client_id = '.$db->Quote($clientId);
 		$db->setQuery($query);
 		$db->Query();
