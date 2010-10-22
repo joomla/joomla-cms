@@ -121,6 +121,12 @@ class JAccess
 			$db->setQuery($query);
 			$groups = $db->loadObjectList('id');
 		}
+
+		// Make sure groupId is valid
+		if (!array_key_exists($groupId, $groups)) 
+		{
+			return array();
+		}
 		
 		// Get parent groups and leaf group
 		if (!isset($paths[$groupId])) {

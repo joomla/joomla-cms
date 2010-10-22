@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2010 Mark Dexter
+# Fix bug in JAccessTest and JAccess class when invalid group id is checked
++ Add unit tests for JSession
+
 14-Oct-2010 Mark Dexter
 + article0003Test added to test effect of up-path category state on article menu items
 # fix bug in controlpanel0004Test

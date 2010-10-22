@@ -211,7 +211,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
                8, 'core.admin', 3, true,
               'Line:'.__LINE__.' Super User group can do anything'
               ),
-            'super_user_admin' => array(
+            'null_asset' => array(
                8, 'core.admin', null, true,
               'Line:'.__LINE__.' Null asset should default to 1'
               ),
