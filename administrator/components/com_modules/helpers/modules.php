@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_modules
  * @since		1.6
  */
-class ModulesHelper
+abstract class ModulesHelper
 {
 	/**
 	 * Configure the Linkbar.
@@ -53,7 +53,7 @@ class ModulesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options	= array();
@@ -68,7 +68,7 @@ class ModulesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getClientOptions()
+	public static function getClientOptions()
 	{
 		// Build the filter options.
 		$options	= array();
@@ -104,6 +104,30 @@ class ModulesHelper
 			$options[]	= JHtml::_('select.option', $position, $position);
 		}
 		return $options;
+	}
+
+	public static function getTemplates($clientId = 0, $state = '', $template='')
+	{
+		$db = JFactory::getDbo();
+		// Get the database object and a new query object.
+		$query	= $db->getQuery(true);
+
+		// Build the query.
+		$query->select('element, name, enabled');
+		$query->from('#__extensions');
+		$query->where('client_id = '.(int) $clientId);
+		$query->where('type = '.$db->quote('template'));
+		if ($state!='') {
+			$query->where('enabled = '.$db->quote($state));
+		}
+		if ($template!='') {
+			$query->where('element = '.$db->quote($template));
+		}
+
+		// Set the query and load the templates.
+		$db->setQuery($query);
+		$templates = $db->loadObjectList('element');
+		return $templates;
 	}
 
 	/**

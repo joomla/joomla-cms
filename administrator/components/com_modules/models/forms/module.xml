@@ -79,12 +79,8 @@
 			description="COM_MODULES_FIELD_POSITION_DESC"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"
-			onchange="setModulePosition(this);"
-		/>
-
-		<field name="custom_position" type="text"
-			maxlength="50"
-			size="35"
+			class="required"
+			required="true"
 		/>
 
 		<field name="access" type="accesslevel"

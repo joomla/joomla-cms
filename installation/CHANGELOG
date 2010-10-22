@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2010 Christophe Demko
+ # [#22442] available module positions
+
 22-Oct-2010 Jean-Marie Simonet
  # [#22970] Menu item set to "registered" does not display when superuser logs in. Thanks Elin
  # [#22959] Language switcher forbids you from reading content in a second language. No way to disable filtering. Thanks Christophe.
