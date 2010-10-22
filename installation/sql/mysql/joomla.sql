@@ -1053,7 +1053,7 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
 
 INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (1, 'Public', 0, '[]'),
-(2, 'Registered', 1, '[6,2]'),
+(3, 'Special', 2, '[6,7,8]'),
 (3, 'Special', 2, '[6,7,8]');
 
 # -------------------------------------------------------
