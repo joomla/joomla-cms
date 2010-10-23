@@ -142,12 +142,12 @@ class JTableContent extends JTable
 	 */
 	public function check()
 	{
-		if (empty($this->title) OR (trim($this->title) == '')) {
+		if (trim($this->title) == '') {
 			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
 
-		if (empty($this->alias)) {
+		if (trim($this->alias) == '') {
 			$this->alias = $this->title;
 		}
 
@@ -161,7 +161,7 @@ class JTableContent extends JTable
 			$this->fulltext = '';
 		}
 
-		if (empty($this->introtext) && empty($this->fulltext)) {
+		if (trim($this->introtext) == '' && trim($this->fulltext) == '') {
 			$this->setError(JText::_('JGLOBAL_ARTICLE_MUST_HAVE_TEXT'));
 			return false;
 		}
