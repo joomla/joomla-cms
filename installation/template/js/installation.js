@@ -14,15 +14,17 @@ if (typeof(Install) === 'undefined') {
 /**
  * Method to install sample data via AJAX request.
  */
-Install.sampleData = function(el) {
+Install.sampleData = function(el, filename) {
 	// make the ajax call
 	el = $(el);
+	filename = $(filename);
 	var req = new Request({
 		method: 'get',
 		url: 'index.php?'+document.id(el.form).toQueryString(),
 		data: {'task':'setup.loadSampleData', 'format':'json'},
 		onRequest: function() {
 			el.set('disabled', 'disabled');
+			filename.set('disabled', 'disabled');
 			$('theDefaultError').setStyle('display','none');
 		},
 		onComplete: function(response) {
@@ -39,6 +41,7 @@ Install.sampleData = function(el) {
 					el.set('value', r.data.text);
 					el.set('onclick','');
 					el.set('disabled', 'disabled');
+					filename.set('disabled', 'disabled');
 					$('jform_sample_installed').set('value','1');
 				}
 				else
@@ -46,13 +49,15 @@ Install.sampleData = function(el) {
 					$('theDefaultError').setStyle('display','block');
 					$('theDefaultErrorMessage').set('html', r.message);
 					el.set('disabled', '');
+					filename.set('disabled', '');
 				}
 			}
 			else
 			{
 				$('theDefaultError').setStyle('display','block');
 				$('theDefaultErrorMessage').set('html', response );
-				el.set('disabled', '');
+				el.set('disabled', 'disabled');
+				filename.set('disabled', 'disabled');
 			}
 		},
 		onFailure: function(xhr) {
@@ -64,6 +69,7 @@ Install.sampleData = function(el) {
 				$('theDefaultErrorMessage').set('html', r.message);
 			}
 			el.set('disabled', '');
+			filename.set('disabled', '');
 		}
 	}).send();
 };

@@ -22,9 +22,11 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 <?php if ($this->sample_installed) : ?>
 
 	window.addEvent('domready', function() {
-		var el = document.getElementById('theDefault').children[0];
-		el.setAttribute('disabled','disabled');
-		el.setAttribute('value','<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>');
+		var select = document.getElementById('theDefault').children[0];
+		var button = document.getElementById('theDefault').children[1];
+		button.setAttribute('disabled','disabled');
+		button.setAttribute('value','<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>');
+		select.setAttribute('disabled','disabled');
 	});
 <?php endif; ?>
 </script>
@@ -208,7 +210,8 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC1'); ?></p>
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC2'); ?></p>
 					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC3'); ?></p>
-					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC7'); ?></p>
+					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC4'); ?></p>
+					<p><?php echo JText::_('INSTL_SITE_LOAD_SAMPLE_DESC8'); ?></p>
 				</div>
 				<div class="install-body">
 				<div class="t">
@@ -224,8 +227,12 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 								<td></td>
 							</tr>
 							<tr>
+								<td><?php echo $this->form->getLabel('sample_file'); ?></td>
+								<td><?php echo $this->form->getInput('sample_file'); ?></td>
+							</tr>
+							<tr>
 								<td>
-									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?>" onclick="Install.sampleData(this);"/></span>
+									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?>" onclick="Install.sampleData(this, <?php echo $this->form->getField('sample_file')->id;?>);"/></span>
 								</td>
 								<td>
 									<em><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></em>
@@ -245,6 +252,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 						<div class="b"></div>
 					</div>
 				</div>
+				<?php echo $this->form->getInput('type'); ?>
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
 		</form>

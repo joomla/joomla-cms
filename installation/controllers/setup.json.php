@@ -22,11 +22,14 @@ class JInstallationControllerSetup extends JController
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
 
+		// Get the posted config options.
+		$vars = JRequest::getVar('jform', array());
+
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'JInstallationModel', array('dbo' => null));
 
 		// Get the options from the session.
-		$vars = $model->getOptions();
+		$vars = $model->storeOptions($vars);
 
 		// Get the database model.
 		$database = $this->getModel('Database', 'JInstallationModel', array('dbo' => null));
