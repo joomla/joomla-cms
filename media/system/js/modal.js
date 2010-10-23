@@ -82,7 +82,7 @@ var SqueezeBox = {
 				var relay = function(e) {
 					this.overlay.fireEvent('click', [e]);
 				}.bind(this);
-				['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'].each(function(dir) {
+				['n', 'ne', 'sw', 'w', 'nw'].each(function(dir) {
 					new Element('div', {'class': 'sbox-bg sbox-bg-' + dir}).inject(shadow).addEvent('click', relay);
 				});
 			}
@@ -222,6 +222,11 @@ var SqueezeBox = {
 		this.showTimer = $clear(this.showTimer || null);
 		var box = this.doc.getSize(), scroll = this.doc.getScroll();
 		this.size = $merge((this.isLoading) ? this.options.sizeLoading : this.options.size, size);
+		var parentSize = self.getSize();
+		if(this.size.x == parentSize.x){
+			this.size.y = this.size.y - 50;
+			this.size.x = this.size.x - 20;
+		}
 		var to = {
 			width: this.size.x,
 			height: this.size.y,
@@ -258,7 +263,6 @@ var SqueezeBox = {
 		this.doc.body[(state) ? 'addClass' : 'removeClass']('body-overlayed');
 		if (state) {
 			this.scrollOffset = this.doc.getWindow().getSize().x - full;
-			this.doc.body.setStyle('margin-right', this.scrollOffset);
 		} else {
 			this.doc.body.setStyle('margin-right', '');
 		}
@@ -287,14 +291,19 @@ var SqueezeBox = {
 
 	reposition: function() {
 		var size = this.doc.getSize(), scroll = this.doc.getScroll(), ssize = this.doc.getScrollSize();
-		this.overlay.setStyles({
-			width: ssize.x + 'px',
-			height: ssize.y + 'px'
-		});
-		this.win.setStyles({
-			left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
-			top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
-		});
+		var over = this.overlay.getStyles('height');
+		var j =parseInt(over.height);
+		if( ssize.y > j && size.y >= j){
+			this.overlay.setStyles({
+				width: ssize.x + 'px',
+				height: ssize.y + 'px'
+			});
+			this.win.setStyles({
+				left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
+				top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
+				
+			});
+		}
 		return this.fireEvent('onMove', [this.overlay, this.win]);
 	},
 
