@@ -123,7 +123,7 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadJSON($item->metadata);
 			$item->metadata = $registry->toArray();
 
-			$item->articletext = trim($item->fulltext) ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
+			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
 
 		return $item;
