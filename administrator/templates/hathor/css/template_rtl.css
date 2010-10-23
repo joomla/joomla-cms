@@ -1141,3 +1141,93 @@ table#acl-config th.acl-groups {
 	text-align:right;
 }
 
+/* CSS Rules Permission Angie with changes for Hathor */
+
+#permissions-sliders ul#rules,
+#permissions-sliders ul#rules ul
+{  
+    margin:0 0 0 0px !important;
+    padding:0 0 0 0px !important;
+}
+
+#permissions-sliders ul#rules li
+{
+	margin:0px 0 0 0%;
+	/*padding:0 0 0 1%;*/
+	padding:0;
+}
+
+#permissions-sliders ul#rules .jpane-slider
+{
+    padding:0px;
+    top:0px;
+	right: 40%;
+    left: 0;
+}
+
+#permissions-sliders ul#rules li h3.jpane-toggler-down a
+{	
+	border:solid 0px;
+}
+
+#permissions-sliders ul#rules table.group-rules caption
+{
+	padding:5px; 
+	text-align:right;
+}
+
+#permissions-sliders ul#rules table.group-rules td
+{
+    padding:4px;
+    vertical-align:middle; 
+    text-align:right;
+}
+
+#permissions-sliders .panel 
+{
+    margin-bottom: 3px;
+    margin-left: 60.5%;
+    border:0;
+    margin-right:0; 
+}
+
+ul#rules table.group-rules td label
+{
+	margin:0 !important;
+}
+
+table.group-rules td select
+{
+	margin:0 !important;
+}
+	
+#permissions-sliders ul#rules .mypanel
+{
+	padding:0px; 
+}
+
+#permissions-sliders ul#rules 
+{	
+	padding:5px;
+}
+
+#permissions-sliders  ul#rules  table.group-rules th
+{
+    text-align:right;
+    padding:4px;
+}
+
+#permissions-sliders .jpane-toggler span
+{
+	/* padding-left:5px; */
+	padding-right: 5px;
+}
+
+#permissions-sliders .jpane-toggler-down span
+{
+	/* padding-left:5px */
+	padding-right: 5px;
+}
+
+/* global_config permissions */
+

@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Correcting module position desc string.
  # [#22989] Implement a way to choose between sample data at install. Thanks Christophe.
  # [#22879] [patch] com_content: it's not possible to set title, introtext or fulltext to zero ("0"). Thanks Artyom.
+ # [#22980] RTL fix for ACL Permission in Bluestork and Hathor. Thanks Andrea.
  
 23-Oct-2010 Christophe Demko
  # [#22442] available module positions
