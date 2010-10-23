@@ -43,6 +43,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<li><?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?></li>
 
+			<li><?php echo $this->form->getLabel('showtitle'); ?>
+			<?php echo $this->form->getInput('showtitle'); ?></li>
+
 			<li><?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('position'); ?></li>
 			
@@ -55,10 +58,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php echo $this->form->getInput('access'); ?></li>
 
 			<li><?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?></li>
-
-			<li><?php echo $this->form->getLabel('showtitle'); ?>
-			<?php echo $this->form->getInput('showtitle'); ?></li>
+			<?php echo $this->form->getInput('ordering'); ?></li>			
 
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<li><?php echo $this->form->getLabel('publish_up'); ?>
