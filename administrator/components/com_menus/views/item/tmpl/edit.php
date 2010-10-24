@@ -21,9 +21,14 @@ JHTML::_('behavior.modal');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
 	{
-		if (task == 'item.setType') {
-			document.id('item-form').elements['jform[type]'].value = type;
-			Joomla.submitform(task, document.getElementById('item-form'));
+		if (task == 'item.setType' || task == 'item.setMenuType') {
+			if(task == 'item.setType') {
+				document.id('item-form').elements['jform[type]'].value = type;
+				document.getElementById('fieldtype').value = 'type';
+			} else {
+				document.id('item-form').elements['jform[menutype]'].value = type;
+			}
+			Joomla.submitform('item.setType', document.getElementById('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			Joomla.submitform(task, document.getElementById('item-form'));
 		} else {
@@ -121,6 +126,7 @@ JHTML::_('behavior.modal');
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 </div>
+<input type="hidden" id="fieldtype" name="fieldtype" value="" />
 </form>
 
 

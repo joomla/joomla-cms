@@ -338,7 +338,8 @@ class MenusControllerItem extends JControllerForm
 
 		unset($data['request']);
 		$data['type'] = $title;
-		$data['link'] = $app->getUserState('com_menus.edit.item.link');
+		if(JRequest::getCmd('fieldtype') == 'type')
+			$data['link'] = $app->getUserState('com_menus.edit.item.link');
 
 		//Save the data in the session.
 		$app->setUserState('com_menus.edit.item.data', $data);

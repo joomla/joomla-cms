@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Oct-2010 Jean-Marie Simonet
  # [#22667] Login/Logout Redirect not working. Thanks Mathavan and Christophe.
+ # [#22626] Parent Item selection does not update when Menu Location is changed. Thanks Mathavan.
 
 23-Oct-2010 Jean-Marie Simonet
  # [#22928] Module edit - option to show/hide title in wrong position. Thanks Bill.
