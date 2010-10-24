@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Oct-2010 Jean-Marie Simonet
+ # [#22667] Login/Logout Redirect not working. Thanks Mathavan and Christophe.
+
 23-Oct-2010 Jean-Marie Simonet
  # [#22928] Module edit - option to show/hide title in wrong position. Thanks Bill.
  $ Correcting module position desc string.
