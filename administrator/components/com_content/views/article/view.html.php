@@ -25,7 +25,7 @@ class ContentViewArticle extends JView
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->_layout == 'pagebreak') {
+		if ($this->getLayout() == 'pagebreak') {
 			$eName		= JRequest::getVar('e_name');
 			$eName		= preg_replace( '#[^A-Z0-9\-\_\[\]]#i', '', $eName );
 			$document	= JFactory::getDocument();

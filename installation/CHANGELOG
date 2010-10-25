@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2010 Jean-Marie Simonet
+ # Forgotten getLayout() change for pagebreak in rev 22932
+ 
 24-Oct-2010 Jean-Marie Simonet
  # [#22667] Login/Logout Redirect not working. Thanks Mathavan and Christophe.
  # [#22626] Parent Item selection does not update when Menu Location is changed. Thanks Mathavan.
