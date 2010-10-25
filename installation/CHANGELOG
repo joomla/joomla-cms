@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 25-Oct-2010 Jean-Marie Simonet
  # Forgotten getLayout() change for pagebreak in rev 22932
+ # [#23004] pagenavigation plugin generates incorrect XHTML. Thanks Bill and Rouven.
  
 24-Oct-2010 Jean-Marie Simonet
  # [#22667] Login/Logout Redirect not working. Thanks Mathavan and Christophe.

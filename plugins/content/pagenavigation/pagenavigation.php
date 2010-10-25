@@ -180,7 +180,7 @@ class plgContentPagenavigation extends JPlugin
 					;
 				}
 				$html .= '
-				<ul>'
+				</ul>'
 				;
 
 				$position	= $this->params->get('position', 1);
