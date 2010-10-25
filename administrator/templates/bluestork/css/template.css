@@ -1760,7 +1760,7 @@ a img.calendar {
 
 .login {
 	margin: 50px auto 100px;
-	width: 500px;
+	width: 575px;
 }
 
 form#form-login {
@@ -1780,7 +1780,7 @@ p {
 
 #section-box {
 	float: right;
-	width: 300px;
+	width: 340px;
 	margin-left: 10px;
 	margin-right: 10px;
 	background-color: #fff;

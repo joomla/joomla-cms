@@ -644,7 +644,7 @@ p.tab-description {
 
 #login-page .login {
 	margin: 0 auto;
-	width: 500px;
+	width: 575px;
 	margin-bottom: 100px;
 }
 
@@ -717,7 +717,7 @@ p.tab-description {
 	display: block;
 	float: left;
 	clear: left;
-	width: 120px;
+	width: 160px;
 	text-align: right;
 	padding: 4px;
 	color: #2c2c2c;
