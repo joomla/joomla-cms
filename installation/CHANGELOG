@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 26-Oct-2010 Jean-Marie Simonet
-[#23011] RTL fixes for form controls in the option modals and menu assignments. Thanks Andrea
+ # [#23011] RTL fixes for form controls in the option modals and menu assignments. Thanks Andrea
+ # [#23024] Backend image file missed - j_arrow_right.png. RTL CSS added to fit.
 
 25-Oct-2010 Jean-Marie Simonet
  # Forgotten getLayout() change for pagebreak in rev 22932

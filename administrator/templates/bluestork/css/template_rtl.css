@@ -499,6 +499,11 @@ float:right;
 margin:3px 2px 0 2px;
 }
 
+#permissions-sliders ul#rules .panel h3
+{
+	background:#f5f5f5 url(../images/j_arrow_left.png) top left no-repeat
+}
+
 /* Additional RTL fixes for forms */
 
 div.current label {

@@ -1229,5 +1229,10 @@ table.group-rules td select
 	padding-right: 5px;
 }
 
+#permissions-sliders ul#rules .panel h3
+{
+	background:#f9fade url(../images/j_arrow_left.png) top left no-repeat
+}
+
 /* global_config permissions */
 
