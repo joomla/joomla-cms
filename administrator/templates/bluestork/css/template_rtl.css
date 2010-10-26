@@ -498,3 +498,63 @@ div.current #permissions-sliders select {
 float:right;
 margin:3px 2px 0 2px;
 }
+
+/* Additional RTL fixes for forms */
+
+div.current label {
+	float: right;
+	clear: none;
+	clear: right;
+	margin-top: 8px;
+}
+
+div.current fieldset.radio {
+	float: right;
+}
+
+div.current fieldset.radio input {
+	float: right;
+	margin: 3px 2px 0 0;
+}
+
+div.current fieldset.radio label {
+	float: right;
+	margin: 3px 5px 0 0;
+}
+
+div.current input,
+div.current textarea,
+div.current select {
+	float: right;
+	margin: 3px 2px 0 0;
+}
+
+.mod-desc { 
+	margin-right: 135px !important; 
+	float: none !important;
+}
+
+div#menu-assignment {
+	clear:right;
+}
+
+div#menu-assignment h3 {
+	clear:right;
+}
+
+div#menu-assignment {
+	clear:right;
+}
+
+div#menu-assignment h3 {
+	clear:right;
+}
+
+div#menu-assignment ul.menu-links li.menu-link label {
+	float: right;
+	margin: 3px 2px 0 0;
+}
+div#menu-assignment ul.menu-links li.menu-link input {
+	clear: right;
+	float: right;
+}
