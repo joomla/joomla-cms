@@ -94,10 +94,14 @@ class ContactModelContacts extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.catid, a.language, a.featured')
+				'a.id, a.name, a.alias, a.user_id, a.checked_out, a.checked_out_time, a.published, a.access, a.ordering, a.catid, a.language, a.featured')
 		);
 		$query->from('#__contact_details AS a');
-
+		
+		// Join over the users for the linked user.
+		$query->select('ul.name AS linked_user');
+		$query->join('LEFT', '#__users AS ul ON ul.id=a.user_id');
+		
 		// Join over the language
 		$query->select('l.title AS language_title');
 		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');

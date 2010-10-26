@@ -30,6 +30,7 @@ $ -> Language fix or change
 26-Oct-2010 Jean-Marie Simonet
  # [#23011] RTL fixes for form controls in the option modals and menu assignments. Thanks Andrea
  # [#23024] Backend image file missed - j_arrow_right.png. RTL CSS added to fit.
+ # [#23025] Show "Linked user" in "Contact Manager: Contacts". Thanks Dennis.
 
 25-Oct-2010 Jean-Marie Simonet
  # Forgotten getLayout() change for pagebreak in rev 22932
