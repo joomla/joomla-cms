@@ -117,7 +117,7 @@ class JFilterOutput
 		$str = str_replace('-', ' ', $str);
 
 		// replace forbidden characters by whitespaces
-		$str = preg_replace( '#[:\#\*"@+=;!&%()\]\/\'\\\\|\[]#',"\x20", $str );
+		$str = preg_replace( '#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#',"\x20", $str );
 
 		//delete all '?'
 		$str = str_replace('?', '', $str);
