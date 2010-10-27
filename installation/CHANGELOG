@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Oct-2010 Ian MacLennan
+ # [#22987] using getElementById('adminForm') in submitform breaks Joomla 1.5 compatibility
+
 26-Oct-2010 Jean-Marie Simonet
  # [#23011] RTL fixes for form controls in the option modals and menu assignments. Thanks Andrea
  # [#23024] Backend image file missed - j_arrow_right.png. RTL CSS added to fit.
