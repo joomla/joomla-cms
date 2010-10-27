@@ -2056,6 +2056,19 @@ a.jgrid:hover {
 	background-image: url(../images/admin/uparrow0.png);
 }
 
+.jgrid span.published {
+	background-image: url(../images/admin/publish_g.png);
+}
+
+.jgrid span.expired {
+	background-image: url(../images/admin/publish_r.png);
+}
+
+.jgrid span.pending	{
+	background-image: url(../images/admin/publish_y.png);
+}
+
+
 /**
  * Menu Icons
  * These icons are used on the Administrator menu

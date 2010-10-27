@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Oct-2010 Jean-Marie Simonet
+ # [#23002] jgrid.published does not show all possible statuses as was shown in 1.5. Thanks Dennis.
+
 26-Oct-2010 Ian MacLennan
  # [#22987] using getElementById('adminForm') in submitform breaks Joomla 1.5 compatibility
 

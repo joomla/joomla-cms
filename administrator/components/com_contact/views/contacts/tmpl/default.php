@@ -131,7 +131,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php endif; ?>
 				</td>
 				<td align="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange);?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>

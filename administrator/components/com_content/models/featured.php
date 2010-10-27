@@ -34,7 +34,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-				'a.language'
+				'a.language, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');

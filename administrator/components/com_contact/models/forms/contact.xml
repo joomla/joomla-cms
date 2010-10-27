@@ -201,6 +201,18 @@
 			description="JFIELD_ORDERING_DESC"
 		/>
 
+		<field name="publish_up" type="calendar"
+			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
+			filter="user_utc"
+		/>
+
+		<field name="publish_down" type="calendar"
+			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTACT_FIELD_PUBLISH_DOWN_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
+			filter="user_utc"
+		/>		 
+
 		<field name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"

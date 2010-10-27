@@ -95,7 +95,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'list.select',
 				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
 				'a.numarticles, a.cache_time, ' .
-				' a.published, a.access, a.ordering, a.language'
+				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('`#__newsfeeds` AS a');

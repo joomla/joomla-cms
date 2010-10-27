@@ -61,7 +61,7 @@ class BannersModelBanners extends JModelList
 				'a.impmade AS impmade, a.imptotal AS imptotal,' .
 				'a.state AS state, a.ordering AS ordering,'.
 				'a.purchase_type as purchase_type,'.
-				'a.language'
+				'a.language, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('`#__banners` AS a');

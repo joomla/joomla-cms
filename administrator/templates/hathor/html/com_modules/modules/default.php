@@ -152,7 +152,7 @@ $saveOrder	= $listOrder == 'ordering';
 					<?php endif; ?>
 				</td>
                 <td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange);?>
+					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'modules.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
 					<?php echo $item->position; ?>

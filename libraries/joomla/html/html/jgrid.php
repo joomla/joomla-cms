@@ -100,11 +100,13 @@ abstract class JHtmlJGrid
 	/**
 	 * Returns a published state on a grid
 	 *
-	 * @param	int				$value		The state value.
-	 * @param	int				$i			The row index
-	 * @param	string|array	$prefix		An optional task prefix or an array of options
-	 * @param	boolean			$enabled	An optional setting for access control on the action.
-	 * @param	string			$checkbox	An optional prefix for checkboxes.
+	 * @param	int				$value			The state value.
+	 * @param	int				$i				The row index
+	 * @param	string|array	$prefix			An optional task prefix or an array of options
+	 * @param	boolean			$enabled		An optional setting for access control on the action.
+	 * @param	string			$checkbox		An optional prefix for checkboxes.
+	 * @param	string			$publish_up		An optional start publishing date.
+	 * @param	string			$publish_down	An optional finish publishing date.
 	 *
 	 * @return The Html code
 	 *
@@ -112,7 +114,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @since	1.6
 	 */
-	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox='cb')
+	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
 	{
 		if (is_array($prefix)) {
 			$options	= $prefix;
@@ -126,6 +128,52 @@ abstract class JHtmlJGrid
 			2	=> array('unpublish',	'JARCHIVED',	'JLIB_HTML_UNPUBLISH_ITEM',	'JARCHIVED',	false,	'archive',		'archive'),
 			-2	=> array('publish',		'JTRASHED',		'JLIB_HTML_PUBLISH_ITEM',	'JTRASHED',		false,	'trash',		'trash'),
 		);
+		
+		// Special state for dates
+		if ($publish_up || $publish_down)
+		{
+			$nullDate 	= JFActory::getDBO()->getNullDate();
+			$nowDate 	= JFactory::getDate()->toUnix();
+			
+			$tz	= JFactory::getApplication()->getCfg('offset');
+			
+			$publish_up		= ($publish_up 		!= $nullDate) ? JFactory::getDate($publish_up, $tz) 	: false;
+			$publish_down 	= ($publish_down 	!= $nullDate) ? JFactory::getDate($publish_down, $tz) 	: false;
+			
+			// Create tip text, only we have publish up or down settings
+			$tips = array();
+			if ($publish_up) {
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_START', $publish_up->toFormat());
+			}
+			if ($publish_down) {
+				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->toFormat());
+			}
+			$tip = empty($tips) ? false : implode('<br/>', $tips);
+			
+			// Add tips and special titles
+			foreach($states as $key=>$state) {
+				// Create special titles for published items
+				if ($key == 1) {
+					$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_ITEM';
+					if ($publish_up && $nowDate < $publish_up->toUnix()) {
+						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
+						$states[$key][5] = $states[$key][6] = 'pending';
+					}
+					if ($publish_down && $nowDate > $publish_down->toUnix()) {
+						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
+						$states[$key][5] = $states[$key][6] = 'expired';
+					} 
+				}
+
+				// Add tips to titles
+				if ($tip) {
+					$states[$key][2] = JText::_($states[$key][2]) . '::' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '::' . $tip;
+					$states[$key][4] = true;
+				}
+			}
+		}
+		
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 

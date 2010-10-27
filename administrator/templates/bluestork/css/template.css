@@ -1863,6 +1863,9 @@ a.jgrid:hover {	text-decoration: none;}
 .jgrid span.downarrow_disabled		{ background-image: url(../images/admin/downarrow0.png); background-position: 0 -12px; }
 .jgrid span.uparrow					{ background-image: url(../images/admin/uparrow.png); }
 .jgrid span.uparrow_disabled		{ background-image: url(../images/admin/uparrow0.png); background-position: 0 -12px; }
+.jgrid span.published				{ background-image: url(../images/admin/publish_g.png); }
+.jgrid span.expired					{ background-image: url(../images/admin/publish_r.png); }
+.jgrid span.pending					{ background-image: url(../images/admin/publish_y.png); }
 
 /* -- ICON STYLES ----------------------------- */
 .icon-16-archive					{	background-image: url(../images/menu/icon-16-archive.png);	}

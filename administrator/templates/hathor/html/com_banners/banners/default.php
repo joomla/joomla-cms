@@ -174,7 +174,7 @@ $saveOrder	= $listOrder=='ordering';
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange);?>
+					<?php echo JHtml::_('jgrid.published', $item->sticky, $i, 'banners.sticky_', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
 					<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED'));?>
