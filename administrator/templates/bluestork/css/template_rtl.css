@@ -563,3 +563,10 @@ div#menu-assignment ul.menu-links li.menu-link input {
 	clear: right;
 	float: right;
 }
+
+/**
+* Mod_rewrite Warning
+*/
+#jform_sef_rewrite-lbl {
+	background: url(../images/admin/icon-16-notice-note.png) left top no-repeat;
+}
