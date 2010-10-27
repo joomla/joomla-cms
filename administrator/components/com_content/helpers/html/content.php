@@ -34,29 +34,4 @@ abstract class JHtmlContent
 
 		return $html;
 	}
-
-	/**
-	 * Displays the publishing state legend for articles
-	 */
-	function Legend()
-	{
-		?>
-
-		<div class="center">
-			<ul id="legend articles">
-				<li><?php echo JHTML::_('image','admin/publish_y.png', JText::_('Pending'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
-				<li><?php echo JText::_('PUBLISHED_BUT_IS'); ?> <u><?php echo JText::_('Pending'); ?></u></li>
-				<li><?php echo JHTML::_('image','admin/publish_g.png', JText::_('Visible'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
-				<li><?php echo JText::_('PUBLISHED_AND_IS'); ?> <u><?php echo JText::_('Current'); ?></u></li>
-				<li><?php echo JHTML::_('image','admin/publish_r.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
-				<li><?php echo JText::_('PUBLISHED_BUT_HAS'); ?> <u><?php echo JText::_('Expired'); ?></u></li>
-				<li><?php echo JHTML::_('image','admin/publish_x.png', JText::_('Finished'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
-				<li><?php echo JText::_('NOT_PUBLISHED'); ?></li>
-				<li><?php echo JHTML::_('image','admin/disabled.png', JText::_('JARCHIVED'), array('width' => 16, 'height' => 16, 'border' => 0), true)?></li>
-				<li><?php echo JText::_('JARCHIVED'); ?></li>
-			</ul>
-			<p class="center"><?php echo JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'); ?></p>
-		</div>
-		<?php
-	}
 }
