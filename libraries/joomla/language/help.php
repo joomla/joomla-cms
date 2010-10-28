@@ -16,7 +16,6 @@
  */
 class JHelp
 {
-
 	/**
 	 * Create a URL for a given help key reference
 	 *
@@ -24,11 +23,15 @@ class JHelp
 	 * @param	boolean	$useComponent	Use the help file in the component directory
 	 * @param	string	$override		Use this URL instead of any other
 	 * @param	string	$component		Name of component (or null for current component)
+	 *
+	 * @return	string
+	 * @sicne	1.5
 	 */
 	static function createURL($ref, $useComponent = false, $override = null, $component = null)
 	{
-		$local = false;
-		$app		= JFactory::getApplication();
+		$local	= false;
+		$app	= JFactory::getApplication();
+
 		if (is_null($component)) {
 			$component = JApplicationHelper::getComponentName();
 		}
@@ -38,12 +41,9 @@ class JHelp
 		 *  can contain substitution codes that will be replaced later.
 		 */
 		if ($override) {
-
 			$url = $override;
-
 		}
 		else {
-
 			// Get the user help URL.
 			$user		= JFactory::getUser();
 			$url		= $user->getParam('helpsite');
@@ -55,15 +55,14 @@ class JHelp
 
 			// Component help URL overrides user and global.
 			if ($useComponent) {
-
 				// Look for help URL in component parameters.
 				$params = JComponentHelper::getParams( $component );
 				$url = $params->get('helpURL');
+
 				if ($url == '') {
 					$local = true;
 					$url = 'components/{component}/help/{language}/{keyref}';
 				}
-
 			}
 
 			// Set up a local help URL.
@@ -100,7 +99,8 @@ class JHelp
 			'{major}',			// Joomla major version number
 			'{minor}',			// Joomla minor version number
 			'{maintenance}'		// Joomla maintenance version number
-			);
+		);
+
 		$replace = array(
 			$app->getName(),	// {app}
 			$component,			// {component}
@@ -111,13 +111,14 @@ class JHelp
 			$jver[0],			// {major}
 			$jver[1],			// {minor}
 			$jver[2]			// {maintenance}
-			);
+		);
 
 		// If the help file is local then check it exists.
 		// If it doesn't then fallback to English.
 		if ($local) {
 			$try = str_replace($search, $replace, $url);
 			jimport('joomla.filesystem.file');
+
 			if (!JFile::exists(JPATH_BASE.'/'.$try)) {
 				$replace[3] = 'en-GB';
 				$replace[4] = 'en';
@@ -127,16 +128,16 @@ class JHelp
 
 		$url = str_replace($search, $replace, $url);
 
-		return htmlspecialchars($url);
+		return $url;
 	}
 
 	/**
-	 * Builds a list of the help sites which can be used in a select option
+	 * Builds a list of the help sites which can be used in a select option.
 	 *
-	 * @param	string	$pathToXml	Path to an xml file
-	 * @param	string	$selected	Language tag to select (if exists)
+	 * @param	string	$pathToXml	Path to an xml file.
+	 * @param	string	$selected	Language tag to select (if exists).
 	 *
-	 * @return	array	An array of arrays (text, value, selected)
+	 * @return	array	An array of arrays (text, value, selected).
 	 * @since	1.5
 	 */
 	static function createSiteList($pathToXml, $selected = null)
