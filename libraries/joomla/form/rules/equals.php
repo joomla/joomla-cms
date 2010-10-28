@@ -51,7 +51,7 @@ class JFormRuleEquals extends JFormRule
 		}
 
 		// Check that a valid JForm object is given for retrieving the validation field value.
-		if (!$form instanceof JForm) {
+		if (!($form instanceof JForm)) {
 			return new JException(JText::sprintf('JLIB_FORM_INVALID_FORM_OBJECT', get_class($this)));
 		}
 

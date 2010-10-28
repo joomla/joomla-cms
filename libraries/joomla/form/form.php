@@ -89,7 +89,7 @@ class JForm
 		// Set the name for the form.
 		$this->name = $name;
 
-		// Initialize the JRegistry data.
+		// Initialise the JRegistry data.
 		$this->data = new JRegistry();
 
 		// Set the options if specified.
@@ -107,7 +107,7 @@ class JForm
 	public function bind($data)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -121,10 +121,12 @@ class JForm
 			if ($data instanceof JRegistry) {
 				// Handle a JRegistry.
 				$data = $data->toArray();
-			} else if ($data instanceof JObject) {
+			}
+			else if ($data instanceof JObject) {
 				// Handle a JObject.
 				$data = $data->getProperties();
-			} else {
+			}
+			else {
 				// Handle other types of objects.
 				$data = (array) $data;
 			}
@@ -137,7 +139,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($k, $v);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v)) {
+			else if (is_object($v) || JArrayHelper::isAssociative($v)) {
 				// If the value is an object or an associative array hand it off to the recursive bind level method.
 				$this->bindLevel($k, $v);
 			}
@@ -167,7 +169,7 @@ class JForm
 				// If the field exists set the value.
 				$this->data->set($group.'.'.$k, $v);
 			}
-			elseif (is_object($v) || JArrayHelper::isAssociative($v)) {
+			else if (is_object($v) || JArrayHelper::isAssociative($v)) {
 				// If the value is an object or an associative array, hand it off to the recursive bind level method
 				$this->bindLevel($group.'.'.$k, $v);
 			}
@@ -186,11 +188,11 @@ class JForm
 	public function filter($data, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return false;
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$input	= new JRegistry($data);
 		$output	= new JRegistry();
 
@@ -202,9 +204,9 @@ class JForm
 		}
 
 		// Filter the fields.
-		foreach ($fields as $field) {
-
-			// Initialize variables.
+		foreach ($fields as $field)
+		{
+			// Initialise variables.
 			$name = (string) $field['name'];
 
 			// Get the field groups for the element.
@@ -214,12 +216,12 @@ class JForm
 
 			// Get the field value from the data input.
 			if ($group) {
-
 				// Filter the value if it exists.
 				if ($input->exists($group.'.'.$name)) {
 					$output->set($group.'.'.$name, $this->filterField($field, $input->get($group.'.'.$name, (string) $field['default'])));
 				}
-			} else {
+			}
+			else {
 				// Filter the value if it exists.
 				if ($input->exists($name)) {
 					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
@@ -254,7 +256,7 @@ class JForm
 	public function getField($name, $group = null, $value = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -284,7 +286,7 @@ class JForm
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return $default;
 		}
@@ -313,7 +315,7 @@ class JForm
 	 */
 	public function getFieldset($set = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$fields = array();
 
 		// Get all of the field elements in the fieldset.
@@ -331,8 +333,8 @@ class JForm
 		}
 
 		// Build the result array from the found field elements.
-		foreach ($elements as $element) {
-
+		foreach ($elements as $element)
+		{
 			// Get the field groups for the element.
 			$attrs	= $element->xpath('ancestor::fields[@name]/@name');
 			$groups	= array_map('strval', $attrs ? $attrs : array());
@@ -357,21 +359,21 @@ class JForm
 	 */
 	public function getFieldsets($group = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$fieldsets = array();
 		$sets = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return $fieldsets;
 		}
 
 		if ($group) {
-
 			// Get the fields elements for a given group.
 			$elements = & $this->findGroup($group);
-			foreach ($elements as & $element) {
 
+			foreach ($elements as & $element)
+			{
 				// Get an array of <fieldset /> elements and fieldset attributes within the fields element.
 				if ($tmp = $element->xpath('descendant::fieldset[@name] | descendant::field[@fieldset]/@fieldset')) {
 					$sets = array_merge($sets, (array) $tmp);
@@ -389,8 +391,8 @@ class JForm
 		}
 
 		// Process each found fieldset.
-		foreach ($sets as $set) {
-
+		foreach ($sets as $set)
+		{
 			// Are we dealing with a fieldset element?
 			if ((string) $set['name']) {
 
@@ -399,7 +401,8 @@ class JForm
 
 					// Build the fieldset object.
 					$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
-					foreach ($set->attributes() as $name => $value) {
+					foreach ($set->attributes() as $name => $value)
+					{
 						$fieldset->$name = (string) $value;
 					}
 
@@ -423,7 +426,8 @@ class JForm
 					// Build the fieldset object from the element.
 					else {
 						$fieldset = (object) array('name' => '', 'label' => '', 'description' => '');
-						foreach ($tmp[0]->attributes() as $name => $value) {
+						foreach ($tmp[0]->attributes() as $name => $value)
+						{
 							$fieldset->$name = (string) $value;
 						}
 					}
@@ -464,7 +468,7 @@ class JForm
 	 */
 	public function getGroup($group, $nested = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$fields = array();
 
 		// Get all of the field elements in the field group.
@@ -476,7 +480,8 @@ class JForm
 		}
 
 		// Build the result array from the found field elements.
-		foreach ($elements as $element) {
+		foreach ($elements as $element)
+		{
 			// If the field is successfully loaded add it to the result array.
 			if ($field = $this->loadField($element, $group)) {
 				$fields[$field->id] = $field;
@@ -579,7 +584,7 @@ class JForm
 	public function load($data, $replace = true, $xpath = false)
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!$data instanceof JXMLElement) && (!is_string($data))) {
+		if ((!($data instanceof JXMLElement)) && (!is_string($data))) {
 			return false;
 		}
 
@@ -601,6 +606,7 @@ class JForm
 
 				// Synchronize any paths found in the load.
 				$this->syncPaths();
+
 				return true;
 			}
 
@@ -625,12 +631,12 @@ class JForm
 		}
 
 		// Load the found form elements.
-		foreach ($elements as $element) {
-
+		foreach ($elements as $element)
+		{
 			// Get an array of fields with the correct name.
 			$fields = $element->xpath('descendant-or-self::field');
-			foreach ($fields as $field) {
-
+			foreach ($fields as $field)
+			{
 				// Get the group names as strings for anscestor fields elements.
 				$attrs	= $field->xpath('ancestor::fields[@name]/@name');
 				$groups	= array_map('strval', $attrs ? $attrs : array());
@@ -708,7 +714,7 @@ class JForm
 	public function removeField($name, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return false;
 		}
@@ -736,14 +742,15 @@ class JForm
 	public function removeGroup($group)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return false;
 		}
 
 		// Get the fields elements for a given group.
 		$elements = & $this->findGroup($group);
-		foreach ($elements as & $element) {
+		foreach ($elements as & $element)
+		{
 			$dom = dom_import_simplexml($element);
 			$dom->parentNode->removeChild($dom);
 		}
@@ -787,13 +794,13 @@ class JForm
 	public function setField(& $element, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return false;
 		}
 
 		// Make sure the element to set is valid.
-		if (!$element instanceof JXMLElement) {
+		if (!($element instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return false;
 		}
@@ -849,7 +856,7 @@ class JForm
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return false;
 		}
@@ -858,7 +865,7 @@ class JForm
 		$element = & $this->findField($name, $group);
 
 		// If the element doesn't exist return false.
-		if (!$element instanceof JXMLElement) {
+		if (!($element instanceof JXMLElement)) {
 			return false;
 		}
 		// Otherwise set the attribute and return true.
@@ -887,14 +894,15 @@ class JForm
 	public function setFields(& $elements, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
 			return false;
 		}
 
 		// Make sure the elements to set are valid.
-		foreach ($elements as $element) {
-			if (!$element instanceof JXMLElement) {
+		foreach ($elements as $element)
+		{
+			if (!($element instanceof JXMLElement)) {
 				// TODO: throw exception.
 				return false;
 			}
@@ -902,7 +910,8 @@ class JForm
 
 		// Set the fields.
 		$return = true;
-		foreach ($elements as $element) {
+		foreach ($elements as $element)
+		{
 			if (!$this->setField($element, $group, $replace)) {
 				$return = false;
 			}
@@ -959,7 +968,7 @@ class JForm
 	public function validate($data, $group = null)
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -977,9 +986,9 @@ class JForm
 		}
 
 		// Validate the fields.
-		foreach ($fields as $field) {
-
-			// Initialize variables.
+		foreach ($fields as $field)
+		{
+			// Initialise variables.
 			$value	= null;
 			$name	= (string) $field['name'];
 
@@ -1007,6 +1016,7 @@ class JForm
 						JError::raiseWarning(0, $valid->getMessage());
 						return false;
 						break;
+
 					default:
 						array_push($this->errors, $valid);
 						$return = false;
@@ -1030,7 +1040,7 @@ class JForm
 	protected function filterField($element, $value)
 	{
 		// Make sure there is a valid JXMLElement.
-		if (!$element instanceof JXMLElement) {
+		if (!($element instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -1040,14 +1050,17 @@ class JForm
 		// Process the input value based on the filter.
 		$return = null;
 
-		switch (strtoupper($filter)) {
+		switch (strtoupper($filter))
+		{
 			// Access Control Rules.
 			case 'RULES':
 				$return = array();
-				foreach ((array) $value as $action => $ids) {
+				foreach ((array) $value as $action => $ids)
+				{
 					// Build the rules array.
 					$return[$action] = array();
-					foreach ($ids as $id => $p) {
+					foreach ($ids as $id => $p)
+					{
 						if ($p !== '') {
 							$return[$action][$id] = ($p == '1' || $p == 'true') ? true : false;
 						}
@@ -1089,7 +1102,8 @@ class JForm
 
 					// Return a MySQL formatted datetime string in UTC.
 					$return = JFactory::getDate($value, $offset)->toMySQL();
-				} else {
+				}
+				else {
 					$return = '';
 				}
 				break;
@@ -1102,7 +1116,8 @@ class JForm
 
 					// Return a MySQL formatted datetime string in UTC.
 					$return = JFactory::getDate($value, $offset)->toMySQL();
-				} else {
+				}
+				else {
 					$return = '';
 				}
 				break;
@@ -1137,12 +1152,12 @@ class JForm
 	 */
 	protected function findField($name, $group = null)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$element	= false;
 		$fields		= array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -1153,7 +1168,8 @@ class JForm
 			$elements = & $this->findGroup($group);
 
 			// Get all of the field elements with the correct name for the fields elements.
-			foreach ($elements as $element) {
+			foreach ($elements as $element)
+			{
 				// If there are matching field elements add them to the fields array.
 				if ($tmp = $element->xpath('descendant::field[@name="'.$name.'"]')) {
 					$fields = array_merge($fields, $tmp);
@@ -1167,8 +1183,8 @@ class JForm
 
 			// Use the first correct match in the given group.
 			$groupNames = explode('.', $group);
-			foreach ($fields as & $field) {
-
+			foreach ($fields as & $field)
+			{
 				// Get the group names as strings for anscestor fields elements.
 				$attrs = $field->xpath('ancestor::fields[@name]/@name');
 				$names	= array_map('strval', $attrs ? $attrs : array());
@@ -1190,7 +1206,8 @@ class JForm
 			}
 
 			// Search through the fields for the right one.
-			foreach ($fields as & $field) {
+			foreach ($fields as & $field)
+			{
 				// If we find an anscestor fields element with a group name then it isn't what we want.
 				if ($field->xpath('ancestor::fields[@name]')) {
 					continue;
@@ -1217,11 +1234,11 @@ class JForm
 	 */
 	protected function & findFieldsByFieldset($name)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$false = false;
 
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return $false;
 		}
 
@@ -1249,12 +1266,12 @@ class JForm
 	 */
 	protected function & findFieldsByGroup($group = null, $nested = false)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$false = false;
 		$fields = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return $false;
 		}
 
@@ -1265,7 +1282,8 @@ class JForm
 			$elements = & $this->findGroup($group);
 
 			// Get all of the field elements for the fields elements.
-			foreach ($elements as $element) {
+			foreach ($elements as $element)
+			{
 
 				// If there are field elements add them to the return result.
 				if ($tmp = $element->xpath('descendant::field')) {
@@ -1277,7 +1295,8 @@ class JForm
 					// If we want to exclude nested groups then we need to check each field.
 					else {
 						$groupNames = explode('.', $group);
-						foreach ($tmp as $field) {
+						foreach ($tmp as $field)
+						{
 							// Get the names of the groups that the field is in.
 							$attrs = $field->xpath('ancestor::fields[@name]/@name');
 							$names = array_map('strval', $attrs ? $attrs : array());
@@ -1290,10 +1309,12 @@ class JForm
 					}
 				}
 			}
-		} else if ($group === false) {
+		}
+		else if ($group === false) {
 			// Get only field elements not in a group.
 			$fields = $this->xml->xpath('descendant::fields[not(@name)]/field | descendant::fields[not(@name)]/fieldset/field ');
-		} else {
+		}
+		else {
 			// Get an array of all the <field /> elements.
 			$fields = $this->xml->xpath('//field');
 		}
@@ -1309,15 +1330,15 @@ class JForm
 	 * @return	mixed	An array of XML element objects for the group or boolean false on error.
 	 * @since	1.6
 	 */
-	protected function & findGroup($group)
+	protected function &findGroup($group)
 	{
-		// Initialize variables.
+		// Initialise variables.
 		$false = false;
 		$groups = array();
 		$tmp = array();
 
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return $false;
 		}
 
@@ -1329,29 +1350,30 @@ class JForm
 			$elements = $this->xml->xpath('//fields[@name="'.(string) $group[0].'"]');
 
 			// Check to make sure that there are no parent groups for each element.
-			foreach ($elements as $element) {
+			foreach ($elements as $element)
+			{
 				if (!$element->xpath('ancestor::fields[@name]')) {
 					$tmp[] = $element;
 				}
 			}
 
 			// Iterate through the nested groups to find any matching form field groups.
-			for ($i = 1, $n = count($group); $i < $n; $i++) {
-
-				// Initialize some loop variables.
+			for ($i = 1, $n = count($group); $i < $n; $i++)
+			{
+				// Initialise some loop variables.
 				$validNames = array_slice($group, 0, $i+1);
 				$current = $tmp;
 				$tmp = array();
 
 				// Check to make sure that there are no parent groups for each element.
-				foreach ($current as $element) {
-
+				foreach ($current as $element)
+				{
 					// Get any fields elements with the correct group name.
 					$children = $element->xpath('descendant::fields[@name="'.(string) $group[$i].'"]');
 
 					// For the found fields elements validate that they are in the correct groups.
-					foreach ($children as $fields) {
-
+					foreach ($children as $fields)
+					{
 						// Get the group names as strings for anscestor fields elements.
 						$attrs = $fields->xpath('ancestor-or-self::fields[@name]/@name');
 						$names = array_map('strval', $attrs ? $attrs : array());
@@ -1366,7 +1388,8 @@ class JForm
 			}
 
 			// Only include valid XML objects.
-			foreach ($tmp as $element) {
+			foreach ($tmp as $element)
+			{
 				if ($element instanceof JXMLElement) {
 					$groups[] = $element;
 				}
@@ -1389,7 +1412,7 @@ class JForm
 	protected function loadField($element, $group = null, $value = null)
 	{
 		// Make sure there is a valid JXMLElement.
-		if (!$element instanceof JXMLElement) {
+		if (!($element instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -1458,7 +1481,7 @@ class JForm
 	protected function syncPaths()
 	{
 		// Make sure there is a valid JForm XML document.
-		if (!$this->xml instanceof JXMLElement) {
+		if (!($this->xml instanceof JXMLElement)) {
 			return false;
 		}
 
@@ -1467,7 +1490,8 @@ class JForm
 		$paths = array_map('strval', $paths ? $paths : array());
 
 		// Add the field paths.
-		foreach ($paths as $path) {
+		foreach ($paths as $path)
+		{
 			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
 			self::addFieldPath($path);
 		}
@@ -1477,7 +1501,8 @@ class JForm
 		$paths = array_map('strval', $paths ? $paths : array());
 
 		// Add the form paths.
-		foreach ($paths as $path) {
+		foreach ($paths as $path)
+		{
 			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
 			self::addFormPath($path);
 		}
@@ -1487,7 +1512,8 @@ class JForm
 		$paths = array_map('strval', $paths ? $paths : array());
 
 		// Add the rule paths.
-		foreach ($paths as $path) {
+		foreach ($paths as $path)
+		{
 			$path = JPATH_ROOT.'/'.ltrim($path, '/\\');
 			self::addRulePath($path);
 		}
@@ -1514,13 +1540,13 @@ class JForm
 			return new JException(JText::_('JLIB_FORM_ERROR_VALIDATE_FIELD'), -1, E_ERROR);
 		}
 
-		// Initialize variables.
+		// Initialise variables.
 		$valid = true;
 
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-		if ($required) {
 
+		if ($required) {
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null)) {
 
@@ -1565,9 +1591,11 @@ class JForm
 
 			// Does the field have a defined error message?
 			$message = (string) $element['message'];
+
 			if ($message) {
 				return new JException(JText::_($message), 1, E_WARNING);
-			} else {
+			}
+			else {
 				return new JException(JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', JText::_((string) $element['name'])), 1, E_WARNING);
 			}
 		}
@@ -1649,11 +1677,14 @@ class JForm
 			if (substr(trim($data), 0, 1) == '<') {
 				if ($forms[$name]->load($data, $replace, $xpath) == false) {
 					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
+
 					return false;
 				}
-			} else {
+			}
+			else {
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false) {
 					throw new Exception(JText::_('JLIB_FORM_ERROR_XML_FILE_DID_NOT_LOAD'));
+
 					return false;
 				}
 			}
@@ -1674,12 +1705,14 @@ class JForm
 		$node = $source->addChild($new->getName(), trim($new));
 
 		// Add the attributes of the child node.
-		foreach ($new->attributes() as $name => $value) {
+		foreach ($new->attributes() as $name => $value)
+		{
 			$node->addAttribute($name, $value);
 		}
 
 		// Add any children of the new node.
-		foreach ($new->children() as $child) {
+		foreach ($new->children() as $child)
+		{
 			self::addNode($node, $child);
 		}
 	}
@@ -1687,10 +1720,12 @@ class JForm
 	protected static function mergeNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
 		// Update the attributes of the child node.
-		foreach ($new->attributes() as $name => $value) {
+		foreach ($new->attributes() as $name => $value)
+		{
 			if (isset($source[$name])) {
 				$source[$name] = (string) $value;
-			} else {
+			}
+			else {
 				$source->addAttribute($name, $value);
 			}
 		}
@@ -1713,7 +1748,8 @@ class JForm
 		// So we just have to scan the children and deal with them.
 
 		// Update the attributes of the child node.
-		foreach ($new->attributes() as $name => $value) {
+		foreach ($new->attributes() as $name => $value)
+		{
 			if (isset($source[$name])) {
 				$source[$name] = (string) $value;
 			} else {
@@ -1721,7 +1757,8 @@ class JForm
 			}
 		}
 
-		foreach ($new->children() as $child) {
+		foreach ($new->children() as $child)
+		{
 			$type = $child->getName();
 			$name = $child['name'];
 
@@ -1731,7 +1768,8 @@ class JForm
 			if (empty($fields)) {
 				// This node does not exist, so add it.
 				self::addNode($source, $child);
-			} else {
+			}
+			else {
 				// This node does exist.
 				switch ($type) {
 					case 'field':
