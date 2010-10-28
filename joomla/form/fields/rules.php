@@ -293,8 +293,9 @@ class JFormFieldRules extends JFormField
 			}
 
 			$html[] = '</tbody>';
-			$html[] = '</table>';$html[] = JText::_('JRULE_CONFLICT_DESC');
-			$html[] = '</div></div></div>';
+			$html[] = '</table></div>';
+			$html[] = JText::_('JRULE_CONFLICT_DESC');
+			$html[] = '</div></div>';
 
 		} // endforeach
 
