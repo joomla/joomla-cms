@@ -182,9 +182,11 @@ class plgEditorTinymce extends JPlugin
 
 		// theme_advanced_* settings
 		$toolbar			= $this->params->def('toolbar', 'top');
-		$toolbar_align	= $this->params->def('toolbar_align', 'left');
+		$toolbar_align		= $this->params->def('toolbar_align', 'left');
 		$html_height		= $this->params->def('html_height', '550');
 		$html_width			= $this->params->def('html_width', '750');
+		$resizing			= $this->params->def('resizing', 'true');
+		$resize_horizontal	= $this->params->def('resize_horizontal', 'false');
 		$element_path = '';
 		if ($this->params->get('element_path', 1)) {
 			$element_path = "theme_advanced_statusbar_location : \"bottom\", theme_advanced_path : true";
@@ -505,6 +507,8 @@ class plgEditorTinymce extends JPlugin
 					theme_advanced_toolbar_align : \"$toolbar_align\",
 					theme_advanced_source_editor_height : \"$html_height\",
 					theme_advanced_source_editor_width : \"$html_width\",
+					theme_advanced_resizing : $resizing,
+					theme_advanced_resize_horizontal : $resize_horizontal,
 					$element_path
 				});
 				</script>";
