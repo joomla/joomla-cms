@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
 $function = JRequest::getVar('function', 'jSelectPosition');
@@ -27,7 +27,7 @@ $type		= $this->state->get('filter.type');
 			<label for="filter_search">
 				<?php echo JText::_('JSearch_Filter_Label'); ?>
 			</label>
-			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->state->get('filter.search'); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_MODULES_FILTER_SEARCH_DESC'); ?>" />
 
 			<button type="submit">
 				<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
@@ -82,7 +82,7 @@ $type		= $this->state->get('filter.type');
 					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $position->position; ?>');">
 						<ul>
 						<?php foreach ($position->templates as $template):?>
-							<li><?php echo JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', $template->name, JText::_('TPL_'.$template->element.'_POSITION_'.preg_replace('/[^a-zA-Z0-9_]/','_', $position->position)));?></li>	
+							<li><?php echo JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', $template->name, JText::_('TPL_'.$template->element.'_POSITION_'.preg_replace('/[^a-zA-Z0-9_]/','_', $position->position)));?></li>
 						<?php endforeach;?>
 						</ul>
 					</a>
