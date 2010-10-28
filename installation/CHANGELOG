@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#23030] Bluestork Menu Model Assignments modal is closing immediately upon display (Andrea Tarr, Dennis Hermacki).
  # Fixed issue [#23039] Cross site scripting Revision 19231 (Ervis Tusha, Ian MacLennan).
  # Fixed issue [#23036] Undefined property: stdClass::$cachable in \libraries\joomla\environment\response.php on line 49 (Dennis Hermacki).
+ # Fixed issue [#22677] The treatment of the componentlayout parameter in categories is incorrect (Elin Waring).
 
 27-Oct-2010 Jean-Marie Simonet
  # [#23002] jgrid.published does not show all possible statuses as was shown in 1.5. Thanks Dennis.

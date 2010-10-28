@@ -46,21 +46,20 @@ class WeblinksViewCategory extends JView
 			return false;
 		}
 
-		if($category == false)
-		{
+		if ($category == false) {
 			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
-		if($parent == false)
-		{
+		if ($parent == false) {
 			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.
+		// TODO: SHould already be computed in $category->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->authorisedLevels();
 		if (!in_array($category->access, $groups)) {
-			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
+			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Prepare the data.
@@ -69,16 +68,24 @@ class WeblinksViewCategory extends JView
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+
 			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1) {
 				$item->link = JRoute::_('index.php?task=weblink.go&&id='. $item->id);
-			} else {
+			}
+			else {
 				$item->link = $item->url;
 			}
+
 			$temp		= new JRegistry();
 			$temp->loadJSON($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
 		}
+
+		// Setup the category parameters.
+		$cparams = $category->getParams();
+		$category->params = clone($params);
+		$category->params->merge($cparams);
 
 		$children = array($category->id => $children);
 
@@ -90,6 +97,11 @@ class WeblinksViewCategory extends JView
 		$this->assignRef('params',		$params);
 		$this->assignRef('parent',		$parent);
 		$this->assignRef('pagination',	$pagination);
+
+		// Override the layout.
+		if ($layout = $category->params->get('layout')){
+			$this->setLayout($layout);
+		}
 
 		$this->_prepareDocument();
 
@@ -109,24 +121,29 @@ class WeblinksViewCategory extends JView
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
-		{
+
+		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		} else {
+		}
+		else {
 			$this->params->def('page_heading', JText::_('COM_WEBLINKS_DEFAULT_PAGE_TITLE'));
 		}
+
 		$id = (int) @$menu->query['id'];
-		if ($menu && ($menu->query['option'] != 'com_weblinks' || $id != $this->category->id))
-		{
+
+		if ($menu && ($menu->query['option'] != 'com_weblinks' || $id != $this->category->id)) {
 			$this->params->set('page_subheading', $this->category->title);
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
+
 			while (($menu->query['option'] != 'com_weblinks' || $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => WeblinksHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
+
 			$path = array_reverse($path);
+
 			foreach($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
@@ -134,12 +151,14 @@ class WeblinksViewCategory extends JView
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title)) {
 			$title = htmlspecialchars_decode($app->getCfg('sitename'));
 		}
 		elseif ($app->getCfg('sitename_pagetitles', 0)) {
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->category->metadesc) {
@@ -160,12 +179,12 @@ class WeblinksViewCategory extends JView
 
 		$mdata = $this->category->getMetadata()->toArray();
 
-		foreach ($mdata as $k => $v) {
+		foreach ($mdata as $k => $v)
+		{
 			if ($v) {
 				$this->document->setMetadata($k, $v);
 			}
 		}
-
 
 		// Add alternative feed link
 		if ($this->params->get('show_feed_link', 1) == 1)
