@@ -45,9 +45,11 @@ class ContactModelContact extends JModelItem
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
-		$this->setState('filter.published', 1);
-		$this->setState('filter.archived', 2);
+		$user = JFactory::getUser();
+		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))){
+			$this->setState('filter.published', 1);
+			$this->setState('filter.archived', 2);
+		}
 	}
 
 	/**
@@ -90,13 +92,14 @@ class ContactModelContact extends JModelItem
 				$nullDate = $db->Quote($db->getNullDate());
 				$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
 
-				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-				$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
 				if (is_numeric($published)) {
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
+					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
+					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
 
 				$db->setQuery($query);
@@ -156,9 +159,10 @@ class ContactModelContact extends JModelItem
 		}
 		if ($this->_item[$pk])
 		{
-			$extendedData = $this->getContactQuery($pk);
- 			$this->_item[$pk]->articles = $extendedData->articles;
-  			$this->_item[$pk]->profile = $extendedData->profile;
+			if ($extendedData = $this->getContactQuery($pk)) {
+				$this->_item[$pk]->articles = $extendedData->articles;
+				$this->_item[$pk]->profile = $extendedData->profile;
+			}
 		}
   		return $this->_item[$pk];
 
@@ -185,8 +189,12 @@ class ContactModelContact extends JModelItem
 			$query->join('INNER', '#__categories AS cc on cc.id = a.catid');
 
 			$query->where('a.id = ' . (int) $pk);
-			$query->where('a.published = 1');
-			$query->where('cc.published = 1');
+			$published = $this->getState('filter.published');
+			$archived = $this->getState('filter.archived');
+			if (is_numeric($published)) {
+				$query->where('a.published IN (1,2)');
+				$query->where('cc.published IN (1,2)');
+			}
 			$groups		= implode(',', $user->authorisedLevels());
 			$query->where('a.access IN ('.implode(',', $user->authorisedLevels()).')');
 

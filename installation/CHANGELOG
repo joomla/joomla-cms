@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2010 Mark Dexter
+ # [#22878] Contact menu items don't work correctly with published state of contacts and contact categories
+
 28-Oct-2010 Jean-Marie Simonet
  # [#21910] installation of module does not create module listing. Thanks Dennis and Troy.
  # [#23031] RTL fix for display of menus in menu assignments. Thanks Andrea.

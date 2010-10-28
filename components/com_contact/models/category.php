@@ -102,17 +102,19 @@ class ContactModelCategory extends JModelList
 		}
 
 		// Filter by state
-		$state = $this->getState('filter.state');
+		$state = $this->getState('filter.published');
 		if (is_numeric($state)) {
-			$query->where('a.state = '.(int) $state);
+			$query->where('a.published = '.(int) $state);
 		}
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
 		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
 
-		$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-		$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-
+		if ($this->getState('filter.publish_date')){
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
+			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+		}
+		
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -136,7 +138,7 @@ class ContactModelCategory extends JModelList
 		// Initialise variables.
 		$app	= JFactory::getApplication();
 		$params	= JComponentHelper::getParams('com_contact');
-
+		$db		= $this->getDbo();
 		// List state information
 		$format = JRequest::getWord('format');
 		if ($format=='feed') {
@@ -159,8 +161,14 @@ class ContactModelCategory extends JModelList
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);
 
-		$this->setState('filter.published',	1);
-
+		$user = JFactory::getUser();	
+		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))){
+			// limit to published for people who can't edit or edit.state.
+			$this->setState('filter.published', 1);
+			
+			// Filter by start and end dates.
+			$this->setState('filter.publish_date', true);
+		}
 		$this->setState('filter.language',$app->getLanguageFilter());
 
 		// Load the parameters.

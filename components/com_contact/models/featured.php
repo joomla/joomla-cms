@@ -92,25 +92,40 @@ class ContactModelFeatured extends JModelList
 		$query->from('`#__contact_details` AS a');
 		$query->where('a.access IN ('.$groups.')');
 		$query->where('a.featured=1');
+		$query->join('INNER', '#__categories AS c ON c.id = a.catid');
+		$query->where('c.access IN ('.$groups.')');
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id')) {
 			$query->where('a.catid = '.(int) $categoryId);
-			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
-			$query->where('c.access IN ('.$groups.')');
 		}
+		
+		// Join to check for category published state in parent categories up the tree
+		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
+		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
+		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
+		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_contact');
+		// Find any up-path categories that are not published
+		// If all categories are published, badcats.id will be null, and we just use the contact state
+		$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
+		// Select state to unpublished if up-path category is unpublished
+		$publishedWhere = 'CASE WHEN badcats.id is null THEN a.published ELSE 0 END';
+		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
 
 		// Filter by state
 		$state = $this->getState('filter.published');
 		if (is_numeric($state)) {
 			$query->where('a.published = '.(int) $state);
+			
+			// Filter by start and end dates.
+			$nullDate = $db->Quote($db->getNullDate());
+			$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
+			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where($publishedWhere . ' = ' . (int) $state);
 		}
-		// Filter by start and end dates.
-		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
 
-		$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-		$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 
+		
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -148,10 +163,14 @@ class ContactModelFeatured extends JModelList
 		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
 		$this->setState('list.direction', $listOrder);
 
-//		$id = JRequest::getVar('id', 0, '', 'int');
-//		$this->setState('category.id', $id);
-
-		$this->setState('filter.published',	1);
+		$user = JFactory::getUser();
+		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))){
+			// limit to published for people who can't edit or edit.state.
+			$this->setState('filter.published', 1);
+				
+			// Filter by start and end dates.
+			$this->setState('filter.publish_date', true);
+		}		
 
 		$this->setState('filter.language',$app->getLanguageFilter());
 
