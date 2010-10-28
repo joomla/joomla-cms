@@ -58,34 +58,49 @@ class JHTMLIcon
 		return $output;
 	}
 
+	/**
+	 * Display an edit icon for the article.
+	 *
+	 * This icon will not display in a popup window, nor if the article is trashed.
+	 * Edit access checks must be performed in the calling code.
+	 *
+	 * @param	object	$article	The article in question.
+	 * @param	object	$params		The article parameters
+	 * @param	array	$attribs	Not used??
+	 *
+	 * @return	string	The HTML for the article edit icon.
+	 * @since	1.6
+	 */
 	static function edit($article, $params, $attribs = array())
 	{
-		$user = JFactory::getUser();
-		$uri = JFactory::getURI();
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$userId	= $user->get('id');
+		$uri	= JFactory::getURI();
 
+		// Ignore if in a popup window.
 		if ($params && $params->get('popup')) {
 			return;
 		}
 
+		// Ignore if the state is negative (trashed).
 		if ($article->state < 0) {
-			return;
-		}
-
-		if (!$user->authorise('core.edit', 'com_content.article.'.$article->id)) {
 			return;
 		}
 
 		JHtml::_('behavior.tooltip');
 
-		$url = 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($uri);
-		$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-		$text = JHTML::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
+		$url	= 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($uri);
+		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
+		$text	= JHTML::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 
 		if ($article->state == 0) {
 			$overlib = JText::_('JUNPUBLISHED');
-		} else {
+		}
+		else {
 			$overlib = JText::_('JPUBLISHED');
 		}
+
 		$date = JHTML::_('date',$article->created);
 		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
 
@@ -97,6 +112,7 @@ class JHTMLIcon
 		$button = JHTML::_('link',JRoute::_($url), $text);
 
 		$output = '<span class="hasTip" title="'.JText::_('COM_CONTENT_EDIT_ITEM').' :: '.$overlib.'">'.$button.'</span>';
+
 		return $output;
 	}
 

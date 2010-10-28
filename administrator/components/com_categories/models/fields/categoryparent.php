@@ -92,15 +92,37 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		// Initialise variables.
 		$user = JFactory::getUser();
-		$action = empty($id) ? 'core.create' : 'core.edit';
 
-		foreach ($options as $i => $option)
-		{
-			// Unset the option if the user isn't authorised for it.
-			if (!$user->authorise($action, $extension.'.category.'.$option->value)) {
-				unset($options[$i]);
+		if (empty($id)) {
+			// New item, only have to check core.create.
+			foreach ($options as $i => $option)
+			{
+				// Unset the option if the user isn't authorised for it.
+				if (!$user->authorise('core.create', $extension.'.category.'.$option->value)) {
+					unset($options[$i]);
+				}
 			}
 		}
+		else {
+			// Existing item is a bit more complex. Need to account for core.edit and core.edit.own.
+			foreach ($options as $i => $option)
+			{
+				// Unset the option if the user isn't authorised for it.
+				if (!$user->authorise('core.edit', $extension.'.category.'.$option->value)) {
+					// As a backup, check core.edit.own
+					if (!$user->authorise('core.edit.own', $extension.'.category.'.$option->value)) {
+						// No core.edit nor core.edit.own - bounce this one
+						unset($options[$i]);
+					}
+					else {
+						// TODO I've got a funny feeling we need to check core.create here.
+						// Maybe you can only get the list of categories you are allowed to create in?
+						// Need to think about that. If so, this is the place to do the check.
+					}
+				}
+			}
+		}
+
 
 		if (isset($row) && !isset($options[0])) {
 			if ($row->parent_id == '1') {

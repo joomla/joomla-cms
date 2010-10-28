@@ -2578,13 +2578,14 @@ table.aclmodify-table select {
 
 /* Summary Tab */
 table.aclsummary-table th.col1 {
-	width: 40%;
+	width: 25%;
 }
 
 table.aclsummary-table th.col2,
 table.aclsummary-table th.col3,
 table.aclsummary-table th.col4,
-table.aclsummary-table th.col5	{
+table.aclsummary-table th.col5,
+table.aclsummary-table th.col6	{
 	width: 15%;
 	vertical-align: bottom;
 	text-align: center;
@@ -2598,6 +2599,8 @@ table.aclsummary-table td.col4,
 table.aclsummary-table th.col4,
 table.aclsummary-table td.col5,
 table.aclsummary-table th.col5,
+table.aclsummary-table td.col6,
+table.aclsummary-table th.col6,
 table.aclmodify-table td.col2,
 table.aclmodify-table th.col2	{
 	border-left: 1px solid #cbcbcb;

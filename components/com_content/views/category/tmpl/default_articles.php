@@ -93,20 +93,18 @@ $listDirn	= $this->state->get('list.direction');
 				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
 
 					<td class="list-title">
-				
+
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
 						<?php echo $this->escape($article->title); ?></a>
-						<?php $canEdit = $this->user->authorise('core.edit', 'com_content.category.'.$article->id); ?>
-						<?php $canCreate = $this->user->authorise('core.create', 'com_content.category.'); ?>
 
-						<?php if ($canEdit) : ?>
+						<?php if ($article->params->get('access-edit')) : ?>
 							<ul class="actions">
 								<li class="edit-icon">
 									<?php echo JHtml::_('icon.edit',$article, $params); ?>
 								</li>
 							</ul>
 						<?php endif; ?>
-						
+
 					</td>
 
 					<?php if ($this->params->get('list_show_date')) : ?>
@@ -144,13 +142,13 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
 				</td>
 				<?php endif; ?>
-				
+
 			</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>
 <?php // Code to add a link to submit an article. ?>
-<?php if ($canCreate) : ?>
+<?php if ($this->category->getParams()->get('access-create')) : ?>
 <span class="hasTip" title="<?php echo JText::_('COM_CONTENT_CREATE_ARTICLE'); ?>"><a href="<?php echo JRoute::_('index.php?option=com_content&task=article.add');?>">
 	<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
 <?php  endif; ?>

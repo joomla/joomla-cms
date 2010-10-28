@@ -14,14 +14,12 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 
-$user	= JFactory::getUser();
-$userId	= $user->get('id');
+$user		= JFactory::getUser();
+$userId		= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $ordering 	= ($listOrder == 'a.lft');
-$canOrder	= $user->authorise('core.edit.state');
-$canEdit	= $user->authorise('core.edit');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm" id="adminForm">
@@ -73,7 +71,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				</th>
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder) :?>
+					<?php if ($saveOrder) :?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'categories.saveorder'); ?>
 					<?php endif; ?>
 				</th>
@@ -99,9 +97,11 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 			<?php
 			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
-				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-				$canCheckin	= $user->authorise('core.manage', 'com_checkin') || $item->checked_out==$user->get('id');
-				$canChange = $canCheckin;
+				$orderkey	= array_search($item->id, $this->ordering[$item->parent_id]);
+				$canEdit	= $user->authorise('core.edit',			$extension.'.category.'.$item->id);
+				$canCheckin	= $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+				$canEditOwn	= $user->authorise('core.edit.own',		$extension.'.category.'.$item->id) && $item->created_user_id == $userId;
+				$canChange	= $user->authorise('core.edit.state',	$extension.'.category.'.$item->id) && $canCheckin;
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center">
@@ -112,7 +112,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit) : ?>
+						<?php if ($canEdit || $canEditOwn) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&cid[]='.$item->id.'&extension='.$extension);?>">
 								<?php echo $this->escape($item->title); ?></a>
 						<?php else : ?>

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2010 Andrew Eddie
+ # Fixed issue [#21260] ACL Permissions for Authors to Edit Own Content Items Missing (James Brice, Elin Waring, Michael Babker).
+ 
 28-Oct-2010 Mark Dexter
  # [#22878] Contact menu items don't work correctly with published state of contacts and contact categories
 

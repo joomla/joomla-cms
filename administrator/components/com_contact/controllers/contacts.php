@@ -61,7 +61,7 @@ class ContactControllerContacts extends JControllerAdmin
 			if (!$user->authorise('core.edit.state', 'com_contact.contact.'.(int) $id)) {
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
+				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
 		}
 

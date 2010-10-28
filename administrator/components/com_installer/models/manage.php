@@ -94,7 +94,7 @@ class InstallerModelManage extends InstallerModel
 			}
 		} else {
 			$result = false;
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
+			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 		return $result;
 	}
@@ -176,13 +176,13 @@ class InstallerModelManage extends InstallerModel
 					$failed[] = $id;
 				}
 			}
-			
+
 			$langstring = 'COM_INSTALLER_TYPE_'. strtoupper($row->type);
 			$rowtype = JText::_($langstring);
 			if(strpos($rowtype, $langstring) !== false) {
 				$rowtype = $row->type;
 			}
-			
+
 			if (count($failed)) {
 
 				// There was an error in uninstalling the package

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Item Model for Contacts.
+ * Item Model for a Contact.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_contact

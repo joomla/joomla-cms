@@ -102,8 +102,6 @@
 			description="JFIELD_CATEGORY_DESC"
 			class="inputbox"
 			required="true">
-			<option
-				value="0">JOPTION_SELECT_CATEGORY</option>
 		</field>
 
 		<field

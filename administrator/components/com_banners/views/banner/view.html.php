@@ -53,27 +53,32 @@ class BannersViewBanner extends JView
 		JRequest::setVar('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		$canDo		= BannersHelper::getActions($this->state->get('filter.category_id'));
 
 		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create'))) {
+		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
 			JToolBarHelper::apply('banner.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('banner.save', 'JTOOLBAR_SAVE');
+
+			if ($canDo->get('core.create')) {
+				JToolBarHelper::custom('banner.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			}
 		}
-		if (!$checkedOut && $canDo->get('core.create')) {
-			JToolBarHelper::custom('banner.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
 			JToolBarHelper::custom('banner.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
 		}
+
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('banner.cancel','JTOOLBAR_CANCEL');
-		} else {
+		}
+		else {
 			JToolBarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 

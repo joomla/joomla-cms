@@ -22,7 +22,10 @@ class ContentHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param	string	$vName	The name of the active view.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -49,6 +52,7 @@ class ContentHelper
 	 * @param	int		The article ID.
 	 *
 	 * @return	JObject
+	 * @since	1.6
 	 */
 	public static function getActions($categoryId = 0, $articleId = 0)
 	{
@@ -66,7 +70,7 @@ class ContentHelper
 		}
 
 		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
 		);
 
 		foreach ($actions as $action) {

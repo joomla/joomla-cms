@@ -42,14 +42,14 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 	 */
 	protected function tearDown() {
 	}
-	
+
 	/**
 	 * @todo Implement testGetAuthorisedViewLevels().
 	 */
 	public function testGetAuthorisedViewLevels() {
 		// Run the parent::setUp() method here to save time (since we only need to run it once)
 		parent::setUp();
-		
+
 		if (defined('DB_NOT_AVAILABLE')) {
 			$this->markTestSkipped('The database is not available');
 		}
@@ -173,7 +173,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 			$access->check($userId, $action, $assetId),
 			$this->equalTo($result),
 			$message);
-	}	
+	}
 
 	/**
 	 * Test cases for testCheck and testCheckGroups
@@ -240,8 +240,8 @@ class JAccessTest extends JoomlaDatabaseTestCase {
               'Line:'.__LINE__.' Publisher may not log into admin'
               ),
          );
-	}	
-	
+	}
+
 	/**
 	 * testCheckGroups
 	 *
@@ -293,7 +293,7 @@ class JAccessTest extends JoomlaDatabaseTestCase {
 			$this->equalTo($string1),
 			'Line: ' . __LINE__
 		);
-		
+
 		$ObjArrayJrules = $access->getAssetRules('testasset', False);
 		$string1 = '[]';
 		$this->assertThat(
@@ -383,8 +383,8 @@ class JAccessTest extends JoomlaDatabaseTestCase {
                         );
                         $array6 = array(
 			'name'		  => "core.edit.state",
-                        'title'       => "JACTION_EDIT_STATE",
-                        'description' => "JACTION_EDIT_STATE_COMPONENT_DESC"
+                        'title'       => "JACTION_EDITSTATE",
+                        'description' => "JACTION_EDITSTATE_COMPONENT_DESC"
                         );
 
 

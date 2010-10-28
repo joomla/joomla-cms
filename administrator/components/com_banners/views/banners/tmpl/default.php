@@ -13,8 +13,9 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHTML::_('script','system/multiselect.js',false,true);
-$user	= JFactory::getUser();
-$userId	= $user->get('id');
+
+$user		= JFactory::getUser();
+$userId		= $user->get('id');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 $canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
@@ -57,13 +58,13 @@ $saveOrder	= $listOrder=='ordering';
 				<th width="1%">
 					<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)" />
 				</th>
-				<th class="title">
+				<th>
 					<?php echo JHtml::_('grid.sort',  'COM_BANNERS_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JPUBLISHED', 'state', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="nowrap">
+				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_STICKY', 'sticky', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="nowrap">
@@ -72,19 +73,19 @@ $saveOrder	= $listOrder=='ordering';
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap">
+				<th width="10%">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder): ?>
 						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
 				</th>
-				<th width="5%" class="nowrap">
+				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_IMPRESSIONS', 'impmade', $listDirn, $listOrder); ?>
 				</th>
 				<th width="80">
 					<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="nowrap">
+				<th width="5%">
 					<?php echo JText::_('COM_BANNERS_HEADING_METAKEYWORDS'); ?>
 				</th>
 				<th width="10%">
@@ -111,7 +112,7 @@ $saveOrder	= $listOrder=='ordering';
 			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]='. $item->catid);
 			$canCreate	= $user->authorise('core.create',		'com_banners.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_banners.category.'.$item->catid);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 			$canChange	= $user->authorise('core.edit.state',	'com_banners.category.'.$item->catid) && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
@@ -126,7 +127,7 @@ $saveOrder	= $listOrder=='ordering';
 						<a href="<?php echo JRoute::_('index.php?option=com_banners&task=banner.edit&id='.(int) $item->id); ?>">
 							<?php echo $this->escape($item->name); ?></a>
 					<?php else : ?>
-							<?php echo $this->escape($item->name); ?>
+						<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
 					<p class="smallsub">
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
@@ -191,6 +192,7 @@ $saveOrder	= $listOrder=='ordering';
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+
 	<div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

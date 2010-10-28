@@ -35,8 +35,8 @@ class UsersModelDebugGroup extends JModelList
 			'JACTION_CREATE'		=> array('core.create',			null),
 			'JACTION_DELETE'		=> array('core.delete',			null),
 			'JACTION_EDIT'			=> array('core.edit',			null),
-			'JACTION_EDIT_STATE'	=> array('core.edit.state',		null),
-			'JACTION_EDIT_OWN'		=> array('core.edit.own',		null),
+			'JACTION_EDITSTATE'		=> array('core.edit.state',		null),
+			'JACTION_EDITOWN'		=> array('core.edit.own',		null),
 		);
 
 		return $actions;

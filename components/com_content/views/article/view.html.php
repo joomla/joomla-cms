@@ -19,82 +19,82 @@ jimport('joomla.application.component.view');
  */
 class ContentViewArticle extends JView
 {
-	protected $state;
 	protected $item;
+	protected $params;
 	protected $print;
+	protected $state;
+	protected $user;
 
 	function display($tpl = null)
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-		$dispatcher = JDispatcher::getInstance();
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+		$dispatcher	= JDispatcher::getInstance();
 
-		// Get view related request variables.
-		$print = JRequest::getBool('print');
-
-		// Get model data.
-		$state = $this->get('State');
-		$item = $this->get('Item');
+		$this->item		= $this->get('Item');
+		$this->print	= JRequest::getBool('print');
+		$this->state	= $this->get('State');
+		$this->user		= $user;
 
 		// Check for errors.
-		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
-		if (count($errors = $this->get('Errors')))
-		{
+		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
+		// Create a shortcut for $item.
+		$item = &$this->item;
+
 		// Add router helpers.
-		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-		$item->catslug = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+		$item->parent_slug	= $item->category_alias ? ($item->parent_id.':'.$item->parent_alias) : $item->parent_id;
 
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
-		$params = $state->get('params');
-		$article_params = new JRegistry;
-		$article_params->loadJSON($item->attribs);
-		$active = $app->getMenu()->getActive();
-		$temp = clone ($params);
-		if ($active)
-		{
+		$this->params	= $this->state->get('params');
+		$active	= $app->getMenu()->getActive();
+		$temp	= clone ($this->params);
+
+		// TODO: Need more comments on this block!!!
+		if ($active) {
 			$currentLink = $active->link;
-			if (strpos($currentLink, 'view=article'))
-			{
-				$article_params->merge($temp);
-				$item->params = $article_params;
+
+			if (strpos($currentLink, 'view=article')) {
+				$item->params->merge($temp);
 			}
-			else
-			{
-				$temp->merge($article_params);
+			else {
+				$temp->merge($item->params);
 				$item->params = $temp;
 			}
-		} else {
-			$temp->merge($article_params);
+		}
+		else {
+			$temp->merge($item->params);
 			$item->params = $temp;
 		}
 
-		$offset = $state->get('list.offset');
+		$offset = $this->state->get('list.offset');
 
-		// Check the access to the article
-		$levels = $user->authorisedLevels();
-		if ((!in_array($item->access, $levels)) OR ((is_array($item->category_access)) AND (!in_array($item->category_access, $levels))))
-		{
+		// Check the view access to the article (the model has already computed the values).
+		if ($item->params->get('access-view') != true) {
+			// TODO: This curtails the ability for a layout to show teaser information!!!
 			// If a guest user, they may be able to log in to view the full article
-			if (($params->get('show_noauth')) AND ($user->get('guest')))
-			{
+			if (($this->params->get('show_noauth')) AND ($user->get('guest'))) {
 				// Redirect to login
 				$uri = JFactory::getURI();
 				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), JText::_('COM_CONTENT_ERROR_LOGIN_TO_VIEW_ARTICLE'));
+
 				return;
 			}
-			else
-			{
+			else {
 				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 				return;
 			}
 		}
@@ -113,33 +113,25 @@ class ContentViewArticle extends JView
 		// Process the content plugins.
 		//
 		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$params, $offset));
+		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
 		$item->event = new stdClass();
-		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$params, $offset));
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$params, $offset));
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_content.article', &$item, &$this->params, $offset));
 		$item->event->beforeDisplayContent = trim(implode("\n", $results));
 
-		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$params, $offset));
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_content.article', &$item, &$this->params, $offset));
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
-		$this->assignRef('state', $state);
-		$this->assignRef('params', $params);
-		$this->assignRef('item', $item);
-		$this->assignRef('user', $user);
-		$this->assign('print', $print);
-
 		// Override the layout.
-		if ($layout = $item->params->get('layout'))
-		{
+		if ($layout = $item->params->get('layout')) {
 			$this->setLayout($layout);
 		}
 
 		// Increment the hit counter of the article.
-		if (!$params->get('intro_only') && $offset == 0)
-		{
+		if (!$this->params->get('intro_only') && $offset == 0) {
 			$model = $this->getModel();
 			$model->hit();
 		}
@@ -181,7 +173,7 @@ class ContentViewArticle extends JView
 		$this->document->setTitle($title);
 
 		$id = (int) @$menu->query['id'];
-		
+
 		// if the menu item does not concern this article
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
 		{

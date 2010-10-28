@@ -1,11 +1,13 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controllerform');
@@ -13,7 +15,7 @@ jimport('joomla.application.component.controllerform');
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_contact
- * @since	1.6
+ * @since		1.6
  */
 class ContactControllerContact extends JControllerForm
 {
@@ -40,7 +42,8 @@ class ContactControllerContact extends JControllerForm
 		if ($allow === null) {
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd($data);
-		} else {
+		}
+		else {
 			return $allow;
 		}
 	}
@@ -58,18 +61,38 @@ class ContactControllerContact extends JControllerForm
 	{
 		// Initialise variables.
 		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
-		$categoryId = 0;
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+		$categoryId	= (int) isset($data['catid']) ? $data['catid'] : 0;
 
-		if ($recordId) {
-			$categoryId = (int) $this->getModel()->getItem($recordId)->catid;
+		// Check general edit permission first.
+		if ($user->authorise('core.edit', $this->option.'.category.'.$categoryId)) {
+			return true;
 		}
 
-		if ($categoryId) {
-			// The category has been set. Check the category permissions.
-			return JFactory::getUser()->authorise('core.edit', $this->option.'.category.'.$categoryId);
-		} else {
-			// Since there is no asset tracking, revert to the component permissions.
-			return parent::allowEdit($data, $key);
+		// Fallback on edit.own.
+		// First test if the permission is available.
+		if ($user->authorise('core.edit.own', $this->option.'.category.'.$categoryId)) {
+			// Now test the owner is the user.
+			$ownerId	= (int) isset($data['created_by']) ? $data['created_by'] : 0;
+			if (empty($ownerId) && $recordId) {
+				// Need to do a lookup from the model.
+				$record		= $this->getModel()->getItem($recordId);
+
+				if (empty($record)) {
+					return false;
+				}
+
+				$ownerId = $record->created_by;
+			}
+
+			// If the owner matches 'me' then do the test.
+			if ($ownerId == $userId) {
+				return true;
+			}
 		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 }

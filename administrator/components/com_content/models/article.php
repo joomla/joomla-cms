@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -11,10 +13,11 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
 /**
- * Article model.
+ * Item Model for an Article.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_content
+ * @since		1.6
  */
 class ContentModelArticle extends JModelAdmin
 {
@@ -27,7 +30,7 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
+	 * @param	object	$record	A record object.
 	 *
 	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since	1.6
@@ -42,7 +45,7 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
+	 * @param	object	$record	A record object.
 	 *
 	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since	1.6
@@ -150,6 +153,8 @@ class ContentModelArticle extends JModelAdmin
 		if ($id = (int) $this->getState('article.id')) {
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
+			// Existing record. Can only edit own articles in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
 		}
 		else {
 			// New record. Can only create in selected categories.

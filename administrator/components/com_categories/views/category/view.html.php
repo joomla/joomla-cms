@@ -53,9 +53,10 @@ class CategoriesViewCategory extends JView
 		// Initialise variables.
 		$extension	= JRequest::getCmd('extension');
 		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
 
 		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Avoid nonsense situation.
 		if ($extension == 'com_categories') {
@@ -93,9 +94,9 @@ class CategoriesViewCategory extends JView
 			$title = JText::_('COM_CATEGORIES_CATEGORY_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
 		}
 
-		// Load specific css component 
+		// Load specific css component
 		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
-		
+
 		// Prepare the toolbar.
 		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-category-'.($isNew?'add':'edit').'.png');
 
@@ -105,10 +106,10 @@ class CategoriesViewCategory extends JView
 		}
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && $canDo->get('core.edit')) {
+		if (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
 			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
-			if ($canDo->get('core.create')){
+			if ($canDo->get('core.create')) {
 				JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 			}
 		}

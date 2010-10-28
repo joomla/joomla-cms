@@ -20,7 +20,10 @@ class ContactHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param	string	$vName	The name of the active view.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -34,19 +37,22 @@ class ContactHelper
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
+
 		if ($vName=='categories') {
 			JToolBarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE',JText::_('com_contact')),
 				'contact-categories');
 		}
 	}
+
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @param	int		The category ID.
-	 * @param	int		The article ID.
+	 * @param	int		The contact ID.
 	 *
 	 * @return	JObject
+	 * @since	1.6
 	 */
 	public static function getActions($categoryId = 0, $contactId = 0)
 	{
@@ -64,7 +70,7 @@ class ContactHelper
 		}
 
 		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
 		);
 
 		foreach ($actions as $action) {

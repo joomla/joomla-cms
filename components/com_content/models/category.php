@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Site
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -63,6 +65,7 @@ class ContentModelCategory extends JModelItem
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * return	void
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -85,26 +88,28 @@ class ContentModelCategory extends JModelItem
 		$mergedParams->merge($params);
 
 		$this->setState('params', $mergedParams);
-		$user		= JFactory::getUser();		
+		$user		= JFactory::getUser();
 				// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$groups	= implode(',', $user->authorisedLevels());
-				
+
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
 			$nullDate = $db->Quote($db->getNullDate());
 			$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
-	
+
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
+
 		// process show_noauth parameter
 		if (!$params->get('show_noauth')) {
 			$this->setState('filter.access', true);
-		} else {
+		}
+		else {
 			$this->setState('filter.access', false);
 		}
 
@@ -124,7 +129,8 @@ class ContentModelCategory extends JModelItem
 		if (JRequest::getString('layout') == 'blog') {
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 			$this->setState('list.links', $params->get('num_links'));
-		} else {
+		}
+		else {
 			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'));
 		}
 
@@ -148,6 +154,7 @@ class ContentModelCategory extends JModelItem
 	 * Get the articles in the category
 	 *
 	 * @return	mixed	An array of articles or false if an error occurs.
+	 * @since	1.5
 	 */
 	function getItems()
 	{
@@ -156,7 +163,8 @@ class ContentModelCategory extends JModelItem
 		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
 		if (JRequest::getString('layout') == 'blog') {
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
-		} else {
+		}
+		else {
 			$limit = $this->getState('list.limit');
 		}
 
@@ -183,7 +191,8 @@ class ContentModelCategory extends JModelItem
 				if ($this->_articles === false) {
 					$this->setError($model->getError());
 				}
-			} else {
+			}
+			else {
 				$this->_articles=array();
 			}
 
@@ -191,13 +200,13 @@ class ContentModelCategory extends JModelItem
 		}
 
 		return $this->_articles;
-
 	}
 
 	/**
 	 * Build the orderby for the query
 	 *
 	 * @return	string	$orderby portion of query
+	 * @since	1.5
 	 */
 	protected function _buildContentOrderBy()
 	{
@@ -250,10 +259,22 @@ class ContentModelCategory extends JModelItem
 			else {
 				$options['countItems'] = 0;
 			}
+
 			$categories = JCategories::getInstance('Content', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
+			// Compute selected asset permissions.
 			if (is_object($this->_item)) {
+				$user	= JFactory::getUser();
+				$userId	= $user->get('id');
+				$asset	= 'com_content.category.'.$this->_item->id;
+
+				// Check general create permission.
+				if ($user->authorise('core.create', $asset)) {
+					$this->_item->getParams()->set('access-create', true);
+				}
+
+				// TODO: Why aren't we lazy loading the children and siblings?
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
 
@@ -263,7 +284,8 @@ class ContentModelCategory extends JModelItem
 
 				$this->_rightsibling = $this->_item->getSibling();
 				$this->_leftsibling = $this->_item->getSibling(false);
-			} else {
+			}
+			else {
 				$this->_children = false;
 				$this->_parent = false;
 			}
@@ -278,6 +300,7 @@ class ContentModelCategory extends JModelItem
 	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
 	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @since	1.6
 	 */
 	public function getParent()
 	{
@@ -289,9 +312,10 @@ class ContentModelCategory extends JModelItem
 	}
 
 	/**
-	 * Get the sibling (adjacent) categories.
+	 * Get the left sibling (adjacent) categories.
 	 *
 	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @since	1.6
 	 */
 	function &getLeftSibling()
 	{
@@ -302,6 +326,12 @@ class ContentModelCategory extends JModelItem
 		return $this->_leftsibling;
 	}
 
+	/**
+	 * Get the right sibling (adjacent) categories.
+	 *
+	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @since	1.6
+	 */
 	function &getRightSibling()
 	{
 		if (!is_object($this->_item)) {
@@ -317,6 +347,7 @@ class ContentModelCategory extends JModelItem
 	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
 	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @since	1.6
 	 */
 	function &getChildren()
 	{

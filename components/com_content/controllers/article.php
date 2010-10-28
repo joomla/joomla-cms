@@ -8,19 +8,14 @@
 // no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+jimport('joomla.application.component.controllerform');
 
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
  */
-class ContentControllerArticle extends JController
+class ContentControllerArticle extends JControllerForm
 {
-	/**
-	 * @since	1.6
-	 */
-	protected $_context = 'com_content.edit.article';
-
 	/**
 	 * @since	1.6
 	 */
@@ -30,7 +25,7 @@ class ContentControllerArticle extends JController
 	 * @since	1.6
 	 */
 	protected $view_list = 'categories';
-	
+
 	/**
 	 * Constructor
 	 *
@@ -46,11 +41,88 @@ class ContentControllerArticle extends JController
 	}
 
 	/**
+	 * Method override to check if you can add a new record.
+	 *
+	 * @param	array	An array of input data.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	protected function allowAdd($data = array())
+	{
+		// Initialise variables.
+		$user		= JFactory::getUser();
+		$categoryId	= JArrayHelper::getValue($data, 'catid', JRequest::getInt('catid'), 'int');
+		$allow		= null;
+
+		if ($categoryId) {
+			// If the category has been passed in the data or URL check it.
+			$allow	= $user->authorise('core.create', 'com_content.category.'.$categoryId);
+		}
+
+		if ($allow === null) {
+			// In the absense of better information, revert to the component permissions.
+			return parent::allowAdd();
+		}
+		else {
+			return $allow;
+		}
+	}
+
+	/**
+	 * Method override to check if you can edit an existing record.
+	 *
+	 * @param	array	$data	An array of input data.
+	 * @param	string	$key	The name of the key for the primary key.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		// Initialise variables.
+		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+		$asset		= 'com_content.article.'.$recordId;
+
+		// Check general edit permission first.
+		if ($user->authorise('core.edit', $asset)) {
+			return true;
+		}
+
+		// Fallback on edit.own.
+		// First test if the permission is available.
+		if ($user->authorise('core.edit.own', $asset)) {
+			// Now test the owner is the user.
+			$ownerId	= (int) isset($data['created_by']) ? $data['created_by'] : 0;
+			if (empty($ownerId) && $recordId) {
+				// Need to do a lookup from the model.
+				$record		= $this->getModel()->getItem($recordId);
+
+				if (empty($record)) {
+					return false;
+				}
+
+				$ownerId = $record->created_by;
+			}
+
+			// If the owner matches 'me' then do the test.
+			if ($ownerId == $userId) {
+				return true;
+			}
+		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
+	}
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	string	$name	The model name. Optional.
+	 * @param	string	$prefix	The class prefix. Optional.
+	 * @param	array	$config	Configuration array for model. Optional.
 	 *
 	 * @return	object	The model.
 	 * @since	1.5
@@ -58,13 +130,14 @@ class ContentControllerArticle extends JController
 	public function &getModel($name = 'form', $prefix = '', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
-	protected function _getReturnPage()
+	protected function getReturnPage()
 	{
 		$app		= JFactory::getApplication();
-		$context	= $this->_context.'.';
+		$context	= "$this->option.edit.$this->context";
 
 		if (!($return = $app->getUserState($context.'.return'))) {
 			$return = JRequest::getVar('return', base64_encode(JURI::base()));
@@ -80,47 +153,48 @@ class ContentControllerArticle extends JController
 		return $return;
 	}
 
-	protected function _setReturnPage()
+	protected function setReturnPage()
 	{
 		$app		= JFactory::getApplication();
-		$context	= $this->_context.'.';
+		$context	= "$this->option.edit.$this->context";
 
 		$return = JRequest::getVar('return', null, 'default', 'base64');
 
-		$app->setUserState($context.'return', $return);
+		$app->setUserState($context.'.return', $return);
 	}
 
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return	void
+	 * @return	boolean	True if the article can be added, false if not.
+	 * @since	1.6
 	 */
 	public function add()
 	{
 		$app		= JFactory::getApplication();
-		$context	= $this->_context.'.';
+		$context	= "$this->option.edit.$this->context";
 
 		// Access check
-		if (!JFactory::getUser()->authorise('core.create', 'com_content')) {
+		if (!$this->allowAdd()) {
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return false;
 		}
 
 		// Clear the record edit information from the session.
-		$app->setUserState($context.'id', null);
-		$app->setUserState($context.'data', null); 
-		$this->_setReturnPage();
-		$id='0';
-	
-		// Check-out succeeded, push the new row id into the session.
-		$app->setUserState($context.'id',	$id);
-		$app->setUserState($context.'data',	null);
+		$app->setUserState($context.'.id',		null);
+		$app->setUserState($context.'.data',	null);
+
+		// Clear the return page.
+		// TODO: We should be including an optional 'return' variable in the URL.
+		$this->setReturnPage();
 
 		// ItemID required on redirect for correct Template Style
 		$redirect = 'index.php?option=com_content&view=form&layout=edit';
 		if (JRequest::getInt('Itemid') != 0) {
 			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
 		}
+
 		$this->setRedirect($redirect);
 
 		return true;
@@ -131,61 +205,58 @@ class ContentControllerArticle extends JController
 	 *
 	 * Sets object ID in the session from the request, checks the item out, and then redirects to the edit page.
 	 *
-	 * @access	public
-	 * @return	void
+	 * @return	boolean	True if the record can be edited, false if not.
 	 */
 	public function edit()
 	{
 		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$context	= $this->_context.'.';
+		$context	= "$this->option.edit.$this->context";
 		$ids		= JRequest::getVar('cid', array(), '', 'array');
-	
+
 		// Get the id of the group to edit.
 		$id =  (int) (empty($ids) ? JRequest::getInt('id') : array_pop($ids));
 
 		// Access check
-		if (!JFactory::getUser()->authorise('core.edit', 'com_content.article.'.$id)) {
+		if (!$this->allowEdit(array('id' => $id))) {
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+
 			return false;
 		}
-
-		// Get the previous row id (if any) and the current row id.
-		$previousId	= (int) $app->getUserState($context.'id');
-		$app->setUserState($context.'id', $id);
-		$this->_setReturnPage();
 
 		// Get the menu item model.
 		$model = $this->getModel();
 
 		// Check that this is not a new item.
 
-		if ($id > 0)
-		{
+		if ($id > 0) {
 			$item = $model->getItem($id);
 
-				// If not already checked out, do so.
-				if ($item->checked_out == 0)
-				{
-					if (!$model->checkout($id))
-					{
-						// Check-out failed, go back to the list and display a notice.
-						$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
-						$this->setRedirect('index.php?option=com_content&view=article&item_id='.$id, $message, 'error');
-						return false;
-					}
+			// If not already checked out, do so.
+			if ($item->checked_out == 0) {
+				if (!$model->checkout($id)) {
+					// Check-out failed, go back to the list and display a notice.
+					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
+					$this->setRedirect('index.php?option=com_content&view=article&item_id='.$id, $message, 'error');
+
+					return false;
 				}
-			
+			}
 		}
+
 		// Check-out succeeded, push the new row id into the session.
-		$app->setUserState($context.'id',	$id);
-		$app->setUserState($context.'data',	null);
+		$app->setUserState($context.'.id',		$id);
+		$app->setUserState($context.'.data',	null);
+
+		$this->setReturnPage();
 
 		// ItemID required on redirect for correct Template Style
 		$redirect = 'index.php?option=com_content&view=form&layout=edit';
+
 		if (JRequest::getInt('Itemid') != 0) {
 			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
 		}
+
 		$this->setRedirect($redirect);
 
 		return true;
@@ -196,17 +267,16 @@ class ContentControllerArticle extends JController
 	 *
 	 * Checks the item in, sets item ID in the session to null, and then redirects to the list page.
 	 *
-	 * @access	public
 	 * @return	void
 	 */
 	public function cancel()
 	{
 		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$context	= $this->_context.'.';
+		$context	= "$this->option.edit.$this->context";
 
 		// Get the previous menu item id (if any) and the current menu item id.
 		$previousId	= (int) $app->getUserState($context.'id');
@@ -224,13 +294,12 @@ class ContentControllerArticle extends JController
 		}
 
 		// Clear the menu item edit information from the session.
-		$app->setUserState($context.'id',	null);
-		$app->setUserState($context.'data',	null);
+		$app->setUserState($context.'.id',		null);
+		$app->setUserState($context.'.data',	null);
 
 		// Redirect to the list screen.
-		$this->setRedirect($this->_getReturnPage());
+		$this->setRedirect($this->getReturnPage());
 	}
-
 
 	/**
 	 * Save the record
@@ -242,7 +311,7 @@ class ContentControllerArticle extends JController
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$context	= $this->_context.'.';
+		$context	= "$this->option.edit.$this->context";
 		$model		= $this->getModel();
 		$task		= $this->getTask();
 
@@ -250,7 +319,7 @@ class ContentControllerArticle extends JController
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState($context.'id');
+		$data['id'] = (int) $app->getUserState($context.'.id');
 
 		// Split introtext and fulltext
 		$pattern    = '#<hr\s+id=(["\'])system-readmore\1\s*/?>#i';
@@ -307,7 +376,7 @@ class ContentControllerArticle extends JController
 			}
 
 			// Save the data in the session.
-			$app->setUserState($context.'data', $data);
+			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
@@ -318,7 +387,7 @@ class ContentControllerArticle extends JController
 		if (!$model->save($data))
 		{
 			// Save the data in the session.
-			$app->setUserState($context.'data', $data);
+			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
@@ -342,8 +411,8 @@ class ContentControllerArticle extends JController
 		{
 			case 'apply':
 				// Set the row data in the session.
-				$app->setUserState($context.'id',	$model->getState('article.id'));
-				$app->setUserState($context.'data',	null);
+				$app->setUserState($context.'.id',		$model->getState('article.id'));
+				$app->setUserState($context.'.data',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
@@ -351,8 +420,8 @@ class ContentControllerArticle extends JController
 
 			case 'save2new':
 				// Clear the row id and data in the session.
-				$app->setUserState($context.'id',	null);
-				$app->setUserState($context.'data',	null);
+				$app->setUserState($context.'.id',		null);
+				$app->setUserState($context.'.data',	null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
@@ -360,11 +429,11 @@ class ContentControllerArticle extends JController
 
 			default:
 				// Clear the row id and data in the session.
-				$app->setUserState($context.'id',	null);
-				$app->setUserState($context.'data',	null);
+				$app->setUserState($context.'.id',		null);
+				$app->setUserState($context.'.data',	null);
 
 				// Redirect to the list screen.
-				$this->setRedirect($this->_getReturnPage());
+				$this->setRedirect($this->getReturnPage());
 				break;
 		}
 	}

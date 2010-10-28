@@ -52,8 +52,8 @@
 				description="JACTION_EDIT_COMPONENT_DESC" />
 			<action
 				name="core.edit.state"
-				title="JACTION_EDIT_STATE"
-				description="JACTION_EDIT_STATE_COMPONENT_DESC" />
+				title="JACTION_EDITSTATE"
+				description="JACTION_EDITSTATE_COMPONENT_DESC" />
 		</field>
 	</fieldset>
 </config>

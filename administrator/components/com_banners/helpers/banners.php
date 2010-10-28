@@ -6,6 +6,8 @@
  */
 
 /**
+ * Banners component helper.
+ *
  * @package		Joomla.Administrator
  * @subpackage	com_banners
  * @since		1.6
@@ -27,7 +29,7 @@ class BannersHelper
 			'index.php?option=com_banners&view=banners',
 			$vName == 'banners'
 		);
-		
+
 		JSubMenuHelper::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_banners',
