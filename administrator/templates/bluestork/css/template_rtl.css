@@ -543,13 +543,9 @@ div#menu-assignment {
 	clear:right;
 }
 
-div#menu-assignment h3 {
-	clear:right;
-}
-
-div#menu-assignment {
-	clear:right;
-}
+ div#menu-assignment ul.menu-links {
+	float: right;
+} 
 
 div#menu-assignment h3 {
 	clear:right;

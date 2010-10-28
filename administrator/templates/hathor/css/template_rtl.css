@@ -250,8 +250,13 @@ div.current table#acl-config th.acl-groups {
 	text-align: right;
 }
 
+/* -------- Menu Assigments ---------- */
 div#menu-assignment {
 	clear:right;
+}
+
+div#menu-assignment ul.menu-links {
+	float:right;
 }
 
 div#menu-assignment h3 {
