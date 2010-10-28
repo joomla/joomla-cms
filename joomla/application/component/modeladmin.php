@@ -237,7 +237,7 @@ abstract class JModelAdmin extends JModelForm
 
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 				}
 
 			} else {
@@ -245,7 +245,7 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 		}
-		
+
 		// Clear the component's cache
 		$cache = JFactory::getCache($this->option);
 		$cache->clean();
@@ -366,7 +366,7 @@ abstract class JModelAdmin extends JModelForm
 				if (!$this->canEditState($table)) {
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 				}
 			}
 		}
@@ -386,7 +386,7 @@ abstract class JModelAdmin extends JModelForm
 			$this->setError($table->getError());
 			return false;
 		}
-		
+
 		// Clear the component's cache
 		$cache = JFactory::getCache($this->option);
 		$cache->clean();
@@ -425,7 +425,7 @@ abstract class JModelAdmin extends JModelForm
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 					$allowed = false;
 					continue;
 				}
@@ -450,13 +450,13 @@ abstract class JModelAdmin extends JModelForm
 		if ($allowed === false && empty($pks)) {
 			$result = null;
 		}
-		
+
 		if ($result == true) {
 			// Clear the component's cache
 			$cache = JFactory::getCache($this->option);
 			$cache->clean();
 		}
-		
+
 		return $result;
 	}
 
@@ -559,7 +559,7 @@ abstract class JModelAdmin extends JModelForm
 			if (!$this->canEditState($table)) {
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_STATE_NOT_PERMITTED'));
+				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			} else if ($table->ordering != $order[$i]) {
 				$table->ordering = $order[$i];
 
