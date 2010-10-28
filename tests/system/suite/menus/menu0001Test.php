@@ -56,8 +56,8 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_published", "label=Published");
 		$this->select("jform_menutype", "label=Functional Test Menu");
 		echo "Open Select Article modal\n";
+		sleep(2);
 		$this->click("link=Select / Change");
-
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
 			try {
@@ -99,9 +99,32 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Fill in menu name and info\n";
 
 		$this->type("jform_title", "Functional Test Menu");
+		
+		$this->click("link=Select position");
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
+			try {
+				if ($this->isElementPresent("//iframe[contains(@src, 'jSelectPosition')]")) break;
+			} catch (Exception $e) {}
+			sleep(1);
+		}
+		
+		$this->type("filter_search", "position");
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=position-7");
+		
+		for ($second = 0; ; $second++) {
+			if ($second >= 60) $this->fail("timeout");
+			try {
+				if (!$this->isElementPresent("//iframe[contains(@src, 'jSelectPosition')]")) break;
+			} catch (Exception $e) {}
+			sleep(1);
+		}
+				
 		$this->select("jform_published", "label=Published");
 		$this->select("jform[assignment]", "label=No pages");
-		$this->select("jform_position", "label=position-7");
+
 		$this->select("jform[assignment]", "label=On all pages");
 		$this->select("jform_params_menutype", "label=Functional Test Menu");
 		echo "Save menu\n";

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2010 Mark Dexter
+# Fix bugs in menu0001Test from new template position modal
+
 22-Oct-2010 Mark Dexter
 # Fix bug in JAccessTest and JAccess class when invalid group id is checked
 + Add unit tests for JSession
