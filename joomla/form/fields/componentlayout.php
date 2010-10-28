@@ -44,16 +44,20 @@ class JFormFieldComponentLayout extends JFormField
 
 		// Get the client id.
 		$clientId = (int) $this->element['client_id'];
-		if (empty($clientId) && (!$this->form instanceof JForm)) {
+
+		if (empty($clientId) && (!($this->form instanceof JForm))) {
 			$clientId = (int) $this->form->getValue('client_id');
 		}
+
 		$client	= JApplicationHelper::getClientInfo($clientId);
 
 		// Get the extension.
 		$extn = (string) $this->element['extension'];
+
 		if (empty($extn) && ($this->form instanceof JForm)) {
 			$extn = $this->form->getValue('extension');
 		}
+
 		$extn = preg_replace('#\W#', '', $extn);
 
 		// Get the template.
@@ -64,6 +68,7 @@ class JFormFieldComponentLayout extends JFormField
 		if ($this->form instanceof JForm) {
 			$template_style_id = $this->form->getValue('template_style_id');
 		}
+
 		$template_style_id = preg_replace('#\W#', '', $template_style_id);
 
 		// Get the view.
@@ -90,9 +95,11 @@ class JFormFieldComponentLayout extends JFormField
 			$query->where('e.client_id = '.(int) $clientId);
 			$query->where('e.type = '.$db->quote('template'));
 			$query->where('e.enabled = 1');
+
 			if ($template) {
 				$query->where('e.element = '.$db->quote($template));
 			}
+
 			if ($template_style_id) {
 				$query->join('LEFT', '#__template_styles as s on s.template=e.element');
 				$query->where('s.id='.(int)$template_style_id);
@@ -110,34 +117,36 @@ class JFormFieldComponentLayout extends JFormField
 			// Build the search paths for component layouts.
 			$component_path = JPath::clean($client->path.'/components/'.$extn.'/views/'.$view.'/tmpl');
 
-			// Prepare array of component layouts 
+			// Prepare array of component layouts
 			$component_layouts = array();
 
 			// Prepare the grouped list
 			$groups=array();
-			
-			// Add the layout options from the component path.			
-			if (is_dir($component_path) && ($component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true)))
-			{
+
+			// Add the layout options from the component path.
+			if (is_dir($component_path) && ($component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true))) {
 				// Create the group for the component
-				$groups['_']=array();
-				$groups['_']['id']=$this->id.'__';
-				$groups['_']['text']=JText::sprintf('JOPTION_FROM_COMPONENT');
-				$groups['_']['items']=array();
+				$groups['_']			= array();
+				$groups['_']['id']		= $this->id.'__';
+				$groups['_']['text']	= JText::sprintf('JOPTION_FROM_COMPONENT');
+				$groups['_']['items']	= array();
+
 				foreach ($component_layouts as $i=>$file)
 				{
 					// Attempt to load the xml file.
 					if (!$xml = simplexml_load_file($file)) {
 						unset($component_layouts[$i]);
+
 						continue;
 					}
 
 					// Get the help data from the XML file if present.
-					if (!$menu = $xml->xpath('layout[1]'))
-					{
+					if (!$menu = $xml->xpath('layout[1]')) {
 						unset($component_layouts[$i]);
+
 						continue;
 					}
+
 					$menu = $menu[0];
 
 					// Add an option to the component group
@@ -149,8 +158,7 @@ class JFormFieldComponentLayout extends JFormField
 			}
 
 			// Loop on all templates
-			if ($templates)
-			{
+			if ($templates) {
 				foreach ($templates as $template)
 				{
 					// Load language file
@@ -162,23 +170,22 @@ class JFormFieldComponentLayout extends JFormField
 					$template_path = JPath::clean($client->path.'/templates/'.$template->element.'/html/'.$extn.'/'.$view);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.xml$', false, true)))
-					{
-						foreach ($files as $i=>$file)
+					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.xml$', false, true))) {
+						foreach ($files as $i => $file)
 						{
 							// Remove layout that already exist in component ones
-							if (in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
-							{
+							if (in_array(JFile::stripext(JFile::getName($file)), $component_layouts)) {
 								unset($files[$i]);
 							}
 						}
-						if (count($files))
-						{
+
+						if (count($files)) {
 							// Create the group for the template
 							$groups[$template->name]=array();
 							$groups[$template->name]['id']=$this->id.'_'.$template->element;
 							$groups[$template->name]['text']=JText::sprintf('JOPTION_FROM_TEMPLATE', $template->name);
 							$groups[$template->name]['items']=array();
+
 							foreach ($files as $file)
 							{
 								// Attempt to load the xml file.
@@ -187,10 +194,10 @@ class JFormFieldComponentLayout extends JFormField
 								}
 
 								// Get the help data from the XML file if present.
-								if (!$menu = $xml->xpath('layout[1]'))
-								{
+								if (!$menu = $xml->xpath('layout[1]')) {
 									continue;
 								}
+
 								$menu = $menu[0];
 
 								// Add an option to the template group
@@ -202,6 +209,7 @@ class JFormFieldComponentLayout extends JFormField
 					}
 				}
 			}
+
 			// Compute attributes for the grouped list
 			$attr = 'multiple="multiple"';
 			$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
@@ -211,34 +219,31 @@ class JFormFieldComponentLayout extends JFormField
 
 			// Compute the current selected values
 			$selected = array();
-			if (is_array($this->value))
-			{
+
+			if (is_array($this->value)) {
 				foreach($this->value as $template=>$value)
 				{
-					if (!empty($value) && array_key_exists($template, $templates))
-					{
+					if (!empty($value) && array_key_exists($template, $templates)) {
 						$selected[] = $template.':'.$value;
 					}
 				}
 			}
-			
+
 			// Add a grouped list
 			$html[] = JHtml::_('select.groupedlist', $groups, '', array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
 
 			// Add input
-			if (is_array($this->value))
-			{
+			if (is_array($this->value)) {
 				foreach($this->value as $template=>$value)
 				{
-					if (!empty($value) && array_key_exists($template, $templates))
-					{
+					if (!empty($value) && array_key_exists($template, $templates)) {
 						// Add a hidden input for the template layout
 						$html[] = '<input type="hidden" id="'.$this->id.'_'.$template.'" name="'.$this->name.'['.$template.']" value="'.$value.'" />';
 					}
 				}
 			}
 
-			// Add javascript code for select tag			
+			// Add javascript code for select tag
 			$js="window.addEvent('domready', function() {
 				document.id('".$this->id."').addEvent('change', function (event) {
 					var options=this.getSelected();
@@ -274,11 +279,10 @@ class JFormFieldComponentLayout extends JFormField
 				});
 			});";
 			JFactory::getDocument()->addScriptDeclaration($js);
-			
+
 			return implode($html);
 		}
-		else
-		{
+		else {
 			return '';
 		}
 	}

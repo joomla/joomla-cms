@@ -12,7 +12,6 @@ defined('JPATH_BASE') or die;
 /**
  * Joomla Framework Factory class
  *
- * @static
  * @package Joomla.Framework
  * @since   1.5
  */
@@ -148,10 +147,11 @@ abstract class JFactory
 
 		if (is_null($id)) {
 			$instance = self::getSession()->get('user');
-			if (!$instance INSTANCEOF JUser) {
+			if (!($instance instanceof JUser)) {
 				$instance = JUser::getInstance();
 			}
-		} else {
+		}
+		else {
 			$instance = JUser::getInstance($id);
 		}
 
@@ -190,6 +190,7 @@ abstract class JFactory
 		$cache = JCache::getInstance($handler, $options);
 
 		self::$cache[$hash] = $cache;
+
 		return self::$cache[$hash];
 	}
 
@@ -205,7 +206,6 @@ abstract class JFactory
 	{
 		if (!self::$acl) {
 			jimport('joomla.access.access');
-
 			self::$acl = new JAccess();
 		}
 
@@ -222,7 +222,6 @@ abstract class JFactory
 	 */
 	public static function getDbo()
 	{
-
 		if (!self::$database) {
 			//get the debug configuration setting
 			$conf	= self::getConfig();
@@ -231,6 +230,7 @@ abstract class JFactory
 			self::$database = self::_createDbo();
 			self::$database->debug($debug);
 		}
+
 		return self::$database;
 	}
 
@@ -248,6 +248,7 @@ abstract class JFactory
 			self::$mailer = self::_createMailer();
 		}
 		$copy	= clone self::$mailer;
+
 		return $copy;
 	}
 
@@ -281,7 +282,8 @@ abstract class JFactory
 
 		if ($contents) {
 			return $simplepie;
-		} else {
+		}
+		else {
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_UTIL_ERROR_LOADING_FEED_DATA'));
 		}
 
@@ -301,7 +303,8 @@ abstract class JFactory
 	{
 		$doc = null;
 
-		switch (strtolower($type)) {
+		switch (strtolower($type))
+		{
 			case 'rss' :
 			case 'atom' :
 				$cache_time = isset($options['cache_time']) ? $options['cache_time'] : 0;
@@ -345,7 +348,8 @@ abstract class JFactory
 		if ($isFile) {
 			// Try to load the xml file
 			$xml = simplexml_load_file($data, 'JXMLElement');
-		} else {
+		}
+		else {
 			// Try to load the xml string
 			$xml = simplexml_load_string($data, 'JXMLElement');
 		}
@@ -358,7 +362,8 @@ abstract class JFactory
 				JError::raiseWarning(100, $data);
 			}
 
-			foreach (libxml_get_errors() as $error) {
+			foreach (libxml_get_errors() as $error)
+			{
 				JError::raiseWarning(100, 'XML: '.$error->message);
 			}
 		}
@@ -427,13 +432,16 @@ abstract class JFactory
 		if (!isset($classname) || $locale != $mainLocale) {
 			//Store the locale for future reference
 			$mainLocale = $locale;
+
 			if ($mainLocale !== false) {
 				$classname = str_replace('-', '_', $mainLocale).'Date';
+
 				if (!class_exists($classname)) {
 					//The class does not exist, default to JDate
 					$classname = 'JDate';
 				}
-			} else {
+			}
+			else {
 				//No tag, so default to JDate
 				$classname = 'JDate';
 			}
@@ -578,13 +586,16 @@ abstract class JFactory
 		$mail->setSender(array ($mailfrom, $fromname));
 
 		// Default mailer is to use PHP's mail function
-		switch ($mailer) {
+		switch ($mailer)
+		{
 			case 'smtp' :
 				$mail->useSMTP($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 				break;
+
 			case 'sendmail' :
 				$mail->IsSendmail();
 				break;
+
 			default :
 				$mail->IsMail();
 				break;
@@ -669,16 +680,19 @@ abstract class JFactory
 				$prefix = 'ftp://'. $FTPOptions['user'] .':'. $FTPOptions['pass'] .'@'. $FTPOptions['host'];
 				$prefix .= $FTPOptions['port'] ? ':'. $FTPOptions['port'] : '';
 				$prefix .= $FTPOptions['root'];
-			} else if ($SCPOptions['enabled'] == 1 && $use_network) {
+			}
+			else if ($SCPOptions['enabled'] == 1 && $use_network) {
 				$prefix = 'ssh2.sftp://'. $SCPOptions['user'] .':'. $SCPOptions['pass'] .'@'. $SCPOptions['host'];
 				$prefix .= $SCPOptions['port'] ? ':'. $SCPOptions['port'] : '';
 				$prefix .= $SCPOptions['root'];
-			} else {
+			}
+			else {
 				$prefix = JPATH_ROOT.DS;
 			}
 
 			$retval = new JStream($prefix, JPATH_ROOT, $context);
-		} else {
+		}
+		else {
 			$retval = new JStream('', '', $context);
 		}
 
