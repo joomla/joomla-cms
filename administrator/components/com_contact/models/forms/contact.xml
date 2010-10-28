@@ -296,16 +296,6 @@
 			hide_none="1" label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 		/>
-
-		<field id="metadata"
-			name="metadata"
-			type="textarea"
-			label="Contact_Metadata_Label"
-			description="Contact_Metadata_Desc"
-			class="inputbox"
-			rows="3"
-			cols="30"
-		 />
 	</fieldset>
 
 	<fields name="params">

@@ -95,10 +95,6 @@
 			description="COM_CONTENT_FIELD_HITS_DESC" class="readonly" size="6"
 			readonly="true" filter="unset" />
 
-		<field name="metadata" type="textarea" label="Content_Metadata_Label"
-			description="Content_Metadata_Desc" class="inputbox"
-			rows="3" cols="30" />
-
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="inputbox"
 		>
