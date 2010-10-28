@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Oct-2010 Jean-Marie Simonet
+ [#21910] installation of module does not create module listing. Thanks Dennis and Troy.
+ 
 28-Oct-2010 Andrew Eddie
  # Fixed issue [#23041] Incorrect testing for variable is an instance of a class (marius van rijnsoever).
  # Fixed issue [#23032] Help system is generating incorrect URLs (Chris Davenport, Dennis Hermacki).

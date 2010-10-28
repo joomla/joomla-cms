@@ -349,6 +349,17 @@ class JInstallerModule extends JAdapterInstance
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
+			
+			// Create unpublished module in jos_modules
+			$module = JTable::getInstance('module');
+			$module->set('title', $this->get('name'));
+			$module->set('module', $this->get('element'));
+			$module->set('access', '1');
+			$module->set('showtitle', '1');
+			$module->set('client_id', $clientId);
+			$module->set('language', '*');
+			
+			$module->store();
 		}
 
 		/*
