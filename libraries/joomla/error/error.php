@@ -581,6 +581,9 @@ w
 			'debug' => $config->get('debug')
 		));
 
+		// Do not allow cache
+		JResponse::allowCache(false);
+		
 		JResponse::setBody($data);
 		echo JResponse::toString();
 		$app->close(0);

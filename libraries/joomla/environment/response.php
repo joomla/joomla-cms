@@ -12,20 +12,11 @@
 defined('JPATH_BASE') or die();
 
 /**
- * Create the response global object
- */
-$GLOBALS['_JRESPONSE'] = new stdClass();
-$GLOBALS['_JRESPONSE']->cachable = false;
-$GLOBALS['_JRESPONSE']->headers  = array();
-$GLOBALS['_JRESPONSE']->body	= array();
-
-/**
  * JResponse Class.
  *
  * This class serves to provide the Joomla Framework with a common interface to access
  * response variables.  This includes header and body.
  *
- * @static
  * @package		Joomla.Framework
  * @subpackage	Environment
  * @since		1.5
@@ -33,47 +24,69 @@ $GLOBALS['_JRESPONSE']->body	= array();
 class JResponse
 {
 	/**
+	 * @var		array
+	 * @since	1.6
+	 */
+	protected static $body = array();
+
+	/**
+	 * @var		boolean
+	 * @since	1.6
+	 */
+	protected static $cachable = false;
+
+	/**
+	 * @var		array
+	 * @since	1.6
+	 */
+	protected static $headers = array();
+
+	/**
 	 * Set/get cachable state for the response.
 	 *
 	 * If $allow is set, sets the cachable state of the response.  Always returns current state.
 	 *
 	 * @param	boolean	$allow
+	 *
 	 * @return	boolean	True of browser caching should be allowed
 	 * @since	1.5
 	 */
 	public static function allowCache($allow = null)
 	{
 		if (!is_null($allow)) {
-			$GLOBALS['_JRESPONSE']->cachable = (bool) $allow;
+			self::$cachable = (bool) $allow;
 		}
-		return $GLOBALS['_JRESPONSE']->cachable;
+
+		return self::$cachable;
 	}
 
 	/**
-	 * Set a header
+	 * Set a header.
 	 *
-	 * If $replace is true, replaces any headers already defined with that
-	 * $name.
+	 * If $replace is true, replaces any headers already defined with that $name.
 	 *
-	 * @param string	$name
-	 * @param string	$value
-	 * @param boolean	$replace
+	 * @param	string	$name
+	 * @param	string	$value
+	 * @param	boolean	$replace
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
 	public static function setHeader($name, $value, $replace = false)
 	{
 		$name	= (string) $name;
 		$value	= (string) $value;
 
-		if ($replace)
-		{
-			foreach ($GLOBALS['_JRESPONSE']->headers as $key => $header) {
+		if ($replace) {
+			foreach (self::$headers as $key => $header)
+			{
 				if ($name == $header['name']) {
-					unset($GLOBALS['_JRESPONSE']->headers[$key]);
+					unset(self::$headers[$key]);
 				}
 			}
 		}
 
-		$GLOBALS['_JRESPONSE']->headers[] = array(
+		self::$headers[] = array(
 			'name'	=> $name,
 			'value'	=> $value
 		);
@@ -82,35 +95,41 @@ class JResponse
 	/**
 	 * Return array of headers.
 	 *
-	 * @return array
+	 * @return	array
+	 * @since	1.5
 	 */
-	public function getHeaders() {
-		return  $GLOBALS['_JRESPONSE']->headers;
+	public static function getHeaders()
+	{
+		return  self::$headers;
 	}
 
 	/**
 	 * Clear headers.
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
-	public static function clearHeaders() {
-		$GLOBALS['_JRESPONSE']->headers = array();
+	public static function clearHeaders()
+	{
+		self::$headers = array();
 	}
 
 	/**
 	 * Send all headers.
 	 *
-	 * @return void
+	 * @return	void
+	 * @since	1.5
 	 */
 	public static function sendHeaders()
 	{
-		if (!headers_sent())
-		{
-			foreach ($GLOBALS['_JRESPONSE']->headers as $header)
+		if (!headers_sent()) {
+			foreach (self::$headers as $header)
 			{
-				if ('status' == strtolower($header['name']))
-				{
+				if ('status' == strtolower($header['name'])) {
 					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
 					header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
-				} else {
+				}
+				else {
 					header($header['name'] . ': ' . $header['value']);
 				}
 			}
@@ -122,56 +141,72 @@ class JResponse
 	 *
 	 * If body content already defined, this will replace it.
 	 *
-	 * @param string $content
+	 * @param	string	$content
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
-	public static function setBody($content) {
-		$GLOBALS['_JRESPONSE']->body = array((string) $content);
+	public static function setBody($content)
+	{
+		self::$body = array((string) $content);
 	}
 
 	/**
 	 * Prepend content to the body content
 	 *
-	 * @param string $content
+	 * @param	string	$content
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
-	public function prependBody($content) {
-		array_unshift($GLOBALS['_JRESPONSE']->body, (string) $content);
+	public static function prependBody($content)
+	{
+		array_unshift(self::$body, (string) $content);
 	}
 
 	/**
 	 * Append content to the body content
 	 *
-	 * @param string $content
+	 * @param	string	$content
+	 *
+	 * @return	void
+	 * @since	1.5
 	 */
-	public function appendBody($content) {
-		array_push($GLOBALS['_JRESPONSE']->body, (string) $content);
+	public static function appendBody($content)
+	{
+		array_push(self::$body, (string) $content);
 	}
 
 	/**
 	 * Return the body content
 	 *
-	 * @param boolean $toArray Whether or not to return the body content as an
-	 * array of strings or as a single string; defaults to false
-	 * @return string|array
+	 * @param	boolean	$toArray	Whether or not to return the body content as an array of strings or as a single string; defaults to false.
+	 *
+	 * @return	string|array
+	 * @since	1.5
 	 */
 	public static function getBody($toArray = false)
 	{
 		if ($toArray) {
-			return $GLOBALS['_JRESPONSE']->body;
+			return self::$body;
 		}
 
 		ob_start();
-		foreach ($GLOBALS['_JRESPONSE']->body as $content) {
+		foreach (self::$body as $content)
+		{
 			echo $content;
 		}
+
 		return ob_get_clean();
 	}
 
 	/**
 	 * Sends all headers prior to returning the string
 	 *
-	 * @access public
-	 * @param boolean	$compress	If true, compress the data
-	 * @return string
+	 * @param	boolean	$compress	If true, compress the data
+	 *
+	 * @return	string
+	 * @since	1.5
 	 */
 	public static function toString($compress = false)
 	{
@@ -179,16 +214,17 @@ class JResponse
 
 		// Don't compress something if the server is going todo it anyway. Waste of time.
 		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler')!='ob_gzhandler') {
-			$data = self::_compress($data);
+			$data = self::compress($data);
 		}
 
-		if (self::allowCache() === false)
-		{
+		if (self::allowCache() === false) {
 			self::setHeader('Cache-Control', 'no-cache', false);
-			self::setHeader('Pragma', 'no-cache');											// HTTP 1.0
+			// HTTP 1.0
+			self::setHeader('Pragma', 'no-cache');
 		}
 
 		self::sendHeaders();
+
 		return $data;
 	}
 
@@ -198,28 +234,33 @@ class JResponse
 	 * Checks the accept encoding of the browser and compresses the data before
 	 * sending it to the client.
 	 *
-	 * @param	string		data
-	 * @return	string		compressed data
+	 * @param	string	$data	data
+	 *
+	 * @return	string	compressed data
+	 * @since	1.6		Replaces _compress method in 1.5
 	 */
-	private function _compress($data)
+	protected static function compress($data)
 	{
-		$encoding = self::_clientEncoding();
+		$encoding = self::clientEncoding();
 
-		if (!$encoding)
+		if (!$encoding) {
 			return $data;
+		}
 
 		if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
 			return $data;
 		}
 
-		if (headers_sent())
+		if (headers_sent()) {
 			return $data;
+		}
 
-		if (connection_status() !== 0)
+		if (connection_status() !== 0) {
 			return $data;
+		}
 
 
-		$level = 4; //ideal level
+		$level = 4; // ideal level
 
 		/*
 		$size		= strlen($data);
@@ -241,11 +282,12 @@ class JResponse
 	}
 
 	/**
-	 * check, whether client supports compressed data
+	 * Check, whether client supports compressed data
 	 *
 	 * @return	boolean
+	 * @since	1.6		Replaces _clientEncoding method from 1.5.
 	 */
-	private function _clientEncoding()
+	protected static function clientEncoding()
 	{
 		if (!isset($_SERVER['HTTP_ACCEPT_ENCODING'])) {
 			return false;
