@@ -37,9 +37,6 @@ class BannersModelClients extends JModelList
 		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
-		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
-		$this->setState('filter.category_id', $categoryId);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');
 		$this->setState('params', $params);
@@ -65,7 +62,6 @@ class BannersModelClients extends JModelList
 		$id	.= ':'.$this->getState('filter.search');
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.category_id');
 
 		return parent::getStoreId($id);
 	}

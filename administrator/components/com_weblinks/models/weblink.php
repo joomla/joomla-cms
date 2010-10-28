@@ -136,6 +136,12 @@ class WeblinksModelWeblink extends JModelAdmin
 
 		if (empty($data)) {
 			$data = $this->getItem();
+
+			// Prime some default values.
+			if ($this->getState('weblink.id') == 0) {
+				$app = JFactory::getApplication();
+				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_weblinks.weblinks.filter.category_id')));
+			}
 		}
 
 		return $data;

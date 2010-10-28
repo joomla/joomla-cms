@@ -148,6 +148,12 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($data)) {
 			$data = $this->getItem();
+
+			// Prime some default values.
+			if ($this->getState('contact.id') == 0) {
+				$app = JFactory::getApplication();
+				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_contact.contacts.filter.category_id')));
+			}
 		}
 
 		return $data;

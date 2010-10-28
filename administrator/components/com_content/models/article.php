@@ -85,7 +85,7 @@ class ContentModelArticle extends JModelAdmin
 
 		// Increment the content version number.
 		$table->version++;
-		
+
 		// Reorder the articles within the category so the new article is first
 		if (empty($table->id)) {
 			$table->reorder('catid = '.(int) $table->catid.' AND state >= 0');
@@ -195,6 +195,12 @@ class ContentModelArticle extends JModelAdmin
 
 		if (empty($data)) {
 			$data = $this->getItem();
+
+			// Prime some default values.
+			if ($this->getState('article.id') == 0) {
+				$app = JFactory::getApplication();
+				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
+			}
 		}
 
 		return $data;
