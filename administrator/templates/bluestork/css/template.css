@@ -2748,13 +2748,6 @@ label#jform_rules-lbl {
 	white-space: nowrap;
 	display: none;
 }
-
-label#jform_filters-lbl {
-	float: none;
-	white-space: nowrap;
-	display: none;
-}
-
 /**
 * Mod_rewrite Warning
 */

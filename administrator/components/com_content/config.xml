@@ -640,17 +640,44 @@
 
 	<fieldset
 		name="filters"
-		addfieldpath="/administrator/components/com_content/models/fields"
 		label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
 		description="COM_CONTENT_CONFIG_TEXT_FILTERS_DESC"
 		>
 
 		<field
-			name="filters"
-			type="filters"
-			label="COM_CONTENT_CONFIG_TEXT_FILTERS_LABEL"
+			name="filter_groups"
+			type="usergroup"
+			label="JGLOBAL_FILTER_GROUPS_LABEL"
+			description="JGLOBAL_FILTER_GROUPS_DESC"
+			multiple="true"
+			size="10" />
+
+		<field
+			name="filter_type"
+			type="list"
+			label="JGLOBAL_FILTER_TYPE_LABEL"
+			description="JGLOBAL_FILTER_TYPE_DESC"
 			class="inputbox"
-			filter="" />
+			size="1">
+			<option
+				value="BL">COM_CONTENT_OPTION_BLACK_LIST</option>
+			<option
+				value="WL">COM_CONTENT_OPTION_WHITE_LIST</option>
+			<option
+				value="NH">COM_CONTENT_OPTION_NO_HTML</option>
+		</field>
+
+		<field
+			name="filter_tags"
+			type="text"
+			label="JGLOBAL_FILTER_TAGS_LABEL"
+			description="JGLOBAL_FILTER_TAGS_DESC" />
+
+		<field
+			name="filter_attritbutes"
+			type="text"
+			label="JGLOBAL_FILTER_ATTRIBUTES_LABEL"
+			description="JGLOBAL_FILTER_ATTRIBUTES_DESC" />
 	</fieldset>
 
 	<fieldset

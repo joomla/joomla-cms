@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2010 Mark Dexter
+# Reverting issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring). 
+
 29-Oct-2010 Jean-Marie Simonet
  $ Updatings templates language folder sys.ini files for modules positions.
  
