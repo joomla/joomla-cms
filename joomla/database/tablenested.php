@@ -916,7 +916,7 @@ class JTableNested extends JTable
 				->update($this->_db->nameQuote($this->_tbl).' AS n')
 				->set('n.published = '.(int) $state)
 				->where(
-					'(n.lft > '.(int) $this->lft.' AND n.rgt < '.$this->rgt.')' .
+					'(n.lft > '.(int) $this->lft.' AND n.rgt < '.(int) $this->rgt.')' .
 					' OR n.'.$k.' = '.(int) $pk
 				);
 			$this->_db->setQuery($query);
