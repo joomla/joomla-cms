@@ -19,7 +19,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<form id="adminForm" action="<?php JRoute::_('index.php')?>" method="post">
+<form id="adminForm" action="<?php echo JRoute::_('index.php')?>" method="post">
 	<fieldset class="filters">
 	<legend class="hidelabeltxt"><?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?></legend>
 	<div class="filter-search">

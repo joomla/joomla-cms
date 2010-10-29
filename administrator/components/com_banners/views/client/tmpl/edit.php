@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 $canDo	= BannersHelper::getActions();
@@ -24,7 +24,7 @@ $canDo	= BannersHelper::getActions();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners'); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
 
 <div class="width-60 fltlft">
 	<fieldset class="adminform">
@@ -42,7 +42,7 @@ $canDo	= BannersHelper::getActions();
 				<?php if ($canDo->get('core.edit.state')) { ?>
 						<li><?php echo $this->form->getLabel('state'); ?>
 						<?php echo $this->form->getInput('state'); ?></li>
-				<?php }?>		
+				<?php }?>
 
 				<li><?php echo $this->form->getLabel('purchase_type'); ?>
 				<?php echo $this->form->getInput('purchase_type'); ?></li>

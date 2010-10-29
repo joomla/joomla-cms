@@ -20,6 +20,29 @@ jimport('joomla.application.component.controller');
 class CategoriesController extends JController
 {
 	/**
+	 * @var		string	The extension for which the categories apply.
+	 * @since	1.6
+	 */
+	protected $extension;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		// Guess the JText message prefix. Defaults to the option.
+		if (empty($this->extension)) {
+			$this->extension = JRequest::getCmd('extension', 'com_content');
+		}
+	}
+
+	/**
 	 * Method to display a view.
 	 *
 	 * @param	boolean			If true, the view output will be cached
@@ -37,12 +60,22 @@ class CategoriesController extends JController
 		$vName		= JRequest::getWord('view', 'categories');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
-		$extension	= JRequest::getCmd('extension', 'com_content');
+		$id			= JRequest::getInt('id');
+
+		// Check for edit form.
+		if ($vName == 'category' && $lName == 'edit' && !$this->checkEditId('com_categories.edit.category', $id)) {
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$this->extension, false));
+
+			return false;
+		}
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {
 			// Get the model for the view.
-			$model = $this->getModel($vName, 'CategoriesModel', array('name' => $vName . '.' . substr($extension, 4)));
+			$model = $this->getModel($vName, 'CategoriesModel', array('name' => $vName . '.' . substr($this->extension, 4)));
 
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
@@ -52,6 +85,7 @@ class CategoriesController extends JController
 			$view->assignRef('document', $document);
 			// Load the submenu.
 			require_once JPATH_COMPONENT.'/helpers/categories.php';
+
 			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();
 		}

@@ -33,7 +33,7 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS'); ?></legend>
@@ -47,7 +47,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			<li><?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('position'); ?></li>
-			
+
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<li><?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?></li>
@@ -57,7 +57,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php echo $this->form->getInput('access'); ?></li>
 
 			<li><?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?></li>			
+			<?php echo $this->form->getInput('ordering'); ?></li>
 
 			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
 			<li><?php echo $this->form->getLabel('publish_up'); ?>

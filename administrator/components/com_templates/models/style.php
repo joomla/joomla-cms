@@ -50,9 +50,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_templates.edit.style.id'))) {
-			$pk = (int) JRequest::getInt('id');
-		}
+		$pk = (int) JRequest::getInt('id');
 		$this->setState('style.id', $pk);
 
 		// Load the parameters.

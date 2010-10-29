@@ -24,7 +24,7 @@ $canDo		= PluginsHelper::getActions();
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_plugins'); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS') ?></legend>

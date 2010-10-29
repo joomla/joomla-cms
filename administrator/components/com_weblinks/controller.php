@@ -34,7 +34,21 @@ class WeblinksController extends JController
 
 		// Load the submenu.
 		WeblinksHelper::addSubmenu(JRequest::getWord('view', 'weblinks'));
-		
+
+		$view		= JRequest::getWord('view', 'weblinks');
+		$layout 	= JRequest::getWord('layout', 'default');
+		$id			= JRequest::getInt('id');
+
+		// Check for edit form.
+		if ($view == 'weblink' && $layout == 'edit' && !$this->checkEditId('com_weblinks.edit.weblink', $id)) {
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));
+
+			return false;
+		}
+
 		parent::display();
 
 		return $this;

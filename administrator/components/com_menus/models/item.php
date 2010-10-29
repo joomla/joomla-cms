@@ -276,7 +276,7 @@ class MenusModelItem extends JModelAdmin
 			// otherwise it's a new top level item
 			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
 			$table->menutype	= $menuType;
-			
+
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
 
@@ -290,7 +290,7 @@ class MenusModelItem extends JModelAdmin
 			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
 			$table->title   = $title;
 			$table->alias   = $alias;
-			
+
 			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());
@@ -383,7 +383,7 @@ class MenusModelItem extends JModelAdmin
 
 			// Set the new Parent Id
 			$table->parent_id = $parentId;
-			
+
 			// Check if we are moving to a different menu
 			if ($menuType != $table->menutype) {
 				// Add the child node ids to the children array.
@@ -728,9 +728,7 @@ class MenusModelItem extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_menus.edit.item.id'))) {
-			$pk = (int) JRequest::getInt('item_id');
-		}
+		$pk = (int) JRequest::getInt('id');
 		$this->setState('item.id', $pk);
 
 		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id'))) {
@@ -1178,7 +1176,7 @@ class MenusModelItem extends JModelAdmin
 
 		return parent::reorder($pks, $delta);
 	}
-	
+
 	/**
 	* Method to change the title & alias.
 	*

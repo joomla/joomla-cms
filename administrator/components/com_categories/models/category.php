@@ -89,26 +89,21 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		$app = JFactory::getApplication('administrator');
 
-		if (!($parentId = $app->getUserState('com_categories.edit.'.$this->getName().'.parent_id'))) {
-			$parentId = JRequest::getInt('parent_id');
-		}
+		$parentId = JRequest::getInt('parent_id');
 		$this->setState('category.parent_id', $parentId);
 
-		if (!($extension = $app->getUserState('com_categories.edit.'.$this->getName().'.extension'))) {
-			$extension = JRequest::getCmd('extension', 'com_content');
-		}
 		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_categories.edit.'.$this->getName().'.id'))) {
-			$pk = (int) JRequest::getInt('item_id');
-		}
-		$this->setState($this->getName().'.id', $pk);
+		$pk = (int) JRequest::getInt('id');
+ 		$this->setState($this->getName().'.id', $pk);
 
-
+		$extension = JRequest::getCmd('extension', 'com_content');
 		$this->setState('category.extension', $extension);
 		$parts = explode('.',$extension);
-		// extract the component name
+
+		// Extract the component name
 		$this->setState('category.component', $parts[0]);
-		// extract the optional section name
+
+		// Extract the optional section name
 		$this->setState('category.section', (count($parts)>1)?$parts[1]:null);
 
 		// Load the parameters.
@@ -587,17 +582,17 @@ class CategoriesModelCategory extends JModelAdmin
 			// If we a copying children, the Old ID will turn up in the parents list
 			// otherwise it's a new top level item
 			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-			
+
 			// Set the new location in the tree for the node.
 			$table->setLocation($table->parent_id, 'last-child');
-			
+
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
 			$table->level		= null;
 			$table->asset_id	= null;
 			$table->lft			= null;
 			$table->rgt			= null;
-			
+
 			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());

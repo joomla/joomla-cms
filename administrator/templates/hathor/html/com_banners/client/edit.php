@@ -23,7 +23,7 @@ JHtml::_('behavior.formvalidation');
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_banners'); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
 
 <div class="col main-section">
 	<fieldset class="adminform">

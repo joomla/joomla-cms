@@ -414,6 +414,38 @@ class JController extends JObject
 	}
 
 	/**
+	 * Method to check whether an ID is in the edit list.
+	 *
+	 * @param	string	$context	The context for the session storage.
+	 * @param	int		$id			The ID of the record to add to the edit list.
+	 *
+	 * @return	boolean	True if the ID is in the edit list.
+	 * @since	1.6
+	 */
+	protected function checkEditId($context, $id)
+	{
+		if ($id) {
+			$app	= JFactory::getApplication();
+			$values = (array) $app->getUserState($context.'.id');
+
+			$result	= in_array((int) $id, $values);
+
+			if (JDEBUG) {
+				jimport('joomla.error.log');
+				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
+					array('comment' => sprintf('Checking edit ID %s.%s: %d %s', $context, $id, (int) $result, str_replace("\n", ' ', print_r($values, 1))))
+				);
+			}
+
+			return $result;
+		}
+		else {
+			// No id for a new item.
+			return true;
+		}
+	}
+
+	/**
 	 * Method to load and return a model object.
 	 *
 	 * @param	string  The name of the model.
@@ -700,6 +732,36 @@ class JController extends JObject
 	}
 
 	/**
+	 * Method to add a record ID to the edit list.
+	 *
+	 * @param	string	$context	The context for the session storage.
+	 * @param	int		$id			The ID of the record to add to the edit list.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function holdEditId($context, $id)
+	{
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+		$values	= (array) $app->getUserState($context.'.id');
+
+		// Add the id to the list if non-zero.
+		if (!empty($id)) {
+			array_push($values, (int) $id);
+			$values = array_unique($values);
+			$app->setUserState($context.'.id', $values);
+
+			if (JDEBUG) {
+				jimport('joomla.error.log');
+				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
+					array('comment' => sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1))))
+				);
+			}
+		}
+	}
+
+	/**
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
 	 * @return	boolean	False if no redirect exists.
@@ -741,6 +803,36 @@ class JController extends JObject
 			$this->taskMap[strtolower($task)] = $method;
 		}
 		return $this;
+	}
+
+	/**
+	 * Method to check whether an ID is in the edit list.
+	 *
+	 * @param	string	$context	The context for the session storage.
+	 * @param	int		$id			The ID of the record to add to the edit list.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function releaseEditId($context, $id)
+	{
+		$app	= JFactory::getApplication();
+		$values = (array) $app->getUserState($context.'.id');
+
+		// Do a strict search of the edit list values.
+		$index = array_search((int) $id, $values, true);
+
+		if (is_int($index)) {
+			unset($values[$index]);
+			$app->setUserState($context.'.id', $values);
+
+			if (JDEBUG) {
+				jimport('joomla.error.log');
+				$log = JLog::getInstance('jcontroller.log.php')->addEntry(
+					array('comment' => sprintf('Releasing edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1))))
+				);
+			}
+		}
 	}
 
 	/**
@@ -794,11 +886,13 @@ class JController extends JObject
 	/**
 	 * Set a URL for browser redirection.
 	 *
-	 * @param	string 		URL to redirect to.
-	 * @param	string		Message to display on redirect. Optional, defaults to value set internally by controller, if any.
-	 * @param	string		Message type. Optional, defaults to 'message'.
-	 * @return	JController	This object to support chaining.
-	 * @since	1.5
+	 * @param   string  $url   URL to redirect to.
+	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
+	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
+	 *
+	 * @return  JController  This object to support chaining.
+	 *
+	 * @since   1.5
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
 	{

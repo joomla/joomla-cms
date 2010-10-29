@@ -27,19 +27,20 @@ class MenusControllerItem extends JControllerForm
 	public function add()
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app		= JFactory::getApplication();
+		$context	= 'com_menus.edit.item';
 
-		// Clear the row edit information from the session.
-		$app->setUserState('com_menus.edit.item.id',	null);
-		$app->setUserState('com_menus.edit.item.data',	null);
-		$app->setUserState('com_menus.edit.item.type',	null);
-		$app->setUserState('com_menus.edit.item.link',	null);
+		$result = parent::add();
+		if ($result) {
+			$app->setUserState($context.'.type',	null);
+			$app->setUserState($context.'.link',	null);
 
-		// Check if we are adding for a particular menutype
-		$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
+			$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
 
-		// Redirect to the edit screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&menutype='.$menuType.$this->getRedirectToItemAppend(), false));
+		}
+
+		return $result;
 	}
 
 	/**
@@ -64,8 +65,10 @@ class MenusControllerItem extends JControllerForm
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
 			$this->setMessage(JText::_('JGLOBAL_BATCH_SUCCESS'));
+
 			return true;
-		} else {
+		}
+		else {
 			$this->setMessage(JText::_(JText::sprintf('JGLOBAL_ERROR_BATCH_FAILED', $model->getError())));
 			return false;
 		}
@@ -84,30 +87,15 @@ class MenusControllerItem extends JControllerForm
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
+		$app		= JFactory::getApplication();
+		$context	= 'com_menus.edit.item';
+		$result		= parent::cancel();
 
-		$app	= JFactory::getApplication();
-		// Get the previous menu item id (if any) and the current menu item id.
-		$previousId	= (int) $app->getUserState('com_menus.edit.item.id');
-
-		$model	= $this->getModel('Item');
-
-		// If rows ids do not match, checkin previous row.
-		if (!$model->checkin($previousId)) {
-		// Check-in failed, go back to the menu item and display a notice.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_content&view=item&layout=edit', $message, 'error');
-			return false;
-
+		if ($result) {
+			// Clear the ancillary data from the session.
+			$app->setUserState($context.'.type',	null);
+			$app->setUserState($context.'.link',	null);
 		}
-
-		// Clear the row edit information from the session.
-		$app->setUserState('com_menus.edit.item.id',	null);
-		$app->setUserState('com_menus.edit.item.data',	null);
-		$app->setUserState('com_menus.edit.item.type',	null);
-		$app->setUserState('com_menus.edit.item.link',	null);
-
-	// Redirect to the list screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
 	}
 
 	/**
@@ -120,35 +108,13 @@ class MenusControllerItem extends JControllerForm
 	{
 		// Initialise variables.
 		$app	= JFactory::getApplication();
-		$pks	= JRequest::getVar('cid', array(), '', 'array');
+		$result	= parent::edit();
 
-		// Get the id of the group to edit.
-		$id		=  (empty($pks) ? JRequest::getInt('item_id') : (int) array_pop($pks));
-
-		// Get the menu item model.
-		$model	= $this->getModel('Item');
-
-		// Check that this is not a new item.
-		if ($id > 0) {
-			$item = $model->getItem($id);
-
-			// If not already checked out, do so.
-			if ($item->checked_out == 0) {
-				if (!$model->checkout($id)) {
-					// Check-out failed, go back to the list and display a notice.
-					$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()), 'warning');
-					return false;
-				}
-			}
+		if ($result) {
+			// Push the new ancillary data into the session.
+			$app->setUserState('com_menus.edit.item.type',	null);
+			$app->setUserState('com_menus.edit.item.link',	null);
 		}
-
-		// Push the new row id into the session.
-		$app->setUserState('com_menus.edit.item.id',	$id);
-		$app->setUserState('com_menus.edit.item.data',	null);
-		$app->setUserState('com_menus.edit.item.type',	null);
-		$app->setUserState('com_menus.edit.item.link',	null);
-
-		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
 
 		return true;
 	}
@@ -165,20 +131,29 @@ class MenusControllerItem extends JControllerForm
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Item', '', array());
-		$task	= $this->getTask();
+		$app		= JFactory::getApplication();
+		$model		= $this->getModel('Item', '', array());
+		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		$task		= $this->getTask();
+		$context	= 'com_menus.edit.item';
+		$recordId	= JRequest::getInt('id');
 
-		// Get the posted values from the request.
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		if (!$this->checkEditId($context, $recordId)) {
+			// Somehow the person just went to the form and saved it - we don't allow that.
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items'.$this->getRedirectToListAppend(), false));
+
+			return false;
+		}
 
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState('com_menus.edit.item.id');
+		$data['id'] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
 		if ($task == 'save2copy') {
 			// Check-in the original row.
-			if (!$model->checkin()) {
+			if ($model->checkin($data['id']) === false) {
 				// Check-in failed, go back to the item and display a notice.
 				$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 				return false;
@@ -194,6 +169,7 @@ class MenusControllerItem extends JControllerForm
 		$form = $model->getForm($data);
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
+
 			return false;
 		}
 		$data = $model->validate($form, $data);
@@ -216,10 +192,12 @@ class MenusControllerItem extends JControllerForm
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
 				if (JError::isError($errors[$i])) {
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -229,6 +207,7 @@ class MenusControllerItem extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+
 			return false;
 		}
 
@@ -240,14 +219,16 @@ class MenusControllerItem extends JControllerForm
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+
 			return false;
 		}
 
 		// Save succeeded, check-in the row.
-		if (!$model->checkin()) {
+		if ($model->checkin($data['id']) === false) {
 			// Check-in failed, go back to the row and display a notice.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+
 			return false;
 		}
 
@@ -257,7 +238,8 @@ class MenusControllerItem extends JControllerForm
 		switch ($task) {
 			case 'apply':
 				// Set the row data in the session.
-				$app->setUserState('com_menus.edit.item.id',	$model->getState('item.id'));
+				$recordId = $model->getState($this->context.'.id');
+				$this->holdEditId($context, $recordId);
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
 				$app->setUserState('com_menus.edit.item.link',	null);
@@ -268,7 +250,7 @@ class MenusControllerItem extends JControllerForm
 
 			case 'save2new':
 				// Clear the row id and data in the session.
-				$app->setUserState('com_menus.edit.item.id',	null);
+				$this->releaseEditId($context, $recordId);
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
 				$app->setUserState('com_menus.edit.item.link',	null);
@@ -280,7 +262,7 @@ class MenusControllerItem extends JControllerForm
 
 			default:
 				// Clear the row id and data in the session.
-				$app->setUserState('com_menus.edit.item.id',	null);
+				$this->releaseEditId($context, $recordId);
 				$app->setUserState('com_menus.edit.item.data',	null);
 				$app->setUserState('com_menus.edit.item.type',	null);
 				$app->setUserState('com_menus.edit.item.link',	null);
@@ -306,10 +288,11 @@ class MenusControllerItem extends JControllerForm
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Get the type.
-		$type = $data['type'];
+		$type	= $data['type'];
 
-		$type = json_decode(base64_decode($type));
-		$title = isset($type->title) ? $type->title : null;
+		$type	= json_decode(base64_decode($type));
+		$title	= isset($type->title) ? $type->title : null;
+
 		if ($title != 'alias' && $title != 'separator' && $title != 'url') {
 			$title = 'component';
 		}
@@ -319,12 +302,14 @@ class MenusControllerItem extends JControllerForm
 			if (isset($type->request)) {
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
+
 				if (isset($type->request->layout)) {
 					$app->setUserState(
 						'com_menus.edit.item.link',
 						'index.php?option='.$type->request->option.'&view='.$type->request->view.'&layout='.$type->request->layout
 					);
-				} else {
+				}
+				else {
 					$app->setUserState(
 						'com_menus.edit.item.link',
 						'index.php?option='.$type->request->option.'&view='.$type->request->view);
@@ -338,8 +323,9 @@ class MenusControllerItem extends JControllerForm
 
 		unset($data['request']);
 		$data['type'] = $title;
-		if(JRequest::getCmd('fieldtype') == 'type')
+		if (JRequest::getCmd('fieldtype') == 'type') {
 			$data['link'] = $app->getUserState('com_menus.edit.item.link');
+		}
 
 		//Save the data in the session.
 		$app->setUserState('com_menus.edit.item.data', $data);

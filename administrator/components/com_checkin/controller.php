@@ -22,7 +22,7 @@ jimport('joomla.application.component.controller');
 class CheckinController extends JController
 {
 	public function display($cachable = false, $urlparams = false)
-	{	
+	{
 		// Load the submenu.
 		$this->addSubmenu(JRequest::getWord('option', 'com_checkin'));
 
@@ -41,7 +41,8 @@ class CheckinController extends JController
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
-		} else {
+		}
+		else {
 			// Get the model.
 			$model = $this->getModel();
 
@@ -51,7 +52,7 @@ class CheckinController extends JController
 
 		$this->setRedirect('index.php?option=com_checkin');
 	}
-	
+
 	/**
 	 * Configure the Linkbar.
 	 *
@@ -67,7 +68,7 @@ class CheckinController extends JController
 			'index.php?option=com_checkin',
 			$vName == 'com_checkin'
 		);
-			
+
 		JSubMenuHelper::addEntry(
 			JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
 			'index.php?option=com_cache',

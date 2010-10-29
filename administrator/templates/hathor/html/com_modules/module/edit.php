@@ -39,7 +39,7 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 	}
 </script>
 
-<form action="<?php JRoute::_('index.php?option=com_modules'); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS');?>	</legend>

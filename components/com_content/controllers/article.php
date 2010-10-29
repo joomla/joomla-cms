@@ -182,7 +182,6 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		// Clear the record edit information from the session.
-		$app->setUserState($context.'.id',		null);
 		$app->setUserState($context.'.data',	null);
 
 		// Clear the return page.
@@ -244,14 +243,14 @@ class ContentControllerArticle extends JControllerForm
 			}
 		}
 
-		// Check-out succeeded, push the new row id into the session.
-		$app->setUserState($context.'.id',		$id);
+		// Check-out succeeded, register the ID for editing.
+		$this->holdEditId($context, $id);
 		$app->setUserState($context.'.data',	null);
 
 		$this->setReturnPage();
 
 		// ItemID required on redirect for correct Template Style
-		$redirect = 'index.php?option=com_content&view=form&layout=edit';
+		$redirect = 'index.php?option=com_content&view=form&layout=edit&id='.$id;
 
 		if (JRequest::getInt('Itemid') != 0) {
 			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
@@ -276,25 +275,32 @@ class ContentControllerArticle extends JControllerForm
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
+		$model		= $this->getModel();
 		$context	= "$this->option.edit.$this->context";
+		$recordId	= JRequest::getInt('id');
 
-		// Get the previous menu item id (if any) and the current menu item id.
-		$previousId	= (int) $app->getUserState($context.'id');
+		if ($recordId) {
+			// Check we are holding the id in the edit list.
+			if (!$this->checkEditId($context, $recordId)) {
+				// Somehow the person just went to the form - we don't allow that.
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+				$this->setMessage($this->getError(), 'error');
+				$this->setRedirect($this->getReturnPage());
 
-		// Get the menu item model.
-		$model = $this->getModel();
+				return false;
+			}
 
-		// If rows ids do not match, checkin previous row.
-		if (!$model->checkin($previousId) && $previousId)
-		{
-			// Check-in failed, go back to the menu item and display a notice.
-			$message = JText::sprintf('JError_Checkin_failed', $model->getError());
-			$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
-			return false;
+			// If rows ids do not match, checkin previous row.
+			if ($model->checkin($recordId) === false) {
+				// Check-in failed, go back to the menu item and display a notice.
+				$message = JText::sprintf('JERROR_CHECKIN_FAILED', $model->getError());
+				$this->setRedirect('index.php?option=com_content&view=form&layout=edit&id='.$recordId, $message, 'error');
+				return false;
+			}
 		}
 
 		// Clear the menu item edit information from the session.
-		$app->setUserState($context.'.id',		null);
+		$this->releaseEditId($context, $recordId);
 		$app->setUserState($context.'.data',	null);
 
 		// Redirect to the list screen.
@@ -311,15 +317,23 @@ class ContentControllerArticle extends JControllerForm
 
 		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
+		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 		$model		= $this->getModel();
 		$task		= $this->getTask();
+		$context	= "$this->option.edit.$this->context";
+		$recordId	= JRequest::getInt('id');
 
-		// Get posted form variables.
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		if (!$this->checkEditId($context, $recordId)) {
+			// Somehow the person just went to the form and saved it - we don't allow that.
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect($this->getReturnPage());
+
+			return false;
+		}
 
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState($context.'.id');
+		$data['id'] = $recordId;
 
 		// Split introtext and fulltext
 		$pattern    = '#<hr\s+id=(["\'])system-readmore\1\s*/?>#i';
@@ -334,14 +348,13 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy')
-		{
+		if ($task == 'save2copy') {
 			// Check-in the original row.
-			if (!$model->checkin())
-			{
+			if ($model->checkin() === false) {
 				// Check-in failed, go back to the item and display a notice.
 				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 				$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
+
 				return false;
 			}
 
@@ -354,13 +367,13 @@ class ContentControllerArticle extends JControllerForm
 		$form	= $model->getForm();
 		if (!$form) {
 			JError::raiseError(500, $model->getError());
+
 			return false;
 		}
 		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false)
-		{
+		if ($data === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
@@ -380,27 +393,28 @@ class ContentControllerArticle extends JControllerForm
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
+
 			return false;
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($data))
-		{
+		if (!$model->save($data)) {
 			// Save the data in the session.
 			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
 			$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
+
 			return false;
 		}
 
 		// Save succeeded, check-in the row.
-		if (!$model->checkin())
-		{
+		if ($model->checkin() === false) {
 			// Check-in failed, go back to the row and display a notice.
 			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
+
 			return false;
 		}
 
@@ -411,16 +425,17 @@ class ContentControllerArticle extends JControllerForm
 		{
 			case 'apply':
 				// Set the row data in the session.
-				$app->setUserState($context.'.id',		$model->getState('article.id'));
+				$recordId = $model->getState('article.id');
+				$this->holdEditId($context, $recordId);
 				$app->setUserState($context.'.data',	null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit&id='.$recordId, false));
 				break;
 
 			case 'save2new':
 				// Clear the row id and data in the session.
-				$app->setUserState($context.'.id',		null);
+				$this->releaseEditId($context, $recordId);
 				$app->setUserState($context.'.data',	null);
 
 				// Redirect back to the edit screen.
@@ -429,7 +444,7 @@ class ContentControllerArticle extends JControllerForm
 
 			default:
 				// Clear the row id and data in the session.
-				$app->setUserState($context.'.id',		null);
+				$this->releaseEditId($context, $recordId);
 				$app->setUserState($context.'.data',	null);
 
 				// Redirect to the list screen.

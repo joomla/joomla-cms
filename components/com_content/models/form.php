@@ -40,9 +40,7 @@ class ContentModelForm extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Load state from the request.
-		if (!($pk = (int) $app->getUserState($this->_context.'.id'))) {
-			$pk = JRequest::getInt('id');
-		}
+		$pk = JRequest::getInt('id');
 		$this->setState('article.id', $pk);
 
 		$this->setState('article.catid', JRequest::getInt('catid'));

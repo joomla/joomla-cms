@@ -32,9 +32,33 @@ class BannersController extends JController
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 		BannersHelper::updateReset();
-		
+
 		// Load the submenu.
 		BannersHelper::addSubmenu(JRequest::getWord('view', 'banners'));
+
+		$view	= JRequest::getWord('view', 'banners');
+		$layout = JRequest::getWord('layout', 'default');
+		$id		= JRequest::getInt('id');
+
+		// Check for edit form.
+		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id)) {
+
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_banners&view=banners', false));
+
+			return false;
+		}
+		else if ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id)) {
+
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option=com_banners&view=clients', false));
+
+			return false;
+		}
 
 		parent::display();
 

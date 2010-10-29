@@ -52,12 +52,9 @@ class ModulesModelModule extends JModelAdmin
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
-		if (!($pk = (int) $app->getUserState('com_modules.edit.module.id'))) {
+		if (!($pk = (int) JRequest::getInt('id'))) {
 			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id')) {
 				$this->setState('extension.id', $extensionId);
-			}
-			else {
-				$pk = (int) JRequest::getInt('id');
 			}
 		}
 		$this->setState('module.id', $pk);

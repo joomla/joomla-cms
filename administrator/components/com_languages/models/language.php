@@ -44,14 +44,8 @@ class LanguagesModelLanguage extends JModelAdmin
 		$params		= JComponentHelper::getParams('com_languages');
 
 		// Load the User state.
-		if (JRequest::getWord('layout') === 'edit') {
-			$langId = (int) $app->getUserState('com_languages.edit.language.id');
-			$this->setState('language.id', $langId);
-		}
-		else {
-			$langId = (int) JRequest::getInt('id');
-			$this->setState('language.id', $langId);
-		}
+		$langId = (int) JRequest::getInt('id');
+		$this->setState('language.id', $langId);
 
 		// Load the parameters.
 		$this->setState('params', $params);
