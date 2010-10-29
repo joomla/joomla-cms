@@ -864,7 +864,7 @@ class JTableNested extends JTable
 			{
 				// Ensure that children are not checked out.
 				$query = $this->_db->getQuery(true);
-				$query->select('COUNT('.$this->_tbl_key.')');
+				$query->select('COUNT('.$k.')');
 				$query->from($this->_tbl);
 				$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
 				$query->where('(checked_out <> 0 AND checked_out <> '.(int) $userId.')');
@@ -880,60 +880,64 @@ class JTableNested extends JTable
 			}
 
 			// If any parent nodes have lower published state values, we cannot continue.
-			if ($node->parent_id)
-			{
+			if ($node->parent_id) {
 				// Get any ancestor nodes that have a lower publishing state.
-				$query = $this->_db->getQuery(true);
-				$query->select('p.'.$k);
-				$query->from($this->_tbl.' AS n, '.$this->_tbl.' AS p');
-				$query->where('n.lft BETWEEN p.lft AND p.rgt');
-				$query->where('n.'.$k.' = '.(int) $pk);
-				$query->where('p.parent_id > 0');
-				$query->where('p.published < '.(int) $state);
-				$query->order('p.lft DESC');
-				$this->_db->setQuery($query, 1,0);
+				$query = $this->_db->getQuery(true)
+					->select('n.'.$k)
+					->from($this->_db->nameQuote($this->_tbl).' AS n')
+					->where('n.lft < '.(int) $node->lft)
+					->where('n.rgt > '.(int) $node->rgt)
+					->where('n.parent_id > 0')
+					->where('n.published < '.(int) $state);
 
+				// Just fetch one row (one is one too many).
+				$this->_db->setQuery($query, 0, 1);
 
 				$rows = $this->_db->loadResultArray();
 
 				// Check for a database error.
-				if ($this->_db->getErrorNum())
-				{
+				if ($this->_db->getErrorNum()) {
 					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 					$this->setError($e);
 					return false;
 				}
 
-				if (!empty($rows))
-				{
-					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_PUBLISHED_STATE', get_class($this)));
+				if (!empty($rows)) {
+					$e = new JException(
+						JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE')
+					);
 					$this->setError($e);
 					return false;
 				}
 			}
 
-			// Update the publishing state.
-			$query = $this->_db->getQuery(true);
-			$query->update($this->_tbl);
-			$query->set('published = '.(int) $state);
-			$query->where($this->_tbl_key.' = '.(int) $pk);
+			// Update and cascade the publishing state.
+			$query = $this->_db->getQuery(true)
+				->update($this->_db->nameQuote($this->_tbl).' AS n')
+				->set('n.published = '.(int) $state)
+				->where(
+					'(n.lft > '.(int) $this->lft.' AND n.rgt < '.$this->rgt.')' .
+					' OR n.'.$k.' = '.(int) $pk
+				);
 			$this->_db->setQuery($query);
 
 			// Check for a database error.
-			if (!$this->_db->query())
-			{
+			if (!$this->_db->query()) {
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), $this->_db->getErrorMsg()));
 				$this->setError($e);
 				return false;
 			}
 
 			// If checkout support exists for the object, check the row in.
-			if ($checkoutSupport) $this->checkin($pk);
-
+			if ($checkoutSupport) {
+				$this->checkin($pk);
+			}
 		}
 
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks)) $this->published = $state;
+		if (in_array($this->$k, $pks)) {
+			$this->published = $state;
+		}
 
 		$this->setError('');
 		return true;
