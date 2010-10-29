@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2010 Mark Dexter
+# Fix problem in controlpanel004Test for small change in category ui
+
 28-Oct-2010 Mark Dexter
 # Fix bugs in menu0001Test from new template position modal
 

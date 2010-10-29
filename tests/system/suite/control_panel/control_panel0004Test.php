@@ -76,8 +76,13 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Change filter to Select State." . "\n");
 		$this->click("//button[@type='button']");
 		$this->waitForPageToLoad("30000");
+		$this->select("filter_published", "label=- Select State -");
+		$this->waitForPageToLoad("30000");
 		print("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
+		print("Change filter to Select State." . "\n");
+		$this->click("//button[@type='button']");
+		$this->waitForPageToLoad("30000");
 		print("Check that reordering still works." . "\n");
 		print("Move Modules category down one." . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Down']");
