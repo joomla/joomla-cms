@@ -42,7 +42,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 			}
 			sleep(1);
 		}
-		
+
 		echo "Select External URL\n";
 
 		$this->click("Link=External URL");
@@ -76,7 +76,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("60000");
 		echo "Check that new name is still there\n";
 		$this->assertEquals("Test Menu Item - Edit", $this->getValue("jform_title"));
-		
+
 		echo "Change the title again\n";
 		$this->type("jform_title", "Test Menu Item - Edit Again");
 		$this->click("//input[@value='Select']");

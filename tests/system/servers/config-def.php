@@ -32,7 +32,7 @@ class SeleniumConfig
 	var $db_user = 'root';
 	var $db_pass = 'root';
 	var $db_name = 'joomla_unittests';
-	
+
 	// optional setting to turn on Cache: values are off, on-basic, on-full
 	// change this value to set the caching in the doInstall.php test
 	var $cache = 'off';

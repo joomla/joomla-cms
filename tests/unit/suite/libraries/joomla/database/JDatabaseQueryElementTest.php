@@ -36,22 +36,22 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function tearDown() {
 	}
-	
+
 	/**
 	 * Test cases for constructor
 	 *
 	 * Each test case provides
 	 * - array	element	the base element for the test, given as hash
-	 * 				name => element_name, 
+	 * 				name => element_name,
 	 * 				elements => array or string
 	 * 				glue => glue
 	 * - array	expected values in same hash format
-	 * 
+	 *
 	 */
 	function casesConstruct()
 	{
 		return array(
-       		'array-element' => array( 
+       		'array-element' => array(
 					array(
 						'name' => 'FROM',
 						'elements' => array('field1', 'field2'),
@@ -63,7 +63,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 						'glue' => ','
 						)
 			),
-        		'non-array-element' => array( 
+        		'non-array-element' => array(
 					array(
 						'name' => 'TABLE',
 						'elements' => 'my_table_name',
@@ -77,12 +77,12 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 			)
 		);
 	}
-	
+
 	/** test__Construct
-	 * 
+	 *
 	 * @param	array	values for base element
 	 * @param	array	values for expected fields
-	 * 
+	 *
 	 * @return	void
 	 * @dataProvider casesConstruct
 	 */
@@ -98,8 +98,8 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * Each test case provides
 	 * - array	element	the base element for the test, given as hash
-	 * 				name => element_name, 
-	 * 				elements => element array, 
+	 * 				name => element_name,
+	 * 				elements => element array,
 	 * 				glue => glue
 	 * - array	appendElement	the element to be appended (same format as above)
 	 * - array 	expected	array of elements that should be the value of the _elements attribute after the merge
@@ -119,7 +119,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 					'elements' => array('my_table_name'),
 					'glue' => ','
 					),
-				array(				
+				array(
 					'name' => 'FROM',
 					'elements' => array('my_table_name'),
 					'glue' => ','
@@ -137,7 +137,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 					'elements' => array('my_table_name'),
 					'glue' => ','
 					),
-				array(				
+				array(
 					'name' => 'FROM',
 					'elements' => array('my_table_name'),
 					'glue' => ','
@@ -145,8 +145,8 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 				PHP_EOL . 'SELECT ' . PHP_EOL . 'FROM my_table_name',
 				)
 		);
-	}	
-	
+	}
+
 	/**
 	 * TestAppend().
 	 *
@@ -158,7 +158,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 * @dataProvider casesAppend
 	 */
-	
+
 	public function testAppend($element, $append, $expected, $string) {
 		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
 		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
@@ -173,7 +173,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 * @param	array 	base element values
 	 * @param	array 	append element values
 	 * @param	array	expected element values for _elements field after append
-	 * @param	string	expected value of toString 
+	 * @param	string	expected value of toString
 	 *
 	 * @return void
 	 * @dataProvider casesAppend

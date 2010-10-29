@@ -28,7 +28,7 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 		JUserHelperTest::$actualError['info'] = $error->get('info');
 		return false;
 	}
-	
+
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
@@ -37,12 +37,12 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 	{
 		jimport('joomla.user.user');
 		parent::setUp();
-		
+
 		$this->saveFactoryState();
 		$this->saveErrorHandlers();
 		$this->setErrorCallback('JUserHelperTest');
 		JUserHelperTest::$actualError = array();
-		
+
 		$this->object = new JUserHelper;
 	}
 
@@ -100,7 +100,7 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
            ),
        );
    }
-	
+
 	/**
 	 * TestingGetUserGroups().
 	 *
@@ -187,7 +187,7 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
 			),
 		);
 	}
-	
+
 	/**
 	 * TestingGetUserGroups().
 	 *

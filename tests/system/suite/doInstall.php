@@ -83,7 +83,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 		else {
 			echo "Install without sample data\n";
 		}
-		
+
 		echo "Finish installation\n";
 		$this->click("link=Next");
 		$this->waitForPageToLoad("30000");
@@ -113,7 +113,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 			case 'on-full' :
 				$this->select("jform_caching", "label=ON - Progressive caching");
 				break;
-					
+
 			case 'off'	:
 			default:
 				$this->select("jform_caching", "label=OFF - Caching disabled");

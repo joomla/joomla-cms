@@ -15,403 +15,403 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 		$this->setUp();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		
-		//Set random salt 
+
+		//Set random salt
 		$salt = mt_rand();
-		
+
 		//Set message to be checked
-		$message='You cannot access the private section of this site.';		
- 
-	    //Define test user	
+		$message='You cannot access the private section of this site.';
+
+	    //Define test user
 		$username = 'ACL Test User' . $salt;
-		$password = 'password' . $salt; 
+		$password = 'password' . $salt;
 		$login = 'acltestuser' . $salt;
 		$email = $login . '@test.com';
 		$group = 'Public';
 		echo "Create $username and add to $group group.\n";
 	    $this->createUser($username, $login, $password, $email, $group);
 
-	    echo "Removing $username from Registered group.\n";	    
-	    $this->changeAssignedGroup($username,$group="Registered");  
-	      
+	    echo "Removing $username from Registered group.\n";
+	    $this->changeAssignedGroup($username,$group="Registered");
+
 		echo "Setting all roles to inherit for $username.\n";
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
-		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');		
+		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
 		$this->setPermissions('Global Configuration', $group, $actions, $permissions);
 
 		$action="Site Login";
-		$group = 'Public';			    
-		$permission="Allowed";		
-		$this->setPermissions('Global Configuration', $group, $action, $permission);    
+		$group = 'Public';
+		$permission="Allowed";
+		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"), 'Message not displayed or message changed, SeleniumJoomlaTestCase line 31');			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"), 'Message not displayed or message changed, SeleniumJoomlaTestCase line 31');
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
+	    }
     	$this->doFrontEndLogout();
-	    
-    	$this->gotoAdmin();		
+
+    	$this->gotoAdmin();
 		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
 	    $this->doFrontEndLogin($login,$password);
 		$this->checkMessage($message);
-		
-	    $this->gotoAdmin();	  
-		$permission="Inherited";		
+
+	    $this->gotoAdmin();
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 	
-		$this->checkMessage($message);	
-		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
     	$this->gotoAdmin();
         $group='Manager';
 		$this->changeAssignedGroup($username,$group);
-        
-    	$this->gotoAdmin();	    
-		$permission="Allowed";		
-		$this->setPermissions('Global Configuration', $group, $action, $permission);	    
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+    	$this->gotoAdmin();
+		$permission="Allowed";
+		$this->setPermissions('Global Configuration', $group, $action, $permission);
+
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();          
+	    }
+    	$this->doFrontEndLogout();
 
-    	$this->gotoAdmin();  
-		$permission="Locked";		
+    	$this->gotoAdmin();
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
 	   	$this->doFrontEndLogin($login,$password);
 		$this->checkMessage($message);
-		
-	    $this->gotoAdmin();	  
-		$permission="Inherited";		
-		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password);
-		$this->checkMessage($message);  	
-		
-    	$this->gotoAdmin();
-        $group='Administrator';
-		$this->changeAssignedGroup($username,$group);
-        
-    	$this->gotoAdmin();
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
-		$this->setPermissions('Global Configuration', $group, $action, $permission);	    
-
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
-	    } catch (PHPUnit_Framework_AssertionFailedError $e){
-			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        	    
-    	$this->gotoAdmin();	    	    
-		$permission="Locked";		
+	    $this->gotoAdmin();
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
-	    $this->doFrontEndLogin($login,$password); 	
+	    $this->doFrontEndLogin($login,$password);
 		$this->checkMessage($message);
-		    	
-	    $this->gotoAdmin();	
-    
-		$permission="Inherited";		
+
+    	$this->gotoAdmin();
+        $group='Administrator';
+		$this->changeAssignedGroup($username,$group);
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);					  	
-		
-		$this->gotoAdmin();				
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		try {
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
+	    } catch (PHPUnit_Framework_AssertionFailedError $e){
+			array_push($this->verificationErrors, $this->getTraceFiles($e));
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$permission="Locked";
+		$this->setPermissions('Global Configuration', $group, $action, $permission);
+
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+
+		$permission="Inherited";
+		$this->setPermissions('Global Configuration', $group, $action, $permission);
+
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+		$this->gotoAdmin();
 
         $group='Super Users';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
 	    echo "Logging in to front end.\n";
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
-		$this->doFrontEndLogout();	    
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+		$this->doFrontEndLogout();
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
+	    $this->gotoSite();
 	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
+	    }
     	$this->doFrontEndLogout();
-    	
-    	$this->gotoAdmin();       
-	    $group='Super Users';	    
+
+    	$this->gotoAdmin();
+	    $group='Super Users';
 		$this->changeAssignedGroup($username,$group);
 
-	    $group='Administrator';	    
+	    $group='Administrator';
 		$this->changeAssignedGroup($username,$group);
 
-	    $group='Manager';	    
+	    $group='Manager';
 		$this->changeAssignedGroup($username,$group);
 
-	    $group='Public';	    
-		$this->changeAssignedGroup($username,$group);        
-	    
+	    $group='Public';
+		$this->changeAssignedGroup($username,$group);
+
 	    $group='Registered';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	   
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
 
-		$this->gotoAdmin();				
+		$this->gotoAdmin();
 
         $group='Author';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);		    
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
 
-		$this->gotoAdmin();				
+		$this->gotoAdmin();
 
         $group='Editor';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);		    
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
 
 		$this->gotoAdmin();
         $group='Publisher';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);		    
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
 
 		$this->gotoAdmin();
         $group='Shop Suppliers';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);		    
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
 
 		$this->gotoAdmin();
         $group='Customer Group';
 		$this->changeAssignedGroup($username,$group);
-        
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Allowed";		
+
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Allowed";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));			
+			$this->assertTrue($this->isElementPresent("//form[@id='login-form'][contains(., '$username')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
-	    }	    	
-    	$this->doFrontEndLogout();        
-        
-    	$this->gotoAdmin();       	
-		$this->jClick('Global Configuration: Permissions');		    
-		$permission="Locked";		
+	    }
+    	$this->doFrontEndLogout();
+
+    	$this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Locked";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	    
-		    	
-	    $this->gotoAdmin();	
-		$this->jClick('Global Configuration: Permissions');	    
-		$permission="Inherited";		
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+	    $this->gotoAdmin();
+		$this->jClick('Global Configuration: Permissions');
+		$permission="Inherited";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
-	    $this->gotoSite();	    
-	    $this->doFrontEndLogin($login,$password); 		
-		$this->checkMessage($message);	       	
-						
-    	$this->gotoAdmin();	    
+	    $this->gotoSite();
+	    $this->doFrontEndLogin($login,$password);
+		$this->checkMessage($message);
+
+    	$this->gotoAdmin();
 	    $this->deleteTestUsers();
-		$this->restoreDefaultGlobalPermissions();	    
-	    $this->doAdminLogOut();	
+		$this->restoreDefaultGlobalPermissions();
+	    $this->doAdminLogOut();
   }
 }
 ?>

@@ -20,14 +20,14 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		$groupName = 'Restricted Manager' . $salt1;
 		$groupParent = 'Manager';
 		$this->createGroup($groupName, $groupParent);
-   
+
 	    //Add new user to Restricted Manager Group
 		$username = 'Restricted User' . $salt1;
 		$login = 'RestrictedUser' . $salt1;
 		$email = $login . '@test.com';
 		$group = $groupName;
 	    $this->createUser($username, $login, 'password', $email, $group);
-		
+
 		echo "Set Weblinks access permissions for ". $groupName.".\n";
 	    $this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
@@ -36,9 +36,9 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 	    $permissions = array ('Locked', 'Locked', 'Locked', 'Locked');
 	    $this->setPermissions($component, $groupName, $actions, $permissions);
 		$this->doAdminLogout();
-		
+
 		//Test access for Test User beloning to Restricted Manager Group
-		echo "Testng access of ". $login.".\n";		
+		echo "Testng access of ". $login.".\n";
 		$this->gotoAdmin();
 		echo "Log in as ". $login.".\n";
 		$this->doAdminLogin($login, 'password');
@@ -48,11 +48,11 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-publish']/a/span"));
 		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-unpublish']/a/span"));
 		$this->assertFalse($this->isElementPresent("//li[@id='toolbar-trash']/a/span"));
-		
+
 		$this->gotoAdmin();
 		$this->doAdminLogout();
-		
-		$this->doAdminLogin();		
+
+		$this->doAdminLogin();
 		$this->deleteTestUsers($username);
 		$this->deleteGroup($groupName);
 		$this->doAdminLogout();

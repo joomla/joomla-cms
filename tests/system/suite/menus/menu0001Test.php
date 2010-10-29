@@ -99,7 +99,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		echo "Fill in menu name and info\n";
 
 		$this->type("jform_title", "Functional Test Menu");
-		
+
 		$this->click("link=Select position");
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
@@ -108,12 +108,12 @@ class Menu0001 extends SeleniumJoomlaTestCase
 			} catch (Exception $e) {}
 			sleep(1);
 		}
-		
+
 		$this->type("filter_search", "position");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=position-7");
-		
+
 		for ($second = 0; ; $second++) {
 			if ($second >= 60) $this->fail("timeout");
 			try {
@@ -121,7 +121,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 			} catch (Exception $e) {}
 			sleep(1);
 		}
-				
+
 		$this->select("jform_published", "label=Published");
 		$this->select("jform[assignment]", "label=No pages");
 

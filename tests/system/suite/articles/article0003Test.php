@@ -22,7 +22,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/archived-articles';
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=exact:What's New in 1.5?"));
 		echo "Go to back end and change Joomla category to Archived state.\n";
 		$this->gotoAdmin();
@@ -43,7 +43,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Go to front end and check Archived layout\n";
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=exact:What's New in 1.5?"));
 		$this->assertFalse($this->isElementPresent("link=Latest Users Module"));
 		echo "Go to back end and change Beginners article to Archived state\n";
@@ -64,7 +64,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Go to front end and make sure Beginners no longer shows on Archived layout\n";
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=exact:What's New in 1.5?"));
 		$this->assertFalse($this->isElementPresent("link=Beginners"));
 
@@ -262,32 +262,32 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Beginners"));
 		echo "Finished testFeaturedState\n";
 	}
-	
+
 	function testAllCategoriesState()
 	{
 		echo "Start testAllCategoriesState\n";
 		echo "Set Park Site category to Unpublished\n";
 		$this->gotoAdmin();
-		$this->doAdminLogin();	
+		$this->doAdminLogin();
 		$this->changeState('Park Site', 'Article Manager', 'Category', 'unpublish');
-		$this->doAdminLogout();	
+		$this->doAdminLogout();
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-categories';
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");			
+		$this->waitForPageToLoad("30000");
 		echo "Check that Park Site, Park Blog, and Photo Gallery don't show in Categories layout\n";
 		$this->assertFalse($this->isElementPresent("link=Park Site"));
 		$this->assertFalse($this->isElementPresent("link=Park Blog"));
 		echo "Check that Joomla!, Extensions, and Fruit Shop Site still show\n";
 		$this->assertTrue($this->isElementPresent("link=Joomla!"));
 		$this->assertTrue($this->isElementPresent("link=Extensions"));
-		$this->assertTrue($this->isElementPresent("link=Fruit Shop Site"));		
+		$this->assertTrue($this->isElementPresent("link=Fruit Shop Site"));
 		echo "Check that Unpublished categories don't show when logged into front end\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");			
+		$this->waitForPageToLoad("30000");
 		echo "Check that Park Site, Park Blog, and Photo Gallery don't show in Categories layout\n";
 		$this->assertFalse($this->isElementPresent("link=Park Site"));
 		$this->assertFalse($this->isElementPresent("link=Park Blog"));
@@ -301,19 +301,19 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Park Site', 'Article Manager', 'Category', 'archive');
-		$this->doAdminLogout();	
+		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");			
+		$this->waitForPageToLoad("30000");
 		echo "Check that Park Site, Park Blog, and Photo Gallery don't show in Categories layout\n";
 		$this->assertFalse($this->isElementPresent("link=Park Site"));
 		$this->assertFalse($this->isElementPresent("link=Park Blog"));
 		echo "Check that Joomla!, Extensions, and Fruit Shop Site still show\n";
 		$this->assertTrue($this->isElementPresent("link=Joomla!"));
 		$this->assertTrue($this->isElementPresent("link=Extensions"));
-		$this->assertTrue($this->isElementPresent("link=Fruit Shop Site"));		
-		
+		$this->assertTrue($this->isElementPresent("link=Fruit Shop Site"));
+
 		echo "Change back to Published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
@@ -321,32 +321,32 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->doAdminLogout();
 		echo "Finished testAllCategoriesState\n";
 	}
-	
+
 	function testCategoryBlogState()
 	{
 		echo "Starting testCategoryBlogState\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-blog';
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		echo "Check initial conditions Second Blog Show and First Blog Post\n";
 		$this->assertTrue($this->isElementPresent("//div[@class='blog']//h2/a[contains(., 'Second Blog Post')]"));
-		
+
 		echo "Unpublish Park Site category\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Park Site', 'Article Manager', 'Category', 'unpublish');
-		$this->doAdminLogout();	
+		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		echo "Check that Category not found message shows\n";
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dd[contains(., 'Category not found')]"));
 		echo "Log in to site and check that Category not found message still shows\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dd[contains(., 'Category not found')]"));
 		$this->gotoSite();
 		$this->doFrontEndLogout();
@@ -357,76 +357,76 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->changeState('Park Site', 'Article Manager', 'Category', 'archive');
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		echo "Check that Category not found message shows\n";
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dd[contains(., 'Category not found')]"));
-		
+
 		echo "Change Park Blog category back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Park Site', 'Article Manager', 'Category', 'publish');
-		
+
 		echo "Change First Blog Post to Unpublished and check that it doesn't show\n";
 		$this->changeState('First Blog', 'Article Manager', '', 'unpublish');
 		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Second Blog Post"));
 		$this->assertFalse($this->isElementPresent("link=First Blog Post"));
-		
+
 		echo "Log into site and check that First Blog Post shows as Unpublished\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Second Blog Post"));
 		$this->assertTrue($this->isElementPresent("link=First Blog Post"));
 		$this->assertTrue($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'First Blog')]"));
-		
+
 		echo "Change First Blog state to Archived\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('First Blog', 'Article Manager', '', 'archive');
-		
+
 		echo "Check that First Blog Post now shows as published when logged in\n";
 		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("link=Second Blog Post"));
-		$this->assertTrue($this->isElementPresent("link=First Blog Post"));	
+		$this->assertTrue($this->isElementPresent("link=First Blog Post"));
 		$this->assertFalse($this->isElementPresent("//div[@class='system-unpublished']/h2[contains(., 'First Blog')]"));
-		
+
 		echo "Log out of Front End\n";
 		$this->gotoSite();
 		$this->doFrontEndLogout();
-		
+
 		echo "Log into back end and change First Blog Post back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('First Blog', 'Article Manager', '', 'publish');
-		
+
 		echo "Finished testCategoryBlogState\n";
 	}
-	
+
 	function testCategoryListState()
 	{
 		echo "Starting testCategoryListState\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list';
 		$this->gotoSite();
 		$this->open($link);
-		$this->waitForPageToLoad("30000");	
+		$this->waitForPageToLoad("30000");
 		echo "Check initial conditions for list\n";
 		$this->assertEquals("Using Joomla!", $this->getTable("//table[@class='category'].1.0"));
 		$this->assertEquals("Upgraders", $this->getTable("//table[@class='category'].2.0"));
-				
+
 		echo "Unpublish Joomla! category\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Joomla!', 'Article Manager', 'Category', 'unpublish');
-		$this->doAdminLogout();	
+		$this->doAdminLogout();
 		$this->gotoSite();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
@@ -450,12 +450,12 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		echo "Check that Category not found message shows\n";
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dd[contains(., 'Category not found')]"));
-		
+
 		echo "Change Joomla! category back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Joomla!', 'Article Manager', 'Category', 'publish');
-		
+
 		echo "Change Upgraders article to Unpublished and check that it doesn't show\n";
 		$this->changeState('Upgraders', 'Article Manager', '', 'unpublish');
 		$this->doAdminLogout();
@@ -464,7 +464,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertEquals("Using Joomla!", $this->getTable("//table[@class='category'].1.0"));
 		$this->assertEquals("The Joomla! Project", $this->getTable("//table[@class='category'].2.0"));
-		
+
 		echo "Log into site and check that Upgraders shows as Unpublished\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
@@ -473,12 +473,12 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertEquals("Using Joomla!", $this->getTable("//table[@class='category'].1.0"));
 		$this->assertEquals("Upgraders", $this->getTable("//table[@class='category'].2.0"));
 		$this->assertTrue($this->isElementPresent("//table[@class='category']//a[contains(text(), 'Upgraders')]/../../td//img[contains(@src, 'edit_unpublished')]"));
-		
+
 		echo "Change Upgraders state to Archived\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Upgraders', 'Article Manager', '', 'archive');
-		
+
 		echo "Check that Upgraders now shows as published when logged in\n";
 		$this->doAdminLogout();
 		$this->gotoSite();
@@ -488,17 +488,17 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->assertEquals("Using Joomla!", $this->getTable("//table[@class='category'].1.0"));
 		$this->assertEquals("Upgraders", $this->getTable("//table[@class='category'].2.0"));
 		$this->assertTrue($this->isElementPresent("//table[@class='category']//a[contains(text(), 'Upgraders')]/../../td//img[contains(@src, 'edit.png')]"));
-				
+
 		echo "Log out of Front End\n";
 		$this->gotoSite();
 		$this->doFrontEndLogout();
-		
+
 		echo "Log into back end and change Upgraders back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->changeState('Upgraders', 'Article Manager', '', 'publish');
 		$this->doAdminLogout();
-		
+
 		echo "Finished testCategoryListState\n";
 	}
 

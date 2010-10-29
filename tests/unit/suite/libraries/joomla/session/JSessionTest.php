@@ -37,11 +37,11 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 	 * Test cases for getInstance
 	 * string	handler of type JSessionStorage: none or database
 	 * array	arguments for $options in form of associative array
-	 * string	message if test case fails	
+	 * string	message if test case fails
 	 *
 	 * @return array
 	 */
-	
+
 	function casesGetInstance()
 	{
 		return array(
@@ -56,7 +56,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 				'Line: '.__LINE__.': '.'Should not be a different instance '
 			)
 		);
-	}	
+	}
 	/**
 	 * @todo Implement testGetInstance().
 	 * @dataProvider casesGetInstance
@@ -88,11 +88,11 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$session = $this->object;
 		$session->set('session.token', 'abc');
 		$this->assertEquals('abc', $session->getToken(), 'Token should be abc');
-		
+
 		$session->set('session.token', null);
 		$token = $session->getToken();
 		$this->assertEquals(32, strlen($token), 'Line: '.__LINE__.' Token should be length 32');
-		
+
 		$token2 = $session->getToken(true);
 		$this->assertNotEquals($token, $token2, 'Line: '.__LINE__.' New token should be different');
 	}
@@ -105,12 +105,12 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 
 		$this->assertFalse($session->hasToken('abc', false), 'Line: '.__LINE__.' Should return false with wrong token');
 		$this->assertEquals('active', $session->getState(), 'Line: '.__LINE__.' State should not be set to expired');
-	
+
 		$this->assertFalse($session->hasToken('abc'), 'Line: '.__LINE__.' Should return false with wrong token');
 		$this->assertEquals('expired', $session->getState(), 'Line: '.__LINE__.' State should be set to expired by default');
-		
+
 	}
-	
+
 	public function testGetFormToken() {
 		$user = JFactory::getUser();
 		$expected = JApplication::getHash($user->get('id', 0) . JFactory::getSession()->getToken(false));
@@ -121,7 +121,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 	{
 		$session = $this->object;
 		$this->assertEquals(session_name(), $session->getName(), 'Line: '.__LINE__.' Session name should be set');
-		
+
 		// Destroy and try again
 		$session->destroy();
 		$this->assertEquals(null, $session->getName(), 'Line: '.__LINE__.' Session name should be null');
@@ -132,12 +132,12 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 	{
 		$session = $this->object;
 		$this->assertEquals(session_id(), $session->getId(), 'Line: '.__LINE__.' Session id should be set');
-		
+
 		// Destroy and try again
 		$session->destroy();
 		$this->assertEquals(null, $session->getId(), 'Line: '.__LINE__.' Session id should be null');
 		$session->restart();
-		
+
 	}
 
 	/**
@@ -156,7 +156,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($session->isNew(), 'Line: '.__LINE__.' restarted session should be new');
 		$session->set('session.counter', 2);
 		$this->assertFalse($session->isNew(), 'Line: '.__LINE__.' session should not be new');
-		
+
 	}
 
 	public function testGet()
@@ -166,7 +166,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $session->get('session.counter'), 'Line: '.__LINE__.' values should match for active session');
 		$session->destroy();
 		$this->assertEquals(null, $session->get('session.counter'), 'Line: '.__LINE__.' Always return null for destroyed session');
-		$session->restart();		
+		$session->restart();
 	}
 
 	public function testSet()
@@ -211,7 +211,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$session = $this->object;
 		// Set up cookie for test
 		$_COOKIE[session_name()]= 'test cookie';
-	
+
 		$this->assertEquals('active', $session->getState(), 'Line: '.__LINE__.' Starting state is active');
 		$this->assertTrue(count($_SESSION) > 0, 'Line: '.__LINE__.' $_SESSION has content');
 		$this->assertTrue($session->destroy());
@@ -230,7 +230,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($session->restart(), 'Line: '.__LINE__.' Restart should succeed');
 		$this->assertTrue($oldId != $session->getId(), 'Line: '.__LINE__.' Restart should change id');
 		$this->assertEquals(1, $session->get('session.counter'), 'Line: '.__LINE__.' Counter should be reset');
-		
+
 	}
 
 	public function testFork()
@@ -241,7 +241,7 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($session->fork(), 'Line: '.__LINE__.' fork() should succeed');
 		$this->assertNotEquals($oldId, $session->getId(), 'Line: '.__LINE__.' id should have changed');
 		$this->assertNotEquals('my_testfork_value', $session->get('my.property', null, 'my_namespace'), 'Line: '.__LINE__.' Property should be preserved');
-		
+
 		// Test with destroyed session
 		$session->destroy();
 		$this->assertFalse($session->fork(), 'Line: '.__LINE__.' fork() should fail for destroyed session');
@@ -253,6 +253,6 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 		$session = $this->object;
 		$this->assertNull($session->close());
 	}
-	
+
 }
 ?>

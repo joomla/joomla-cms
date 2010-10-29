@@ -468,7 +468,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 	 *	Testing save() for the case where updateOnly is true and it is a new user
 	 *
 	 * @return void
-	 */		
+	 */
 	public function testSaveNoCreateNewUser()
 	{
 		// here we inject a mock user object into a mock session object so that when JFactory::getUser gets called
@@ -489,7 +489,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		// it doesn't try to create a new user
 		$testObject = $this->getMock('JUser', array('getTable', 'getProperties'));
 		$tableMock = $this->getMock('JTableUser', array('bind', 'check', 'store'), array(), '', false);
-		
+
 		// we expect getTable to be called once.  We are going to return our mock table object.
 		$testObject->expects($this->any())
 					->method('getTable')
