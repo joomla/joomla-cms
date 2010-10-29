@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed issue [#21327] Cannot edit more than one thing at a time (Amy Stephen).
  # Fixed issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring).
  # Fixed issue [#22556] *Wrong messages when uninstalling core components (Jean-Marie Simonet, Ramindu Deshapriya).
+ # Fixed bug in JTableNested unit test due to changes in the publish method.
  
 28-Oct-2010 Mark Dexter
  # [#22878] Contact menu items don't work correctly with published state of contacts and contact categories
