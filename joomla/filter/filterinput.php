@@ -172,6 +172,10 @@ class JFilterInput extends JObject
 				$result = (string) $this->_remove($this->_decode((string) $source));
 				break;
 
+			case 'HTML' :
+				$result = (string) $this->_remove((string) $source);
+				break;
+
 			case 'ARRAY' :
 				$result = (array) $source;
 				break;
