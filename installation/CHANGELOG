@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 29-Oct-2010 Mark Dexter
+# Recommitting [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (with joomla.sql fix)
 # Reverting issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring). 
 
 29-Oct-2010 Jean-Marie Simonet
