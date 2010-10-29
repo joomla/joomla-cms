@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed issue [#22389] JFormFieldCategory et al not selecting default from list view (Boris Baddenoff, Mathavan Jeyadev).
  # Fixed issue [#22483] "Empty Trash" does not delete all items in nested tables when there are multiple branches (categories, menus, groups) (Douglas Machado, Mathavan Jeyadev).
  # Fixed issue [#21327] Cannot edit more than one thing at a time (Amy Stephen).
+ # Fixed issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring).
  
 28-Oct-2010 Mark Dexter
  # [#22878] Contact menu items don't work correctly with published state of contacts and contact categories

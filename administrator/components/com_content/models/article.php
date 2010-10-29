@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'content.php';
+
 /**
  * Item Model for an Article.
  *
