@@ -37,11 +37,10 @@ class CategoriesController extends JController
 		$vName		= JRequest::getWord('view', 'categories');
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
-		$extension	= JRequest::getCmd('extension', '');
+		$extension	= JRequest::getCmd('extension', 'com_content');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {
-			
 			// Get the model for the view.
 			$model = $this->getModel($vName, 'CategoriesModel', array('name' => $vName . '.' . substr($extension, 4)));
 

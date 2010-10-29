@@ -42,8 +42,10 @@ class CategoriesModelCategories extends JModelList
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.',$extension);
+
 		// extract the component name
 		$this->setState('filter.component', $parts[0]);
+
 		// extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
@@ -56,7 +58,7 @@ class CategoriesModelCategories extends JModelList
 		$access = $app->getUserStateFromRequest($context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $app->getUserStateFromRequest($context.'.published', 'filter_published', '');
+		$published = $app->getUserStateFromRequest($context.'.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
 		$language = $app->getUserStateFromRequest($context.'.filter.language', 'filter_language', '');
