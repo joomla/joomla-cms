@@ -245,7 +245,7 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.link',	null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item'.$this->getRedirectToItemAppend($recordId), false));
 				break;
 
 			case 'save2new':
@@ -257,7 +257,7 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.menutype',	$model->getState('item.menutype'));
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item'.$this->getRedirectToItemAppend(), false));
 				break;
 
 			default:
@@ -268,7 +268,7 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.link',	null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items'.$this->getRedirectToListAppend(), false));
 				break;
 		}
 	}
@@ -282,16 +282,17 @@ class MenusControllerItem extends JControllerForm
 	function setType()
 	{
 		// Initialise variables.
-		$app = JFactory::getApplication();
+		$app		= JFactory::getApplication();
 
 		// Get the posted values from the request.
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 
 		// Get the type.
-		$type	= $data['type'];
+		$type		= $data['type'];
 
-		$type	= json_decode(base64_decode($type));
-		$title	= isset($type->title) ? $type->title : null;
+		$type		= json_decode(base64_decode($type));
+		$title		= isset($type->title) ? $type->title : null;
+		$recordId	= isset($type->id) ? $type->id : 0;
 
 		if ($title != 'alias' && $title != 'separator' && $title != 'url') {
 			$title = 'component';
@@ -331,6 +332,6 @@ class MenusControllerItem extends JControllerForm
 		$app->setUserState('com_menus.edit.item.data', $data);
 
 		$this->type = $type;
-		$this->setRedirect('index.php?option=com_menus&view=item&layout=edit');
+		$this->setRedirect('index.php?option=com_menus&view=item'.$this->getRedirectToItemAppend($recordId));
 	}
 }
