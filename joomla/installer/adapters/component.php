@@ -1161,7 +1161,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query->from('#__menu AS m');
 		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
 		$query->where('m.parent_id = 1');
-		$query->where("m.menutype = '_adminmenu'");
+		$query->where("m.client_id = 1");
 		$query->where('e.element = '.$db->quote($option));
 
 		$db->setQuery($query);
@@ -1200,7 +1200,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		if ($menuElement) {
 			$data = array();
-			$data['menutype'] = '_adminmenu';
+			$data['menutype'] = 'main';
+			$data['client_id'] = 1;
 			$data['title'] = $option;
 			$data['alias'] = (string)$menuElement;
 			$data['link'] = 'index.php?option='.$option;
@@ -1225,7 +1226,8 @@ class JInstallerComponent extends JAdapterInstance
 		// No menu element was specified, Let's make a generic menu item
 		else {
 			$data = array();
-			$data['menutype'] = '_adminmenu';
+			$data['menutype'] = 'main';
+			$data['client_id'] = 1;
 			$data['title'] = $option;
 			$data['alias'] = $option;
 			$data['link'] = 'index.php?option='.$option;
@@ -1262,7 +1264,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		foreach ($this->manifest->administration->submenu->menu as $child) {
 			$data = array();
-			$data['menutype'] = '_adminmenu';
+			$data['menutype'] = 'main';
+			$data['client_id'] = 1;
 			$data['title'] = (string)$child;
 			$data['alias'] = (string)$child;
 			$data['type'] = 'component';
@@ -1343,7 +1346,7 @@ class JInstallerComponent extends JAdapterInstance
 		$query	= $db->getQuery(true);
 		$query->select('id');
 		$query->from('#__menu');
-		$query->where('`menutype` = '.$db->quote('_adminmenu'));
+		$query->where('`client_id` = 1');
 		$query->where('`component_id` = '.(int) $id);
 
 		$db->setQuery($query);
