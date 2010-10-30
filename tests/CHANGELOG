@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2010 Mark Dexter
+# Remove tests/system/server/configdef.php file accidentally added to version control
+
 29-Oct-2010 Mark Dexter
 # Fix problem in controlpanel004Test for small change in category ui
 
