@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 30-Oct-2010 Jean-Marie Simonet
-[#23058] Debug shows language debug info if "Debug Language" is disabled. Thanks Dennis.
+ # [#23058] Debug shows language debug info if "Debug Language" is disabled. Thanks Dennis.
+ + [#22940] missing images in beez or css wrong. Thanks Bill and Christophe.
 
 29-Oct-2010 Mark Dexter
 # Recommitting [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (with joomla.sql fix)
