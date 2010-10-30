@@ -32,6 +32,7 @@ $ -> Language fix or change
  + [#22940] missing images in beez or css wrong. Thanks Bill and Christophe.
  # [#23063] Can't access plugins in the backend. Thanks Rouven and Louis.
  $ Correcting some xx-XX ini files.
+ # [#23074] JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU. Thanks Bill.
 
 29-Oct-2010 Mark Dexter
 # Recommitting [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (with joomla.sql fix)
