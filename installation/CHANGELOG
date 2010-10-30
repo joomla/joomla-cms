@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23058] Debug shows language debug info if "Debug Language" is disabled. Thanks Dennis.
  + [#22940] missing images in beez or css wrong. Thanks Bill and Christophe.
  # [#23063] Can't access plugins in the backend. Thanks Rouven and Louis.
+ $ Correcting some xx-XX ini files.
 
 29-Oct-2010 Mark Dexter
 # Recommitting [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (with joomla.sql fix)
