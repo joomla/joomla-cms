@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2010 Jean-Marie Simonet
+[#23058] Debug shows language debug info if "Debug Language" is disabled. Thanks Dennis.
+
 29-Oct-2010 Mark Dexter
 # Recommitting [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (with joomla.sql fix)
 # Reverting issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring). 

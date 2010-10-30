@@ -171,102 +171,107 @@ class plgSystemDebug extends JPlugin
 				}
 			}
 		}
-
-		$lang = JFactory::getLanguage();
-		if ($this->params->get('language_errorfiles', 1)) {
-			echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_IN_ERROR').'</h4>';
-			$errorfiles = $lang->getErrorFiles();
-			if (count($errorfiles)) {
+		
+		// Show language debug only if enabled
+		if (JFactory::getApplication()->getCfg('debug_lang'))
+		{
+			$lang = JFactory::getLanguage();
+			if ($this->params->get('language_errorfiles', 1)) {
+				echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_IN_ERROR').'</h4>';
+				$errorfiles = $lang->getErrorFiles();
+				if (count($errorfiles)) {
+					echo '<ul>';
+					foreach ($errorfiles as $file => $error) {
+						echo "<li>$error</li>";
+					}
+					echo '</ul>';
+				} else {
+					echo '<pre>'.JText::_('JNONE').'</pre>';
+				}
+			}
+	
+			if ($this->params->get('language_files', 1)) {
+				echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_LOADED').'</h4>';
 				echo '<ul>';
-				foreach ($errorfiles as $file => $error) {
-					echo "<li>$error</li>";
-				}
-				echo '</ul>';
-			} else {
-				echo '<pre>'.JText::_('JNONE').'</pre>';
-			}
-		}
-
-		if ($this->params->get('language_files', 1)) {
-			echo '<h4>'.JText::_('PLG_DEBUG_LANGUAGE_FILES_LOADED').'</h4>';
-			echo '<ul>';
-			$extensions	= $lang->getPaths();
-			foreach ($extensions as $extension => $files) {
-				foreach ($files as $file => $status) {
-					echo "<li>$file $status</li>";
-				}
-			}
-			echo '</ul>';
-		}
-
-		if ($this->params->get('language_strings')) {
-			$stripFirst	= $this->params->get('strip-first');
-			$stripPref	= $this->params->get('strip-prefix');
-			$stripSuff	= $this->params->get('strip-suffix');
-
-			echo '<h4>'.JText::_('PLG_DEBUG_UNTRANSLATED_STRINGS').'</h4>';
-			echo '<pre>';
-			$orphans = $lang->getOrphans();
-			if (count($orphans)) {
-				ksort($orphans, SORT_STRING);
-				$guesses = array();
-
-				foreach ($orphans as $key => $occurance) {
-
-					if (is_array($occurance) AND isset($occurance[0])) {
-						$info = &$occurance[0];
-						$file = @$info['file'];
-						if (!isset($guesses[$file])) {
-							$guesses[$file] = array();
-						}
-
-						// Prepare the key
-
-						if (($pos = strpos($info['string'], '=')) > 0) {
-							$parts	= explode('=', $info['string']);
-							$key	= $parts[0];
-							$guess	= $parts[1];
-
-						} else {
-							$guess = str_replace('_', ' ', $info['string']);
-							if ($stripFirst) {
-								$parts = explode(' ', $guess);
-								if (count($parts) > 1) {
-									array_shift($parts);
-									$guess = implode(' ', $parts);
-								}
-							}
-
-							$guess = trim($guess);
-
-							if ($stripPref) {
-								$guess = trim(preg_replace(chr(1).'^'.$stripPref.chr(1).'i', '', $guess));
-							}
-
-							if ($stripSuff) {
-								$guess = trim(preg_replace(chr(1).$stripSuff.'$'.chr(1).'i', '', $guess));
-							}
-						}
-
-						$key = trim(strtoupper($key));
-						$key = preg_replace('#\s+#', '_', $key);
-						$key = preg_replace('#\W#', '', $key);
-
-						// Prepare the text
-
-						$guesses[$file][] = $key.'="'.$guess.'"';
+				$extensions	= $lang->getPaths();
+				foreach ($extensions as $extension => $files) {
+					foreach ($files as $file => $status) {
+						echo "<li>$file $status</li>";
 					}
 				}
-
-				foreach ($guesses as $file => $keys) {
-					echo "\n\n# ".($file ? $file : JText::_('PLG_DEBUG_UNKNOWN_FILE'))."\n\n";
-					echo implode("\n", $keys);
-				}
-			} else {
-				echo JText::_('JNONE');
+				echo '</ul>';
 			}
-			echo '</pre>';
+	
+			if ($this->params->get('language_strings')) {
+				$stripFirst	= $this->params->get('strip-first');
+				$stripPref	= $this->params->get('strip-prefix');
+				$stripSuff	= $this->params->get('strip-suffix');
+	
+				echo '<h4>'.JText::_('PLG_DEBUG_UNTRANSLATED_STRINGS').'</h4>';
+				echo '<pre>';
+				$orphans = $lang->getOrphans();
+				if (count($orphans)) {
+					ksort($orphans, SORT_STRING);
+					$guesses = array();
+	
+					foreach ($orphans as $key => $occurance) {
+	
+						if (is_array($occurance) AND isset($occurance[0])) {
+							$info = &$occurance[0];
+							$file = @$info['file'];
+							if (!isset($guesses[$file])) {
+								$guesses[$file] = array();
+							}
+	
+							// Prepare the key
+	
+							if (($pos = strpos($info['string'], '=')) > 0) {
+								$parts	= explode('=', $info['string']);
+								$key	= $parts[0];
+								$guess	= $parts[1];
+	
+							} else {
+								$guess = str_replace('_', ' ', $info['string']);
+								if ($stripFirst) {
+									$parts = explode(' ', $guess);
+									if (count($parts) > 1) {
+										array_shift($parts);
+										$guess = implode(' ', $parts);
+									}
+								}
+	
+								$guess = trim($guess);
+	
+								if ($stripPref) {
+									$guess = trim(preg_replace(chr(1).'^'.$stripPref.chr(1).'i', '', $guess));
+								}
+	
+								if ($stripSuff) {
+									$guess = trim(preg_replace(chr(1).$stripSuff.'$'.chr(1).'i', '', $guess));
+								}
+							}
+	
+							$key = trim(strtoupper($key));
+							$key = preg_replace('#\s+#', '_', $key);
+							$key = preg_replace('#\W#', '', $key);
+	
+							// Prepare the text
+	
+							$guesses[$file][] = $key.'="'.$guess.'"';
+						}
+					}
+	
+					foreach ($guesses as $file => $keys) {
+						echo "\n\n# ".($file ? $file : JText::_('PLG_DEBUG_UNKNOWN_FILE'))."\n\n";
+						echo implode("\n", $keys);
+					}
+				} else {
+					echo JText::_('JNONE');
+				}
+				echo '</pre>';
+			}
 		}
+		
 		echo '</div>';
 
 		$debug = ob_get_clean();
