@@ -114,7 +114,7 @@ class JTableMenu extends JTableNested
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu','JTable');
-		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id)) && ($table->id != $this->id || $this->id==0)) {
+		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id)) && ($table->id != $this->id || $this->id==0) && ($table->client_id == $this->client_id)) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
 			return false;
 		}

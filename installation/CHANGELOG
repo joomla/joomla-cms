@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2010 Mark Dexter
+# [#21529] Aliases for _adminmenu items [sample data/joomla.sql]
+
 30-Oct-2010 Jean-Marie Simonet
  # [#23058] Debug shows language debug info if "Debug Language" is disabled. Thanks Dennis.
  + [#22940] missing images in beez or css wrong. Thanks Bill and Christophe.

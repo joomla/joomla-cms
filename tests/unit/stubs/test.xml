@@ -2454,6 +2454,7 @@
 		<column>lft</column>
 		<column>rgt</column>
 		<column>home</column>
+		<column>client_id</column>
 		<row>
 			<value>1</value>
 			<value></value>
@@ -2477,10 +2478,11 @@
 			<value>0</value>
 			<value>217</value>
 			<value>0</value>
+			<value>0</value>
 		</row>
 		<row>
 			<value>2</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_banners</value>
 			<value>Banners</value>
 			<value>Banners</value>
@@ -2501,10 +2503,11 @@
 			<value>1</value>
 			<value>10</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>3</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_banners</value>
 			<value>Banners</value>
 			<value>Banners/Banners</value>
@@ -2525,10 +2528,11 @@
 			<value>2</value>
 			<value>3</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>4</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_banners_clients</value>
 			<value>Clients</value>
 			<value>Banners/Clients</value>
@@ -2549,10 +2553,11 @@
 			<value>4</value>
 			<value>5</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>5</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_banners_tracks</value>
 			<value>Tracks</value>
 			<value>Banners/Tracks</value>
@@ -2573,10 +2578,11 @@
 			<value>6</value>
 			<value>7</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>6</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_banners_categories</value>
 			<value>Categories</value>
 			<value>Banners/Categories</value>
@@ -2597,10 +2603,11 @@
 			<value>8</value>
 			<value>9</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>7</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_contact</value>
 			<value>Contacts</value>
 			<value>Contacts</value>
@@ -2621,10 +2628,11 @@
 			<value>11</value>
 			<value>16</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>8</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_contact</value>
 			<value>Contacts</value>
 			<value>Contacts/Contacts</value>
@@ -2645,10 +2653,11 @@
 			<value>12</value>
 			<value>13</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>9</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_contact_categories</value>
 			<value>Categories</value>
 			<value>Contacts/Categories</value>
@@ -2669,10 +2678,11 @@
 			<value>14</value>
 			<value>15</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>10</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_messages</value>
 			<value>Messaging</value>
 			<value>Messaging</value>
@@ -2693,10 +2703,11 @@
 			<value>17</value>
 			<value>22</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>11</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_messages_add</value>
 			<value>New Private Message</value>
 			<value>Messaging/New Private Message</value>
@@ -2717,10 +2728,11 @@
 			<value>18</value>
 			<value>19</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>12</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_messages_read</value>
 			<value>Read Private Message</value>
 			<value>Messaging/Read Private Message</value>
@@ -2741,10 +2753,11 @@
 			<value>20</value>
 			<value>21</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>13</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_newsfeeds</value>
 			<value>News Feeds</value>
 			<value>News Feeds</value>
@@ -2765,10 +2778,11 @@
 			<value>23</value>
 			<value>28</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>14</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_newsfeeds_feeds</value>
 			<value>Feeds</value>
 			<value>News Feeds/Feeds</value>
@@ -2789,10 +2803,11 @@
 			<value>24</value>
 			<value>25</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>15</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_newsfeeds_categories</value>
 			<value>Categories</value>
 			<value>News Feeds/Categories</value>
@@ -2813,10 +2828,11 @@
 			<value>26</value>
 			<value>27</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>16</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_redirect</value>
 			<value>Redirect</value>
 			<value>Redirect</value>
@@ -2837,10 +2853,11 @@
 			<value>37</value>
 			<value>38</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>17</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_search</value>
 			<value>Search</value>
 			<value>Search</value>
@@ -2861,10 +2878,11 @@
 			<value>29</value>
 			<value>30</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>18</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_weblinks</value>
 			<value>Weblinks</value>
 			<value>Weblinks</value>
@@ -2885,10 +2903,11 @@
 			<value>31</value>
 			<value>36</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>19</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_weblinks_links</value>
 			<value>Links</value>
 			<value>Weblinks/Links</value>
@@ -2909,10 +2928,11 @@
 			<value>32</value>
 			<value>33</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>20</value>
-			<value>_adminmenu</value>
+			<value>main</value>
 			<value>com_weblinks_categories</value>
 			<value>Categories</value>
 			<value>Weblinks/Categories</value>
@@ -2933,6 +2953,7 @@
 			<value>34</value>
 			<value>35</value>
 			<value>0</value>
+			<value>1</value>
 		</row>
 		<row>
 			<value>101</value>
@@ -2957,6 +2978,7 @@
 			<value>189</value>
 			<value>190</value>
 			<value>1</value>
+			<value>0</value>
 		</row>
 	</table>
 	<table name="jos_menu_types">

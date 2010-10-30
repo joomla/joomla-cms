@@ -153,7 +153,7 @@ class MenusModelItems extends JModelList
 
 		// Exclude the root category.
 		$query->where('a.id > 1');
-		$query->where('a.menutype <> '.$db->quote('_adminmenu'));
+		$query->where('a.client_id = 0');
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');

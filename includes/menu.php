@@ -39,6 +39,7 @@ class JMenuSite extends JMenu
 			$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
 			$query->where('m.published = 1');
 			$query->where('m.parent_id > 0');
+			$query->where('m.client_id = 0');
 			$query->order('m.lft');
 
 			$user = JFactory::getUser();

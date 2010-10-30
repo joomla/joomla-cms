@@ -76,7 +76,7 @@ abstract class JHtmlMenu
 			$query->from('#__menu AS a');
 			$query->where('a.parent_id > 0');
 			$query->where('a.type <> '.$db->quote('url'));
-			$query->where('a.menutype <> '.$db->quote('_adminmenu'));
+			$query->where('a.client_id = 0');
 
 			// Filter on the published state
 			if (isset($config['published'])) {

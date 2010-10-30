@@ -29,6 +29,7 @@ abstract class ModMenuHelper
 		$query->select('a.*, SUM(b.home) AS home');
 		$query->from('#__menu_types AS a');
 		$query->leftJoin('#__menu AS b ON b.menutype = a.menutype');
+		$query->where('b.client_id = 0');
 		$query->group('a.id');
 
 		$db->setQuery($query);
@@ -62,7 +63,7 @@ abstract class ModMenuHelper
 
 		// Filter on the enabled states.
 		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
-		$query->where('m.menutype = '.$db->quote('_adminmenu'));
+		$query->where('m.client_id = 1');
 		$query->where('e.enabled = 1');
 		$query->where('m.id > 1');
 
@@ -113,7 +114,7 @@ abstract class ModMenuHelper
 				}
 			}
 		}
-		
+
 		$result = JArrayHelper::sortObjects($result, 'text', 1, false);
 
 		return $result;
