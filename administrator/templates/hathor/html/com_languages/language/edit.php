@@ -24,7 +24,7 @@ $canDo = LanguagesHelper::getActions();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 		<legend><?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?></legend>
@@ -51,7 +51,7 @@ $canDo = LanguagesHelper::getActions();
 				<?php echo $this->form->getLabel('published'); ?>
 				<?php echo $this->form->getInput('published'); ?>
 			<?php endif ?>
-			
+
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>
 

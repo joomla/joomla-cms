@@ -50,7 +50,7 @@ class LanguagesViewLanguage extends JView
 	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
-		
+
 		JRequest::setVar('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
 		$canDo	= LanguagesHelper::getActions();
@@ -61,25 +61,25 @@ class LanguagesViewLanguage extends JView
 		if ($isNew && $canDo->get('core.create')) {
 			JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
 		}
-		
+
 		//If an existing item, allow to Apply and Save.
 		if (!$isNew && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('language.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('language.save','JTOOLBAR_SAVE');
 		}
-		
+
 		// If an existing item, can save to a copy only if we have create rights.
-		if (!$isNew && $canDo->get('core.create')) {
-		JToolBarHelper::custom('language.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::custom('language.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
-		
+
 		if ($isNew) {
 			JToolBarHelper::cancel('language.cancel','JTOOLBAR_CANCEL');
 		}
 		else {
 			JToolBarHelper::cancel('language.cancel', 'JTOOLBAR_CLOSE');
 		}
-		
+
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_EDIT');
 	}

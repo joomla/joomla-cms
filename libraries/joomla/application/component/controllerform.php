@@ -206,13 +206,12 @@ class JControllerForm extends JController
 	/**
 	 * Method to cancel an edit.
 	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 *
 	 * @return	Boolean	True if access level checks pass, false otherwise.
 	 * @since	1.6
-	 *
-	 * @return	void
-	 * @since	1.6
 	 */
-	public function cancel()
+	public function cancel($key = null)
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -222,7 +221,12 @@ class JControllerForm extends JController
 		$table		= $model->getTable();
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
-		$recordId	= JRequest::getInt('id');
+
+		if (empty($key)) {
+			$key = $table->getKeyName();
+		}
+
+		$recordId	= JRequest::getInt($key);
 
 		// Attempt to check-in the current record.
 		if ($recordId) {
@@ -241,7 +245,7 @@ class JControllerForm extends JController
 					// Check-in failed, go back to the record and display a notice.
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 					$this->setMessage($this->getError(), 'error');
-					$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId));
+					$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
 
 					return false;
 				}
@@ -394,10 +398,12 @@ class JControllerForm extends JController
 	/**
 	 * Method to save a record.
 	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 *
 	 * @return	Boolean	True if successful, false otherwise.
 	 * @since	1.6
 	 */
-	public function save()
+	public function save($key = null)
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -411,7 +417,12 @@ class JControllerForm extends JController
 		$checkin	= property_exists($table, 'checked_out');
 		$context	= "$this->option.edit.$this->context";
 		$task		= $this->getTask();
-		$recordId	= JRequest::getInt('id');
+
+		if (empty($key)) {
+			$key = $table->getKeyName();
+		}
+
+		$recordId	= JRequest::getInt($key);
 
 		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
@@ -426,7 +437,6 @@ class JControllerForm extends JController
 		}
 
 		// Populate the row id from the session.
-		$key		= $table->getKeyName();
 		$data[$key] = $recordId;
 
 		// The save2copy task needs to be handled slightly differently.
@@ -488,8 +498,7 @@ class JControllerForm extends JController
 			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId), false));
-
+			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key), false));
 
 			return false;
 		}
@@ -502,7 +511,7 @@ class JControllerForm extends JController
 			// Redirect back to the edit screen.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId), false));
+			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key), false));
 
 			return false;
 		}
@@ -515,7 +524,7 @@ class JControllerForm extends JController
 			// Check-in failed, go back to the record and display a notice.
 			$this->setError(JText::sprintf('JError_Checkin_saved', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId));
+			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
 
 			return false;
 		}
@@ -532,7 +541,7 @@ class JControllerForm extends JController
 				$app->setUserState($context.'.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId), false));
+				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key), false));
 				break;
 
 			case 'save2new':
@@ -541,7 +550,7 @@ class JControllerForm extends JController
 				$app->setUserState($context.'.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend(), false));
+				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend(null, $key), false));
 				break;
 
 			default:
