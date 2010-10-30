@@ -171,6 +171,26 @@ class PluginsModelPlugin extends JModelAdmin
 	}
 
 	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function populateState()
+	{
+		// Execute the parent method.
+		parent::populateState();
+
+		$app = JFactory::getApplication('administrator');
+
+		// Load the User state.
+		$pk = (int) JRequest::getInt('extension_id');
+		$this->setState('plugin.id', $pk);
+	}
+
+	/**
 	 * @param	object	A form object.
 	 * @param	mixed	The data expected for the form.
 	 * @return	mixed	True if successful.

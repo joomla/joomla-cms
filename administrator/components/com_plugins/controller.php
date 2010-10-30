@@ -37,7 +37,7 @@ class PluginsController extends JController
 
 		$view		= JRequest::getWord('view', 'plugins');
 		$layout 	= JRequest::getWord('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$id			= JRequest::getInt('extension_id');
 
 		// Check for edit form.
 		if ($view == 'plugin' && $layout == 'edit' && !$this->checkEditId('com_plugins.edit.plugin', $id)) {
