@@ -30,6 +30,7 @@ $ -> Language fix or change
 30-Oct-2010 Mark Dexter
 # [#21529] Aliases for _adminmenu items [sample data/joomla.sql]
 # [#23046] Delete unused vcard files
+# Clean out extraneous characters in sample data
 
 30-Oct-2010 Jean-Marie Simonet
  # [#23058] Debug shows language debug info if "Debug Language" is disabled. Thanks Dennis.
