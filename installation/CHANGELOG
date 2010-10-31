@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Oct-2010 Jean-Marie Simonet
+ # [#23076] Plugin Edits not checking back in in Bluestork. Thanks Andrea.
+ 
 30-Oct-2010 Mark Dexter
 # [#21529] Aliases for _adminmenu items [sample data/joomla.sql]
 # [#23046] Delete unused vcard files
