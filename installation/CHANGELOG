@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Oct-2010 Christophe Demko
+ # [#23073] Module position selection popup does not display administrator positions
+
 31-Oct-2010 Jean-Marie Simonet
  # [#23076] Plugin Edits not checking back in in Bluestork. Thanks Andrea.
  # [#23066] Single edit fix issues in Hathor. Thanks Andrea

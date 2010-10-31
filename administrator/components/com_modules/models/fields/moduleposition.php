@@ -35,7 +35,21 @@ class JFormFieldModulePosition extends JFormFieldText
 	 */
 	protected function getInput()
 	{
-		$clientId = (int) $this->element['client_id'];
+		// Get the client id.
+		$clientId = $this->element['client_id'];
+		if (!isset($clientId))
+		{
+			$clientName = $this->element['client'];
+			if (isset($clientName))
+			{
+				$client = JApplicationHelper::getClientInfo($clientName, true);
+				$clientId = $client->id;
+			}
+		}
+		if (!isset($clientId) && $this->form instanceof JForm) {
+			$clientId = $this->form->getValue('client_id');
+		}
+		$clientId = (int) $clientId;
 
 		// Load the modal behavior script.
 		JHtml::_('behavior.modal', 'a.modal');

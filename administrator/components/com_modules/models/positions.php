@@ -52,7 +52,7 @@ class ModulesModelPositions extends JModelList
 		$this->setState('params', $params);
 
 		// List state information.
-		parent::populateState('position', 'asc');
+		parent::populateState('value', 'asc');
 	}
 
 	/**
@@ -81,7 +81,7 @@ class ModulesModelPositions extends JModelList
 			{
 				// Get the database object and a new query object.
 				$query	= $this->_db->getQuery(true);
-				$query->select('DISTINCT(position)');
+				$query->select('DISTINCT(position) as value');
 				$query->from('#__modules');
 				$query->where('`client_id` = '.(int) $clientId);
 				if ($search) {
@@ -89,14 +89,14 @@ class ModulesModelPositions extends JModelList
 				}
 
 				$this->_db->setQuery($query);
-				$positions = $this->_db->loadObjectList('position');
+				$positions = $this->_db->loadObjectList('value');
 				// Check for a database error.
 				if ($error = $this->_db->getErrorMsg()) {
 					$this->setError($error);
 					return false;
 				}
-				foreach ($positions as $position) {
-					$position->templates = array();
+				foreach ($positions as $value=>$position) {
+					$positions[$value] = array();
 				}
 			}
 			else
@@ -120,29 +120,51 @@ class ModulesModelPositions extends JModelList
 					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
 						foreach ($xml->positions[0] as $position)
 						{
-							$position = (string)$position;
-							if ($type=='user' || ($state!='' && $state!=$template->enabled)) {
-								unset($positions[$position]);
+							$value = (string)$position['value'];
+							$label = (string)$position;
+							if (!$value) {
+								$value = $label;
+								$label = preg_replace('/[^a-zA-Z0-9_]/','_', 'TPL_'.$template->element.'_POSITION_'.$value);
+								$altlabel = preg_replace('/[^a-zA-Z0-9_]/','_', 'COM_MODULES_POSITION_'.$value);
+								if (!$lang->hasKey($label) && $lang->hasKey($altlabel)) {
+									$label = $altlabel;
+								}
 							}
-							elseif (preg_match(chr(1).$search.chr(1).'i', $position) && ($filter_template=='' || $filter_template==$template->element)) {
-								if (!isset($positions[$position])) {
-									$positions[$position] = new StdClass;
+							if ($type=='user' || ($state!='' && $state!=$template->enabled)) {
+								unset($positions[$value]);
+							}
+							elseif (preg_match(chr(1).$search.chr(1).'i', $value) && ($filter_template=='' || $filter_template==$template->element)) {
+								if (!isset($positions[$value])) {
+									$positions[$value] = array();
 								}
-								if (!isset($positions[$position]->templates)) {
-									$positions[$position]->templates = array();
-								}
-								if (!isset($positions[$position]->position)) {
-									$positions[$position]->position = $position;
-								}
-								$positions[$position]->templates[]=$template;
+								$positions[$value][$template->name]=$label;
 							}
 						}
 					}
 				}
 			}
 			$this->total = count($positions);
-			JArrayHelper::sortObjects($positions ,array($ordering,'position'), array($direction == 'desc' ? -1 : 1, 1));
-			$this->items = array_slice($positions, $limitstart, $limit ? $limit : null);;
+			if ($limitstart >= $this->total) {
+				$limitstart = $limitstart < $limit ? 0 : $limitstart - $limit;
+				$this->setState('list.start', $limitstart);
+			}
+			if ($ordering == 'value') {
+				if ($direction == 'asc') {
+					ksort($positions);
+				}
+				else {
+					krsort($positions);
+				}
+			}
+			else {
+				if ($direction == 'asc') {
+					asort($positions);
+				}
+				else {
+					arsort($positions);
+				}
+			}
+			$this->items = array_slice($positions, $limitstart, $limit ? $limit : null);
 		}
 		return $this->items;
 	}

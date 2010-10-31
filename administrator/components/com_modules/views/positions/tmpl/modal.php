@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-
 $function = JRequest::getVar('function', 'jSelectPosition');
+$lang = JFactory::getLanguage();
 $ordering	= $this->state->get('list.ordering');
 $direction	= $this->state->get('list.direction');
 $clientId	= $this->state->get('filter.client_id');
@@ -56,8 +56,8 @@ $type		= $this->state->get('filter.type');
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'position', $direction, $ordering); ?>
+				<th class="title" width="20%">
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'value', $direction, $ordering); ?>
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_TEMPLATES', 'templates', $direction, $ordering); ?>
@@ -72,17 +72,17 @@ $type		= $this->state->get('filter.type');
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i=>$position) : ?>
-			<tr class="row<?php echo $i % 2;?>">
+		<?php $i=1; foreach ($this->items as $value=>$templates) : ?>
+			<tr class="row<?php echo $i=1-$i;?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $position->position; ?>');"><?php echo $this->escape($position->position); ?></a>
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $value; ?>');"><?php echo $this->escape($value); ?></a>
 				</td>
 				<td>
-					<?php if (isset($position->templates)):?>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $position->position; ?>');">
+					<?php if (!empty($templates)):?>
+					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $function;?>('<?php echo $value; ?>');">
 						<ul>
-						<?php foreach ($position->templates as $template):?>
-							<li><?php echo JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', $template->name, JText::_('TPL_'.$template->element.'_POSITION_'.preg_replace('/[^a-zA-Z0-9_]/','_', $position->position)));?></li>
+						<?php foreach ($templates as $template => $label):?>
+							<li><?php echo $lang->hasKey($label) ? JText::sprintf('COM_MODULES_MODULE_TEMPLATE_POSITION', JText::_($template), JText::_($label)) : JText::_($template);?></li>
 						<?php endforeach;?>
 						</ul>
 					</a>
