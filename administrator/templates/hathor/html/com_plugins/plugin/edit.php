@@ -13,18 +13,17 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHTML::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-$canDo		= PluginsHelper::getActions();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
-			Joomla.submitform(task, document.getElementByID('style-form'));
+			Joomla.submitform(task, document.getElementById('style-form'));
 		}
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS') ?></legend>
@@ -34,10 +33,9 @@ $canDo		= PluginsHelper::getActions();
 			<?php echo $this->form->getInput('name'); ?>
 			<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span></li>
 
-			<?php if ($canDo->get('core.edit.state')) { ?>
-				<li><?php echo $this->form->getLabel('enabled'); ?>
-				<?php echo $this->form->getInput('enabled'); ?></li>
-			<?php }?>
+			<li><?php echo $this->form->getLabel('enabled'); ?>
+			<?php echo $this->form->getInput('enabled'); ?></li>
+
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
 

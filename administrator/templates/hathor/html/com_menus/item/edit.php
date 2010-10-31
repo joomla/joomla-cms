@@ -23,9 +23,14 @@ $canDo		= MenusHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
 	{
-		if (task == 'item.setType') {
-			document.id('item-form').elements['jform[type]'].value = type;
-			Joomla.submitform(task, document.getElementById('item-form'));
+		if (task == 'item.setType' || task == 'item.setMenuType') {
+			if(task == 'item.setType') {
+				document.id('item-form').elements['jform[type]'].value = type;
+				document.getElementById('fieldtype').value = 'type';
+			} else {
+				document.id('item-form').elements['jform[menutype]'].value = type;
+			}
+			Joomla.submitform('item.setType', document.getElementById('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			Joomla.submitform(task, document.getElementById('item-form'));
 		} else {
@@ -42,7 +47,7 @@ $canDo		= MenusHelper::getActions();
 
 <div class="menuitem-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 <div class="col main-section">
 	<fieldset class="adminform">
@@ -87,10 +92,14 @@ $canDo		= MenusHelper::getActions();
 
 				<li><?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?></li>
-				<?php if ($canDo->get('core.edit.state')) : ?>	
+				
+				<?php if ($canDo->get('core.edit.state')) : ?>
+					<?php if ($this->item->type == 'component') : ?>
 					<li><?php echo $this->form->getLabel('home'); ?>
 					<?php echo $this->form->getInput('home'); ?></li>
+					<?php endif ?>
 				<?php endif ?>
+				
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
@@ -123,8 +132,8 @@ $canDo		= MenusHelper::getActions();
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
 </form>
 
 <div class="clr"></div>
 </div>
-

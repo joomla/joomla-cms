@@ -19,7 +19,7 @@ $canDo = LanguagesHelper::getActions();
 	Joomla.submitbutton = function(task)
 	{
 		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form'))) {
-			Joomla.submitform(task, document.getElementByID('language-form'));
+			Joomla.submitform(task, document.getElementById('language-form'));
 		}
 	}
 </script>
@@ -74,6 +74,7 @@ $canDo = LanguagesHelper::getActions();
 						<?php echo $field->input; ?>
 					</li>
 				<?php endforeach; ?>
+				</ul>
 			</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>

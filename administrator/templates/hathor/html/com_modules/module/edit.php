@@ -15,31 +15,26 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
-$canDo		= ModulesHelper::getActions();
-
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
+$script = "Joomla.submitbutton = function(task)
 	{
-		if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
-			<?php
-			if ($hasContent) :
-				echo $this->form->getField('content')->save();
-			endif;
-			?>
-			Joomla.submitform(task, document.getElementById('module-form'));
-			if (self != top) {
-				window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
+if ($hasContent) {
+	$script .= $this->form->getField('content')->save();
+}
+$script .= "	Joomla.submitform(task, document.getElementById('module-form'));
+				if (self != top) {
+					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
+				}
+			} else {
+				alert('".$this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'))."');
 			}
-		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
-	}
-</script>
+	}";
 
-<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS');?>	</legend>
@@ -53,12 +48,10 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible"><?php echo JText::_('TPL_HATHOR_COM_MODULES_CUSTOM_POSITION_LABEL');?></label>
 			<?php echo $this->form->getInput('position'); ?></li>
 
-			<?php if ($canDo->get('core.edit.state')) { ?>
-				<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
-				<li><?php echo $this->form->getLabel('published'); ?>
-				<?php echo $this->form->getInput('published'); ?></li>
-				<?php endif; ?>
-			<?php }?>
+			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+			<li><?php echo $this->form->getLabel('published'); ?>
+			<?php echo $this->form->getInput('published'); ?></li>
+			<?php endif; ?>
 
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>

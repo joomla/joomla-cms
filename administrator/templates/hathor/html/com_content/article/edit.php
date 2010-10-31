@@ -35,7 +35,7 @@ $canDo		= ContentHelper::getActions();
 
 <div class="article-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="col main-section">
 	<fieldset class="adminform">
 	<legend><?php echo empty($this->item->id) ? JText::_('COM_CONTENT_NEW_ARTICLE') : JText::sprintf('COM_CONTENT_EDIT_ARTICLE', $this->item->id); ?></legend>
@@ -46,26 +46,20 @@ $canDo		= ContentHelper::getActions();
 		<li><?php echo $this->form->getLabel('alias'); ?>
 		<?php echo $this->form->getInput('alias'); ?></li>
 
-		<?php if ($canDo->get('core.create')) { ?>
-			<li><?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?></li>
-		<?php }?>
-
-		<?php if ($canDo->get('core.edit.state')) { ?>		
-			<li><?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?></li>
-		<?php }?>
+		<li><?php echo $this->form->getLabel('catid'); ?>
+		<?php echo $this->form->getInput('catid'); ?></li>
+	
+		<li><?php echo $this->form->getLabel('state'); ?>
+		<?php echo $this->form->getInput('state'); ?></li>
 		
 		<li><?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?></li>
 
 		<li><?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?></li>
-
-		<?php if ($canDo->get('core.edit.state')) { ?>	
-			<li><?php echo $this->form->getLabel('featured'); ?>
-			<?php echo $this->form->getInput('featured'); ?></li>
-		<?php }?>
+	
+		<li><?php echo $this->form->getLabel('featured'); ?>
+		<?php echo $this->form->getInput('featured'); ?></li>
 
 		<li><?php echo $this->form->getLabel('id'); ?>
 		<?php echo $this->form->getInput('id'); ?></li>

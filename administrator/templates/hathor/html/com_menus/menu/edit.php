@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 
 <div class="menu-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&'.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form">
 <div class="col main-section">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_MENU_DETAILS');?></legend>
