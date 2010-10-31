@@ -30,6 +30,7 @@ $ -> Language fix or change
 31-Oct-2010 Jean-Marie Simonet
  # [#23076] Plugin Edits not checking back in in Bluestork. Thanks Andrea.
  # [#23066] Single edit fix issues in Hathor. Thanks Andrea
+ # [#23080] Hathor menu batch copy strings. Thanks Bill.
  
 30-Oct-2010 Mark Dexter
 # [#21529] Aliases for _adminmenu items [sample data/joomla.sql]
