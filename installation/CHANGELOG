@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#21446] Use local storage for the font size changer in the Beez templates (Rouven Weßling)
  # [#22003] Missing onXXXBeforeSave event in com_categories (Andrew Eddie)
  # [#23077] Error (JTableMenu: :store failed - Duplicate entry) when creating 2 menu items with same alias (even in different menus)
+ # [#23005] Upgrade TinyMCE to 3.9.2 (	Rouven Weßling)
 
 31-Oct-2010 Christophe Demko
  # [#23073] Module position selection popup does not display administrator positions
