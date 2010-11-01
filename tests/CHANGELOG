@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Nov-2010 Mark Dexter
+# Fix doInstall so it can be run against a different Joomla! instance
+
 30-Oct-2010 Mark Dexter
 # Remove tests/system/server/configdef.php file accidentally added to version control
 

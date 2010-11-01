@@ -15,7 +15,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 	{
 		$this->setUp();
 		$cfg = $this->cfg;
-		$configFile = "../../configuration.php";
+		$configFile = $cfg->folder.$cfg->path."configuration.php";
 
 		if (file_exists($configFile)) {
 			echo "Delete configuration file\n";
