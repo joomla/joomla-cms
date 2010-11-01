@@ -22,15 +22,15 @@ class JVersion
 	/** @public int Main Release Level */
 	public $RELEASE	= '1.6';
 	/** @public string Development Status */
-	public $DEV_STATUS	= 'Beta12';
+	public $DEV_STATUS	= 'Beta13';
 	/** @public int Sub Release Level */
 	public $DEV_LEVEL	= '0';
 	/** @public int build Number */
 	public $BUILD		= '';
 	/** @public string Codename */
-	public $CODENAME	= 'Hope';
+	public $CODENAME	= 'Onward';
 	/** @public string Date */
-	public $RELDATE	= '18-Oct-2010';
+	public $RELDATE	= '01-Nov-2010';
 	/** @public string Time */
 	public $RELTIME	= '23:00';
 	/** @public string Timezone */
