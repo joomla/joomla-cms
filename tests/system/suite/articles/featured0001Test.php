@@ -46,8 +46,6 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Ordering");
 		$this->waitForPageToLoad("30000");
-		$this->click("link=Ordering");
-		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//img[contains(@src, 'sort_asc.png')]"));
 		$this->type("//input[@name='order[]' and @value='1']", "4");
 		$this->type("//input[@name='order[]' and @value='2']", "3");

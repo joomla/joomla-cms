@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 01-Nov-2010 Mark Dexter
 # Fix doInstall so it can be run against a different Joomla! instance
+# Small fix for featured0001Test due to default ordering in Featured Articles Manager
 
 30-Oct-2010 Mark Dexter
 # Remove tests/system/server/configdef.php file accidentally added to version control
