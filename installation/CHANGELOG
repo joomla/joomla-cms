@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Nov-2010 Jean-Marie Simonet
+ # [#23085] Improved UI for Article/Category permissions. Thanks Andrea.
 
 -------------------- 1.6.0 Beta13 Release [01-Nov-2010] ------------------
 

@@ -111,7 +111,11 @@
 			value="-2">
 			JTRASHED</option>
 	</field>
-
+	<field
+		name="buttonspacer"
+		label="JGLOBAL_ACTION_PERMISSIONS_LABEL" 
+		description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
+		type="spacer" />
 	<field
 		name="checked_out"
 		type="hidden"

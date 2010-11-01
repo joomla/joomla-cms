@@ -630,7 +630,8 @@ dl#content-pane.tabs {
 	margin: 1px 0 0 0;
 }
 
-div.current label {
+div.current label,
+div.current span.faux-label {
 	display: block;
 	min-width: 150px;
 	float: left;
@@ -813,7 +814,8 @@ ul.adminformlist li {
 	list-style: none;
 }
 
-fieldset label {
+fieldset label,
+fieldset span.faux-label {
 	float: left;
 	clear: left;
 	display:block;
@@ -824,7 +826,8 @@ fieldset ul {
 	padding: 0;
 }
 
-form label {
+form label,
+form span.faux-label {
 	font-size: 1.091em;
 }
 
@@ -1025,13 +1028,15 @@ button.jform-rightbtn {
 }
 
 /* Field label widths - long label */
-fieldset.adminform.long label {
+fieldset.adminform.long label, 
+fieldset.adminform.long span.faux-label {
 	min-width: 180px;
 }
 fieldset.adminform.long input { }
 
 /* Field label widths - short label */
-fieldset.adminform label {
+fieldset.adminform label, 
+fieldset.adminform span.faux-label {
 	width: 135px;
 }
 
@@ -1039,7 +1044,8 @@ fieldset.panelform {
 	overflow: hidden;
 }
 fieldset.panelform label,
-fieldset.panelform div.paramrow label {
+fieldset.panelform div.paramrow label,
+fieldset.panelform span.faux-label {
 	min-width: 145px;
 	max-width: 145px;
 }
@@ -1604,8 +1610,9 @@ a.saveorder.inactive {
 }
 
 .button2-left a,
-.button2-left button,
 .button2-right a,
+.button2-left button,
+.button2-right button,
 .button2-left span,
 .button2-right span {
 	display: block;
@@ -1630,6 +1637,7 @@ a.saveorder.inactive {
 .button2-right .blank a,
 .button2-left .blank span,
 .button2-right .blank span,
+.button2-left .blank button,
 .button2-right .blank button {
 	padding: 0 6px;
 }
@@ -1641,18 +1649,21 @@ a.saveorder.inactive {
 
 .button2-left a:hover,
 .button2-right a:hover,
+.button2-left button:hover,
 .button2-left button:hover	{
 	text-decoration: none;
 	color: #0B55C4;
 }
 
 .button2-left a,
-.button2-left span {
+.button2-left span,
+.button2-left button {
 	padding: 0 24px 0 6px;
 }
 
 .button2-right a,
-.button2-right span {
+.button2-right span,
+.button2-right button {
 	padding: 0 6px 0 24px;
 }
 
@@ -1699,6 +1710,17 @@ button:hover {
 	background: #E8F6FE;
 	text-decoration: none;
 	border: 1px solid #aaa;
+}
+
+div.button2-left button {
+	background: transparent;
+	margin-top: 0;
+	border: 0 solid #ccc;
+}
+
+div.button2-left button {
+	background: transparent;
+	border: 0 solid #aaa;
 }
 
 

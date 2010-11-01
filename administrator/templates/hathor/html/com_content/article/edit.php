@@ -54,7 +54,13 @@ $canDo		= ContentHelper::getActions();
 		
 		<li><?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?></li>
+		
 
+		<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
+      		<button type="button" onclick="document.location.href='#access-rules';">
+      		<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
+    	</li>
+				
 		<li><?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?></li>
 	
@@ -130,13 +136,6 @@ $canDo		= ContentHelper::getActions();
 			</fieldset>
 		<?php endforeach; ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
-		<fieldset class="panelform">
-		<legend class="element-invisible"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
-			<?php // echo $this->form->getLabel('rules'); ?>
-			<?php echo $this->form->getInput('rules'); ?>
-		</fieldset>
-
 		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
@@ -144,6 +143,20 @@ $canDo		= ContentHelper::getActions();
 		</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>
+				</div>
+		<div class="clr"></div>
+		<div  class="col rules-section">
+
+			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		
+			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>	
+			<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
+				<?php echo $this->form->getLabel('rules'); ?>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
+				
+			<?php echo JHtml::_('sliders.end'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />

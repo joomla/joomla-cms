@@ -294,7 +294,8 @@ select#lang {
 	margin: 0 20px 0 0;
 	clear:left;
 }
-fieldset label {
+fieldset label,
+fieldset span.faux-label {
 	float: right;
 	clear: right;
 }
@@ -506,7 +507,8 @@ margin:3px 2px 0 2px;
 
 /* Additional RTL fixes for forms */
 
-div.current label {
+div.current label,
+div.current span.faux-label {
 	float: right;
 	clear: none;
 	clear: right;

@@ -40,7 +40,10 @@
 			class="inputbox" required="true"
 		>
 		</field>
-
+		<field
+			name="buttonspacer"
+			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
+			type="spacer" />
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC" class="inputbox" size="20"
 			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />

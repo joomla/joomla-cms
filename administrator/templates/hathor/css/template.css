@@ -861,9 +861,14 @@ div.main-section {
 }
 
 div.options-section {
-	width: 40%;
+	width: 39%;
+	margin-top: 10px;
 }
 
+div.rules-section {
+	width: 98%;
+	margin: 10px;
+}
 /**
  * Form Styles
  */
@@ -2945,8 +2950,8 @@ fieldset.panelform fieldset.radio span.faux-label {
 }
 
 
-fieldset.adminform input, fieldset.adminform span.faux-input, fieldset.adminform textarea, fieldset.adminform select, fieldset.adminform img,
-fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform textarea, fieldset.panelform select, fieldset.panelform img {
+fieldset.adminform input, fieldset.adminform span.faux-input, fieldset.adminform textarea, fieldset.adminform select, fieldset.adminform img, fieldset.adminform button,
+fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform textarea, fieldset.panelform select, fieldset.panelform img, fieldset.panelform button {
 	float:left;
 	margin:5px 5px 5px 0;
 	width:auto;
