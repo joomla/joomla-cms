@@ -76,16 +76,17 @@ class JFormFieldRules extends JFormField
 			$assetId = $this->form->getValue($assetField);
 		}
 
-		if (!empty($component) && $section != 'component') 
-		{
-			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		}
+//		Leaving this for now.
+//		if (!empty($component) && $section != 'component') 
+//		{
+//			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+//		}
 
 		$rules = JAccess::getAssetRules($assetId);
 
 		// Get the global rules
 		// Assumes the root is the first record which might not be safe.
-		// TODO: Better to look at the "parent" - will need to do this when looking at refactoring the wdiget
+		// TODO: Better to look at the "parent" - will need to do this when looking at refactoring the widget
 		$globalRules = JAccess::getAssetRules(1);
 
 		// Get the available user groups.
