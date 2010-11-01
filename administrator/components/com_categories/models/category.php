@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
+// No direct access.
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modeladmin');
@@ -297,11 +297,14 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$pk		= (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName().'.id');
-		$isNew	= true;
+		// Initialise variables;
+		$dispatcher = JDispatcher::getInstance();
+		$table		= $this->getTable();
+		$pk			= (!empty($data['id'])) ? $data['id'] : (int)$this->getState($this->getName().'.id');
+		$isNew		= true;
 
-		// Get a row instance.
-		$table = $this->getTable();
+		// Include the content plugins for the on save events.
+		JPluginHelper::importPlugin('content');
 
 		// Load the row if saving an existing category.
 		if ($pk > 0) {
@@ -320,7 +323,8 @@ class CategoriesModelCategory extends JModelAdmin
 			$data['alias'] = '';
 			if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
 				$data['title'] = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-			} else {
+			}
+			else {
 				$data['title'] .= ' (2)';
 			}
 		}
@@ -343,11 +347,21 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
+		// Trigger the onContentBeforeSave event.
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, $table, $isNew));
+		if (in_array(false, $result, true)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
 		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
 			return false;
 		}
+
+		// Trigger the onContentAfterSave event.
+		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, $table, $isNew));
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id)) {
