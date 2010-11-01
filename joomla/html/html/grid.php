@@ -58,16 +58,22 @@ abstract class JHtmlGrid
 	 * @param	string	The current direction
 	 * @param	string	The selected ordering
 	 * @param	string	An optional task override
+	 * @param	string	An optional direction for the new column
 	 *
 	 * @return	string
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task=NULL)
+	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task=NULL, $new_direction='asc')
 	{
 		$direction	= strtolower($direction);
 		$images		= array('sort_asc.png', 'sort_desc.png');
 		$index		= intval($direction == 'desc');
-		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
-
+		
+		if ($order != $selected) {
+			$direction = $new_direction;
+		} else {
+			$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+		}
+		
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN').'">';
 		$html .= JText::_($title);
 
