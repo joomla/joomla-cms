@@ -44,7 +44,7 @@ class MediaViewMedia extends JView
 		JHTML::_('stylesheet','system/mootree.css', array(), true);
 
 		if ($config->get('enable_flash', 1)) {
-			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');
+			$fileTypes = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
 			$types = explode(',', $fileTypes);
 			$displayTypes = '';		// this is what the user sees
 			$filterTypes = '';		// this is what controls the logic
@@ -59,7 +59,7 @@ class MediaViewMedia extends JView
 				$displayTypes .= '*.'.$type;
 				$filterTypes .= '*.'.$type;
 			}
-			$typeString = '{ \'Images ('.$displayTypes.')\': \''.$filterTypes.'\' }';
+			$typeString = '{ \''.JText::_('COM_MEDIA_FILES','true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
 
 			JHtml::_('behavior.uploader', 'upload-flash',
 				array(
