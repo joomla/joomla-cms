@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 1-Nov-2010 Christophe Demko
- # [#21446] Use local storage for the font size changer in the Beez templates
+ # [#21446] Use local storage for the font size changer in the Beez templates (Rouven Weßling)
 
 31-Oct-2010 Christophe Demko
  # [#23073] Module position selection popup does not display administrator positions
