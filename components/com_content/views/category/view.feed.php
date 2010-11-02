@@ -25,6 +25,7 @@ class ContentViewCategory extends JView
 
 		$doc	= JFactory::getDocument();
 		$params = $app->getParams();
+		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 
 		// Get some data from the model
 		JRequest::setVar('limit', $app->getCfg('feed_limit'));
@@ -59,6 +60,14 @@ class ContentViewCategory extends JView
 			$item->description	= $description;
 			$item->date			= $date;
 			$item->category		= $row->category;
+
+			$item->author		= $author;
+			if ($feedEmail == 'site') {
+				$item->authorEmail = $siteEmail;
+			}
+			else {
+				$item->authorEmail = $row->author_email;
+			}
 
 			// loads item info into rss array
 			$doc->addItem($item);
