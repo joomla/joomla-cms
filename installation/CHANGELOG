@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#23082] Help system does not work correctly when debug language is ON
  # [#23095] Missing author_email in components/com_content/views/featured
  # [#23029] JHtml::stylesheet not backward compatible and broken (Andrew, Mark)
+ # [#22188] Optimize beez font loading for IE (Rouven Weßling)
 
 02-Nov-2010 Jean-Marie Simonet
  # [#23071] Provide template_preview.png for both Beez templates. Thanks Michael and Ramindu.
