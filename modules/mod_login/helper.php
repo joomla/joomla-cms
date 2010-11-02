@@ -17,11 +17,18 @@ class modLoginHelper
 		$url = null;
 		if ($itemid =  $params->get($type))
 		{
+			$db		= JFactory::getDbo();
 			$app	= JFactory::getApplication();
-			$menu	= $app->getMenu();
-			$item	= $menu->getItem($itemid);
-			if ($item) {
-				$url = JRoute::_($item->link.'&Itemid='.$itemid, false);
+			$query	= $db->getQuery(true);
+
+			$query->select($db->nameQuote('link'));
+			$query->from($db->nameQuote('#__menu'));
+			$query->where($db->nameQuote('published') . '=1');
+			$query->where($db->nameQuote('id') . '=' . $db->quote($itemid));
+
+			$db->setQuery($query);
+			if ($link = $db->loadResult()) {
+				$url = JRoute::_($link.'&Itemid='.$itemid, false);
 			}
 		}
 		if (!$url)
@@ -33,7 +40,7 @@ class modLoginHelper
 
 		return base64_encode($url);
 	}
-
+	
 	static function getType()
 	{
 		$user = JFactory::getUser();
