@@ -84,6 +84,14 @@ class ModulesViewModule extends JView
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
-		JToolBarHelper::help($help->key, false, $lang->hasKey($help->url) ? JText::_($help->url) : null);
+		if ($lang->hasKey($help->url)) {
+			$debug = $lang->setDebug(false);
+			$url = JText::_($help->url);
+			$lang->setDebug($debug);
+		}
+		else {
+			$url = null;
+		}
+		JToolBarHelper::help($help->key, false, $url);
 	}
 }

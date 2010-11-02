@@ -155,11 +155,14 @@ class CategoriesViewCategories extends JView
 		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
-		JToolBarHelper::help(
-			$ref_key,
-			JComponentHelper::getParams( $component )->exists('helpURL'),
-			$lang->hasKey($lang_help_url = strtoupper($component).'_HELP_URL') ? JText::_($lang_help_url) : null,
-			$component
-		);
+		if ($lang->hasKey($lang_help_url = strtoupper($component).'_HELP_URL')) {
+			$debug = $lang->setDebug(false);
+			$url = JText::_($lang_help_url);
+			$lang->setDebug($debug);
+		}
+		else {
+			$url = null;
+		}
+		JToolBarHelper::help($ref_key, JComponentHelper::getParams( $component )->exists('helpURL'), $url);
 	}
 }

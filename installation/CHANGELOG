@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23092] Save and New menu item displays error
  # [#22562] Uninstalling core templates triggers multiple errors
  # [#21512] mod_login does not redirect to menu item with access level greater than current
+ # [#23082] Help system does not work correctly when debug language is ON
 
 02-Nov-2010 Jean-Marie Simonet
  # [#23071] Provide template_preview.png for both Beez templates. Thanks Michael and Ramindu.
