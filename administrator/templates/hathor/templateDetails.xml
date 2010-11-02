@@ -13,19 +13,21 @@
 	<files>
 		<filename>component.php</filename>
 		<filename>cpanel.php</filename>
+		<filename>error.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>index.html</filename>
 		<filename>index.php</filename>
 		<filename>login.php</filename>
 		<filename>LICENSE.txt</filename>
-		<filename>params.ini</filename>
+		<filename>params.ini</filename>		
 		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
 		<folder>css</folder>
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>js</folder>
-		<!-- For a non-core admin template, the language files would be -->
+		<!-- For a non-core admin template, the language files could be -->
 		<!-- inside the language/en-GB folder -->
 		<!-- <folder>language</folder>  -->
 	</files>

@@ -610,6 +610,8 @@ class JInstallerModule extends JAdapterInstance
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
 		// Get the package manifest objecct
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
 
 		// Attempt to load the language file; might have uninstall strings

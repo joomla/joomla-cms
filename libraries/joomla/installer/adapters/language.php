@@ -434,6 +434,8 @@ class JInstallerLanguage extends JAdapterInstance
 
 		// Get the package manifest object and remove media
 		$this->parent->setPath('source', $path);
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
 		$this->parent->removeFiles($this->manifest->media);
 

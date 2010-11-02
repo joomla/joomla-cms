@@ -481,7 +481,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 		// Because plugins don't have their own folders we cannot use the standard method of finding an installation manifest
 		// Since 1.6 they do, however until we move to 1.7 and remove 1.6 legacy we still need to use this method
-		// when we get there it'll be something like "$manifest = $this->parent->getManifest();"
+		// when we get there it'll be something like "$this->parent->findManifest();$manifest = $this->parent->getManifest();"
 		$manifestFile = $this->parent->getPath('extension_root').DS.$row->element.'.xml';
 
 		if ( ! file_exists($manifestFile))

@@ -279,6 +279,8 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.strtolower($name));
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
 		if (!($manifest instanceof JXMLElement)) {
 			// kill the extension entry
@@ -292,7 +294,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Remove files
-		$this->parent->removeFiles($manifest->media, $clientId);
+		$this->parent->removeFiles($manifest->media);
 		$this->parent->removeFiles($manifest->languages, $clientId);
 
 		// Delete the template directory

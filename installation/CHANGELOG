@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Nov-2010 Christophe Demko
  # [#23092] *Save and New menu item displays error
+ # [#22562] Uninstalling core templates triggers multiple errors
 
 02-Nov-2010 Jean-Marie Simonet
  # [#23071] Provide template_preview.png for both Beez templates. Thanks Michael and Ramindu.

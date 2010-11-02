@@ -2,7 +2,8 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <extension
 	version="1.6"
-	type="template">
+	type="template"
+	client="site">
 	<name>atomic</name>
 	<creationDate>10/10/09</creationDate>
 	<author>Ron Severdia</author>
@@ -22,6 +23,7 @@
 		<filename>index.html</filename>
 		<filename>favicon.ico</filename>
 		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
 		<filename>template_thumbnail.png</filename>
 		<filename>component.php</filename>
 		<filename>error.php</filename>
