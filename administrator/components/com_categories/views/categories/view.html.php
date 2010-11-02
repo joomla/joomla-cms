@@ -113,10 +113,10 @@ class CategoriesViewCategories extends JView
 		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-categories.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('category.edit', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
+			 JToolBarHelper::custom('category.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);
 		}
 
-		if ($canDo->get('core.edit' )) {
+		if ($canDo->get('core.edit' ) || $canDo->get('core.edit.own')) {
 			JToolBarHelper::custom('category.edit', 'edit.png', 'edit_f2.png', 'JTOOLBAR_EDIT', true);
 			JToolBarHelper::divider();
 		}

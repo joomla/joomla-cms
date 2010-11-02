@@ -67,10 +67,46 @@ class CategoriesControllerCategory extends JControllerForm
 	 * @return	boolean
 	 * @since	1.6
  	 */
-	protected function allowEdit($data = array(), $key = 'parent_id')
+ 	protected function allowEdit($data = array(), $key = 'parent_id')
  	{
-		return JFactory::getUser()->authorise('core.edit', $this->extension.'.category.'.$data[$key]);
- 	}
+		// Initialise variables.
+		$recordId  = (int) isset($data[$key]) ? $data[$key] : 0;
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+
+		// Check general edit permission first.
+		if ($user->authorise('core.edit', $this->extension)) {
+		  return true;
+		}
+
+		// Check specific edit permission.
+		if ($user->authorise('core.edit', $this->extension.'.category.'.$recordId)) {
+		  return true;
+		}
+
+		// Fallback on edit.own.
+		// First test if the permission is available.
+		if ($user->authorise('core.edit.own', $this->extension.'.category.'.$recordId) || $user->authorise('core.edit.own', $this->extension)) {
+		  // Now test the owner is the user.
+		  $ownerId  = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
+		  if (empty($ownerId) && $recordId) {
+				// Need to do a lookup from the model.
+				$record		= $this->getModel()->getItem($recordId);
+
+				if (empty($record)) {
+				  return false;
+				}
+
+				$ownerId = $record->created_user_id;
+		  }
+
+		  // If the owner matches 'me' then do the test.
+		  if ($ownerId == $userId) {
+				return true;
+		  }
+		}
+		return false;
+   }
 
  	/**
 	 * Method to run batch opterations.
@@ -97,7 +133,7 @@ class CategoriesControllerCategory extends JControllerForm
 
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
-			$this->setMessage(JText::_('Categories_Batch_success'));
+			$this->setMessage(JText::_('COM_CATEGORIES_BATCH_SUCCESS'));
 			return true;
  		} else {
 			$this->setMessage(JText::_(JText::sprintf('COM_CATEGORIES_ERROR_BATCH_FAILED', $model->getError())));

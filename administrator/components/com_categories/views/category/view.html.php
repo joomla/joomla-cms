@@ -100,9 +100,11 @@ class CategoriesViewCategory extends JView
 		// Prepare the toolbar.
 		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-category-'.($isNew?'add':'edit').'.png');
 
-		// If a new item, can save the item.
-		if ($isNew && $canDo->get('core.create') && !$canDo->get('core.edit')) {
+		// For new records, check the create permission.
+		if ($isNew && $canDo->get('core.create')) {
+			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 
 		// If not checked out, can save the item.

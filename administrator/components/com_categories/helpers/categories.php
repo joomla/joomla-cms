@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Weblinks helper.
+ * Categories helper.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_categories
