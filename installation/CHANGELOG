@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#23090] Acl - edit own - message "edit not permitted" in categories. Thanks Christophe.
  # [#23094] Double translation in JHtmlJGrid. Thanks Christophe.
  # [#23097] Contact edit screen is not consistent with the other compnents. Thanks Elin and Christophe.
+ # [#23106] Globally define commonly used module position names. Thanks Matt.
 
 01-Nov-2010 Jean-Marie Simonet
  # [#23085] Improved UI for Article/Category permissions. Thanks Andrea.
