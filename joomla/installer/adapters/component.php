@@ -949,6 +949,8 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('source', $this->parent->getPath('extension_administrator'));
 
 		// Get the package manifest object
+		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		$this->parent->findManifest();
 		$this->manifest = $this->parent->getManifest();
 
 		if (!$this->manifest) {
