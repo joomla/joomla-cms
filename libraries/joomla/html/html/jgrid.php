@@ -167,11 +167,13 @@ abstract class JHtmlJGrid
 
 				// Add tips to titles
 				if ($tip) {
+					$states[$key][1] = JText::_($states[$key][1]);
 					$states[$key][2] = JText::_($states[$key][2]) . '::' . $tip;
 					$states[$key][3] = JText::_($states[$key][3]) . '::' . $tip;
 					$states[$key][4] = true;
 				}
 			}
+			return self::state($states, $value, $i, array('prefix'=>$prefix,'translate'=>!$tip), $enabled, true, $checkbox);
 		}
 		
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
