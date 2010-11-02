@@ -61,12 +61,6 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('ordering'); ?>
 				<?php echo $this->form->getInput('ordering'); ?></li>
 
-				<li><?php echo $this->form->getLabel('publish_up'); ?>
-				<?php echo $this->form->getInput('publish_up'); ?></li>
-
-				<li><?php echo $this->form->getLabel('publish_down'); ?>
-				<?php echo $this->form->getInput('publish_down'); ?></li>
-
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
@@ -79,7 +73,37 @@ JHtml::_('behavior.formvalidation');
 
 	<div class="width-40 fltrt">
 		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+
+			<fieldset class="panelform">
+				<ul class="adminformlist">
+				
+					<li><?php echo $this->form->getLabel('created_by'); ?>
+					<?php echo $this->form->getInput('created_by'); ?></li>
+
+					<li><?php echo $this->form->getLabel('created_by_alias'); ?>
+					<?php echo $this->form->getInput('created_by_alias'); ?></li>
+
+					<li><?php echo $this->form->getLabel('created'); ?>
+					<?php echo $this->form->getInput('created'); ?></li>
+
+					<li><?php echo $this->form->getLabel('publish_up'); ?>
+					<?php echo $this->form->getInput('publish_up'); ?></li>
+
+					<li><?php echo $this->form->getLabel('publish_down'); ?>
+					<?php echo $this->form->getInput('publish_down'); ?></li>
+
+					<li><?php echo $this->form->getLabel('modified'); ?>
+					<?php echo $this->form->getInput('modified'); ?></li>
+
+					<li><?php echo $this->form->getLabel('version'); ?>
+					<?php echo $this->form->getInput('version'); ?></li>
+	
+				</ul>
+			</fieldset>		
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
+
+
 			<fieldset class="panelform">
 				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
 
