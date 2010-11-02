@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Nov-2010 Jean-Marie Simonet
+ # [#23071] Provide template_preview.png for both Beez templates. Thanks Michael and Ramindu..
+
 01-Nov-2010 Jean-Marie Simonet
  # [#23085] Improved UI for Article/Category permissions. Thanks Andrea.
 
