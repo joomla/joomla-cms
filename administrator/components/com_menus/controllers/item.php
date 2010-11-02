@@ -257,7 +257,7 @@ class MenusControllerItem extends JControllerForm
 				$app->setUserState('com_menus.edit.item.menutype',	$model->getState('item.menutype'));
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId), false));
+				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend(), false));
 				break;
 
 			default:

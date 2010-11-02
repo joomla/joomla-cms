@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Nov-2010 Christophe Demko
+ # [#23092] *Save and New menu item displays error
+
 02-Nov-2010 Jean-Marie Simonet
  # [#23071] Provide template_preview.png for both Beez templates. Thanks Michael and Ramindu.
  # [#23090] Acl - edit own - message "edit not permitted" in categories. Thanks Christophe.
