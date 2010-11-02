@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#21512] mod_login does not redirect to menu item with access level greater than current
  # [#23082] Help system does not work correctly when debug language is ON
  # [#23095] Missing author_email in components/com_content/views/featured
+ # [#23029] JHtml::stylesheet not backward compatible and broken (Andrew, Mark)
 
 02-Nov-2010 Jean-Marie Simonet
  # [#23071] Provide template_preview.png for both Beez templates. Thanks Michael and Ramindu.

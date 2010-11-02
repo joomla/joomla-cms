@@ -10,7 +10,7 @@
 // no direct access
 defined('JPATH_BASE') or die;
 
-JHtml::addIncludePath(JPATH_LIBRARIES.DS.'joomla'.DS.'html'.DS.'html');
+JHtml::addIncludePath(JPATH_LIBRARIES.'/joomla/html/html');
 
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');
@@ -422,15 +422,23 @@ abstract class JHtml
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true)
 	{
-		if (is_array($attribs)) {
-			$attribs = JArrayHelper::toString($attribs);
+		// Need to adjust for the change in API from 1.5 to 1.6.
+		// function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
+		if (is_string($attribs)) {
+			// Assume this was the old $path variable.
+			$file = $attribs.$file;
+		}
+
+		if (is_array($relative)) {
+			// Assume this was the old $attribs variable.
+			$attribs	= $relative;
+			$relative	= false;
 		}
 
 		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'css');
 
 		// if only path is required
-		if($path_only)
-		{
+		if ($path_only) {
 			if (count($includes)==0) {
 				return null;
 			}
@@ -441,11 +449,11 @@ abstract class JHtml
 				return $includes;
 			}
 		}
-		else
 		// if inclusion is required
-		{
+		else {
 			$document = JFactory::getDocument();
-			foreach ($includes as $include) {
+			foreach ($includes as $include)
+			{
 				$document->addStylesheet($include, 'text/css', null, $attribs);
 			}
 		}
@@ -466,6 +474,14 @@ abstract class JHtml
 	{
 		JHtml::core();
 
+		// Need to adjust for the change in API from 1.5 to 1.6.
+		// function script($filename, $path = 'media/system/js/', $mootools = true)
+		if (is_string($framework)) {
+			// Assume this was the old $path variable.
+			$file		= $framework.$file;
+			$framework	= $relative;
+		}
+
 		// Include mootools framework
 		if ($framework) {
 			JHtml::_('behavior.framework');
@@ -474,8 +490,7 @@ abstract class JHtml
 		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'js');
 
 		// if only path is required
-		if($path_only)
-		{
+		if ($path_only) {
 			if (count($includes)==0) {
 				return null;
 			}
@@ -486,11 +501,11 @@ abstract class JHtml
 				return $includes;
 			}
 		}
-		else
 		// if inclusion is required
-		{
+		else {
 			$document = JFactory::getDocument();
-			foreach ($includes as $include) {
+			foreach ($includes as $include)
+			{
 				$document->addScript($include);
 			}
 		}
