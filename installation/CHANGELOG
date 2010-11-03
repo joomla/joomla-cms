@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Nov-2010 Andrew Eddie
+ ! Updated Beta 13 SQL upgrade diff.
+
 02-Nov-2010 Christophe Demko
  # [#23092] Save and New menu item displays error
  # [#22562] Uninstalling core templates triggers multiple errors
