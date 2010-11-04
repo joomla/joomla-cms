@@ -38,18 +38,17 @@ class JFormFieldRules extends JFormField
 	protected function getInput()
 	{
 		// Initialise some field attributes.
-		$section = $this->element['section'] ? (string)$this->element['section'] : '';
-		$component = $this->element['component'] ? (string)$this->element['component'] : '';
-		$assetField = $this->element['asset_field'] ? (string)$this->element['asset_field'] : 'asset_id';
+		$section	= $this->element['section'] ? (string) $this->element['section'] : '';
+		$component	= $this->element['component'] ? (string) $this->element['component'] : '';
+		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
 		// Get the actions for the asset.
-		$actions = JAccess::getActions($component, $section);
+		$actions	= JAccess::getActions($component, $section);
 
 		// Iterate over the children and add to the actions.
-		foreach($this->element->children() as $el)
+		foreach ($this->element->children() as $el)
 		{
-			if ($el->getName() == 'action') 
-			{
+			if ($el->getName() == 'action') {
 				$actions[] = (object) array(
 					'name'			=> (string) $el['name'],
 					'title'			=> (string) $el['title'],
@@ -59,38 +58,36 @@ class JFormFieldRules extends JFormField
 		}
 
 		// Get the explicit rules for this asset.
-		if ($section == 'component') 
-		{
+		if ($section == 'component') {
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
 			$db->setQuery('SELECT id FROM #__assets WHERE name = ' . $db->quote($component));
-			$assetId = (int)$db->loadResult();
+			$assetId = (int) $db->loadResult();
 
-			if ($error = $db->getErrorMsg()) 
-			{
+			if ($error = $db->getErrorMsg()) {
 				JError::raiseNotice(500, $error);
 			}
 		}
-		else 
-		{
+		else {
+			// Find the asset id of the content.
+			// Note that for global configuration, com_config injects asset_id = 1 into the form.
 			$assetId = $this->form->getValue($assetField);
 		}
 
-//		Leaving this for now.
-//		if (!empty($component) && $section != 'component') 
-//		{
+		// Use the compact form for the content rules (to be deprecated).
+//		if (!empty($component) && $section != 'component') {
 //			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
 //		}
 
-		$rules = JAccess::getAssetRules($assetId);
+		//
+		// Full width format.
+		//
 
-		// Get the global rules
-		// Assumes the root is the first record which might not be safe.
-		// TODO: Better to look at the "parent" - will need to do this when looking at refactoring the widget
-		$globalRules = JAccess::getAssetRules(1);
+		// Get the rules for just this asset (non-recursive).
+		$assetRules = JAccess::getAssetRules($assetId);
 
 		// Get the available user groups.
-		$groups = $this->_getUserGroups();
+		$groups = $this->getUserGroups();
 
 		// Build the form control.
 		$curLevel = 0;
@@ -100,202 +97,152 @@ class JFormFieldRules extends JFormField
 		$html[] = '<div id="permissions-sliders" class="pane-sliders">';
 		$html[] = '<ul id="rules">';
 
-		foreach($groups as $group)
+		// Start a row for each user group.
+		foreach ($groups as $group)
 		{
 			$difLevel = $group->level - $curLevel;
-			if ($difLevel > 0) 
-			{
+
+			if ($difLevel > 0) {
 				$html[] = '<ul>';
 			}
-			else if ($difLevel < 0) 
-			{
+			else if ($difLevel < 0) {
 				$html[] = str_repeat('</li></ul>', -$difLevel);
 			}
+
 			$html[] = '<li>';
 
 			$html[] = '<div class="panel">';
-			$html[] = '<h3 class="jpane-toggler title" ><a href="javascript:void(0);"><span>';
-			$html[] = str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
-			$html[] = '</span></a></h3>';
-			$html[] = '<div class="jpane-slider content">';
-			$html[] = '<div class="mypanel">';
-			$html[] = '<table class="group-rules">';
-			$html[] = '<caption>' . JText::sprintf('JGROUP', $group->text) . '<br /><span>' . JText::_('JACTION_CONFIG_DESC') . '</span></caption>';
-			$html[] = '<thead>';
-			$html[] = '<tr>';
-			$html[] = '<th class="actions" id="actions-th' . $group->value . '">';
-			$html[] = '<span class="acl-action">' . JText::_('JACTION_USER_GROUP') . '</span>';
-			$html[] = '</th>';
-			$html[] = '<th class="settings" id="settings-th' . $group->value . '">';
+			$html[] =	'<h3 class="jpane-toggler title" ><a href="javascript:void(0);"><span>';
+			$html[] =	str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] =	'</span></a></h3>';
+			$html[] =	'<div class="jpane-slider content">';
+			$html[] =		'<div class="mypanel">';
+			$html[] =			'<table class="group-rules">';
+			$html[] =				'<caption>' . JText::sprintf('JGROUP', $group->text) . '<br /><span>' .
+									 JText::_('JRULE_SETTINGS_DESC') . '</span></caption>';
+			$html[] =				'<thead>';
+			$html[] =					'<tr>';
 
-			if ($component != '') 
-			{
-				$html[] = '<span class="acl-action">' . JText::_('JACTION_COMPONENT_SETTINGS') . '</span></th>';
-				$html[] = '<th class="global-settings" id="global_th' . $group->value . '">';
-				$html[] = '<span class="acl-action">' . JText::_('JACTION_GLOBAL_SETTINGS') . '</span>';
-				$html[] = '</th>';
-			}
-			else 
-			{
-				$html[] = '<span class="acl-action">' . JText::_('JACTION_SELECT_SETTINGS') . '</span>';
-				$html[] = '</th>';
-				$html[] = '<th id="aclactionth' . $group->value . '">';
-				$html[] = '<span class="acl-action">' . JText::_('JACTION_CURRENT_SETTINGS') . '</span>';
-				$html[] = '</th>';
+			$html[] =						'<th class="actions" id="actions-th' . $group->value . '">';
+			$html[] =							'<span class="acl-action">' . JText::_('JACTION_ACTION') . '</span>';
+			$html[] =						'</th>';
+
+			$html[] =						'<th class="settings" id="settings-th' . $group->value . '">';
+			$html[] =							'<span class="acl-action">' . JText::_('JRULE_SELECT_SETTING') . '</span>';
+			$html[] =						'</th>';
+
+			// The calculated setting is not shown for the root group of global configuration.
+			$canCalculateSettings = ($group->parent_id || !empty($component));
+			if ($canCalculateSettings) {
+				$html[] =					'<th id="aclactionth' . $group->value . '">';
+				$html[] =						'<span class="acl-action">' . JText::_('JRULE_CALCULATED_SETTING') . '</span>';
+				$html[] =					'</th>';
 			}
 
-			$html[] = '</tr>';
-			$html[] = '</thead>';
-			$html[] = '<tbody >';
+			$html[] =					'</tr>';
+			$html[] =				'</thead>';
+			$html[] =				'<tbody >';
 
 			foreach ($actions as $action)
 			{
-				$html[] = '<tr>';
-				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '">';
-				$html[] = JText::_($action->title);
-				$html[] = '</label>';
-				$html[] = '</td>';
-				$html[] = '<td headers="settings-th' . $group->value . '">';
+				$html[] =				'<tr>';
+				$html[] =					'<td headers="actions-th' . $group->value . '">';
+				$html[] =						'<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '">';
+				$html[] =						JText::_($action->title);
+				$html[] =						'</label>';
+				$html[] =					'</td>';
+
+				$html[] =					'<td headers="settings-th' . $group->value . '">';
 
 				$html[] = '<select name="' . $this->name . '[' . $action->name . '][' . $group->value . ']" id="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="' . JText::sprintf('JSELECT_ALLOW_DENY_GROUP', JText::_($action->title), trim($group->text)) . '">';
 
-				$groupaccess = JAccess::checkGroup($group->value, $action->name,$assetId);
-				$globalrule = $globalRules->allow($action->name, $group->value);
-				$rule = $rules->allow($action->name, $group->value);
+				$inheritedRule	= JAccess::checkGroup($group->value, $action->name, $assetId);
+
+				// Get the actual setting for the action for this group.
+				$assetRule		= $assetRules->allow($action->name, $group->value);
 
 				// Build the dropdowns for the permissions sliders
-				// Don't do this for groups with global admin since they are allowed everything.
-				// Check whether this is a component or global. If it is component use the asset rules.
-				if ($component != '') 
-				{
-					if ($globalRules->allow('core.admin', $group->value) !== true) 
-					{
-						// 'Not Allowed' if nothing else is specified. Not saved in the database. Can be changed to 'Allowed' or 'Forbidden'.
-						$html[] = '<option value=""' . (( $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
-						$html[] = '<option value="1"' . (( $rule === true) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-						$html[] = '<option value="0"' . (($rule === false)  ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-					}
-					else 
-					{
-						// Just the core.admin groups. These work the same whether in global configuration or a component configuration.
-						// Groups with global admin permission always have allow on every other action
-						$html[] = '<option value=""' .(( $rule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
-						$html[] = '<option value="1"' . ((($rule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-						$html[] = '<option value="0"'.(( $rule === false) ? ' selected="selected"' : '') .'>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-					}
-				}
-				else 
-				{
-					// If it global config we need to handle a little differently.
-					// Groups with global core.admin permissions inherit allow from that.
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true) 
-					{
-						// Soft deny if nothing else is specified. Not saved in the database. Can be changed to Allow or Deny
 
-						$html[] = '<option value=""' . (( $globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
-						$html[] = '<option value="0"' . (( $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-						$html[] = '<option value="1"' . (($globalrule === true) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-					}
-					else 
-					{
-						//Just the core.admin groups. These work the same whether in global configuration or a component configuration.
-						//Groups with global admin permission always have allow on every other action
-						if ($action->name === 'core.admin') 
-						{
-							$html[] = '<option value=""' . (( $globalrule == null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
-							$html[] = '<option value="1"' . ( $globalrule == true ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-							$html[] = '<option value="0"' . (( $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-						}
-						else 
-						{
-							$html[] = '<option value=""' . (($globalrule === null) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_INHERITED') . '</option>';
-							$html[] = '<option value="1"' . ((( $globalrule === true)) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_ALLOWED') . '</option>';
-							$html[] = '<option value="0"' . (( $globalrule === false) ? ' selected="selected"' : '') . '>' . JText::_('JRULE_FORBIDDEN') . '</option>';
-						}
-					}
-				}
+				// The parent group has "Not Set", all children can rightly "Inherit" from that.
+				$html[] = '<option value=""' . ($assetRule === null ? ' selected="selected"' : '') . '>' .
+							JText::_(empty($group->parent_id) && empty($component) ? 'JRULE_NOT_SET' : 'JRULE_INHERITED') . '</option>';
+				$html[] = '<option value="1"' . ($assetRule === true ? ' selected="selected"' : '') . '>' .
+							JText::_('JRULE_ALLOWED') . '</option>';
+				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' .
+							JText::_('JRULE_DENIED') . '</option>';
 
 				$html[] = '</select>&nbsp; ';
-				if (($rule === true) && ($groupaccess === false))
-				{
-					$html[] = JText::_('JRULE_CONFLICT');  
-				}
-				$html[] = '</td>';
-				$html[] = '<td headers="global_th' . $group->value . '">';
 
-				// This is where we show the current effective settings considering currrent group, path and cascade.
-				// Check whether this is a component or global. Change the text slightly.
-				if ($component != '') 
-				{
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true) 
+				// If this asset's rule is allowed, but the inherited rule is deny, we have a conflict.
+				if (($assetRule === true) && ($inheritedRule === false)) {
+					$html[] = JText::_('JRULE_CONFLICT');
+				}
+
+				$html[] = '</td>';
+
+				// Build the Calculated Settings column.
+				// The inherited settings column is not displayed for the root group in global configuration.
+				if ($canCalculateSettings) {
+					$html[] = '<td headers="global_th' . $group->value . '">';
+
+					// This is where we show the current effective settings considering currrent group, path and cascade.
+					// Check whether this is a component or global. Change the text slightly.
+
+					if (JAccess::checkGroup($group->value, 'core.admin') !== true)
 					{
-						if ( $groupaccess === null) 
-						{
-							$html[] = JText::_('JRULE_NOT_ALLOWED');
+						if ($inheritedRule === null) {
+							$html[] = '<span class="icon-16-unset">'.
+										JText::_('JRULE_NOT_ALLOWED').'</span>';
 						}
-						else if ( $groupaccess === false) 
+						else if ($inheritedRule === true)
 						{
-							$html[] = JText::_('JRULE_FORBIDDEN');
-												
+							$html[] = '<span class="icon-16-allowed">'.
+										JText::_('JRULE_ALLOWED').'</span>';
 						}
-						else if ($groupaccess === true) 
-						{
-							$html[] = JText::_('JRULE_ALLOWED');
+						else if ($inheritedRule === false) {
+							if ($assetRule === false) {
+								$html[] = '<span class="icon-16-denied">'.
+											JText::_('JRULE_NOT_ALLOWED').'</span>';
+							}
+							else {
+								$html[] = '<span class="icon-16-denied"><span class="icon-16-locked">'.
+											JText::_('JRULE_NOT_ALLOWED_LOCKED').'</span></span>';
+							}
 						}
 
 						//Now handle the groups with core.admin who always inherit an allow.
-					} else 
-					{
-							$html[] = JText::_('JRULE_ALLOWED_ADMIN');
 					}
-				}
-				else 
-				{
-					// Global configuration actions.
-					// Handle groups that do not have global admin.
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true) 
-					{
-						if ($groupaccess === null ) 
-						{
-							$html[] = JText::_('JRULE_NOT_ALLOWED');
+					else if (!empty($component)) {
+						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">'.
+									JText::_('JRULE_ALLOWED_ADMIN').'</span></span>';
+					}
+					else {
+						// Special handling for  groups that have global admin because they can't  be denied.
+						// The admin rights can be changed.
+						if ($action->name === 'core.admin') {
+							$html[] = '<span class="icon-16-allowed">'.
+										JText::_('JRULE_ALLOWED').'</span>';
 						}
-						else if ($groupaccess === false ) 
-						{
-							$html[] = JText::_('JRULE_FORBIDDEN');
+						elseif ($inheritedRule === false) {
+							// Other actions cannot be changed.
+							$html[] = '<span class="icon-16-denied"><span class="icon-16-locked">'.
+										JText::_('JRULE_NOT_ALLOWED_ADMIN_CONFLICT').'</span></span>';
 						}
-						else if ($groupaccess == true) 
-						{
-							$html[] = JText::_('JRULE_ALLOWED');
+						else {
+							$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">'.
+										JText::_('JRULE_ALLOWED_ADMIN').'</span></span>';
 						}
 					}
-					else 
-					{
-						//Special handling for  groups that have global admin because they can't  be denied.
-						//The admin rights can be changed.
-						if ($action->name === 'core.admin') 
-						{
-							$html[] = JText::_('JRULE_ALLOWED');
-						}
-						elseif ($groupaccess === false || $globalrule === false) 
-						{
-							//Other actions cannot be changed.
-							$html[] = JText::_('JRULE_ALLOWED_ADMIN_CONFLICT');
-						}
-						else 
-						{
-							$html[] = JText::_('JRULE_ALLOWED_ADMIN');
-						}
-					}
+
+					$html[] = '</td>';
 				}
 
-				$html[] = '</td>';
 				$html[] = '</tr>';
 			}
 
 			$html[] = '</tbody>';
 			$html[] = '</table></div>';
-			$html[] = JText::_('JRULE_CONFLICT_DESC');
+			$html[] = JText::_('JRULE_SETTING_NOTES');
 			$html[] = '</div></div>';
 
 		} // endforeach
@@ -317,12 +264,12 @@ class JFormFieldRules extends JFormField
 	 * @return	array
 	 * @since	1.6
 	 */
-	protected function _getUserGroups()
+	protected function getUserGroups()
 	{
 		// Initialise variables.
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
 			->leftJoin('`#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id')
