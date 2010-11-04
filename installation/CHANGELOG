@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2010 Jean-Marie Simonet
+ # [#23113] Clean up extraneous plus sign in user group edit screen. Thanks Andrea.
+
 03-Nov-2010 Andrew Eddie
  ! Updated Beta 13 SQL upgrade diff.
 
