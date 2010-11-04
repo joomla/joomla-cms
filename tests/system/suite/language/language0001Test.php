@@ -61,7 +61,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
 
 	$this->jClick('Groups');
-	$screen="User Manager: Action Permission Groups";
+	$screen="User Manager: User Groups";
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
     $this->click("link=Delete");
@@ -70,7 +70,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     try
 	{
-        $this->assertTrue($this->isTextPresent("No Action Permission Groups selected"),$screen .' '. $button .' button with nothing selected error message not displayed or changed');
+        $this->assertTrue($this->isTextPresent("No User Groups selected"),$screen .' '. $button .' button with nothing selected error message not displayed or changed');
     }
 	catch (PHPUnit_Framework_AssertionFailedError $e)
 	{
@@ -87,7 +87,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->waitForPageToLoad("30000");
     try
 	{
-        $this->assertTrue($this->isTextPresent("No View Permission Levels selected"),$screen .' '. $button .' button with nothing selected error message not displayed or changed');
+        $this->assertTrue($this->isTextPresent("No Viewing Access Levels selected"),$screen .' '. $button .' button with nothing selected error message not displayed or changed');
     }
 	catch (PHPUnit_Framework_AssertionFailedError $e)
 	{

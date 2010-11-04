@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2010 Christophe Demko
+ # [#23096] Clarification & Simplification of ACL UI (Andrew Eddie, Andrew Tarr)
+
 04-Nov-2010 Jean-Marie Simonet
  # [#23113] Clean up extraneous plus sign in user group edit screen. Thanks Andrea.
  # [#22860] Invalid icon paths in com_media/models/list.php. Thanks Christophe.

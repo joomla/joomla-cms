@@ -407,6 +407,32 @@ label#batch-access-lbl {
 	margin-right: 0px;
 }
 
+/* Icons */
+span.icon-16-unset,
+span.icon-16-allowed,
+span.icon-16-denied,
+span.icon-16-locked {
+	padding-left: 0px;
+	padding-right: 18px;
+}
+
+span.icon-16-unset {
+	background: url(../images/admin/icon-16-denyinactive.png) no-repeat right;
+}
+
+span.icon-16-allowed {
+	background: url(../images/admin/icon-16-allow.png) no-repeat right;
+}
+
+span.icon-16-denied {
+	background: url(../images/admin/icon-16-deny.png) no-repeat right;
+}
+
+span.icon-16-locked {
+	background: url(../images/admin/checked_out.png) no-repeat right;
+}
+
+
 /* CSS Rules Permission Angie with changes for RTL */
 
 #permissions-sliders ul#rules,

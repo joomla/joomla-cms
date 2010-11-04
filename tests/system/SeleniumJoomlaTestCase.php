@@ -309,7 +309,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		switch ($item)
 		{
 		case 'Access Levels':
-			$screen="User Manager: View Permissions Levels";
+			$screen="User Manager: Viewing Access Levels";
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-levels')]");
 			$this->waitForPageToLoad("30000");
@@ -385,7 +385,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		    }
 			break;
 		case 'Groups':
-			$screen="User Manager: Action Permission Groups";
+			$screen="User Manager: User Groups";
 			echo "Navigating to ".$screen.".\n";
 			$this->click("//a[contains(@class,'icon-16-groups')]");
 			$this->waitForPageToLoad("30000");

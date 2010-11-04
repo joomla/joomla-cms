@@ -756,8 +756,8 @@
 				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC" />
 			<action
 				name="core.admin"
-				title="JACTION_ADMIN"
-				description="COM_CONFIG_ACTION_ADMIN_DESC" />
+				title="JACTION_ADMIN_GLOBAL"
+				description="COM_CONFIG_ACTION_ADMIN_GLOBAL_DESC" />
 			<action
 				name="core.manage"
 				title="JACTION_MANAGE"
