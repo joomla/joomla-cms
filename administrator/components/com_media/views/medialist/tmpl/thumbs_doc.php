@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 			<div class="imgTotal">
 				<div align="center" class="imgBorder">
 					<a style="display: block; width: 100%; height: 100%">
-						<?php echo JHTML::_('image',$this->_tmp_doc->icon_32, $this->_tmp_doc->name, array('border' => 0), true); ?></a>
+						<?php echo JHTML::_('image',$this->_tmp_doc->icon_32, $this->_tmp_doc->name, null, true, true) ? JHTML::_('image',$this->_tmp_doc->icon_32, $this->_tmp_doc->name, array('border' => 0), true) : JHTML::_('image','media/con_info.png', $this->_tmp_doc->name, array('border' => 0), true) ; ?></a>
 				</div>
 			</div>
 			<div class="controls">

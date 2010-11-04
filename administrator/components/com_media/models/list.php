@@ -146,20 +146,8 @@ class MediaModelList extends JModel
 							break;
 						// Non-image document
 						default:
-							// $iconfile_32 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-32".DS.$ext.".png";
-							$iconfile_32 = "media".DS."images".DS."media".DS."mime-icon-32".DS.$ext.".png";
-							if (file_exists($iconfile_32)) {
-								$tmp->icon_32 = "media/mime-icon-32/".$ext.".png";
-							} else {
-								$tmp->icon_32 = "media/con_info.png";
-							}
-							// $iconfile_16 = JPATH_ADMINISTRATOR.DS."components".DS."com_media".DS."images".DS."mime-icon-16".DS.$ext.".png";
-							$iconfile_16 = "media".DS."images".DS."media".DS."mime-icon-16".DS.$ext.".png";
-							if (file_exists($iconfile_16)) {
-								$tmp->icon_16 = "media/mime-icon-16/".$ext.".png";
-							} else {
-								$tmp->icon_16 = "media/con_info.png";
-							}
+							$tmp->icon_32 = "media/mime-icon-32/".$ext.".png";
+							$tmp->icon_16 = "media/mime-icon-16/".$ext.".png";
 							$docs[] = $tmp;
 							break;
 					}
