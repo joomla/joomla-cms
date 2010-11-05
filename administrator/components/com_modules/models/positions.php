@@ -124,8 +124,8 @@ class ModulesModelPositions extends JModelList
 							$label = (string)$position;
 							if (!$value) {
 								$value = $label;
-								$label = preg_replace('/[^a-zA-Z0-9_]/','_', 'TPL_'.$template->element.'_POSITION_'.$value);
-								$altlabel = preg_replace('/[^a-zA-Z0-9_]/','_', 'COM_MODULES_POSITION_'.$value);
+								$label = preg_replace('/[^a-zA-Z0-9_\-]/','_', 'TPL_'.$template->element.'_POSITION_'.$value);
+								$altlabel = preg_replace('/[^a-zA-Z0-9_\-]/','_', 'COM_MODULES_POSITION_'.$value);
 								if (!$lang->hasKey($label) && $lang->hasKey($altlabel)) {
 									$label = $altlabel;
 								}

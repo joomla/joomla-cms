@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 05-Nov-2010 Jean-Marie Simonet
  # [#21798] Saving Profile Plugin configuration disables Profile, Thanks Mathavan and Elin.
+ #$ Enabling dashes in template ini keys for positions. Adding these strings for admin templates. + some.
  
 04-Nov-2010 Christophe Demko
  # [#23096] Clarification & Simplification of ACL UI (Andrew Eddie, Andrew Tarr)
