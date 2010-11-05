@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Nov-2010 Mark Dexter
 # Fix failing system tests for ACL language changes
+# Unit test for [#22444] JRegistry fails when binding an object which contains a JRegistry object
 
 01-Nov-2010 Mark Dexter
 # Fix doInstall so it can be run against a different Joomla! instance

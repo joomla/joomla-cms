@@ -22,10 +22,11 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test the JRegistry::__clone method.
+	 * @
 	 */
 	public function test__clone()
 	{
-		$a = new JRegistry;
+		$a = new JRegistry(array('a' => '123','b' => '456'));
 		$a->set('foo', 'bar');
 		$b = clone $a;
 
@@ -46,7 +47,8 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$a = new JRegistry;
+		$object = new stdClass();
+		$a = new JRegistry($object);
 		$a->set('foo', 'bar');
 
 		// __toString only allows for a JSON value.
@@ -57,16 +59,23 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testDef().
-	 */
-	/*public function testDef()
+
+	public function testDef()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
+		$a = new JRegistry();
+		
+		$this->assertThat(
+			$a->def('foo', 'bar'),
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'. def should return default value'
 		);
-	}*/
+
+		$this->assertThat(
+			$a->get('foo'),
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'. default should now be the current value'
+		);		
+	}
 
 	/**
 	 * @todo Implement testGet().
@@ -155,6 +164,17 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->isFalse(),
 			'Line: '.__LINE__.' The path should not exist, returning false.'
 		);
+	}
+	
+	/*
+	 * Test the JRegistry get method
+	 */
+	public function testGet()
+	{
+		$a = new JRegistry();
+		$a->set('foo','bar');
+		$this->assertEquals('bar', $a->get('foo'), 'Line: '.__LINE__.' get method should work.');
+		$this->assertNull($a->get('xxx.yyy'),  'Line: '.__LINE__.' get should return null when not found.');
 	}
 
 	/**
@@ -378,6 +398,14 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('testloadobject'),
 			'Line: '.__LINE__.'.'
 		);
+		
+		// Test case from Tracker Issue 22444
+		$registry = new JRegistry();
+		$object = new JObject();
+		$object2 = new JObject();
+		$object2->set('test', 'testcase');
+		$object->set('test', $object2);
+		$this->assertTrue($registry->loadObject($object), 'Line: '.__LINE__.'. Should load object successfully');
 	}
 
 	/**
@@ -472,6 +500,10 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, $a->get('param3'), '$b value of 0 should override $a value');
 		$this->assertEquals(-1, $a->get('param4'), '$b value of -1 should override $a value');
 		$this->assertEquals(1, $a->get('param5'), '$b value of 1 should override $a value');
+		
+		$a = new JRegistry();
+		$b = new stdClass();
+		$this->assertFalse($a->merge($b), 'Line: '.__LINE__.'. Attempt to merge non JRegistry should return false');
 	}
 
 	/**
