@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Nov-2010 Jean-Marie Simonet
+ # [#21798] Saving Profile Plugin configuration disables Profile, Thanks Mathavan and Elin.
+ 
 04-Nov-2010 Christophe Demko
  # [#23096] Clarification & Simplification of ACL UI (Andrew Eddie, Andrew Tarr)
 
