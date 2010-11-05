@@ -30,6 +30,7 @@ $ -> Language fix or change
 05-Nov-2010 Christophe Demko
  $ Storing the default style name without ** when language debug is on while installing template
  # [#23128] Incorrect Calendar field width (Dennis Hermacki)
+ # [#22949] Custom error types are always shown as 'Message' (Dennis Hermacki)
 
 05-Nov-2010 Jean-Marie Simonet
  # [#21798] Saving Profile Plugin configuration disables Profile, Thanks Mathavan and Elin.

@@ -51,14 +51,10 @@ class JDocumentRendererMessage extends JDocumentRenderer
 			$buffer .= "\n<dl id=\"system-message\">";
 			foreach ($lists as $type => $msgs)
 			{
-				if (count($msgs))
+			if (count($msgs))
 				{
-					if ( ($type == 'message') || ($type == 'notice') || ($type == 'warning') || ($type == 'error') ) {
-					} else {
-						$type = 'message';
-					}									
 					$buffer .= "\n<dt class=\"".strtolower($type)."\">".JText::_($type)."</dt>";
-					$buffer .= "\n<dd class=\"".strtolower($type)." message fade\">";
+					$buffer .= "\n<dd class=\"".strtolower($type)." message\">";
 					$buffer .= "\n\t<ul>";
 					foreach ($msgs as $msg) {
 						$buffer .="\n\t\t<li>".$msg."</li>";
