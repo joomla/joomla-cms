@@ -192,12 +192,12 @@
 			class="inputbox" size="20" />
 
 		<field name="created" type="calendar" label="COM_CONTACT_FIELD_CREATED_LABEL"
-			description="COM_CONTACT_FIELD_CREATED_DESC" class="inputbox" size="20"
+			description="COM_CONTACT_FIELD_CREATED_DESC" class="inputbox" size="22"
 			format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 		
 		<field name="modified" type="calendar" class="readonly"
 			label="JGLOBAL_MODIFIED" description="COM_CONTACT_FIELD_MODIFIED_DESC"
-			size="20" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="modified_by" type="hidden" filter="unset" />
 
@@ -222,13 +222,13 @@
 
 		<field name="publish_up" type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc"
 		/>
 
 		<field name="publish_down" type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_DOWN_LABEL" description="COM_CONTACT_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc"
 		/>		 
 

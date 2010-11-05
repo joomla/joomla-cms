@@ -74,7 +74,7 @@
 
 		<field name="created" type="calendar"
 			label="JGLOBAL_FIELD_CREATED_LABEL" description="JGLOBAL_FIELD_Created_Desc"
-			class="inputbox" size="20" format="%Y-%m-%d %H:%M:%S"
+			class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc" />
 
 		<field name="created_by" type="user"
@@ -86,7 +86,7 @@
 
 		<field name="modified" type="calendar" class="readonly"
 			label="JGLOBAL_FIELD_Modified_Label" description="JGLOBAL_FIELD_Modified_Desc"
-			size="20" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
 		<field name="modified_by" type="hidden" filter="unset" />
 
@@ -103,12 +103,12 @@
 
 		<field name="publish_up" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
 
 		<field name="publish_down" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
-			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="20"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"

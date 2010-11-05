@@ -80,7 +80,7 @@
 			description="COM_USERS_USER_FIELD_REGISTERDATE_DESC"
 			readonly="true"
 			format="%Y-%m-%d %H:%M:%S"
-			size="20"
+			size="22"
 			filter="user_utc"
 	/>
 	<field
@@ -91,7 +91,7 @@
 			description="COM_USERS_USER_FIELD_LASTVISIT_DESC"
 			readonly="true"
 			format="%Y-%m-%d %H:%M:%S"
-			size="20"
+			size="22"
 			filter="user_utc"
 	/>
 

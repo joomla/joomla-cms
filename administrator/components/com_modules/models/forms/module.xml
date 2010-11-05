@@ -56,7 +56,7 @@
 			filter="user_utc"
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
-			size="20"
+			size="22"
 		/>
 
 		<field name="publish_down" type="calendar"
@@ -64,7 +64,7 @@
 			filter="user_utc"
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
-			size="20"
+			size="22"
 		/>
 
 		<field name="client_id" type="hidden"

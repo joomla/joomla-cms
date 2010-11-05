@@ -195,14 +195,14 @@
 					format="%Y-%m-%d %H:%M:%S"
 					label="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_STARTDATE_DESC"
-					size="20"
+					size="22"
 					filter="user_utc" />
 
 				<field name="end_date_range" type="calendar"
 					format="%Y-%m-%d %H:%M:%S"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ENDDATE_DESC"
-					size="20"
+					size="22"
 					filter="user_utc" />
 
 				<field name="relative_date" type="text" default="30"
