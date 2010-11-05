@@ -57,7 +57,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
     	$this->doAdminLogin();
     	$this->gotoAdmin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -66,7 +66,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 		$this->doAdminLogin();
 
-		$permission="Inherited";
+		$permission="Not Set";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -93,7 +93,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -129,7 +129,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -164,7 +164,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -224,7 +224,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -260,7 +260,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -295,7 +295,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -331,7 +331,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -367,7 +367,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
@@ -402,7 +402,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
     	$this->doAdminLogin();
 
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 

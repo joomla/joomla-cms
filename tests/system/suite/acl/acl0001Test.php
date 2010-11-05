@@ -30,7 +30,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 
 		echo "Allow" . $groupName . " back end access, deny admin access\n";
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
-		$permissions = array('Inherited', 'Allowed', 'Locked', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
+		$permissions = array('Inherited', 'Allowed', 'Denied', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
 		$this->setPermissions('Global Configuration', $groupName, $actions, $permissions);
 
 		$group = $groupName;

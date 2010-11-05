@@ -54,7 +54,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
     	$this->doFrontEndLogout();
 
     	$this->gotoAdmin();
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -62,7 +62,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 		$this->checkMessage($message);
 
 	    $this->gotoAdmin();
-		$permission="Inherited";
+		$permission="Not Set";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -87,7 +87,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
     	$this->doFrontEndLogout();
 
     	$this->gotoAdmin();
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -121,7 +121,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
     	$this->doFrontEndLogout();
 
     	$this->gotoAdmin();
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -157,7 +157,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -215,7 +215,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -251,7 +251,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -287,7 +287,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -322,7 +322,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -357,7 +357,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();
@@ -392,7 +392,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 
     	$this->gotoAdmin();
 		$this->jClick('Global Configuration: Permissions');
-		$permission="Locked";
+		$permission="Denied";
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 
 	    $this->gotoSite();

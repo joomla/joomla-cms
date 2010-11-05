@@ -566,7 +566,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	function restoreDefaultGlobalPermissions()
 	{
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
-		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
+		$permissions = array('Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set');
 		$this->setPermissions('Global Configuration', 'Public', $actions, $permissions);
 
 		$permissions = array('Allowed', 'Allowed', 'Inherited', 'Inherited', 'Allowed', 'Allowed', 'Allowed', 'Allowed');
