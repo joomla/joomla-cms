@@ -65,6 +65,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function install()
 	{
+		$lang = JFactory::getLanguage();
 		$xml = $this->parent->getManifest();
 
 		// Get the client application target
@@ -208,7 +209,9 @@ class JInstallerTemplate extends JAdapterInstance
 		$query->set('template='.$db->Quote($row->element));
 		$query->set('client_id='.$db->Quote($clientId));
 		$query->set('home=0');
-		$query->set('title='.$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->get('name'))));
+		$debug = $lang->setDebug(false);
+		$query->set('title='.$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))));
+		$lang->setDebug($debug);
 		$query->set('params='.$db->Quote($row->params));
 		$db->setQuery($query);
 		$db->query(); // There is a chance this could fail but we don't care...
