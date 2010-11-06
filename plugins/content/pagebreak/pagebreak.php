@@ -163,7 +163,8 @@ class plgContentPagebreak extends JPlugin
 	 */
 	protected function _createTOC(&$row, &$matches, &$page)
 	{   
-		$heading = $row->title;
+		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+
           
 		// TOC header.
 		$row->toc .= '<div id="article-index">';
