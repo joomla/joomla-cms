@@ -43,6 +43,7 @@
 		<position>cpanel</position>
 		<position>login</position>
 		<position>debug</position>
+		<position>footer</position>
 	</positions>
 	 <languages>
 		<language tag="en-GB">en-GB.tpl_hathor.ini</language>

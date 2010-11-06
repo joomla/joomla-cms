@@ -1535,6 +1535,13 @@ table.adminlist tr td.btns a:hover, table.adminlist tr td.btns a:active, table.a
 }
 
 /**
+ * Adminlist lists
+ */
+table.adminlist td li {
+	list-style: inside;
+}
+
+/**
  * Modal Modules styles
  */
 ul#new-modules-list {

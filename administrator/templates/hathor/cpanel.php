@@ -165,6 +165,7 @@ $app	= JFactory::getApplication();
 
 	<!-- Footer -->
 	<div id="footer">
+		<jdoc:include type="modules" name="footer" style="none"  />
 		<p class="copyright">
 			<?php $joomla= '<a href="http://www.joomla.org">Joomla!</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
