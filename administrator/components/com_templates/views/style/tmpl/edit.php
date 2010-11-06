@@ -49,6 +49,18 @@ $canDo = TemplatesHelper::getActions();
 				<?php echo $this->form->getLabel('id'); ?>
 				<span class="readonly"><?php echo $this->item->id; ?></span>
 			<?php endif; ?>
+			<div class="clr"></div>
+			<?php if ($this->item->xml) : ?>
+				<?php if ($text = trim($this->item->xml->description)) : ?>
+					<label>
+						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_DESCRIPTION'); ?>
+					</label>
+					<span class="readonly mod-desc"><?php echo JText::_($text); ?></span>
+				<?php endif; ?>
+			<?php else : ?>
+				<p class="error"><?php echo JText::_('COM_TEMPLATES_ERR_XML'); ?></p>
+			<?php endif; ?>
+			<div class="clr"></div>
 		</fieldset>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

@@ -253,6 +253,17 @@ class TemplatesModelStyle extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadJSON($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
+			
+			// Get the template XML.
+			$client	= JApplicationHelper::getClientInfo($table->client_id);
+			$path	= JPath::clean($client->path.'/templates/'.$table->template.'/templateDetails.xml');
+
+			if (file_exists($path)) {
+				$this->_cache[$pk]->xml = simplexml_load_file($path);
+			}
+			else {
+				$this->_cache[$pk]->xml = null;
+			}
 		}
 
 		return $this->_cache[$pk];
