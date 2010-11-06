@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Nov-2010 Andrew Eddie
+ # Fixed issue [#22628] Module Assignment in Module Manager changes to No pages incorrectly (Zachary Draper, Mathavan Jeyadev, Elin Waring).
+
 05-Nov-2010 Mark Dexter
 # [#22444] JRegistry fails when binding an object which contains a JRegistry object
 
