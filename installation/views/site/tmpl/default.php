@@ -22,8 +22,8 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 <?php if ($this->sample_installed) : ?>
 
 	window.addEvent('domready', function() {
-		var select = document.getElementById('theDefault').children[0];
-		var button = document.getElementById('theDefault').children[1];
+		var select = document.getElementById('jform_sample_file');
+		var button = document.getElementById('theDefault').children[0];
 		button.setAttribute('disabled','disabled');
 		button.setAttribute('value','<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>');
 		select.setAttribute('disabled','disabled');

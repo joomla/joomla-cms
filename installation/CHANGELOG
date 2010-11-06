@@ -30,6 +30,7 @@ $ -> Language fix or change
 06-Nov-2010 Jean-Marie Simonet
  # [#23134] Template description is only displayed at installation, no where else
  # [#23141] Module Position Fixes for Hathor. Thanks Andrea.
+ # [#23028] Install Sample Data button reactivated when there is error on Main Configuration Page. Thanks Nicolai.
 
 06-Nov-2010 Andrew Eddie
  # Fixed issue [#22628] Module Assignment in Module Manager changes to No pages incorrectly (Zachary Draper, Mathavan Jeyadev, Elin Waring).
