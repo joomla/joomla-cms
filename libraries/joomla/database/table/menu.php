@@ -68,6 +68,7 @@ class JTableMenu extends JTableNested
 	public function check()
 	{
 		// If the alias field is empty, set it to the title.
+		$this->alias = trim($this->alias);
 		if (empty($this->alias)) {
 			$this->alias = $this->title;
 		}

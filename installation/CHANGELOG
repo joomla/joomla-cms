@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2010 Christophe Demko
+ # [#21789] Category Manger save alias as date instead of category name when renaming a category (Elin Waring)
+
 06-Nov-2010 Christophe Demko
  # [#21577] Pagebreak Plugin called via JHtml::_('content.prepare') issue
 

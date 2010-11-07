@@ -115,7 +115,7 @@ class JTableCategory extends JTableNested
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
 			return false;
 		}
-
+		$this->alias = trim($this->alias);
 		if (empty($this->alias)) {
 			$this->alias = strtolower($this->title);
 		}
