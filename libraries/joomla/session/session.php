@@ -411,7 +411,8 @@ class JSession extends JObject
 		session_start();
 
 		// Send modified header for IE 6.0 Security Policy
-		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+		// Joomla! 1.6: Moved to configurable plugin due to security concerns 
+		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
 		return true;
 	}
