@@ -31,11 +31,11 @@ $params = &$this->params;
 <dl class="article-info">
 <dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 <?php endif; ?>
-<?php if ($params->get('show_parent_category')) : ?>
+<?php if ($params->get('show_parent_category') && $item->parent_slug != null) : ?>
 		<dd class="parent-category-name">
 			<?php	$title = $this->escape($item->parent_title);
 					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)).'">'.$title.'</a>';?>
-			<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
+			<?php if ($params->get('link_parent_category')) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>

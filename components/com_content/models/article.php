@@ -56,8 +56,23 @@ class ContentModelArticle extends JModelItem
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
 		}
+
+		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
+	public function getParams()
+	{
+		if (!isset($this->params))
+		{
+			parent::getParams();
+			// Set the layout parameter from the request
+			if ($this->getState('layout')) {
+				$this->params->set('article_layout', $this->getState('layout'));
+			}
+			$this->getItem();
+		}
+		return $this->params;
+	}
 	/**
 	 * Method to get article data.
 	 *
@@ -154,8 +169,8 @@ class ContentModelArticle extends JModelItem
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
 				$registry->loadJSON($data->attribs);
-				$data->params = clone $this->getState('params');
-				$data->params->merge($registry);
+				$this->getParams();
+				$this->params->merge($registry);
 
 				$registry = new JRegistry;
 				$registry->loadJSON($data->metadata);
@@ -171,13 +186,13 @@ class ContentModelArticle extends JModelItem
 
 					// Check general edit permission first.
 					if ($user->authorise('core.edit', $asset)) {
-						$data->params->set('access-edit', true);
+						$this->params->set('access-edit', true);
 					}
 					// Now check if edit.own is available.
 					else if (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
 						// Check for a valid user and that they are the owner.
 						if ($userId == $data->created_by) {
-							$data->params->set('access-edit', true);
+							$this->params->set('access-edit', true);
 						}
 					}
 				}
@@ -185,7 +200,7 @@ class ContentModelArticle extends JModelItem
 				// Compute view access permissions.
 				if ($access = $this->getState('filter.access')) {
 					// If the access filter has been set, we already know this user can view.
-					$data->params->set('access-view', true);
+					$this->params->set('access-view', true);
 				}
 				else {
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
@@ -193,10 +208,10 @@ class ContentModelArticle extends JModelItem
 					$groups = $user->authorisedLevels();
 
 					if ($data->catid == 0 || $data->category_access === null) {
-						$data->params->set('access-view', in_array($data->access, $groups));
+						$this->params->set('access-view', in_array($data->access, $groups));
 					}
 					else {
-						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
+						$this->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
 

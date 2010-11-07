@@ -122,6 +122,15 @@
 
 	<fields name="attribs">
 		<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
+			<field name="article_layout" type="componentlayout" 
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				size="5"
+				extension="com_content"
+				view="article"
+			/>
+
 			<field
 				name="show_title"
 				type="list"
@@ -317,17 +326,10 @@
 			/>
 			
 
-
 			<field name="alternative_readmore" type="inputbox"
 				label="JFIELD_READMORE_LABEL" 
 				description="JFIELD_READMORE_DESC"
 				class="inputbox" size="25" />
-
-			<field name="layout" type="componentlayout" 
-				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				size="5"
-				extension="com_content" view="article" />
 
 		</fieldset>
 

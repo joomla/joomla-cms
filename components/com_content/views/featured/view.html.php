@@ -43,14 +43,13 @@ class ContentViewFeatured extends JView
 		$state 		= $this->get('State');
 		$items 		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
+		$params		= $this->get('Params');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
-
-		$params = &$state->params;
 
 		// PREPARE THE DATA
 

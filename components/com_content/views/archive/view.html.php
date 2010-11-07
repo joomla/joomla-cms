@@ -32,12 +32,10 @@ class ContentViewArchive extends JView
 		$state 		= $this->get('State');
 		$items 		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
+		$params		= $this->get('Params');
 
 		$pathway	= $app->getPathway();
 		$document	= JFactory::getDocument();
-
-		// Get the page/component configuration
-		$params = &$state->params;
 
 		foreach ($items as $item)
 		{
@@ -45,8 +43,11 @@ class ContentViewArchive extends JView
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 		}
 
-		
-		
+		// No link for ROOT category
+		if ($item->parent_alias == 'root') {
+			$item->parent_slug = null;
+		}
+
 		$form = new stdClass();
 		// Month Field
 		$months = array(

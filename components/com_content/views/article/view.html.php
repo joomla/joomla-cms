@@ -37,6 +37,7 @@ class ContentViewArticle extends JView
 		$this->print	= JRequest::getBool('print');
 		$this->state	= $this->get('State');
 		$this->user		= $user;
+		$this->params	= $this->get('Params');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -56,33 +57,10 @@ class ContentViewArticle extends JView
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 
-		// Merge article params. If this is single-article view, menu params override article params
-		// Otherwise, article params override menu item params
-		$this->params	= $this->state->get('params');
-		$active	= $app->getMenu()->getActive();
-		$temp	= clone ($this->params);
-
-		// TODO: Need more comments on this block!!!
-		if ($active) {
-			$currentLink = $active->link;
-
-			if (strpos($currentLink, 'view=article')) {
-				$item->params->merge($temp);
-			}
-			else {
-				$temp->merge($item->params);
-				$item->params = $temp;
-			}
-		}
-		else {
-			$temp->merge($item->params);
-			$item->params = $temp;
-		}
-
 		$offset = $this->state->get('list.offset');
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true) {
+		if ($this->params->get('access-view') != true) {
 			// TODO: This curtails the ability for a layout to show teaser information!!!
 			// If a guest user, they may be able to log in to view the full article
 			if (($this->params->get('show_noauth')) AND ($user->get('guest'))) {
@@ -99,7 +77,7 @@ class ContentViewArticle extends JView
 			}
 		}
 
-		if ($item->params->get('show_intro','1')=='1') {
+		if ($this->params->get('show_intro','1')=='1') {
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
 		else if ($item->fulltext) {
@@ -126,7 +104,7 @@ class ContentViewArticle extends JView
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Override the layout.
-		if ($layout = $item->params->get('layout')) {
+		if ($layout = $this->params->get('layout')) {
 			$this->setLayout($layout);
 		}
 

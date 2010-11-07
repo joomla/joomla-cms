@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Nov-2010 Christophe Demko
  # [#21789] Category Manger save alias as date instead of category name when renaming a category (Elin Waring)
+ # [#21571] category blog view drill down does not maintain layout style
 
 06-Nov-2010 Christophe Demko
  # [#21577] Pagebreak Plugin called via JHtml::_('content.prepare') issue

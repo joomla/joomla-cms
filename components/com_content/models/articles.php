@@ -66,6 +66,8 @@ class ContentModelArticles extends JModelList
 		else {
 			$this->setState('filter.access', false);
 		}
+
+		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
 	/**

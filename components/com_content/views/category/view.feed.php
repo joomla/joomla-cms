@@ -24,7 +24,7 @@ class ContentViewCategory extends JView
 		$app = JFactory::getApplication();
 
 		$doc	= JFactory::getDocument();
-		$params = $app->getParams();
+		$params = $this->get('Params');
 		$feedEmail	= (@$app->getCfg('feed_email')) ? $app->getCfg('feed_email') : 'author';
 
 		// Get some data from the model

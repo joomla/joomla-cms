@@ -76,20 +76,13 @@ class ContentModelCategory extends JModelItem
 
 		$this->setState('category.id', $pk);
 
-		// Load the parameters. Merge Global and Menu Item params into new object
+		// Load the parameters.
 		$params = $app->getParams();
-		$menuParams = new JRegistry;
+		$this->setState('params', $params);
 
-		if ($menu = $app->getMenu()->getActive()) {
-			$menuParams->loadJSON($menu->params);
-		}
-
-		$mergedParams = clone $menuParams;
-		$mergedParams->merge($params);
-
-		$this->setState('params', $mergedParams);
 		$user		= JFactory::getUser();
-				// Create a new query object.
+
+		// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$groups	= implode(',', $user->authorisedLevels());
@@ -105,14 +98,6 @@ class ContentModelCategory extends JModelItem
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
-		// process show_noauth parameter
-		if (!$params->get('show_noauth')) {
-			$this->setState('filter.access', true);
-		}
-		else {
-			$this->setState('filter.access', false);
-		}
-
 		// Optional filter text
 		$this->setState('list.filter', JRequest::getString('filter-search'));
 
@@ -123,17 +108,10 @@ class ContentModelCategory extends JModelItem
 		$this->setState('list.direction', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir',
 			'filter_order_Dir', '', 'cmd'));
 
-		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
+		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
+		$this->setState('list.start', $limitstart);
 
-		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if (JRequest::getString('layout') == 'blog') {
-			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
-			$this->setState('list.links', $params->get('num_links'));
-		}
-		else {
-			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'));
-		}
-
+		$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'));
 		$this->setState('list.limit', $limit);
 
 		// set the depth of the category query based on parameter
@@ -148,6 +126,46 @@ class ContentModelCategory extends JModelItem
 		}
 
 		$this->setState('filter.language',$app->getLanguageFilter());
+
+		$this->setState('layout', JRequest::getCmd('layout'));
+	}
+
+ 	/**
+	 * Get the parameters for displaying the category
+	 *
+	 * @return	JRegistry	The Category Params.
+	 */
+	public function getParams()
+	{
+		if (!isset($this->params))
+		{
+			// Get application and menu parameters
+			parent::getParams();
+
+			// Set the layout parameter from the request
+			if ($this->getState('layout')) {
+				$this->params->set('category_layout', $this->getState('layout'));
+			}
+
+			// Compute category
+			$category = $this->getCategory();
+			
+			// Initiate categories array
+			$categories = array();
+
+			// Compute the whole branch
+			while ($category){
+				$categories[] = $category;
+				$category = $category->getParent();
+			}
+
+			// Merge the params starting from the root until the current category
+			$categories = array_reverse($categories);
+			foreach ($categories as $category) {
+				$this->params->merge(new JRegistry($category->params));
+			}
+		}
+		return $this->params;
 	}
 
 	/**
@@ -158,22 +176,15 @@ class ContentModelCategory extends JModelItem
 	 */
 	function getItems()
 	{
-		$params = $this->getState()->get('params');
-
-		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
-		if (JRequest::getString('layout') == 'blog') {
-			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
-		}
-		else {
-			$limit = $this->getState('list.limit');
-		}
 
 		if ($this->_articles === null && $category = $this->getCategory()) {
+			$params = $this->getParams();
+			$limit = max($this->getState('list.limit'), $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links'));
 			$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 			$model->setState('params', JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
 			$model->setState('filter.published', $this->getState('filter.published'));
-			$model->setState('filter.access', $this->getState('filter.access'));
+			$model->setState('filter.access', $params->get('show_noauth')=='0');
 			$model->setState('filter.language', $this->getState('filter.language'));
 			$model->setState('list.ordering', $this->_buildContentOrderBy());
 			$model->setState('list.start', $this->getState('list.start'));
@@ -183,7 +194,7 @@ class ContentModelCategory extends JModelItem
 			// filter.subcategories indicates whether to include articles from subcategories in the list or blog
 			$model->setState('filter.subcategories', $this->getState('filter.subcategories'));
 			$model->setState('filter.max_category_levels', $this->setState('filter.max_category_levels'));
-			$model->setState('list.links', $this->getState('list.links'));
+//			$model->setState('list.links', $params->get('num_links'));
 
 			if ($limit >= 0) {
 				$this->_articles = $model->getItems();
@@ -196,7 +207,8 @@ class ContentModelCategory extends JModelItem
 				$this->_articles=array();
 			}
 
-			$this->_pagination = $model->getPagination();
+			jimport('joomla.html.pagination');
+			$this->_pagination = new JPagination($model->getTotal(), (int) $this->getState('list.start'), (int) $this->getState('list.limit')); //$model->getPagination();
 		}
 
 		return $this->_articles;
@@ -211,7 +223,7 @@ class ContentModelCategory extends JModelItem
 	protected function _buildContentOrderBy()
 	{
 		$app	= JFactory::getApplication('site');
-		$params	= $this->state->params;
+		$params	= $this->getParams();
 		$itemid	= JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
 		$filter_order = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$filter_order_Dir = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
@@ -234,8 +246,9 @@ class ContentModelCategory extends JModelItem
 
 	public function getPagination()
 	{
-		if (empty($this->_pagination)) {
-			return null;
+		if (!isset($this->_pagination)) {
+			$this->_pagination = false;
+			$this->getItems();
 		}
 		return $this->_pagination;
 	}
@@ -251,7 +264,7 @@ class ContentModelCategory extends JModelItem
 	public function getCategory()
 	{
 		if (!is_object($this->_item)) {
-			if( isset( $this->state->params ) ) {
+/*			if( isset( $this->state->params ) ) {
 				$params = $this->state->params;
 				$options = array();
 				$options['countItems'] = $params->get('show_cat_num_articles', 1);
@@ -259,8 +272,8 @@ class ContentModelCategory extends JModelItem
 			else {
 				$options['countItems'] = 0;
 			}
-
-			$categories = JCategories::getInstance('Content', $options);
+*/
+			$categories = JCategories::getInstance('Content', array('countItems'=>'1'));
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			// Compute selected asset permissions.

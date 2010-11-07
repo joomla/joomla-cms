@@ -48,6 +48,8 @@ class ContentModelForm extends JModelForm
 		// Load the parameters.
 		$params	= $app->getParams();
 		$this->setState('params', $params);
+
+		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
 	/**
