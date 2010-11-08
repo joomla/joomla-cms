@@ -15,7 +15,7 @@ $templateparams = $app->getTemplate(true)->params;
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 
 // Create shortcut to parameters.
-$params = $this->params;
+$params = $this->item->params;
 
 if ($templateparams->get('html5') != 1) :
 	require(JPATH_BASE.'/components/com_content/views/article/tmpl/default.php');
@@ -25,13 +25,13 @@ else :
 	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
 <article class="item-page<?php echo $params->get('pageclass_sfx')?>">
-<?php if ($params->get('show_page_heading', 1)) : ?>
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
 
-<?php if ($params->get('show_page_heading', 1) And $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>
 <hgroup>
 <?php endif; ?>
 <h1>
-	<?php echo $this->escape($params->get('page_heading')); ?>
+	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
 <?php if ($params->get('show_title')|| $params->get('access-edit')) : ?>
@@ -39,7 +39,7 @@ else :
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
 <?php endif; ?>
-<?php if ($params->get('show_page_heading', 1) And $params->get('show_title')) :?>
+<?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>
 </hgroup>
 <?php endif; ?>
 

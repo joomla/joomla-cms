@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Nov-2010 Ian MacLennan
+ # [21571] Reverting commit to examine closer
+
 08-Nov-2010 Christophe Demko
  # [#23160] Give each manager the possibility to choose its own admin template style
 

@@ -65,7 +65,7 @@ class ContentModelArchive extends ContentModelArticles
 	function getListQuery()
 	{
 		// Set the archive ordering
-		$params = $this->getParams();
+		$params = $this->state->params;
 		$articleOrderby = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 
@@ -114,7 +114,7 @@ class ContentModelArchive extends ContentModelArticles
 		// Lets load the content if it doesn't already exist
 		if (empty($this->_data)) {
 			// Get the page/component configuration
-			$params = $this->getParams();
+			$params = $app->getParams();
 
 			// Get the pagination request variables
 			$limit		= JRequest::getVar('limit', $params->get('display_num', 20), '', 'int');

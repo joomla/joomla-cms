@@ -22,7 +22,6 @@ class ContentViewCategories extends JView
 	protected $state = null;
 	protected $item = null;
 	protected $items = null;
-	protected $params = null;
 
 	/**
 	 * Display the view
@@ -35,7 +34,6 @@ class ContentViewCategories extends JView
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$parent		= $this->get('Parent');
-		$params		= $this->get('Params');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -54,6 +52,8 @@ class ContentViewCategories extends JView
 			JError::raiseWarning(500, JText::_('COM_CONTENT_ERROR_PARENT_CATEGORY_NOT_FOUND'));
 			return false;
 		}
+
+		$params = &$state->params;
 
 		$items = array($parent->id => $items);
 

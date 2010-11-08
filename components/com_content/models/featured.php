@@ -70,7 +70,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 */
 	public function getItems()
 	{
-		$params = $this->getParams();
+		$params = clone $this->getState('params');
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		if ($limit > 0)
 		{
@@ -106,7 +106,7 @@ class ContentModelFeatured extends ContentModelArticles
 	function getListQuery()
 	{
 		// Set the blog ordering
-		$params = $this->getParams();
+		$params = $this->state->params;
 		$articleOrderby = $params->get('orderby_sec', 'rdate');
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby = $params->def('orderby_pri', '');
