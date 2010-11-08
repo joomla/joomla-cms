@@ -124,6 +124,22 @@ class JTableMenu extends JTableNested
 			}
 			return false;
 		}
-		return parent::store($updateNulls);
+		
+		if(!parent::store($updateNulls)) {
+			return false;
+		}
+		// Get the new path in case the node was moved
+		$pathNodes = $this->getPath();
+		$segments = array();
+		foreach ($pathNodes as $node) {
+			// Don't include root in path
+			if ($node->alias != 'root') {
+				$segments[] = $node->alias;
+			}
+		}
+		$newPath = trim(implode('/', $segments), ' /\\');
+		// Use new path for partial rebuild of table
+		// rebuild will return positive integer on success, false on failure
+		return ($this->rebuild($this->{$this->_tbl_key}, $this->lft, $this->level, $newPath) > 0);
 	}
 }
