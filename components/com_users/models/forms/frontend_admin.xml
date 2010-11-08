@@ -20,6 +20,10 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+			<field name="spacer" type="spacer" class="spacer"
+				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
+			/>	
+
 		</fieldset>
 	</fields>
 </form>

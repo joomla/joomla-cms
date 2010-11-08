@@ -51,28 +51,6 @@
 	/>
 
 	<field
-			name="block"
-			type="radio"
-			default="0"
-			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			description="COM_USERS_USER_FIELD_BLOCK_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-	</field>
-	<field
-			name="sendEmail"
-			type="radio"
-			default="0"
-			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
-			description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-	</field>
-	<field
 			name="registerDate"
 			type="calendar"
 			class="readonly"
@@ -112,6 +90,14 @@
 
 		<!--  Basic user account settings. -->
 		<fieldset name="settings" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
+
+			<field name="admin_style" type="templatestyle"
+				client="administrator"
+				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
+				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
+			>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
 
 			<field name="admin_language" type="language"
 				client="administrator"

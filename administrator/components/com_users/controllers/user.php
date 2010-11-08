@@ -28,6 +28,23 @@ class UsersControllerUser extends JControllerForm
 	protected $text_prefix = 'COM_USERS_USER';
 
 	/**
+	 * Method to check if you can add a new record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		$user = JFactory::getUser();
+		return $user->authorise('core.edit.own', $this->option) && $user->id==$data[$key] || parent::allowEdit($data,$key);
+	}
+
+	/**
 	 * Overrides parent save method to check the submitted passwords match.
 	 *
 	 * @return	mixed	Boolean or JError.
@@ -49,6 +66,28 @@ class UsersControllerUser extends JControllerForm
 			unset($data['password2']);
 		}
 
-		return parent::save();
+		$return = parent::save();
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users') && $this->getTask() != 'apply')
+		{
+			$this->setRedirect(JRoute::_('index.php', false));
+		}
+		return $return;
+	}
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 *
+	 * @return	Boolean	True if access level checks pass, false otherwise.
+	 * @since	1.6
+	 */
+	public function cancel($key = null)
+	{
+		$return = parent::cancel($key);
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
+		{
+			$this->setRedirect(JRoute::_('index.php', false));
+		}
+		return $return;
 	}
 }

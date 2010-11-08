@@ -123,6 +123,11 @@ class UsersModelUser extends JModelAdmin
 	 */
 	protected function preprocessForm(JForm $form, $data)
 	{
+		$loggeduser = JFactory::getUser();
+		if ($loggeduser->authorise('core.edit', 'com_users') && $loggeduser->authorise('core.manage', 'com_users'))
+		{
+			$form->loadFile('user_state', false);
+		}
 		parent::preprocessForm($form, $data, 'user');
 	}
 
@@ -139,6 +144,14 @@ class UsersModelUser extends JModelAdmin
 		// Initialise variables;
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user		= JUser::getInstance($pk);
+
+		$loggeduser = JFactory::getUser();
+		if (!($loggeduser->authorise('core.edit', 'com_users') && $loggeduser->authorise('core.manage', 'com_users')))
+		{
+			unset($data['groups']);
+			unset($data['sendEmail']);
+			unset($data['block']);
+		}
 
 		// Bind the data.
 		if (!$user->bind($data)) {
@@ -473,9 +486,16 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getGroups()
 	{
-		$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
-
-		return $model->getItems();
+		$user = JFactory::getUser();
+		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
+		{
+			$model = JModel::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+			return $model->getItems();
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**

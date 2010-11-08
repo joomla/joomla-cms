@@ -41,10 +41,11 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 	{
 		// Initialize variables.
 		$groups = array();
+		$lang = JFactory::getLanguage();
 
 		// Get the client and client_id.
-		$client = (string) $this->element['client'];
-		$clientId = ($client == 'administrator') ? 1 : 0;
+		$clientName = $this->element['client'] ? (string) $this->element['client'] : 'site';
+		$client = JApplicationHelper::getClientInfo($clientName, true);
 
 		// Get the template.
 		$template = (string) $this->element['template'];
@@ -54,28 +55,37 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 		$query	= $db->getQuery(true);
 
 		// Build the query.
-		$query->select('id, title, template');
-		$query->from('#__template_styles');
-		$query->where('client_id = '.(int) $clientId);
+		$query->select('s.id, s.title, e.name as template');
+		$query->from('#__template_styles as s');
+		$query->where('s.client_id = '.(int) $client->id);
 		$query->order('template');
 		$query->order('title');
 		if ($template) {
 			$query->where('template = '.$db->quote($template));
 		}
+		$query->join('LEFT', '#__extensions as e on e.element=s.template');
 
 		// Set the query and load the styles.
 		$db->setQuery($query);
 		$styles = $db->loadObjectList();
 
 		// Build the grouped list array.
-		foreach($styles as $style) {
+		if ($styles)
+		{
+			foreach($styles as $style) {
+				$template = $style->template;
+				$lang->load('tpl_'.$template.'.sys', $client->path, null, false, false)
+			||	$lang->load('tpl_'.$template.'.sys', $client->path.'/templates/'.$template, null, false, false)
+			||	$lang->load('tpl_'.$template.'.sys', $client->path, $lang->getDefault(), false, false)
+			||	$lang->load('tpl_'.$template.'.sys', $client->path.'/templates/'.$template, $lang->getDefault(), false,false);
+				$template = JText::_($template);
+				// Initialize the group if necessary.
+				if (!isset($groups[$template])) {
+					$groups[$template] = array();
+				}
 
-			// Initialize the group if necessary.
-			if (!isset($groups[$style->template])) {
-				$groups[$style->template] = array();
+				$groups[$template][] = JHtml::_('select.option', $style->id, $style->title);
 			}
-
-			$groups[$style->template][] = JHtml::_('select.option', $style->id, $style->title);
 		}
 
 		// Merge any additional groups in the XML definition.

@@ -42,13 +42,12 @@ $fieldsets = $this->form->getFieldsets();
 			</ul>
 		</fieldset>
 
+		<?php if ($this->grouplist) :?>
 		<fieldset id="user-groups" class="adminform">
 			<legend><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
-				<?php if ($this->grouplist) :
-					echo $this->loadTemplate('groups');
-				endif; ?>
+			<?php echo $this->loadTemplate('groups');?>
 		</fieldset>
-
+		<?php endif; ?>
 	</div>
 
 	<div class="width-40 fltrt">

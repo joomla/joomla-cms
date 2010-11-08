@@ -66,3 +66,12 @@ table.contenttoc{
 }
 
 .nowrap { white-space: nowrap; }
+
+
+/* for the spacer field*/
+span.spacer label {
+        white-space: nowrap;
+        font-weight: bold;
+        color: #666;
+}
+

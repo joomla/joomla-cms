@@ -63,6 +63,7 @@ abstract class QuickIconHelper
 	public static function &getButtons()
 	{
 		if (empty(self::$buttons)) {
+			$userid = JFactory::getUser()->id;
 			self::$buttons = array(
 				array(
 					'link' => JRoute::_('index.php?option=com_content&task=article.add'),
@@ -123,7 +124,13 @@ abstract class QuickIconHelper
 					'image' => 'icon-48-config.png',
 					'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 					'access' => array('core.admin', 'com_config')
-				)
+				),
+				array(
+					'link' => JRoute::_('index.php?option=com_users&task=user.edit&id='.$userid),
+					'image' => 'icon-48-user-profile.png',
+					'text' => JText::_('MOD_QUICKICON_PROFILE'),
+					'access' => array('core.manage', 'com_content')
+				),
 			);
 		}
 

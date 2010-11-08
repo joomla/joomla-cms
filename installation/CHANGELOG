@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Nov-2010 Christophe Demko
+ # [#23160] Give each manager the possibility to choose its own admin template style
+
 07-Nov-2010 Jean-Marie Simonet
  # [#22757] Wrong urls being produced for drill downs. Thanks Christophe.
  # [#23159] Improving display of back-end mod_latest module

@@ -2591,6 +2591,14 @@ a.jgrid:hover {
 	background-image: url(../images/header/icon-48-user-add.png);
 }
 
+.icon-48-user-edit {
+	background-image: url(../images/header/icon-48-user-edit.png);
+}
+
+.icon-48-user-profile {
+	background-image: url(../images/header/icon-48-user-profile.png);
+}
+
 .icon-48-inbox {
 	background-image: url(../images/header/icon-48-inbox.png);
 }

@@ -249,13 +249,21 @@ class JAdministrator extends JApplication
 
 		if (!isset($template))
 		{
+			$admin_style = JFactory::getUser()->getParam('admin_style');
 			// Load the template name from the database
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('template, params');
 			$query->from('#__template_styles');
 			$query->where('client_id = 1');
-			$query->where('home = 1');
+			if ($admin_style)
+			{
+				$query->where('id = '.(int)$admin_style);
+			}
+			else
+			{
+				$query->where('home = 1');
+			}
 			$db->setQuery($query);
 			$template = $db->loadObject();
 
