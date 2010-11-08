@@ -61,14 +61,6 @@ abstract class JModel extends JObject
 	 */
 	protected $state;
 
- 	/**
-	 * A Registry object
-	 *
-	 * @var JRegistry
-	 * @since	1.6 
-	 */
-	protected $params;
-
 	/**
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
@@ -374,25 +366,5 @@ abstract class JModel extends JObject
 	public function setState($property, $value=null)
 	{
 		return $this->state->set($property, $value);
-	}
-
-	/**
-	 * Get the parameters of the model
-	 *
-	 * @return	JRegistry	The params set in the params state or a new JRegistry object if the params state is not a JRegistry
-	 */
-	public function getParams()
-	{
-		if (!isset($this->params))
-		{
-			$params = $this->getState('params');
-			if ($params instanceof JRegistry) {
-				$this->params = $params;
-			}
-			else {
-				$this->params = new JRegistry($params);
-			}
-		}
-		return $this->params;
 	}
 }

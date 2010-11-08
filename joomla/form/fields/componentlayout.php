@@ -223,7 +223,7 @@ class JFormFieldComponentLayout extends JFormField
 			if (is_array($this->value)) {
 				foreach($this->value as $template=>$value)
 				{
-					if (!empty($value) && array_key_exists($template, $groups)) {
+					if (!empty($value) && array_key_exists($template, $templates)) {
 						$selected[] = $template.':'.$value;
 					}
 				}
@@ -236,7 +236,7 @@ class JFormFieldComponentLayout extends JFormField
 			if (is_array($this->value)) {
 				foreach($this->value as $template=>$value)
 				{
-					if (!empty($value) && array_key_exists($template, $groups)) {
+					if (!empty($value) && array_key_exists($template, $templates)) {
 						// Add a hidden input for the template layout
 						$html[] = '<input type="hidden" id="'.$this->id.'_'.$template.'" name="'.$this->name.'['.$template.']" value="'.$value.'" />';
 					}
