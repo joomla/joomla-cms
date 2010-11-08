@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2010 Mark Dexter
+# [#22776] Incorrect path field and child item path fields not being changed on save.
+
 07-Nov-2010 Christophe Demko
  # [#21789] Category Manger save alias as date instead of category name when renaming a category (Elin Waring)
  # [#21571] category blog view drill down does not maintain layout style
