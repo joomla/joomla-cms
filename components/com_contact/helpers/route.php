@@ -55,19 +55,48 @@ abstract class ContactHelperRoute
 
 	public static function getCategoryRoute($catid)
 	{
-		$categories = JCategories::getInstance('Contact');
-		$category = $categories->get((int)$catid);
-		$catids = array_reverse($category->getPath());
-		$needles = array(
-			'category' => $catids,
-			'categories' => $catids
-		);
-		//Create the link
-		$link = 'index.php?option=com_contact&view=category&id='.(int)$catid;
+		if ($catid instanceof JCategoryNode)
+		{
+			$id = $catid->id;
+			$category = $catid;
+		}
+		else
+		{
+			$id = (int) $catid;
+			$category = JCategories::getInstance('Contact')->get($id);
+		}
 
-		if ($item = ContactHelperRoute::_findItem($needles)) {
-			$link .= '&Itemid='.$item;
-		};
+		if($id < 1)
+		{
+			$link = '';
+		}
+		else
+		{
+			$needles = array(
+				'category' => array($id)
+			);
+
+			if ($item = self::_findItem($needles))
+			{
+				$link = '&Itemid='.$item;
+			}
+			else
+			{
+				//Create the link
+				$link = 'index.php?option=com_contact&view=category&id='.$id;
+				if($category)
+				{
+					$catids = array_reverse($category->getPath());
+					$needles = array(
+						'category' => $catids,
+						'categories' => $catids
+					);
+					if ($item = self::_findItem($needles)) {
+						$link .= '&Itemid='.$item;
+					}
+				}
+			}
+		}
 
 		return $link;
 	}

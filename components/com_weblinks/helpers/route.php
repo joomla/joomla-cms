@@ -64,21 +64,52 @@ abstract class WeblinksHelperRoute
 
 		return $link;
 	}
+
+
 	public static function getCategoryRoute($catid)
 	{
-		$categories = JCategories::getInstance('Weblinks');
-		$category = $categories->get((int)$catid);
-		$catids = array_reverse($category->getPath());
-		$needles = array(
-			'category' => $catids,
-			'categories' => $catids
-		);
-		//Create the link
-		$link = 'index.php?option=com_weblinks&view=category&id='.(int)$catid;
+		if ($catid instanceof JCategoryNode)
+		{
+			$id = $catid->id;
+			$category = $catid;
+		}
+		else
+		{
+			$id = (int) $catid;
+			$category = JCategories::getInstance('Weblinks')->get($id);
+		}
 
-		if ($item = WeblinksHelperRoute::_findItem($needles)) {
-			$link .= '&Itemid='.$item;
-		};
+		if($id < 1)
+		{
+			$link = '';
+		}
+		else
+		{
+			$needles = array(
+				'category' => array($id)
+			);
+
+			if ($item = self::_findItem($needles))
+			{
+				$link = '&Itemid='.$item;
+			}
+			else
+			{
+				//Create the link
+				$link = 'index.php?option=com_weblinks&view=category&id='.$id;
+				if($category)
+				{
+					$catids = array_reverse($category->getPath());
+					$needles = array(
+						'category' => $catids,
+						'categories' => $catids
+					);
+					if ($item = self::_findItem($needles)) {
+						$link .= '&Itemid='.$item;
+					}
+				}
+			}
+		}
 
 		return $link;
 	}

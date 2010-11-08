@@ -58,38 +58,48 @@ abstract class NewsfeedsHelperRoute
 
 	public static function getCategoryRoute($catid)
 	{
-		if ((int) $catid < 1) {
-			return;
-		}
-
-		if ($catid instanceof JCategoryNode) {
-			$catids = array_reverse($catid->getPath());
+		if ($catid instanceof JCategoryNode)
+		{
 			$id = $catid->id;
-
-			// Create the link
-			$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
+			$category = $catid;
 		}
-		else {
-			$id = (int)$catid;
-			//Create the link
-			$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
-			$categories = JCategories::getInstance('Newsfeeds');
-			$category = $categories->get((int)$catid);
+		else
+		{
+			$id = (int) $catid;
+			$category = JCategories::getInstance('Newsfeeds')->get($id);
+		}
 
-			if (!$category) {
-				return $link;
+		if($id < 1)
+		{
+			$link = '';
+		}
+		else
+		{
+			$needles = array(
+				'category' => array($id)
+			);
+
+			if ($item = self::_findItem($needles))
+			{
+				$link = '&Itemid='.$item;
 			}
-
-			$catids = array_reverse($category->getPath());
+			else
+			{
+				//Create the link
+				$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
+				if($category)
+				{
+					$catids = array_reverse($category->getPath());
+					$needles = array(
+						'category' => $catids,
+						'categories' => $catids
+					);
+					if ($item = self::_findItem($needles)) {
+						$link .= '&Itemid='.$item;
+					}
+				}
+			}
 		}
-
-		$needles = array(
-			'category' => $catids
-		);
-
-		if ($item = NewsfeedsHelperRoute::_findItem($needles)) {
-			$link .= '&Itemid='.$item;
-		};
 
 		return $link;
 	}

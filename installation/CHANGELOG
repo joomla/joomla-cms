@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2010 Jean-Marie Simonet
+ # [#22757] Wrong urls being produced for drill downs. Thanks Christophe.
+
 07-Nov-2010 Mark Dexter
 # [#22776] Incorrect path field and child item path fields not being changed on save.
 
