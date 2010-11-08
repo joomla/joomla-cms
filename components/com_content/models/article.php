@@ -47,11 +47,7 @@ class ContentModelArticle extends JModelItem
 		$this->setState('list.offset', $offset);
 
 		// Load the parameters.
-		$params = clone $app->getParams();
-		$layout = JRequest::getCmd('layout');
-		if ($layout) {
-			$params->set('article_layout', $layout);
-		}
+		$params = $app->getParams();
 		$this->setState('params', $params);
 
 		// TODO: Tune these values based on other permissions.

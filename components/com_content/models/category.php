@@ -77,11 +77,7 @@ class ContentModelCategory extends JModelItem
 		$this->setState('category.id', $pk);
 
 		// Load the parameters. Merge Global and Menu Item params into new object
-		$params = clone $app->getParams();
-		$layout = JRequest::getCmd('layout');
-		if ($layout) {
-			$params->set('category_layout', $layout);
-		}
+		$params = $app->getParams();
 		$menuParams = new JRegistry;
 
 		if ($menu = $app->getMenu()->getActive()) {
@@ -152,6 +148,8 @@ class ContentModelCategory extends JModelItem
 		}
 
 		$this->setState('filter.language',$app->getLanguageFilter());
+
+		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
 	/**

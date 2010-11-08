@@ -48,6 +48,8 @@ class ContentModelArticles extends JModelList
 		$value = JRequest::getWord('filter_order_Dir', 'asc');
 		$this->setState('list.direction', $value);
 
+		$params = $app->getParams();
+		$this->setState('params', $params);
 		$user		= JFactory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
@@ -57,15 +59,6 @@ class ContentModelArticles extends JModelList
 
 		$this->setState('filter.language',$app->getLanguageFilter());
 
-		// Load the parameters.
-		$params = clone $app->getParams();
-		$layout = JRequest::getCmd('layout');
-		if ($layout) {
-			$params->set('layout', $layout);
-			$params->set('category_layout', $layout);
-		}
-		$this->setState('params', $params);
-
 		// process show_noauth parameter
 		if (!$params->get('show_noauth')) {
 			$this->setState('filter.access', true);
@@ -73,6 +66,8 @@ class ContentModelArticles extends JModelList
 		else {
 			$this->setState('filter.access', false);
 		}
+
+		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
 	/**
@@ -443,7 +438,7 @@ class ContentModelArticles extends JModelList
 
 			// Unpack readmore and layout params
 			$item->alternative_readmore = $articleParams->get('alternative_readmore');
-			$item->layout = $articleParams->get('article_layout');
+			$item->layout = $articleParams->get('layout');
 
 			$item->params = clone $this->getState('params');
 

@@ -38,19 +38,12 @@ class ContentModelFeatured extends ContentModelArticles
 	protected function populateState()
 	{
 		parent::populateState();
-		$app = JFactory::getApplication();
 
 		// List state information
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$this->setState('list.start', $limitstart);
 
-		$params = clone $app->getParams();
-		$layout = JRequest::getCmd('layout');
-		if ($layout) {
-			$params->set('layout', $layout);
-		}
-		$this->setState('params', $params);
-
+		$params = $this->state->params;
 		$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
