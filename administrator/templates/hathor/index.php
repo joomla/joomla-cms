@@ -170,7 +170,7 @@ $app = JFactory::getApplication();
 <div id="footer">
 	<p class="copyright">
 		<jdoc:include type="modules" name="footer" style="none"  />
-		<?php $joomla= '<a href="http://www.joomla.org">Joomla!</a>';
+		<?php $joomla= '<a href="http://www.joomla.org">Joomla!®</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 		<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
 	</p>

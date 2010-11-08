@@ -275,7 +275,7 @@ $templateparams	= $app->getTemplate(true)->params;
 
 					<jdoc:include type="modules" name="position-14" />
 					<p>
-						<?php echo JText::_('TPL_BEEZ5_POWERED_BY');?> <a href="http://www.joomla.org/">Joomla!</a>
+						<?php echo JText::_('TPL_BEEZ5_POWERED_BY');?> <a href="http://www.joomla.org/">Joomla!®</a>
 					</p>
 
 			<?php if (!$templateparams->get('html5', 0)): ?>
