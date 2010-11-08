@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#22757] Wrong urls being produced for drill downs. Thanks Christophe.
  # [#23159] Improving display of back-end mod_latest module
  $ Added ® to Joomla! instances in footers
+ $ Deleted redundant ini string
 
 07-Nov-2010 Mark Dexter
 # [#22776] Incorrect path field and child item path fields not being changed on save.
