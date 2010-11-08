@@ -77,7 +77,11 @@ class ContentModelCategory extends JModelItem
 		$this->setState('category.id', $pk);
 
 		// Load the parameters.
-		$params = $app->getParams();
+		$params = clone $app->getParams();
+		$layout = JRequest::getCmd('layout');
+		if ($layout) {
+			$params->set('category_layout', $layout);
+		}
 		$this->setState('params', $params);
 
 		$user		= JFactory::getUser();
@@ -126,8 +130,6 @@ class ContentModelCategory extends JModelItem
 		}
 
 		$this->setState('filter.language',$app->getLanguageFilter());
-
-		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
  	/**
@@ -141,11 +143,6 @@ class ContentModelCategory extends JModelItem
 		{
 			// Get application and menu parameters
 			parent::getParams();
-
-			// Set the layout parameter from the request
-			if ($this->getState('layout')) {
-				$this->params->set('category_layout', $this->getState('layout'));
-			}
 
 			// Compute category
 			$category = $this->getCategory();

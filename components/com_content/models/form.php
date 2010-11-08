@@ -46,10 +46,12 @@ class ContentModelForm extends JModelForm
 		$this->setState('article.catid', JRequest::getInt('catid'));
 
 		// Load the parameters.
-		$params	= $app->getParams();
+		$params = clone $app->getParams();
+		$layout = JRequest::getCmd('layout');
+		if ($layout) {
+			$params->set('layout', $layout);
+		}
 		$this->setState('params', $params);
-
-		$this->setState('layout', JRequest::getCmd('layout'));
 	}
 
 	/**

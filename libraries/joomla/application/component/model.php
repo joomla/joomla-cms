@@ -376,28 +376,21 @@ abstract class JModel extends JObject
 		return $this->state->set($property, $value);
 	}
 
-
 	/**
 	 * Get the parameters of the model
 	 *
-	 * @return	JRegistry	A clone of the params set in the params state or a new JRegistry object if the params state is not a JRegistry
+	 * @return	JRegistry	The params set in the params state or a new JRegistry object if the params state is not a JRegistry
 	 */
 	public function getParams()
 	{
 		if (!isset($this->params))
 		{
-			// Get a copy of the state params
 			$params = $this->getState('params');
 			if ($params instanceof JRegistry) {
-				$this->params = clone $params;
+				$this->params = $params;
 			}
 			else {
 				$this->params = new JRegistry($params);
-			}
-			// Add the layout state variable
-			$layout = $this->getState('layout');
-			if ($layout) {
-				$this->params->set('layout', $layout);
 			}
 		}
 		return $this->params;
