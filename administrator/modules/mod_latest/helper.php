@@ -33,7 +33,7 @@ abstract class modLatestHelper
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-				' a.access, a.created, a.created_by, a.created_by_alias, a.featured');
+				' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state');
 
 		// Set Ordering filter
 		switch ($params->get('ordering')) {
