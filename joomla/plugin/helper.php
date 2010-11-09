@@ -185,7 +185,7 @@ abstract class JPluginHelper
 		$user	= JFactory::getUser();
 		$cache 	= JFactory::getCache('com_plugins', '');
 
-		$levels = implode(',', $user->authorisedLevels());
+		$levels = implode(',', $user->getAuthorisedViewLevels());
 
 		if (!$plugins = $cache->get($levels)) {
 			$db		= JFactory::getDbo();
