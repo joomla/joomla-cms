@@ -44,7 +44,7 @@ define('JPATH_CACHE',			JPATH_ROOT.DS.'cache');
  * Joomla system checks.
  */
 error_reporting(E_ALL);
-@set_magic_quotes_runtime(0);
+@ini_set('magic_quotes_runtime', 0);
 @ini_set('zend.ze1_compatibility_mode', '0');
 
 /*

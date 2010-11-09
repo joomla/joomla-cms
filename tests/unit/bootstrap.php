@@ -35,7 +35,7 @@ if (!defined('JPATH_TESTS'))
 }
 
 // Fix magic quotes.
-@set_magic_quotes_runtime(0);
+@ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 
