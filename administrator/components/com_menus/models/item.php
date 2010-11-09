@@ -219,107 +219,107 @@ class MenusModelItem extends JModelAdmin
 		$db->setQuery(
 			'SELECT COUNT(id)' .
 			' FROM #__menu'
-		);
-		$count = $db->loadResult();
+			);
+			$count = $db->loadResult();
 
-		if ($error = $db->getErrorMsg()) {
-			$this->setError($error);
-			return false;
-		}
-
-		// Parent exists so we let's proceed
-		while (!empty($pks) && $count > 0)
-		{
-			// Pop the first id off the stack
-			$pk = array_shift($pks);
-
-			$table->reset();
-
-			// Check that the row actually exists
-			if (!$table->load($pk)) {
-				if ($error = $table->getError()) {
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else {
-					// Not fatal error
-					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+			if ($error = $db->getErrorMsg()) {
+				$this->setError($error);
+				return false;
 			}
 
-			// Copy is a bit tricky, because we also need to copy the children
-			$db->setQuery(
+			// Parent exists so we let's proceed
+			while (!empty($pks) && $count > 0)
+			{
+				// Pop the first id off the stack
+				$pk = array_shift($pks);
+
+				$table->reset();
+
+				// Check that the row actually exists
+				if (!$table->load($pk)) {
+					if ($error = $table->getError()) {
+						// Fatal error
+						$this->setError($error);
+						return false;
+					}
+					else {
+						// Not fatal error
+						$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+						continue;
+					}
+				}
+
+				// Copy is a bit tricky, because we also need to copy the children
+				$db->setQuery(
 				'SELECT id' .
 				' FROM #__menu' .
 				' WHERE lft > '.(int) $table->lft.' AND rgt < '.(int) $table->rgt
-			);
-			$childIds = $db->loadResultArray();
+				);
+				$childIds = $db->loadResultArray();
 
-			// Add child ID's to the array only if they aren't already there.
-			foreach ($childIds as $childId)
-			{
-				if (!in_array($childId, $pks)) {
-					array_push($pks, $childId);
+				// Add child ID's to the array only if they aren't already there.
+				foreach ($childIds as $childId)
+				{
+					if (!in_array($childId, $pks)) {
+						array_push($pks, $childId);
+					}
 				}
+
+				// Make a copy of the old ID and Parent ID
+				$oldId				= $table->id;
+				$oldParentId		= $table->parent_id;
+
+				// Reset the id because we are making a copy.
+				$table->id			= 0;
+
+				// If we a copying children, the Old ID will turn up in the parents list
+				// otherwise it's a new top level item
+				$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+				$table->menutype	= $menuType;
+
+				// Set the new location in the tree for the node.
+				$table->setLocation($table->parent_id, 'last-child');
+
+				// TODO: Deal with ordering?
+				//$table->ordering	= 1;
+				$table->level		= null;
+				$table->lft		= null;
+				$table->rgt	= null;
+
+				// Alter the title & alias
+				list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+				$table->title   = $title;
+				$table->alias   = $alias;
+
+				// Store the row.
+				if (!$table->store()) {
+					$this->setError($table->getError());
+					return false;
+				}
+
+				// Now we log the old 'parent' to the new 'parent'
+				$parents[$oldId] = $table->id;
+				$count--;
 			}
 
-			// Make a copy of the old ID and Parent ID
-			$oldId				= $table->id;
-			$oldParentId		= $table->parent_id;
-
-			// Reset the id because we are making a copy.
-			$table->id			= 0;
-
-			// If we a copying children, the Old ID will turn up in the parents list
-			// otherwise it's a new top level item
-			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-			$table->menutype	= $menuType;
-
-			// Set the new location in the tree for the node.
-			$table->setLocation($table->parent_id, 'last-child');
-
-			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
-			$table->level		= null;
-			$table->lft		= null;
-			$table->rgt	= null;
-
-			// Alter the title & alias
-			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-			$table->title   = $title;
-			$table->alias   = $alias;
-
-			// Store the row.
-			if (!$table->store()) {
+			// Rebuild the hierarchy.
+			if (!$table->rebuild()) {
 				$this->setError($table->getError());
 				return false;
 			}
 
-			// Now we log the old 'parent' to the new 'parent'
-			$parents[$oldId] = $table->id;
-			$count--;
-		}
+			// Rebuild the tree path.
+			if (!$table->rebuildPath($table->id)) {
+				$this->setError($table->getError());
+				return false;
+			}
 
-		// Rebuild the hierarchy.
-		if (!$table->rebuild()) {
-			$this->setError($table->getError());
-			return false;
-		}
+			// Clear the component's cache
+			$cache = JFactory::getCache('com_modules');
+			$cache->clean();
+			$cache->clean('mod_menu');
 
-		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
-		$cache->clean('mod_menu');
-
-		return true;
+			return true;
 	}
 
 	/**
@@ -419,14 +419,14 @@ class MenusModelItem extends JModelAdmin
 				'UPDATE `#__menu`' .
 				' SET `menutype` = '.$db->quote($menuType).
 				' WHERE `id` IN ('.implode(',', $children).')'
-			);
-			$db->query();
+				);
+				$db->query();
 
-			// Check for a database error.
-			if ($db->getErrorNum()) {
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
+				// Check for a database error.
+				if ($db->getErrorNum()) {
+					$this->setError($db->getErrorMsg());
+					return false;
+				}
 		}
 
 		// Clear the component's cache
@@ -600,7 +600,7 @@ class MenusModelItem extends JModelAdmin
 				if (isset($args['option'])) {
 					// Load the language file for the component.
 					$lang = JFactory::getLanguage();
-						$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
+					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
 					||	$lang->load($args['option'], JPATH_ADMINISTRATOR.'/components/'.$args['option'], null, false, false)
 					||	$lang->load($args['option'], JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load($args['option'], JPATH_ADMINISTRATOR.'/components/'.$args['option'], $lang->getDefault(), false, false);
@@ -709,7 +709,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @return	JTable	A database object
 	 * @since	1.6
-	*/
+	 */
 	public function getTable($type = 'Menu', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -773,6 +773,7 @@ class MenusModelItem extends JModelAdmin
 		// Initialise variables.
 		$link = $this->getState('item.link');
 		$type = $this->getState('item.type');
+		$formFile = false;
 
 		// Initialise form with component view params if available.
 		if ($type == 'component') {
@@ -813,66 +814,65 @@ class MenusModelItem extends JModelAdmin
 				}
 
 				// if custom layout, get the xml file from the template folder
-				// TODO: only look in the template folder for the menu item's template
-				if (!$formFile) {
-					$folders = JFolder::folders(JPATH_SITE.'/templates','',false,true);
-
-					foreach($folders as $folder)
+				// template folder is first part of file name -- template:folder
+				if (!$formFile && (strpos($layout, ':') > 0 ))
+				{
+					$temp = explode(':', $layout);
+					$templatePath = JPATH::clean(JPATH_SITE.'/templates/'.$temp[0].'/html/'.$option.'/'.$view.'/'.$temp[1].'.xml');
+					if (JFile::exists($templatePath))
 					{
-						if (JFile::exists($folder.'/html/'.$option.'/'.$view.'/'.$layout.'.xml')) {
-							$formFile = $folder.'/html/'.$option.'/'.$view.'/'.$layout.'.xml';
-							break;
-						}
+						$formFile = $templatePath;
 					}
 				}
-
-				// TODO: Now check for a view manifest file
-				// TODO: Now check for a component manifest file
 			}
+
+			// TODO: Now check for a view manifest file
+			// TODO: Now check for a component manifest file
+		}
 
 			if ($formFile) {
-				// If an XML file was found in the component, load it first.
-				// We need to qualify the full path to avoid collisions with component file names.
+			// If an XML file was found in the component, load it first.
+			// We need to qualify the full path to avoid collisions with component file names.
 
-				if ($form->loadFile($formFile, true, '/metadata') == false) {
-					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-				}
+			if ($form->loadFile($formFile, true, '/metadata') == false) {
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
 
-				// Attempt to load the xml file.
-				if (!$xml = simplexml_load_file($formFile)) {
-					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-				}
+			// Attempt to load the xml file.
+			if (!$xml = simplexml_load_file($formFile)) {
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
 
-				// Get the help data from the XML file if present.
-				$help = $xml->xpath('/metadata/layout/help');
+			// Get the help data from the XML file if present.
+			$help = $xml->xpath('/metadata/layout/help');
 				if (!empty($help)) {
-					$helpKey = trim((string) $help[0]['key']);
-					$helpURL = trim((string) $help[0]['url']);
-					$helpLoc = trim((string) $help[0]['local']);
+				$helpKey = trim((string) $help[0]['key']);
+				$helpURL = trim((string) $help[0]['url']);
+				$helpLoc = trim((string) $help[0]['local']);
 
-					$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-					$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
-					$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
-				}
-
+				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
+				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+				$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 			}
 
-			// Now load the component params.
-			// TODO: Work out why 'fixing' this breaks JForm
-			if ($isNew = false) {
-				$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
-			}
-			else {
-				$path='null';
-			}
+		}
+
+		// Now load the component params.
+		// TODO: Work out why 'fixing' this breaks JForm
+		if ($isNew = false) {
+			$path = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$option.'/config.xml');
+		}
+		else {
+			$path='null';
+		}
 
 			if (JFile::exists($path)) {
-				// Add the component params last of all to the existing form.
-				if (!$form->load($path, true, '/config')) {
-					throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-				}
+			// Add the component params last of all to the existing form.
+			if (!$form->load($path, true, '/config')) {
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
+		
 
 		// Load the specific type file
 		if (!$form->loadFile('item_'.$type, false, false)) {
@@ -1027,7 +1027,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @return	boolean false on failuer or error, true otherwise
 	 * @since	1.6
-	*/
+	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
@@ -1178,14 +1178,14 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	* Method to change the title & alias.
-	*
-	* @param	int     The value of the menu Parent Id.
-	* @param   sting   The value of the menu Alias.
-	* @param   sting   The value of the menu Title.
-	* @return	array   Contains title and alias.
-	* @since	1.6
-	*/
+	 * Method to change the title & alias.
+	 *
+	 * @param	int     The value of the menu Parent Id.
+	 * @param   sting   The value of the menu Alias.
+	 * @param   sting   The value of the menu Title.
+	 * @return	array   Contains title and alias.
+	 * @since	1.6
+	 */
 	function generateNewTitle(&$parent_id, &$alias, &$title)
 	{
 		// Alter the title & alias

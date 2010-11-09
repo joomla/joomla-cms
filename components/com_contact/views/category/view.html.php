@@ -100,9 +100,17 @@ class ContactViewCategory extends JView
 		$this->assignRef('parent',		$parent);
 		$this->assignRef('pagination',	$pagination);
 
-		// Override the layout if you want to.
-		if ($layout = $category->params->get('layout')){
+		// Check for layout override only if this is not the active menu item
+		// If it is the active menu item, then the view and category id will match
+		$active	= $app->getMenu()->getActive();
+		if (($active) && ((strpos($active->link, 'view=category') === false)) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)) {			
+			if ($layout = $this->category->params->get('layout')) {
 			$this->setLayout($layout);
+			}
+		}
+		elseif (isset($active->query['layout'])) {
+			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
+			$this->setLayout($active->query['layout']);
 		}
 
 		$this->_prepareDocument();

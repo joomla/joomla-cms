@@ -528,8 +528,8 @@ class JController extends JObject
 		$document	= JFactory::getDocument();
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd('view', $this->default_view);
-		$viewLayout	= JRequest::getCmd('layout', 'default');
-
+		$viewLayout = JRequest::getString('layout', 'default');
+		
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
 
 		// Get/Create the model

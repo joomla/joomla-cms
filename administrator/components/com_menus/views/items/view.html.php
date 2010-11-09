@@ -86,7 +86,24 @@ class MenusViewItems extends JView
 										$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
 
 										// Attempt to load the layout xml file.
-										$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+										// If Alternative Menu Item, get template folder for layout file
+										if (strpos($vars['layout'], ':') > 0)
+										{
+											// Use template folder for layout file
+											$temp = explode(':', $vars['layout']);
+											$file = JPATH_SITE.'/templates/'.$temp[0].'/html/'.$item->componentname.'/'.$vars['view'].'/'.$temp[1].'.xml';
+											// Load template language file
+											$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, null, false, false)
+											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
+											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, $lang->getDefault(), false, false)
+											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], $lang->getDefault(), false, false);
+											
+										}
+										else
+										{
+											// Get XML file from component folder for standard layouts
+											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+										}
 										if (JFile::exists($file) && $xml = simplexml_load_file($file)) {
 											// Look for the first view node off of the root node.
 											if ($layout = $xml->xpath('layout[1]')) {

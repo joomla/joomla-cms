@@ -420,6 +420,8 @@ class JFormFieldMenuType extends JFormFieldList
 		// get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
 		$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+		// Array to hold association between template file names and templates
+		$templateName = array();
 		foreach($folders as $folder)
 		{
 			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
@@ -430,6 +432,7 @@ class JFormFieldMenuType extends JFormFieldList
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
 
 				$templateLayouts = JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true);
+				
 
 				foreach ($templateLayouts as $layout)
 				{
@@ -440,6 +443,8 @@ class JFormFieldMenuType extends JFormFieldList
 					// add to the list only if it is not a standard layout
 					if (array_search($templateLayoutName, $layoutNames) === false) {
 						$layouts[] = $layout;
+						// Set template name array so we can get the right template for the layout
+						$templateName[$layout] = JFile::getName($folder);
 					}
 				}
 			}
@@ -462,7 +467,8 @@ class JFormFieldMenuType extends JFormFieldList
 
 				// Only add the layout request argument if not the default layout.
 				if ($layout != 'default') {
-					$o->request['layout'] = $layout;
+					// If the template is set, add in format template:layout so we save the template name
+					$o->request['layout'] = (isset($templateName[$file])) ? $templateName[$file] . ':' . $layout : $layout;
 				}
 
 				// Load layout metadata if it exists.

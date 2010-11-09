@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Nov-2010 Mark Dexter
+#[#23054] Follow up on Issue 22932 - Alternate Layouts for Components
+
 08-Nov-2010 Ian MacLennan
  # [21571] Reverting commit to examine closer
 

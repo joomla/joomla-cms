@@ -71,6 +71,14 @@ class JView extends JObject
 	var $_layoutExt = 'php';
 
 	/**
+	 * Layout template
+	 *
+	 * @var		string
+	 * @access	protected
+	 */
+	var $_layoutTemplate = '_';
+
+	/**
 	* The set of search directories for resources (templates)
 	*
 	* @var array
@@ -385,22 +393,22 @@ class JView extends JObject
 	* Get the layout.
 	*
 	* @access public
-	* @return string The layout name for the current template
+	* @return string The layout name
 	*/
 	function getLayout()
 	{
-		$template = JFactory::getApplication()->getTemplate();
-		$layout = (array) $this->_layout;
-		if (isset($layout[$template]) && $layout[$template]!='') {
-			$layout = $layout[$template];
-		}
-		elseif (isset($layout['_']) && $layout['_']!='') {
-			$layout = $layout['_'];
-		}
-		else {
-			$layout = 'default';
-		}
-		return $layout;
+		return $this->_layout;
+	}
+	
+	/**
+	* Get the layout template.
+	*
+	* @access public
+	* @return string The layout template name
+	*/
+	function getLayoutTemplate()
+	{
+		return $this->_layoutTemplate;
 	}
 
 	/**
@@ -460,21 +468,25 @@ class JView extends JObject
 	* Sets the layout name to use
 	*
 	* @access	public
-	* @param	string|array The layout name or an array whose keys are template names or '_' for component layout and values are corresponding layouts
-	* @return	string|array Previous value
+	* @param	string	The layout name or a string in format <template>:<layout file>
+	* @return	string 	Previous value
 	* @since	1.5
 	*/
 
 	function setLayout($layout)
 	{
 		$previous = $this->_layout;
-		if (is_string($layout))
+		if (strpos($layout, ':') === false )
 		{
-			$this->_layout = array('_'=>$layout);
+			$this->_layout = $layout;
 		}
 		else
 		{
-			$this->_layout = array_merge((array) $previous, (array) $layout);
+			// Convert parameter to array based on :
+			$temp = explode(':', $layout);
+			$this->_layout = $temp[1];
+			// Set layout template
+			$this->_layoutTemplate = $temp[0];
 		}
 		return $previous;
 	}
@@ -543,12 +555,13 @@ class JView extends JObject
 
 		$template = JFactory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
+		$layoutTemplate = $this->getLayoutTemplate();
 
 		//create the template file name based on the layout
 		$file = isset($tpl) ? $layout.'_'.$tpl : $layout;
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
-		$tpl  = preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl);
+		$tpl  = isset($tpl)? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
 		// Load the language file for the template
 		$lang	= JFactory::getLanguage();
@@ -556,12 +569,24 @@ class JView extends JObject
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
-
+		
+		// change the template folder if alternative layout is in different template
+		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
+		{
+			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+		}
 
 		// load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind	= $this->_createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
+		
+		// If alternate layout can't be found, fall back to default layout
+		if ($this->_template == false) 
+		{
+			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+			$this->_template = JPath::find($this->_path['template'], $filetofind);
+		}
 
 		if ($this->_template != false)
 		{

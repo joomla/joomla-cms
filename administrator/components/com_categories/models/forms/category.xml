@@ -210,6 +210,7 @@
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
+				size="5"
 				/>
 
 			<field

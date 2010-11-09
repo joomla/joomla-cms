@@ -168,6 +168,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_newsfeeds"
 				view="newsfeed"
+				size="5"
 				/>		
 		</fieldset>
 	</fields>

@@ -110,7 +110,7 @@ class ContentViewCategory extends JView
 
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interrogate the arrays.
-		if ($this->getLayout() == 'blog') {
+		if ($this->getLayout() != 'default') {
 			$max = count($items);
 
 			// The first group is the leading articles.
@@ -153,11 +153,19 @@ class ContentViewCategory extends JView
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('user', $user);
 
-		// Override the layout if you want to.
-		if ($layout = $category->params->get('layout')) {
+		// Check for layout override only if this is not the active menu item
+		// If it is the active menu item, then the view and category id will match
+		$active	= $app->getMenu()->getActive();
+		if (($active) && ((strpos($active->link, 'view=category') === false)) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)) {			
+			if ($layout = $this->category->params->get('layout')) {
 			$this->setLayout($layout);
+			}
 		}
-
+		elseif (isset($active->query['layout'])) {
+			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
+			$this->setLayout($active->query['layout']);
+		}
+		
 		$this->_prepareDocument();
 
 		parent::display($tpl);

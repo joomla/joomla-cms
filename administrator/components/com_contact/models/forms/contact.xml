@@ -360,6 +360,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_contact"
 				view="contact"
+				size="5"
 				/>			
 			<field name="show_name"
 				type="list"
