@@ -156,7 +156,7 @@ class ContactViewContact extends JView
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match
 		$active	= $app->getMenu()->getActive();
-		if (($active) && ((strpos($active->link, 'view=contact') === false)) || (strpos($active->link, '&id=' . (string) $this->item->id) === false)) {
+		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false))) {
 			if ($layout = $item_params->get('layout')) {
 				$this->setLayout($layout);
 			}

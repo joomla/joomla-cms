@@ -32,7 +32,8 @@ $ -> Language fix or change
  # [#23132] Some language have issues when translating global strings such as JALL. Thanks Christophe.
  
 09-Nov-2010 Mark Dexter
-#[#23054] Follow up on Issue 22932 - Alternate Layouts for Components
+# [#23054] Follow up on Issue 22932 - Alternate Layouts for Components
+# Fix PHP notice problem with [#23054] 
 
 08-Nov-2010 Ian MacLennan
  # [21571] Reverting commit to examine closer

@@ -101,7 +101,7 @@ class WeblinksViewCategory extends JView
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active	= $app->getMenu()->getActive();
-		if (($active) && ((strpos($active->link, 'view=category') === false)) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)) {			
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false))) {			
 			if ($layout = $this->category->params->get('layout')) {
 			$this->setLayout($layout);
 			}
