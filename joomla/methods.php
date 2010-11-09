@@ -142,6 +142,30 @@ class JText
 	}
 
 	/**
+	 * Translates a string into the current language.
+	 *
+	 * @param	string			The string to translate.
+	 * @param	string			The alternate option for global string
+	 * @param	boolean|array	boolean: Make the result javascript safe. array an array of option as described in the JText::sprintf function
+	 * @param	boolean			To interprete backslashes (\\=\, \n=carriage return, \t=tabulation)
+	 * @param	boolean			To indicate that the string will be pushed in the javascript language store
+	 * @return	string			The translated string or the key if $script is true
+	 * @example	<?php echo JText::alt("JALL","language");?> it will generate a 'All' string in English but a "Toutes" string in French
+	 * @example	<?php echo JText::alt("JALL","module");?> it will generate a 'All' string in English but a "Tous" string in French
+	 * @since	1.5
+	 *
+	 */
+	public static function alt($string, $alt, $jsSafe = false, $interpreteBackSlashes = true, $script = false)
+	{
+		$lang = JFactory::getLanguage();
+		if ($lang->hasKey($string.'_'.$alt)) {
+			return self::_($string.'_'.$alt, $jsSafe, $interpreteBackSlashes);
+		}
+		else {
+			return self::_($string, $jsSafe, $interpreteBackSlashes);
+		}
+	}
+	/**
 	 * Like JText::sprintf but tries to pluralise the string.
 	 *
 	 * @param	string	The format string.
