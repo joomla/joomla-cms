@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2010 Andrew Eddie
+ # Fixed issue [#23175] modal dialog not displaying drop shadows on all sides (Al Kent).
+
 09-Nov-2010 Christophe Demko
  # [#23170] Itemid is lost when browsing from content which is not linked to a menu item
  # [#22298] Renaming JUser method (Dennis Hermacki)

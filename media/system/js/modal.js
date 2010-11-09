@@ -82,7 +82,7 @@ var SqueezeBox = {
 				var relay = function(e) {
 					this.overlay.fireEvent('click', [e]);
 				}.bind(this);
-				['n', 'ne', 'sw', 'w', 'nw'].each(function(dir) {
+				['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw'].each(function(dir) {
 					new Element('div', {'class': 'sbox-bg sbox-bg-' + dir}).inject(shadow).addEvent('click', relay);
 				});
 			}
