@@ -297,14 +297,18 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	protected function preprocessForm($form, $data)
 	{
-		jimport('joomla.filesystem.file');
-		jimport('joomla.filesystem.folder');
-
 		// Initialise variables.
 		$clientId	= $this->getState('item.client_id');
 		$template	= $this->getState('item.template');
 		$lang		= JFactory::getLanguage();
 		$client		= JApplicationHelper::getClientInfo($clientId);
+		if (!$form->loadFile('style_'.$client->name, true)) {
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+		}
+
+		jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.folder');
+
 		$formFile	= JPath::clean($client->path.'/templates/'.$template.'/templateDetails.xml');
 
 		// Load the core and/or local language file(s).
@@ -322,8 +326,8 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Disable home field if it is default style
 
-		if ((is_array($data) && array_key_exists('home',$data))
-			|| ((is_object($data) && $data->home))){
+		if ((is_array($data) && array_key_exists('home',$data) && $data['home']=='1')
+			|| ((is_object($data) && isset($data->home) && $data->home=='1'))){
 			$form->setFieldAttribute('home','readonly','true');
 		}
 
@@ -486,8 +490,9 @@ class TemplatesModelStyle extends JModelAdmin
 		// Reset the home fields for the client_id.
 		$db->setQuery(
 			'UPDATE #__template_styles' .
-			' SET home = 0' .
-			' WHERE client_id = '.(int) $clientId
+			' SET home = \'0\'' .
+			' WHERE client_id = '.(int) $clientId .
+			' AND home = \'1\''
 		);
 
 		if (!$db->query()) {
@@ -497,7 +502,63 @@ class TemplatesModelStyle extends JModelAdmin
 		// Set the new home style.
 		$db->setQuery(
 			'UPDATE #__template_styles' .
-			' SET home = 1' .
+			' SET home = \'1\'' .
+			' WHERE id = '.(int) $id
+		);
+
+		if (!$db->query()) {
+			throw new Exception($db->getErrorMsg());
+		}
+
+		// Clean the cache.
+		$cache = JFactory::getCache();
+		$cache->clean('com_templates');
+		$cache->clean('_system');
+
+		return true;
+	}
+
+	/**
+	 * Method to unset a template style as default for a language.
+	 *
+	 * @param	int		The primary key ID for the style.
+	 *
+	 * @return	boolean	True if successful.
+	 * @throws	Exception
+	 */
+	public function unsetHome($id = 0)
+	{
+		// Initialise variables.
+		$user	= JFactory::getUser();
+		$db		= $this->getDbo();
+
+		// Access checks.
+		if (!$user->authorise('core.edit.state', 'com_templates')) {
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+		}
+
+		// Lookup the client_id.
+		$db->setQuery(
+			'SELECT client_id, home' .
+			' FROM #__template_styles' .
+			' WHERE id = '.(int) $id
+		);
+		$style = $db->loadObject();
+
+		if ($error = $db->getErrorMsg()) {
+			throw new Exception($error);
+		}
+		else if (!is_numeric($style->client_id)) {
+			throw new Exception(JText::_('COM_TEMPLATES_ERROR_STYLE_NOT_FOUND'));
+		}
+		else if ($style->home=='1') {
+			throw new Exception(JText::_('COM_TEMPLATES_ERROR_CANNOT_UNSET_DEFAULT_STYLE'));
+		}
+
+		// Set the new home style.
+		$db->setQuery(
+			'UPDATE #__template_styles' .
+			' SET home = \'0\'' .
 			' WHERE id = '.(int) $id
 		);
 

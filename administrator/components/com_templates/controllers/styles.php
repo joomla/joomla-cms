@@ -106,4 +106,31 @@ class TemplatesControllerStyles extends JControllerAdmin
 
 		$this->setRedirect('index.php?option=com_templates&view=styles');
 	}
+	/**
+	 * Method to unset the default template for a client and for a language
+	 *
+	 * @since	1.6
+	 */
+	public function unsetDefault()
+	{
+		// Initialise variables.
+		$pks = JRequest::getVar('cid', array(), 'get', 'array');
+
+		try {
+			if (empty($pks)) {
+				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
+			}
+
+			// Pop off the first element.
+			$id = array_shift($pks);
+			$model = $this->getModel();
+			$model->unsetHome($id);
+			$this->setMessage(JText::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));
+
+		} catch (Exception $e) {
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		$this->setRedirect('index.php?option=com_templates&view=styles');
+	}
 }

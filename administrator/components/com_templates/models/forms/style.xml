@@ -31,21 +31,6 @@
 			readonly="true" />
 
 		<field
-			name="home"
-			type="list"
-			label="COM_TEMPLATES_FIELD_HOME_LABEL"
-			description="COM_TEMPLATES_FIELD_HOME_DESC"
-			class="inputbox"
-			default="0">
-			<option
-				value="1">
-				JYes</option>
-			<option
-				value="0">
-				JNo</option>
-		</field>
-
-		<field
 			name="title"
 			type="text"
 			class="inputbox"

@@ -85,7 +85,7 @@ class TemplatesModelStyles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.template, a.title, a.home, a.client_id'
+				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image'
 			)
 		);
 		$query->from('`#__template_styles` AS a');
@@ -94,6 +94,9 @@ class TemplatesModelStyles extends JModelList
 		$query->select('COUNT(m.template_style_id) AS assigned');
 		$query->leftjoin('#__menu AS m ON m.template_style_id = a.id');
 		$query->group('a.id');
+
+		// Join over the language
+		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.home');
 
 		// Filter by template.
 		if ($template = $this->getState('filter.template')) {
