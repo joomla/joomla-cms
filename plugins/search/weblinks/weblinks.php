@@ -47,7 +47,7 @@ class plgSearchWeblinks extends JPlugin
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->authorisedLevels());
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		$searchText = $text;
 

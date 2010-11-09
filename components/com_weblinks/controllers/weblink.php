@@ -318,7 +318,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		// Check whether item access level allows access.
 		$user	= JFactory::getUser();
-		$groups	= $user->authorisedLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 
 		if (!in_array($link->access, $groups)) {
 			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));

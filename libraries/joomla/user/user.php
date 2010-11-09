@@ -299,6 +299,14 @@ class JUser extends JObject
 
 		return self::$isRoot ? true : JAccess::check($this->id, $action, $assetname);
 	}
+	
+	/**
+	 * @deprecated 1.6	Use the getAuthorisedViewLevels method instead.
+	 */
+	public function authorisedLevels()
+	{
+		return $this->getAuthorisedViewLevels();
+	}
 
 	/**
 	 * Gets an array of the authorised access levels for the user
@@ -306,7 +314,7 @@ class JUser extends JObject
 	 * @return	array
 	 * @since	1.6
 	 */
-	public function authorisedLevels()
+	public function getAuthorisedViewLevels()
 	{
 		if ($this->_authLevels === null) {
 			$this->_authLevels = array();

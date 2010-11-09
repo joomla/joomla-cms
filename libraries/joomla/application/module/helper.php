@@ -262,7 +262,7 @@ abstract class JModuleHelper
 		$Itemid = JRequest::getInt('Itemid');
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->authorisedLevels());
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$db		= JFactory::getDbo();
 
 		$query = new JDatabaseQuery;

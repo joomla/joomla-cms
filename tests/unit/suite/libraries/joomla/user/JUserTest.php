@@ -278,7 +278,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		}
 
 		$this->assertThat(
-			$user->authorisedLevels(),
+			$user->getAuthorisedViewLevels(),
 			$this->equalTo($expected),
 			"Failed for user {$user->id}"
 		);
@@ -523,6 +523,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		include_once JPATH_BASE . '/libraries/joomla/event/dispatcher.php';
 		include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
 
+		JFactory::getApplication('site');
 		$mockSession = $this->getMock('JSession', array('_start', 'get'));
 		$mockSession->expects($this->any())->method('get')->will(
 			$this->returnValue($this->object)
@@ -547,7 +548,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		$this->assertThat(
 			$testUser->getErrors(),
 			$this->equalTo(
-				array('Please enter a valid email address.')
+				array('JLIB_DATABASE_ERROR_VALID_MAIL')
 			),
 			'Should have caused valid email error'
 		);

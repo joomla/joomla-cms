@@ -54,7 +54,7 @@ class ContactViewFeatured extends JView
 
 		// Check whether category access level allows access.
 		$user	= JFactory::getUser();
-		$groups	= $user->authorisedLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 
 		// Prepare the data.
 		// Compute the contact slug.

@@ -138,7 +138,7 @@ class ContactModelContact extends JModelItem
 				else {
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
 					$user = JFactory::getUser();
-					$groups = $user->authorisedLevels();
+					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null) {
 						$data->params->set('access-view', in_array($data->access, $groups));
@@ -195,8 +195,8 @@ class ContactModelContact extends JModelItem
 				$query->where('a.published IN (1,2)');
 				$query->where('cc.published IN (1,2)');
 			}
-			$groups		= implode(',', $user->authorisedLevels());
-			$query->where('a.access IN ('.implode(',', $user->authorisedLevels()).')');
+			$groups		= implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN ('.$groups.')');
 
 			try {
 				$db->setQuery($query);
@@ -224,7 +224,7 @@ class ContactModelContact extends JModelItem
 
 			if ($result) {
 				$user	= JFactory::getUser();
-				$groups	= implode(',', $user->authorisedLevels());
+				$groups	= implode(',', $user->getAuthorisedViewLevels());
 				//get the content by the linked user
 				$query = 'SELECT id, title, state, access, created' .
 					' FROM #__content' .

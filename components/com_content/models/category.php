@@ -92,7 +92,7 @@ class ContentModelCategory extends JModelItem
 				// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$groups	= implode(',', $user->authorisedLevels());
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// limit to published for people who can't edit or edit.state.

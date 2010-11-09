@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Nov-2010 Christophe Demko
  # [#23170] Itemid is lost when browsing from content which is not linked to a menu item
+ # [#22298] Renaming JUser method (Dennis Hermacki)
 
 09-Nov-2010 Jean-Marie Simonet
  # [#23177] Ability to set a default template style per language when System - Language Filter plugin is on. Thanks Christophe.

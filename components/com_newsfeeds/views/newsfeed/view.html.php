@@ -137,7 +137,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$offset = $state->get('list.offset');
 
 		// Check the access to the newsfeed
-		$levels = $user->authorisedLevels();
+		$levels = $user->getAuthorisedViewLevels();
 
 		if (!in_array($item->access, $levels) OR ((in_array($item->access,$levels) AND (!in_array($item->category_access, $levels))))) {
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));

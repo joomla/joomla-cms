@@ -288,7 +288,7 @@ class JMenu extends JObject
 		$user	= JFactory::getUser();
 
 		if ($menu) {
-			return in_array((int) $menu->access, $user->authorisedLevels());
+			return in_array((int) $menu->access, $user->getAuthorisedViewLevels());
 		}
 		else {
 			return true;

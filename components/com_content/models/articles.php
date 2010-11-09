@@ -201,7 +201,7 @@ class ContentModelArticles extends JModelList
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
 			$user	= JFactory::getUser();
-			$groups	= implode(',', $user->authorisedLevels());
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
 
@@ -429,7 +429,7 @@ class ContentModelArticles extends JModelList
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
 		$guest	= $user->get('guest');
-		$groups	= $user->authorisedLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 
 		// Get the global params
 		$globalParams = JComponentHelper::getParams('com_content', true);

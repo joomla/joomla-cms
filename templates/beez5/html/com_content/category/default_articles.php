@@ -95,7 +95,7 @@ $listDirn	= $this->state->get('list.direction');
 			<?php foreach ($this->items as $i => &$article) : ?>
 			<tr class="cat-list-row<?php echo $i % 2; ?>">
 
-				<?php if (in_array($article->access, $this->user->authorisedLevels())) : ?>
+				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
 
 					<td class="list-title">
 						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">

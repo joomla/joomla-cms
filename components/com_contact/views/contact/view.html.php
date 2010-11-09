@@ -60,7 +60,7 @@ class ContactViewContact extends JView
 		$params->merge($item_params);
 
 		// check if access is not public
-		$groups	= $user->authorisedLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 
 		$return = '';
 

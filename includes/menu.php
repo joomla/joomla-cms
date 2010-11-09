@@ -43,7 +43,7 @@ class JMenuSite extends JMenu
 			$query->order('m.lft');
 
 			$user = JFactory::getUser();
-			$groups = implode(',', $user->authorisedLevels());
+			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('m.access IN (' . $groups . ')');
 
 			// Set the query

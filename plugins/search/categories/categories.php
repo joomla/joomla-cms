@@ -49,7 +49,7 @@ class plgSearchCategories extends JPlugin
 		$db		= JFactory::getDbo();
 		$user	= JFactory::getUser();
 		$app	= JFactory::getApplication();
-		$groups	= implode(',', $user->authorisedLevels());
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$searchText = $text;
 
 		if (is_array($areas)) {

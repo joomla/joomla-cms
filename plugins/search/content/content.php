@@ -47,7 +47,7 @@ class plgSearchContent extends JPlugin
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->authorisedLevels());
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$tag = JFactory::getLanguage()->getTag();
 
 		require_once JPATH_SITE.'/components/com_content/helpers/route.php';

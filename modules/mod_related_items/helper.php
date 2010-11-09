@@ -21,7 +21,7 @@ abstract class modRelatedItemsHelper
 		$user		= JFactory::getUser();
 		$userId		= (int) $user->get('id');
 		$count		= intval($params->get('count', 5));
-		$groups		= implode(',', $user->authorisedLevels());
+		$groups		= implode(',', $user->getAuthorisedViewLevels());
 		$date		= JFactory::getDate();
 
 		$option		= JRequest::getCmd('option');

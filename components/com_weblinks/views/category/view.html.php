@@ -57,7 +57,7 @@ class WeblinksViewCategory extends JView
 		// Check whether category access level allows access.
 		// TODO: SHould already be computed in $category->params->get('access-view')
 		$user	= JFactory::getUser();
-		$groups	= $user->authorisedLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 		if (!in_array($category->access, $groups)) {
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}

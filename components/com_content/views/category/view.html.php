@@ -67,7 +67,7 @@ class ContentViewCategory extends JView
 
 		// Check whether category access level allows access.
 		$user	= JFactory::getUser();
-		$groups	= $user->authorisedLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 		if (!in_array($category->access, $groups)) {
 			return JError::raiseError(403, JText::_("JERROR_ALERTNOAUTHOR"));
 		}

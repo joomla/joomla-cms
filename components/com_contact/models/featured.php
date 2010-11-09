@@ -81,7 +81,7 @@ class ContactModelFeatured extends JModelList
 	protected function getListQuery()
 	{
 		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->authorisedLevels());
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
 		$db		= $this->getDbo();
