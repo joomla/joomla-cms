@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#22298] Renaming JUser method (Dennis Hermacki)
  # [#22488] set_magic_quotes_runtime() is deprecated as of PHP 5.3.0
  # [#23163] Remove closing tags for empty elements (Rouven Weßling)
+ # [#23162] Remove the last occurrence of the <font> element (Rouven Weßling)
 
 09-Nov-2010 Jean-Marie Simonet
  # [#23177] Ability to set a default template style per language when System - Language Filter plugin is on. Thanks Christophe.
