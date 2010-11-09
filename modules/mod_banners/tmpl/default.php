@@ -100,7 +100,7 @@ $baseurl = JURI::base();
 						type="application/x-shockwave-flash"
 						<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
 						<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
-					></embed>
+					/>
 				</object>
 			<?php endif;?>
 		<?php endif;?>

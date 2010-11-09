@@ -128,7 +128,7 @@ $listDirn	= $this->state->get('list.direction');
 	<?php // Code to add a link to submit a weblink. ?>
 	<?php if ($canCreate) : ?>
 		<span class="hasTip" title="<?php echo JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'); ?>"><a href="<?php echo JRoute::_(WeblinksHelperRoute::getFormRoute(0));?>">
-		<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
+		<img src="media/system/images/edit.png" alt="Edit" /></a></span>
 	<?php  endif; ?>
 		<?php if ($this->params->get('show_pagination')) : ?>
 		 <div class="pagination">

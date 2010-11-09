@@ -158,7 +158,7 @@ $listDirn	= $this->state->get('list.direction');
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
 <span class="hasTip" title="<?php echo JText::_('COM_CONTENT_CREATE_ARTICLE'); ?>"><a href="<?php echo JRoute::_('index.php?option=com_content&task=article.add');?>">
-	<img src="media/system/images/edit.png" alt="Edit"></img></a></span>
+	<img src="media/system/images/edit.png" alt="Edit" /></a></span>
 <?php  endif; ?>
 	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 	<div class="pagination">
