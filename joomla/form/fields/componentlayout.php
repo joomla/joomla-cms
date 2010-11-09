@@ -80,7 +80,7 @@ class JFormFieldComponentLayout extends JFormField
 
 			// Load language file
 			$lang = JFactory::getLanguage();
-				$lang->load($extn.'.sys', JPATH_ADMINISTRATOR, null, false, false)
+			$lang->load($extn.'.sys', JPATH_ADMINISTRATOR, null, false, false)
 			||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR.'/components/'.$extn, null, false, false)
 			||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 			||	$lang->load($extn.'.sys', JPATH_ADMINISTRATOR.'/components/'.$extn, $lang->getDefault(), false, false);
@@ -124,45 +124,22 @@ class JFormFieldComponentLayout extends JFormField
 			$groups=array();
 
 			// Add the layout options from the component path.
-			if (is_dir($component_path) && ($component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true))) {
-				// Create the group for the component
-				$groups['_']			= array();
-				$groups['_']['id']		= $this->id.'__';
-				$groups['_']['text']	= JText::sprintf('JOPTION_FROM_COMPONENT');
-				$groups['_']['items']	= array();
-
-				foreach ($component_layouts as $i=>$file)
-				{
-					// Attempt to load the xml file.
-					if (!$xml = simplexml_load_file($file)) {
-						unset($component_layouts[$i]);
-
-						continue;
-					}
-
-					// Get the help data from the XML file if present.
-					if (!$menu = $xml->xpath('layout[1]')) {
-						unset($component_layouts[$i]);
-
-						continue;
-					}
-
-					$menu = $menu[0];
-
-					// Add an option to the component group
-					$value = JFile::stripext(JFile::getName($file));
-					$component_layouts[$i] = $value;
-					$text = isset($menu['option']) ? JText::_($menu['option']) : (isset($menu['title']) ? JText::_($menu['title']) : $value);
-					$groups['_']['items'][]	= JHTML::_('select.option', '_:'.$value, $text);
-				}
+			$component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true);
+			// Strip out the path and extension
+			for ($j = 0; $j < count($component_layouts); $j++)
+			{
+				$component_layouts[$j] = JFile::stripext(JFile::getName($component_layouts[$j]));
 			}
-
+				
+			$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][]	= JHTML::_('select.option', '', JText::_('JOPTION_USE_STANDARD'));
+				
 			// Loop on all templates
-			if ($templates) {
+			if ($templates)
+			{
 				foreach ($templates as $template)
 				{
 					// Load language file
-						$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, false)
+					$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, false)
 					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, false)
 					||	$lang->load('tpl_'.$template->element.'.sys', $client->path, $lang->getDefault(), false, false)
 					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
@@ -170,16 +147,26 @@ class JFormFieldComponentLayout extends JFormField
 					$template_path = JPath::clean($client->path.'/templates/'.$template->element.'/html/'.$extn.'/'.$view);
 
 					// Add the layout options from the template path.
-					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.xml$', false, true))) {
+					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true)))
+					{
+						// Files with corresponding xml files are alternate menu items, not alternate layout files
+						// So we need to exclude these files
+						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
+						for ($j = 0; $j < count($xml_files); $j++)
+						{
+							$xml_files[$j] = JFile::stripext(JFile::getName($xml_files[$j]));
+						}
 						foreach ($files as $i => $file)
 						{
-							// Remove layout that already exist in component ones
-							if (in_array(JFile::stripext(JFile::getName($file)), $component_layouts)) {
+							// Remove layout files that exist in the component folder or that have xml files
+							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
+							|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
+							{
 								unset($files[$i]);
 							}
 						}
-
-						if (count($files)) {
+						if (count($files))
+						{
 							// Create the group for the template
 							$groups[$template->name]=array();
 							$groups[$template->name]['id']=$this->id.'_'.$template->element;
@@ -188,21 +175,9 @@ class JFormFieldComponentLayout extends JFormField
 
 							foreach ($files as $file)
 							{
-								// Attempt to load the xml file.
-								if (!$xml = simplexml_load_file($file)) {
-									continue;
-								}
-
-								// Get the help data from the XML file if present.
-								if (!$menu = $xml->xpath('layout[1]')) {
-									continue;
-								}
-
-								$menu = $menu[0];
-
 								// Add an option to the template group
 								$value = JFile::stripext(JFile::getName($file));
-								$text = isset($menu['option']) ? JText::_($menu['option']) : (isset($menu['title']) ? JText::_($menu['title']) : $value);
+								$text = $lang->hasKey($key = strtoupper('TPL_'.$template->name.'_'.$extn.'_'.$view.'_LAYOUT_'.$value)) ? JText::_($key) : $value;
 								$groups[$template->name]['items'][]	= JHTML::_('select.option', $template->element.':'.$value, $text);
 							}
 						}
@@ -211,79 +186,24 @@ class JFormFieldComponentLayout extends JFormField
 			}
 
 			// Compute attributes for the grouped list
-			$attr = 'multiple="multiple"';
-			$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+			$attr = $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 
 			// Prepare HTML code
 			$html = array();
 
 			// Compute the current selected values
-			$selected = array();
-
-			if (is_array($this->value)) {
-				foreach($this->value as $template=>$value)
-				{
-					if (!empty($value) && array_key_exists($template, $templates)) {
-						$selected[] = $template.':'.$value;
-					}
-				}
-			}
+			$selected = array($this->value);
 
 			// Add a grouped list
-			$html[] = JHtml::_('select.groupedlist', $groups, '', array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
+			$html[] = JHtml::_('select.groupedlist', $groups, $this->name, array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
 
-			// Add input
-			if (is_array($this->value)) {
-				foreach($this->value as $template=>$value)
-				{
-					if (!empty($value) && array_key_exists($template, $templates)) {
-						// Add a hidden input for the template layout
-						$html[] = '<input type="hidden" id="'.$this->id.'_'.$template.'" name="'.$this->name.'['.$template.']" value="'.$value.'" />';
-					}
-				}
-			}
-
-			// Add javascript code for select tag
-			$js="window.addEvent('domready', function() {
-				document.id('".$this->id."').addEvent('change', function (event) {
-					var options=this.getSelected();
-					if (options.length<2)
-					{
-						this.getChildren('optgroup').each(function (group) {
-							group.getParent().getSiblings('input#'+group.get('id')).each(function (input) {
-								input.dispose();
-							});
-						});
-					}
-					for(var i=0;i<options.length;i++) {
-						var group=options[i].getParent();
-						var value=options[i].value.substr(options[i].value.indexOf(':')+1);
-						var template=options[i].value.substr(0,options[i].value.indexOf(':'));
-						var inputs=this.getSiblings('input#'+group.get('id'));
-						if (inputs.length==0)
-						{
-							group.getParent().getParent().grab(new Element('input',{'type':'hidden','id':group.get('id'),'value':value,'name':'".$this->name."['+template+']'}));
-						}
-						else
-						{
-							if (inputs[0].value!=value) {
-								group.getChildren().each(function (option) {
-									option.selected=false;
-								});
-								inputs[0].value=value;
-								options[i].selected=true;
-								break;
-							}
-						}
-					}
-				});
-			});";
-			JFactory::getDocument()->addScriptDeclaration($js);
 
 			return implode($html);
 		}
-		else {
+		else
+		{
 			return '';
 		}
 	}
 }
+

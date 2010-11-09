@@ -216,30 +216,26 @@ abstract class JModuleHelper
 	 *
 	 * @static
 	 * @param	string	$module	The name of the module
-	 * @param	string	$layout	The name of the module layout
-	 * @return	string|rray	The layout name | an array whose keys are template name + 0 and values and layout names
+	 * @param	string	$layout	The name of the module layout. If alternative layout, in the form template:filename.
+	 * @return	string	The path to the module layout
 	 * @since	1.5
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
 		$template = JFactory::getApplication()->getTemplate();
-		if (is_string($layout)) {
-			$layout = array('_'=>$layout);
-		}
-		$layout = (array) $layout;
-		if (isset($layout[$template]) && $layout[$template]!='') {
-			$layout = $layout[$template];
-		}
-		elseif (isset($layout['_']) && $layout['_']!='') {
-			$layout = $layout['_'];
-		}
-		else {
-			$layout = 'default';
+		$defaultLayout = $layout;
+		if (strpos($layout, ':') !== false ) 
+		{
+			// Get the template and file name from the string
+			$temp = explode(':', $layout);
+			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$layout = $temp[1];
+			$defaultLayout = 'default';
 		}
 
 		// Build the template and base path for the layout
 		$tPath = JPATH_BASE.'/templates/'.$template.'/html/'.$module.'/'.$layout.'.php';
-		$bPath = JPATH_BASE.'/modules/'.$module.'/tmpl/'.$layout.'.php';
+		$bPath = JPATH_BASE.'/modules/'.$module.'/tmpl/'.$defaultLayout.'.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath)) {

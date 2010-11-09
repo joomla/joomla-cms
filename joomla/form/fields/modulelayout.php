@@ -177,75 +177,16 @@ class JFormFieldModuleLayout extends JFormField
 				}
 			}
 			// Compute attributes for the grouped list
-			$attr = 'multiple="multiple"';
-			$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+			$attr = $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
 
 			// Prepare HTML code
 			$html = array();
 
 			// Compute the current selected values
-			$selected = array();
-			if (is_array($this->value)) {
-				foreach($this->value as $template=>$value)
-				{
-					if (!empty($value) && array_key_exists($template, $templates)) {
-						$selected[] = $template.':'.$value;
-					}
-				}
-			}
+			$selected = array($this->value);
 
 			// Add a grouped list
-			$html[] = JHtml::_('select.groupedlist', $groups, '', array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
-
-			// Add input
-			if (is_array($this->value)) {
-				foreach($this->value as $template=>$value)
-				{
-					if (!empty($value) && array_key_exists($template, $templates)) {
-						// Add a hidden input for the template layout
-						$html[] = '<input type="hidden" id="'.$this->id.'_'.$template.'" name="'.$this->name.'['.$template.']" value="'.$value.'" />';
-					}
-				}
-			}
-
-			// Add javascript code for select tag
-			$js="window.addEvent('domready', function() {
-				document.id('".$this->id."').addEvent('change', function (event) {
-					var options=this.getSelected();
-					if (options.length<2)
-					{
-						this.getChildren('optgroup').each(function (group) {
-							group.getParent().getSiblings('input#'+group.get('id')).each(function (input) {
-								input.dispose();
-							});
-						});
-					}
-					for(var i=0;i<options.length;i++) {
-						var group=options[i].getParent();
-						var value=options[i].value.substr(options[i].value.indexOf(':')+1);
-						var template=options[i].value.substr(0,options[i].value.indexOf(':'));
-						var inputs=this.getSiblings('input#'+group.get('id'));
-						if (inputs.length==0)
-						{
-							group.getParent().getParent().grab(new Element('input',{'type':'hidden','id':group.get('id'),'value':value,'name':'".$this->name."['+template+']'}));
-						}
-						else
-						{
-							if (inputs[0].value!=value) {
-								group.getChildren().each(function (option) {
-									option.selected=false;
-								});
-								inputs[0].value=value;
-								options[i].selected=true;
-								break;
-							}
-						}
-					}
-				});
-			});";
-
-			JFactory::getDocument()->addScriptDeclaration($js);
-
+			$html[] = JHtml::_('select.groupedlist', $groups, $this->name, array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
 			return implode($html);
 		}
 		else {
