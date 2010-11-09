@@ -49,9 +49,12 @@ abstract class NewsfeedsHelperRoute
 			}
 		}
 
-		if ($item = NewsfeedsHelperRoute::_findItem($needles)) {
+		if ($item = self::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
-		};
+		}
+		elseif ($item = self::_findItem()) {
+			$link .= '&Itemid='.$item;
+		}
 
 		return $link;
 	}
@@ -97,6 +100,9 @@ abstract class NewsfeedsHelperRoute
 					if ($item = self::_findItem($needles)) {
 						$link .= '&Itemid='.$item;
 					}
+					elseif ($item = self::_findItem()) {
+						$link .= '&Itemid='.$item;
+					}
 				}
 			}
 		}
@@ -104,26 +110,26 @@ abstract class NewsfeedsHelperRoute
 		return $link;
 	}
 
-	protected static function _findItem($needles)
+	protected static function _findItem($needles = null)
 	{
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu('site');
+
 		// Prepare the reverse lookup array.
-		if (self::$lookup === null) {
+		if (self::$lookup === null)
+		{
 			self::$lookup = array();
 
 			$component	= JComponentHelper::getComponent('com_newsfeeds');
-			$app		= JFactory::getApplication();
-			$menus		= $app->getMenu('site');
 			$items		= $menus->getItems('component_id', $component->id);
-
 			foreach ($items as $item)
 			{
-				if (isset($item->query) && isset($item->query['view'])) {
+				if (isset($item->query) && isset($item->query['view']))
+				{
 					$view = $item->query['view'];
-
 					if (!isset(self::$lookup[$view])) {
 						self::$lookup[$view] = array();
 					}
-
 					if (isset($item->query['id'])) {
 						self::$lookup[$view][$item->query['id']] = $item->id;
 					}
@@ -131,15 +137,26 @@ abstract class NewsfeedsHelperRoute
 			}
 		}
 
-		foreach ($needles as $view => $ids)
+		if ($needles)
 		{
-			if (isset(self::$lookup[$view])) {
-				foreach($ids as $id)
+			foreach ($needles as $view => $ids)
+			{
+				if (isset(self::$lookup[$view]))
 				{
-					if (isset(self::$lookup[$view][(int)$id])) {
-						return self::$lookup[$view][(int)$id];
+					foreach($ids as $id)
+					{
+						if (isset(self::$lookup[$view][(int)$id])) {
+							return self::$lookup[$view][(int)$id];
+						}
 					}
 				}
+			}
+		}
+		else
+		{
+			$active = $menus->getActive();
+			if ($active) {
+				return $active->id;
 			}
 		}
 

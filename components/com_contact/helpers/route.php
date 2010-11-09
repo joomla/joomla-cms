@@ -46,9 +46,12 @@ abstract class ContactHelperRoute
 			}
 		}
 
-		if ($item = ContactHelperRoute::_findItem($needles)) {
+		if ($item = self::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
-		};
+		}
+		elseif ($item = self::_findItem()) {
+			$link .= '&Itemid='.$item;
+		}
 
 		return $link;
 	}
@@ -94,6 +97,9 @@ abstract class ContactHelperRoute
 					if ($item = self::_findItem($needles)) {
 						$link .= '&Itemid='.$item;
 					}
+					elseif ($item = self::_findItem()) {
+						$link .= '&Itemid='.$item;
+					}
 				}
 			}
 		}
@@ -101,15 +107,17 @@ abstract class ContactHelperRoute
 		return $link;
 	}
 
-	protected static function _findItem($needles)
+	protected static function _findItem($needles = null)
 	{
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu('site');
+
 		// Prepare the reverse lookup array.
 		if (self::$lookup === null)
 		{
 			self::$lookup = array();
 
 			$component	= JComponentHelper::getComponent('com_contact');
-			$menus		= JApplication::getMenu('site');
 			$items		= $menus->getItems('component_id', $component->id);
 			foreach ($items as $item)
 			{
@@ -125,16 +133,27 @@ abstract class ContactHelperRoute
 				}
 			}
 		}
-		foreach ($needles as $view => $ids)
+
+		if ($needles)
 		{
-			if (isset(self::$lookup[$view]))
+			foreach ($needles as $view => $ids)
 			{
-				foreach($ids as $id)
+				if (isset(self::$lookup[$view]))
 				{
-					if (isset(self::$lookup[$view][(int)$id])) {
-						return self::$lookup[$view][(int)$id];
+					foreach($ids as $id)
+					{
+						if (isset(self::$lookup[$view][(int)$id])) {
+							return self::$lookup[$view][(int)$id];
+						}
 					}
 				}
+			}
+		}
+		else
+		{
+			$active = $menus->getActive();
+			if ($active) {
+				return $active->id;
 			}
 		}
 
