@@ -59,10 +59,10 @@ class JFormFieldFileList extends JFormFieldList
 
 		// Prepend some default options based on field attributes.
 		if (!$hideNone) {
-			$options[] = JHtml::_('select.option', '-1', JText::_('JOPTION_DO_NOT_USE'));
+			$options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
 		if (!$hideDefault) {
-			$options[] = JHtml::_('select.option', '', JText::_('JOPTION_USE_DEFAULT'));
+			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
 
 		// Get a list of files in the search path with the given filter.

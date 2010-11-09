@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 09-Nov-2010 Jean-Marie Simonet
- # [#23177] Ability to set a default template style per language when System - Language Filter plugin is on
+ # [#23177] Ability to set a default template style per language when System - Language Filter plugin is on. Thanks Christophe.
+ # [#23132] Some language have issues when translating global strings such as JALL. Thanks Christophe.
  
 09-Nov-2010 Mark Dexter
 #[#23054] Follow up on Issue 22932 - Alternate Layouts for Components
