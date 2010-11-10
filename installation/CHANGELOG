@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Nov-2010 Christophe Demko
  # Removing an extra div + some formatting while testing [#23068]
+ # [#23206] Improving permissions rules output (Dennis Hermacki)
 
 10-Nov-2010 Jean-Marie Simonet
  $ Updating admin lang xmls
