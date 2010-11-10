@@ -211,6 +211,10 @@ final class JSite extends JApplication
 				$template	= $this->getTemplate(true);
 				$file		= JRequest::getCmd('tmpl', 'index');
 
+				if (!$this->getCfg('offline') && ($file == 'offline')) {
+					$file = 'index';
+				}
+
 				if ($this->getCfg('offline') && !$user->authorise('core.admin')) {
 					$uri		= JFactory::getURI();
 					$return		= (string)$uri;
