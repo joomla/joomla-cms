@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2010 Jean-Marie Simonet
+ $ Updating admin lang xmls
+
 10-Nov-2010 Andrew Eddie
  # Fixed issue [#23175] modal dialog not displaying drop shadows on all sides (Al Kent).
  # Fixed issue [#23168] Category Blog view: Articles get edit permission from the category with its same id number (Juan Felix Mateos, Elin Waring).
