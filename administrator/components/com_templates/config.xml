@@ -28,6 +28,7 @@
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
+			validate="rules"
 			component="com_templates"
 			section="component">
 			<action

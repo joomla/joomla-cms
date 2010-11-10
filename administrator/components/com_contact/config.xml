@@ -695,6 +695,7 @@
 		<field name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
 			filter="rules"
 			component="com_contact"
 			section="component" />

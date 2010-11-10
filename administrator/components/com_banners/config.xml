@@ -68,6 +68,7 @@
 			label="JCONFIG_PERMISSIONS_LABEL"
 			class="inputbox"
 			filter="rules"
+			validate="rules"
 			component="com_banners"
 			section="component" />
 	</fieldset>

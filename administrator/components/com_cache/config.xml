@@ -11,6 +11,7 @@
 			type="rules"
 			label="JConfig_Permissions_Label"
 			filter="rules"
+			validate="rules"
 			component="com_config"
 			section="component">
 			<action

@@ -196,6 +196,7 @@
 		label="JFIELD_RULES_LABEL"
 		description="JFIELD_RULES_DESC"
 		filter="rules"
+		validate="rules"
 		class="inputbox"
 		component="com_content"
 		section="category"/>

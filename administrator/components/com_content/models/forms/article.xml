@@ -115,7 +115,7 @@
 
 		<field name="rules" type="rules" label="COM_CONTENT_FIELD_RULES_LABEL"
 			description="COM_CONTENT_FIELD_RULES_DESC" class="inputbox" filter="rules"
-			component="com_content" section="article"
+			component="com_content" section="article" validate="rules"
 		/>
 
 	</fieldset>
