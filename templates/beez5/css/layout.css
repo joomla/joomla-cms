@@ -2042,9 +2042,9 @@ ul.pagenav li a
 	text-decoration:none;
 	
 }
-ul.pagenav li.pagenav_prev 
+ul.pagenav li.pagenav-prev 
 {float:left}
-ul.pagenav li.pagenav_next 
+ul.pagenav li.pagenav-next 
 {float:right}
 
 /* mod_languages */

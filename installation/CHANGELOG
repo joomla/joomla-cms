@@ -30,6 +30,7 @@ $ -> Language fix or change
 10-Nov-2010 Jean-Marie Simonet
  $ Updating admin lang xmls
  # [#23195] Prevent defacement of sites by specifying ?tmpl=offline. Thanks Rouven.
+ # [#23161] Improve the markup of the Pagenavigation plugin. Thanks Rouven.
 
 10-Nov-2010 Andrew Eddie
  # Fixed issue [#23175] modal dialog not displaying drop shadows on all sides (Al Kent).

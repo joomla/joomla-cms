@@ -2036,9 +2036,9 @@ ul.pagenav li a
 	padding:2px; 
 	text-decoration:none
 }
-ul.pagenav li.pagenav_prev 
+ul.pagenav li.pagenav-prev 
 {float:left}
-ul.pagenav li.pagenav_next 
+ul.pagenav li.pagenav-next 
 {float:right}
 
 /* mod_languages */
