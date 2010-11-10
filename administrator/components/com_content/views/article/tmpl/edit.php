@@ -53,11 +53,12 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getInput('access'); ?></li>
 
 				<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
-				     <div class="button2-left"><div class="blank">
-				      <button type="button" onclick="document.location.href='#access-rules';">
-				      <?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
-				     </div></div>
-				</li>				
+					<div class="button2-left"><div class="blank">
+						<button type="button" onclick="document.location.href='#access-rules';">
+							<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?>
+						</button>
+					</div></div>
+				</li>
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
@@ -67,21 +68,19 @@ JHtml::_('behavior.keepalive');
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
-		<div class="clr"></div>
-		<?php echo $this->form->getLabel('articletext'); ?>
-		<div class="clr"></div>
-		<?php echo $this->form->getInput('articletext'); ?>
-	</fieldset>
-</div>
+			<div class="clr"></div>
+			<?php echo $this->form->getLabel('articletext'); ?>
+			<div class="clr"></div>
+			<?php echo $this->form->getInput('articletext'); ?>
+		</fieldset>
+	</div>
 
 	<div class="width-40 fltrt">
 		<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
-
 			<fieldset class="panelform">
 				<ul class="adminformlist">
-				
 					<li><?php echo $this->form->getLabel('created_by'); ?>
 					<?php echo $this->form->getInput('created_by'); ?></li>
 
@@ -108,47 +107,46 @@ JHtml::_('behavior.keepalive');
 				</ul>
 			</fieldset>
 
-		<?php
-		$fieldSets = $this->form->getFieldsets('attribs');
-		foreach ($fieldSets as $name => $fieldSet) :
-			echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options');
-				if (isset($fieldSet->description) && trim($fieldSet->description)) :
-					echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-				endif;
-				?>
+			<?php $fieldSets = $this->form->getFieldsets('attribs');?>
+			<?php foreach ($fieldSets as $name => $fieldSet) :?>
+				<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options');?>
+				<?php if (isset($fieldSet->description) && trim($fieldSet->description)) :?>
+					<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+				<?php endif;?>
+				<fieldset class="panelform">
+					<ul class="adminformlist">
+					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+						<li><?php echo $field->label; ?><?php echo $field->input; ?></li>
+					<?php endforeach; ?>
+					</ul>
+				</fieldset>
+			<?php endforeach; ?>
+
+			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
-				<ul class="adminformlist">
-				<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-					<li><?php echo $field->label; ?>
-					<?php echo $field->input; ?></li>
-				<?php endforeach; ?>
-				</ul>
+				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>
-		<?php endforeach; ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
-		<fieldset class="panelform">
-			<?php echo $this->loadTemplate('metadata'); ?>
-		</fieldset>
- 
- 		</div>		
 		<?php echo JHtml::_('sliders.end'); ?>
-		</div>
- 	<div class="clr"></div>
- 	<div  class="width-100 fltlft">
- 		<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
- 		<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
+	</div>
 
- 		<fieldset class="panelform">
- 			<?php echo $this->form->getLabel('rules'); ?>
- 			<?php echo $this->form->getInput('rules'); ?>
- 		</fieldset>
- 			
- 		<?php echo JHtml::_('sliders.end'); ?>
- 	</div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
-		<?php echo JHtml::_('form.token'); ?>
+	<div class="clr"></div>
 
+	<div class="width-100 fltlft">
+		<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
+
+			<fieldset class="panelform">
+				<?php echo $this->form->getLabel('rules'); ?>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
+
+		<?php echo JHtml::_('sliders.end'); ?>
+	</div>
+
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>
 

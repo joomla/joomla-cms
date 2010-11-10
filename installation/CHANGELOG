@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2010 Christophe Demko
+ # Removing an extra div + some formatting while testing [#23068]
+
 10-Nov-2010 Jean-Marie Simonet
  $ Updating admin lang xmls
  # [#23195] Prevent defacement of sites by specifying ?tmpl=offline. Thanks Rouven.
