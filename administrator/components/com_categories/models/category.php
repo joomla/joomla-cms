@@ -281,7 +281,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Set the access control rules field component value.
-		$form->setFieldAttribute('rules', 'component', $component);
+//		$form->setFieldAttribute('rules', 'component', $component);
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Trigger the default form events.
