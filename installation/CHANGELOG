@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2010 Christophe Demko
+ # [#23242] Component Layout fields shows an error if frontend view does not exist
+
 11-Nov-2010 Mark Dexter
 # Temporary fix for category save bug introduced with [#23068] commit
 

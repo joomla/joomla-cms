@@ -121,18 +121,21 @@ class JFormFieldComponentLayout extends JFormField
 			$component_layouts = array();
 
 			// Prepare the grouped list
-			$groups=array();
+			$groups = array();
 
 			// Add the layout options from the component path.
-			$component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true);
-			// Strip out the path and extension
-			for ($j = 0; $j < count($component_layouts); $j++)
-			{
-				$component_layouts[$j] = JFile::stripext(JFile::getName($component_layouts[$j]));
+			if (is_dir($component_path)) {
+				$component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true);
+
+				// Strip out the path and extension
+				for ($j = 0, $n = count($component_layouts); $j < $n; $j++)
+				{
+					$component_layouts[$j] = JFile::stripext(JFile::getName($component_layouts[$j]));
+				}
 			}
-				
+
 			$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][]	= JHTML::_('select.option', '', JText::_('JOPTION_USE_STANDARD'));
-				
+
 			// Loop on all templates
 			if ($templates)
 			{
