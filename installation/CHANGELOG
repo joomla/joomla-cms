@@ -28,7 +28,7 @@ $ -> Language fix or change
 ! -> Note
 
 11-Nov-2010 Mark Dexter
-# Temporary fix for category save bug introduced with [#23206] commit
+# Temporary fix for category save bug introduced with [#23068] commit
 
 10-Nov-2010 Christophe Demko
  # Removing an extra div + some formatting while testing [#23068]
