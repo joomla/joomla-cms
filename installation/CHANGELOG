@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+ # [#23205] Untranslated COM_CONFIG_ACTION_ADMIN_GLOBAL_DESC. Thanks Bill
+ $ Updated some xx-XX.ini files
+
 11-Nov-2010 Christophe Demko
  # [#23242] Component Layout fields shows an error if frontend view does not exist (Andrew Eddie)
 
