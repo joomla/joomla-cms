@@ -34,6 +34,7 @@ $ Deleted some redundant ini string
  # Sort modules by name when selecting a new one
  + Add missing file [#23160]
  # [#23280] User can block himself in the admin
+ # Fix a bad named param in mod_search
 
 11-Nov-2010 Jean-Marie Simonet
  # [#23205] Untranslated COM_CONFIG_ACTION_ADMIN_GLOBAL_DESC. Thanks Bill

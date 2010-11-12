@@ -20,7 +20,7 @@ $button_text	= $params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEX
 $width			= intval($params->get('width', 20));
 $maxlength		= $width > 20 ? $width : 20;
 $text			= $params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT'));
-$label			= $params->get('text', JText::_('MOD_SEARCH_LABEL_TEXT'));
+$label			= $params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT'));
 $set_Itemid		= intval($params->get('set_itemid', 0));
 $moduleclass_sfx = $params->get('moduleclass_sfx', '');
 
