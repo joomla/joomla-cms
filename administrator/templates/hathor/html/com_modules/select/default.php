@@ -23,14 +23,8 @@ JHtml::_('behavior.tooltip');
 		// Prepare variables for the link.
 
 		$link	= 'index.php?option=com_modules&task=module.add&eid='. $item->extension_id;
-		$name	= $this->escape(JText::_($item->name));
-		$desc	= $this->escape(JText::_('COM_MODULES_NODESCRIPTION'));
-
-		if (isset($item->xml)) :
-			if ($text = trim($item->xml->description)) :
-				$desc = $this->escape(JText::_($text));
-			endif;
-		endif;
+		$name	= $this->escape($item->name);
+		$desc	= $this->escape($item->desc);
 		?>
 		<span class="editlinktip hasTip" title="<?php echo $name.' :: '.$desc; ?>">
 			<a href="<?php echo JRoute::_($link);?>" target="_top">
