@@ -28,6 +28,10 @@ $ -> Language fix or change
 ! -> Note
 
 
+12-Nov-2010 Christophe Demko
+ # Sort modules by name when selecting a new one
+
+11-Nov-2010 Jean-Marie Simonet
  # [#23205] Untranslated COM_CONFIG_ACTION_ADMIN_GLOBAL_DESC. Thanks Bill
  $ Updated some xx-XX.ini files
 
