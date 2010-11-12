@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Nov-2010 Jean-Marie Simonet
+$ Deleted some redundant ini string
 
 12-Nov-2010 Christophe Demko
  # Sort modules by name when selecting a new one
