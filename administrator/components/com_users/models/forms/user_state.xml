@@ -3,17 +3,6 @@
 <form>
 	<fieldset name="user_details">
 		<field
-				name="block"
-				type="radio"
-				default="0"
-				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-				description="COM_USERS_USER_FIELD_BLOCK_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					value="1">JYES</option>
-		</field>
-		<field
 				name="sendEmail"
 				type="radio"
 				default="0"

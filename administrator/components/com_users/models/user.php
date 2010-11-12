@@ -126,6 +126,10 @@ class UsersModelUser extends JModelAdmin
 		$loggeduser = JFactory::getUser();
 		if ($loggeduser->authorise('core.edit', 'com_users') && $loggeduser->authorise('core.manage', 'com_users'))
 		{
+			if ($loggeduser->id != $data->id)
+			{
+				$form->loadFile('user_block', false);
+			}
 			$form->loadFile('user_state', false);
 		}
 		parent::preprocessForm($form, $data, 'user');
@@ -151,6 +155,11 @@ class UsersModelUser extends JModelAdmin
 			unset($data['groups']);
 			unset($data['sendEmail']);
 			unset($data['block']);
+		}
+
+		if ($data['block'] && $pk == $loggeduser->id && !$loggeduser->block) {
+			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+			return false;
 		}
 
 		// Bind the data.

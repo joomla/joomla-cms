@@ -19,6 +19,7 @@ JHtml::_('behavior.tooltip');
 $canDo = UsersHelper::getActions();
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
+$loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
@@ -116,7 +117,11 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
+					<?php if ($loggeduser->id != $item->id) : ?>
+						<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
+					<?php else : ?>
+						<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.block', null); ?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('grid.boolean', $i, !$item->activation, 'users.activate', null); ?>
