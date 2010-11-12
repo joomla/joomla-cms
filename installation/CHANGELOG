@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 12-Nov-2010 Christophe Demko
  # Sort modules by name when selecting a new one
+ + Add missing file [#23160]
 
 11-Nov-2010 Jean-Marie Simonet
  # [#23205] Untranslated COM_CONFIG_ACTION_ADMIN_GLOBAL_DESC. Thanks Bill
