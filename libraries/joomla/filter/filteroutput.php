@@ -122,8 +122,8 @@ class JFilterOutput
 		//delete all '?'
 		$str = str_replace('?', '', $str);
 
-		//trim white spaces at beginning and end of alias
-		$str = trim( $str );
+		//trim white spaces at beginning and end of alias, make lowercase
+		$str = trim(JString::strtolower($str));
 
 		// remove any duplicate whitespace and replace whitespaces by hyphens
 		$str =preg_replace('#\x20+#','-', $str);

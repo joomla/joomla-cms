@@ -200,10 +200,10 @@ class JRouterSite extends JRouter
 			$items = array_reverse($menu->getMenu());
 
 			$found = false;
+			$route_lowercase = JString::strtolower($route);
 			foreach ($items as $item) {
 				$length = strlen($item->route); //get the length of the route
-
-				if ($length > 0 && strpos($route.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
+				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink') {
 					$route = substr($route, $length);
 					if ($route) {
 						$route = substr($route, 1);
