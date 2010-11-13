@@ -81,7 +81,7 @@ defined('_JEXEC') or die;
 						<p class="current-text"></p>
 					</div>
 					<ul class="upload-queue" id="upload-queue">
-						<li style="display:none;" />
+						<li style="display:none;"></li>
 					</ul>
 					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
 					<input type="hidden" name="format" value="html" />
