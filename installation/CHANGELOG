@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Nov-2010 Jean-Marie Simonet
  # [#23292] Unicode slugs lets Upper case in url, which can cause issues when SEF is on
+ # [#23299] calendar css don't display week-end days
 
 12-Nov-2010 Jean-Marie Simonet
 $ Deleted some redundant ini string

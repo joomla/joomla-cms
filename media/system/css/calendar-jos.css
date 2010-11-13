@@ -48,7 +48,7 @@ div.calendar {
 }
 
 .calendar thead .weekend { /* How a weekend day name shows in header */
-  color: #dedede;
+  color: #999;
 }
 
 .calendar thead .hilite { /* How do the buttons in header appear when hover */
@@ -91,16 +91,14 @@ div.calendar {
   color: #ffffff;
 }
 
-.calendar tbody td.hilite { /* Hovered cells <TD> */
-  background: #999999;
-  padding: 1px 3px 1px 1px;
-  border: 1px solid #666666;
-}
-
 .calendar tbody td.active { /* Active (pressed) cells <TD> */
   background: #000000;
   color: #ffffff;
   padding: 2px 2px 0px 2px;
+}
+
+.calendar tbody td.weekend { /* Cells showing weekend days */
+  color: #999;
 }
 
 .calendar tbody td.selected { /* Cell showing today date */
@@ -111,8 +109,11 @@ div.calendar {
   color: #ffffff;
 }
 
-.calendar tbody td.weekend { /* Cells showing weekend days */
-  color: #cccccc;
+.calendar tbody td.hilite { /* Hovered cells <TD> */
+  background: #999999;
+  padding: 1px 3px 1px 1px;
+  border: 1px solid #666666;
+  color: #ffffff;
 }
 
 .calendar tbody td.today { font-weight: bold; }
