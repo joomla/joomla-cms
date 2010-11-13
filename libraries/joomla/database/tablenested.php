@@ -831,6 +831,9 @@ class JTableNested extends JTable
 		JArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
+		// If $state > 1, then we allow state changes even if an ancestor has lower state
+		// (for example, can change a child state to Archived (2) if an ancestor is Published (1)
+		$compareState = ($state > 1) ? 1 : $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
@@ -888,7 +891,7 @@ class JTableNested extends JTable
 					->where('n.lft < '.(int) $node->lft)
 					->where('n.rgt > '.(int) $node->rgt)
 					->where('n.parent_id > 0')
-					->where('n.published < '.(int) $state);
+					->where('n.published < '.(int) $compareState);
 
 				// Just fetch one row (one is one too many).
 				$this->_db->setQuery($query, 0, 1);

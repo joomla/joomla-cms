@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23299] calendar css don't display week-end days
  $ [#23199] Database Error: JLIB_DATABASE_ERROR_CONNECT_DATABASE
  # [#23284] Make tabs accessible for keyboard/screen readers. Thanks Andrea.
+ # [#23294] Allow archiving of category when parent category is published. Thanks Mark.
 
 12-Nov-2010 Jean-Marie Simonet
 $ Deleted some redundant ini string

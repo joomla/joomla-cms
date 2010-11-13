@@ -25,6 +25,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 	 */
 	protected $object;
 	protected $db;
+	protected $badDB;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -40,6 +41,13 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->_db = JFactory::getDbo();
 		$this->object = new JTableCategory($this->_db);
 		JFactory::$session = $this->getMock('JSession', array('_start'));
+		
+		// Set up a mock database to return db errors
+		$badDB = $this->getMock('JDatabaseMySQL', array('getErrorNum'), array(array('prefix' => 'jos_')));
+		$badDB->expects($this->any())
+			->method('getErrorNum')
+			->will($this->returnValue('1'));
+		$this->badDB = $badDB;
 	}
 
 	protected function getDataSet()
@@ -96,6 +104,10 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Get path of invalid id
 		$pathInvalid = $this->object->getPath(999);
 		$this->assertEquals(0, count($pathInvalid), 'Invalid path should have zero elements');
+		
+		// Get path database error
+		$badTable = new JTableCategory($this->badDB);
+		$this->assertFalse($badTable->getPath(1), 'Line: '.__LINE__.' Should fail with db error');
 	}
 
 	public function testGetTree($nodata = false)
@@ -125,6 +137,10 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Get invalid node as tree
 		$treeInvalid = $this->object->getTree(99999);
 		$this->assertEquals(0, count($treeInvalid), 'Invalid tree should have 0 nodes');
+		
+		// Test with db error
+		$badTable = new JTableCategory($this->badDB);
+		$this->assertFalse($badTable->getTree(1), 'Line: '.__LINE__.' Should fail with db error');
 	}
 
 	public function testIsLeaf()
@@ -378,6 +394,10 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$treeOriginalNew = $table->getTree('1');
 		$this->assertEquals(68, count($treeOriginalNew), 'Line: '.__LINE__.' Root tree should have 68 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
+		
+		// Test db error
+		$badTable = new JTableCategory($this->badDB);
+		$this->assertFalse($badTable->moveByReference('1','first-child'), 'Line: '.__LINE__.' Should fail with db error');
 	}
 
 	public function testDelete()
@@ -479,6 +499,13 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
 		$this->assertEquals(146, count($treeAssetsTemp), 'Line: '.__LINE__.' After delete, assets root tree should have 146 nodes');
+		
+		// Check lock
+		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', $this->_db));
+		$lockedTable->expects($this->any())
+			->method('_lock')
+			->will($this->returnValue(false));
+		$this->assertFalse($lockedTable->delete('1'), 'Line: '.__LINE__.' Delete should fail because cannot lock');
 	}
 
 	public function testCheck()
@@ -538,6 +565,25 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertEquals('com.banners.category.999', $treeTemp[6]->name, 'Line: '.__LINE__.' New node should be in position 6');
 		$this->assertEquals('4', $treeTemp[6]->parent_id, 'Line: '.__LINE__.' New node should parent id of 4');
 		$this->assertEquals(2, $treeTemp[6]->level, 'Line: '.__LINE__.' New node level should be 2');
+		
+		// Test _location_id == 0
+		$table->reset();
+		$table->load('40');
+		$table->id = null;
+		$table->title = "Test Location 0";
+		$table->setLocation('0', 'last-child');
+		$table->name = 'com.banners.category.998';
+		$this->assertTrue($table->store(), 'Line: '.__LINE__.' Table store should succeed');
+		$treeTemp = $table->getTree('1');
+		$this->assertEquals('Test Location 0', $treeTemp[159]->title, 'Line: '.__LINE__.' New node should be in last position (159)');
+		
+		// Check lock
+		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', $this->_db));
+		$lockedTable->expects($this->any())
+			->method('_lock')
+			->will($this->returnValue(false));
+		$this->assertFalse($lockedTable->store('999'), 'Line: '.__LINE__.' Delete should fail because cannot lock');
+		
 	}
 
 	public function testPublish()
@@ -584,7 +630,16 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$treeTemp = $table->getTree('1');
 		$this->assertEquals('20', $treeTemp[7]->id, 'Line: '.__LINE__.' Node 7 is id=20');
 		$this->assertEquals('0', $treeTemp[7]->published, 'Line: '.__LINE__.' Id 20 should not be published');
-	}
+		
+		// Test archive with parent node published
+		$pks = array('32');
+		$this->assertTrue($table->publish($pks, '2'), 'Line: '.__LINE__.' Should be able to archive even if parent is published');
+		$treeTemp = $table->getTree('1');
+		$this->assertEquals('18', $treeTemp[1]->id, 'Line: '.__LINE__.' Node 1 is id=18');
+		$this->assertEquals('1', $treeTemp[1]->published, 'Line: '.__LINE__.' Id 18 should be published');
+		$this->assertEquals('32', $treeTemp[3]->id, 'Line: '.__LINE__.' Node 3 is id=32');
+		$this->assertEquals('2', $treeTemp[3]->published, 'Line: '.__LINE__.' Id 32 should be archived (state = 2)');
+		}
 
 	public function testOrderUp()
 	{
