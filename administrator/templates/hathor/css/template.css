@@ -3488,3 +3488,8 @@ table.group-rules td select
 #permissions-sliders
 	{ min-height:35em; width:100%; }
 
+/* Tab changes for accessibility */
+dl.tabs dt h3 {
+	padding: 0;
+	font-size:100%;
+}
