@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#23284] Make tabs accessible for keyboard/screen readers. Thanks Andrea.
  # [#23294] Allow archiving of category when parent category is published. Thanks Mark.
  # [#23285] Incorrect markup in com_media. Thanks Rouven.
+ # [#23277] JToolbarHelper has wrong variable in generated URL. Thanks Michael and Bill.
 
 12-Nov-2010 Jean-Marie Simonet
 $ Deleted some redundant ini string

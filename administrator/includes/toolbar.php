@@ -159,7 +159,7 @@ abstract class JToolBarHelper
 	{
 		$bar = JToolBar::getInstance('toolbar');
 		// Add an upload button.
-		$bar->appendButton('Popup', 'upload', $alt, 'index.php?option=com_media&tmpl=component&task=popupUpload&directory='.$directory, 640, 520);
+		$bar->appendButton('Popup', 'upload', $alt, 'index.php?option=com_media&tmpl=component&task=popupUpload&folder='.$directory, 800, 520);
 	}
 
 	/**
