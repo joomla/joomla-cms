@@ -523,7 +523,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 		include_once JPATH_BASE . '/libraries/joomla/event/dispatcher.php';
 		include_once JPATH_BASE . '/libraries/joomla/plugin/helper.php';
 
-		JFactory::getApplication('site');
+		//JFactory::getApplication('site');
 		$mockSession = $this->getMock('JSession', array('_start', 'get'));
 		$mockSession->expects($this->any())->method('get')->will(
 			$this->returnValue($this->object)
