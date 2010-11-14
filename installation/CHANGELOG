@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Nov-2010 Jean-Marie Simonet
  # [#23217] Move rules strings to library language file and rename keys for consistency. Consolidated some strings.
+ # [#21264] RTL issues with media manager. Thanks Andrea.
  
 14-Nov-2010 Christophe Demko
  # [#23167] Remove align and valign attributes from the site (Rouven Weßling)

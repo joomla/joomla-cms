@@ -25,9 +25,14 @@ class MediaViewImagesList extends JView
 		JResponse::allowCache(false);
 
 		$app = JFactory::getApplication();
+		
+		$lang	= JFactory::getLanguage();
 
 		JHtml::_('behavior.framework', true);
 		JHTML::_('stylesheet','media/popup-imagelist.css', array(), true);
+		if ($lang->isRTL()) :
+			JHTML::_('stylesheet','media/popup-imagelist_rtl.css', array(), true);
+		endif;
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
