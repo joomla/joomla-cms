@@ -1750,64 +1750,49 @@ button:hover,button:focus {
 	margin-left: 5px;
 }
 
+/* Note: use these references to add images/arrows to the buttons */
+
 .button2-right .prev {
-	background-image: url(../images/j_button2_prev.png);
+	/* background-image: url(../images/j_button2_prev.png);
 	background-position: left center;
-	background-repeat: no-repeat;
+	background-repeat: no-repeat; */
 }
 
 .button2-right.off .prev {
-	background: url(../images/j_button2_prev_off.png) no-repeat;
+	/* background: url(../images/j_button2_prev_off.png) no-repeat; */
 }
 
 .button2-right .start {
-	background-image: url(../images/j_button2_first.png);
-	background-position: left center;
-	background-repeat: no-repeat;
 }
 
 .button2-right.off .start {
-	background: url(../images/j_button2_first_off.png) no-repeat;
 }
 
 .button2-left .page,.button2-left .blank {
-
 }
 
 .button2-left .next {
-	background-image: url(../images/j_button2_next.png);
-	background-position: right center;
-	background-repeat: no-repeat;
 }
 
 .button2-left.off .next {
-	background: url(../images/j_button2_next_off.png) 100% 0 no-repeat;
 }
 
 .button2-left .end {
-	background-image: url(../images/j_arrow.png);
-	background-position: right center;
-	background-repeat: no-repeat;
 }
 
 .button2-left.off .end {
-	background: url(../images/j_button2_last_off.png) 100% 0 no-repeat;
 }
 
 .button2-left .image {
-	background: url(../images/j_button2_image.png) 100% 0 no-repeat;
 }
 
 .button2-left .readmore {
-	background: url(../images/j_button2_readmore.png) 100% 0 no-repeat;
 }
 
 .button2-left .pagebreak {
-	background: url(../images/j_button2_pagebreak.png) 100% 0 no-repeat;
 }
 
 .button2-left .blank {
-
 }
 
 /**

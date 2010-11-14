@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Nov-2010 Christophe Demko
  # [#23167] Remove align and valign attributes from the site (Rouven Weßling)
+ # [#23126] Missing images in hathor template (Andrea Tarr)
 
 13-Nov-2010 Jean-Marie Simonet
  # [#23292] Unicode slugs lets Upper case in url, which can cause issues when SEF is on
