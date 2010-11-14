@@ -354,13 +354,13 @@
 				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
 			</field>
 			<field
-				name="layout"
+				name="contact_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_contact"
 				view="contact"
-				size="5"
+				useglobal="true"
 				/>			
 			<field name="show_name"
 				type="list"

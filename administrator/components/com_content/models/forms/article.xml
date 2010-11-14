@@ -323,10 +323,10 @@
 				description="JFIELD_READMORE_DESC"
 				class="inputbox" size="25" />
 
-			<field name="layout" type="componentlayout" 
+			<field name="article_layout" type="componentlayout" 
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
-				size="5"
+				useglobal="true"
 				extension="com_content" view="article" />
 
 		</fieldset>

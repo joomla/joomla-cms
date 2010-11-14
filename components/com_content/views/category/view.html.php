@@ -107,6 +107,21 @@ class ContentViewCategory extends JView
 				$item->event->afterDisplayContent = trim(implode("\n", $results));
 			}
 		}
+		
+		// Check for layout override only if this is not the active menu item
+		// If it is the active menu item, then the view and category id will match
+		$active	= $app->getMenu()->getActive();
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $category->id) === false))) {
+			// Get the layout from the merged category params
+			if ($layout = $category->params->get('category_layout')) {
+				$this->setLayout($layout);
+			}
+		}
+		// At this point, we are in a menu item, so we don't override the layout
+		elseif (isset($active->query['layout'])) {
+			// We need to set the layout from the query in case this is an alternative menu item (with an alternative layout)
+			$this->setLayout($active->query['layout']);
+		}
 
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interrogate the arrays.
@@ -152,19 +167,6 @@ class ContentViewCategory extends JView
 		$this->assignRef('parent', $parent);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('user', $user);
-
-		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match
-		$active	= $app->getMenu()->getActive();
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false))) {			
-			if ($layout = $this->category->params->get('layout')) {
-			$this->setLayout($layout);
-			}
-		}
-		elseif (isset($active->query['layout'])) {
-			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
-		}
 		
 		$this->_prepareDocument();
 

@@ -5,6 +5,16 @@
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 	>
+
+		<field
+			name="contact_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_contact"
+			view="contact"
+		/>
+
 		<field name="show_contact_category"
 			type="list"
 			default="hide"
@@ -312,6 +322,15 @@
 			description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
 	>
 			
+		<field 
+			name="category_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_contact"
+			view="category"
+		/>
+
 			<field name="show_category_title" type="radio"
 				default="1"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"

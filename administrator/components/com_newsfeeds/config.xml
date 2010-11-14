@@ -7,6 +7,15 @@
 		description="COM_NEWSFEEDS_FIELD_CONFIG_NEWSFEED_SETTINGS_DESC">
 
 		<field
+			name="newsfeed_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_newsfeeds"
+			view="newsfeed"
+		/>
+
+		<field
 			id="show_feed_image"
 			name="show_feed_image"
 			type="radio"
@@ -54,6 +63,15 @@
 		name="category"
 		label="JCATEGORY"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_CATEGORY_SETTINGS_DESC">
+
+		<field 
+			name="category_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_newsfeeds"
+			view="category"
+		/>
 
 		<field name="show_category_title" type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"

@@ -24,7 +24,6 @@
 				<field
 					name="layout"
 					type="modulelayout"
-					size="5"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 

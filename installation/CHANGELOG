@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Nov-2010 Mark Dexter
+# [#21571] category blog view drill down does not maintain layout style
+
 14-Nov-2010 Jean-Marie Simonet
  # [#23217] Move rules strings to library language file and rename keys for consistency. Consolidated some strings.
  # [#21264] RTL issues with media manager. Thanks Andrea.

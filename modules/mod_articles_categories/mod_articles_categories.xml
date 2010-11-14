@@ -93,7 +93,6 @@
 		</fieldset>
 		<fieldset name="advanced">
 			<field name="layout" type="modulelayout"
-				size="5"
 				label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 			<field name="item_heading" type="list" default="4"
 				label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"

@@ -91,8 +91,7 @@ class NewsfeedsViewNewsfeed extends JView
 		// Merge newsfeed params. If this is single-newsfeed view, menu params override newsfeed params
 		// Otherwise, newsfeed params override menu item params
 		$params = $state->get('params');
-		$newsfeed_params = new JRegistry;
-		$newsfeed_params->loadJSON($item->params);
+		$newsfeed_params = clone $item->params;
 		$active = $app->getMenu()->getActive();
 		$temp = clone ($params);
 		
@@ -101,7 +100,7 @@ class NewsfeedsViewNewsfeed extends JView
 		{
 			$currentLink = $active->link;
 			// If the current view is the active item and an newsfeed view for this feed, then the menu item params take priority
-			if (strpos($currentLink, 'view=newsfeeds') && (strpos($currentLink, '&id='.(string) $item->id)))
+			if (strpos($currentLink, 'view=newsfeed') && (strpos($currentLink, '&id='.(string) $item->id)))
 			{
 				// $item->params are the newsfeed params, $temp are the menu item params
 				// Merge so that the menu item params take priority
@@ -119,9 +118,8 @@ class NewsfeedsViewNewsfeed extends JView
 				// Merge the menu item params with the newsfeed params so that the newsfeed params take priority
 				$temp->merge($newsfeed_params);
 				$item->params = $temp;
-				// Check for alternative layouts (since we are not in a single-article menu item)
-				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $item->params->get('layout'))
+				// Check for alternative layouts (since we are not in a single-newsfeed menu item)
+				if ($layout = $item->params->get('newsfeed_layout'))
 				{
 					$this->setLayout($layout);
 				}
@@ -132,6 +130,11 @@ class NewsfeedsViewNewsfeed extends JView
 			// Merge so that newsfeed params take priority
 			$temp->merge($newsfeed_params);
 			$item->params = $temp;
+			// Check for alternative layouts (since we are not in a single-newsfeed menu item)
+			if ($layout = $item->params->get('newsfeed_layout')) 
+			{
+				$this->setLayout($layout);
+			}
 		}
 
 		$offset = $state->get('list.offset');

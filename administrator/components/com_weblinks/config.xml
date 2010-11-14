@@ -38,6 +38,15 @@
 		description="COM_WEBLINKS_CATEGORY_DESC"
 	>
 		
+		<field 
+			name="category_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_weblinks"
+			view="category"
+		/>
+
 		<field name="show_category_title" type="radio"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"

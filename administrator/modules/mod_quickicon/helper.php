@@ -46,7 +46,7 @@ abstract class QuickIconHelper
 		}
 
 		ob_start();
-		require JModuleHelper::getLayoutPath('mod_quickicon', 'button');
+		require JModuleHelper::getLayoutPath('mod_quickicon', 'default_button');
 		$html = ob_get_clean();
 		return $html;
 	}

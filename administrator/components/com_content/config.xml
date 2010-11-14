@@ -6,6 +6,15 @@
 		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC">
 
 		<field
+			name="article_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_content"
+			view="article"
+		/>
+
+		<field
 			name="show_title"
 			type="radio"
 			default="1"
@@ -262,6 +271,15 @@
 		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
 		>
 
+		<field 
+			name="category_layout" type="componentlayout"
+			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			description="JGLOBAL_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_content"
+			view="category"
+		/>
+
 		<field name="show_category_title" type="radio"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -396,26 +414,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 			
-			<field name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
-			
-			<field name="spacer" type="spacer" class="spacer"
-			label="COM_CONTENT_DRILL_CATEGORIES_LABEL"
-			/>
-			
-			<field
-				name="drill_down_layout"
-				type="radio"
-				default="0"
-				label="COM_CONTENT_DRILL_DOWN_LAYOUT_LABEL"
-				description="COM_CONTENT_DRILL_DOWN_LAYOUT_DESC">
-				<option value="0">JGLOBAL_LIST</option>
-				<option value="1">JGLOBAL_BLOG</option>
-			</field>
-		
 	</fieldset>
+	
 	<fieldset name="blog_default_parameters"
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"

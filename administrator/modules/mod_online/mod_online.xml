@@ -20,31 +20,32 @@
 	</files>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_ONLINE" />
 	<config>
-		<fields name="advanced">
-			<fieldset name="basic">
-				<field
-					name="layout"
-					type="modulelayout"
-					size="5"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+		<fields name="params">
+			<fields name="advanced">
+				<fieldset name="basic">
+					<field
+						name="layout"
+						type="modulelayout"
+						label="JFIELD_ALT_LAYOUT_LABEL"
+						description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
-				<field
-					name="moduleclass_sfx"
-					type="text"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+					<field
+						name="moduleclass_sfx"
+						type="text"
+						label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+						description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field
-					name="cache"
-					type="list"
-					default="0"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-			</fieldset>
+					<field
+						name="cache"
+						type="list"
+						default="0"
+						label="COM_MODULES_FIELD_CACHING_LABEL"
+						description="COM_MODULES_FIELD_CACHING_DESC">
+						<option
+							value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					</field>
+				</fieldset>
+			</fields>
 		</fields>
 	</config>
 </extension>

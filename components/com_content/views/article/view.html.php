@@ -83,7 +83,7 @@ class ContentViewArticle extends JView
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $item->params->get('layout')) {
+				if ($layout = $item->params->get('article_layout')) {
 					$this->setLayout($layout);
 				}
 			}
@@ -92,6 +92,11 @@ class ContentViewArticle extends JView
 			// Merge so that article params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
+			// Check for alternative layouts (since we are not in a single-article menu item)
+			// Single-article menu item layout takes priority over alt layout for an article
+			if ($layout = $item->params->get('article_layout')) {
+				$this->setLayout($layout);
+			}
 		}
 
 		$offset = $this->state->get('list.offset');

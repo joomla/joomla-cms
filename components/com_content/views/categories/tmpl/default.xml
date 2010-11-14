@@ -85,24 +85,6 @@
 				<option value="1">JSHOW</option>
 			</field>				
 			
-			<field name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
-			
-			<field name="spacer2" type="spacer" class="spacer"
-			label="COM_CONTENT_DRILL_CATEGORIES_LABEL"
-			/>
-			
-			<field
-				name="drill_down_layout"
-				type="radio"
-				default="0"
-				label="COM_CONTENT_DRILL_DOWN_LAYOUT_LABEL"
-				description="COM_CONTENT_DRILL_DOWN_LAYOUT_DESC">
-	 			<option value="0">JGLOBAL_LIST</option>
-	 			<option value="1">JGLOBAL_BLOG</option>
-	 	</field>
 </fieldset>
 
 <fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">

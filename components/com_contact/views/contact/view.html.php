@@ -55,9 +55,7 @@ class ContactViewContact extends JView
 		$menu	= $menus->getActive();
 		$params	= $app->getParams();
 
-		$item_params = new JRegistry;
-		$item_params->loadJSON($item->params);
-		$params->merge($item_params);
+		$params->merge($item->params);
 
 		// check if access is not public
 		$groups	= $user->getAuthorisedViewLevels();
@@ -157,7 +155,7 @@ class ContactViewContact extends JView
 		// If it is the active menu item, then the view and item id will match
 		$active	= $app->getMenu()->getActive();
 		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false))) {
-			if ($layout = $item_params->get('layout')) {
+			if ($layout = $params->get('contact_layout')) {
 				$this->setLayout($layout);
 			}
 		}

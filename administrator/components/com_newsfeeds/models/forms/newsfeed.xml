@@ -162,13 +162,13 @@
 				default="0" label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC" />
 			<field
-				name="layout"
+				name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_newsfeeds"
 				view="newsfeed"
-				size="5"
+				useglobal="true"
 				/>		
 		</fieldset>
 	</fields>
