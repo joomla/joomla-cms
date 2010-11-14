@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error.css" type="text/css" />
 </head>
 <body>
-	<div align="center">
+	<div class="error">
 		<div id="outline">
 		<div id="errorboxoutline">
 			<div id="errorboxheader"><?php echo $this->error->getCode(); ?> - <?php echo $this->error->getMessage(); ?></div>

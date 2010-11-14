@@ -28,6 +28,11 @@ body {
 	margin-top: 0px;
 }
 
+.error {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 table, td, th, div, pre, blockquote, ul, ol, dl, address,.componentheading,.contentheading,.contentpagetitle,.sectiontableheader,.newsfeedheading {
 	font-family: helvetica, arial, sans-serif;
 	font-weight: normal;

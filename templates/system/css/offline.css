@@ -11,7 +11,11 @@ body {
 	text-align: center;
 }
 
-img  { border: 0 none; }
+img  { 
+	border: 0 none;
+	margin-left: auto;
+	margin-right: auto;
+}
 
 /* -- id styles ------------------------------------- */
 

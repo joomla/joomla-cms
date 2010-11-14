@@ -140,7 +140,7 @@ class JDocumentError extends JDocument
 			$j	=	1;
 			echo	'<table border="0" cellpadding="0" cellspacing="0" class="Table">';
 			echo	'	<tr>';
-			echo	'		<td colspan="3" align="left" class="TD"><strong>Call stack</strong></td>';
+			echo	'		<td colspan="3" class="TD"><strong>Call stack</strong></td>';
 			echo	'	</tr>';
 			echo	'	<tr>';
 			echo	'		<td class="TD"><strong>#</strong></td>';
