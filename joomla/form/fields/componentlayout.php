@@ -43,11 +43,12 @@ class JFormFieldComponentLayout extends JFormField
 		// Initialize variables.
 
 		// Get the client id.
-		$clientId = (int) $this->element['client_id'];
+		$clientId = $this->element['client_id'];
 
-		if (empty($clientId) && (!($this->form instanceof JForm))) {
-			$clientId = (int) $this->form->getValue('client_id');
+		if (is_null($clientId) && $this->form instanceof JForm) {
+			$clientId = $this->form->getValue('client_id');
 		}
+		$clientId = (int) $clientId;
 
 		$client	= JApplicationHelper::getClientInfo($clientId);
 
@@ -121,21 +122,47 @@ class JFormFieldComponentLayout extends JFormField
 			$component_layouts = array();
 
 			// Prepare the grouped list
-			$groups = array();
-
-			// Add the layout options from the component path.
-			if (is_dir($component_path)) {
-				$component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true);
-
-				// Strip out the path and extension
-				for ($j = 0, $n = count($component_layouts); $j < $n; $j++)
-				{
-					$component_layouts[$j] = JFile::stripext(JFile::getName($component_layouts[$j]));
-				}
+			$groups=array();
+			
+			// Add a Use Global option if useglobal="true" in XML file
+			if ($this->element['useglobal'] == 'true') {
+				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][]	= JHTML::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
 			}
 
-			$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][]	= JHTML::_('select.option', '', JText::_('JOPTION_USE_STANDARD'));
+			// Add the layout options from the component path.
+			if (is_dir($component_path) && ($component_layouts = JFolder::files($component_path, '^[^_]*\.xml$', false, true))) {
+				// Create the group for the component
+				$groups['_']			= array();
+				$groups['_']['id']		= $this->id.'__';
+				$groups['_']['text']	= JText::sprintf('JOPTION_FROM_COMPONENT');
+				$groups['_']['items']	= array();
 
+				foreach ($component_layouts as $i=>$file)
+			{
+					// Attempt to load the xml file.
+					if (!$xml = simplexml_load_file($file)) {
+						unset($component_layouts[$i]);
+
+						continue;
+			}
+				
+					// Get the help data from the XML file if present.
+					if (!$menu = $xml->xpath('layout[1]')) {
+						unset($component_layouts[$i]);
+
+						continue;
+					}
+
+					$menu = $menu[0];
+
+					// Add an option to the component group
+					$value = JFile::stripext(JFile::getName($file));
+					$component_layouts[$i] = $value;
+					$text = isset($menu['option']) ? JText::_($menu['option']) : (isset($menu['title']) ? JText::_($menu['title']) : $value);
+					$groups['_']['items'][]	= JHTML::_('select.option', '_:'.$value, $text);
+				}
+			}
+						
 			// Loop on all templates
 			if ($templates)
 			{

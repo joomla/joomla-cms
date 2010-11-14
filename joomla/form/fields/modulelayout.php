@@ -43,11 +43,15 @@ class JFormFieldModuleLayout extends JFormField
 		// Initialize variables.
 
 		// Get the client id.
-		$clientId = (int) $this->element['client_id'];
+		$clientName = $this->element['client_id'];
 
-		if (empty($clientId) && (!($this->form instanceof JForm))) {
-			$clientId = (int) $this->form->getValue('client_id');
+		// Get the client id.
+		$clientId = $this->element['client_id'];
+
+		if (is_null($clientId) && $this->form instanceof JForm) {
+			$clientId = $this->form->getValue('client_id');
 		}
+		$clientId = (int) $clientId;
 
 		$client	= JApplicationHelper::getClientInfo($clientId);
 
