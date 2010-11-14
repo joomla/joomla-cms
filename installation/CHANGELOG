@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Nov-2010 Jean-Marie Simonet
+ # [#23217] Move rules strings to library language file and rename keys for consistency. Consolidated some strings.
+ 
 14-Nov-2010 Christophe Demko
  # [#23167] Remove align and valign attributes from the site (Rouven Weßling)
  # [#23126] Missing images in hathor template (Andrea Tarr)
