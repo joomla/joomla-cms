@@ -21,6 +21,78 @@ jimport('joomla.access.helper');
 class UsersModelLevel extends JModelAdmin
 {
 	/**
+	 * @var	array	A list of the access levels in use.
+	 * @since	1.6
+	 */
+	protected $levelsInUse = null;
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param	object	$record	A record object.
+	 *
+	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since	1.6
+	 */
+	protected function canDelete($record)
+	{
+		// Check if the access level is being used by any content.
+		if ($this->levelsInUse === null) {
+			// Populate the list once.
+			$this->levelsInUse = array();
+
+			$db		= $this->getDbo();
+			$query	= $db->getQuery(true)
+				->select('DISTINCT access');
+				// from is added dynamically
+
+			// Get all the tables and then all the fields
+			$tables = $db->getTableList();
+			$fields = $db->getTableFields($tables);
+
+			foreach ($tables as $table)
+			{
+				// We are looking for the access field.  If custom tables are using something other
+				// than the 'access' field they are on their own unfortunately.
+				if (isset($fields[$table]['access'])) {
+					// Lookup the distinct values of the field.
+					$query->clear('from')
+						->from($db->nameQuote($table));
+					$db->setQuery($query);
+
+					$values = $db->loadResultArray();
+					$error	= $db->getErrorMsg();
+
+					// Check for DB error.
+					if ($error) {
+						$this->setError($error);
+
+						return false;
+					}
+
+					$this->levelsInUse = array_merge($this->levelsInUse, $values);
+
+					// TODO Could assemble an array of the tables used by each view level list those,
+					// giving the user a clue in the error where to look.
+				}
+			}
+
+			// Get uniques.
+			$this->levelsInUse = array_unique($this->levelsInUse);
+
+			// Ok, after all that we are ready to check the record :)
+		}
+
+		if (in_array($record->id, $this->levelsInUse)) {
+			$this->setError(JText::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
+
+			return false;
+		}
+
+		return parent::canDelete($record);
+	}
+
+	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
 	 * @param	type	The table type to instantiate

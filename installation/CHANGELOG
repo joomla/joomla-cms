@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Nov-2010 Mark Dexter
 # Sample data fixes (thanks Elin Waring)
+# [#23184] Need to handle content, modules, menu items when a viewing permission level is deleted
 
 15-Nov-2010 Andrew Eddie
  # Fixed issue [#23247] behavior.keepalive with long session lifetime is causing firefox to freeze/crash (Markus Bopp, Ian MacLennan).
