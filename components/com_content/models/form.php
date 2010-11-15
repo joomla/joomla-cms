@@ -84,6 +84,17 @@ class ContentModelForm extends JModelForm
 			return false;
 		}
 
+		if ($id = (int) $this->getState('article.id')) {
+			// Existing record. Can only edit in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.edit');
+			// Existing record. Can only edit own articles in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+		}
+		else {
+			// New record. Can only create in selected categories.
+			$form->setFieldAttribute('catid', 'action', 'core.create');
+		}
+
 		return $form;
 	}
 
@@ -286,6 +297,7 @@ class ContentModelForm extends JModelForm
 			'DELETE FROM #__content_frontpage' .
 			' WHERE content_id = '.$table->id
 		);
+
 		if (!$this->_db->query()) {
 			throw new Exception($this->_db->getErrorMsg());
 		}
@@ -293,7 +305,8 @@ class ContentModelForm extends JModelForm
 		if (isset($data['featured']) && $data['featured'] == 1) {
 			$frontpage = $this->getTable('Featured', 'ContentTable');
 
-			try {
+			try
+			{
 				$this->_db->setQuery(
 					'UPDATE #__content AS a' .
 					' SET a.featured = 1'.
@@ -308,17 +321,21 @@ class ContentModelForm extends JModelForm
 					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
 					' VALUES ('.$table->id.',1)'
 				);
+
 				if (!$this->_db->query()) {
 					$this->setError($this->_db->getErrorMsg());
 					return false;
 				}
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$this->setError($e->getMessage());
 				return false;
 			}
 
 			$frontpage->reorder();
 		}
+
 		// Clean the cache.
 		$cache = JFactory::getCache('com_content');
 		$cache->clean();
@@ -342,8 +359,7 @@ class ContentModelForm extends JModelForm
 		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
+		if ($pk) {
 			$user	= JFactory::getUser();
 
 			// Get an instance of the row to checkin.
@@ -381,8 +397,7 @@ class ContentModelForm extends JModelForm
 		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 		// Only attempt to check the row in if it exists.
-		if ($pk)
-		{
+		if ($pk) {
 			// Get a row instance.
 			$table = $this->getTable();
 
