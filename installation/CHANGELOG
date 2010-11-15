@@ -32,6 +32,7 @@ $ -> Language fix or change
 # [#23184] Need to handle content, modules, menu items when a viewing permission level is deleted
 # [#23319] Can't install Joomla or choose the accessible admin template without a mouse (thanks Andrea Tarr)
 # Fix About Parks module assignment in sample data
+# [#23324] PATCH: Modeladmin using wrong key while loading (thanks Harald Leithner)
 
 15-Nov-2010 Andrew Eddie
  # Fixed issue [#23247] behavior.keepalive with long session lifetime is causing firefox to freeze/crash (Markus Bopp, Ian MacLennan).
