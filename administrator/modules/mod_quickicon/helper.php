@@ -131,6 +131,12 @@ abstract class QuickIconHelper
 					'text' => JText::_('MOD_QUICKICON_PROFILE'),
 					'access' => array('core.manage', 'com_content')
 				),
+				array(
+					'link' => JRoute::_('index.php?option=com_templates'),
+					'image' => 'icon-48-themes.png',
+					'text' => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER'),
+					'access' => array('core.manage', 'com_templates')
+				),
 			);
 		}
 

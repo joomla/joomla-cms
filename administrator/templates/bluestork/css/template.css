@@ -496,7 +496,9 @@ div.toolbar-list a {
 	cursor: pointer;
 }
 
-div.toolbar-list a:hover {
+div.toolbar-list a:hover,
+div.toolbar-list a:focus, 
+div.toolbar-list a:active {
 	border-left: 1px solid #eee;
 	border-top: 1px solid #eee;
 	border-right: 1px solid #ccc;
@@ -729,7 +731,9 @@ li.acl-resetbtn:hover {
 	text-decoration: none;
 }
 
-#cpanel div.icon a:hover {
+#cpanel div.icon a:hover,
+#cpanel div.icon a:focus,
+#cpanel div.icon a:active {
 	border-left: 1px solid #eee;
 	border-top: 1px solid #eee;
 	border-right: 1px solid #ccc;
