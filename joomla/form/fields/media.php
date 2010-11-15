@@ -77,7 +77,7 @@ class JFormFieldMedia extends JFormField
 		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
 
 		// The text field.
-		$html[] = '<div style="float:left;">';
+		$html[] = '<div class="fltlft">';
 		$html[] = '	<input type="text" name="'.$this->name.'" id="'.$this->id.'"' .
 					' value="'.htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8').'"' .
 					' readonly="readonly"'.$attr.' />';
