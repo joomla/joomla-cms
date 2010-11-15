@@ -126,12 +126,12 @@ class JHTMLIcon
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHTML::_('image','system/printButton.png', JText::_('COM_CONTENT_PRINT'), NULL, true);
+			$text = JHTML::_('image','system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
 		} else {
-			$text = JText::_('COM_CONTENT_ICON_SEP') .'&#160;'. JText::_('COM_CONTENT_PRINT') .'&#160;'. JText::_('COM_CONTENT_ICON_SEP');
+			$text = JText::_('JGLOBAL_ICON_SEP') .'&#160;'. JText::_('JGLOBAL_PRINT') .'&#160;'. JText::_('JGLOBAL_ICON_SEP');
 		}
 
-		$attribs['title']	= JText::_('COM_CONTENT_PRINT');
+		$attribs['title']	= JText::_('JGLOBAL_PRINT');
 		$attribs['onclick'] = "window.open(this.href,'win2','".$status."'); return false;";
 		$attribs['rel']		= 'nofollow';
 
@@ -142,9 +142,9 @@ class JHTMLIcon
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHTML::_('image','system/printButton.png', JText::_('Print'), NULL, true);
+			$text = JHTML::_('image','system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
 		} else {
-			$text = JText::_('COM_CONTENT_ICON_SEP') .'&#160;'. JText::_('COM_CONTENT_PRINT') .'&#160;'. JText::_('COM_CONTENT_ICON_SEP');
+			$text = JText::_('JGLOBAL_ICON_SEP') .'&#160;'. JText::_('JGLOBAL_PRINT') .'&#160;'. JText::_('JGLOBAL_ICON_SEP');
 		}
 		return '<a href="#" onclick="window.print();return false;">'.$text.'</a>';
 	}

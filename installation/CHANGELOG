@@ -35,6 +35,7 @@ $ -> Language fix or change
 15-Nov-2010 Jean-Marie Simonet
  $ Adding missing string
  # [#23318] Remove hardcoded style so that RTL will work. Thanks Andrea.
+ $ Moving and consolidated some strings
  
 14-Nov-2010 Mark Dexter
 # [#21571] category blog view drill down does not maintain layout style
