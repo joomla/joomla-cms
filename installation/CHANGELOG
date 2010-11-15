@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Nov-2010 Jean-Marie Simonet
+ $ Adding missing string
+ 
 14-Nov-2010 Mark Dexter
 # [#21571] category blog view drill down does not maintain layout style
 
