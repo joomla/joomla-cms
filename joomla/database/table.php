@@ -390,10 +390,14 @@ abstract class JTable extends JObject
 		}
 
 		// If the source value is an object, get its accessible properties.
-		if (is_object($src)) $src = get_object_vars($src);
+		if (is_object($src)) {
+			$src = get_object_vars($src);
+		}
 
 		// If the ignore value is a string, explode it over spaces.
-		if (!is_array($ignore)) $ignore = explode(' ', $ignore);
+		if (!is_array($ignore)) {
+			$ignore = explode(' ', $ignore);
+		}
 
 		// Bind the source value, excluding the ignored fields.
 		foreach ($this->getProperties() as $k => $v)
@@ -428,16 +432,20 @@ abstract class JTable extends JObject
 			$keyValue = $this->$keyName;
 
 			// If empty primary key there's is no need to load anything
-			if(empty($keyValue)) return true;
+			if (empty($keyValue)) {
+				return true;
+			}
 
 			$keys = array($keyName => $keyValue);
 		}
-		elseif (!is_array($keys)) {
+		else if (!is_array($keys)) {
 			// Load by primary key.
 			$keys = array($this->_tbl_key => $keys);
 		}
 
-		if ($reset) $this->reset();
+		if ($reset) {
+			$this->reset();
+		}
 
 		// Initialise the query.
 		$query	= $this->_db->getQuery(true);
@@ -510,6 +518,11 @@ abstract class JTable extends JObject
 		// Initialise variables.
 		$k = $this->_tbl_key;
 
+		// The asset id field is managed privately by this class.
+		if ($this->_trackAssets) {
+			unset($this->asset_id);
+		}
+
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k) {
 			$stored = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
@@ -545,6 +558,9 @@ abstract class JTable extends JObject
 		$asset	= JTable::getInstance('Asset');
 		$asset->loadByName($name);
 
+		// Re-inject the asset id.
+		$this->asset_id = $asset->id;
+
 		// Check for an error.
 		if ($error = $asset->getError()) {
 			$this->setError($error);
@@ -560,6 +576,7 @@ abstract class JTable extends JObject
 		$asset->parent_id	= $parentId;
 		$asset->name		= $name;
 		$asset->title		= $title;
+
 		if ($this->_rules instanceof JRules) {
 			$asset->rules = (string) $this->_rules;
 		}
