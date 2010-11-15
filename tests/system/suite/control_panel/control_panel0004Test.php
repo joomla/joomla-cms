@@ -99,7 +99,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("User Modules", $this->getTable("//table[@class='adminlist'].12.1"));
 		$this->assertContains("Display Modules", $this->getTable("//table[@class='adminlist'].13.1"));
 		$this->assertContains("Utility Modules", $this->getTable("//table[@class='adminlist'].14.1"));
-		$this->assertContains("Menu Module", $this->getTable("//table[@class='adminlist'].15.1"));
+		$this->assertContains("Navigation Module", $this->getTable("//table[@class='adminlist'].15.1"));
 		print("Move Modules category up one." . "\n");
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Modules')]/../../td//a[@title='Move Up']");
 		$this->waitForPageToLoad("30000");
@@ -115,7 +115,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("User Modules", $this->getTable("//table[@class='adminlist'].7.1"));
 		$this->assertContains("Display Modules", $this->getTable("//table[@class='adminlist'].8.1"));
 		$this->assertContains("Utility Modules", $this->getTable("//table[@class='adminlist'].9.1"));
-		$this->assertContains("Menu Module", $this->getTable("//table[@class='adminlist'].10.1"));
+		$this->assertContains("Navigation Module", $this->getTable("//table[@class='adminlist'].10.1"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php/testCreateRemoveCategory." . "\n");
 

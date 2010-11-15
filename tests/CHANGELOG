@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Nov-2010 Mark Dexter
+# Fix failing system test for sample data changes
+
 05-Nov-2010 Mark Dexter
 # Fix failing system tests for ACL language changes
 # Unit test for [#22444] JRegistry fails when binding an object which contains a JRegistry object
