@@ -320,10 +320,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function populateState()
 	{
+		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
+		$table = $this->getTable();
+		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = (int) JRequest::getInt('id');
+		$pk = JRequest::getInt($key);
 		$this->setState($this->getName().'.id', $pk);
 
 		// Load the parameters.
