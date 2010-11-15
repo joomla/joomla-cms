@@ -30,6 +30,7 @@ $ -> Language fix or change
 15-Nov-2010 Andrew Eddie
  # Fixed issue [#23247] behavior.keepalive with long session lifetime is causing firefox to freeze/crash (Markus Bopp, Ian MacLennan).
  # Fixed issue [#23007] locked categories still available (Adrian Louter, Elin Waring).
+ # Fixed issue [#23069] Theoretical com_config exploit (Matt Thomas).
 
 15-Nov-2010 Jean-Marie Simonet
  $ Adding missing string
