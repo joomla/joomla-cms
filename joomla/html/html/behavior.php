@@ -10,7 +10,6 @@
 /**
  * Utility class for javascript behaviors
  *
- * @static
  * @package		Joomla.Framework
  * @subpackage	HTML
  * @version		1.5
@@ -22,7 +21,7 @@ abstract class JHtmlBehavior
 	 *
 	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
 	 *
-	 * @param	string	$type	Mootools file to load
+	 * @param	string	$extras	Mootools file to load
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 *
 	 * @return	void
@@ -42,8 +41,7 @@ abstract class JHtmlBehavior
 		JHtml::core($debug);
 
 		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
+		if ($debug === null) {
 			$config = JFactory::getConfig();
 			$debug = $config->get('debug');
 		}
@@ -58,6 +56,7 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script','system/mootools-'.$type.$uncompressed.'.js', false, true, false, false);
 		$loaded[$type] = true;
+
 		return;
 	}
 
@@ -117,7 +116,7 @@ abstract class JHtmlBehavior
 			window.addEvent('domready', function(){
 				toggler = document.id('submenu');
 				element = document.id('config-document');
-				if(element) {
+				if (element) {
 					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
 				}
 			});";
@@ -209,6 +208,7 @@ abstract class JHtmlBehavior
 
 		// Set static array
 		$tips[$sig] = true;
+
 		return;
 	}
 
@@ -232,7 +232,7 @@ abstract class JHtmlBehavior
 	 * @return	void
 	 * @since	1.5
 	 */
-	public static function modal($selector='a.modal', $params = array())
+	public static function modal($selector = 'a.modal', $params = array())
 	{
 		static $modals;
 		static $included;
@@ -283,6 +283,7 @@ abstract class JHtmlBehavior
 
 		// Set static array
 		$modals[$sig] = true;
+
 		return;
 	}
 
@@ -373,7 +374,6 @@ abstract class JHtmlBehavior
 		$opt['typeFilter']			= (isset($params['types'])) ? '\\'.$params['types'] : '\\{Joomla.JText._(\'JPLOADER_ALL_FILES\'): \'*.*\'}';
 		$opt['typeFilter']			= (isset($params['typeFilter'])) ? '\\'.$params['typeFilter'] : $opt['typeFilter'];
 
-
 		// Optional functions
 		$opt['createReplacement'] 	= (isset($params['createReplacement'])) ? '\\'.$params['createReplacement'] : null;
 		$opt['onFileComplete'] 		= (isset($params['onFileComplete'])) ? '\\'.$params['onFileComplete'] : null;
@@ -382,8 +382,13 @@ abstract class JHtmlBehavior
 		$opt['onComplete'] 			= (isset($params['onComplete'])) ? '\\'.$params['onComplete'] : null;
 		$opt['onFileSuccess'] 		= (isset($params['onFileSuccess'])) ? '\\'.$params['onFileSuccess'] : $onFileSuccess;
 
-		if(!isset($params['startButton'])) $params['startButton'] = 'upload-start';
-		if(!isset($params['clearButton'])) $params['clearButton'] = 'upload-clear';
+		if (!isset($params['startButton'])) {
+			$params['startButton'] = 'upload-start';
+		}
+
+		if (!isset($params['clearButton'])) {
+			$params['clearButton'] = 'upload-clear';
+		}
 
 		$opt['onLoad'] =
 			'\\function() {
@@ -431,6 +436,7 @@ abstract class JHtmlBehavior
 
 		// Set static array
 		$uploaders[$id] = true;
+
 		return;
 	}
 
@@ -494,6 +500,7 @@ abstract class JHtmlBehavior
 
 		// Set static array
 		$trees[$id] = true;
+
 		return;
 	}
 
@@ -534,6 +541,11 @@ abstract class JHtmlBehavior
 		$lifetime	= ($config->get('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
 		//refresh time is 1 minute less than the liftime assined in the configuration.php file
+
+		// the longest refresh period is one hour to prevent integer overflow.
+		if ($refreshTime > 3600000 || $refreshTime <= 0) {
+			$refreshTime = 3600000;
+		}
 
 		$document = JFactory::getDocument();
 		$script  = '';
@@ -581,8 +593,8 @@ abstract class JHtmlBehavior
 			if (is_null($v)) {
 				continue;
 			}
-			if (!is_array($v) && !is_object($v))
-			{
+
+			if (!is_array($v) && !is_object($v)) {
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
@@ -591,9 +603,11 @@ abstract class JHtmlBehavior
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}
+
 		if (substr($object, -1) == ',') {
 			$object = substr($object, 0, -1);
 		}
+
 		$object .= '}';
 
 		return $object;
@@ -609,8 +623,7 @@ abstract class JHtmlBehavior
 	{
 		static $jsscript = 0;
 
-		if ($jsscript == 0)
-		{
+		if ($jsscript == 0) {
 			$return = 'Calendar._DN = new Array ("'.JText::_('SUNDAY',true).'", "'.JText::_('MONDAY',true).'", "'.JText::_('TUESDAY',true).'", "'.JText::_('WEDNESDAY',true).'", "'.JText::_('THURSDAY',true).'", "'.JText::_('FRIDAY',true).'", "'.JText::_('SATURDAY',true).'", "'.JText::_('SUNDAY',true).'");Calendar._SDN = new Array ("'.JText::_('SUN',true).'", "'.JText::_('MON',true).'", "'.JText::_('TUE',true).'", "'.JText::_('WED',true).'", "'.JText::_('THU',true).'", "'.JText::_('FRI',true).'", "'.JText::_('SAT',true).'", "'.JText::_('SUN',true).'"); Calendar._FD = 0;	Calendar._MN = new Array ("'.JText::_('JANUARY',true).'", "'.JText::_('FEBRUARY',true).'", "'.JText::_('MARCH',true).'", "'.JText::_('APRIL',true).'", "'.JText::_('MAY',true).'", "'.JText::_('JUNE',true).'", "'.JText::_('JULY',true).'", "'.JText::_('AUGUST',true).'", "'.JText::_('SEPTEMBER',true).'", "'.JText::_('OCTOBER',true).'", "'.JText::_('NOVEMBER',true).'", "'.JText::_('DECEMBER',true).'");	Calendar._SMN = new Array ("'.JText::_('JANUARY_SHORT',true).'", "'.JText::_('FEBRUARY_SHORT',true).'", "'.JText::_('MARCH_SHORT',true).'", "'.JText::_('APRIL_SHORT',true).'", "'.JText::_('MAY_SHORT',true).'", "'.JText::_('JUNE_SHORT',true).'", "'.JText::_('JULY_SHORT',true).'", "'.JText::_('AUGUST_SHORT',true).'", "'.JText::_('SEPTEMBER_SHORT',true).'", "'.JText::_('OCTOBER_SHORT',true).'", "'.JText::_('NOVEMBER_SHORT',true).'", "'.JText::_('DECEMBER_SHORT',true).'");Calendar._TT = {};Calendar._TT["INFO"] = "'.JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR',true).'";
 		Calendar._TT["ABOUT"] =
  "DHTML Date/Time Selector\n" +
