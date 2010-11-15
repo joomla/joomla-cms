@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.6.0 Beta14 Release [15-Nov-2010] ------------------
+
 15-Nov-2010 Mark Dexter
 # Sample data fixes (thanks Elin Waring)
 # [#23184] Need to handle content, modules, menu items when a viewing permission level is deleted
