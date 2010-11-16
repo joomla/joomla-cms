@@ -17,93 +17,175 @@ jimport('joomla.filesystem.folder');
  * File system helper
  *
  * Holds support functions for the filesystem, particularly the stream
+ *
+ * @package		Joomla.Framework
+ * @subpackage	FileSystem
+ * @since		1.6
  */
-class JFilesystemHelper {
+class JFilesystemHelper
+{
 	// ----------------------------
 	// Support Functions; should probably live in a helper?
 	// ----------------------------
 
 	/**
 	 * Remote file size function for streams that don't support it
-	 * @see http://www.php.net/manual/en/function.filesize.php#71098
+	 *
+	 * @param	string	$url
+	 *
+	 * @return	mixed
+	 * @since	1.6
+	 * @see		http://www.php.net/manual/en/function.filesize.php#71098
 	 */
-	function remotefsize($url) {
+	function remotefsize($url)
+	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
-		if (($sch != "http") && ($sch != "https") && ($sch != "ftp") && ($sch != "ftps")) {
+
+		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps')) {
 			return false;
 		}
-		if (($sch == "http") || ($sch == "https")) {
+
+		if (($sch == 'http') || ($sch == 'https')) {
 			$headers = get_headers($url, 1);
-			if ((!array_key_exists("Content-Length", $headers))) { return false; }
-			return $headers["Content-Length"];
+
+			if ((!array_key_exists('Content-Length', $headers))) {
+				return false;
+			}
+
+			return $headers['Content-Length'];
 		}
-		if (($sch == "ftp") || ($sch == "ftps")) {
+
+		if (($sch == 'ftp') || ($sch == 'ftps')) {
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
 			$path = parse_url($url, PHP_URL_PATH);
 			$user = parse_url($url, PHP_URL_USER);
 			$pass = parse_url($url, PHP_URL_PASS);
-			if ((!$server) || (!$path)) { return false; }
-			if (!$port) { $port = 21; }
-			if (!$user) { $user = "anonymous"; }
-			if (!$pass) { $pass = ""; }
-			switch ($sch) {
-				case "ftp":
+
+			if ((!$server) || (!$path)) {
+				return false;
+			}
+
+			if (!$port) {
+				$port = 21;
+			}
+
+			if (!$user) {
+				$user = 'anonymous';
+			}
+
+			if (!$pass) {
+				$pass = '';
+			}
+
+			switch ($sch)
+			{
+				case 'ftp':
 					$ftpid = ftp_connect($server, $port);
 					break;
-				case "ftps":
+
+				case 'ftps':
 					$ftpid = ftp_ssl_connect($server, $port);
 					break;
 			}
-			if (!$ftpid) { return false; }
+
+			if (!$ftpid) {
+				return false;
+			}
+
 			$login = ftp_login($ftpid, $user, $pass);
-			if (!$login) { return false; }
+
+			if (!$login) {
+				return false;
+			}
+
 			$ftpsize = ftp_size($ftpid, $path);
 			ftp_close($ftpid);
-			if ($ftpsize == -1) { return false; }
+
+			if ($ftpsize == -1) {
+				return false;
+			}
+
 			return $ftpsize;
 		}
 	}
 
 	/**
 	 * Quick FTP chmod
-	 * @see http://www.php.net/manual/en/function.ftp-chmod.php
+	 *
+	 * @param	string	$url
+	 * @param			$mode
+	 *
+	 * @return	mixed
+	 * @since	1.6
+	 * @see		http://www.php.net/manual/en/function.ftp-chmod.php
 	 */
-	function ftpChmod($url, $mode) {
+	function ftpChmod($url, $mode)
+	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
-		if (($sch != "ftp") && ($sch != "ftps")) {
+
+		if (($sch != 'ftp') && ($sch != 'ftps')) {
 			return false;
 		}
+
 		$server = parse_url($url, PHP_URL_HOST);
 		$port = parse_url($url, PHP_URL_PORT);
 		$path = parse_url($url, PHP_URL_PATH);
 		$user = parse_url($url, PHP_URL_USER);
 		$pass = parse_url($url, PHP_URL_PASS);
-		if ((!$server) || (!$path)) { return false; }
-		if (!$port) { $port = 21; }
-		if (!$user) { $user = "anonymous"; }
-		if (!$pass) { $pass = ""; }
-		switch ($sch) {
-			case "ftp":
+
+		if ((!$server) || (!$path)) {
+			return false;
+		}
+
+		if (!$port) {
+			$port = 21;
+		}
+
+		if (!$user) {
+			$user = 'anonymous';
+		}
+
+		if (!$pass) {
+			$pass = '';
+		}
+
+		switch ($sch)
+		{
+			case 'ftp':
 				$ftpid = ftp_connect($server, $port);
 				break;
-			case "ftps":
+
+			case 'ftps':
 				$ftpid = ftp_ssl_connect($server, $port);
 				break;
 		}
-		if (!$ftpid) { return false; }
+
+		if (!$ftpid) {
+			return false;
+		}
+
 		$login = ftp_login($ftpid, $user, $pass);
-		if (!$login) { return false; }
+
+		if (!$login) {
+			return false;
+		}
+
 		$res = ftp_chmod($ftpid, $mode, $path);
 		ftp_close($ftpid);
+
 		return $res;
 	}
 
 	/**
 	 * Modes that require a write operation
+	 *
+	 * @return	array
+	 * @since	1.6
 	 */
-	static function getWriteModes() {
-		return Array('w','w+','a','a+','r+','x','x+');
+	static function getWriteModes()
+	{
+		return array('w','w+','a','a+','r+','x','x+');
 	}
 
 	// ----------------------------
@@ -113,27 +195,45 @@ class JFilesystemHelper {
 	/**
 	 * Returns the supported streams, in addition to direct file access
 	 * Also includes Joomla! streams as well as PHP streams
-	 * @return Array Streams
+	 *
+	 * @return	array	Streams
+	 * @since	1.6
 	 */
-	function getSupported() {
-		// really quite cool what php can do with arrays when you let it...
+	function getSupported()
+	{
+		// Really quite cool what php can do with arrays when you let it...
 		static $streams;
-		if(!$streams) $streams = array_merge(stream_get_wrappers(), JFilesystemHelper::getJStreams());
+
+		if (!$streams) {
+			$streams = array_merge(
+				stream_get_wrappers(),
+				JFilesystemHelper::getJStreams()
+			);
+		}
+
 		return $streams;
 	}
 
 	/**
 	 * Returns a list of transports
+	 *
+	 * @return
+	 * @since	1.6
 	 */
-	function getTransports() {
+	function getTransports()
+	{
 		// is this overkill?
 		return stream_get_transports();
 	}
 
 	/**
 	 * Returns a list of filters
+	 *
+	 * @return
+	 * @since	1.6
 	 */
-	function getFilters() {
+	function getFilters()
+	{
 		// note: this will look like the getSupported() function with J! filters
 		// TODO: add user space filter loading like user space stream loading
 		return stream_get_filters();
@@ -141,14 +241,35 @@ class JFilesystemHelper {
 
 	/**
 	 * Returns a list of J! streams
+	 *
+	 * @return
+	 * @since	1.6
 	 */
-	function getJStreams() {
+	function getJStreams()
+	{
 		static $streams;
-		if(!$streams) $streams = array_map(array('JFile','stripExt'),JFolder::files(dirname(__FILE__).DS.'streams','.php'));
+
+		if (!$streams) {
+			$streams = array_map(
+				array('JFile', 'stripExt'),
+				JFolder::files(dirname(__FILE__).DS.'streams', '.php')
+			);
+		}
+
 		return $streams;
 	}
 
-	function isJoomlaStream($streamname) {
-		return in_array($streamname, JFilesystemHelper::getJStreams());
+	/**
+	 * @param	$streamname
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	function isJoomlaStream($streamname)
+	{
+		return in_array(
+			$streamname,
+			JFilesystemHelper::getJStreams()
+		);
 	}
 }
