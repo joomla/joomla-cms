@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2010 Mark Dexter
+# [#23328] Unpublished category - Featured - Errors in content and contact component
+
 16-Nov-2010 Jean-Marie Simonet
  $ Deleting redundant strings.
  $ Correcting wrong EOL from [#23184]
