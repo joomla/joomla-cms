@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2010 Jean-Marie Simonet
+$ Deleting redundant strings.
+
 -------------------- 1.6.0 Beta14 Release [15-Nov-2010] ------------------
 
 15-Nov-2010 Mark Dexter
