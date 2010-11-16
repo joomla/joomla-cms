@@ -86,14 +86,13 @@ class JArchiveZip extends JObject
 	 *
 	 * @todo	Finish Implementation
 	 *
-	 * @access	public
 	 * @param	string	$archive	Path to save archive
 	 * @param	array	$files		Array of files to add to archive
 	 * @param	array	$options	Compression options [unused]
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function create($archive, $files, $options = array ())
+	public function create($archive, $files, $options = array ())
 	{
 		// Initialise variables.
 		$contents = array();
@@ -103,30 +102,32 @@ class JArchiveZip extends JObject
 		{
 			$this->_addToZIPFile($file, $contents, $ctrldir);
 		}
+
 		return $this->_createZIPFile($contents, $ctrldir, $archive);
 	}
 
 	/**
 	 * Extract a ZIP compressed file to a given path
 	 *
-	 * @access	public
 	 * @param	string	$archive		Path to ZIP archive to extract
 	 * @param	string	$destination	Path to extract archive into
 	 * @param	array	$options		Extraction options [unused]
+	 *
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
-	function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array ())
 	{
-		if (! is_file($archive))
-		{
+		if (! is_file($archive)) {
 			$this->set('error.message', 'Archive does not exist');
+
 			return false;
 		}
 
 		if ($this->hasNativeSupport()) {
 			return ($this->_extractNative($archive, $destination, $options))? true : JError::raiseWarning(100, $this->get('error.message'));
-		} else {
+		}
+		else {
 			return ($this->_extract($archive, $destination, $options))? true : JError::raiseWarning(100, $this->get('error.message'));
 		}
 	}
@@ -134,11 +135,10 @@ class JArchiveZip extends JObject
 	/**
 	 * Method to determine if the server has native zip support for faster handling
 	 *
-	 * @access	public
 	 * @return	boolean	True if php has native ZIP support
 	 * @since	1.5
 	 */
-	function hasNativeSupport()
+	public function hasNativeSupport()
 	{
 		return (function_exists('zip_open') && function_exists('zip_read'));
 	}
@@ -146,15 +146,16 @@ class JArchiveZip extends JObject
 	/**
 	 * Checks to see if the data is a valid ZIP file.
 	 *
-	 * @access	public
 	 * @param	string	$data	ZIP archive data buffer
 	 * @return	boolean	True if valid, false if invalid.
 	 * @since	1.5
 	 */
-	function checkZipData(& $data) {
+	public function checkZipData(& $data)
+	{
 		if (strpos($data, $this->_fileHeader) === false) {
 			return false;
-		} else {
+		}
+		else {
 			return true;
 		}
 	}
@@ -166,6 +167,7 @@ class JArchiveZip extends JObject
 	 * @param	string	$archive		Path to ZIP archive to extract
 	 * @param	string	$destination	Path to extract archive into
 	 * @param	array	$options		Extraction options [unused]
+	 *
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
@@ -177,35 +179,45 @@ class JArchiveZip extends JObject
 
 		if (!extension_loaded('zlib')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_NOT_SUPPORTED'));
+
 			return false;
 		}
 
 		if (!$this->_data = JFile::read($archive)) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_READ'));
+
 			return false;
 		}
 
 		if (!$this->_getZipInfo($this->_data)) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_INFO_FAILED'));
+
 			return false;
 		}
 
-		for ($i=0,$n=count($this->_metadata);$i<$n;$i++) {
+		for ($i = 0, $n = count($this->_metadata); $i < $n;$i++)
+		{
 			$lastPathCharacter = substr($this->_metadata[$i]['name'], -1, 1);
+
 			if ($lastPathCharacter !== '/' && $lastPathCharacter !== '\\') {
 				$buffer = $this->_getFileData($i);
 				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
+
 				// Make sure the destination folder exists
 				if (!JFolder::create(dirname($path))) {
 					$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_CREATE_DESTINATION'));
+
 					return false;
 				}
+
 				if (JFile::write($path, $buffer, true) === false) {
 					$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_WRITE_ENTRY'));
+
 					return false;
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -216,6 +228,7 @@ class JArchiveZip extends JObject
 	 * @param	string	$archive		Path to ZIP archive to extract
 	 * @param	string	$destination	Path to extract archive into
 	 * @param	array	$options		Extraction options [unused]
+	 *
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
@@ -228,38 +241,44 @@ class JArchiveZip extends JObject
 					$this->set('error.message', 'Unable to create destination');
 					return false;
 				}
+
 				// Read files in the archive
 				while ($file = @zip_read($zip))
 				{
 					if (zip_entry_open($zip, $file, "r")) {
 						if (substr(zip_entry_name($file), strlen(zip_entry_name($file)) - 1) != "/") {
 							$buffer = zip_entry_read($file, zip_entry_filesize($file));
+
 							if (JFile::write($destination.DS.zip_entry_name($file), $buffer, true) === false) {
 								$this->set('error.message', 'Unable to write entry');
 								return false;
 							}
+
 							zip_entry_close($file);
 						}
-					} else {
+					}
+					else {
 						$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_READ_ENTRY'));
+
 						return false;
 					}
 				}
+
 				@zip_close($zip);
 			}
-		} else {
+		}
+		else {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_UNABLE_TO_OPEN_ARCHIVE'));
+
 			return false;
 		}
+
 		return true;
 	}
 
 	/**
 	 * Get the list of files/data from a ZIP archive buffer.
 	 *
-	 * @access	private
-	 * @param	string	$data	The ZIP archive buffer.
-	 * @return	array	Archive metadata array
 	 * <pre>
 	 * KEY: Position in zipfile
 	 * VALUES: 'attr'	--  File attributes
@@ -271,6 +290,11 @@ class JArchiveZip extends JObject
 	 *		'size'	--  Original file size
 	 *		'type'	--  File type
 	 * </pre>
+	 *
+	 * @access	private
+	 * @param	string	$data	The ZIP archive buffer.
+	 *
+	 * @return	array	Archive metadata array
 	 * @since	1.5
 	 */
 	function _getZipInfo(& $data)
@@ -280,13 +304,16 @@ class JArchiveZip extends JObject
 
 		// Find the last central directory header entry
 		$fhLast = strpos($data, $this->_ctrlDirEnd);
-		do {
-			$last = $fhLast;
-		} while(($fhLast = strpos($data, $this->_ctrlDirEnd, $fhLast+1)) !== false);
 
+		do
+		{
+			$last = $fhLast;
+		}
+		while (($fhLast = strpos($data, $this->_ctrlDirEnd, $fhLast+1)) !== false);
 
 		// Find the central directory offset
 		$offset = 0;
+
 		if ($last) {
 			$endOfCentralDirectory = unpack('vNumberOfDisk/vNoOfDiskWithStartOfCentralDirectory/vNoOfCentralDirectoryEntriesOnDisk/vTotalCentralDirectoryEntries/VSizeOfCentralDirectory/VCentralDirectoryOffset/vCommentLength', substr($data, $last+4));
 			$offset	= $endOfCentralDirectory['CentralDirectoryOffset'];
@@ -295,11 +322,15 @@ class JArchiveZip extends JObject
 		// Get details from Central directory structure.
 		$fhStart = strpos($data, $this->_ctrlDirHeader, $offset);
 		$dataLength = strlen($data);
-		do {
+
+		do
+		{
 			if ($dataLength < $fhStart +31) {
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_ZIP_INVALID_ZIP_DATA'));
+
 				return false;
 			}
+
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength', substr($data, $fhStart +10, 20));
 			$name = substr($data, $fhStart +46, $info['Length']);
 
@@ -310,6 +341,7 @@ class JArchiveZip extends JObject
 				$this->set('error.message', 'Invalid ZIP data');
 				return false;
 			}
+
 			$info = unpack('vInternal/VExternal/VOffset', substr($data, $fhStart +36, 10));
 
 			$entries[$name]['type'] = ($info['Internal'] & 0x01) ? 'text' : 'binary';
@@ -322,16 +354,21 @@ class JArchiveZip extends JObject
 
 			// Get details from local file header since we have the offset
 			$lfhStart = strpos($data, $this->_fileHeader, $entries[$name]['offset']);
+
 			if ($dataLength < $lfhStart +34) {
 				$this->set('error.message', 'Invalid ZIP data');
+
 				return false;
 			}
+
 			$info = unpack('vMethod/VTime/VCRC32/VCompressed/VUncompressed/vLength/vExtraLength', substr($data, $lfhStart +8, 25));
 			$name = substr($data, $lfhStart +30, $info['Length']);
 			$entries[$name]['_dataStart'] = $lfhStart +30 + $info['Length'] + $info['ExtraLength'];
-		} while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false));
+		}
+		while ((($fhStart = strpos($data, $this->_ctrlDirHeader, $fhStart +46)) !== false));
 
 		$this->_metadata = array_values($entries);
+
 		return true;
 	}
 
@@ -340,30 +377,36 @@ class JArchiveZip extends JObject
 	 *
 	 * @access	private
 	 * @param	int		$key	The position of the file in the archive.
+	 *
 	 * @return	string	Uncompresed file data buffer
 	 * @since	1.5
 	 */
-	function _getFileData($key) {
+	function _getFileData($key)
+	{
 		if ($this->_metadata[$key]['_method'] == 0x8) {
 			return gzinflate(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
 		}
 		elseif ($this->_metadata[$key]['_method'] == 0x0) {
 			/* Files that aren't compressed. */
 			return substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']);
-		} elseif ($this->_metadata[$key]['_method'] == 0x12) {
+		}
+		elseif ($this->_metadata[$key]['_method'] == 0x12) {
 			// Is bz2 extension loaded?  If not try to load it
 			if (!extension_loaded('bz2')) {
 				if (JPATH_ISWIN) {
 					@ dl('php_bz2.dll');
-				} else {
+				}
+				else {
 					@ dl('bz2.so');
 				}
 			}
+
 			// If bz2 extention is sucessfully loaded use it
 			if (extension_loaded('bz2')) {
 				return bzdecompress(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
 			}
 		}
+
 		return '';
 	}
 
@@ -377,7 +420,8 @@ class JArchiveZip extends JObject
 	 * @return	int	The current date in a 4-byte DOS format.
 	 * @since	1.5
 	 */
-	function _unix2DOSTime($unixtime = null) {
+	function _unix2DOSTime($unixtime = null)
+	{
 		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
 
 		if ($timearray['year'] < 1980) {
@@ -388,6 +432,7 @@ class JArchiveZip extends JObject
 			$timearray['minutes'] = 0;
 			$timearray['seconds'] = 0;
 		}
+
 		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
 	}
 
@@ -400,10 +445,12 @@ class JArchiveZip extends JObject
 	 * @param	array	$file		File data array to add
 	 * @param	array	$contents	An array of existing zipped files.
 	 * @param	array	$ctrldir	An array of central directory information.
+	 *
 	 * @return	void
 	 * @since	1.5
 	 */
-	function _addToZIPFile(& $file, & $contents, & $ctrldir) {
+	function _addToZIPFile(& $file, & $contents, & $ctrldir)
+	{
 		$data = & $file['data'];
 		$name = str_replace('\\', '/', $file['name']);
 
@@ -483,6 +530,7 @@ class JArchiveZip extends JObject
 	 * @param	array	$contents	An array of existing zipped files.
 	 * @param	array	$ctrldir	An array of central directory information.
 	 * @param	string	$path		The path to store the archive.
+	 *
 	 * @return	boolean	True if successful
 	 * @since	1.5
 	 */
@@ -505,7 +553,8 @@ class JArchiveZip extends JObject
 
 		if (JFile::write($path, $buffer, true) === false) {
 			return false;
-		} else {
+		}
+		else {
 			return true;
 		}
 	}
