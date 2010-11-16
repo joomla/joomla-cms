@@ -46,20 +46,21 @@ class JArchiveGzip extends JObject
 	/**
 	* Extract a Gzip compressed file to a given path
 	*
-	* @access	public
 	* @param	string	$archive		Path to ZIP archive to extract
 	* @param	string	$destination	Path to extract archive to
 	* @param	array	$options		Extraction options [unused]
+	*
 	* @return	boolean	True if successful
 	* @since	1.5
 	*/
-	function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('zlib')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_NOT_SUPPORTED'));
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
@@ -82,52 +83,63 @@ class JArchiveGzip extends JObject
 		}
 		return true;
 		*/
+
 		// New style! streams!
 		$input = JFactory::getStream();
 		$input->set('processingmethod','gz'); // use gz
-		if(!$input->open($archive)) {
+
+		if (!$input->open($archive)) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$output = JFactory::getStream();
-		if(!$output->open($destination, 'w')) {
+
+		if (!$output->open($destination, 'w')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
 			$input->close(); // close the previous file
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$written = 0;
-		do {
+		do
+		{
 			$this->_data = $input->read($input->get('chunksize', 8196));
-			if($this->_data) {
-				if(!$output->write($this->_data)) {
+			if ($this->_data) {
+				if (!$output->write($this->_data)) {
 					$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
+
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}
 			}
-		} while ($this->_data);
+		}
+		while ($this->_data);
+
 		$output->close();
 		$input->close();
+
 		return true;
 	}
 
 	/**
-	* Get file data offset for archive
-	*
-	* @access	public
-	* @return	int	Data position marker for archive
-	* @since	1.5
-	*/
+	 * Get file data offset for archive
+	 *
+	 * @return	int		Data position marker for archive
+	 * @since	1.5
+	 */
 	function _getFilePosition()
 	{
 		// gzipped file... unpack it first
 		$position = 0;
 		$info = @ unpack('CCM/CFLG/VTime/CXFL/COS', substr($this->_data, $position +2));
+
 		if (!$info) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_DECOMPRESS'));
 			return false;
 		}
+
 		$position += 10;
 
 		if ($info['FLG'] & $this->_flags['FEXTRA']) {

@@ -30,17 +30,17 @@ class JArchiveBzip2 extends JObject
 	/**
 	 * Constructor tries to load the bz2 extension of not loaded
 	 *
-	 * @access	protected
 	 * @return	void
 	 * @since	1.5
 	 */
-	function __construct()
+	public function __construct()
 	{
 		// Is bz2 extension loaded?  If not try to load it
 		if (!extension_loaded('bz2')) {
 			if (JPATH_ISWIN) {
 				@ dl('php_bz2.dll');
-			} else {
+			}
+			else {
 				@ dl('bz2.so');
 			}
 		}
@@ -49,20 +49,21 @@ class JArchiveBzip2 extends JObject
 	/**
 	* Extract a Bzip2 compressed file to a given path
 	*
-	* @access	public
 	* @param	string	$archive		Path to Bzip2 archive to extract
 	* @param	string	$destination	Path to extract archive to
 	* @param	array	$options		Extraction options [unused]
+	*
 	* @return	boolean	True if successful
 	* @since	1.5
 	*/
-	function extract($archive, $destination, $options = array ())
+	public function extract($archive, $destination, $options = array ())
 	{
 		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('bz2')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_NOT_SUPPORTED'));
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
@@ -88,30 +89,39 @@ class JArchiveBzip2 extends JObject
 		// New style! streams!
 		$input = JFactory::getStream();
 		$input->set('processingmethod','bz'); // use bzip
-		if(!$input->open($archive)) {
+
+		if (!$input->open($archive)) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_READ'));
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$output = JFactory::getStream();
-		if(!$output->open($destination, 'w')) {
+
+		if (!$output->open($destination, 'w')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE'));
 			$input->close(); // close the previous file
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
 		$written = 0;
-		do {
+		do
+		{
 			$this->_data = $input->read($input->get('chunksize', 8196));
-			if($this->_data) {
-				if(!$output->write($this->_data)) {
+			if ($this->_data) {
+				if (!$output->write($this->_data)) {
 					$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE_FILE'));
+
 					return JError::raiseWarning(100, $this->get('error.message'));
 				}
 			}
-		} while ($this->_data);
+		}
+		while ($this->_data);
+
 		$output->close();
 		$input->close();
+
 		return true;
 	}
 }
