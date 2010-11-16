@@ -28,8 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 16-Nov-2010 Jean-Marie Simonet
-$ Deleting redundant strings.
-$ Correcting wrong EOL from [#23184]
+ $ Deleting redundant strings.
+ $ Correcting wrong EOL from [#23184]
+ # [#23334] error in sample data. Thanks Dennis.
 
 -------------------- 1.6.0 Beta14 Release [15-Nov-2010] ------------------
 
