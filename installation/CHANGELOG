@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Nov-2010 Mark Dexter
  # [#22484] JFolder::files() does not pass exclude parameters when recursing
+ # Follow up on [#23360] to include two image files
 
 17-Nov-2010 Christophe Demko
  # [#23197] onUserBeforeSave needs to be able cancel the creation of an account (Andrew Eddie)
