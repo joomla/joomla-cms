@@ -20,6 +20,34 @@ jimport('joomla.application.component.controller');
 class UsersController extends JController
 {
 	/**
+	 * Checks whether a user can see this view.
+	 *
+	 * @param	string	$view	The view name.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	protected function canView($view)
+	{
+		$canDo	= UsersHelper::getActions();
+
+		switch ($view)
+		{
+			// Special permissions.
+			case 'groups':
+			case 'group':
+			case 'levels':
+			case 'level':
+				return $canDo->get('core.admin');
+				break;
+
+			// Default permissions.
+			default:
+				return true;
+		}
+	}
+
+	/**
 	 * Method to display a view.
 	 *
 	 * @param	boolean			If true, the view output will be cached
@@ -38,6 +66,12 @@ class UsersController extends JController
 		$view		= JRequest::getWord('view', 'users');
 		$layout 	= JRequest::getWord('layout', 'default');
 		$id			= JRequest::getInt('id');
+
+		if (!$this->canView($view)) {
+			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+
+			return;
+		}
 
 		// Check for edit form.
 		if ($view == 'user' && $layout == 'edit' && !$this->checkEditId('com_users.edit.user', $id)) {
@@ -65,6 +99,6 @@ class UsersController extends JController
 			return false;
 		}
 
-		parent::display();
+		return parent::display();
 	}
 }

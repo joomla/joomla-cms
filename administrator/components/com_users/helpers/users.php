@@ -1,6 +1,8 @@
 <?php
 /**
  * @version		$Id$
+ * @package		Joomla.Administrator
+ * @subpackage	com_users
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,15 +14,24 @@ defined('_JEXEC') or die;
  * Users component helper.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_weblinks
+ * @subpackage	com_users
  * @since		1.6
  */
 class UsersHelper
 {
 	/**
+	 * @var		JObject	A cache for the available actions.
+	 * @since	1.6
+	 */
+	protected static $actions;
+
+	/**
 	 * Configure the Linkbar.
 	 *
 	 * @param	string	The name of the active view.
+	 *
+	 * @return	void
+	 * @since	1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -29,43 +40,53 @@ class UsersHelper
 			'index.php?option=com_users&view=users',
 			$vName == 'users'
 		);
-		JSubMenuHelper::addEntry(
-			JText::_('COM_USERS_SUBMENU_GROUPS'),
-			'index.php?option=com_users&view=groups',
-			$vName == 'groups'
-		);
-		JSubMenuHelper::addEntry(
-			JText::_('COM_USERS_SUBMENU_LEVELS'),
-			'index.php?option=com_users&view=levels',
-			$vName == 'levels'
-		);
+
+		// Groups and Levels are restricted to core.admin
+		$canDo = self::getActions();
+
+		if ($canDo->get('core.admin')) {
+			JSubMenuHelper::addEntry(
+				JText::_('COM_USERS_SUBMENU_GROUPS'),
+				'index.php?option=com_users&view=groups',
+				$vName == 'groups'
+			);
+			JSubMenuHelper::addEntry(
+				JText::_('COM_USERS_SUBMENU_LEVELS'),
+				'index.php?option=com_users&view=levels',
+				$vName == 'levels'
+			);
+		}
 	}
 
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return	JObject
+	 * @since	1.6
 	 */
 	public static function getActions()
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		if (empty(self::$actions)) {
+			$user	= JFactory::getUser();
+			self::$actions	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
+			$actions = array(
+				'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
+			);
 
-		foreach ($actions as $action) {
-			$result->set($action, $user->authorise($action, 'com_users'));
+			foreach ($actions as $action) {
+				self::$actions->set($action, $user->authorise($action, 'com_users'));
+			}
 		}
 
-		return $result;
+		return self::$actions;
 	}
 
 	/**
 	 * Get a list of filter options for the blocked state of a user.
 	 *
 	 * @return	array	An array of JHtmlOption elements.
+	 * @since	1.6
 	 */
 	static function getStateOptions()
 	{
@@ -81,6 +102,7 @@ class UsersHelper
 	 * Get a list of filter options for the activated state of a user.
 	 *
 	 * @return	array	An array of JHtmlOption elements.
+	 * @since	1.6
 	 */
 	static function getActiveOptions()
 	{
@@ -96,6 +118,7 @@ class UsersHelper
 	 * Get a list of the user groups for filtering.
 	 *
 	 * @return	array	An array of JHtmlOption elements.
+	 * @since	1.6
 	 */
 	static function getGroups()
 	{
@@ -121,5 +144,4 @@ class UsersHelper
 
 		return $options;
 	}
-
 }

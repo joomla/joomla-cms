@@ -35,4 +35,89 @@ class UsersControllerGroups extends JControllerAdmin
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
 	}
+
+	/**
+	 * Removes an item.
+	 *
+	 * Overrides JControllerAdmin::delete to check the core.admin permission.
+	 *
+	 * @since	1.6
+	 */
+	function delete()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			jexit();
+		}
+
+		return parent::delete();
+	}
+
+	/**
+	 * Method to publish a list of records.
+	 *
+	 * Overrides JControllerAdmin::publish to check the core.admin permission.
+	 *
+	 * @since	1.6
+	 */
+	function publish()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			jexit();
+		}
+
+		return parent::publish();
+	}
+
+	/**
+	 * Changes the order of one or more records.
+	 *
+	 * Overrides JControllerAdmin::reorder to check the core.admin permission.
+	 *
+	 * @since	1.6
+	 */
+	public function reorder()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			jexit();
+		}
+
+		return parent::reorder();
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records.
+	 *
+	 * Overrides JControllerAdmin::saveorder to check the core.admin permission.
+	 *
+	 * @since	1.6
+	 */
+	public function saveorder()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			jexit();
+		}
+
+		return parent::saveorder();
+	}
+
+	/**
+	 * Check in of one or more records.
+	 *
+	 * Overrides JControllerAdmin::checkin to check the core.admin permission.
+	 *
+	 * @since	1.6
+	 */
+	public function checkin()
+	{
+		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			jexit();
+		}
+
+		return parent::checkin();
+	}
 }

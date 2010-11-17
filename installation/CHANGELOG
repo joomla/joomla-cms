@@ -32,6 +32,8 @@ $ -> Language fix or change
  
 17-Nov-2010 Andrew Eddie
  # Fixed issue [#23347] Move profile editing out of com_users and into com_admin
+ # Fixed issue [#23110] Any user with create or edit rights to com_user can make a group a superadmin group (Elin Waring).
+ 
   
 16-Nov-2010 Christophe Demko
  # Fix the Edit profile permission

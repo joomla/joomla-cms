@@ -78,34 +78,40 @@ if ($user->authorise('core.manage', 'com_users'))
 	new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#'), true
 	);
 	$createUser = $shownew && $user->authorise('core.create', 'com_users');
+	$createGrp	= $createUser &&  $user->authorise('core.admin', 'com_users');
 
 	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_COM_USERS_USER_MANAGER'), 'index.php?option=com_users&view=users', 'class:user'), $createUser
+		new JMenuNode(JText::_('MOD_MENU_COM_USERS_USER_MANAGER'), 'index.php?option=com_users&view=users', 'class:user'),
+		$createUser
 	);
 	if ($createUser) {
 		$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_USER'), 'index.php?option=com_users&task=user.add', 'class:newarticle')
+			new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_USER'), 'index.php?option=com_users&task=user.add', 'class:newarticle')
 		);
 		$menu->getParent();
 	}
 
-	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_COM_USERS_GROUPS'), 'index.php?option=com_users&view=groups', 'class:groups'), $createUser
-	);
-	if ($createUser) {
+	if ($createGrp) {
 		$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_GROUP'), 'index.php?option=com_users&task=group.add', 'class:newarticle')
+			new JMenuNode(JText::_('MOD_MENU_COM_USERS_GROUPS'), 'index.php?option=com_users&view=groups', 'class:groups'),
+			$createUser
 		);
-		$menu->getParent();
-	}
-	$menu->addChild(
-	new JMenuNode(JText::_('MOD_MENU_COM_USERS_LEVELS'), 'index.php?option=com_users&view=levels', 'class:levels'), $createUser
-	);
-	if ($createUser) {
+		if ($createUser) {
+			$menu->addChild(
+				new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_GROUP'), 'index.php?option=com_users&task=group.add', 'class:newarticle')
+			);
+			$menu->getParent();
+		}
 		$menu->addChild(
-		new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_LEVEL'), 'index.php?option=com_users&task=level.add', 'class:newarticle')
+			new JMenuNode(JText::_('MOD_MENU_COM_USERS_LEVELS'), 'index.php?option=com_users&view=levels', 'class:levels'),
+			$createUser
 		);
-		$menu->getParent();
+		if ($createUser) {
+			$menu->addChild(
+			new JMenuNode(JText::_('MOD_MENU_COM_USERS_ADD_LEVEL'), 'index.php?option=com_users&task=level.add', 'class:newarticle')
+			);
+			$menu->getParent();
+		}
 	}
 
 	$menu->addSeparator();
