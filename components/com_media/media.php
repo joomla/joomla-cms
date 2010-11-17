@@ -24,7 +24,7 @@ $acl = JFactory::getACL();
 $user = JFactory::getUser();
 $app	= JFactory::getApplication();
 if (!$user->authorise('com_media', 'popup')) {
-	$app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+	return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
 // Set the path definitions

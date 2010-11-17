@@ -42,7 +42,7 @@ class WeblinksViewWeblink extends JView
 			$app->redirect($item->url);
 		} else {
 			//TODO create proper error handling
-			$app->redirect('index.php', 'Weblink not found');
+			$app->redirect(JRoute::_('index.php'), JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'), 'notice');
 		}
 	}
 }
