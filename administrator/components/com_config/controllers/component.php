@@ -103,8 +103,21 @@ class ConfigControllerComponent extends JController
 			$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message, 'error');
 			return false;
 		}
+		
+		// Set the redirect based on the task.
+		switch ($this->getTask())
+		{
+			case 'apply':
+				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
+				$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message);
+				break;
 
-		$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
+			case 'save':
+			default:
+				$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
+				break;
+		}
+		
 		return true;
 	}
 }
