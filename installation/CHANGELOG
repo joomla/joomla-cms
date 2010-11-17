@@ -35,7 +35,7 @@ $ -> Language fix or change
  # Fixed issue [#23110] Any user with create or edit rights to com_user can make a group a superadmin group (Elin Waring).
  # Fixed issue [#23348] Improve scaling architecture for users and groups lists.
  # Fixed issue [#23241] Saving category while validating rules fails (Mark Dexter, Christophe Demko).
- # Fixed issue [#23351] Small bug in View Access Level delete check (Mark Dexter).
+ # Fixed issue [#21837] @todo ACL - Disallow creation of Super User & Admin group by non Super User (Michael Babker, Christopher Garvis, Elin Waring).
   
 16-Nov-2010 Christophe Demko
  # Fix the Edit profile permission
