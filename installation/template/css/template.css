@@ -59,7 +59,7 @@ td:first-child {
 }
 
 td.item + td {
-	text-align: center;
+	text-align: left;
 }
 
 /* installer */
