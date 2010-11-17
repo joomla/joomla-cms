@@ -299,7 +299,7 @@ class JUser extends JObject
 
 		return self::$isRoot ? true : JAccess::check($this->id, $action, $assetname);
 	}
-	
+
 	/**
 	 * @deprecated 1.6	Use the getAuthorisedViewLevels method instead.
 	 */
@@ -543,56 +543,109 @@ class JUser extends JObject
 	{
 		// NOTE: $updateOnly is currently only used in the user reset password method.
 		// Create the user table object
-		$table = $this->getTable();
-		$this->params = (string)$this->_params;
+		$table			= $this->getTable();
+		$this->params	= (string) $this->_params;
 		$table->bind($this->getProperties());
-		$table->groups = $this->groups;
+		$table->groups	= $this->groups;
 
-		// Check and store the object.
-		if (!$table->check()) {
-			$this->setError($table->getError());
+		// Allow an exception to be thrown.
+		try
+		{
+			// Check and store the object.
+			if (!$table->check()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// If user is made a Super Admin group and user is NOT a Super Admin
+			//
+			// @todo ACL - this needs to be acl checked
+			//
+			$my = JFactory::getUser();
+
+			//are we creating a new user
+			$isNew = empty($this->id);
+
+			// If we aren't allowed to create new users return
+			if ($isNew && $updateOnly) {
+				return true;
+			}
+
+			// Get the old user
+			$oldUser = new JUser($this->id);
+
+			//
+			// Access Checks
+			//
+
+			// The only mandatory check is that only Super Admins can operate on other Super Admin accounts.
+			// To add additional business rules, use a user plugin and throw an Exception with onUserBeforeSave.
+
+			// Check if I am a Super Admin
+			$iAmSuperAdmin	= JAccess::check($my->id, 'core.admin');
+
+			// We are only worried about edits to this account if I am not a Super Admin.
+			if (!$iAmSuperAdmin) {
+				if ($isNew) {
+					// Check if the new user is being put into a Super Admin group.
+					foreach (array_keys($this->groups) as $groupId)
+					{
+						if (JAccess::checkGroup($groupId, 'core.admin')) {
+							throw new Exception(JText::_('COM_USERS_ERROR_NOT_SUPERADMIN'));
+						}
+					}
+				}
+				else {
+					// I am not a Super Admin, and this one is, so fail.
+					if (JAccess::check($this->id, 'core.admin')) {
+						throw new Exception(JText::_('COM_USERS_ERROR_NOT_SUPERADMIN'));
+					}
+
+					// I am not a Super Admin and I'm trying to make one.
+					foreach (array_keys($this->groups) as $groupId)
+					{
+						if (JAccess::checkGroup($groupId, 'core.admin')) {
+							throw new Exception(JText::_('COM_USERS_ERROR_NOT_SUPERADMIN'));
+						}
+					}
+				}
+			}
+
+			// Fire the onUserBeforeSave event.
+			JPluginHelper::importPlugin('user');
+			$dispatcher = JDispatcher::getInstance();
+
+			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+			if (in_array(false, $result, true)) {
+				// Plugin will have to raise it's own error or throw an exception.
+				return false;
+			}
+
+			// Store the user data in the database
+			if (!($result = $table->store())) {
+				throw new Exception($table->getError());
+			}
+
+			// Set the id for the JUser object in case we created a new user.
+			if (empty($this->id)) {
+				$this->id = $table->get('id');
+			}
+
+			if ($my->id == $table->id) {
+				$registry = new JRegistry;
+				$registry->loadJSON($table->params);
+				$my->setParameters($registry);
+			}
+
+			// Fire the onAftereStoreUser event
+			$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isNew, $result, $this->getError()));
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
 			return false;
 		}
-
-		// If user is made a Super Admin group and user is NOT a Super Admin
-		//
-		// @todo ACL - this needs to be acl checked
-		//
-		$my = JFactory::getUser();
-
-		//are we creating a new user
-		$isnew = empty($this->id);
-
-		// If we aren't allowed to create new users return
-		if ($isnew && $updateOnly) {
-			return true;
-		}
-
-		// Get the old user
-		$old = new JUser($this->id);
-
-		// Fire the onUserBeforeSave event.
-		JPluginHelper::importPlugin('user');
-		$dispatcher = JDispatcher::getInstance();
-		$dispatcher->trigger('onUserBeforeSave', array($old->getProperties(), $isnew, $this->getProperties()));
-
-		//Store the user data in the database
-		if (!$result = $table->store()) {
-			$this->setError($table->getError());
-		}
-
-		// Set the id for the JUser object in case we created a new user.
-		if (empty($this->id)) {
-			$this->id = $table->get('id');
-		}
-
-		if ($my->id == $table->id) {
-			$registry = new JRegistry;
-			$registry->loadJSON($table->params);
-			$my->setParameters($registry);
-		}
-		// Fire the onAftereStoreUser event
-		$dispatcher->trigger('onUserAfterSave', array($this->getProperties(), $isnew, $result, $this->getError()));
 
 		return $result;
 	}
