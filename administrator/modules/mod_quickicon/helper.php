@@ -39,8 +39,11 @@ abstract class QuickIconHelper
 				return '';
 			}
 
-			if (!JFactory::getUser()->authorise($button['access'][0], $button['access'][1])) {
-				return '';
+			// Take each pair of permission, context values.
+			for ($i = 0, $n = count($button['access']); $i < $n; $i += 2) {
+				if (!JFactory::getUser()->authorise($button['access'][$i], $button['access'][$i+1])) {
+					return '';
+				}
 			}
 		}
 
@@ -72,7 +75,7 @@ abstract class QuickIconHelper
 					'link' => JRoute::_('index.php?option=com_content&task=article.add'),
 					'image' => 'icon-48-article-add.png',
 					'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
-					'access' => array('core.create', 'com_content')
+					'access' => array('core.manage', 'com_content', 'core.create', 'com_content', )
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_content'),
@@ -126,7 +129,7 @@ abstract class QuickIconHelper
 					'link' => JRoute::_('index.php?option=com_config'),
 					'image' => 'icon-48-config.png',
 					'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-					'access' => array('core.admin', 'com_config')
+					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config')
 				),
 				array(
 					'link' => JRoute::_('index.php?option=com_templates'),
