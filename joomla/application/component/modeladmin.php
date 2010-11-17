@@ -489,46 +489,56 @@ abstract class JModelAdmin extends JModelForm
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 
-		// Load the row if saving an existing record.
-		if ($pk > 0) {
-			$table->load($pk);
-			$isNew = false;
-		}
+		// Allow an exception to be throw.
+		try
+		{
+			// Load the row if saving an existing record.
+			if ($pk > 0) {
+				$table->load($pk);
+				$isNew = false;
+			}
 
-		// Bind the data.
-		if (!$table->bind($data)) {
-			$this->setError($table->getError());
+			// Bind the data.
+			if (!$table->bind($data)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Prepare the row for saving
+			$this->prepareTable($table);
+
+			// Check the data.
+			if (!$table->check()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Trigger the onContentBeforeSave event.
+			$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, $table, $isNew));
+			if (in_array(false, $result, true)) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Store the data.
+			if (!$table->store()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
+			// Clean the cache.
+			$cache = JFactory::getCache($this->option);
+			$cache->clean();
+
+			// Trigger the onContentAfterSave event.
+			$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, $table, $isNew));
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+
 			return false;
 		}
-
-		// Prepare the row for saving
-		$this->prepareTable($table);
-
-		// Check the data.
-		if (!$table->check()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, $table, $isNew));
-		if (in_array(false, $result, true)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Clean the cache.
-		$cache = JFactory::getCache($this->option);
-		$cache->clean();
-
-		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, $table, $isNew));
 
 		$pkName = $table->getKeyName();
 
