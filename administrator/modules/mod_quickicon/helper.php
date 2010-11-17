@@ -35,6 +35,10 @@ abstract class QuickIconHelper
 	public static function button($button)
 	{
 		if (!empty($button['access'])) {
+			if (is_bool($button['access']) && $button['access'] == false) {
+				return '';
+			}
+
 			if (!JFactory::getUser()->authorise($button['access'][0], $button['access'][1])) {
 				return '';
 			}
@@ -63,7 +67,6 @@ abstract class QuickIconHelper
 	public static function &getButtons()
 	{
 		if (empty(self::$buttons)) {
-			$userid = JFactory::getUser()->id;
 			self::$buttons = array(
 				array(
 					'link' => JRoute::_('index.php?option=com_content&task=article.add'),
@@ -132,10 +135,10 @@ abstract class QuickIconHelper
 					'access' => array('core.manage', 'com_templates')
 				),
 				array(
-					'link' => JRoute::_('index.php?option=com_users&task=user.edit&id='.$userid),
+					'link' => JRoute::_('index.php?option=com_admin&task=profile.edit'),
 					'image' => 'icon-48-user-profile.png',
 					'text' => JText::_('MOD_QUICKICON_PROFILE'),
-					'access' => array('core.edit.own', 'com_users')
+					'access' => true
 				),
 			);
 		}

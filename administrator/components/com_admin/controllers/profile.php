@@ -13,19 +13,29 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
 /**
- * User controller class.
+ * User profile controller class.
  *
  * @package		Joomla.Administrator
  * @subpackage	com_users
  * @since		1.6
  */
-class UsersControllerUser extends JControllerForm
+class AdminControllerProfile extends JControllerForm
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * Method to check if you can add a new record.
+	 *
+	 * Extended classes can override this if necessary.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return	boolean
 	 * @since	1.6
 	 */
-	protected $text_prefix = 'COM_USERS_USER';
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		return true;
+	}
 
 	/**
 	 * Overrides parent save method to check the submitted passwords match.
@@ -49,6 +59,31 @@ class UsersControllerUser extends JControllerForm
 			unset($data['password2']);
 		}
 
-		return parent::save();
+		$return = parent::save();
+
+		if ($this->getTask() != 'apply') {
+			// Redirect to the main page.
+			$this->setRedirect(JRoute::_('index.php', false));
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 *
+	 * @return	Boolean	True if access level checks pass, false otherwise.
+	 * @since	1.6
+	 */
+	public function cancel($key = null)
+	{
+		$return = parent::cancel($key);
+
+		// Redirect to the main page.
+		$this->setRedirect(JRoute::_('index.php', false));
+
+		return $return;
 	}
 }

@@ -10,16 +10,7 @@
 defined('_JEXEC') or die;
 
 // Access check.
-$user = JFactory::getUser();
-$view = JRequest::getCmd('view');
-$layout = JRequest::getCmd('layout');
-$task = JRequest::getCmd('task');
-$id = JRequest::getInt('id');
-if (!(		$user->authorise('core.manage', 'com_users')
-		||		($user->authorise('core.edit.own', 'com_users') || $user->authorise('core.edit', 'com_users'))
-			&&	(in_array($task, array('user.edit', 'user.save','user.apply','user.cancel')) || $view=='user' && $layout=='edit')
-			&&	$id==$user->id))
-{
+if (!JFactory::getUser()->authorise('core.manage', 'com_users')) {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 

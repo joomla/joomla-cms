@@ -112,27 +112,18 @@ class UsersModelUser extends JModelAdmin
 	}
 
 	/**
-	 * Override preprocessForm to load the user plugin group instead of content.
+	 * Override JModelAdmin::preprocessForm to ensure the correct plugin group is loaded.
 	 *
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param	object	$form	A form object.
+	 * @param	mixed	$data	The data expected for the form.
+	 * @param	string	$group	The name of the plugin group to import (defaults to "content").
 	 *
-	 * @return	void
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data)
+	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
-		$loggeduser = JFactory::getUser();
-		if ($loggeduser->authorise('core.edit', 'com_users') && $loggeduser->authorise('core.manage', 'com_users'))
-		{
-			if ($loggeduser->id != $data->id)
-			{
-				$form->loadFile('user_block', false);
-			}
-			$form->loadFile('user_state', false);
-		}
-		parent::preprocessForm($form, $data, 'user');
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**
@@ -149,15 +140,9 @@ class UsersModelUser extends JModelAdmin
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user		= JUser::getInstance($pk);
 
-		$loggeduser = JFactory::getUser();
-		if (!($loggeduser->authorise('core.edit', 'com_users') && $loggeduser->authorise('core.manage', 'com_users')))
-		{
-			unset($data['groups']);
-			unset($data['sendEmail']);
-			unset($data['block']);
-		}
+		$my = JFactory::getUser();
 
-		if ($data['block'] && $pk == $loggeduser->id && !$loggeduser->block) {
+		if ($data['block'] && $pk == $my->id && !$my->block) {
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
 			return false;
 		}
