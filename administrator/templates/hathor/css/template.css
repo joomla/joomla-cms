@@ -1406,6 +1406,7 @@ table.adminlist thead th {
 	text-align: center;
 	background: #ffffff;
 	color: #2c2c2c;
+	border-bottom:1px solid #C7C8B2;
 }
 
 table.adminlist thead a:hover {
@@ -1463,7 +1464,7 @@ table.adminlist tbody tr td:last-child {
 
 table.adminlist tbody tr.row0:first-child td,
 table.adminlist tbody tr.row0:first-child th {
-	border-top: 1px solid #c7c8b2;
+	/* border-top: 1px solid #c7c8b2; */
 }
 
 table.adminlist tbody tr.row0:last-child td,
@@ -1697,6 +1698,11 @@ button:hover,button:focus {
 	background-color: #f9fade;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+}
+
+.button2-left.smallsub,.button2-right.smallsub {
+	line-height: 1.2em;
+	font-size: .9em;
 }
 
 .button2-left a,.button2-right a,.button2-left span,.button2-right span
@@ -3477,6 +3483,28 @@ table.group-rules td select
 #permissions-sliders
 	{ min-height:35em; width:100%; }
 
+/*
+ * Debug styles
+ */
+	.check-0,
+	table.adminlist tbody td.check-0 {
+		background-color: #FFFFCF;
+	}
+
+	.check-a,
+	table.adminlist tbody td.check-a {
+		background-color: #CFFFDA;
+	}
+
+	.check-d,
+	table.adminlist tbody td.check-d {
+		background-color: #FFCFCF;
+	}
+
+	.swatch {
+		text-align: center;
+		padding: 0 15px 0 15px;
+	}
 /* Tab changes for accessibility */
 dl.tabs dt h3 {
 	padding: 0;

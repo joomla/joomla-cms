@@ -1308,3 +1308,32 @@ ul#rules table.group-rules td label
 }
 	
 /* global_config permissions */
+
+/*
+ * Debug styles
+ */
+	.check-0,
+	table.adminlist tbody td.check-0,
+	table.adminlist tbody tr:hover td.check-0 {
+		background-color: #FFFFCF;
+		color: #163365;
+	}
+
+	.check-a,
+	table.adminlist tbody td.check-a,
+	table.adminlist tbody tr:hover td.check-a {
+		background-color: #CFFFDA;
+		color: #163365;
+	}
+
+	.check-d,
+	table.adminlist tbody td.check-d,
+	table.adminlist tbody tr:hover td.check-d {
+		background-color: #FFCFCF;
+		color: #163365;
+	}
+
+	.swatch {
+		text-align: center;
+		padding: 0 15px 0 15px;
+	}

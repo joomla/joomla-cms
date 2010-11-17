@@ -19,27 +19,6 @@ JHtml::_('behavior.tooltip');
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 ?>
-<style>
-	.check-0,
-	table.adminlist tbody td.check-0 {
-		background-color: #FFFFCF;
-	}
-
-	.check-a,
-	table.adminlist tbody td.check-a {
-		background-color: #CFFFDA;
-	}
-
-	.check-d,
-	table.adminlist tbody td.check-d {
-		background-color: #FFCFCF;
-	}
-
-	.swatch {
-		text-align: center;
-		padding: 0 15px 0 15px;
-	}
-</style>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&user_id='.(int) $this->state->get('filter.user_id'));?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -51,6 +30,13 @@ $listDirn	= $this->state->get('list.direction');
 		</div>
 
 		<div class="filter-select fltrt">
+			<select name="filter_component" class="inputbox" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT');?></option>
+				<?php if (!empty($this->components)) { 
+					echo JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
+				}?>
+			</select>
+
 			<select name="filter_level_start" class="inputbox" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_LEVEL_START');?></option>
 				<?php echo JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'));?>
@@ -84,7 +70,7 @@ $listDirn	= $this->state->get('list.direction');
 				</th>
 				<?php foreach ($this->actions as $key => $action) : ?>
 				<th width="5%">
-					<?php echo JText::_($key); ?>
+					<span class="hasTip" title="<?php echo htmlspecialchars(JText::_($key).'::'.JText::_($action[1]), ENT_COMPAT, 'UTF-8'); ?>"><?php echo JText::_($key); ?></span>
 				</th>
 				<?php endforeach; ?>
 				<th class="nowrap" width="5%">

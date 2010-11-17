@@ -1463,6 +1463,11 @@ table.adminlist tr td.btns a {
 div#element-box div.m form table.adminlist tr td a {
 	font-size: 1.1em;
 }
+
+div#element-box div.m form table.adminlist tr td div.button2-left.smallsub a {
+	font-size: 1em;
+}
+
 div#element-box div.m form table.adminlist tr td p.smallsub a,
 div#element-box div.m div.jpane-slider form table.adminlist a {
 	font-size: 1em;
@@ -1726,7 +1731,6 @@ div.button2-left button {
 	background: transparent;
 	border: 0 solid #aaa;
 }
-
 
 /* -- TOOLTIP STYLES ----------------------------- */
 .tip {
@@ -3015,6 +3019,27 @@ table.group-rules td select
 
 #permissions-sliders
 	{ min-height:29em; width:100%; }
+	
+/* Debug acl styling */	
+.check-0,
+table.adminlist tbody td.check-0 {
+	background-color: #FFFFCF;
+}
+
+.check-a,
+table.adminlist tbody td.check-a {
+	background-color: #CFFFDA;
+}
+
+.check-d,
+table.adminlist tbody td.check-d {
+	background-color: #FFCFCF;
+}
+
+.swatch {
+	text-align: center;
+	padding: 0 15px 0 15px;
+}
 
 /* Tab changes for accessibility */
 dl.tabs dt h3 {

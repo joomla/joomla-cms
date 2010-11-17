@@ -8,6 +8,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.modellist');
+require_once JPATH_COMPONENT.'/helpers/debug.php';
 
 /**
  * Methods supporting a list of user records.
@@ -26,20 +27,9 @@ class UsersModelDebugUser extends JModelList
 	 */
 	public function getDebugActions()
 	{
-		// TODO: This should be a lot smarter and drill into the access.xml files of each component.
-		$actions = array(
-			'JACTION_LOGIN_SITE'	=> array('core.login.site',		0),
-			'JACTION_LOGIN_ADMIN'	=> array('core.login.admin',	0),
-			'JACTION_ADMIN'			=> array('core.admin',			1),
-			'JACTION_MANAGE'		=> array('core.manage',			1),
-			'JACTION_CREATE'		=> array('core.create',			null),
-			'JACTION_DELETE'		=> array('core.delete',			null),
-			'JACTION_EDIT'			=> array('core.edit',			null),
-			'JACTION_EDITSTATE'		=> array('core.edit.state',		null),
-			'JACTION_EDITOWN'		=> array('core.edit.own',		null),
-		);
+		$component = $this->getState('filter.component');
 
-		return $actions;
+		return UsersHelperDebug::getDebugActions($component);
 	}
 
 	/**
@@ -115,6 +105,9 @@ class UsersModelDebugUser extends JModelList
 		}
 		$this->setState('filter.level_end', $value);
 
+		$component = $app->getUserStateFromRequest($this->context.'.filter.component', 'filter_component');
+		$this->setState('filter.component', $component);
+
 		// Load the parameters.
 		$params		= JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
@@ -142,6 +135,7 @@ class UsersModelDebugUser extends JModelList
 		$id	.= ':'.$this->getState('filter.user_id');
 		$id	.= ':'.$this->getState('filter.level_start');
 		$id	.= ':'.$this->getState('filter.level_end');
+		$id	.= ':'.$this->getState('filter.component');
 
 		return parent::getStoreId($id);
 	}
@@ -213,10 +207,15 @@ class UsersModelDebugUser extends JModelList
 			$query->where('a.level <= '.$levelEnd);
 		}
 
+		// Filter the items over the component if set.
+		if ($this->getState('filter.component')) {
+			$component = $this->getState('filter.component');
+			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->getEscaped($this->getState('list.ordering', 'a.lft')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

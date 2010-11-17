@@ -34,21 +34,14 @@ class UsersViewDebugGroup extends JView
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->group		= $this->get('Group');
+		$this->levels		= UsersHelperDebug::getLevelsOptions();
+		$this->components	= UsersHelperDebug::getComponents();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
-		$this->levels = array(
-			JHtml::_('select.option', '1', JText::sprintf('COM_USERS_OPTION_LEVEL_COMPONENT', 1)),
-			JHtml::_('select.option', '2', JText::sprintf('COM_USERS_OPTION_LEVEL_CATEGORY', 2)),
-			JHtml::_('select.option', '3', JText::sprintf('COM_USERS_OPTION_LEVEL_DEEPER', 3)),
-			JHtml::_('select.option', '4', '4'),
-			JHtml::_('select.option', '5', '5'),
-			JHtml::_('select.option', '6', '6'),
-		);
 
 		$this->addToolbar();
 		parent::display($tpl);

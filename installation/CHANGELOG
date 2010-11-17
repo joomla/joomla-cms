@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed issue [#23241] Saving category while validating rules fails (Mark Dexter, Christophe Demko).
  # Fixed issue [#21837] @todo ACL - Disallow creation of Super User & Admin group by non Super User (Michael Babker, Christopher Garvis, Elin Waring).
  # Fixed issue [#23306] "Add New Article" quick icon permissions check (Michael Babker, Elin Waring, Christophe Demko).
+ # Fixed issue [#22868] Improving permissions debug (Dennis Hermacki, Andrea Tarr).
   
 16-Nov-2010 Christophe Demko
  # Fix the Edit profile permission
