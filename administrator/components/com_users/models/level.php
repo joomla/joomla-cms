@@ -49,12 +49,14 @@ class UsersModelLevel extends JModelAdmin
 			// Get all the tables and then all the fields
 			$tables = $db->getTableList();
 			$fields = $db->getTableFields($tables);
+			$prefix = $db->getPrefix();
 
 			foreach ($tables as $table)
 			{
 				// We are looking for the access field.  If custom tables are using something other
 				// than the 'access' field they are on their own unfortunately.
-				if (isset($fields[$table]['access'])) {
+				// Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
+				if ((strpos($table, $prefix) === 0) && (isset($fields[$table]['access']))) {
 					// Lookup the distinct values of the field.
 					$query->clear('from')
 						->from($db->nameQuote($table));
@@ -104,6 +106,7 @@ class UsersModelLevel extends JModelAdmin
 	public function getTable($type = 'Viewlevel', $prefix = 'JTable', $config = array())
 	{
 		$return = JTable::getInstance($type, $prefix, $config);
+
 		return $return;
 	}
 
@@ -139,6 +142,7 @@ class UsersModelLevel extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_users.level', 'level', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form)) {
 			return false;
 		}
@@ -189,6 +193,7 @@ class UsersModelLevel extends JModelAdmin
 		if (!isset($data['rules'])) {
 			$data['rules']=array();
 		}
+
 		return parent::save($data);
 	}
 }
