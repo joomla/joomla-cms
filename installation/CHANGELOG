@@ -30,6 +30,7 @@ $ -> Language fix or change
 17-Nov-2010 Christophe Demko
  # [#23197] onUserBeforeSave needs to be able cancel the creation of an account (Andrew Eddie)
  # [#23208] Logout from edit screen gives 403
+ # [#23150] Error if menu alias = "component" (Elin Waring)
 
 17-Nov-2010 Jean-Marie Simonet
  # Added icon for the new My Profile menu [#23347]
