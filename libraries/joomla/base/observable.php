@@ -88,7 +88,7 @@ class JObservable extends JObject
 	 * @return	void
 	 * @since	1.5
 	 */
-	public function attach(&$observer)
+	public function attach($observer)
 	{
 		if (is_array($observer)) {
 			if (!isset($observer['handler']) || !isset($observer['event']) || !is_callable($observer['handler'])) {
@@ -103,7 +103,7 @@ class JObservable extends JObject
 				}
 			}
 
-			$this->_observers[] = &$observer;
+			$this->_observers[] = $observer;
 			end($this->_observers);
 			$methods = array($observer['event']);
 		}
@@ -122,7 +122,7 @@ class JObservable extends JObject
 				}
 			}
 
-			$this->_observers[] = &$observer;
+			$this->_observers[] = $observer;
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 

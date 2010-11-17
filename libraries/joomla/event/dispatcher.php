@@ -112,11 +112,14 @@ class JDispatcher extends JObservable
 			// Fire the event for an object based observer.
 			if (is_object($this->_observers[$key])) {
 				$args['event'] = $event;
-				$result[] = $this->_observers[$key]->update($args);
+				$value = $this->_observers[$key]->update($args);
 			}
 			// Fire the event for a function based observer.
 			elseif (is_array($this->_observers[$key])) {
-				$result[] = call_user_func_array($this->_observers[$key]['handler'], $args);
+				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
+			}
+			if (isset($value)) {
+				$result[] = $value;
 			}
 		}
 
