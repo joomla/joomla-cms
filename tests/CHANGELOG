@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Nov-2010 Mark Dexter
 # Fix doInstall to allow selection of different database types
+^ Added two methods to JFolderTest (Christophe Demoko) as part of [#22484]
 
 15-Nov-2010 Mark Dexter
 # Fix failing system test for sample data changes
