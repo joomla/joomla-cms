@@ -71,7 +71,11 @@ var ImageManager = this.ImageManager = {
 			}
 		}, query);
 		a.query = query.join('&');
-		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
+		var portString = '';
+		if (a.port != 80) {
+			portString = ':'+a.port;
+		}
+		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path'?'+a.query);
 	},
 
 	getImageFolder: function()
