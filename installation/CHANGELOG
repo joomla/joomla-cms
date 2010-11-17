@@ -37,6 +37,8 @@ $ -> Language fix or change
  # [#23352] Text alignment issues at Pre-Installation check screen (Tim Plummer)
  # [#23310] Empty Components Sub-menu Displayed (Michael Babker)
  # [#23333] User information lost if get error message when trying to create (Michael Babker)
+ # [#22712] *Port issue when uploading image with image button (Ian MacLennan)
+
 
 17-Nov-2010 Jean-Marie Simonet
  # Added icon for the new My Profile menu [#23347]
