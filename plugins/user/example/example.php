@@ -32,10 +32,13 @@ class plgUserExample extends JPlugin
 	 *
 	 * @return	void
 	 * @since	1.6
+	 * @throws	Exception on error.
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
 		$app = JFactory::getApplication();
+
+		// throw new Exception('Some error occurred. Please do not save me');
 	}
 
 	/**
@@ -50,6 +53,7 @@ class plgUserExample extends JPlugin
 	 *
 	 * @return	void
 	 * @since	1.6
+	 * @throws	Exception on error.
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{

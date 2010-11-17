@@ -276,22 +276,36 @@ class UsersModelUser extends JModelAdmin
 
 					$table->block = (int) $value;
 
-					if (!$table->check()) {
-						$this->setError($table->getError());
+					// Allow an exception to be thrown.
+					try
+					{
+						if (!$table->check()) {
+							$this->setError($table->getError());
+							return false;
+						}
+
+						// Trigger the onUserBeforeSave event.
+						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false));
+						if (in_array(false, $result, true)) {
+							// Plugin will have to raise it's own error or throw an exception.
+							return false;
+						}
+
+						// Store the table.
+						if (!$table->store()) {
+							$this->setError($table->getError());
+							return false;
+						}
+
+						// Trigger the onAftereStoreUser event
+						$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
+					}
+					catch (Exception $e)
+					{
+						$this->setError($e->getMessage());
+
 						return false;
 					}
-
-					// Trigger the onUserBeforeSave event.
-					$dispatcher->trigger('onUserBeforeSave', array($old, false));
-
-					// Store the table.
-					if (!$table->store()) {
-						$this->setError($table->getError());
-						return false;
-					}
-
-					// Trigger the onAftereStoreUser event
-					$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
 
 					// Log the user out.
 					if ($value) {
@@ -340,22 +354,36 @@ class UsersModelUser extends JModelAdmin
 					$table->block		= 0;
 					$table->activation	= '';
 
-					if (!$table->check()) {
-						$this->setError($table->getError());
+					// Allow an exception to be thrown.
+					try
+					{
+						if (!$table->check()) {
+							$this->setError($table->getError());
+							return false;
+						}
+
+						// Trigger the onUserBeforeSave event.
+						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false));
+						if (in_array(false, $result, true)) {
+							// Plugin will have to raise it's own error or throw an exception.
+							return false;
+						}
+
+						// Store the table.
+						if (!$table->store()) {
+							$this->setError($table->getError());
+							return false;
+						}
+
+						// Fire the onAftereStoreUser event
+						$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
+					}
+					catch (Exception $e)
+					{
+						$this->setError($e->getMessage());
+
 						return false;
 					}
-
-					// Trigger the onUserBeforeSave event.
-					$dispatcher->trigger('onUserBeforeSave', array($old, false));
-
-					// Store the table.
-					if (!$table->store()) {
-						$this->setError($table->getError());
-						return false;
-					}
-
-					// Fire the onAftereStoreUser event
-					$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
 				}
 				else {
 					// Prune items that you can't change.
