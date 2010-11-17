@@ -2070,3 +2070,66 @@ ul.pagenav li.pagenav-next
 	list-style-type:disc;
 	color:#666
 }
+
+
+/* mailto window */
+
+
+#mailto-window 
+{
+	background:#f5f5f5;
+	padding:15px;
+	border:solid 1px #ddd;
+	position:relative
+}
+#mailto-window label
+{
+	width:10em
+}
+
+.mailto-close
+{
+	position:absolute; 
+	right:0; 
+	top:5px; 
+	background:none;
+
+
+	
+	
+}
+
+
+.mailto-close a 
+{
+background:#f5f5f5 url(../images/close.png) no-repeat !important;
+min-width:25px; 
+display:block;
+min-height:25px;
+overflow:visible
+}
+
+.mailto-close a  span
+{
+	position:absolute;
+	left:-3000px;
+	top:-3000px;
+	display:inline
+
+}
+#mailto-window  .inputbox
+{
+	background:url("../images/content_bg.gif") repeat-x scroll 0 0 #FFFFFF;
+	border:1px solid #ccc;
+	padding:3px;
+}
+
+#mailto-window p
+{
+	margin-top:20px
+}
+
+#mailto-window button
+{
+	margin:0 5px 0 0
+}

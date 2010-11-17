@@ -37,8 +37,11 @@ $color = $this->params->get('templatecolor');
 ?>
 
 <?php if($this->direction == 'rtl') : ?>
-        <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/template_rtl.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/template_rtl.css" type="text/css" />
 <?php endif; ?>
+<!--[if lte IE 6]>
+                <link href="<?php echo $this->baseurl ?>/templates/beez_20/css/ieonly.css" rel="stylesheet" type="text/css" />
+      <![endif]-->
 </head>
 <body class="contentpane">
         <div id="all">

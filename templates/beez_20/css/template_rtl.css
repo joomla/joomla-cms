@@ -1,42 +1,62 @@
 /* Angie Radtke 2010 */
-
-#all
-{text-align:right}
-h1#logo
-
-{text-align:right}
-#header ul
-{text-align:left}
-#line
-{position:absolute;left:20px !important;
-right:auto
+#all {
+	text-align: right
 }
 
-ul.menu li
-{text-align:right}
-
-ul.menu li a:link, ul.menu li a:visited {
-background:url("../images/nature/karo.gif") no-repeat scroll right 14px ;
-padding-right:10px;
+h1#logo {
+	text-align: right
 }
 
-h3{text-align:right}
+#header ul {
+	text-align: left
+}
 
-h3.js_heading a
-{position:absolute; right:auto; left:5px}
+#line {
+	position: absolute;
+	left: 20px !important;
+	right: auto
+}
 
-.box
-{text-align:right}
+ul.menu li {
+	text-align: right
+}
 
-ul.newsfeed
-{text-align:right}
+ul.menu li a:link,ul.menu li a:visited {
+	background: url("../images/nature/karo.gif") no-repeat scroll right 14px;
+	padding-right: 10px;
+}
 
-a.readmore:link,
-a.readmore:visited,
-.readmore a:link,
-.readmore a:visited
+h3 {
+	text-align: right
+}
 
-{background:url(../images/arrow1_rtl.png) repeat-x scroll right top;
-padding-right:10px !important
-	}
+h3.js_heading a {
+	position: absolute;
+	right: auto;
+	left: 5px
+}
+
+.box {
+	text-align: right
+}
+
+ul.newsfeed {
+	text-align: right
+}
+
+a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
+	{
+	background: url(../images/arrow1_rtl.png) repeat-x scroll right top;
+	padding-right: 10px !important
+}
+
+.mailto-close {
+	left: 5px !important;
+	right: auto !important;
+}
+
+* html .mailto-close {
+	left: 0;
+	position: absolute;
+	right: 340px !important
 }

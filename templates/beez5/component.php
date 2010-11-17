@@ -23,14 +23,26 @@ $color = $this->params->get('templatecolor');
     <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/print.css" type="text/css" media="Print" />
     <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/beez5.css" type="text/css" />
 
-<?php $files = (array) JHtml::_('stylesheet','templates/beez5/css/general.css', null, false, true) ?>
-<?php foreach($files as $file): ?>
-	<link rel="stylesheet" href="<?php echo $file ?>" type="text/css" />
-<?php endforeach ?>
+<?php
+	$files = JHtml::_('stylesheet','templates/beez5/css/general.css',null,false,true);
+	if ($files):
+		if (!is_array($files)):
+			$files = array($files);
+		endif;
+		foreach($files as $file):
+?>
+			<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
+<?php
+		endforeach;
+	endif;
+?>
 
 <?php if($this->direction == 'rtl') : ?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez/css/template_rtl.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez5/css/template_rtl.css" type="text/css" />
 <?php endif; ?>
+<!--[if lte IE 6]>
+	<link href="<?php echo $this->baseurl ?>/templates/beez5/css/ieonly.css" rel="stylesheet" type="text/css" />
+<![endif]-->
 </head>
 <body class="contentpane">
 	<div id="all">
