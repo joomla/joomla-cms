@@ -534,6 +534,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function keepalive()
 	{
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+
 		// Include mootools framework
 		JHtmlBehavior::mootools();
 
@@ -557,6 +564,7 @@ abstract class JHtmlBehavior
 		$script .=  ');';
 
 		$document->addScriptDeclaration($script);
+		$loaded = true;
 
 		return;
 	}
