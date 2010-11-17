@@ -94,7 +94,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Load the User state.
 		$pk = (int) JRequest::getInt('id');
- 		$this->setState($this->getName().'.id', $pk);
+		$this->setState($this->getName().'.id', $pk);
 
 		$extension = JRequest::getCmd('extension', 'com_content');
 		$this->setState('category.extension', $extension);
@@ -141,7 +141,8 @@ class CategoriesModelCategory extends JModelAdmin
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
 				$result->created_time = $date->toMySQL(true);
-			} else {
+			}
+			else {
 				$result->created_time = null;
 			}
 
@@ -149,7 +150,8 @@ class CategoriesModelCategory extends JModelAdmin
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
 				$result->modified_time = $date->toMySQL(true);
-			} else {
+			}
+			else {
 				$result->modified_time = null;
 			}
 		}
@@ -170,6 +172,15 @@ class CategoriesModelCategory extends JModelAdmin
 		// Initialise variables.
 		$extension	= $this->getState('category.extension');
 
+		// A workaround to get the extension into the model for save requests.
+		if (empty($extension) && isset($data['extension'])) {
+			$extension	= $data['extension'];
+			$parts		= explode('.',$extension);
+
+			$this->setState('category.extension', $extension);
+			$this->setState('category.component', $parts[0]);
+		}
+
 		// Get the form.
 		$form = $this->loadForm('com_categories.category'.$extension, 'category', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form)) {
@@ -180,6 +191,7 @@ class CategoriesModelCategory extends JModelAdmin
 		if (empty($data['extension'])) {
 			$data['extension'] = $extension;
 		}
+
 
 		if (!$this->canEditState((object) $data)) {
 			// Disable fields for display.
@@ -281,8 +293,8 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Set the access control rules field component value.
-//		$form->setFieldAttribute('rules', 'component', $component);
-		$form->setFieldAttribute('rules', 'section', $name);
+		$form->setFieldAttribute('rules', 'component',	$component);
+		$form->setFieldAttribute('rules', 'section',	$name);
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data);

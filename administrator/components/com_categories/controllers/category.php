@@ -43,22 +43,22 @@ class CategoriesControllerCategory extends JControllerForm
 
 	/**
 	 * Method to check if you can add a new record.
- 	 *
+	 *
 	 * Extended classes can override this if necessary.
- 	 *
+	 *
 	 * @param	array	An array of input data.
- 	 *
+	 *
 	 * @return	boolean
 	 * @since	1.6
- 	 */
+	 */
 	protected function allowAdd($data = array())
- 	{
+	{
 		return JFactory::getUser()->authorise('core.create', $this->extension);
- 	}
+	}
 
- 	/**
+	/**
 	 * Method to check if you can edit a record.
- 	 *
+	 *
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param	array	An array of input data.
@@ -66,67 +66,67 @@ class CategoriesControllerCategory extends JControllerForm
 	 *
 	 * @return	boolean
 	 * @since	1.6
- 	 */
- 	protected function allowEdit($data = array(), $key = 'parent_id')
- 	{
+	 */
+	protected function allowEdit($data = array(), $key = 'parent_id')
+	{
 		// Initialise variables.
-		$recordId  = (int) isset($data[$key]) ? $data[$key] : 0;
+		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $this->extension)) {
-		  return true;
+			return true;
 		}
 
 		// Check specific edit permission.
 		if ($user->authorise('core.edit', $this->extension.'.category.'.$recordId)) {
-		  return true;
+			return true;
 		}
 
 		// Fallback on edit.own.
 		// First test if the permission is available.
 		if ($user->authorise('core.edit.own', $this->extension.'.category.'.$recordId) || $user->authorise('core.edit.own', $this->extension)) {
-		  // Now test the owner is the user.
-		  $ownerId  = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
-		  if (empty($ownerId) && $recordId) {
+			// Now test the owner is the user.
+			$ownerId	= (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
+			if (empty($ownerId) && $recordId) {
 				// Need to do a lookup from the model.
 				$record		= $this->getModel()->getItem($recordId);
 
 				if (empty($record)) {
-				  return false;
+					return false;
 				}
 
 				$ownerId = $record->created_user_id;
-		  }
+			}
 
-		  // If the owner matches 'me' then do the test.
-		  if ($ownerId == $userId) {
+			// If the owner matches 'me' then do the test.
+			if ($ownerId == $userId) {
 				return true;
-		  }
+			}
 		}
 		return false;
-   }
+	 }
 
- 	/**
+	/**
 	 * Method to run batch opterations.
- 	 *
- 	 * @return	void
- 	 */
+	 *
+	 * @return	void
+	 */
 	public function batch()
- 	{
- 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	{
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
- 		// Initialise variables.
- 		$app	= JFactory::getApplication();
- 		$model	= $this->getModel('Category');
+		// Initialise variables.
+		$app	= JFactory::getApplication();
+		$model	= $this->getModel('Category');
 		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
 		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
 
- 		$extension = JRequest::getCmd('extension', '');
- 		if ($extension) {
- 			$extension = '&extension='.$extension;
- 		}
+		$extension = JRequest::getCmd('extension', '');
+		if ($extension) {
+			$extension = '&extension='.$extension;
+		}
 
 		// Preset the redirect
 		$this->setRedirect('index.php?option=com_categories&view=categories'.$extension);
@@ -134,23 +134,26 @@ class CategoriesControllerCategory extends JControllerForm
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
 			$this->setMessage(JText::_('COM_CATEGORIES_BATCH_SUCCESS'));
+
 			return true;
- 		} else {
+		}
+		else {
 			$this->setMessage(JText::_(JText::sprintf('COM_CATEGORIES_ERROR_BATCH_FAILED', $model->getError())));
+
 			return false;
- 		}
+		}
 	}
 
- 	/**
+	/**
 	 * Gets the URL arguments to append to an item redirect.
- 	 *
+	 *
 	 * @param	int		$recordId	The primary key id for the item.
 	 *
 	 * @return	string	The arguments to append to the redirect URL.
 	 * @since	1.6
- 	 */
+	 */
 	protected function getRedirectToItemAppend($recordId = null)
- 	{
+	{
 		$append = parent::getRedirectToItemAppend($recordId);
 		$append .= '&extension='.$this->extension;
 
@@ -169,5 +172,5 @@ class CategoriesControllerCategory extends JControllerForm
 		$append .= '&extension='.$this->extension;
 
 		return $append;
- 	}
+	}
 }
