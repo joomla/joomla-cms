@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#23305] No checking to ensure behavior.keepalive only gets loaded once. (Ian MacLennan)
  # [#23360] component_view Email to a friend etc. Patch attached (Angie Radtke)
  # [#23352] Text alignment issues at Pre-Installation check screen (Tim Plummer)
+ # [#23310] Empty Components Sub-menu Displayed (Michael Babker)
 
 17-Nov-2010 Jean-Marie Simonet
  # Added icon for the new My Profile menu [#23347]
