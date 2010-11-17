@@ -28,11 +28,12 @@ class SeleniumConfig
 	var $path = '/your_joomla_root/';
 
 	// set the database host, database username, database pasword, and database name
+	var $db_type = 'MySQL';
 	var $db_host = 'localhost';
 	var $db_user = 'root';
 	var $db_pass = 'password';
 	var $db_name = 'joomla-1-6_source';
-	
+
 	// optional setting to turn on Cache: values are off, on-basic, on-full
 	// change this value to set the caching in the doInstall.php test
 	var $cache = 'off';

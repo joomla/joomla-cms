@@ -40,6 +40,8 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Enter database information\n";
+		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'MySQL';
+		$this->select("jform_db_type", "label=".$dbtype);
 		$this->type("jform_db_host", $cfg->db_host);
 		$this->type("jform_db_user", $cfg->db_user);
 		$this->type("jform_db_pass", $cfg->db_pass);
