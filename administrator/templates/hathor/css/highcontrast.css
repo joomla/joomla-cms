@@ -808,6 +808,10 @@ button:hover,button:focus {
 	background-image: url(../images/menu/icon-16-plugin.png);
 }
 
+.icon-16-profile {
+	background-image: url(../images/menu/icon-16-user.png);
+}
+
 .icon-16-purge {
 	background-image: url(../images/menu/icon-16-purge.png);
 }
