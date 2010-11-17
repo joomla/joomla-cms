@@ -75,7 +75,7 @@ var ImageManager = this.ImageManager = {
 		if (a.port != 80) {
 			portString = ':'+a.port;
 		}
-		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path'?'+a.query);
+		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
 	},
 
 	getImageFolder: function()

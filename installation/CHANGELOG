@@ -43,6 +43,7 @@ $ -> Language fix or change
  # Added icon for the new My Profile menu [#23347]
  # [#23363] Menu_Item_Root is not translatable + some strings
  $ Missing string values
+ # [#23365] Images can be inserted anymore. Thanks Rouven.
  
 17-Nov-2010 Andrew Eddie
  # Fixed issue [#23347] Move profile editing out of com_users and into com_admin
