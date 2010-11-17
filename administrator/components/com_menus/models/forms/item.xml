@@ -92,10 +92,13 @@
 			type="menuparent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
-			default="MENU_ITEM_ROOT"
+			default="1"
 			filter="int"
 			class="inputbox"
-			size="1"/>
+			size="1">
+			<option
+				value="1">COM_MENUS_ITEM_ROOT</option>
+		</field>
 
 		<field
 			name="component_id"
