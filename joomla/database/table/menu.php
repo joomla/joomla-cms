@@ -82,6 +82,12 @@ class JTableMenu extends JTableNested
 		// Cast the home property to an int for checking.
 		$this->home = (int) $this->home;
 
+		// Verify that a first level menu item alias is not 'component'.
+		if ($this->parent_id==1 && $this->alias == 'component') {
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_COMPONENT'));
+			return false;
+		}
+
 		// Verify that the home item a component.
 		if ($this->home && $this->type != 'component') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
