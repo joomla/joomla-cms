@@ -62,6 +62,73 @@ class UsersModelGroups extends JModelList
 	}
 
 	/**
+	 * Gets the list of groups and adds expensive joins to the result set.
+	 *
+	 * @return	mixed	An array of data items on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getItems()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId();
+
+		// Try to load the data from internal storage.
+		if (empty($this->cache[$store])) {
+			$items = parent::getItems();
+
+			// Bail out on an error or empty list.
+			if (empty($items)) {
+				$this->cache[$store] = $items;
+
+				return $items;
+			}
+
+			// First pass: get list of the group id's and reset the counts.
+			$groupIds = array();
+			foreach ($items as $item)
+			{
+				$groupIds[] = (int) $item->id;
+				$item->user_count = 0;
+			}
+
+			// Get the counts from the database only for the users in the list.
+			$db		= $this->getDbo();
+			$query	= new JDatabaseQuery;
+
+			// Count the objects in the user group.
+			$query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')
+				->from('`#__user_usergroup_map` AS map')
+				->where('map.group_id IN ('.implode(',', $groupIds).')')
+				->group('map.group_id');
+
+			$db->setQuery($query);
+
+			// Load the counts into an array indexed on the user id field.
+			$users = $db->loadObjectList('group_id');
+
+			$error = $db->getErrorMsg();
+			if ($error) {
+				$this->setError($error);
+
+				return false;
+			}
+
+			// Second pass: collect the group counts into the master items array.
+			foreach ($items as &$item)
+			{
+				if (isset($users[$item->id])) {
+					$item->user_count = $users[$item->id]->user_count;
+				}
+			}
+
+			// Add the items to the internal cache.
+			$this->cache[$store] = $items;
+		}
+
+		return $this->cache[$store];
+	}
+
+	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
@@ -84,11 +151,6 @@ class UsersModelGroups extends JModelList
 		// Add the level in the tree.
 		$query->select('COUNT(DISTINCT c2.id) AS level');
 		$query->join('LEFT OUTER', '`#__usergroups` AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
-		$query->group('a.id');
-
-		// Count the objects in the user group.
-		$query->select('COUNT(DISTINCT map.user_id) AS user_count');
-		$query->join('LEFT', '`#__user_usergroup_map` AS map ON map.group_id = a.id');
 		$query->group('a.id');
 
 		// Filter the comments over the search string if set.

@@ -81,6 +81,82 @@ class UsersModelUsers extends JModelList
 	}
 
 	/**
+	 * Gets the list of users and adds expensive joins to the result set.
+	 *
+	 * @return	mixed	An array of data items on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getItems()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId();
+
+		// Try to load the data from internal storage.
+		if (empty($this->cache[$store])) {
+			$items = parent::getItems();
+
+			// Bail out on an error or empty list.
+			if (empty($items)) {
+				$this->cache[$store] = $items;
+
+				return $items;
+			}
+
+			// Joining the groups with the main query is a performance hog.
+			// Find the information only on the result set.
+
+			// First pass: get list of the user id's and reset the counts.
+			$userIds = array();
+			foreach ($items as $item)
+			{
+				$userIds[] = (int) $item->id;
+				$item->group_count = 0;
+				$item->group_names = '';
+			}
+
+			// Get the counts from the database only for the users in the list.
+			$db		= $this->getDbo();
+			$query	= new JDatabaseQuery;
+
+			// Join over the group mapping table.
+			$query->select('map.user_id, COUNT(map.group_id) AS group_count')
+				->from('#__user_usergroup_map AS map')
+				->where('map.user_id IN ('.implode(',', $userIds).')')
+				->group('map.user_id')
+
+			// Join over the user groups table.
+				->select('GROUP_CONCAT(g2.title SEPARATOR '.$db->Quote("\n").') AS group_names')
+				->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
+
+			$db->setQuery($query);
+
+			// Load the counts into an array indexed on the user id field.
+			$userGroups = $db->loadObjectList('user_id');
+
+			$error = $db->getErrorMsg();
+			if ($error) {
+				$this->setError($error);
+
+				return false;
+			}
+
+			// Second pass: collect the group counts into the master items array.
+			foreach ($items as &$item)
+			{
+				if (isset($userGroups[$item->id])) {
+					$item->group_count = $userGroups[$item->id]->group_count;
+					$item->group_names = $userGroups[$item->id]->group_names;
+				}
+			}
+
+			// Add the items to the internal cache.
+			$this->cache[$store] = $items;
+		}
+
+		return $this->cache[$store];
+	}
+
+	/**
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return	JDatabaseQuery
@@ -101,15 +177,6 @@ class UsersModelUsers extends JModelList
 		);
 		$query->from('`#__users` AS a');
 
-		// Join over the group mapping table.
-		$query->select('COUNT(map.group_id) AS group_count');
-		$query->join('LEFT', '#__user_usergroup_map AS map ON map.user_id = a.id');
-		$query->group('a.id');
-
-		// Join over the user groups table.
-		$query->select('GROUP_CONCAT(g2.title SEPARATOR '.$db->Quote("\n").') AS group_names');
-		$query->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
-
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 
@@ -123,7 +190,8 @@ class UsersModelUsers extends JModelList
 		if (is_numeric($active)) {
 			if ($active == '0') {
 				$query->where('a.activation = '.$db->quote(''));
-			} else if ($active == '1') {
+			}
+			else if ($active == '1') {
 				$query->where('LENGTH(a.activation) = 32');
 			}
 		}
