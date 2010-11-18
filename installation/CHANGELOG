@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Nov-2010 Jean-Marie Simonet
+$ Adding missing strings
+
 18-Nov-2010 Andrew Eddie
  ! Added SQL diff for beta 14 to 'next version'.
 
