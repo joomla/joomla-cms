@@ -527,14 +527,18 @@ class JInstaller extends JAdapter
 			{
 				$this->_adapters[$type]->loadLanguage($path);
 			}
+
 			// Fire the onExtensionBeforeUpdate event.
-            JPluginHelper::importPlugin('extension');
-            $dispatcher = JDispatcher::getInstance();
+            		JPluginHelper::importPlugin('extension');
+			$dispatcher = JDispatcher::getInstance();
 			$dispatcher->trigger('onExtensionBeforeUpdate', array('type'=>$type, 'manifest'=>$this->manifest));
+
 			// Run the update
 			$result = $this->_adapters[$type]->update();
+
 			// Fire the onExtensionAfterUpdate
 			$dispatcher->trigger('onExtensionAfterUpdate', array('installer'=>clone $this, 'eid'=> $result));
+
 			if ($result !== false) {
 				return true;
 			}
