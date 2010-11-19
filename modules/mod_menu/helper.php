@@ -99,7 +99,12 @@ class modMenuHelper
 						break;
 				}
 
-				$item->flink = JRoute::_($item->flink);
+				if (strcasecmp(substr($item->flink, 0, 4), 'http') && (strpos($item->flink, 'index.php?') !== false)) {
+					$item->flink = JRoute::_($item->flink, true, $item->params->get('secure'));
+				}
+				else {
+					$item->flink = JRoute::_($item->flink);
+				}
 			}
 
 			if (isset($items[$lastitem])) {

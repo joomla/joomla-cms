@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Nov-2010 Jean-Marie Simonet
+ # [#23367] The secure parameter in menu item is not used. Thanks Christophe.
+
 18-Nov-2010 Jean-Marie Simonet
 $ Adding missing strings
 
