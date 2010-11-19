@@ -75,7 +75,7 @@ abstract class JHtmlTabs
 			$close = '';
 		}
 
-		return $close.'<dt class="'.$id.'"><span><h3><a href="javascript:void(0);return false;">'.$text.'</a></h3></span></dt><dd>';
+		return $close.'<dt class="'.$id.'"><span><h3><a href="javascript:void(0);">'.$text.'</a></h3></span></dt><dd>';
 	}
 
 	/**
