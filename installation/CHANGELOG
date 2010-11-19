@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Nov-2010 Christophe Demko
+ ^ Fix Check for request forgeries
+
 19-Nov-2010 Jean-Marie Simonet
  # [#23367] The secure parameter in menu item is not used. Thanks Christophe.
  # [#23304] List Weblinks in a Category doesn't show unpublished weblinks for logged in users. Thanks Mark.
