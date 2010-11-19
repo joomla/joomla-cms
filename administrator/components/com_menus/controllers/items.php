@@ -89,7 +89,7 @@ class MenusControllerItems extends JControllerAdmin
 	function setDefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		JRequest::checkToken('default') or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid	= JRequest::getVar('cid', array(), '', 'array');

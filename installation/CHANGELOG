@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#22525] Mod_menu menu image no span with link-title anymore. Thanks Angie.
  $ Deleting libraries strings from lang installation as the library is now loaded there.
  $ Modifying a string value.
+ # [#23408] Keep UI consistent for default home page in multilingual site. Thanks Christophe.
 
 18-Nov-2010 Jean-Marie Simonet
 $ Adding missing strings
