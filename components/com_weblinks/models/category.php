@@ -113,19 +113,20 @@ class WeblinksModelCategory extends JModelList
 
 		// Filter by state
 
-		if ((!$user->authorise('core.edit.state', 'com_weblinks')) &&  (!$user->authorise('core.edit', 'com_weblinks'))){
-			$state = $this->getState('filter.state');		
-				if (is_numeric($state)) {
-					$query->where('a.state = '.(int) $state);	
-				}
+		$state = $this->getState('filter.state');		
+		if (is_numeric($state)) {
+			$query->where('a.state = '.(int) $state);	
 		}
+
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
 		$nowDate = $db->Quote(JFactory::getDate()->toMySQL());
 
-		$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-		$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-
+		if ($this->getState('filter.publish_date')){
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
+			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+		}
+		
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -166,7 +167,14 @@ class WeblinksModelCategory extends JModelList
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);
 
-		$this->setState('filter.state',	1);
+		$user = JFactory::getUser();	
+		if ((!$user->authorise('core.edit.state', 'com_weblinks')) &&  (!$user->authorise('core.edit', 'com_weblinks'))){
+			// limit to published for people who can't edit or edit.state.
+			$this->setState('filter.state',	1);
+			
+			// Filter by start and end dates.
+			$this->setState('filter.publish_date', true);
+		}
 
 		$this->setState('filter.language',$app->getLanguageFilter());
 
