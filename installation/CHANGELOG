@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23367] The secure parameter in menu item is not used. Thanks Christophe.
  # [#23304] List Weblinks in a Category doesn't show unpublished weblinks for logged in users. Thanks Mark.
  # [#22525] Mod_menu menu image no span with link-title anymore. Thanks Angie.
+ $ Deleting libraries strings from lang installation as the library is now loaded there.
 
 18-Nov-2010 Jean-Marie Simonet
 $ Adding missing strings
