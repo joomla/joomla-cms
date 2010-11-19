@@ -103,12 +103,12 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php echo '<h3>'. JText::_('COM_CONTACT_OTHER_INFORMATION').'</h3>'; ?>
 		<?php endif; ?>
 				<div class="contact-miscinfo">
-					<span class="<?php echo $this->params->get('marker_class'); ?>">
+					<div class="<?php echo $this->params->get('marker_class'); ?>">
 						<?php echo $this->params->get('marker_misc'); ?>
-					</span>
-					<span class="contact-misc">
+					</div>
+					<div class="contact-misc">
 						<?php echo $this->contact->misc; ?>
-					</span>
+					</div>
 				</div>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style')!='plain'){?>

@@ -34,6 +34,7 @@ $ -> Language fix or change
  ^ Fix Check for request forgeries
  # [#23397] return false; on config tabs throwing javascript error (Al Kent)
  # [#23370] *Modal Non-flash Uploader does not work
+ # [#23359] com_contact template produces invalid markup (Rouven Weßling)
 
 19-Nov-2010 Jean-Marie Simonet
  # [#23367] The secure parameter in menu item is not used. Thanks Christophe.
