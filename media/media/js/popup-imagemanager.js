@@ -72,7 +72,7 @@ var ImageManager = this.ImageManager = {
 		}, query);
 		a.query = query.join('&');
 		var portString = '';
-		if (a.port != 80) {
+		if (typeof(a.port) !== 'undefined' && a.port != 80) {
 			portString = ':'+a.port;
 		}
 		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);

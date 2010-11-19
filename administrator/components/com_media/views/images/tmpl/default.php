@@ -72,7 +72,7 @@ echo $params->get('image_path', 'images');?>/';
 </form>
 <form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
 	<fieldset id="uploadform">
-		<legend><?php echo JText::_('COM_MEDIA_UPLOAD_FILES'); ?> (<?php echo JText::_('COM_MEDIA_MAXIMUM_SIZE'); ?>:&#160;<?php echo ($this->config->get('upload_maxsize') / 1000000); ?>MB)</legend>
+		<legend><?php echo JText::sprintf('COM_MEDIA_UPLOAD_FILES', round($this->config->get('upload_maxsize') / (1024 * 1024) , 2)); ?></legend>
 		<fieldset id="upload-noflash" class="actions">
 			<label for="upload-file" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 			<input type="file" id="upload-file" name="Filedata" />
