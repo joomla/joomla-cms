@@ -37,6 +37,7 @@ $ -> Language fix or change
  $ Deleting libraries strings from lang installation as the library is now loaded there.
  $ Modifying a string value.
  # [#23408] Keep UI consistent for default home page in multilingual site. Thanks Christophe.
+ # [#23388] mod_menu. Thanks James, Bill, Rouven
 
 18-Nov-2010 Jean-Marie Simonet
 $ Adding missing strings

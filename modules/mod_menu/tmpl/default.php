@@ -22,23 +22,24 @@ defined('_JEXEC') or die;
 ?>>
 <?php
 foreach ($list as $i => &$item) :
-	$id = '';
-	if($item->id == $active_id)
-	{
-		$id = ' id="current"';
-	}
 	$class = '';
-	if(in_array($item->id, $path))
-	{
+	if ($item->id == $active_id) {
+		$class .= 'current ';
+	}
+
+	if (in_array($item->id, $path)) {
 		$class .= 'active ';
 	}
-	if($item->deeper) {
+
+	if ($item->deeper) {
 		$class .= 'parent ';
 	}
 
-	$class = ' class="'.$class.'item'.$item->id.'"';
+	if (!empty($class)) {
+		$class = ' class="'.trim($class) .'"';
+	}
 
-	echo '<li'.$id.$class.'>';
+	echo '<li id="item-'.$item->id.'"'.$class.'>';
 
 	// Render the menu item.
 	switch ($item->type) :
@@ -58,7 +59,7 @@ foreach ($list as $i => &$item) :
 		echo '<ul>';
 	}
 	// The next item is shallower.
-	elseif ($item->shallower) {
+	else if ($item->shallower) {
 		echo '</li>';
 		echo str_repeat('</ul></li>', $item->level_diff);
 	}
