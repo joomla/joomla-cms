@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $params =& $this->item->params;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
-$canEdit = $this->user->authorise('core.edit', 'com_content.category.' . $this->item->id);
+$canEdit	= $this->item->params->get('access-edit');
 
 if ($templateparams->get('html5')!=1)
 {

@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 // Create a shortcut for params.
-$canEdit = $this->user->authorise('core.edit', 'com_content.frontpage.'.$this->item->id);
+$canEdit	= $this->item->params->get('access-edit');
 $params = &$this->item->params;
 $app = JFactory::getApplication();
 $templateparams =$app->getTemplate(true)->params;
