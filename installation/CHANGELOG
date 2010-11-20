@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#23355] Access level special now manager and above (Elin Waring)
  # [#23342] Front end editing not working in some layouts (bill richardson)
  # [#21638] maximum upload size inconsistency (Ian MacLennan, Rouven Weßling, bill richardson)
+ # Fix a small issue in templatestyle field
 
 19-Nov-2010 Mark Dexter
 # Remove duplicate article in sample data
