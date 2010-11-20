@@ -374,8 +374,7 @@
 				description="JGLOBAL_SHOW_TITLE_DESC"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -384,8 +383,7 @@
 				description="JGLOBAL_LINKED_TITLES_DESC"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
@@ -403,8 +401,7 @@
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -413,8 +410,7 @@
 				description="JGLOBAL_LINK_CATEGORY_DESC"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -423,8 +419,7 @@
 				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -433,8 +428,7 @@
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>
@@ -443,8 +437,7 @@
 				description="JGLOBAL_Show_Author_Desc"
 				label="JGLOBAL_Show_Author_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -453,8 +446,7 @@
 				description="JGLOBAL_Link_Author_Desc"
 				label="JGLOBAL_Link_Author_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -463,8 +455,7 @@
 				description="JGLOBAL_Show_Create_Date_Desc"
 				label="JGLOBAL_Show_Create_Date_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -473,8 +464,7 @@
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -483,8 +473,7 @@
 				description="JGLOBAL_Show_Publish_Date_Desc"
 				label="JGLOBAL_Show_Publish_Date_Label"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -513,8 +502,7 @@
 				description="JGLOBAL_SHOW_READMORE_DESC"
 				label="JGLOBAL_SHOW_READMORE_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -523,8 +511,7 @@
 				description="JGLOBAL_SHOW_ICONS_DESC"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -533,8 +520,7 @@
 				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -543,8 +529,7 @@
 				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -553,8 +538,7 @@
 				description="JGLOBAL_SHOW_HITS_DESC"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>				
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>

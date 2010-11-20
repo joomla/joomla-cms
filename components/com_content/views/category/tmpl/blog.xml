@@ -237,6 +237,7 @@
 				label="JGLOBAL_SHOW_INTRO_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -336,18 +337,19 @@
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 			
 			
 			<field
-			name="show_vote"
-			type="list"
+			name="show_vote" type="list"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
 			description="JGLOBAL_SHOW_VOTE_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 			<option value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
 		</field>
@@ -407,6 +409,7 @@
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
