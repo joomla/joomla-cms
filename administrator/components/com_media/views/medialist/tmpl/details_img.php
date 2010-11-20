@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 			<td>
 				<?php echo $this->_tmp_img->width; ?> x <?php echo $this->_tmp_img->height; ?>
 			</td>
-			<td>
+			<td class="filesize">
 				<?php echo MediaHelper::parseSize($this->_tmp_img->size); ?>
 			</td>
 			<td>

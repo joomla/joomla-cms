@@ -75,7 +75,7 @@ class MediaViewMedia extends JView
 					'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
 					'targetURL' 	=> '\\$(\'uploadForm\').action',
 					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> $config->get('upload_maxsize'),
+					'fileSizeMax'	=> (int) ($config->get('upload_maxsize',0) * 1024 * 1024),
 				)
 			);
 		}

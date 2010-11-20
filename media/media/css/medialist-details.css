@@ -20,6 +20,10 @@
 	text-align: center;
 }
 
+.manager table td.filesize {
+	text-align: right;
+}
+
 .manager table td.description {
 	text-align: left;
 }

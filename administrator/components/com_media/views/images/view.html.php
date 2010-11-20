@@ -59,7 +59,7 @@ class MediaViewImages extends JView
 					'onComplete' 	=> 'function(){ window.frames[\'imageframe\'].location.href = window.frames[\'imageframe\'].location.href; }',
 					'targetURL' 	=> '\\$(\'uploadForm\').action',
 					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> $config->get('upload_maxsize'),
+					'fileSizeMax'	=> (int) ($config->get('upload_maxsize',0) * 1024 * 1024),
 				)
 			);
 		}

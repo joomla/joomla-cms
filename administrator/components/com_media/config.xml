@@ -13,7 +13,7 @@
 			name="upload_maxsize"
 			type="text"
 			size="50"
-			default="10485760"
+			default="10"
 			label="COM_MEDIA_FIELD_MAXIMUM_SIZE_LABEL"
 			description="COM_MEDIA_FIELD_MAXIMUM_SIZE_DESC" />
 

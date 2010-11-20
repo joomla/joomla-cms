@@ -65,7 +65,7 @@ abstract class MediaHelper
 			return false;
 		}
 
-		$maxSize = (int) $params->get('upload_maxsize', 0);
+		$maxSize = (int) ($params->get('upload_maxsize', 0) * 1024 * 1024);
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
 			$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
@@ -129,15 +129,13 @@ abstract class MediaHelper
 	public static function parseSize($size)
 	{
 		if ($size < 1024) {
-			return $size . ' bytes';
+			return JText::sprintf('COM_MEDIA_FILESIZE_BYTES', $size);
 		}
-		else
-		{
-			if ($size >= 1024 && $size < 1024 * 1024) {
-				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
-			} else {
-				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
-			}
+		elseif ($size < 1024 * 1024) {
+			return JText::sprintf('COM_MEDIA_FILESIZE_KILOBYTES', sprintf('%01.2f', $size / 1024.0));
+		}
+		else {
+			return JText::sprintf('COM_MEDIA_FILESIZE_MEGABYTES', sprintf('%01.2f', $size / (1024.0 * 1024)));
 		}
 	}
 

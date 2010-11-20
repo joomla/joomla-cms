@@ -123,8 +123,6 @@ class MediaModelList extends JModel
 							$tmp->type		= @$info[2];
 							$tmp->mime		= @$info['mime'];
 
-							$filesize		= MediaHelper::parseSize($tmp->size);
-
 							if (($info[0] > 60) || ($info[1] > 60)) {
 								$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
