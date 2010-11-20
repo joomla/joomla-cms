@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Nov-2010 Mark Dexter
+ # [#23380] Category manager allows deleting a category that has items assigned to it
+
 20-Nov-2010 Christophe Demko
  # [#23355] Access level special now manager and above (Elin Waring)
  # [#23342] Front end editing not working in some layouts (bill richardson)
