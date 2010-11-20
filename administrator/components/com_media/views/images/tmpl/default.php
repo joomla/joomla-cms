@@ -45,6 +45,7 @@ echo $params->get('image_path', 'images');?>/';
 						<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 					</select>
 				</td>
+				<td> <?php echo JText::_('COM_MEDIA_ALIGN_DESC');?> </td>
 				<?php endif;?>
 			</tr>
 			<?php if (!$this->state->get('field.id')):?>
@@ -62,6 +63,7 @@ echo $params->get('image_path', 'images');?>/';
 						<option value="1"><?php echo JText::_('JYES') ?></option>
 					</select>
 				</td>
+				<td> <?php echo JText::_('COM_MEDIA_CAPTION_DESC');?> </td>
 			</tr>
 			<?php endif;?>
 		</table>

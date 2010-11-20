@@ -30,6 +30,7 @@ $ -> Language fix or change
 20-Nov-2010 Jean-Marie Simonet
  $ Updating xx-XX.com_media.ini to [#23370]
  # [#23392] Use Article settings missing from some menu items. Thanks Bill.
+ #$ [#23416] Adding descriptions in the images modal
  
 20-Nov-2010 Mark Dexter
  # [#23380] Category manager allows deleting a category that has items assigned to it
