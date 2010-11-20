@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23392] Use Article settings missing from some menu items. Thanks Bill.
  #$ [#23416] Adding descriptions in the images modal
  # [#23413] Module Article categories. Thanks Mark
+ # [#23303] Newfeed layouts should show unpublished feeds if logged in. Thanks Mark.
  
 20-Nov-2010 Mark Dexter
  # [#23380] Category manager allows deleting a category that has items assigned to it
