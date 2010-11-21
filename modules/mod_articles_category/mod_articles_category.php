@@ -27,6 +27,9 @@ require_once dirname(__FILE__).DS.'helper.php';
 						case 'category':
 							$idbase = JRequest::getInt('id');
 							break;
+						case 'categories':
+							$idbase = JRequest::getInt('id');
+							break;
 						case 'article':
 							if ($params->get('show_on_article_page', 1)) {
 								$idbase = JRequest::getInt('catid');

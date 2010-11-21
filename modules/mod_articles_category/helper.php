@@ -50,6 +50,9 @@ abstract class modArticlesCategoryHelper
 						case 'category':
 							$catids = array(JRequest::getInt('id'));
 							break;
+						case 'categories':
+							$catids = array(JRequest::getInt('id'));
+							break;
 						case 'article':
 							if ($params->get('show_on_article_page', 1)) {
 								$article_id = JRequest::getInt('id');
@@ -91,7 +94,7 @@ abstract class modArticlesCategoryHelper
 
 		// Category filter
 		if ($catids) {
-			if ($params->get('show_child_category_articles', 0)) {
+			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
 		        // Get an instance of the generic categories model
 		        $categories = JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 		        $categories->setState('params', $appParams);
@@ -101,10 +104,14 @@ abstract class modArticlesCategoryHelper
 		        $categories->setState('filter.access', $access);
 		        $additional_catids = array();
 		        foreach($catids as $catid) {
-		            $categories->setState('filter.parent_id', $catid);
+		            $categories->setState('filter.parentId', $catid);
 		            $items = $categories->getItems();
 		            foreach($items as $category) {
-		                $additional_catids[] = $category->id;
+		            	$condition = (($category->level - $categories->getParent()->level) <= $levels);
+		            	if ($condition) {
+							$additional_catids[] = $category->id;
+		            	}
+
 		            }
 		        }
 		        $catids = array_unique(array_merge($catids, $additional_catids));
@@ -138,7 +145,7 @@ abstract class modArticlesCategoryHelper
 			$articles->setState('filter.end_date_range', $params->get('end_date_range', '9999-12-31 23:59:59'));
 			$articles->setState('filter.relative_date', $params->get('relative_date', 30));
 		}
-		
+
 		// Filter by language
 		$articles->setState('filter.language',$app->getLanguageFilter());
 
@@ -194,17 +201,124 @@ abstract class modArticlesCategoryHelper
 			}
 
 			$item->displayHits = $show_hits ? $item->hits : '';
-			$item->displayAuthorName = $show_author ? $item->author_name : '';
-			$item->displayIntrotext = $show_introtext ? JHtml::_('string.truncate', strip_tags(JHtml::_('content.prepare', $item->introtext), '<p><a>'), $introtext_limit) : '';
-
-
+			$item->displayAuthorName = $show_author ? $item->author : '';
 			$item->introtext = JHtml::_('content.prepare', $item->introtext);
+			$item->introtext = self::_cleanIntrotext($item->introtext);
+			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
 		}
 
 		return $items;
 	}
 
-	function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
+	public static function _cleanIntrotext($introtext)
+	{
+		$introtext = str_replace('<p>', ' ', $introtext);
+		$introtext = str_replace('</p>', ' ', $introtext);
+		$introtext = strip_tags($introtext, '<a><em><strong>');
+
+		$introtext = trim($introtext);
+
+		return $introtext;
+	}
+
+	/**
+	* This is a better truncate implementation than what we
+	* currently have available in the library. In particular,
+	* on index.php/Banners/Banners/site-map.html JHtml's truncate
+	* method would only return "Article...". This implementation
+	* was taken directly from the Stack Overflow thread referenced
+	* below. It was then modified to return a string rather than
+	* print out the output and made to use the relevant JString
+	* methods.
+	*
+	* @link http://stackoverflow.com/questions/1193500/php-truncate-html-ignoring-tags
+	* @param mixed $html
+	* @param mixed $maxLength
+	*/
+	public static function truncate($html, $maxLength = 0)
+	{
+	    $printedLength = 0;
+	    $position = 0;
+	    $tags = array();
+
+	    $output = '';
+
+	    if (empty($html)) {
+			return $output;
+	    }
+
+	    while ($printedLength < $maxLength && preg_match('{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;}', $html, $match, PREG_OFFSET_CAPTURE, $position))
+	    {
+	        list($tag, $tagPosition) = $match[0];
+
+	        // Print text leading up to the tag.
+			$str = JString::substr($html, $position, $tagPosition - $position);
+	        if ($printedLength + JString::strlen($str) > $maxLength) {
+	            $output .= JString::substr($str, 0, $maxLength - $printedLength);
+	            $printedLength = $maxLength;
+	            break;
+	        }
+
+	        $output .= $str;
+	        $lastCharacterIsOpenBracket = (JString::substr($output, -1, 1) === '<');
+	        if ($lastCharacterIsOpenBracket) {
+				$output = JString::substr($output, 0, JString::strlen($output) - 1);
+	        }
+	        $printedLength += JString::strlen($str);
+
+	        if ($tag[0] == '&') {
+	            // Handle the entity.
+	            $output .= $tag;
+	            $printedLength++;
+	        } else {
+	            // Handle the tag.
+	            $tagName = $match[1][0];
+	            if ($tag[1] == '/') {
+	                // This is a closing tag.
+	                $openingTag = array_pop($tags);
+
+	                $output .= $tag;
+	            } else if ($tag[JString::strlen($tag) - 2] == '/') {
+	                // Self-closing tag.
+	                $output .= $tag;
+	            } else {
+	                // Opening tag.
+	                $output .= $tag;
+	                $tags[] = $tagName;
+	            }
+	        }
+
+	        // Continue after the tag.
+	        if ($lastCharacterIsOpenBracket) {
+				$position = ($tagPosition - 1) + JString::strlen($tag);
+			} else {
+				$position = $tagPosition + JString::strlen($tag);
+			}
+
+	    }
+
+	    // Print any remaining text.
+	    if ($printedLength < $maxLength && $position < JString::strlen($html)) {
+			$output .= JString::substr($html, $position, $maxLength - $printedLength);
+	    }
+
+	    // Close any open tags.
+	    while (!empty($tags)) {
+			$output .= sprintf('</%s>', array_pop($tags));
+	    }
+	    $length = JString::strlen($output);
+	    $lastChar = JString::substr($output, ($length - 1), 1);
+	    $characterNumber = ord($lastChar);
+
+	    if ($characterNumber === 194) {
+			$output = JString::substr($output, 0, JString::strlen($output) - 1);
+	    }
+
+		$output = JString::rtrim($output);
+	    return $output.'&hellip;';
+	}
+
+	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
 	{
 		$grouped = array();
 		if (!is_array($list)) {
@@ -229,7 +343,7 @@ abstract class modArticlesCategoryHelper
 		return $grouped;
 	}
 
-	function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
 	{
 		$grouped = array();
 		if (!is_array($list)) {

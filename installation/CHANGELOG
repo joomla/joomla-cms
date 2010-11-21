@@ -39,6 +39,7 @@ $ -> Language fix or change
  
 20-Nov-2010 Mark Dexter
  # [#23380] Category manager allows deleting a category that has items assigned to it
+ # [#21581] mod_articles_category Fixes. (Omar Ramos)
 
 20-Nov-2010 Christophe Demko
  # [#23355] Access level special now manager and above (Elin Waring)

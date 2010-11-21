@@ -180,8 +180,8 @@
 				</field>
 
 				<field name="date_field" type="list" default="a.created"
-					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_DESC"
+					label="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_DESC"
 				>
 					<option value="a.created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE
 					</option>
@@ -227,6 +227,14 @@
 					<option value="a.id">MOD_ARTICLES_CATEGORY_OPTION_ID_VALUE
 					</option>
 					<option value="a.alias">JFIELD_ALIAS_LABEL
+					</option>
+					<option value="a.created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE
+					</option>
+					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE
+					</option>
+					<option value="publish_up">MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE
+					</option>
+					<option value="a.publish_down">MOD_ARTICLES_CATEGORY_OPTION_FINISHPUBLISHING_VALUE
 					</option>
 				</field>
 

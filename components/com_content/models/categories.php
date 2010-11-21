@@ -105,7 +105,7 @@ class ContentModelCategories extends JModel
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 			if(is_object($this->_parent))
 			{
-				$this->_items = $this->_parent->getChildren();
+				$this->_items = $this->_parent->getChildren(true);
 			} else {
 				$this->_items = false;
 			}
