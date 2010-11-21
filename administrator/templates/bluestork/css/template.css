@@ -2006,6 +2006,9 @@ a.jgrid:hover {	text-decoration: none;}
 .toolbar-inactive					{	background-position: 0px 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
+.icon-48-categories					{	background-image: url(../images/header/icon-48-category.png);	}
+.icon-48-category-edit				{	background-image: url(../images/header/icon-48-category.png);	}
+.icon-48-category-add				{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-generic					{	background-image: url(../images/header/icon-48-generic.png);	}
 .icon-48-banners					{	background-image: url(../images/header/icon-48-banner.png);	}
 .icon-48-banners-categories			{	background-image: url(../images/header/icon-48-banner-categories.png);	}
@@ -2058,8 +2061,6 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-48-content-categories			{	background-image: url(../images/header/icon-48-category.png);	}
 .icon-48-content-category-edit		{	background-image: url(../images/header/icon-48-category.png);	}
 .icon-48-content-category-add		{	background-image: url(../images/header/icon-48-category-add.png);	}
-.icon-48-categories					{	background-image: url(../images/header/icon-48-category.png);	}
-.icon-48-category-add				{	background-image: url(../images/header/icon-48-category-add.png);	}
 .icon-48-install					{	background-image: url(../images/header/icon-48-extension.png);	}
 .icon-48-dbbackup					{	background-image: url(../images/header/icon-48-backup.png);	}
 .icon-48-dbrestore					{	background-image: url(../images/header/icon-48-dbrestore.png);	}

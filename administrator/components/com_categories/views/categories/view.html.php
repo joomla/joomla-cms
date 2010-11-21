@@ -110,7 +110,7 @@ class CategoriesViewCategories extends JView
 		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
 		
 		// Prepare the toolbar.
-		JToolBarHelper::title($title, substr($component,4).($section?"-$section":'').'-categories.png');
+		JToolBarHelper::title($title, 'categories '.substr($component,4).($section?"-$section":'').'-categories');
 
 		if ($canDo->get('core.create')) {
 			 JToolBarHelper::custom('category.add', 'new.png', 'new_f2.png', 'JTOOLBAR_NEW', false);

@@ -25,17 +25,18 @@ abstract class JToolBarHelper
 	 * this is due to the nature of how the css has been used to postion the title in respect to the toolbar.
 	 *
 	 * @param	string	$title	The title.
-	 * @param	string	$icon	The name of the image.
+	 * @param	string	$icon	The space-separated names of the image.
 	 * @since	1.5
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
 		// Strip the extension.
-		$icon = preg_replace('#\.[^.]*$#', '', $icon);
+		$icons = explode(' ',$icon);
+		foreach($icons as &$icon) {
+			$icon = 'icon-48-'.preg_replace('#\.[^.]*$#', '', $icon);
+		}
 
-		$html = "<div class=\"pagetitle icon-48-$icon\"><h2>\n";
-		$html .= "$title\n";
-		$html .= "</h2></div>\n";
+		$html = '<div class="pagetitle '.implode(' ', $icons).'"><h2>'.$title.'</h2></div>';
 
 		$app = JFactory::getApplication();
 		$app->set('JComponentTitle', $html);

@@ -2478,6 +2478,18 @@ a.jgrid:hover {
  * These are used for the Quick Icons on the Control Panel
  * The same classes are also assigned the Component Title
  */
+.icon-48-categories {
+	background-image: url(../images/header/icon-48-category.png);
+}
+
+.icon-48-category-edit {
+	background-image: url(../images/header/icon-48-category.png);
+}
+
+.icon-48-category-add {
+	background-image: url(../images/header/icon-48-category-add.png);
+}
+
 .icon-48-generic {
 	background-image: url(../images/header/icon-48-generic.png);
 }
@@ -2662,10 +2674,6 @@ a.jgrid:hover {
 	background-image: url(../images/header/icon-48-article.png);
 }
 
-.icon-48-categories {
-	background-image: url(../images/header/icon-48-category.png);
-}
-
 .icon-48-content-categories {
 	background-image: url(../images/header/icon-48-category.png);
 }
@@ -2675,10 +2683,6 @@ a.jgrid:hover {
 }
 
 .icon-48-content-category-add {
-	background-image: url(../images/header/icon-48-category-add.png);
-}
-
-.icon-48-category-add {
 	background-image: url(../images/header/icon-48-category-add.png);
 }
 
