@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Nov-2010 Ian MacLennan
+ # [#22962] Mootools Library Upgrade
+
 20-Nov-2010 Jean-Marie Simonet
  $ Updating xx-XX.com_media.ini to [#23370]
  # [#23392] Use Article settings missing from some menu items. Thanks Bill.
