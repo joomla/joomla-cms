@@ -82,10 +82,10 @@ class CategoriesViewCategories extends JView
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load($component, JPATH_BASE, null, false, false)
-		||	$lang->load($component, JPATH_ADMINISTRATOR.'/components/'.$component, null, false, false)
-		||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load($component, JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
+			$lang->load($component . '.sys', JPATH_BASE, null, false, false)
+		||	$lang->load($component . '.sys', JPATH_ADMINISTRATOR.'/components/'.$component, null, false, false)
+		||	$lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
+		||	$lang->load($component . '.sys', JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
 
  		// Load the category helper.
 		require_once JPATH_COMPONENT.'/helpers/categories.php';
