@@ -44,6 +44,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     }
 	$this->doAdminLogout();
 	$this->countErrors();
+	$this->deleteAllVisibleCookies();
   }
 }
-?>
+

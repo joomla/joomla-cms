@@ -1357,6 +1357,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->gotoAdmin();
     $this->doAdminLogout();
+	$this->deleteAllVisibleCookies();
   }
 }
-?>
+

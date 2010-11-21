@@ -56,6 +56,8 @@ class Article0001 extends SeleniumJoomlaTestCase
 
 		$this->gotoAdmin();
 		$this->doAdminLogout();
+
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testPublishArticle()
@@ -100,6 +102,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("Professionals"));
 		$this->gotoAdmin();
 		$this->doAdminLogout();
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testEditPermission()
@@ -134,7 +137,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isElementPresent("//img[@alt='Edit']"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-
+		$this->deleteAllVisibleCookies();
 	}
 
 }

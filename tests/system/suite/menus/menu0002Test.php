@@ -119,6 +119,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 
 		$this->doAdminLogout();
 		echo "finishing testSelectTypeWithoutSave\n";
+		$this->deleteAllVisibleCookies();
 	}
 
 	public function testSelectAndSave()
@@ -221,5 +222,6 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		echo "finishing testSelectAndSave\n";
+		$this->deleteAllVisibleCookies();
 	}
 }

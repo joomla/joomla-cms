@@ -83,5 +83,6 @@ class User0002Test extends SeleniumJoomlaTestCase
     $this->click("link=Log out");
     $this->waitForPageToLoad("30000");
     $this->countErrors();
+	$this->deleteAllVisibleCookies();
   }
 }

@@ -412,6 +412,7 @@ class Acl0004Test extends SeleniumJoomlaTestCase
 	    $this->deleteTestUsers();
 		$this->restoreDefaultGlobalPermissions();
 	    $this->doAdminLogOut();
+		$this->deleteAllVisibleCookies();
   }
 }
-?>
+

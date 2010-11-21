@@ -32,6 +32,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->doAdminLogout();
 		print("Finish testModuleOrder" . "\n");
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testMenuItems()
@@ -112,7 +113,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		print("Finish testMenuItems" . "\n");
+		$this->deleteAllVisibleCookies();
 	}
 
 }
-?>

@@ -136,7 +136,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
-
+		$this->deleteAllVisibleCookies();
 	}
 
 }

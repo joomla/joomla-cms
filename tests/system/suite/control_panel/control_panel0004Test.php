@@ -118,7 +118,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Navigation Module", $this->getTable("//table[@class='adminlist'].10.1"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php/testCreateRemoveCategory." . "\n");
-
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testCategorySaveOrder()
@@ -212,6 +212,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Plugins", $this->getTable("//table[@class=\"adminlist\"].17.1"));
 		$this->doAdminLogout();
 		print("Finished control_panel0004Test.php/testCategorySaveOrder." . "\n");
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testMenuItemSaveOrder()
@@ -303,6 +304,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].9.1"));
 		echo "Done with control_panel0004Test/testMenuItemSaveOrder\n";
 		$this->doAdminLogout();
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testMenuItemOrderUpDown()
@@ -395,6 +397,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 
 		echo "Done with control_panel0004Test/testMenuItemOrderUpDown\n";
 		$this->doAdminLogout();
+		$this->deleteAllVisibleCookies();
 	}
 }
-?>
+

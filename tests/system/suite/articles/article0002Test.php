@@ -65,6 +65,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->doFrontEndLogout();
 
 	    echo "Finishing testEditArticle\n";
+		$this->deleteAllVisibleCookies();
 	}
 }
-?>
+

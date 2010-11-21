@@ -99,6 +99,7 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='cpanel']/div[8]/div/a/img"));
 		$this->doAdminLogout();
 		print("Finish control_panel0001Test.php." . "\n");
+		$this->deleteAllVisibleCookies();
 	}
 }
-?>
+

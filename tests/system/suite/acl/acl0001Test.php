@@ -173,6 +173,8 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->deleteGroup();
 		$this->doAdminLogout();
 		$this->countErrors();
+
+		$this->deleteAllVisibleCookies();
 	}
 }
-?>
+

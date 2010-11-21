@@ -55,5 +55,6 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->assertEquals("Super User", $this->getText("link=Super User"));
 		print("Finished user0001Test.php"."\n");
 		$this->doAdminLogout();
+		$this->deleteAllVisibleCookies();
 	}
 }

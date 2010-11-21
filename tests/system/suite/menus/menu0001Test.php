@@ -180,6 +180,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		echo "Finished testMenuItemAdd()\n";
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testUnpublishedCategoryList()
@@ -240,7 +241,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 		$this->doAdminLogout();
 		echo "Finished testUnpublishedCategoryList()\n";
-
+		$this->deleteAllVisibleCookies();
 	}
 }
 

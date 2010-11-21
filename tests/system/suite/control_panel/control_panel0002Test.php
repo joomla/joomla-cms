@@ -328,6 +328,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		print("Finish control_panel0002Test.php." . "\n");
+		$this->deleteAllVisibleCookies();
 	}
 }
-?>
+

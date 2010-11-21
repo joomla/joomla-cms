@@ -102,7 +102,7 @@ class Featured0002Test extends SeleniumJoomlaTestCase
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 		echo "Done with featured0002Test\n";
-
+		$this->deleteAllVisibleCookies();
 	}
 
 }

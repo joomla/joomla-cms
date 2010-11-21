@@ -27,6 +27,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Extensions"));
 		$this->assertTrue($this->isElementPresent("link=Help"));
 		$this->doAdminLogout();
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testMenuDetailHelp()
@@ -74,5 +75,6 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 		echo "finished with control_panel0005Test/testMenuDetailHelp\n";
+		$this->deleteAllVisibleCookies();
 	}
 }

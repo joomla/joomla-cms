@@ -51,6 +51,8 @@ class Module0001 extends SeleniumJoomlaTestCase
     	$this->click("//li[@id='toolbar-publish']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
+
+		$this->deleteAllVisibleCookies();
 	}
 
 	function testPublishModule()
@@ -92,6 +94,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 
 		$this->gotoAdmin();
 		$this->doAdminLogout();
+
+		$this->deleteAllVisibleCookies();
 	}
 
 }

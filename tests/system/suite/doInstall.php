@@ -125,5 +125,6 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
+		$this->deleteAllVisibleCookies();
 	}
 }
