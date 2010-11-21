@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Nov-2010 Christophe Demko
+ # $ Translating the label field instead of the name field in JLIB_FORM_VALIDATE_FIELD_INVALID error
+
 21-Nov-2010 Jean-Marie Simonet
  # [#23361] default template in component.php view always in use
 
