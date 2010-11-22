@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Nov-2010 Christophe Demko
+ #$ Fix a language loading file
+
 22-Nov-2010 Jean-Marie Simonet
  # [#23368] Missing styles for unpublished items in the list views. Thanks Elin and Bill.
  # [#23276] Fix left edge of header lines. Thanks Viet and Michael.
