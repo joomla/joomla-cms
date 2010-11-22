@@ -29,6 +29,9 @@ div.toolbar-list span {
 div.toolbar-list a {
 	position: relative;
 }
+div.pagetitle {
+	float: left;
+}
 #menu ul li.separator {
 	display:inline;
 }
