@@ -170,8 +170,9 @@ class JController extends JObject
 				}
 
 				$filename = strtolower($parts['name']).'/view'.$parts['type'].'.php';
-			break;
+				break;
 		}
+
 		return $filename;
 	}
 
@@ -198,9 +199,11 @@ class JController extends JObject
 
 		// Check for array format.
 		$filter = JFilterInput::getInstance();
+
 		if (is_array($command)) {
 			$command = $filter->clean(array_pop(array_keys($command)), 'cmd');
-		} else {
+		}
+		else {
 			$command = $filter->clean($command, 'cmd');
 		}
 
@@ -215,7 +218,8 @@ class JController extends JObject
 
 			// Reset the task without the contoller context.
 			JRequest::setVar('task', $task);
-		} else {
+		}
+		else {
 			// Base controller.
 			$type	= null;
 			$task	= $command;
@@ -233,7 +237,8 @@ class JController extends JObject
 			// If the controller file path exists, include it.
 			if (file_exists($path)) {
 				require_once $path;
-			} else {
+			}
+			else {
 				throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER', $type, $format), 1056, E_ERROR, $type, true);
 			}
 		}
@@ -241,7 +246,8 @@ class JController extends JObject
 		// Instantiate the class.
 		if (class_exists($class)) {
 			$instance = new $class($config);
-		} else {
+		}
+		else {
 			throw new JException(JText::sprintf('JLIB_APPLICATION_ERROR_INVALID_CONTROLLER_CLASS', $class), 1057, E_ERROR, $class, true);
 		}
 
@@ -275,7 +281,9 @@ class JController extends JObject
 		$rName		= $r->getName();
 		$rMethods	= $r->getMethods(ReflectionMethod::IS_PUBLIC);
 		$methods	= array();
-		foreach ($rMethods as $rMethod) {
+
+		foreach ($rMethods as $rMethod)
+		{
 			$mName = $rMethod->getName();
 
 			// Add default display method if not explicitly declared.
@@ -290,7 +298,8 @@ class JController extends JObject
 		if (empty($this->name)) {
 			if (array_key_exists('name', $config))  {
 				$this->name = $config['name'];
-			} else {
+			}
+			else {
 				$this->name = $this->getName();
 			}
 		}
@@ -298,14 +307,16 @@ class JController extends JObject
 		// Set a base path for use by the controller
 		if (array_key_exists('base_path', $config)) {
 			$this->basePath	= $config['base_path'];
-		} else {
+		}
+		else {
 			$this->basePath	= JPATH_COMPONENT;
 		}
 
 		// If the default task is set, register it as such
 		if (array_key_exists('default_task', $config)) {
 			$this->registerDefaultTask($config['default_task']);
-		} else {
+		}
+		else {
 			$this->registerDefaultTask('display');
 		}
 
@@ -313,7 +324,8 @@ class JController extends JObject
 		if (array_key_exists('model_path', $config)) {
 			// user-defined dirs
 			$this->addModelPath($config['model_path']);
-		} else {
+		}
+		else {
 			$this->addModelPath($this->basePath.'/models');
 		}
 
@@ -321,14 +333,16 @@ class JController extends JObject
 		if (array_key_exists('view_path', $config)) {
 			// user-defined dirs
 			$this->setPath('view', $config['view_path']);
-		} else {
+		}
+		else {
 			$this->setPath('view', $this->basePath.'/views');
 		}
 
 		// Set the default view.
 		if (array_key_exists('default_view', $config)) {
 			$this->default_view	= $config['default_view'];
-		} else if (empty($this->default_view)) {
+		}
+		else if (empty($this->default_view)) {
 			$this->default_view = $this->getName();
 		}
 
@@ -352,7 +366,8 @@ class JController extends JObject
 		}
 
 		// loop through the path directories
-		foreach ($path as $dir) {
+		foreach ($path as $dir)
+		{
 			// no surrounding spaces allowed!
 			$dir = rtrim(JPath::check($dir, '/'), '/').'/';
 
@@ -372,6 +387,7 @@ class JController extends JObject
 	public function addViewPath($path)
 	{
 		$this->addPath('view', $path);
+
 		return $this;
 	}
 
@@ -406,8 +422,10 @@ class JController extends JObject
 			}
 			// Get the JUser object for the current user and return the authorization boolean
 			$user = JFactory::getUser();
+
 			return $user->authorise($this->_acoSection, $task);
-		} else {
+		}
+		else {
 			// Nothing set, nothing to check... so obviously its ok :)
 			return true;
 		}
@@ -461,6 +479,7 @@ class JController extends JObject
 		$classPrefix	= preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		$result = JModel::getInstance($modelName, $classPrefix, $config);
+
 		return $result;
 	}
 
@@ -495,6 +514,7 @@ class JController extends JObject
 				$this->paths['view'],
 				$this->createFileName('view', array('name' => $viewName, 'type' => $viewType))
 			);
+
 			if ($path) {
 				require_once $path;
 
@@ -503,7 +523,8 @@ class JController extends JObject
 						500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path));
 					return null;
 				}
-			} else {
+			}
+			else {
 				return null;
 			}
 		}
@@ -529,7 +550,7 @@ class JController extends JObject
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd('view', $this->default_view);
 		$viewLayout = JRequest::getString('layout', 'default');
-		
+
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
 
 		// Get/Create the model
@@ -559,7 +580,8 @@ class JController extends JObject
 					$registeredurlparams = new stdClass();
 				}
 
-				foreach ($urlparams AS $key => $value) {
+				foreach ($urlparams AS $key => $value)
+				{
 					// add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
@@ -569,7 +591,8 @@ class JController extends JObject
 
 			$cache->get($view, 'display');
 
-		} else {
+		}
+		else {
 			$view->display();
 		}
 
@@ -590,9 +613,11 @@ class JController extends JObject
 		$task = strtolower($task);
 		if (isset($this->taskMap[$task])) {
 			$doTask = $this->taskMap[$task];
-		} elseif (isset($this->taskMap['__default'])) {
+		}
+		elseif (isset($this->taskMap['__default'])) {
 			$doTask = $this->taskMap['__default'];
-		} else {
+		}
+		else {
 			return JError::raiseError(404, JText::sprintf('JLIB_APPLICATION_ERROR_TASK_NOT_FOUND', $task));
 		}
 
@@ -603,7 +628,8 @@ class JController extends JObject
 		if ($this->authorise($doTask)) {
 			$retval = $this->$doTask();
 			return $retval;
-		} else {
+		}
+		else {
 			return JError::raiseError(403, JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'));
 		}
 	}
@@ -773,6 +799,7 @@ class JController extends JObject
 			$app = JFactory::getApplication();
 			$app->redirect($this->redirect, $this->message, $this->messageType);
 		}
+
 		return false;
 	}
 
@@ -786,6 +813,7 @@ class JController extends JObject
 	public function registerDefaultTask($method)
 	{
 		$this->registerTask('__default', $method);
+
 		return $this;
 	}
 
@@ -802,6 +830,7 @@ class JController extends JObject
 		if (in_array(strtolower($method), $this->methods)) {
 			$this->taskMap[strtolower($task)] = $method;
 		}
+
 		return $this;
 	}
 
