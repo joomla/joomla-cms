@@ -91,10 +91,11 @@ $listDirn	= $this->state->get('list.direction');
 
 		<tbody>
 			<?php foreach($this->items as $i => $item) : ?>
-				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>">
-					<td class="item-num">
-						<?php echo $i; ?>
-					</td>
+				<?php if ($this->items[$i]->published == 0) : ?>
+					<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+				<?php else: ?>
+					<tr class="cat-list-row<?php echo $i % 2; ?>" >
+				<?php endif; ?>
 
 					<td class="item-title">
 						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">

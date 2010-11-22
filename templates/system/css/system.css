@@ -8,7 +8,7 @@
 @import url(../../../media/system/css/system.css);
 
 /* Unpublished */
-.system-unpublished {
+.system-unpublished, tr.system-unpublished {
 background: #e8edf1;
 border-top: 4px solid #c4d3df;
 border-bottom: 4px solid #c4d3df;

@@ -88,71 +88,76 @@ $listDirn	= $this->state->get('list.direction');
 		<tbody>
 
 		<?php foreach ($this->items as $i => $article) : ?>
-			<tr class="cat-list-row<?php echo $i % 2; ?>">
-
-				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-
-					<td class="list-title">
-
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
-						<?php echo $this->escape($article->title); ?></a>
-
-						<?php if ($article->params->get('access-edit')) : ?>
-							<ul class="actions">
-								<li class="edit-icon">
-									<?php echo JHtml::_('icon.edit',$article, $params); ?>
-								</li>
-							</ul>
+		<?php if ($this->items[$i]->state == 0) : ?>
+			<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+		<?php else: ?>
+			<tr class="cat-list-row<?php echo $i % 2; ?>" >
+		<?php endif; ?>
+					<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
+	
+						<td class="list-title">
+	
+							<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid)); ?>">
+							<?php echo $this->escape($article->title); ?></a>
+	
+							<?php if ($article->params->get('access-edit')) : ?>
+								<ul class="actions">
+									<li class="edit-icon">
+										<?php echo JHtml::_('icon.edit',$article, $params); ?>
+									</li>
+								</ul>
+							<?php endif; ?>
+	
+						</td>
+	
+						<?php if ($this->params->get('list_show_date')) : ?>
+						<td class="list-date">
+							<?php echo JHTML::_('date',$article->displayDate, $this->escape(
+							$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
+						</td>
 						<?php endif; ?>
-
-					</td>
-
-					<?php if ($this->params->get('list_show_date')) : ?>
-					<td class="list-date">
-						<?php echo JHTML::_('date',$article->displayDate, $this->escape(
-						$this->params->get('date_format', JText::_('DATE_FORMAT_LC3')))); ?>
+	
+						<?php if ($this->params->get('list_show_author',1) && !empty($article->author )) : ?>	
+								<td class="createdby"> 
+									<?php $author =  $article->author ?>
+									<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
+					
+										<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
+											<?php 	echo 
+											 JHTML::_('link',JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),$author); ?>
+							
+										<?php else :?>
+											<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+										<?php endif; ?>
+								</td>
+						<?php endif; ?>	
+						<?php if ($this->params->get('list_show_hits',1)) : ?>
+						<td class="list-hits">
+							<?php echo $article->hits; ?>
+						</td>
+						<?php endif; ?>
+	
+					<?php else : ?>
+					<td>
+						<?php
+							echo $this->escape($article->title).' : ';
+							$menu		= JFactory::getApplication()->getMenu();
+							$active		= $menu->getActive();
+							$itemId		= $active->id;
+							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
+							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
+							$fullURL = new JURI($link);
+							$fullURL->setVar('return', base64_encode($returnURL));
+						?>
+						<a href="<?php echo $fullURL; ?>" class="register">
+							<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
 					</td>
 					<?php endif; ?>
-
-					<?php if ($this->params->get('list_show_author',1) && !empty($article->author )) : ?>	
-							<td class="createdby"> 
-								<?php $author =  $article->author ?>
-								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-				
-									<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-										<?php 	echo 
-										 JHTML::_('link',JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),$author); ?>
-						
-									<?php else :?>
-										<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-									<?php endif; ?>
-							</td>
-					<?php endif; ?>	
-					<?php if ($this->params->get('list_show_hits',1)) : ?>
-					<td class="list-hits">
-						<?php echo $article->hits; ?>
-					</td>
-					<?php endif; ?>
-
-				<?php else : ?>
-				<td>
-					<?php
-						echo $this->escape($article->title).' : ';
-						$menu		= JFactory::getApplication()->getMenu();
-						$active		= $menu->getActive();
-						$itemId		= $active->id;
-						$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
-						$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
-						$fullURL = new JURI($link);
-						$fullURL->setVar('return', base64_encode($returnURL));
-					?>
-					<a href="<?php echo $fullURL; ?>" class="register">
-						<?php echo JText::_( 'COM_CONTENT_REGISTER_TO_READ_MORE' ); ?></a>
-				</td>
-				<?php endif; ?>
-
-			</tr>
-			<?php endforeach; ?>
+				</tr>
+			<?php if ($this->items[$i]->state == 0) : ?>
+			</div>
+			<?php endif; ?>			
+		<?php endforeach; ?>
 		</tbody>
 	</table>
 <?php // Code to add a link to submit an article. ?>
