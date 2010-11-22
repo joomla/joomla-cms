@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-Nov-2010 Christophe Demko
  #$ Fix a language loading file
+ # [#23434] Installer outputs closing tag at the end of configuration.php (Ian MacLennan)
 
 22-Nov-2010 Jean-Marie Simonet
  # [#23368] Missing styles for unpublished items in the list views. Thanks Elin and Bill.
