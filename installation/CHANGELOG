@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2010 Jean-Marie Simonet
+ $ Deleting unused strings. Reordering strings in some ini files.
+
 22-Nov-2010 Christophe Demko
  #$ Fix a language loading file
  # [#23434] Installer outputs closing tag at the end of configuration.php (Ian MacLennan)
