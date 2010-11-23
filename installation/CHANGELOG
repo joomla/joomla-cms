@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ Deleting unused strings. Reordering strings in some ini files.
  # [#23447] image truncated by row height. Thanks Andrea.
  $^ Deleting unused strings and css, completing setting the 'rules' field label not translatable
+ $ Updating xx-XX plg_user.ini and ordering some strings.
 
 22-Nov-2010 Christophe Demko
  #$ Fix a language loading file
