@@ -802,7 +802,7 @@ class JInstaller extends JAdapter
 	 */
 	public function setSchemaVersion($schema, $eid)
 	{
-		if( ! $eid || ! $schema)
+		if($eid && $schema)
 		{
 			$db = JFactory::getDBO();
 			$schemapaths = $schema->children();
@@ -830,15 +830,15 @@ class JInstaller extends JAdapter
 
 				if(strlen($schemapath))
 				{
-					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath));
-					sort($files);
+					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath,'\.sql$'));
+					usort($files,'version_compare');
 					// Update the database
 					$query = $db->getQuery(true);
 					$query->delete()->from('#__schemas')->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 					if($db->Query()) {
 						$query->clear();
-						$query->insert('#__schemas')->set('extension_id = '. $eid)->set('version_id = '. end($files));
+						$query->insert('#__schemas')->set('extension_id = '. $eid)->set('version_id = '. $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->Query();
 					}
@@ -887,8 +887,8 @@ class JInstaller extends JAdapter
 				if(strlen($schemapath))
 				{
 
-					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath));
-					sort($files);
+					$files = str_replace('.sql','', JFolder::files($this->getPath('extension_root').DS.$schemapath,'\.sql$'));
+					usort($files,'version_compare');
 
 					if(!count($files))
 					{
@@ -905,7 +905,7 @@ class JInstaller extends JAdapter
 						// we have a version!
 						foreach($files as $file)
 						{
-							if($file > $version)
+							if(version_compare($file,$version)>0)
 							{
 								$buffer = file_get_contents($this->getPath('extension_root').DS.$schemapath.DS.$file.'.sql');
 
@@ -951,7 +951,7 @@ class JInstaller extends JAdapter
 					$db->setQuery($query);
 					if($db->Query()) {
 						$query->clear();
-						$query->insert('#__schemas')->set('extension_id = '. $eid)->set('version_id = '. end($files));
+						$query->insert('#__schemas')->set('extension_id = '. $eid)->set('version_id = '. $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->Query();
 					}
