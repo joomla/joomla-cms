@@ -743,7 +743,8 @@
 		<field
 			name="rules"
 			type="rules"
-			label="COM_CONFIG_FIELD_RULES_LABEL"
+			label="FIELD_RULES_LABEL"
+			translate_label="false"
 			validate="rules"
 			class="inputbox"
 			filter="rules">

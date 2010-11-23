@@ -955,14 +955,6 @@ label.required:after {
 	white-space: nowrap;
 }
 
-/* One-offs */
-
-/* Hide the extension name on create category page */
-label#jform_extension-lbl,
-input#jform_extension {
-	display: none;
-}
-
 /* -------- Batch Section ---------- */
 fieldset.batch {
 	margin: 20px 0px 10px 0px;
