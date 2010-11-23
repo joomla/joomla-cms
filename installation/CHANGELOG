@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2010 Christophe Demko
+ # [#23432] The installer has some issues with schema updates
+
 23-Nov-2010 Jean-Marie Simonet
  $ Deleting unused strings. Reordering strings in some ini files.
  # [#23447] image truncated by row height. Thanks Andrea.
