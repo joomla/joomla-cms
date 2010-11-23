@@ -2959,6 +2959,11 @@ ul#rules table.group-rules td label
 	margin:0 !important
 }
 
+ul#rules table.group-rules td span
+{
+	padding-bottom: 4px;
+}
+
 table.group-rules td select
 {
 	margin:0 !important

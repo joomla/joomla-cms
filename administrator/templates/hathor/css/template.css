@@ -3419,6 +3419,17 @@ ul#rules table.group-rules td label
 	line-height: 1.1em;
 }
 
+ul#rules table.group-rules td span
+{
+	font-size: 1.1em;
+	padding-bottom: 4px;
+}
+
+ul#rules table.group-rules td span span
+{
+	font-size: 100%;
+}
+
 table.group-rules td select
 {
 	margin:0 !important;
