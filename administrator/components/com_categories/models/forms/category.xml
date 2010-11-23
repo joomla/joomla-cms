@@ -48,12 +48,7 @@
 
 	<field
 		name="extension"
-		type="text"
-		label="COM_CATEGORIES_FIELD_EXTENSION_LABEL"
-		description="COM_CATEGORIES_FIELD_EXTENSION_DESC"
-		class="readonly"
-		size="40"
-		readonly="true"/>
+		type="hidden"/>
 
 	<field
 		name="title"
@@ -194,7 +189,7 @@
 		name="rules"
 		type="rules"
 		label="JFIELD_RULES_LABEL"
-		description="JFIELD_RULES_DESC"
+		translate_label="false"
 		filter="rules"
 		validate="rules"
 		class="inputbox"
