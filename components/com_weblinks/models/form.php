@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'weblink.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/models/weblink.php';
 
 /**
  * Weblinks model.
@@ -19,4 +19,6 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'models' . DS . 'weblink.php';
  * @subpackage	com_weblinks
  * @since		1.6
  */
-class WeblinksModelForm extends WeblinksModelWeblink {}
+class WeblinksModelForm extends WeblinksModelWeblink
+{
+}
