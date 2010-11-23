@@ -226,7 +226,7 @@ class JRouterSite extends JRouter
 
 		//Set the variables
 		$this->setVars($vars);
-		
+
 		/*
 		 * Parse the component route
 		 */
