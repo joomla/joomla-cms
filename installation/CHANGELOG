@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Nov-2010 Jean-Marie Simonet
 $ Changing module manager state filter to Published/Unpublished to be consequent.
+# [#23448] typo in en-GB.ini language file. Normalizing strings to use global.
 
 23-Nov-2010 Christophe Demko
  # [#23432] The installer has some issues with schema updates

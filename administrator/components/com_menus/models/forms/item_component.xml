@@ -65,11 +65,11 @@
 			
 
 			<field name="menu-meta_description" type="textarea"
-				label="JFIELD_META_DESCRIPTION_LABEL" description="COM_MENUS_ITEM_FIELD_META_DESCRIPTION_DESC"
+				label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
 				rows="3" cols="40" />
 
 			<field name="menu-meta_keywords" type="textarea"
-				label="JFIELD_META_KEYWORDS_LABEL" description="COM_MENUS_ITEM_FIELD_META_KEYWORDS_DESC"
+				label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
 				rows="3" cols="40" />
 
 			<field name="robots"
