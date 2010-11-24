@@ -57,8 +57,8 @@ abstract class ModulesHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('JENABLED'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('JDISABLED'));
+		$options[]	= JHtml::_('select.option',	'1',	JText::_('JPUBLISHED'));
+		$options[]	= JHtml::_('select.option',	'0',	JText::_('JUNPUBLISHED'));
 		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASH'));
 		return $options;
 	}

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Nov-2010 Jean-Marie Simonet
+$ Changing module manager state filter to Published/Unpublished to be consequent.
+
 23-Nov-2010 Christophe Demko
  # [#23432] The installer has some issues with schema updates
  $^ hiding the 'extension' field (no longer needed) while editing a category + set the 'rules' field label not translatable
