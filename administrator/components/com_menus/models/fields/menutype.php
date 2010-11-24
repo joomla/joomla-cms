@@ -136,7 +136,6 @@ class JFormFieldMenuType extends JFormFieldList
 		$html[] = '<dl class="menu_type">';
 		$html[] = '	<dt>'.JText::_('COM_MENUS_TYPE_SYSTEM').'</dt>';
 		$html[] = '	<dd>';
-		// $html[] = '		'.JText::_('COM_MENUS_TYPE_SYSTEM_DESC');
 		$html[] = '		<ul>';
 		$html[] = '			<li>';
 		$html[] = '				<a class="choose_type" href="#" onclick="javascript:Joomla.submitbutton(\'item.setType\', \''.
