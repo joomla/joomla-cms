@@ -144,8 +144,7 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path.'/plugins/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
+			$path = JPath::clean(JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
 
 			if (file_exists($path)) {
 				$this->_cache[$pk]->xml = JFactory::getXML($path);
@@ -213,10 +212,10 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins',false));
 		}
 		// Try 1.6 format: /plugins/folder/element/element.xml
-		$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'/'.$element.'.xml');
+		$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'/'.$element.'.xml');
 		if (!file_exists($formFile)) {
 			// Try 1.5 format: /plugins/folder/element/element.xml
-			$formFile = JPath::clean($client->path.'/plugins/'.$folder.'/'.$element.'.xml');
+			$formFile = JPath::clean(JPATH_PLUGINS.'/'.$folder.'/'.$element.'.xml');
 			if (!file_exists($formFile)) {
 				throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element.'.xml'));
 				return false;
@@ -225,9 +224,9 @@ class PluginsModelPlugin extends JModelAdmin
 
 		// Load the core and/or local language file(s).
 			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, false)
-		||	$lang->load('plg_'.$folder.'_'.$element, $client->path.'/plugins/'.$folder.'/'.$element, null, false, false)
+		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-		||	$lang->load('plg_'.$folder.'_'.$element, $client->path.'/plugins/'.$folder.'/'.$element, $lang->getDefault(), false, false);
+		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, $lang->getDefault(), false, false);
 
 		if (file_exists($formFile)) {
 			// Get the plugin form.
