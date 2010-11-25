@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-Nov-2010 Andrew Eddie
  # Fixed issue [#23469] Category field for save is showing unauthorized categories (Elin Waring).
  # Fixed issue [#23445] Display of categories layouts has changed and is now incorrect (Elin Waring, bill richardson, Omar Ramos).
+ # Fixed issue [#23454] Article Select in modal won't select if you've searched or filtered in Hathor (Andrea Tarr).
 
 24-Nov-2010 Ian MacLennan
  # [#23430] some jhtml behavior's load twice code
