@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-Nov-2010 Christophe Demko
  # [#23462] Checkboxes Form Field is not displayed correctly Options panel (Andrea Tarr)
  # [#23460] com_plugins uses wrong JPATH constants (Ian MacLennan)
+ # [#23461] Wrong JPATH constant use in JHtmlEditor (Ian MacLennan)
 
 25-Nov-2010 Andrew Eddie
  # Fixed issue [#23469] Category field for save is showing unauthorized categories (Elin Waring).
