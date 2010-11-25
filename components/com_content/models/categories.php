@@ -83,30 +83,34 @@ class ContentModelCategories extends JModel
 	}
 
 	/**
-	 * redefine the function an add some properties to make the styling more easy
+	 * Redefine the function an add some properties to make the styling more easy
 	 *
-	 * @return mixed An array of data items on success, false on failure.
+	 * @param	bool	$recursive	True if you want to return children recursively.
+	 *
+	 * @return	mixed	An array of data items on success, false on failure.
+	 * @since	1.6
 	 */
-	public function getItems()
+	public function getItems($recursive = false)
 	{
-		if(!count($this->_items))
-		{
+		if (!count($this->_items)) {
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry();
-			if($active)
-			{
+
+			if ($active) {
 				$params->loadJSON($active->params);
 			}
+
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_num_articles_cat', 1) || !$params->get('show_empty_categories_cat', 0);
 			$categories = JCategories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
-			if(is_object($this->_parent))
-			{
-				$this->_items = $this->_parent->getChildren(true);
-			} else {
+
+			if (is_object($this->_parent)) {
+				$this->_items = $this->_parent->getChildren($recursive);
+			}
+			else {
 				$this->_items = false;
 			}
 		}
@@ -116,10 +120,10 @@ class ContentModelCategories extends JModel
 
 	public function getParent()
 	{
-		if(!is_object($this->_parent))
-		{
+		if (!is_object($this->_parent)) {
 			$this->getItems();
 		}
+
 		return $this->_parent;
 	}
 }

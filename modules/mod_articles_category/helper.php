@@ -39,7 +39,7 @@ abstract class modArticlesCategoryHelper
 
 		// Prep for Normal or Dynamic Modes
 		$mode = $params->get('mode', 'normal');
-		switch($mode)
+		switch ($mode)
 		{
 			case 'dynamic':
 				$option = JRequest::getCmd('option');
@@ -57,6 +57,7 @@ abstract class modArticlesCategoryHelper
 							if ($params->get('show_on_article_page', 1)) {
 								$article_id = JRequest::getInt('id');
 								$catid = JRequest::getInt('catid');
+
 								if (!$catid) {
 									// Get an instance of the generic article model
 									$article = JModel::getInstance('Article', 'ContentModel', array('ignore_request' => true));
@@ -67,24 +68,30 @@ abstract class modArticlesCategoryHelper
 									$item = $article->getItem();
 
 									$catids = array($item->catid);
-								} else {
+								}
+								else {
 									$catids = array($catid);
 								}
-							} else {
+							}
+							else {
 								// Return right away if show_on_article_page option is off
 								return;
 							}
 							break;
+
 						case 'featured':
 						default:
 							// Return right away if not on the category or article views
 							return;
 					}
-				} else {
+				}
+				else {
 					// Return right away if not on a com_content page
 					return;
 				}
+
 				break;
+
 			case 'normal':
 			default:
 				$catids = $params->get('catid');
@@ -103,10 +110,15 @@ abstract class modArticlesCategoryHelper
 		        $categories->setState('filter.published', 1);
 		        $categories->setState('filter.access', $access);
 		        $additional_catids = array();
-		        foreach($catids as $catid) {
+
+		        foreach($catids as $catid)
+		        {
 		            $categories->setState('filter.parentId', $catid);
-		            $items = $categories->getItems();
-		            foreach($items as $category) {
+		            $recursive = true;
+		            $items = $categories->getItems($recursive);
+
+		            foreach($items as $category)
+		            {
 		            	$condition = (($category->level - $categories->getParent()->level) <= $levels);
 		            	if ($condition) {
 							$additional_catids[] = $category->id;
@@ -114,11 +126,12 @@ abstract class modArticlesCategoryHelper
 
 		            }
 		        }
+
 		        $catids = array_unique(array_merge($catids, $additional_catids));
 		    }
+
 			$articles->setState('filter.category_id', $catids);
 		}
-
 
 		// Ordering
 		$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
@@ -130,7 +143,8 @@ abstract class modArticlesCategoryHelper
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
 		$articles->setState('filter.author_alias', $params->get('created_by_alias', ""));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
-		$excluded_articles = $params->get('excluded_articles', "");
+		$excluded_articles = $params->get('excluded_articles', '');
+
 		if ($excluded_articles) {
 			$excluded_articles = explode("\r\n", $excluded_articles);
 			$articles->setState('filter.article_id', $excluded_articles);
@@ -164,19 +178,21 @@ abstract class modArticlesCategoryHelper
 		// Find current Article ID if on an article page
 		$option = JRequest::getCmd('option');
 		$view = JRequest::getCmd('view');
+
 		if ($option === 'com_content' && $view === 'article') {
 			$active_article_id = JRequest::getInt('id');
-		} else {
+		}
+		else {
 			$active_article_id = 0;
 		}
 
 		// Prepare data for display using display options
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid ? $item->catid .':'.$item->category_alias : $item->catid;
 
-			if ($access || in_array($item->access, $authorised))
-			{
+			if ($access || in_array($item->access, $authorised)) {
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
@@ -196,7 +212,8 @@ abstract class modArticlesCategoryHelper
 			if ($item->catid) {
 				$item->displayCategoryLink = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
 				$item->displayCategoryTitle = $show_category ? '<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>' : '';
-			} else {
+			}
+			else {
 				$item->displayCategoryTitle = $show_category ? $item->category_title : '';
 			}
 
@@ -261,27 +278,33 @@ abstract class modArticlesCategoryHelper
 
 	        $output .= $str;
 	        $lastCharacterIsOpenBracket = (JString::substr($output, -1, 1) === '<');
+
 	        if ($lastCharacterIsOpenBracket) {
 				$output = JString::substr($output, 0, JString::strlen($output) - 1);
 	        }
+
 	        $printedLength += JString::strlen($str);
 
 	        if ($tag[0] == '&') {
 	            // Handle the entity.
 	            $output .= $tag;
 	            $printedLength++;
-	        } else {
+	        }
+	        else {
 	            // Handle the tag.
 	            $tagName = $match[1][0];
+
 	            if ($tag[1] == '/') {
 	                // This is a closing tag.
 	                $openingTag = array_pop($tags);
 
 	                $output .= $tag;
-	            } else if ($tag[JString::strlen($tag) - 2] == '/') {
+	            }
+	            else if ($tag[JString::strlen($tag) - 2] == '/') {
 	                // Self-closing tag.
 	                $output .= $tag;
-	            } else {
+	            }
+	            else {
 	                // Opening tag.
 	                $output .= $tag;
 	                $tags[] = $tagName;
@@ -291,7 +314,8 @@ abstract class modArticlesCategoryHelper
 	        // Continue after the tag.
 	        if ($lastCharacterIsOpenBracket) {
 				$position = ($tagPosition - 1) + JString::strlen($tag);
-			} else {
+			}
+			else {
 				$position = $tagPosition + JString::strlen($tag);
 			}
 
@@ -303,9 +327,11 @@ abstract class modArticlesCategoryHelper
 	    }
 
 	    // Close any open tags.
-	    while (!empty($tags)) {
+	    while (!empty($tags))
+	    {
 			$output .= sprintf('</%s>', array_pop($tags));
 	    }
+
 	    $length = JString::strlen($output);
 	    $lastChar = JString::substr($output, ($length - 1), 1);
 	    $characterNumber = ord($lastChar);
@@ -315,60 +341,77 @@ abstract class modArticlesCategoryHelper
 	    }
 
 		$output = JString::rtrim($output);
+
 	    return $output.'&hellip;';
 	}
 
 	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
 	{
 		$grouped = array();
+
 		if (!is_array($list)) {
 			if ($list == '') {
 				return $grouped;
 			}
+
 			$list = array($list);
 		}
-		foreach($list as $key => $item) {
+
+		foreach($list as $key => $item)
+		{
 			if (!isset($grouped[$item->$fieldName])) {
 				$grouped[$item->$fieldName] = array();
 			}
+
 			if (is_null($fieldNameToKeep)) {
 				$grouped[$item->$fieldName][$key] = $item;
-			} else {
+			}
+			else {
 				$grouped[$item->$fieldName][$key] = $item->$fieldNameToKeep;
 			}
+
 			unset($list[$key]);
 		}
 
 		$article_grouping_direction($grouped);
+
 		return $grouped;
 	}
 
 	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
 	{
 		$grouped = array();
+
 		if (!is_array($list)) {
 			if ($list == '') {
 				return $grouped;
 			}
+
 			$list = array($list);
 		}
 
-		foreach($list as $key => $item) {
+		foreach($list as $key => $item)
+		{
             switch($type)
             {
 				case 'month_year':
 					$month_year = JString::substr($item->created, 0, 7);
+
 					if (!isset($grouped[$month_year])) {
 						$grouped[$month_year] = array();
 					}
+
 					$grouped[$month_year][$key] = $item;
 					break;
+
 				case 'year':
 				default:
 					$year = JString::substr($item->created, 0, 4);
+
 					if (!isset($grouped[$year])) {
 						$grouped[$year] = array();
 					}
+
 					$grouped[$year][$key] = $item;
 					break;
             }
@@ -379,7 +422,8 @@ abstract class modArticlesCategoryHelper
 		$article_grouping_direction($grouped);
 
 		if ($type === 'month_year') {
-			foreach($grouped as $group => $items) {
+			foreach($grouped as $group => $items)
+			{
 				$date = new JDate($group);
 				$formatted_group = $date->format($month_year_format);
 				$grouped[$formatted_group] = $items;
