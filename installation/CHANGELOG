@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 24-Nov-2010 Ian MacLennan
  # [#23430] some jhtml behavior's load twice code
+ # [#23425] Use the correct Icon for a new Article in Category List view
 
 24-Nov-2010 Jean-Marie Simonet
  $ Changing module manager state filter to Published/Unpublished to be consequent.

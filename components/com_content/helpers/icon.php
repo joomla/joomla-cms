@@ -32,8 +32,10 @@ class JHTMLIcon
 			$text = JText::_('JNEW').'&#160;';
 		}
 
-		$attribs	= array('title' => JText::_('JNEW'));
-		return JHTML::_('link',JRoute::_($url), $text, $attribs);
+		$button =  JHTML::_('link',JRoute::_($url), $text);
+		
+		$output = '<span class="hasTip" title="'.JText::_('COM_CONTENT_CREATE_ARTICLE').'">'.$button.'</span>';
+		return $output;
 	}
 
 	static function email($article, $params, $attribs = array())
