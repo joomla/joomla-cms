@@ -96,18 +96,26 @@ JHtml::_('behavior.keepalive');
 
 			<li><?php echo $this->form->getLabel('publish_down'); ?>
 			<?php echo $this->form->getInput('publish_down'); ?></li>
-            
-            <li><?php echo $this->form->getLabel('modified_by'); ?>
-			<?php echo $this->form->getInput('modified_by'); ?></li>
 
-			<li><?php echo $this->form->getLabel('modified'); ?>
-			<?php echo $this->form->getInput('modified'); ?></li>
+			<?php if ($this->item->modified_by) : ?>
+				<li><?php echo $this->form->getLabel('modified_by'); ?>
+				<?php echo $this->form->getInput('modified_by'); ?></li>
 
-			<li><?php echo $this->form->getLabel('version'); ?>
-			<?php echo $this->form->getInput('version'); ?></li>
+				<li><?php echo $this->form->getLabel('modified'); ?>
+				<?php echo $this->form->getInput('modified'); ?></li>
+			<?php endif; ?>
 
-			<li><?php echo $this->form->getLabel('xreference');?>
-			<?php echo $this->form->getInput('xreference'); ?></li>
+			<li><?php echo $this->form->getLabel('numarticles'); ?>
+			<?php echo $this->form->getInput('numarticles'); ?></li>
+
+			<li><?php echo $this->form->getLabel('cache_time'); ?>
+			<?php echo $this->form->getInput('cache_time'); ?></li>
+
+			<li><?php echo $this->form->getLabel('rtl'); ?>
+			<?php echo $this->form->getInput('rtl'); ?></li>
+
+			<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
+			<?php //echo $this->form->getInput('xreference'); ?></li>
 		</ul>
 		</fieldset>
 

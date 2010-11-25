@@ -9,29 +9,31 @@
 
 // No direct access.
 defined('_JEXEC') or die; ?>
- 
+
 <?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
- 
+
 	<fieldset class="panelform">
 		<ul class="adminformlist">
-		
+
 			<li><?php echo $this->form->getLabel('created_user_id'); ?>
 			<?php echo $this->form->getInput('created_user_id'); ?></li>
 
-			<li><?php echo $this->form->getLabel('created_time'); ?>
-			<?php echo $this->form->getInput('created_time'); ?></li>
+			<?php if (intval($this->item->created_time)) : ?>
+				<li><?php echo $this->form->getLabel('created_time'); ?>
+				<?php echo $this->form->getInput('created_time'); ?></li>
+			<?php endif; ?>
 
-			<li><?php echo $this->form->getLabel('modified_user_id'); ?>
-			<?php echo $this->form->getInput('modified_user_id'); ?></li>
-			
-			<li><?php echo $this->form->getLabel('modified_time'); ?>
-			<?php echo $this->form->getInput('modified_time'); ?></li>
+			<?php if ($this->item->modified_user_id) : ?>
+				<li><?php echo $this->form->getLabel('modified_user_id'); ?>
+				<?php echo $this->form->getInput('modified_user_id'); ?></li>
 
-			<li><?php echo $this->form->getLabel('hits'); ?>
-			<?php echo $this->form->getInput('hits'); ?></li>
+				<li><?php echo $this->form->getLabel('modified_time'); ?>
+				<?php echo $this->form->getInput('modified_time'); ?></li>
+			<?php endif; ?>
+
 		</ul>
 	</fieldset>
-			
+
 <?php $fieldSets = $this->form->getFieldsets('params');
 
 foreach ($fieldSets as $name => $fieldSet) :
@@ -52,6 +54,6 @@ foreach ($fieldSets as $name => $fieldSet) :
 		<li><?php echo $this->form->getLabel('note'); ?>
 		<?php echo $this->form->getInput('note'); ?></li>
 	</ul>
-       
+
 	</fieldset>
 <?php endforeach; ?>

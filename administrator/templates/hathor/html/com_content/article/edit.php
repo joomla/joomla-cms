@@ -57,9 +57,9 @@ $canDo		= ContentHelper::getActions();
 		
 
 		<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
-      		<button type="button" onclick="document.location.href='#access-rules';">
-      		<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
-    	</li>
+		<button type="button" onclick="document.location.href='#access-rules';">
+		<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
+	</li>
 				
 		<li><?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?></li>
@@ -103,17 +103,24 @@ $canDo		= ContentHelper::getActions();
 
 				<li><?php echo $this->form->getLabel('publish_down'); ?>
 				<?php echo $this->form->getInput('publish_down'); ?></li>
-                
-				<li><?php echo $this->form->getLabel('modified_by'); ?>
-				<?php echo $this->form->getInput('modified_by'); ?></li>
-				<li><?php echo $this->form->getLabel('modified'); ?>
-				<?php echo $this->form->getInput('modified'); ?></li>
 
-				<li><?php echo $this->form->getLabel('version'); ?>
-				<?php echo $this->form->getInput('version'); ?></li>
+				<?php if ($this->item->modified_by) : ?>
+					<li><?php echo $this->form->getLabel('modified_by'); ?>
+					<?php echo $this->form->getInput('modified_by'); ?></li>
 
-				<li><?php echo $this->form->getLabel('hits'); ?>
-				<?php echo $this->form->getInput('hits'); ?></li>
+					<li><?php echo $this->form->getLabel('modified'); ?>
+					<?php echo $this->form->getInput('modified'); ?></li>
+				<?php endif; ?>
+
+				<?php if ($this->item->version) : ?>
+					<li><?php echo $this->form->getLabel('version'); ?>
+					<?php echo $this->form->getInput('version'); ?></li>
+				<?php endif; ?>
+
+				<?php if ($this->item->hits) : ?>
+					<li><?php echo $this->form->getLabel('hits'); ?>
+					<?php echo $this->form->getInput('hits'); ?></li>
+				<?php endif; ?>
 
 			</ul>
 

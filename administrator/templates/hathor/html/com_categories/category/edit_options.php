@@ -23,11 +23,14 @@ defined('_JEXEC') or die; ?>
 			<li><?php echo $this->form->getLabel('created_time'); ?>
 			<?php echo $this->form->getInput('created_time'); ?></li>
 
-			<li><?php echo $this->form->getLabel('modified_user_id'); ?>
-			<?php echo $this->form->getInput('modified_user_id'); ?></li>
+			<?php if ($this->item->modified_user_id) : ?>
+				<li><?php echo $this->form->getLabel('modified_user_id'); ?>
+				<?php echo $this->form->getInput('modified_user_id'); ?></li>
+
+				<li><?php echo $this->form->getLabel('modified_time'); ?>
+				<?php echo $this->form->getInput('modified_time'); ?></li>
+			<?php endif; ?>
 			
-			<li><?php echo $this->form->getLabel('modified_time'); ?>
-			<?php echo $this->form->getInput('modified_time'); ?></li>			
 		</ul>
 	</fieldset>
 

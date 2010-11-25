@@ -34,9 +34,13 @@
 			label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"
 			filter="safehtml" />
 
-		<field name="hits" type="Text" class="inputbox"
-			size="6" label="WEBLINKS_HITS_LABEL"
-			description="WEBLINKS_HITS_DESC" readonly="true" filter="unset" />
+		<field name="hits" 
+			type="text" 
+			class="readonly"
+			size="6" label="JGLOBAL_HITS"
+			description="COM_WEBLINKS_HITS_DESC" 
+			readonly="true" 
+			filter="unset" />
 
 
 		<field
