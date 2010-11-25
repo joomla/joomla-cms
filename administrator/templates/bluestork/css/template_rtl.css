@@ -364,6 +364,30 @@ fieldset.panelform-legacy label,
 fieldset.adminform-legacy label {
 	float: right;
 }
+
+/* checkboxes */
+fieldset.adminform fieldset.checkboxes,
+fieldset.panelform fieldset.checkboxes,
+fieldset.adminform-legacy fieldset.checkboxes  {
+	float:right;
+	margin: 0 0 5px 0;
+	clear:left;
+}
+
+fieldset.adminform fieldset.checkboxes input[type="checkbox"],
+fieldset.panelform fieldset.checkboxes input[type="checkbox"] {
+	float: right;
+	clear: right;
+}
+
+fieldset.adminform fieldset.checkboxes label,
+fieldset.panelform fieldset.checkboxes label,
+fieldset.adminform fieldset.checkboxes span.faux-label,
+fieldset.panelform fieldset.checkboxes span.faux-label {
+	clear: left;
+}
+/* end checkboxes */
+
 dl.tabs {
 	float: right;
 }

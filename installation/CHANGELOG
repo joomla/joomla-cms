@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2010 Christophe Demko
+ # [#23462] Checkboxes Form Field is not displayed correctly Options panel (Andrea Tarr)
+
 25-Nov-2010 Andrew Eddie
  # Fixed issue [#23469] Category field for save is showing unauthorized categories (Elin Waring).
  # Fixed issue [#23445] Display of categories layouts has changed and is now incorrect (Elin Waring, bill richardson, Omar Ramos).
