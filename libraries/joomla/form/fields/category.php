@@ -58,17 +58,17 @@ class JFormFieldCategory extends JFormFieldList
 
 				// Get the current user object.
 				$user = JFactory::getUser();
-
+			
 				foreach($options as $i => $option)
 				{
-					//To take save or create in a category you need to have create rights for that category
-					//unless the item is already in that category.
-					// Unset the option if the user isn't authorised for it.In this field assets are always categories.
-					$checkaccess=JAccess::check($user->id,'core.create', $extension.'.category.'.$option->value);
-					if ($checkaccess === false) {
+					// To take save or create in a category you need to have create rights for that category
+					// unless the item is already in that category.
+					// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+					if ($user->authorise('core.create', $extension.'.category.'.$option->value) != true ) {
 						unset($options[$i]);
 					}
 				}
+				
 			}
 
 			if (isset($this->element['show_root'])) {

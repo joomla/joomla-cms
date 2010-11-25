@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Nov-2010 Andrew Eddie
+ # Fixed issue [#23469] Category field for save is showing unauthorized categories (Elin Waring).
+
 24-Nov-2010 Ian MacLennan
  # [#23430] some jhtml behavior's load twice code
  # [#23425] Use the correct Icon for a new Article in Category List view
