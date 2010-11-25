@@ -57,10 +57,10 @@ abstract class WeblinksHelperRoute
 		return $link;
 	}
 	public static function getFormRoute($id)
-	{ 
+	{
 		//Create the link
 		if ($id){
-			$link = 'index.php?option=com_weblinks&task=weblink.edit&id='. $id;	
+			$link = 'index.php?option=com_weblinks&task=weblink.edit&id='. $id;
 		} else {
 			$link = 'index.php?option=com_weblinks&task=weblink.edit&id=0';
 		}
@@ -94,7 +94,7 @@ abstract class WeblinksHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link = '&Itemid='.$item;
+				$link = 'index.php?Itemid='.$item;
 			}
 			else
 			{

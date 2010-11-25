@@ -81,7 +81,7 @@ abstract class ContactHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link = '&Itemid='.$item;
+				$link = 'index.php?Itemid='.$item;
 			}
 			else
 			{

@@ -82,7 +82,7 @@ abstract class ContentHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link = '&Itemid='.$item;
+				$link = 'index.php?Itemid='.$item;
 			}
 			else
 			{
@@ -109,10 +109,10 @@ abstract class ContentHelperRoute
 	}
 
 	public static function getFormRoute($id)
-	{ 
+	{
 		//Create the link
 		if ($id) {
-			$link = 'index.php?option=com_content&task=article.edit&id='. $id;	
+			$link = 'index.php?option=com_content&task=article.edit&id='. $id;
 		} else {
 			$link = 'index.php?option=com_content&task=article.edit&id=0';
 		}
