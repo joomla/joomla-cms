@@ -109,6 +109,13 @@ abstract class JHtmlBehavior
 	 */
 	public static function switcher()
 	{
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+
 		JHtml::_('script','system/switcher.js', true, true);
 
 		$script = "
@@ -122,6 +129,7 @@ abstract class JHtmlBehavior
 			});";
 
 		JFactory::getDocument()->addScriptDeclaration($script);
+		$loaded = true;
 	}
 
 	/**
@@ -577,9 +585,18 @@ abstract class JHtmlBehavior
 	 */
 	public static function noframes($location='top.location.href')
 	{
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+		
 		$js = "window.addEvent('domready', function () {if (top != self) {top.location.replace(".$location.");}});";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($js);
+		
+		$loaded = true;
 	}
 
 	/**

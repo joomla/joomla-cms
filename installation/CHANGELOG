@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Nov-2010 Ian MacLennan
+ # [#23430] some jhtml behavior's load twice code
+
 24-Nov-2010 Jean-Marie Simonet
  $ Changing module manager state filter to Published/Unpublished to be consequent.
  #$ [#23448] typo in en-GB.ini language file. Normalizing strings to use global.
