@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23460] com_plugins uses wrong JPATH constants (Ian MacLennan)
  # [#23461] Wrong JPATH constant use in JHtmlEditor (Ian MacLennan)
  # [#23465] Incorrect group attribute set for content search plugin (CY Lee)
+ # [#23451] Bring com_search closer to XHTML strict (site) (Rouven Weßling)
 
 25-Nov-2010 Andrew Eddie
  # Fixed issue [#23469] Category field for save is showing unauthorized categories (Elin Waring).

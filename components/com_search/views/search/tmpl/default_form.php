@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post" name="searchForm">
+<form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post">
 
 	<fieldset class="word">
 		<label for="search-searchword">
