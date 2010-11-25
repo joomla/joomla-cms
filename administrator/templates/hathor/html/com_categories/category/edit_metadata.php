@@ -25,14 +25,4 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?></li>
 		<?php endif; ?>
 	<?php endforeach; ?>
-
-<?php if ($this->item->created_time) : ?>
-	<li><?php echo $this->form->getLabel('created_time'); ?>
-	<?php echo $this->form->getInput('created_time'); ?></li>
-<?php endif; ?>
-
-<?php if ($this->item->modified_time) : ?>
-	<li><?php echo $this->form->getLabel('modified_time'); ?>
-	<?php echo $this->form->getInput('modified_time'); ?></li>
-<?php endif; ?>
 </ul>

@@ -146,34 +146,34 @@
 
 	<field
 		name="created_user_id"
-		type="hidden"
-		filter="unset"/>
+		type="user"
+		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
+		/>
 
 	<field
 		name="created_time"
 		type="text"
-		label="JGLOBAL_CREATED"
+		label="JGLOBAL_CREATED_DATE"
 		class="readonly"
 		filter="unset"
 		readonly="true" />
 
 	<field
 		name="modified_user_id"
-		type="hidden"
+		type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
 		filter="unset"/>
 
 	<field
 		name="modified_time"
 		type="text"
-		label="JGLOBAL_MODIFIED"
+		label="JGLOBAL_MODIFIED_DATE"
 		class="readonly"
 		filter="unset"
 		readonly="true" />
-
-	<field
-		name="hits"
-		type="hidden"
-		filter="unset"/>
 
 	<field
 		name="language"

@@ -8,9 +8,31 @@
  */
 
 // No direct access.
-defined('_JEXEC') or die;
+defined('_JEXEC') or die; ?>
+ 
+<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+ 
+	<fieldset class="panelform">
+		<ul class="adminformlist">
+		
+			<li><?php echo $this->form->getLabel('created_user_id'); ?>
+			<?php echo $this->form->getInput('created_user_id'); ?></li>
 
-$fieldSets = $this->form->getFieldsets('params');
+			<li><?php echo $this->form->getLabel('created_time'); ?>
+			<?php echo $this->form->getInput('created_time'); ?></li>
+
+			<li><?php echo $this->form->getLabel('modified_user_id'); ?>
+			<?php echo $this->form->getInput('modified_user_id'); ?></li>
+			
+			<li><?php echo $this->form->getLabel('modified_time'); ?>
+			<?php echo $this->form->getInput('modified_time'); ?></li>
+
+			<li><?php echo $this->form->getLabel('hits'); ?>
+			<?php echo $this->form->getInput('hits'); ?></li>
+		</ul>
+	</fieldset>
+			
+<?php $fieldSets = $this->form->getFieldsets('params');
 
 foreach ($fieldSets as $name => $fieldSet) :
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL';
@@ -20,11 +42,16 @@ foreach ($fieldSets as $name => $fieldSet) :
 	endif;
 	?>
 	<fieldset class="panelform">
+	<ul class="adminformlist">
+
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-			<?php echo $field->label; ?>
-			<?php echo $field->input; ?>
+		<li><?php echo $field->label; ?>
+			<?php echo $field->input; ?></li>
+
 		<?php endforeach; ?>
-		<?php echo $this->form->getLabel('note'); ?>
-		<?php echo $this->form->getInput('note'); ?>
+		<li><?php echo $this->form->getLabel('note'); ?>
+		<?php echo $this->form->getInput('note'); ?></li>
+	</ul>
+       
 	</fieldset>
 <?php endforeach; ?>
