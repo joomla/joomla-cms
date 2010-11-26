@@ -33,6 +33,7 @@ class MediaController extends JController
 	public function display($cachable = false, $urlparams = false)
 	{
 		$vName = JRequest::getCmd('view', 'images');
+
 		switch ($vName)
 		{
 			case 'imagesList':
@@ -55,7 +56,7 @@ class MediaController extends JController
 
 		// Get/Create the view
 		$view = $this->getView($vName, $vType);
-		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'views'.DS.strtolower($vName).DS.'tmpl');
+		$view->addTemplatePath(JPATH_COMPONENT_ADMINISTRATOR.'/views/'.strtolower($vName).'/tmpl');
 
 		// Get/Create the model
 		if ($model = $this->getModel($mName)) {

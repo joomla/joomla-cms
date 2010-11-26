@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Nov-2010 Andrew Eddie
+ # Fixed issue [#23495] ACL for Image Manager access to the uploader (Elin Waring, Christophe Demko).
+
 25-Nov-2010 Jean-Marie Simonet
  # Hiding and correcting related to [#23117]
  # [#23505] SEF off url inconsistencies in category routes. Thanks Andrew.

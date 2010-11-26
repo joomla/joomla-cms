@@ -12,7 +12,7 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 /**
- * Weblinks Weblink Controller
+ * Media File Controller
  *
  * @package		Joomla.Administrator
  * @subpackage	com_media
@@ -48,41 +48,50 @@ class MediaControllerFile extends JController
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
 
 			if (!MediaHelper::canUpload($file, $err)) {
-
 				JError::raiseNotice(100, JText::_($err));
+
 				// REDIRECT
 				if ($return) {
 					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
+
 				return;
 
 			}
 
 			if (JFile::exists($filepath)) {
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_FILE_EXISTS'));
+
 				// REDIRECT
 				if ($return) {
 					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
+
 				return;
 			}
 
 			if (!JFile::upload($file['tmp_name'], $filepath)) {
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
+
 				// REDIRECT
 				if ($return) {
 					$this->setRedirect(base64_decode($return).'&folder='.$folder);
 				}
-				return;
-			} else {
-				$app->enqueueMessage(JText::_('COM_MEDIA_UPLOAD_COMPLETE'));
-				// REDIRECT
-				if ($return) {
-					$this->setRedirect(base64_decode($return).'&folder='.$folder);
-				}
+
 				return;
 			}
-		} else {
+			else {
+				$app->enqueueMessage(JText::_('COM_MEDIA_UPLOAD_COMPLETE'));
+
+				// REDIRECT
+				if ($return) {
+					$this->setRedirect(base64_decode($return).'&folder='.$folder);
+				}
+
+				return;
+			}
+		}
+		else {
 			$this->setRedirect('index.php', 'Invalid Request', 'error');
 		}
 	}
@@ -111,27 +120,35 @@ class MediaControllerFile extends JController
 		$ret = true;
 
 		if (count($paths)) {
-			foreach ($paths as $path) {
+			foreach ($paths as $path)
+			{
 				if ($path !== JFile::makeSafe($path)) {
 					$filename = htmlspecialchars($path, ENT_COMPAT, 'UTF-8');
 					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FILE_WARNFILENAME', $filename));
+
 					continue;
 				}
 
 				$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.$path);
+
 				if (is_file($fullPath)) {
 					$ret |= !JFile::delete($fullPath);
-				} else if (is_dir($fullPath)) {
+				}
+				else if (is_dir($fullPath)) {
 					$files = JFolder::files($fullPath, '.', true);
 					$canDelete = true;
-					foreach ($files as $file) {
+
+					foreach ($files as $file)
+					{
 						if ($file != 'index.html') {
 							$canDelete = false;
 						}
 					}
+
 					if ($canDelete) {
 						$ret |= !JFolder::delete($fullPath);
-					} else {
+					}
+					else {
 						//This makes no sense...
 						JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_DELETE').$fullPath.' '.JText::_('COM_MEDIA_ERROR_WARNNOTEMPTY'));
 					}
@@ -142,7 +159,8 @@ class MediaControllerFile extends JController
 		if ($tmpl == 'component') {
 			// We are inside the iframe
 			$this->setRedirect('index.php?option=com_media&view=mediaList&folder='.$folder.'&tmpl=component');
-		} else {
+		}
+		else {
 			$this->setRedirect('index.php?option=com_media&folder='.$folder);
 		}
 	}

@@ -36,6 +36,7 @@ class MediaModelManager extends JModel
 			$this->setState('parent', $parent);
 			$set = true;
 		}
+
 		return parent::getState($property);
 	}
 
@@ -56,17 +57,14 @@ class MediaModelManager extends JModel
 		jimport('joomla.filesystem.folder');
 		$folders = JFolder::folders($base, '.', true, true);
 
-		// Load appropriate language files
-/*		$lang = JFactory::getLanguage();
-		$lang->load('', JPATH_ADMINISTRATOR);
-		$lang->load(JRequest::getCmd('option'), JPATH_ADMINISTRATOR);
-*/
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_MEDIA_INSERT_IMAGE'));
 
 		// Build the array of select options for the folder list
 		$options[] = JHtml::_('select.option', "","/");
-		foreach ($folders as $folder) {
+
+		foreach ($folders as $folder)
+		{
 			$folder		= str_replace(COM_MEDIA_BASE, "", $folder);
 			$value		= substr($folder, 1);
 			$text		= str_replace(DS, "/", $folder);
@@ -80,6 +78,7 @@ class MediaModelManager extends JModel
 
 		// Create the drop-down folder select list
 		$list = JHtml::_('select.genericlist',  $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
+
 		return $list;
 	}
 
@@ -89,6 +88,7 @@ class MediaModelManager extends JModel
 		if (empty($base)) {
 			$base = COM_MEDIA_BASE;
 		}
+
 		$mediaBase = str_replace(DS, '/', COM_MEDIA_BASE.'/');
 
 		// Get the list of folders
@@ -96,6 +96,7 @@ class MediaModelManager extends JModel
 		$folders = JFolder::folders($base, '.', true, true);
 
 		$tree = array();
+
 		foreach ($folders as $folder)
 		{
 			$folder		= str_replace(DS, '/', $folder);
@@ -111,17 +112,20 @@ class MediaModelManager extends JModel
 				if (!isset($tmp['children'])) {
 					$tmp['children'] = array();
 				}
+
 				if ($i == $n-1) {
 					// We need to place the node
 					$tmp['children'][$relative] = array('data' =>$node, 'children' => array());
 					break;
 				}
+
 				if (array_key_exists($key = implode('/', array_slice($path, 0, $i+1)), $tmp['children'])) {
 					$tmp = &$tmp['children'][$key];
 				}
 			}
 		}
 		$tree['data'] = (object) array('name' => JText::_('COM_MEDIA_MEDIA'), 'relative' => '', 'absolute' => $base);
+
 		return $tree;
 	}
 }

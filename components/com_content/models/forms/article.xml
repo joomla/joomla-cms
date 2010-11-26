@@ -12,6 +12,11 @@
 			default="0"			
 			readonly="true" />
 
+		<field 
+			name="asset_id" 
+			type="hidden" 
+			filter="unset" />	
+
 		<field
 			id="title"
 			name="title"

@@ -24,40 +24,28 @@ class plgButtonImage extends JPlugin
 	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
-	function onDisplay($name)
+	function onDisplay($name, $asset, $author)
 	{
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_media');
-		$ranks = array('publisher', 'editor', 'author', 'registered');
-		$acl = JFactory::getACL();
-
-		// TODO: Fix this ACL call
-		//for($i = 0; $i < $params->get('allowed_media_usergroup', 3); $i++)
-		//{
-		//	$acl->addACL('com_media', 'popup', 'users', $ranks[$i]);
-		//}
-
-
-		// TODO: Fix this ACL call
-		//Make sure the user is authorized to view this page
-		$user = JFactory::getUser();
-		if (!$user->authorise('com_media.popup')) {
-			//return;
+ 		$user = JFactory::getUser();
+		if (	$user->authorise('core.edit', $asset)
+			||	$user->authorise('core.create', $asset)
+			|| ($user->authorise('core.edit.own', $asset) && $author==$user->id)) 
+		{
+			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
+			JHtml::_('behavior.modal');
+			$button = new JObject;
+			$button->set('modal', true);
+			$button->set('link', $link);
+			$button->set('text', JText::_('PLG_IMAGE_BUTTON_IMAGE'));
+			$button->set('name', 'image');
+			$button->set('options', "{handler: 'iframe', size: {x: 800, y: 500}}");
+			return $button;
 		}
-		$doc		= JFactory::getDocument();
-		$template	= $app->getTemplate();
-
-		$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name='.$name;
-
-		JHtml::_('behavior.modal');
-
-		$button = new JObject;
-		$button->set('modal', true);
-		$button->set('link', $link);
-		$button->set('text', JText::_('PLG_IMAGE_BUTTON_IMAGE'));
-		$button->set('name', 'image');
-		$button->set('options', "{handler: 'iframe', size: {x: 800, y: 500}}");
-
-		return $button;
+				else
+		{
+			return false;
+		}
 	}
 }

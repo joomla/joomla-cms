@@ -30,6 +30,7 @@
 			description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC"
 			filter="safehtml"
 			label="JGLOBAL_DESCRIPTION"
+			asset_id="com_weblinks"
 		/>
 
 		<field name="state" type="list"

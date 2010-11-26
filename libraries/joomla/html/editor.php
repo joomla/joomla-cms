@@ -36,6 +36,20 @@ class JEditor extends JObservable
 	protected $_name = null;
 
 	/**
+	 * Object asset
+	 *
+	 * @var string
+	 */
+	protected $asset = null;
+
+	/**
+	 * Object author
+	 *
+	 * @var string
+	 */
+	protected $author = null;
+
+	/**
 	 * constructor
 	 *
 	 * @param	string	The editor name
@@ -83,7 +97,9 @@ class JEditor extends JObservable
 
 		$return = '';
 		$results[] = $this->_editor->update($args);
-		foreach ($results as $result) {
+
+		foreach ($results as $result)
+		{
 			if (trim($result)) {
 				//$return .= $result;
 				$return = $result;
@@ -97,18 +113,22 @@ class JEditor extends JObservable
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	The control name.
-	 * @param	string	The contents of the text area.
-	 * @param	string	The width of the text area (px or %).
-	 * @param	string	The height of the text area (px or %).
-	 * @param	int		The number of columns for the textarea.
-	 * @param	int		The number of rows for the textarea.
-	 * @param	boolean	True and the editor buttons will be displayed.
-	 * @param	string	An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param	array	Associative array of editor parameters.
+	 * @param	string	$name		The control name.
+	 * @param	string	$html		The contents of the text area.
+	 * @param	string	$width		The width of the text area (px or %).
+	 * @param	string	$height		The height of the text area (px or %).
+	 * @param	int		$col		The number of columns for the textarea.
+	 * @param	int		$row		The number of rows for the textarea.
+	 * @param	boolean	$buttons	True and the editor buttons will be displayed.
+	 * @param	string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param	string	$asset
+	 * @param	object	$author
+	 * @param	array	$params		Associative array of editor parameters.
 	 */
-	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $params = array())
+	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
+		$this->asset	= $asset;
+		$this->author	= $author;
 		$this->_loadEditor($params);
 
 		//check if editor is already loaded
@@ -136,7 +156,8 @@ class JEditor extends JObservable
 
 		$results[] = $this->_editor->update($args);
 
-		foreach ($results as $result) {
+		foreach ($results as $result)
+		{
 			if (trim($result)) {
 				$return .= $result;
 			}
@@ -163,18 +184,23 @@ class JEditor extends JObservable
 
 		$return = '';
 		$results[] = $this->_editor->update($args);
-		foreach ($results as $result) {
+
+		foreach ($results as $result)
+		{
 			if (trim($result)) {
 				$return .= $result;
 			}
 		}
+
 		return $return;
 	}
 
 	/**
 	 * Get the editor contents
 	 *
-	 * @param	string	The name of the editor control
+	 * @param	string	$editor	The name of the editor control
+	 *
+	 * @return	string
 	 */
 	public function getContent($editor)
 	{
@@ -185,19 +211,24 @@ class JEditor extends JObservable
 
 		$return = '';
 		$results[] = $this->_editor->update($args);
-		foreach ($results as $result) {
+
+		foreach ($results as $result)
+		{
 			if (trim($result)) {
 				$return .= $result;
 			}
 		}
+
 		return $return;
 	}
 
 	/**
 	 * Set the editor contents
 	 *
-	 * @param	string	The name of the editor control
-	 * @param	string	The contents of the text area
+	 * @param	string	$editor	The name of the editor control
+	 * @param	string	$html	The contents of the text area
+	 *
+	 * @return	string
 	 */
 	public function setContent($editor, $html)
 	{
@@ -209,18 +240,23 @@ class JEditor extends JObservable
 
 		$return = '';
 		$results[] = $this->_editor->update($args);
-		foreach ($results as $result) {
+
+		foreach ($results as $result)
+		{
 			if (trim($result)) {
 				$return .= $result;
 			}
 		}
+
 		return $return;
 	}
 
 	/**
 	 * Get the editor buttons
 	 *
-	 * @param	mixed	$buttons Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
+	 * @param	string	$editor		The name of the editor.
+	 * @param	mixed	$buttons	Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
+	 *
 	 * @since 1.5
 	 */
 	public function getButtons($editor, $buttons = true)
@@ -234,7 +270,8 @@ class JEditor extends JObservable
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('editors-xtd');
 
-		foreach($plugins as $plugin) {
+		foreach($plugins as $plugin)
+		{
 			if (is_array($buttons) &&  in_array($plugin->name, $buttons)) {
 				continue;
 			}
@@ -248,7 +285,7 @@ class JEditor extends JObservable
 			}
 
 			// Try to authenticate
-			if ($temp = $plugin->onDisplay($editor)) {
+			if ($temp = $plugin->onDisplay($editor, $this->asset, $this->author)) {
 				$result[] = $temp;
 			}
 		}
@@ -259,7 +296,9 @@ class JEditor extends JObservable
 	/**
 	 * Load the editor
 	 *
-	 * @param	array	Associative array of editor config paramaters
+	 * @param	array	$config	Associative array of editor config paramaters
+	 *
+	 * @return	mixed
 	 * @since	1.5
 	 */
 	protected function _loadEditor($config = array())
@@ -288,8 +327,9 @@ class JEditor extends JObservable
 		require_once $path;
 
 		// Get the plugin
-		$plugin = JPluginHelper::getPlugin('editors', $this->_name);
-		$className = 'plgEditor'.$plugin->name;
+		$plugin		= JPluginHelper::getPlugin('editors', $this->_name);
+		$className	= 'plgEditor'.$plugin->name;
+
 		if (class_exists($className)) {
 			$plugin = new $className($this, (array)$plugin);
 			$plugin->loadLanguage();
@@ -302,6 +342,7 @@ class JEditor extends JObservable
 
 		// Build editor plugin classname
 		$name = 'plgEditor'.$this->_name;
+
 		if ($this->_editor = new $name ($this, (array)$plugin)) {
 			// load plugin parameters
 			$this->initialise();

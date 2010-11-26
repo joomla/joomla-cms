@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 
 /**
- * HTML View class for the WebLinks component
+ * HTML View class for the Media component
  *
  * @package		Joomla.Administrator
  * @subpackage	com_media
@@ -22,18 +22,16 @@ class MediaViewImages extends JView
 	function display($tpl = null)
 	{
 		$config = JComponentHelper::getParams('com_media');
-
-		$app = JFactory::getApplication();
-		$append = '';
-		// if ($app->getClientId() == 1) $append = 'administrator/';
-		
+		$app	= JFactory::getApplication();
 		$lang	= JFactory::getLanguage();
+		$append = '';
 
 		JHTML::_('script','media/popup-imagemanager.js', true, true);
 		JHTML::_('stylesheet','media/popup-imagemanager.css', array(), true);
-		if ($lang->isRTL()) :
+
+		if ($lang->isRTL()) {
 			JHTML::_('stylesheet','media/popup-imagemanager_rtl.css', array(), true);
-		endif;
+		}
 
 		if ($config->get('enable_flash', 1)) {
 			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');
@@ -41,16 +39,21 @@ class MediaViewImages extends JView
 			$displayTypes = '';		// this is what the user sees
 			$filterTypes = '';		// this is what controls the logic
 			$firstType = true;
-			foreach($types AS $type) {
+
+			foreach($types AS $type)
+			{
 				if(!$firstType) {
 					$displayTypes .= ', ';
 					$filterTypes .= '; ';
-				} else {
+				}
+				else {
 					$firstType = false;
 				}
+
 				$displayTypes .= '*.'.$type;
 				$filterTypes .= '*.'.$type;
 			}
+
 			$typeString = '{ \''.JText::_('COM_MEDIA_FILES','true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
 
 			JHtml::_('behavior.uploader', 'upload-flash',
@@ -63,7 +66,6 @@ class MediaViewImages extends JView
 				)
 			);
 		}
-
 
 		/*
 		 * Display form for FTP credentials?
