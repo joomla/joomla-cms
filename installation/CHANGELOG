@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 26-Nov-2010 Jean-Marie Simonet
-[#23449] confusing language in acl tootltip for categories and content
+ $ [#23449] confusing language in acl tootltip for categories and content
+ # [#23476] code editor textarea missing border. Thanks Andrea.
 
 26-Nov-2010 Andrew Eddie
  # Fixed issue [#23495] ACL for Image Manager access to the uploader (Elin Waring, Christophe Demko).

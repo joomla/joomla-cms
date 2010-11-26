@@ -5,6 +5,11 @@ body {
   max-width: 50em;
 }
 
+body.editbox {
+	border: 1px solid #cccccc;
+	padding: .4em;
+}
+
 h1 {
   font-size: 22pt;
 }

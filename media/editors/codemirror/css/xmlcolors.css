@@ -6,6 +6,11 @@
   color: black;
 }
 
+body.editbox {
+	border: 1px solid #cccccc;
+	padding: .4em;
+}
+
 .editbox p {
   margin: 0;
 }
