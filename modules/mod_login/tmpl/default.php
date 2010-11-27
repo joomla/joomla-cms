@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
 <?php if ($type == 'logout') : ?>
-<form action="index.php" method="post" name="form-login" id="login-form">
+<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="form-login" id="login-form">
 <?php if ($params->get('greeting')) : ?>
 	<div class="login-greeting">
 	<?php if($params->get('name') == 0) : {

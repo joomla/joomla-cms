@@ -28,7 +28,13 @@ class modLoginHelper
 
 			$db->setQuery($query);
 			if ($link = $db->loadResult()) {
-				$url = JRoute::_($link.'&Itemid='.$itemid, false);
+				$router = JSite::getRouter();
+				if ($router->getMode() == JROUTER_MODE_SEF) {
+					$url = JRoute::_('index.php?Itemid='.$itemid, false);
+				}
+				else {
+					$url = JRoute::_($link.'&Itemid='.$itemid, false);
+				}
 			}
 		}
 		if (!$url)
