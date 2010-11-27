@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Nov-2010 Jean-Marie Simonet
+ $ Moving a string to library ini.
+ 
 27-Nov-2010 Christophe Demko
  # [#23523] Add Hathor override for the new My Profile view (Andrea Tarr)
  # [#23526] mod_login module does not display correct URL while redirecting
