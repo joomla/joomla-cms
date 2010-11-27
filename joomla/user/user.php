@@ -591,21 +591,21 @@ class JUser extends JObject
 					foreach (array_keys($this->groups) as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin')) {
-							throw new Exception(JText::_('COM_USERS_ERROR_NOT_SUPERADMIN'));
+							throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 						}
 					}
 				}
 				else {
 					// I am not a Super Admin, and this one is, so fail.
 					if (JAccess::check($this->id, 'core.admin')) {
-						throw new Exception(JText::_('COM_USERS_ERROR_NOT_SUPERADMIN'));
+						throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 					}
 
 					// I am not a Super Admin and I'm trying to make one.
 					foreach (array_keys($this->groups) as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin')) {
-							throw new Exception(JText::_('COM_USERS_ERROR_NOT_SUPERADMIN'));
+							throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
 						}
 					}
 				}
