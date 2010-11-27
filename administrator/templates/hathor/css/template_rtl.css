@@ -399,6 +399,11 @@ div.options-section {
 	width: 40%;
 }
 
+/* for bluestork style html */
+div.width-40.fltrt {
+	margin: 10px 0 10px 3px;
+}
+
 /**
  * Form Styles
  */

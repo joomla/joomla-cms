@@ -865,6 +865,12 @@ div.options-section {
 	margin-top: 10px;
 }
 
+/* for bluestork style html */
+div.width-40.fltrt {
+	width: 39.5%;
+	margin: 10px 3px 10px 0;
+}
+
 div.rules-section {
 	width: 98%;
 	margin: 10px;

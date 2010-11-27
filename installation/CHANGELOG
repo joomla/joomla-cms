@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Nov-2010 Christophe Demko
+ # [#23523] Add Hathor override for the new My Profile view (Andrea Tarr)
+
 26-Nov-2010 Jean-Marie Simonet
  $ [#23449] confusing language in acl tootltip for categories and content
  # [#23476] code editor textarea missing border. Thanks Andrea.
