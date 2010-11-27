@@ -3676,6 +3676,20 @@ separator=
 			<value></value>
 			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
 		</row>
+		<row>
+			<value>99</value>
+			<value>Test</value>
+			<value>test</value>
+			<value>test@example.com</value>
+			<value>b69eafa62e549e5fa875e127fadc3c83:VapLaQZx00iYDRwgMjgsfyIHgoe01DK8</value>
+			<value>deprecated</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value></value>
+			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
+		</row>
 	</table>
 	<table name="jos_viewlevels">
 		<column>id</column>

@@ -26,7 +26,7 @@ class JUser extends JObject
 	 * A cached switch for if this user has root access rights.
 	 * @var	boolean
 	 */
-	protected static $isRoot = null;
+	protected $isRoot = null;
 
 	/**
 	 * Unique id
@@ -271,8 +271,8 @@ class JUser extends JObject
 	public function authorise($action, $assetname = null)
 	{
 		// Make sure we only check for core.admin once during the run.
-		if (self::$isRoot === null) {
-			self::$isRoot = false;
+		if ($this->isRoot === null) {
+			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
 			$config		= JFactory::getConfig();
@@ -280,10 +280,10 @@ class JUser extends JObject
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser) {
-				self::$isRoot = true;
+				$this->isRoot = true;
 			}
 			else if ($this->username && $this->username == $rootUser) {
-				self::$isRoot = true;
+				$this->isRoot = true;
 			}
 			else {
 				// Get all groups against which the user is mapped.
@@ -291,13 +291,13 @@ class JUser extends JObject
 				array_unshift($identities, $this->id * -1);
 
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities)) {
-					self::$isRoot = true;
+					$this->isRoot = true;
 					return true;
 				}
 			}
 		}
 
-		return self::$isRoot ? true : JAccess::check($this->id, $action, $assetname);
+		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
 	}
 
 	/**
@@ -326,7 +326,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
-
+	
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
