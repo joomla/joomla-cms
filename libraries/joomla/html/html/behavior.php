@@ -338,6 +338,7 @@ abstract class JHtmlBehavior
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_HTTPSTATUS');
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_SECURITYERROR');
 			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_IOERROR');
+			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES');
 		}
 
 		if (isset($uploaders[$id]) && ($uploaders[$id])) {
@@ -379,7 +380,7 @@ abstract class JHtmlBehavior
 		$opt['fileListMax']			= (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int)$params['fileListMax'] : $opt['fileListMax'];
 		$opt['fileListSizeMax']		= (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int)$params['fileListSizeMax'] : null;
 		// types is the old parameter name.  Remove in 1.7
-		$opt['typeFilter']			= (isset($params['types'])) ? '\\'.$params['types'] : '\\{Joomla.JText._(\'JPLOADER_ALL_FILES\'): \'*.*\'}';
+		$opt['typeFilter']			= (isset($params['types'])) ? '\\'.$params['types'] : '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
 		$opt['typeFilter']			= (isset($params['typeFilter'])) ? '\\'.$params['typeFilter'] : $opt['typeFilter'];
 
 		// Optional functions
