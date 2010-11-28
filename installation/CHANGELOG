@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Nov-2010 Mark Dexter
+# [#23501] Custom groups assignment not being honoured in user edit form.
+
 27-Nov-2010 Ian MacLennan
  # [#23513] Incorrect PHP function referenced in date()'s phpdoc for second parameter
 
