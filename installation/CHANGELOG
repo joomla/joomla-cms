@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Nov-2010 Jean-Marie Simonet
+ # [#22623] stressed titles / utf8 characters don't make it through the return parameter. Thanks Christophe.
+
 28-Nov-2010 Mark Dexter
 # [#23501] Custom groups assignment not being honoured in user edit form.
 
