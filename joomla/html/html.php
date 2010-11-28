@@ -548,7 +548,7 @@ abstract class JHtml
 	/**
 	 * Returns formated date according to a given format and time zone.
 	 *
-	 * @param	string	String in a format accepted by strtotime(), defaults to "now".
+	 * @param	string	String in a format accepted by date(), defaults to "now".
 	 * @param	string	format optional format for strftime
 	 * @param	mixed	Time zone to be used for the date.  Special cases: boolean true for user
 	 *					setting, boolean false for server setting.
