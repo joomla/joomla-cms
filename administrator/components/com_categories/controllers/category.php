@@ -133,7 +133,7 @@ class CategoriesControllerCategory extends JControllerForm
 
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
-			$this->setMessage(JText::_('COM_CATEGORIES_BATCH_SUCCESS'));
+			$this->setMessage(JText::_('JGLOBAL_BATCH_SUCCESS'));
 
 			return true;
 		}

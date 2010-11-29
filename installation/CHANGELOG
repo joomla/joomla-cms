@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#23376] Confirm password reset fails with invalid token. Thanks Ian.
  $ Missing lines in en-GB.xml and xx-XX.xml, missing ini files in xx-XX.
  # [#23539] Administrator custom module causes fatal error when used with com_content. Thanks Ian.
+ $ Consolidated some string, adding missing string.
 
  
 28-Nov-2010 Jean-Marie Simonet
