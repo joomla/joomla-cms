@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 28-Nov-2010 Mark Dexter
 # [#23501] Custom groups assignment not being honoured in user edit form.
+# [#23419] group with create in a single category only (e.g. customer group) user getting 403 errors
 
 27-Nov-2010 Ian MacLennan
  # [#23513] Incorrect PHP function referenced in date()'s phpdoc for second parameter

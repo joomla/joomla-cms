@@ -34,7 +34,7 @@ class WeblinksViewForm extends JView
 		$form	= $this->get('Form');
 
 		if (empty($item->id)) {
-			$authorised = $user->authorise('core.create', 'com_weblinks');
+			$authorised = ($user->authorise('core.create', 'com_weblinks') || (count($user->getAuthorisedCategories('com_weblinks', 'core.create'))));
 		}
 		else {
 			$authorised = $user->authorise('core.edit', 'com_weblinks.weblink.'.$item->id);

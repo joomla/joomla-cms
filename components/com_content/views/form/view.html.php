@@ -34,7 +34,7 @@ class ContentViewForm extends JView
 		$form	= $this->get('Form');
 
 		if (empty($item->id)) {
-			$authorised = $user->authorise('core.create', 'com_content');
+			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
 		}
 		else {
 			$authorised = $item->params->get('access-edit');

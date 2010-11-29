@@ -52,7 +52,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 	protected function getDataSet()
 	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', '"', '\\');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 		$refreshTestNames = array
 		(
 			'testGetPath'
@@ -625,7 +625,13 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Test with parent node unpublished
 		// Try to publish Extensions (20) with parent unpublished
+		
+		// Unpublish 19 and 20
+		$pks = array('19');
+		$table->publish($pks,'0');
 		$pks = array('20');
+		$table->publish($pks,'0');
+		// Try to publish 20
 		$this->assertFalse($table->publish($pks, '1'), 'Line: '.__LINE__.' Should not publish child if parent is not published');
 		$treeTemp = $table->getTree('1');
 		$this->assertEquals('20', $treeTemp[7]->id, 'Line: '.__LINE__.' Node 7 is id=20');
