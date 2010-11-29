@@ -102,7 +102,8 @@
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_geshi.ini</filename>
 		<filename>en-GB.plg_content_geshi.sys.ini</filename>
-		<filename>en-GB.plg_content_josdewplayer.ini</filename>
+		<filename>en-GB.plg_content_joomla.ini</filename>
+		<filename>en-GB.plg_content_joomla.sys.ini</filename>
 		<filename>en-GB.plg_content_loadmodule.ini</filename>
 		<filename>en-GB.plg_content_loadmodule.sys.ini</filename>
 		<filename>en-GB.plg_content_pagebreak.ini</filename>
@@ -145,6 +146,8 @@
 		<filename>en-GB.plg_system_languagefilter.sys.ini</filename>
 		<filename>en-GB.plg_system_log.ini</filename>
 		<filename>en-GB.plg_system_log.sys.ini</filename>
+		<filename>en-GB.plg_system_logout.ini</filename>
+		<filename>en-GB.plg_system_logout.sys.ini</filename>
 		<filename>en-GB.plg_system_p3p.ini</filename>
 		<filename>en-GB.plg_system_p3p.sys.ini</filename>
 		<filename>en-GB.plg_system_redirect.ini</filename>
