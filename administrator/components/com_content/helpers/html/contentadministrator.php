@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		$Id$
+ * @version		$Id: contentadministrator.php -1   $
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * @package		Joomla.Administrator
  * @subpackage	com_content
  */
-abstract class JHtmlContent
+abstract class JHtmlContentAdministrator
 {
 	/**
 	 * @param	int $value	The state value
