@@ -30,6 +30,7 @@ $ -> Language fix or change
 29-Nov-2010 Jean-Marie Simonet
  # [#23340] sort order Extension Manager: Manage (filter). Thanks Klas and Christophe.
  # [#23555] Duplicate alias error in home page removes home page of the site. Thanks Mark
+ # [#23376] Confirm password reset fails with invalid token. Thanks Ian.
  
 28-Nov-2010 Jean-Marie Simonet
  # [#22623] stressed titles / utf8 characters don't make it through the return parameter. Thanks Christophe.
