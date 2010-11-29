@@ -307,6 +307,36 @@ class JUser extends JObject
 	{
 		return $this->getAuthorisedViewLevels();
 	}
+	
+	/**
+	 * Method to return a list of all categories that a user has permission for a given action
+	 *
+	 * @param	string	$component	The component from which to retrieve the categories
+	 * @param	string	$action		The name of the section within the component from which to retrieve the actions.
+	 *
+	 * @return	array	List of categories that this group can do this action to (empty array if none). Categories must be published.
+	 * @since	1.6
+	 */
+	public function getAuthorisedCategories($component, $action) {
+		// Brute force method: get all published category rows for the component and check each one
+		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
+		$db = JFactory::getDbo();
+		$query	= $db->getQuery(true)
+			->select('c.id AS id, a.name as asset_name')
+			->from('#__categories c')
+			->innerJoin('#__assets a ON c.asset_id = a.id')
+			->where('c.extension = ' . $db->quote($component))
+			->where('c.published = 1');
+		$db->setQuery($query);
+		$allCategories = $db->loadObjectList('id');
+		$allowedCategories = array();
+		foreach ($allCategories as $category) {
+			if ($this->authorise($action, $category->asset_name)) {
+				$allowedCategories[] = (int) $category->id;	
+			}
+		}
+		return $allowedCategories;
+	}	
 
 	/**
 	 * Gets an array of the authorised access levels for the user
