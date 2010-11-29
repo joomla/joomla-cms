@@ -105,6 +105,17 @@ class JTableMenu extends JTableNested
 	 */
 	public function store($updateNulls = false)
 	{
+		// Verify that the alias is unique
+		$table = JTable::getInstance('Menu','JTable');
+		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'client_id'=>$this->client_id)) && ($table->id != $this->id || $this->id==0)) {
+			if ($this->menutype==$table->menutype) {
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
+			}
+			else {
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
+			}
+			return false;
+		}
 		// Verify that the home page for this language is unique
 		if ($this->home=='1') {
 			$table = JTable::getInstance('Menu','JTable');
@@ -119,18 +130,6 @@ class JTableMenu extends JTableNested
 				$table->store();
 			}
 		}
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Menu','JTable');
-		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'client_id'=>$this->client_id)) && ($table->id != $this->id || $this->id==0)) {
-			if ($this->menutype==$table->menutype) {
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS'));
-			}
-			else {
-				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNIQUE_ALIAS_ROOT'));
-			}
-			return false;
-		}
-		
 		if(!parent::store($updateNulls)) {
 			return false;
 		}
