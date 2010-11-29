@@ -342,6 +342,12 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Make sure the user isn't a Super Admin.
+		if ($user->authorise('core.admin')) {
+			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
+			return false;
+		}
+
 		// Set the confirmation token.
 		$token = JUtility::getHash(JUserHelper::genRandomPassword());
 		$salt = JUserHelper::getSalt('crypt-md5');
