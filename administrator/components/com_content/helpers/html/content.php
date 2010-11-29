@@ -26,7 +26,7 @@ abstract class JHtmlContent
 			1	=> array('featured.png',		'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
-		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
+		$html	= JHtml::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
 			$html	= '<a href="javascript:void(0);" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
