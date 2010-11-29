@@ -15,7 +15,8 @@ $params = JComponentHelper::getParams('com_media');
 $user = JFactory::getUser();
 $asset = JRequest::getCmd('asset');
 $author = JRequest::getCmd('author');
-if (	!$user->authorise('core.edit', $asset)
+if (!$asset or
+		!$user->authorise('core.edit', $asset)
 	&&	!$user->authorise('core.create', $asset)
 	&&	!($user->id==$author && $user->authorise('core.edit.own', $asset)))
 {
@@ -25,6 +26,12 @@ if (	!$user->authorise('core.edit', $asset)
 // Set the path definitions
 define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get('image_path', 'images'));
 define('COM_MEDIA_BASEURL', JURI::root().'/'.$params->get('image_path', 'images'));
+
+$lang = JFactory::getLanguage();
+	$lang->load($option, JPATH_ADMINISTRATOR, null, false, false)
+||	$lang->load($option, JPATH_COMPONENT_ADMINISTRATOR, null, false, false)
+||	$lang->load($option, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+||	$lang->load($option, JPATH_COMPONENT_ADMINISTRATOR, $lang->getDefault(), false, false);
 
 // Load the admin HTML view
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php';

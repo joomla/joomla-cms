@@ -107,6 +107,7 @@ class MediaModelList extends JModel
 				if (is_file($basePath.'/'.$file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html') {
 					$tmp = new JObject();
 					$tmp->name = $file;
+					$tmp->title = $file;
 					$tmp->path = str_replace(DS, '/', JPath::clean($basePath.DS.$file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);

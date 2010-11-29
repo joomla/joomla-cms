@@ -9,6 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+$user = JFactory::getUser();
 ?>
 <form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
@@ -19,7 +20,9 @@ defined('_JEXEC') or die;
 			<th><?php echo JText::_('COM_MEDIA_NAME'); ?></th>
 			<th width="8%"><?php echo JText::_('COM_MEDIA_PIXEL_DIMENSIONS'); ?></th>
 			<th width="8%"><?php echo JText::_('COM_MEDIA_FILESIZE'); ?></th>
+		<?php if ($user->authorise('core.delete','com_media')):?>
 			<th width="8%"><?php echo JText::_('JACTION_DELETE'); ?></th>
+		<?php endif;?>
 		</tr>
 	</thead>
 	<tbody>

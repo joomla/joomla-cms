@@ -123,7 +123,7 @@ var ImageManager = this.ImageManager = {
 		return false;
 	},
 
-	setFolder: function(folder)
+	setFolder: function(folder,asset,author)
 	{
 		//this.showMessage('Loading');
 
@@ -134,7 +134,7 @@ var ImageManager = this.ImageManager = {
 				break;
 			}
 		}
-		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder;
+		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&asset=' + asset + '&author=' + author;
 	},
 
 	getFolder: function() {

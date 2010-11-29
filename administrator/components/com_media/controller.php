@@ -30,6 +30,7 @@ class MediaController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		JPluginHelper::importPlugin('content');
 		$vName = JRequest::getCmd('view', 'media');
 		switch ($vName)
 		{

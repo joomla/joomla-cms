@@ -9,6 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+$user = JFactory::getUser();
 ?>
 		<tr>
 			<td class="imgTotal">
@@ -24,8 +25,10 @@ defined('_JEXEC') or die;
 			<td>&#160;
 
 			</td>
+		<?php if ($user->authorise('core.delete','com_media')):?>
 			<td>
 				<a class="delete-item" href="index.php?option=com_media&amp;task=folder.delete&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>&amp;<?php echo JUtility::getToken(); ?>=1&amp;rm[]=<?php echo $this->_tmp_folder->name; ?>" rel="<?php echo $this->_tmp_folder->name; ?>' :: <?php echo $this->_tmp_folder->files+$this->_tmp_folder->folders; ?>"><?php echo JHTML::_('image','media/remove.png', JText::_('Delete'), array('width' => 16, 'height' => 16, 'border' => 0), true); ?></a>
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_folder->name; ?>" />
 			</td>
+		<?php endif;?>
 		</tr>

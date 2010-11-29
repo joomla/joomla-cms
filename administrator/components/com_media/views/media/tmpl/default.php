@@ -9,6 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+$user = JFactory::getUser();
 ?>
 <table width="100%">
 	<tr valign="top">
@@ -20,7 +21,7 @@ defined('_JEXEC') or die;
 			</fieldset>
 		</td>
 		<td>
-			<?php if ($this->require_ftp): ?>
+			<?php if (($user->authorise('core.create','com_media')) and $this->require_ftp): ?>
 				<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
 					<fieldset title="<?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?>">
 						<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
@@ -47,15 +48,18 @@ defined('_JEXEC') or die;
 					</div>
 					<legend><?php echo JText::_('COM_MEDIA_FILES'); ?></legend>
 					<div class="path">
+					<?php if ($user->authorise('core.create','com_media')): ?>
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit"><?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
+					<?php endif; ?>
 					</div>
 					<?php echo JHtml::_('form.token'); ?>
 				</fieldset>
 			</form>
 
+			<?php if ($user->authorise('core.create','com_media')):?>
 			<!-- File Upload Form -->
 			<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JUtility::getToken();?>=1&amp;format=json" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data">
 				<fieldset id="uploadform">
@@ -87,6 +91,7 @@ defined('_JEXEC') or die;
 					<input type="hidden" name="format" value="html" />
 				</fieldset>
 			</form>
+			<?php endif;?>
 		</td>
 	</tr>
 </table>

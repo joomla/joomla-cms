@@ -52,7 +52,7 @@ class JFormFieldEditor extends JFormField
 		$width		= ((string) $this->element['width']) ? (string) $this->element['width'] : '100%';
 		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField= $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
-		$asset		= $this->element['asset_id'] ? (string) $this->element['asset_id'] : $this->form->getValue($assetField);
+		$asset		= $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'] ;
 
 		// Build the buttons array.
 		$buttons = (string) $this->element['buttons'];

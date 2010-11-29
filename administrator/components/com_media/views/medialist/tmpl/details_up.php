@@ -9,6 +9,7 @@
 
 // No direct access.
 defined('_JEXEC') or die;
+$user = JFactory::getUser();
 ?>
 		<tr>
 			<td class="imgTotal">
@@ -20,5 +21,7 @@ defined('_JEXEC') or die;
 			</td>
 			<td>&#160;</td>
 			<td>&#160;</td>
+		<?php if ($user->authorise('core.delete','com_media')):?>
 			<td>&#160;</td>
+		<?php endif;?>
 		</tr>

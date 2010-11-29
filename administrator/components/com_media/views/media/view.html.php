@@ -123,19 +123,27 @@ class MediaViewMedia extends JView
 	{
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
+		$user = JFactory::getUser();
 
 		// Set the titlebar text
 		JToolBarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
 
 		// Add a delete button
-		$title = JText::_('JTOOLBAR_DELETE');
-		$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
-					<span class=\"icon-32-delete\" title=\"$title\"></span>
-					$title</a>";
-		$bar->appendButton('Custom', $dhtml, 'delete');
-		JToolBarHelper::divider();
-		JToolBarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
-		JToolBarHelper::divider();
+		if ($user->authorise('core.delete','com_media'))
+		{
+			$title = JText::_('JTOOLBAR_DELETE');
+			$dhtml = "<a href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"toolbar\">
+						<span class=\"icon-32-delete\" title=\"$title\"></span>
+						$title</a>";
+			$bar->appendButton('Custom', $dhtml, 'delete');
+			JToolBarHelper::divider();
+		}
+		// Add a delete button
+		if ($user->authorise('core.admin','com_media'))
+		{
+			JToolBarHelper::preferences('com_media', 450, 800, 'JToolbar_Options', '', 'window.location.reload()');
+			JToolBarHelper::divider();
+		}
 		JToolBarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 

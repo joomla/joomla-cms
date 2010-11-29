@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Nov-2010 Christophe Demko
+ # [#23525] Access to media manager & ACL
+
 29-Nov-2010 Jean-Marie Simonet
  # [#23340] sort order Extension Manager: Manage (filter). Thanks Klas and Christophe.
  # [#23555] Duplicate alias error in home page removes home page of the site. Thanks Mark

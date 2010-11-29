@@ -77,7 +77,9 @@ class MediaModelManager extends JModel
 		}
 
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist',  $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value)\" ", 'value', 'text', $base);
+		$asset = JRequest::getVar('asset');
+		$author = JRequest::getVar('author');
+		$list = JHtml::_('select.genericlist',  $options, 'folderlist', "class=\"inputbox\" size=\"1\" onchange=\"ImageManager.setFolder(this.options[this.selectedIndex].value,'".$asset."','$author'".")\" ", 'value', 'text', $base);
 
 		return $list;
 	}
