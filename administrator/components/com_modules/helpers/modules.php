@@ -149,18 +149,18 @@ abstract class ModulesHelper
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
+		$lang = JFactory::getLanguage();
 		foreach ($modules as $i=>$module) {
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-			$lang = JFactory::getLanguage();
 				$lang->load("$extension.sys", $path, null, false, false)
 			||	$lang->load("$extension.sys", $source, null, false, false)
 			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$modules[$i]->text = JText::_($module->text);
 		}
-		JArrayHelper::sortObjects($modules,'text');
+		JArrayHelper::sortObjects($modules, 'text', 1, true, $lang->getLocale());
 		return $modules;
 	}
 

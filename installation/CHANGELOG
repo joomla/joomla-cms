@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Nov-2010 Jean-Marie Simonet
+ # [#23340] sort order Extension Manager: Manage (filter). Thanks Klas and Christophe.
+ 
 28-Nov-2010 Jean-Marie Simonet
  # [#22623] stressed titles / utf8 characters don't make it through the return parameter. Thanks Christophe.
 

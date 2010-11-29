@@ -249,21 +249,28 @@ class JArrayHelper
 	 * Utility function to sort an array of objects on a given field
 	 *
 	 * @static
-	 * @param	array			$arr		An array of objects
-	 * @param	string|array	$k			The key or a array of key to sort on
-	 * @param	int|array		$direction	Direction or an array of direction to sort in [1 = Ascending] [-1 = Descending]
-	 * @param	bool			$casesensitive Let sort occur casesensitive or insensitive
-	 * @return	array						The sorted array of objects
+	 * @param	array			$arr			An array of objects
+	 * @param	string|array	$k				The key or a array of key to sort on
+	 * @param	int|array		$direction		Direction or an array of direction to sort in [1 = Ascending] [-1 = Descending]
+	 * @param	bool|array		$casesensitive	Let sort occur casesensitive or insensitive
+	 * @param	bool|array		$locale			Let sort occur using the locale language or not
+	 *
+	 * @return	array							The sorted array of objects
 	 * @since	1.5
 	 */
-	public static function sortObjects(&$a, $k, $direction=1, $casesensitive=true)
+	public static function sortObjects(&$a, $k, $direction=1, $casesensitive = true, $locale = false)
 	{
+		if (!is_array($locale) or !is_array($locale[0])) {
+			$locale = array($locale);
+		}
+
 		$GLOBALS['JAH_so'] = array(
-			'key'		=> (array)$k,
-			'direction'	=> (array)$direction,
-			'casesensitive' => $casesensitive
+			'key'			=> (array)$k,
+			'direction'		=> (array)$direction,
+			'casesensitive'	=> (array)$casesensitive,
+			'locale'		=> $locale,
 		);
-		usort($a, array('JArrayHelper', '_sortObjects'));
+		usort($a, array( __CLASS__ , '_sortObjects'));
 		unset($GLOBALS['JAH_so']);
 
 		return $a;
@@ -285,27 +292,37 @@ class JArrayHelper
 
 		for ($i = 0, $count = count($params['key']); $i < $count; $i++)
 		{
-			if (array_key_exists($i, $params['direction'])) {
+			if (isset($params['direction'][$i])) {
 				$direction = $params['direction'][$i];
 			}
 
-			if ($params['casesensitive']) {
-				if ($a->$params['key'][$i] > $b->$params['key'][$i]) {
-					return $direction;
-				}
+			if (isset($params['casesensitive'][$i])) {
+				$casesensitive = $params['casesensitive'][$i];
+			}
 
-				if ($a->$params['key'][$i] < $b->$params['key'][$i]) {
-					return -1 * $direction;
-				}
+			if (isset($params['locale'][$i])) {
+				$locale = $params['locale'][$i];
+			}
+
+			$va = $a->$params['key'][$i];
+			$vb = $b->$params['key'][$i];
+
+			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb))) {
+				$cmp = $va - $vb;
+			}
+			elseif ($casesensitive) {
+				$cmp = JString::strcmp($va, $vb, $locale);
 			}
 			else {
-				if (JString::strtoupper($a->$params['key'][$i]) > JString::strtoupper($b->$params['key'][$i])) {
-					return $direction;
-				}
+				$cmp = JString::strcasecmp($va, $vb, $locale);
+			}
 
-				if (JString::strtoupper($a->$params['key'][$i]) < JString::strtoupper($b->$params['key'][$i])) {
-					return -1 * $direction;
-				}
+			if ($cmp > 0) {
+				return $direction;
+			}
+
+			if ($cmp < 0) {
+				return - $direction;
 			}
 		}
 

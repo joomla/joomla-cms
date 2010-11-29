@@ -660,6 +660,19 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'L Test String'),
 				);
 
+		$input3 = array(
+					(object) array('string' => 'A Test String', 'integer' => 1, ),
+					(object) array('string' => '‚àö¬© Test String', 'integer' => 2, ),
+					(object) array('string' => '‚àö¬Æ Test String', 'integer' => 3, ),
+					(object) array('string' => '‚àö√¢ Test String', 'integer' => 4, ),
+					(object) array('string' => '‚àö√† Test String', 'integer' => 5, ),
+					(object) array('string' => '‚âà√≠ Test String', 'integer' => 6, ),
+					(object) array('string' => '‚âà√¨ Test String', 'integer' => 7, ),
+					(object) array('string' => 'L Test String', 'integer' => 8, ),
+					(object) array('string' => 'P Test String', 'integer' => 9, ),
+					(object) array('string' => 'p Test String', 'integer' => 10, ),
+				);
+		
 
 
 		return array(
@@ -667,6 +680,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				$input1,
 				'integer',
 				null,
+				false,
 				false,
 				array(
 					(object) array('integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'),
@@ -686,6 +700,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'integer',
 				1,
 				false,
+				false,
 				array(
 					(object) array('integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'),
 					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 'T Test String'),
@@ -703,6 +718,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				$input1,
 				'integer',
 				-1,
+				false,
 				false,
 				array(
 					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
@@ -722,6 +738,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'string',
 				1,
 				false,
+				false,
 				array(
 					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
 					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
@@ -739,6 +756,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				$input1,
 				'string',
 				-1,
+				false,
 				false,
 				array(
 					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 'T Test String'),
@@ -758,6 +776,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'string',
 				1,
 				true,
+				false,
 				array(
 					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
 					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
@@ -776,6 +795,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'string',
 				-1,
 				true,
+				false,
 				array(
 					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 't Test String'),
 					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'g Test String'),
@@ -787,6 +807,124 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
 				),
 				'Should be sorted by the string field in descending order with casesensitive comparisons',
+				false
+			),
+			'by casesensitive string,integer ascending' => array(
+				$input2,
+				array('string','integer'),
+				1,
+				true,
+				false,
+				array(
+					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					(object) array('integer' => 15, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 22, 'float' => 1.29999, 'string' => 'E Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'L Test String'),
+					(object) array('integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'g Test String'),
+					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 't Test String'),
+				),
+				'Should be sorted by the string,integer field in descending order with casesensitive comparisons',
+				false
+			),
+			'by casesensitive string,integer descending' => array(
+				$input2,
+				array('string','integer'),
+				-1,
+				true,
+				false,
+				array(
+					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 't Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'g Test String'),
+					(object) array('integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'L Test String'),
+					(object) array('integer' => 22, 'float' => 1.29999, 'string' => 'E Test String'),
+					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 15, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				'Should be sorted by the string,integer field in descending order with casesensitive comparisons',
+				false
+			),
+			'by casesensitive string,integer ascending,descending' => array(
+				$input2,
+				array('string','integer'),
+				array(1,-1),
+				true,
+				false,
+				array(
+					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 15, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 22, 'float' => 1.29999, 'string' => 'E Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'L Test String'),
+					(object) array('integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'g Test String'),
+					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 't Test String'),
+				),
+				'Should be sorted by the string,integer field in ascending,descending order with casesensitive comparisons',
+				false
+			),
+			'by casesensitive string,integer descending,ascending' => array(
+				$input2,
+				array('string','integer'),
+				array(-1,1),
+				true,
+				false,
+				array(
+					(object) array('integer' => 5, 'float' => 1.29999, 'string' => 't Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'g Test String'),
+					(object) array('integer' => 1, 'float' => 1.29999, 'string' => 'N Test String'),
+					(object) array('integer' => 6, 'float' => 1.29999, 'string' => 'L Test String'),
+					(object) array('integer' => 22, 'float' => 1.29999, 'string' => 'E Test String'),
+					(object) array('integer' => 15, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 35, 'float' => 1.29999, 'string' => 'C Test String'),
+					(object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				'Should be sorted by the string,integer field in descending,ascending order with casesensitive comparisons',
+				false
+			),
+			'by casesensitive string ascending' => array(
+				$input3,
+				'string',
+				1,
+				true,
+				array('fr_FR.UTF-8', 'fr'),
+				array(
+					(object) array('string' => 'A Test String', 'integer' => 1, ),
+					(object) array('string' => '‚àö¬© Test String', 'integer' => 2, ),
+					(object) array('string' => '‚àö√¢ Test String', 'integer' => 4, ),
+					(object) array('string' => '‚àö¬Æ Test String', 'integer' => 3, ),
+					(object) array('string' => '‚àö√† Test String', 'integer' => 5, ),
+					(object) array('string' => 'L Test String', 'integer' => 8, ),
+					(object) array('string' => '‚âà√¨ Test String', 'integer' => 7, ),
+					(object) array('string' => '‚âà√≠ Test String', 'integer' => 6, ),
+					(object) array('string' => 'p Test String', 'integer' => 10, ),
+					(object) array('string' => 'P Test String', 'integer' => 9, ),
+				),
+				'Should be sorted by the string field in ascending order with casesensitive comparisons and fr_FR locale',
+				false
+			),
+			'by caseinsensitive string, integer ascending' => array(
+				$input3,
+				array('string', 'integer'),
+				1,
+				false,
+				array('fr_FR.UTF-8', 'fr'),
+				array(
+					(object) array('string' => 'A Test String', 'integer' => 1, ),
+					(object) array('string' => '‚àö¬© Test String', 'integer' => 2, ),
+					(object) array('string' => '‚àö√¢ Test String', 'integer' => 4, ),
+					(object) array('string' => '‚àö¬Æ Test String', 'integer' => 3, ),
+					(object) array('string' => '‚àö√† Test String', 'integer' => 5, ),
+					(object) array('string' => 'L Test String', 'integer' => 8, ),
+					(object) array('string' => '‚âà√≠ Test String', 'integer' => 6, ),
+					(object) array('string' => '‚âà√¨ Test String', 'integer' => 7, ),
+					(object) array('string' => 'P Test String', 'integer' => 9, ),
+					(object) array('string' => 'p Test String', 'integer' => 10, ),
+				),
+				'Should be sorted by the string,integer field in ascending order with caseinsensitive comparisons and fr_FR locale',
 				false
 			),
 		);
@@ -806,13 +944,13 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider getTestSortObjectData
 	 */
 	public function testSortObjects(
-		$input, $key, $direction, $casesensitive, $expect, $message, $defaults)
+		$input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
 	{
 		if ($defaults) {
 			$output = JArrayHelper::sortObjects($input, $key);
 		}
 		else {
-			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive);
+			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
 		}
 
 		$this->assertEquals(

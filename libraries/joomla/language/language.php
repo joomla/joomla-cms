@@ -63,6 +63,14 @@ class JLanguage extends JObject
 	protected $metadata = null;
 
 	/**
+	 * Array|boolean holding the language locale
+	 *
+	 * @var		array|boolean
+	 * @since	1.5
+	 */
+	protected $locale = null;
+
+	/**
 	 * The language to load
 	 *
 	 * @var		string
@@ -1031,6 +1039,29 @@ class JLanguage extends JObject
 		$this->metadata	= $this->getMetadata($this->lang);
 
 		return $previous;
+	}
+
+	/**
+	 * Get the language locale based on current language
+	 *
+	 * @return	array|false	The locale according to the language
+	 * @since	1.6
+	 */
+	public function getLocale()
+	{
+		if (!isset($this->locale))
+		{
+			$locale = str_replace(' ', '', isset($this->metadata['locale']) ? $this->metadata['locale'] : '');
+			if ($locale)
+			{
+				$this->locale = explode(',', $locale);
+			}
+			else
+			{
+				$this->locale = false;
+			}
+		}
+		return $this->locale;
 	}
 
 	/**

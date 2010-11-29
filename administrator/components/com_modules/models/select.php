@@ -140,7 +140,7 @@ class ModulesModelSelect extends JModelList
 				$item->desc = JText::_('COM_MODULES_NODESCRIPTION');
 			}
 		}
-		$items = JArrayHelper::sortObjects($items, 'name');
+		$items = JArrayHelper::sortObjects($items, 'name', 1, true, $lang->getLocale());
 
 		// TODO: Use the cached XML from the extensions table?
 

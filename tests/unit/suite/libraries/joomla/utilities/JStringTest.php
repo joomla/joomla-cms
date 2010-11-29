@@ -68,6 +68,10 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		return JStringTest_DataSet::$strcasecmpTests;
 	}
 
+	static public function strcmpData() {
+		return JStringTest_DataSet::$strcmpTests;
+	}
+
 	static public function strcspnData() {
 		return JStringTest_DataSet::$strcspnTests;
 	}
@@ -210,9 +214,26 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 * @covers JString::strcasecmp
 	 * @dataProvider strcasecmpData
 	 */
-	public function testStrcasecmp($string1, $string2, $expect)
+	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
-		$actual = JString::strcasecmp ($string1, $string2);
+		$actual = JString::strcasecmp ($string1, $string2, $locale);
+		if ($actual != 0) {
+			$actual = $actual/abs($actual);
+		}
+		$this->assertEquals($expect, $actual);
+	}
+
+	/**
+	 * @group String
+	 * @covers JString::strcmp
+	 * @dataProvider strcmpData
+	 */
+	public function testStrcmp($string1, $string2, $locale, $expect)
+	{
+		$actual = JString::strcmp ($string1, $string2, $locale);
+		if ($actual != 0) {
+			$actual = $actual/abs($actual);
+		}
 		$this->assertEquals($expect, $actual);
 	}
 

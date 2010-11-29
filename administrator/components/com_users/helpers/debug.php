@@ -56,7 +56,7 @@ class UsersHelperDebug
 			}
 
 			// Sort by component name
-			JArrayHelper::sortObjects($items, 'text');
+			JArrayHelper::sortObjects($items, 'text', 1, true, $lang->getLocale());
 		}
 
 		return $items;
