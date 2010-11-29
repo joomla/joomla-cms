@@ -688,6 +688,7 @@ p.tab-description {
 	padding: 20px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #login-page .button {
@@ -707,6 +708,7 @@ p.tab-description {
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 #form-login fieldset {
@@ -1087,6 +1089,7 @@ input,select, span.faux-input {
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 span.readonly {
@@ -1118,6 +1121,7 @@ textarea {
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 input.button {
@@ -1557,6 +1561,7 @@ table.adminlist tr td.btns a {
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	background-color: #ffffff;
 	color: #2c2c2c;
 	padding: 3px 20px;
@@ -1671,6 +1676,7 @@ button {
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 button:hover,button:focus {
@@ -1695,6 +1701,7 @@ button:hover,button:focus {
 	white-space: nowrap;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 	/* Use this if you add images to the buttons such as directional arrows */
@@ -1730,6 +1737,7 @@ button:hover,button:focus {
 	background-color: #f9fade;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .button2-left.smallsub,.button2-right.smallsub {
@@ -3220,6 +3228,7 @@ li.acl-resetbtn {
 	border: 1px solid #c7c8b2;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 }
 
 li.acl-editgroups a,
