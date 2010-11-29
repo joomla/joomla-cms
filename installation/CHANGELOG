@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 29-Nov-2010 Christophe Demko
  # [#23525] Access to media manager & ACL
+ # [#23559] Installer does not initialize the asset table when component is installed
 
 29-Nov-2010 Jean-Marie Simonet
  # [#23340] sort order Extension Manager: Manage (filter). Thanks Klas and Christophe.
