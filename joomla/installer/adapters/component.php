@@ -463,7 +463,18 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
 		}
 
-		//TODO: Register the component container just under root in the assets table.
+		// Register the component container just under root in the assets table.
+		$asset	= JTable::getInstance('Asset');
+		$asset->name  = $row->element;
+		$asset->parent_id = 1;
+		$asset->rules = '{}';
+		$asset->title = $row->name;
+		$asset->setLocation(1, 'last-child');
+		if (!$asset->store()) {
+			// Install failed, roll back changes
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+			return false;
+		}
 
 		// And now we run the postflight
 		ob_start();
@@ -1097,6 +1108,13 @@ class JInstallerComponent extends JAdapterInstance
 		$query->delete()->from('#__schemas')->where('extension_id = '. $id);
 		$db->setQuery($query);
 		$db->query();
+
+
+		// Remove the component container in the assets table.
+		$asset	= JTable::getInstance('Asset');
+		if ($asset->loadByName($element)) {
+			$asset->delete();
+		}
 
 		// Clobber any possible pending updates
 		$update	= JTable::getInstance('update');
