@@ -196,9 +196,19 @@ abstract class modArticlesCategoryHelper
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			}
-			else {
-				$item->link = JRoute::_('index.php?option=com_user&view=login');
-			}
+			 else {
+				// Angie Fixed Routing
+				$app	= JFactory::getApplication();
+			    $menu	= $app->getMenu();
+				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
+			if(isset($menuitems[0])) {
+					$Itemid = $menuitems[0]->id;
+				} else if (JRequest::getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
+					$Itemid = JRequest::getInt('Itemid');
+				}
+
+				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$Itemid);
+				}
 
 			// Used for styling the active article
 			$item->active = $item->id == $active_article_id ? 'active' : '';
@@ -222,6 +232,9 @@ abstract class modArticlesCategoryHelper
 			$item->introtext = JHtml::_('content.prepare', $item->introtext);
 			$item->introtext = self::_cleanIntrotext($item->introtext);
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
+			// added Angie show_unauthorizid
+			$item->displayReadmore = $item->alternative_readmore;
+
 		}
 
 		return $items;

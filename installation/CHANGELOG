@@ -42,6 +42,7 @@ $ -> Language fix or change
  $ Consolidated some string, adding missing string.
  # [#23557] Super admin requesting password reminder gets wrong Notice. Thanks Christophe.
  # [#23527] Add css3 support for rounded corners to the mozilla/webkit corners in Hathor. Thanks Andrea.
+ # [#23450] mod_articles_category register to readmore and alternative readmore Patch attached. Thanks Angie
  
 28-Nov-2010 Jean-Marie Simonet
  # [#22623] stressed titles / utf8 characters don't make it through the return parameter. Thanks Christophe.
