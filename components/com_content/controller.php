@@ -58,8 +58,9 @@ class ContentController extends JController
 
 		$user = JFactory::getUser();
 
-		if ($user->get('id') || ($_SERVER['REQUEST_METHOD'] == 'POST' &&
-			(($vName = 'category' && JRequest::getVar('layout') != 'blog') || $vName = 'archive' ))) {
+		if ($user->get('id') || 
+			($_SERVER['REQUEST_METHOD'] == 'POST' &&
+				(($vName == 'category' && JRequest::getVar('layout') != 'blog') || $vName == 'archive' ))) {
 			$cachable = false;
 		}
 
