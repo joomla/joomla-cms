@@ -78,12 +78,12 @@ class JStringTest_DataSet {
 		array('this is string1', 'this is string2', false, -1),
 		array('this is string2', 'this is string1', false, 1),
 		array('бгдпт', 'бгдпт', false, 0),
-		array('àbc', 'abc', array('fr_FR.UTF8', 'fr'), 1),
-		array('àbc', 'bcd', array('fr_FR.UTF8', 'fr'), -1),
-		array('é', 'è', array('fr_FR.UTF8', 'fr'), -1),
-		array('É', 'é', array('fr_FR.UTF8', 'fr'), 0),
-		array('œ', 'p', array('fr_FR.UTF8', 'fr'), -1),
-		array('œ', 'n', array('fr_FR.UTF8', 'fr'), 1),
+		array('àbc', 'abc', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), 1),
+		array('àbc', 'bcd', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('é', 'è', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('É', 'é', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), 0),
+		array('œ', 'p', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('œ', 'n', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), 1),
 	);
 
 	static public $strcmpTests = array (
@@ -92,14 +92,14 @@ class JStringTest_DataSet {
 		array('this is string2', 'this is string1', false, 1),
 		array('a', 'B', false, 1),
 		array('A', 'b', false, -1),
-		array('Àbc', 'abc', array('fr_FR.UTF8', 'fr'), 1),
-		array('Àbc', 'bcd', array('fr_FR.UTF8', 'fr'), -1),
-		array('É', 'è', array('fr_FR.UTF8', 'fr'), -1),
-		array('é', 'È', array('fr_FR.UTF8', 'fr'), -1),
-		array('Œ', 'p', array('fr_FR.UTF8', 'fr'), -1),
-		array('Œ', 'n', array('fr_FR.UTF8', 'fr'), 1),
-		array('œ', 'N', array('fr_FR.UTF8', 'fr'), 1),
-		array('œ', 'P', array('fr_FR.UTF8', 'fr'), -1),
+		array('Àbc', 'abc', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), 1),
+		array('Àbc', 'bcd', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('É', 'è', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('é', 'È', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('Œ', 'p', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
+		array('Œ', 'n', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), 1),
+		array('œ', 'N', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), 1),
+		array('œ', 'P', array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'), -1),
 	);
 
 	static public $strcspnTests = array (

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Nov-2010 Mark Dexter
+# Fix failing JStringTest and JArrayHelperTest due to locale settings
+
 27-Nov-2010 Mark Dexter
 # Improved test coverage for JUserTest
 

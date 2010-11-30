@@ -890,7 +890,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'string',
 				1,
 				true,
-				array('fr_FR.UTF-8', 'fr'),
+				array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'),
 				array(
 					(object) array('string' => 'A Test String', 'integer' => 1, ),
 					(object) array('string' => 'é Test String', 'integer' => 2, ),
@@ -911,7 +911,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				array('string', 'integer'),
 				1,
 				false,
-				array('fr_FR.UTF-8', 'fr'),
+				array('fr_FR.utf8', 'fr_FR.UTF-8', 'fr_FR.UTF-8@euro', 'French_Standard', 'french', 'fr_FR', 'fre_FR'),
 				array(
 					(object) array('string' => 'A Test String', 'integer' => 1, ),
 					(object) array('string' => 'é Test String', 'integer' => 2, ),
