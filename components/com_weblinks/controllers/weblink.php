@@ -109,20 +109,8 @@ class WeblinksControllerWeblink extends JControllerForm
 		$data		= JRequest::getVar('jform', array(), 'post', 'array');
 		$catid		= $data['catid'];
 		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState($context.'id');
-
-
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$context	= $this->context.'.';
-		$model		= $this->getModel();
-		$task		= $this->getTask();
-
-		// Get posted form variables.
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-
-		// Populate the row id from the session.
-		$data['id'] = (int) $app->getUserState($context.'id');
+		$data['id'] = (int) $app->getUserState($context.'id');		
+		
 		// Validate the posted data.
 		$form	= $model->getForm();
 
@@ -149,12 +137,6 @@ class WeblinksControllerWeblink extends JControllerForm
 				}
 			}
 
-			// Save the data in the session.
-			$app->setUserState($context.'data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=form&layout=edit', false));
-			return false;
 		}
 			// Attempt to save the data.
 		if (!$model->save($data)) {
