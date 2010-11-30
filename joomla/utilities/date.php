@@ -388,7 +388,7 @@ class JDate extends DateTime
 	 * @return	object	The old DateTimeZone object.
 	 * @since	1.6
 	 */
-	public function setTimezone(DateTimeZone $tz)
+	public function setTimezone($tz)
 	{
 		$this->_tz = $tz;
 		return parent::setTimezone($tz);
