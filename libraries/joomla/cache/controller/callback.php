@@ -54,7 +54,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @return	mixed	Result of the callback
 	 * @since	1.6
 	 */
-	public function get($callback, $args, $id=false, $wrkarounds=false, $woptions=array())
+	public function get($callback, $args=array(), $id=false, $wrkarounds=false, $woptions=array())
 	{
 
 		// Normalize callback

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Nov-2010 Christophe Demko
+ # [#23532] Strict errors - issues with JCacheController (Ian MacLennan)
+
 30-Nov-2010 Jean-Marie Simonet
  # Updating JLanguageTest
  # Corrected JArrayHelperTest unicode corruption
