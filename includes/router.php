@@ -79,7 +79,7 @@ class JRouterSite extends JRouter
 		return $vars;
 	}
 
-	public function &build($url)
+	public function build($url)
 	{
 		$uri = parent::build($url);
 
