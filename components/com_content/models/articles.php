@@ -425,7 +425,7 @@ class ContentModelArticles extends JModelList
 	 * @return	mixed	An array of objects on success, false on failure.
 	 * @since	1.6
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		$items	= parent::getItems();
 		$user	= JFactory::getUser();
