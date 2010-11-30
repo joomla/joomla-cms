@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 30-Nov-2010 Mark Dexter
 # Fix failing JStringTest and JArrayHelperTest due to locale settings
+# Skip some string sort tests if MAC OS
 
 27-Nov-2010 Mark Dexter
 # Improved test coverage for JUserTest
