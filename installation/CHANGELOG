@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23537] Method signatures don't match causing PHP strict errors - JRouter (Ian MacLennan)
  # [#23536] Method signatures don't match causing PHP strict errors - JDate (Ian MacLennan)
  # [#23535] Method signatures don't match causing PHP strict errors - articles model get items (Ian MacLennan)
+ # [#23580] 500 Errors going to Article Manager in Hathor (Andrea Tarr)
 
 30-Nov-2010 Jean-Marie Simonet
  # Updating JLanguageTest

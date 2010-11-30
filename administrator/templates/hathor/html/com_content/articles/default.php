@@ -139,7 +139,7 @@ $n = count($this->items);
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 				</td>
 				<td class="center">
-					<?php echo JHtml::_('content.featured', $item->featured, $i, $canChange); ?>
+					<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->category_title); ?>
