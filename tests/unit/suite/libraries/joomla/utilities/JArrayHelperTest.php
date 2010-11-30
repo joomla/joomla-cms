@@ -662,17 +662,17 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 
 		$input3 = array(
 					(object) array('string' => 'A Test String', 'integer' => 1, ),
-					(object) array('string' => '‚àö¬© Test String', 'integer' => 2, ),
-					(object) array('string' => '‚àö¬Æ Test String', 'integer' => 3, ),
-					(object) array('string' => '‚àö√¢ Test String', 'integer' => 4, ),
-					(object) array('string' => '‚àö√† Test String', 'integer' => 5, ),
-					(object) array('string' => '‚âà√≠ Test String', 'integer' => 6, ),
-					(object) array('string' => '‚âà√¨ Test String', 'integer' => 7, ),
+					(object) array('string' => 'é Test String', 'integer' => 2, ),
+					(object) array('string' => 'è Test String', 'integer' => 3, ),
+					(object) array('string' => 'É Test String', 'integer' => 4, ),
+					(object) array('string' => 'È Test String', 'integer' => 5, ),
+					(object) array('string' => 'Œ Test String', 'integer' => 6, ),
+					(object) array('string' => 'œ Test String', 'integer' => 7, ),
 					(object) array('string' => 'L Test String', 'integer' => 8, ),
 					(object) array('string' => 'P Test String', 'integer' => 9, ),
 					(object) array('string' => 'p Test String', 'integer' => 10, ),
 				);
-		
+
 
 
 		return array(
@@ -893,13 +893,13 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				array('fr_FR.UTF-8', 'fr'),
 				array(
 					(object) array('string' => 'A Test String', 'integer' => 1, ),
-					(object) array('string' => '‚àö¬© Test String', 'integer' => 2, ),
-					(object) array('string' => '‚àö√¢ Test String', 'integer' => 4, ),
-					(object) array('string' => '‚àö¬Æ Test String', 'integer' => 3, ),
-					(object) array('string' => '‚àö√† Test String', 'integer' => 5, ),
+					(object) array('string' => 'é Test String', 'integer' => 2, ),
+					(object) array('string' => 'É Test String', 'integer' => 4, ),
+					(object) array('string' => 'è Test String', 'integer' => 3, ),
+					(object) array('string' => 'È Test String', 'integer' => 5, ),
 					(object) array('string' => 'L Test String', 'integer' => 8, ),
-					(object) array('string' => '‚âà√¨ Test String', 'integer' => 7, ),
-					(object) array('string' => '‚âà√≠ Test String', 'integer' => 6, ),
+					(object) array('string' => 'œ Test String', 'integer' => 7, ),
+					(object) array('string' => 'Œ Test String', 'integer' => 6, ),
 					(object) array('string' => 'p Test String', 'integer' => 10, ),
 					(object) array('string' => 'P Test String', 'integer' => 9, ),
 				),
@@ -914,13 +914,13 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				array('fr_FR.UTF-8', 'fr'),
 				array(
 					(object) array('string' => 'A Test String', 'integer' => 1, ),
-					(object) array('string' => '‚àö¬© Test String', 'integer' => 2, ),
-					(object) array('string' => '‚àö√¢ Test String', 'integer' => 4, ),
-					(object) array('string' => '‚àö¬Æ Test String', 'integer' => 3, ),
-					(object) array('string' => '‚àö√† Test String', 'integer' => 5, ),
+					(object) array('string' => 'é Test String', 'integer' => 2, ),
+					(object) array('string' => 'É Test String', 'integer' => 4, ),
+					(object) array('string' => 'è Test String', 'integer' => 3, ),
+					(object) array('string' => 'È Test String', 'integer' => 5, ),
 					(object) array('string' => 'L Test String', 'integer' => 8, ),
-					(object) array('string' => '‚âà√≠ Test String', 'integer' => 6, ),
-					(object) array('string' => '‚âà√¨ Test String', 'integer' => 7, ),
+					(object) array('string' => 'Œ Test String', 'integer' => 6, ),
+					(object) array('string' => 'œ Test String', 'integer' => 7, ),
 					(object) array('string' => 'P Test String', 'integer' => 9, ),
 					(object) array('string' => 'p Test String', 'integer' => 10, ),
 				),
