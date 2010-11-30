@@ -30,6 +30,7 @@ $ -> Language fix or change
 29-Nov-2010 Christophe Demko
  # [#23532] Strict errors - issues with JCacheController (Ian MacLennan)
  # [#23537] Method signatures don't match causing PHP strict errors - JRouter (Ian MacLennan)
+ # [#23536] Method signatures don't match causing PHP strict errors - JDate (Ian MacLennan)
 
 30-Nov-2010 Jean-Marie Simonet
  # Updating JLanguageTest
