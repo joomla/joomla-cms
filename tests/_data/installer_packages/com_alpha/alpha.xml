@@ -5,7 +5,7 @@
 	behave like an install but upgrades will be treated appropriately even
 	if the interface doesn't support it properly -->
 	<!-- Generic Metadata -->
-	<name>alpha</name>
+	<name>com_alpha</name>
 	<author>John Doe</author>
 	<authorEmail>john.doe@example.org</authorEmail>
 	<authorUrl>http://www.example.org</authorUrl>
@@ -86,7 +86,6 @@
 	<updateservers>
 		<server type="extension" priority="1" name="Extension Update Site">http://jsitepoint.com/update/components/com_alpha/extension.xml</server> <!-- useful for single extensions -->
 		<server type="collection" priority="2" name="Collection Update Site">http://jsitepoint.com/update/update.xml</server><!-- useful for collections of extensions -->
-		<server type="ijoomla" priority="2" name="iJoomla Update Site">http://updates.ijoomla.com/updates/hash/0234234/</server><!-- useful for collections of extensions -->
 	</updateservers>
 
 	<!-- Tables -->
