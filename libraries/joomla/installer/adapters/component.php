@@ -1222,7 +1222,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data = array();
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
-			$data['title'] = $option;
+			$data['title'] = (string)$menuElement;
 			$data['alias'] = (string)$menuElement;
 			$data['link'] = 'index.php?option='.$option;
 			$data['type'] = 'component';
