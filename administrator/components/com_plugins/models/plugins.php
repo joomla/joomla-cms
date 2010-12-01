@@ -188,6 +188,9 @@ class PluginsModelPlugins extends JModelList
 			$query->where('(a.enabled IN (0, 1))');
 		}
 
+		// Filter by state
+		$query->where('a.state >= 0');
+
 		// Filter by folder.
 		if ($folder = $this->getState('filter.folder')) {
 			$query->where('a.folder = '.$db->quote($folder));
