@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 01-Dec-2010 Christophe Demko
  # [#23581] Component installer does not use the key from the menu tag
+ # [#23534] Method signatures don't match causing PHP strict errors - Features model populateState (Ian MacLennan)
 
 01-Dec-2010 Jean-Marie Simonet
  $^ Enabling custom translation of types in installer messages
