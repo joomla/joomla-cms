@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 01-Dec-2010 Jean-Marie Simonet
  $^ Enabling custom translation of types in installer messages
+ # [#23602] Login redirect form does not redirect to the return parameter passed as GET parameter. Thanks Christophe.
  
 29-Nov-2010 Christophe Demko
  # [#23532] Strict errors - issues with JCacheController (Ian MacLennan)

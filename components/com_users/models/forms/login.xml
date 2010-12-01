@@ -21,4 +21,7 @@
 			size="25"
 		/>
 	</fieldset>
+	<fieldset>
+		<field name="return" type="hidden" />
+	</fieldset>
 </form>
