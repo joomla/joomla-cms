@@ -25,7 +25,7 @@ $published = $this->state->get('filter.published');
 
 	<?php if ($published >= 0) : ?>
 		<label id="batch-choose-action-lbl" for="batch-choose-action">
-			<?php echo JText::_('JGLOBAL_BATCH_MOVE'); ?>
+			<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 		</label>
 		<fieldset id="batch-choose-action" class="combo">
 			<select name="batch[menu_id]" class="inputbox" id="batch-menu-id">

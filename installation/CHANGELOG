@@ -31,8 +31,9 @@ $ -> Language fix or change
  $^ Enabling custom translation of types in installer messages
  # [#23602] Login redirect form does not redirect to the return parameter passed as GET parameter. Thanks Christophe.
  # [#22039] Using loadposition to load an articles category module returns Fatal error on front. Thanks Angie.
- $ [#23598] The word "warning" cannot be translated. + ordered soem strings and updated xx-XX.ini
+ $ [#23598] The word "warning" cannot be translated. + ordered some strings and updated xx-XX.ini
  # [#23586] Discovering of plugins by the extension manager consider them as installed. Thanks Christophe.
+ $ [#23585] Correct Batch Menu Copy/Move Label. Thanks Michael
  
 29-Nov-2010 Christophe Demko
  # [#23532] Strict errors - issues with JCacheController (Ian MacLennan)
