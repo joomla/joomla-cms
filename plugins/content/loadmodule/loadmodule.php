@@ -14,6 +14,8 @@ jimport('joomla.plugin.plugin');
 class plgContentLoadmodule extends JPlugin
 {
 	static $test = 0;
+	static $positionbefore = 'test';
+	static $unique = 'test2';
 
 	/**
 	 * Plugin that loads module positions within content
@@ -49,7 +51,6 @@ class plgContentLoadmodule extends JPlugin
 			$article->text = preg_replace("|$match[0]|", $output, $article->text, 1);
 		}
 
-		self::$test = 1;
 	}
 
 	protected function _load($position, $style = 'none')
@@ -61,12 +62,25 @@ class plgContentLoadmodule extends JPlugin
 		$params		= array('style' => $style);
 		$best = self::$test;
 		ob_start();
+		$countmods = 0;
+		
 		foreach ($modules as $module) {
-			echo $renderer->render($module, $params);
-		}
-		$output = ob_get_clean();
-		//self::$test[$position] = 1;
 
+			if((self::$positionbefore != $module->position) && (spl_object_hash($module) != self::$unique)) {
+				$countmods++;
+				self::$positionbefore = $module->position;
+				self::$unique = spl_object_hash($module);
+				echo $renderer->render($module, $params);
+
+				// stop for performance 
+				if($countmods == (count($modules)+1)) {
+					self::$test = 0;
+				}
+			}
+		}
+
+		$output = ob_get_clean();
+		
 		return $output;
 	}
 }
