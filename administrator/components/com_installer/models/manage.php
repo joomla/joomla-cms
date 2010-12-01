@@ -177,7 +177,7 @@ class InstallerModelManage extends InstallerModel
 				}
 			}
 
-			$langstring = 'COM_INSTALLER_TYPE_'. strtoupper($row->type);
+			$langstring = 'COM_INSTALLER_TYPE_TYPE_'. strtoupper($row->type);
 			$rowtype = JText::_($langstring);
 			if(strpos($rowtype, $langstring) !== false) {
 				$rowtype = $row->type;
