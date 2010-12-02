@@ -131,5 +131,3 @@ $params = &$this->params;
 	</p>
 	<?php echo $this->pagination->getPagesLinks(); ?>
 </div>
-
-<div>

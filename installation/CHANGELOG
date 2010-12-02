@@ -33,6 +33,7 @@ $ -> Language fix or change
 
 02-Dec-2010 Jean-Marie Simonet
  # [#23605] Adding the string Select in the batch dropdowns
+ # [#23587] com_content archive template produces invalid markup. Thanks Bill.
 
 01-Dec-2010 Christophe Demko
  # [#23581] Component installer does not use the key from the menu tag
