@@ -88,7 +88,7 @@ class ContentViewArticles extends JView
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_content');
+			JToolBarHelper::preferences('com_content', 550, 800);
 			JToolBarHelper::divider();
 		}
 

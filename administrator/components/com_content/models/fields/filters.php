@@ -80,7 +80,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '			'.str_repeat('<span class="gi">|&mdash;</span>', $group->level).$group->text;
 			$html[] = '		</th>';
 			$html[] = '		<td>';
-			$html[] = '				<select name="'.$this->name.'['.$group->value.'][filter_type]" id="'.$this->id.$group->value.'_filter_type" title="'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'">';
+			$html[] = '				<select name="'.$this->name.'['.$group->value.'][filter_type]" id="'.$this->id.$group->value.'_filter_type" class="hasTip" title="'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'::'.JText::_('JGLOBAL_FILTER_TYPE_DESC').'">';
 			$html[] = '					<option value="BL"'.($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONTENT_OPTION_BLACK_LIST').'</option>';
 			$html[] = '					<option value="WL"'.($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONTENT_OPTION_WHITE_LIST').'</option>';
 			$html[] = '					<option value="NH"'.($group_filter['filter_type'] == 'NH' ? ' selected="selected"' : '').'>'.JText::_('COM_CONTENT_OPTION_NO_HTML').'</option>';
