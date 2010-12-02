@@ -21,10 +21,10 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 <fieldset class="batch">
 	<legend><?php echo JText::_('COM_CATEGORIES_BATCH_OPTIONS');?></legend>
 
-			<label id="batch-access-lbl" for="batch-access">
-				<?php echo JText::_('JGLOBAL_BATCH_ACCESS_LABEL'); ?>
+			<label id="batch-access-lbl" for="batch-access" class="hasTip" title="<?php echo JText::_('JGLOBAL_BATCH_ACCESS_LABEL').'::'.JText::_('JGLOBAL_BATCH_ACCESS_LABEL_DESC'); ?>">
+				<?php echo JText::_('JGLOBAL_BATCH_ACCESS_LABEL') ?>
 			</label>
-			<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => '', 'id' => 'batch-access'));?>
+			<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => JText::_('JGLOBAL_BATCH_NOCHANGE'), 'id' => 'batch-access'));?>
 
 			<?php if ($published >= 0) : ?>
 				<label id="batch-choose-action-lbl" for="batch-category-id">

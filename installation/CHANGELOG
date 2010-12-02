@@ -28,12 +28,13 @@ $ -> Language fix or change
 ! -> Note
 
 01-Dec-2010 Christophe Demko
- # [#23615] *Implementing tooltip for the filters settings in Content Options (Jean-Marie Simonet)
+ # [#23615] Implementing tooltip for the filters settings in Content Options (Jean-Marie Simonet)
  # [#23607] Profile fields not displaying in profile form. (Elin Waring)
 
 02-Dec-2010 Jean-Marie Simonet
  # [#23605] Adding the string Select in the batch dropdowns
  # [#23587] com_content archive template produces invalid markup. Thanks Bill.
+ # [#23613] Adding a tooltip to Select access levels in the batch layouts
 
 01-Dec-2010 Christophe Demko
  # [#23581] Component installer does not use the key from the menu tag
