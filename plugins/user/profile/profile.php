@@ -80,7 +80,7 @@ class plgUserProfile extends JPlugin
 		}
 
 		// Check we are manipulating a valid form.
-		if (!in_array($form->getName(), array('com_admin.profile', 'com_users.registration','com_users.user'))) {
+		if (!in_array($form->getName(), array('com_admin.profile', 'com_users.registration','com_users.profile'))) {
 			return true;
 		}
 
