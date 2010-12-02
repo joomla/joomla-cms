@@ -42,8 +42,8 @@ class InstallerModelManage extends InstallerModel
 			$app->setUserState($this->context.'.data', array('filters'=>$filters));
 		}
 
-		$this->setState($this->context.'.message',$app->getUserState('com_installer.message'));
-		$this->setState($this->context.'.extension_message',$app->getUserState('com_installer.extension_message'));
+		$this->setState('message',$app->getUserState('com_installer.message'));
+		$this->setState('extension_message',$app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message','');
 		$app->setUserState('com_installer.extension_message','');
 

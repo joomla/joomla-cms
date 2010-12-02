@@ -27,9 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-01-Dec-2010 Christophe Demko
+02-Dec-2010 Christophe Demko
  # [#23615] Implementing tooltip for the filters settings in Content Options (Jean-Marie Simonet)
  # [#23607] Profile fields not displaying in profile form. (Elin Waring)
+ # [#23611] The extension manager does *not* display messages when uninstalling
 
 02-Dec-2010 Jean-Marie Simonet
  # [#23605] Adding the string Select in the batch dropdowns
