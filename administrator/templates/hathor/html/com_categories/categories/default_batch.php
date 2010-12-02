@@ -31,7 +31,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 					<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
 				</label>
 					<select name="batch[category_id]" class="inputbox" id="batch-category-id">
-						<option></option>
+						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('published' => $published)));?>
 					</select>
 					<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>

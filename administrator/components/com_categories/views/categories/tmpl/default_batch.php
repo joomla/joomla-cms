@@ -30,7 +30,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 		</label>
 		<fieldset id="batch-choose-action" class="combo">
 			<select name="batch[category_id]" class="inputbox" id="batch-category-id">
-				<option></option>
+				<option value=""><?php echo JText::_('JSELECT') ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('published' => $published)));?>
 			</select>
 			<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
