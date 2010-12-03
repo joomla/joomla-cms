@@ -74,8 +74,8 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 					<?php if (JDEBUG) : ?>
-					<br /><div class="button2-left smallsub"><div class="blank"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
-						<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div></div>
+						<div class="fltrt"><div class="button2-left smallsub"><div class="blank"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuggroup&group_id='.(int) $item->id);?>">
+						<?php echo JText::_('COM_USERS_DEBUG_GROUP');?></a></div></div></div>
 					<?php endif; ?>
 				</td>
 				<td class="center">
