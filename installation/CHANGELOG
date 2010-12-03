@@ -34,6 +34,7 @@ $ -> Language fix or change
  $ Modifications of the installation ini files.
  # [#22351] component messages - my settings wrong display. Thanks Andrea.
  # [#23635] "Debug Permissions Report" buttons improvement. Thanks Dennis.
+ # [#23636] Invalid using of JLIB_APPLICATION_ERROR_UNHELD_ID. Thanks Dennis.
 
 02-Dec-2010 Mark Dexter
 # Typo in language file

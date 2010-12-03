@@ -283,7 +283,7 @@ class ContentControllerArticle extends JControllerForm
 			// Check we are holding the id in the edit list.
 			if (!$this->checkEditId($context, $recordId)) {
 				// Somehow the person just went to the form - we don't allow that.
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 				$this->setMessage($this->getError(), 'error');
 				$this->setRedirect($this->getReturnPage());
 
@@ -325,7 +325,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (!$this->checkEditId($context, $recordId)) {
 			// Somehow the person just went to the form and saved it - we don't allow that.
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_UNHELD_ID'));
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect($this->getReturnPage());
 
