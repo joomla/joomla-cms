@@ -43,6 +43,7 @@ class ContentViewArticle extends JView
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

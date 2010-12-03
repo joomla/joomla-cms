@@ -31,6 +31,7 @@ class CategoriesViewCategory extends JView
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo	= CategoriesHelper::getActions($this->state->get('category.component'));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {

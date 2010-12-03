@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Dec-2010 Mark Dexter
+# [#23133] Back end edit screens need ACL
+
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne
 

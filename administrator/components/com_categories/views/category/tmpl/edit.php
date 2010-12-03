@@ -20,13 +20,11 @@ JHtml::_('behavior.keepalive');
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
+	Joomla.submitbutton = function(task) {
 		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-		else {
+		} else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
@@ -54,14 +52,14 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>			
-
-				<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
-				<div class="button2-left"><div class="blank">
-		      		<button type="button" onclick="document.location.href='#access-rules';">
-		      		<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
-		      	</div></div>
-		    	</li>
-	
+				<?php if ($this->canDo->get('core.admin')): ?>
+					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
+					<div class="button2-left"><div class="blank">
+		      			<button type="button" onclick="document.location.href='#access-rules';">
+		      			<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
+		      		</div></div>
+		    		</li>
+				<?php endif; ?>	
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 	
@@ -89,18 +87,21 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"></div>
-	<div  class="width-100 fltlft">
+	<?php if ($this->canDo->get('core.admin')): ?>
+		<div  class="width-100 fltlft">
 
-		<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 	
-		<?php echo JHtml::_('sliders.panel',JText::_('COM_CATEGORIES_FIELDSET_RULES'), 'access-rules'); ?>	
-			<fieldset class="panelform">
-				<?php echo $this->form->getLabel('rules'); ?>
-				<?php echo $this->form->getInput('rules'); ?>
-			</fieldset>
+			<?php echo JHtml::_('sliders.panel',JText::_('COM_CATEGORIES_FIELDSET_RULES'), 'access-rules'); ?>	
+				<fieldset class="panelform">
+					<?php echo $this->form->getLabel('rules'); ?>
+					<?php echo $this->form->getInput('rules'); ?>
+				</fieldset>
 			
-		<?php echo JHtml::_('sliders.end'); ?>
-
+			<?php echo JHtml::_('sliders.end'); ?>
+		</div>
+	<?php endif; ?>
+	<div>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
