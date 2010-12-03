@@ -161,7 +161,9 @@ class JControllerForm extends JController
 	 */
 	protected function allowAdd($data = array())
 	{
-		return JFactory::getUser()->authorise('core.create', $this->option);
+		$user = JFactory::getUser();
+		return ($user->authorise('core.create', $this->option) || 
+			count($user->getAuthorisedCategories($this->option, 'core.create')));
 	}
 
 	/**
