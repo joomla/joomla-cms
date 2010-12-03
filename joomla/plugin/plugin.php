@@ -51,7 +51,7 @@ abstract class JPlugin extends JEvent
 	 *
 	 * @param object $subject The object to observe
 	 * @param array  $config  An optional associative array of configuration settings.
-	 * Recognized key values include 'name', 'group', 'params'
+	 * Recognized key values include 'name', 'group', 'params', 'language'
 	 * (this list is not meant to be comprehensive).
 	 * @since 1.5
 	 */
@@ -77,11 +77,16 @@ abstract class JPlugin extends JEvent
 		if (isset($config['type'])) {
 			$this->_type = $config['type'];
 		}
-		$events = array_diff(get_class_methods($this), get_class_methods('JPlugin'));
-		foreach($events as $event)
+
+		// Set the automatic language loading
+		if (!isset($config['language']) || $config['language'])
 		{
-			$method = array('event' => $event, 'handler' => array($this, 'onFireEvent'));
-			$subject->attach($method);
+			$events = array_diff(get_class_methods($this), get_class_methods('JPlugin'));
+			foreach($events as $event)
+			{
+				$method = array('event' => $event, 'handler' => array($this, 'onFireEvent'));
+				$subject->attach($method);
+			}
 		}
 		parent::__construct($subject);
 	}
