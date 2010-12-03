@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#22351] component messages - my settings wrong display. Thanks Andrea.
  # [#23635] "Debug Permissions Report" buttons improvement. Thanks Dennis.
  # [#23636] Invalid using of JLIB_APPLICATION_ERROR_UNHELD_ID. Thanks Dennis.
+ # [#23608] Sort by user group 500 error. Thanks Mark. Temporary fix.
 
 02-Dec-2010 Mark Dexter
 # Typo in language file

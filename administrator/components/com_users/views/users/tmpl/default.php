@@ -72,7 +72,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap" width="10%">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'group_names', $listDirn, $listOrder); ?>
+					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
 				<th class="nowrap" width="15%">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
