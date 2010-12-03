@@ -49,19 +49,19 @@ class CategoriesModelCategories extends JModelList
 		// extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-		$search = $app->getUserStateFromRequest($context.'.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $app->getUserStateFromRequest($context.'.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
-		$access = $app->getUserStateFromRequest($context.'.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $app->getUserStateFromRequest($context.'.filter.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($context.'.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$language = $app->getUserStateFromRequest($context.'.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		// List state information.

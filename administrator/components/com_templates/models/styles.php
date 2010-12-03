@@ -32,13 +32,13 @@ class TemplatesModelStyles extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$template = $app->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '0', 'cmd');
+		$template = $this->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '0', 'cmd');
 		$this->setState('filter.template', $template);
 
-		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', null);
+		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', null);
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.

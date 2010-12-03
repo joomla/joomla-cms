@@ -90,22 +90,22 @@ class UsersModelDebugGroup extends JModelList
 		}
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$value = $app->getUserStateFromRequest($this->context.'.filter.group_id', 'group_id', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context.'.filter.group_id', 'group_id', 0, 'int', false);
 		$this->setState('filter.group_id', $value);
 
-		$levelStart = $app->getUserStateFromRequest($this->context.'.filter.level_start', 'filter_level_start', 0, 'int');
+		$levelStart = $this->getUserStateFromRequest($this->context.'.filter.level_start', 'filter_level_start', 0, 'int');
 		$this->setState('filter.level_start', $levelStart);
 
-		$value = $app->getUserStateFromRequest($this->context.'.filter.level_end', 'filter_level_end', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context.'.filter.level_end', 'filter_level_end', 0, 'int');
 		if ($value > 0 && $value < $levelStart) {
 			$value = $levelStart;
 		}
 		$this->setState('filter.level_end', $value);
 
-		$component = $app->getUserStateFromRequest($this->context.'.filter.component', 'filter_component');
+		$component = $this->getUserStateFromRequest($this->context.'.filter.component', 'filter_component');
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.

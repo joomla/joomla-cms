@@ -34,10 +34,10 @@ class SearchModelSearches extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$showResults = $app->getUserStateFromRequest($this->context.'.filter.results', 'filter_results', null, 'int');
+		$showResults = $this->getUserStateFromRequest($this->context.'.filter.results', 'filter_results', null, 'int');
 		$this->setState('filter.results', $showResults);
 
 		// Load the parameters.

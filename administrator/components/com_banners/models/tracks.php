@@ -36,19 +36,19 @@ class BannersModelTracks extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$type = $app->getUserStateFromRequest($this->context.'.filter.type', 'filter_type');
+		$type = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type');
 		$this->setState('filter.type', $type);
 
-		$begin = $app->getUserStateFromRequest($this->context.'.filter.begin', 'filter_begin', '', 'string');
+		$begin = $this->getUserStateFromRequest($this->context.'.filter.begin', 'filter_begin', '', 'string');
 		$this->setState('filter.begin', $begin);
 
-		$end = $app->getUserStateFromRequest($this->context.'.filter.end', 'filter_end', '', 'string');
+		$end = $this->getUserStateFromRequest($this->context.'.filter.end', 'filter_end', '', 'string');
 		$this->setState('filter.end', $end);
 
-		$categoryId = $app->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
+		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id', '');
 		$this->setState('filter.category_id', $categoryId);
 
-		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
+		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', '');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.

@@ -35,6 +35,8 @@ $ -> Language fix or change
 # [#23590] Clean up commented code in weblinks (Elin Waring)
 # [#23169] Remove the border and frameborder attributes. (Rouven Weßling)
 # [#21765] Codemirror doesn't work with XHTML is served with an XML MIME type (Rouven Weßling)
+# [#22664] Issue with displayed records after change of filters
+
 
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne

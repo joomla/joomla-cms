@@ -37,16 +37,16 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$active = $app->getUserStateFromRequest($this->context.'.filter.active', 'filter_active');
+		$active = $this->getUserStateFromRequest($this->context.'.filter.active', 'filter_active');
 		$this->setState('filter.active', $active);
 
-		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
+		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
 		$this->setState('filter.state', $state);
 
-		$groupId = $app->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
+		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
 		// Load the parameters.

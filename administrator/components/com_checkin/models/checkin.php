@@ -32,7 +32,7 @@ class CheckinModelCheckin extends JModelList
 	protected function populateState()
 	{
 		$app = JFactory::getApplication();
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.

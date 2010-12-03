@@ -53,7 +53,7 @@ class CacheModelCache extends JModelList
 	{
 		$app = JFactory::getApplication();
 		
-		$clientId = $app->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
+		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
 
 		$client	= JApplicationHelper::getClientInfo($clientId);

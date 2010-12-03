@@ -32,19 +32,19 @@ class ModulesModelPositions extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $app->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$state = $app->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
 		$clientId = JRequest::getInt('client_id',0);
 		$this->setState('filter.client_id',$clientId);
 
-		$template = $app->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '', 'string');
+		$template = $this->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '', 'string');
 		$this->setState('filter.template', $template);
 
-		$type = $app->getUserStateFromRequest($this->context.'.filter.type', 'filter_type', '', 'string');
+		$type = $this->getUserStateFromRequest($this->context.'.filter.type', 'filter_type', '', 'string');
 		$this->setState('filter.type', $type);
 
 		// Load the parameters.
