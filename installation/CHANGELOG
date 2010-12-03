@@ -31,6 +31,7 @@ $ -> Language fix or change
 # [#23133] Back end edit screens need ACL
 # [#23562] Categories & Menus Batch ACL checks missing
 # [#23554] Alternative layout example (Elin Waring)
+# [#23558] Customer Group cannot save article from category list
 
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne

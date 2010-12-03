@@ -321,7 +321,12 @@ class ContentControllerArticle extends JControllerForm
 		$model		= $this->getModel();
 		$task		= $this->getTask();
 		$context	= "$this->option.edit.$this->context";
-		$recordId	= JRequest::getInt('id');
+		if (in_array(JRequest::getString('view'), array('article', 'form'))) {
+			$recordId = JRequest::getInt('id');
+		} 
+		else {
+			$recordId = 0;
+		}
 
 		if (!$this->checkEditId($context, $recordId)) {
 			// Somehow the person just went to the form and saved it - we don't allow that.
