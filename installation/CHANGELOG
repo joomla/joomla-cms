@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-Dec-2010 Mark Dexter
 # [#23133] Back end edit screens need ACL
+# [#23562] Categories & Menus Batch ACL checks missing
 
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne

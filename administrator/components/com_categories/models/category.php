@@ -489,6 +489,17 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function batchAccess($value, $pks)
 	{
+		// Check that user has edit permission for every category being changed
+		// Note that the entire batch operation fails if any category lacks edit permission
+		$user	= JFactory::getUser();
+		$extension = JRequest::getWord('extension');
+		foreach ($pks as $pk) {
+			if (!$user->authorise('core.edit', $extension.'.category.'.$pk)) {
+				// Error since user cannot edit this category
+				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_EDIT'));
+				return false;
+			}
+		}
 		$table = $this->getTable();
 		foreach ($pks as $pk) {
 			$table->reset();
@@ -520,6 +531,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$table	= $this->getTable();
 		$db		= $this->getDbo();
+		$user	= JFactory::getUser();
+		$extension = JRequest::getWord('extension');
 
 		// Check that the parent exists
 		if ($parentId) {
@@ -535,6 +548,14 @@ class CategoriesModelCategory extends JModelAdmin
 					$parentId = 0;
 				}
 			}
+			// Check that user has create permission for parent category
+			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : 
+				$user->authorise('core.create', $extension.'.category.'.$parentId);
+			if (!$canCreate) {
+				// Error since user cannot create in parent category
+				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
+				return false;
+			}
 		}
 
 		// If the parent is 0, set it to the ID of the root item in the tree
@@ -542,6 +563,11 @@ class CategoriesModelCategory extends JModelAdmin
 			if (!$parentId = $table->getRootId()) {
 				$this->setError($db->getErrorMsg());
 				return false;
+			}
+			// Make sure we can create in root
+			elseif (!$user->authorise('core.create', $extension)) {
+				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
+				return false;				
 			}
 		}
 
@@ -666,6 +692,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$table	= $this->getTable();
 		$db		= $this->getDbo();
+		$user	= JFactory::getUser();
+		$extension = JRequest::getWord('extension');
 
 		// Check that the parent exists.
 		if ($parentId) {
@@ -682,7 +710,26 @@ class CategoriesModelCategory extends JModelAdmin
 					$parentId = 0;
 				}
 			}
+			// Check that user has create permission for parent category
+			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : 
+				$user->authorise('core.create', $extension.'.category.'.$parentId);
+			if (!$canCreate) {
+				// Error since user cannot create in parent category
+				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
+				return false;
+			}
+
+			// Check that user has edit permission for every category being moved
+			// Note that the entire batch operation fails if any category lacks edit permission
+			foreach ($pks as $pk) {
+				if (!$user->authorise('core.edit', $extension.'.category.'.$pk)) {
+					// Error since user cannot edit this category
+					$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_EDIT'));
+					return false;
+				}
+			}
 		}
+	
 
 		// We are going to store all the children and just move the category
 		$children = array();

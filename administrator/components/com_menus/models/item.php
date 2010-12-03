@@ -147,6 +147,12 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function batchAccess($value, $pks)
 	{
+		// Check that user has edit permission for menus
+		$user	= JFactory::getUser();
+		if (!$user->authorise('core.edit', 'com_menus')) {
+			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_EDIT'));
+			return false;
+		}
 		$table = $this->getTable();
 
 		foreach ($pks as $pk)
@@ -210,6 +216,13 @@ class MenusModelItem extends JModelAdmin
 				$this->setError($db->getErrorMsg());
 				return false;
 			}
+		}
+		
+		// Check that user has create permission for menus
+		$user	= JFactory::getUser();
+		if (!$user->authorise('core.create', 'com_menus')) {
+			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			return false;
 		}
 
 		// We need to log the parent ID
@@ -356,6 +369,18 @@ class MenusModelItem extends JModelAdmin
 					$parentId = 0;
 				}
 			}
+		}
+		
+		// Check that user has create and edit permission for menus
+		$user	= JFactory::getUser();
+		if (!$user->authorise('core.create', 'com_menus')) {
+			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			return false;
+		}
+
+		if (!$user->authorise('core.edit', 'com_menus')) {
+			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_EDIT'));
+			return false;
 		}
 
 		// We are going to store all the children and just moved the menutype
