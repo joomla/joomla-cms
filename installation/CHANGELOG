@@ -36,6 +36,7 @@ $ -> Language fix or change
 # [#23169] Remove the border and frameborder attributes. (Rouven Weßling)
 # [#21765] Codemirror doesn't work with XHTML is served with an XML MIME type (Rouven Weßling)
 # [#22664] Issue with displayed records after change of filters
+# [#23599] Add a tooltip that a password needs to have at least 4 characters.
 
 
 03-Dec-2010 Christophe Demko
