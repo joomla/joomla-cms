@@ -1436,3 +1436,40 @@ div.current
 
 #close a
 {text-decoration:none}
+
+/*Encyclopedia*/
+div.encyclopedia_col1 {
+	width:49%;
+	float:left;
+
+}
+div.encyclopedia_col1 p.img_caption {
+	font-size: .6em;
+}
+div.encyclopedia_col2 {
+	width:49%;
+	float:right;
+	padding-left:3px;
+	margin-left: 2px;	
+} 
+div.encyclopedia_col2 p {
+	padding-left:3px;
+	margin-left: 2px;	
+} 
+
+div.encyclopedia_links ul
+{
+        display:block;
+        margin:0px 0px 1px 0px;
+        list-style-type:none;
+        padding:10px 0px 10px 0px;
+        width:100%
+}
+div.encyclopedia_links ul li
+{
+        display:inline ;
+        padding:2px ;
+        margin:2px;
+        white-space:nowrap;
+
+}

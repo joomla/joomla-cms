@@ -2139,3 +2139,6 @@ overflow:visible
 {
 	margin:0 5px 0 0
 }
+.clr{
+	clear:both;
+}
