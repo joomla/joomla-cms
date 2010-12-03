@@ -44,6 +44,10 @@ class JFormFieldMedia extends JFormField
 	 */
 	protected function getInput()
 	{
+		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$authorField= $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+		$asset		= $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'] ;
+
 		$link = (string) $this->element['link'];
 		if (!self::$initialised) {
 
@@ -100,7 +104,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a class="modal" title="'.JText::_('JSELECT').'"' .
-					' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&amp;view=images&amp;tmpl=component') . '&amp;fieldid='.$this->id.'&amp;folder='.$folder).'"' .
+					' href="'.($this->element['readonly'] ? '' : ($link ? $link : 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset='.$asset.'&amp;author='.$this->form->getValue($authorField)) . '&amp;fieldid='.$this->id.'&amp;folder='.$folder).'"' .
 					' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 		$html[] = '			'.JText::_('JSELECT').'</a>';
 		$html[] = '	</div>';
