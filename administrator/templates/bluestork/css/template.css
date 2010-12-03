@@ -116,6 +116,10 @@ textarea {
 	border: 1px solid silver;
 }
 
+iframe {
+	border: 0;
+}
+
 .invalid {
 	color: red;
 	font-weight: bold;

@@ -33,6 +33,7 @@ $ -> Language fix or change
 # [#23554] Alternative layout example (Elin Waring)
 # [#23558] Customer Group cannot save article from category list
 # [#23590] Clean up commented code in weblinks (Elin Waring)
+# [#23169] Remove the border and frameborder attributes. (Rouven Weßling)
 
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne

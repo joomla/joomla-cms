@@ -54,6 +54,10 @@ form {
 	padding: 0;
 }
 
+iframe {
+	border: 0;
+}
+
 td:first-child {
 	width: 100px;
 }

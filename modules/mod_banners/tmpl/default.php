@@ -88,7 +88,6 @@ $baseurl = JURI::base();
 				<object
 					classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 					codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
-					border="0"
 					<?php if (!empty($width)) echo 'width ="'. $width.'"';?>
 					<?php if (!empty($height)) echo 'height ="'. $height.'"';?>
 				>

@@ -44,7 +44,7 @@ function modChrome_table($module, &$params, &$attribs)
  */
 function modChrome_horz($module, &$params, &$attribs)
 { ?>
-	<table cellspacing="1" cellpadding="0" border="0" width="100%">
+	<table cellspacing="1" cellpadding="0" width="100%">
 		<tr>
 			<td>
 				<?php modChrome_table($module, $params, $attribs); ?>

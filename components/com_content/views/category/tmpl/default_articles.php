@@ -53,7 +53,7 @@ $listDirn	= $this->state->get('list.direction');
 	</fieldset>
 	<?php endif; ?>
 
-	<table class="category" border="1">
+	<table class="category">
 		<?php if ($this->params->get('show_headings')) :?>
 		<thead>
 			<tr>

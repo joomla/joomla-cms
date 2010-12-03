@@ -122,6 +122,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+iframe {
+	border: 0;
+}
+
 /* new styles */
 
 .enabled 	{ color: #005800; font-weight: bold; }

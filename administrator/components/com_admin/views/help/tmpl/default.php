@@ -53,7 +53,7 @@ jimport('joomla.language.help');
 			<legend>
 				<?php echo JText::_('COM_ADMIN_VIEW'); ?>
 			</legend>
-				<iframe name="helpFrame" src="<?php echo $this->page;?>" class="helpFrame" frameborder="0"></iframe>
+				<iframe name="helpFrame" src="<?php echo $this->page;?>" class="helpFrame"></iframe>
 		</fieldset>
 	</div>
 </form>
