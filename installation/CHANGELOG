@@ -42,6 +42,7 @@ $ -> Language fix or change
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne
  # [#23568] Media field needs to cope with com_media ACL
+ # [#23433] Skip the automaticall loading of plugin language file
 
 03-Dec-2010 Jean-Marie Simonet
  $ Modifications of the installation ini files.
