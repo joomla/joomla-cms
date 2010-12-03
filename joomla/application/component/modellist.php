@@ -248,4 +248,39 @@ class JModelList extends JModel
 			$this->state->set('list.limit', 0);
 		}
 	}
+	
+	/**
+	 * Gets the value of a user state variable and sets it in the session
+	 * This is the same as the method in JApplication except that this also can optionally
+	 *    force you back to the first page when a filter has changed
+	 *
+	 * @param	string	The key of the user state variable.
+	 * @param	string	The name of the variable passed in a request.
+	 * @param	string	The default value for the variable if not found. Optional.
+	 * @param	string	Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param	boolean	If true, the limitstart in request is set to zero
+	 * @return	The request user state.
+	 * @since	1.5
+	 */
+	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
+	{
+		$app = JFactory::getApplication();
+		$old_state = $app->getUserState($key);
+		$cur_state = (!is_null($old_state)) ? $old_state : $default;
+		$new_state = JRequest::getVar($request, null, 'default', $type);
+
+		if (($cur_state != $new_state) && ($resetPage)){
+			JRequest::setVar('limitstart', 0);
+		}		
+
+		// Save the new value only if it was set in this request.
+		if ($new_state !== null) {
+			$app->setUserState($key, $new_state);
+		}
+		else {
+			$new_state = $cur_state;
+		}
+
+		return $new_state;
+	}	
 }
