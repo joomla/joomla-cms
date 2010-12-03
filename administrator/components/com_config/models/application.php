@@ -127,8 +127,6 @@ class ConfigModelApplication extends JModelForm
 		// Escape the offline message if present.
 		if (isset($data['offline_message'])) {
 			$data['offline_message']	= JFilterOutput::ampReplace($data['offline_message']);
-			$data['offline_message']	= str_replace('"', '&quot;', $data['offline_message']);
-			$data['offline_message']	= str_replace("'", '&#039;', $data['offline_message']);
 		}
 
 		// Purge the database session table if we are changing to the database handler.

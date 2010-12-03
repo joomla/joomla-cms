@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Dec-2010 Christophe Demko
+ # [#22033] Apostrophe du mode hors ligne
+
 03-Dec-2010 Jean-Marie Simonet
  $ Modifications of the installation ini files.
  # [#22351] component messages - my settings wrong display. Thanks Andrea.
