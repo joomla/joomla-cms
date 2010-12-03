@@ -44,13 +44,14 @@ class JTableUsergroup extends JTable
 			return false;
 		}
 
-		// Check for a duplicate title.
-		// There is a unique index on the title field in the table.
+		// Check for a duplicate parent_id, title.
+		// There is a unique index on the (parend_id, title) field in the table.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(title)')
 			->from($this->_tbl)
 			->where('title = '.$db->quote(trim($this->title)))
+			->where('parent_id = '.(int) $this->parent_id)
 			->where('id <> '.(int) $this->id);
 		$db->setQuery($query);
 

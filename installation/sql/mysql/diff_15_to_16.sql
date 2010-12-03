@@ -1017,3 +1017,10 @@ SELECT
 #ALTER TABLE `#__categories` DROP COLUMN `section`;
 
 
+-- issue http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=22606
+ALTER TABLE `#__usergroups`
+	DROP INDEX `idx_usergroup_title_lookup`,
+	ADD INDEX `idx_usergroup_title_lookup` ( `title` ),
+	ADD UNIQUE `idx_usergroup_parent_title_lookup` ( `parent_id` , `title` ) 
+;
+

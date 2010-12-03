@@ -937,7 +937,8 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   `rgt` integer NOT NULL default '0' COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_usergroup_title_lookup` (`title`),
+  UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
+  KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
