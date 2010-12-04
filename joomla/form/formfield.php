@@ -166,6 +166,22 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The count value for generated name field
+	 *
+	 * @var		int
+	 * @since	1.6
+	 */
+	static protected $count = 0;
+
+	/**
+	 * The string used for generated fields names
+	 *
+	 * @var		int
+	 * @since	1.6
+	 */
+	static protected $generated_fieldname = '__field';
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param	object	$form	The form to attach to the form field object.
@@ -319,9 +335,9 @@ abstract class JFormField
 		$this->group = $group;
 
 		// Set the field name and id.
-		$this->fieldname 	= $name;
-		$this->name			= $this->getName($name);
-		$this->id			= $this->getId($id, $name);
+		$this->fieldname 	= $this->getFieldName($name);
+		$this->name			= $this->getName($this->fieldname);
+		$this->id			= $this->getId($id, $this->fieldname);
 
 		// Set the field default value.
 		$this->value = $value;
@@ -468,5 +484,23 @@ abstract class JFormField
 		}
 
 		return $name;
+	}
+	/**
+	 * Method to get the field name used.
+	 *
+	 * @param	string	$name	The field element name.
+	 *
+	 * @return	string	The field name
+	 * @since	1.6
+	 */
+	protected function getFieldName($fieldName)
+	{
+		if ($fieldName) {
+			return $fieldName;
+		}
+		else {
+			self::$count = self::$count + 1;
+			return self::$generated_fieldname . self::$count;
+		}
 	}
 }
