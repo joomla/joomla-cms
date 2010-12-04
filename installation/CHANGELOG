@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 04-Dec-2010 Jean-Marie Simonet
-$ Adding missing ini string
+ $ Adding missing ini string
+ #$ Adding Phnom Penh in time zones. Updating xx-XX.ini(s)
 
 03-Dec-2010 Ian MacLennan
  # [#23016] Use minified/uncompressed files for more Scripts (Rouven Weßling)
