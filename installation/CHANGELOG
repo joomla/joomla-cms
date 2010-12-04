@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-Dec-2010 Christophe Demko
  # [#23436] Cannot utilize more than one spacer field type in component config.xml
+ # Omitting of commit in [#22606]
 
 04-Dec-2010 Jean-Marie Simonet
  $ Adding missing ini string
