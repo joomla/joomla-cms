@@ -374,6 +374,12 @@ class JFormDataHelper
 				<option value="yellow">Yellow</option>
 			</field>
 		</fields>
+
+		<field
+			type="spacer"
+			label="Title"
+			description="The title." />
+
 	</fields>
 </form>';
 

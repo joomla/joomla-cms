@@ -677,16 +677,5 @@ class JInstallerTest extends JoomlaTestCase
 		'This test has not been implemented yet.'
 		);
 	}
-
-	/**
-	 * @todo Implement testGetGroupIDFromName().
-	 */
-	public function testGetGroupIDFromName()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-		'This test has not been implemented yet.'
-		);
-	}
 }
 

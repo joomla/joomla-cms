@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2010 Christophe Demko
+ # Test coverage for automatic generated field name
+
 30-Nov-2010 Mark Dexter
 # Fix failing JStringTest and JArrayHelperTest due to locale settings
 # Skip some string sort tests if MAC OS

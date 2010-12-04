@@ -310,5 +310,21 @@ class JFormFieldTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' The hidden property should be set from the hidden attribute.'
 		);
+
+		// Test automatic generated name.
+
+		$spacer = array_pop($xml->xpath('fields/field[@type="spacer"]'));
+
+		$this->assertThat(
+			$field->setup($spacer, ''),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->name,
+			$this->equalTo('__field1'),
+			'Line:'.__LINE__.' The spacer name should be set using an automatic generated name.'
+		);
 	}
 }

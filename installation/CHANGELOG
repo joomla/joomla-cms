@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2010 Christophe Demko
+ # [#23436] Cannot utilize more than one spacer field type in component config.xml
+
 04-Dec-2010 Jean-Marie Simonet
  $ Adding missing ini string
  #$ Adding Phnom Penh in time zones. Updating xx-XX.ini(s)
@@ -45,7 +48,6 @@ $ -> Language fix or change
 # [#21765] Codemirror doesn't work with XHTML is served with an XML MIME type (Rouven Weßling)
 # [#22664] Issue with displayed records after change of filters
 # [#23599] Add a tooltip that a password needs to have at least 4 characters.
-
 
 03-Dec-2010 Christophe Demko
  # [#22033] Apostrophe du mode hors ligne
