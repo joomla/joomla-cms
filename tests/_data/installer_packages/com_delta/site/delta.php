@@ -17,4 +17,4 @@
  * @see http://joomlacode.org/gf/project/	JoomlaCode Project:
  */
 
- echo '<p>'. JText::_('COM_ALPHA_TESTING_COMPONENT') .'</p>';
+ echo '<p>'. JText::_('COM_DELTA_TESTING_COMPONENT') .'</p>';

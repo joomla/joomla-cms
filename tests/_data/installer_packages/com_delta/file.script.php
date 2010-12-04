@@ -16,7 +16,7 @@
  * @version SVN: $Id$
  */
 
-class Com_AlphaInstallerScript {
+class Com_DeltaInstallerScript {
 
 	function install($parent) {
 		echo '<p>'. JText::_('COM_DELTA_16_CUSTOM_INSTALL_SCRIPT') . '</p>';
