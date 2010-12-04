@@ -1797,17 +1797,4 @@ class JInstaller extends JAdapter
 		}
 		return $retval;
 	}
-
-	/**
-	 * Get a group ID from a given name
-	 * @param string $groupname Name of group to find
-	 * @return int the group id of the user, false on error
-	 * @todo Find the right place to put this function
-	 */
-	function getGroupIDFromName($groupname)
-	{
-		$dbo = $this->getDBO();
-		$dbo->setQuery('SELECT id FROM #__usergroups WHERE title = "'. $dbo->getEscaped($groupname) .'"');
-		return $dbo->loadResult();
-	}
 }
