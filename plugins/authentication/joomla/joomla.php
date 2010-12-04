@@ -67,6 +67,12 @@ class plgAuthenticationJoomla extends JPlugin
 				$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
 				$response->email = $user->email;
 				$response->fullname = $user->name;
+				if (JFactory::getApplication()->isAdmin()) {
+					$response->language = $user->getParam('admin_language');
+				}
+				else {
+					$response->language = $user->getParam('language');
+				}
 				$response->status = JAUTHENTICATE_STATUS_SUCCESS;
 				$response->error_message = '';
 			} else {

@@ -99,4 +99,26 @@ class JMenuSite extends JMenu
 		}
 		return parent::getItems($attributes, $values, $firstonly);
 	}
+
+	/**
+	 * Get menu item by id
+	 *
+	 * @param	string	$language	The language code.
+	 *
+	 * @return	object	The item object
+	 * @since	1.5
+	 */
+	function getDefault($language='*')
+	{
+		if (array_key_exists($language, $this->_default) && JFactory::getApplication()->getLanguageFilter()) {
+			return $this->_items[$this->_default[$language]];
+		}
+		else if (array_key_exists('*', $this->_default)) {
+			return $this->_items[$this->_default['*']];
+		}
+		else {
+			return 0;
+		}
+	}
+
 }

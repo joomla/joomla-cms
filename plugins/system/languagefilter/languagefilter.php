@@ -57,8 +57,9 @@ class plgSystemLanguageFilter extends JPlugin
 				$parts = explode('/', $path);
 
 				// The language segment is always at the beginning of the route path if it exists.
-				$sef = '';
-				if (!empty($parts)) {
+				$sef = $uri->getVar('lang');
+				
+				if (!empty($parts) && empty($sef)) {
 					$sef = reset($parts);
 				}
 			}
@@ -244,14 +245,40 @@ class plgSystemLanguageFilter extends JPlugin
 				{
 					$app->setUserState('com_users.edit.profile.redirect','index.php?Itemid='.$app->getMenu()->getDefault($lang_code)->id.'&lang='.$lang_codes[$lang_code]->sef);
 					self::$tag = $lang_code;
+					// Create a cookie
+					$conf = JFactory::getConfig();
+					$cookie_domain 	= $conf->get('config.cookie_domain', '');
+					$cookie_path 	= $conf->get('config.cookie_path', '/');
+					setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 				}
-
-				// Create a cookie
-				$conf = JFactory::getConfig();
-				$cookie_domain 	= $conf->get('config.cookie_domain', '');
-				$cookie_path 	= $conf->get('config.cookie_path', '/');
-				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 			}
+		}
+	}
+
+	/**
+	 * This method should handle any login logic and report back to the subject
+	 *
+	 * @param	array	$user		Holds the user data
+	 * @param	array	$options	Array holding options (remember, autoregister, group)
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	public function onUserLogin($user, $options = array())
+	{
+		$app = JFactory::getApplication();
+		if ($app->isSite())
+		{
+			$lang_code = $user['language'];
+			if (empty($lang_code)) {
+				$lang_code = self::$default_lang;
+			}
+			self::$tag = $lang_code;
+			// Create a cookie
+			$conf = JFactory::getConfig();
+			$cookie_domain 	= $conf->get('config.cookie_domain', '');
+			$cookie_path 	= $conf->get('config.cookie_path', '/');
+			setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 		}
 	}
 }

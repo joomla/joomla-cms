@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ Adding missing ini string
  #$ Adding Phnom Penh in time zones. Updating xx-XX.ini(s)
  # Missing file in [#23016] breaks global config when debug on
+ # [#23649] Langfilter home page and user site language. Thanks Christophe.
 
 03-Dec-2010 Ian MacLennan
  # [#23016] Use minified/uncompressed files for more Scripts (Rouven Weßling)

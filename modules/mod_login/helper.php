@@ -14,11 +14,12 @@ class modLoginHelper
 {
 	static function getReturnURL($params, $type)
 	{
+		$app	= JFactory::getApplication();
+		$router = $app->getRouter();
 		$url = null;
 		if ($itemid =  $params->get($type))
 		{
 			$db		= JFactory::getDbo();
-			$app	= JFactory::getApplication();
 			$query	= $db->getQuery(true);
 
 			$query->select($db->nameQuote('link'));
@@ -28,12 +29,11 @@ class modLoginHelper
 
 			$db->setQuery($query);
 			if ($link = $db->loadResult()) {
-				$router = JSite::getRouter();
 				if ($router->getMode() == JROUTER_MODE_SEF) {
-					$url = JRoute::_('index.php?Itemid='.$itemid, false);
+					$url = 'index.php?Itemid='.$itemid;
 				}
 				else {
-					$url = JRoute::_($link.'&Itemid='.$itemid, false);
+					$url = $link.'&Itemid='.$itemid;
 				}
 			}
 		}
@@ -41,7 +41,32 @@ class modLoginHelper
 		{
 			// stay on the same page
 			$uri = JFactory::getURI();
-			$url = $uri->toString(array('path', 'query', 'fragment'));
+			$vars = $router->parse($uri);
+			unset($vars['lang']);
+			if ($router->getMode() == JROUTER_MODE_SEF)
+			{
+				if (isset($vars['Itemid']))
+				{
+					$itemid = $vars['Itemid'];
+					$menu = $app->getMenu();
+					$item = $menu->getItem($itemid);
+					unset($vars['Itemid']);
+					if ($vars == $item->query) {
+						$url = 'index.php?Itemid='.$itemid;
+					}
+					else {
+						$url = 'index.php?'.JURI::buildQuery($vars).'&Itemid='.$itemid;
+					}
+				}
+				else
+				{
+					$url = 'index.php?'.JURI::buildQuery($vars);
+				}
+			}
+			else
+			{
+				$url = 'index.php?'.JURI::buildQuery($vars);
+			}
 		}
 
 		return base64_encode($url);
