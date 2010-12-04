@@ -81,7 +81,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function caption()
 	{
-		JHtml::_('script','system/caption.js', true, true);
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		JHtml::_('script','system/caption'.$uncompressed.'.js', true, true);
 	}
 
 	/**
@@ -97,7 +98,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		JHtml::_('script','system/validate.js', true, true);
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		JHtml::_('script','system/validate'.$uncompressed.'.js', true, true);
 	}
 
 	/**
@@ -116,7 +118,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script','system/switcher.js', true, true);
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		JHtml::_('script','system/switcher'.$uncompressed.'.js', true, true);
 
 		$script = "
 			document.switcher = null;
@@ -143,7 +146,8 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		JHtml::_('script','system/combobox.js', true, true);
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		JHtml::_('script','system/combobox'.$uncompressed.'.js', true, true);
 	}
 
 	/**
@@ -250,7 +254,8 @@ abstract class JHtmlBehavior
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
 			// Load the javascript and css
-			JHtml::_('script','system/modal.js', true, true);
+			$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+			JHtml::_('script','system/modal'.$uncompressed.'.js', true, true);
 			JHtml::_('stylesheet','system/modal.css', array(), true);
 
 			$included = true;
@@ -307,9 +312,10 @@ abstract class JHtmlBehavior
 	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		JHtml::_('script','system/swf.js', true, true);
-		JHtml::_('script','system/progressbar.js', true, true);
-		JHtml::_('script','system/uploader.js', true, true);
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		JHtml::_('script','system/swf'.$uncompressed.'.js', true, true);
+		JHtml::_('script','system/progressbar'.$uncompressed.'.js', true, true);
+		JHtml::_('script','system/uploader'.$uncompressed.'.js', true, true);
 
 		$document = JFactory::getDocument();
 
@@ -468,7 +474,8 @@ abstract class JHtmlBehavior
 		}
 
 		// Include mootools framework
-		JHtml::_('script','system/mootree.js', true, true, false, false);
+		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		JHtml::_('script','system/mootree'.$uncompressed.'.js', true, true, false, false);
 		JHtml::_('stylesheet','system/mootree.css', array(), true);
 
 		if (isset($trees[$id]) && ($trees[$id])) {
