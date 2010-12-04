@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2010 Jean-Marie Simonet
+$ Adding missing ini string
+
 03-Dec-2010 Ian MacLennan
  # [#23016] Use minified/uncompressed files for more Scripts (Rouven Weßling)
 
