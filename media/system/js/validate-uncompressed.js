@@ -156,13 +156,17 @@ var JFormValidator = new Class({
 		// Set the element and its label (if exists) invalid state
 		if (state == false) {
 			el.addClass('invalid');
+			el.set('aria-invalid', 'true');
 			if (el.labelref) {
 				document.id(el.labelref).addClass('invalid');
+				document.id(el.labelref).set('aria-invalid', 'true');
 			}
 		} else {
 			el.removeClass('invalid');
+			el.set('aria-invalid', 'false');
 			if (el.labelref) {
 				document.id(el.labelref).removeClass('invalid');
+				document.id(el.labelref).set('aria-invalid', 'false');
 			}
 		}
 	}
