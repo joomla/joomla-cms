@@ -31,6 +31,7 @@ $ -> Language fix or change
 05-Dec-2010 Christophe Demko
  # [#23474] Script code injected into module edit screen for menu assignment does not validate. (bill richardson)
  # [#23653] Differences between uncompressed and normal JS files (Rouven Weßling)
+ # [#23606] Saving Profile changes generates two php warning messages (Elin Waring)
 
 04-Dec-2010 Christophe Demko
  # [#23436] Cannot utilize more than one spacer field type in component config.xml
