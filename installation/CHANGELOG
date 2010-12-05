@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Dec-2010 Jean-Marie Simonet
+ # [#23604] Can't load twice the same loadposition on same page. Thanks Christophe.
 
 05-Dec-2010 Christophe Demko
  # [#23474] Script code injected into module edit screen for menu assignment does not validate. (bill richardson)
