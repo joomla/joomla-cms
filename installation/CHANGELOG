@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+05-Dec-2010 Christophe Demko
+ # [#23474] Script code injected into module edit screen for menu assignment does not validate. (bill richardson)
+
 04-Dec-2010 Christophe Demko
  # [#23436] Cannot utilize more than one spacer field type in component config.xml
  # Omitting of commit in [#22606]

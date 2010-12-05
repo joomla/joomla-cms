@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 require_once JPATH_ADMINISTRATOR.'/components/com_menus/helpers/menus.php';
 $menuTypes = MenusHelper::getMenuLinks();
 ?>
-		<script>
+		<script type="text/javascript">
 			window.addEvent('domready', function(){
 				validate();
 				document.getElements('select').addEvent('change', function(e){validate();});
