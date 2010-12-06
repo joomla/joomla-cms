@@ -23,27 +23,22 @@ $app = JFactory::getApplication();
 
 <!-- Load Template CSS -->
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-<?php if ($this->params->get('altMenu')) : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/menu2.css" rel="stylesheet" type="text/css" />
-<?php else : ?>
-	<link href="templates/<?php echo  $this->template ?>/css/menu.css" rel="stylesheet" type="text/css" />
-<?php endif; ?>
+
+<!-- Load additional CSS styles for colors -->
+<?php 
+	if (!$this->params->get('colourChoice')) : 
+		$colour = 'standard';
+	else :
+		$colour = $this->params->get('colourChoice');
+	endif; 
+?>
+<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
 
 <!-- Load additional CSS styles for rtl sites -->
 <?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-	<?php if ($this->params->get('altMenu')) : ?>
-		<link href="templates/<?php echo  $this->template ?>/css/menu2_rtl.css" rel="stylesheet" type="text/css" />
-	<?php else : ?>
-		<link href="templates/<?php echo  $this->template ?>/css/menu_rtl.css" rel="stylesheet" type="text/css" />
-	<?php endif; ?>
+	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
-
-<!-- Load additional CSS styles for High Contrast colors -->
-<?php if ($this->params->get('highContrast')) : ?>
-	<link href="templates/<?php echo $this->template ?>/css/highcontrast.css" rel="stylesheet" type="text/css" />
-	<link href="templates/<?php echo $this->template ?>/css/menu_hc.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
 
 <!-- Load additional CSS styles for bold Text -->
 <?php if ($this->params->get('boldText')) : ?>
@@ -57,13 +52,6 @@ $app = JFactory::getApplication();
 <!--[if lte IE 6]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
-
-<!-- Load JavaScript for menu -->
-<?php if ($this->params->get('altMenu')) : ?>
-	<script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/menu2.js"></script>
-<?php else : ?>
-	<script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/menu.js"></script>
-<?php endif; ?>
 
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>

@@ -25,15 +25,21 @@ JHtml::_('behavior.noframes');
 <!-- Load Template CSS -->
 <link href="templates/<?php echo $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
-<!-- Load additional CSS styles for rtl sites -->
-<?php  if ($this->direction == 'rtl') : ?>
-	<link href="templates/<?php echo $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
+<!-- Load additional CSS styles for colors -->
+<?php 
+	if (!$this->params->get('colourChoice')) : 
+		$colour = 'standard';
+	else :
+		$colour = $this->params->get('colourChoice');
+	endif; 
+?>
+<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
 
-<!-- Load additional CSS styles for High Contrast colors -->
-<?php if ($this->params->get('highContrast')) : ?>
-	<link href="templates/<?php echo $this->template ?>/css/highcontrast.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
+<!-- Load additional CSS styles for rtl sites -->
+<?php if ($this->direction == 'rtl') : ?>
+	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
+	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
+<?php endif; ?>
 
 <!-- Load additional CSS styles for bold Text -->
 <?php if ($this->params->get('boldText')) : ?>
