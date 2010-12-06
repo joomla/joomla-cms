@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23288] instances of ® should be html encoded. Thanks Bill.
  #$ Normalizing/implementing Submit/Save success strings/code for articles/weblinks in front-end
  # [#23651] Save failed with the following error: Another article from this category has the same alias. Thanks Mark.
+ # [#23034] Article title tag is using menu title instead of article title. Thanks Mark.
 
 05-Dec-2010 Jean-Marie Simonet
  # [#23604] Can't load twice the same loadposition on same page. Thanks Christophe.

@@ -185,6 +185,9 @@ class ContentViewArticle extends JView
 		elseif ($app->getCfg('sitename_pagetitles', 0)) {
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
+		if (empty($title)) {
+			$title = $this->item->title;
+		}
 		$this->document->setTitle($title);
 
 		$id = (int) @$menu->query['id'];
@@ -192,6 +195,10 @@ class ContentViewArticle extends JView
 		// if the menu item does not concern this article
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
 		{
+			// If this is not a single article menu item, set the page title to the article title
+			if ($this->item->title) {
+				$this->document->setTitle($this->item->title);
+			}
 			$path = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
@@ -205,12 +212,6 @@ class ContentViewArticle extends JView
 				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
-
-		if (empty($title))
-		{
-			$title = $this->item->title;
-		}
-		$this->document->setTitle($title);
 
 		if ($this->item->metadesc)
 		{
