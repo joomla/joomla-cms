@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Dec-2010 Christophe Demko
  # [#23660] The menu system does not use attributes in metadata.xml files
+ # [#23227] JArrayHelper::fromObject doesnt work if the object contain an array of objects
 
 06-Dec-2010 Jean-Marie Simonet
  # [#23288] instances of ® should be html encoded. Thanks Bill.

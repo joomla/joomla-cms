@@ -321,6 +321,22 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'Should turn object into single dimension array getting only integer and float attribs',
 				false
 			),
+			'single 4' => array(
+				(object) array(
+					'first' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'second' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'third' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				null,
+				null,
+				array(
+					'first' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'second' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'third' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				'Should turn nested objects into single dimension array',
+				false
+			),
 			'multiple 1' => array(
 				(object) array(
 					'first' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
@@ -361,8 +377,12 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				),
 				false,
 				null,
-				array(),
-				'Should turn nested objects into single dimension (empty) array',
+				array(
+					'first' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'second' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'third' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				'Should turn nested objects into single dimension array',
 				false
 			),
 			'multiple 4' => array(
@@ -373,7 +393,11 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				),
 				false,
 				null,
-				array('first' => 'Me'),
+				array(
+					'first' => 'Me',
+					'second' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					'third' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
 				'Should turn nested objects into single dimension array',
 				false
 			),
@@ -391,6 +415,30 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				),
 				'Should turn nested objects into multiple dimension array of int and string',
 				false
+			),
+			'multiple 6' => array(
+				(object) array(
+					'first' => array(
+						'integer' => 12,
+						'float' => 1.29999,
+						'string' => 'A Test String',
+						'third' => (object) array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					),
+					'second' => array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				null,
+				null,
+				array(
+					'first' => array(
+						'integer' => 12,
+						'float' => 1.29999,
+						'string' => 'A Test String',
+						'third' => array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+					),
+					'second' => array('integer' => 12, 'float' => 1.29999, 'string' => 'A Test String'),
+				),
+				'Should turn nested objects into multiple dimension array',
+				true
 			),
 		);
 	}

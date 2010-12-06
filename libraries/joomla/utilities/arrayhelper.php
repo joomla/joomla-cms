@@ -104,25 +104,58 @@ class JArrayHelper
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
-		$result = null;
 		if (is_object($p_obj)) {
-			$result = array();
+			return self::_fromObject($p_obj, $recurse, $regex);
+		}
+		else {
+			return null;
+		}
+	}
 
-			foreach (get_object_vars($p_obj) as $k => $v) {
-				if ($regex) {
-					if (!preg_match($regex, $k)) {
-						continue;
+	/**
+	 * Private Utility function to map an object|array to an array
+	 *
+	 * @static
+	 * @param	array|object	The source object|array
+	 * @param	boolean			True to recurve through multi-level objects
+	 * @param	string			An optional regular expression to match on field names
+	 * @return	array			The array mapped from the given object
+	 * @since	1.6
+	 */
+	private static function _fromObject($item, $recurse, $regex)
+	{
+		if (is_object($item))
+		{
+			$result = array();
+			foreach (get_object_vars($item) as $k => $v)
+			{
+				if (!$regex || preg_match($regex, $k))
+				{
+					if ($recurse) {
+						$result[$k] = self::_fromObject($v, $recurse, $regex);
+					}
+					else {
+						$result[$k] = $v;
 					}
 				}
-
-				if (is_object($v)) {
-					if ($recurse) {
-						$result[$k] = JArrayHelper::fromObject($v, $recurse, $regex);
-					}
-				} else {
+			}
+		}
+		elseif (is_array($item))
+		{
+			$result = array();
+			foreach ($item as $k => $v)
+			{
+				if ($recurse) {
+					$result[$k] = self::_fromObject($v, $recurse, $regex);
+				}
+				else {
 					$result[$k] = $v;
 				}
 			}
+		}
+		else
+		{
+			$result = $item;
 		}
 		return $result;
 	}

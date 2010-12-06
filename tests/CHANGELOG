@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Dec-2010 Christophe Demko
+ # Test coverage for the JArrayHelper::fromObject method
+
 04-Dec-2010 Christophe Demko
  # Test coverage for automatic generated field name
 
