@@ -321,7 +321,7 @@ class ContentControllerArticle extends JControllerForm
 		$model		= $this->getModel();
 		$task		= $this->getTask();
 		$context	= "$this->option.edit.$this->context";
-		if (in_array(JRequest::getString('view'), array('article', 'form'))) {
+		if (!in_array(JRequest::getWord('view'), array('category', 'categories'))) {
 			$recordId = JRequest::getInt('id');
 		} 
 		else {
