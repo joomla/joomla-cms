@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Dec-2010 Christophe Demko
+ + Adding an index.html file
+
 06-Dec-2010 Christophe Demko
  # [#23660] The menu system does not use attributes in metadata.xml files
  # [#23227] JArrayHelper::fromObject doesnt work if the object contain an array of objects
