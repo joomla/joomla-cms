@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Dec-2010 Christophe Demko
+ # [#23660] The menu system does not use attributes in metadata.xml files
+
 06-Dec-2010 Jean-Marie Simonet
  # [#23288] instances of ® should be html encoded. Thanks Bill.
  #$ Normalizing/implementing Submit/Save success strings/code for articles/weblinks in front-end

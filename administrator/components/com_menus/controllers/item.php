@@ -305,17 +305,9 @@ class MenusControllerItem extends JControllerForm
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
-				if (isset($type->request->layout)) {
-					$app->setUserState(
-						'com_menus.edit.item.link',
-						'index.php?option='.$type->request->option.'&view='.$type->request->view.'&layout='.$type->request->layout
-					);
-				}
-				else {
-					$app->setUserState(
-						'com_menus.edit.item.link',
-						'index.php?option='.$type->request->option.'&view='.$type->request->view);
-				}
+				$app->setUserState(
+					'com_menus.edit.item.link',
+					'index.php?' . JURI::buildQuery((array)$type->request));
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.
