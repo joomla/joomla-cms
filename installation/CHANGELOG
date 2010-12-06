@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Dec-2010 Jean-Marie Simonet
+ # [#23288] instances of ® should be html encoded. Thanks Bill.
+
 05-Dec-2010 Jean-Marie Simonet
  # [#23604] Can't load twice the same loadposition on same page. Thanks Christophe.
 
