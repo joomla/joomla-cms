@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Dec-2010 Jean-Marie Simonet
  # [#23288] instances of ® should be html encoded. Thanks Bill.
+ #$ Normalizing/implementing Submit/Save success strings/code for articles/weblinks in front-end
 
 05-Dec-2010 Jean-Marie Simonet
  # [#23604] Can't load twice the same loadposition on same page. Thanks Christophe.

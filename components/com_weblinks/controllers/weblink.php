@@ -157,7 +157,12 @@ class WeblinksControllerWeblink extends JControllerForm
 			return false;
 		}
 
-		$this->setMessage(JText::_('COM_WEBLINKS_WEBLINK_SAVE_SUCCESS'));
+		if ($data['id'] == 0) {
+			$this->setMessage(JText::_('COM_WEBLINKS_SUBMIT_SAVE_SUCCESS'));
+		} 
+		else {
+			$this->setMessage(JText::_('COM_WEBLINKS_SAVE_SUCCESS'));
+		}
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
@@ -186,8 +191,6 @@ class WeblinksControllerWeblink extends JControllerForm
 				$app->setUserState($context.'data',	null);
 				$this->setRedirect( JRoute::_( 'index.php?option=com_weblinks&view=category&id='.$catid, false ) );
 		}
-
-		$this->setMessage(JText::_('COM_WEBLINK_SUBMIT_SAVE_SUCCESS'));
 	}
 
 	/**

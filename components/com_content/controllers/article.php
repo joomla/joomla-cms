@@ -423,7 +423,12 @@ class ContentControllerArticle extends JControllerForm
 			return false;
 		}
 
-		$this->setMessage(JText::_('COM_CONTENT_ARTICLE_SAVE_SUCCESS'));
+		if ($recordId == 0) {
+			$this->setMessage(JText::_('COM_CONTENT_SUBMIT_SAVE_SUCCESS'));
+		} 
+		else {
+			$this->setMessage(JText::_('COM_CONTENT_SAVE_SUCCESS'));
+		}
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
