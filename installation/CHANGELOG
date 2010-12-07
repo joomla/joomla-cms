@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Dec-2010 Mark Dexter
+# [#22957] Upgrading a template that uses method="upgrade" removes manually added files
+
 07-Dec-2010 Jean-Marie Simonet
  [#23666] Attempting to log in with a non-existent account get's "Username and password do not match" message. Thanks Matt and Bill.
 

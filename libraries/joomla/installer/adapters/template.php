@@ -22,6 +22,7 @@ class JInstallerTemplate extends JAdapterInstance
 {
 	protected $name = null;
 	protected $element = null;
+	protected $route = 'install';
 
 	/**
 	 * Custom loadLanguage method
@@ -38,7 +39,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$this->parent->setPath('source', ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/'.$this->parent->extension->element);
 		}
 
-		$clientId = $this->parent->extension->client_id;
+		$clientId = isset($this->parent->extension) ? $this->parent->extension->client_id : 0;
 		$this->manifest = $this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$client = (string)$this->manifest->attributes()->client;
@@ -96,25 +97,36 @@ class JInstallerTemplate extends JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
-		$result = $db->loadResult();
+		$id = $db->loadResult();
+		
+		// Set the template root path
+		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.$element);
 
-		// TODO: Rewrite this! We shouldn't uninstall a template, we should back up the params as well
-		if ($result) {
-			// already installed, can we upgrade?
-			if ($this->parent->getOverwrite() || $this->parent->getUpgrade()) {
-				// we can upgrade, so uninstall the old one
-				$installer = new JInstaller(); // we don't want to compromise this instance!
-				$installer->uninstall('template', $result);
+
+		// if its on the fs...
+		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
+		{
+			$updateElement = $xml->update;
+			// upgrade manually set
+			// update function available
+			// update tag detected
+			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JXMLElement'))
+			{
+				// force these one
+				$this->parent->setOverwrite(true);
+				$this->parent->setUpgrade(true);
+				if ($id) { // if there is a matching extension mark this as an update; semantics really
+					$this->route = 'update';
+				}
 			}
-			else {
-				// abort the install, no upgrade possible
-				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_TPL_INSTALL_ALREADY_INSTALLED'));
+			else if (!$this->parent->getOverwrite())
+			{
+				// overwrite is set
+				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
+				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_'.$this->route), $this->parent->getPath('extension_root')));
 				return false;
 			}
 		}
-
-		// Set the template root path
-		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.$element);
 
 		/*
 		 * If the template directory already exists, then we will assume that the template is already
@@ -164,7 +176,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// Parse optional tags
-		$this->parent->parseFiles($xml->media, $clientId);
+		$this->parent->parseMedia($xml->media);
 		$this->parent->parseLanguages($xml->languages, $clientId);
 
 		// Get the template description
@@ -184,16 +196,24 @@ class JInstallerTemplate extends JAdapterInstance
 		 * ---------------------------------------------------------------------------------------------
 		 */
 		$row = JTable::getInstance('extension');
-		$row->name = $this->get('name');
-		$row->type = 'template';
-		$row->element = $this->get('element');
-		$row->folder = ''; // There is no folder for templates
-		$row->enabled = 1;
-		$row->protected = 0;
-		$row->access = 1;
-		$row->client_id = $clientId;
-		$row->params = $this->parent->getParams();
-		$row->custom_data = ''; // custom data
+
+		if($this->route == 'update' && $id)
+		{
+			$row->load($id);
+		}
+		else
+		{
+			$row->type = 'template';
+			$row->element = $this->get('element');
+			$row->folder = ''; // There is no folder for templates
+			$row->enabled = 1;
+			$row->protected = 0;
+			$row->access = 1;
+			$row->client_id = $clientId;
+			$row->params = $this->parent->getParams();
+			$row->custom_data = ''; // custom data
+		}
+		$row->name = $this->get('name'); // name might change in an update
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store()) {
@@ -203,27 +223,40 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		//insert record in #__template_styles
-		$query = $db->getQuery(true);
-		$query->insert('#__template_styles');
-		$query->set('template='.$db->Quote($row->element));
-		$query->set('client_id='.$db->Quote($clientId));
-		$query->set('home=0');
-		$debug = $lang->setDebug(false);
-		$query->set('title='.$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))));
-		$lang->setDebug($debug);
-		$query->set('params='.$db->Quote($row->params));
-		$db->setQuery($query);
-		$db->query(); // There is a chance this could fail but we don't care...
+		if($this->route == 'install')
+		{
+			//insert record in #__template_styles
+			$query = $db->getQuery(true);
+			$query->insert('#__template_styles');
+			$query->set('template='.$db->Quote($row->element));
+			$query->set('client_id='.$db->Quote($clientId));
+			$query->set('home=0');
+			$debug = $lang->setDebug(false);
+			$query->set('title='.$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))));
+			$lang->setDebug($debug);
+			$query->set('params='.$db->Quote($row->params));
+			$db->setQuery($query);
+			$db->query(); // There is a chance this could fail but we don't care...
+		}
 
 		return $row->get('extension_id');
+	}
+	
+	/**
+	 * Custom update method for components
+	 *
+	 * @return	boolean	True on success
+	 * @since	1.5
+	 */
+	public function update()
+	{
+		return $this->install();
 	}
 
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param	int		$path		The template name
-	 * @param	int		$clientId	The id of the client
+	 * @param	int		$id		The extension ID
 	 *
 	 * @return	boolean	True on success
 	 * @since	1.5
