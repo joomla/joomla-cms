@@ -685,11 +685,12 @@ abstract class JHtml
 		}
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
+		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 		if (is_array($attribs)) {
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		if (!$readonly) {
+		if ((!$readonly) && (!$disabled)) {
 			// Load the calendar behavior
 			JHtml::_('behavior.calendar');
 			JHtml::_('behavior.tooltip');
