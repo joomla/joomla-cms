@@ -46,9 +46,7 @@ abstract class JHtmlBehavior
 			$debug = $config->get('debug');
 		}
 
-		// TODO NOTE: Here we are checking for Konqueror - If they fix thier issue with compressed, we will need to update this
-		$konkcheck		= isset($_SERVER['HTTP_USER_AGENT']) ? strpos(strtolower($_SERVER['HTTP_USER_AGENT']), 'konqueror') : null;
-		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
+		$uncompressed	= $debug ? '-uncompressed' : '';
 
 		if ($type != 'core' && empty($loaded['core'])) {
 			self::framework(false);
