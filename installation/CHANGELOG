@@ -27,6 +27,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
 07-Dec-2010 Mark Dexter
 # [#22957] Upgrading a template that uses method="upgrade" removes manually added files
 # [#22682] Users without edit state can change date on screen via the calendar
