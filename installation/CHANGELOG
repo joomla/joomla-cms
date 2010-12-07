@@ -40,6 +40,7 @@ $ -> Language fix or change
  + Adding an index.html file
  # [#23663] Some modules does not load the jmodel class before using it
  # [#23639] JFormValidator and disabled Elements (Reinhard Hiebl)
+ # [#23654] Com_categories don't save the params when a section is specified (Jonnathan S. Lima)
 
 06-Dec-2010 Christophe Demko
  # [#23660] The menu system does not use attributes in metadata.xml files

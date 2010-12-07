@@ -179,6 +179,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 			$this->setState('category.extension', $extension);
 			$this->setState('category.component', $parts[0]);
+			$this->setState('category.section', $parts[1]);
 		}
 
 		// Get the form.
@@ -549,7 +550,7 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : 
+			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) :
 				$user->authorise('core.create', $extension.'.category.'.$parentId);
 			if (!$canCreate) {
 				// Error since user cannot create in parent category
@@ -567,7 +568,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Make sure we can create in root
 			elseif (!$user->authorise('core.create', $extension)) {
 				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
-				return false;				
+				return false;
 			}
 		}
 
@@ -711,7 +712,7 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : 
+			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) :
 				$user->authorise('core.create', $extension.'.category.'.$parentId);
 			if (!$canCreate) {
 				// Error since user cannot create in parent category
@@ -729,7 +730,7 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 		}
-	
+
 
 		// We are going to store all the children and just move the category
 		$children = array();
