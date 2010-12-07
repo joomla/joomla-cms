@@ -518,9 +518,7 @@ abstract class JHtml
 			$debug = JFactory::getConfig()->get('debug');
 		}
 
-		// TODO NOTE: Here we are checking for Konqueror - If they fix their issue with compressed, we will need to update this
-		$konkcheck		= strpos(strtolower($_SERVER['HTTP_USER_AGENT']), "konqueror");
-		$uncompressed	= ($debug || $konkcheck) ? '-uncompressed' : '';
+		$uncompressed	= $debug ? '-uncompressed' : '';
 
 		$document = JFactory::getDocument();
 		$document->addScript(JURI::root(true).'/media/system/js/core'.$uncompressed.'.js');
