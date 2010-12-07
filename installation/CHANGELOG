@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Dec-2010 Jean-Marie Simonet
+ [#23666] Attempting to log in with a non-existent account get's "Username and password do not match" message. Thanks Matt and Bill.
+
 07-Dec-2010 Christophe Demko
  + Adding an index.html file
 
