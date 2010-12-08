@@ -62,7 +62,7 @@ function modChrome_beezHide($module, &$params, &$attribs)
 function modChrome_beezTabs($module, $params, $attribs)
 {
 	$area = isset($attribs['id']) ? (int) $attribs['id'] :'1';
-	$area = 'area_'.$area;
+	$area = 'area-'.$area;
 
 	static $modulecount;
 	static $modules;

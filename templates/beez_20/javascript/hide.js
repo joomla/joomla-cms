@@ -15,8 +15,8 @@ window.addEvent('domready', function() {
 		});
 	}
 
-	if ($('mod_search_searchword')) {
-		$('mod_search_searchword').setProperties( {
+	if ($('mod-search-searchword')) {
+		$('mod-search-searchword').setProperties( {
 			role : 'search'
 		});
 	}

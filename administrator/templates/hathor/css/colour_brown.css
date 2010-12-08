@@ -252,7 +252,7 @@ div.toolbar-list a:hover {
 }
 
 /**
- * Pane Slider Jpane Toggler styles
+ * Pane Slider pane Toggler styles
  */
 .pane-sliders .title {
 	color: #2c2c2c;
@@ -279,16 +279,16 @@ div.toolbar-list a:hover {
 	border: 0 none;
 }
 
-.jpane-toggler  span {
+.pane-toggler  span {
 	background: transparent url(../images/j_arrow.png) 5px 50% no-repeat;
 }
 
-.jpane-toggler-down span {
+.pane-toggler-down span {
 	background: transparent url(../images/j_arrow_down.png) 5px 50%
 		no-repeat;
 }
 
-.jpane-toggler-down {
+.pane-toggler-down {
 	border-bottom: 1px solid #000000;
 }
 
@@ -1801,18 +1801,18 @@ ul#rules li .pane-sliders .panel h3.title
 	background:#d5c1b2;
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down a
+#permissions-sliders ul#rules li h3.pane-toggler-down a
 {	
 	border:solid 0px;
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down
+#permissions-sliders ul#rules li h3.pane-toggler-down
 { 
 	/* color:#2c2c2c; */
 	background:#146295; 
 }
     
-#permissions-sliders ul#rules li h3.jpane-toggler-down span
+#permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
 	color:#fff; 
 }    
@@ -1870,12 +1870,12 @@ ul#rules table.group-rules td label
 	background-image:none;
 }
 
-#permissions-sliders .jpane-toggler span
+#permissions-sliders .pane-toggler span
 {
 	background-image:none;
 }
 
-#permissions-sliders .jpane-toggler-down span
+#permissions-sliders .pane-toggler-down span
 {
 	background-image:none;
 }

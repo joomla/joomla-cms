@@ -137,14 +137,14 @@ table.adminform td{
 	margin-left: 5px;
 }
 
-.jpane-toggler span,
-.jpane-toggler-down span {
+.pane-toggler span,
+.pane-toggler-down span {
 	background-position: right;
 	padding-right: 20px;
 	padding-left: 0px;
 }
 
-.jpane-toggler span{ background-image: url(../images/j_arrow_left.png); }
+.pane-toggler span{ background-image: url(../images/j_arrow_left.png); }
 
 div.toolbar {
 	float:left;
@@ -473,7 +473,7 @@ span.icon-16-locked {
 	padding:0;
 }
 
-#permissions-sliders ul#rules .jpane-slider
+#permissions-sliders ul#rules .pane-slider
 {
     padding:0px;
     top:0px;
@@ -481,7 +481,7 @@ span.icon-16-locked {
     left: 0;
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down a
+#permissions-sliders ul#rules li h3.pane-toggler -down a
 {	
 	border:solid 0px;
 }
@@ -533,13 +533,13 @@ table.group-rules td select
     padding:4px;
 }
 
-#permissions-sliders .jpane-toggler span
+#permissions-sliders .pane-toggler  span
 {
 	/* padding-left:5px; */
 	padding-right: 5px;
 }
 
-#permissions-sliders .jpane-toggler-down span
+#permissions-sliders .pane-toggler-down span
 {
 	/* padding-left:5px */
 	padding-right: 5px;

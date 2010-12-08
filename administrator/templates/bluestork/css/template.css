@@ -564,26 +564,26 @@ textarea#mm_message {
 	border: 0 none;
 }
 
-.jpane-toggler span {
+.pane-toggler span {
 	background: transparent url(../images/j_arrow.png) 5px 50% no-repeat;
 	padding-left: 20px;
 }
 
-.jpane-toggler-down span {
+.pane-toggler-down span {
 	background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat;
 	padding-left: 20px;
 }
 
-.jpane-toggler-down {
+.pane-toggler-down {
 	border-bottom: 1px solid #ccc;
 }
 
-h3.jpane-toggler-down a:hover,
-h3.jpane-toggler a:hover {
+h3.pane-toggler-down a:hover,
+h3.pane-toggler a:hover {
 	text-decoration: none;
 }
 
-.jpane-slider ol li {
+.pane-slider ol li {
 	list-style: none;
 	margin-left: -25px;
 	margin-top: 10px;
@@ -1184,12 +1184,12 @@ fieldset.adminform-legacy label {
 }
 
 /* JParameter classes on radio button labels  */
-fieldset.panelform-legacy label.radiobtn_jno,
-fieldset.panelform-legacy label.radiobtn_jyes,
-fieldset.panelform-legacy label.radiobtn_show,
-fieldset.panelform-legacy label.radiobtn_hide,
-fieldset.panelform-legacy label.radiobtn_off,
-fieldset.panelform-legacy label.radiobtn_on	{
+fieldset.panelform-legacy label.radiobtn-jno,
+fieldset.panelform-legacy label.radiobtn-jyes,
+fieldset.panelform-legacy label.radiobtn-show,
+fieldset.panelform-legacy label.radiobtn-hide,
+fieldset.panelform-legacy label.radiobtn-off,
+fieldset.panelform-legacy label.radiobtn-on	{
 	min-width: 40px !important;
 	clear: none !important;
 }
@@ -1492,7 +1492,7 @@ div#element-box div.m form table.adminlist tr td div.button2-left.smallsub a {
 }
 
 div#element-box div.m form table.adminlist tr td p.smallsub a,
-div#element-box div.m div.jpane-slider form table.adminlist a {
+div#element-box div.m div.pane-slider form table.adminlist a {
 	font-size: 1em;
 }
 
@@ -2888,7 +2888,7 @@ ul#rules li .pane-sliders .panel h3.title
 	border:solid 0px #ccc;
 }
 
-#permissions-sliders ul#rules .jpane-slider
+#permissions-sliders ul#rules .pane-slider
 {
     padding:0px;
     position:absolute; 
@@ -2905,18 +2905,18 @@ ul#rules li .pane-sliders .panel h3.title
 	 font-weight:normal
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down a
+#permissions-sliders ul#rules li h3.pane-toggler-down a
 {	
 	border:solid 0px;
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down
+#permissions-sliders ul#rules li h3.pane-toggler-down
 { 
 	color:#000; 
 	background:#146295;
 }
     
-#permissions-sliders ul#rules li h3.jpane-toggler-down span
+#permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
 	color:#fff; 
 }
@@ -3023,17 +3023,17 @@ table.group-rules td select
 	background-image:none
 }
 
-#permissions-sliders .jpane-toggler span
+#permissions-sliders .pane-toggler span
 {
 	padding-left:5px;background-image:none
 }
 
-#permissions-sliders .jpane-toggler-down span
+#permissions-sliders .pane-toggler-down span
 	{
 	background-image:none;
 }
 
-#permissions-sliders .jpane-toggler-down span
+#permissions-sliders .pane-toggler-down span
 	{padding-left:5px}
 
 #permissions-sliders ul#rules .panel h3
@@ -3043,7 +3043,7 @@ table.group-rules td select
 	
 /* global_config permissions */
 
-#page-permissions  fieldset ul#rules  .jpane-slider
+#page-permissions  fieldset ul#rules  .pane-slider
 	{width:60%;}
 
 #permissions-sliders

@@ -390,7 +390,7 @@ textarea#mm_message {
 }
 
 /**
- * Pane Slider Jpane Toggler styles
+ * Pane Slider pane Toggler styles
  */
 .pane-sliders {
 	margin: 0;
@@ -425,19 +425,19 @@ textarea#mm_message {
 	border: 0 none;
 }
 
-.jpane-toggler  span {
+.pane-toggler  span {
 	padding-left: 20px;
 }
 
-.jpane-toggler-down span {
+.pane-toggler-down span {
 	padding-left: 20px;
 }
 
-.jpane-toggler-down {
+.pane-toggler-down {
 }
 
 /* for hiding the unseen panel (problems in ie including 8) */
-/* .jpane-toggler + div {display: none;} */
+/* .pane-toggler + div {display: none;} */
 
 input#jformparams_link_titles1,
 input#jformparams_show_title1,
@@ -885,12 +885,12 @@ fieldset.adminform-legacy span.faux-label {
 
 }
 /* JParameter classes on radio button labels  */
-fieldset.panelform-legacy label.radiobtn_jno,
-fieldset.panelform-legacy label.radiobtn_jyes,
-fieldset.panelform-legacy label.radiobtn_show,
-fieldset.panelform-legacy label.radiobtn_hide,
-fieldset.panelform-legacy label.radiobtn_off,
-fieldset.panelform-legacy label.radiobtn_on {
+fieldset.panelform-legacy label.radiobtn-jno,
+fieldset.panelform-legacy label.radiobtn-jyes,
+fieldset.panelform-legacy label.radiobtn-show,
+fieldset.panelform-legacy label.radiobtn-hide,
+fieldset.panelform-legacy label.radiobtn-off,
+fieldset.panelform-legacy label.radiobtn-on {
 	min-width: 40px !important;
 	clear:none !important;
 }
@@ -2374,7 +2374,7 @@ ul#rules li .pane-sliders .panel h3.title
 {
 }
 
-#permissions-sliders ul#rules .jpane-slider
+#permissions-sliders ul#rules .pane-slider
 {
     padding:0px;
     position:absolute; 
@@ -2390,15 +2390,15 @@ ul#rules li .pane-sliders .panel h3.title
 	font-weight:normal;
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down a
+#permissions-sliders ul#rules li h3.pane-toggler-down a
 {	
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down
+#permissions-sliders ul#rules li h3.pane-toggler-down
 { 
 }
     
-#permissions-sliders ul#rules li h3.jpane-toggler-down span
+#permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
 }
         
@@ -2506,15 +2506,15 @@ table.group-rules td select
 {
 }
 
-#permissions-sliders .jpane-toggler span
+#permissions-sliders .pane-toggler span
 {
 	padding-left:5px;
 }
 
-#permissions-sliders .jpane-toggler-down span {
+#permissions-sliders .pane-toggler-down span {
 }
 
-#permissions-sliders .jpane-toggler-down span {
+#permissions-sliders .pane-toggler-down span {
 	padding-left:5px
 }
 
@@ -2523,7 +2523,7 @@ table.group-rules td select
 	
 /* global_config permissions */
 
-#page-permissions fieldset ul#rules .jpane-slider
+#page-permissions fieldset ul#rules .pane-slider
 	{width:60%;}
 
 #permissions-sliders

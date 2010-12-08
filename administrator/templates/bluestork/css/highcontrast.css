@@ -302,8 +302,8 @@ div.pagetitle h2 {
 	color:#000;
 
 }
-.jpane-toggler a,
-.jpane-toggler-down a {
+.pane-toggler a,
+.pane-toggler-down a {
 	text-decoration:none;
 }
 #submenu a:hover, #submenu a.active, #submenu span.nolink.active,

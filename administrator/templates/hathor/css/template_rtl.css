@@ -144,17 +144,17 @@ div.toolbar-list a:hover {
 
 
 /**
- * Pane Slider Jpane Toggler styles
+ * Pane Slider pane Toggler styles
  */
 div.pane-sliders {
 	margin-left: 10px;
 }
 
-.jpane-toggler  span {
+.pane-toggler  span {
 	padding-right: 20px;
 }
 
-.jpane-toggler-down span {
+.pane-toggler-down span {
 	background: transparent url(../images/j_arrow_down.png) 5px 50%
 		no-repeat;
 }
@@ -1051,7 +1051,7 @@ span.icon-16-locked {
 	padding:0;
 }
 
-#permissions-sliders ul#rules .jpane-slider
+#permissions-sliders ul#rules .pane-slider
 {
     padding:0px;
     top:0px;
@@ -1059,7 +1059,7 @@ span.icon-16-locked {
     left: 0;
 }
 
-#permissions-sliders ul#rules li h3.jpane-toggler-down a
+#permissions-sliders ul#rules li h3.pane-toggler-down a
 {	
 }
 
@@ -1109,13 +1109,13 @@ table.group-rules td select
     padding:4px;
 }
 
-#permissions-sliders .jpane-toggler span
+#permissions-sliders .pane-toggler  span
 {
 	/* padding-left:5px; */
 	padding-right: 5px;
 }
 
-#permissions-sliders .jpane-toggler-down span
+#permissions-sliders .pane-toggler -down span
 {
 	/* padding-left:5px */
 	padding-right: 5px;

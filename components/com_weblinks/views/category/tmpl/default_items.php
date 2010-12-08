@@ -130,6 +130,7 @@ $listDirn	= $this->state->get('list.direction');
 </table>
 
 	<?php // Code to add a link to submit a weblink. ?>
+	<?php //TODO: restore submit a weblink code button when it works correctly. ?>
 		<?php if ($this->params->get('show_pagination')) : ?>
 		 <div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>

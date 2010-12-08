@@ -47,8 +47,8 @@ defined('_JEXEC') or die;
 		<?php foreach ($this->searchareas['search'] as $val => $txt) :
 			$checked = is_array($this->searchareas['active']) && in_array($val, $this->searchareas['active']) ? 'checked="checked"' : '';
 		?>
-		<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
-			<label for="area_<?php echo $val;?>">
+		<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area-<?php echo $val;?>" <?php echo $checked;?> />
+			<label for="area-<?php echo $val;?>">
 				<?php echo JText::_($txt); ?>
 			</label>
 		<?php endforeach; ?>

@@ -672,7 +672,7 @@ abstract class JHtmlSelect
 			$html .= "\n\t" .'<input type="radio" name="' . $name . '"'
 				. ' id="' . $id_text . $k . '" value="' . $k .'"'
 				. ' ' . $extra . ' ' . $attribs . '/>'
-				. "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radiobtn_'.strtolower($obj->$optText).'">'. $t .'</label>';
+				. "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radiobtn-'.strtolower($obj->$optText).'">'. $t .'</label>';
 		}
 		$html .= "\n";
 		return $html;

@@ -4,12 +4,12 @@
 	<table class="contentpaneopen<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>">
 		<tr>
 			<td class="nowrap">
-				<label for="search_searchword">
+				<label for="search-searchword">
 					<?php echo JText::_( 'Search Keyword' ); ?>:
 				</label>
 			</td>
 			<td class="nowrap">
-				<input type="text" name="searchword" id="search_searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
+				<input type="text" name="searchword" id="search-searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
 			</td>
 			<td width="100%" class="nowrap">
 				<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_( 'Search' );?></button>
@@ -34,8 +34,8 @@
 		<?php foreach ($this->searchareas['search'] as $val => $txt) :
 			$checked = is_array( $this->searchareas['active'] ) && in_array( $val, $this->searchareas['active'] ) ? 'checked="checked"' : '';
 		?>
-		<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area_<?php echo $val;?>" <?php echo $checked;?> />
-			<label for="area_<?php echo $val;?>">
+		<input type="checkbox" name="areas[]" value="<?php echo $val;?>" id="area-<?php echo $val;?>" <?php echo $checked;?> />
+			<label for="area-<?php echo $val;?>">
 				<?php echo JText::_($txt); ?>
 			</label>
 		<?php endforeach; ?>

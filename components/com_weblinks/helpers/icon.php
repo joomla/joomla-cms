@@ -24,10 +24,12 @@ class JHTMLIcon
 	{
 		$uri = JFactory::getURI();
 
-		$url = 'index.php?option=com_weblink&task=weblink.add&return='.base64_encode($uri).'&w_id=0';
-		$text = JHTML::_('image','system/new.png', '', NULL, true);
+		$url = 'index.php?option=com_weblinks&task=weblink.add&return='.base64_encode($uri).'&w_id=0';
+		$text = JHTML::_('image','system/new.png', JText::_('JNEW'), NULL, true);
 		$attribs	= array('title' => JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
-		return JHTML::_('link',JRoute::_($url), $text, $attribs);
+		$button = JHTML::_('link',JRoute::_($url), $text, $attribs);
+		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK').'">'.$button.'</span>';
+		return $output;
 	}
 
 	static function edit($weblink, $params, $attribs = array())
