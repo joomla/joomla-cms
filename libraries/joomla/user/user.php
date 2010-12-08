@@ -576,7 +576,6 @@ class JUser extends JObject
 		$table			= $this->getTable();
 		$this->params	= (string) $this->_params;
 		$table->bind($this->getProperties());
-		$table->groups	= $this->groups;
 
 		// Allow an exception to be thrown.
 		try

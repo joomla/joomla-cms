@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Dec-2010 Mark Dexter
+# [#21207] Joomla 1.6 Beta 6 - not assigned to groups when via LDAP login. (Elin Waring)
 
 07-Dec-2010 Mark Dexter
 # [#22957] Upgrading a template that uses method="upgrade" removes manually added files

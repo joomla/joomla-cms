@@ -153,10 +153,6 @@ class UsersModelUser extends JModelAdmin
 			return false;
 		}
 
-		// Bind the groups
-		// Note, we need to flip the array because the JUser object expects a groupdId => groupName format.
-		$user->groups = array_flip($data['groups']);
-
 		// Store the data.
 		if (!$user->save()) {
 			$this->setError($user->getError());

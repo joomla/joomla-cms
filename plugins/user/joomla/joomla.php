@@ -242,7 +242,7 @@ class plgUserJoomla extends JPlugin
 		jimport('joomla.application.component.helper');
 		$config	= JComponentHelper::getParams('com_users');
 		// Default to Registered.
-		$usertype = $config->get('new_usertype', 2);
+		$defaultUserGroup = $config->get('new_usertype', 2);
 
 		$acl = JFactory::getACL();
 
@@ -251,7 +251,8 @@ class plgUserJoomla extends JPlugin
 		$instance->set('username'		, $user['username']);
 		$instance->set('password_clear'	, $user['password_clear']);
 		$instance->set('email'			, $user['email']);	// Result should contain an email (check)
-		$instance->set('usertype'		, $usertype);
+		$instance->set('usertype'		, 'deprecated');
+		$instance->set('groups'		, array($defaultUserGroup));
 
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
