@@ -32,6 +32,7 @@ $ -> Language fix or change
 # [#23441] *Fatal error when saving a weblink from the new icon in a weblink category list
 # [#22992] Unpublished articles are still shown in user profile
 # [#22958] CSS class and id changes (cont'd) (Andrea Tarr)
+# [#22955] Upgrading plugin using method="upgrade" does not remove files omitted from xml (Sam Moffatt)
 
 07-Dec-2010 Mark Dexter
 # [#22957] Upgrading a template that uses method="upgrade" removes manually added files
