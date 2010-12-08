@@ -75,7 +75,7 @@ abstract class JHtmlSliders
 			$close = '';
 		}
 
-		return $close.'<div class="panel"><h3 class="jpane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3><div class="jpane-slider content">';
+		return $close.'<div class="panel"><h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3><div class="pane-slider content">';
 	}
 
 	/**
@@ -100,8 +100,8 @@ abstract class JHtmlSliders
 			$display = (isset($params['startOffset']) && isset($params['startTransition'])  && $params['startTransition']) ? (int)$params['startOffset'] : null;
 			$show = (isset($params['startOffset']) && !(isset($params['startTransition']) && $params['startTransition'])) ? (int)$params['startOffset'] : null;
 			$options = '{';
-			$opt['onActive']		= "function(toggler, i) {toggler.addClass('jpane-toggler-down');toggler.removeClass('jpane-toggler');Cookie.write('jpanesliders_".$group."',$$('div#".$group.".pane-sliders > .panel > h3').indexOf(toggler));}";
-			$opt['onBackground']	= "function(toggler, i) {toggler.addClass('jpane-toggler');toggler.removeClass('jpane-toggler-down');if($$('div#".$group.".pane-sliders > .panel > h3').length==$$('div#".$group.".pane-sliders > .panel > h3.jpane-toggler').length) Cookie.write('jpanesliders_".$group."',-1);}";
+			$opt['onActive']		= "function(toggler, i) {toggler.addClass('pane-toggler-down');toggler.removeClass('pane-toggler');Cookie.write('jpanesliders_".$group."',$$('div#".$group.".pane-sliders > .panel > h3').indexOf(toggler));}";
+			$opt['onBackground']	= "function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');if($$('div#".$group.".pane-sliders > .panel > h3').length==$$('div#".$group.".pane-sliders > .panel > h3.pane-toggler').length) Cookie.write('jpanesliders_".$group."',-1);}";
 			$opt['duration']		= (isset($params['duration'])) ? (int)$params['duration'] : 300;
 			$opt['display']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $display, 'cookie') : $display ;
 			$opt['show']			= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanesliders_' . $group, $show, 'cookie') : $show ;
@@ -118,7 +118,7 @@ abstract class JHtmlSliders
 			}
 			$options .= '}';
 
-			$js = "window.addEvent('domready', function(){ new Accordion($$('div#".$group.".pane-sliders > .panel > h3.jpane-toggler'), $$('div#".$group.".pane-sliders > .panel > div.jpane-slider'), ".$options."); });";
+			$js = "window.addEvent('domready', function(){ new Accordion($$('div#".$group.".pane-sliders > .panel > h3.pane-toggler'), $$('div#".$group.".pane-sliders > .panel > div.pane-slider'), ".$options."); });";
 
 			$document->addScriptDeclaration($js);
 		}

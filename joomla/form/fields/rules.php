@@ -114,10 +114,10 @@ class JFormFieldRules extends JFormField
 			$html[] = '<li>';
 
 			$html[] = '<div class="panel">';
-			$html[] =	'<h3 class="jpane-toggler title" ><a href="javascript:void(0);"><span>';
+			$html[] =	'<h3 class="pane-toggler title" ><a href="javascript:void(0);"><span>';
 			$html[] =	str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
 			$html[] =	'</span></a></h3>';
-			$html[] =	'<div class="jpane-slider content">';
+			$html[] =	'<div class="pane-slider content">';
 			$html[] =		'<div class="mypanel">';
 			$html[] =			'<table class="group-rules">';
 			$html[] =				'<caption>' . JText::sprintf('JLIB_RULES_GROUP', $group->text) . '<br /><span>' .
@@ -253,7 +253,7 @@ class JFormFieldRules extends JFormField
 		$html[] = '</ul>';
 		$html[] = '</div>';
 
-		$js = "window.addEvent('domready', function(){ new Accordion($$('div#permissions-sliders.pane-sliders .panel h3.jpane-toggler'), $$('div#permissions-sliders.pane-sliders .panel div.jpane-slider'), {onActive: function(toggler, i) {toggler.addClass('jpane-toggler-down');toggler.removeClass('jpane-toggler');Cookie.write('jpanesliders_permissions-sliders".$component."',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},onBackground: function(toggler, i) {toggler.addClass('jpane-toggler');toggler.removeClass('jpane-toggler-down');},duration: 300,display: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",show: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",opacity: false}); });";
+		$js = "window.addEvent('domready', function(){ new Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'), $$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');toggler.removeClass('pane-toggler');Cookie.write('jpanesliders_permissions-sliders".$component."',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');},duration: 300,display: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",show: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 
