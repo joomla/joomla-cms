@@ -20,12 +20,13 @@ jimport('joomla.base.adapterinstance');
 class JInstallerPlugin extends JAdapterInstance
 {
 	/** @var string install function routing */
-	var $route = 'Install';
+	var $route = 'install';
 
 	protected $manifest = null;
 	protected $manifest_script = null;
 	protected $name = null;
 	protected $scriptElement = null;
+	protected $oldFiles = null;	
 
 	/**
 	 * Custom loadLanguage method
@@ -173,7 +174,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 				if ($id) { // if there is a matching extension mark this as an update; semantics really
-					$this->route = 'Update';
+					$this->route = 'update';
 				}
 			}
 			else if (!$this->parent->getOverwrite())
@@ -243,6 +244,21 @@ class JInstallerPlugin extends JAdapterInstance
 				return false;
 			}
 		}
+		
+		// if we're updating at this point when there is always going to be an extension_root find the old xml files
+		if($this->route == 'update')
+		{
+			// Hunt for the original XML file
+			$old_manifest = null;
+			$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff; side effects!
+			// look in the extension root
+			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
+			if ($tmpInstaller->findManifest()) 
+			{
+				$old_manifest = $tmpInstaller->getManifest();
+				$this->oldFiles = $old_manifest->files;
+			}
+		}
 
 		/*
 		 * If we created the plugin directory and will want to remove it if we
@@ -254,7 +270,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Copy all necessary files
-		if ($this->parent->parseFiles($xml->files, -1) === false)
+		if ($this->parent->parseFiles($xml->files, -1, $this->oldFiles) === false)
 		{
 			// Install failed, roll back changes
 			$this->parent->abort();
@@ -424,7 +440,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
 		// set the route for the install
-		$this->route = 'Update';
+		$this->route = 'update';
 		// go to install which handles updates properly
 		return $this->install();
 	}
