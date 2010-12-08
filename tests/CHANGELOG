@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Dec-2010 Mark Dexter
+# Fix failing sample_data0001Test.php 
+
 06-Dec-2010 Christophe Demko
  # Test coverage for the JArrayHelper::fromObject method
 
