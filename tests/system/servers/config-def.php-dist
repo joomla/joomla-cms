@@ -37,6 +37,9 @@ class SeleniumConfig
 	// optional setting to turn on Cache: values are off, on-basic, on-full
 	// change this value to set the caching in the doInstall.php test
 	var $cache = 'off';
+	
+	// optional setting to set administive template to hathor: set to 'hathor' to make hathor the default
+	// var $adminTemplate = 'hathor';  
 
 	// optional setting to install sample data
 	// If not set or true, sample data is installed. Set to false to not install sample data

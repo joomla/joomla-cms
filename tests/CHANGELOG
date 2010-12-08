@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Dec-2010 Mark Dexter
 # Fix failing sample_data0001Test.php 
+^ Add option to doInstall.php to set hathor as default admin template
 
 06-Dec-2010 Christophe Demko
  # Test coverage for the JArrayHelper::fromObject method

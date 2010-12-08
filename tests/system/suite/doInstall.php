@@ -124,6 +124,18 @@ class DoInstall extends SeleniumJoomlaTestCase
 
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
+		
+		// Check admin template -- change to hathor if specified in config file
+		if ($cfg->adminTemplate == 'hathor') {
+			$this->click("link=Template Manager");
+			$this->waitForPageToLoad("30000");
+			$this->click("link=Hathor - Default");
+			$this->waitForPageToLoad("30000");
+			$this->click("jform_home1");
+			$this->click("//li[@id='toolbar-save']/a/span");
+			$this->waitForPageToLoad("30000");
+		}
+		
 		$this->doAdminLogout();
 		$this->deleteAllVisibleCookies();
 	}
