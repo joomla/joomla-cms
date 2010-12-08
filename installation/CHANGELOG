@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Dec-2010 Jean-Marie Simonet
+ # [#23677] RTL header issue in Bluestork. Thanks Andrea.
+
 08-Dec-2010 Mark Dexter
 # [#21207] Joomla 1.6 Beta 6 - not assigned to groups when via LDAP login. (Elin Waring)
 # [#23441] *Fatal error when saving a weblink from the new icon in a weblink category list

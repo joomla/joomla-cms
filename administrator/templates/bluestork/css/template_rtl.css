@@ -161,6 +161,10 @@ div.header {
 
 .header{ background-position: right; }
 
+table.adminlist thead th.left {
+	text-align: right;
+}
+
 table.adminlist tbody tr{
 	text-align: right;
 }
