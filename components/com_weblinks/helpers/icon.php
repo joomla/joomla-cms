@@ -1,6 +1,6 @@
 <?php
 /**
- * @version		
+ * @version		$Id$
  * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
@@ -24,18 +24,11 @@ class JHTMLIcon
 	{
 		$uri = JFactory::getURI();
 
-		$url = 'index.php?option=com_weblink&task=weblink.add&return='.base64_encode($uri).'&id=0';
-
-		if ($params->get('show_icons')) {
-			$text = JHTML::_('image','system/new.png', JText::_('JNEW'), NULL, true);
-		} else {
-			$text = JText::_('JNEW').'&#160;';
-		}
-
-		$attribs	= array('title' => JText::_('JNEW'));
+		$url = 'index.php?option=com_weblink&task=weblink.add&return='.base64_encode($uri).'&w_id=0';
+		$text = JHTML::_('image','system/new.png', '', NULL, true);
+		$attribs	= array('title' => JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
 		return JHTML::_('link',JRoute::_($url), $text, $attribs);
 	}
-
 
 	static function edit($weblink, $params, $attribs = array())
 	{
@@ -50,18 +43,19 @@ class JHTMLIcon
 			return;
 		}
 
-
 		JHtml::_('behavior.tooltip');
 
-		$url = 'index.php?task=weblink.edit&id='.$weblink->id.'&return='.base64_encode($uri);
+		$url = 'index.php?task=weblink.edit&w_id='.$weblink->id.'&return='.base64_encode($uri);
 		$icon = $weblink->state ? 'edit.png' : 'edit_unpublished.png';
 		$text = JHTML::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 
 		if ($weblink->state == 0) {
 			$overlib = JText::_('JUNPUBLISHED');
-		} else {
+		}
+		else {
 			$overlib = JText::_('JPUBLISHED');
 		}
+
 		$date = JHTML::_('date',$weblink->created);
 		$author = $weblink->created_by_alias ? $weblink->created_by_alias : $weblink->author;
 
@@ -73,6 +67,7 @@ class JHTMLIcon
 		$button = JHTML::_('link',JRoute::_($url), $text);
 
 		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_EDIT').' :: '.$overlib.'">'.$button.'</span>';
+
 		return $output;
 	}
 }

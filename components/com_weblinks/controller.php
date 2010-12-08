@@ -32,21 +32,29 @@ class WeblinksController extends JController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$cachable = true;
-
-		// Get the document object.
-		$document = JFactory::getDocument();
+		// Initialise variables.
+		$cachable	= true;	// Huh? Why not just put that in the constructor?
+		$user		= JFactory::getUser();
 
 		// Set the default view name and format from the Request.
-		$id		= JRequest::getInt('id');
+		// Note we are using w_id to avoid collisions with the router and the return page.
+		// Frontend is a bit messier than the backend.
+		$id		= JRequest::getInt('w_id');
 		$vName	= JRequest::getWord('view', 'categories');
 		JRequest::setVar('view', $vName);
 
-		$user = JFactory::getUser();
 		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'categories')) {
 			$cachable = false;
 		}
-		$safeurlparams = array('id'=>'INT','limit'=>'INT','limitstart'=>'INT','filter_order'=>'CMD','filter_order_Dir'=>'CMD','lang'=>'CMD');
+
+		$safeurlparams = array(
+			'id'				=> 'INT',
+			'limit'				=> 'INT',
+			'limitstart'		=> 'INT',
+			'filter_order'		=> 'CMD',
+			'filter_order_Dir'	=> 'CMD',
+			'lang'				=> 'CMD'
+		);
 
 		// Check for edit form.
 		if ($vName == 'form' && !$this->checkEditId('com_weblinks.edit.weblink', $id)) {

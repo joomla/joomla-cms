@@ -35,7 +35,7 @@ $params = $this->state->get('params');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_weblinks&view=form&w_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
 		<legend><?php echo JText::_('COM_WEBLINKS_LINK'); ?></legend>
 
@@ -68,8 +68,8 @@ $params = $this->state->get('params');
 			</button>
 			<button type="button" onclick="Joomla.submitbutton('weblink.cancel')">
 				<?php echo JText::_('JCANCEL') ?>
-			</button>		
-			</div>			
+			</button>
+			</div>
 			<div>
 			<?php echo $this->form->getLabel('description'); ?>
 			<?php echo $this->form->getInput('description'); ?>

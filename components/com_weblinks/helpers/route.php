@@ -25,6 +25,7 @@ jimport('joomla.application.categories');
 abstract class WeblinksHelperRoute
 {
 	protected static $lookup;
+
 	/**
 	 * @param	int	The route of the weblink
 	 */
@@ -33,14 +34,14 @@ abstract class WeblinksHelperRoute
 		$needles = array(
 			'weblink'  => array((int) $id)
 		);
+
 		//Create the link
 		$link = 'index.php?option=com_weblinks&view=weblink&id='. $id;
-		if ($catid > 1)
-		{
+		if ($catid > 1) {
 			$categories = JCategories::getInstance('Weblinks');
 			$category = $categories->get($catid);
-			if($category)
-			{
+
+			if($category) {
 				$needles['category'] = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
 				$link .= '&catid='.$catid;
@@ -50,7 +51,7 @@ abstract class WeblinksHelperRoute
 		if ($item = self::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
 		}
-		elseif ($item = self::_findItem()) {
+		else if ($item = self::_findItem()) {
 			$link .= '&Itemid='.$item;
 		}
 
@@ -58,59 +59,54 @@ abstract class WeblinksHelperRoute
 	}
 	public static function getFormRoute($id)
 	{
-		//Create the link
-		if ($id){
-			$link = 'index.php?option=com_weblinks&task=weblink.edit&id='. $id;
-		} else {
-			$link = 'index.php?option=com_weblinks&task=weblink.edit&id=0';
+		// Create the link.
+		if ($id) {
+			$link = 'index.php?option=com_weblinks&task=weblink.edit&w_id='. $id;
+		}
+		else {
+			$link = 'index.php?option=com_weblinks&task=weblink.add&w_id=0';
 		}
 
 		return $link;
 	}
 
-
 	public static function getCategoryRoute($catid)
 	{
-		if ($catid instanceof JCategoryNode)
-		{
+		if ($catid instanceof JCategoryNode) {
 			$id = $catid->id;
 			$category = $catid;
 		}
-		else
-		{
+		else {
 			$id = (int) $catid;
 			$category = JCategories::getInstance('Weblinks')->get($id);
 		}
 
-		if($id < 1)
-		{
+		if ($id < 1) {
 			$link = '';
 		}
-		else
-		{
+		else {
 			$needles = array(
 				'category' => array($id)
 			);
 
-			if ($item = self::_findItem($needles))
-			{
+			if ($item = self::_findItem($needles)) {
 				$link = 'index.php?Itemid='.$item;
 			}
-			else
-			{
+			else {
 				//Create the link
 				$link = 'index.php?option=com_weblinks&view=category&id='.$id;
-				if($category)
-				{
+
+				if ($category) {
 					$catids = array_reverse($category->getPath());
 					$needles = array(
 						'category' => $catids,
 						'categories' => $catids
 					);
+
 					if ($item = self::_findItem($needles)) {
 						$link .= '&Itemid='.$item;
 					}
-					elseif ($item = self::_findItem()) {
+					else if ($item = self::_findItem()) {
 						$link .= '&Itemid='.$item;
 					}
 				}
@@ -126,20 +122,20 @@ abstract class WeblinksHelperRoute
 		$menus		= $app->getMenu('site');
 
 		// Prepare the reverse lookup array.
-		if (self::$lookup === null)
-		{
+		if (self::$lookup === null) {
 			self::$lookup = array();
 
 			$component	= JComponentHelper::getComponent('com_weblinks');
 			$items		= $menus->getItems('component_id', $component->id);
 			foreach ($items as $item)
 			{
-				if (isset($item->query) && isset($item->query['view']))
-				{
+				if (isset($item->query) && isset($item->query['view'])) {
 					$view = $item->query['view'];
+
 					if (!isset(self::$lookup[$view])) {
 						self::$lookup[$view] = array();
 					}
+
 					if (isset($item->query['id'])) {
 						self::$lookup[$view][$item->query['id']] = $item->id;
 					}
@@ -147,12 +143,10 @@ abstract class WeblinksHelperRoute
 			}
 		}
 
-		if ($needles)
-		{
+		if ($needles) {
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$view]))
-				{
+				if (isset(self::$lookup[$view])) {
 					foreach($ids as $id)
 					{
 						if (isset(self::$lookup[$view][(int)$id])) {
@@ -162,8 +156,7 @@ abstract class WeblinksHelperRoute
 				}
 			}
 		}
-		else
-		{
+		else {
 			$active = $menus->getActive();
 			if ($active) {
 				return $active->id;
