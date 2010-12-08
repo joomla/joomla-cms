@@ -226,11 +226,15 @@ class ContactModelContact extends JModelItem
 				$user	= JFactory::getUser();
 				$groups	= implode(',', $user->getAuthorisedViewLevels());
 				//get the content by the linked user
-				$query = 'SELECT id, title, state, access, created' .
-					' FROM #__content' .
-					' WHERE created_by = '.(int)$result->user_id .
-					' AND access IN ('. $groups . ')' .
-					' ORDER BY state DESC, created DESC' ;
+				$query	= $db->getQuery(true);
+				$query->select('id, title, state, access, created'); 
+				$query->from('#__content');
+				$query->where('created_by = '.(int)$result->user_id);
+				$query->where('access IN ('. $groups.')');
+				$query->order('state DESC, created DESC');
+				if (is_numeric($published)) {
+					$query->where('state IN (1,2)');
+				}
 				$db->setQuery($query, 0, 10);
 				$articles = $db->loadObjectList();
 				$result->articles = $articles;
