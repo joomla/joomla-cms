@@ -189,11 +189,30 @@ class ContactViewContact extends JView
 		else {
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
+		
+		$title = $this->params->get('page_title', '');
 
+		if (empty($title)) {
+			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
+		}
+
+		if (empty($title)) {
+			$title = $this->item->name;
+		}
+		$this->document->setTitle($title);
+		
 		$id = (int) @$menu->query['id'];
 
-		// if the menu item does not concern this newsfeed
+		// if the menu item does not concern this contact
 		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id)) {
+			
+			// If this is not a single contact menu item, set the page title to the contact title
+			if ($this->item->name) {
+				$this->document->setTitle($this->item->name);
+			}
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
 
@@ -211,21 +230,7 @@ class ContactViewContact extends JView
 			}
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title)) {
-			$title = htmlspecialchars_decode($app->getCfg('sitename'));
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0)) {
-			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
-		}
-
-		$this->document->setTitle($title);
-
-		if (empty($title)) {
-			$title = $this->item->title;
-			$this->document->setTitle($title);
-		}
+		
 
 		if ($this->item->metadesc) {
 			$this->document->setDescription($this->item->metadesc);

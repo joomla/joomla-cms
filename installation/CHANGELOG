@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Dec-2010 Mark Dexter
+# [#23695] Apply patch 23034 to contacts and newsfeeds
+
 09-Dec-2010 Christophe Demko
  # [#22725] Update Manager Fails (Dennis Hermacki)
  # [#23700] Lang switcher is redirecting users to home page depending of languages when lang filter is off + SEF plugin is doing some work when SEF is OFF

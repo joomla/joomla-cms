@@ -234,13 +234,21 @@ class NewsfeedsViewNewsfeed extends JView
 		else if ($app->getCfg('sitename_pagetitles', 0)) {
 			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
 		}
+		if (empty($title)) {
+			$title = $this->item->name;
+		}
 		$this->document->setTitle($title);
-
+		
 		$id = (int) @$menu->query['id'];
 
 		// if the menu item does not concern this newsfeed
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] != 'newsfeed' || $id != $this->item->id))
 		{
+			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
+			if ($this->item->name) {
+				$this->document->setTitle($this->item->name);
+			}
+			
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = JCategories::getInstance('Newsfeeds')->get($this->item->catid);
 			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
@@ -255,10 +263,7 @@ class NewsfeedsViewNewsfeed extends JView
 			}
 		}
 
-		if (empty($title)) {
-			$title = $this->item->title;
-		}
-		$this->document->setTitle($title);
+		
 
 		if ($this->item->metadesc) {
 			$this->document->setDescription($this->item->metadesc);
