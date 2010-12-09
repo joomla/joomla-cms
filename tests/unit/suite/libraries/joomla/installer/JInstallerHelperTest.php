@@ -10,17 +10,11 @@ require_once JPATH_BASE . '/libraries/joomla/installer/helper.php';
 class JInstallerHelperTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JInstallerHelper
-	 */
-	protected $object;
-
-	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 */
 	protected function setUp()
 	{
-		$this->object = new JInstallerHelper;
 	}
 
 	/**
