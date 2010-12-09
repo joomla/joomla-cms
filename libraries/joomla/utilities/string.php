@@ -687,4 +687,29 @@ abstract class JString
 		// some valid sequences
 		return (preg_match('/^.{1}/us',$str,$ar) == 1);
 	}
+
+	/**
+	 * Does a UTF-8 safe version of PHP parse_url function
+	 * @see http://us3.php.net/manual/en/function.parse-url.php
+	 * 
+	 * @param string URL to parse
+	 * @return associative array or false if badly formed URL. 
+	 * @since 1.6
+	 */	
+	public static function parse_url($url) {
+		$result = array();
+		// Build arrays of values we need to decode before parsing
+		$entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+		$replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "$", ",", "/", "?", "%", "#", "[", "]");
+		// Create encoded URL with special URL characters decoded so it can be parsed
+		// All other charcters will be encoded
+		$encodedURL = str_replace($entities, $replacements, urlencode($url));
+		// Parse the encoded URL
+		$encodedParts = parse_url($encodedURL);
+		// Now, decode each value of the resulting array
+		foreach ($encodedParts as $key => $value) {
+			$result[$key] = urldecode($value);
+		}
+		return $result;
+	}
 }

@@ -396,5 +396,30 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$actual = JString::compliant ($string);
 		$this->assertEquals($expect, $actual);
 	}
+
+	/**
+	 * @group String
+	 * @covers JString::parse_url
+	 */
+	public function testParse_Url() {
+		$url = 'http://localhost/joomla_development/j16_trunk/administrator/index.php?option=com_contact&view=contact&layout=edit&id=5';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		$url = 'http://joomla.org/mytestpath/È';
+		$expected = parse_url($url);
+		// Fix up path for UTF-8 characters
+		$expected['path'] = '/mytestpath/È';
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+		// Test special characters in URL
+		$url = 'http://mydomain.com/!*\'();:@&=+$,/?%#[]';
+		$expected = parse_url($url);
+		$actual = JString::parse_url($url);
+		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
+
+	}
 }
 ?>

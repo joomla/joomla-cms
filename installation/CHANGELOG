@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Dec-2010 Jean-Marie Simonet
+[#23671] some Chinese glyphs break SEF when using unicode urls. Thanks Mark.
+
 08-Dec-2010 Jean-Marie Simonet
  # [#23677] RTL header issue in Bluestork. Thanks Andrea.
 
