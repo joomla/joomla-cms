@@ -117,7 +117,7 @@ class plgSystemLanguageFilter extends JPlugin
 				if ($item->home && $uri->getVar('option')!='com_search')
 				{
 					$link = $item->link;
-					$parts = parse_url($link);
+					$parts = JString::parse_url($link);
 					if (isset ($parts['query']) && strpos($parts['query'], '&amp;')) {
 						$parts['query'] = str_replace('&amp;', '&', $parts['query']);
 					}

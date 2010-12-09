@@ -26,7 +26,7 @@ class plgSystemSef extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->getName() != 'site') {
+		if ($app->getName() != 'site' || $app->getCfg('sef')=='0') {
 			return true;
 		}
 

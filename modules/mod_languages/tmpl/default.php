@@ -18,7 +18,7 @@ JHtml::_('stylesheet', 'mod_languages/template.css', array(), true);
 		<ul>
 <?php foreach($list as $language):?>
 			<li>
-				<a href="<?php echo JRoute::_('index.php?Itemid='.$language->id.'&lang=' . $language->sef);?>">
+				<a href="<?php echo $language->link;?>">
 	<?php if ($params->get('image', 1)):?>
 		<?php echo JHtml::_('image', 'mod_languages/'.$language->image.'.gif', $language->title, array('title'=>$language->title), true);?>
 	<?php else:?>

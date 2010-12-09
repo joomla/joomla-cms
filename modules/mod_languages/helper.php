@@ -19,6 +19,7 @@ abstract class modLanguagesHelper
 	{
 		$languages	= JLanguageHelper::getLanguages();
 		$db			= JFactory::getDBO();
+		$app		= JFactory::getApplication();
 		$query		= $db->getQuery(true);
 
 		$query->select('id');
@@ -33,7 +34,18 @@ abstract class modLanguagesHelper
 				unset($languages[$i]);
 			}
 			else {
-				$language->id = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+				if ($app->getLanguageFilter()) {
+					if ($app->getCfg('sef')=='1') {
+						$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
+						$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
+					}
+					else {
+						$language->link = 'index.php?lang='.$language->sef;
+					}
+				}
+				else {
+					$language->link = 'index.php';
+				}
 			}
 		}
 		return $languages;
