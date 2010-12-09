@@ -30,6 +30,7 @@ $ -> Language fix or change
 09-Dec-2010 Christophe Demko
  # [#22725] Update Manager Fails (Dennis Hermacki)
  # [#23700] Lang switcher is redirecting users to home page depending of languages when lang filter is off + SEF plugin is doing some work when SEF is OFF
+ # [#23702] Javascript out of sync between normal and uncompressed file (Rouven Weßling)
 
 09-Dec-2010 Jean-Marie Simonet
 [#23671] some Chinese glyphs break SEF when using unicode urls. Thanks Mark.
