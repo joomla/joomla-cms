@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Dec-2010 Mark Dexter
 # [#23695] Apply patch 23034 to contacts and newsfeeds
+# [#23690] Fullpath disclosure in template error files
 
 09-Dec-2010 Christophe Demko
  # [#22725] Update Manager Fails (Dennis Hermacki)
