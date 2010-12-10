@@ -380,6 +380,11 @@ class JFormDataHelper
 			label="Title"
 			description="The title." />
 
+		<field
+			name="translate_default"
+			default="DEFAULT_KEY"
+			translate_default="true"
+			type="text"/>
 	</fields>
 </form>';
 

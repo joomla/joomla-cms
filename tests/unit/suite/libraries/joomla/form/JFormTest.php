@@ -961,6 +961,35 @@ class JFormTest extends JoomlaTestCase
 			),
 			'Line:'.__LINE__.' XML string should load successfully.'
 		);
+
+		// Test translate default
+		$this->assertThat(
+			$form->getInput('translate_default'),
+			$this->equalTo(
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY"/>'
+			),
+			'Line:'.__LINE__.' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
+		);
+
+		$lang = JFactory::getLanguage();
+		$debug = $lang->setDebug(true);
+		$this->assertThat(
+			$form->getInput('translate_default'),
+			$this->equalTo(
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??"/>'
+			),
+			'Line:'.__LINE__.' The method should return a simple input text field whose value is marked untranslated.'
+		);
+
+		$lang->load('form_test', dirname(__FILE__));
+		$this->assertThat(
+			$form->getInput('translate_default'),
+			$this->equalTo(
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default"/>'
+			),
+			'Line:'.__LINE__.' The method should return a simple input text field whose value is translated.'
+		);
+		$lang->setDebug($debug);
 	}
 
 	/**

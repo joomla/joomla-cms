@@ -1427,9 +1427,27 @@ class JForm
 			$field = $this->loadFieldType('text');
 		}
 
-		// Get the value for the form field if not set. Default to the 'default' attribute for the field.
+		// Get the value for the form field if not set.
+		// Default to the translated version of the 'default' attribute 
+		// if 'translate_default' attribute if set to 'true' or '1'
+		// else the value of the 'default' attribute for the field.
 		if ($value === null) {
-			$value = $this->getValue((string) $element['name'], $group, (string) $element['default']);
+			$default = (string) $element['default'];
+			if (($translate = $element['translate_default']) && ((string)$translate=='true' || (string)$translate=='1' ))
+			{
+				$lang = JFactory::getLanguage();
+				if ($lang->hasKey($default))
+				{
+					$debug = $lang->setDebug(false);
+					$default = JText::_($default);
+					$lang->setDebug($default);
+				}
+				else
+				{
+					$default = JText::_($default);
+				}
+			}
+			$value = $this->getValue((string) $element['name'], $group, $default);
 		}
 
 		// Setup the JFormField object.

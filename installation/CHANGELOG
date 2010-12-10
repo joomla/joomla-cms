@@ -33,6 +33,7 @@ $ -> Language fix or change
 10-Dec-2010 Jean-Marie Simonet
  # [#23710] Improve fieldset input CSS definition for RTL language. Thanks Itzik and Andrea.
  # [#23709] add new article - missing RTL css definition for editor article button. Thanks Itzik and Andrea.
+ # [#23711] Allowing default text to be translatable in form fields. Thanks Christophe
  
 09-Dec-2010 Mark Dexter
 # [#23695] Apply patch 23034 to contacts and newsfeeds
