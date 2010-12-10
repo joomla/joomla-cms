@@ -56,7 +56,7 @@ abstract class modArticlesLatestHelper
 				$model->setState('filter.author_id.include', false);
 				break;
 
-			case 0:
+			case '0':
 				break;
 
 			default:
@@ -70,10 +70,10 @@ abstract class modArticlesLatestHelper
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{
-			case 1:
+			case '1':
 				$model->setState('filter.featured', 'only');
 				break;
-			case 0:
+			case '0':
 				$model->setState('filter.featured', 'hide');
 				break;
 			default:

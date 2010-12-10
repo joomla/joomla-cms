@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Dec-2010 Christophe Demko
+ # [#23589] mod_latestnews ignores "show featured" setting
+
 10-Dec-2010 Jean-Marie Simonet
  # [#23710] Improve fieldset input CSS definition for RTL language. Thanks Itzik and Andrea.
  # [#23709] add new article - missing RTL css definition for editor article button. Thanks Itzik and Andrea.
