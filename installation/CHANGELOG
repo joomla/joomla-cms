@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Dec-2010 Mark Dexter
+^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
+
 10-Dec-2010 Christophe Demko
  # [#23589] mod_latestnews ignores "show featured" setting
 
