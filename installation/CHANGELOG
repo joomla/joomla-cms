@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Dec-2010 Jean-Marie Simonet
+ # [#23710] Improve fieldset input CSS definition for RTL language
+ 
 09-Dec-2010 Mark Dexter
 # [#23695] Apply patch 23034 to contacts and newsfeeds
 # [#23690] Fullpath disclosure in template error files

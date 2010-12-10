@@ -335,6 +335,7 @@ fieldset img,
 fieldset button {
 	float: right;
 	text-align:right;
+	margin: 5px 5px 0 5px;
 }
 
 #jform_id {
