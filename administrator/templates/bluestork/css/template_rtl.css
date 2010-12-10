@@ -67,6 +67,10 @@ body{
 	background:transparent url(../images/j_button2_image_rtl.png) no-repeat scroll 0% 0pt;
 }
 
+.button2-left .article {
+	background:transparent url(../images/j_button2_readmore_rtl.png) no-repeat scroll 0% 0pt;
+}
+
 .button2-left .pagebreak {
 	background:transparent url(../images/j_button2_pagebreak_rtl.png) no-repeat scroll 0% 0pt;
 }
