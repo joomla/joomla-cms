@@ -1381,6 +1381,7 @@ table.adminlist td.order span {
 table.adminlist td.order input {
 	text-align: center;
 	width: 3em;
+	font-size: 100%;
 }
 /**
  * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :

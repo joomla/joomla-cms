@@ -104,7 +104,7 @@ a:hover {
 }
 
 #module-status {
-	background: url(../images/mini_icon.png) 3px 5px no-repeat;
+	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
 }
 
 #module-status .preview {
@@ -225,7 +225,7 @@ div.toolbar-box {
 	border-bottom: 1px solid #000000;
 	border-left: 1px solid #000000;
 	/*border-top: 1px solid #000000;*/
-	background: #fdfcfb;;
+	background: #fdfcfb;
 }
 
 div.toolbar-list li {

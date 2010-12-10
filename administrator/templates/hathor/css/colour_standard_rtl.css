@@ -28,27 +28,31 @@
  */
 
 #module-status {
-	background: url(../images/mini_icon.png) 3px 5px no-repeat;
+	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
 }
 
 #module-status .preview {
-	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-media.png) right 3px no-repeat;
 }
 
 #module-status .viewsite {
-	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-viewsite.png) right 3px no-repeat;
 }
 
 #module-status .unread-messages,#module-status .no-unread-messages {
-	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-messages.png) right 3px no-repeat;
 }
 
 #module-status .loggedin-users {
-	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-user.png) right 3px no-repeat;
+}
+
+#module-status .backloggedin-users {
+	background: url(../images/menu/icon-16-back-user.png) right 3px no-repeat;
 }
 
 #module-status .logout {
-	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-logout.png) right 3px no-repeat;
 }
 
 /**
@@ -111,12 +115,12 @@ fieldset#filter-bar {
  */
 
 table.admintable td.key,table.admintable td.paramlist_key {
-	border-left: 1px solid #e9e9e9;
+	border-left: 1px solid #c7c8b2;
 	border-right: none;
 }
 
 table.paramlist td.paramlist_description {
-	border-left: 1px solid #e9e9e9;
+	border-left: 1px solid #c7c8b2;
 	border-right: none;
 }
 
@@ -278,7 +282,7 @@ a.saveorder.inactive {
  */
 
 .helpFrame {
-	border-right: 0px solid #222;
+	border-right: 0px solid #c7c8b2;
 	border-left: none;
 	border-top: none;
 }
@@ -302,7 +306,7 @@ table.aclsummary-table td.col6,
 table.aclsummary-table th.col6
 table.aclmodify-table td.col2,
 table.aclmodify-table th.col2 {
-	border-right: 1px solid #cbcbcb;
+	border-right: 1px solid #c7c8b2;
 	border-left: none;
 }
 

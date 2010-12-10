@@ -28,27 +28,31 @@
  */
 
 #module-status {
-	background: url(../images/mini_icon.png) 3px 5px no-repeat;
+	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
 }
 
 #module-status .preview {
-	background: url(../images/menu/icon-16-media.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-media.png) right 3px no-repeat;
 }
 
 #module-status .viewsite {
-	background: url(../images/menu/icon-16-viewsite.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-viewsite.png) right 3px no-repeat;
 }
 
 #module-status .unread-messages,#module-status .no-unread-messages {
-	background: url(../images/menu/icon-16-messages.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-messages.png) right 3px no-repeat;
 }
 
 #module-status .loggedin-users {
-	background: url(../images/menu/icon-16-user.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-user.png) right 3px no-repeat;
+}
+
+#module-status .backloggedin-users {
+	background: url(../images/menu/icon-16-back-user.png) right 3px no-repeat;
 }
 
 #module-status .logout {
-	background: url(../images/menu/icon-16-logout.png) 3px 3px no-repeat;
+	background: url(../images/menu/icon-16-logout.png) right 3px no-repeat;
 }
 
 /**

@@ -10,6 +10,28 @@
  *
  * Color CSS file for the template - standard
  */
+ 
+/** 
+ * Main colors:
+ * #2c2c2c	Text
+ * #054993	Links
+ * #ffffff	Background, border, text
+ * #f9fade	Background alternate, button/icon/menu background
+ * #e5f0fa	Background (input required)
+ * #e3e4ca	Background Hover, Right/Bottom icon borders
+ * #c7c8b2	Main borders
+ * #868778	Top/Left icon hover borders
+ * #f6f7db	Right/Bottom icon hover borders
+ * 
+ * Special Use Colors:
+ * #a20000	Text Error, border invalid
+ * #cccccc	Text (faded)
+ * #005800	Text (success)
+ * #eeeeee	Background (input disabled)
+ * #ffffcf	Background ‚Äì permissions debug
+ * #cfffda	Background ‚Äì permissions debug
+ * #ffcfcf	Background ‚Äì permissions debug
+ */
 
 /**
  * General styles
@@ -50,8 +72,8 @@ a:hover {
 }
 
 #footer {
-	background: #ffffff;
-	border: 1px solid #c7c8b2;
+	/*background: #ffffff;*/
+	/*border: 1px solid #c7c8b2;*/
 }
 
 #nav {
@@ -85,7 +107,7 @@ a:hover {
 }
 
 #module-status {
-	background: url(../images/mini_icon.png) 3px 5px no-repeat;
+	/*background: url(../images/mini_icon.png) 3px 5px no-repeat;*/
 }
 
 #module-status .preview {
@@ -146,7 +168,7 @@ span.unwritable	{
 	color: #a20000;
 }
 .none {
-	color: #aaaaaa;
+	color: #cccccc;
 }
 
 span.note {
@@ -162,15 +184,15 @@ div.checkin-tick {
  * Overlib
  */
 .ol-foreground {
-	background-color: #ffe;
+	background-color: #f9fade;
 }
 
 .ol-background {
-	background-color: #6db03c;
+	background-color: #005800;
 }
 
 .ol-textfont {
-	color: #666666;
+	color: #2c2c2c;
 }
 
 .ol-captionfont {
@@ -373,7 +395,7 @@ div.current fieldset {
  */
 
 fieldset {
-	border: 1px #ccc solid;
+	border: 1px #c7c8b2 solid;
 }
 
 legend {
@@ -381,7 +403,7 @@ legend {
 }
 
 fieldset ul.checklist input:focus {
-	outline: thin dotted #333333;
+	outline: thin dotted #2c2c2c;
 }
 
 fieldset#filter-bar {
@@ -419,7 +441,7 @@ input.readonly, span.faux-input {
 }
 
 input.required {
-	background-color: #ffd3af;
+	background-color: #e5f0fa;
 }
 
 input.disabled {
@@ -468,15 +490,15 @@ span.gi {
 table.admintable td.key,table.admintable td.paramlist_key {
 	background-color: #f9fade;
 	color: #2c2c2c;
-	border-bottom: 1px solid #e9e9e9;
-	border-right: 1px solid #e9e9e9;
+	border-bottom: 1px solid #c7c8b2;
+	border-right: 1px solid #c7c8b2;
 }
 
 table.paramlist td.paramlist_description {
 	background-color: #f9fade;
 	color: #2c2c2c;
-	border-bottom: 1px solid #e9e9e9;
-	border-right: 1px solid #e9e9e9;
+	border-bottom: 1px solid #c7c8b2;
+	border-right: 1px solid #c7c8b2;
 }
 
 /**
@@ -1548,19 +1570,19 @@ a.jgrid:hover {
  * General styles
  */
 div.message {
-	border: 1px solid #e0e0e0;
-	color: #333;
+	border: 1px solid #c7c8b2;
+	color: #2c2c2c;
 }
 
 .helpFrame {
-	border-left: 0px solid #222;
+	border-left: 0px solid #c7c8b2;
 	border-right: none;
 	border-top: none;
 	border-bottom: none;
 }
 
 .outline {
-  border: 1px solid #cccccc;
+  border: 1px solid #c7c8b2;
   background: #ffffff;
 }
 
@@ -1575,7 +1597,7 @@ div.message {
  * Modal Styles
  */
 dl.menu_type dt {
-	border-bottom: 1px solid #666;
+	border-bottom: 1px solid #c7c8b2;
 }
 
 /**
@@ -1663,7 +1685,7 @@ table.aclsummary-table td.col6,
 table.aclsummary-table th.col6,
 table.aclmodify-table td.col2,
 table.aclmodify-table th.col2 {
-	border-left: 1px solid #cbcbcb;
+	border-left: 1px solid #c7c8b2;
 }
 
 /* Icons */
@@ -1792,12 +1814,12 @@ ul#rules li .pane-sliders .panel h3.title
 #permissions-sliders ul#rules li h3.pane-toggler-down
 { 
 	/* color:#2c2c2c; */
-	background:#146295; 
+	background:#054993; 
 }
     
 #permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
-	color:#fff; 
+	color:#ffffff; 
 }    
         
 #permissions-sliders ul#rules .group-kind
@@ -1849,7 +1871,7 @@ ul#rules table.group-rules td label
 }
 #permissions-sliders span.level
 {
-	color:#aaaaaa; 
+	color:#c7c8b2; 
 	background-image:none;
 }
 
@@ -1891,15 +1913,19 @@ table.adminlist tbody td.check-d {
  */
 
 #system-message dd ul {
+	color: #2c2c2c;
 }
 
 #system-message dd.error ul {
+	color: #2c2c2c;
 }
 
 #system-message dd.message ul {
+	color: #2c2c2c;
 }
 
 #system-message dd.notice ul {
+	color: #2c2c2c;
 }
 
 /** CSS file for Accessible Admin Menu
