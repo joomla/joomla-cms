@@ -40,6 +40,7 @@ $ -> Language fix or change
  $- [#22091] Global configuration System: help server string updated. helpsites-15.xml deleted. helpsites-16.xml updated.
  # [#23714] Misc Hathor css fixes. Thanks Andrea.
  $ [#23713] "User Manager: Edit Access Level" has some small errors. Thanks Peter and Bill.
+ $ [#23712] "User Manager: Add New View Permission Level" label is not logical. Thanks Peter and Bill
  
 09-Dec-2010 Mark Dexter
 # [#23695] Apply patch 23034 to contacts and newsfeeds
