@@ -19,9 +19,9 @@
 			<field name="orderby_sec" type="list"
 				default="alpha"
 				description="JGLOBAL_ARTICLE_ORDER_DESC"
-				label="JGLOBAL_ARTICLE_ORDER_LABEL"	
+				label="JGLOBAL_ARTICLE_ORDER_LABEL"
 		>
-				
+
 				<option value="date">JGLOBAL_OLDEST_FIRST</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -69,11 +69,11 @@
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 			</field>
-			
+
 			<field name="introtext_limit" type="text" default="100"
 					label="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_LABEL"
 					description="JGLOBAL_ARCHIVE_ARTICLES_FIELD_INTROTEXTLIMIT_DESC" />
-					
+
 		</fieldset>
 
 		<!-- Articles options. -->
@@ -187,15 +187,6 @@
 			<field name="show_item_navigation" type="list"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_readmore" type="list"
-				description="JGLOBAL_SHOW_READMORE_DESC"
-				label="JGLOBAL_SHOW_READMORE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

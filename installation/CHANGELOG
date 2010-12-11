@@ -39,7 +39,8 @@ $ -> Language fix or change
  # [#23424] Minor improvements to md_stylechanger.js (Rouven Weßling)
  # [#23719] Single Newsfeed SEF urls don't contain alias (Elin Waring)
  # [#23708] backend - missing RTL css definition for backloggedin-users (Andrea Tarr)
- 
+ # [#23372] Make Title in Read more button optional (bill richardson)
+
 10-Dec-2010 Mark Dexter
 ^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
 

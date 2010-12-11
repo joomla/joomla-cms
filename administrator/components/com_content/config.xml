@@ -200,6 +200,26 @@
 		</field>
 
 		<field
+			name="show_readmore_title"
+			type="radio"
+			label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+			description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
+			default="1">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="readmore_limit"
+			type="text"
+			label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+			description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
+			default="100"
+		/>
+
+		<field
 			name="spacer2"
 			type="spacer"
 			hr="true"
@@ -251,7 +271,7 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-		
+
 		<field
 			name="show_noauth"
 			type="radio"
@@ -305,8 +325,8 @@
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>	
-		
+		</field>
+
 		<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -318,7 +338,7 @@
 				<option value="2">J2</option>
 				<option value="3">J3</option>
 				<option value="4">J4</option>
-				<option value="5">J5</option>				
+				<option value="5">J5</option>
 		</field>
 
 		<field name="show_empty_categories" type="radio"
@@ -340,7 +360,7 @@
 		</field>
 
 		<field name="show_subcat_desc" type="radio"
-			
+
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			default="1"
@@ -356,9 +376,9 @@
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>	
+		</field>
 	</fieldset>
-	
+
 	<fieldset name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTENT_CONFIG_CATEGORIES_SETTINGS_DESC"
@@ -368,17 +388,17 @@
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>			
-			
+			</field>
+
 			<field name="maxLevelcat" type="list"
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
-				
+
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
 				<option value="2">J2</option>
@@ -395,7 +415,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_subcat_desc_cat" type="radio"
 			default="1"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -404,7 +424,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-				
+
 			<field name="show_cat_num_articles_cat" type="radio"
 				default="1"
 				label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
@@ -413,9 +433,9 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 	</fieldset>
-	
+
 	<fieldset name="blog_default_parameters"
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
@@ -459,12 +479,12 @@
 			<option
 				value="1">JGLOBAL_ACROSS</option>
 		</field>
-		
+
 		<field name="spacer1"
 			type="spacer"
 			hr="true"
 			/>
-		
+
 		<field name="orderby_pri"
 			type="list"
 			default="none"
@@ -504,17 +524,17 @@
 			<option
 				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
 		</field>
-		
+
 		<field name="order_date" type="list"
 				default="published"
 				description="JGLOBAL_ORDERING_DATE_DESC"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 			>
-				
+
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
-			</field>		
+			</field>
 
 		</fieldset>
 
@@ -530,7 +550,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		
+
 		<field name="filter_field"
 			type="list"
 			default="hide"
@@ -541,7 +561,7 @@
 				<option value="author">JAUTHOR</option>
 				<option value="hits">JGLOBAL_HITS</option>
 		</field>
-		
+
 		<field name="show_headings"
 			type="radio"
 			default="1"
@@ -605,10 +625,10 @@
 			description="JGLOBAL_PAGINATION_RESULTS_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>	
-		
+		</field>
+
 	</fieldset>
-	
+
 	<fieldset name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTENT_CONFIG_INTEGRATION_SETTINGS_DESC"

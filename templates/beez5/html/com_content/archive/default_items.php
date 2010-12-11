@@ -103,30 +103,7 @@ $params = &$this->params;
 		<div class="intro">
 			<?php echo JHTML::_('string.truncate', $item->introtext, $params->get('introtext_limit')); ?>
 		</div>
-<?php if ($params->get('show_readmore') && $item->readmore) :
-	if ($item->params->get('access-view')) :
-		$link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
-	else :
-		$menu = JFactory::getApplication()->getMenu();
-		$active = $menu->getActive();
-		$itemId = $active->id;
-		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
-		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug));
-		$link = new JURI($link1);
-		$link->setVar('return', base64_encode($returnURL));
-	endif;
-?>
-		<p class="readmore">
-				<a href="<?php echo $link; ?>">
-					<?php if (!$item->params->get('access-view')) :
-						echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-					elseif ($readmore = $item->alternative_readmore) :
-						echo $readmore;
-					else :
-						echo JText::sprintf('COM_CONTENT_READ_MORE', $this->escape($item->title));
-					endif; ?></a>
-		</p>
-<?php endif; ?>
+
 		<?php endif; ?>
 	</li>
 <?php endforeach; ?>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php if ($grouped) : ?>
 	<?php foreach ($list as $group_name => $group) : ?>
 	<li>
-		<h<?php echo $params->get('item_heading'); ?>><?php echo $group_name; ?></h<?php echo $params->get('item_heading'); ?>>
+		<h<?php echo $params->get('item_heading'); ?>><?php echo $group_name; ?></h>
 		<ul>
 			<?php foreach ($group as $item) : ?>
 				<li>
@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 				            (<?php echo $item->displayHits; ?>)  </span>
 				        <?php endif; ?></a>
 				            <?php endif; ?>
-			        </h<?php echo $params->get('item_heading')+1; ?>>
+			        </h>
 
 
 				<?php if ($params->get('show_author')) :?>
@@ -63,9 +63,13 @@ defined('_JEXEC') or die;
 						echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE');
 					elseif ($readmore = $item->alternative_readmore) :
 						echo $readmore;
+						echo JHTML::_('string.truncate', $item->title, $params->get('readmore_limit'));
+					elseif ($params->get('show_readmore_title', 0) == 0) :
+						echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE');	
 					else :
-
-						echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE',$item->title);
+						
+						echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE');
+						echo JHTML::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
 					endif; ?>
 	        </a>
 			</p>
@@ -93,7 +97,7 @@ defined('_JEXEC') or die;
             (<?php echo $item->displayHits; ?>)  </span>
         <?php endif; ?></a>
             <?php endif; ?>
-        </h<?php echo $params->get('item_heading'); ?>>
+        </h>
 
        	<?php if ($params->get('show_author')) :?>
        		<span class="mod-articles-category-writtenby">
@@ -121,9 +125,12 @@ defined('_JEXEC') or die;
 						echo JText::_('MOD_ARTICLES_CATEGORY_REGISTER_TO_READ_MORE');
 					elseif ($readmore = $item->alternative_readmore) :
 						echo $readmore;
+						echo JHTML::_('string.truncate', $item->title, $params->get('readmore_limit'));
+					elseif ($params->get('show_readmore_title', 0) == 0) :
+						echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE');	
 					else :
-
-						echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE',$item->title);
+						echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE');
+						echo JHTML::_('string.truncate', $item->title, $params->get('readmore_limit'));
 					endif; ?>
 	        </a>
 			</p>

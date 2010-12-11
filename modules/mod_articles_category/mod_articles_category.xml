@@ -383,9 +383,12 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_DESC" />
 
-				<field name="show_readmore" type="radio" default="0"
+				<field
+					name="show_readmore"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_DESC"
+					type="radio"
+					default="0"
 				>
 					<option value="1">JSHOW
 					</option>
@@ -393,6 +396,24 @@
 					</option>
 				</field>
 
+				<field
+					name="show_readmore_title"
+					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_TITLE_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_TITLE_DESC"
+					type="radio"
+					default="1"
+				>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
+					name="readmore_limit"
+					type="text"
+					default="15"
+					label="MOD_ARTICLES_CATEGORY_READ_MORE_TITLE_LIMIT_LABEL"
+					description="MOD_ARTICLES_CATEGORY_READ_MORE_TITLE_LIMIT_DESC"
+				/>
 
 			</fieldset>
 

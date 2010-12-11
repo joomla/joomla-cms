@@ -26,7 +26,7 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
-			
+
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -35,7 +35,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_description" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
@@ -53,7 +53,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXLEVEL_DESC"
 				label="JGLOBAL_MAXLEVEL_LABEL"
@@ -109,7 +109,7 @@
 				label="JGLOBAL_SUBHEADING_LABEL"
 				size="20"
 			/>
-			
+
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
@@ -145,7 +145,7 @@
 				<option value="0">JGLOBAL_DOWN</option>
 				<option value="1">JGLOBAL_ACROSS</option>
 			</field>
-			
+
 			<field
 			name="spacer1"
 			type="spacer"
@@ -199,11 +199,11 @@
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
-			
+
 			<field name="show_pagination_results" type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -341,8 +341,8 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
-			
+
+
 			<field
 			name="show_vote" type="list"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
@@ -354,12 +354,24 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-			<field name="show_readmore" type="list"
+			<field
+				name="show_readmore"
+				type="list"
 				description="JGLOBAL_SHOW_READMORE_DESC"
 				label="JGLOBAL_SHOW_READMORE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="show_readmore_title"
+				type="list"
+				label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+				description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -403,7 +415,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_noauth" type="list"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
@@ -413,7 +425,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-			
+
 </fieldset>
 		<fieldset name="integration"
 		>
