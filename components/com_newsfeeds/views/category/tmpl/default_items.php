@@ -65,7 +65,7 @@ $listDirn	= $this->state->get('list.direction');
 		<?php endif; ?>
 
 					<td class="item-title">
-						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->id, $item->catid)); ?>">
+						<a href="<?php echo JRoute::_(NewsFeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?></a>
 					</td>
 
