@@ -527,13 +527,7 @@ class MenusModelItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
-
-		if (empty($data)) {
-			$data = $this->getItem();
-		}
-
-		return $data;
+		return array_merge((array)$this->getItem(), (array)JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
 	}
 
 	/**
@@ -1164,7 +1158,7 @@ class MenusModelItem extends JModelAdmin
 			{
 				if ($table->load($pk) && $table->home && $table->language == '*') {
 					// Prune items that you can't change.
-					JError::raiseWarning(403, JText::_('COM_MENUS_ERROR_UNPUBLISH_DEFAULT_HOME'));
+					JError::raiseWarning(403, JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 					unset($pks[$i]);
 					break;
 				}
