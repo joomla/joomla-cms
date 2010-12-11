@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Dec-2010 Jean-Marie Simonet
+ # [#23715] Add Site Name to Page Title not working for articles/newsfeeds/weblinks selected via a category. Thanks Mark
+ 
 11-Dec-2010 Christophe Demko
  # [#23720] *Changing Home set to ALL languages to another language and reverting = 500 + unpublish message
  

@@ -228,16 +228,6 @@ class NewsfeedsViewNewsfeed extends JView
 		}
 
 		$title = $this->params->get('page_title', '');
-		if (empty($title)) {
-			$title = htmlspecialchars_decode($app->getCfg('sitename'));
-		}
-		else if ($app->getCfg('sitename_pagetitles', 0)) {
-			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
-		}
-		if (empty($title)) {
-			$title = $this->item->name;
-		}
-		$this->document->setTitle($title);
 		
 		$id = (int) @$menu->query['id'];
 
@@ -246,7 +236,7 @@ class NewsfeedsViewNewsfeed extends JView
 		{
 			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
 			if ($this->item->name) {
-				$this->document->setTitle($this->item->name);
+				$title = $this->item->name;
 			}
 			
 			$path = array(array('title' => $this->item->name, 'link' => ''));
@@ -263,7 +253,16 @@ class NewsfeedsViewNewsfeed extends JView
 			}
 		}
 
-		
+		if (empty($title)) {
+			$title = htmlspecialchars_decode($app->getCfg('sitename'));
+		}
+		else if ($app->getCfg('sitename_pagetitles', 0)) {
+			$title = JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $title);
+		}
+		if (empty($title)) {
+			$title = $this->item->name;
+		}
+		$this->document->setTitle($title);		
 
 		if ($this->item->metadesc) {
 			$this->document->setDescription($this->item->metadesc);
