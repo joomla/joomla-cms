@@ -104,6 +104,10 @@ abstract class modPopularHelper
 				$title = JText::_('MOD_POPULAR_UNEXISTING');
 			}
 		}
+		else
+		{
+			$title = '';
+		}
 		return JText::plural('MOD_POPULAR_TITLE'.($catid ? "_CATEGORY" : '').($who!='0' ? "_$who" : ''), (int)$params->get('count'), $title);
 	}
 }
