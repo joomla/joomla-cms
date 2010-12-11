@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#23708] backend - missing RTL css definition for backloggedin-users (Andrea Tarr)
  # [#23372] Make Title in Read more button optional (bill richardson)
  # [#23707] Missing option to translate accordion section headers in backend main page
+ # [#23291] Improve JBrowser (Rouven Weßling)
 
 10-Dec-2010 Mark Dexter
 ^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
