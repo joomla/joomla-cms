@@ -43,8 +43,14 @@ class JTableMenu extends JTableNested
 	public function bind($array, $ignore = '')
 	{
 		// Verify that the default home menu is not unset
-		if ($this->home=='1' && $this->language=='*' && ($array['home']=='0' || $array['language']!='*' || $array['published']=='0')) {
+		if ($this->home=='1' && $this->language=='*' && ($array['home']=='0' || $array['language']!='*')) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
+			return false;
+		}
+
+		// Verify that the default home menu is not unpublished
+		if ($this->home=='1' && $this->language=='*' && $array['published']=='0') {
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 			return false;
 		}
 
