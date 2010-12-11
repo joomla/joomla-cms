@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#23498] Use Mootools Build-In Cookie Class in hide.js (Rouven Weßling)
  # [#23196] Articles created in front end have no rules saved in asset table* (Mark Dexter)
  # [#23480] Addition of missing handler parameter for JHTML modal behavior and fullScreen capability (Omar Ramos)
+ # [#23424] Minor improvements to md_stylechanger.js (Rouven Weßling)
  
 10-Dec-2010 Mark Dexter
 ^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
