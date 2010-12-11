@@ -10,6 +10,8 @@ defined('_JEXEC') or die;
 
 JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models');
 
+jimport('joomla.application.categories');
+
 /**
  * @package		Joomla.Administrator
  * @subpackage	mod_latest
@@ -89,5 +91,29 @@ abstract class modLatestHelper
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Get the alternate title for the module
+	 *
+	 * @param	JObject	The module parameters.
+	 * @return	string	The alternate title for the module.
+	 */
+	public static function getTitle($params)
+	{
+		$who = $params->get('user_id');
+		$catid = (int)$params->get('catid');
+		$type = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
+		if ($catid)
+		{
+			$category = JCategories::getInstance('Content')->get($catid);
+			if ($category) {
+				$title = $category->title;
+			}
+			else {
+				$title = JText::_('MOD_POPULAR_UNEXISTING');
+			}
+		}
+		return JText::plural('MOD_LATEST_TITLE'.$type.($catid ? "_CATEGORY" : '').($who!='0' ? "_$who" : ''), (int)$params->get('count'), $title);
 	}
 }

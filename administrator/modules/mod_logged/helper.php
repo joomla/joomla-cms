@@ -56,4 +56,15 @@ abstract class modLoggedHelper
 
 		return $results;
 	}
+
+	/**
+	 * Get the alternate title for the module
+	 *
+	 * @param	JObject	The module parameters.
+	 * @return	string	The alternate title for the module.
+	 */
+	public static function getTitle($params)
+	{
+		return JText::plural('MOD_LOGGED_TITLE',$params->get('count'));
+	}
 }
