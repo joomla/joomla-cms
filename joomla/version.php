@@ -83,7 +83,7 @@ class JVersion
 	 * @see		http://www.php.net/version_compare
 	 */
 	public function isCompatible ($minimum) {
-		return (version_compare(JVERSION, $minimum, 'eq') == 1);
+		return (substr(JVERSION,0,4) === substr($minimum,0,4));
 	}
 
 	/**
