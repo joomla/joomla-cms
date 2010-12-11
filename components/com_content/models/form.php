@@ -250,6 +250,14 @@ class ContentModelForm extends JModelForm
 			$isNew = false;
 		}
 
+		// Save the default (empty) rules for the article
+		$actions = JAccess::getActions('com_content', 'article');
+		$actionArray = array();
+		foreach ($actions as $action) {
+			$actionArray[$action->name] = array(); 
+		}
+		$data['rules'] = $actionArray;
+		
 		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());

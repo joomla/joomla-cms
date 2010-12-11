@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#23720] *Changing Home set to ALL languages to another language and reverting = 500 + unpublish message
  # [#22648] function isCompatible incorrectly checks current version (Mark Dexter)
  # [#23498] Use Mootools Build-In Cookie Class in hide.js (Rouven Weßling)
+ # [#23196] Articles created in front end have no rules saved in asset table* (Mark Dexter)
  
 10-Dec-2010 Mark Dexter
 ^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
