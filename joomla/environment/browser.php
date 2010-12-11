@@ -43,6 +43,9 @@ class JBrowser extends JObject
 	/** @var string HTTP_ACCEPT string. */
 	protected $_accept = '';
 
+	/** @var array Parsed HTTP_ACCEPT string */
+	protected $_accept_parsed = array();
+
 	/** @var string Platform the browser is running on. */
 	protected $_platform = '';
 
@@ -103,7 +106,6 @@ class JBrowser extends JObject
 	/** @var array Features. */
 	protected $_features = array(
 		'html'			=> true,
-		'hdml'			=> false,
 		'wml'			=> false,
 		'images'		=> true,
 		'iframes'		=> false,
@@ -116,9 +118,7 @@ class JBrowser extends JObject
 		'rte'			=> false,
 		'homepage'		=> false,
 		'accesskey'		=> false,
-		'optgroup'		=> false,
 		'xmlhttpreq'	=> false,
-		'cite'			=> false,
 		'xhtml+xml'		=> false,
 		'mathml'		=> false,
 		'svg'			=> false
@@ -189,6 +189,19 @@ class JBrowser extends JObject
 		return $instances[$signature];
 	}
 
+	public static function _sortMime($a, $b)
+	{
+		if ($a[1] > $b[1]) {
+			return -1;
+		}
+		elseif ($a[1] < $b[1]) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+	
 	/**
 	 * Parses the user agent string and inititializes the object with
 	 * all the known features and quirks for the given browser.
@@ -216,11 +229,27 @@ class JBrowser extends JObject
 		} else {
 			$this->_accept = strtolower($accept);
 		}
+		
+		// Parse the HTTP Accept Header
+		$accept_mime = explode(",", $this->_accept);
+		for ($i = 0; $i < count($accept_mime); $i++) {
+			$parts = explode(';q=', trim($accept_mime[$i]));
+			if (count($parts) === 1) {
+				$parts[1] = 1;
+			}
+			$accept_mime[$i] = $parts;
+		}
 
+		// Sort so the preferred value is the first 
+		usort($accept_mime, array( __CLASS__ , '_sortMime'));
 
-		// Check if browser excepts content type xhtml+xml.
-		if (strpos($this->_accept, 'application/xhtml+xml')) {
-			$this->setFeature('xhtml+xml');
+		$this->_accept_parsed = $accept_mime;
+
+		// Check if browser excepts content type application/xhtml+xml. */* doesn't count ;)
+		foreach ($this->_accept_parsed as $mime) {
+			if (($mime[0] == 'application/xhtml+xml')) {
+				$this->setFeature('xhtml+xml');
+			}
 		}
 
 		// Check for a mathplayer plugin is installed, so we can use MathML on several browsers.
@@ -254,7 +283,6 @@ class JBrowser extends JObject
 					$this->setFeature('dom');
 					$this->setFeature('iframes');
 					$this->setFeature('accesskey');
-					$this->setFeature('optgroup');
 					$this->setQuirk('double_linebreak_textarea');
 				}
 			} elseif (strpos($this->_lowerAgent, 'elaine/') !== false ||
@@ -304,7 +332,6 @@ class JBrowser extends JObject
 					$this->setFeature('rte');
 					$this->setFeature('homepage');
 					$this->setFeature('accesskey');
-					$this->setFeature('optgroup');
 					$this->setFeature('xmlhttpreq');
 					$this->setQuirk('scrollbar_in_way');
 					break;
@@ -317,7 +344,6 @@ class JBrowser extends JObject
 					$this->setFeature('rte');
 					$this->setFeature('homepage');
 					$this->setFeature('accesskey');
-					$this->setFeature('optgroup');
 					$this->setFeature('xmlhttpreq');
 					$this->setQuirk('scrollbar_in_way');
 					$this->setQuirk('broken_multipart_form');
@@ -327,7 +353,6 @@ class JBrowser extends JObject
 				case 5:
 					if ($this->getPlatform() == 'mac') {
 						$this->setFeature('javascript', 1.2);
-						$this->setFeature('optgroup');
 					} else {
 						// MSIE 5 for Windows.
 						$this->setFeature('javascript', 1.4);
@@ -419,7 +444,7 @@ class JBrowser extends JObject
 					case 3:
 						$this->setFeature('dom');
 						$this->setFeature('iframes');
-				$this->setFeature('xhtml+xml');
+						$this->setFeature('xhtml+xml');
 						break;
 					}
 				}
@@ -436,9 +461,7 @@ class JBrowser extends JObject
 					$this->setFeature('javascript', 1.4);
 					$this->setFeature('dom');
 					$this->setFeature('accesskey');
-					$this->setFeature('optgroup');
 					$this->setFeature('xmlhttpreq');
-					$this->setFeature('cite');
 					if (preg_match('|rv:(.*)\)|', $this->_agent, $revision)) {
 						if ($revision[1] >= 1) {
 							$this->setFeature('iframes');
@@ -449,7 +472,7 @@ class JBrowser extends JObject
 						if ($revision[1] >= 1.5) {
 							$this->setFeature('svg');
 							$this->setFeature('mathml');
-				$this->setFeature('xhtml+xml');
+							$this->setFeature('xhtml+xml');
 						}
 					}
 					break;
@@ -486,7 +509,6 @@ class JBrowser extends JObject
 				$this->setBrowser('up');
 				$this->setFeature('html', false);
 				$this->setFeature('javascript', false);
-				$this->setFeature('hdml');
 				$this->setFeature('wml');
 
 				if (strpos($this->_agent, 'GUI') !== false &&
@@ -499,13 +521,11 @@ class JBrowser extends JObject
 				$this->_mobile = true;
 			} elseif (strpos($this->_agent, 'Xiino/') !== false) {
 				$this->setBrowser('xiino');
-				$this->setFeature('hdml');
 				$this->setFeature('wml');
 				$this->_mobile = true;
 			} elseif (strpos($this->_agent, 'Palmscape/') !== false) {
 				$this->setBrowser('palmscape');
 				$this->setFeature('javascript', false);
-				$this->setFeature('hdml');
 				$this->setFeature('wml');
 				$this->_mobile = true;
 			} elseif (strpos($this->_agent, 'Nokia') !== false) {
@@ -523,7 +543,6 @@ class JBrowser extends JObject
 				$this->setBrowser('wap');
 				$this->setFeature('html', false);
 				$this->setFeature('javascript', false);
-				$this->setFeature('hdml');
 				$this->setFeature('wml');
 				$this->_mobile = true;
 			} elseif (strpos($this->_lowerAgent, 'docomo') !== false ||
@@ -535,14 +554,12 @@ class JBrowser extends JObject
 				$this->setBrowser('blackberry');
 				$this->setFeature('html', false);
 				$this->setFeature('javascript', false);
-				$this->setFeature('hdml');
 				$this->setFeature('wml');
 				$this->_mobile = true;
 			} elseif (strpos($this->_agent, 'MOT-') !== false) {
 				$this->setBrowser('motorola');
 				$this->setFeature('html', false);
 				$this->setFeature('javascript', false);
-				$this->setFeature('hdml');
 				$this->setFeature('wml');
 				$this->_mobile = true;
 			} elseif (strpos($this->_lowerAgent, 'j-') !== false) {
