@@ -176,6 +176,31 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 				true,
 				'Should be compatible with itself',
 			),
+			'version 1.6.9' => array(
+				'1.6.9',
+				true,
+				'Should be compatible with 1.6.9',
+			),
+			'version 1.6.99' => array(
+				'1.6.99',
+				true,
+				'Should be compatible with 1.6.99',
+			),
+			'version 1.6.0-betaxx' => array(
+				'1.6.0-betaxx',
+				true,
+				'Should be compatible with 1.6.0-betaxx',
+			),
+			'version 1.5.22' => array(
+				'1.5.22',
+				false,
+				'Should not be compatible with 1.5.22',
+			),
+			'version 1.7.0' => array(
+				'1.7.0',
+				false,
+				'Should not be compatible with 1.7.0',
+			),
 		);
 
 	}
