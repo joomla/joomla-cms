@@ -269,16 +269,23 @@ abstract class JHtmlBehavior
 		}
 
 		// Setup options object
-		$opt['ajaxOptions']	= (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
-		$opt['size']		= (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
-		$opt['shadow']		= (isset($params['shadow'])) ? $params['shadow'] : null;
-		$opt['onOpen']		= (isset($params['onOpen'])) ? $params['onOpen'] : null;
-		$opt['onClose']		= (isset($params['onClose'])) ? $params['onClose'] : null;
-		$opt['onUpdate']	= (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
-		$opt['onResize']	= (isset($params['onResize'])) ? $params['onResize'] : null;
-		$opt['onMove']		= (isset($params['onMove'])) ? $params['onMove'] : null;
-		$opt['onShow']		= (isset($params['onShow'])) ? $params['onShow'] : null;
-		$opt['onHide']		= (isset($params['onHide'])) ? $params['onHide'] : null;
+		$opt['ajaxOptions']		= (isset($params['ajaxOptions']) && (is_array($params['ajaxOptions']))) ? $params['ajaxOptions'] : null;
+		$opt['handler']			= (isset($params['handler'])) ? $params['handler'] : null;
+		$opt['fullScreen']  	= (isset($params['fullScreen'])) ? (bool) $params['fullScreen'] : null;
+		$opt['parseSecure']  	= (isset($params['parseSecure'])) ? (bool) $params['parseSecure'] : null;
+		$opt['closable']  		= (isset($params['closable'])) ? (bool) $params['closable'] : null;
+		$opt['closeBtn']  		= (isset($params['closeBtn'])) ? (bool) $params['closeBtn'] : null;
+		$opt['iframePreload']  	= (isset($params['iframePreload'])) ? (bool) $params['iframePreload'] : null;
+		$opt['iframeOptions']	= (isset($params['iframeOptions']) && (is_array($params['iframeOptions']))) ? $params['iframeOptions'] : null;
+		$opt['size']			= (isset($params['size']) && (is_array($params['size']))) ? $params['size'] : null;
+		$opt['shadow']			= (isset($params['shadow'])) ? $params['shadow'] : null;
+		$opt['onOpen']			= (isset($params['onOpen'])) ? $params['onOpen'] : null;
+		$opt['onClose']			= (isset($params['onClose'])) ? $params['onClose'] : null;
+		$opt['onUpdate']		= (isset($params['onUpdate'])) ? $params['onUpdate'] : null;
+		$opt['onResize']		= (isset($params['onResize'])) ? $params['onResize'] : null;
+		$opt['onMove']			= (isset($params['onMove'])) ? $params['onMove'] : null;
+		$opt['onShow']			= (isset($params['onShow'])) ? $params['onShow'] : null;
+		$opt['onHide']			= (isset($params['onHide'])) ? $params['onHide'] : null;
 
 		$options = JHtmlBehavior::_getJSObject($opt);
 
@@ -625,12 +632,26 @@ abstract class JHtmlBehavior
 				continue;
 			}
 
-			if (!is_array($v) && !is_object($v)) {
+			if (is_bool($v)) {
+				if ($k === 'fullScreen') {
+					$object .= 'size: { ';
+					$object .= 'x: ';
+					$object .= 'window.getSize().x-80';
+					$object .= ',';
+					$object .= 'y: ';
+					$object .= 'window.getSize().y-80';
+					$object .= ' }';
+					$object .= ',';
+				} else {
+					$object .= ' '.$k.': ';
+					$object .= ($v) ? 'true' : 'false';
+					$object .= ',';
+				}
+			} else if (!is_array($v) && !is_object($v)) {
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
-			}
-			else {
+			} else {
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}
