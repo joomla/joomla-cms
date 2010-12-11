@@ -181,68 +181,22 @@ function auf(key) {
 
 }
 
-var Cookies = {
-	init : function() {
-		var allCookies = document.cookie.split('; ');
-		for ( var i = 0; i < allCookies.length; i++) {
-			var cookiePair = allCookies[i].split('=');
-			this[cookiePair[0]] = cookiePair[1];
-		}
-	},
-	create : function(name, value, days) {
-		if (days) {
-			var date = new Date();
-			date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-			var expires = "; expires=" + date.toGMTString();
-		} else
-			var expires = "";
-		document.cookie = name + "=" + value + expires + "; path=/";
-		this[name] = value;
-	},
-	erase : function(name) {
-		this.create(name, '', -1);
-		this[name] = undefined;
-	}
-};
-
-Cookies.init();
-
 function saveIt(name) {
 	var x = $(name).style.display;
 
 	if (!x) {
 		alert('No cookie available');
 	} else {
-		Cookies.create(name, x, 7);
+		Cookie.write(name, x, {duration: 7});
 	}
 }
 
 function eraseIt(name) {
-	Cookies.erase(name);
-}
-
-function init() {
-	for ( var i = 1; i < 3; i++) {
-		var x = Cookies['status' + i];
-		if (x)
-			alert('Cookie status'
-					+ i
-					+ '\nthat you set on a previous visit, is still active.\nIts value is '
-					+ x);
-	}
+	Cookie.dispose(name);
 }
 
 function readCookie(name) {
-	var nameEQ = name + "=";
-	var ca = document.cookie.split(';');
-	for ( var i = 0; i < ca.length; i++) {
-		var c = ca[i];
-		while (c.charAt(0) == ' ')
-			c = c.substring(1, c.length);
-		if (c.indexOf(nameEQ) == 0)
-			return c.substring(nameEQ.length, c.length);
-	}
-	return null;
+	return Cookie.read(name);
 }
 
 function wrapperwidth(width) {
