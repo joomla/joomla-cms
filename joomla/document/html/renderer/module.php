@@ -21,14 +21,14 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 * Renders a module script and returns the results as a string
 	 *
 	 * @param	string $name	The name of the module to render
-	 * @param	array $params	Associative array of values
+	 * @param	array $attribs	Associative array of values
 	 * @return	string			The output of the script
 	 */
-	public function render($module, $params = array(), $content = null)
+	public function render($module, $attribs = array(), $content = null)
 	{
 		if (!is_object($module))
 		{
-			$title	= isset($params['title']) ? $params['title'] : null;
+			$title	= isset($attribs['title']) ? $attribs['title'] : null;
 
 			$module = JModuleHelper::getModule($module, $title);
 
@@ -62,15 +62,23 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		//get module parameters
-		$mod_params = new JRegistry;
-		$mod_params->loadJSON($module->params);
-
+		$params = new JRegistry;
+		$params->loadJSON($module->params);
+		
+		// use parameters from template
+		if (isset($attribs['params'])) {
+			$template_params = new JRegistry;
+			$template_params->loadJSON(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
+			$params->merge($template_params);
+			$module = clone $module;
+			$module->params = (string) $params;
+		}
+		
 		$contents = '';
 
+		$cachemode = $params->get('cachemode','oldstatic');  // default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
 
-		$cachemode = $mod_params->get('cachemode','oldstatic');  // default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-
-		if ($mod_params->get('cache', 0) == 1  && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
+		if ($params->get('cache', 0) == 1  && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 
 			// default to itemid creating mehod and workarounds on
@@ -78,13 +86,13 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$cacheparams->cachemode = $cachemode;
 			$cacheparams->class = 'JModuleHelper';
 			$cacheparams->method = 'renderModule';
-			$cacheparams->methodparams = array($module, $params);
+			$cacheparams->methodparams = array($module, $attribs);
 
-			$contents = JModuleHelper::moduleCache($module, $mod_params,$cacheparams);
+			$contents = JModuleHelper::ModuleCache($module, $params, $cacheparams);
 
 		}
 		else {
-			$contents = JModuleHelper::renderModule($module, $params);
+			$contents = JModuleHelper::renderModule($module, $attribs);
 		}
 
 		return $contents;
