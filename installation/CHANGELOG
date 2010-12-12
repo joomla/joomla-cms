@@ -29,10 +29,11 @@ $ -> Language fix or change
 
 12-Dec-2010 Mark Dexter
 # [#23741] Menu -> Content -> Featured Articles gives error 500
-^ [#22758] Controlling module parameters for <jdoc:include type="module" />
+^ [#22758] Controlling module parameters for <jdoc:include type="module" /> (Dennis Hermatski)
 # [#22531] Private Message recipient not checking for backend access
 ^ [#23745] Add a system plugin event called onBeforeCompileHead (Louis Landry)
 # [#23737] Number of list results not taken into account on listing view
+# [#22097] Records in #__session aren't deleted after user's logout; Joomla checks #__session too often (Dennis Hermatski)
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])

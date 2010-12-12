@@ -869,7 +869,7 @@ class JApplication extends JObject
 
 		// Remove expired sessions from the database.
 		$time = time();
-		if ($time % 3) {
+		if ($time % 2) {
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
 			$db->setQuery(
@@ -878,35 +878,68 @@ class JApplication extends JObject
 			);
 			$db->query();
 		}
-
+		
 		// Check to see the the session already exists.
-		$db->setQuery(
-			'SELECT `session_id`' .
-			' FROM `#__session`' .
-			' WHERE `session_id` = '.$db->quote($session->getId())
-		);
-		$exists = $db->loadResult();
-
-		// If the session doesn't exist initialise it.
-		if (!$exists) {
-			$db->setQuery(
-				'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .
-				' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
-			);
-
-			// If the insert failed, exit the application.
-			if (!$db->query()) {
-				jexit($db->getErrorMSG());
-			}
-
-			//Session doesn't exist yet, initalise and store it in the session table
-			$session->set('registry',	new JRegistry('session'));
-			$session->set('user',		new JUser());
+		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
+			|| 
+			($this->getCfg('session_handler') == 'database' && $session->isNew())
+		)
+		{
+			$this->checkSession();
 		}
 
 		return $session;
 	}
 
+	/**
+	 * Checks the user session.
+	 *
+	 * If the session record doesn't exist, initialise it.
+	 * If session is new, create session variables
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	public function checkSession()
+	{
+		$db 		= JFactory::getDBO();
+		$session 	= JFactory::getSession();
+		$user		= JFactory::getUser();
+		
+		$db->setQuery(
+			'SELECT `session_id`' .
+			' FROM `#__session`' .
+			' WHERE `session_id` = '.$db->quote($session->getId()), 0, 1
+		);
+		$exists = $db->loadResult();
+		
+		// If the session record doesn't exist initialise it.
+		if (!$exists) {
+			if ($session->isNew()) {
+				$db->setQuery(
+					'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .
+					' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
+				);
+			} 
+			else {
+				$db->setQuery(
+					'INSERT INTO `#__session` (`session_id`, `client_id`, `guest`, `time`, `userid`, `username`)' .
+					' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) $user->get('guest').', '.(int) $session->get('session.timer.start').', '.(int) $user->get('id').', '.$db->quote($user->get('username')).')'
+				);
+			}
+			
+			// If the insert failed, exit the application.
+			if (!$db->query()) {
+				jexit($db->getErrorMSG());
+			}
+	
+			//Session doesn't exist yet, create session variables
+			if ($session->isNew()) {
+				$session->set('registry',	new JRegistry('session'));
+				$session->set('user',		new JUser());
+			}
+		}
+	}
 
 	/**
 	 * Gets the client id of the current running application.
