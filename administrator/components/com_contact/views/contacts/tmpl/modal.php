@@ -57,7 +57,7 @@ $listDirn	= $this->state->get('list.direction');
 		<thead>
 			<tr>
 				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 				<th>
 					<?php echo JHtml::_('grid.sort',  'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
