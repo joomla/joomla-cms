@@ -69,7 +69,7 @@ class MenusControllerItem extends JControllerForm
 			return true;
 		}
 		else {
-			$this->setMessage(JText::_(JText::sprintf('JGLOBAL_ERROR_BATCH_FAILED', $model->getError())));
+			$this->setMessage(JText::sprintf('JGLOBAL_ERROR_BATCH_FAILED', $model->getError()));
 			return false;
 		}
 	}

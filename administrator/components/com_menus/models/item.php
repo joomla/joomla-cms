@@ -420,6 +420,12 @@ class MenusModelItem extends JModelAdmin
 				$children = array_merge($children, (array) $db->loadResultArray());
 			}
 
+			// Check the row.
+			if (!$table->check()) {
+				$this->setError($table->getError());
+				return false;
+			}
+
 			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());

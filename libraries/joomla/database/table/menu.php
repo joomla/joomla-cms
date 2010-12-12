@@ -94,6 +94,13 @@ class JTableMenu extends JTableNested
 			return false;
 		}
 
+		// Verify that a first level menu item alias is not the name of a folder.
+		jimport('joomla.filesystem.folders');
+		if ($this->parent_id==1 && in_array($this->alias, JFolder::folders(JPATH_ROOT))) {
+			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
+			return false;
+		}
+
 		// Verify that the home item a component.
 		if ($this->home && $this->type != 'component') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_COMPONENT'));
