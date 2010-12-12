@@ -33,9 +33,7 @@ $listDirn	= $this->state->get('list.direction');
 	<table class="category">
 		<?php if ($this->params->get('show_headings')) : ?>
 		<thead><tr>
-			<th class="item-num">
-				<?php echo JText::_('JGLOBAL_NUM'); ?>
-			</th>
+			
 			<th class="item-title">
 				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME', 'a.name', $listDirn, $listOrder); ?>
 			</th>
