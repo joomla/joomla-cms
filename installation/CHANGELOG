@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Dec-2010 Mark Dexter
+# [#23741] Menu -> Content -> Featured Articles gives error 500
+
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
  # [#23740] *RTL menu display issue in beez 2.0 (Jean-Marie Simonet)
