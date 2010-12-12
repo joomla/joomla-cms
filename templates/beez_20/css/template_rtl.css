@@ -22,8 +22,39 @@ ul.menu li {
 }
 
 ul.menu li a:link,ul.menu li a:visited {
-	background: url("../images/nature/karo.gif") no-repeat scroll right 14px;
+	background: url(../images/nature/karo.gif) no-repeat scroll right 14px;
 	padding-right: 10px;
+}
+
+ul.menu li.active ul li a:link,
+ul.menu li.active ul li a:visited
+{
+	padding-right: 20px;
+}
+
+ul.menu li.active ul li.active a:link,
+ul.menu li.active ul li.active a:visited
+{
+	padding-right: 20px;
+}
+
+ul.menu li.active ul li.active ul li a:link,
+ul.menu li.active ul li.active ul li a:visited
+{
+	padding-right: 33px;
+}
+
+ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li a:visited
+{
+	padding: 3px 40px 3px 2px;
+	background:#fff url(../images/nature/arrow_small_rtl.png) no-repeat scroll right 8px;
+}
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
+{
+	padding-right:30px;
 }
 
 h3 {
@@ -130,4 +161,3 @@ dl.tabs dt {
     margin-left: 3px;
 	margin-right: 0px;
 }
-
