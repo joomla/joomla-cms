@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 12-Dec-2010 Jean-Marie Simonet
  # [#23721] SEF-URLs with mod_rewrite is not working for certain menu-aliases. Thanks Christophe.
+ # [#23723] Various RTL issues with single contact display with Beez2. Thanks Iztik and Andrea.
 
 11-Dec-2010 Jean-Marie Simonet
  # [#23715] Add Site Name to Page Title not working for articles/newsfeeds/weblinks selected via a category. Thanks Mark

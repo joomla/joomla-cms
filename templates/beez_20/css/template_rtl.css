@@ -60,3 +60,74 @@ a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
 	position: absolute;
 	right: 340px !important
 }
+
+/* personal.css overrides */
+
+.panel h3.pane-toggler a
+{
+	background:#f5f5f5 url(../images/slider_plus_rtl.png) left top no-repeat;
+}
+.panel h3.pane-toggler-down a
+{
+	background:#f5f5f5  url(../images/slider_minus_rtl.png) left top no-repeat;
+	border-bottom:solid 1px #ddd;
+}
+
+.form-required
+{
+	background-position: right;
+}
+
+input.button,
+button.button
+{
+	background:#FFFFFF url(../images/nature/arrow1_rtl.gif) no-repeat right top;
+}
+
+/* layout.css overrides */
+
+#main ul
+{
+        padding:0 15px 0 0;
+        margin:10px 0 10px 0px;
+}
+
+#main ol
+{
+        padding:0 20px 0 0;
+        margin:10px 0 10px 0px;
+}
+
+.contact-email label
+{
+        width:17em;
+        float:right;
+}
+
+#contact-email-copy
+{
+        float:right;
+        margin-left:10px;
+}
+
+table.weblinks th, table.category th {
+    text-align: right;
+}
+
+dl.tabs {
+    float: right;
+    margin: 50px 0 0 0;
+    z-index: 50;
+    clear:both;
+}
+
+dl.tabs dt {
+    float: right;
+    padding: 4px 10px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin-left: 3px;
+	margin-right: 0px;
+}
+
