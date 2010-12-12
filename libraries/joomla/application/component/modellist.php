@@ -102,7 +102,7 @@ class JModelList extends JModel
 
 		// Load the list items.
 		$query	= $this->_getListQuery();
-		$items	= $this->_getList($query, $this->getState('list.start'), $this->getState('list.limit'));
+		$items	= $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {
@@ -149,7 +149,7 @@ class JModelList extends JModel
 		// Create the pagination object.
 		jimport('joomla.html.pagination');
 		$limit = (int) $this->getState('list.limit') - (int) $this->getState('list.links');
-		$page = new JPagination($this->getTotal(), (int) $this->getState('list.start'), $limit);
+		$page = new JPagination($this->getTotal(), $this->getStart(), $limit);
 
 		// Add the object to the internal cache.
 		$this->cache[$store] = $page;
@@ -207,6 +207,34 @@ class JModelList extends JModel
 
 		// Add the total to the internal cache.
 		$this->cache[$store] = $total;
+
+		return $this->cache[$store];
+	}
+
+	/**
+	 * Method to get the starting number of items for the data set.
+	 *
+	 * @return	integer	The starting number of items available in the data set.
+	 * @since	1.6
+	 */
+	public function getstart()
+	{
+		$store = $this->getStoreId('getstart');
+
+		// Try to load the data from internal storage.
+		if (!empty($this->cache[$store])) {
+			return $this->cache[$store];
+		}
+
+		$start = $this->getState('list.start');
+		$limit = $this->getState('list.limit');
+		$total = $this->getTotal();
+		if ($start > $total - $limit) {
+			$start = max(0, (int)(ceil($total / $limit) - 1) * $limit);
+		}
+
+		// Add the total to the internal cache.
+		$this->cache[$store] = $start;
 
 		return $this->cache[$store];
 	}

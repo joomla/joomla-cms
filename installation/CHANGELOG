@@ -32,6 +32,7 @@ $ -> Language fix or change
 ^ [#22758] Controlling module parameters for <jdoc:include type="module" />
 # [#22531] Private Message recipient not checking for backend access
 ^ [#23745] Add a system plugin event called onBeforeCompileHead (Louis Landry)
+# [#23737] Number of list results not taken into account on listing view
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
