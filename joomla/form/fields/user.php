@@ -38,7 +38,9 @@ class JFormFieldUser extends JFormField
 	{
 		// Initialize variables.
 		$html = array();
-		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field='.$this->id;
+		$groups = $this->getGroups();
+		$excluded = $this->getExcluded();
+		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field='.$this->id.(isset($groups) ? ('&amp;groups='.base64_encode(json_encode($groups))) : '').(isset($excluded) ? ('&amp;excluded='.base64_encode(json_encode($excluded))) : '');
 
 		// Initialize some field attributes.
 		$attr = $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
@@ -96,5 +98,28 @@ class JFormFieldUser extends JFormField
 		$html[] = '<input type="hidden" id="'.$this->id.'_id" name="'.$this->name.'" value="'.(int) $this->value.'" />';
 
 		return implode("\n", $html);
+	}
+
+	/**
+	 * Method to get the filtering groups (null means no filtering)
+	 *
+	 * @return	array|null	array of filtering groups or null.
+	 * @since	1.6
+	 */
+	protected function getGroups()
+	{
+		return null;
+	}
+
+	/**
+	/**
+	 * Method to get the users to exclude from the list of users
+	 *
+	 * @return	array|null array of users to exclude or null to to not exclude them
+	 * @since	1.6
+	 */
+	protected function getExcluded()
+	{
+		return null;
 	}
 }
