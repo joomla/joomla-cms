@@ -49,6 +49,18 @@ class UsersModelUsers extends JModelList
 		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
+		$groups = json_decode(base64_decode(JRequest::getVar('groups', '', 'default', 'BASE64')));
+		if (isset($groups)) {
+			JArrayHelper::toInteger($groups);
+		}
+		$this->setState('filter.groups', $groups);
+
+		$excluded = json_decode(base64_decode(JRequest::getVar('excluded', '', 'default', 'BASE64')));
+		if (isset($excluded)) {
+			JArrayHelper::toInteger($excluded);
+		}
+		$this->setState('filter.excluded', $excluded);
+
 		// Load the parameters.
 		$params		= JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
@@ -93,7 +105,14 @@ class UsersModelUsers extends JModelList
 
 		// Try to load the data from internal storage.
 		if (empty($this->cache[$store])) {
-			$items = parent::getItems();
+			$groups = $this->getState('filter.groups');
+			$groupId = $this->getState('filter.group_id');
+			if (isset($groups) && (empty($groups) || $groupId && !in_array($groupId, $groups))) {
+				$items = array();
+			}
+			else {
+				$items = parent::getItems();
+			}
 
 			// Bail out on an error or empty list.
 			if (empty($items)) {
@@ -197,9 +216,16 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Filter the items over the group id if set.
-		if ($groupId = $this->getState('filter.group_id')) {
+		$groupId = $this->getState('filter.group_id');
+		$groups = $this->getState('filter.groups');
+		if ($groupId || isset($groups)) {
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->where('map2.group_id = '.(int) $groupId);
+			if ($groupId) {
+				$query->where('map2.group_id = '.(int) $groupId);
+			}
+			if (isset($groups)) {
+				$query->where('map2.group_id IN ('.implode(',', $groups).')');
+			}
 		}
 
 		// Filter the items over the search string if set.
@@ -215,6 +241,12 @@ class UsersModelUsers extends JModelList
 
 			// Add the clauses to the query.
 			$query->where('('.implode(' OR ', $searches).')');
+		}
+
+		// Filter by excluded users
+		$excluded = $this->getState('filter.excluded');
+		if (!empty($excluded)) {
+			$query->where('id NOT IN ('.implode(',', $excluded).')');
 		}
 
 		// Add the list ordering clause.
