@@ -304,6 +304,11 @@ class MenusModelItem extends JModelAdmin
 				$table->title   = $title;
 				$table->alias   = $alias;
 
+				// Check the row.
+				if (!$table->check()) {
+					$this->setError($table->getError());
+					return false;
+				}
 				// Store the row.
 				if (!$table->store()) {
 					$this->setError($table->getError());
