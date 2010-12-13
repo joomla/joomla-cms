@@ -9,6 +9,7 @@
 
 // No direct access.
 defined('JPATH_BASE') or die;
+jimport('joomla.event.dispatcher');
 
 /**
  * Base class for a Joomla! application.
