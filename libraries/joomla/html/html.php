@@ -702,7 +702,8 @@ abstract class JHtml
 				ifFormat: "'.$format.'",	// format of the input field
 				button: "'.$id.'_img",		// trigger for the calendar (button ID)
 				align: "Tl",				// alignment (defaults to "Bl")
-				singleClick: true
+				singleClick: true,
+				firstDay: '.JFactory::getLanguage()->get('firstDay', 1).'
 				});});');
 				$done[] = $id;
 			}
