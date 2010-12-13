@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2010 Mark Dexter
+# [#23377] Version information disclosure in joomla.xml
+
 12-Dec-2010 Mark Dexter
 # [#23741] Menu -> Content -> Featured Articles gives error 500
 ^ [#22758] Controlling module parameters for <jdoc:include type="module" /> (Dennis Hermatski)
