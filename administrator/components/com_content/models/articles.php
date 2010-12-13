@@ -44,6 +44,9 @@ class ContentModelArticles extends JModelList
 
 		$access = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
+		
+		$authorId = $app->getUserStateFromRequest($this->context.'.filter.author_id', 'filter_author_id');
+		$this->setState('filter.author_id', $authorId);
 
 		$published = $this->getUserStateFromRequest($this->context.'.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
@@ -77,6 +80,7 @@ class ContentModelArticles extends JModelList
 		$id	.= ':'.$this->getState('filter.access');
 		$id	.= ':'.$this->getState('filter.published');
 		$id	.= ':'.$this->getState('filter.category_id');
+		$id	.= ':'.$this->getState('filter.author_id');
 		$id	.= ':'.$this->getState('filter.language');
 
 		return parent::getStoreId($id);
@@ -186,7 +190,32 @@ class ContentModelArticles extends JModelList
 		}
 		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+	
+	/**
+	 * Build a list of authors
+	 *
+	 * @return	JDatabaseQuery
+	 * @since	1.6
+	 */
+	public function getAuthors() {
+		// Create a new query object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		
+		// Construct the query
+		$query->select('u.id AS value, u.name AS text');
+		$query->from('#__users AS u');
+		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
+		$query->group('u.id');
+		$query->order('u.name');
+		
+		// Setup the query
+		$db->setQuery($query->__toString());
+		
+		// Return the result
+		return $db->loadObjectList();
 	}
 }
