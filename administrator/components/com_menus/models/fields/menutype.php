@@ -255,8 +255,8 @@ class JFormFieldMenuType extends JFormFieldList
 		{
 			// Create the menu option for the component.
 			$o = new JObject;
-			$o->title		= $menu['name'];
-			$o->description	= $menu['msg'];
+			$o->title		= (string) $menu['name'];
+			$o->description	= (string) $menu['msg'];
 			$o->request		= array('option' => $component);
 
 			$options[] = $o;
@@ -283,8 +283,8 @@ class JFormFieldMenuType extends JFormFieldList
 				if ($child->getName() == 'option') {
 					// Create the menu option for the component.
 					$o = new JObject;
-					$o->title		= $child['name'];
-					$o->description	= $child['msg'];
+					$o->title		= (string) $child['name'];
+					$o->description	= (string) $child['msg'];
 					$o->request		= array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
 
 					$options[] = $o;
@@ -292,8 +292,8 @@ class JFormFieldMenuType extends JFormFieldList
 				elseif ($child->getName() == 'default') {
 					// Create the menu option for the component.
 					$o = new JObject;
-					$o->title		= $child['name'];
-					$o->description	= $child['msg'];
+					$o->title		= (string) $child['name'];
+					$o->description	= (string) $child['msg'];
 					$o->request		= array('option' => $component);
 
 					$options[] = $o;
@@ -352,8 +352,8 @@ class JFormFieldMenuType extends JFormFieldList
 										if ($child->getName() == 'option') {
 											// Create the menu option for the component.
 											$o = new JObject;
-											$o->title		= $child['name'];
-											$o->description	= $child['msg'];
+											$o->title		= (string) $child['name'];
+											$o->description	= (string) $child['msg'];
 											$o->request		= array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
 
 											$options[] = $o;
@@ -361,8 +361,8 @@ class JFormFieldMenuType extends JFormFieldList
 										elseif ($child->getName() == 'default') {
 											// Create the menu option for the component.
 											$o = new JObject;
-											$o->title		= $child['name'];
-											$o->description	= $child['msg'];
+											$o->title		= (string) $child['name'];
+											$o->description	= (string) $child['msg'];
 											$o->request		= array('option' => $component, 'view' => $view);
 
 											$options[] = $o;

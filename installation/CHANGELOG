@@ -37,6 +37,7 @@ $ -> Language fix or change
 # [#21138] Article manager - no filter on created by (Roland Dalmulder)
 # [#23728] Content of the mail from is not retained if an error occurs
 # [#23725] Duplicate contradicting messages on send mail error
+# [#23696] Menus creation fail with 1.5-style menus metadata: using SimpleXMLElement attributes missing (string) typecast (Beat)
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
