@@ -168,6 +168,14 @@ class plgSystemLanguageFilter extends JPlugin
 
 			if (!isset(self::$sefs[$sef])) {
 				$sef = self::$default_sef;
+				
+				$app = JFactory::getApplication();
+				if ($app->getCfg('sef_rewrite')) {
+					$app->redirect(JURI::base(true).'/'.$sef.'/'.$path );
+				}
+				else {
+					$app->redirect(JURI::base(true).'/index.php/'.$sef.'/'.$path );
+				}
 			}
 			$lang_code = self::$sefs[$sef]->lang_code;
 			if ($lang_code && JLanguage::exists($lang_code)) {
@@ -177,6 +185,12 @@ class plgSystemLanguageFilter extends JPlugin
 		}
 		else {
 			$sef = $uri->getVar('lang');
+			if (!isset(self::$sefs[$sef])) {
+				$sef = self::$default_sef;
+				$uri->setVar('lang', $sef);
+				$app = JFactory::getApplication();
+				$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
+			}
 		}
 
 		$array = array('lang' => $sef);

@@ -30,6 +30,7 @@ $ -> Language fix or change
 13-Dec-2010 Christophe Demko
  # adding a jimport in uri.php (it uses JString::parse_url)
  # [#23407] Add option which day should be the first day of the week (Dennis Hermatski)
+ # [#23748] languagefilter causes double content on www.example.com/ and www.example.com/en/ (Mark Visser)
 
 13-Dec-2010 Jean-Marie Simonet
  $# [#23747] Fix UI for blog layouts. Thanks Elin.
