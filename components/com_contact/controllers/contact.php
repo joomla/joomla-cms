@@ -133,7 +133,10 @@ class ContactControllerContact extends JController
 			}
 		}
 
-		$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
+		if (!JError::isError($sent)) {
+			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
+		}
+
 		//redirect if it is set
 		if ($contact->params->get('redirect'))
 		{
