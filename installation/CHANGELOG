@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2010 Christophe Demko
+ # adding a jimport in uri.php (it uses JString::parse_url)
+
 13-Dec-2010 Jean-Marie Simonet
  $# [#23747] Fix UI for blog layouts. Thanks Elin.
 
@@ -46,7 +49,6 @@ $ -> Language fix or change
 # [#23696] Menus creation fail with 1.5-style menus metadata: using SimpleXMLElement attributes missing (string) typecast (Beat)
 # [#23697] Menus with default view have a view=(empty) in URL and are missing other defined attributes and 1.5-type-menu-metada does not display menu type correctly in backend (Beat)
 # Fix up error trying to run installation with [#23745]  
-
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
