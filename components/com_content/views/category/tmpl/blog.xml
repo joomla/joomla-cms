@@ -113,6 +113,12 @@
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
+	
+			<field name="bloglayout" type="spacer" class="spacer"
+					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
+			/>
+
+
 			<field name="num_leading_articles" type="text"
 				description="JGLOBAL_NUM_LEADING_ARTICLES_DESC"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"

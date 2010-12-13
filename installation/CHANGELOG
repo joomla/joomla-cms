@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2010 Jean-Marie Simonet
+ $# [#23747] Fix UI for blog layouts. Thanks Elin.
+
 13-Dec-2010 Mark Dexter
 # [#23377] Version information disclosure in joomla.xml
 
