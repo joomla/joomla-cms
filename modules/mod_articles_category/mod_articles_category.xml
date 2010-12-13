@@ -385,8 +385,8 @@
 
 				<field
 					name="show_readmore"
-					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_DESC"
+					label="JGLOBAL_SHOW_READMORE_LABEL"
+					description="JGLOBAL_SHOW_READMORE_DESC"
 					type="radio"
 					default="0"
 				>
@@ -398,8 +398,8 @@
 
 				<field
 					name="show_readmore_title"
-					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_TITLE_LABEL"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWREADMORE_TITLE_DESC"
+					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
+					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					type="radio"
 					default="1"
 				>
@@ -411,8 +411,8 @@
 					name="readmore_limit"
 					type="text"
 					default="15"
-					label="MOD_ARTICLES_CATEGORY_READ_MORE_TITLE_LIMIT_LABEL"
-					description="MOD_ARTICLES_CATEGORY_READ_MORE_TITLE_LIMIT_DESC"
+					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
+					description="JGLOBAL_SHOW_READMORE_LIMIT_DESC"
 				/>
 
 			</fieldset>
