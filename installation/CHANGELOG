@@ -40,6 +40,7 @@ $ -> Language fix or change
 13-Dec-2010 Mark Dexter
 # [#23377] Version information disclosure in joomla.xml
 # Sample data fixes (Elin Waring)
+# Better fix for installation error with [#23745] (Sam Moffatt)
 
 12-Dec-2010 Mark Dexter
 # [#23741] Menu -> Content -> Featured Articles gives error 500
