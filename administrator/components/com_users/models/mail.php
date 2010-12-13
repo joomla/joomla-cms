@@ -77,6 +77,7 @@ class UsersModelMail extends JModelAdmin
 		$acl	= JFactory::getACL();
 		$db		= $this->getDbo();
 
+
 		$mode		= array_key_exists('mode',$data) ? intval($data['mode']) : 0;
 		$subject	= array_key_exists('subject',$data) ? $data['subject'] : '';
 		$grp		= array_key_exists('group',$data) ? intval($data['group']) : 0;
@@ -91,6 +92,7 @@ class UsersModelMail extends JModelAdmin
 
 		// Check for a message body and subject
 		if (!$message_body || !$subject) {
+			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError(JText::_('COM_USERS_MAIL_PLEASE_FILL_IN_THE_FORM_CORRECTLY'));
 			return false;
 		}
@@ -116,6 +118,7 @@ class UsersModelMail extends JModelAdmin
 
 		// Check to see if there are any users in this group before we continue
 		if (!count($rows)) {
+			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError(JText::_('COM_USERS_MAIL_NO_USERS_COULD_BE_FOUND_IN_THIS_GROUP'));
 			return false;
 		}
@@ -143,9 +146,11 @@ class UsersModelMail extends JModelAdmin
 
 		// Check for an error
 		if (JError::isError($rs)) {
+			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError($rs->getError());
 			return false;
 		} elseif (empty($rs)) {
+			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
 			return false;
 		} else {
@@ -158,8 +163,8 @@ class UsersModelMail extends JModelAdmin
 			$data['recurse']=$recurse;
 			$data['bcc']=$bcc;
 			$data['message']=$message_body;
+			$app->setUserState('com_users.display.mail.data', array());
 			$app->enqueueMessage(JText::sprintf('COM_USERS_MAIL_EMAIL_SENT_TO', count($rows)),'message');
-			$app->setUserState('com_users.display.mail.data', $data);
 			return true;
 		}
 	}

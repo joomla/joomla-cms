@@ -35,6 +35,7 @@ $ -> Language fix or change
 # [#23737] Number of list results not taken into account on listing view
 # [#22097] Records in #__session aren't deleted after user's logout; Joomla checks #__session too often (Dennis Hermatski)
 # [#21138] Article manager - no filter on created by (Roland Dalmulder)
+# [#23728] Content of the mail from is not retained if an error occurs
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
