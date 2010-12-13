@@ -38,6 +38,8 @@ $ -> Language fix or change
 # [#23728] Content of the mail from is not retained if an error occurs
 # [#23725] Duplicate contradicting messages on send mail error
 # [#23696] Menus creation fail with 1.5-style menus metadata: using SimpleXMLElement attributes missing (string) typecast (Beat)
+# [#23697] Menus with default view have a view=(empty) in URL and are missing other defined attributes and 1.5-type-menu-metada does not display menu type correctly in backend (Beat)
+
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
