@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Dec-2010 Christophe Demko
  # [#23770] unit test are not working on JLanguage since commit on [#23407]
+ # [#23749] User with core.admin but not core.manage in com_messages can be selected as recipient of messages (Rouven Weßling)
 
 13-Dec-2010 Ian MacLennan
  # [#22751] errors in javascript form validation and combobox.js

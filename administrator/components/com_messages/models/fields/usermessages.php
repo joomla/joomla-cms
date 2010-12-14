@@ -51,7 +51,7 @@ class JFormFieldUserMessages extends JFormFieldUser
 
 		foreach ($groups as $i=>$group)
 		{
-			if (JAccess::checkGroup($group, 'core.admin', 'com_messages')) {
+			if (JAccess::checkGroup($group, 'core.admin')) {
 				continue;
 			}
 			if (!JAccess::checkGroup($group, 'core.manage', 'com_messages')) {
