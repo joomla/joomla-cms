@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2010 Ian MacLennan
+ # [#22751] errors in javascript form validation and combobox.js
+
 13-Dec-2010 Christophe Demko
  # adding a jimport in uri.php (it uses JString::parse_url)
  # [#23407] Add option which day should be the first day of the week (Dennis Hermatski)

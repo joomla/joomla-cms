@@ -121,14 +121,14 @@ Joomla.combobox.transform = function(el, options)
 			 * select options.  If they match, then we assume the change happened because of
 			 * the browser trying to auto-change for the given character.
 			 */
-			var char = String.fromCharCode(e.code).toLowerCase();
+			var character = String.fromCharCode(e.code).toLowerCase();
 			for (var i = 1; i < this.options.length; i++)
 			{
 				// Get the first character from the select option.
 				var FirstChar = this.options[i].value.charAt(0).toLowerCase();
 
 				// If the first character matches the entered character, the change was automatic.
-				if ((FirstChar == char)) {
+				if ((FirstChar == character)) {
 					this.options.selectedIndex = 0;
 					this.set('changeType', 'auto');
 				}
