@@ -26,7 +26,7 @@ defined('_JEXEC') or die;
 <?php endif; ?>
 
 </head>
-<body id="page_bg" class="color_<?php echo $this->params->get('colorVariation'); ?> bg_<?php echo $this->params->get('backgroundVariation'); ?> width_<?php echo $this->params->get('widthStyle'); ?>">
+<body id="page_bg" class="color_<?php echo htmlspecialchars($this->params->get('colorVariation')); ?> bg_<?php echo htmlspecialchars($this->params->get('backgroundVariation')); ?> width_<?php echo htmlspecialchars($this->params->get('widthStyle')); ?>">
 <a id="up"></a>
 <div class="center" align="center">
 	<div id="wrapper">

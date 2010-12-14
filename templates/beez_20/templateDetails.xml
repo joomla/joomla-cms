@@ -58,11 +58,13 @@
 			<fieldset name="advanced">
 				<field name="wrapperSmall" type="text" default="53"
 					label="TPL_BEEZ2_FIELD_WRAPPERSMALL_LABEL"
-					description="TPL_BEEZ2_FIELD_WRAPPERSMALL_DESC" />
+					description="TPL_BEEZ2_FIELD_WRAPPERSMALL_DESC"
+					filter="int" />
 
 				<field name="wrapperLarge" type="text" default="72"
 					label="TPL_BEEZ2_FIELD_WRAPPERLARGE_LABEL"
-					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC" />
+					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC"
+					filter="int" />
 
 				<field name="logo" type="media"
 					hide_default="1"
@@ -70,15 +72,18 @@
 
 				<field name="sitetitle"  type="text" default=""
 					label="TPL_BEEZ2_FIELD_SITETITLE_LABEL"
-					description="TPL_BEEZ2_FIELD_SITETITLE_DESC" />
+					description="TPL_BEEZ2_FIELD_SITETITLE_DESC"
+					filter="string" />
 
 				<field name="sitedescription"  type="text" default=""
 					label="TPL_BEEZ2_FIELD_DESCRIPTION_LABEL"
-					description="TPL_BEEZ2_FIELD_DESCRIPTION_DESC" />
+					description="TPL_BEEZ2_FIELD_DESCRIPTION_DESC"
+					filter="string" />
 
 				<field name="navposition" type="list" default="center"
 					label="TPL_BEEZ2_FIELD_NAVPOSITION_LABEL"
 					description="TPL_BEEZ2_FIELD_NAVPOSITION_DESC"
+					filter="word"
 				>
 					<option value="center">TPL_BEEZ2_OPTION_AFTER_CONTENT</option>
 					<option value="left">TPL_BEEZ2_OPTION_BEFORE_CONTENT</option>
@@ -87,6 +92,7 @@
 				<field name="templatecolor" type="list" default="nature"
 					label="TPL_BEEZ2_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ2_FIELD_TEMPLATECOLOR_DESC"
+					filter="word"
 				>
 
 					<option value="nature">TPL_BEEZ2_OPTION_NATURE</option>

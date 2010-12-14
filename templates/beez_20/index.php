@@ -51,7 +51,7 @@ $templateparams     = $app->getTemplate(true)->params;
                  endforeach;
         endif;
 ?>
-                <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo $color; ?>.css" type="text/css" />
+                <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
                 <?php if ($this->direction == 'rtl') : ?>
                 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/template_rtl.css" type="text/css" />
                 <?php endif; ?>
@@ -85,8 +85,8 @@ $templateparams     = $app->getTemplate(true)->params;
                 <script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez_20/javascript/hide.js"></script>
 
                 <script type="text/javascript">
-                        var big ='<?php echo $this->params->get('wrapperLarge');?>%';
-                        var small='<?php echo $this->params->get('wrapperSmall'); ?>%';
+                        var big ='<?php echo (int)$this->params->get('wrapperLarge');?>%';
+                        var small='<?php echo (int)$this->params->get('wrapperSmall'); ?>%';
                         var altopen='<?php echo JText::_('TPL_BEEZ2_ALTOPEN',true); ?>';
                         var altclose='<?php echo JText::_('TPL_BEEZ2_ALTCLOSE',true); ?>';
                         var bildauf='<?php echo $this->baseurl ?>/templates/beez_20/images/plus.png';
@@ -113,7 +113,7 @@ $templateparams     = $app->getTemplate(true)->params;
                                         <h1 id="logo">
 
                                         <?php if ($logo): ?>
-                                        <img src="<?php echo $this->baseurl ?>/<?php echo $logo; ?>"  alt="<?php echo $templateparams->get('sitetitle');?>" />
+                                        <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
                                         <?php endif;?>
                                         <?php if (!$logo ): ?>
                                         <?php echo $templateparams->get('sitetitle');?>

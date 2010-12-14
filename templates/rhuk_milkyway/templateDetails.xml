@@ -72,7 +72,8 @@
 					type="list"
 					default="white"
 					label="TPL_RHUK_MILKYWAY_FIELD_COLOR_VARIATION_LABEL"
-					description="TPL_RHUK_MILKYWAY_FIELD_COLOR_VARIATION_DESC">
+					description="TPL_RHUK_MILKYWAY_FIELD_COLOR_VARIATION_DESC"
+					filter="word">
 					<option
 						value="blue">TPL_RHUK_MILKYWAY_FIELD_VALUE_BLUE</option>
 					<option
@@ -91,7 +92,8 @@
 					type="list"
 					default="blue"
 					label="TPL_RHUK_MILKYWAY_FIELD_BACKGROUND_VARIATION_LABEL"
-					description="TPL_RHUK_MILKYWAY_FIELD_BACKGROUND_VARIATION_DESC">
+					description="TPL_RHUK_MILKYWAY_FIELD_BACKGROUND_VARIATION_DESC"
+					filter="word">
 					<option
 						value="blue">TPL_RHUK_MILKYWAY_FIELD_VALUE_BLUE</option>
 					<option
@@ -112,7 +114,8 @@
 					type="list"
 					default="fmax"
 					label="TPL_RHUK_MILKYWAY_FIELD_TEMPLATE_WIDTH_LABEL"
-					description="TPL_RHUK_MILKYWAY_FIELD_TEMPLATE_WIDTH_DESC">
+					description="TPL_RHUK_MILKYWAY_FIELD_TEMPLATE_WIDTH_DESC"
+					filter="word">
 					<option
 						value="fmax">TPL_RHUK_MILKYWAY_FIELD_VALUE_FLUID_WITH_MAXIMUM</option>
 					<option
