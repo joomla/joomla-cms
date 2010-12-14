@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2010 Mark Dexter
+# Check that menu item type displays when editing a menu item
+
 14-Dec-2010 Christophe Demko
  # Add firstDay metadata in unit tests
 

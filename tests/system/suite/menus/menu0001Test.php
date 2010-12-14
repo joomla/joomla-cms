@@ -79,6 +79,15 @@ class Menu0001 extends SeleniumJoomlaTestCase
 
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
+		
+		// Open menu item and make sure type displays
+		$this->click("link=Functional Test Menu");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=Functional Test Menu Item");
+		$this->waitForPageToLoad("30000");
+		$this->assertTrue($this->isElementPresent("//li//input[@value='Single Article']"));
+		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->waitForPageToLoad("30000");		
 
 		echo "Navigate to Module Manager and add new menu module\n";
 		$this->click("link=Module Manager");
