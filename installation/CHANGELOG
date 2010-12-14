@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.6.0 RC1 Release [14-Dec-2010] ------------------
+
 14-Dec-2010 Mark Dexter
 + [#23750] Update of old core layouts in Milky Way (Elin Waring & Jennifer Marriott)
 # Reverting [#23697] since it causes problems in Menu Item edit. Re-opening issue.
