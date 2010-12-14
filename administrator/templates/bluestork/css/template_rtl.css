@@ -20,6 +20,15 @@ body{
 	background-image: url(../images/j_header_right_rtl.png);
 }
 
+#border-top span.logo {
+	float: left;
+	padding-left:15px;
+}
+
+#border-top span {
+	padding-right: 15px;
+}
+
 .button1 { background: url(../images/j_button1_right.png) 100% 0 no-repeat; margin-left: 5px; padding-right: 10px; white-space: nowrap; padding-left: 0px; }
 .button1 .next { background: url(../images/j_button1_prev.png) no-repeat; }
 .button1 a { padding: 0 6px 0 30px; }

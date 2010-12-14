@@ -16,6 +16,15 @@ body{
 	background-image: url(../images/j_header_left_rtl.png);
 }
 
+#header3 span.logo {
+	float: left;
+	padding-left:15px;
+}
+
+#header3 span {
+	padding-right: 15px;
+}
+
 #version {
 	float:left;
 	padding-left:5px;

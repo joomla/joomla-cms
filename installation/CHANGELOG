@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2010 Jean-Marie Simonet
+ # [#23771] RTL header display issue (bluestork) + same in admin
+ 
 14-Dec-2010 Christophe Demko
  # [#23770] unit test are not working on JLanguage since commit on [#23407]
  # [#23749] User with core.admin but not core.manage in com_messages can be selected as recipient of messages (Rouven Weßling)
