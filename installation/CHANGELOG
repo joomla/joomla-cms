@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2010 Ian MacLennan
+ # [#23373] Make decision and implement changes to URL structure
+
 14-Dec-2010 Jean-Marie Simonet
  # [#23771] RTL header display issue (bluestork) + same in admin
  
