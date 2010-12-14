@@ -97,10 +97,10 @@ class MenusHelper
 			$request = $args;
 		}
 
-		// Only take the defined parts (option, view, layout and any other parts defined by that menu entry): E.g. default view does not need an empty "view=":
+		// Only take the option, view and layout parts.
 		foreach ($request as $name => $value)
 		{
-			if ($value === '')
+			if (!in_array($name, self::$_filter))
 			{
 				// Remove the variables we want to ignore.
 				unset($request[$name]);

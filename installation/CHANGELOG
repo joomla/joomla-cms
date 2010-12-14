@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Dec-2010 Mark Dexter
 + [#23750] Update of old core layouts in Milky Way (Elin Waring & Jennifer Marriott)
+# Reverting [#23697] since it causes problems in Menu Item edit. Re-opening issue.
 
 14-Dec-2010 Ian MacLennan
  # [#23373] Make decision and implement changes to URL structure
