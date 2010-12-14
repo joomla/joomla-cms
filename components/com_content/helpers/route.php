@@ -165,7 +165,7 @@ abstract class ContentHelperRoute
 		else
 		{
 			$active = $menus->getActive();
-			if ($active) {
+			if ($active && $active->component == 'com_content') {
 				return $active->id;
 			}
 		}

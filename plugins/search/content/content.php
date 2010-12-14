@@ -200,11 +200,20 @@ class plgSearchContent extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
+			// find an itemid for archived to use if there isn't another one
+			$item	= $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
+			$itemid = isset($item) ? '&Itemid='.$item->id : '';
+
 			if (isset($list3))
 			{
 				foreach($list3 as $key => $item)
 				{
-					$list3[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+					$date = JFactory::getDate($item->created);
+
+					$created_month	= $date->format("n");
+					$created_year	= $date->format("Y");
+
+					$list3[$key]->href	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
 				}
 			}
 
