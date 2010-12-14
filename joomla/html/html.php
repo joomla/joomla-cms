@@ -703,7 +703,7 @@ abstract class JHtml
 				button: "'.$id.'_img",		// trigger for the calendar (button ID)
 				align: "Tl",				// alignment (defaults to "Bl")
 				singleClick: true,
-				firstDay: '.JFactory::getLanguage()->get('firstDay', 1).'
+				firstDay: '.JFactory::getLanguage()->getFirstDay().'
 				});});');
 				$done[] = $id;
 			}
