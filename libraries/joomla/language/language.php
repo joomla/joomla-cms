@@ -1065,6 +1065,17 @@ class JLanguage extends JObject
 	}
 
 	/**
+	 * Get the first day of the week for this language
+	 *
+	 * @return	int	The first day of the week according to the language
+	 * @since	1.6
+	 */
+	public function getFirstDay()
+	{
+		return (int) (isset($this->metadata['firstDay']) ? $this->metadata['firstDay'] : 0);
+	}
+
+	/**
 	 * Searches for language directories within a certain base dir
 	 *
 	 * @param	string	$dir	directory of files

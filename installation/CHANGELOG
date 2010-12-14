@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2010 Christophe Demko
+ # [#23770] unit test are not working on JLanguage since commit on [#23407]
+
 13-Dec-2010 Ian MacLennan
  # [#22751] errors in javascript form validation and combobox.js
 

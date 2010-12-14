@@ -1163,13 +1163,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		    'name' => 'English (United Kingdom)',
 		    'tag' => 'en-GB',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 		$option2 = array(
 		    'name' => 'XXTestLang',
 		    'tag' => 'xx-XX',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 
 		$lang = new JLanguage('');
@@ -1199,13 +1201,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		    'name' => 'English (United Kingdom)',
 		    'tag' => 'en-GB',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 		$option2 = array(
 		    'name' => 'XXTestLang',
 		    'tag' => 'xx-XX',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 		$listCompareEqual1 = array(
 		    'en-GB' => $option1,
@@ -1315,7 +1319,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		    'name' => 'English (United Kingdom)',
 		    'tag' => 'en-GB',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 		$language = array(
 		    'en-GB' => $option
@@ -1344,7 +1349,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		    'name' => 'English (United Kingdom)',
 		    'tag' => 'en-GB',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 		$language = array(
 		    'en-GB' => $option
@@ -1385,7 +1391,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		    'name' => 'English (United Kingdom)',
 		    'tag' => 'en-GB',
 		    'rtl' => 0,
-		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom'
+		    'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+		    'firstDay' => 0
 		);
 		$language = array(
 		    'en-GB' => $option

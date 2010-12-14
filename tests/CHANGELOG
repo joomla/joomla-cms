@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Dec-2010 Christophe Demko
+ # Add firstDay metadata in unit tests
+
 11-Dec-2010 Christophe Demko
  # [#22648] function isCompatible incorrectly checks current version (Mark Dexter)
 
