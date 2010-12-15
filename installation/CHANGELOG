@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Dec-2010 Mark Dexter
+# Fix typo in configuration language file
+
 15-Dec-2010 Jean-Marie Simonet
  $ Modifying strings wrong value
  # Changing link to language packs
