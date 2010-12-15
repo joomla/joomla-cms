@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Modifying strings wrong value
  # Changing link to language packs
  $ [#23797] Correction of language in banner manager. Thansk Bill.
+ $ [#23787] Redirect manager state - published or enabled
  
 -------------------- 1.6.0 RC1 Release [14-Dec-2010] ------------------
 
