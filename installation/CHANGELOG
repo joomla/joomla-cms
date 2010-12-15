@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Dec-2010 Jean-Marie Simonet
+ $ Modifying strings wrong value
+ 
 -------------------- 1.6.0 RC1 Release [14-Dec-2010] ------------------
 
 14-Dec-2010 Mark Dexter
