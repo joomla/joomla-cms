@@ -687,9 +687,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function batchMove($value, $pks)
 	{
-		// $value comes as {parent_id}
-		$parts		= explode('.', $value);
-		$parentId	= (int) JArrayHelper::getValue($parts, 0, 1);
+		$parentId	= (int) $value;
 
 		$table	= $this->getTable();
 		$db		= $this->getDbo();

@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ [#23786] Extension manager language file error. Thanks Bill.
  # [#23800] News feed language direction default value. Thanks Bill.
  $ [#23795] Prevent disabling ALL authentication plugins. Thanks Bill.
+ #[#23788] Fail to move or copy category to root. Thanks Mark.
 
 15-Dec-2010 Mark Dexter
 # Fix typo in configuration language file

@@ -125,7 +125,7 @@ abstract class JHtmlCategory
 					self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 				}
 				// Special "Add to root" option:
-				self::$items[$hash][] = JHtml::_('select.option', $item->parent_id.'.1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
+				self::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
 		}
 
 		return self::$items[$hash];
