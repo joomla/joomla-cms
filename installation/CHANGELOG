@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Dec-2010 Jean-Marie Simonet
  $ [#23786] Extension manager language file error. Thanks Bill.
+ # [#23800] News feed language direction default value. Thanks Bill.
 
 15-Dec-2010 Mark Dexter
 # Fix typo in configuration language file

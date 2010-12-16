@@ -61,7 +61,7 @@
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL" description="COM_NEWSFEEDS_FIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"
-			default="1" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
+			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
 		>
 			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
