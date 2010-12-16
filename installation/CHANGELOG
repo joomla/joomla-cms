@@ -27,13 +27,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Dec-2010 Jean-Marie Simonet
+ $ [#23786] Extension manager language file error. Thanks Bill.
+
 15-Dec-2010 Mark Dexter
 # Fix typo in configuration language file
 
 15-Dec-2010 Jean-Marie Simonet
  $ Modifying strings wrong value
  # Changing link to language packs
- $ [#23797] Correction of language in banner manager. Thansk Bill.
+ $ [#23797] Correction of language in banner manager. Thanks Bill.
  $ [#23787] Redirect manager state - published or enabled
  
 -------------------- 1.6.0 RC1 Release [14-Dec-2010] ------------------
