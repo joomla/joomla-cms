@@ -97,7 +97,7 @@
 		<field name="content" type="editor"
 			buttons="true"
 			description="COM_MODULES_FIELD_CONTENT_DESC"
-			filter="safehtml"
+			filter="ContentHelper::filterText"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 		/>
 

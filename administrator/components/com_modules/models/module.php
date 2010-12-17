@@ -507,6 +507,21 @@ class ModulesModelModule extends JModelAdmin
 	}
 
 	/**
+	 * Loads ContentHelper for filters before validating data.
+	 *
+	 * @param	object		$form		The form to validate against.
+	 * @param	array		$data		The data to validate.
+	 * @return	mixed		Array of filtered data if valid, false otherwise.
+	 * @since	1.1
+	 */
+	function validate($form, $data)
+	{
+		require_once(JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php');
+
+		return parent::validate($form, $data);
+	}
+
+	/**
 	 * Method to save the form data.
 	 *
 	 * @param	array	$data	The form data.
