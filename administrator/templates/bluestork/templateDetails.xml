@@ -29,6 +29,7 @@
 		<folder>js</folder>
 		<folder>css</folder>
 		<folder>html</folder>
+		<folder>language</folder>
 	</files>
 	<positions>
 		<position>menu</position>

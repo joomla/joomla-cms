@@ -27,9 +27,7 @@
 		<folder>html</folder>
 		<folder>images</folder>
 		<folder>js</folder>
-		<!-- For a non-core admin template, the language files could be -->
-		<!-- inside the language/en-GB folder -->
-		<!-- <folder>language</folder>  -->
+		<folder>language</folder>
 	</files>
 
 	<positions>
