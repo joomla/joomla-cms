@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Updating templates sql
  #$ Adding language folders in administrator templates
  $ Correcting language Key
+ # [#23843] wrong lang string called by com_messages. Thanks Stefania
 
 17-Dec-2010 Ian MacLennan
  # [#22035] Custom HTML module filtering issues

@@ -23,7 +23,7 @@
 			rows="10"
 			cols="80"
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
-			description="COM_MESSAGES_FIELD_SUBJECT_DESC"
+			description="COM_MESSAGES_FIELD_MESSAGE_DESC"
 			required="true">
 		</field>
 	</fieldset>
