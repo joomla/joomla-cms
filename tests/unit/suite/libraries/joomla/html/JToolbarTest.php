@@ -38,4 +38,51 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
+
+	public function testAddButtonPathString()
+	{
+		$initialValue = $this->readAttribute($this->object, '_buttonPath');
+		$this->object->addButtonPath('MyTestPath');
+		$newValue = $this->readAttribute($this->object, '_buttonPath');
+		$this->assertThat(
+			$newValue[0],
+			$this->equalTo('MyTestPath'.DIRECTORY_SEPARATOR)
+		);
+
+		$initialCount = count($initialValue);
+
+		for($i = 0; $i < $initialCount; $i++) {
+			$this->assertThat(
+				$initialValue[$i],
+				$this->equalTo($newValue[$i+1])
+			);
+		}
+	}
+
+	public function testAddButtonPathArray()
+	{
+		$initialValue = $this->readAttribute($this->object, '_buttonPath');
+		$this->object->addButtonPath(array('MyTestPath1', 'MyTestPath2'));
+		$newValue = $this->readAttribute($this->object, '_buttonPath');
+		$this->assertThat(
+			$newValue[0],
+			$this->equalTo('MyTestPath2'.DIRECTORY_SEPARATOR)
+		);
+
+		$this->assertThat(
+			$newValue[1],
+			$this->equalTo('MyTestPath1'.DIRECTORY_SEPARATOR)
+		);
+
+		$initialCount = count($initialValue);
+
+		for($i = 0; $i < $initialCount; $i++) {
+			$this->assertThat(
+				$initialValue[$i],
+				$this->equalTo($newValue[$i+2])
+			);
+		}
+	}
+
+
 }
