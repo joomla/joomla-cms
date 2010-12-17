@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ Correcting language Key
  # [#23843] wrong lang string called by com_messages. Thanks Stefania
  # [#23676] Link Weblinks in Module causes error. Thanks Tim.
+ $ Missing weblinks error strings in front-end.
  
 17-Dec-2010 Ian MacLennan
  # [#22035] Custom HTML module filtering issues
