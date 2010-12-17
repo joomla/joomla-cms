@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23809] Special characters used in menu names should be converted to HTML equivalents. Thanks Christophe.
  # Updating templates sql
  #$ Adding language folders in administrator templates
+ $ Correcting language Key
 
 17-Dec-2010 Ian MacLennan
  # [#22035] Custom HTML module filtering issues
