@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Dec-2010 Jean-Marie Simonet
  # [#23670] Non-installed languages display in the Language Manager Installed view. Thanks Pooja.
+ # [#23809] Special characters used in menu names should be converted to HTML equivalents. Thanks Christophe.
 
 17-Dec-2010 Ian MacLennan
  # [#22035] Custom HTML module filtering issues

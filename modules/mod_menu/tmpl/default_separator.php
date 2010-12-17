@@ -17,7 +17,7 @@ if ($item->params->get('menu_image', '')) {
 		$linktype = '<img src="'.$item->params->get('menu_image', '').'" alt="'.$item->title.'" /><span class="image-title">'.$item->title.'</span> ' :
 		$linktype = '<img src="'.$item->params->get('menu_image', '').'" alt="'.$item->title.'" />';
 } 
-else { $linktype = $item->title;
+else { $linktype = htmlspecialchars($item->title, ENT_COMPAT, JFactory::getDocument()->getCharSet());
 }
 
 ?><span class="separator"><?php echo $title; ?><?php echo $linktype; ?></span>
