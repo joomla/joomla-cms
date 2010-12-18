@@ -57,7 +57,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Load the users plugin group.
-		JPluginHelper::importPlugin('users');
+		JPluginHelper::importPlugin('user');
 
 		// Activate the user.
 		$user = JFactory::getUser($userId);
@@ -204,7 +204,7 @@ class UsersModelRegistration extends JModelForm
 
 			// Get the dispatcher and load the users plugins.
 			$dispatcher	= JDispatcher::getInstance();
-			JPluginHelper::importPlugin('users');
+			JPluginHelper::importPlugin('user');
 
 			// Trigger the data preparation event.
 			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.registration', $this->data));
@@ -325,7 +325,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Load the users plugin group.
-		JPluginHelper::importPlugin('users');
+		JPluginHelper::importPlugin('user');
 
 		// Store the data.
 		if (!$user->save()) {

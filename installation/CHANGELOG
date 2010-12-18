@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Dec-2010 Ian MacLennan
+ # [#23874] JPluginHelper::importPlugin('users') instead of JPluginHelper::importPlugin('user')
+
 18-Dec-2010 Jean-Marie Simonet
  # [#23799] Can't uninstall Beez and Bluestork templates.
  $ Updating Milkyway description
