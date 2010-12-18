@@ -201,7 +201,7 @@ class JUserHelper
 
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('users');
+		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
 
