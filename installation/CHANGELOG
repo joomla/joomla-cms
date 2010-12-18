@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Dec-2010 Jean-Marie Simonet
+ # [#23799] Can't uninstall Beez and Bluestork templates.
+
 17-Dec-2010 Jean-Marie Simonet
  # [#23670] Non-installed languages display in the Language Manager Installed view. Thanks Pooja.
  # [#23809] Special characters used in menu names should be converted to HTML equivalents. Thanks Christophe.
