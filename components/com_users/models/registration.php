@@ -196,7 +196,7 @@ class UsersModelRegistration extends JModelForm
 			// Get the default new user group, Registered if not specified.
 			$system	= $params->get('new_usertype', 2);
 
-			$this->data->groups[$system] = null;
+			$this->data->groups[] = $system;
 
 			// Unset the passwords.
 			unset($this->data->password1);
