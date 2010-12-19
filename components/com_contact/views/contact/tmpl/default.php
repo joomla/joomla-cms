@@ -65,7 +65,7 @@ $cparams = JComponentHelper::getParams ('com_media');
 				<?php echo JText::_('COM_CONTACT_VCARD');?></a>
 	<?php endif; ?>
 	<p></p>
-	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to )) : ?>
+	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
 
 		<?php if ($this->params->get('presentation_style')!='plain'):?>
 			<?php  echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form');  ?>
