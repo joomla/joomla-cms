@@ -28,6 +28,7 @@ $ -> Language fix or change
 ! -> Note
 19-Dec-2010 Jean-Marie Simonet
  # [#23819] Self-Registering Users aren't assigned any usergroup. Thanks Elin.
+ # [#22982] fix: JURI::root(true) -> JURI::root() (template preview). Thanks Rune.
  
 18-Dec-2010 Ian MacLennan
  # [#23874] JPluginHelper::importPlugin('users') instead of JPluginHelper::importPlugin('user')
