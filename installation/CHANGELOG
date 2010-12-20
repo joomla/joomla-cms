@@ -26,6 +26,10 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+20-Dec-2010 Jean-Marie Simonet
+ # [#23903] Menu item type external url issues
+
 19-Dec-2010 Jean-Marie Simonet
  # [#23819] Self-Registering Users aren't assigned any usergroup. Thanks Elin.
  # [#22982] fix: JURI::root(true) -> JURI::root() (template preview). Thanks Rune.
