@@ -63,10 +63,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 			{
 				if ($type == 'http-equiv') {
 					$content.= '; charset=' . $document->getCharset();
-					$buffer .= $tab.'<meta http-equiv="'.$name.'" content="'.$content.'"'.$tagEnd.$lnEnd;
+					$buffer .= $tab.'<meta http-equiv="'.$name.'" content="'.htmlspecialchars($content).'"'.$tagEnd.$lnEnd;
 				}
 				else if ($type == 'standard') {
-					$buffer .= $tab.'<meta name="'.$name.'" content="'.$content.'"'.$tagEnd.$lnEnd;
+					$buffer .= $tab.'<meta name="'.$name.'" content="'.htmlspecialchars($content).'"'.$tagEnd.$lnEnd;
 				}
 			}
 		}
@@ -74,10 +74,10 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// dont add empty descriptions
 		$documentDescription = $document->getDescription();
 		if ($documentDescription) {
-			$buffer .= $tab.'<meta name="description" content="'.$documentDescription.'" />'.$lnEnd;
+			$buffer .= $tab.'<meta name="description" content="'.htmlspecialchars($documentDescription).'" />'.$lnEnd;
 		}
 
-		$buffer .= $tab.'<meta name="generator" content="'.$document->getGenerator().'" />'.$lnEnd;
+		$buffer .= $tab.'<meta name="generator" content="'.htmlspecialchars($document->getGenerator()).'" />'.$lnEnd;
 		$buffer .= $tab.'<title>'.htmlspecialchars($document->getTitle(), ENT_COMPAT, 'UTF-8').'</title>'.$lnEnd;
 
 		// Generate link declarations

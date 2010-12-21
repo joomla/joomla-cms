@@ -111,17 +111,17 @@ class ConfigModelApplication extends JModelForm
 		 */
 		// Escape the sitename if present.
 		if (isset($data['sitename'])) {
-			$data['sitename'] = htmlspecialchars($data['sitename'], ENT_COMPAT, 'UTF-8');
+			$data['sitename'] = $data['sitename'];
 		}
 
 		// Escape the MetaDesc if present.
 		if (isset($data['MetaDesc'])) {
-			$data['MetaDesc'] = htmlspecialchars($data['MetaDesc'], ENT_COMPAT, 'UTF-8');
+			$data['MetaDesc'] = $data['MetaDesc'];
 		}
 
 		// Escape the MetaKeys if present.
 		if (isset($data['MetaKeys'])) {
-			$data['MetaKeys'] = htmlspecialchars($data['MetaKeys'], ENT_COMPAT, 'UTF-8');
+			$data['MetaKeys'] = $data['MetaKeys'];
 		}
 
 		// Escape the offline message if present.

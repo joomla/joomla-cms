@@ -343,7 +343,7 @@ final class JSite extends JApplication
 			$lang_code = JFactory::getLanguage()->getTag();
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
-			$title = htmlspecialchars_decode($this->getCfg('sitename'));
+			$title = $this->getCfg('sitename');
 			if (isset($languages[$lang_code]) && $languages[$lang_code]->metadesc) {
 				$description = $languages[$lang_code]->metadesc;
 			} else {
