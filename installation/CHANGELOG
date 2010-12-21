@@ -35,6 +35,7 @@ $ -> Language fix or change
  ^ [#23879] Remove a workaround around a PHP4 limitation (Rouven Weßling)
  # [#23601] When creating an account keeps saying email adress already exists (Ian MacLennan)
  # [#23761] AutoLoader (Mathieu Delisle, Rune Sjøen)
+ # [#23838] JCacheStorage should not extend JObject PHP Strict issue (Elin Waring)
 
 20-Dec-2010 Jean-Marie Simonet
  # [#23903] Menu item type external url issues

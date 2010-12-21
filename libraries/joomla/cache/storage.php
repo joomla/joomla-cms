@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorage extends JObject
+class JCacheStorage 
 {
 	/**
 	 * @since	1.6
