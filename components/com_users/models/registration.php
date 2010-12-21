@@ -300,11 +300,9 @@ class UsersModelRegistration extends JModelForm
 		$data = (array)$this->getData();
 
 		// Merge in the registration data.
-		foreach ($data as $k => $v) {
-			$temp[$k] = $v;
+		foreach ($temp as $k => $v) {
+			$data[$k] = $v;
 		}
-
-		$data = $temp;
 
 		// Prepare the data for the user object.
 		$data['email']		= $data['email1'];
