@@ -47,7 +47,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		
 		$feed_title = htmlspecialchars(
 			$app->getCfg('sitename_pagetitles',0)?
-			JText::sprintf('JPAGETITLE', htmlspecialchars_decode($app->getCfg('sitename')), $data->title):
+			JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title):
 			$data->title
 		, ENT_COMPAT, 'UTF-8');
 
