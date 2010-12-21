@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23782] [PATCH] Fix router calls for components containing hyphens and full stops. (Tom Lee)
  # [#23811] PHP Strict Compatibility (Elin Waring, Rune Sjøen)
  ^ [#23877] Improve how HTML entities in meta data are handled (Rouven Weßling)
+ ^ [#23879] Remove a workaround around a PHP4 limitation (Rouven Weßling)
 
 20-Dec-2010 Jean-Marie Simonet
  # [#23903] Menu item type external url issues
