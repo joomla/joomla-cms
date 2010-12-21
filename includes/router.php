@@ -256,7 +256,8 @@ class JRouterSite extends JRouter
 				}
 
 				require_once $path;
-				$function =  substr($component, 4).'ParseRoute';
+				$function = substr($component, 4).'ParseRoute';
+				$function = str_replace(array("-", "."), "", $function);
 				$vars =  $function($segments);
 
 				$this->setVars($vars);
@@ -304,6 +305,7 @@ class JRouterSite extends JRouter
 		if (file_exists($path) && !empty($query)) {
 			require_once $path;
 			$function	= substr($component, 4).'BuildRoute';
+			$function   = str_replace(array("-", "."), "", $function);
 			$parts		= $function($query);
 
 			// encode the route segments

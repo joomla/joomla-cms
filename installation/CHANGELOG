@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 21-Dec-2010 Christophe Demko
  # [#23894] Components menu item visible in disabled menu (Sander Potjer)
+ # [#23782] [PATCH] Fix router calls for components containing hyphens and full stops. (Tom Lee)
 
 20-Dec-2010 Jean-Marie Simonet
  # [#23903] Menu item type external url issues
