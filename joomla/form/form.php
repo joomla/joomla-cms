@@ -642,7 +642,7 @@ class JForm
 				$groups	= array_map('strval', $attrs ? $attrs : array());
 
 				// Check to see if the field exists in the current form.
-				if ($current = & $this->findField((string) $field['name'], implode('.', $groups))) {
+				if ($current = $this->findField((string) $field['name'], implode('.', $groups))) {
 
 					// If set to replace found fields remove it from the current definition.
 					if ($replace) {
