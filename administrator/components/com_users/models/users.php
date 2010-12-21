@@ -26,7 +26,7 @@ class UsersModelUsers extends JModelList
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication('administrator');

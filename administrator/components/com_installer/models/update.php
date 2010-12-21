@@ -30,7 +30,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
 		$this->setState('message',$app->getUserState('com_installer.message'));

@@ -35,7 +35,7 @@ class ContentModelArchive extends ContentModelArticles
 	 *
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		parent::populateState();
 
