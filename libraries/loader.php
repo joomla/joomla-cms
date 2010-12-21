@@ -71,7 +71,7 @@ abstract class JLoader
 				$filename = $base.DS.$path.'.php';
 				if (is_file($filename))
 				{
-					$rs   = (bool) include $filename;
+					$rs   = (bool) include_once $filename;
 				}
 				else
 				{
@@ -129,7 +129,7 @@ abstract class JLoader
 
 		if (array_key_exists($class, JLoader::$classes))
 		{
-			include JLoader::$classes[$class];
+			include_once JLoader::$classes[$class];
 			return true;
 		}
 		return false;
