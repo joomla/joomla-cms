@@ -34,10 +34,8 @@ class JElementText extends JElement
 		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
 
 		// Required to avoid a cycle of encoding &
-		// html_entity_decode was used in place of htmlspecialchars_decode because
-		// htmlspecialchars_decode is not compatible with PHP 4
 
-		$value = htmlspecialchars(html_entity_decode($value, ENT_QUOTES), ENT_QUOTES, 'UTF-8');
+		$value = htmlspecialchars(htmlspecialchars_decode($value, ENT_QUOTES), ENT_QUOTES, 'UTF-8');
 
 		return '<input type="text" name="'.$control_name.'['.$name.']" id="'.$control_name.$name.'" value="'.$value.'" '.$class.' '.$size.' />';
 	}
