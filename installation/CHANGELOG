@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23925] Update obsolete CSS cursor notation. Thanks Andrea
  $ [#23931] Untranslated String in en-GB.com_banners.ini. Thanks Bill
  $ [#23930] Untranslated String in en-GB.com_categories.ini. Thanks Bill
+ $ [#23928] Bad translation in Weblink Component. Thanks Bill.
  
 21-Dec-2010 Christophe Demko
  # [#23894] Components menu item visible in disabled menu (Sander Potjer)
