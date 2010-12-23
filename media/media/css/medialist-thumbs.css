@@ -36,7 +36,7 @@ div.imgBorder a:hover {
 
 .imgBorderHover {
 	background: #FFFFCC;
-	cursor: hand;
+	cursor: pointer;
 }
 
 div.controls {
@@ -77,7 +77,7 @@ div.imgBorder a {
 .buttonHover {
 	border: 1px solid;
 	border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
-	cursor: hand;
+	cursor: pointer;
 	background: #FFFFCC;
 }
 
