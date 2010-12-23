@@ -22,6 +22,7 @@
  * #000000	Highlight/shadow border
  * #a20000	Invalid Alert Color
  * #00f800	Success Alert Color
+ * #feffbf  Disabled Menu/Protected
  *
  * MENU:
  *
@@ -192,8 +193,13 @@ span.writable {
 span.unwritable	{
 	color: #a20000;
 }
+
 .none {
-	color: #cccccc;
+	color: #feffbf;
+}
+
+.protected {
+	color: #feffbf;
 }
 
 span.note {
@@ -488,13 +494,17 @@ input,select, span.faux-input {
 }
 
 /* Inputs used as buttons */
-input[type="button"] {
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
 	background-color: #1b3f7c;
 	border: 1px solid #10254a;
 	color: #fcff20;
 }
 
-input[type="button"]:hover, input[type="button"]:focus {
+input[type="button"]:hover, input[type="button"]:focus,
+input[type="submit"]:hover, input[type="submit"]:focus,
+input[type="reset"]:hover, input[type="reset"]:focus {
 	background-color: #163365;
 	border-top: 1px solid #000000;
 	border-right: 1px solid #1b3f7c;
@@ -2081,7 +2091,7 @@ table.adminlist tbody tr:hover td.check-d {
 
 #menu li.disabled a:hover, #menu li.disabled a:focus, #menu li.disabled a
 	{
-	color: #cccccc;
+	color: #feffbf;
 	background-color: #1b3f7c;
 	border-top: 1px solid #163365;
 	border-right: 1px solid #10254a;

@@ -164,8 +164,13 @@ span.writable {
 span.unwritable	{
 	color: #a20000;
 }
+
 .none {
 	color: #aaaaaa;
+}
+
+.protected {
+	color: #999999;
 }
 
 span.note {

@@ -155,6 +155,10 @@ p.error {
 	font-weight: bold;
 }
 
+.protected {
+	color: #999999;
+}
+
 p.warning {
 	color: red;
 	font-weight: bold;

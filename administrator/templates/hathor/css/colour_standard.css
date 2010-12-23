@@ -28,9 +28,9 @@
  * #cccccc	Text (faded)
  * #005800	Text (success)
  * #eeeeee	Background (input disabled)
- * #ffffcf	Background ‚Äì permissions debug
- * #cfffda	Background ‚Äì permissions debug
- * #ffcfcf	Background ‚Äì permissions debug
+ * #ffffcf	Background‚ permissions debug
+ * #cfffda	Background‚ permissions debug
+ * #ffcfcf	Background‚ permissions debug
  */
 
 /**
@@ -169,6 +169,10 @@ span.unwritable	{
 }
 .none {
 	color: #cccccc;
+}
+
+.protected {
+	color: #999999;
 }
 
 span.note {
@@ -454,11 +458,15 @@ input,select, span.faux-input {
 }
 
 /* Inputs used as buttons */
-input[type="button"] {
+input[type="button"], input[type="submit"], input[type="reset"] {
 	background-color: #f9fade;
 }
 
-input[type="button"]:hover, input[type="button"]:focus {
+input[type="button"]:hover, input[type="button"]:focus,
+input[type="submit"]:hover, input[type="submit"]:focus,
+input[type="reset"]:hover, input[type="reset"]:focus {
+	background-color: #e3e4ca;
+	color: #2c2c2c;
 }
 
 textarea {
@@ -605,6 +613,10 @@ table.adminlist tbody tr.row0:last-child th {
 table.adminlist tbody tr.row0 td,
 table.adminlist tbody tr.row0 th {
 	background: #f9fade;
+}
+
+table.adminlist {
+	border-bottom: 0 solid #c7c8b2;
 }
 
 table.adminlist tfoot tr {
