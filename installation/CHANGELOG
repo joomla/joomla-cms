@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 23-Dec-2010 Jean-Marie Simonet
  # [#23945] Remove hardcoded color. Thanks Andrea
- [#23925] Update obsolete CSS cursor notation. Thanks Andrea
+ # [#23925] Update obsolete CSS cursor notation. Thanks Andrea
+ $ [#23931] Untranslated String in en-GB.com_banners.ini. Thanks Bill
  
 21-Dec-2010 Christophe Demko
  # [#23894] Components menu item visible in disabled menu (Sander Potjer)
