@@ -179,8 +179,9 @@ class JControllerAdmin extends JController
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
 		}
-
-		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+		$extension = JRequest::getCmd('extension');
+		$extensionURL = ($extension) ? '&extension=' . JRequest::getCmd('extension') : '';
+		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$extensionURL, false));
 	}
 
 	/**

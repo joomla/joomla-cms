@@ -56,7 +56,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		$user = JFactory::getUser();
 
 		if (!empty($record->catid)) {
-			return $user->authorise('core.edit.state', 'com_newsfeed.category.'.(int) $record->catid);
+			return $user->authorise('core.edit.state', 'com_newsfeeds.category.'.(int) $record->catid);
 		}
 		else {
 			return parent::canEditState($record);
