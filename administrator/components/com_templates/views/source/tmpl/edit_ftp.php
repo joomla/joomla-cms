@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 ?>
-<fieldset title="<?php echo JText::_('COM_TEMPLATES_FTP_TITLE'); ?>">
+<fieldset class="adminform" title="<?php echo JText::_('COM_TEMPLATES_FTP_TITLE'); ?>">
 	<legend><?php echo JText::_('COM_TEMPLATES_FTP_TITLE'); ?></legend>
 
 	<?php echo JText::_('COM_TEMPLATES_FTP_DESC'); ?>

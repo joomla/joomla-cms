@@ -28,12 +28,11 @@ JHtml::_('behavior.keepalive');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit'); ?>" method="post" name="adminForm" id="source-form" class="form-validate">
+	<?php if ($this->ftp) : ?>
+		<?php echo $this->loadTemplate('ftp'); ?>
+	<?php endif; ?>
 	<fieldset class="adminform">
 		<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
-
-		<?php if ($this->ftp) : ?>
-		<?php $this->loadTemplate('ftp'); ?>
-		<?php endif; ?>
 
 		<?php echo $this->form->getLabel('source'); ?>
 		<div class="clr"></div>

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Dec-2010 Jean-Marie Simonet
+ # [#23868] FTP not implemented for template source edit
+
 23-Dec-2010 Jean-Marie Simonet
  # [#23945] Remove hardcoded color. Thanks Andrea
  # [#23925] Update obsolete CSS cursor notation. Thanks Andrea
