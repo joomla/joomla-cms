@@ -40,6 +40,7 @@ $ -> Language fix or change
  +$ [#23926] Missing help screen reference
  # [#23949] Issue with multilanguage and editing articles in frontend. Thanks Christophe.
  $ [#23960] Typo in Article Options. Thanks Bill
+ ^$ [#23936] Random image module description and alternate layout strings are not translated in other languages. Refactoring all keys.
 
 23-Dec-2010 Jean-Marie Simonet
  # [#23945] Remove hardcoded color. Thanks Andrea

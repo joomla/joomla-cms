@@ -32,28 +32,28 @@
 					name="type"
 					type="text"
 					default="jpg"
-					label="MOD_RANDOMIMAGE_FIELD_TYPE_LABEL"
-					description="MOD_RANDOMIMAGE_FIELD_TYPE_DESC" />
+					label="MOD_RANDOM_IMAGE_FIELD_TYPE_LABEL"
+					description="MOD_RANDOM_IMAGE_FIELD_TYPE_DESC" />
 				<field
 					name="folder"
 					type="text"
-					label="MOD_RANDOMIMAGE_FIELD_FOLDER_LABEL"
-					description="MOD_RANDOMIMAGE_FIELD_FOLDER_DESC" />
+					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
+					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC" />
 				<field
 					name="link"
 					type="text"
-					label="MOD_RANDOMIMAGE_FIELD_LINK_LABEL"
-					description="MOD_RANDOMIMAGE_FIELD_LINK_DESC" />
+					label="MOD_RANDOM_IMAGE_FIELD_LINK_LABEL"
+					description="MOD_RANDOM_IMAGE_FIELD_LINK_DESC" />
 				<field
 					name="width"
 					type="text"
-					label="MOD_RANDOMIMAGE_FIELD_WIDTH_LABEL"
-					description="MOD_RANDOMIMAGE_FIELD_WIDTH_DESC" />
+					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
+					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC" />
 				<field
 					name="height"
 					type="text"
-					label="MOD_RANDOMIMAGE_FIELD_HEIGHT_LABEL"
-					description="MOD_RANDOMIMAGE_FIELD_HEIGHT_DESC" />
+					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
+					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">
