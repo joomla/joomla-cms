@@ -34,6 +34,7 @@ $ -> Language fix or change
 24-Dec-2010 Jean-Marie Simonet
  # [#23868] FTP not implemented for template source edit
  +$ [#23926] Missing help screen reference
+ # [#23949] Issue with multilanguage and editing articles in frontend. Thanks Christophe.
 
 23-Dec-2010 Jean-Marie Simonet
  # [#23945] Remove hardcoded color. Thanks Andrea

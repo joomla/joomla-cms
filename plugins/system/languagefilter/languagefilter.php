@@ -167,14 +167,16 @@ class plgSystemLanguageFilter extends JPlugin
 			$sef = $parts[0];
 
 			if (!isset(self::$sefs[$sef])) {
-				$sef = self::$default_sef;
+				$lang_code = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
+				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
+				$uri->setPath($sef . '/' . $path);
 				
 				$app = JFactory::getApplication();
 				if ($app->getCfg('sef_rewrite')) {
-					$app->redirect(JURI::base(true).'/'.$sef.'/'.$path );
+					$app->redirect($uri->base().$uri->toString(array('path', 'query', 'fragment')));
 				}
 				else {
-					$app->redirect(JURI::base(true).'/index.php/'.$sef.'/'.$path );
+					$app->redirect($uri->base().'index.php/'.$uri->toString(array('path', 'query', 'fragment')));
 				}
 			}
 			$lang_code = self::$sefs[$sef]->lang_code;
