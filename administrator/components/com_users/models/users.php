@@ -220,6 +220,7 @@ class UsersModelUsers extends JModelList
 		$groups = $this->getState('filter.groups');
 		if ($groupId || isset($groups)) {
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
+			$query->group('a.id');
 			if ($groupId) {
 				$query->where('map2.group_id = '.(int) $groupId);
 			}

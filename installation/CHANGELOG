@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Dec-2010 Christophe Demko
+ # [#23857] thrice Recipient!!
+
 24-Dec-2010 Jean-Marie Simonet
  # [#23868] FTP not implemented for template source edit
  +$ [#23926] Missing help screen reference
