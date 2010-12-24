@@ -118,7 +118,7 @@ class JSessionStorageXcache extends JSessionStorage
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime)
+	function gc($maxlifetime = null)
 	{
 		return true;
 	}
