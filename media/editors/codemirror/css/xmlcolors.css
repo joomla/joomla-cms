@@ -9,8 +9,12 @@
 body.editbox {
 	border: 1px solid #cccccc;
 	padding: .4em;
+	
 }
-
+pre.code, .editbox {
+  color: #666666;
+  background: #ffffff;
+}
 .editbox p {
   margin: 0;
 }
@@ -53,4 +57,5 @@ span.xml-error {
 
 span.xml-text {
   color: black;
+  
 }

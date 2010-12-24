@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23956] Beez20 string name issues (bill richardson, Edgars Piruška)
  # [#23923] PHP Strict validation in session classes (Rune Sjøen)
  # [#23789] Typo in sample data (Ramindu Deshapriya)
+ # [#23784] Template editor background missing with bluestork (bill richardson,	Ramindu Deshapriya)
 
 24-Dec-2010 Jean-Marie Simonet
  # [#23868] FTP not implemented for template source edit
