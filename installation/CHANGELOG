@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Dec-2010 Jean-Marie Simonet
+ # [#23970] language string missing COM_BANNERS_FIELD_VALUE_0. Thanks Bill.
+ 
 25-Dec-2010 Mark Dexter
  # [#23886] Escape Module Class Suffix for all Modules (Rouven Weßling)
  # [#23773] Category not found notice

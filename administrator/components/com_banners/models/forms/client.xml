@@ -38,12 +38,18 @@
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0" class="inputbox"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_1</option>
-			<option value="2">COM_BANNERS_FIELD_VALUE_2</option>
-			<option value="3">COM_BANNERS_FIELD_VALUE_3</option>
-			<option value="4">COM_BANNERS_FIELD_VALUE_4</option>
-			<option value="5">COM_BANNERS_FIELD_VALUE_5</option>
+			<option value="-1">JGLOBAL_USE_GLOBAL
+			</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_1
+			</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_2
+			</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_3
+			</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_4
+			</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_5
+			</option>
 		</field>
 
 		<field name="track_impressions" type="list" default="0"
