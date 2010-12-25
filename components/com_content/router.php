@@ -101,6 +101,15 @@ function ContentBuildRoute(&$query)
 				}
 			}
 
+			// if we don't have a menu item pointing to our category we put the category path onto the url
+			if (!$foundMenuCategory) {
+				foreach($path AS $id)
+				{
+					list($tmp, $current_id) = explode(':', $id, 2);
+					$array[] = $current_id;
+				}
+			}
+
 			// we add the category id back in if we've adding a category to the URL.  If we are pointing at an article
 			// and it is in the category that the menu item points to, then we don't add the category to the URL, because
 			// there is no appropriate category to add
