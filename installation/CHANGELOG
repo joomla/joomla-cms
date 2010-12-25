@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23886] Escape Module Class Suffix for all Modules (Rouven Weßling)
  # [#23773] Category not found notice
  # [#23967] Parameter $default is useless in JRegistry::exists
+ # [#23966] Beez5 unused strings (Edgars Piruška)
 
 24-Dec-2010 Christophe Demko
  # [#23857] thrice Recipient!!
