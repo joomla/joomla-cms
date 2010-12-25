@@ -1,4 +1,4 @@
-/*global window, localStorage, fontSizeTitle, bigger, reset, smaller, biggerTitle, resetTitle, smallerTitle */
+/*global window, localStorage, fontSizeTitle, bigger, reset, smaller, biggerTitle, resetTitle, smallerTitle, Cookie */
 var prefsLoaded = false;
 var defaultFontSize = 100;
 var currentFontSize = defaultFontSize;
@@ -30,10 +30,7 @@ function writeFontSize(value) {
 	if (supportsLocalStorage()) {
 		localStorage.fontSize = value;
 	} else {
-		var date = new Date();
-		date.setTime(date.getTime()+(365*24*60*60*1000));
-		var expires = "; expires="+date.toGMTString();
-		document.cookie = "fontSize="+value+expires+"; path=/";
+		Cookie.write("fontSize", value, {duration: 180});
 	}
 }
 
@@ -41,18 +38,7 @@ function readFontSize() {
 	if (supportsLocalStorage()) {
 		return localStorage.fontSize;
 	} else {
-		var nameEQ = "fontSize=";
-		var ca = document.cookie.split(';');
-		for (var i=0;i < ca.length;i++) {
-			var c = ca[i];
-			while (c.charAt(0) === ' ') {
-				c = c.substring(1, c.length);
-			}
-			if (c.indexOf(nameEQ) === 0) {
-				return c.substring(nameEQ.length, c.length);
-			}
-		}
-		return null;
+		return Cookie.read("fontSize");
 	}
 }
 
@@ -69,7 +55,7 @@ function addControls() {
 	var xhtml = "http://www.w3.org/1999/xhtml";
 	var container = document.getElementById('fontsize');
 
-	var link = new Array(4);
+	var link = [];
 	var linkClass = ["larger", "reset", "smaller"];
 	var linkTitle = [biggerTitle, resetTitle, smallerTitle];
 	var linkAction = ["changeFontSize(2); return false;", "revertStyles(); return false;", "changeFontSize(-2); return false;"];
@@ -121,15 +107,6 @@ function saveSettings() {
 	writeFontSize(currentFontSize);
 }
 
-function onLoadEvents() {
-	setUserOptions();
-	addControls();
-}
-
-if (document.addEventListener) {
-	document.addEventListener("DOMContentLoaded", onLoadEvents, false);
-} else {
-	window.onload = onLoadEvents;
-}
-
-window.onunload = saveSettings;
+window.addEvent('domready', setUserOptions);
+window.addEvent('domready', addControls);
+window.addEvent('unload', saveSettings);
