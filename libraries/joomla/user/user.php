@@ -127,6 +127,12 @@ class JUser extends JObject
 	protected $_params	= null;
 
 	/**
+	 * Authorised access groups
+	 * @var array
+	 */
+	protected $_authGroups	= null;
+
+	/**
 	 * Authorised access levels
 	 * @var array
 	 */
@@ -287,7 +293,7 @@ class JUser extends JObject
 			}
 			else {
 				// Get all groups against which the user is mapped.
-				$identities = JAccess::getGroupsByUser($this->id);
+				$identities = $this->getAuthorisedGroups();
 				array_unshift($identities, $this->id * -1);
 
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities)) {
@@ -356,7 +362,24 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
-	
+	/**
+	 * Gets an array of the authorised user groups
+	 *
+	 * @return	array
+	 * @since	1.6
+	 */
+	public function getAuthorisedGroups()
+	{
+		if ($this->_authGroups === null) {
+			$this->_authGroups = array();
+		}
+
+		if (empty($this->_authGroups)) {
+			$this->_authGroups = JAccess::getGroupsByUser($this->id);
+		}
+
+		return $this->_authGroups;
+	}	
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
