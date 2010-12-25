@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#23966] Beez5 unused strings (Edgars Piruška)
  # [#23965] Change Database Default to MSQLi instead of MSQL
  # [#23727] Use mootools in md_stylechanger.js (Rouven Weßling)
+ # [#23733] Improve hide.js (Rouven Weßling)
 
 24-Dec-2010 Christophe Demko
  # [#23857] thrice Recipient!!
