@@ -5,11 +5,11 @@
 		<fieldset name="basic">
 			<field name="db_type" type="list" id="db_type" class="inputbox"
 				label="INSTL_DATABASE_TYPE_LABEL"
-				default="mysql"
+				default="mysqli"
 				required="true"
 			>
-				<option value="mysql">MySQL</option>
 				<option value="mysqli">MySQLi</option>
+				<option value="mysql">MySQL</option>
 			</field>
 			<field name="db_host" type="text" id="db_host" class="inputbox"
 				label="INSTL_DATABASE_HOST_LABEL"
