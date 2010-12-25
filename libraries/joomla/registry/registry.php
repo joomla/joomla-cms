@@ -84,11 +84,10 @@ class JRegistry
 	 * Check if a registry path exists.
 	 *
 	 * @param	string	Registry path (e.g. joomla.content.showauthor)
-	 * @param	mixed	Optional default value, returned if the internal value is null.
 	 * @return	boolean
 	 * @since	1.6
 	 */
-	public function exists($path, $default = null)
+	public function exists($path)
 	{
 		// Explode the registry path into an array
 		if ($nodes = explode('.', $path)) {
