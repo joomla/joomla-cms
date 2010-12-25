@@ -24,4 +24,5 @@ if (!count($images)) {
 }
 
 $image = modRandomImageHelper::getRandomImage($params, $images);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 require JModuleHelper::getLayoutPath('mod_random_image', $params->get('layout', 'default'));

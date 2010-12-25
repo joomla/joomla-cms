@@ -22,7 +22,7 @@ $maxlength		= $width > 20 ? $width : 20;
 $text			= $params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT'));
 $label			= $params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT'));
 $set_Itemid		= intval($params->get('set_itemid', 0));
-$moduleclass_sfx = $params->get('moduleclass_sfx', '');
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 if ($imagebutton) {
 	$img = modSearchHelper::getSearchImage($button_text);

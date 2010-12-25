@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__).DS.'helper.php';
 
 $params->def('count', 10);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 $list = modArchiveHelper::getList($params);
 
 require JModuleHelper::getLayoutPath('mod_articles_archive', $params->get('layout', 'default'));

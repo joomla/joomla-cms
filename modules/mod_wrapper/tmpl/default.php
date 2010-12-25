@@ -30,6 +30,6 @@ defined('_JEXEC') or die;
 	width="<?php echo $width ?>"
 	height="<?php echo $height ?>"
 	scrolling="<?php echo $scroll ?>"
-	class="wrapper<?php echo $params->get('moduleclass_sfx') ?>" >
+	class="wrapper<?php echo $moduleclass_sfx ?>" >
 	<?php echo JText::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

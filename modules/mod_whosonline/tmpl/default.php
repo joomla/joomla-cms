@@ -19,7 +19,7 @@ if ($showmode == 0 || $showmode == 2) :
 endif;
 
 if (($showmode > 0) && count($names)) : ?>
-	<ul  class="whosonline<?php echo $params->get('moduleclass_sfx') ?>" >
+	<ul  class="whosonline<?php echo $moduleclass_sfx ?>" >
 <?php foreach($names as $name) : ?>
 
 		<li>

@@ -21,6 +21,6 @@ $target = $params->get('target');
 $width	= $params->get('width');
 $height = $params->get('height');
 $scroll = $params->get('scrolling');
-$class	= $params->get('moduleclass_sfx');
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

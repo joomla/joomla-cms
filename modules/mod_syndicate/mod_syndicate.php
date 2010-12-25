@@ -22,4 +22,6 @@ if (is_null($link)) {
 	return;
 }
 
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+
 require JModuleHelper::getLayoutPath('mod_syndicate', $params->get('layout', 'default'));

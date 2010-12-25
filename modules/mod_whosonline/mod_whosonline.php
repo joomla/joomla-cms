@@ -23,4 +23,6 @@ if ($showmode > 0) {
 	$names	= modWhosonlineHelper::getOnlineUserNames();
 }
 $linknames = $params->get('linknames', 0);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+
 require JModuleHelper::getLayoutPath('mod_whosonline', $params->get('layout', 'default'));

@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<ul class="relateditems<?php echo $params->get('moduleclass_sfx'); ?>">
+<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
 <?php foreach ($list as $item) :	?>
 <li>
 	<a href="<?php echo $item->route; ?>">

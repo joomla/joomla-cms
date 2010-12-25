@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Dec-2010 Mark Dexter
+ # [#23886] Escape Module Class Suffix for all Modules (Rouven Weßling)
+
 24-Dec-2010 Christophe Demko
  # [#23857] thrice Recipient!!
  # [#23956] Beez20 string name issues (bill richardson, Edgars Piruška)

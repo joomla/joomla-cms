@@ -24,11 +24,10 @@ JHtml::_('behavior.keepalive');
 <?php endif; ?>
 	<div class="logout-button">
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGOUT'); ?>" />
+		<input type="hidden" name="option" value="com_users" />
+		<input type="hidden" name="task" value="user.logout" />
+		<input type="hidden" name="return" value="<?php echo $return; ?>" />
 	</div>
-
-	<input type="hidden" name="option" value="com_users" />
-	<input type="hidden" name="task" value="user.logout" />
-	<input type="hidden" name="return" value="<?php echo $return; ?>" />
 </form>
 <?php else : ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="form-login" id="login-form" >

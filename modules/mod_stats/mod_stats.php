@@ -17,4 +17,6 @@ $serverinfo = $params->get('serverinfo');
 $siteinfo	= $params->get('siteinfo');
 
 $list = modStatsHelper::getList($params);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
+
 require JModuleHelper::getLayoutPath('mod_stats', $params->get('layout', 'default'));

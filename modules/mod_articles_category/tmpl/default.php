@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 ?>
-<ul class="category-module<?php echo $params->get('moduleclass_sfx'); ?>">
+<ul class="category-module<?php echo $moduleclass_sfx; ?>">
 <?php if ($grouped) : ?>
 	<?php foreach ($list as $group_name => $group) : ?>
 	<li>

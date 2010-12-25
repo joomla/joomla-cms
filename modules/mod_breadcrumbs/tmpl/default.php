@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<div class="breadcrumbs<?php echo $params->get('moduleclass_sfx'); ?>">
+<div class="breadcrumbs<?php echo $moduleclass_sfx; ?>">
 <?php if ($params->get('showHere', 1))
 	{
 		echo JText::_('MOD_BREADCRUMBS_HERE');
