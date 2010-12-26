@@ -1982,6 +1982,17 @@ body.contentpane input, body.contentpane select {
 	padding-right: 20px;
 }
 
+	/* Hide overlayed controls so that keyboarders can get to the modal */
+.body-overlayed a,
+.body-overlayed input,
+.body-overlayed button {
+	visibility: hidden;
+}
+
+a#sbox-btn-close {
+	visibility: visible;
+}
+
 /**
  * Admin Form Styles
  */

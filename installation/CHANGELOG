@@ -32,6 +32,7 @@ $ -> Language fix or change
  #$ [#23988] Updating/installing Joomla core through Manager does not display XML description
  # [#23990] mod_articles_category some header tag's are not closed properly. Thanks Bill.
  # [#23944] Accessibility fix for Toolbar. Thanks Andrea
+ # [#23943] Accessibility fix for Modals. Thanks Andrea
 
 25-Dec-2010 Jean-Marie Simonet
  # [#23970] language string missing COM_BANNERS_FIELD_VALUE_0. Thanks Bill.
