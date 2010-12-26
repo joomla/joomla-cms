@@ -129,7 +129,7 @@ $app = JFactory::getApplication();
 
 		<!-- Toolbar Icon Buttons -->
 		<div class="toolbar-box">
-			<jdoc:include type="modules" name="toolbar" />
+			<jdoc:include type="modules" name="toolbar" style="xhtml" />
 			<div class="clr"></div>
 		</div>
 

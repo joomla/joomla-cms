@@ -330,6 +330,14 @@ div.configuration {
 div.toolbar-box {
 }
 
+div.toolbar-box h3 {
+	height: 0;
+	overflow: hidden;
+	position: absolute;
+	padding:0;
+	margin:0;
+}
+
 div.toolbar-list {
 	float: left;
 	text-align: right;
