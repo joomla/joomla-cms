@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Dec-2010 Jean-Marie Simonet
  # [#23977] Weblink: modal and popup target window patch
+ #$ [#23988] Updating/installing Joomla core through Manager does not display XML description
 
 25-Dec-2010 Jean-Marie Simonet
  # [#23970] language string missing COM_BANNERS_FIELD_VALUE_0. Thanks Bill.
