@@ -136,7 +136,15 @@
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
 			</field>
+			
+			<field name="width" type="text"
+				class="inputbox validate-numeric" label="COM_WEBLINKS_FIELD_WIDTH_LABEL"
+				description="COM_WEBLINKS_FIELD_WIDTH_DESC" />
 
+			<field name="height" type="text"
+				class="inputbox validate-numeric" label="COM_WEBLINKS_FIELD_HEIGHT_LABEL"
+				description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
+				
 			<field name="count_clicks" type="list"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
