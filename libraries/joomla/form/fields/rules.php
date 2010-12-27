@@ -244,7 +244,12 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '</tbody>';
 			$html[] = '</table></div>';
-			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
+			if ($section == 'component' || $section == null ) {
+				$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
+			}
+			else {
+				$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
+			}
 			$html[] = '</div></div>';
 
 		} // endforeach
