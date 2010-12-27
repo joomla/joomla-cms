@@ -65,7 +65,7 @@
  			name="mailSubjectPrefix"
  			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
-			description="COM_USERS_CONFIG__FIELD_SUBJECT_PREFIX_DESC"
+			description="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_DESC"
 		/>
 
  		<field
@@ -73,8 +73,8 @@
 			type="textarea"
  			rows="5"
  			cols="30"
-			label="COM_USERS_CONFIG__FIELD_MAILBODY_SUFFIX_LABEL"
-			description="COM_USERS_CONFIG__FIELD_MAILBODY_SUFFIX_DESC"
+			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
+			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
 		/>
 
 	</fieldset>
