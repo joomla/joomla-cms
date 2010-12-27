@@ -53,7 +53,7 @@
 			<action
 				name="core.admin"
 				title="JAction_Admin"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
+				description="JACTION_ADMIN_COMPONENT_DESC" />
 			<action
 				name="core.manage"
 				title="JAction_Manage"

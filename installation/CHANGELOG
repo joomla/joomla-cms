@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Dec-2010 Jean-Marie Simonet
  # [#23942] Accessibility fix for sliders. Thanks Andrea.
  $# [#23997] Refactoring language strings for permissions tooltips and Note. + reordering some inis.
+ # [#23998] Incorrect description for permissions configure options. Thanks Bill.
 
 26-Dec-2010 Jean-Marie Simonet
  # [#23977] Weblink: modal and popup target window patch
