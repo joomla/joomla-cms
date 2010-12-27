@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Dec-2010 Jean-Marie Simonet
+# [#23942] Accessibility fix for sliders. Thanks Andrea.
+
 26-Dec-2010 Jean-Marie Simonet
  # [#23977] Weblink: modal and popup target window patch
  #$ [#23988] Updating/installing Joomla core through Manager does not display XML description

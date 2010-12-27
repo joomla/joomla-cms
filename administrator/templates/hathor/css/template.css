@@ -444,8 +444,8 @@ textarea#mm_message {
 .pane-toggler-down {
 }
 
-/* for hiding the unseen panel (problems in ie including 8) */
-/* .pane-toggler + div {display: none;} */
+/* The following line hides the unseen panel (prevents the mouse from activating in IE, so overridden in the ie css files) */
+.pane-toggler + div.pane-slider {display: none;}
 
 input#jformparams_link_titles1,
 input#jformparams_show_title1,

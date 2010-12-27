@@ -20,6 +20,12 @@ input {
 		'0px' : '1px');
 }
 
+/* Accessibility: css in template.css for slider keyboard
+ * has to be reversed here or the mouse does not work for ie */
+.pane-toggler + div {
+	display: block;
+}
+
 div.toolbar-box {
 	height: 65px;
 }
