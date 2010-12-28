@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ Adding a framework string necessary when no non en-GB site/admin langague pack installed
  # [#24015] Web services configuration option still there. Thanks Sam and Rouven.
  $ Missing lang strings
+ # [#23938] Fix a couple of issues related to path configuration. Thanks Rouven.
  
 27-Dec-2010 Jean-Marie Simonet
  # [#23942] Accessibility fix for sliders. Thanks Andrea.

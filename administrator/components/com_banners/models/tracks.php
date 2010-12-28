@@ -398,19 +398,20 @@ class BannersModelTracks extends JModelList
 			}
 
 			if ($this->getState('compressed')) {
+				$app = JFactory::getApplication('administrator');
 
 				$files = array();
 				$files['track']=array();
 				$files['track']['name'] = $this->getBasename() . '.csv';
 				$files['track']['data'] = $this->content;
 				$files['track']['time'] = time();
-				$ziproot = JPATH_ROOT . '/tmp/' . uniqid('banners_tracks_') . '.zip';
+				$ziproot = $app->getCfg('tmp_path').'/' . uniqid('banners_tracks_') . '.zip';
 
 				// run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
 				jimport('joomla.filesystem.archive');
-				$delete = JFolder::files(JPATH_ROOT . '/tmp/', 'banners_tracks_',false,true);
+				$delete = JFolder::files($app->getCfg('tmp_path').'/', uniqid('banners_tracks_'),false,true);
 
 				if (!empty($delete)) {
 					if (!JFile::delete($delete)) {
