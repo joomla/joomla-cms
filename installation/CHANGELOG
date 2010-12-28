@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ [#24011] No_Images_Found Text String Missing. Thanks Bill.
  $ Adding a framework string necessary when no non en-GB site/admin langague pack installed
  # [#24015] Web services configuration option still there. Thanks Sam and Rouven.
+ $ Missing lang strings
  
 27-Dec-2010 Jean-Marie Simonet
  # [#23942] Accessibility fix for sliders. Thanks Andrea.

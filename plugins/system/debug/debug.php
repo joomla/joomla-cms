@@ -70,9 +70,9 @@ class plgSystemDebug extends JPlugin
 		$errors = JError::getErrors();
 
 		if (!empty($errors)) {
-			echo '<h4>'.JText::_('Errors').'</h4><ol>';
+			echo '<h4>'.JText::_('PLG_DEBUG_ERRORS').'</h4><ol>';
 			while($error = JError::getError(true)) {
-				echo '<li>'.$error->getMessage().'<br /><h4>'.JText::_('Info').'</h4><pre>'.print_r($error->get('info'), true).'</pre><br /><h4>'.JText::_('Backtrace').'</h4>'.JError::renderBacktrace($error).'</li>';
+				echo '<li>'.$error->getMessage().'<br /><h4>'.JText::_('PLG_DEBUG_INFO').'</h4><pre>'.print_r($error->get('info'), true).'</pre><br /><h4>'.JText::_('PLG_DEBUG_BACKTRACE').'</h4>'.JError::renderBacktrace($error).'</li>';
 			}
 			echo '</ol>';
 		}
