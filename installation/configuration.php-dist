@@ -40,7 +40,6 @@ class JConfig {
 	public $gzip = '0';
 	public $error_reporting = '-1';
 	public $helpurl = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
-	public $xmlrpc_server = '0';
 	public $ftp_host = '';
 	public $ftp_port = '';
 	public $ftp_user = '';
