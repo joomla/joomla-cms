@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Dec-2010 Jean-Marie Simonet
+ # [#23983] Admin username and password being saved as FTP credentials if you aren't careful. Thanks Elin.
+ 
 27-Dec-2010 Jean-Marie Simonet
  # [#23942] Accessibility fix for sliders. Thanks Andrea.
  $# [#23997] Refactoring language strings for permissions tooltips and Note. + reordering some inis.
