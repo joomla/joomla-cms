@@ -31,7 +31,8 @@ $ -> Language fix or change
  # [#24027] Allowing site only language packs to load xx-XX.lib_joomla.ini file
  # [#24026] [patch] language 'JError_Checkin_saved' should be 'JLIB_APPLICATION_ERROR_CHECKIN_FAILED'. Thanks Bill and Ray.
  $ [#24017] COM_CONFIG_ACTION_EDITOWN_DESC conceptual issue. Thanks Bill
- # [#23817] Error in installation (joomla.sql). Thanks Mark and Elin, 
+ # [#23817] Error in installation (joomla.sql). Thanks Mark and Elin
+ # [#23919] Admin menu shows global checkin link to those without such rights. Thanks Bill. 
  
 28-Dec-2010 Jean-Marie Simonet
  # [#23983] Admin username and password being saved as FTP credentials if you aren't careful. Thanks Elin.
