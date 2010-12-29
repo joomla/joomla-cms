@@ -122,7 +122,9 @@ final class JSite extends JApplication
 
 		// Load Library language
 		$lang = JFactory::getLanguage();
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+		$lang->load('lib_joomla', JPATH_SITE)
+		|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+
 	}
 
 	/**
