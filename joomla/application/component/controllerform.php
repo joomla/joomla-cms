@@ -539,7 +539,7 @@ class JControllerForm extends JController
 			$app->setUserState($context.'.data', $validData);
 
 			// Check-in failed, go back to the record and display a notice.
-			$this->setError(JText::sprintf('JError_Checkin_saved', $model->getError()));
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
 
