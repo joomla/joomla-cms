@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__assets`
@@ -100,7 +100,7 @@ CREATE TABLE `#__banners` (
   INDEX `idx_metakey_prefix` (`metakey_prefix`),
   INDEX `idx_banner_catid`(`catid`),
   INDEX `idx_language` (`language`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE `#__banner_clients` (
   PRIMARY KEY  (`id`),
   INDEX `idx_own_prefix` (`own_prefix`),
   INDEX `idx_metakey_prefix` (`metakey_prefix`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -143,7 +143,7 @@ CREATE TABLE  `#__banner_tracks` (
   INDEX `idx_track_date` (`track_date`),
   INDEX `idx_track_type` (`track_type`),
   INDEX `idx_banner_id` (`banner_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -186,7 +186,7 @@ CREATE TABLE `#__categories` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
   INDEX `idx_language` (`language`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__categories` VALUES
 (1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
@@ -254,7 +254,7 @@ CREATE TABLE `#__contact_details` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -306,7 +306,7 @@ CREATE TABLE `#__content` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -318,7 +318,7 @@ CREATE TABLE `#__content_frontpage` (
   `content_id` integer NOT NULL default '0',
   `ordering` integer NOT NULL default '0',
   PRIMARY KEY  (`content_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -332,7 +332,7 @@ CREATE TABLE `#__content_rating` (
   `rating_count` integer unsigned NOT NULL default '0',
   `lastip` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`content_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -343,7 +343,7 @@ CREATE TABLE `#__content_rating` (
 CREATE TABLE `#__core_log_searches` (
   `search_term` varchar(128) NOT NULL default '',
   `hits` integer unsigned NOT NULL default '0'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 
 # -------------------------------------------------------
@@ -374,7 +374,7 @@ CREATE TABLE `#__extensions` (
   INDEX `element_clientid`(`element`, `client_id`),
   INDEX `element_folder_clientid`(`element`, `folder`, `client_id`),
   INDEX `extension`(`type`,`element`,`folder`,`client_id`)
-) TYPE=MyISAM AUTO_INCREMENT=10000 CHARACTER SET `utf8`;
+) AUTO_INCREMENT=10000 CHARACTER SET utf8;
 
 # Components
 INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -533,7 +533,7 @@ CREATE TABLE `#__languages` (
   `published` int(11) NOT NULL default '0',
   PRIMARY KEY  (`lang_id`),
   UNIQUE `idx_sef` (`sef`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__languages` (`lang_id`,`lang_code`,`title`,`title_native`,`sef`,`image`,`description`,`metakey`,`metadesc`,`published`)
 VALUES
@@ -577,7 +577,7 @@ CREATE TABLE `#__menu` (
   KEY `idx_alias` (`alias`),
   KEY `idx_path` (`path`(333)),
   KEY `idx_language` (`language`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+)   DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `ordering`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
@@ -616,7 +616,7 @@ CREATE TABLE `#__menu_types` (
   `description` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`id`),
   UNIQUE `idx_menutype` (`menutype`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__menu_types` VALUES (1, 'mainmenu', 'Main Menu', 'The main menu for the site');
 
@@ -638,7 +638,7 @@ CREATE TABLE `#__messages` (
   `message` text NOT NULL,
   PRIMARY KEY  (`message_id`),
   KEY `useridto_state` (`user_id_to`, `state`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 # -------------------------------------------------------
 
 #
@@ -650,7 +650,7 @@ CREATE TABLE `#__messages_cfg` (
   `cfg_name` varchar(100) NOT NULL default '',
   `cfg_value` varchar(255) NOT NULL default '',
   UNIQUE `idx_user_var_name` (`user_id`,`cfg_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 # -------------------------------------------------------
 
 #
@@ -679,7 +679,7 @@ CREATE TABLE `#__modules` (
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`),
   KEY `idx_language` (`language`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 
 INSERT INTO `#__modules` VALUES
@@ -710,7 +710,7 @@ CREATE TABLE `#__modules_menu` (
   `moduleid` integer NOT NULL default '0',
   `menuid` integer NOT NULL default '0',
   PRIMARY KEY  (`moduleid`,`menuid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__modules_menu`
@@ -778,7 +778,7 @@ CREATE TABLE `#__newsfeeds` (
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
 
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -798,7 +798,7 @@ CREATE TABLE `#__redirect_links` (
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_link_old` (`old_url`),
   KEY `idx_link_modifed` (`modified_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 
 # -------------------------------------------------------
@@ -811,7 +811,7 @@ CREATE TABLE `#__schemas` (
   `extension_id` int(11) NOT NULL,
   `version_id` varchar(20) NOT NULL,
   PRIMARY KEY (`extension_id`, `version_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 # -------------------------------------------------------
 
 #
@@ -831,7 +831,7 @@ CREATE TABLE `#__session` (
   KEY `whosonline` (`guest`,`usertype`),
   KEY `userid` (`userid`),
   KEY `time` (`time`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 
 # -------------------------------------------------------
@@ -852,7 +852,7 @@ CREATE TABLE  `#__updates` (
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   PRIMARY KEY  (`update_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+)  DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
 CREATE TABLE  `#__update_sites` (
   `update_site_id` int(11) NOT NULL auto_increment,
@@ -861,7 +861,7 @@ CREATE TABLE  `#__update_sites` (
   `location` text NOT NULL,
   `enabled` int(11) default '0',
   PRIMARY KEY  (`update_site_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+)  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
 INSERT INTO `#__update_sites` VALUES
 (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1),
@@ -885,7 +885,7 @@ CREATE TABLE  `#__update_categories` (
   `parent` int(11) default '0',
   `updatesite` int(11) default '0',
   PRIMARY KEY  (`categoryid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Update Categories';
+)  DEFAULT CHARSET=utf8 COMMENT='Update Categories';
 
 
 # -------------------------------------------------------
@@ -904,7 +904,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   PRIMARY KEY  (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_home` (`home`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+)  DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `#__template_styles` VALUES (1, 'rhuk_milkyway', '0', '0', 'Milkyway - Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
@@ -922,7 +922,7 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
   `user_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__users.id',
   `group_id` integer unsigned NOT NULL default '0' COMMENT 'Foreign Key to #__usergroups.id',
   PRIMARY KEY  (`user_id`,`group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -941,7 +941,7 @@ CREATE TABLE IF NOT EXISTS `#__usergroups` (
   KEY `idx_usergroup_title_lookup` (`title`),
   KEY `idx_usergroup_adjacency_lookup` (`parent_id`),
   KEY `idx_usergroup_nested_set_lookup` USING BTREE (`lft`,`rgt`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__usergroups` (`id` ,`parent_id` ,`lft` ,`rgt` ,`title`)
 VALUES
@@ -979,7 +979,7 @@ CREATE TABLE `#__users` (
   KEY `idx_block` (`block`),
   KEY `username` (`username`),
   KEY `email` (`email`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 
 # -------------------------------------------------------
 
@@ -989,7 +989,7 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `profile_value` varchar(255) NOT NULL,
   `ordering` int(11) NOT NULL default '0',
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
+)  DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
 
 #
 # Table structure for table `#__weblinks`
@@ -1036,7 +1036,7 @@ CREATE TABLE `#__weblinks` (
   KEY `idx_featured_catid` (`featured`,`catid`),
   KEY `idx_language` (`language`),
   KEY `idx_xreference` (`xreference`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+)  DEFAULT CHARSET=utf8;
 # -------------------------------------------------------
 
 #
@@ -1050,7 +1050,7 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+)   DEFAULT CHARSET=utf8;
 
 #
 # Dumping data for table `#__viewlevels`
