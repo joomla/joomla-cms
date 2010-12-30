@@ -314,11 +314,13 @@ class JInstallerPlugin extends JAdapterInstance
 				return false;
 			}
 			$row->load($id);
+			$row->name = $this->get('name');
+			$row->manifest_cache = $this->parent->generateManifestCache();
+			$row->store(); // update the manifest cache and name
 		}
 		else
 		{
 			// Store in the extensions table (1.6)
-
 			$row->name = $this->get('name');
 			$row->type = 'plugin';
 			$row->ordering = 0;
