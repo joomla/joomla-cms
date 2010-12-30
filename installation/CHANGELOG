@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#23918] the filter 'Hide protected extensions' is selected when all extensions are selected (Rouven Weßling, bill richardson)
  # [#23963] [Patch] Trying to get property of non-object in /modules/mod_login/helper.php on line 54 (Nolan Martin)
  # [#24038] Menu views blanked out in menu item type select modal in Hathor (Andrea Tarr)
+ # [#23921] Fix more inputs that could be used to inject scripts. (Rouven Weßling)
  
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.

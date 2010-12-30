@@ -105,6 +105,10 @@ class modMenuHelper
 				else {
 					$item->flink = JRoute::_($item->flink);
 				}
+				
+				$item->title = htmlspecialchars($item->title);
+				$item->anchor_css = htmlspecialchars($item->params->get('menu-anchor_css', ''));
+				$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''));
 			}
 
 			if (isset($items[$lastitem])) {

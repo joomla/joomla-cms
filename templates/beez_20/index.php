@@ -116,10 +116,10 @@ $templateparams     = $app->getTemplate(true)->params;
                                         <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
                                         <?php endif;?>
                                         <?php if (!$logo ): ?>
-                                        <?php echo $templateparams->get('sitetitle');?>
+                                        <?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
                                         <?php endif; ?>
                                         <span class="header1">
-                                        <?php echo $templateparams->get('sitedescription');?>
+                                        <?php echo htmlspecialchars($templateparams->get('sitedescription'));?>
                                         </span></h1>
                                 </div><!-- end logoheader -->
                                         <ul class="skiplinks">

@@ -29,7 +29,7 @@ class modBreadCrumbsHelper
 		if ($params->get('showHome', 1))
 		{
 			$item = new stdClass();
-			$item->name = $params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME'));
+			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
 			$item->link = JRoute::_('index.php?Itemid='.$app->getMenu()->getDefault()->id);
 			array_unshift($items, $item);
 		}
@@ -59,7 +59,7 @@ class modBreadCrumbsHelper
 				$_separator = JHTML::_('image','system/arrow.png', NULL, NULL, true);
 			}
 		} else {
-			$_separator = $custom;
+			$_separator = htmlspecialchars($custom);
 		}
 
 		return $_separator;

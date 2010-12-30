@@ -11,14 +11,14 @@
 defined('_JEXEC') or die;
 
 // Note. It is important to remove spaces between elements.
-$class = $item->params->get('menu-anchor_css', '') ? 'class="'.$item->params->get('menu-anchor_css', '').'" ' : '';
-$title = $item->params->get('menu-anchor_title', '') ? 'title="'.$item->params->get('menu-anchor_title', '').'" ' : '';
+$class = $item->anchor_css ? 'class="'.$item->anchor_css.'" ' : '';
+$title = $item->anchor_title ? 'title="'.$item->anchor_title.'" ' : '';
 if ($item->params->get('menu_image', '')) {
 		$item->params->get('menu_text', 1 ) ? 
 		$linktype = '<img src="'.$item->params->get('menu_image', '').'" alt="'.$item->title.'" /><span class="image-title">'.$item->title.'</span> ' :
 		$linktype = '<img src="'.$item->params->get('menu_image', '').'" alt="'.$item->title.'" />';
 } 
-else { $linktype = htmlspecialchars($item->title, ENT_COMPAT, JFactory::getDocument()->getCharSet());
+else { $linktype = $item->title;
 }
 //$linktype = $item->params->get('menu_image', '') && $item->params->get('menu_text', 1 ) ? '<img src="'.$item->params->get('menu_image', '').'" alt="'.$item->title.'" /><span class="image-title">'.$item->title.'</span> ' : $item->title;
 

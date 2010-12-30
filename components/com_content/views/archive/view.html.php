@@ -87,6 +87,9 @@ class ContentViewArchive extends JView
 			array('list.attr' => 'size="1" class="inputbox"', 'list.select' => $state->get('filter.year'))
 		);
 		$form->limitField = $pagination->getLimitBox();
+		
+		//Escape strings for HTML output
+		$pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->assign('filter', $state->get('list.filter'));
 		$this->assignRef('form', $form);

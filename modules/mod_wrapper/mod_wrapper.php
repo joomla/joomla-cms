@@ -17,7 +17,7 @@ $params = modWrapperHelper::getParams($params);
 
 $load	= $params->get('load');
 $url	= $params->get('url');
-$target = $params->get('target');
+$target = htmlspecialchars($params->get('target'));
 $width	= $params->get('width');
 $height = $params->get('height');
 $scroll = $params->get('scrolling');
