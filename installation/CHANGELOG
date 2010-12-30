@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#23837] *Installation unexpectedly terminated: Method not supported for this extension type: template + (Samuel Moffatt)
  # [#23855] More php strict compatibility fixes (Elin Waring)
  # [#23908] JDocumentHTML::render uses require_once to load template instead of require (Samuel Moffatt)
+ # [#23918] the filter 'Hide protected extensions' is selected when all extensions are selected (Rouven Weßling, bill richardson)
  
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.
