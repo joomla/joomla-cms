@@ -123,7 +123,7 @@ class JStream extends JObject
 	 * @return	boolean
 	 * @since	1.6
 	 */
-	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=true, $relative=false, $detectprocessingmode=false)
+	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=false, $relative=false, $detectprocessingmode=false)
 	{
 		$filename = $this->_getFilename($filename, $mode, $use_prefix, $relative);
 
