@@ -177,7 +177,7 @@ class ConfigModelApplication extends JModelForm
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
-		if (!JFile::write($file, $config->toString('PHP', 'config', array('class' => 'JConfig', 'closingtag' => false)))) {
+		if (!JFile::write($file, $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false)))) {
 			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 			return false;
 		}
@@ -245,7 +245,7 @@ class ConfigModelApplication extends JModelForm
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
-		if (!JFile::write($file, $config->toString('PHP', 'config', array('class' => 'JConfig', 'closingtag' => false)))) {
+		if (!JFile::write($file, $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false)))) {
 			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 			return false;
 		}

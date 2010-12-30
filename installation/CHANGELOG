@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Dec-2010 Christophe Demko
+ # [#23969] parameter $namespace is obsolete in JRegistry::toString
+ 
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.
  # [#22564] Temp folder has to include JPATH_ROOT for gz extension upload to work. Thanks Sam.

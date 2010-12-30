@@ -122,7 +122,7 @@ class JInstallationModelConfiguration extends JModel
 		$registry->set('session_handler', 'database');
 
 		// Generate the configuration class string buffer.
-		$buffer = $registry->toString('PHP', null, array('class'=>'JConfig', 'closingtag' => false));
+		$buffer = $registry->toString('PHP', array('class'=>'JConfig', 'closingtag' => false));
 
 
 		// Build the configuration file path.
