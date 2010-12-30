@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23969] parameter $namespace is obsolete in JRegistry::toString
  # [#23667] Extension Manager: Manage screen does not update version number (Samuel Moffatt)
  # [#23701] joomla.installer.adapters.library does not accomodate media tag (Samuel Moffatt, Michael Richey)
+ # [#23808] JToolBar is adding paths in the wrong order (Elin Waring, Ian MacLennan)
  
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.
