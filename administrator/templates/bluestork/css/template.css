@@ -3087,3 +3087,10 @@ dl.tabs dt h3 a:link {
 	outline:medium none;
 	text-decoration:none;
 }
+
+/* -- CUSTOM LANG STRINGS STYLES  ----------- */
+
+.red {
+	font-weight: bold;
+	color: #c00;
+}

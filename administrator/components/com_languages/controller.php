@@ -60,23 +60,4 @@ class LanguagesController extends JController
 
 		return $this;
 	}
-
-	/**
-	 * task to set the default language
-	 */
-	function publish()
-	{
-		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JInvalid_Token'));
-		$model = $this->getModel('languages');
-		if ($model->publish()) {
-			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-			$type = 'message';
-		} else {
-			$msg = $this->getError();
-			$type = 'error';
-		}
-		$client = $model->getClient();
-		$this->setredirect('index.php?option=com_languages&client='.$client->id,$msg,$type);
-	}
 }

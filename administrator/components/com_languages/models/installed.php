@@ -247,6 +247,7 @@ class LanguagesModelInstalled extends JModelList
 		$query->where('(a.type = '.$type.')');
 		
 		$query->where('state = 0');
+		$query->where('enabled = 1');
 
 		if ($client != '') {
 			$query->where('client_id=' . intval($client));
