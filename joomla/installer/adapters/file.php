@@ -40,6 +40,7 @@ class JInstallerFile extends JAdapterInstance
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
+	
 	/**
 	 * Custom install method
 	 *
@@ -47,7 +48,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
@@ -245,7 +246,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @return boolean True on success
 	 * @since  1.5
 	 */
-	function update()
+	public function update()
 	{
 		// set the overwrite setting
 		$this->parent->setOverwrite(true);
@@ -265,7 +266,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id)
+	public function uninstall($id)
 	{
 		// Initialise variables.
 		$row	= JTable::getInstance('extension');
@@ -485,6 +486,31 @@ class JInstallerFile extends JAdapterInstance
 				}
 
 			}
+		}
+	}
+	
+	/**
+	 * Refreshes the extension table cache
+	 * @return  boolean result of operation, true if updated, false on failure
+	 * @since	1.6
+	 */
+	public function refreshManifestCache()
+	{
+		// Need to find to find where the XML file is since we don't store this normally
+		$manifestPath = JPATH_MANIFESTS.DS.'files'. DS.$this->parent->extension->element.'.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->extension->manifest_cache = json_encode($manifest_details);
+		$this->parent->extension->name = $manifest_details['name'];
+
+		try {
+			return $this->parent->extension->store();
+		}
+		catch(JException $e) {
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_PACK_REFRESH_MANIFEST_CACHE'));
+			return false;
 		}
 	}
 }

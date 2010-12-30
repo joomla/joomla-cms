@@ -43,6 +43,7 @@ class JInstallerLibrary extends JAdapterInstance
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
+	
 	/**
 	 * Custom install method
 	 *
@@ -50,7 +51,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function install()
+	public function install()
 	{
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
@@ -195,7 +196,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @return boolean True on success
 	 * @since  1.5
 	 */
-	function update()
+	public function update()
 	{
 		// since this is just files, an update removes old files
 		// Get the extension manifest object
@@ -233,7 +234,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	function uninstall($id)
+	public function uninstall($id)
 	{
 		// Initialise variables.
 		$retval = true;
@@ -325,7 +326,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @return array(JExtension) list of extensions available
 	 * @since 1.6
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = Array();
 		$file_list = JFolder::files(JPATH_MANIFESTS.DS.'libraries','\.xml$');
@@ -353,7 +354,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @return void
 	 * @since 1.6
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		/* Libraries are a strange beast, they are actually references to files
 		 * There are two parts to a library which are disjunct in their locations
@@ -381,6 +382,31 @@ class JInstallerLibrary extends JAdapterInstance
 		else
 		{
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_LIB_DISCOVER_STORE_DETAILS'));
+			return false;
+		}
+	}
+	
+	/**
+	 * Refreshes the extension table cache
+	 * @return  boolean result of operation, true if updated, false on failure
+	 * @since	1.6
+	 */
+	public function refreshManifestCache()
+	{
+		// Need to find to find where the XML file is since we don't store this normally
+		$manifestPath = JPATH_MANIFESTS.DS.'libraries'. DS.$this->parent->extension->element.'.xml';
+		$this->parent->manifest = $this->parent->isManifest($manifestPath);
+		$this->parent->setPath('manifest', $manifestPath);
+
+		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$this->parent->extension->manifest_cache = json_encode($manifest_details);
+		$this->parent->extension->name = $manifest_details['name'];
+
+		try {
+			return $this->parent->extension->store();
+		}
+		catch(JException $e) {
+			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_LIB_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}
 	}
