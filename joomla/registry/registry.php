@@ -325,17 +325,16 @@ class JRegistry
 	 * Get a namespace in a given string format
 	 *
 	 * @param	string	Format to return the string in
-	 * @param	string	Namespace to return [optional: null returns the default namespace]
 	 * @param	mixed	Parameters used by the formatter, see formatters for more info
 	 * @return	string	Namespace in string format
 	 * @since	1.5
 	 */
-	public function toString($format = 'JSON', $namespace = null, $params = null)
+	public function toString($format = 'JSON', $options = array())
 	{
 		// Return a namespace in a given format
 		$handler = JRegistryFormat::getInstance($format);
 		
-		return $handler->objectToString($this->data, $params);
+		return $handler->objectToString($this->data, $options);
 	}
 
 	/**
