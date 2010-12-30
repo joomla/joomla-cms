@@ -107,7 +107,7 @@ class JUser extends JObject
 	public $params = null;
 
 	/**
-	 * Associative array of user group ids => names.
+	 * Associative array of user names => group ids
 	 *
 	 * @since	1.6
 	 * @var		array
@@ -640,7 +640,7 @@ class JUser extends JObject
 			if ($iAmSuperAdmin != true) {
 				if ($isNew) {
 					// Check if the new user is being put into a Super Admin group.
-					foreach (array_keys($this->groups) as $groupId)
+					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin')) {
 							throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
@@ -655,7 +655,7 @@ class JUser extends JObject
 
 					if ($this->groups != null) {
 					// I am not a Super Admin and I'm trying to make one.
-						foreach (array_keys($this->groups) as $groupId)
+						foreach ($this->groups as $groupId)
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin')) {
 								throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));

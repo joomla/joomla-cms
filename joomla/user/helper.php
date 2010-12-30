@@ -35,7 +35,7 @@ class JUserHelper
 		$user = new JUser((int) $userId);
 
 		// Add the user to the group if necessary.
-		if (!array_key_exists($groupId, $user->groups))
+		if (!in_array($groupId, $user->groups))
 		{
 			// Get the title of the group.
 			$db	= JFactory::getDbo();
@@ -57,7 +57,7 @@ class JUserHelper
 			}
 
 			// Add the group data to the user object.
-			$user->groups[$groupId] = $title;
+			$user->groups[$title] = $groupId;
 
 			// Store the user object.
 			if (!$user->save()) {
@@ -107,7 +107,7 @@ class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Remove the user from the group if necessary.
-		if (array_key_exists($groupId, $user->groups))
+		if (in_array($groupId, $user->groups))
 		{
 			// Remove the user from the group.
 			unset($user->groups[$groupId]);
@@ -147,14 +147,14 @@ class JUserHelper
 
 		// Set the group ids.
 		JArrayHelper::toInteger($groups);
-		$user->groups = array_fill_keys(array_values($groups), null);
+		$user->groups = $groups;
 
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
 		$db->setQuery(
 			'SELECT `id`, `title`' .
 			' FROM `#__usergroups`' .
-			' WHERE `id` = '.implode(' OR `id` = ', array_keys($user->groups))
+			' WHERE `id` = '.implode(' OR `id` = ', $user->groups)
 		);
 		$results = $db->loadObjectList();
 
