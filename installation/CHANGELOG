@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.
+ # [#22564] Temp folder has to include JPATH_ROOT for gz extension upload to work. Thanks Sam.
  
 29-Dec-2010 Jean-Marie Simonet
  # [#24027] Allowing site only language packs to load xx-XX.lib_joomla.ini file
