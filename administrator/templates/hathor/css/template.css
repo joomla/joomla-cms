@@ -1989,7 +1989,9 @@ body.contentpane input, body.contentpane select {
 	visibility: hidden;
 }
 
-a#sbox-btn-close {
+.body-overlayed #sbox-window a,
+.body-overlayed #sbox-window input,
+.body-overlayed #sbox-window button {
 	visibility: visible;
 }
 

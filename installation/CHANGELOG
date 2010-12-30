@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#23908] JDocumentHTML::render uses require_once to load template instead of require (Samuel Moffatt)
  # [#23918] the filter 'Hide protected extensions' is selected when all extensions are selected (Rouven Weßling, bill richardson)
  # [#23963] [Patch] Trying to get property of non-object in /modules/mod_login/helper.php on line 54 (Nolan Martin)
+ # [#24038] Menu views blanked out in menu item type select modal in Hathor (Andrea Tarr)
  
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.
