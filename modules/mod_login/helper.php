@@ -51,7 +51,7 @@ class modLoginHelper
 					$menu = $app->getMenu();
 					$item = $menu->getItem($itemid);
 					unset($vars['Itemid']);
-					if ($vars == $item->query) {
+					if (isset($item) && $vars == $item->query) {
 						$url = 'index.php?Itemid='.$itemid;
 					}
 					else {
