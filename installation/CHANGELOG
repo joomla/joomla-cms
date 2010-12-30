@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#23701] joomla.installer.adapters.library does not accomodate media tag (Samuel Moffatt, Michael Richey)
  # [#23808] JToolBar is adding paths in the wrong order (Elin Waring, Ian MacLennan)
  # [#23774] API issue: JUser::save() now uses numeric array for ->groups instead of indexed array ? (Samuel Moffatt)
+ # [#23837] *Installation unexpectedly terminated: Method not supported for this extension type: template + (Samuel Moffatt)
  
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.

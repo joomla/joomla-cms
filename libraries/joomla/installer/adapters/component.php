@@ -1418,7 +1418,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	array	A list of extensions.
 	 * @since	1.6
 	 */
-	function discover()
+	public function discover()
 	{
 		$results = array();
 		$site_components = JFolder::folders(JPATH_SITE.DS.'components');
@@ -1460,7 +1460,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function discover_install()
+	public function discover_install()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
@@ -1715,6 +1715,8 @@ class JInstallerComponent extends JAdapterInstance
 	}
 
 	/**
+	 * Refreshes the extension table cache
+	 * @return  boolean result of operation, true if updated, false on failure
 	 * @since	1.6
 	 */
 	public function refreshManifestCache()
@@ -1727,7 +1729,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('manifest', $manifestPath);
 
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
 
 		try {

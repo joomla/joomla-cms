@@ -1690,7 +1690,7 @@ class JInstaller extends JAdapter
 	 */
 	public function generateManifestCache()
 	{
-		return serialize(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
+		return json_encode(JApplicationHelper::parseXMLInstallFile($this->getPath('manifest')));
 	}
 
 	/**

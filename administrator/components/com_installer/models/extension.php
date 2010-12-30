@@ -76,7 +76,7 @@ class InstallerModel extends JModelList
 		$lang = JFactory::getLanguage();
 		foreach($items as &$item) {
 			if (strlen($item->manifest_cache)) {
-				$data = unserialize($item->manifest_cache);
+				$data = json_decode($item->manifest_cache);
 				if ($data) {
 					foreach($data as $key => $value) {
 						if ($key == 'type') {
