@@ -63,7 +63,7 @@ defined('_JEXEC') or die;
 			<td class="center">
 				<?php if ($user->client_id == 0) :?>
 					<a href="<?php echo $user->logoutLink;?>">
-						<img src="templates/bluestork/images/menu/icon-16-logout.png"/>
+						<?php echo JHtml::_('image', 'mod_logged/icon-16-logout.png', JText::_('JLOGOUT'), null, true);?>
 					</a>
 				<?php endif; ?>
 			</td>
