@@ -402,7 +402,7 @@ class JDocumentHTML extends JDocument
 
 			//get the file content
 			ob_start();
-			require_once $directory.DS.$filename;
+			require $directory.DS.$filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}
