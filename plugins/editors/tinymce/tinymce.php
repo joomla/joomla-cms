@@ -616,6 +616,8 @@ class plgEditorTinymce extends JPlugin
 					theme_advanced_toolbar_align : \"$toolbar_align\",
 					theme_advanced_source_editor_height : \"$html_height\",
 					theme_advanced_source_editor_width : \"$html_width\",
+					theme_advanced_resizing : $resizing,
+					theme_advanced_resize_horizontal : $resize_horizontal,
 					$element_path,
 					theme_advanced_buttons1_add_before : \"$buttons1_add_before\",
 					theme_advanced_buttons2_add_before : \"$buttons2_add_before\",
