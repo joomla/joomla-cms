@@ -144,6 +144,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
+		$this->parent->parseMedia($this->manifest->media);
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
