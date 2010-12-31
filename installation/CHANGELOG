@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Dec-2010 Christophe Demko
+ # [#24043] In Chrome, the pagination buttons are misaligned in admin Hathor plus remove duplicate css (Andrea Tarr)
+
 30-Dec-2010 Christophe Demko
  # [#23969] parameter $namespace is obsolete in JRegistry::toString
  # [#23667] Extension Manager: Manage screen does not update version number (Samuel Moffatt)

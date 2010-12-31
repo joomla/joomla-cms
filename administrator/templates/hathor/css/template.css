@@ -1657,8 +1657,8 @@ div.pagination {
 
 .pagination div.limit select {
 	font-size: 100%;
-	height: 1.8em;
-	line-height: 1.8em;
+	/*height: 1.8em;
+	line-height: 1.8em;*/
 
 }
 
@@ -1668,77 +1668,6 @@ div.pagination {
 	height: 1.8em;
 	line-height: 1.8em;
 	margin-right: 20px;
-}
-
-div.pagination .button2-right, div.pagination .button2-left {
-	font-size: 1.2em;
-	height: 1.6em;
-	line-height: 1.6em;
-}
-
-	/* Style if pagination is part of the table (old style) */
-table.adminlist .pagination {
-	display: table;
-	padding: 0;
-	margin: 0 auto;
-	font-size: .8em;
-}
-
-table.adminlist .pagination button {
-	font-size: 1.2em;
-	height: 1.6em;
-	line-height: 1.5em;
-	margin-right: 20px;
-}
-
-/**
- * Pagination styles
- */
-
-	/* Normal pagination styles */
-div.containerpg {
-	position: relative;
-	left: 50%;
-	float: left;
-	clear: left;
-}
-
-div.pagination {
-	position: relative;
-	left: -50%;
-	margin: 0 auto;
-	padding: .5em;
-}
-
-.pagination div.limit {
-	float: left;
-	margin: 0 10px;
-	font-size: 1.2em;
-	height: 1.6em;
-	line-height: 1.6em;
-
-}
-
-.pagination div.limit label {
-	font-size: 100%;
-	height: 1.6em;
-	line-height: 1.6em;
-}
-
-.pagination div.limit select {
-	font-size: 100%;
-	height: 1.6em;
-	line-height: 1.6em;
-	padding: 0;
-}
-
-	/* The Go submittal button */
-.pagination button {
-	font-size: 100%;
-	height: 1.6em;
-	line-height: 1.6em;
-	margin-right: 20px;
-	padding-bottom: 5px;
 }
 
 div.pagination .button2-right, div.pagination .button2-left {
