@@ -256,7 +256,7 @@ class ContentModelCategory extends JModelItem
 			if( isset( $this->state->params ) ) {
 				$params = $this->state->params;
 				$options = array();
-				$options['countItems'] = $params->get('show_cat_num_articles', 1);
+				$options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
 			}
 			else {
 				$options['countItems'] = 0;

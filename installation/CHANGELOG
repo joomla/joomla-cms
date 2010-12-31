@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#24018] Alternate date format performing unexpectedly at category view/list layout (bill richardson)
  # [#23895] Correction on the default assets table data in joomla.sql (Sander Potjer)
  # [#23897] Bug in profile edition on admin side (pooja raju)
+ # [#23972] Category List does not show non-empty subcategories (bill richardson)
 
 30-Dec-2010 Christophe Demko
  # [#23969] parameter $namespace is obsolete in JRegistry::toString
