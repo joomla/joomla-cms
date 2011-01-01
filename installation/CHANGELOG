@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#24061] Beez5 uses position-01 instead of position-1 in one location. Thanks Elin.
  # [#24058] Beez5 parameter problem. Thanks Elin and Christophe.
  # [#24028] Can't bulk delete users. Thanks Christophe.
+ # [#23849] Toolbar images are not properly centered over their text in IE8 - Bluestork. Thanks Bill.
 
 31-Dec-2010 Christophe Demko
  # [#24043] In Chrome, the pagination buttons are misaligned in admin Hathor plus remove duplicate css (Andrea Tarr)

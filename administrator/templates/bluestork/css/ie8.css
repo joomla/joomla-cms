@@ -21,7 +21,7 @@ div.toolbar-box {
 	height: 50px;
 }
 
-div.toolbar-list span {
+div.toolbar-list .span {
 	margin: 0px;
 	position: relative;
 }
