@@ -26,23 +26,39 @@ class JLanguageHelper
 	 * @param	array	An array of arrays (text, value, selected)
 	 * @since	1.5
 	 */
-	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false)
+	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
 		$list = array ();
 
 		// cache activation
 		$langs = JLanguage::getKnownLanguages($basePath);
+		if ($installed)
+		{
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true);
+			$query->select('element');
+			$query->from('#__extensions');
+			$query->where('type='.$db->quote('language'));
+			$query->where('state=0');
+			$query->where('enabled=1');
+			$query->where('client_id='.($basePath==JPATH_ADMINISTRATOR?1:0));
+			$db->setQuery($query);
+			$installed_languages = $db->loadObjectList('element');
+		}
 
 		foreach ($langs as $lang => $metadata)
 		{
-			$option = array ();
+			if (!$installed || array_key_exists($lang, $installed_languages))
+			{
+				$option = array ();
 
-			$option['text'] = $metadata['name'];
-			$option['value'] = $lang;
-			if ($lang == $actualLanguage) {
-				$option['selected'] = 'selected="selected"';
+				$option['text'] = $metadata['name'];
+				$option['value'] = $lang;
+				if ($lang == $actualLanguage) {
+					$option['selected'] = 'selected="selected"';
+				}
+				$list[] = $option;
 			}
-			$list[] = $option;
 		}
 
 		return $list;
