@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-January-2011 Jean-Marie Simonet
+ # [#24055] Disabled languages display as choice in users params. Thanks Christophe.
+
 31-Dec-2010 Christophe Demko
  # [#24043] In Chrome, the pagination buttons are misaligned in admin Hathor plus remove duplicate css (Andrea Tarr)
  # [#24018] Alternate date format performing unexpectedly at category view/list layout (bill richardson)
