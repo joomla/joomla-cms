@@ -396,6 +396,10 @@ textarea#message {
 	width: 90%;
 }
 
+.pre_message {
+	font-size: 1.3em;
+}
+
 /* -- OVERLIB STYLES ----------------------------- */
 .ol-foreground {
 	background-color: #ffe;

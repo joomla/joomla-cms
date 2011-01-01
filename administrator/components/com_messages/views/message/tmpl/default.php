@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 		<?php echo $this->item->subject;?></li>
 
 		<li><?php echo JText::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
-		<pre><?php echo $this->escape($this->item->message);?></pre></li>
+		<pre class="pre_message"><?php echo $this->escape($this->item->message);?></pre></li>
 		</ul>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="reply_id" value="<?php echo $this->item->message_id; ?>" />

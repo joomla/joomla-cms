@@ -2706,3 +2706,9 @@ dl.tabs dt h3 {
 	font-weight: bold;
 	color: #c00;
 }
+
+/* -- OTHER STYLES  ----------- */
+
+.pre_message {
+	font-size: 1.3em;
+}
