@@ -103,10 +103,9 @@ $templateparams	= $app->getTemplate(true)->params;
 				<div class="logoheader">
 					<h1 id="logo">
 
-					<?php if ($logo != '-1' ): ?>
+					<?php if ($logo != null ): ?>
 					<img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>" alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
-					<?php endif;?>
-					<?php if ($logo == '-1' ): ?>
+					<?php else: ?>
 					<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
 					<?php endif; ?>
 					<span class="header1">
