@@ -30,6 +30,7 @@ $ -> Language fix or change
 01-January-2011 Jean-Marie Simonet
  # [#24055] Disabled languages display as choice in users params. Thanks Christophe.
  # [#24057] New CSS Needed for Private Messages in Bluestork
+  [#24061] Beez5 uses position-01 instead of position-1 in one location. Thanks Elin.
 
 31-Dec-2010 Christophe Demko
  # [#24043] In Chrome, the pagination buttons are misaligned in admin Hathor plus remove duplicate css (Andrea Tarr)
