@@ -196,8 +196,8 @@ class UsersModelUser extends JModelAdmin
 				$allow = $user->authorise('core.delete', 'com_users');
 
 				if ($allow) {
-					// Get user data for the user to delete.
-					$user = JFactory::getUser($pk);
+					// Get users data for the users to delete.
+					$user_to_delete = JFactory::getUser($pk);
 
 					// Fire the onUserBeforeDelete event.
 					$dispatcher->trigger('onUserBeforeDelete', array($table->getProperties()));
@@ -207,7 +207,7 @@ class UsersModelUser extends JModelAdmin
 						return false;
 					} else {
 						// Trigger the onUserAfterDelete event.
-						$dispatcher->trigger('onUserAfterDelete', array($user->getProperties(), true, $this->getError()));
+						$dispatcher->trigger('onUserAfterDelete', array($user_to_delete->getProperties(), true, $this->getError()));
 					}
 				}
 				else {
