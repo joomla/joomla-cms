@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-January-2011 Jean-Marie Simonet
  # [#22509] No message generated on new article creation in the front end. Thanks Christophe.
+ # Correcting some hathor headers.
  
 02-January-2011 Christophe Demko
  # [#24068] Remove BitFolge library from SQL (Michael Babker)
