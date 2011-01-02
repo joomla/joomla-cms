@@ -5,9 +5,9 @@
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '3.9.2',
+		minorVersion : '3.9.3',
 
-		releaseDate : '2010-09-29',
+		releaseDate : '2010-12-20',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -6051,21 +6051,17 @@ window.tinymce.dom.Sizzle = Sizzle;
 
 			if (s.fix_table_elements) {
 				t.onPreProcess.add(function(se, o) {
-					// Since Opera will crash if you attach the node to a dynamic document we need to brrowser sniff a specific build
-					// so Opera users with an older version will have to live with less compaible output not much we can do here
-					if (!tinymce.isOpera || opera.buildNumber() >= 1767) {
-						each(t.dom.select('p table', o.node).reverse(), function(n) {
-							var parent = t.dom.getParent(n.parentNode, 'table,p');
+					each(t.dom.select('p table', o.node).reverse(), function(n) {
+						var parent = t.dom.getParent(n.parentNode, 'table,p');
 
-							if (parent.nodeName != 'TABLE') {
-								try {
-									t.dom.split(parent, n);
-								} catch (ex) {
-									// IE can sometimes fire an unknown runtime error so we just ignore it
-								}
+						if (parent.nodeName != 'TABLE') {
+							try {
+								t.dom.split(parent, n);
+							} catch (ex) {
+								// IE can sometimes fire an unknown runtime error so we just ignore it
 							}
-						});
-					}
+						}
+					});
 				});
 			}
 		},
@@ -6330,7 +6326,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			// and since we can't feature detect a crash we need to sniff the acutal build number
 			// This fix will make DOM ranges and make Sizzle happy!
 			impl = n.ownerDocument.implementation;
-			if (impl.createHTMLDocument && (tinymce.isOpera && opera.buildNumber() >= 1767)) {
+			if (impl.createHTMLDocument) {
 				// Create an empty HTML document
 				doc = impl.createHTMLDocument("");
 
@@ -9688,8 +9684,8 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					{inline : 'u'}
 				],
 
-				forecolor : {inline : 'span', styles : {color : '%value'}},
-				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}},
+				forecolor : {inline : 'span', styles : {color : '%value'}, wrap_links : false},
+				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}, wrap_links : false},
 				fontname : {inline : 'span', styles : {fontFamily : '%value'}},
 				fontsize : {inline : 'span', styles : {fontSize : '%value'}},
 				fontsize_class : {inline : 'span', attributes : {'class' : '%value'}},
@@ -13011,7 +13007,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 						}
 
 						// Is it valid to wrap this item
-						if (isValid(wrapName, nodeName) && isValid(parentName, wrapName)) {
+						if ((format.wrap_links !== false || nodeName != 'a') && isValid(wrapName, nodeName) && isValid(parentName, wrapName)) {
 							// Start wrapping
 							if (!currentWrapElm) {
 								// Wrap the node

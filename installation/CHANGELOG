@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24068] Remove BitFolge library from SQL (Michael Babker)
  # [#23937] Fix some uses of JPATH_ROOT when there is a better alternative (Rouven Weßling)
  # [#23968] JRegistry::loadFile is not consistend with JRegistry::loadString
+ # [#24046] Update TinyMCE to Version 3.3.9.3 (Rouven Weßling)
 
 01-January-2011 Christophe Demko
  # [#24010] Error Message Missing for Image Upload (Janich Rasmussen)
