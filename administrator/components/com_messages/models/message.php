@@ -176,7 +176,7 @@ class MessagesModelMessage extends JModelAdmin
 			return false;
 		}
 
-		if ($config->get('locked')) {
+		if ($config->get('locked', false)) {
 			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 			return false;
 		}
@@ -187,17 +187,18 @@ class MessagesModelMessage extends JModelAdmin
 			return false;
 		}
 
-		if ($config->get('mail_on_new')) {
+		if ($config->get('mail_on_new', true)) {
 			// Load the user details (already valid from table check).
 			$fromUser	= new JUser($table->user_id_from);
 			$toUser		= new JUser($table->user_id_to);
+			$lang 		= JLanguage::getInstance($toUser->getParam('admin_language'));
+			$lang->load('com_messages');
 
-			$siteURL	= JURI::base();
+			$siteURL	= JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
 			$sitename	= JFactory::getApplication()->getCfg('sitename');
 
-			$subject	= sprintf (JText::_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg		= sprintf (JText::_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
-
+			$subject	= sprintf ($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
+			$msg		= sprintf ($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 			JUtility::sendMail($fromUser->email, $fromUser->name, $toUser->email, $subject, $msg);
 		}
 

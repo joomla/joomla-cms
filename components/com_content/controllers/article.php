@@ -424,6 +424,32 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		if ($recordId == 0) {
+			$user = JFactory::getUser();
+			// Messaging for new items
+			JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'models');
+			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables');
+
+			$db = JFactory::getDbo();
+			$db->setQuery('SELECT id FROM #__users WHERE sendEmail = 1');
+			$users = (array) $db->loadResultArray();
+
+			foreach ($users as $user_id)
+			{
+				if ($user_id != $user->id)
+				{
+					// Load language for messaging
+					$receiver = JUser::getInstance($user_id);
+					$lang = JLanguage::getInstance($receiver->getParam('admin_language'));
+					$lang->load('com_content');
+					$message = array(
+						'user_id_to'	=> $user_id,
+						'subject'		=> $lang->_('COM_CONTENT_NEW_ARTICLE'),
+						'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $data['title'])
+					);
+					$model_message = JModel::getInstance('Message', 'MessagesModel');
+					$model_message->save($message);
+				}
+			}
 			$this->setMessage(JText::_('COM_CONTENT_SUBMIT_SAVE_SUCCESS'));
 		} 
 		else {
