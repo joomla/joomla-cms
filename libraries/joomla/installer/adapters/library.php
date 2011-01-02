@@ -106,7 +106,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_LIBRARIES.DS.implode(DS,explode('/',$group)));
 		}
 
 		/**
@@ -263,7 +263,7 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			$manifest = new JLibraryManifest($manifestFile);
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'libraries'.DS.$manifest->libraryname);
+			$this->parent->setPath('extension_root', JPATH_LIBRARIES.DS.$manifest->libraryname);
 
 			$xml = JFactory::getXML($manifestFile);
 

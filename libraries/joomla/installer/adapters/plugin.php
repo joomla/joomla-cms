@@ -132,7 +132,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 		$group = (string)$xml->attributes()->group;
 		if (!empty ($element) && !empty($group)) {
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$group.DS.$element);
+			$this->parent->setPath('extension_root', JPATH_PLUGINS.DS.$group.DS.$element);
 		}
 		else
 		{
@@ -488,13 +488,13 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 
 		// Set the plugin root path
-		if (is_dir(JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element)) {
+		if (is_dir(JPATH_PLUGINS.DS.$row->folder.DS.$row->element)) {
 			// Use 1.6 plugins
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$row->folder.DS.$row->element);
+			$this->parent->setPath('extension_root', JPATH_PLUGINS.DS.$row->folder.DS.$row->element);
 		}
 		else {
 			// Use Legacy 1.5 plugins
-			$this->parent->setPath('extension_root', JPATH_ROOT.DS.'plugins'.DS.$row->folder);
+			$this->parent->setPath('extension_root', JPATH_PLUGINS.DS.$row->folder);
 		}
 
 		// Because plugins don't have their own folders we cannot use the standard method of finding an installation manifest

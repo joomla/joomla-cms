@@ -668,7 +668,7 @@ class JView extends JObject
 				if (isset($app))
 				{
 					$component	= preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
-					$fallback	= JPATH_BASE.DS.'templates'.DS.$app->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
+					$fallback	= JPATH_THEMES.DS.$app->getTemplate().DS.'html'.DS.$component.DS.$this->getName();
 					$this->_addPath('template', $fallback);
 				}
 				break;

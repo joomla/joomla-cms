@@ -170,8 +170,8 @@ abstract class JModuleHelper
 			$chrome = array();
 		}
 
-		require_once JPATH_BASE.'/templates/system/html/modules.php';
-		$chromePath = JPATH_BASE.'/templates/'.$app->getTemplate().'/html/modules.php';
+		require_once JPATH_THEMES.'/system/html/modules.php';
+		$chromePath = JPATH_THEMES.'/'.$app->getTemplate().'/html/modules.php';
 		if (!isset($chrome[$chromePath]))
 		{
 			if (file_exists($chromePath)) {
@@ -234,7 +234,7 @@ abstract class JModuleHelper
 		}
 
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE.'/templates/'.$template.'/html/'.$module.'/'.$layout.'.php';
+		$tPath = JPATH_THEMES.'/'.$template.'/html/'.$module.'/'.$layout.'.php';
 		$bPath = JPATH_BASE.'/modules/'.$module.'/tmpl/'.$defaultLayout.'.php';
 
 		// If the template has a layout override use it

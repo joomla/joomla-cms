@@ -51,7 +51,7 @@ class JCache extends JObject
 		$conf = JFactory::getConfig();
 
 		$this->_options = array(
-			'cachebase'		=> $conf->get('cache_path', JPATH_ROOT.DS.'cache'),
+			'cachebase'		=> $conf->get('cache_path', JPATH_CACHE),
 			'lifetime'		=> (int)$conf->get('cachetime'),
 			'language'		=> $conf->get('language', 'en-GB'),
 			'storage'		=> $conf->get('cache_handler',''),
