@@ -320,6 +320,16 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			'Line: '.__LINE__.'.'
 		);
 
+		// INI + section.
+		$result = $registry->loadFile(dirname(__FILE__).'/jregistry.ini', 'ini', array('processSections' => true));
+
+		// Test getting a known value.
+		$this->assertThat(
+			$registry->get('section.foo'),
+			$this->equalTo('bar'),
+			'Line: '.__LINE__.'.'
+		);
+
 		// XML and PHP versions do not support stringToObject.
 	}
 

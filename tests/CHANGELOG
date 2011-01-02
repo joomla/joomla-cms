@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-January-2011 Christophe Demko
+ + Added test for 3rd parameter to JRegistry::loadFile
+
 17-Dec-2010 Ian MacLennan
  + Added test for JToolbar::addButtonPath
 
