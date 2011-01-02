@@ -202,7 +202,7 @@ class JDocumentFeed extends JDocument
 		 */
 		$cache		= 0;
 		$cache_time = 3600;
-		$cache_path = JPATH_BASE.DS.'cache';
+		$cache_path = JPATH_CACHE;
 
 		// set filename for rss feeds
 		$file = strtolower(str_replace('.', '', $type));

@@ -151,7 +151,7 @@ class JCacheStorage
 	public function getAll()
 	{
 		if (!class_exists('JCacheStorageHelper', false)) {
-			require_once JPATH_ROOT.DS.'libraries'.DS.'joomla'.DS.'cache'.DS.'storage'.DS.'helpers'.DS.'helper.php';
+			require_once JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage'.DS.'helpers'.DS.'helper.php';
 		}
 		return;
 	}

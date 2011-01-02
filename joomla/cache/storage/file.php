@@ -215,7 +215,7 @@ class JCacheStorageFile extends JCacheStorage
 	public static function test()
 	{
 		$conf = JFactory::getConfig();
-		return is_writable($conf->get('cache_path', JPATH_ROOT.DS.'cache'));
+		return is_writable($conf->get('cache_path', JPATH_CACHE));
 	}
 
 	/**
