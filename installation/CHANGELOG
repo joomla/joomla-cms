@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-January-2011 Christophe Demko
+ # [#24068] Remove BitFolge library from SQL (Michael Babker)
+
 01-January-2011 Christophe Demko
  # [#24010] Error Message Missing for Image Upload (Janich Rasmussen)
 
