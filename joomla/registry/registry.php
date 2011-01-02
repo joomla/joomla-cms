@@ -212,17 +212,17 @@ class JRegistry
 	 *
 	 * @param	string	Path to file to load
 	 * @param	string	Format of the file [optional: defaults to JSON]
-	 * @param	string	Namespace to load the JSON string into [optional]
+	 * @param	mixed	Options used by the formatter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	public function loadFile($file, $format = 'JSON')
+	public function loadFile($file, $format = 'JSON', $options = array())
 	{
 		// Get the contents of the file
 		jimport('joomla.filesystem.file');
 		$data = JFile::read($file);
 
-		return $this->loadString($data, $format);
+		return $this->loadString($data, $format, $options);
 	}
 
 	/**
@@ -230,6 +230,7 @@ class JRegistry
 	 *
 	 * @param	string	string to load into the registry
 	 * @param	string	format of the string
+	 * @param	mixed	Options used by the formatter
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
