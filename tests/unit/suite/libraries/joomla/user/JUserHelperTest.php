@@ -86,7 +86,7 @@ class JUserHelperTest extends JoomlaDatabaseTestCase
        return array(
            'validSuperUser' => array(
                42,
-               array( 8 => 'Super Users' ),
+               array( 'Super Users' => 8 ),
                array(),
            ),
            'unknownUser' => array(

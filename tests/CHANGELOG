@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 02-Jan-2011 Mark Dexter
 # Fixed failing system tests
+# Fixed failing JUserHelperTest
 
 02-Jan-2011 Christophe Demko
  + Added test for 3rd parameter to JRegistry::loadFile
