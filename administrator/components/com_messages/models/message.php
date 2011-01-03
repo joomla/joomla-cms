@@ -20,6 +20,11 @@ jimport('joomla.application.component.modeladmin');
 class MessagesModelMessage extends JModelAdmin
 {
 	/**
+	 * message
+	 */
+	protected $item;
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -63,40 +68,51 @@ class MessagesModelMessage extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk)) {
-			// Prime required properties.
-			if (empty($item->id)) {
-				// Prepare data for a new record.
-				if ($replyId = $this->getState('reply.id')) {
-					// If replying to a message, preload some data.
-					$db		= $this->getDbo();
-					$query	= $db->getQuery(true);
+		if (!isset($this->item))
+		{
+			if ($this->item = parent::getItem($pk)) {
+				// Prime required properties.
+				if (empty($this->item->message_id))
+				{
+					// Prepare data for a new record.
+					if ($replyId = $this->getState('reply.id'))
+					{
+						// If replying to a message, preload some data.
+						$db		= $this->getDbo();
+						$query	= $db->getQuery(true);
 
-					$query->select('subject, user_id_from');
-					$query->from('#__messages');
-					$query->where('message_id = '.(int) $replyId);
-					$message = $db->setQuery($query)->loadObject();
+						$query->select('subject, user_id_from');
+						$query->from('#__messages');
+						$query->where('message_id = '.(int) $replyId);
+						$message = $db->setQuery($query)->loadObject();
 
-					if ($error = $db->getErrorMsg()) {
-						$this->setError($error);
-						return false;
-					}
+						if ($error = $db->getErrorMsg())
+						{
+							$this->setError($error);
+							return false;
+						}
 
-					$item->set('user_id_to', $message->user_id_from);
-					$re = JText::_('COM_MESSAGES_RE');
-					if (stripos($message->subject, $re) !== 0) {
-						$item->set('subject', $re.$message->subject);
+
+						$this->item->set('user_id_to', $message->user_id_from);
+						$re = JText::_('COM_MESSAGES_RE');
+						if (stripos($message->subject, $re) !== 0) {
+							$this->item->set('subject', $re.$message->subject);
+						}
 					}
 				}
+				elseif ($this->item->user_id_to != JFactory::getUser()->id)
+				{
+					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
+					return false;
+				}
 			}
-		}
 		
-		// Get the user name for an existing messasge.
-		if ($item->user_id_from && $fromUser = new JUser($item->user_id_from)) {
-			$item->set('from_user_name', $fromUser->name);
-		}		
-
-		return $item;
+			// Get the user name for an existing messasge.
+			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from)) {
+				$this->item->set('from_user_name', $fromUser->name);
+			}		
+		}
+		return $this->item;
 	}
 
 	/**
