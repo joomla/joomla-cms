@@ -60,7 +60,7 @@ body {
 	height: 100%;
 }
 
-body,td,th {
+body,td,th,span,a {
 	font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -265,7 +265,6 @@ span.note {
 }
 
 div.checkin-tick {
-	background: url(../images/admin/tick.png) 20px 50% no-repeat;
 	text-indent: -9999px;
 }
 
@@ -534,6 +533,12 @@ div.current table#acl-config th.acl-groups {
 	text-align: left;
 }
 
+div.current table#filter-config th.acl-groups {
+	text-align: left;
+}
+
+div.current table#filter-config select { margin-bottom: 0px;}
+
 li.acl-editgroups,
 li.acl-resetbtn {
 
@@ -751,6 +756,10 @@ div.col {
 	float: left;
 }
 
+div.options-section.col {
+	float: right;
+}
+
 div.col1 {
 	float: left;
 	width: 45%;
@@ -793,14 +802,14 @@ div.main-section {
 }
 
 div.options-section {
-	width: 39%;
-	margin-top: 10px;
+	width: 38%;
+	margin: 10px 10px 10px 0;
 }
 
 /* for bluestork style html */
 div.width-40.fltrt {
-	width: 39.5%;
-	margin: 10px 3px 10px 0;
+	width: 38%;
+	margin: 10px 10px 10px 0;
 }
 
 div.rules-section {
@@ -1018,7 +1027,9 @@ div.extdescript {
 	margin-left: 10px;
 }
 
-input[type="button"] {
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
 	font-family: Arial, Helvetica, sans-serif;
 	padding: 1px 6px;
 	font-size: 1.2em;
@@ -1456,7 +1467,7 @@ ul#new-modules-list {
 }
 
 .menu-module-list {
-	list-position: inside;
+	list-style-position: inside;
 	padding-left: 10px;
 	margin-left: 5px;
 }
@@ -1520,6 +1531,8 @@ button {
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
+	margin-right: 3px;
+	margin-left: 3px;
 }
 
 button:hover,button:focus {
@@ -1695,7 +1708,7 @@ table.adminlist .pagination button {
  * MCE Editor
  */
 div.toggle-editor {
-	margin-top: -15px;
+	margin: -15px;
 }
 
 /**
@@ -1762,7 +1775,7 @@ a.jgrid:hover {
  */
 div.message {
 	text-align: center;
-	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1.2em;
 	padding: 3px;
 	margin-bottom: 10px;
@@ -1942,6 +1955,8 @@ body.contentpane input, body.contentpane select {
 	height: 0;
 	overflow: hidden;
 	position: absolute;
+	padding:0;
+	margin:0;
 }
 
 	/* Firefox has issues styling legend so this is a universal fix
@@ -1994,20 +2009,41 @@ fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform
 	width:auto;
 }
 
+/* -------- Batch Section ---------- */
+fieldset.batch {
+	margin: 20px 10px 10px 10px;
+	background: #fff;
+	padding: 10px;
+}
 fieldset.batch label {
-	line-height: 2em;
-	float:left;
+	margin: 5px;
+	min-width: 40px;
+}
+fieldset.batch button {
+	margin: 3px;
+}
+fieldset#batch-choose-action {
+	clear: left;
+	border: 0 none;
+}
+fieldset.batch label {
+	float: left;
+	clear: none;
+}
+fieldset label#batch-choose-action-lbl {
+	clear: left;
+	margin-top: 15px;
+}
+
+fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
+	float: left;
+}
+
+select#batch-menu-id {
+	margin-right: 30px;
+}
+label#batch-access-lbl {
 	margin-right: 10px;
-}
-
-fieldset.batch input, fieldset.batch textarea, fieldset.batch select, fieldset.batch img {
-	float:left;
-	margin:5px 25px 5px 0;
-	width:auto;
-}
-
-fieldset.batch input[type="radio"] {
-	margin-right: 5px;
 }
 
 div#jform_ordering {
@@ -2272,10 +2308,16 @@ table#acl-config td select {
 label#jform_rules-lbl {
 	float: none;
 	white-space: nowrap;
+	display:none;
+	visibility:hidden;
 }
 
-/* Disabled until verified */
-label#jform_rules-lbl {display:none;}
+label#jform_filters-lbl {
+	float: none;
+	white-space: nowrap;
+	display: none;
+	visibility:hidden;
+}
 
 /**
 * Mod_rewrite Warning
@@ -2453,6 +2495,10 @@ table.group-rules td select
 {
 }
 
+#permissions-sliders ul#rules table.group-rules td label {
+	min-width: 1em;
+}
+
 #permissions-sliders span.level
 {
 }
@@ -2493,6 +2539,17 @@ table.group-rules td select
 dl.tabs dt h3 {
 	padding: 0;
 	font-size:100%;
+}
+
+/**
+ * Helpmenus
+ */
+ul.helpmenu li {
+	float: right;
+	margin: 10px;
+	padding: 0;
+	list-style-type: none;
+	font-weight: bold;
 }
 
  /* CSS file for Accessible Admin Menu

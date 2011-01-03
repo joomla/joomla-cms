@@ -60,7 +60,7 @@ $canDo	= BannersHelper::getActions();
 	</fieldset>
 </div>
 
-<div class="col options-sections">
+<div class="col options-section">
 	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
@@ -79,7 +79,7 @@ $canDo	= BannersHelper::getActions();
 		</fieldset>
 
 	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
-		<fieldset class="adminform">
+		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_EXTRA'); ?></legend>
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('extra') as $field): ?>

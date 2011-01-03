@@ -59,17 +59,18 @@ JHtml::_('behavior.formvalidation');
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-
-				<li>
-				<div id="image">
-					<?php foreach($this->form->getFieldset('image') as $field): ?>
-						<?php if (!$field->hidden): ?>
-							<?php echo $field->label; ?>
-						<?php endif; ?>
-						<?php echo $field->input; ?>
-					<?php endforeach; ?>
-				</div>
-				</li>
+				
+				<li><?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?></li>
+				
+				<?php foreach($this->form->getFieldset('image') as $field): ?>
+					<li>
+					<?php if (!$field->hidden): ?>
+						<?php echo $field->label; ?>
+					<?php endif; ?>
+					<?php echo $field->input; ?>
+					</li>
+				<?php endforeach; ?>
 
 				<li><div id="custom">
 					<?php echo $this->form->getLabel('custombannercode'); ?>

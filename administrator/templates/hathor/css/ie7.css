@@ -36,7 +36,7 @@ div.toolbar-list span {
 }
 
 div.toolbar-list a {
-	position: relative
+	position: relative;
 }
 
 div#subheader {
@@ -56,7 +56,52 @@ div#subheader {
 	min-height: 1px;
 }
 
-.hidelabeltxt 	{
+.menu-links li,
+.menu-links li label {
+	height: 2em;
+}
+
+div.article-edit,
+div.category-edit {
+	zoom: 1;
+}
+
+div.pane-sliders,
+div.panel,
+div.pane-slider,
+div.rules-section,
+div.mypanel,
+div.containerpg,
+div.pagination,
+div.upload-queue {
+	zoom: 1;
+}
+
+div.width-20 fieldset.adminform, div.width-30 fieldset.adminform, div.width-35 fieldset.adminform, div.width-40 fieldset.adminform, 
+div.width-45 fieldset.adminform, div.width-50 fieldset.adminform, div.width-55 fieldset.adminform, div.width-60 fieldset.adminform,
+div.width-65 fieldset.adminform, div.width-70 fieldset.adminform, div.width-80 fieldset.adminform, div.width-100 fieldset.adminform {
+	zoom: 1;
+	margin-bottom:10px;
+}
+
+div.toggle-editor {
+	margin-top: -5px;
+	margin-bottom: 5px;
+}
+
+table.adminlist {
+	border-bottom-width: 1px;
+}
+
+div.current dd {
+	width: 100%;
 	position: relative;
-	text-indent:-9999em;
+}
+
+div.current ul.menu-links {
+	zoom: 1;
+	width: 25%;
+	margin: 0;
+	padding:0;
+	list-style-position: inside;
 }

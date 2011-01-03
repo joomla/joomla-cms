@@ -112,7 +112,8 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $this->loadTemplate('params'); ?>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
-
+		
+	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"></div>
 

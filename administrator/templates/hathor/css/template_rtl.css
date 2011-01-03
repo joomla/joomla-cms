@@ -214,6 +214,10 @@ div.current table#acl-config th.acl-groups {
 	text-align: right;
 }
 
+div.current table#filter-config th.acl-groups {
+	text-align: right;
+}
+
 /* -------- Menu Assigments ---------- */
 div#menu-assignment {
 	clear:right;
@@ -333,6 +337,10 @@ div.col {
 	float: right;
 }
 
+div.options-section.col {
+	float: left;
+}
+
 div.col1 {
 	float: right;
 }
@@ -354,16 +362,16 @@ div.col2 {
 
 	/* Layout Divs */
 div.main-section {
-	width: 60%;
+
 }
 
 div.options-section {
-	width: 40%;
+	margin: 10px 0 10px 10px;
 }
 
 /* for bluestork style html */
 div.width-40.fltrt {
-	margin: 10px 0 10px 3px;
+	margin: 10px 0 10px 10px;
 }
 
 /**
@@ -924,19 +932,31 @@ fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform
 	margin:5px 0 5px 5px;
 }
 
+/* -------- Batch Section ---------- */
+fieldset#batch-choose-action {
+	clear:none;
+	clear: right;
+}
 fieldset.batch label {
-	float:right;
-	margin-left: 10px;
+	float: right;
+	clear: none;
+}
+fieldset label#batch-choose-action-lbl {
+	clear: none;
+	clear: right;
+}
+
+fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
+	float: right;
+}
+
+select#batch-menu-id {
 	margin-right: 0;
+	margin-left: 30px;
 }
-
-fieldset.batch input, fieldset.batch textarea, fieldset.batch select, fieldset.batch img {
-	float:right;
-	margin:5px 0 5px 25px;
-}
-
-fieldset.batch input[type="radio"] {
-	margin-left: 5px;
+label#batch-access-lbl {
+	margin-right: 0;
+	margin-left: 10px;
 }
 
 /* Banner edit */
@@ -1123,6 +1143,13 @@ table.group-rules td select
 
 #permissions-sliders ul#rules .panel h3
 {
+}
+
+/**
+ * Helpmenus
+ */
+ul.helpmenu li {
+	float: left;
 }
 
 /**

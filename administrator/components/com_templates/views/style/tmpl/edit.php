@@ -30,25 +30,24 @@ $canDo = TemplatesHelper::getActions();
 	<div class="width-60 fltlft">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('JDETAILS');?></legend>
+			<ul class="adminformlist">
+			<li><?php echo $this->form->getLabel('title'); ?>
+			<?php echo $this->form->getInput('title'); ?></li>
 
-			<?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?>
-
-			<?php echo $this->form->getLabel('template'); ?>
+			<li><?php echo $this->form->getLabel('template'); ?>
 			<?php echo $this->form->getInput('template'); ?>
-
 			<?php echo $this->form->getLabel('client_id'); ?>
 			<?php echo $this->form->getInput('client_id'); ?>
-			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
+			<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" /></li>
 
-			<?php echo $this->form->getLabel('home'); ?>
-			<?php echo $this->form->getInput('home'); ?>
-			<div class="clr"></div>
+			<li><?php echo $this->form->getLabel('home'); ?>
+			<?php echo $this->form->getInput('home'); ?></li>
 
 			<?php if ($this->item->id) : ?>
-				<?php echo $this->form->getLabel('id'); ?>
-				<span class="readonly"><?php echo $this->item->id; ?></span>
+				<li><?php echo $this->form->getLabel('id'); ?>
+				<span class="readonly"><?php echo $this->item->id; ?></span></li>
 			<?php endif; ?>
+			</ul>
 			<div class="clr"></div>
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
