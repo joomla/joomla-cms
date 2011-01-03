@@ -20,7 +20,30 @@ JHtml::_('behavior.tooltip');
 $user = JFactory::getUser();
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
+JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'groups.delete')
+		{
+			var f = document.adminForm;
+			var cb='';
+<?php foreach ($this->items as $i=>$item):?>
+<?php if ($item->user_count > 0):?>
+			cb = f['cb'+<?php echo $i;?>];
+			if (cb && cb.checked) {
+				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE'))) {
+					Joomla.submitform(task);
+				}
+				return;
+			}
+<?php endif;?>
+<?php endforeach;?>
+		}
+		Joomla.submitform(task);
+	}
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?></legend>

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-January-2011 Christophe Demko
+ # [#23846] Possible to delete groups that have users
+
 03-January-2011 Jean-Marie Simonet
  # [#24098] Extensions Manager does not discover languages correctly. Thanks Sam.
 
