@@ -116,6 +116,25 @@ class UsersModelGroup extends JModelAdmin
 		// Include the content plugins for events.
 		JPluginHelper::importPlugin('user');
 
+        // Check for non-super admin trying to save with super admin parent
+        $user = JFactory::getUser();
+        // Check if I am a Super Admin
+		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
+        if (!$iAmSuperAdmin) {
+			try
+			{
+				// Check if parent is super admin group
+				if (JAccess::checkGroup($data['parent_id'], 'core.admin') ||
+					JAccess::checkGroup($data['id'], 'core.admin')	) {
+					throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+				}
+			}
+			catch (Exception $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
 		return parent::save($data);
 	}
 
@@ -139,6 +158,8 @@ class UsersModelGroup extends JModelAdmin
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
+        // Check if I am a Super Admin
+		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
 
 		// do not allow to delete groups to which the current user belong
 		foreach ($pks as $i => $pk) {
@@ -152,6 +173,8 @@ class UsersModelGroup extends JModelAdmin
 			if ($table->load($pk)) {
 				// Access checks.
 				$allow = $user->authorise('core.edit.state', 'com_users');
+				// Don't allow non-super-admin to delete a super admin
+				$allow = (!$iAmSuperAdmin && JAccess::checkGroup($pk, 'core.admin')) ? false : $allow;
 
 				if ($allow) {
 					// Fire the onUserBeforeDeleteGroup event.

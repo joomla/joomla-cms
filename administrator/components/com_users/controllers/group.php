@@ -40,4 +40,31 @@ class UsersControllerGroup extends JControllerForm
 	{
 		return (JFactory::getUser()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
 	}
+	
+	/**
+	 * Overrides JControllerForm::allowEdit
+	 *
+	 * Checks that non-Super Admins are not editing Super Admins.
+	 *
+	 * @param	array	An array of input data.
+	 * @param	string	The name of the key for the primary key.
+	 *
+	 * @return	boolean
+	 * @since	1.6
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		// Check if this person is a Super Admin
+		if (JAccess::checkGroup($data[$key], 'core.admin')) {
+			// If I'm not a Super Admin, then disallow the edit.
+			$my = JFactory::getUser();
+
+			if (!JAccess::check($my->id, 'core.admin')) {
+				return false;
+			}
+		}
+
+		return parent::allowEdit($data, $key);
+	}
+	
 }

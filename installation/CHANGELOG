@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-03-January-2011 Christophe Demko
+03-Jan-2011 Mark Dexter
+# [#23845] [Patch] Administrators can create, edit, delete Super Users
+
+03-Jan-2011 Christophe Demko
  # [#23846] Possible to delete groups that have users
  # [#24092] View administrator/index.php?option=com_languages&view=installed displays site AND admin language
  # [#24086] All administrators can read private message which they were not receiver
@@ -35,27 +38,27 @@ $ -> Language fix or change
  # [#24099] Adding * to follow internet convention for the registration required fields in front-end (Jean-Marie Simonet)
  # [#24100] Following #22509. Private message and email is not in the user defined language
 
-03-January-2011 Jean-Marie Simonet
+03-Jan-2011 Jean-Marie Simonet
  # [#24098] Extensions Manager does not discover languages correctly. Thanks Sam.
  # Correcting validation issue in [#24099]
  $ Changing back some strings from [#24099]. TODO: has to be implemented via CSS.
  # [#23946] Fix various IE7 issues with Hathor. Thanks Andrea.
  # [#24079] Replace all nbsp with the numeric entity. Thanks Rouven.
 
-02-January-2011 Jean-Marie Simonet
+02-Jan-2011 Jean-Marie Simonet
  # [#22509] No message generated on new article creation in the front end. Thanks Christophe.
  # Correcting some hathor headers.
  
-02-January-2011 Christophe Demko
+02-Jan-2011 Christophe Demko
  # [#24068] Remove BitFolge library from SQL (Michael Babker)
  # [#23937] Fix some uses of JPATH_ROOT when there is a better alternative (Rouven Weßling)
  # [#23968] JRegistry::loadFile is not consistend with JRegistry::loadString
  # [#24046] Update TinyMCE to Version 3.3.9.3 (Rouven Weßling)
 
-01-January-2011 Christophe Demko
+01-Jan-2011 Christophe Demko
  # [#24010] Error Message Missing for Image Upload (Janich Rasmussen)
 
-01-January-2011 Jean-Marie Simonet
+01-Jan-2011 Jean-Marie Simonet
  # [#24055] Disabled languages display as choice in users params. Thanks Christophe.
  # [#24057] New CSS Needed for Private Messages in Bluestork
  # [#24061] Beez5 uses position-01 instead of position-1 in one location. Thanks Elin.

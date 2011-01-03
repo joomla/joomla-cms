@@ -97,12 +97,22 @@ $loggeduser = JFactory::getUser();
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
+				<?php
+					$canEdit = $canDo->get('core.edit');
+					// If this group is super admin and this user is not super admin, $canEdit is false
+					if (!JAccess::check($loggeduser->id, 'core.admin') && (JAccess::check($item->id, 'core.admin'))) {
+						$canEdit = false;
+					}
+				?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					<?php if ($canEdit) : ?>
+						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					<?php endif; ?>
 				</td>
 				<td>
-					<?php if ($canDo->get('core.edit')) : ?>
+
+					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $item->name); ?>">
 						<?php echo $this->escape($item->name); ?></a>
 					<?php else : ?>

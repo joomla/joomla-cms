@@ -179,6 +179,9 @@ class UsersModelUser extends JModelAdmin
 		$table	= $this->getTable();
 		$pks	= (array) $pks;
 
+        // Check if I am a Super Admin
+		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
+
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
@@ -194,7 +197,9 @@ class UsersModelUser extends JModelAdmin
 			if ($table->load($pk)) {
 				// Access checks.
 				$allow = $user->authorise('core.delete', 'com_users');
-
+				// Don't allow non-super-admin to delete a super admin
+				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
+				
 				if ($allow) {
 					// Get users data for the users to delete.
 					$user_to_delete = JFactory::getUser($pk);
@@ -240,6 +245,8 @@ class UsersModelUser extends JModelAdmin
 		$app		= JFactory::getApplication();
 		$dispatcher	= JDispatcher::getInstance();
 		$user		= JFactory::getUser();
+        // Check if I am a Super Admin
+		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
@@ -257,6 +264,8 @@ class UsersModelUser extends JModelAdmin
 			else if ($table->load($pk)) {
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
+				// Don't allow non-super-admin to delete a super admin
+				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
 
 				// Prepare the logout options.
 				$options = array(
@@ -332,6 +341,8 @@ class UsersModelUser extends JModelAdmin
 		// Initialise variables.
 		$dispatcher	= JDispatcher::getInstance();
 		$user		= JFactory::getUser();
+        // Check if I am a Super Admin
+		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
@@ -341,6 +352,8 @@ class UsersModelUser extends JModelAdmin
 			if ($table->load($pk)) {
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
+				// Don't allow non-super-admin to delete a super admin
+				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
 
 				if (empty($table->activation)) {
 					// Ignore activated accounts.
