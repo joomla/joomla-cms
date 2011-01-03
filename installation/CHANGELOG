@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 03-January-2011 Christophe Demko
  # [#23846] Possible to delete groups that have users
+ # [#24092] View administrator/index.php?option=com_languages&view=installed displays site AND admin language
 
 03-January-2011 Jean-Marie Simonet
  # [#24098] Extensions Manager does not discover languages correctly. Thanks Sam.
