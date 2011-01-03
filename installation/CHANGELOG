@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#24086] All administrators can read private message which they were not receiver
  # [#23896] JFormFieldLanguage error when no client attribut set.
  # [#24099] Adding * to follow internet convention for the registration required fields in front-end (Jean-Marie Simonet)
+ # [#24100] Following #22509. Private message and email is not in the user defined language
 
 03-January-2011 Jean-Marie Simonet
  # [#24098] Extensions Manager does not discover languages correctly. Thanks Sam.

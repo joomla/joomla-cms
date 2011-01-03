@@ -433,13 +433,15 @@ class ContentControllerArticle extends JControllerForm
 			$db->setQuery('SELECT id FROM #__users WHERE sendEmail = 1');
 			$users = (array) $db->loadResultArray();
 
+			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+			$debug = JFactory::getConfig()->get('debug_lang');
 			foreach ($users as $user_id)
 			{
 				if ($user_id != $user->id)
 				{
 					// Load language for messaging
 					$receiver = JUser::getInstance($user_id);
-					$lang = JLanguage::getInstance($receiver->getParam('admin_language'));
+					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 					$lang->load('com_content');
 					$message = array(
 						'user_id_to'	=> $user_id,

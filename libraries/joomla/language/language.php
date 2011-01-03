@@ -28,6 +28,7 @@ jimport('joomla.filesystem.stream');
  */
 class JLanguage extends JObject
 {
+	protected static $languages = array();
 	/**
 	 * Debug language, If true, highlights if string isn't found
 	 *
@@ -256,7 +257,10 @@ class JLanguage extends JObject
 	 */
 	public static function getInstance($lang, $debug=false)
 	{
-		return new JLanguage($lang, $debug);
+		if (!isset(self::$languages[$lang.$debug])) {
+			self::$languages[$lang.$debug] = new JLanguage($lang, $debug);
+		}
+		return self::$languages[$lang.$debug];
 	}
 
 	/**

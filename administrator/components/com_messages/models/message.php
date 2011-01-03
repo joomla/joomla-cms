@@ -205,10 +205,12 @@ class MessagesModelMessage extends JModelAdmin
 
 		if ($config->get('mail_on_new', true)) {
 			// Load the user details (already valid from table check).
-			$fromUser	= new JUser($table->user_id_from);
-			$toUser		= new JUser($table->user_id_to);
-			$lang 		= JLanguage::getInstance($toUser->getParam('admin_language'));
-			$lang->load('com_messages');
+			$fromUser = JUser::getInstance($table->user_id_from);
+			$toUser = JUser::getInstance($table->user_id_to);
+			$debug = JFactory::getConfig()->get('debug_lang');
+			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+			$lang = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
+			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			$siteURL	= JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
 			$sitename	= JFactory::getApplication()->getCfg('sitename');
