@@ -207,7 +207,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		}
 
 		$options = array (
-			'driver' => isset ($config) ? $config->dbtype : 'mysql',
+			'driver' => ((isset ($config)) && ($config->dbtype != 'mysqli')) ? $config->dbtype : 'mysql',
 			'host' => isset ($config) ? $config->host : '127.0.0.1',
 			'user' => isset ($config) ? $config->user : 'utuser',
 			'password' => isset ($config) ? $config->password : 'ut1234',
