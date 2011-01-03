@@ -173,7 +173,7 @@ class JFormFieldRules extends JFormField
 				$html[] = '<option value="0"' . ($assetRule === false ? ' selected="selected"' : '') . '>' .
 							JText::_('JLIB_RULES_DENIED') . '</option>';
 
-				$html[] = '</select>&nbsp; ';
+				$html[] = '</select>&#160; ';
 
 				// If this asset's rule is allowed, but the inherited rule is deny, we have a conflict.
 				if (($assetRule === true) && ($inheritedRule === false)) {
