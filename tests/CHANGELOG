@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-02-January-2011 Christophe Demko
+02-Jan-2011 Mark Dexter
+# Fixed failing system tests
+
+02-Jan-2011 Christophe Demko
  + Added test for 3rd parameter to JRegistry::loadFile
 
 17-Dec-2010 Ian MacLennan

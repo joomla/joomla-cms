@@ -30,10 +30,9 @@ class Group0003Test extends SeleniumJoomlaTestCase
 		echo "Delete all groups in view.\n";
 		$this->click("checkall-toggle");
 		$this->click("//li[@id='toolbar-delete']/a");
-		$this->waitForPageToLoad("30000");
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dt[@class='error']"));
+			$this->assertEquals("Please first make a selection from the list", $this->getAlert());
 		}
 		catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
