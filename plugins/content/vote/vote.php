@@ -44,7 +44,7 @@ class plgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 			$html .= '<span class="content_rating">';
-			$html .= JText::_( 'PLG_VOTE_USER_RATING' ) .':'. $img .'&nbsp;/&nbsp;';
+			$html .= JText::_( 'PLG_VOTE_USER_RATING' ) .':'. $img .'&#160;/&#160;';
 			$html .= $rating_count;
 			$html .= "</span>\n<br />\n";
 
@@ -62,7 +62,7 @@ class plgContentVote extends JPlugin
 				$html .= '<input type="radio" alt="vote 4 star" name="user_rating" value="4" />';
 				$html .= '<input type="radio" alt="vote 5 star" name="user_rating" value="5" checked="checked" />';
 				$html .= JText::_( 'PLG_VOTE_BEST' );
-				$html .= '&nbsp;<input class="button" type="submit" name="submit_vote" value="'. JText::_( 'PLG_VOTE_RATE' ) .'" />';
+				$html .= '&#160;<input class="button" type="submit" name="submit_vote" value="'. JText::_( 'PLG_VOTE_RATE' ) .'" />';
 				$html .= '<input type="hidden" name="task" value="vote" />';
 				$html .= '<input type="hidden" name="hitcount" value="0" />';
 				$html .= '<input type="hidden" name="url" value="'.  $uri->toString() .'" />';

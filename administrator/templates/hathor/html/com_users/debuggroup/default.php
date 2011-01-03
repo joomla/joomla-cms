@@ -114,7 +114,7 @@ $listDirn	= $this->state->get('list.direction');
 						$text	= '-';
 					else :
 						$class	= '';
-						$text	= '&nbsp;';
+						$text	= '&#160;';
 					endif;
 					?>
 				<td class="center <?php echo $class;?>">

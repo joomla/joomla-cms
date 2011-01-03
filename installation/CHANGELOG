@@ -40,6 +40,7 @@ $ -> Language fix or change
  # Correcting validation issue in [#24099]
  $ Changing back some strings from [#24099]. TODO: has to be implemented via CSS.
  # [#23946] Fix various IE7 issues with Hathor. Thanks Andrea.
+ # [#24079] Replace all nbsp with the numeric entity. Thanks Rouven.
 
 02-January-2011 Jean-Marie Simonet
  # [#22509] No message generated on new article creation in the front end. Thanks Christophe.
