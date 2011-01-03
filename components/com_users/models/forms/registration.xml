@@ -4,6 +4,11 @@
 	<fieldset name="default"
 		label="COM_USERS_REGISTRATION_DEFAULT_LABEL"
 	>
+	
+		<field name="spacer" type="spacer" class="spacer"
+				label="COM_USERS_REGISTER_REQUIRED"
+				required="true"
+			/>
 
 		<field name="name" type="text"
 			description="COM_USERS_REGISTER_NAME_DESC"

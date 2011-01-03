@@ -978,3 +978,8 @@ ul.pagenav li{
 	margin-left: 3px;
 	margin-right: 3px;
 }
+
+.red {
+	font-weight: bold;
+	color: #c00;
+}

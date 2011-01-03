@@ -67,7 +67,7 @@ class UsersViewRegistration extends JView
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_USERS_Registration'));
+			$this->params->def('page_heading', JText::_('COM_USERS_REGISTRATION'));
 		}
 
 		$title = $this->params->get('page_title', '');

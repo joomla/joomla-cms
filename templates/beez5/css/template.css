@@ -70,8 +70,11 @@ table.contenttoc{
 
 /* for the spacer field*/
 span.spacer label {
-        white-space: nowrap;
-        font-weight: bold;
-        color: #666;
+	white-space: nowrap;
+	font-weight: bold;
+	color: #666;
 }
-
+.red {
+	font-weight: bold;
+	color: #c00;
+}
