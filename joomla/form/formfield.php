@@ -429,8 +429,12 @@ abstract class JFormField
 						($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
 		}
 
-		// Add the label text and closing tag.
-		$label .= '>'.$text.'</label>';
+	// Add the label text and closing tag.
+		if ($this->required) {
+			$label .= '>'.$text.'<span class="star"> *</span></label>';
+		} else {
+			$label .= '>'.$text.'</label>';
+		}
 
 		return $label;
 	}
