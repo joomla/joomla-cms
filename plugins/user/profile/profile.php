@@ -27,7 +27,7 @@ class plgUserProfile extends JPlugin
 	function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, array('com_users.profile', 'com_users.registration', 'com_admin.profile'))) {
+		if (!in_array($context, array('com_users.profile','com_users.user', 'com_users.registration', 'com_admin.profile'))) {
 			return true;
 		}
 
@@ -80,7 +80,7 @@ class plgUserProfile extends JPlugin
 		}
 
 		// Check we are manipulating a valid form.
-		if (!in_array($form->getName(), array('com_admin.profile', 'com_users.registration','com_users.profile'))) {
+		if (!in_array($form->getName(), array('com_admin.profile','com_users.user', 'com_users.registration','com_users.profile'))) {
 			return true;
 		}
 
