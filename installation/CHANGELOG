@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jan-2011 Jean-Marie Simonet
+ $ Reordering admin en-GB.com_content.ini and updating xx-XX.com_content.ini
+ 
 03-Jan-2011 Mark Dexter
 # [#23845] [Patch] Administrators can create, edit, delete Super Users
 
