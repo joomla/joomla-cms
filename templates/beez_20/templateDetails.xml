@@ -56,12 +56,12 @@
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
-				<field name="wrapperSmall" type="text" default="53"
+				<field name="wrapperSmall"  class="validate-numeric" type="text" default="53"
 					label="TPL_BEEZ2_FIELD_WRAPPERSMALL_LABEL"
 					description="TPL_BEEZ2_FIELD_WRAPPERSMALL_DESC"
 					filter="int" />
 
-				<field name="wrapperLarge" type="text" default="72"
+				<field name="wrapperLarge"  class="validate-numeric" type="text" default="72"
 					label="TPL_BEEZ2_FIELD_WRAPPERLARGE_LABEL"
 					description="TPL_BEEZ2_FIELD_WRAPPERLARGE_DESC"
 					filter="int" />
@@ -97,7 +97,7 @@
 
 					<option value="nature">TPL_BEEZ2_OPTION_NATURE</option>
 					<option value="personal">TPL_BEEZ2_OPTION_PERSONAL</option>
-					<option value="black">TPL_BEEZ2_OPTION_BLACK</option>
+				
 				</field>
 
 

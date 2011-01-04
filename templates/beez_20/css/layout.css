@@ -815,7 +815,7 @@ dd.createdby
         display:inline;
         padding:2px 5px;
         text-align:left;
-        border:solid 1px #eee;
+        border:solid 0px #eee;
         margin:0 2px
 }
 
@@ -926,7 +926,7 @@ border:solid 1px #ddd
 
 form fieldset dt
 {
-        clear:left;
+        clear:left ;
         float:left;
         width:12em;
         padding:3px 0
@@ -1001,8 +1001,9 @@ label.ordering
 .word input
 {
         font-weight:bold;
-        margin:1px 1px 1px 10px;
-         padding:3px;
+        margin:0px 10px 0px 10px;
+        padding:4px;
+        font-size:1em
 }
 
 .word input:focus
@@ -1033,6 +1034,8 @@ form .search label
         display:none
 }
 
+.search legend
+{font-weight:bold}
 /* ++++++++++++++  selects  ++++++++++++++ */
 .phrases .inputbox
 {
@@ -1227,14 +1230,19 @@ dl#content-pane.tabs {
 #users-profile-custom dt
 {
         float:left;
-        width:10em;
-        padding:3px 0
+        width:12em;
+        padding:3px 0;
+ 
+   
 }
 
 #users-profile-core dd,
 #users-profile-custom dd
 {
-        padding:3px 0
+        padding:3px 0;
+      
+
+   
 }
 
 #member-profile fieldset,
@@ -1242,14 +1250,32 @@ dl#content-pane.tabs {
 {
         margin:10px 0 15px 0;
         padding:15px;
+        
 }
 
 #users-profile-core legend,
+#users-profile-custom legend,
 .profile-edit legend,
 .registration legend
 {
 		font-weight:bold
 }
+
+.profile-edit form#member-profile fieldset dd,
+.registration form#member-registration fieldset dd
+{ float:none; padding:5px 0}
+
+.profile-edit form#member-profile fieldset dd input,
+.profile-edit form#member-profile fieldset dd select,
+.registration form#member-registration fieldset dd input
+{width:17em}
+.profile-edit form#member-profile fieldset dt,
+.registration form#member-registration fieldset dt
+{padding:5px 5px 5px 0; width:13em}
+
+
+span.optional
+{font-size:0.9em}
 /*#################### tables ############################ */
 
 table
@@ -1447,6 +1473,8 @@ p.error
 }
 
 
+a.mceButton:hover  {background:none !important}
+
 /* ++++++++++++++  pagebreak  ++++++++++++++ */
 table.contenttoc
 {
@@ -1530,18 +1558,17 @@ font-weight:bold; text-decoration:none;
 margin-top:10px !important}
 
 /* ++++++++++++++  tooltip  ++++++++++++++ */
+
+
 .tip
 {
         font-size:0.8em;
+        text-align:left;
         padding:3px;
+        max-width:400px
 }
 
-.tool-tip
-{
-        font-size:0.8em;
-}
-
-.tool-title
+.tip-title
 {
         font-weight:bold;
 }
@@ -1699,26 +1726,26 @@ dl.weblink-count dd
 #login-form label
 {
         margin-right:10px;
-                width:8.4em;
-                display:block;
-                float:left
+        width:8.4em;
+        display:block;
+        float:left
 }
 
 #form-login-remember label
-{float:none;
-width:auto;
-display:inline}
-
-/* #login-form div
 {
-        margin:0 0 10px 5px;
-        padding:10px 0 0;
-        text-align:left
+	float:none;
+	width:auto;
+	display:inline
 }
-*/
+
+.logout-button
+{
+	margin-top:10px
+}
 
 input.button,
-button.button
+button.button,
+button.validate
 {
         cursor:pointer;
         padding:3px 5px 3px 7px ;
@@ -1842,6 +1869,10 @@ ul.tabs li a:focus
         margin-top:-1px;
 }
 
+.tabcontent:focus
+{
+	outline:none
+}
 .tabopen
 {
         display:block;
@@ -2132,4 +2163,15 @@ overflow:visible
 #mailto-window button
 {
 	margin:0 5px 0 0
+}
+
+
+span.spacer label {
+	white-space: nowrap;
+	font-weight: bold;
+	color: #666;
+}
+.red {
+	font-weight: bold;
+	color: #c00;
 }

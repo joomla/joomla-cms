@@ -1,6 +1,6 @@
 /**
  * @version $Id$
- * @author Design & Accessible Team ( Angie Radtke / Robert Deutz )
+ * @author Design & Accessible Team ( Angie Radtke  )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
  * @copyright Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
@@ -11,9 +11,6 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
-
-
-/* not ready */
 
 
 body
@@ -28,52 +25,9 @@ body
 body.contentpane {
 		width:auto;
 		margin:10px;
-		line-height: 1.4em;
 		text-align: left;
 }
 img { border: 0 none; }
 
-/* TOC */
-table.contenttoc{
-        float: right;
-}
 
-/* Tooltips */
-.tool-tip {
-        float: left;
-        background: #ffc;
-        border: 1px solid #D4D5AA;
-        padding: 5px;
-        max-width: 200px;
-        text-align:left;
-}
-
-.tool-title {
-        padding: 0;
-        margin: 0;
-        font-size: 100%;
-        font-weight: bold;
-        margin-top: -15px;
-        padding-top: 15px;
-        padding-bottom: 5px;
-        background: url(../../system/images/selector-arrow.png) no-repeat;
-}
-
-.tool-text {
-        font-size: 100%;
-        margin: 0;
-}
-
-.nowrap { white-space: nowrap; }
-
-/* for the spacer field*/
-span.spacer label {
-	white-space: nowrap;
-	font-weight: bold;
-	color: #666;
-}
-.red {
-	font-weight: bold;
-	color: #c00;
-}
 

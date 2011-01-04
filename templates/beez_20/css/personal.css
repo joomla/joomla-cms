@@ -972,10 +972,10 @@ fieldset.input
 }
 
 input.button,
-button.button
+button.button,
+button.validate
 {
-	   /* background:#095197 ;
-	color:#fff;*/
+	
 	background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
 	border:1px solid #DDDDDD;
 	color:#444444;
@@ -1088,8 +1088,8 @@ ul.tabs li a.linkopen:focus
 
 .word input
 {
-	background:#fff;
-	border:solid 1px #999;
+	border:solid 1px #ddd;
+	background:url(../images/content_bg.gif) repeat-x;
 	color:#333;
 }
 
@@ -1421,11 +1421,31 @@ table.pagenav td
 
 }
 
-.contact .inputbox
+.contact .inputbox,
+.registration input,
+.profile-edit input,
+.login-fields input,
+.remind input,
+.reset input
+
+
 {
 	background:#fff url(../images/content_bg.gif) repeat-x ;
 	border:solid 1px #ccc;
 	padding:3px
+}
+
+.profile-edit select
+{
+	padding:0px;
+	border:solid 1px #ccc;
+	background:#f5f5f5;
+
+}
+.profile-edit select option
+{
+	padding:3px
+
 }
 /* contact  slider */
 

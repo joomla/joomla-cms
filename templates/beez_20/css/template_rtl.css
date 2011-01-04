@@ -7,16 +7,20 @@ h1#logo {
 	text-align: right
 }
 
-#header ul {
-	text-align: left
+#header ul.menu {
+	text-align: right;
+
 }
 
 #line {
-	position: absolute;
-	left: 20px !important;
-	right: auto
-}
+text-align:left;
 
+}
+#line  form
+{padding-left:30px}
+
+#breadcrumbs
+{text-align:right;}
 ul.menu li {
 	text-align: right
 }
@@ -47,7 +51,7 @@ ul.menu li.active ul li.active ul li a:visited
 ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
 ul.menu li.active  ul li.active  ul li.active  ul li a:visited
 {
-	padding: 3px 40px 3px 2px;
+	padding: 3px 47px 3px 2px;
 	background:#fff url(../images/nature/arrow_small_rtl.png) no-repeat scroll right 8px;
 }
 
@@ -77,7 +81,7 @@ ul.newsfeed {
 
 a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
 	{
-	background: url(../images/arrow1_rtl.png) repeat-x scroll right top;
+	background: url(../images/nature/arrow1_rtl.gif) repeat-x scroll right top;
 	padding-right: 10px !important
 }
 
@@ -161,3 +165,35 @@ dl.tabs dt {
     margin-left: 3px;
 	margin-right: 0px;
 }
+
+form fieldset dt
+{
+        clear:right ;
+        float:right;
+        width:12em;
+        padding:3px 0
+}
+
+form fieldset dd
+{
+        float:right;
+        padding:3px 0
+}
+
+#users-profile-core dt,
+#users-profile-custom dt
+{
+        float:right;
+        width:12em;
+        padding:3px 0;
+ 
+   
+}
+
+.profile-edit form#member-profile fieldset dt,
+.registration form#member-registration fieldset dt
+{padding:5px 0px 5px 5px; width:13em}
+
+
+.login-fields label
+{float:right}

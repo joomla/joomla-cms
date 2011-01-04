@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jan-2011 Jean-Marie Simonet
  $ Reordering admin en-GB.com_content.ini and updating xx-XX.com_content.ini
  # [#24104] Creation of My Profile broke Profile Plugin. Thanks Elin.
+ # [#24117] A lot of CSS and other changes in beez20 and Beez 5. Thanks Angie.
   
 03-Jan-2011 Mark Dexter
 # [#23845] [Patch] Administrators can create, edit, delete Super Users

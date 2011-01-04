@@ -7,23 +7,56 @@ h1#logo {
 	text-align: right
 }
 
-#header ul {
-	text-align: left
+#header ul.menu {
+	text-align: right
 }
 
 #line {
-	position: absolute;
-	left: 20px !important;
-	right: auto
+	text-align:left;
+	padding-left:20px
+	
 }
+#breadcrumbs
+{text-align:right;}
 
 ul.menu li {
 	text-align: right
 }
 
 ul.menu li a:link,ul.menu li a:visited {
-	background: url("../images/nature/karo.gif") no-repeat scroll right 14px;
+	background: url(../images/karo.gif) no-repeat scroll right 14px;
 	padding-right: 10px;
+}
+
+ul.menu li.active ul li a:link,
+ul.menu li.active ul li a:visited
+{
+	padding-right: 20px;
+}
+
+ul.menu li.active ul li.active a:link,
+ul.menu li.active ul li.active a:visited
+{
+	padding-right: 20px;
+}
+
+ul.menu li.active ul li.active ul li a:link,
+ul.menu li.active ul li.active ul li a:visited
+{
+	padding-right: 33px;
+}
+
+ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li a:visited
+{
+	padding: 3px 47px 3px 2px;
+	background:#fff url(../images/arrow_small_rtl.png) no-repeat scroll right 8px;
+}
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
+{
+	padding-right:30px;
 }
 
 h3 {
@@ -46,7 +79,7 @@ ul.newsfeed {
 
 a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
 	{
-	background: url(../images/arrow1_rtl.png) repeat-x scroll right top;
+	background: url(../images/arrow1_rtl.gif) repeat-x scroll right top;
 	padding-right: 10px !important
 }
 
@@ -60,3 +93,101 @@ a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
 	position: absolute;
 	right: 340px !important
 }
+
+
+.panel h3.pane-toggler a
+{
+	background:#f5f5f5 url(../images/slider_plus_rtl.png) left top no-repeat;
+}
+.panel h3.pane-toggler-down a
+{
+	background:#f5f5f5  url(../images/slider_minus_rtl.png) left top no-repeat;
+	border-bottom:solid 1px #ddd;
+}
+
+.form-required
+{
+	background-position: right;
+}
+
+input.button,
+button.button
+{
+	background:#FFFFFF url(../images/arrow1_rtl.gif) no-repeat right top;
+}
+
+/* layout.css overrides */
+
+#main ul
+{
+        padding:0 15px 0 0;
+        margin:10px 0 10px 0px;
+}
+
+#main ol
+{
+        padding:0 20px 0 0;
+        margin:10px 0 10px 0px;
+}
+
+.contact-email label
+{
+        width:17em;
+        float:right;
+}
+
+#contact-email-copy
+{
+        float:right;
+        margin-left:10px;
+}
+
+table.weblinks th, table.category th {
+    text-align: right;
+}
+
+dl.tabs {
+    float: right;
+    margin: 50px 0 0 0;
+    z-index: 50;
+    clear:both;
+}
+
+dl.tabs dt {
+    float: right;
+    padding: 4px 10px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    margin-left: 3px;
+	margin-right: 0px;
+}
+
+form fieldset dt
+{
+        clear:right ;
+        float:right;
+        width:12em;
+        padding:3px 0
+}
+
+form fieldset dd
+{
+        float:right;
+        padding:3px 0
+}
+
+#users-profile-core dt,
+#users-profile-custom dt
+{
+        float:right;
+        width:12em;
+        padding:3px 0;  
+}
+
+.profile-edit form#member-profile fieldset dt,
+.registration form#member-registration fieldset dt
+{padding:5px 0px 5px 5px; width:13em}
+
+.login-fields label
+{float:right}

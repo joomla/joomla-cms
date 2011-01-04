@@ -899,7 +899,8 @@ fieldset.input
 }
 
 input.button,
-button.button
+button.button,
+button.validate
 {
 	background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
 	border:1px solid #DDDDDD;
@@ -1324,11 +1325,25 @@ table.pagenav td
 
 }
 
-.contact .inputbox
+.contact .inputbox,
+.registration input,
+.profile-edit input,
+.login-fields input
 {
 	background:#fff url(../images/content_bg.gif) repeat-x ;
 	border:solid 1px #ccc;
 	padding:3px
+}
+
+.profile-edit select
+{
+	padding:0px;
+	border:solid 1px #ccc;
+	background:#f5f5f5
+}
+.profile-edit select option
+{
+padding:3px
 }
 /* contact  slider */
 

@@ -166,3 +166,20 @@ div.current
 
 
 }
+
+#users-profile-core legend,
+#users-profile-custom legend,
+.profile-edit legend,
+.registration legend
+{
+	margin-bottom:15px
+}
+
+
+.login-fields input
+{
+	width:14em
+}
+
+dd.error
+{zoom:1}

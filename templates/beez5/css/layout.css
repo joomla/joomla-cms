@@ -68,11 +68,14 @@ em
 
 #header form .inputbox
 {
-        margin:1px 11px 1px 1px;
         font-size:1em;
         width:13em;
         padding:3px;
 }
+
+#header form .inputbox { margin: 2px 13px 2px 2px;}
+#header form .inputbox:focus { margin: 1px 11px 0 1px; }
+
 
 #header ul
 {
@@ -990,8 +993,9 @@ label.ordering
 .word input
 {
         font-weight:bold;
-        margin:1px 1px 1px 10px;
-         padding:3px;
+        margin:0px 10px 0px 10px;
+        padding:4px;
+        font-size:1em
 }
 
 .word input:focus
@@ -1217,14 +1221,14 @@ dl#content-pane.tabs {
 #users-profile-custom dt
 {
         float:left;
-        width:10em;
-        padding:3px 0
+        width:12em;
+        padding:3px 0;
 }
 
 #users-profile-core dd,
 #users-profile-custom dd
 {
-        padding:3px 0
+        padding:3px 0;
 }
 
 #member-profile fieldset,
@@ -1235,11 +1239,29 @@ dl#content-pane.tabs {
 }
 
 #users-profile-core legend,
+#users-profile-custom legend,
 .profile-edit legend,
 .registration legend
 {
 		font-weight:bold
 }
+
+.profile-edit form#member-profile fieldset dd,
+.registration form#member-registration fieldset dd
+{ float:none; padding:5px 0}
+
+.profile-edit form#member-profile fieldset dd input,
+.profile-edit form#member-profile fieldset dd select,
+.registration form#member-registration fieldset dd input
+{width:17em}
+
+.profile-edit form#member-profile fieldset dt,
+.registration form#member-registration fieldset dt
+{padding:5px 5px 5px 0; width:13em}
+
+
+span.optional
+{font-size:0.9em}
 
 /*#################### tables ############################ */
 
@@ -1436,6 +1458,7 @@ p.error
 
 }
 
+a.mceButton:hover  {background:none !important}
 
 /* ++++++++++++++  pagebreak  ++++++++++++++ */
 table.contenttoc
@@ -1523,15 +1546,12 @@ margin-top:10px !important}
 .tip
 {
         font-size:0.8em;
+        text-align:left;
         padding:3px;
+        max-width:400px
 }
 
-.tool-tip
-{
-        font-size:0.8em;
-}
-
-.tool-title
+.tip-title
 {
         font-weight:bold;
 }
@@ -1687,21 +1707,26 @@ dl.weblink-count dd
 #login-form label
 {
         margin-right:10px;
-                width:8.4em;
-                display:block;
-                float:left
+        width:8.4em;
+        display:block;
+        float:left
 }
 
 #form-login-remember label
-{float:none;
-width:auto;
-display:inline}
+{
+	float:none;
+	width:auto;
+	display:inline
+}
 
-
-
+.logout-button
+{
+	margin-top:10px
+}
 
 input.button,
-button.button
+button.button,
+button.validate
 {
         cursor:pointer;
         padding:3px 5px 3px 7px ;
@@ -1823,7 +1848,12 @@ ul.tabs li a:focus
 {
         padding:15px 10px;
         margin-top:-1px;
-                position:relative
+                
+}
+
+.tabcontent:focus
+{
+	outline:none
 }
 
 .tabopen
@@ -2139,6 +2169,18 @@ overflow:visible
 {
 	margin:0 5px 0 0
 }
+
 .clr{
 	clear:both;
+}
+
+/* for the spacer field*/
+span.spacer label {
+	white-space: nowrap;
+	font-weight: bold;
+	color: #666;
+}
+.red {
+	font-weight: bold;
+	color: #c00;
 }

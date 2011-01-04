@@ -1,14 +1,11 @@
-#form-login .inputbox
-{
-        -webkit-border-radius: 4px;
-}
+#login-form .inputbox,
+.registration input,
+.profile-edit input,
+#login-form .inputbox,
+.contact .inputbox,
+.login-fields input,
+.remind input,
+.reset input
 
-
-#form-login .inputbox
-{
-        -webkit-border-radius: 4px;
-}
-
-.contact .inputbox
 {    -webkit-border-radius: 4px;
 }

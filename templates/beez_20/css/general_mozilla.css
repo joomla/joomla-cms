@@ -1,17 +1,17 @@
-#login-form .inputbox
+
+
+#login-form .inputbox,
+.registration input,
+.profile-edit input,
+#login-form .inputbox,
+.contact .inputbox,
+.login-fields input,
+.remind input,
+.reset input
+
 {
         -moz-border-radius: 5px;
 }
 
 
-#login-form .inputbox
-{
-        -moz-border-radius: 5px;
-}
 
-
-
-
-.contact .inputbox
-{   -moz-border-radius: 5px;
-}
