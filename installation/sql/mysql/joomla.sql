@@ -135,7 +135,7 @@ CREATE TABLE `#__banner_clients` (
 #
 
 CREATE TABLE  `#__banner_tracks` (
-  `track_date` DATE NOT NULL,
+  `track_date` DATETIME NOT NULL,
   `track_type` INTEGER UNSIGNED NOT NULL,
   `banner_id` INTEGER UNSIGNED NOT NULL,
   `count` INTEGER UNSIGNED NOT NULL DEFAULT '0',

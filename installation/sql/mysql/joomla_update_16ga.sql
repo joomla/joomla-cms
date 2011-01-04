@@ -1,7 +1,7 @@
 # $Id: joomla_update_16rc1.sql 19600 2010-11-20 15:37:46Z chdemko $
 
 #
-# Database updates for 1.6 RC1 to 'next version'
+# Database updates for 1.6 RC1 to 1.6 GA
 #
 
 REPLACE INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
@@ -17,3 +17,7 @@ DELETE FROM `#__extensions` WHERE `extension_id`=103;
 REPLACE INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
  (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
+# 2011-01-05: Alteration for issue 21275.
+
+ALTER TABLE `#__banner_tracks`
+ CHANGE `track_date` `track_date` datetime NOT NULL;

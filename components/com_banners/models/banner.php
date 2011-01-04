@@ -27,18 +27,22 @@ class BannersModelBanner extends JModel
 
 	/**
 	 * Clicks the URL, incrementing the counter
+	 *
+	 * @return	void
 	 */
 	function click()
 	{
 		$id = $this->getState('banner.id');
+
 		// update click count
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$query->update('#__banners');
 		$query->set('clicks = (clicks + 1)');
-		$query->where('id = ' . (int)$id);
+		$query->where('id = ' . (int) $id);
 
-		$db->setQuery((string)$query);
+		$db->setQuery((string) $query);
+
 		if (!$db->query()) {
 			JError::raiseError(500, $db->getErrorMsg());
 		}
@@ -59,7 +63,7 @@ class BannersModelBanner extends JModel
 		}
 
 		if ($trackClicks > 0) {
-			$trackDate = JFactory::getDate()->format('Y-m-d');
+			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
 			$query->select('`count`');
@@ -68,13 +72,16 @@ class BannersModelBanner extends JModel
 			$query->where('banner_id='.(int)$id);
 			$query->where('track_date='.$db->Quote($trackDate));
 
-			$db->setQuery((string)$query);
+			$db->setQuery((string) $query);
+
 			if (!$db->query()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
+
 			$count = $db->loadResult();
 
 			$query->clear();
+
 			if ($count) {
 				// update count
 				$query->update('#__banner_tracks');
@@ -82,7 +89,8 @@ class BannersModelBanner extends JModel
 				$query->where('track_type=2');
 				$query->where('banner_id='.(int)$id);
 				$query->where('track_date='.$db->Quote($trackDate));
-			} else {
+			}
+			else {
 				// insert new count
 				$query->insert('#__banner_tracks');
 				$query->set('`count` = 1');
@@ -91,7 +99,8 @@ class BannersModelBanner extends JModel
 				$query->set('track_date='.$db->Quote($trackDate));
 			}
 
-			$db->setQuery((string)$query);
+			$db->setQuery((string) $query);
+
 			if (!$db->query()) {
 				JError::raiseError(500, $db->getErrorMsg());
 			}
@@ -99,7 +108,9 @@ class BannersModelBanner extends JModel
 	}
 
 	/**
-	 * Get the data for a banner
+	 * Get the data for a banner.
+	 *
+	 * @return	object
 	 */
 	function &getItem()
 	{
@@ -126,7 +137,8 @@ class BannersModelBanner extends JModel
 				$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 				$query->select('cl.track_clicks as client_track_clicks');
 
-				$db->setQuery((string)$query);
+				$db->setQuery((string) $query);
+
 				if (!$db->query()) {
 					JError::raiseError(500, $db->getErrorMsg());
 				}
@@ -135,21 +147,25 @@ class BannersModelBanner extends JModel
 				$cache->store($this->_item, $id);
 			}
 		}
+
 		return $this->_item;
 	}
 
 	/**
 	 * Get the URL for a banner
+	 *
+	 * @return	string
 	 */
 	function getUrl()
 	{
 		$item = $this->getItem();
 		$url = $item->clickurl;
+
 		// check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
 			$url = "http://$url";
 		}
+
 		return $url;
 	}
 }
-

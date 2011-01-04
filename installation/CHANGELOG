@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jan-2011 Andrew Eddie
+ # Fixed issue [#21275] Incorrect date format used when tracking banner clicks, causing Error: 500 when clicking on a banner (Cy Lee, Troy Hall).
+
 04-Jan-2011 Jean-Marie Simonet
  $ Reordering admin en-GB.com_content.ini and updating xx-XX.com_content.ini
  # [#24104] Creation of My Profile broke Profile Plugin. Thanks Elin.

@@ -112,10 +112,12 @@ class BannersModelBanners extends JModelList
 
 				// Add the subquery to the main query
 				$query->where('('.$categoryEquals.' OR a.catid IN ('.$subQuery->__toString().'))');
-			} else {
+			}
+			else {
 				$query->where($categoryEquals);
 			}
-		} else if ((is_array($categoryId)) && (count($categoryId) > 0)) {
+		}
+		else if ((is_array($categoryId)) && (count($categoryId) > 0)) {
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
@@ -123,15 +125,16 @@ class BannersModelBanners extends JModelList
 		}
 
 		if ($tagSearch) {
-
 			if (count($keywords) == 0) {
 				$query->where('0');
-			} else {
+			}
+			else {
 				$temp = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
 
-				foreach ($keywords as $keyword) {
+				foreach ($keywords as $keyword)
+				{
 					$keyword=trim($keyword);
 					$condition1 = "a.own_prefix=1 AND  a.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING('".$keyword."',1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND ".($prefix==substr($keyword,0,strlen($prefix))?'1':'0');
 
@@ -147,6 +150,7 @@ class BannersModelBanners extends JModelList
 
 					$temp[]="($condition1) AND ($condition2)";
 				}
+
 				$query->where('(' . implode(' OR ', $temp). ')');
 			}
 		}
@@ -172,7 +176,8 @@ class BannersModelBanners extends JModelList
 		if (!isset($this->cache['items'])) {
 			$this->cache['items'] = parent::getItems();
 
-			foreach ($this->cache['items'] as &$item) {
+			foreach ($this->cache['items'] as &$item)
+			{
 				$parameters = new JRegistry;
 				$parameters->loadJSON($item->params);
 				$item->params = $parameters;
@@ -189,12 +194,13 @@ class BannersModelBanners extends JModelList
 	 */
 	function impress()
 	{
-		$trackDate = JFactory::getDate()->format('Y-m-d');
+		$trackDate = JFactory::getDate()->format('Y-m-d H');
 		$items	= &$this->getItems();
-		$db		= $this->getDbo();
+		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
 
-		foreach ($items as $item) {
+		foreach ($items as $item)
+		{
 			// Increment impression made
 			$id = $item->id;
 			$query->clear();
@@ -244,7 +250,8 @@ class BannersModelBanners extends JModelList
 					$query->where('track_type=1');
 					$query->where('banner_id='.(int)$id);
 					$query->where('track_date='.$db->Quote($trackDate));
-				} else {
+				}
+				else {
 					// insert new count
 					$query->insert('#__banner_tracks');
 					$query->set('`count` = 1');
