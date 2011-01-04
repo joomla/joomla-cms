@@ -38,9 +38,7 @@ div.pagetitle {
 input, select, button {
 	font-size:1em;
 }
-label.required  {
-	background: url(../images/required.png) 90% 1px no-repeat;
-}
+
 fieldset.adminform legend {
 	position: absolute;
 	float: left;

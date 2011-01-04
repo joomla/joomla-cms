@@ -996,10 +996,9 @@ input.readonly, span.faux-input {
 input.required {
 }
 
-label.required:after {
-	content:" *";
-	/* content:url(../images/required.png);
-	vertical-align: middle; */
+.star {
+	color:#cc0000;
+	font-size:1.2em;
 }
 
 input.disabled {

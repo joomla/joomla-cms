@@ -961,10 +961,9 @@ input.required {
 	background-color: #d5eeff;
 }
 
-label.required:after {
-	content: url(../images/required.png);
-	vertical-align: middle;
-	white-space: nowrap;
+.star {
+	color:#EB8207;
+	font-size:1.2em;
 }
 
 /* -------- Batch Section ---------- */
