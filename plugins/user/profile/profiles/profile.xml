@@ -84,7 +84,7 @@
 
 			<field
 				name="website"
-				type="text"
+				type="url"
 				id="website"
 				description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
 				filter="string"

@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#23891] Toggle enabled state in User Manager (Sander Potjer, Bill Richardson).
  # Fixed issue [#22750] Quick 2h code review: 10 real bugs (files and line numbers included) (Matias Griese, Dennis Hermatski, Elin Waring).
  # Fixed issue [#22659] Debug plugin doesn't show 'afterRender' profiler mark and can't gather statistics of other system plugins (Dennis Hermatski).
+ # Fixed issue [#23718] Add a field for URLs to JForm (Rouven Weßling).
 
 04-Jan-2011 Jean-Marie Simonet
  $ Reordering admin en-GB.com_content.ini and updating xx-XX.com_content.ini

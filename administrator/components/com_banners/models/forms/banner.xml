@@ -58,7 +58,7 @@
 			rows="3" cols="30" filter="raw"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL" description="COM_BANNERS_FIELD_CUSTOMCODE_DESC" />
 
-		<field name="clickurl" type="text" class="inputbox"
+		<field name="clickurl" type="url" class="inputbox"
 				label="COM_BANNERS_FIELD_CLICKURL_LABEL" description="COM_BANNERS_FIELD_CLICKURL_DESC" />
 
 	</fieldset>

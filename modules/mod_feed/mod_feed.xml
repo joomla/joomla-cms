@@ -25,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="rssurl"
-					type="text"
+					type="url"
 					size="50"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
 					description="MOD_FEED_FIELD_RSSURL_DESC" />
