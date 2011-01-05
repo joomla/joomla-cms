@@ -60,7 +60,7 @@ class plgSystemCache extends JPlugin
 			return;
 		}
 
-		if (!$user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
+		if ($user->get('guest') && $_SERVER['REQUEST_METHOD'] == 'GET') {
 			$this->_cache->setCaching(true);
 		}
 
@@ -91,7 +91,7 @@ class plgSystemCache extends JPlugin
 		}
 
 		$user = JFactory::getUser();
-		if (!$user->get('guest')) {
+		if ($user->get('guest')) {
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
 			$this->_cache->store();
 		}

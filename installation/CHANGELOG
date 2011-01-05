@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#24135] 2 minor issue with JForm's email field (Rouven Weßling)
  # [#24139] A couple of possible extraneous images in Admin (Andrea Tarr)
  # [#24085] Menu id is lost after apply task. (Edgars Piruška)
+ # [#23772] Page cache only applies to NON guest users; shouldn´t it be vice versa? (Rouven Weßling)
 
 05-Jan-2011 Jean-Marie Simonet
  # Commented out loading of lib_joomla.ini during installation
