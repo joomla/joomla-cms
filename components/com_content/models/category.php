@@ -140,12 +140,11 @@ class ContentModelCategory extends JModelItem
 		$showSubcategories = $params->get('show_subcategory_content', '0');
 
 		if ($showSubcategories) {
-			$this->setState('filter.max_category_levels', $params->get('max_levels', '1'));
-		}
-
-		if ($showSubcategories == 'all_articles') {
+			$this->setState('filter.max_category_levels', $params->get('show_subcategory_content', '1'));
 			$this->setState('filter.subcategories', true);
 		}
+
+		
 
 		$this->setState('filter.language',$app->getLanguageFilter());
 

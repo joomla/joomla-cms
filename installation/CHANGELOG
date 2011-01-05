@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24085] Menu id is lost after apply task. (Edgars Piruška)
  # [#23772] Page cache only applies to NON guest users; shouldn´t it be vice versa? (Rouven Weßling)
  # [#22599] Folder view not updating when deleting folders (Janich Rasmussen, Mathavan Jeyadev)
+ # [#23827] Option to display Blog subcategory content within Blog is missing (bill richardson)
 
 05-Jan-2011 Jean-Marie Simonet
  # Commented out loading of lib_joomla.ini during installation
