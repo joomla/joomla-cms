@@ -22,7 +22,6 @@ jimport('joomla.plugins.plugin');
  */
 class plgUserContactCreator extends JPlugin
 {
-
 	function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		if(!$success) {
@@ -32,14 +31,13 @@ class plgUserContactCreator extends JPlugin
 		// ensure the user id is really an int
 		$user_id = (int)$user['id'];
 
-		if(empty($user_id)) {
+		if (empty($user_id)) {
 			die('invalid userid');
 			return false; // if the user id appears invalid then bail out just in case
 		}
 
 		$category = $this->params->get('category', 0);
-		if(empty($category))
-		{
+		if (empty($category)) {
 			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
 			return false; // bail out if we don't have a category
 		}
@@ -51,13 +49,15 @@ class plgUserContactCreator extends JPlugin
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
 		$contact = JTable::getInstance('contact', 'ContactTable');
-		if(!$contact) {
+
+		if (!$contact) {
 			return false;
 		}
 
-		if($id) {
+		if ($id) {
 			$contact->load($id);
-		} else if($this->params->get('autopublish', 0)) {
+		}
+		else if($this->params->get('autopublish', 0)) {
 			$contact->published = 1;
 		}
 
@@ -67,8 +67,8 @@ class plgUserContactCreator extends JPlugin
 		$contact->catid = $category;
 
 		$autowebpage = $this->params->get('autowebpage', '');
-		if(!empty($autowebpage))
-		{
+
+		if (!empty($autowebpage)) {
 			// search terms
 			$search_array = Array('[name]', '[username]','[userid]','[email]');
 			// replacement terms, urlencoded
@@ -76,12 +76,13 @@ class plgUserContactCreator extends JPlugin
 			// now replace it in together
 			$contact->webpage = str_replace($search_array, $replace_array, $autowebpage);
 		}
-		if($contact->check()) {
+
+		if ($contact->check()) {
 			$result = $contact->store();
 		}
-		if(!(isset($result)) || !$result) {
-			JError::raiseError(42, JText::sprintf('PLG_CONTACTCREATOR_ERR_FAILED_UPDATE', $db->getErrorMsg()));
+
+		if (!(isset($result)) || !$result) {
+			JError::raiseError(42, JText::sprintf('PLG_CONTACTCREATOR_ERR_FAILED_UPDATE', $contact->getError()));
 		}
 	}
-
 }

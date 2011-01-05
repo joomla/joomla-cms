@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Fixed issue [#21275] Incorrect date format used when tracking banner clicks, causing Error: 500 when clicking on a banner (Cy Lee, Troy Hall).
  # Fixed issue [#23717] Add a field for E-Mail to JForm (Rouven Weßling).
  # Fixed issue [#23891] Toggle enabled state in User Manager (Sander Potjer, Bill Richardson).
+ # Fixed issue [#22750] Quick 2h code review: 10 real bugs (files and line numbers included) (Matias Griese, Dennis Hermatski, Elin Waring).
 
 04-Jan-2011 Jean-Marie Simonet
  $ Reordering admin en-GB.com_content.ini and updating xx-XX.com_content.ini

@@ -151,7 +151,7 @@ class JCacheStorageWincache extends JCacheStorage
 
 		foreach ($keys as $key) {
 			if (strpos($key['key_name'], $secret.'-cache-')) {
-				wincache_ucache_get($cache_id);
+				wincache_ucache_get($key['key_name']);
 			}
 		}
 	}

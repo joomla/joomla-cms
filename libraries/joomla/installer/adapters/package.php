@@ -164,7 +164,7 @@ class JInstallerPackage extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK', $db->stderr(true)));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PACK_INSTALL_ROLLBACK', $row->getError()));
 			return false;
 		}
 
@@ -326,8 +326,8 @@ class JInstallerPackage extends JAdapterInstance
 		// this means they come out the same way they came in
 		return $result;
 	}
-	
-	
+
+
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
