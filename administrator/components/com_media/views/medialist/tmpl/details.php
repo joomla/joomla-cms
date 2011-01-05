@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 $user = JFactory::getUser();
 ?>
-<form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
 	<table width="100%" cellspacing="0">
 	<thead>

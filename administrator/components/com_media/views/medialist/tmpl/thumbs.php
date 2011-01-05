@@ -10,7 +10,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 ?>
-<form action="index.php?option=com_media&amp;tmpl=component&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="manager">
 		<?php echo $this->loadTemplate('up'); ?>
 
