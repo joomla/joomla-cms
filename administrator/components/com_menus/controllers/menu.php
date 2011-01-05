@@ -129,7 +129,7 @@ class MenusControllerMenu extends JControllerForm
 				$this->holdEditId($context, $recordId);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit'.$this->getRedirectToItemAppend($recordId), false));
 				break;
 
 			case 'save2new':
