@@ -65,7 +65,10 @@
 					extension="com_banners"
 					label="JCATEGORY"
 					multiple="true" size="5"
-					description="MOD_BANNERS_FIELD_CATEGORY_DESC" />
+					default=""
+					description="MOD_BANNERS_FIELD_CATEGORY_DESC" >
+					<option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
 
 				<field
 					name="tag_search"

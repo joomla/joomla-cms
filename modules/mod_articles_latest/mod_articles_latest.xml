@@ -35,9 +35,11 @@
 					extension="com_content"
 					multiple="true"
 					size="10"
+					default=""
 					label="JCATEGORY"
-					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" />
-
+					description="MOD_LATEST_NEWS_FIELD_CATEGORY_DESC" >
+					<option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
 				<field
 					name="count"
 					type="text"
