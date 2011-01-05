@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!-- $Id: de-DE.xml 305 2011-01-05 00:07:24Z sisko1990 $ -->
+<metafile	version="1.6"	client="installation">
+	<name>German (Germany-Switzerland-Austria)</name>
+	<version>1.6.0</version>
+	<creationDate>2010-11-20</creationDate>
+	<author>J!German</author>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>de-DE.ini</filename>
+	</files>
+	<metadata>
+		<name>German (DE-CH-AT)</name>
+		<tag>de-DE</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
