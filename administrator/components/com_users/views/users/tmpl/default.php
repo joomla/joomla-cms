@@ -96,14 +96,15 @@ $loggeduser = JFactory::getUser();
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) : ?>
-				<?php
-					$canEdit = $canDo->get('core.edit');
-					// If this group is super admin and this user is not super admin, $canEdit is false
-					if (!JAccess::check($loggeduser->id, 'core.admin') && (JAccess::check($item->id, 'core.admin'))) {
-						$canEdit = false;
-					}
-				?>
+		<?php foreach ($this->items as $i => $item) :
+			$canEdit	= $canDo->get('core.edit');
+			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
+			// If this group is super admin and this user is not super admin, $canEdit is false
+			if (!JAccess::check($loggeduser->id, 'core.admin') && JAccess::check($item->id, 'core.admin')) {
+				$canEdit	= false;
+				$canChange	= false;
+			}
+		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php if ($canEdit) : ?>
@@ -111,7 +112,6 @@ $loggeduser = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td>
-
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $item->name); ?>">
 						<?php echo $this->escape($item->name); ?></a>
@@ -127,10 +127,14 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
-					<?php if ($loggeduser->id != $item->id) : ?>
-						<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
+					<?php if ($canChange) : ?>
+						<?php if ($loggeduser->id != $item->id) : ?>
+							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.unblock', 'users.block'); ?>
+						<?php else : ?>
+							<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.block', null); ?>
+						<?php endif; ?>
 					<?php else : ?>
-						<?php echo JHtml::_('grid.boolean', $i, !$item->block, 'users.block', null); ?>
+						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
