@@ -39,6 +39,7 @@ $ -> Language fix or change
 05-Jan-2011 Jean-Marie Simonet
  # Commented out loading of lib_joomla.ini during installation
  # [#24140] Required field missing in installation database.xml + some
+ # Updating xx-XX.banners.ini
 
 05-Jan-2011 Andrew Eddie
  # Fixed issue [#21275] Incorrect date format used when tracking banner clicks, causing Error: 500 when clicking on a banner (Cy Lee, Troy Hall).
