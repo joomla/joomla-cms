@@ -180,7 +180,13 @@ class JApplication extends JObject
 		// Set user specific editor.
 		$user	= JFactory::getUser();
 		$editor	= $user->getParam('editor', $this->getCfg('editor'));
-		$editor	= JPluginHelper::isEnabled('editors', $editor) ? $editor : $this->getCfg('editor');
+		if (!JPluginHelper::isEnabled('editors', $editor)) {
+			$editor	= $this->getCfg('editor');
+			if (!JPluginHelper::isEnabled('editors', $editor)) {
+				$editor	= 'none';
+			}
+		}
+		
 		$config->set('editor', $editor);
 
 		// Trigger the onAfterInitialise event.
