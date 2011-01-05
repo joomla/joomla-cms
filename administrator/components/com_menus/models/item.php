@@ -860,7 +860,7 @@ class MenusModelItem extends JModelAdmin
 			// TODO: Now check for a component manifest file
 		}
 
-			if ($formFile) {
+		if ($formFile) {
 			// If an XML file was found in the component, load it first.
 			// We need to qualify the full path to avoid collisions with component file names.
 
@@ -875,7 +875,7 @@ class MenusModelItem extends JModelAdmin
 
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/metadata/layout/help');
-				if (!empty($help)) {
+			if (!empty($help)) {
 				$helpKey = trim((string) $help[0]['key']);
 				$helpURL = trim((string) $help[0]['url']);
 				$helpLoc = trim((string) $help[0]['local']);
@@ -896,7 +896,7 @@ class MenusModelItem extends JModelAdmin
 			$path='null';
 		}
 
-			if (JFile::exists($path)) {
+		if (JFile::exists($path)) {
 			// Add the component params last of all to the existing form.
 			if (!$form->load($path, true, '/config')) {
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
