@@ -21,7 +21,7 @@ class ConfigViewComponent extends JView
 	/**
 	 * Display the view
 	 */
-	function display()
+	function display($tpl = null)
 	{
 		$form		= $this->get('Form');
 		$component	= $this->get('Component');
@@ -42,7 +42,7 @@ class ConfigViewComponent extends JView
 
 		$this->document->setTitle(JText::_('JGLOBAL_EDIT_PREFERENCES'));
 
-		parent::display();
+		parent::display($tpl);
 		JRequest::setVar('hidemainmenu', true);
 	}
 }

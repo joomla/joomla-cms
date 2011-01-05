@@ -78,7 +78,7 @@ class AdminModelProfile extends UsersModelUser
 	 * @return	mixed	Object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function getItem()
+	public function getItem($pk = null)
 	{
 		$user = JFactory::getUser();
 
