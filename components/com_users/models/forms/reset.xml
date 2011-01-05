@@ -10,8 +10,8 @@
 			size="30"
 		/>
 
-		<field name="email" type="text"
-			class="required validate-email"
+		<field name="email" type="email"
+			class="required"
 			description="COM_USERS_FIELD_RESEND_EMAIL_DESC"
 			label="COM_USERS_FIELD_RESEND_EMAIL_LABEL"
 			required="true"
