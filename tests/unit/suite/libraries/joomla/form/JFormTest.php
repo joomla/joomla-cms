@@ -1007,7 +1007,7 @@ class JFormTest extends JoomlaTestCase
 
 		$this->assertThat(
 			$form->getLabel('title'),
-			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title</label>'),
+			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
 			'Line:'.__LINE__.' The method should return a simple label field.'
 		);
 	}
