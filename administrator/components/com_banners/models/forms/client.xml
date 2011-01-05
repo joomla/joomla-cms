@@ -19,7 +19,7 @@
 			size="40" label="COM_BANNERS_FIELD_CONTACT_LABEL"
 			description="COM_BANNERS_FIELD_CONTACT_DESC" required="true" />
 
-		<field name="email" type="text" class="inputbox validate-email"
+		<field name="email" type="email" class="inputbox"
 			size="40" label="COM_BANNERS_FIELD_EMAIL_LABEL"
 			description="COM_BANNERS_FIELD_EMAIL_DESC" validate="email"
 			required="true" />

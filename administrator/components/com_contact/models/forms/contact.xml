@@ -97,10 +97,10 @@
 			size="30"
 		/>
 
-		<field name="email_to" type="text"
+		<field name="email_to" type="email"
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_INFORMATION_EMAIL_DESC"
-			class="inputbox validate-email"
+			class="inputbox"
 			size="30"
 		/>
 

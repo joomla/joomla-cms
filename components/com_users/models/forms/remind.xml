@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
 <form>
-	<fieldset name="default" label="COM_USERS_REMIND_DEFAULT_LABEL">		<field name="email" type="text"
-			class="validate-email"
+	<fieldset name="default" label="COM_USERS_REMIND_DEFAULT_LABEL">
+		<field name="email" type="email"
 			description="COM_USERS_FIELD_REMIND_EMAIL_DESC"
 			label="COM_USERS_FIELD_REMIND_EMAIL_LABEL"
 			required="true"

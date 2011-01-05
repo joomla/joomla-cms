@@ -36,8 +36,8 @@
 			size="30"
 		/>
 	
-		<field name="email" type="text"
-			class="inputbox validate-email"
+		<field name="email" type="email"
+			class="inputbox"
 			description="COM_USERS_USER_FIELD_EMAIL_DESC"
 			label="JGLOBAL_EMAIL"
 			required="true"

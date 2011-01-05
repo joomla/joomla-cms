@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Jan-2011 Andrew Eddie
  # Fixed issue [#21275] Incorrect date format used when tracking banner clicks, causing Error: 500 when clicking on a banner (Cy Lee, Troy Hall).
+ # Fixed issue [#23717] Add a field for E-Mail to JForm (Rouven Weßling).
 
 04-Jan-2011 Jean-Marie Simonet
  $ Reordering admin en-GB.com_content.ini and updating xx-XX.com_content.ini

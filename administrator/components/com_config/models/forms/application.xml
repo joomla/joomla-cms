@@ -261,8 +261,7 @@
 
 		<field
 			name="mailfrom"
-			type="text"
-			class="validate-email"
+			type="email"
 			label="COM_CONFIG_FIELD_MAIL_FROM_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_FROM_EMAIL_DESC"
 			filter="string"

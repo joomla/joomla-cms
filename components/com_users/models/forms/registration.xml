@@ -53,8 +53,7 @@
 			size="30"
 		/>
 
-		<field name="email1" type="text"
-			class="validate-email"
+		<field name="email1" type="email"
 			description="COM_USERS_REGISTER_EMAIL1_DESC"
 			field="id"
 			filter="string"
@@ -66,8 +65,7 @@
 			validate="email"
 		/>
 
-		<field name="email2" type="text"
-			class="validate-email"
+		<field name="email2" type="email"
 			description="COM_USERS_REGISTER_EMAIL2_DESC"
 			field="email1"
 			filter="string"
