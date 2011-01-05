@@ -153,10 +153,13 @@ class JInstallation extends JApplication
 		$conf->set('language', $options['language']);
 		$conf->set('debug_lang', $forced['debug']);
 
-		// Load Library language
-		$lang = JFactory::getLanguage();
-		$lang->load('lib_joomla', JPATH_SITE)
-		|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+		// Load Library language 
+		// Commented for now as it systematically loads en-GB.lib_joomla.ini 
+		// instead of the equivalent strings in the installation ini file when no lang .lib_joomla ini is present
+		
+		//$lang = JFactory::getLanguage();
+		//$lang->load('lib_joomla', JPATH_SITE)
+		//|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 
 	}
 

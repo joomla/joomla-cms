@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jan-2011 Jean-Marie Simonet
+ # Commented out loading of lib_joomla.ini during installation
+
 05-Jan-2011 Andrew Eddie
  # Fixed issue [#21275] Incorrect date format used when tracking banner clicks, causing Error: 500 when clicking on a banner (Cy Lee, Troy Hall).
  # Fixed issue [#23717] Add a field for E-Mail to JForm (Rouven Weßling).
