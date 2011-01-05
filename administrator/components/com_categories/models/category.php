@@ -177,9 +177,9 @@ class CategoriesModelCategory extends JModelAdmin
 			$extension	= $data['extension'];
 			$parts		= explode('.',$extension);
 
-			$this->setState('category.extension', $extension);
-			$this->setState('category.component', $parts[0]);
-			$this->setState('category.section', $parts[1]);
+			$this->setState('category.extension',	$extension);
+			$this->setState('category.component',	$parts[0]);
+			$this->setState('category.section',		@$parts[1]);
 		}
 
 		// Get the form.
