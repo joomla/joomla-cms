@@ -584,3 +584,8 @@ div.inlineError {
 #system-message dd.message {
 	border-bottom: medium solid red;
 }
+
+/* required field star color */
+.star {
+	color:#cc0000;
+}

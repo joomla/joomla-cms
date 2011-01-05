@@ -431,7 +431,7 @@ abstract class JFormField
 
 	// Add the label text and closing tag.
 		if ($this->required) {
-			$label .= '>'.$text.'<span class="star"> *</span></label>';
+			$label .= '>'.$text.'<span class="star">&#160;*</span></label>';
 		} else {
 			$label .= '>'.$text.'</label>';
 		}
