@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2011 Christophe Demko
+ # [#24133] Beez templates set role search on the wrong element (Rouven Weßling)
+
 05-Jan-2011 Jean-Marie Simonet
  # Commented out loading of lib_joomla.ini during installation
  # [#24140] Required field missing in installation database.xml + some

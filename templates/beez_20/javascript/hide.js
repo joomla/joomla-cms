@@ -49,7 +49,7 @@ window.addEvent('domready', function () {
 	}
 
 	if ($('mod-search-searchword')) {
-		$('mod-search-searchword').setProperties( {
+		$('mod-search-searchword').form.setProperties( {
 			role : 'search'
 		});
 	}
