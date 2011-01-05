@@ -226,7 +226,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $db->getErrorMsg()));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
 			return false;
 		}
 
@@ -378,7 +378,7 @@ class JInstallerLanguage extends JAdapterInstance
 		if (!$row->store())
 		{
 			// Install failed, roll back changes
-			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $db->getErrorMsg()));
+			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT', $row->getError()));
 			return false;
 		}
 
@@ -566,7 +566,7 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		return $this->parent->extension->get('extension_id');
 	}
-	
+
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
