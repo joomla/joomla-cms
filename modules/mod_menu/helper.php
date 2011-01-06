@@ -51,6 +51,7 @@ class modMenuHelper
 					|| ($end && $item->level > $end)
 					|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
 					|| ($maxdepth && $item->level > $maxdepth)
+					|| ($start > 1 && !in_array($item->tree[0], $path))
 				) {
 					unset($items[$i]);
 					continue;
