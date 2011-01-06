@@ -44,6 +44,7 @@ $ -> Language fix or change
 
 06-Jan-2011 Mark Dexter
 # Revert part of [#24140] so that database password is not required during installation
+# Fix typo in language XML file
 
 05-Jan-2011 Christophe Demko
  # [#24133] Beez templates set role search on the wrong element (Rouven Weßling)
