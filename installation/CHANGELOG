@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#24148] Obsolete city name in time zones
  # [#24118] Update Error pages for Beez2 and Beez5 (Angie Radtke, Elin Waring)
  # [#24138] Hathor security, css, and image update/fixes (Andrea Tarr)
+ # [#23971] Category Blog View next page button does not work (Mark Dexter)
  
 06-Jan-2011 Jean-Marie Simonet
  $ Adding es-ES, nl-NL, tr-TR, uk-UA, id-ID, sr-SR, sr-YU in installation

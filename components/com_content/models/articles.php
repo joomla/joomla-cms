@@ -539,4 +539,8 @@ class ContentModelArticles extends JModelList
 
 		return $items;
 	}
+	public function getStart()
+	{
+		return $this->getState('list.start');
+	}
 }
