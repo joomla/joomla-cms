@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2011 Jean-Marie Simonet
+ $ Adding es-ES, nl-NL, tr-TR, uk-UA, id-ID, sr-SR, sr-YU in installation
+
 06-Jan-2011 Mark Dexter
 # Revert part of [#24140] so that database password is not required during installation
 
