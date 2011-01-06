@@ -157,8 +157,8 @@ span.unwritable		{ color: #a20000;}
 }
 
 #header h1.title {
-	font-size: 1.6em;
-	font-weight: bold;
+	font-size: 1.5em;
+	font-weight: normal;
 	line-height: 25px;
 	margin: 0;
 	padding: 0 0 0 120px;

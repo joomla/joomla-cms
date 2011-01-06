@@ -30,7 +30,7 @@ $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 	if (!$this->params->get('colourChoice')) : 
 		$colour = 'standard';
 	else :
-		$colour = $this->params->get('colourChoice');
+		$colour = htmlspecialchars($this->params->get('colourChoice'));
 	endif; 
 ?>
 <link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
