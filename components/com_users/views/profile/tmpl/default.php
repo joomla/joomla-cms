@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 JHtml::_('behavior.tooltip');
 ?>
-<div class="profile<?php echo $this->params->get('pageclass_sfx')?>">
+<div class="profile<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>

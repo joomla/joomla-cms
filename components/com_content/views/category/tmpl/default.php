@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
-$pageClass = $this->params->get('pageclass_sfx');
 ?>
-<div class="category-list <?php echo $pageClass;?>">
+<div class="category-list<?php echo $this->pageclass_sfx;?>">
 
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<h1>

@@ -44,6 +44,9 @@ class UsersViewLogin extends JView
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
+		
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
 

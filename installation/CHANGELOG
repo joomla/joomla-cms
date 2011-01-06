@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2011 Christophe Demko
+ # [#24111] The pageclass sfx parameter can be used to inject scripts (Rouven Weßling)
+ 
 06-Jan-2011 Jean-Marie Simonet
  $ Adding es-ES, nl-NL, tr-TR, uk-UA, id-ID, sr-SR, sr-YU in installation
 

@@ -157,6 +157,9 @@ class ContentViewCategory extends JView
 		}
 
 		$children = array($category->id => $children);
+		
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->assign('maxLevel', $params->get('maxLevel', -1));
 		$this->assignRef('state', $state);

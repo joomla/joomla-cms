@@ -100,6 +100,9 @@ class ContactViewCategory extends JView
 		$this->assignRef('parent',		$parent);
 		$this->assignRef('pagination',	$pagination);
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active	= $app->getMenu()->getActive();

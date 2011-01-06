@@ -10,9 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$pageClass = $this->params->get('pageclass_sfx');
 ?>
-<div class="contact-category<?php echo $pageClass;?>">
+<div class="contact-category<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->def('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>

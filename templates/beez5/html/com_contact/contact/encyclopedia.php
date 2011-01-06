@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 $cparams = JComponentHelper::getParams ('com_media');
 ?>
-<div class="contact<?php echo $this->params->get('pageclass_sfx')?>">
+<div class="contact<?php echo $this->pageclass_sfx?>">
 		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->contact->catid);?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">

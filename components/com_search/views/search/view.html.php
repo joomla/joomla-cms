@@ -152,6 +152,9 @@ class SearchViewSearch extends JView
 			}
 		}
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+
 		$this->assignRef('pagination',  $pagination);
 		$this->assignRef('results',		$results);
 		$this->assignRef('lists',		$lists);

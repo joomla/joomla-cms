@@ -151,6 +151,9 @@ class ContentViewArticle extends JView
 			$model->hit();
 		}
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($this->item->params->get('pageclass_sfx'));
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);

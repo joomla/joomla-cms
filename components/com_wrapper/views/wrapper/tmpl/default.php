@@ -22,7 +22,7 @@ function iFrameHeight() {
 	}
 }
 </script>
-<div class="contentpane<?php echo $this->params->get('pageclass_sfx'); ?>">
+<div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<h2>
 		<?php if ($this->escape($this->params->get('page_heading'))) :?>

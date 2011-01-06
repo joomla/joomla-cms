@@ -19,8 +19,7 @@ if (!$templateparams->get('html5', 0))
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 } else {
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
-$pageClass = $this->params->get('pageclass_sfx');
-?><div class="archive<?php echo $pageClass;?>">
+?><div class="archive<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>

@@ -57,6 +57,9 @@ class ContentViewForm extends JView
 
 		// Create a shortcut to the parameters.
 		$params	= &$state->params;
+		
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->assignRef('state',	$state);
 		$this->assignRef('params',	$params);

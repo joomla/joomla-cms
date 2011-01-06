@@ -124,6 +124,9 @@ class ContentViewFeatured extends JView
 			$this->link_items[$i] = &$items[$i];
 		}
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+
 		$this->assignRef('params', $params);
 		$this->assignRef('items', $items);
 		$this->assignRef('pagination', $pagination);

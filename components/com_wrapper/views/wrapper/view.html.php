@@ -67,6 +67,9 @@ class WrapperViewWrapper extends JView
 			$wrapper->url = $url;
 		}
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+
 		$this->assignRef('params',	$params);
 		$this->assignRef('wrapper', $wrapper);
 

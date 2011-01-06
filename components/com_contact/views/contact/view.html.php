@@ -143,6 +143,9 @@ class ContactViewContact extends JView
 
 		JHtml::_('behavior.formvalidation');
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+
 		$this->assignRef('contact',		$item);
 		$this->assignRef('params',		$params);
 		$this->assignRef('return',		$return);

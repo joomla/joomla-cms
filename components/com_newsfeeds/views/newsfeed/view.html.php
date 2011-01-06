@@ -192,6 +192,9 @@ class NewsfeedsViewNewsfeed extends JView
 		// feed elements
 		$newsfeed->items = array_slice($newsfeed->items, 0, $newsfeed->numarticles);
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+
 		$this->assignRef('params'  , $params  );
 		$this->assignRef('newsfeed', $newsfeed);
 		$this->assignRef('state', $state);

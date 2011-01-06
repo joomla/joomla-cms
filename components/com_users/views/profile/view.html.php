@@ -50,6 +50,9 @@ class UsersViewProfile extends JView
 			JError::raiseError(404, JText::_('JERROR_USERS_PROFILE_NOT_FOUND'));
 			return false;
 		}
+		
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		$this->prepareDocument();
 

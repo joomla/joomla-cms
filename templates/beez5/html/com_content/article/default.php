@@ -24,7 +24,7 @@ if ($templateparams->get('html5') != 1) :
 else :
 	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 ?>
-<article class="item-page<?php echo $params->get('pageclass_sfx')?>">
+<article class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 
 <?php if ($this->params->get('show_page_heading', 1) And $params->get('show_title')) :?>

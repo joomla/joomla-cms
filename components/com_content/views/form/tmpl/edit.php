@@ -24,13 +24,12 @@ $params = $this->state->get('params');
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
 			<?php echo $this->form->getField('text')->save(); ?>
 			Joomla.submitform(task);
-		}
-		else {
+		} else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
-<div class="edit item-page<?php echo $this->escape($params->get('pageclass_sfx')); ?>">
+<div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
 <?php if ($params->get('show_page_heading', 1)) : ?>
 <h1>
 	<?php echo $this->escape($params->get('page_heading')); ?>

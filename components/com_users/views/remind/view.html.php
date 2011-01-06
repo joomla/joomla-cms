@@ -43,6 +43,9 @@ class UsersViewRemind extends JView
 			return false;
 		}
 
+		//Escape strings for HTML output
+		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
+
 		$this->prepareDocument();
 
 		parent::display($tpl);
