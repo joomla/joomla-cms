@@ -228,7 +228,7 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="spacer" type="spacer" class="spacer"
+				<field name="spacer" type="spacer" class="text"
 					label="PLG_TINY_FIELD_NAME_EXTENDED_LABEL"
 				/>
 

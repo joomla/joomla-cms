@@ -893,6 +893,19 @@ fieldset.panelform fieldset.checkboxes span.faux-label {
 
 /* end checkboxes */
 
+/* spacer */
+div.current span.spacer > span.before,
+fieldset.adminform span.spacer > span.before,
+fieldset.panelform span.spacer > span.before {
+	clear: both;
+	overflow: hidden;
+	height: 0;
+	display: block;
+}
+
+/* end spacer */
+
+
 fieldset.panelform-legacy label,
 fieldset.adminform-legacy label,
 fieldset.panelform-legacy span.faux-label,

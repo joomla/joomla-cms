@@ -2166,7 +2166,7 @@ overflow:visible
 }
 
 
-span.spacer label {
+span.spacer > span.text label {
 	white-space: nowrap;
 	font-weight: bold;
 	color: #666;
