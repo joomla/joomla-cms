@@ -10,7 +10,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
+// Base this model on the backend version.
+require_once JPATH_ADMINISTRATOR.'/components/com_content/models/article.php';
 
 /**
  * Content Component Article Model
@@ -19,15 +20,8 @@ jimport('joomla.application.component.modelform');
  * @subpackage	com_content
  * @since 1.5
  */
-class ContentModelForm extends JModelForm
+class ContentModelForm extends ContentModelArticle
 {
-	/**
-	 * Model context string.
-	 *
-	 * @var		string
-	 */
-	protected $_context = 'com_content.edit.article';
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -40,7 +34,7 @@ class ContentModelForm extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Load state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = JRequest::getInt('a_id');
 		$this->setState('article.id', $pk);
 
 		$this->setState('article.catid', JRequest::getInt('catid'));
@@ -50,52 +44,6 @@ class ContentModelForm extends JModelForm
 		$this->setState('params', $params);
 
 		$this->setState('layout', JRequest::getCmd('layout'));
-	}
-
-	/**
-	 * Returns a Table object, always creating it
-	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	*/
-	public function getTable($type = 'Content', $prefix = 'JTable', $config = array())
-	{
-		return JTable::getInstance($type, $prefix, $config);
-	}
-
-	/**
-	 * Method to get the login form.
-	 *
-	 * The base form is loaded from XML and then an event is fired
-	 * for users plugins to extend the form with extra fields.
-	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		// Get the form.
-		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
-			return false;
-		}
-
-		if ($id = (int) $this->getState('article.id')) {
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
-		}
-		else {
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
-		}
-
-		return $form;
 	}
 
 	/**
@@ -161,61 +109,13 @@ class ContentModelForm extends JModelForm
 			}
 		}
 
-		$value->text = $value->introtext;
+		$value->articletext = $value->introtext;
 		if (!empty($value->fulltext)) {
-			$value->text .= '<hr id="system-readmore" />'.$value->fulltext;
+			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
 
 		return $value;
 	}
-
-	/**
-	 * Method to validate the form data.
-	 *
-	 * @access	public
-	 * @param	object		$form		The form to validate against.
-	 * @param	array		$data		The data to validate.
-	 * @return	mixed		Array of filtered data if valid, false otherwise.
-	 */
-	public function validate($form, $data)
-	{
-		$this->_setAccessFilters($form, $data);
-
-		return parent::validate($form, $data);
-	}
-
-	protected function _setAccessFilters(&$form, $data)
-	{
-		$user = JFactory::getUser();
-
-		//
-		// TODO: MAJOR WORK HERE TO SYNC WITH THE EDIT FORM!!!
-		// TODO: Do we check this in the backend?? Hrm.
-		//
-
-		if (!$user->authorise('core.edit.state', 'com_content')) {
-			$form->setFieldAttribute('state', 'filter', 'unset');
-		}
-	}
-
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
-	 */
-	protected function loadFormData()
-	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_content.edit.article.data', array());
-
-		if (empty($data)) {
-			$data = $this->getItem();
-		}
-
-		return $data;
-	}
-
 
 	/**
 	 * Method to save the form data.
@@ -224,7 +124,7 @@ class ContentModelForm extends JModelForm
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	public function save($data)
+	public function __save($data)
 	{
 		// Initialise variables
 		$dispatcher = JDispatcher::getInstance();
@@ -254,10 +154,11 @@ class ContentModelForm extends JModelForm
 			$actions = JAccess::getActions('com_content', 'article');
 			$actionArray = array();
 			foreach ($actions as $action) {
-				$actionArray[$action->name] = array(); 
+				$actionArray[$action->name] = array();
 			}
 			$data['rules'] = $actionArray;
 		}
+		
 		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());
@@ -351,73 +252,6 @@ class ContentModelForm extends JModelForm
 		$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$table, $isNew));
 
 		$this->setState('article.id', $table->id);
-
-		return true;
-	}
-
-	/**
-	 * Method to checkin a row.
-	 *
-	 * @param	integer	$pk The numeric id of a row
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkin($pk = null)
-	{
-		// Initialise variables.
-		$pk	= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk) {
-			$user	= JFactory::getUser();
-
-			// Get an instance of the row to checkin.
-			$table = $this->getTable();
-			if (!$table->load($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-
-			// Check if this is the user having previously checked out the row.
-			if ($table->checked_out > 0 && $table->checked_out != $user->get('id')) {
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
-				return false;
-			}
-
-			// Attempt to check the row in.
-			if (!$table->checkin($pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to check-out a row for editing.
-	 *
-	 * @param	int		$pk	The numeric id of the row to check-out.
-	 * @return	boolean	False on failure or error, true otherwise.
-	 */
-	public function checkout($pk = null)
-	{
-		// Initialise variables.
-		$pk		= (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-
-		// Only attempt to check the row in if it exists.
-		if ($pk) {
-			// Get a row instance.
-			$table = $this->getTable();
-
-			// Get the current user object.
-			$user = JFactory::getUser();
-
-			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $pk)) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
 
 		return true;
 	}

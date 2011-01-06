@@ -9,8 +9,34 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
 	<description>PLG_CONTENT_JOOMLA_XML_DESCRIPTION</description>
+	
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
 		<filename>index.html</filename>
 	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="check_categories"
+					type="radio"
+					default="1"
+					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_DESC"
+					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field name="email_new_fe"
+					type="radio"
+					default="1"
+					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
+					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+
 </extension>

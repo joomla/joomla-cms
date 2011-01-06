@@ -112,9 +112,9 @@ abstract class ContentHelperRoute
 	{
 		//Create the link
 		if ($id) {
-			$link = 'index.php?option=com_content&task=article.edit&id='. $id;
+			$link = 'index.php?option=com_content&task=article.edit&a_id='. $id;
 		} else {
-			$link = 'index.php?option=com_content&task=article.edit&id=0';
+			$link = 'index.php?option=com_content&task=article.edit&a_id=0';
 		}
 
 		return $link;

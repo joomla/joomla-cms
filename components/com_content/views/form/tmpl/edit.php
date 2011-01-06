@@ -22,7 +22,7 @@ $params = $this->state->get('params');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task) {
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
-			<?php echo $this->form->getField('text')->save(); ?>
+			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
 		} else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
@@ -36,7 +36,7 @@ $params = $this->state->get('params');
 </h1>
 <?php endif; ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&a_id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 	<fieldset>
 		<legend><?php echo JText::_('JEDITOR'); ?></legend>
 
@@ -61,8 +61,7 @@ $params = $this->state->get('params');
 			</button>
 			</div>
 
-
-			<?php echo $this->form->getInput('text'); ?>
+			<?php echo $this->form->getInput('articletext'); ?>
 
 	</fieldset>
 

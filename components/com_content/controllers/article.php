@@ -27,17 +27,17 @@ class ContentControllerArticle extends JControllerForm
 	protected $view_list = 'categories';
 
 	/**
-	 * Constructor
+	 * Method to add a new record.
 	 *
+	 * @return	boolean	True if the article can be added, false if not.
 	 * @since	1.6
 	 */
-	public function __construct($config = array())
+	public function add()
 	{
-		parent::__construct($config);
-
-		$this->registerTask('apply',		'save');
-		$this->registerTask('save2new',		'save');
-		$this->registerTask('save2copy',	'save');
+		if (!parent::add()) {
+			// Redirect to the return page.
+			$this->setRedirect($this->_getReturnPage());
+		}
 	}
 
 	/**
@@ -118,6 +118,39 @@ class ContentControllerArticle extends JControllerForm
 	}
 
 	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 *
+	 * @return	Boolean	True if access level checks pass, false otherwise.
+	 * @since	1.6
+	 */
+	public function cancel($key = 'a_id')
+	{
+		parent::cancel($key);
+
+		// Redirect to the list screen.
+		$this->setRedirect($this->_getReturnPage());
+	}
+
+	/**
+	 * Method to edit an existing record.
+	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 * @param	string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return	Boolean	True if access level check and checkout passes, false otherwise.
+	 * @since	1.6
+	 */
+	public function edit($key = null, $urlVar = 'a_id')
+	{
+		$result = parent::edit($key, $urlVar);
+		$this->_setReturnPage();
+
+		return $result;
+	}
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
 	 * @param	string	$name	The model name. Optional.
@@ -127,190 +160,75 @@ class ContentControllerArticle extends JControllerForm
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	public function &getModel($name = 'form', $prefix = '', $config = array())
+	public function &getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 
 		return $model;
 	}
 
-	protected function getReturnPage()
-	{
-		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
-
-		if (!($return = $app->getUserState($context.'.return'))) {
-			$return = JRequest::getVar('return', base64_encode(JURI::base()));
-		}
-
-		$return = JFilterInput::getInstance()->clean($return, 'base64');
-		$return = base64_decode($return);
-
-		if (!JURI::isInternal($return)) {
-			$return = JURI::base();
-		}
-
-		return $return;
-	}
-
-	protected function setReturnPage()
-	{
-		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
-
-		$return = JRequest::getVar('return', null, 'default', 'base64');
-
-		$app->setUserState($context.'.return', $return);
-	}
-
 	/**
-	 * Method to add a new record.
+	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @return	boolean	True if the article can be added, false if not.
+	 * @param	int		$recordId	The primary key id for the item.
+	 * @param	string	$urlVar		The name of the URL variable for the id.
+	 *
+	 * @return	string	The arguments to append to the redirect URL.
 	 * @since	1.6
 	 */
-	public function add()
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = null)
 	{
-		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
+		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
+		$itemId	= JRequest::getInt('Itemid');
 
-		// Access check
-		if (!$this->allowAdd()) {
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return false;
+		if ($itemId) {
+			$append .= '&Itemid='.$itemId;
 		}
 
-		// Clear the record edit information from the session.
-		$app->setUserState($context.'.data',	null);
-
-		// Clear the return page.
-		// TODO: We should be including an optional 'return' variable in the URL.
-		$this->setReturnPage();
-
-		// ItemID required on redirect for correct Template Style
-		$redirect = 'index.php?option=com_content&view=form&layout=edit';
-		if (JRequest::getInt('Itemid') != 0) {
-			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
-		}
-
-		$this->setRedirect($redirect);
-
-		return true;
+		return $append;
 	}
 
 	/**
-	 * Method to edit a object
+	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * Sets object ID in the session from the request, checks the item out, and then redirects to the edit page.
-	 *
-	 * @return	boolean	True if the record can be edited, false if not.
-	 */
-	public function edit()
-	{
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
-		$ids		= JRequest::getVar('cid', array(), '', 'array');
-
-		// Get the id of the group to edit.
-		$id =  (int) (empty($ids) ? JRequest::getInt('id') : array_pop($ids));
-
-		// Access check
-		if (!$this->allowEdit(array('id' => $id))) {
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return false;
-		}
-
-		// Get the menu item model.
-		$model = $this->getModel();
-
-		// Check that this is not a new item.
-
-		if ($id > 0) {
-			$item = $model->getItem($id);
-
-			// If not already checked out, do so.
-			if ($item->checked_out == 0) {
-				if (!$model->checkout($id)) {
-					// Check-out failed, go back to the list and display a notice.
-					$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError());
-					$this->setRedirect('index.php?option=com_content&view=article&item_id='.$id, $message, 'error');
-
-					return false;
-				}
-			}
-		}
-
-		// Check-out succeeded, register the ID for editing.
-		$this->holdEditId($context, $id);
-		$app->setUserState($context.'.data',	null);
-
-		$this->setReturnPage();
-
-		// ItemID required on redirect for correct Template Style
-		$redirect = 'index.php?option=com_content&view=form&layout=edit&id='.$id;
-
-		if (JRequest::getInt('Itemid') != 0) {
-			$redirect .= '&Itemid='.JRequest::getInt('Itemid');
-		}
-
-		$this->setRedirect($redirect);
-
-		return true;
-	}
-
-	/**
-	 * Method to cancel an edit
-	 *
-	 * Checks the item in, sets item ID in the session to null, and then redirects to the list page.
+	 * @param	JModel	$model		The data model object.
+	 * @param	array	$validData	The validated data.
 	 *
 	 * @return	void
+	 * @since	1.6
 	 */
-	public function cancel()
+	protected function postSaveHook(JModel &$model, $validData)
 	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$task = $this->getTask();
 
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$model		= $this->getModel();
-		$context	= "$this->option.edit.$this->context";
-		$recordId	= JRequest::getInt('id');
-
-		if ($recordId) {
-			// Check we are holding the id in the edit list.
-			if (!$this->checkEditId($context, $recordId)) {
-				// Somehow the person just went to the form - we don't allow that.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-				$this->setMessage($this->getError(), 'error');
-				$this->setRedirect($this->getReturnPage());
-
-				return false;
-			}
-
-			// If rows ids do not match, checkin previous row.
-			if ($model->checkin($recordId) === false) {
-				// Check-in failed, go back to the menu item and display a notice.
-				$message = JText::sprintf('JERROR_CHECKIN_FAILED', $model->getError());
-				$this->setRedirect('index.php?option=com_content&view=form&layout=edit&id='.$recordId, $message, 'error');
-				return false;
-			}
+		if ($task == 'save') {
+			$this->setRedirect(JRoute::_('index.php?option=com_content&view=category&id='.$validData['catid'], false));
 		}
+	}
 
-		// Clear the menu item edit information from the session.
-		$this->releaseEditId($context, $recordId);
-		$app->setUserState($context.'.data',	null);
+	/**
+	 * Method to save a record.
+	 *
+	 * @param	string	$key	The name of the primary key of the URL variable.
+	 * @param	string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return	Boolean	True if successful, false otherwise.
+	 * @since	1.6
+	 */
+	public function save($key = null, $urlVar = 'a_id')
+	{
+		// Load the backend helper for filtering.
+		require_once JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php';
 
-		// Redirect to the list screen.
-		$this->setRedirect($this->getReturnPage());
+		$result = parent::save($key, $urlVar);
+
+		return $result;
 	}
 
 	/**
 	 * Save the record
 	 */
-	public function save()
+	public function __save()
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -323,7 +241,7 @@ class ContentControllerArticle extends JControllerForm
 		$context	= "$this->option.edit.$this->context";
 		if (!in_array(JRequest::getWord('view'), array('category', 'categories'))) {
 			$recordId = JRequest::getInt('id');
-		} 
+		}
 		else {
 			$recordId = 0;
 		}
@@ -453,7 +371,7 @@ class ContentControllerArticle extends JControllerForm
 				}
 			}
 			$this->setMessage(JText::_('COM_CONTENT_SUBMIT_SAVE_SUCCESS'));
-		} 
+		}
 		else {
 			$this->setMessage(JText::_('COM_CONTENT_SAVE_SUCCESS'));
 		}
@@ -489,5 +407,46 @@ class ContentControllerArticle extends JControllerForm
 				$this->setRedirect($this->getReturnPage());
 				break;
 		}
+	}
+
+	/**
+	 * Get the return URL.
+	 *
+	 * @return	string
+	 * @since	1.6
+	 */
+	private function _getReturnPage()
+	{
+		$app		= JFactory::getApplication();
+		$context	= "$this->option.edit.$this->context";
+
+		if (!($return = $app->getUserState($context.'.return'))) {
+			$return = JRequest::getVar('return', base64_encode(JURI::base()));
+		}
+
+		$return = JFilterInput::getInstance()->clean($return, 'base64');
+		$return = base64_decode($return);
+
+		if (!JURI::isInternal($return)) {
+			$return = JURI::base();
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Set the return URL.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	private function _setReturnPage()
+	{
+		$app		= JFactory::getApplication();
+		$context	= "$this->option.edit.$this->context";
+
+		$return = JRequest::getVar('return', null, 'default', 'base64');
+
+		$app->setUserState($context.'.return', $return);
 	}
 }

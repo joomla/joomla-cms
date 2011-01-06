@@ -22,6 +22,66 @@ jimport('joomla.plugin.plugin');
 class plgContentJoomla extends JPlugin
 {
 	/**
+	 * Example after save content method
+	 * Article is passed by reference, but after the save, so no changes will be saved.
+	 * Method is called right after the content is saved
+	 *
+	 * @param	string		The context of the content passed to the plugin (added in 1.6)
+	 * @param	object		A JTableContent object
+	 * @param	bool		If the content is just about to be created
+	 * @since	1.6
+	 */
+	public function onContentAfterSave($context, &$article, $isNew)
+	{
+		// Check we are handling the frontend edit form.
+		if ($context != 'com_content.form') {
+			return true;
+		}
+
+		// Check if this function is enabled.
+		if (!$this->parms->def('email_new_fe', 1)) {
+			return true;
+		}
+
+		// Check this is a new article.
+		if (!$isNew) {
+			return true;
+		}
+
+		$user = JFactory::getUser();
+
+		// Messaging for new items
+		JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/tables');
+
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT id FROM #__users WHERE sendEmail = 1');
+		$users = (array) $db->loadResultArray();
+
+		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
+		$debug = JFactory::getConfig()->get('debug_lang');
+
+		foreach ($users as $user_id)
+		{
+			if ($user_id != $user->id) {
+				// Load language for messaging
+				$receiver = JUser::getInstance($user_id);
+				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
+				$lang->load('com_content');
+				$message = array(
+					'user_id_to'	=> $user_id,
+					'subject'		=> $lang->_('COM_CONTENT_NEW_ARTICLE'),
+					'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
+				);
+				$model_message = JModel::getInstance('Message', 'MessagesModel');
+				$model_message->save($message);
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Don't allow categories to be deleted if they contain items or subcategories with items
 	 *
 	 * @param	string	The context for the content passed to the plugin.
@@ -33,6 +93,11 @@ class plgContentJoomla extends JPlugin
 	{
 		// Skip plugin if we are deleting something other than categories
 		if ($context != 'com_categories.category') {
+			return true;
+		}
+
+		// Check if this function is enabled.
+		if (!$this->parms->def('check_categories', 1)) {
 			return true;
 		}
 

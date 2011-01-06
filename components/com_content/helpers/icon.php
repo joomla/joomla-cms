@@ -24,7 +24,7 @@ class JHTMLIcon
 	{
 		$uri = JFactory::getURI();
 
-		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&id=0';
+		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0';
 
 		if ($params->get('show_icons')) {
 			$text = JHTML::_('image','system/new.png', JText::_('JNEW'), NULL, true);
@@ -33,7 +33,7 @@ class JHTMLIcon
 		}
 
 		$button =  JHTML::_('link',JRoute::_($url), $text);
-		
+
 		$output = '<span class="hasTip" title="'.JText::_('COM_CONTENT_CREATE_ARTICLE').'">'.$button.'</span>';
 		return $output;
 	}
@@ -93,7 +93,7 @@ class JHTMLIcon
 
 		JHtml::_('behavior.tooltip');
 
-		$url	= 'index.php?task=article.edit&id='.$article->id.'&return='.base64_encode($uri);
+		$url	= 'index.php?task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHTML::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 
