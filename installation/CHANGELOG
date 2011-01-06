@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2011 Mark Dexter
+# Revert part of [#24140] so that database password is not required during installation
+
 05-Jan-2011 Christophe Demko
  # [#24133] Beez templates set role search on the wrong element (Rouven Weßling)
  # [#24135] 2 minor issue with JForm's email field (Rouven Weßling)
