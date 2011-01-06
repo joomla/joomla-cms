@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jan-2011 Ian MacLenann
+ # [#23823] Front-end URL Error
+
 06-Jan-2011 Christophe Demko
  # [#24111] The pageclass sfx parameter can be used to inject scripts (Rouven Weßling)
  # [#24102] clearing div in spacer.php leads to validation problems
