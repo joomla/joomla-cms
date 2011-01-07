@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Jan-2011 Christophe Demko
  # [#24157] Library RSS deals with multiple categories for items but not for the feed itself
+ # [#24188] Lack of Atom feed format returned (bill richardson)
 
 07-Jan-2011 Andrew Eddie
  # Fixed issue [#24160] Backend com_languages XXS (Ervis Tusha, Rouven Weßling).
