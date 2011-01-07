@@ -39,7 +39,7 @@ class plgContentJoomla extends JPlugin
 		}
 
 		// Check if this function is enabled.
-		if (!$this->parms->def('email_new_fe', 1)) {
+		if (!$this->params->def('email_new_fe', 1)) {
 			return true;
 		}
 
