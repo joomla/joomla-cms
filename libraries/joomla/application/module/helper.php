@@ -290,7 +290,7 @@ abstract class JModuleHelper
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('m.language IN (' . $lang . ',' . $db->Quote('*') . ')');
+				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 
 			$query->order('position, ordering');
