@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Jan-2011 Jean-Marie Simonet
 $ Reordering strings for plg_content_joomla.ini, updating the xx-XX version.
+$ Correcting some strings in installation languages
 
 06-Jan-2011 Ian MacLenann
  # [#23823] Front-end URL Error
