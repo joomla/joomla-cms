@@ -15,36 +15,6 @@ defined('_JEXEC') or die;
 class TemplatesTableStyle extends JTable
 {
 	/**
-	 * @var int Primary key
-	 */
-	public $id = null;
-
-	/**
-	 * @var string
-	 */
-	public $template = null;
-
-	/**
-	 * @var int
-	 */
-	public $client_id = null;
-
-	/**
-	 * @var int
-	 */
-	public $home = null;
-
-	/**
-	 * @var string
-	 */
-	public $title = null;
-
-	/**
-	 * @var string
-	 */
-	public $params = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param JDatabase A database connector object

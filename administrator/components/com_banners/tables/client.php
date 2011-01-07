@@ -17,21 +17,6 @@ defined('_JEXEC') or die;
  */
 class BannersTableClient extends JTable
 {
-	var	$id					= null;
-	var $name				= '';
-	var $contact			= '';
-	var $email				= '';
-	var $extrainfo			= '';
-	var $state				= 1;
-	var $checked_out		= 0;
-	var $checked_out_time	= 0;
-	var $metakey			= null;
-	var $own_prefix			= 0;
-	var $metakey_prefix		= null;
-	var $purchase_type		= 0;
-	var $track_clicks		= 0;
-	var $track_impressions	= 0;
-
 	function __construct(&$_db)
 	{
 		parent::__construct('#__banner_clients', 'id', $_db);

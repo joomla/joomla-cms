@@ -15,16 +15,6 @@ defined('_JEXEC') or die;
 class ContentTableFeatured extends JTable
 {
 	/**
-	 * @var int Primary key
-	 */
-	var $content_id	= null;
-
-	/**
-	 * @var int
-	 */
-	var $ordering	= null;
-
-	/**
 	 * @param	JDatabase	A database connector object
 	 */
 	function __construct(&$db)

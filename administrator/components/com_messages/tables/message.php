@@ -21,67 +21,6 @@ jimport('joomla.database.table');
 class MessagesTableMessage extends JTable
 {
 	/**
-	 * Primary Key
-	 *
-	 * @var		int
-	 */
-	public $message_id	= null;
-
-	/**
-	 * Sender's userid
-	 *
-	 * @var		int
-	 */
-	public $user_id_from = null;
-
-	/**
-	 * Recipient's userid
-	 *
-	 * @var		int
-	 */
-	public $user_id_to = null;
-
-	/**
-	 * @var		int
-	 */
-	public $folder_id = null;
-
-	/**
-	 * Message creation timestamp
-	 *
-	 * @var		datetime
-	 */
-	public $date_time = null;
-
-	/**
-	 * Message state
-	 *
-	 * @var		int
-	 */
-	public $state = null;
-
-	/**
-	 * Priority level of the message
-	 *
-	 * @var		int
-	 */
-	public $priority = null;
-
-	/**
-	 * The message subject
-	 *
-	 * @var		string
-	 */
-	public $subject = null;
-
-	/**
-	 * The message body
-	 *
-	 * @var		text
-	 */
-	public $message = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param database A database connector object
