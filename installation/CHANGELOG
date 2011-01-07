@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jan-2011 Christophe Demko
+ # [#24157] Library RSS deals with multiple categories for items but not for the feed itself
+
 07-Jan-2011 Andrew Eddie
  # Fixed issue [#24160] Backend com_languages XXS (Ervis Tusha, Rouven Weßling).
  # Fixed issue [#24176] XSS Vulnerability in com_content (Ian MacLennan).

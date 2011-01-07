@@ -95,7 +95,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<pubDate>".htmlspecialchars($pubDate->toRFC822(),ENT_COMPAT, 'UTF-8')."</pubDate>\n";
 		}
 		if (empty($data->category) === false) {
-			$feed.= "		<category>".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."</category>\n";
+			if (is_array($data->category)) {
+				foreach ($data->category as $cat) {
+					$feed.= "		<category>".htmlspecialchars($cat, ENT_COMPAT, 'UTF-8')."</category>\n";
+				}
+			}
+			else {
+				$feed.= "		<category>".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."</category>\n";
+			}
 		}
 		if ($data->docs!="") {
 			$feed.= "		<docs>".htmlspecialchars($data->docs, ENT_COMPAT, 'UTF-8')."</docs>\n";
