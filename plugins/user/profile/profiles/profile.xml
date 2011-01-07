@@ -73,7 +73,7 @@
 
 			<field
 				name="phone"
-				type="text"
+				type="tel"
 				id="phone"
 				description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
 				filter="string"

@@ -35,6 +35,7 @@ $ -> Language fix or change
  # Fixed issue [#23164] Improving of loading modules (Dennis Hermatski).
  # Fixed issue [#24051] Some JHTML Behavior Housekeeping (Rouven Weßling).
  # Fixed issue [#24173] CSS/Layout changes to accomdate longer languages in installation (Andrea Tarr).
+ # Fixed issue [#24136] Add a field for phone numbers to JForm (Rouven Weßling).
 
 07-Jan-2011 Jean-Marie Simonet
  $ Reordering strings for plg_content_joomla.ini, updating the xx-XX version.
