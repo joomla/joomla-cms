@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#23675] [patch] Weblinks controller uses getWord() instead of getCmd() (Soren Jensen, Andy Capiau).
  # Fixed issue [#23766] [patch] Consistent properties for JTable descendants (Joseph LeBlanc).
  # Fixed issue [#23164] Improving of loading modules (Dennis Hermatski).
+ # Fixed issue [#24051] Some JHTML Behavior Housekeeping (Rouven Weßling).
 
 07-Jan-2011 Jean-Marie Simonet
  $ Reordering strings for plg_content_joomla.ini, updating the xx-XX version.

@@ -49,7 +49,7 @@ abstract class JHtmlBehavior
 		$uncompressed	= $debug ? '-uncompressed' : '';
 
 		if ($type != 'core' && empty($loaded['core'])) {
-			self::framework(false);
+			self::framework(false, $debug);
 		}
 
 		JHtml::_('script','system/mootools-'.$type.$uncompressed.'.js', false, true, false, false);
@@ -62,7 +62,7 @@ abstract class JHtmlBehavior
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
-	 *
+	 * @deprecated
 	 * @return	void
 	 * @since	1.5
 	 */
@@ -79,8 +79,19 @@ abstract class JHtmlBehavior
 	 */
 	public static function caption()
 	{
-		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+
+		// Include mootools framework
+		self::framework();
+
+		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/caption'.$uncompressed.'.js', true, true);
+		$loaded = true;
 	}
 
 	/**
@@ -96,8 +107,19 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+
+		// Include mootools framework
+		self::framework();
+
+		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/validate'.$uncompressed.'.js', true, true);
+		$loaded = true;
 	}
 
 	/**
@@ -116,7 +138,10 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		// Include mootools framework
+		self::framework();
+
+		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/switcher'.$uncompressed.'.js', true, true);
 
 		$script = "
@@ -144,8 +169,19 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+
+		// Include mootools framework
+		self::framework();
+
+		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/combobox'.$uncompressed.'.js', true, true);
+		$loaded = true;
 	}
 
 	/**
@@ -181,7 +217,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include mootools framework
-		JHtml::_('behavior.framework', true);
+		self::framework(true);
 
 		$sig = md5(serialize(array($selector,$params)));
 		if (isset($tips[$sig]) && ($tips[$sig])) {
@@ -251,6 +287,9 @@ abstract class JHtmlBehavior
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
+			// Include mootools framework
+			self::framework();
+
 			// Load the javascript and css
 			$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 			JHtml::_('script','system/modal'.$uncompressed.'.js', true, true);
@@ -317,6 +356,9 @@ abstract class JHtmlBehavior
 	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
+		// Include mootools framework
+		self::framework();
+		
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/swf'.$uncompressed.'.js', true, true);
 		JHtml::_('script','system/progressbar'.$uncompressed.'.js', true, true);
@@ -479,6 +521,8 @@ abstract class JHtmlBehavior
 		}
 
 		// Include mootools framework
+		self::framework();
+
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/mootree'.$uncompressed.'.js', true, true, false, false);
 		JHtml::_('stylesheet','system/mootree.css', array(), true);
@@ -533,8 +577,16 @@ abstract class JHtmlBehavior
 	 */
 	public static function calendar()
 	{
+		static $loaded = false;
+
+		// only load once
+		if ($loaded) {
+			return;
+		}
+
 		$document		= JFactory::getDocument();
 		$tag			= JFactory::getLanguage()->getTag();
+
 		//Add uncompressed versions when debug is enabled
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('stylesheet','system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN') ,' media' => 'all'), true);
@@ -545,6 +597,7 @@ abstract class JHtmlBehavior
 		if ($translation) {
 			$document->addScriptDeclaration($translation);
 		}
+		$loaded = true;
 	}
 
 	/**
@@ -563,7 +616,7 @@ abstract class JHtmlBehavior
 		}
 
 		// Include mootools framework
-		JHtmlBehavior::mootools();
+		self::framework();
 
 		$config		= JFactory::getConfig();
 		$lifetime	= ($config->get('lifetime') * 60000);
@@ -604,7 +657,10 @@ abstract class JHtmlBehavior
 		if ($loaded) {
 			return;
 		}
-		
+
+		// Include mootools framework
+		self::framework();
+
 		$js = "window.addEvent('domready', function () {if (top != self) {top.location.replace(".$location.");}});";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($js);
