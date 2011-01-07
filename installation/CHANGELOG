@@ -39,6 +39,7 @@ $ -> Language fix or change
  $ Reordering strings for plg_content_joomla.ini, updating the xx-XX version.
  $ Correcting some strings in installation languages
  # Fix Typo in [23818]
+ $ Adding sk-SK, be-BY, lv-LV, et-EE, ro-RO, ml-BE, lt-LT, aa-AA, no-NO in installation
 
 06-Jan-2011 Ian MacLenann
  # [#23823] Front-end URL Error

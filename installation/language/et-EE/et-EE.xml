@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="1.6"
+	client="installation">
+	<name>Estonian</name>
+	<version>1.6.0</version>
+	<creationDate>2010-11-04</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.eraser.ee</authorUrl>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>et-EE.ini</filename>
+	</files>
+	<metadata>
+		<name>Estonian</name>
+		<tag>et-EE</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
