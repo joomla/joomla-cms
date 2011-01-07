@@ -33,10 +33,10 @@ class PluginsController extends JController
 		require_once JPATH_COMPONENT.'/helpers/plugins.php';
 
 		// Load the submenu.
-		PluginsHelper::addSubmenu(JRequest::getWord('view', 'plugins'));
+		PluginsHelper::addSubmenu(JRequest::getCmd('view', 'plugins'));
 
-		$view		= JRequest::getWord('view', 'plugins');
-		$layout 	= JRequest::getWord('layout', 'default');
+		$view		= JRequest::getCmd('view', 'plugins');
+		$layout 	= JRequest::getCmd('layout', 'default');
 		$id			= JRequest::getInt('extension_id');
 
 		// Check for edit form.

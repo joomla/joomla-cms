@@ -35,9 +35,9 @@ class UsersController extends JController
 		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName	 = JRequest::getWord('view', 'login');
+		$vName	 = JRequest::getCmd('view', 'login');
 		$vFormat = $document->getType();
-		$lName	 = JRequest::getWord('layout', 'default');
+		$lName	 = JRequest::getCmd('layout', 'default');
 
 		if ($view = $this->getView($vName, $vFormat)) {
 			// Do any specific processing by view.

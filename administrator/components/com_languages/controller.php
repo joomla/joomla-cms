@@ -39,10 +39,10 @@ class LanguagesController extends JController
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
 		// Load the submenu.
-		LanguagesHelper::addSubmenu(JRequest::getWord('view', 'installed'));
+		LanguagesHelper::addSubmenu(JRequest::getCmd('view', 'installed'));
 
-		$view	= JRequest::getWord('view', 'languages');
-		$layout = JRequest::getWord('layout', 'default');
+		$view	= JRequest::getCmd('view', 'languages');
+		$layout = JRequest::getCmd('layout', 'default');
 		$id		= JRequest::getInt('id');
 
 		// Check for edit form.

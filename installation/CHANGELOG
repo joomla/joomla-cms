@@ -30,6 +30,7 @@ $ -> Language fix or change
 07-Jan-2011 Andrew Eddie
  # Fixed issue [#24160] Backend com_languages XXS (Ervis Tusha, Rouven Weßling).
  # Fixed issue [#24176] XSS Vulnerability in com_content (Ian MacLennan).
+ # Fixed issue [#23675] [patch] Weblinks controller uses getWord() instead of getCmd() (Soren Jensen, Andy Capiau).
 
 07-Jan-2011 Jean-Marie Simonet
  $ Reordering strings for plg_content_joomla.ini, updating the xx-XX version.

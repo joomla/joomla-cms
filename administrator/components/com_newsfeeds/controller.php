@@ -33,10 +33,10 @@ class NewsfeedsController extends JController
 		require_once JPATH_COMPONENT.'/helpers/newsfeeds.php';
 
 		// Load the submenu.
-		NewsfeedsHelper::addSubmenu(JRequest::getWord('view', 'newsfeeds'));
+		NewsfeedsHelper::addSubmenu(JRequest::getCmd('view', 'newsfeeds'));
 
-		$view		= JRequest::getWord('view', 'newsfeeds');
-		$layout 	= JRequest::getWord('layout', 'default');
+		$view		= JRequest::getCmd('view', 'newsfeeds');
+		$layout 	= JRequest::getCmd('layout', 'default');
 		$id			= JRequest::getInt('id');
 
 		// Check for edit form.

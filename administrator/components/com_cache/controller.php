@@ -36,9 +36,9 @@ class CacheController extends JController
 		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'cache');
+		$vName		= JRequest::getCmd('view', 'cache');
 		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
+		$lName		= JRequest::getCmd('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
@@ -60,7 +60,7 @@ class CacheController extends JController
 			$view->assignRef('document', $document);
 
 			// Load the submenu.
-			CacheHelper::addSubmenu(JRequest::getWord('view', 'cache'));
+			CacheHelper::addSubmenu(JRequest::getCmd('view', 'cache'));
 			
 			$view->display();
 		}

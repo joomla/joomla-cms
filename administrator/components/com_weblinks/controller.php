@@ -33,10 +33,10 @@ class WeblinksController extends JController
 		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
 
 		// Load the submenu.
-		WeblinksHelper::addSubmenu(JRequest::getWord('view', 'weblinks'));
+		WeblinksHelper::addSubmenu(JRequest::getCmd('view', 'weblinks'));
 
-		$view		= JRequest::getWord('view', 'weblinks');
-		$layout 	= JRequest::getWord('layout', 'default');
+		$view		= JRequest::getCmd('view', 'weblinks');
+		$layout 	= JRequest::getCmd('layout', 'default');
 		$id			= JRequest::getInt('id');
 
 		// Check for edit form.

@@ -42,9 +42,9 @@ class ConfigController extends JController
 		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'application');
+		$vName		= JRequest::getCmd('view', 'application');
 		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
+		$lName		= JRequest::getCmd('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat)) {

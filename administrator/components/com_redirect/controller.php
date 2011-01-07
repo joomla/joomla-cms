@@ -38,10 +38,10 @@ class RedirectController extends JController
 		require_once JPATH_COMPONENT.'/helpers/redirect.php';
 
 		// Load the submenu.
-		RedirectHelper::addSubmenu(JRequest::getWord('view', 'links'));
+		RedirectHelper::addSubmenu(JRequest::getCmd('view', 'links'));
 
-		$view		= JRequest::getWord('view', 'links');
-		$layout 	= JRequest::getWord('layout', 'default');
+		$view		= JRequest::getCmd('view', 'links');
+		$layout 	= JRequest::getCmd('layout', 'default');
 		$id			= JRequest::getInt('id');
 
 		// Check for edit form.

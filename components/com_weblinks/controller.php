@@ -40,7 +40,7 @@ class WeblinksController extends JController
 		// Note we are using w_id to avoid collisions with the router and the return page.
 		// Frontend is a bit messier than the backend.
 		$id		= JRequest::getInt('w_id');
-		$vName	= JRequest::getWord('view', 'categories');
+		$vName	= JRequest::getCmd('view', 'categories');
 		JRequest::setVar('view', $vName);
 
 		if ($user->get('id') ||($_SERVER['REQUEST_METHOD'] == 'POST' && $vName = 'categories')) {

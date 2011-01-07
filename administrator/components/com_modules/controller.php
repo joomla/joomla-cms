@@ -33,10 +33,10 @@ class ModulesController extends JController
 		require_once JPATH_COMPONENT.'/helpers/modules.php';
 
 		// Load the submenu.
-		ModulesHelper::addSubmenu(JRequest::getWord('view', 'modules'));
+		ModulesHelper::addSubmenu(JRequest::getCmd('view', 'modules'));
 
-		$view		= JRequest::getWord('view', 'modules');
-		$layout 	= JRequest::getWord('layout', 'default');
+		$view		= JRequest::getCmd('view', 'modules');
+		$layout 	= JRequest::getCmd('layout', 'default');
 		$id			= JRequest::getInt('id');
 
 		// Check for edit form.

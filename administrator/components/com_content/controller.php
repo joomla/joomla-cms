@@ -38,10 +38,10 @@ class ContentController extends JController
 		require_once JPATH_COMPONENT.'/helpers/content.php';
 
 		// Load the submenu.
-		ContentHelper::addSubmenu(JRequest::getWord('view', 'articles'));
+		ContentHelper::addSubmenu(JRequest::getCmd('view', 'articles'));
 
-		$view		= JRequest::getWord('view', 'articles');
-		$layout 	= JRequest::getWord('layout', 'articles');
+		$view		= JRequest::getCmd('view', 'articles');
+		$layout 	= JRequest::getCmd('layout', 'articles');
 		$id			= JRequest::getInt('id');
 
 		// Check for edit form.

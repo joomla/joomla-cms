@@ -34,10 +34,10 @@ class BannersController extends JController
 		BannersHelper::updateReset();
 
 		// Load the submenu.
-		BannersHelper::addSubmenu(JRequest::getWord('view', 'banners'));
+		BannersHelper::addSubmenu(JRequest::getCmd('view', 'banners'));
 
-		$view	= JRequest::getWord('view', 'banners');
-		$layout = JRequest::getWord('layout', 'default');
+		$view	= JRequest::getCmd('view', 'banners');
+		$layout = JRequest::getCmd('layout', 'default');
 		$id		= JRequest::getInt('id');
 
 		// Check for edit form.

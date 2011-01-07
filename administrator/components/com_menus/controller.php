@@ -33,10 +33,10 @@ class MenusController extends JController
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 		// Load the submenu.
-		MenusHelper::addSubmenu(JRequest::getWord('view'));
+		MenusHelper::addSubmenu(JRequest::getCmd('view'));
 
-		$view	= JRequest::getWord('view', 'menus');
-		$layout = JRequest::getWord('layout', 'default');
+		$view	= JRequest::getCmd('view', 'menus');
+		$layout = JRequest::getCmd('layout', 'default');
 		$id		= JRequest::getInt('id');
 
 		// Check for edit form.
