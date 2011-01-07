@@ -130,7 +130,8 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$isSuperAdmin = JAccess::check(JFactory::getUser()->id, 'core.admin');
+		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
+		
 
 		$db = JFactory::getDbo();
 		$db->setQuery(
