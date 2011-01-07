@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
-$function = 'jSelectUser_'.JRequest::getVar('field');
+
+$function	= 'jSelectUser_'.JRequest::getCmd('field');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users&layout=modal&tmpl=component');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-$function = JRequest::getVar('function', 'jSelectPosition');
-$lang = JFactory::getLanguage();
+$function	= JRequest::getCmd('function', 'jSelectPosition');
+$lang		= JFactory::getLanguage();
 $ordering	= $this->state->get('list.ordering');
 $direction	= $this->state->get('list.direction');
 $clientId	= $this->state->get('filter.client_id');
@@ -44,10 +44,10 @@ $type		= $this->state->get('filter.type');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templateStates'), 'value', 'text', $state, true);?>
 			</select>
-			
+
 			<label class="selectlabel" for="filter_type">
 				<?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE'); ?>
-			</label>		
+			</label>
 			<select name="filter_type" id="filter_type" class="inputbox">
 				<option value=""><?php echo JText::_('COM_MODULES_OPTION_SELECT_TYPE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.types'), 'value', 'text', $type, true);?>
@@ -60,10 +60,10 @@ $type		= $this->state->get('filter.type');
 				<option value=""><?php echo JText::_('JOPTION_SELECT_TEMPLATE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('modules.templates', $clientId), 'value', 'text', $template, true);?>
 			</select>
-			
+
 			<button type="button" id="filter-go" onclick="this.form.submit();">
 				<?php echo JText::_('JSUBMIT'); ?></button>
-			
+
 		</div>
 	</fieldset>
 
