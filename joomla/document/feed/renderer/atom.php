@@ -65,7 +65,14 @@ defined('JPATH_BASE') or die;
 		$feed.= "	<title type=\"text\">".$feed_title."</title>\n";
 		$feed.= "	<subtitle type=\"text\">".htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8')."</subtitle>\n";
 		if (empty($data->category) === false) {
-			$feed.= "		<category term=\"".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."\" />\n";
+			if (is_array($data->category)) {
+				foreach ($data->category as $cat) {
+					$feed.= "	<category term=\"".htmlspecialchars($cat, ENT_COMPAT, 'UTF-8')."\" />\n";
+				}
+			}
+			else {
+				$feed.= "	<category term=\"".htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8')."\" />\n";
+			}
 		}
 		$feed.= "	<link rel=\"alternate\" type=\"text/html\" href=\"".$url."\"/>\n";
 		$feed.= "	<id>".str_replace(' ','%20',$data->getBase())."</id>\n";
