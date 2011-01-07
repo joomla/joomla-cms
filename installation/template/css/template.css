@@ -15,6 +15,7 @@ body {
 	background: #fff;
 	height: 100%;
 	padding-bottom: 1px;
+	min-width: 960px;
 }
 
 body, div, p, td, span {
@@ -59,7 +60,11 @@ iframe {
 }
 
 td:first-child {
-	width: 100px;
+	width: 180px;
+}
+
+.sample-data td:first-child {
+	/*width: auto;*/
 }
 
 td.item + td {
@@ -277,13 +282,13 @@ span.step {
 
 .install-text {
 	float: left;
-	width: 40%;
+	width: 30%;
 	color: #444;
 }
 
 .install-body {
 	float: right;
-	width: 58%;
+	width: 68%;
 }
 
 .extra-padding {
@@ -313,7 +318,7 @@ span.step {
 
 .content       { width: 100%; }
 .content .item { width: 50%; }
-.content2 .item { width: 30%; }
+.content2 .item { /*width: 30%; */}
 
 .license {
   padding: 0px;

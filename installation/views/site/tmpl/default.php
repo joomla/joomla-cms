@@ -221,19 +221,19 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				</div>
 				<div class="m">
 					<fieldset>
-						<table class="content2">
-							<tr>
-								<td class="item"></td>
-								<td></td>
-							</tr>
+						<table class="content2 sample-data">
+
 							<tr>
 								<td><?php echo $this->form->getLabel('sample_file'); ?></td>
 								<td><?php echo $this->form->getInput('sample_file'); ?></td>
 							</tr>
 							<tr>
-								<td>
+								<td colspan="2">
 									<span id="theDefault"><input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?>" onclick="Install.sampleData(this, <?php echo $this->form->getField('sample_file')->id;?>);"/></span>
 								</td>
+							</tr>
+							<tr>
+								<td>&#160;</td>
 								<td>
 									<em><?php echo JText::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></em>
 								</td>
