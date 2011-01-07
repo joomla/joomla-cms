@@ -35,11 +35,11 @@ function iFrameHeight() {
 <iframe <?php echo $this->wrapper->load; ?>
 	id="blockrandom"
 	name="iframe"
-	src="<?php echo $this->wrapper->url; ?>"
-	width="<?php echo $this->params->get('width'); ?>"
-	height="<?php echo $this->params->get('height'); ?>"
-	scrolling="<?php echo $this->params->get('scrolling'); ?>"
-	class="wrapper<?php echo $this->params->get('pageclass_sfx'); ?>">
+	src="<?php echo $this->escape($this->wrapper->url); ?>"
+	width="<?php echo $this->escape($this->params->get('width')); ?>"
+	height="<?php echo $this->escape($this->params->get('height')); ?>"
+	scrolling="<?php echo $this->escape($this->params->get('scrolling')); ?>"
+	class="wrapper<?php echo $this->pageclass_sfx; ?>">
 	<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
 </iframe>
 </div>

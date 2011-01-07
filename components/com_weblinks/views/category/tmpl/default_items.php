@@ -73,7 +73,7 @@ $listDirn	= $this->state->get('list.direction');
 				<?php endif; ?>
 				<?php
 					// Compute the correct link
-					$menuclass = 'category'.$this->params->get('pageclass_sfx');
+					$menuclass = 'category'.$this->pageclass_sfx;
 					$link = $item->link;
 					$width	= $item->params->get('width');
 					$height	= $item->params->get('height');
@@ -92,14 +92,14 @@ $listDirn	= $this->state->get('list.direction');
 
 						case 2:
 							// open in a popup window
-							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width='.$width.',height='.$height.'';
+							$attribs = 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width='.$this->escape($width).',height='.$this->escape($height).'';
 							echo "<a href=\"$link\" onclick=\"window.open(this.href, 'targetWindow', '".$attribs."'); return false;\">".
 								$this->escape($item->title).'</a>';
 							break;
 						case 3:
 							// open in a modal window
 							JHtml::_('behavior.modal', 'a.modal'); ?>
-							<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $width;?>, y:<?php echo $height;?>}}">
+							<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
 								<?php echo $this->escape($item->title). ' </a>' ;
 							break;
 

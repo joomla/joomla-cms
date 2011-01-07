@@ -16,11 +16,11 @@ require_once dirname(__FILE__).DS.'helper.php';
 $params = modWrapperHelper::getParams($params);
 
 $load	= $params->get('load');
-$url	= $params->get('url');
+$url	= htmlspecialchars($params->get('url'));
 $target = htmlspecialchars($params->get('target'));
-$width	= $params->get('width');
-$height = $params->get('height');
-$scroll = $params->get('scrolling');
+$width	= htmlspecialchars($params->get('width'));
+$height = htmlspecialchars($params->get('height'));
+$scroll = htmlspecialchars($params->get('scrolling'));
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

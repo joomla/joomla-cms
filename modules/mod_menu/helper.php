@@ -110,6 +110,7 @@ class modMenuHelper
 				$item->title = htmlspecialchars($item->title);
 				$item->anchor_css = htmlspecialchars($item->params->get('menu-anchor_css', ''));
 				$item->anchor_title = htmlspecialchars($item->params->get('menu-anchor_title', ''));
+				$item->menu_image = $item->params->get('menu_image', '') ? htmlspecialchars($item->params->get('menu_image', '')) : '';
 			}
 
 			if (isset($items[$lastitem])) {
