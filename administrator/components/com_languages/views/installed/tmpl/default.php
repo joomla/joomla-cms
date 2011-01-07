@@ -81,22 +81,22 @@ $userId	= $user->get('id');
 					<?php echo JHtml::_('languages.id',$i,$row->language);?>
 				</td>
 				<td width="25%">
-					<?php echo $row->name;?>
+					<?php echo $this->escape($row->name);?>
 				</td>
 				<td width="5%" align="center">
 					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.',  !$row->published && $canChange);?>
 				</td>
 				<td align="center">
-					<?php echo $row->version; ?>
+					<?php echo $this->escape($row->version); ?>
 				</td>
 				<td align="center">
-					<?php echo $row->creationDate; ?>
+					<?php echo $this->escape($row->creationDate); ?>
 				</td>
 				<td align="center">
-					<?php echo $row->author; ?>
+					<?php echo $this->escape($row->author); ?>
 				</td>
 				<td align="center">
-					<?php echo $row->authorEmail; ?>
+					<?php echo $this->escape($row->authorEmail); ?>
 				</td>
 			</tr>
 		<?php endforeach;?>

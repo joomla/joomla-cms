@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jan-2011 Andrew Eddie
+ # Fixed issue [#24160] Backend com_languages XXS (Ervis Tusha, Rouven Weßling).
+
 07-Jan-2011 Jean-Marie Simonet
  $ Reordering strings for plg_content_joomla.ini, updating the xx-XX version.
  $ Correcting some strings in installation languages

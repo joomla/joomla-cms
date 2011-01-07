@@ -93,26 +93,26 @@ $listDirn	= $this->state->get('list.direction');
 					<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 				</td>
 				<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $item->title; ?>">
+					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $this->escape($item->title); ?>">
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id='.(int) $item->lang_id); ?>">
-							<?php echo $item->title; ?></a>
+							<?php echo $this->escape($item->title); ?></a>
 					<?php else : ?>
-							<?php echo $item->title; ?>
+							<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 					</span>
 				</td>
 				<td class="center">
-					<?php echo $item->title_native; ?>
+					<?php echo $this->escape($item->title_native); ?>
 				</td>
 				<td class="center">
-					<?php echo $item->lang_code; ?>
+					<?php echo $this->escape($item->lang_code); ?>
 				</td>
 				<td class="center">
-					<?php echo $item->sef; ?>
+					<?php echo $this->escape($item->sef); ?>
 				</td>
 				<td class="center">
-					<?php echo $item->image; ?>
+					<?php echo $this->escape($item->image); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
