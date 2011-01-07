@@ -634,7 +634,7 @@ class JUser extends JObject
 			// To add additional business rules, use a user plugin and throw an Exception with onUserBeforeSave.
 
 			// Check if I am a Super Admin
-			$iAmSuperAdmin	= JAccess::check($my->id, 'core.admin');
+			$iAmSuperAdmin	= $my->authorise('core.admin');
 
 			// We are only worried about edits to this account if I am not a Super Admin.
 			if ($iAmSuperAdmin != true) {

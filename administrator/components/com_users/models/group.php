@@ -115,26 +115,69 @@ class UsersModelGroup extends JModelAdmin
 	{
 		// Include the content plugins for events.
 		JPluginHelper::importPlugin('user');
+		
+		// Check the super admin permissions for group
+		// We get the parent group permissions and then check the group permissions manually
+		// We have to calculate the group permissions manually because we haven't saved the group yet
+		$parentSuperAdmin = JAccess::checkGroup($data['parent_id'], 'core.admin');
+		// Get core.admin rules from the root asset
+		$rules = JAccess::getAssetRules('root.1')->getData('core.admin');
+		// Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
+		$groupSuperAdmin = $rules['core.admin']->allow($data['id']);
+		
+		// We only need to change the $groupSuperAdmin if the parent is true or false. Otherwise, the value set in the rule takes effect.
+		if ($parentSuperAdmin === false) {
+			// If parent is false (Denied), effective value will always be false
+			$groupSuperAdmin = false;
+		}
+		elseif ($parentSuperAdmin === true) {
+			// If parent is true (allowed), group is true unless explicitly set to false
+			$groupSuperAdmin = ($groupSuperAdmin === false) ? false : true;
+		}
 
-        // Check for non-super admin trying to save with super admin parent
-        $user = JFactory::getUser();
-        // Check if I am a Super Admin
-		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
-        if (!$iAmSuperAdmin) {
-			try
-			{
-				// Check if parent is super admin group
-				if (JAccess::checkGroup($data['parent_id'], 'core.admin') ||
-					JAccess::checkGroup($data['id'], 'core.admin')	) {
-					throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
-				}
-			}
+        // Check for non-super admin trying to save with super admin group
+		$iAmSuperAdmin	= JFactory::getUser()->authorise('core.admin');
+        if ((!$iAmSuperAdmin) && ($groupSuperAdmin)) {
+        	try
+        	{
+				throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+        	}
 			catch (Exception $e)
 			{
 				$this->setError($e->getMessage());
 				return false;
 			}
 		}
+		
+		// Check for super-admin changing self to be non-super-admin
+		// First, are we a super admin>
+		if ($iAmSuperAdmin) {
+			// Next, are we a member of the current group?
+			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'), false);
+			if (in_array($data['id'], $myGroups)) {
+				// Now, would we have super admin permissions without the current group?
+				$otherGroups = array_diff($myGroups, array($data['id']));
+				$otherSuperAdmin = false;
+				foreach ($otherGroups as $otherGroup) {
+					$otherSuperAdmin = ($otherSuperAdmin) ? $otherSuperAdmin : JAccess::checkGroup($otherGroup, 'core.admin');
+				}
+				// If we would not otherwise have super admin permissions 
+				// and the current group does not have super admin permissions, throw an exception
+				if ((!$otherSuperAdmin) && (!$groupSuperAdmin)) {
+					try
+					{
+						throw new Exception(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
+					}
+					catch (Exception $e)
+					{
+						$this->setError($e->getMessage());
+						return false;
+					}
+				}
+			}
+		}
+		
+		// Proceed with the save
 		return parent::save($data);
 	}
 
@@ -159,9 +202,9 @@ class UsersModelGroup extends JModelAdmin
 		JPluginHelper::importPlugin('user');
 		$dispatcher = JDispatcher::getInstance();
         // Check if I am a Super Admin
-		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
+		$iAmSuperAdmin	= $user->authorise('core.admin');
 
-		// do not allow to delete groups to which the current user belong
+		// do not allow to delete groups to which the current user belongs
 		foreach ($pks as $i => $pk) {
 			if (in_array($pk, $groups)) {
 				JError::raiseWarning( 403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));

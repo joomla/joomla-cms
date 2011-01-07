@@ -146,6 +146,21 @@ class UsersModelUser extends JModelAdmin
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
 			return false;
 		}
+		
+		// Make sure that we are not removing ourself from Super Admin group
+		$iAmSuperAdmin = $my->authorise('core.admin');
+		if ($iAmSuperAdmin && $my->get('id') == $pk) {
+			// Check that at least one of our new groups is Super Admin
+			$stillSuperAdmin = false;
+			$myNewGroups = $data['groups'];
+			foreach ($myNewGroups as $group) {
+				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : JAccess::checkGroup($group, 'core.admin');
+			}
+			if (!$stillSuperAdmin) {
+				$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'));
+				return false;
+			}
+		}
 
 		// Bind the data.
 		if (!$user->bind($data)) {
@@ -180,7 +195,7 @@ class UsersModelUser extends JModelAdmin
 		$pks	= (array) $pks;
 
         // Check if I am a Super Admin
-		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
+		$iAmSuperAdmin	= $user->authorise('core.admin');
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
@@ -246,7 +261,7 @@ class UsersModelUser extends JModelAdmin
 		$dispatcher	= JDispatcher::getInstance();
 		$user		= JFactory::getUser();
         // Check if I am a Super Admin
-		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
+		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
@@ -342,7 +357,7 @@ class UsersModelUser extends JModelAdmin
 		$dispatcher	= JDispatcher::getInstance();
 		$user		= JFactory::getUser();
         // Check if I am a Super Admin
-		$iAmSuperAdmin	= JAccess::check($user->id, 'core.admin');
+		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 

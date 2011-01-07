@@ -100,7 +100,7 @@ $loggeduser = JFactory::getUser();
 			$canEdit	= $canDo->get('core.edit');
 			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if (!JAccess::check($loggeduser->id, 'core.admin') && JAccess::check($item->id, 'core.admin')) {
+			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
 				$canEdit	= false;
 				$canChange	= false;
 			}
