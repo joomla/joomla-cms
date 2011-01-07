@@ -4,11 +4,14 @@
 	client="installation">
 	<name>English (United States)</name>
 	<version>1.6.0</version>
-	<creationDate>March 2009</creationDate>
+	<creationDate>2011</creationDate>
 	<author>Joomla! Project</author>
-	<copyright>Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description></description>
+	<files>
+		<filename>en-US.ini</filename>
+	</files>
 	<metadata>
 		<name>English (US)</name>
 		<tag>en-US</tag>

@@ -43,6 +43,7 @@ $ -> Language fix or change
  $ Correcting some strings in installation languages
  # Fix Typo in [23818]
  $ Adding sk-SK, be-BY, lv-LV, et-EE, ro-RO, ml-BE, lt-LT, aa-AA, no-NO in installation
+ $ Adding mk-MK installation lang + some changes in other langs
 
 06-Jan-2011 Ian MacLenann
  # [#23823] Front-end URL Error
