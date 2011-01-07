@@ -214,7 +214,8 @@ function ContentParseRoute($segments)
 		// we check to see if an alias is given.  If not, we assume it is an article
 		if (strpos($segments[0], ':') === false) {
 			$vars['view'] = 'article';
-			$vars['id'] = $segments[0];
+			$vars['id'] = (int)$segments[0];
+			return $vars;
 		}
 
 		list($id, $alias) = explode(':', $segments[0], 2);

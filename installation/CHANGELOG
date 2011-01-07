@@ -48,6 +48,7 @@ $ -> Language fix or change
 # Fix typo in language XML file
 # [#23818] com_content - Category List - New Article: pressing cancel produces error: "You are not permitted to use that link to directly access that page (#10)"
 # [#23853] The last superuser can remove himself from the SU group
+# [#24167] Notice in the router
 
 05-Jan-2011 Christophe Demko
  # [#24133] Beez templates set role search on the wrong element (Rouven Weßling)
