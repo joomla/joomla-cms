@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jan-2011 Christophe Demko
+ # [#24154] Add the required class automatically when required="true" (Jean-Marie Simonet)
+
 08-Jan-2011 Andrew Eddie
  # Fixed issue [#24072] Redirect Component Only Lists 404 Errors - Very Hard to Generate (Steve Burge, Elin Waring).
  # Fixed issue [#21979] Make com_users and mod_login (almost) valid XHTML strict (site) (Rouven Weßling).
