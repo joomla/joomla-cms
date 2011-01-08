@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Fixed issue [#21979] Make com_users and mod_login (almost) valid XHTML strict (site) (Rouven Weßling).
  # Fixed issue [#24087] Fix more PHP strict warnings (Rouven Weßling, Nikolai Plath).
  # Fixed issue [#24209] Data from feeds is not filtered (Ian MacLennan).
+ # Fixed issue [#24197] Unfiltered output in the media manager - view = images (Ian MacLennan).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
