@@ -57,11 +57,12 @@ JHtml::_('behavior.keepalive');
 					<li><?php echo $this->form->getLabel('access'); ?>
 					<?php echo $this->form->getInput('access'); ?></li>
 					
-					
+					<?php if ($this->canDo->get('core.admin')): ?>
 					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
       					<button type="button" onclick="document.location.href='#access-rules';">
       					<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
     				</li>
+    				<?php endif; ?>	
 
 					<li><?php echo $this->form->getLabel('language'); ?>
 					<?php echo $this->form->getInput('language'); ?></li>
@@ -93,6 +94,8 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('sliders.end'); ?>
 		</div>
 		<div class="clr"></div>
+		
+		<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="col rules-section">
 
 			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
@@ -105,7 +108,9 @@ JHtml::_('behavior.keepalive');
 			</fieldset>
 				
 			<?php echo JHtml::_('sliders.end'); ?>
-
+		</div>
+	<?php endif; ?>
+	<div>	
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 	</div>

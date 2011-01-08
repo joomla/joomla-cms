@@ -97,6 +97,7 @@ class JFormFieldRules extends JFormField
 		// Prepare output
 		$html = array();
 		$html[] = '<div id="permissions-sliders" class="pane-sliders">';
+		$html[] = '<p class="rule-desc">' . JText::_('JLIB_RULES_SETTINGS_DESC') . '</p>';
 		$html[] = '<ul id="rules">';
 
 		// Start a row for each user group.
@@ -117,11 +118,9 @@ class JFormFieldRules extends JFormField
 			$html[] =	'<h3 class="pane-toggler title" ><a href="javascript:void(0);"><span>';
 			$html[] =	str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
 			$html[] =	'</span></a></h3>';
-			$html[] =	'<div class="pane-slider content">';
+			$html[] =	'<div class="pane-slider content pane-hide">';
 			$html[] =		'<div class="mypanel">';
 			$html[] =			'<table class="group-rules">';
-			$html[] =				'<caption>' . JText::sprintf('JLIB_RULES_GROUP', $group->text) . '<br /><span>' .
-									 JText::_('JLIB_RULES_SETTINGS_DESC') . '</span></caption>';
 			$html[] =				'<thead>';
 			$html[] =					'<tr>';
 
@@ -244,21 +243,21 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '</tbody>';
 			$html[] = '</table></div>';
-			if ($section == 'component' || $section == null ) {
-				$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
-			}
-			else {
-				$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
-			}
+
 			$html[] = '</div></div>';
 
 		} // endforeach
 
 		$html[] = str_repeat('</li></ul>', $curLevel);
-		$html[] = '</ul>';
-		$html[] = '</div>';
+		$html[] = '</ul><div class="rule-notes">';
+		if ($section == 'component' || $section == null ) {
+			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
+		} else {
+			$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
+		}
+		$html[] = '</div></div>';
 
-		$js = "window.addEvent('domready', function(){ new Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'), $$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');toggler.removeClass('pane-toggler');Cookie.write('jpanesliders_permissions-sliders".$component."',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');},duration: 300,display: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",show: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",opacity: false}); });";
+		$js = "window.addEvent('domready', function(){ new Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'), $$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders".$component."',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');i.removeClass('pane-down');},duration: 300,display: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",show: ".JRequest::getInt('jpanesliders_permissions-sliders'.$component, 0, 'cookie').",opacity: false}); });";
 
 		JFactory::getDocument()->addScriptDeclaration($js);
 

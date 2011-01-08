@@ -72,6 +72,10 @@ h3 {
 	font-size: 1.182em;
 }
 
+h4 {
+	font-size: 1.182em;
+}
+
 * :focus, a:active {
 	outline: none
 }
@@ -589,6 +593,10 @@ textarea#mm_message {
 h3.pane-toggler-down a:hover,
 h3.pane-toggler a:hover {
 	text-decoration: none;
+}
+
+.pane-slider.pane-hide {
+	display: none;
 }
 
 .pane-slider ol li {
@@ -2877,8 +2885,9 @@ ul.config-option-list fieldset {
 	padding-right: 0;
 }
 
-
-/* CSS Rules Permission Angie */
+/**
+* Permission Rules
+*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
@@ -2888,19 +2897,12 @@ ul.config-option-list fieldset {
     border:solid 0px #ccc; 
     background:#fff; 
     list-style-type:none;
-  
 }
 
 #permissions-sliders ul#rules li
 {
 	margin:0px 0 0 0%;
-	/*padding:0 0 0 1%;*/
-	padding:0
-}
-
-#permissions-sliders ul#rules .mypanel
-{
-	width:99%
+	padding:0;
 }
 
 ul#rules li .pane-sliders .panel h3.title
@@ -2910,19 +2912,23 @@ ul#rules li .pane-sliders .panel h3.title
 
 #permissions-sliders ul#rules .pane-slider
 {
-    padding:0px;
-    position:absolute; 
-    top:0px;
-    right:0 ;
-    background:none;
-    width:60%; 
+		border:solid 1px #ccc;
+}
+
+#permissions-sliders ul#rules .pane-slider.pane-hide
+{
+	display:none;
 }
 
 #permissions-sliders ul#rules li h3
 {
-	background:#f5f5f5;
+	background:#fafafa;
 	 font-size:1.10em;
-	 font-weight:normal
+}
+
+#permissions-sliders ul#rules li h3
+{
+	border: solid 1px #ccc;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
@@ -2931,38 +2937,26 @@ ul#rules li .pane-sliders .panel h3.title
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down
-{ 
+{
 	color:#000; 
-	background:#146295;
+	/*background:#146295;*/
 }
     
 #permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
-	color:#fff; 
+	/*color:#fff; */
 }
         
         
 #permissions-sliders ul#rules .group-kind
 {
-	color:#025A8D
+	color:#025A8D;
 }
             
 #permissions-sliders ul#rules table.group-rules
 {
     border-collapse:collapse;
      width:100%
-}
-
-#permissions-sliders ul#rules table.group-rules caption
-{
-	padding:10px; 
-	font-weight:bold;
-	text-align:left
-}
-
-#permissions-sliders ul#rules table.group-rules caption span
-{
-	font-weight:normal
 }
 
 #permissions-sliders ul#rules table.group-rules td
@@ -2988,7 +2982,17 @@ ul#rules li .pane-sliders .panel h3.title
     margin-bottom: 3px;
     margin-left:0;
     border:0;
-    margin-right:60.5%; 
+}
+
+#permissions-sliders p.rule-desc
+{
+	font-size: 1.091em;
+	margin-left: 0;
+}
+
+#permissions-sliders div.rule-notes
+	font-size: 1.091em;
+{
 }
 
 ul#rules table.aclmodify-table
@@ -3014,20 +3018,21 @@ table.group-rules td select
 	
 #permissions-sliders ul#rules .mypanel
 {
-	border:solid 0px #ddd; 
-	background:#f5f5f5; 
+	background:#ffffff; 
 	padding:0px; 
-	width:100% 
 }
+
+#permissions-sliders .mypanel table.group-rules
+{
+	margin: 5px;
+} 
 
 #permissions-sliders .mypanel table.group-rules caption
 {
-	border:solid 1px #ccc;
 }  
 
 #permissions-sliders ul#rules 
 {	
-	min-height:35em ;
 	padding:5px
 }
 
@@ -3037,37 +3042,41 @@ table.group-rules td select
     padding:4px
 }
 
-#permissions-sliders span.level
-{
-	color:#aaa;
-	background-image:none
-}
-
 #permissions-sliders .pane-toggler span
 {
-	padding-left:5px;background-image:none
+	padding-left:20px;
 }
 
 #permissions-sliders .pane-toggler-down span
-	{
+{
+}
+
+#permissions-sliders .pane-toggler-down span
+{
+	padding-left:20px;
+}
+	
+#permissions-sliders .pane-toggler-down span.level,
+#permissions-sliders .pane-toggler span.level
+{
+	color:#aaa;
 	background-image:none;
+	padding: 0;
 }
-
-#permissions-sliders .pane-toggler-down span
-	{padding-left:5px}
 
 #permissions-sliders ul#rules .panel h3
-	{
-	background:#f5f5f5 url(../images/j_arrow_right.png) center right no-repeat
+{
 }
 	
 /* global_config permissions */
 
 #page-permissions  fieldset ul#rules  .pane-slider
-	{width:60%;}
+{
+}
 
 #permissions-sliders
-	{ min-height:29em; width:100%; }
+{
+}
 	
 /* Debug acl styling */	
 .check-0,

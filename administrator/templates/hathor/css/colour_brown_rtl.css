@@ -84,11 +84,11 @@ div.toolbar-list a:hover {
  * Pane Slider pane Toggler styles
  */
 .pane-toggler  span { 
-	background: transparent url(../images/j_arrow_left.png) 5px 50% no-repeat;
+	background: transparent url(../images/j_arrow_left.png) right 50% no-repeat;
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) 5px 50%
+	background: transparent url(../images/j_arrow_down.png) right 50%
 		no-repeat;
 }
 
@@ -359,21 +359,20 @@ span.icon-16-locked {
 #sbox-window {
 }
 
-/* CSS Rules Permission Angie with changes for Hathor */
+/**
+* Permission Rules
+*/
 
-#permissions-sliders ul#rules li h3.pane-toggler-down a
-{	
-	border:solid 0px;
+#permissions-sliders ul#rules table.group-rules td
+{
+    border-left:solid 1px #000000; 
+    border-right:solid 0px #000000; 
 }
 
-#permissions-sliders .panel 
+#permissions-sliders ul#rules table.group-rules th
 {
-    border:0;
-}
-
-#permissions-sliders ul#rules .panel h3
-{
-	background:#f9fade url(../images/j_arrow_left.png) center left no-repeat
+    border-left:solid 1px #000000; 
+    border-right:solid 0px #000000; 
 }
 
 /**

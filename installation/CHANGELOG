@@ -51,6 +51,7 @@ $ -> Language fix or change
  $ Correcting some installation langs
  $ Adding ja-JP to installation langs
  $ Adding en-AU to installation langs
+ # [#24220] ** [#23398] Style / layout issue with permissions settings. Thanks Andrea.
 
 07-Jan-2011 Mark Dexter
 # [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.

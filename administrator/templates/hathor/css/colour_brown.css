@@ -1787,23 +1787,31 @@ table#acl-config th.acl-groups {
 */
 
 
-/* CSS Rules Permission Angie with changes for Hathor */
+/**
+* Permission Rules
+*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
 {  
-    border:solid 0px #c7c8b2; 
+    border:solid 0px #000000; 
     background:#ffffff; 
 }
 
 ul#rules li .pane-sliders .panel h3.title
 {
-	border:solid 0px #c7c8b2;
+	border:solid 0px #000000;
+}
+
+#permissions-sliders ul#rules .pane-slider
+{
+	border:solid 1px #000000;
 }
 
 #permissions-sliders ul#rules li h3
 {
 	background:#d5c1b2;
+	border: 1px solid #000000;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
@@ -1812,41 +1820,44 @@ ul#rules li .pane-sliders .panel h3.title
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down
-{ 
-	/* color:#2c2c2c; */
-	background:#146295; 
+{
 }
     
 #permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
-	color:#fff; 
 }    
         
 #permissions-sliders ul#rules .group-kind
 {
 	color:#2c2c2c;
 }
+
+#permissions-sliders ul#rules table.group-rules
+{
+	border:solid 1px #000000;
+}
             
 #permissions-sliders ul#rules table.group-rules caption
 {
-	background: #d5c1b2;
 }
 
 #permissions-sliders ul#rules table.group-rules td
 {
-    border:solid 1px #000000; 
+    border-right:solid 1px #000000; 
+    border-bottom:solid 1px #000000; 
 }
 
 #permissions-sliders ul#rules table.group-rules th
 {
-    background:#ffffff; 
-    border:solid 1px #000000; 
+    background:#e1d3c8; 
+    border-right:solid 1px #000000; 
+    border-bottom:solid 1px #000000; 
     color:#2c2c2c;
 }
 
 ul#rules table.aclmodify-table
 {
-	border:solid 1px #c7c8b2;
+	border:solid 1px #000000;
 }
 	
 ul#rules table.group-rules td label
@@ -1862,7 +1873,6 @@ ul#rules table.group-rules td label
 
 #permissions-sliders .mypanel table.group-rules caption
 {
-	border:solid 1px #000000;
 }  
 
 #permissions-sliders  ul#rules  table.group-rules td
@@ -1877,17 +1887,14 @@ ul#rules table.group-rules td label
 
 #permissions-sliders .pane-toggler span
 {
-	background-image:none;
 }
 
 #permissions-sliders .pane-toggler-down span
 {
-	background-image:none;
 }
 
 #permissions-sliders ul#rules .panel h3
 {
-	background:#d5c1b2 url(../images/j_arrow_right.png) center right no-repeat
 }
 
 /*

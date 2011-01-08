@@ -1877,7 +1877,9 @@ table#acl-config th.acl-groups {
 * Options modal- config
 */
 
-/* CSS Rules Permission Angie with changes for Hathor */
+/* *
+* Permission Rules
+*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
@@ -1891,9 +1893,15 @@ ul#rules li .pane-sliders .panel h3.title
 	border:solid 0px #1b3f7c;
 }
 
+#permissions-sliders ul#rules .pane-slider
+{
+	border:solid 1px #1b3f7c;
+}
+
 #permissions-sliders ul#rules li h3
 {
 	background:#1c4181;
+	border: 1px solid #1b3f7c;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
@@ -1903,13 +1911,10 @@ ul#rules li .pane-sliders .panel h3.title
 
 #permissions-sliders ul#rules li h3.pane-toggler-down
 { 
-	/* color:#2c2c2c; */
-	background:#10254a; 
 }
     
 #permissions-sliders ul#rules li h3.pane-toggler-down span
 { 
-	color:#fff; 
 }   
         
 #permissions-sliders ul#rules .group-kind
@@ -1919,18 +1924,19 @@ ul#rules li .pane-sliders .panel h3.title
             
 #permissions-sliders ul#rules table.group-rules caption
 {
-	background: #1c4181;
 }
 
 #permissions-sliders ul#rules table.group-rules td
 {
-    border:solid 1px #1b3f7c; 
+    border-right:solid 1px #1b3f7c; 
+    border-bottom:solid 1px #1b3f7c; 
 }
 
 #permissions-sliders ul#rules table.group-rules th
 {
-    background:#163365; 
-    border:solid 1px #1b3f7c; 
+    background: #10254a; 
+    border-right:solid 1px #1b3f7c; 
+    border-bottom:solid 1px #1b3f7c; 
     color:#fcff20;
 }
 
@@ -1952,7 +1958,7 @@ ul#rules table.group-rules td label
 
 #permissions-sliders .mypanel table.group-rules caption
 {
-	border:solid 1px #10254a;
+	/*border:solid 1px #10254a;*/
 }  
 
 #permissions-sliders  ul#rules  table.group-rules td
@@ -1967,17 +1973,14 @@ ul#rules table.group-rules td label
 
 #permissions-sliders .pane-toggler span
 {
-	background-image:none;
 }
 
 #permissions-sliders .pane-toggler-down span
-	{
-	background-image:none;
+{
 }
 
 #permissions-sliders ul#rules .panel h3
-	{
-	background:#1c4181 url(../images/j_arrow_right.png) top right no-repeat
+{
 }
 
 /*

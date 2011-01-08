@@ -18,5 +18,5 @@
 /* Accessibility: css in template.css for slider keyboard
  * has to be reversed here or the mouse does not work for ie */
 .pane-toggler + div.pane-slider {
-	display: block;
+	/*display: block;*/
 }

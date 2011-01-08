@@ -17,17 +17,14 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-$canDo		= ContentHelper::getActions();
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
+	Joomla.submitbutton = function(task) {
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-		else {
+		} else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
@@ -55,12 +52,13 @@ $canDo		= ContentHelper::getActions();
 		<li><?php echo $this->form->getLabel('access'); ?>
 		<?php echo $this->form->getInput('access'); ?></li>
 		
-
+		<?php if ($this->canDo->get('core.admin')): ?>
 		<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
-		<button type="button" onclick="document.location.href='#access-rules';">
-		<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
-	</li>
-				
+			<button type="button" onclick="document.location.href='#access-rules';">
+			<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
+		</li>
+		<?php endif; ?>	
+
 		<li><?php echo $this->form->getLabel('language'); ?>
 		<?php echo $this->form->getInput('language'); ?></li>
 	
@@ -152,8 +150,9 @@ $canDo		= ContentHelper::getActions();
 		</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>
-				</div>
-		<div class="clr"></div>
+	</div>
+	<div class="clr"></div>
+	<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="col rules-section">
 
 			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
@@ -166,7 +165,9 @@ $canDo		= ContentHelper::getActions();
 			</fieldset>
 				
 			<?php echo JHtml::_('sliders.end'); ?>
-
+		</div>
+	<?php endif; ?>
+	<div>	
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
 		<?php echo JHtml::_('form.token'); ?>

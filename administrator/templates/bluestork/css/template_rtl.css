@@ -477,7 +477,9 @@ span.icon-16-locked {
 }
 
 
-/* CSS Rules Permission Angie with changes for RTL */
+/**
+* Permission Rules
+*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
@@ -489,27 +491,20 @@ span.icon-16-locked {
 #permissions-sliders ul#rules li
 {
 	margin:0px 0 0 0%;
-	/*padding:0 0 0 1%;*/
 	padding:0;
 }
 
-#permissions-sliders ul#rules .pane-slider
+#permissions-sliders ul#rules li h3
 {
-    padding:0px;
-    top:0px;
-	right: 40%;
-    left: 0;
 }
 
-#permissions-sliders ul#rules li h3.pane-toggler -down a
+#permissions-sliders ul#rules li h3.pane-toggler-down a
 {	
 	border:solid 0px;
 }
 
-#permissions-sliders ul#rules table.group-rules caption
+#permissions-sliders ul#rules li h3.pane-toggler-down
 {
-	padding:5px; 
-	text-align:right;
 }
 
 #permissions-sliders ul#rules table.group-rules td
@@ -521,10 +516,6 @@ span.icon-16-locked {
 
 #permissions-sliders .panel 
 {
-    margin-bottom: 3px;
-    margin-left: 60.5%;
-    border:0;
-    margin-right:0; 
 }
 
 ul#rules table.group-rules td label
@@ -553,26 +544,25 @@ table.group-rules td select
     padding:4px;
 }
 
-#permissions-sliders .pane-toggler  span
+#permissions-sliders .pane-toggler span
 {
-	/* padding-left:5px; */
-	padding-right: 5px;
+	padding-right: 20px;
+	padding-left: 0;
 }
 
 #permissions-sliders .pane-toggler-down span
 {
-	/* padding-left:5px */
-	padding-right: 5px;
+	padding-right: 20px;
+	padding-left: 0;
 }
 
 div.current #permissions-sliders select {
-float:right;
-margin:3px 2px 0 2px;
+	float:right;
+	margin:3px 2px 0 2px;
 }
 
 #permissions-sliders ul#rules .panel h3
 {
-	background:#f5f5f5 url(../images/j_arrow_left.png) center left no-repeat
 }
 
 /* Additional RTL fixes for forms */

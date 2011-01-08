@@ -151,12 +151,13 @@ div.pane-sliders {
 }
 
 .pane-toggler  span {
+	padding-left: 0;
 	padding-right: 20px;
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) 5px 50%
-		no-repeat;
+	padding-right: 20px;
+	padding-left: 0;
 }
 
 /**
@@ -851,6 +852,7 @@ dl.menu_type dd {
 
 	/* Skip to Content Structural Styling */
 #skiplinkholder a,#skiplinkholder a:link,#skiplinkholder a:visited {
+	left: 0;
 	right: -200%;
 }
 
@@ -864,6 +866,7 @@ dl.menu_type dd {
 }
 
 #skiptargetholder {
+	left: 0;
 	right: -200%;
 }
 
@@ -1055,7 +1058,9 @@ span.icon-16-locked {
 #jform_sef_rewrite-lbl {
 }
 
-/* CSS Rules Permission Angie with changes for Hathor */
+/* *
+* Permission Rules
+*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
@@ -1067,16 +1072,15 @@ span.icon-16-locked {
 #permissions-sliders ul#rules li
 {
 	margin:0px 0 0 0%;
-	/*padding:0 0 0 1%;*/
 	padding:0;
 }
 
 #permissions-sliders ul#rules .pane-slider
 {
-    padding:0px;
-    top:0px;
-	right: 40%;
-    left: 0;
+}
+
+#permissions-sliders ul#rules li h3
+{
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
@@ -1085,8 +1089,6 @@ span.icon-16-locked {
 
 #permissions-sliders ul#rules table.group-rules caption
 {
-	padding:5px; 
-	text-align:right;
 }
 
 #permissions-sliders ul#rules table.group-rules td
@@ -1099,7 +1101,6 @@ span.icon-16-locked {
 #permissions-sliders .panel 
 {
     margin-bottom: 3px;
-    margin-left: 60.5%;
     margin-right:0; 
 }
 
@@ -1115,7 +1116,7 @@ table.group-rules td select
 	
 #permissions-sliders ul#rules .mypanel
 {
-	padding:0px; 
+	padding:0px;
 }
 
 #permissions-sliders ul#rules 
@@ -1131,14 +1132,14 @@ table.group-rules td select
 
 #permissions-sliders .pane-toggler  span
 {
-	/* padding-left:5px; */
-	padding-right: 5px;
+	padding-left: 0;
+	padding-right: 20px;
 }
 
-#permissions-sliders .pane-toggler -down span
+#permissions-sliders .pane-toggler-down span
 {
-	/* padding-left:5px */
-	padding-right: 5px;
+	padding-left: 0;
+	padding-right: 20px;
 }
 
 #permissions-sliders ul#rules .panel h3

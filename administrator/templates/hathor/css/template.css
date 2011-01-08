@@ -118,6 +118,10 @@ a:hover {
 	text-decoration: underline;
 }
 
+a:focus {
+	text-decoration: underline;
+}
+
 iframe {
 	border: 0;
 }
@@ -432,6 +436,11 @@ textarea#mm_message {
 	border: 0 none;
 }
 
+h3.pane-toggler-down a:focus,
+h3.pane-toggler a:focus {
+	outline: none;
+}
+
 .pane-toggler  span {
 	padding-left: 20px;
 }
@@ -444,7 +453,10 @@ textarea#mm_message {
 }
 
 /* The following line hides the unseen panel (prevents the mouse from activating in IE, so overridden in the ie css files) */
-.pane-toggler + div.pane-slider {display: none;}
+/*.pane-toggler + div.pane-slider {display: none;}*/
+.pane-slider.pane-hide {
+	display: none;
+}
 
 input#jformparams_link_titles1,
 input#jformparams_show_title1,
@@ -2352,7 +2364,9 @@ ul.config-option-list fieldset {
 	padding-right: 0;
 }
 
-/* CSS Rules Permission Angie with changes for Hathor */
+/* *
+* Permission Rules
+*/
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
@@ -2360,19 +2374,12 @@ ul.config-option-list fieldset {
     margin:0 0 0 0px !important;
     padding:0 0 0 0px !important;
     list-style-type:none;
-  
 }
 
 #permissions-sliders ul#rules li
 {
 	margin:0px 0 0 0%;
-	/*padding:0 0 0 1%;*/
 	padding:0;
-}
-
-#permissions-sliders ul#rules .mypanel
-{
-	width:99%;
 }
 
 ul#rules li .pane-sliders .panel h3.title
@@ -2381,18 +2388,10 @@ ul#rules li .pane-sliders .panel h3.title
 
 #permissions-sliders ul#rules .pane-slider
 {
-    padding:0px;
-    position:absolute; 
-    top:0px;
-    right:0 ;
-    background:none;
-    width:60%; 
 }
 
 #permissions-sliders ul#rules li h3
 {
-	font-size:1.10em;
-	font-weight:normal;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
@@ -2411,24 +2410,12 @@ ul#rules li .pane-sliders .panel h3.title
 #permissions-sliders ul#rules .group-kind
 {
 }
-            
+           
 #permissions-sliders ul#rules table.group-rules
 {
     border-collapse:collapse;
-     width:100%
-}
-
-#permissions-sliders ul#rules table.group-rules caption
-{
-	padding:5px; 
-	font-weight:bold;
-	text-align:left;
-}
-
-#permissions-sliders ul#rules table.group-rules caption span
-{
-	font-weight:normal;
-	font-size: .9em;
+   	margin: 5px;
+    width:100%
 }
 
 #permissions-sliders ul#rules table.group-rules td
@@ -2451,13 +2438,23 @@ ul#rules li .pane-sliders .panel h3.title
     margin-bottom: 3px;
     margin-left:0;
     border:0;
-    margin-right:60.5%; 
 }
+
+#permissions-sliders p.rule-desc
+{
+	font-size: 1.1em;
+}
+
+#permissions-sliders div.rule-notes
+{
+	font-size: 1.1em;
+}
+
 
 ul#rules table.aclmodify-table
 {
 }
-	
+
 ul#rules table.group-rules td label
 {
 	margin:0 !important;
@@ -2483,7 +2480,6 @@ table.group-rules td select
 #permissions-sliders ul#rules .mypanel
 {
 	padding:0px; 
-	width:100%;
 	line-height: 1.3em;
 }
 
@@ -2494,7 +2490,6 @@ table.group-rules td select
 
 #permissions-sliders ul#rules 
 {	
-	min-height:45em ;
 	padding:5px;
 }
 
@@ -2511,20 +2506,19 @@ table.group-rules td select
 	min-width: 1em;
 }
 
-#permissions-sliders span.level
-{
-}
-
 #permissions-sliders .pane-toggler span
 {
-	padding-left:5px;
+	padding-left:20px;
 }
 
 #permissions-sliders .pane-toggler-down span {
+	padding-left: 20px
 }
 
-#permissions-sliders .pane-toggler-down span {
-	padding-left:5px
+#permissions-sliders .pane-toggler-down span.level,
+#permissions-sliders .pane-toggler span.level
+{
+	padding: 0;
 }
 
 #permissions-sliders ul#rules .panel h3	{
@@ -2533,10 +2527,12 @@ table.group-rules td select
 /* global_config permissions */
 
 #page-permissions fieldset ul#rules .pane-slider
-	{width:60%;}
+{
+}
 
 #permissions-sliders
-	{ min-height:35em; width:100%; }
+{
+}
 
 /*
  * Debug styles
