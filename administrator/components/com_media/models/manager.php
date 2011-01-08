@@ -28,7 +28,7 @@ class MediaModelManager extends JModel
 			$folder = JRequest::getVar('folder', '', '', 'path');
 			$this->setState('folder', $folder);
 
-			$fieldid = JRequest::getVar('fieldid', '');
+			$fieldid = JRequest::getCmd('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
 			$parent = str_replace("\\", "/", dirname($folder));

@@ -37,6 +37,7 @@ $ -> Language fix or change
  # Fixed issue [#24198] Unfiltered output in the media manager - view = imagelist (Ian MacLennan).
  # Fixed issue [#24195] Language should be escaped in JHtmlLanguages (Ian MacLennan).
  # Fixed issue [#24177] *Router issue subsequent to [23818] + cancel from cat list new article wrong redirect (Jean-Marie Simonet).
+ # Fixed issue [#24196] fieldid should be properly filtered in the model (Ian MacLennan).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
