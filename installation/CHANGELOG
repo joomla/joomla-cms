@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#24087] Fix more PHP strict warnings (Rouven Weßling, Nikolai Plath).
  # Fixed issue [#24209] Data from feeds is not filtered (Ian MacLennan).
  # Fixed issue [#24197] Unfiltered output in the media manager - view = images (Ian MacLennan).
+ # Fixed issue [#24206] SQL Injection in templates in assignment of template styles to pages (Ian MacLennan).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.

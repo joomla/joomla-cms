@@ -254,7 +254,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadJSON($table->params);
 			$this->_cache[$pk]->params = $registry->toArray();
-			
+
 			// Get the template XML.
 			$client	= JApplicationHelper::getClientInfo($table->client_id);
 			$path	= JPath::clean($client->path.'/templates/'.$table->template.'/templateDetails.xml');
@@ -401,7 +401,9 @@ class TemplatesModelStyle extends JModelAdmin
 			$db		= JFactory::getDbo();
 			$user	= JFactory::getUser();
 
-			if (!empty($data['assigned'])) {
+			if (!empty($data['assigned']) && is_array($data['assigned'])) {
+				JArrayHelper::toInteger($data['assigned']);
+
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true);
 				$query->update('#__menu');
