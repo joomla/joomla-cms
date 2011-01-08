@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Jan-2011 Mark Dexter
 # [#24013] Short 'params' field length of 5k restricts modules, menus and template functionality
+# Sample data fixes (Elin Waring)
 
 08-Jan-2011 Christophe Demko
  # [#24154] Add the required class automatically when required="true" (Jean-Marie Simonet)
