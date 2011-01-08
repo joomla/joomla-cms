@@ -168,7 +168,7 @@ CREATE TABLE `#__categories` (
   `checked_out` int(11) unsigned NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `access` tinyint(3) unsigned NOT NULL default '0',
-  `params` varchar(2048) NOT NULL default '',
+  `params` TEXT NOT NULL default '',
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
@@ -562,7 +562,7 @@ CREATE TABLE `#__menu` (
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
   `template_style_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `params` varchar(10240) NOT NULL COMMENT 'JSON encoded data for the menu item.',
+  `params` TEXT NOT NULL COMMENT 'JSON encoded data for the menu item.',
   `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
   `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if this menu item is the home or default page.',
@@ -671,7 +671,7 @@ CREATE TABLE `#__modules` (
   `module` varchar(50) DEFAULT NULL,
   `access` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
-  `params` varchar(5120) NOT NULL DEFAULT '',
+  `params` TEXT NOT NULL DEFAULT '',
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
   PRIMARY KEY  (`id`),
@@ -899,7 +899,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
-  `params` varchar(10240) NOT NULL DEFAULT '',
+  `params` TEXT NOT NULL DEFAULT '',
   PRIMARY KEY  (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_home` (`home`)
@@ -908,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 INSERT INTO `#__template_styles` VALUES (1, 'rhuk_milkyway', '0', '0', 'Milkyway - Default', '{"colorVariation":"blue","backgroundVariation":"blue","widthStyle":"fmax"}');
 INSERT INTO `#__template_styles` VALUES (2, 'bluestork', '1', '1', 'Bluestork - Default', '{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO `#__template_styles` VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
-INSERT INTO `#__template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management Beta","navposition":"left","templatecolor":"personal","html5":"0"}');
+INSERT INTO `#__template_styles` VALUES (4, 'beez_20', 0, 1, 'Beez2 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
 INSERT INTO `#__template_styles` VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
 INSERT INTO `#__template_styles` VALUES (6, 'beez5', 0, 0, 'Beez5 - Default-Fruit Shop', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/sampledata\\/fruitshop\\/fruits.gif","sitetitle":"Matuna Market ","sitedescription":"Fruit Shop Sample Site","navposition":"left","html5":"0"}');
 

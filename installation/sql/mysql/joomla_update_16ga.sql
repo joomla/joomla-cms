@@ -26,3 +26,10 @@ ALTER TABLE `#__banner_tracks`
 
 REPLACE INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `custom_data`, `system_data`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
 (435, 'plg_content_joomla', 'plugin', 'joomla', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+
+
+# 2010-01-08: Params field changes for issue 24013
+ALTER TABLE `#__categories` MODIFY COLUMN params TEXT;
+ALTER TABLE `#__modules` MODIFY COLUMN params TEXT;
+ALTER TABLE `#__template_styles` MODIFY COLUMN params TEXT;
+ALTER TABLE `#__menu` MODIFY COLUMN params TEXT COMMENT 'JSON encoded data for the menu item.';
