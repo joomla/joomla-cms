@@ -41,6 +41,7 @@ $ -> Language fix or change
  # Fixed issue [#24199] menutype isn't filtered in the com_menus item model (Ian MacLennan).
  # Fixed issue [#24201] Value in input tag is not escaped (Ian MacLennan).
  # Fixed issue [#24205] template source files should not be made executable (Ian MacLennan).
+ # Fixed issue [#24208] Primary keys from request should be cast to integer (Ian MacLennan).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.

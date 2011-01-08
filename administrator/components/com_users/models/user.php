@@ -146,7 +146,7 @@ class UsersModelUser extends JModelAdmin
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
 			return false;
 		}
-		
+
 		// Make sure that we are not removing ourself from Super Admin group
 		$iAmSuperAdmin = $my->authorise('core.admin');
 		if ($iAmSuperAdmin && $my->get('id') == $pk) {
@@ -214,7 +214,7 @@ class UsersModelUser extends JModelAdmin
 				$allow = $user->authorise('core.delete', 'com_users');
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
-				
+
 				if ($allow) {
 					// Get users data for the users to delete.
 					$user_to_delete = JFactory::getUser($pk);
@@ -439,6 +439,7 @@ class UsersModelUser extends JModelAdmin
 			// Only run operations if a config array is present.
 			// Ensure there is a valid group.
 			$group_id = JArrayHelper::getValue($config, 'group_id', 0, 'int');
+			JArrayHelper::toInteger($user_ids);
 
 			if ($group_id < 1) {
 				$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
