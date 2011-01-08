@@ -36,7 +36,7 @@ class ContentControllerArticle extends JControllerForm
 	{
 		if (!parent::add()) {
 			// Redirect to the return page.
-			$this->setRedirect($this->_getReturnPage());
+			$this->setRedirect($this->getReturnPage());
 		}
 	}
 
@@ -129,8 +129,8 @@ class ContentControllerArticle extends JControllerForm
 	{
 		parent::cancel($key);
 
-		// Redirect to the list screen.
-		$this->setRedirect($this->_getReturnPage());
+		// Redirect to the return page.
+		$this->setRedirect($this->getReturnPage());
 	}
 
 	/**
@@ -145,7 +145,6 @@ class ContentControllerArticle extends JControllerForm
 	public function edit($key = null, $urlVar = 'a_id')
 	{
 		$result = parent::edit($key, $urlVar);
-		$this->_setReturnPage();
 
 		return $result;
 	}
@@ -180,12 +179,37 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
 		$itemId	= JRequest::getInt('Itemid');
+		$return	= $this->getReturnPage();
 
 		if ($itemId) {
 			$append .= '&Itemid='.$itemId;
 		}
 
+		if ($return) {
+			$append .= '&return='.base64_encode($return);
+		}
+
 		return $append;
+	}
+
+	/**
+	 * Get the return URL.
+	 *
+	 * If a "return" variable has been passed in the request
+	 *
+	 * @return	string	The return URL.
+	 * @since	1.6
+	 */
+	protected function getReturnPage()
+	{
+		$return = JRequest::getVar('return', null, 'default', 'base64');
+
+		if (empty($return)) {
+			return JURI::base();
+		}
+		else {
+			return base64_decode($return);
+		}
 	}
 
 	/**
@@ -222,231 +246,11 @@ class ContentControllerArticle extends JControllerForm
 
 		$result = parent::save($key, $urlVar);
 
-		return $result;
-	}
-
-	/**
-	 * Save the record
-	 */
-	public function __save()
-	{
-		// Check for request forgeries.
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		$model		= $this->getModel();
-		$task		= $this->getTask();
-		$context	= "$this->option.edit.$this->context";
-		if (!in_array(JRequest::getCmd('view'), array('category', 'categories'))) {
-			$recordId = JRequest::getInt('id');
-		}
-		else {
-			$recordId = 0;
-		}
-
-		if (!$this->checkEditId($context, $recordId)) {
-			// Somehow the person just went to the form and saved it - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
+		// If ok, redirect to the return page.
+		if ($result) {
 			$this->setRedirect($this->getReturnPage());
-
-			return false;
 		}
 
-		// Populate the row id from the session.
-		$data['id'] = $recordId;
-
-		// Split introtext and fulltext
-		$pattern    = '#<hr\s+id=(["\'])system-readmore\1\s*/?>#i';
-		$text		= $data['text'];
-		$tagPos		= preg_match($pattern, $text);
-
-		if ($tagPos == 0) {
-			$data['introtext'] = $text;
-		}
-		else {
-			list($data['introtext'], $data['fulltext']) = preg_split($pattern, $text, 2);
-		}
-
-		// The save2copy task needs to be handled slightly differently.
-		if ($task == 'save2copy') {
-			// Check-in the original row.
-			if ($model->checkin() === false) {
-				// Check-in failed, go back to the item and display a notice.
-				$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-				$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
-
-				return false;
-			}
-
-			// Reset the ID and then treat the request as for Apply.
-			$data['id']	= 0;
-			$task		= 'apply';
-		}
-
-		// Validate the posted data.
-		$form	= $model->getForm();
-		if (!$form) {
-			JError::raiseError(500, $model->getError());
-
-			return false;
-		}
-		$data	= $model->validate($form, $data);
-
-		// Check for validation errors.
-		if ($data === false) {
-			// Get the validation messages.
-			$errors	= $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if (JError::isError($errors[$i])) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else {
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
-
-			// Save the data in the session.
-			$app->setUserState($context.'.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
-
-			return false;
-		}
-
-		// Attempt to save the data.
-		if (!$model->save($data)) {
-			// Save the data in the session.
-			$app->setUserState($context.'.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
-
-			return false;
-		}
-
-		// Save succeeded, check-in the row.
-		if ($model->checkin() === false) {
-			// Check-in failed, go back to the row and display a notice.
-			$message = JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_content&view=form&layout=edit', $message, 'error');
-
-			return false;
-		}
-
-		if ($recordId == 0) {
-			$user = JFactory::getUser();
-			// Messaging for new items
-			JModel::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'models');
-			JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_messages'.DS.'tables');
-
-			$db = JFactory::getDbo();
-			$db->setQuery('SELECT id FROM #__users WHERE sendEmail = 1');
-			$users = (array) $db->loadResultArray();
-
-			$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-			$debug = JFactory::getConfig()->get('debug_lang');
-			foreach ($users as $user_id)
-			{
-				if ($user_id != $user->id)
-				{
-					// Load language for messaging
-					$receiver = JUser::getInstance($user_id);
-					$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
-					$lang->load('com_content');
-					$message = array(
-						'user_id_to'	=> $user_id,
-						'subject'		=> $lang->_('COM_CONTENT_NEW_ARTICLE'),
-						'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $data['title'])
-					);
-					$model_message = JModel::getInstance('Message', 'MessagesModel');
-					$model_message->save($message);
-				}
-			}
-			$this->setMessage(JText::_('COM_CONTENT_SUBMIT_SAVE_SUCCESS'));
-		}
-		else {
-			$this->setMessage(JText::_('COM_CONTENT_SAVE_SUCCESS'));
-		}
-
-		// Redirect the user and adjust session state based on the chosen task.
-		switch ($task)
-		{
-			case 'apply':
-				// Set the row data in the session.
-				$recordId = $model->getState('article.id');
-				$this->holdEditId($context, $recordId);
-				$app->setUserState($context.'.data',	null);
-
-				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit&id='.$recordId, false));
-				break;
-
-			case 'save2new':
-				// Clear the row id and data in the session.
-				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context.'.data',	null);
-
-				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_content&view=form&layout=edit', false));
-				break;
-
-			default:
-				// Clear the row id and data in the session.
-				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context.'.data',	null);
-
-				// Redirect to the list screen.
-				$this->setRedirect($this->getReturnPage());
-				break;
-		}
-	}
-
-	/**
-	 * Get the return URL.
-	 *
-	 * @return	string
-	 * @since	1.6
-	 */
-	private function _getReturnPage()
-	{
-		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
-
-		if (!($return = $app->getUserState($context.'.return'))) {
-			$return = JRequest::getVar('return', base64_encode(JURI::base()));
-		}
-
-		$return = JFilterInput::getInstance()->clean($return, 'base64');
-		$return = base64_decode($return);
-
-		if (!JURI::isInternal($return)) {
-			$return = JURI::base();
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Set the return URL.
-	 *
-	 * @return	void
-	 * @since	1.6
-	 */
-	private function _setReturnPage()
-	{
-		$app		= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
-
-		$return = JRequest::getVar('return', null, 'default', 'base64');
-
-		$app->setUserState($context.'.return', $return);
+		return $result;
 	}
 }

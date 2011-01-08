@@ -39,6 +39,9 @@ class ContentModelForm extends ContentModelArticle
 
 		$this->setState('article.catid', JRequest::getInt('catid'));
 
+		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$this->setState('return_page', base64_decode($return));
+
 		// Load the parameters.
 		$params	= $app->getParams();
 		$this->setState('params', $params);
@@ -118,141 +121,13 @@ class ContentModelForm extends ContentModelArticle
 	}
 
 	/**
-	 * Method to save the form data.
+	 * Get the return URL.
 	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
+	 * @return	string	The return URL.
 	 * @since	1.6
 	 */
-	public function __save($data)
+	public function getReturnPage()
 	{
-		// Initialise variables
-		$dispatcher = JDispatcher::getInstance();
-		$table		= $this->getTable();
-		$form		= $this->getForm($data, false);
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('article.id');
-		$isNew		= true;
-
-		if (!$form) {
-			JError::raiseError(500, $this->getError());
-			return false;
-		}
-
-		// Validate the posted data.
-		$data	= $this->validate($form, $data);
-		if ($data === false) {
-			return false;
-		}
-
-		// Load the row if saving an existing item.
-		if ($pk > 0) {
-			$table->load($pk);
-			$isNew = false;
-		}
-		if ($isNew){
-			// Save the default (empty) rules for the article
-			$actions = JAccess::getActions('com_content', 'article');
-			$actionArray = array();
-			foreach ($actions as $action) {
-				$actionArray[$action->name] = array();
-			}
-			$data['rules'] = $actionArray;
-		}
-		
-		// Bind the data.
-		if (!$table->bind($data)) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Check the data.
-		if (!$table->check()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Set the publish date to now
-		if ($table->state == 1 && intval($table->publish_up) == 0) {
-			$table->publish_up = JFactory::getDate()->toMySQL();
-		}
-
-		// Increment the content version number
-		$table->version++;
-
-		// Reorder the articles within the category so the new article is first
-		if (empty($table->id)) {
-			$table->reorder('catid = '.(int) $table->catid.' AND state >= 0');
-		}
-
-		// Include the content plugins for the onSave events.
-		JPluginHelper::importPlugin('content');
-
-		$result = $dispatcher->trigger('onContentBeforeSave', array('com_content.article', &$table, $isNew));
-
-		if (in_array(false, $result, true)) {
-			JError::raiseError(500, $table->getError());
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store()) {
-			$this->setError($table->getError());
-			return false;
-		}
-
-		// Adjust the mapping table.
-		// Clear the existing features settings.
-		$this->_db->setQuery(
-			'DELETE FROM #__content_frontpage' .
-			' WHERE content_id = '.$table->id
-		);
-
-		if (!$this->_db->query()) {
-			throw new Exception($this->_db->getErrorMsg());
-		}
-
-		if (isset($data['featured']) && $data['featured'] == 1) {
-			$frontpage = $this->getTable('Featured', 'ContentTable');
-
-			try
-			{
-				$this->_db->setQuery(
-					'UPDATE #__content AS a' .
-					' SET a.featured = 1'.
-					' WHERE a.id = '.$table->id
-				);
-				if (!$this->_db->query()) {
-					throw new Exception($this->_db->getErrorMsg());
-				}
-
-				// Featuring.
-				$this->_db->setQuery(
-					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
-					' VALUES ('.$table->id.',1)'
-				);
-
-				if (!$this->_db->query()) {
-					$this->setError($this->_db->getErrorMsg());
-					return false;
-				}
-			}
-			catch (Exception $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
-
-			$frontpage->reorder();
-		}
-
-		// Clean the cache.
-		$cache = JFactory::getCache('com_content');
-		$cache->clean();
-
-		$dispatcher->trigger('onContentAfterSave', array('com_content.article', &$table, $isNew));
-
-		$this->setState('article.id', $table->id);
-
-		return true;
+		return base64_encode($this->getState('return_page'));
 	}
 }

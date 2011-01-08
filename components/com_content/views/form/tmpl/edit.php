@@ -126,7 +126,9 @@ $params = $this->state->get('params');
 		<?php echo $this->form->getLabel('metakey'); ?>
 		<?php echo $this->form->getInput('metakey'); ?>
 		</div>
+
 		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<?php echo JHTML::_( 'form.token' ); ?>
 	</fieldset>
 </form>

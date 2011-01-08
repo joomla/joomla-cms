@@ -84,7 +84,7 @@ function ContentBuildRoute(&$query)
 			}
 		}
 
-		if ($menuItemGiven) {
+		if ($menuItemGiven && isset($menuItem->query['id'])) {
 			$mCatid = $menuItem->query['id'];
 		} else {
 			$mCatid = 0;

@@ -19,8 +19,10 @@ jimport('joomla.application.component.view');
  */
 class ContentViewForm extends JView
 {
-	protected $state;
+	protected $form;
 	protected $item;
+	protected $return_page;
+	protected $state;
 
 	public function display($tpl = null)
 	{
@@ -29,15 +31,16 @@ class ContentViewForm extends JView
 		$user		= JFactory::getUser();
 
 		// Get model data.
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->state		= $this->get('State');
+		$this->item			= $this->get('Item');
+		$this->form			= $this->get('Form');
+		$this->return_page	= $this->get('ReturnPage');
 
-		if (empty($item->id)) {
+		if (empty($this->item->id)) {
 			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
 		}
 		else {
-			$authorised = $item->params->get('access-edit');
+			$authorised = $this->item->params->get('access-edit');
 		}
 
 		if ($authorised !== true) {
@@ -45,8 +48,8 @@ class ContentViewForm extends JView
 			return false;
 		}
 
-		if (!empty($item)) {
-			$form->bind($item);
+		if (!empty($this->item)) {
+			$this->form->bind($this->item);
 		}
 
 		// Check for errors.
@@ -56,16 +59,13 @@ class ContentViewForm extends JView
 		}
 
 		// Create a shortcut to the parameters.
-		$params	= &$state->params;
-		
+		$params	= &$this->state->params;
+
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('params',	$params);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
-		$this->assignRef('user',	$user);
+		$this->params	= $params;
+		$this->user		= $user;
 
 		$this->_prepareDocument();
 		parent::display($tpl);

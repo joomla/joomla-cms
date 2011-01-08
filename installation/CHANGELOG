@@ -36,6 +36,7 @@ $ -> Language fix or change
  # Fixed issue [#24206] SQL Injection in templates in assignment of template styles to pages (Ian MacLennan).
  # Fixed issue [#24198] Unfiltered output in the media manager - view = imagelist (Ian MacLennan).
  # Fixed issue [#24195] Language should be escaped in JHtmlLanguages (Ian MacLennan).
+ # Fixed issue [#24177] *Router issue subsequent to [23818] + cancel from cat list new article wrong redirect (Jean-Marie Simonet).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
