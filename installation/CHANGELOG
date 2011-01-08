@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Jan-2011 Andrew Eddie
  # Fixed issue [#24072] Redirect Component Only Lists 404 Errors - Very Hard to Generate (Steve Burge, Elin Waring).
+ # Fixed issue [#21979] Make com_users and mod_login (almost) valid XHTML strict (site) (Rouven Weßling).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
