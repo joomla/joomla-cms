@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jan-2011 Andrew Eddie
+ # Fixed issue [#24072] Redirect Component Only Lists 404 Errors - Very Hard to Generate (Steve Burge, Elin Waring).
+
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
 
