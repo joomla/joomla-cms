@@ -57,6 +57,7 @@ $ -> Language fix or change
  $ Adding en-AU to installation langs
  # [#24220] ** [#23398] Style / layout issue with permissions settings. Thanks Andrea.
  $ Adding missing lang string.
+ $ [#24217] Unnecessary definite article in system logout plug-in. Thanks Bill.
 
 07-Jan-2011 Mark Dexter
 # [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.
