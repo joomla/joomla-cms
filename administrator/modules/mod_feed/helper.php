@@ -27,6 +27,8 @@ abstract class modFeedHelper
 		$rssrtl				= $params->get('rssrtl', 0);
 		$moduleclass_sfx	= $params->get('moduleclass_sfx', '');
 
+		$filter = JFilterInput::getInstance();
+
 		//  get RSS parsed object
 		$options = array();
 		$options['rssUrl']		= $rssurl;
@@ -42,9 +44,9 @@ abstract class modFeedHelper
 		if ($rssDoc != false)
 		{
 			// channel header and link
-			$channel['title'] = $rssDoc->get_title();
-			$channel['link'] = $rssDoc->get_link();
-			$channel['description'] = $rssDoc->get_description();
+			$channel['title'] = $filter->clean($rssDoc->get_title());
+			$channel['link'] = $filter->clean($rssDoc->get_link());
+			$channel['description'] = $filter->clean($rssDoc->get_description());
 
 			// channel image if exists
 			$image['url'] = $rssDoc->get_image_url();
@@ -60,7 +62,7 @@ abstract class modFeedHelper
 			// feed elements
 			$items = array_slice($items, 0, $rssitems);
 			?>
-			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo $params->get('moduleclass_sfx'); ?>">
+			<table cellpadding="0" cellspacing="0" class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
 			<?php
 			// feed description
 			if (!is_null($channel['title']) && $rsstitle) {
@@ -68,8 +70,8 @@ abstract class modFeedHelper
 				<tr>
 				<td>
 					<strong>
-						<a href="<?php echo str_replace('&', '&amp;', $channel['link']); ?>" target="_blank">
-						<?php echo $channel['title']; ?></a>
+						<a href="<?php echo htmlspecialchars(str_replace('&', '&amp;', $channel['link'])); ?>" target="_blank">
+						<?php echo htmlspecialchars($channel['title']); ?></a>
 					</strong>
 				</td>
 				</tr>
@@ -92,7 +94,7 @@ abstract class modFeedHelper
 			?>
 				<tr>
 					<td align="center">
-						<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
+						<img src="<?php echo htmlspecialchars($iUrl); ?>" alt="<?php echo htmlspecialchars(@$iTitle); ?>"/>
 					</td>
 				</tr>
 			<?php
@@ -109,7 +111,7 @@ abstract class modFeedHelper
 			?>
 			<tr>
 			<td>
-				<ul class="newsfeed<?php echo $moduleclass_sfx; ?>"  >
+				<ul class="newsfeed<?php echo htmlspecialchars($moduleclass_sfx); ?>"  >
 				<?php
 				for ($j = 0; $j < $totalItems; $j ++)
 				{
@@ -120,8 +122,8 @@ abstract class modFeedHelper
 					<?php
 					if (!is_null($currItem->get_link())) {
 					?>
-						<a href="<?php echo $currItem->get_link(); ?>" target="_child">
-						<?php echo $currItem->get_title(); ?></a>
+						<a href="<?php echo htmlspecialchars($currItem->get_link()); ?>" target="_child">
+						<?php echo htmlspecialchars($currItem->get_title()); ?></a>
 					<?php
 					}
 
@@ -129,7 +131,7 @@ abstract class modFeedHelper
 					if ($rssitemdesc)
 					{
 						// item description
-						$text = html_entity_decode($currItem->get_description(), ENT_COMPAT, 'UTF-8');
+						$text = $filter->clean(html_entity_decode($currItem->get_description(), ENT_COMPAT, 'UTF-8'));
 						$text = str_replace('&apos;', "'", $text);
 
 						// word limit check

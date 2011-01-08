@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Fixed issue [#24072] Redirect Component Only Lists 404 Errors - Very Hard to Generate (Steve Burge, Elin Waring).
  # Fixed issue [#21979] Make com_users and mod_login (almost) valid XHTML strict (site) (Rouven Weßling).
  # Fixed issue [#24087] Fix more PHP strict warnings (Rouven Weßling, Nikolai Plath).
+ # Fixed issue [#24209] Data from feeds is not filtered (Ian MacLennan).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
