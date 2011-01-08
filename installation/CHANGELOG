@@ -39,6 +39,7 @@ $ -> Language fix or change
  # Fixed issue [#24177] *Router issue subsequent to [23818] + cancel from cat list new article wrong redirect (Jean-Marie Simonet).
  # Fixed issue [#24196] fieldid should be properly filtered in the model (Ian MacLennan).
  # Fixed issue [#24199] menutype isn't filtered in the com_menus item model (Ian MacLennan).
+ # Fixed issue [#24201] Value in input tag is not escaped (Ian MacLennan).
 
 08-Jan-2011 Jean-Marie Simonet
  $ [#24181] Strings mixed up for com_users. Thanks Rouven.
