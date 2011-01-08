@@ -198,7 +198,7 @@ class TemplatesModelSource extends JModelForm
 		$ftp = JClientHelper::getCredentials('ftp');
 
 		// Try to make the template file writeable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0755')) {
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644')) {
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'));
 			return false;
 		}
@@ -213,7 +213,7 @@ class TemplatesModelSource extends JModelForm
 		$return = JFile::write($filePath, $data['source']);
 
 		// Try to make the template file unwriteable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0555')) {
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444')) {
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
 			return false;
 		} else if (!$return) {
