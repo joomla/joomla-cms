@@ -361,7 +361,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, $table, $isNew));
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option.'.'.$this->name, &$table, $isNew));
 		if (in_array(false, $result, true)) {
 			$this->setError($table->getError());
 			return false;
@@ -374,7 +374,7 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, $table, $isNew));
+		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, &$table, $isNew));
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id)) {

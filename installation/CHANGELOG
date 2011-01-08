@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jan-2011 Mark Dexter
+# [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.
+
 07-Jan-2011 Christophe Demko
  # [#24157] Library RSS deals with multiple categories for items but not for the feed itself
  # [#24188] Lack of Atom feed format returned (bill richardson)
