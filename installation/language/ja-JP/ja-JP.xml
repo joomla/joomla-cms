@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="1.6"
+	client="installation">
+	<name>Japanese(JP)</name>
+	<version>1.6.0</version>
+	<creationDate>2011-01-08</creationDate>
+	<author>Joomla! Japanese Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Joomla! 1.6のインストール用日本語ランゲージファイルです。</description>
+	<files>
+		<filename>ja-JP.ini</filename>
+	</files>
+	<metadata>
+		<name>Japanese(JP)</name>
+		<tag>ja-JP</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
