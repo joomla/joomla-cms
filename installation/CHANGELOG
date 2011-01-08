@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jan-2011 Jean-Marie Simonet
+ $ [#24181] Strings mixed up for com_users. Thanks Rouven.
+
 07-Jan-2011 Mark Dexter
 # [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.
 # [#24174] XSS Vulnerability in helpsearch
