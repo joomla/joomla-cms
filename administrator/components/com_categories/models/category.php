@@ -246,7 +246,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @throws	Exception if there is an error loading the form.
 	 * @since	1.6
 	 */
-	protected function preprocessForm($form, $data)
+	protected function preprocessForm(JForm $form, $data, $groups = '')
 	{
 		jimport('joomla.filesystem.path');
 

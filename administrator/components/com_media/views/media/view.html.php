@@ -100,9 +100,11 @@ class MediaViewMedia extends JView
 		jimport('joomla.client.helper');
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
-		$this->assignRef('session', JFactory::getSession());
+		$session	= JFactory::getSession();
+		$state		= $this->get('state');
+		$this->assignRef('session', $session);
 		$this->assignRef('config', $config);
-		$this->assignRef('state', $this->get('state'));
+		$this->assignRef('state', $state);
 		$this->assign('require_ftp', $ftp);
 		$this->assign('folders_id', ' id="media-tree"');
 		$this->assign('folders', $this->get('folderTree'));

@@ -94,7 +94,7 @@ class UsersModelGroup extends JModelAdmin
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form, $data)
+	protected function preprocessForm(JForm $form, $data, $groups = '')
 	{
 		$obj = is_array($data) ? JArrayHelper::toObject($data,'JObject') : $data;
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {

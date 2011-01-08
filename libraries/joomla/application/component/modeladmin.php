@@ -288,7 +288,8 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Convert to the JObject before adding other data.
-		$item = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$properties = $table->getProperties(1);
+		$item = JArrayHelper::toObject($properties, 'JObject');
 
 		if (property_exists($item, 'params')) {
 			$registry = new JRegistry;
@@ -337,12 +338,12 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param	JTable	$table	A JTable object.
+	 * @param	JTable	$table	A reference to a JTable object.
 	 *
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function prepareTable($table)
+	protected function prepareTable(&$table)
 	{
 		// Derived class will provide its own implentation if required.
 	}

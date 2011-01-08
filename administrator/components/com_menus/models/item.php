@@ -560,7 +560,7 @@ class MenusModelItem extends JModelAdmin
 	 * @return	mixed	Menu item data object on success, false on failure.
 	 * @since	1.6
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
 		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int)$this->getState('item.id');
@@ -648,7 +648,8 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.type', $table->type);
 
 		// Convert to the JObject before adding the params.
-		$result = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$properties = $table->getProperties(1);
+		$result = JArrayHelper::toObject($properties, 'JObject');
 
 		// Convert the params field to an array.
 		$registry = new JRegistry;
