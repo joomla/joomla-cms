@@ -36,7 +36,7 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		echo "Check that Site menu options are visible\n";
 		$this->assertTrue($this->isElementPresent("link=Control Panel"));
 		$this->assertTrue($this->isElementPresent("link=Global Configuration"));
-		$this->assertTrue($this->isElementPresent("link=Site Maintenance"));
+		$this->assertTrue($this->isElementPresent("link=Maintenance"));
 		$this->assertTrue($this->isElementPresent("link=System Information"));
 		$this->assertTrue($this->isElementPresent("link=Logout"));
 		$this->assertTrue($this->isElementPresent("link=Global Check-in"));

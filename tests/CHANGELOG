@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jan-2011 Mark Dexter
+# Fix failing system test
+
 02-Jan-2011 Christophe Demko
  # Correcting unit test since commit #20076
 
