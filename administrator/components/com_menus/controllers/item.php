@@ -35,7 +35,7 @@ class MenusControllerItem extends JControllerForm
 			$app->setUserState($context.'.type',	null);
 			$app->setUserState($context.'.link',	null);
 
-			$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu');
+			$menuType = $app->getUserStateFromRequest($this->context.'.filter.menutype', 'menutype', 'mainmenu', 'cmd');
 
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=item&menutype='.$menuType.$this->getRedirectToItemAppend(), false));
 		}
