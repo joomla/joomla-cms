@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 07-Jan-2011 Mark Dexter
 # [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.
+# [#24174] XSS Vulnerability in helpsearch
 
 07-Jan-2011 Christophe Demko
  # [#24157] Library RSS deals with multiple categories for items but not for the feed itself
