@@ -62,6 +62,9 @@ class plgUserProfile extends JPlugin
 			if (!JHtml::isRegistered('users.calendar')) {
 				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
 			}
+			if (!JHtml::isRegistered('users.tos')) {
+				JHtml::register('users.tos', array(__CLASS__, 'tos'));
+			}
 		}
 
 		return true;
@@ -93,6 +96,18 @@ class plgUserProfile extends JPlugin
 		else
 		{
 			return JHtml::_('date', $value);
+		}
+	}
+
+	public static function tos($value)
+	{
+		if ($value)
+		{
+			return JText::_('JYES');
+		}
+		else
+		{
+			return JText::_('JNO');
 		}
 	}
 

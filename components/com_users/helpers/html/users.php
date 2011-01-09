@@ -95,5 +95,93 @@ abstract class JHtmlUsers
 			}
 		}
 	}
+
+	public static function admin_language($value)
+	{
+		if (empty($value))
+		{
+			return self::value($value);
+		}
+		else
+		{
+
+			$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR, $value);
+			$file = "$value.xml";
+
+			$result = null;
+			if (is_file("$path/$file")) {
+				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+			}
+			
+			if ($result)
+			{
+				return $result['name'];
+			}
+			else
+			{
+				return self::value('');
+			}
+		}
+	}
+
+	public static function language($value)
+	{
+		if (empty($value))
+		{
+			return self::value($value);
+		}
+		else
+		{
+
+			$path = JLanguage::getLanguagePath(JPATH_SITE, $value);
+			$file = "$value.xml";
+
+			$result = null;
+			if (is_file("$path/$file")) {
+				$result = JLanguage::parseXMLLanguageFile("$path/$file");
+			}
+			
+			if ($result)
+			{
+				return $result['name'];
+			}
+			else
+			{
+				return self::value('');
+			}
+		}
+	}
+
+	public static function editor($value)
+	{
+		if (empty($value))
+		{
+			return self::value($value);
+		}
+		else
+		{
+			$db = JFactory::getDbo();
+			$lang = JFactory::getLanguage();
+			$query = $db->getQuery(true);
+			$query->select('name');
+			$query->from('#__extensions');
+			$query->where('element = '.$db->quote($value));
+			$query->where('folder = '.$db->quote('editors'));
+			$db->setQuery($query);
+			$title = $db->loadResult();
+			if ($title) {
+					$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, false)
+				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS .DS.'editors'.DS.$value, null, false, false)
+				||	$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS .DS.'editors'.DS.$value, $lang->getDefault(), false, false);
+				$lang->load($title.'.sys');
+				return JText::_($title);
+			}
+			else {
+				return self::value('');
+			}
+		}
+	}
+
 }
 
