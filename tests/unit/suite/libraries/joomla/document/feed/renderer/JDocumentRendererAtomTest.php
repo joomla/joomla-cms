@@ -5,6 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once JPATH_BASE.'/libraries/joomla/document/renderer.php';
+require_once JPATH_BASE.'/libraries/joomla/document/feed/feed.php';
 require_once JPATH_BASE.'/libraries/joomla/document/feed/renderer/atom.php';
 
 /**
@@ -25,7 +27,12 @@ class JDocumentRendererAtomTest extends PHPUnit_Framework_TestCase {
 	 * @access protected
 	 */
 	protected function setUp() {
-		//$this->object = new JDocumentRendererAtom;
+		$_SERVER['REQUEST_METHOD'] = 'get';
+		JRequest::setVar('type', 'atom');
+		$this->object = new JDocumentFeed;
+		$app = JFactory::getApplication('site');
+		$_SERVER['HTTP_HOST'] = 'localhost';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
@@ -38,11 +45,51 @@ class JDocumentRendererAtomTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testRender().
+	 * testRender method
 	 */
 	public function testRender() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$item = new JFeedItem(array(
+			'title'			=> 'Joomla!',
+			'link'			=> 'http://www.joomla.org',
+			'description'	=> 'Joomla main site',
+			'author'		=> 'Joomla',
+			'authorEmail'	=> 'joomla@joomla.org',
+			'category'		=> 'CMS',
+			'comments'		=> 'No comment',
+			'guid'			=> 'joomla',
+			'date'			=> 'Mon, 20 Jan 03 18:05:41 +0400',
+			'source'		=> 'http://www.joomla.org'
+		));
+		$this->object->addItem($item);
+		$this->assertThat(
+			// use original 'id' and 'name' here (from XML definition of the form field)
+			preg_replace('#(\t)*<updated>[^<]*</updated>\n#','',$this->object->render()),
+			$this->equalTo('<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="Joomla! 1.6 - Open Source Content Management" -->
+<feed xmlns="http://www.w3.org/2005/Atom"  xml:lang="en-gb">
+	<title type="text"></title>
+	<subtitle type="text"></subtitle>
+	<link rel="alternate" type="text/html" href="http://localhost"/>
+	<id></id>
+	<generator uri="http://joomla.org" version="1.6">Joomla! 1.6 - Open Source Content Management</generator>
+	<link rel="self" type="application/atom+xml" href="http://localhost/index.php?format=feed&amp;type=atom"/>
+	<entry>
+		<title>Joomla!</title>
+		<link rel="alternate" type="text/html" href="http://localhosthttp://www.joomla.org"/>
+		<published>2003-01-20T14:05:41+00:00</published>
+		<id>joomla</id>
+		<author>
+			<name>Joomla</name>
+			<email>joomla@joomla.org</email>
+		</author>
+		<summary type="html">Joomla main site</summary>
+		<content type="html">Joomla main site</content>
+		<category term="CMS" />
+	</entry>
+</feed>
+'),
+			'Line:'.__LINE__.' The feed does not generate properly.'
+		);
 	}
 }
 ?>

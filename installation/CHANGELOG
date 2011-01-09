@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#24234] Missing fied display_num in menu items type of category list (Akarawuth Tamrareang)
  ^ Reverting commit #20205 since it breaks language loading
  # [#24246] File used in bee5 css does not exists
+ # [#21815] JFeedItem->guid is not checked by the default feed renderers (Franklin Tse)
 
 09-Jan-2011 Jean-Marie Simonet
  $ Adding cs-CZ, sq-AL to installation langs + updated some.
