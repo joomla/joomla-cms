@@ -15,12 +15,12 @@ $output = array();
 
 // Print the logged in users.
 if ($params->get('show_loggedin_users', 1)) :
-	$output[] = '<span class="loggedin-users">'.$online_num.' '.JText::_('MOD_STATUS_USERS').'</span>';
+	$output[] = '<span class="loggedin-users">'.JText::plural('MOD_STATUS_USERS', $online_num).'</span>';
 endif;
 
 // Print the back-end logged in users.
 if ($params->get('show_loggedin_users_admin', 1)) :
-	$output[] = '<span class="backloggedin-users">'.$count.' '.JText::_('MOD_STATUS_BACKEND_USERS').'</span>';
+	$output[] = '<span class="backloggedin-users">'.JText::plural('MOD_STATUS_BACKEND_USERS', $count).'</span>';
 endif;
 
 //  Print the inbox message.

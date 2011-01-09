@@ -30,6 +30,7 @@ $ -> Language fix or change
 09-Jan-2011 Jean-Marie Simonet
 $ Adding cs-CZ, sq-AL to installation langs + updated some.
 $ Adding fa-IR, vi-VN to installation langs
+$# [#24224] Patch for adding plural strings to backend mod_stats module. Thanks Edgars.
 
 08-Jan-2011 Ian MacLennan
  # Updating Copyright Year
