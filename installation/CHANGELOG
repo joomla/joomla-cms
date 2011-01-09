@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jan-2011 Andrew Eddie
+ # Fix typo in Joomla system plugin.
+
 09-Jan-2011 Christophe Demko
  # [#24210] Revert to 1.5 behaviour for plugin language loading (Samuel Moffat)
  # [#24128] * Forms displayed in front-end gets same attributes as when using them to edit

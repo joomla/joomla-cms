@@ -97,7 +97,7 @@ class plgContentJoomla extends JPlugin
 		}
 
 		// Check if this function is enabled.
-		if (!$this->parms->def('check_categories', 1)) {
+		if (!$this->params->def('check_categories', 1)) {
 			return true;
 		}
 
