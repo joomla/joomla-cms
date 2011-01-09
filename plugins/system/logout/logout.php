@@ -27,12 +27,11 @@ class plgSystemLogout extends JPlugin
 	 * @param	object	The object to observe -- event dispatcher.
 	 * @param	object	The configuration object for the plugin.
 	 * @return	void
-	 * @since	1.5
+	 * @since	1.0
 	 */
 	function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage();
 
 		$hash = JUtility::getHash('plgSystemLogout');
 		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null ,'cookie'))

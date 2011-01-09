@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24229] Typo in sample data (Rouven Weßling)
  # [#24223] Article link from archive view doesn't work (Elin Waring)
  # [#24234] Missing fied display_num in menu items type of category list (Akarawuth Tamrareang)
+ ^ Reverting commit #20205 since it breaks language loading
 
 09-Jan-2011 Jean-Marie Simonet
  $ Adding cs-CZ, sq-AL to installation langs + updated some.
