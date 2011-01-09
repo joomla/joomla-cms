@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#23939] No empty menus in menu
  # [#24229] Typo in sample data (Rouven Weßling)
  # [#24223] Article link from archive view doesn't work (Elin Waring)
+ # [#24234] Missing fied display_num in menu items type of category list (Akarawuth Tamrareang)
 
 09-Jan-2011 Jean-Marie Simonet
  $ Adding cs-CZ, sq-AL to installation langs + updated some.
