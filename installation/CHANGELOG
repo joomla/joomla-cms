@@ -33,6 +33,7 @@ $ -> Language fix or change
  $# [#24224] Patch for adding plural strings to backend mod_stats module. Thanks Edgars.
  # [#24219] images in media/system/images/notice-*.png are not fully transparent. Thanks Andrea.
  $ Adding gl_ES, gu-IN to installation langs
+ $ Adding pl-PL to installation langs
 
 08-Jan-2011 Ian MacLennan
  # Updating Copyright Year
