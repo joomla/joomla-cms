@@ -490,7 +490,7 @@ abstract class JToolBarHelper
 	 * @param	string	$path		An alternative path for the configuation xml relative to JPATH_SITE.
 	 * @since	1.0
 	 */
-	public static function preferences($component, $height = '450', $width = '800', $alt = 'JToolbar_Options', $path = '', $onClose = '')
+	public static function preferences($component, $height = '550', $width = '875', $alt = 'JToolbar_Options', $path = '', $onClose = '')
 	{
 		$component = urlencode($component);
 		$path = urlencode($path);
