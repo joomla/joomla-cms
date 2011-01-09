@@ -33,6 +33,7 @@ $ -> Language fix or change
  # Fixed issue [#24237] Database setup screen - radio button does not accomodate longer lang strings (Serge Litvinov, Andrea Tarr).
  # Fixed issue [#24221] JFormFieldRules creates invalid markup (Rouven Weßling, Andrea Tarr).
  # Fixed issue [#24215] Some small improvements to the installation (Rouven Weßling).
+ # Fixed issue [#23992] Admin Bluestork template - Alignment of form text fields in IE7 (Ole Bang Ottosen, Bill Richardson).
 
 09-Jan-2011 Christophe Demko
  # [#24210] Revert to 1.5 behaviour for plugin language loading (Samuel Moffat)
