@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jan-2011 Christophe Demko
+ # [#24210] Revert to 1.5 behaviour for plugin language loading (Samuel Moffat)
+
 09-Jan-2011 Jean-Marie Simonet
  $ Adding cs-CZ, sq-AL to installation langs + updated some.
  $ Adding fa-IR, vi-VN to installation langs

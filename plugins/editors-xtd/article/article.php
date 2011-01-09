@@ -20,11 +20,26 @@ jimport('joomla.plugin.plugin');
 class plgButtonArticle extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+
+	/**
 	 * Display the button
 	 *
 	 * @return array A four element array of (article_id, article_title, category_id, object)
 	 */
-	function onDisplay($name)
+	public function onDisplay($name)
 	{
 		/*
 		 * Javascript to insert the link

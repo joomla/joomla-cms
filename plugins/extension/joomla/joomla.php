@@ -34,6 +34,20 @@ class plgExtensionJoomla extends JPlugin
 	private $installer = null;
 
 	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
 	 * @param	string	The friendly name of the site
