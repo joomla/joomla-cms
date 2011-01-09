@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.6" client="installation">
+	<name>Vietnamese (vi-VN)</name>
+	<version>1.6.0</version>
+	<creationDate>2011-01-05</creationDate>
+	<author>Joomla Viet Nam Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>vi-VN installation language pack</description>
+	<files>
+		<filename>vi-VN.ini</filename>
+	</files>
+	<metadata>
+		<name>Tiếng Việt</name>
+		<tag>vi-VN</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
