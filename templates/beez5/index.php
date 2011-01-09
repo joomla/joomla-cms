@@ -130,7 +130,7 @@ $templateparams	= $app->getTemplate(true)->params;
 					</div> <!-- end line -->
 		<div id="header-image">
 			<jdoc:include type="modules" name="position-15" />
-			<?php if ($this->countModules('position-1')==0): ?>
+			<?php if ($this->countModules('position-15')==0): ?>
 				<img src="<?php echo $this->baseurl ?>/templates/beez5/images/fruits.jpg"  alt="<?php echo JText::_('TPL_BEEZ5_LOGO'); ?>" />
 			<?php endif; ?>
 		</div>
