@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Jan-2011 Andrew Eddie
  # Fix typo in Joomla system plugin.
+ # Fixed issue [#24226] XSS Vulnerability in module chrome in administrator (Ian MacLennan).
 
 09-Jan-2011 Christophe Demko
  # [#24210] Revert to 1.5 behaviour for plugin language loading (Samuel Moffat)
