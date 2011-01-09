@@ -17,10 +17,8 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
 ?>
-
-<script type="text/javascript">
 <?php if ($this->sample_installed) : ?>
-
+<script type="text/javascript">
 	window.addEvent('domready', function() {
 		var select = document.getElementById('jform_sample_file');
 		var button = document.getElementById('theDefault').children[0];
@@ -28,9 +26,8 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 		button.setAttribute('value','<?php echo JText::_('INSTL_SITE_SAMPLE_LOADED', true); ?>');
 		select.setAttribute('disabled','disabled');
 	});
-<?php endif; ?>
 </script>
-
+<?php endif; ?>
 <div id="stepbar">
 	<div class="t">
 		<div class="t">
@@ -59,11 +56,11 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 			<div class="m">
 				<div class="far-right">
 <?php if ($this->document->direction == 'ltr') : ?>
-					<div class="button1-right"><div class="prev"><a href="index.php?view=filesystem" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
-					<div class="button1-left"><div class="next"><a href="javascript:void(0);" onclick="validateForm(document.getElementById('adminForm'), 'setup.saveconfig');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
+					<div class="button1-right"><div class="prev"><a href="index.php?view=filesystem" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
+					<div class="button1-left"><div class="next"><a href="javascript:void(0);" onclick="Install.submitform('setup.saveconfig');" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
 <?php elseif ($this->document->direction == 'rtl') : ?>
-					<div class="button1-right"><div class="prev"><a href="javascript:void(0);" onclick="validateForm(document.getElementById('adminForm'), 'setup.saveconfig');" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
-					<div class="button1-left"><div class="next"><a href="index.php?view=filesystem" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
+					<div class="button1-right"><div class="prev"><a href="javascript:void(0);" onclick="Install.submitform('setup.saveconfig');" rel="next" title="<?php echo JText::_('JNext'); ?>"><?php echo JText::_('JNext'); ?></a></div></div>
+					<div class="button1-left"><div class="next"><a href="index.php?view=filesystem" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><?php echo JText::_('JPrevious'); ?></a></div></div>
 <?php endif; ?>
 				</div>
 				<span class="step"><?php echo JText::_('INSTL_SITE'); ?></span>

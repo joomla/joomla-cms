@@ -11,6 +11,11 @@ if (typeof(Install) === 'undefined') {
 	var Install = {};
 };
 
+Install.submitform = function(task) {
+	var form = document.id('adminForm');
+	Joomla.submitform(task, form);
+}
+
 /**
  * Method to install sample data via AJAX request.
  */
