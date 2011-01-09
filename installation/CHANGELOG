@@ -44,6 +44,7 @@ $ -> Language fix or change
  $ Adding pl-PL to installation langs
  $ [#24238] Duplicate preposition in Who's Online module. (Typo). Thanks Rouven.
  #$ Moving xx-XX  admin and site language to the tests folder. Updating sql.
+ $ Adding sy-IQ, pt-PT, ru-RU, he-IL to installation langs
 
 08-Jan-2011 Ian MacLennan
  # Updating Copyright Year

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="1.6"
+	client="installation">
+	<name>Português(pt-PT)</name>
+	<version>1.6.0</version>
+	<creationDate>2011-01-08</creationDate>
+	<author>Comunidade Joomlapt.com</author>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>pt-PT.ini</filename>
+	</files>
+	<metadata>
+		<name>Português(pt-PT)</name>
+		<tag>pt-PT</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
