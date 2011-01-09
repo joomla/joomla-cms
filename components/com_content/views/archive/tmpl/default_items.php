@@ -20,7 +20,7 @@ $params = &$this->params;
 
 		<h2>
 		<?php if ($params->get('link_titles')): ?>
-			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
+			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug,$item->catslug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
 		<?php else: ?>
 				<?php echo $this->escape($item->title); ?>
@@ -34,7 +34,7 @@ $params = &$this->params;
 <?php if ($params->get('show_parent_category')) : ?>
 		<dd class="parent-category-name">
 			<?php	$title = $this->escape($item->parent_title);
-					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->parent_slug)).'">'.$title.'</a>';?>
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($item->catslug)).'">'.$title.'</a>';?>
 			<?php if ($params->get('link_parent_category') && $item->parent_slug) : ?>
 				<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
