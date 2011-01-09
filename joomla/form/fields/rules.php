@@ -106,16 +106,16 @@ class JFormFieldRules extends JFormField
 			$difLevel = $group->level - $curLevel;
 
 			if ($difLevel > 0) {
-				$html[] = '<ul>';
+				$html[] = '<li><ul>';
 			}
 			else if ($difLevel < 0) {
-				$html[] = str_repeat('</li></ul>', -$difLevel);
+				$html[] = str_repeat('</ul></li>', -$difLevel);
 			}
 
 			$html[] = '<li>';
 
 			$html[] = '<div class="panel">';
-			$html[] =	'<h3 class="pane-toggler title" ><a href="javascript:void(0);"><span>';
+			$html[] =	'<h3 class="pane-toggler title"><a href="javascript:void(0);"><span>';
 			$html[] =	str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
 			$html[] =	'</span></a></h3>';
 			$html[] =	'<div class="pane-slider content pane-hide">';
@@ -142,7 +142,7 @@ class JFormFieldRules extends JFormField
 
 			$html[] =					'</tr>';
 			$html[] =				'</thead>';
-			$html[] =				'<tbody >';
+			$html[] =				'<tbody>';
 
 			foreach ($actions as $action)
 			{
@@ -184,7 +184,7 @@ class JFormFieldRules extends JFormField
 				// Build the Calculated Settings column.
 				// The inherited settings column is not displayed for the root group in global configuration.
 				if ($canCalculateSettings) {
-					$html[] = '<td headers="global_th' . $group->value . '">';
+					$html[] = '<td headers="aclactionth' . $group->value . '">';
 
 					// This is where we show the current effective settings considering currrent group, path and cascade.
 					// Check whether this is a component or global. Change the text slightly.
@@ -245,10 +245,11 @@ class JFormFieldRules extends JFormField
 			$html[] = '</table></div>';
 
 			$html[] = '</div></div>';
+			$html[] = '</li>';
 
 		} // endforeach
 
-		$html[] = str_repeat('</li></ul>', $curLevel);
+		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';
 		if ($section == 'component' || $section == null ) {
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
