@@ -63,6 +63,10 @@ td:first-child {
 	width: 180px;
 }
 
+.db-table td:first-child {
+	width: 200px;
+}
+
 .sample-data td:first-child {
 	/*width: auto;*/
 }
@@ -523,6 +527,18 @@ div#installer div.b div.b {
 
 div#installer div.b div.b div.b {
    background: url(../images/j_crn_bl_light.png) 0 0 no-repeat;
+}
+
+/* make the radio buttons vertical to make room for long language strings */
+
+fieldset#jform_db_old label {
+	float: left;
+	clear: right;
+}
+
+fieldset#jform_db_old input {
+	float: left;
+	clear: left;
 }
 
 /* error messages and notices */

@@ -84,7 +84,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 							<?php echo JText::_('INSTL_BASIC_SETTINGS'); ?>
 						</h3>
 						<div class="section-smenu">
-							<table class="content2">
+							<table class="content2 db-table">
 								<tr>
 									<td></td>
 									<td></td>

@@ -80,3 +80,15 @@ h3.moofx-toggler-down {
 td.item + td {
 	text-align: right;
 }
+
+/* make the radio buttons vertical to make room for long language strings */
+
+fieldset#jform_db_old label {
+	float: right;
+	clear: left;
+}
+
+fieldset#jform_db_old input {
+	float: right;
+	clear: right;
+}
