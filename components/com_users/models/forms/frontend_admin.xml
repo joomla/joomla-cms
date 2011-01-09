@@ -5,6 +5,14 @@
 		<!--  Backend user account settings. -->
 		<fieldset name="params" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 
+			<field name="admin_style" type="templatestyle"
+				client="administrator"
+				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
+				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
+			>
+				<option value="">JOPTION_USE_DEFAULT</option>
+			</field>
+
 			<field name="admin_language" type="language"
 				client="administrator"
 				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
@@ -19,10 +27,6 @@
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
-
-			<field name="spacer" type="spacer" class="text"
-				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
-			/>	
 
 		</fieldset>
 	</fields>

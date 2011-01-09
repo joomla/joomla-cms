@@ -9,6 +9,9 @@
  */
 defined('_JEXEC') or die;
 
+JLoader::register('JHtmlUsers', JPATH_COMPONENT . '/helpers/html/users.php');
+JHtml::register('users.spacer', array('JHtmlUsers','spacer'));
+
 $fieldsets = $this->form->getFieldsets();
 if (isset($fieldsets['core']))   unset($fieldsets['core']);
 if (isset($fieldsets['params'])) unset($fieldsets['params']);
@@ -24,30 +27,18 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 	<dl>
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
-		<dt><?php echo $field->label; ?></dt>
+		<dt><?php echo $field->title; ?></dt>
 		<dd>
-			<?php
-				if (!$value = trim($field->value)) {
-					echo JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
-				} else {
-					if ($field->id == 'jform_profile_website') {
-						$v_http = substr ($value, 0, 4);
-
-						if($v_http == "http"){
-							echo '<a href="'.$value.'">'.$value.'</a>';
-						} else {
-							echo '<a href="http://'.$value.'">'.$value.'</a>';
-						}
-					} else {
-						if (method_exists($field, 'getText')) {
-							if (($value = $field->getText()) === null) {
-								$value = JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
-							}
-						}
-						echo $value;
-					}
-				}
-			?>
+			<?php if (JHtml::isRegistered('users.'.$field->id)):?>
+				<?php echo JHtml::_('users.'.$field->id, $field->value);?>
+			<?php elseif (JHtml::isRegistered('users.'.$field->fieldname)):?>
+				<?php echo JHtml::_('users.'.$field->fieldname, $field->value);?>
+			<?php else:?>
+				<?php if (!JHtml::isRegistered('users.'.$field->type)):?>
+					<?php JHtml::register('users.'.$field->type, array('JHtmlUsers','value'));?>
+				<?php endif;?>
+				<?php echo JHtml::_('users.'.$field->type, $field->value);?>
+			<?php endif;?>
 		</dd>
 		<?php endif;?>
 	<?php endforeach;?>

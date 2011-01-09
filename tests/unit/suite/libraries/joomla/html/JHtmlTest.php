@@ -167,6 +167,31 @@ class JHtmlTest extends JoomlaTestCase
 	}
 
 	/**
+	 * testIsRegistered().
+	 */
+	public function testIsRegistered()
+	{
+		$registered = $this->getMock('MyHtmlClass', array('mockFunction'));
+
+		// test that we can register the method
+		JHtml::register('prefix.file.testfunction', array($registered, 'mockFunction'));
+
+		$this->assertThat(
+			JHtml::isRegistered('prefix.file.testfunction'),
+			$this->isTrue(),
+			'Function is not registered'
+		);
+
+		JHtml::unregister('prefix.file.testfunction');
+
+		$this->assertThat(
+			JHtml::isRegistered('prefix.file.testfunction'),
+			$this->isFalse(),
+			'Function is registered'
+		);
+	}
+
+	/**
 	 * @todo Implement testCore().
 	 */
 	public function testCore()

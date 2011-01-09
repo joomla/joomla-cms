@@ -84,4 +84,14 @@ class JFormFieldSpacer extends JFormField
 		$html[] = '</span>';
 		return implode('',$html);
 	}
+	/**
+	 * Method to get the field title.
+	 *
+	 * @return	string	The field title.
+	 * @since	1.6
+	 */
+	protected function getTitle()
+	{
+		return $this->getLabel();
+	}
 }

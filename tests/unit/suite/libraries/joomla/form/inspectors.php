@@ -115,4 +115,9 @@ class JFormFieldInspector extends JFormField
 	{
 		return parent::getLabel();
 	}
+
+	public function getTitle()
+	{
+		return parent::getTitle();
+	}
 }

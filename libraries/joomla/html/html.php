@@ -52,6 +52,19 @@ abstract class JHtml
 	 */
 	private static $registry = array();
 
+	protected static function extract($key)
+	{
+		$key = preg_replace('#[^A-Z0-9_\.]#i', '', $key);
+
+		// Check to see if we need to load a helper file
+		$parts = explode('.', $key);
+
+		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
+		$file	= (count($parts) == 2 ? array_shift($parts) : '');
+		$func	= array_shift($parts);
+
+		return array(strtolower($prefix.'.'.$file.'.'.$func), $prefix, $file, $func);
+	}
 	/**
 	 * Class loader method
 	 *
@@ -62,19 +75,9 @@ abstract class JHtml
 	 *					prefix and class are optional and can be used to load custom
 	 *					html helpers.
 	 */
-	public static function _($type)
+	public static function _($key)
 	{
-		$type = preg_replace('#[^A-Z0-9_\.]#i', '', $type);
-
-		// Check to see if we need to load a helper file
-		$parts = explode('.', $type);
-
-		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file	= (count($parts) == 2 ? array_shift($parts) : '');
-		$func	= array_shift($parts);
-
-		$key = strtolower($prefix.'.'.$file.'.'.$func);
-
+		list($key, $prefix, $file, $func) = self::extract($key);
 		if (array_key_exists($key, self::$registry))
 		{
 			$function = self::$registry[$key];
@@ -130,20 +133,12 @@ abstract class JHtml
 	 */
 	public static function register($key, $function)
 	{
-		$parts = explode('.', $key);
-
-		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
-		$file	= (count($parts) == 2 ? array_shift($parts) : '');
-		$func	= array_shift($parts);
-
-		$key = strtolower($prefix.'.'.$file.'.'.$func);
-
+		list($key) = self::extract($key);
 		if (is_callable($function))
 		{
 			self::$registry[$key] = $function;
 			return true;
 		}
-
 		return false;
 	}
 
@@ -154,13 +149,24 @@ abstract class JHtml
 	 */
 	public static function unregister($key)
 	{
-		$key = strtolower($key);
+		list($key) = self::extract($key);
 		if (isset(self::$registry[$key])) {
 			unset(self::$registry[$key]);
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Test if the key is registered.
+	 *
+	 * @param	string	The name of the key
+	 */
+	public static function isRegistered($key)
+	{
+		list($key) = self::extract($key);
+		return isset(self::$registry[$key]);
 	}
 
 	/**

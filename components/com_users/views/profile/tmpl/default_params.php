@@ -8,6 +8,12 @@
  * @since		1.6
  */
 defined('_JEXEC') or die;
+
+JLoader::register('JHtmlUsers', JPATH_COMPONENT . '/helpers/html/users.php');
+JHtml::register('users.spacer', array('JHtmlUsers','spacer'));
+JHtml::register('users.helpsite', array('JHtmlUsers','helpsite'));
+JHtml::register('users.templatestyle', array('JHtmlUsers','templatestyle'));
+
 ?>
 <?php $fields = $this->form->getFieldset('params'); ?>
 <?php if (count($fields)): ?>
@@ -16,34 +22,22 @@ defined('_JEXEC') or die;
 	<dl>
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
-		<dt><?php echo $field->label; ?></dt>
+		<dt><?php echo $field->title; ?></dt>
 		<dd>
-			<?php
-				if ($field->type!='Spacer') {
-					if (empty($this->data->params[$field->fieldname])) {
-						echo JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
-					}
-					else {
-						if ($field->id == 'jform_params_helpsite') {
-							$v_http = substr ($this->data->params[$field->fieldname], 0, 4);
-
-							if($v_http == "http"){
-								echo '<a href="'.$this->data->params[$field->fieldname].'">'.$this->data->params[$field->fieldname].'</a>';
-							} else {
-								echo '<a href="http://'.$this->data->params[$field->fieldname].'">'.$this->data->params[$field->fieldname].'</a>';
-							}
-						} else {
-							echo $this->data->params[$field->fieldname];
-						}
-					}
-				}
-				else {
-					echo $field->input;
-				}
-			?>
+			<?php if (JHtml::isRegistered('users.'.$field->id)):?>
+				<?php echo JHtml::_('users.'.$field->id, $field->value);?>
+			<?php elseif (JHtml::isRegistered('users.'.$field->fieldname)):?>
+				<?php echo JHtml::_('users.'.$field->fieldname, $field->value);?>
+			<?php else:?>
+				<?php if (!JHtml::isRegistered('users.'.$field->type)):?>
+					<?php JHtml::register('users.'.$field->type, array('JHtmlUsers','value'));?>
+				<?php endif;?>
+				<?php echo JHtml::_('users.'.$field->type, $field->value);?>
+			<?php endif;?>
 		</dd>
 		<?php endif;?>
 	<?php endforeach;?>
 	</dl>
 </fieldset>
 <?php endif;?>
+

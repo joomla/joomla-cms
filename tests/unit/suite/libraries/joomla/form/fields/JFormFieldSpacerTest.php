@@ -139,4 +139,11 @@ class JFormFieldSpacerTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The getLabel method should return something without error.'
 		);
 	}
+	/**
+	 * Test the getTitle method.
+	 */
+	public function testGetTitle()
+	{
+		$this->testGetLabel();
+	}
 }

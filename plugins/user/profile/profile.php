@@ -56,9 +56,44 @@ class plgUserProfile extends JPlugin
 				$k = str_replace('profile.', '', $v[0]);
 				$data->profile[$k] = $v[1];
 			}
+			if (!JHtml::isRegistered('users.url')) {
+				JHtml::register('users.url', array(__CLASS__, 'url'));
+			}
+			if (!JHtml::isRegistered('users.calendar')) {
+				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
+			}
 		}
 
 		return true;
+	}
+
+	public static function url($value)
+	{
+		if (empty($value))
+		{
+			return JHtml::_('users.value', $value);
+		}
+		else
+		{
+			if(substr ($value, 0, 4) == "http") {
+				echo '<a href="'.$value.'">'.$value.'</a>';
+			}
+			else {
+				echo '<a href="http://'.$value.'">'.$value.'</a>';
+			}
+		}
+	}
+
+	public static function calendar($value)
+	{
+		if (empty($value))
+		{
+			return JHtml::_('users.value', $value);
+		}
+		else
+		{
+			return JHtml::_('date', $value);
+		}
 	}
 
 	/**

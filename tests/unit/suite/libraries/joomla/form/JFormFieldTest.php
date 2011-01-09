@@ -151,6 +151,39 @@ class JFormFieldTest extends JoomlaTestCase
 	}
 
 	/**
+	 * Tests the JFormField::getTitle method
+	 */
+	public function testGetTitle()
+	{
+		$form = new JFormInspector('form1');
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:'.__LINE__.' XML string should load successfully.'
+		);
+
+		$field = new JFormFieldInspector($form);
+
+		// Standard usage.
+
+		$xml = $form->getXML();
+		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
+
+		$this->assertThat(
+			$field->setup($title, 'The title'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->getTitle(),
+			$this->equalTo('Title'),
+			'Line:'.__LINE__.' The property should be computed from the XML.'
+		);
+	}
+
+	/**
 	 * Tests the JForm::setForm method
 	 */
 	public function testSetForm()
