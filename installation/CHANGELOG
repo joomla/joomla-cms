@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24219] images in media/system/images/notice-*.png are not fully transparent. Thanks Andrea.
  $ Adding gl_ES, gu-IN to installation langs
  $ Adding pl-PL to installation langs
+ $ [#24238] Duplicate preposition in Who's Online module. (Typo). Thanks Rouven.
 
 08-Jan-2011 Ian MacLennan
  # Updating Copyright Year
