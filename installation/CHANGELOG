@@ -28,9 +28,10 @@ $ -> Language fix or change
 ! -> Note
 
 09-Jan-2011 Jean-Marie Simonet
-$ Adding cs-CZ, sq-AL to installation langs + updated some.
-$ Adding fa-IR, vi-VN to installation langs
-$# [#24224] Patch for adding plural strings to backend mod_stats module. Thanks Edgars.
+ $ Adding cs-CZ, sq-AL to installation langs + updated some.
+ $ Adding fa-IR, vi-VN to installation langs
+ $# [#24224] Patch for adding plural strings to backend mod_stats module. Thanks Edgars.
+ # [#24219] images in media/system/images/notice-*.png are not fully transparent. Thanks Andrea.
 
 08-Jan-2011 Ian MacLennan
  # Updating Copyright Year
