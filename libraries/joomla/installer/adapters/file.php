@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id:file.php 6961 2010-03-15 16:06:53Z infograf768 $
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License, see LICENSE.php
  */
 
