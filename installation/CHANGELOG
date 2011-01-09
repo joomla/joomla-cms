@@ -54,6 +54,7 @@ $ -> Language fix or change
  #$ Moving xx-XX  admin and site language to the tests folder. Updating sql.
  $ Adding sy-IQ, pt-PT, ru-RU, he-IL to installation langs
  $ Adding pt-BR to installation languages
+ $ Correcting some install lang strings
 
 08-Jan-2011 Ian MacLennan
  # Updating Copyright Year
