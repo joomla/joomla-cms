@@ -281,6 +281,7 @@ class JEditor extends JObservable
 
 			if (class_exists($className)) {
 				$plugin = new $className($this, (array)$plugin);
+				$plugin->loadLanguage();
 			}
 
 			// Try to authenticate
