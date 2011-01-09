@@ -364,7 +364,7 @@ class JFeedItem extends JObject
 	 * @var		string
 	 * @access	public
 	 */
-	 var $pubDate;
+	 var $date;
 
 	 /**
 	 * Source element

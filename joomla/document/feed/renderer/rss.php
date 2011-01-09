@@ -128,7 +128,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".str_replace(' ','%20',$data->items[$i]->link)."</link>\n";
-			$feed.= "			<guid>".str_replace(' ','%20',$data->items[$i]->link)."</guid>\n";
+			
+			if (empty($data->items[$i]->guid) === true) {
+				$feed.= "			<guid isPermaLink=\"true\">".str_replace(' ','%20',$data->items[$i]->link)."</guid>\n";
+			}
+			else {
+				$feed.= "			<guid isPermaLink=\"false\">".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</guid>\n";
+			}
+			
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->authorEmail!="") {
@@ -157,9 +164,6 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			if ($data->items[$i]->date!="") {
 			$itemDate = JFactory::getDate($data->items[$i]->date);
 				$feed.= "			<pubDate>".htmlspecialchars($itemDate->toRFC822(), ENT_COMPAT, 'UTF-8')."</pubDate>\n";
-			}
-			if ($data->items[$i]->guid!="") {
-				$feed.= "			<guid>".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</guid>\n";
 			}
 			if ($data->items[$i]->enclosure != NULL)
 			{

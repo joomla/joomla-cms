@@ -100,14 +100,19 @@ defined('JPATH_BASE') or die;
 			$itemDate = JFactory::getDate($data->items[$i]->date);
 			$feed.= "		<published>".htmlspecialchars($itemDate->toISO8601(), ENT_COMPAT, 'UTF-8')."</published>\n";
 			$feed.= "		<updated>".htmlspecialchars($itemDate->toISO8601(),ENT_COMPAT, 'UTF-8')."</updated>\n";
-			$feed.= "		<id>".str_replace(' ', '%20', $url.$data->items[$i]->link)."</id>\n";
+			if (empty($data->items[$i]->guid) === true) {
+				$feed.= "		<id>".str_replace(' ', '%20', $url.$data->items[$i]->link)."</id>\n";
+			}
+			else {
+				$feed.= "		<id>".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</id>\n";
+			}
 
 			if ($data->items[$i]->author!="")
 			{
 				$feed.= "		<author>\n";
 				$feed.= "			<name>".htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8')."</name>\n";
 				if ($data->items[$i]->authorEmail!="") {
-					$feed.= "		<email>".htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8')."</email>\n";
+					$feed.= "			<email>".htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8')."</email>\n";
 				}
 				$feed.= "		</author>\n";
 			}
