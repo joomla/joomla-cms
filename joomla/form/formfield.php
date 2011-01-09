@@ -242,6 +242,9 @@ abstract class JFormField
 
 				return $this->label;
 				break;
+			case 'title':
+				return $this->getTitle();
+				break;
 		}
 
 		return null;
@@ -396,6 +399,27 @@ abstract class JFormField
 	 * @since	1.6
 	 */
 	abstract protected function getInput();
+
+	/**
+	 * Method to get the field title.
+	 *
+	 * @return	string	The field title.
+	 * @since	1.6
+	 */
+	protected function getTitle()
+	{
+		// Initialise variables.
+		$title = '';
+
+		if ($this->hidden) {
+			return $title;
+		}
+
+		// Get the label text from the XML element, defaulting to the element name.
+		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
+		$title = $this->translateLabel ? JText::_($title) : $title;
+		return $title;
+	}
 
 	/**
 	 * Method to get the field label markup.
