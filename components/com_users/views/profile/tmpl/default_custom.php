@@ -33,11 +33,10 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 				<?php echo JHtml::_('users.'.$field->id, $field->value);?>
 			<?php elseif (JHtml::isRegistered('users.'.$field->fieldname)):?>
 				<?php echo JHtml::_('users.'.$field->fieldname, $field->value);?>
-			<?php else:?>
-				<?php if (!JHtml::isRegistered('users.'.$field->type)):?>
-					<?php JHtml::register('users.'.$field->type, array('JHtmlUsers','value'));?>
-				<?php endif;?>
+			<?php elseif (JHtml::isRegistered('users.'.$field->type)):?>
 				<?php echo JHtml::_('users.'.$field->type, $field->value);?>
+			<?php else:?>
+				<?php echo JHtml::_('users.value', $field->value);?>
 			<?php endif;?>
 		</dd>
 		<?php endif;?>
