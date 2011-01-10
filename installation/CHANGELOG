@@ -27,6 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+
+-------------------- 1.6.0 Stable Release [10-Jan-2011] ------------------
+
+10-Jan-2010 Ian MacLennan
+ ! Recompressing system javascript
+
 10-Jan-2011 Christophe Demko
  # [#24249] Cannot edit a weblink from the frontend (Andrew Eddie)
  # [#24233] Error parameters formated in tinymce (Nikolai Plath)

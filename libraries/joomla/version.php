@@ -22,7 +22,7 @@ class JVersion
 	/** @public int Main Release Level */
 	public $RELEASE	= '1.6';
 	/** @public string Development Status */
-	public $DEV_STATUS	= 'RC1';
+	public $DEV_STATUS	= 'Stable';
 	/** @public int Sub Release Level */
 	public $DEV_LEVEL	= '0';
 	/** @public int build Number */
@@ -30,7 +30,7 @@ class JVersion
 	/** @public string Codename */
 	public $CODENAME	= 'Onward';
 	/** @public string Date */
-	public $RELDATE	= '14-Dec-2010';
+	public $RELDATE	= '10-Jan-2011';
 	/** @public string Time */
 	public $RELTIME	= '23:00';
 	/** @public string Timezone */
