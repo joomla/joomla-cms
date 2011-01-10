@@ -348,11 +348,15 @@ class JFilterInput extends JObject
 					} else {
 						$attribEnd = $nextSpace - 1;
 					}
-					if((int) $fromSpace > 0)
+					// if there is an ending, use this, if not do not worry
+					if($attribEnd > 0)
 					{
-						$fromSpace = substr($fromSpace, $attribEnd + 1);
-					} else {
-						$fromSpace = substr($fromSpace, 0, $attribEnd).'="'.substr($fromSpace, 0, $attribEnd).'"'.substr($fromSpace, $attribEnd);
+						if((int) $fromSpace > 0)
+						{
+							$fromSpace = substr($fromSpace, $attribEnd + 1);
+						} else {
+							$fromSpace = substr($fromSpace, 0, $attribEnd).'="'.substr($fromSpace, 0, $attribEnd).'"'.substr($fromSpace, $attribEnd);
+						}
 					}
 				}
 				if (strpos($fromSpace, '=') !== false) {
