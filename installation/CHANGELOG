@@ -31,6 +31,7 @@ $ -> Language fix or change
 # [#24250] PHP Notice In Archived Layout
 # Sample data fixes (Elin Waring)
 # [#24251] Article Category List Menu Item Missing Order By Parameters
+# Sample data fixes: remove xx-XX language and add Joomla! library to joomla.sql
 
 10-Jan-2011 Andrew Eddie
  # Fix typo in Joomla system plugin.
