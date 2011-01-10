@@ -81,7 +81,7 @@ $listDirn	= $this->state->get('list.direction');
 						$width	= 600;
 						$height	= 500;
 					}
-					
+
 					switch ($item->params->get('target', $this->params->get('target')))
 					{
 						case 1:
@@ -138,7 +138,9 @@ $listDirn	= $this->state->get('list.direction');
 </table>
 
 	<?php // Code to add a link to submit a weblink. ?>
-	<?php //TODO: restore submit a weblink code button when it works correctly. ?>
+	<?php /* if ($canCreate) : // TODO This is not working due to some problem in the router, I think. Ref issue #23685 ?>
+		<?php echo JHtml::_('icon.create', $item, $item->params); ?>
+ 	<?php  endif; */ ?>
 		<?php if ($this->params->get('show_pagination')) : ?>
 		 <div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>

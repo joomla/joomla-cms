@@ -57,7 +57,12 @@ abstract class WeblinksHelperRoute
 
 		return $link;
 	}
-	public static function getFormRoute($id)
+
+	/**
+	 * @param	int		$id		The id of the weblink.
+	 * @param	string	$return	The return page variable.
+	 */
+	public static function getFormRoute($id, $return = null)
 	{
 		// Create the link.
 		if ($id) {
@@ -65,6 +70,10 @@ abstract class WeblinksHelperRoute
 		}
 		else {
 			$link = 'index.php?option=com_weblinks&task=weblink.add&w_id=0';
+		}
+
+		if ($return) {
+			$link .= '&return='.$return;
 		}
 
 		return $link;

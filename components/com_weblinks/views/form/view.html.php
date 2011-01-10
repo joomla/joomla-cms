@@ -19,8 +19,10 @@ jimport('joomla.application.component.view');
  */
 class WeblinksViewForm extends JView
 {
-	protected $state;
+	protected $form;
 	protected $item;
+	protected $return_page;
+	protected $state;
 
 	public function display($tpl = null)
 	{
@@ -29,15 +31,16 @@ class WeblinksViewForm extends JView
 		$user		= JFactory::getUser();
 
 		// Get model data.
-		$state	= $this->get('State');
-		$item	= $this->get('Item');
-		$form	= $this->get('Form');
+		$this->state		= $this->get('State');
+		$this->item			= $this->get('Item');
+		$this->form			= $this->get('Form');
+		$this->return_page	= $this->get('ReturnPage');
 
-		if (empty($item->id)) {
+		if (empty($this->item->id)) {
 			$authorised = ($user->authorise('core.create', 'com_weblinks') || (count($user->getAuthorisedCategories('com_weblinks', 'core.create'))));
 		}
 		else {
-			$authorised = $user->authorise('core.edit', 'com_weblinks.weblink.'.$item->id);
+			$authorised = $user->authorise('core.edit', 'com_weblinks.weblink.'.$this->item->id);
 		}
 
 		if ($authorised !== true) {
@@ -45,8 +48,8 @@ class WeblinksViewForm extends JView
 			return false;
 		}
 
-		if (!empty($item)) {
-			$form->bind($item);
+		if (!empty($this->item)) {
+			$this->form->bind($this->item);
 		}
 
 		// Check for errors.
@@ -56,19 +59,15 @@ class WeblinksViewForm extends JView
 		}
 
 		// Create a shortcut to the parameters.
-		$params	= &$state->params;
+		$params	= &$this->state->params;
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('state',	$state);
-		$this->assignRef('params',	$params);
-		$this->assignRef('item',	$item);
-		$this->assignRef('form',	$form);
-		$this->assignRef('user',	$user);
+		$this->params	= $params;
+		$this->user		= $user;
 
 		$this->_prepareDocument();
-
 		parent::display($tpl);
 	}
 
@@ -84,12 +83,12 @@ class WeblinksViewForm extends JView
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
-		{
+		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
 			$this->params->def('page_heading', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
 		}
+
 		$title = $this->params->def('page_title', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
 		if ($app->getCfg('sitename_pagetitles', 0)) {
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);

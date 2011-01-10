@@ -28,6 +28,20 @@ class WeblinksControllerWeblink extends JControllerForm
 	protected $view_list = 'categories';
 
 	/**
+	 * Method to add a new record.
+	 *
+	 * @return	boolean	True if the article can be added, false if not.
+	 * @since	1.6
+	 */
+	public function add()
+	{
+		if (!parent::add()) {
+			// Redirect to the return page.
+			$this->setRedirect($this->getReturnPage());
+		}
+	}
+
+	/**
 	 * Method override to check if you can add a new record.
 	 *
 	 * @param	array	$data	An array of input data.
@@ -94,8 +108,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		parent::cancel($key);
 
-		// Redirect to the list screen.
-		$this->setRedirect($this->_getReturnPage());
+		// Redirect to the return page.
+		$this->setRedirect($this->getReturnPage());
 	}
 
 	/**
@@ -110,7 +124,6 @@ class WeblinksControllerWeblink extends JControllerForm
 	public function edit($key = null, $urlVar = 'w_id')
 	{
 		$result = parent::edit($key, $urlVar);
-		$this->_setReturnPage();
 
 		return $result;
 	}
@@ -118,9 +131,9 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	string	$name	The model name. Optional.
+	 * @param	string	$prefix	The class prefix. Optional.
+	 * @param	array	$config	Configuration array for model. Optional.
 	 *
 	 * @return	object	The model.
 	 * @since	1.5
@@ -145,12 +158,37 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
 		$itemId	= JRequest::getInt('Itemid');
+		$return	= $this->getReturnPage();
 
 		if ($itemId) {
 			$append .= '&Itemid='.$itemId;
 		}
 
+		if ($return) {
+			$append .= '&return='.base64_encode($return);
+		}
+
 		return $append;
+	}
+
+	/**
+	 * Get the return URL.
+	 *
+	 * If a "return" variable has been passed in the request
+	 *
+	 * @return	string	The return URL.
+	 * @since	1.6
+	 */
+	protected function getReturnPage()
+	{
+		$return = JRequest::getVar('return', null, 'default', 'base64');
+
+		if (empty($return)) {
+			return JURI::base();
+		}
+		else {
+			return base64_decode($return);
+		}
 	}
 
 	/**
@@ -183,6 +221,11 @@ class WeblinksControllerWeblink extends JControllerForm
 	public function save($key = null, $urlVar = 'w_id')
 	{
 		$result = parent::save($key, $urlVar);
+
+		// If ok, redirect to the return page.
+		if ($result) {
+			$this->setRedirect($this->getReturnPage());
+		}
 
 		return $result;
 	}
@@ -244,32 +287,5 @@ class WeblinksControllerWeblink extends JControllerForm
 		else {
 			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_URL_INVALID'));
 		}
-	}
-
-	protected function _getReturnPage()
-	{
-		$app		= JFactory::getApplication();
-
-		if (!($return = $app->getUserState($this->context.'return'))) {
-			$return = JRequest::getVar('return', base64_encode(JURI::base()));
-		}
-
-		$return = JFilterInput::getInstance()->clean($return, 'base64');
-		$return = base64_decode($return);
-
-		if (!JURI::isInternal($return)) {
-			$return = JURI::base();
-		}
-
-		return $return;
-	}
-
-	protected function _setReturnPage()
-	{
-		$app		= JFactory::getApplication();
-
-		$return = JRequest::getVar('return', null, 'default', 'base64');
-
-		$app->setUserState($this->context.'return', $return);
 	}
 }
