@@ -43,9 +43,9 @@ class BannersControllerBanners extends JControllerAdmin
 	 * Proxy for getModel.
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Banner', $prefix = 'BannersModel')
+	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 

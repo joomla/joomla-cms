@@ -125,7 +125,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @return	object	The model.
 	 * @since	1.5
 	 */
-	public function &getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 
@@ -162,7 +162,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function postSaveHook(JModel &$model, $validData)
+	protected function postSaveHook(JModel &$model, $validData = array())
 	{
 		$task = $this->getTask();
 

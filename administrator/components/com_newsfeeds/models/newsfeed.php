@@ -207,7 +207,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @return	array	An array of conditions to add to add to ordering queries.
 	 * @since	1.6
 	 */
-	protected function getReorderConditions($table = null)
+	protected function getReorderConditions($table)
 	{
 		$condition = array();
 		$condition[] = 'catid = '.(int) $table->catid;

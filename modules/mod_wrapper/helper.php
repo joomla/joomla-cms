@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 class modWrapperHelper
 {
-	function getParams(&$params)
+	static function getParams(&$params)
 	{
 		$params->def('url', '');
 		$params->def('scrolling', 'auto');

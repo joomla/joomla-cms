@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 class modArchiveHelper
 {
-	function getList(&$params)
+	static function getList(&$params)
 	{
 		//get database
 		$db		= JFactory::getDbo();
@@ -40,12 +40,15 @@ class modArchiveHelper
 		foreach ($rows as $row) {
 			$date = JFactory::getDate($row->created);
 
-			$created_month	= $date->format("n");
-			$month_name		= $date->format("F");
-			$created_year	= $date->format("Y");
+			$created_month	= $date->format('n');
+			$month_name	= $date->format('F');
+			$created_year	= $date->format('Y');
 
+			$lists[$i] = new stdClass;
+			
 			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
 			$lists[$i]->text	= JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE',$month_name,$created_year);
+			
 			$i++;
 		}
 		return $lists;

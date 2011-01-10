@@ -22,7 +22,7 @@ class JHtmlNewsfeed
 	 * @param	int $value	The state value
 	 * @param	int $i
 	 */
-	function state($value = 0, $i)
+	public static function state($value = 0, $i)
 	{
 		// Array of image, task, title, action
 		$states	= array(
@@ -43,7 +43,7 @@ class JHtmlNewsfeed
 	 * @return	string			The HTML code for the select tag
 	 * @since	1.6
 	 */
-	function filterstate($selected)
+	public static function filterstate($selected)
 	{
 		// Build the active state filter options.
 		$options	= array();

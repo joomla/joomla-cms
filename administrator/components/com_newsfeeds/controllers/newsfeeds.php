@@ -22,9 +22,9 @@ class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 */
-	public function &getModel($name = 'Newsfeed', $prefix = 'NewsfeedsModel')
+	public function getModel($name = 'Newsfeed', $prefix = 'NewsfeedsModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 }

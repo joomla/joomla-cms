@@ -38,7 +38,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = eaccelerator_get($cache_id);
@@ -127,7 +127,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	public function clean($group, $mode)
+	public function clean($group, $mode = null)
 	{
 		$keys = eaccelerator_list_keys();
 
@@ -219,7 +219,7 @@ class JCacheStorageEaccelerator extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
 	 */
-	public function unlock($id,$group)
+	public function unlock($id, $group = null)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		return eaccelerator_unlock($cache_id);

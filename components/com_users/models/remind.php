@@ -48,9 +48,9 @@ class UsersModelRemind extends JModelForm
 	 * @throws	Exception if there is an error in the form event.
 	 * @since	1.6
 	 */
-	protected function preprocessForm(JForm $form)
+	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
-		parent::preprocessForm($form, 'user');
+		parent::preprocessForm($form, $data, 'user');
 	}
 
 	/**

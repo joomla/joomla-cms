@@ -313,7 +313,7 @@ class JUser extends JObject
 	{
 		return $this->getAuthorisedViewLevels();
 	}
-	
+
 	/**
 	 * Method to return a list of all categories that a user has permission for a given action
 	 *
@@ -338,11 +338,11 @@ class JUser extends JObject
 		$allowedCategories = array();
 		foreach ($allCategories as $category) {
 			if ($this->authorise($action, $category->asset_name)) {
-				$allowedCategories[] = (int) $category->id;	
+				$allowedCategories[] = (int) $category->id;
 			}
 		}
 		return $allowedCategories;
-	}	
+	}
 
 	/**
 	 * Gets an array of the authorised access levels for the user
@@ -379,7 +379,7 @@ class JUser extends JObject
 		}
 
 		return $this->_authGroups;
-	}	
+	}
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
@@ -464,7 +464,7 @@ class JUser extends JObject
 	 * @return	object	The user table object
 	 * @since	1.5
 	 */
-	public function getTable($type = null, $prefix = 'JTable')
+	public static function getTable($type = null, $prefix = 'JTable')
 	{
 		static $tabletype;
 
@@ -555,7 +555,7 @@ class JUser extends JObject
 		}
 
 		// TODO: this will be deprecated as of the ACL implementation
-		$db = JFactory::getDbo();
+//		$db = JFactory::getDbo();
 
 		if (array_key_exists('params', $array)) {
 			$params	= '';

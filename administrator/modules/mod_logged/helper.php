@@ -44,6 +44,8 @@ abstract class modLoggedHelper
 
 		foreach($results as $k => $result)
 		{
+			$results[$k]->logoutLink = '';
+			
 			if($user->authorise('core.manage', 'com_users'))
 			{
 				$results[$k]->editLink = JRoute::_('index.php?option=com_users&task=user.edit&id='.$result->id);

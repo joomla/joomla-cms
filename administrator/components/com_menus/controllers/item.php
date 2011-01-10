@@ -82,7 +82,7 @@ class MenusControllerItem extends JControllerForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	public function cancel()
+	public function cancel($key = null)
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -104,7 +104,7 @@ class MenusControllerItem extends JControllerForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	public function edit()
+	public function edit($key = null, $urlVar = null)
 	{
 		// Initialise variables.
 		$app	= JFactory::getApplication();
@@ -125,7 +125,7 @@ class MenusControllerItem extends JControllerForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	public function save()
+	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));

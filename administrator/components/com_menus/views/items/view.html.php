@@ -112,7 +112,7 @@ class MenusViewItems extends JView
 												}
 											}
 											if (!empty($layout[0]->message[0])) {
-												$items->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
+												$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
 											}
 										}
 									}

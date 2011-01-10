@@ -193,7 +193,7 @@ class LanguagesModelInstalled extends JModelList
 				$row->checked_out = 0;
 				$data[] = $row;
 			}
-			usort($data,array('LanguagesModelInstalled','compareLanguages'));
+			usort($data,array($this,'compareLanguages'));
 
 			// Prepare data
 			$limit = $this->getState('list.limit');
@@ -245,7 +245,7 @@ class LanguagesModelInstalled extends JModelList
 
 		$type = $db->Quote($type);
 		$query->where('(a.type = '.$type.')');
-		
+
 		$query->where('state = 0');
 		$query->where('enabled = 1');
 
@@ -265,7 +265,7 @@ class LanguagesModelInstalled extends JModelList
 	 * @return	integer
 	 * @since	1.6
 	 */
-	public function &getTotal()
+	public function getTotal()
 	{
 		if (is_null($this->total)) {
 			$langlist = $this->getLanguageList();

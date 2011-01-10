@@ -58,7 +58,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return	int
 	 */
-	protected function _getAssetParentId()
+	protected function _getAssetParentId($table = null, $id = null)
 	{
 		// Initialise variables.
 		$assetId = null;
@@ -97,7 +97,7 @@ class JTableCategory extends JTableNested
 		if ($assetId) {
 			return $assetId;
 		} else {
-			return parent::_getAssetParentId();
+			return parent::_getAssetParentId($table, $id);
 		}
 	}
 

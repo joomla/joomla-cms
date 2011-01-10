@@ -55,9 +55,9 @@ class RedirectControllerLinks extends JControllerAdmin
 	 * Proxy for getModel.
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Link', $prefix = 'RedirectModel')
+	public function getModel($name = 'Link', $prefix = 'RedirectModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 }

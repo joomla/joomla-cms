@@ -341,7 +341,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Trigger the default form events.
-		parent::preprocessForm($form, $data);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

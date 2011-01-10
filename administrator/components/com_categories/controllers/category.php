@@ -152,7 +152,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 * @return	string	The arguments to append to the redirect URL.
 	 * @since	1.6
 	 */
-	protected function getRedirectToItemAppend($recordId = null)
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
 		$append .= '&extension='.$this->extension;

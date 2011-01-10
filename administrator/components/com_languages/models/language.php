@@ -25,7 +25,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	 * @return	JTable
 	 * @since	1.6
 	 */
-	public function getTable()
+	public function getTable($name='', $prefix='', $options = array())
 	{
 		return JTable::getInstance('Language');
 	}
@@ -77,7 +77,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			return $false;
 		}
 
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$properties = $table->getProperties(1);
+		$value = JArrayHelper::toObject($properties, 'JObject');
 
 		return $value;
 	}

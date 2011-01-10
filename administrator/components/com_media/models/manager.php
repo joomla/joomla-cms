@@ -20,7 +20,7 @@ jimport('joomla.application.component.model');
 class MediaModelManager extends JModel
 {
 
-	function getState($property = null)
+	function getState($property = null, $default = null)
 	{
 		static $set;
 
@@ -37,7 +37,7 @@ class MediaModelManager extends JModel
 			$set = true;
 		}
 
-		return parent::getState($property);
+		return parent::getState($property, $default);
 	}
 
 	/**

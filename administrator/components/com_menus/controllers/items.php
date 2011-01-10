@@ -28,10 +28,9 @@ class MenusControllerItems extends JControllerAdmin
 	 * Proxy for getModel
 	 * @since	1.6
 	 */
-	function &getModel($name = 'Item', $prefix = 'MenusModel')
+	function getModel($name = 'Item', $prefix = 'MenusModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
+		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 
 	/**

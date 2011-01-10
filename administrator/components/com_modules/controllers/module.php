@@ -64,7 +64,7 @@ class ModulesControllerModule extends JControllerForm
 	/**
 	 * Override parent cancel method to reset the add module state.
 	 */
-	public function cancel()
+	public function cancel($key = null)
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
@@ -77,7 +77,7 @@ class ModulesControllerModule extends JControllerForm
 	/**
 	 * Override parent allowSave method.
 	 */
-	protected function allowSave(&$data, $key = 'id')
+	protected function allowSave($data, $key = 'id')
 	{
 		// use custom position if selected
 		if (empty($data['position'])) {
@@ -97,7 +97,7 @@ class ModulesControllerModule extends JControllerForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function postSaveHook(JModel &$model)
+	protected function postSaveHook(JModel &$model, $validData = array())
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();

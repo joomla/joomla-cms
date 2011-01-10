@@ -25,7 +25,7 @@ class MediaViewImagesList extends JView
 		JResponse::allowCache(false);
 
 		$app = JFactory::getApplication();
-		
+
 		$lang	= JFactory::getLanguage();
 
 		JHtml::_('behavior.framework', true);
@@ -37,10 +37,14 @@ class MediaViewImagesList extends JView
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 
+		$images = $this->get('images');
+		$folders = $this->get('folders');
+		$state = $this->get('state');
+
 		$this->assign('baseURL', COM_MEDIA_BASEURL);
-		$this->assignRef('images', $this->get('images'));
-		$this->assignRef('folders', $this->get('folders'));
-		$this->assignRef('state', $this->get('state'));
+		$this->assignRef('images', $images);
+		$this->assignRef('folders', $folders);
+		$this->assignRef('state', $state);
 
 		parent::display($tpl);
 	}

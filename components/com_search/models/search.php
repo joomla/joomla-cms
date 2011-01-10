@@ -59,7 +59,7 @@ class SearchModelSearch extends JModel
 		parent::__construct();
 
 		//Get configuration
-		$app	= &JFactory::getApplication();
+		$app	= JFactory::getApplication();
 		$config = JFactory::getConfig();
 
 		// Get the pagination request variables
@@ -127,7 +127,7 @@ class SearchModelSearch extends JModel
 			$areas = $this->getAreas();
 
 			JPluginHelper::importPlugin('search');
-			$dispatcher = &JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$results = $dispatcher->trigger('onContentSearch', array(
 				$this->getState('keyword'),
 				$this->getState('match'),

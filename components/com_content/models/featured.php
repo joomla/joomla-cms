@@ -37,7 +37,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		parent::populateState();
+		parent::populateState($ordering, $direction);
 
 		// List state information
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');

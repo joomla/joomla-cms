@@ -67,7 +67,7 @@ class ModulesControllerModules extends JControllerAdmin
 	 * Proxy for getModel.
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Module', $prefix = 'ModulesModel')
+	public function &getModel($name = 'Module', $prefix = 'ModulesModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;

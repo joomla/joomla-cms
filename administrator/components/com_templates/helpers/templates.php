@@ -62,7 +62,7 @@ class TemplatesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getClientOptions()
+	public static function getClientOptions()
 	{
 		// Build the filter options.
 		$options	= array();
@@ -77,7 +77,7 @@ class TemplatesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getTemplateOptions($clientId = '*')
+	public static function getTemplateOptions($clientId = '*')
 	{
 		// Build the filter options.
 		$db = JFactory::getDbo();
@@ -98,7 +98,7 @@ class TemplatesHelper
 		return $options;
 	}
 
-	function parseXMLTemplateFile($templateBaseDir, $templateDir)
+	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 

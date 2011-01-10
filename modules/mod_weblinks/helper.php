@@ -15,7 +15,7 @@ JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'models')
 
 class modWeblinksHelper
 {
-	function getList($params)
+	static function getList($params)
 	{
 
 		// Get an instance of the generic articles model

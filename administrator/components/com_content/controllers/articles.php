@@ -95,9 +95,9 @@ class ContentControllerArticles extends JControllerAdmin
 	 * @return	JModel
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Article', $prefix = 'ContentModel')
+	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 
 		return $model;
 	}

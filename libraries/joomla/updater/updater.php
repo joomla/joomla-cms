@@ -39,12 +39,12 @@ class JUpdater extends JAdapter {
 	 * @static
 	 * @return	object	An installer object
 	 */
-	public function &getInstance()
+	public static function &getInstance()
 	{
 		static $instance;
 
 		if (!isset ($instance)) {
-			$instance = new JUpdater();
+			$instance = new JUpdater;
 		}
 		return $instance;
 	}

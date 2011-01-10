@@ -70,7 +70,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Style', $prefix = 'TemplatesModel')
+	public function getModel($name = 'Style', $prefix = 'TemplatesModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;

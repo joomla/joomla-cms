@@ -30,10 +30,9 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Group', $prefix = 'UsersModel')
+	public function getModel($name = 'Group', $prefix = 'UsersModel')
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
+		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 
 	/**

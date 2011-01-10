@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 class modFeedHelper
 {
-	function getFeed($params)
+	static function getFeed($params)
 	{
 		// module params
 		$rssurl	= $params->get('rssurl', '');

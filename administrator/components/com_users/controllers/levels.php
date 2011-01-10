@@ -30,9 +30,8 @@ class UsersControllerLevels extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Level', $prefix = 'UsersModel')
+	public function getModel($name = 'Level', $prefix = 'UsersModel')
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
-		return $model;
+		return parent::getModel($name, $prefix, array('ignore_request' => true));
 	}
 }

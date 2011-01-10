@@ -59,7 +59,7 @@ class JTableContent extends JTable
 	 * @return	int
 	 * @since	1.6
 	 */
-	protected function _getAssetParentId()
+	protected function _getAssetParentId($table = null, $id = null)
 	{
 		// Initialise variables.
 		$assetId = null;
@@ -84,7 +84,7 @@ class JTableContent extends JTable
 		if ($assetId) {
 			return $assetId;
 		} else {
-			return parent::_getAssetParentId();
+			return parent::_getAssetParentId($table, $id);
 		}
 	}
 

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class modStatsHelper
 {
-	function &getList(&$params)
+	static function &getList(&$params)
 	{
 		$app	= JFactory::getApplication();
 		$db		= JFactory::getDbo();
@@ -31,26 +31,32 @@ class modStatsHelper
 
 		$i = 0;
 		if ($serverinfo) {
+			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_OS');
 			$rows[$i]->data		= substr(php_uname(), 0, 7);
 			$i++;
 
+			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_PHP');
 			$rows[$i]->data	= phpversion();
 			$i++;
 
+			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_MYSQL');
 			$rows[$i]->data	= $db->getVersion();
 			$i++;
 
+			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JTEXT::_('MOD_STATS_TIME');
 			$rows[$i]->data	= JHTML::_('date','now', 'H:i');
 			$i++;
 
+			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_CACHING');
 			$rows[$i]->data	= $app->getCfg('caching') ? JText::_('JENABLED'):JText::_('JDISABLED');
 			$i++;
 
+			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_GZIP');
 			$rows[$i]->data	= $app->getCfg('gzip') ? JText::_('JENABLED'):JText::_('JDISABLED');
 			$i++;
@@ -77,18 +83,21 @@ class modStatsHelper
 			$links = $db->loadResult();
 
 			if ($users) {
+				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_USERS');
 				$rows[$i]->data	= $users;
 				$i++;
 			}
 
 			if ($items) {
+				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->data	= $items;
 				$i++;
 			}
 
 			if ($links) {
+				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_WEBLINKS');
 				$rows[$i]->data	= $links;
 				$i++;
@@ -104,6 +113,7 @@ class modStatsHelper
 			$hits = $db->loadResult();
 
 			if ($hits) {
+				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data	= $hits + $increase;
 				$i++;

@@ -504,7 +504,7 @@ class ModulesModelModule extends JModelAdmin
 		}
 
 		// Trigger the default form events.
-		parent::preprocessForm($form, $data);
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**
@@ -688,7 +688,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @return	array	An array of conditions to add to add to ordering queries.
 	 * @since	1.6
 	 */
-	protected function getReorderConditions($table = null)
+	protected function getReorderConditions($table)
 	{
 		$condition = array();
 		$condition[] = 'client_id = '.(int) $table->client_id;

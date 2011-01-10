@@ -37,7 +37,7 @@ class MenusControllerMenu extends JControllerForm
 	 *
 	 * @return	void
 	 */
-	public function save()
+	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
@@ -59,7 +59,7 @@ class MenusControllerMenu extends JControllerForm
 		}
 
 		// Make sure we are not trying to modify an administrator menu.
-		if ($data['client_id'] == 1){
+		if (isset($data['client_id']) && $data['client_id'] == 1){
 			JError::raiseNotice(0, JText::_('COM_MENUS_MENU_TYPE_NOT_ALLOWED'));
 
 			// Redirect back to the edit screen.

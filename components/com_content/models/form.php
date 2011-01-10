@@ -73,7 +73,8 @@ class ContentModelForm extends ContentModelArticle
 			return false;
 		}
 
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$properties = $table->getProperties(1);
+		$value = JArrayHelper::toObject($properties, 'JObject');
 
 		// Convert attrib field to Registry.
 		$value->params = new JRegistry;

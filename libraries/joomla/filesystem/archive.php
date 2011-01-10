@@ -27,7 +27,7 @@ class JArchive
 	 * @return	boolean	True for success
 	 * @since	1.5
 	 */
-	function extract($archivename, $extractdir)
+	public static function extract($archivename, $extractdir)
 	{
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -149,7 +149,7 @@ class JArchive
 	 * @return	JObject
 	 * @since	1.5
 	 */
-	function getAdapter($type)
+	public static function getAdapter($type)
 	{
 		static $adapters;
 

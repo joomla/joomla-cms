@@ -79,7 +79,8 @@ class WeblinksModelWeblink extends JModelItem
 				}
 
 				// Convert the JTable to a clean JObject.
-				$this->_item = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+				$properties = $table->getProperties(1);
+				$this->_item = JArrayHelper::toObject($properties, 'JObject');
 			}
 			else if ($error = $table->getError()) {
 				$this->setError($error);

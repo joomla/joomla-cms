@@ -232,7 +232,7 @@ class JTableNested extends JTable
 	 * @since	1.0
 	 * @link	http://docs.joomla.org/JTable/move
 	 */
-	public function move($delta, $where)
+	public function move($delta, $where = '')
 	{
 		// Initialise variables.
 		$k = $this->_tbl_key;

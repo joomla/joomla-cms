@@ -120,7 +120,8 @@ class MenusModelMenu extends JModelForm
 			return $false;
 		}
 
-		$value = JArrayHelper::toObject($table->getProperties(1), 'JObject');
+		$properties = $table->getProperties(1);
+		$value = JArrayHelper::toObject($properties, 'JObject');
 		return $value;
 	}
 

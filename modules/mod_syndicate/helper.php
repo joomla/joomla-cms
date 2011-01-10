@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 class modSyndicateHelper
 {
-	function getLink(&$params)
+	static function getLink(&$params)
 	{
 		$document = JFactory::getDocument();
 

@@ -14,7 +14,7 @@ jimport('joomla.application.component.model');
 
 class modBannersHelper
 {
-	function &getList(&$params)
+	static function &getList(&$params)
 	{
 		jimport('joomla.application.component.model');
 		JModel::addIncludePath(JPATH_ROOT.'/components/com_banners/models');
@@ -32,7 +32,7 @@ class modBannersHelper
 		$model->setState('filter.keywords', $keywords);
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		$banners = &$model->getItems();
+		$banners = $model->getItems();
 		$model->impress();
 
 		return $banners;

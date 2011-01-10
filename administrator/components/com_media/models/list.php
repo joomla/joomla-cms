@@ -21,7 +21,7 @@ jimport('joomla.filesystem.file');
  */
 class MediaModelList extends JModel
 {
-	function getState($property = null)
+	function getState($property = null, $default = null)
 	{
 		static $set;
 
@@ -35,7 +35,7 @@ class MediaModelList extends JModel
 			$set = true;
 		}
 
-		return parent::getState($property);
+		return parent::getState($property, $default);
 	}
 
 	function getImages()

@@ -97,7 +97,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$back = self::$_db->get($cache_id);
@@ -225,7 +225,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	public function clean($group, $mode)
+	public function clean($group, $mode = null)
 	{
 		if (!$this->lockindex()) {
 			return false;

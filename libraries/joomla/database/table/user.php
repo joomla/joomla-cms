@@ -17,7 +17,7 @@ defined('JPATH_BASE') or die;
 class JTableUser extends JTable
 {
 	/**
-	 * Associative array of user names => group ids 
+	 * Associative array of user names => group ids
 	 *
 	 * @access	public
 	 * @since	1.6
@@ -46,7 +46,7 @@ class JTableUser extends JTable
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.0
 	 */
-	function load($userId = null)
+	function load($userId = null, $reset = true)
 	{
 		// Get the id to load.
 		if ($userId !== null) {

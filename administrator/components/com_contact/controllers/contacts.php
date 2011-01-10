@@ -90,9 +90,9 @@ class ContactControllerContacts extends JControllerAdmin
 	 * @return	JModel
 	 * @since	1.6
 	 */
-	public function &getModel($name = 'Contact', $prefix = 'ContactModel')
+	public function getModel($name = 'Contact', $prefix = 'ContactModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 
 		return $model;
 	}

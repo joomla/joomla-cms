@@ -13,8 +13,7 @@ defined('_JEXEC') or die;
 class modUsersLatestHelper
 {
 	// get users sorted by activation date
-
-	function getUsers($params)
+	static function getUsers($params)
 	{
 		$db		= JFactory::getDbo();
 		$result	= null;

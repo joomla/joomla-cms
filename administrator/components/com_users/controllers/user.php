@@ -57,7 +57,7 @@ class UsersControllerUser extends JControllerForm
 	 * @return	mixed	Boolean or JError.
 	 * @since	1.6
 	 */
-	public function save()
+	public function save($key = null, $urlVar = null)
 	{
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
 
