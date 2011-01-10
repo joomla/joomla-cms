@@ -64,6 +64,8 @@ class UsersControllerLevel extends JControllerForm
 			// Get the model.
 			$model = $this->getModel();
 
+			JArrayHelper::toInteger($ids);
+
 			// Remove the items.
 			if (!$model->delete($ids)) {
 				JError::raiseWarning(500, $model->getError());
