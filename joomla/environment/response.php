@@ -276,7 +276,7 @@ class JResponse
 		$gzdata = gzencode($data, $level);
 
 		self::setHeader('Content-Encoding', $encoding);
-		self::setHeader('X-Content-Encoded-By', 'Joomla! 1.5');
+		self::setHeader('X-Content-Encoded-By', 'Joomla! 1.6');
 
 		return $gzdata;
 	}
