@@ -413,7 +413,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'<img class="one two" />',
 				'From generic cases'
-			)
+			),
 		);
 	}
 
@@ -548,7 +548,14 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'',
 				'From specific cases'
-			)
+			),
+			'tracker24258' => array(
+				// Test for recursion on attributes
+				'string',
+				'<scrip &nbsp; t>alert(\'test\');</scrip t>',
+				'alert(\'test\');',
+				'From generic cases'
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
