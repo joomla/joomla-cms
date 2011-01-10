@@ -196,11 +196,11 @@ class plgEditorTinymce extends JPlugin
 
 		if ($newlines) {
 			// br
-			$forcenewline = "force_br_newlines : \"true\", force_p_newlines : \"false\", forced_root_block : '',";
+			$forcenewline = "force_br_newlines : true, force_p_newlines : false, forced_root_block : '',";
 		}
 		else {
 			// p
-			$forcenewline = "force_br_newlines : \"false\", force_p_newlines : \"true\", forced_root_block : 'p',";
+			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
 
 		$invalid_elements	= $this->params->def('invalid_elements', 'script,applet,iframe');
