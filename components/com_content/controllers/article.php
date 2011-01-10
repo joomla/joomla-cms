@@ -175,9 +175,28 @@ class ContentControllerArticle extends JControllerForm
 	 * @return	string	The arguments to append to the redirect URL.
 	 * @since	1.6
 	 */
-	protected function getRedirectToItemAppend($recordId = null, $urlVar = null)
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'a_id')
 	{
-		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
+		// Need to override the parent method completely.
+		$tmpl		= JRequest::getCmd('tmpl');
+		$layout		= JRequest::getCmd('layout', 'edit');
+		$append		= '';
+
+		// Setup redirect info.
+		if ($tmpl) {
+			$append .= '&tmpl='.$tmpl;
+		}
+
+		// TODO This is a bandaid, not a long term solution.
+//		if ($layout) {
+//			$append .= '&layout='.$layout;
+//		}
+		$append .= '&layout=edit';
+
+		if ($recordId) {
+			$append .= '&'.$urlVar.'='.$recordId;
+		}
+
 		$itemId	= JRequest::getInt('Itemid');
 		$return	= $this->getReturnPage();
 

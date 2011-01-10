@@ -60,6 +60,7 @@ $ -> Language fix or change
 # [#24210] Revert to 1.5 behaviour for plugin language loading
 # Remove milkyway template files and related rows from database tables
 # [#24276] Fatal error: Cannot use object of type stdClass as array in ../libraries/joomla/updater/updater.php on line 108
+# [#24280] Getting 500 errors editing from category blog on front end with default sef on
 
 10-Jan-2011 Andrew Eddie
  # Fix typo in Joomla system plugin.
