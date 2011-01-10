@@ -67,7 +67,7 @@ function ContentBuildRoute(&$query)
 		unset($query['view']);
 
 		if ($view == 'article') { 
-			if (isset($query['id']) && $query['catid']) {
+			if (isset($query['id']) && isset($query['catid']) && $query['catid']) {
 				$catid = $query['catid'];
 				$id = $query['id'];
 			} else {

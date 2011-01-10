@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jan-2011 Mark Dexter
+# [#24250] PHP Notice In Archived Layout
+
 10-Jan-2011 Andrew Eddie
  # Fix typo in Joomla system plugin.
  # Fixed issue [#24226] XSS Vulnerability in module chrome in administrator (Ian MacLennan).
