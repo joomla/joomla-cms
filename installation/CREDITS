@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 ?>
 
+-----Please save file as UTF8
+
 -------------------- Joomla! 1.6 Credits ---------------------
 
 Code contributors:
@@ -26,7 +28,50 @@ Documentation Contributors:
 
 Translation Contributors:
 -------------------------
-
+Afrikaans (af-ZA) - Gerrit Hoekstra
+Albanian (sq-AL) - Albanian Translation Team
+Arabic Unitag (ar-AA) - Arabic Unitag Translation Team - Mahmood Alhaj Kassem
+Belarusian (be-BY) - Dennis Hermacki
+Brazilian Portuguese (pt-BR) - Joomla! Brasil - FaBMak
+Bulgarian (bg-BG) - Bulgarian Translation Team - Trimud
+Catalan (ca-ES) - Catalan Translation Team - Damià Verger
+Chinese Traditional (zh-TW) - Traditional Chinese Translation Team - Eddy Chang
+Czech (cs-CZ) - Czech Translation Team
+Danish (da-DK) - Danish Translation Team - Ronny Buelund, Mikael Winther, Ole Bang Ottosen
+Dutch (nl-NL) - Dutch Translation Team - Marijke Stuivenberg, Martijn Maandag, Marco Corrò
+English (en-AU) - AU Australian Translation Team - Leonard Fitzgerald
+English (en-US) - US English Translation Team - Jennifer Marriott
+Estonian (et-EE) - Estonian Translation Team - Rivo Zängov
+Flemish (nl-BE) - Dutch (BE) Translation Team - Frank Joris
+French (fr-FR) - French Translation Team - joomla.fr
+Galician (gl-ES) - Galician Translation Team - damufo
+German (de-DE)/(de-CH)/(de-AT) - J!German - Jan Erik Zassenhaus, Wolfgang Korn, Steffen Werner, Christian Reinhart
+Gujarati (gu-IN) - Gujarati Translation Team - Ronak Bhagdev
+Hebrew (he-IL) - Hebrew Translation Team - Yair Lahav, Ofer Cohen
+Hungarian (hu-HU) - Magyar Joomla! Felhasznalok Nemzetkozi Egyesulete - Jozsef Tamas Herczeg, Annamaria Ban
+Indonesian (id-ID) - Hanacaraka Team - Andy Sikumbang
+Italian (it-IT) - Italian Translation Team - Stefania Gaianigo, Alessandro Rossi
+Japanese (ja-JP) - Japanese Translation Team
+Khmer (Cambodia) (km-KH) - Khmer Translation Team - Sovann Heng, Kunthea Thy, Vathana Savuth
+Latvian (lv-LV) - Latvian Translation Team - Edgars Piruška
+Laotian (lo-LA) - Joomla LaiLao Team (LaoOpenSource) - Akarawuth Tamrareang , Viengsakhone phanthanousy , Outhai Saioudom
+Lithuanian (lt-LT) - Lithuanian Translation Team - Stasys Svabas
+Macedonian (mk-MK) - Macedonian Translation Team - Ilija Iliev Strumjan
+Norwegian bokmål (nb-NO) - Joomla! i Norge - Rune Rasmussen, Roar Jystad, Jens-Christian Skibakk
+Persian (fa-IR) - Persian Translation Team - Mostafa Alavi nik , joomfa team
+Polish (pl-PL) - Polskie Centrum Joomla! - Maciej Słojewski, Stefan Wajda
+Portuguese (pt-PT) - Comunidade Joomla! Portugal - Paulo Izidoro
+Romanian (ro-RO) - Romanian Joomla! Community - Cosmin Lebu
+Russian (ru-RU) - Russian Translation Team (joomlaportal.ru) - Sergey Litvinov, Sergei Brovin, Alexey Brin
+Serbian (sr-RS) and Serbian (sr-YU)- Joomla! Serbia team - Svetlana Zec, Nenad Antic, Marko Milenovic
+Slovak (sk-SK) - Slovak Translation Team - Peter Michnica
+Spanish (es-ES) - Spanish Translation Team - Gustavo Raúl Aragón, Rafael Gómez, Leonel Cantón.
+Swedish (sv-SE) - Swedish Translation Team (SvenskJoomla!) - Sune Hultman, Olle Zettergren, Stefan Gagner, Christer Gerhardsson
+Syriac (sy-IQ) - East Syriac Translation Team
+Thai (th-TH) - Joomla LaiThai Team (JoomlaCorner) - Akarawuth Tamrareang, Pisan Chueachatchai, Supachai Teasakul
+Turkish (tr-TR) - Joomla! Turkiye - Ümit Kenan Gönüllü
+Ukrainian (uk-UA) - Ukrainian Translation Team - Denys Nosov
+Vietnamese (vi-VN) - Viet Nam Translation Team
 
 
 
