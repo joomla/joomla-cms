@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Adding af-ZA to installation langs
  $ Adding Translation Teams in CREDITS
  - Removed nl-BE from install lang packs because of wrong browser detect
+ # [#24256] Language switcher broken by #24210. Thanks sam
 
 10-Jan-2011 Mark Dexter
 # [#24250] PHP Notice In Archived Layout

@@ -61,6 +61,8 @@ final class JSite extends JApplication
 
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
+		jimport('joomla.plugin.helper');
+		JPluginHelper::importPlugin('system');
 
 		if (empty($options['language'])) {
 			$lang = JRequest::getString('language', null);
