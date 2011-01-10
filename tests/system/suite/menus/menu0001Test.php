@@ -225,9 +225,10 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->togglePublished("Sample Data-Articles");
 		$this->doAdminLogout();
 		$this->gotoSite();
-		$this->click("link=Category List Test");
+		$link = $this->cfg->path . 'index.php/category-list-test';
+		$this->open($link, 'true');
 		$this->waitForPageToLoad("30000");
-		$this->assertElementContainsText("//dl[@id='system-message']", 'Category not found');
+		$this->assertTrue($this->isTextPresent("Category not found"));
 
 		$this->gotoAdmin();
 		$this->doAdminLogin();

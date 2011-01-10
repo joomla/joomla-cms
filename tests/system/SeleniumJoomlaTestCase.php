@@ -686,7 +686,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	function setTinyText($text)
 		{
-			$this->selectFrame("jform_text_ifr");
+			$this->selectFrame("jform_articletext_ifr");
 			$this->type("tinymce", $text);
 			$this->selectFrame("relative=top");
 		}
