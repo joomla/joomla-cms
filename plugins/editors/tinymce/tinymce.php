@@ -27,6 +27,21 @@ class plgEditorTinymce extends JPlugin
 	protected $_basePath = 'media/editors/tinymce/jscripts/tiny_mce';
 
 	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+
+	/**
 	 * Initialises the Editor.
 	 *
 	 * @return string JavaScript Initialization string

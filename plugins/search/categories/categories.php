@@ -23,6 +23,20 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 class plgSearchCategories extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * @return array An array of search areas
 	 */
 	function onContentSearchAreas()

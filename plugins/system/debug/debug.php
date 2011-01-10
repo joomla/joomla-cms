@@ -25,7 +25,7 @@ class plgSystemDebug extends JPlugin
 	 * @access	protected
 	 * @param	object $subject The object to observe
 	 * @param	array  $config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * @since	1.5
 	 */
 	function __construct(&$subject, $config)
 	{
@@ -50,6 +50,9 @@ class plgSystemDebug extends JPlugin
 		if (!JDEBUG) {
 			return;
 		}
+		
+		// Load the language 
+		$this->loadLanguage();
 
 		// Capture output
 		$contents = ob_get_contents();

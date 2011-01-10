@@ -20,11 +20,25 @@ jimport('joomla.plugin.plugin');
 class plgButtonPagebreak extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * Display the button
 	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
-	function onDisplay($name)
+	public function onDisplay($name)
 	{
 		$app = JFactory::getApplication();
 

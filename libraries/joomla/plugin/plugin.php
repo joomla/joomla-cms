@@ -78,22 +78,7 @@ abstract class JPlugin extends JEvent
 			$this->_type = $config['type'];
 		}
 
-		// Set the automatic language loading
-		if (!isset($config['language']) || $config['language'])
-		{
-			$events = array_diff(get_class_methods($this), get_class_methods('JPlugin'));
-			foreach($events as $event)
-			{
-				$method = array('event' => $event, 'handler' => array($this, 'onFireEvent'));
-				$subject->attach($method);
-			}
-		}
 		parent::__construct($subject);
-	}
-
-	public function onFireEvent()
-	{
-		$this->loadLanguage(null, JPATH_ADMINISTRATOR);
 	}
 
 	/**

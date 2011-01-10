@@ -71,9 +71,14 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// Bind using Connect Username/password
 				// Force anon bind to mitigate misconfiguration like [#7119]
-				if (strlen($this->params->get('username'))) $bindtest = $ldap->bind();
-				else $bindtest = $ldap->anonymous_bind();
-
+				if (strlen($this->params->get('username'))) 
+				{
+					$bindtest = $ldap->bind();
+				}
+				else 
+				{
+					$bindtest = $ldap->anonymous_bind();
+				}
 
 				if ($bindtest)
 				{
