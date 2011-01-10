@@ -36,6 +36,7 @@ $ -> Language fix or change
  # Fixed issue [#23992] Admin Bluestork template - Alignment of form text fields in IE7 (Ole Bang Ottosen, Bill Richardson).
  # Fixed issue [#24153] More PHP strict fixes (mostly backend) (Rouven Weßling, Mark Dexter).
  # Fixed issue [#24200] Primary keys from request should be cast to integer (Ian MacLennan).
+ # Fixed issue [#24202] Primary keys from request should be cast to integer (Ian MacLennan).
 
 09-Jan-2011 Christophe Demko
  # [#24210] Revert to 1.5 behaviour for plugin language loading (Samuel Moffat)

@@ -36,14 +36,18 @@ class RedirectControllerLinks extends JControllerAdmin
 
 		if (empty($ids)) {
 			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
-		} else {
+		}
+		else {
 			// Get the model.
 			$model = $this->getModel();
+
+			JArrayHelper::toInteger($ids);
 
 			// Remove the items.
 			if (!$model->activate($ids, $newUrl, $comment)) {
 				JError::raiseWarning(500, $model->getError());
-			} else {
+			}
+			else {
 				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}
@@ -58,6 +62,7 @@ class RedirectControllerLinks extends JControllerAdmin
 	public function getModel($name = 'Link', $prefix = 'RedirectModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }
