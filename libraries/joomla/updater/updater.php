@@ -104,7 +104,7 @@ class JUpdater extends JAdapter {
 							{
 								// we have an installed extension, check the update is actually newer
 								$extension->load($eid);
-								$data = json_decode($extension->manifest_cache);
+								$data = json_decode($extension->manifest_cache, true);
 								if(version_compare($current_update->version, $data['version'], '>') == 1)
 								{
 									$current_update->extension_id = $eid;
