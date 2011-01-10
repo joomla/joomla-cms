@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#24256] Language switcher broken by #24210. Thanks Sam
  # [#24267] debug plugin does not display results if gzip is on. Thanks Sam
  # [#24255] Fix background color in high contrast batch fieldsets. Thanks Andrea.
+ # [#24162] Missing image in Beez2 and Beez5. Thanks Jenny.
 
 10-Jan-2011 Mark Dexter
 # [#24250] PHP Notice In Archived Layout
