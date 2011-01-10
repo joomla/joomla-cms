@@ -303,12 +303,12 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param	object	$record	A record object.
+	 * @param	object	$table	A JTable object.
 	 *
-	 * @return	array	An array of conditions to add to add to ordering queries.
+	 * @return	array	An array of conditions to add to ordering queries.
 	 * @since	1.6
 	 */
-	protected function getReorderConditions($record = null)
+	protected function getReorderConditions($table)
 	{
 		return array();
 	}
@@ -561,7 +561,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function saveorder($pks, $order)
+	function saveorder($pks = null, $order = null)
 	{
 		// Initialise variables.
 		$table		= $this->getTable();

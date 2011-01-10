@@ -562,7 +562,7 @@ abstract class JFactory
 	 * @return JMail object
 	 * @since  1.5
 	 */
-	function _createMailer()
+	private static function _createMailer()
 	{
 		jimport('joomla.mail.mail');
 
@@ -660,13 +660,13 @@ abstract class JFactory
 	 * @return	JStream
 	 * @since	1.6
 	 */
-	function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
+	public static function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
 	{
 		jimport('joomla.filesystem.stream');
 
 		// Setup the context; Joomla! UA and overwrite
-		$context = Array();
-		$version = new JVersion();
+		$context = array();
+		$version = new JVersion;
 		// set the UA for HTTP and overwrite for FTP
 		$context['http']['user_agent'] = $version->getUserAgent($ua, $uamask);
 		$context['ftp']['overwrite'] = true;

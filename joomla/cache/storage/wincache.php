@@ -37,7 +37,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.6
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = wincache_ucache_get($cache_id);
@@ -122,7 +122,7 @@ class JCacheStorageWincache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.6
 	 */
-	public function clean($group, $mode)
+	public function clean($group, $mode = null)
 	{
 		$allinfo 	= wincache_ucache_info();
 		$keys 		= $allinfo['cache_entries'];

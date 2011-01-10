@@ -47,7 +47,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.5
 	 */
-	public function get($id, $group, $checkTime=true)
+	public function get($id, $group, $checkTime = true)
 	{
 		$data = false;
 
@@ -158,7 +158,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	public function clean($group, $mode)
+	public function clean($group, $mode = null)
 	{
 		$return = true;
 		$folder	= $group;
@@ -275,7 +275,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
 	 */
-	public function unlock($id,$group)
+	public function unlock($id, $group = null)
 	{
 		$path = $this->_getFilePath($id, $group);
 

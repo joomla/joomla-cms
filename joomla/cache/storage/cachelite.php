@@ -79,7 +79,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data string
 	 * @since	1.6
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		$data = false;
 		self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
@@ -185,7 +185,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.6
 	 */
-	public function clean($group, $mode=null)
+	public function clean($group, $mode = null)
 	{
 		jimport('joomla.filesystem.folder');
 

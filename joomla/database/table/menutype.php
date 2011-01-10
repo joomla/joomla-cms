@@ -43,7 +43,7 @@ class JTableMenuType extends JTable
 			$this->title = $this->menutype;
 		}
 
-		$db	= &$this->getDbo();
+		$db	= $this->getDbo();
 
 		// Check for unique menutype.
 		$db->setQuery(

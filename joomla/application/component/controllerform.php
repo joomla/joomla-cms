@@ -401,7 +401,7 @@ class JControllerForm extends JController
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function postSaveHook(JModel &$model, $validData)
+	protected function postSaveHook(JModel &$model, $validData = array())
 	{
 	}
 

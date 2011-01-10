@@ -75,7 +75,7 @@ class JFilterInput extends JObject
 	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @since	1.5
 	 */
-	function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
 		// Make sure user defined arrays are in lowercase
 		$tagsArray = array_map('strtolower', (array) $tagsArray);
@@ -478,7 +478,7 @@ class JFilterInput extends JObject
 			}
 
 			// Autostrip script tags
-			if (JFilterInput::checkAttribute($attrSubSet)) {
+			if (self::checkAttribute($attrSubSet)) {
 				continue;
 			}
 

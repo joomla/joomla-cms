@@ -146,7 +146,7 @@ w
 
 		$function = 'handle'.ucfirst($handler['mode']);
 		if (is_callable(array('JError', $function))) {
-			$reference = &call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
+			$reference = call_user_func_array(array('JError',$function), array(&$exception, (isset($handler['options'])) ? $handler['options'] : array()));
 		}
 		else {
 			// This is required to prevent a very unhelpful white-screen-of-death
@@ -583,7 +583,7 @@ w
 
 		// Do not allow cache
 		JResponse::allowCache(false);
-		
+
 		JResponse::setBody($data);
 		echo JResponse::toString();
 		$app->close(0);

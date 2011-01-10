@@ -19,7 +19,7 @@ defined('JPATH_BASE') or die;
  * @subpackage	Cache
  * @since		1.5
  */
-class JCacheStorage 
+class JCacheStorage
 {
 	/**
 	 * @since	1.6
@@ -137,7 +137,7 @@ class JCacheStorage
 	 * @return	mixed	Boolean false on failure or a cached data object
 	 * @since	1.5
 	 */
-	public function get($id, $group, $checkTime)
+	public function get($id, $group, $checkTime = true)
 	{
 		return false;
 	}
@@ -194,7 +194,7 @@ class JCacheStorage
 	 * @return	boolean	True on success, false otherwise
 	 * @since	1.5
 	 */
-	public function clean($group, $mode)
+	public function clean($group, $mode = null)
 	{
 		return true;
 	}
@@ -241,7 +241,7 @@ class JCacheStorage
 	 * @return	boolean	True on success, false otherwise.
 	 * @since	1.6
 	 */
-	public function unlock($id,$group)
+	public function unlock($id, $group = null)
 	{
 		return false;
 	}
