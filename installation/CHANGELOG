@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Jan-2011 Jean-Marie Simonet
  $ Adding ca-ES, lo-LA to installation langs
+ $ Adding af-ZA to installation langs
 
 10-Jan-2011 Mark Dexter
 # [#24250] PHP Notice In Archived Layout
