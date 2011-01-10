@@ -11,25 +11,30 @@
 // No direct access.
 defined('_JEXEC') or die;
 
+$hideLinks	= JRequest::getBool('hidemainmenu');
 $output = array();
 
 // Print the logged in users.
 if ($params->get('show_loggedin_users', 1)) :
-	$output[] = "<span class=\"loggedin-users\">".$online_num. " " . JText::_('MOD_STATUS_USERS') . "</span>";
+	$output[] = '<span class="loggedin-users">'.JText::plural('MOD_STATUS_USERS', $online_num).'</span>';
 endif;
 
 // Print the back-end logged in users.
 if ($params->get('show_loggedin_users_admin', 1)) :
-	$output[] = "<span class=\"loggedin-users\">".$count. " " . JText::_('MOD_STATUS_BACKEND_USERS') . "</span>";
+	$output[] = '<span class="backloggedin-users">'.JText::plural('MOD_STATUS_BACKEND_USERS', $count).'</span>';
 endif;
 
 //  Print the inbox message.
 if ($params->get('show_messages', 1)) :
-	$output[] = "<span class=\"$inboxClass\"><a href=\"$inboxLink\">". $unread . " " . JText::_('MOD_STATUS_MESSAGES'). "</a></span>";
+	$output[] = '<span class="'.$inboxClass.'">'.
+			($hideLinks ? '' : '<a href="'.$inboxLink.'">').
+			$unread.' '.JText::_('MOD_STATUS_MESSAGES').
+			($hideLinks ? '' : '</a>').
+			'</span>';
 endif;
 
 // Print the Preview link to Main site.
-	$output[] = "<span class=\"viewsite\"><a href=\"".JURI::root()."\" target=\"_blank\">".JText::_('MOD_STATUS_VIEW_SITE')."</a></span>";
+	$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('MOD_STATUS_VIEW_SITE').'</a></span>';
 
 // Reverse rendering order for rtl display.
 if ($lang->isRTL()) :
