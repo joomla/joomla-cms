@@ -353,8 +353,8 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl		= JRequest::getString('tmpl');
-		$layout		= JRequest::getString('layout', 'edit');
+		$tmpl		= JRequest::getCmd('tmpl');
+		$layout		= JRequest::getCmd('layout', 'edit');
 		$append		= '';
 
 		// Setup redirect info.
@@ -381,7 +381,7 @@ class JControllerForm extends JController
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl		= JRequest::getString('tmpl');
+		$tmpl		= JRequest::getCmd('tmpl');
 		$append		= '';
 
 		// Setup redirect info.
