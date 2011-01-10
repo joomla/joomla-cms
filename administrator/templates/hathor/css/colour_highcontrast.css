@@ -696,6 +696,13 @@ a.saveorder.inactive {
 	background-position: 0px -16px;
 }
 
+/**
+ * Saving order icon styling in admin tables
+ */
+fieldset.batch {
+	background: #1c4181;
+}
+
 
 /**
  * Button styling

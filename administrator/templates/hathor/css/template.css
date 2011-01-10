@@ -2036,7 +2036,6 @@ fieldset.panelform input, fieldset.panelform span.faux-input, fieldset.panelform
 /* -------- Batch Section ---------- */
 fieldset.batch {
 	margin: 20px 10px 10px 10px;
-	background: #fff;
 	padding: 10px;
 }
 fieldset.batch label {

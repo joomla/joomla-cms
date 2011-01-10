@@ -38,6 +38,7 @@ $ -> Language fix or change
  - Removed nl-BE from install lang packs because of wrong browser detect
  # [#24256] Language switcher broken by #24210. Thanks Sam
  # [#24267] debug plugin does not display results if gzip is on. Thanks Sam
+ # [#24255] Fix background color in high contrast batch fieldsets. Thanks Andrea.
 
 10-Jan-2011 Mark Dexter
 # [#24250] PHP Notice In Archived Layout

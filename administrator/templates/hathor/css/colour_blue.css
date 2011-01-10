@@ -757,6 +757,13 @@ a.saveorder.inactive {
 }
 
 /**
+ * Saving order icon styling in admin tables
+ */
+fieldset.batch {
+	background: #fff;
+}
+
+/**
  * Button styling
  */
 button {
