@@ -48,6 +48,7 @@ class ModulesControllerModules extends JControllerAdmin
 
 		// Initialise variables.
 		$pks = JRequest::getVar('cid', array(), 'post', 'array');
+		JArrayHelper::toInteger($pks);
 
 		try {
 			if (empty($pks)) {
