@@ -67,6 +67,10 @@ td:first-child {
 	width: 200px;
 }
 
+.final-table td:first-child {
+	width: auto;
+}
+
 .sample-data td:first-child {
 	/*width: auto;*/
 }

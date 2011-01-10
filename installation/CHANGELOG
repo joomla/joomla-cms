@@ -53,6 +53,7 @@ $ -> Language fix or change
  # Fixed issue [#24207] Level controller does not cast primary keys from request to int (Ian MacLennan).
  # Fixed issue [#24252] Unescaped value should be filtered (Ian MacLennan).
  # Fixed issue [#24254] Hathor status module jtext plurals (Andrea Tarr).
+ # Fixed issue [#24253] Installation IE fixes (Andrea Tarr).
 
 09-Jan-2011 Christophe Demko
  # [#24210] Revert to 1.5 behaviour for plugin language loading (Samuel Moffat)
