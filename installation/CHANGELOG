@@ -49,6 +49,7 @@ $ -> Language fix or change
 # [#24251] Article Category List Menu Item Missing Order By Parameters
 # Sample data fixes: remove xx-XX language and add Joomla! library to joomla.sql
 # [#24210] Revert to 1.5 behaviour for plugin language loading
+# Remove milkyway template files and related rows from database tables
 
 10-Jan-2011 Andrew Eddie
  # Fix typo in Joomla system plugin.
