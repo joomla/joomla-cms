@@ -38,7 +38,13 @@ class JInstallationController extends JController
 		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getWord('view', 'language');
+		if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) > 10) && file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
+			$default_view	= 'remove';
+		} else {
+			$default_view	= 'language';
+		}
+
+		$vName		= JRequest::getWord('view', $default_view);
 		$vFormat	= $document->getType();
 		$lName		= JRequest::getWord('layout', 'default');
 

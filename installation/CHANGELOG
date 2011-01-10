@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#24233] Error parameters formated in tinymce (Nikolai Plath)
  # [#24258] Some article code can send JFilterInput into an endless loop (Ian MacLennan)
  + Adding Code contributors in CREDITS
+ # [#24283] J!1.6 lacks a remove installation folder screen
 
 10-Jan-2011 Jean-Marie Simonet
  $ Adding ca-ES, lo-LA to installation langs
