@@ -24,6 +24,29 @@ jimport('joomla.application.component.modellist');
 class InstallerModel extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'name',
+				'client_id',
+				'enabled',
+				'type',
+				'folder',
+				'extension_id',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Returns an object list
 	 *
 	 * @param	string The query

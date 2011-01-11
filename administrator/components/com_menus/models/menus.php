@@ -20,6 +20,26 @@ jimport('joomla.application.component.modellist');
 class MenusModelMenus extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'title', 'a.title',
+				'menutype', 'a.menutype',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return	string	An SQL query

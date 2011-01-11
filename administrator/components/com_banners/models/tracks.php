@@ -19,6 +19,29 @@ jimport('joomla.application.component.modellist');
 class BannersModelTracks extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'name', 'b.name',
+				'cl.name', 'client_name',
+				'cat.title', 'category_title',
+				'track_type', 'a.track_type',
+				'count', 'a.count',
+				'track_date', 'a.track_date',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * @since	1.6
 	 */
 	protected $basename;

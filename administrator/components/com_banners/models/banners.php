@@ -19,6 +19,40 @@ jimport('joomla.application.component.modellist');
 class BannersModelBanners extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'cid', 'a.cid', 'client_name',
+				'name', 'a.name',
+				'alias', 'a.alias',
+				'state', 'a.state',
+				'ordering', 'a.ordering',
+				'language', 'a.language',
+				'catid', 'a.catid', 'category_title',
+				'checked_out', 'a.checked_out',
+				'checked_out_time', 'a.checked_out_time',
+				'created', 'a.created',
+				'impmade', 'a.impmade',
+				'imptotal', 'a.imptotal',
+				'clicks', 'a.clicks',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
+				'state', 'sticky', 'a.sticky',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to get the maximum ordering value for each category.
 	 *
 	 * @since	1.6

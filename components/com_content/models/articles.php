@@ -19,6 +19,40 @@ jimport('joomla.application.component.modellist');
  */
 class ContentModelArticles extends JModelList
 {
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'title', 'a.title',
+				'alias', 'a.alias',
+				'checked_out', 'a.checked_out',
+				'checked_out_time', 'a.checked_out_time',
+				'catid', 'a.catid', 'category_title',
+				'state', 'a.state',
+				'access', 'a.access', 'access_level',
+				'created', 'a.created',
+				'created_by', 'a.created_by',
+				'ordering', 'a.ordering',
+				'featured', 'a.featured',
+				'language', 'a.language',
+				'hits', 'a.hits',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -27,7 +61,7 @@ class ContentModelArticles extends JModelList
 	 * @return	void
 	 * @since	1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
 		$app = JFactory::getApplication();
 
@@ -40,13 +74,17 @@ class ContentModelArticles extends JModelList
 		$value = JRequest::getInt('limitstart', 0);
 		$this->setState('list.start', $value);
 
-		//$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', 'a.lft');
-		$value = JRequest::getCmd('filter_order', 'a.ordering');
-		$this->setState('list.ordering', $value);
+		$orderCol	= JRequest::getCmd('filter_order', 'a.ordering');
+		if (!in_array($orderCol, $this->filter_fields)) {
+			$orderCol = 'a.ordering';
+		}
+		$this->setState('list.ordering', $orderCol);
 
-		//$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', 'asc');
-		$value = JRequest::getWord('filter_order_Dir', 'asc');
-		$this->setState('list.direction', $value);
+		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+			$listOrder = 'ASC';
+		}
+		$this->setState('list.direction', $listOrder);
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
@@ -167,7 +205,7 @@ class ContentModelArticles extends JModelList
 		// Join on contact table
 		$query->select('contact.id as contactid' ) ;
 		$query->join('LEFT','#__contact_details AS contact on contact.user_id = a.created_by');
-			
+
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');

@@ -10,7 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelitem');
+jimport('joomla.application.component.modellist');
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -20,7 +20,7 @@ jimport('joomla.application.component.modelitem');
  * @subpackage	com_content
  * @since		1.5
  */
-class ContentModelCategory extends JModelItem
+class ContentModelCategory extends JModelList
 {
 	/**
 	 * Category items data
@@ -59,6 +59,40 @@ class ContentModelCategory extends JModelItem
 	 * @var		array
 	 */
 	protected $_categories = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'title', 'a.title',
+				'alias', 'a.alias',
+				'checked_out', 'a.checked_out',
+				'checked_out_time', 'a.checked_out_time',
+				'catid', 'a.catid', 'category_title',
+				'state', 'a.state',
+				'access', 'a.access', 'access_level',
+				'created', 'a.created',
+				'created_by', 'a.created_by',
+				'ordering', 'a.ordering',
+				'featured', 'a.featured',
+				'language', 'a.language',
+				'hits', 'a.hits',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
+				'author', 'a.author'
+			);
+		}
+
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to auto-populate the model state.
@@ -118,10 +152,18 @@ class ContentModelCategory extends JModelItem
 
 		// filter.order
 		$itemid = JRequest::getInt('id', 0) . ':' . JRequest::getInt('Itemid', 0);
-		$this->setState('list.ordering', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '',
-			'string'));
-		$this->setState('list.direction', $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir',
-			'filter_order_Dir', '', 'cmd'));
+		$orderCol = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
+		if (!in_array($orderCol, $this->filter_fields)) {
+			$orderCol = 'a.ordering';
+		}
+		$this->setState('list.ordering', $orderCol);
+
+		$listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir',
+			'filter_order_Dir', '', 'cmd');
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+			$listOrder = 'ASC';
+		}
+		$this->setState('list.direction', $listOrder);
 
 		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
 
@@ -144,7 +186,7 @@ class ContentModelCategory extends JModelItem
 			$this->setState('filter.subcategories', true);
 		}
 
-		
+
 
 		$this->setState('filter.language',$app->getLanguageFilter());
 

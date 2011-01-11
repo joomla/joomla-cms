@@ -35,6 +35,27 @@ class WeblinksModelCategory extends JModelList
 	protected $_parent = null;
 
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'title', 'a.title',
+				'hits', 'a.hits',
+				'ordering', 'a.ordering',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * The category that applies.
 	 *
 	 * @access	protected
@@ -107,15 +128,15 @@ class WeblinksModelCategory extends JModelList
 		}
 		// Join over the users for the author and modified_by names.
 		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author");
- 
+
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Filter by state
 
-		$state = $this->getState('filter.state');		
+		$state = $this->getState('filter.state');
 		if (is_numeric($state)) {
-			$query->where('a.state = '.(int) $state);	
+			$query->where('a.state = '.(int) $state);
 		}
 
 		// Filter by start and end dates.
@@ -126,7 +147,7 @@ class WeblinksModelCategory extends JModelList
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
-		
+
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -159,19 +180,25 @@ class WeblinksModelCategory extends JModelList
 		$this->setState('list.start', $limitstart);
 
 		$orderCol	= JRequest::getCmd('filter_order', 'ordering');
+		if (!in_array($orderCol, $this->filter_fields)) {
+			$orderCol = 'ordering';
+		}
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder	=  JRequest::getCmd('filter_order_Dir', 'ASC');
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+			$listOrder = 'ASC';
+		}
 		$this->setState('list.direction', $listOrder);
 
 		$id = JRequest::getVar('id', 0, '', 'int');
 		$this->setState('category.id', $id);
 
-		$user = JFactory::getUser();	
+		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_weblinks')) &&  (!$user->authorise('core.edit', 'com_weblinks'))){
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.state',	1);
-			
+
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}

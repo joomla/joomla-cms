@@ -19,6 +19,32 @@ jimport('joomla.application.component.modellist');
 class UsersModelUsers extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'name', 'a.name',
+				'username', 'a.username',
+				'email', 'a.email',
+				'block', 'a.block',
+				'sendEmail', 'a.sendEmail',
+				'registerDate', 'a.registerDate',
+				'lastvisitDate', 'a.lastvisitDate',
+				'activation', 'a.activation',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.

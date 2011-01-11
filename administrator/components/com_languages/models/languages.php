@@ -20,6 +20,30 @@ jimport('joomla.application.component.modellist');
 class LanguagesModelLanguages extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'lang_id', 'a.lang_id',
+				'lang_code', 'a.lang_code',
+				'title', 'a.title',
+				'title_native', 'a.title_native',
+				'sef', 'a.sef',
+				'image', 'a.image',
+				'published', 'a.published',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.

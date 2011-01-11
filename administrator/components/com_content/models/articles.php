@@ -21,6 +21,39 @@ jimport('joomla.application.component.modellist');
 class ContentModelArticles extends JModelList
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param	array	An optional associative array of configuration settings.
+	 * @see		JController
+	 * @since	1.6
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields'])) {
+			$config['filter_fields'] = array(
+				'id', 'a.id',
+				'title', 'a.title',
+				'alias', 'a.alias',
+				'checked_out', 'a.checked_out',
+				'checked_out_time', 'a.checked_out_time',
+				'catid', 'a.catid', 'category_title',
+				'state', 'a.state',
+				'access', 'a.access', 'access_level',
+				'created', 'a.created',
+				'created_by', 'a.created_by',
+				'ordering', 'a.ordering',
+				'featured', 'a.featured',
+				'language', 'a.language',
+				'hits', 'a.hits',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
+			);
+		}
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -44,7 +77,7 @@ class ContentModelArticles extends JModelList
 
 		$access = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
-		
+
 		$authorId = $app->getUserStateFromRequest($this->context.'.filter.author_id', 'filter_author_id');
 		$this->setState('filter.author_id', $authorId);
 
@@ -193,7 +226,7 @@ class ContentModelArticles extends JModelList
 		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
-	
+
 	/**
 	 * Build a list of authors
 	 *
@@ -204,17 +237,17 @@ class ContentModelArticles extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		
+
 		// Construct the query
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
 		$query->group('u.id');
 		$query->order('u.name');
-		
+
 		// Setup the query
 		$db->setQuery($query->__toString());
-		
+
 		// Return the result
 		return $db->loadObjectList();
 	}

@@ -33,6 +33,7 @@ $ -> Language fix or change
 
 10-Jan-2010 Ian MacLennan
  ! Recompressing system javascript
+ # Fixed issue [#24232] SQL Injection can result in information disclosure (Ian MacLennan).
 
 10-Jan-2011 Christophe Demko
  # [#24249] Cannot edit a weblink from the frontend (Andrew Eddie)
