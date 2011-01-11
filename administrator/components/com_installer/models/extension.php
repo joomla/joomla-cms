@@ -35,6 +35,8 @@ class InstallerModel extends JModelList
 	{
 		$ordering	= $this->getState('list.ordering');
 		$search		= $this->getState('filter.search');
+		// Replace slashes so preg_match will work
+		$search 	= str_replace('/', ' ', $search);
 		$db			= $this->getDbo();
 
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
