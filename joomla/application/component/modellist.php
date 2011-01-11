@@ -36,6 +36,14 @@ class JModelList extends JModel
 	protected $context = null;
 
 	/**
+	 * Valid filter fields or ordering.
+	 *
+	 * @var		array
+	 * @since	1.6
+	 */
+	protected $filter_fields = array();
+
+	/**
 	 * An internal cache for the last query used.
 	 *
 	 * @var		JDatabaseQuery
@@ -52,6 +60,11 @@ class JModelList extends JModel
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
+
+		// Add the ordering filtering fields white list.
+		if (isset($config['filter_fields'])) {
+			$this->filter_fields = $config['filter_fields'];
+		}
 
 		// Guess the context as Option.ModelName.
 		if (empty($this->context)) {
@@ -266,17 +279,28 @@ class JModelList extends JModel
 			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
 			$this->setState('list.start', $limitstart);
 
+			// Check if the ordering field is in the white list, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context.'.ordercol', 'filter_order', $ordering);
+			if (!in_array($value, $this->filter_fields)) {
+				$value = $ordering;
+				$app->setUserState($this->context.'.ordercol', $value);
+			}
 			$this->setState('list.ordering', $value);
 
+			// Check if the ordering direction is valid, otherwise use the incoming value.
 			$value = $app->getUserStateFromRequest($this->context.'.orderdirn', 'filter_order_Dir', $direction);
+			if (!in_array(strtoupper($value), array('ASC', 'DESC', ''))) {
+				$value = $direction;
+				$app->setUserState($this->context.'.orderdirn', $value);
+			}
 			$this->setState('list.direction', $value);
-		} else {
+		}
+		else {
 			$this->setState('list.start', 0);
 			$this->state->set('list.limit', 0);
 		}
 	}
-	
+
 	/**
 	 * Gets the value of a user state variable and sets it in the session
 	 * This is the same as the method in JApplication except that this also can optionally
@@ -299,7 +323,7 @@ class JModelList extends JModel
 
 		if (($cur_state != $new_state) && ($resetPage)){
 			JRequest::setVar('limitstart', 0);
-		}		
+		}
 
 		// Save the new value only if it was set in this request.
 		if ($new_state !== null) {
@@ -310,5 +334,5 @@ class JModelList extends JModel
 		}
 
 		return $new_state;
-	}	
+	}
 }
