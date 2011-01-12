@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jan-2011 Mark Dexter
+# Fix problems with acl0001Test
+
 10-Jan-2011 Mark Dexter
 # Fix failing system tests
 
