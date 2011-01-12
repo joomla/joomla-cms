@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="1.6">
+	<name>phputf8</name>
+	<libraryname>phputf8</libraryname>
+	<version>1.6.0</version>
+	<description>Classes for UTF8</description>
+	<creationDate>2008</creationDate>
+	<copyright>Copyright various authors</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<author>Harry Fuecks</author>
+	<authorEmail></authorEmail>
+	<authorUrl>http://sourceforge.net/projects/phputf8</authorUrl>
+	<packager>Joomla!</packager>
+	<packagerurl>http://www.joomla.org</packagerurl>
+	<update>http://update.joomla.org/libraries/phputf8</update>
+	<files>
+		<file>index.html</file>
+		<file>LICENSE</file>
+		<file>ord.php</file>
+		<file>README</file>
+		<file>str_ireplace.php</file>
+		<file>str_pad.php</file>
+		<file>str_split.php</file>
+		<file>strcasecmp.php</file>
+		<file>strcspn.php</file>
+		<file>stristr.php</file>
+		<file>strrev.php</file>
+		<file>strspn.php</file>
+		<file>substr_replace.php</file>
+		<file>trim.php</file>
+		<file>ucfirst.php</file>
+		<file>ucwords.php</file>
+		<file>utf8.php</file>
+		<folder>mbstring</folder>
+		<folder>native</folder>
+		<folder>utils</folder>
+	</files>
+</extension>

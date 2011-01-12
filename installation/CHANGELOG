@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ Adding 2 JLIB_ strings to installation en-GB.ini. Thanks Eraser
  # [#24294] Javascript error in installation. Thanks Christophe
  # [#24301] /templates status indicator in backend. Thanks Sergey
+ + [#24292] Refresh Cache in Extension Manager: Failed loading XML file
  
 
 -------------------- 1.6.0 Stable Release [10-Jan-2011] ------------------
