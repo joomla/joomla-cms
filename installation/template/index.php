@@ -24,6 +24,10 @@ defined('_JEXEC') or die;
 			<link href="template/css/ie7.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
 
+		<?php
+			jimport('joomla.html.html');
+			JHtml::_('behavior.framework', true);
+		?>
 		<script type="text/javascript">
 			window.addEvent('domready', function(){ new Accordion($$('h3.moofx-toggler'), $$('div.moofx-slider'), {onActive: function(toggler, i) { toggler.addClass('moofx-toggler-down'); },onBackground: function(toggler, i) { toggler.removeClass('moofx-toggler-down'); },duration: 300,opacity: false, alwaysHide:true, show: 1}); });
 		</script>
