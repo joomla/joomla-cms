@@ -27,7 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-
+12-Jan-2011 Jean-Marie Simonet
+ $ Correcting errors in fa-IR, aa-AA and he-IL installation langs
+ 
 
 -------------------- 1.6.0 Stable Release [10-Jan-2011] ------------------
 
