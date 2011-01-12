@@ -32,6 +32,7 @@ $ -> Language fix or change
  # Correction in credits & site en-GB.xml
  $ Adding 2 JLIB_ strings to installation en-GB.ini. Thanks Eraser
  # [#24294] Javascript error in installation. Thanks Christophe
+ # [#24301] /templates status indicator in backend. Thanks Sergey
  
 
 -------------------- 1.6.0 Stable Release [10-Jan-2011] ------------------

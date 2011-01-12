@@ -192,6 +192,7 @@ class AdminModelSysInfo extends JModel
 			$this->directory['plugins'.DS.'search']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'search'), 'message' => '');
 			$this->directory['plugins'.DS.'system']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'system'), 'message' => '');
 			$this->directory['plugins'.DS.'user']			= array('writable' => is_writable(JPATH_SITE.DS.'plugins'.DS.'user'), 'message' => '');
+			$this->directory['templates']					= array('writable' => is_writable(JPATH_SITE.DS.'templates'), 'message' => '');
 			$this->directory['cache']						= array('writable' => is_writable(JPATH_SITE.DS.'cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
 			$this->directory['administrator'.DS.'cache']	= array('writable' => is_writable(JPATH_SITE.DS.'administrator'.DS.'cache'), 'message' => 'COM_ADMIN_CACHE_DIRECTORY');
 
