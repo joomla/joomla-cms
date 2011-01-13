@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 13-Jan-2011 Jean-Marie Simonet
  + Adding pt_br.gif flag for langswitcher
+ $ [#24328] Inconsistent term for User Group. Thanks Mark.
 
 12-Jan-2011 Jean-Marie Simonet
  $ Correcting errors in fa-IR, aa-AA and he-IL installation langs
