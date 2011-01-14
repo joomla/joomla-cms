@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
+ # [#24377] Adding a "Location" column in Language Manager
  
 13-Jan-2011 Jean-Marie Simonet
  + Adding pt_br.gif flag for langswitcher
