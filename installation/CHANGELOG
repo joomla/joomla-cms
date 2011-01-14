@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jan-2011 Jean-Marie Simonet
+ $ Correcting lang string typo
+ 
 13-Jan-2011 Jean-Marie Simonet
  + Adding pt_br.gif flag for langswitcher
  $ [#24328] Inconsistent term for User Group. Thanks Mark.
