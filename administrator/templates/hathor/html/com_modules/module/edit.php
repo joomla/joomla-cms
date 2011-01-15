@@ -84,7 +84,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			<li><?php echo $this->form->getLabel('module'); ?>
 			<?php echo $this->form->getInput('module'); ?>
-			<span class="faux-input"><?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_(MODULES_ERR_XML);?></span></li>
+			<span class="faux-input"><?php if ($this->item->xml) echo ($text = (string) $this->item->xml->name) ? JText::_($text) : $this->item->module;else echo JText::_(COM_MODULES_ERR_XML);?></span></li>
 
 			<li><?php echo $this->form->getLabel('client_id'); ?>
 			<input type="text" size="35" id="jform_client_id" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />

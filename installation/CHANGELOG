@@ -30,6 +30,7 @@ $ -> Language fix or change
 15-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
  #$ [#24384] Missing Language string Cache Unwritable
+ # [#24396] MODULES_ERR_XML incorrectly called. Thanks Michael
  
 14-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
