@@ -84,7 +84,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$cacheDir = JPATH_CACHE.DS;
 
 		if (!is_writable($cacheDir)) {
-			echo JText::_('CACHE_DIRECTORY_UNWRITABLE');
+			JError::raiseNotice('0', JText::_('COM_NEWSFEEDS_CACHE_DIRECTORY_UNWRITABLE'));
 			return;
 		}
 
