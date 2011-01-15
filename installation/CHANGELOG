@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jan-2011 Jean-Marie Simonet
+ $ Correcting lang string typo
+ 
 14-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
  # [#24377] Adding a "Location" column in Language Manager
