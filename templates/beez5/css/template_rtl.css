@@ -191,3 +191,35 @@ form fieldset dd
 
 .login-fields label
 {float:right}
+
+/* ++++++++++++++  pagination  ++++++++++++++ */
+
+#main .pagination
+{
+	float:right;
+	text-align:right;
+	padding:10px 10px 0px 0px;
+
+}
+
+#main .pagination ul
+{
+	float:right;
+	text-align:right;
+}
+
+#main .pagination li
+{
+	float:right;
+	text-align:right;
+}
+
+#main .pagination li.pagination-start span,
+#main .pagination li.pagination-start a
+{
+padding:4px 0;
+}
+
+.pagenav { 
+	float:right;
+}

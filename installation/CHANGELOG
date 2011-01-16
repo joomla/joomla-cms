@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2011 Jean-Marie Simonet
+ # [#24391] Implementing RTL pagination in beez
+
 15-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
  #$ [#24384] Missing Language string Cache Unwritable
