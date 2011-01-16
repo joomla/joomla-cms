@@ -152,6 +152,7 @@ class JInstallation extends JApplication
 		$conf = JFactory::getConfig();
 		$conf->set('language', $options['language']);
 		$conf->set('debug_lang', $forced['debug']);
+		$conf->set('sampledata', $forced['sampledata']);
 
 		// Load Library language 
 		// Commented for now as it systematically loads en-GB.lib_joomla.ini 
@@ -249,6 +250,7 @@ class JInstallation extends JApplication
 		$ret['language'] = (string)$xml->forceLang;
 		$ret['helpurl'] = (string)$xml->helpurl;
 		$ret['debug'] = (string)$xml->debug;
+		$ret['sampledata'] = (string)$xml->sampledata;
 
 		return $ret;
 

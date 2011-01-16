@@ -62,4 +62,25 @@ class JFormFieldSample extends JFormFieldList
 
 		return $options;
 	}
+
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return	string	The field input markup.
+	 * @since	1.6
+	 */
+	protected function getInput()
+	{
+		if (!$this->value)
+		{
+			$conf = JFactory::getConfig();
+			if ($conf->get('sampledata')) {
+				$this->value = $conf->get('sampledata');
+			}
+			else {
+				$this->value = 'sample_data.sql';
+			}
+		}
+		return parent::getInput();
+	}
 }

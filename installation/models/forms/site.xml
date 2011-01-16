@@ -34,7 +34,6 @@
 
 		<field name="sample_file" type="sample" class="inputbox"
 			label="INSTL_SITE_SAMPLE_LABEL"
-			default="sample_data.sql"
 		/>
 
 		<field name="db_type" type="hidden" />

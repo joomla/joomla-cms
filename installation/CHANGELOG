@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Jan-2011 Jean-Marie Simonet
  # [#24391] Implementing RTL pagination in beez
+ # [#23083] Internationalisation of sample data options list. Thanks Christophe.
 
 15-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
