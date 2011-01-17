@@ -2188,3 +2188,15 @@ span.spacer > span.text label {
 .star {
 	color:#cc0000;
 }
+
+/* ++++++++++++++  news feeds direction ++++++++++++++ */
+
+.redirect-ltr {
+	direction: ltr;
+	text-align: left;
+}
+
+.redirect-rtl {
+	direction:rtl;
+	text-align: right;
+}

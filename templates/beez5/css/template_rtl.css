@@ -192,6 +192,10 @@ form fieldset dd
 .login-fields label
 {float:right}
 
+#system-debug li {
+direction: ltr;
+}
+
 /* ++++++++++++++  pagination  ++++++++++++++ */
 
 #main .pagination
