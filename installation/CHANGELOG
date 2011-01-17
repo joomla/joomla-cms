@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Jan-2011 Jean-Marie Simonet
  + Adding he.gif flag to langswitcher
+ # [#24426] Missing language string JLIB_INSTALLER_ABORT_PACK_INSTALLER_COPY_SETUP. Thanks Bill.
  
 16-Jan-2011 Jean-Marie Simonet
  # [#24391] Implementing RTL pagination in beez
