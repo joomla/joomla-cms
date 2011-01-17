@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jan-2011 Jean-Marie Simonet
+ + Adding he.gif flag to langswitcher
+ 
 16-Jan-2011 Jean-Marie Simonet
  # [#24391] Implementing RTL pagination in beez
  # [#23083] Internationalisation of sample data options list. Thanks Christophe.
