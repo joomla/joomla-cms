@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24461] Langswitcher module needed display improvement parameters
  $ [#24466] Incomplete language strings in Mass Mail. Thanks Mark.
  # [#24460] uppear right toolbar on rtl template isn't align well. Thanks Ofer.
+ $ [#24448] missing translation for COM_WEBLINKS_DEFAULT_PAGE_TITLE. Thanks Bill.
 
 17-Jan-2011 Jean-Marie Simonet
  + Adding he.gif flag to langswitcher
