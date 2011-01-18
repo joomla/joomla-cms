@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#24428] breadcrumbs doesn't look good on rtl templates
  # [#24461] Langswitcher module needed display improvement parameters
  $ [#24466] Incomplete language strings in Mass Mail. Thanks Mark.
+ # [#24460] uppear right toolbar on rtl template isn't align well. Thanks Ofer.
 
 17-Jan-2011 Jean-Marie Simonet
  + Adding he.gif flag to langswitcher

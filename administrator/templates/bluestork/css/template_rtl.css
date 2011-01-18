@@ -125,6 +125,10 @@ body{
 	float:left;
 }
 
+#module-status *{
+	float:right!important;
+}
+
 #module-status span {
 	padding: 4px 22px 0 10px;
 }
