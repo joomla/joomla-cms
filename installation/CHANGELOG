@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jan-2011 Jean-Marie Simonet
+ # Correcting code typo
+ 
+
 17-Jan-2011 Jean-Marie Simonet
  + Adding he.gif flag to langswitcher
  # [#24426] Missing language string JLIB_INSTALLER_ABORT_PACK_INSTALLER_COPY_SETUP. Thanks Bill.

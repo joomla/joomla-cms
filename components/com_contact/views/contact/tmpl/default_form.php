@@ -47,7 +47,7 @@ JHtml::_('behavior.keepalive');
 			</div>
 			<div>
 				<label id="contact-emailmsg" for="contact-email">
-					<?php echo JText::_('JGLOBAL_EMAIL');?>*
+					<?php echo JText::_('JGLOBAL_EMAIL');?>
 				</label>
 				<input type="text" id="contact-email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			</div>
