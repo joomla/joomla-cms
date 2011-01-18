@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Correcting code typo
  # [#24327] Bluestork administrator template template.css typo. Thanks Bill.
  # [#24428] breadcrumbs doesn't look good on rtl templates
+ # [#24461] Langswitcher module needed display improvement parameters
 
 17-Jan-2011 Jean-Marie Simonet
  + Adding he.gif flag to langswitcher

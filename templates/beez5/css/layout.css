@@ -2077,11 +2077,6 @@ ul.pagenav li.pagenav-prev
 ul.pagenav li.pagenav-next 
 {float:right}
 
-/* mod_languages */
-
-.mod-languages ul li
-{display:inline}
-
 /* pagebreak */
 
 #article-index

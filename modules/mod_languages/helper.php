@@ -17,6 +17,7 @@ abstract class modLanguagesHelper
 {
 	public static function getList(&$params)
 	{
+		$lang = JFactory::getLanguage();
 		$languages	= JLanguageHelper::getLanguages();
 		$db			= JFactory::getDBO();
 		$app		= JFactory::getApplication();
@@ -35,6 +36,7 @@ abstract class modLanguagesHelper
 			}
 			else {
 				if ($app->getLanguageFilter()) {
+					$language->active =  $language->lang_code == $lang->getTag();
 					if ($app->getCfg('sef')=='1') {
 						$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 						$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
