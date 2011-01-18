@@ -233,3 +233,19 @@ padding:4px 0;
 .pagenav { 
 	float:right;
 }
+
+/* ++++++++++++++  breadcrumbs  ++++++++++++++ */
+
+#breadcrumbs *
+{
+	text-align:right;
+	float:right;
+}
+#breadcrumbs
+{
+	margin:15px 15px 20px 0px;
+}
+#breadcrumbs img
+{
+	padding: 4px 5px 0 5px;
+}

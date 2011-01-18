@@ -30,7 +30,7 @@ $ -> Language fix or change
 18-Jan-2011 Jean-Marie Simonet
  # Correcting code typo
  # [#24327] Bluestork administrator template template.css typo. Thanks Bill.
- 
+ # [#24428] breadcrumbs doesn't look good on rtl templates
 
 17-Jan-2011 Jean-Marie Simonet
  + Adding he.gif flag to langswitcher
