@@ -2991,8 +2991,9 @@ ul#rules li .pane-sliders .panel h3.title
 }
 
 #permissions-sliders div.rule-notes
-	font-size: 1.091em;
+	
 {
+	font-size: 1.091em;
 }
 
 ul#rules table.aclmodify-table
