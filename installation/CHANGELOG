@@ -30,8 +30,8 @@ $ -> Language fix or change
 19-Jan-2011 Jean-Marie Simonet
  #$ [#24464] Incorrect language definition in 'List Contacts in a Category' menu item type. Thanks Jozsef and Bill.
  # [#24397] group perms list should be expand/collapsible at will. Thanks Jeremy and Andrea.
- #$ [#24475] Multiple groups are a problem in the user manager. Thanks Andrea.
- 
+ $ [#24097] Adding new strings from that non-committed yet patch in installation ini files to freeze them for 1.6.1. 
+  
 18-Jan-2011 Jean-Marie Simonet
  # Correcting code typo
  # [#24327] Bluestork administrator template template.css typo. Thanks Bill.
