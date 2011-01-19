@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2011 Jean-Marie Simonet
+ #$ [#24464] Incorrect language definition in 'List Contacts in a Category' menu item type. Thanks Jozsef and Bill.
+ 
 18-Jan-2011 Jean-Marie Simonet
  # Correcting code typo
  # [#24327] Bluestork administrator template template.css typo. Thanks Bill.

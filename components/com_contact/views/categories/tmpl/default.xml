@@ -239,7 +239,7 @@
 
 		<field name="show_state_headings"
 			type="list"
-			label="JGLOBAL_STATE"
+			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
