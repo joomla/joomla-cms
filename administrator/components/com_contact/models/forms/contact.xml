@@ -341,7 +341,7 @@
 			<field name="show_contact_list"
 			type="list"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>

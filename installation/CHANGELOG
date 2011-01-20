@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jan-2011 Jean-Marie Simonet
+ # [#24491] com_contact, wrong string is used in config.xml (COM_CONTACT_FIELD_PROFILE_SHOW_LABEL used twice). Thanks Edgars.
+
 19-Jan-2011 Jean-Marie Simonet
  #$ [#24464] Incorrect language definition in 'List Contacts in a Category' menu item type. Thanks Jozsef and Bill.
  # [#24397] group perms list should be expand/collapsible at will. Thanks Jeremy and Andrea.
