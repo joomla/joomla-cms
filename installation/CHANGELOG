@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24491] com_contact, wrong string is used in config.xml (COM_CONTACT_FIELD_PROFILE_SHOW_LABEL used twice). Thanks Edgars.
  # Changing version number in en-GB.xml and en-US.xml installation
  # Adding missing new tag in localise.xml [#23083]
+ # [#24318] Administration templates renders JForm "checkboxes" incorrectly in config. Thanks Andrea.
 
 19-Jan-2011 Jean-Marie Simonet
  #$ [#24464] Incorrect language definition in 'List Contacts in a Category' menu item type. Thanks Jozsef and Bill.

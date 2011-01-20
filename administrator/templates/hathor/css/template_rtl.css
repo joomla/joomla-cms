@@ -203,6 +203,22 @@ div.current fieldset.radio label {
 	margin: 3px 2px 0 0;
 }
 
+div.current fieldset.checkboxes {
+	float:right;
+	clear:left;
+}
+
+div.current fieldset.checkboxes input {
+	float:right;
+	clear:right;
+	margin: 3px 2px 0 0;
+}
+
+div.current fieldset.checkboxes label {
+	clear:left;
+	margin: 3px 2px 0 0;
+}
+
 div.current input,
 div.current span.faux-input,
 div.current textarea,
