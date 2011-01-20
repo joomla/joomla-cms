@@ -51,13 +51,14 @@ class JFormFieldCheckboxes extends JFormField
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="checkboxes '.(string) $this->element['class'].'"' : ' class="checkboxes"';
 
-		// Start the radio field output.
+		// Start the checkbox field output.
 		$html[] = '<fieldset id="'.$this->id.'"'.$class.'>';
 
 		// Get the field options.
 		$options = $this->getOptions();
 
-		// Build the radio field output.
+		// Build the checkbox field output.
+		$html[] = '<ul>';
 		foreach ($options as $i => $option) {
 
 			// Initialize some option attributes.
@@ -68,14 +69,17 @@ class JFormFieldCheckboxes extends JFormField
 			// Initialize some JavaScript option attributes.
 			$onclick	= !empty($option->onclick) ? ' onclick="'.$option->onclick.'"' : '';
 
+			$html[] = '<li>';
 			$html[] = '<input type="checkbox" id="'.$this->id.$i.'" name="'.$this->name.'"' .
 					' value="'.htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8').'"'
 					.$checked.$class.$onclick.$disabled.'/>';
 
 			$html[] = '<label for="'.$this->id.$i.'"'.$class.'>'.JText::_($option->text).'</label>';
+			$html[] = '</li>';
 		}
+		$html[] = '</ul>';
 
-		// End the radio field output.
+		// End the checkbox field output.
 		$html[] = '</fieldset>';
 
 		return implode($html);
