@@ -109,3 +109,7 @@ div.current ul.menu-links {
 	padding:0;
 	list-style-position: inside;
 }
+
+div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
+	margin: 0;
+}

@@ -173,6 +173,10 @@ table.adminlist tfoot th { background-color: #000;  }
 	color: #fff;
 }
 
+div#position-icon.pane-sliders .icon {
+	background: #000;
+}
+
 #cpanel div.icon a {
 	border: 1px solid #f0f0f0;
 	color: #fff;

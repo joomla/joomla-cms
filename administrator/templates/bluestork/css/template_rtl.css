@@ -412,6 +412,11 @@ fieldset.panelform fieldset.checkboxes span.faux-label {
 }
 /* end checkboxes */
 
+div#position-icon.pane-sliders div.pane-down .icon-wrapper .icon {
+	padding: 5px 10px 5px 0;
+	margin: 0;
+}
+
 dl.tabs {
 	float: right;
 }
