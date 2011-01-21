@@ -99,13 +99,7 @@ $app = JFactory::getApplication();
 					<div class="m" >
 					<div class="adminform">
 						<div class="cpanel-left">
-							<?php if ($this->countModules('icon')>1):?>
-								<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
-								<jdoc:include type="modules" name="icon" style="sliders" />
-								<?php echo JHtml::_('sliders.end');?>
-							<?php else:?>
-								<jdoc:include type="modules" name="icon" />
-							<?php endif;?>
+							<jdoc:include type="modules" name="icon" />
 						</div>
 						<div class="cpanel-right">
 							<jdoc:include type="component" />

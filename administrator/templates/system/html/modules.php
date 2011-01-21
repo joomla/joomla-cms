@@ -22,56 +22,47 @@ function modChrome_none($module, &$params, &$attribs)
  */
 function modChrome_xhtml($module, &$params, &$attribs)
 {
-	$content = trim($module->content);
-	if (!empty ($content)) : ?>
+	if (!empty ($module->content)) : ?>
 		<div class="module<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
 		<?php if ($module->showtitle != 0) : ?>
 			<h3><?php echo $module->title; ?></h3>
 		<?php endif; ?>
-			<?php echo $content; ?>
+			<?php echo $module->content; ?>
 		</div>
 	<?php endif;
 }
 
 /*
- * allows sliders
+ * allows for rounded corners
  */
 function modChrome_sliders($module, &$params, &$attribs)
 {
-	$content = trim($module->content);
-	if (!empty($content))
-	{
-		if ($params->get('automatic_title','0')=='0') {
-			echo JHtml::_('sliders.panel', $module->title, 'module'.$module->id);
-		}
-		elseif (method_exists('mod'.$module->name.'Helper','getTitle')) {
-			echo JHtml::_('sliders.panel', call_user_func_array(array('mod'.$module->name.'Helper','getTitle'), array($params)), 'module'.$module->id);		
-		}
-		else {
-			echo JHtml::_('sliders.panel', JText::_('MOD_'.$module->name.'_TITLE'), 'module'.$module->id);		
-		}
-		echo $content;
+	// Initialise variables.
+	$user = JFactory::getUser();
+
+	$editAllComponents	= $user->authorise('core.manage', 'com_installer');
+
+	// special handling for components module
+	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
+		echo JHtml::_('sliders.panel',JText::_($module->title), 'module' . $module->id);
+		echo $module->content;
 	}
 }
 
 /*
- * allows tabs
+ * allows for rounded corners
  */
 function modChrome_tabs($module, &$params, &$attribs)
 {
-	$content = trim($module->content);
-	if (!empty($content))
-	{
-		if ($params->get('automatic_title','0')=='0') {
-			echo JHtml::_('tabs.panel', $module->title, 'module'.$module->id);
-		}
-		elseif (method_exists('mod'.$module->name.'Helper','getTitle')) {
-			echo JHtml::_('tabs.panel', call_user_func_array(array('mod'.$module->name.'Helper','getTitle'), array($params)), 'module'.$module->id);		
-		}
-		else {
-			echo JHtml::_('tabs.panel', JText::_('MOD_'.$module->name.'_TITLE'), 'module'.$module->id);		
-		}
-		echo $content;
+	// Initialise variables.
+	$user	= JFactory::getUser();
+
+	$editAllComponents	= $user->authorise('core.manage', 'com_installer');
+
+	// special handling for components module
+	if ($module->module != 'mod_components' || ($module->module == 'mod_components' && $editAllComponents)) {
+		echo JHtml::_('tabs.panel', JText::_($module->title), 'module' . $module->id);
+		echo $module->content;
 	}
 }
-
+?>

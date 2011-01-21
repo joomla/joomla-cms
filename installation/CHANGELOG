@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 21-Jan-2011 Christophe Demko
  # [#24523] Improve the cpanel of admin templates + correting some errors
+ # Revert [#24523]
 
 21-Jan-2011 Jean-Marie Simonet
  $ [#24520] Incorrect tooltips in Articles Categories module. Thanks Jozsef and Bill.
