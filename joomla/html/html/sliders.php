@@ -17,6 +17,7 @@
  */
 abstract class JHtmlSliders
 {
+	protected static $opened = array();
 
 	/**
 	 * Creates a panes and loads the javascript behavior for it.
@@ -29,7 +30,9 @@ abstract class JHtmlSliders
 	public static function start($group = 'sliders', $params = array())
 	{
 		self::_loadBehavior($group,$params);
-		return '<div id="'.$group.'" class="pane-sliders"><div style="display:none;"><div>';
+		array_push(self::$opened,false);
+
+		return '<div id="'.$group.'" class="pane-sliders">';
 	}
 
 	/**
@@ -40,7 +43,16 @@ abstract class JHtmlSliders
 	 */
 	public static function end()
 	{
-		return '</div></div></div>';
+		if (array_pop(self::$opened))
+		{
+			$close = '</div></div>';
+		}
+		else
+		{
+			$close = '';
+		}
+
+		return $close.'</div>';
 	}
 
 	/**
@@ -53,7 +65,17 @@ abstract class JHtmlSliders
 	 */
 	public static function panel($text, $id)
 	{
-		return '</div></div><div class="panel"><h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3><div class="pane-slider content">';
+		if (self::$opened[count(self::$opened)-1])
+		{
+			$close = '</div></div>';
+		}
+		else
+		{
+			self::$opened[count(self::$opened)-1] = true;
+			$close = '';
+		}
+
+		return $close.'<div class="panel"><h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3><div class="pane-slider content">';
 	}
 
 	/**
