@@ -1064,7 +1064,8 @@ fieldset.adminform.long input { }
 /* Field label widths - short label */
 fieldset.adminform label, 
 fieldset.adminform span.faux-label {
-	width: 135px;
+	min-width: 135px;
+	padding: 0 5px 0 0;
 }
 
 fieldset.panelform {
@@ -1074,7 +1075,8 @@ fieldset.panelform label,
 fieldset.panelform div.paramrow label,
 fieldset.panelform span.faux-label {
 	min-width: 145px;
-	max-width: 145px;
+	max-width: 250px;
+	padding: 0 5px 0 0;
 }
 
 /* One-offs */
@@ -1164,16 +1166,18 @@ fieldset.adminform-legacy fieldset.radio {
 	border: 0;
 	float: left;
 	padding: 0;
-	margin: 0 0 5px 5px;
+	margin: 0 0 5px 0;
 	/* clear: right; */
 }
 
 fieldset.adminform fieldset.radio label,
 fieldset.panelform fieldset.radio label {
 	min-width: 60px;
+	padding-left: 0;
+	padding-right: 10px;
 	float: left;
 	clear: none;
-	width: 40px;
+	/*width: 40px;*/
 	display:inline;
 }
 

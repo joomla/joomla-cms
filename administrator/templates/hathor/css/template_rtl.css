@@ -913,6 +913,7 @@ fieldset.panelform span.faux-label {
 	clear:right;
 	float:right;
 	margin-right: 10px;
+	margin-left: 5px;
 }
 
 fieldset.adminform fieldset.radio label,

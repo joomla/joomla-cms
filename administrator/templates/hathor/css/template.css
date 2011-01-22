@@ -2027,6 +2027,7 @@ fieldset.panelform span.faux-label {
 	min-width: 12em;
 	float:left;
 	margin-left: 10px;
+	margin-right: 5px;
 }
 
 fieldset.adminform.long label,

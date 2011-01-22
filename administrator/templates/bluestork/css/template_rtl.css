@@ -369,6 +369,17 @@ li#jform_access_label {
 	clear: right;
 }
 
+fieldset.adminform label, 
+fieldset.adminform span.faux-label {
+	padding: 0 0 0 5px;
+}
+
+fieldset.panelform label,
+fieldset.panelform div.paramrow label,
+fieldset.panelform span.faux-label {
+	padding: 0 0 0 5px;
+}
+
 fieldset.adminform fieldset.radio,
 fieldset.panelform fieldset.radio,
 fieldset.adminform-legacy fieldset.radio {
