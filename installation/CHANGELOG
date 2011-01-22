@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jan-2011 Jean-Marie Simonet
+ # Updating some TT credits
+
 21-Jan-2011 Christophe Demko
  # [#24523] Improve the cpanel of admin templates + correting some errors
  # Revert [#24523]
