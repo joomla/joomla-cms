@@ -92,3 +92,41 @@ fieldset#jform_db_old input {
 	float: right;
 	clear: right;
 }
+
+ /* System Messages */
+ 
+ #system-message dd ul { 
+ background-position: 99.5% top;
+ }
+ 
+ /**
+ * System Standard Messages
+ */
+ 
+#system-message dd.message ul {
+	background-color: #C3D2E5;
+	background-image: url(../../../media/system/images/notice-info.png) no-repeat;
+}
+
+/**
+ * System Error Messages
+ */
+#system-message dd.error ul {
+	background-color: #E6C0C0;
+	background-image: url(../../../media/system/images/notice-alert.png) no-repeat;
+}
+
+/**
+ * System Notice Messages
+ */
+
+/* System Warning Messages */
+#system-message dd.warning ul {
+	background-color: #E6C8A6;
+	background-image: url(../../../media/system/images/notice-note.png) no-repeat;
+}
+
+#system-message dd.notice ul {
+	background-color: #EFE7B8;
+	background-image: url(../../../media/system/images/notice-note.png) no-repeat;
+}
