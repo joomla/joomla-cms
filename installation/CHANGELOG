@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ Updating vi_VN
  # [#24570] Correcting icon message display in installation with rtl lang
  # [#24463] Admin Trashed menu doesn't display - link error. Thanks Barny and Bill.
+ # [#24459] In Users -> Mass Mail Users, the tooltips are not being styled. Thanks Jeremy.
  
 22-Jan-2011 Jean-Marie Simonet
  # Updating some TT credits
