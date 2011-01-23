@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jan-2011 Jean-Marie Simonet
+ # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
+
 22-Jan-2011 Jean-Marie Simonet
  # Updating some TT credits
  # [#24525] In Bluestork, longer labels are being cut off especially radio button labels. Thanks Andrea

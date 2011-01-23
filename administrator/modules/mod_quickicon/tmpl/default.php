@@ -10,12 +10,12 @@
 // No direct access.
 defined('_JEXEC') or die;
 
-$buttons = QuickIconHelper::getButtons();
+$buttons = modQuickIconHelper::getButtons();
 ?>
 <div id="cpanel">
 <?php
 foreach ($buttons as $button):
-	echo QuickIconHelper::button($button);
+	echo modQuickIconHelper::button($button);
 endforeach;
 ?>
 </div>
