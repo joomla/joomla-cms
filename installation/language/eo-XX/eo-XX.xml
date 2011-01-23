@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="1.6" client="installation" >
+	<name>Esperanto</name>
+	<version>1.6.1</version>
+	<creationDate>20.01.2011</creationDate>
+	<author>liberaprogramaro.net</author>
+	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>Esperanta lingvo por instalilo</description>
+	<files>
+		<filename>eo-XX.ini</filename>
+	</files>
+	<metadata>
+		<name>Esperanto</name>
+		<tag>eo-XX</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

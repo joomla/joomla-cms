@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 23-Jan-2011 Jean-Marie Simonet
  # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
+ $ Adding bn-BD, ckb-IQ, eo-XX, ta-IN installation langs + updating 35 installation langs for 1.6.1 
 
 22-Jan-2011 Jean-Marie Simonet
  # Updating some TT credits

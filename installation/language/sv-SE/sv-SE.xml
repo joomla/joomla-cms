@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id: sv-SE.xml 149 2011-01-05 12:13:36Z shultman $ -->
 <metafile
 	version="1.6"
 	client="installation">
 	<name>Svenska (SE)</name>
-	<version>1.6.0</version>
+	<version>1.6.1</version>
 	<creationDate>2011-01-05</creationDate>
 	<author>Swedish Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
