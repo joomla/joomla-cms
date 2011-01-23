@@ -99,7 +99,7 @@ $listDirn	= $this->state->get('list.direction');
 						<?php echo $item->count_unpublished; ?></a>
 				</td>
 				<td class="center btns">
-					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=2');?>">
+					<a href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=-2');?>">
 						<?php echo $item->count_trashed; ?></a>
 				</td>
 				<td class="left">
