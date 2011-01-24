@@ -30,6 +30,7 @@ $ -> Language fix or change
 24-Jan-2011 Jean-Marie Simonet
  $ Updating af-ZA
  #$ [#24457] Language fixes and new warnings for com_installer. Thanks Sam.
+ # [#24540] New Window without navigation. Thanks Byron and Bill.
  
 23-Jan-2011 Jean-Marie Simonet
  # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
