@@ -32,7 +32,8 @@ $ -> Language fix or change
  #$ [#24457] Language fixes and new warnings for com_installer. Thanks Sam.
  # [#24540] New Window without navigation. Thanks Byron and Bill.
  $ Updating ru-RU, sk-SK
- $ Updating ca-ES, adding ml_IN installation lang
+ $ Updating ca-ES, adding ml-IN installation lang
+ $ Correcting parse errors in ml-IN.ini
  
 23-Jan-2011 Jean-Marie Simonet
  # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
