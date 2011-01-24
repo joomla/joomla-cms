@@ -2,19 +2,19 @@
 <metafile
 	version="1.6"
 	client="installation">
-	<name>Catalan</name>
+	<name>Malayalam (India)</name>
 	<version>1.6.1</version>
-	<creationDate>2011-01-10</creationDate>
-	<author>Catalan Joomla Translation Team</author>
+	<creationDate>January 2011</creationDate>
+	<author>Sujith Kumar</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description></description>
 	<files>
-		<filename>ca-ES.ini</filename>
+		<filename>ml-IN.ini</filename>
 	</files>
 	<metadata>
-		<name>Catalan</name>
-		<tag>ca-ES</tag>
+		<name>Malayalam (India)</name>
+		<tag>ml-IN</tag>
 		<rtl>0</rtl>
 	</metadata>
 	<params />
