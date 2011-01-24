@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Updating af-ZA
  #$ [#24457] Language fixes and new warnings for com_installer. Thanks Sam.
  # [#24540] New Window without navigation. Thanks Byron and Bill.
+ $ Updating ru-RU, sk-SK
  
 23-Jan-2011 Jean-Marie Simonet
  # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
