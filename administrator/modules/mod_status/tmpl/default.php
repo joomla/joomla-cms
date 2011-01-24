@@ -27,7 +27,7 @@ endif;
 if ($params->get('show_messages', 1)) :
 	$output[] = '<span class="'.$inboxClass.'">'.
 			($hideLinks ? '' : '<a href="'.$inboxLink.'">').
-			$unread.' '.JText::_('MOD_STATUS_MESSAGES').
+			JText::plural('MOD_STATUS_MESSAGES', $unread).
 			($hideLinks ? '' : '</a>').
 			'</span>';
 endif;

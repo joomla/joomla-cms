@@ -34,6 +34,7 @@ $ -> Language fix or change
  $ Updating ru-RU, sk-SK
  $ Updating ca-ES, adding ml-IN installation lang
  $ Correcting parse errors in ml-IN.ini
+ #$ [#24573] Backend mod_status private messages pluralisation. Thanks Edgars. Reordered en-GB.mod_status.ini
  
 23-Jan-2011 Jean-Marie Simonet
  # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
