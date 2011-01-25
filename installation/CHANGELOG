@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jan-2011 Jean-Marie Simonet
+ $ Adding el-GR, ka-GE installation langs
+
 24-Jan-2011 Jean-Marie Simonet
  $ Updating af-ZA
  #$ [#24457] Language fixes and new warnings for com_installer. Thanks Sam.
