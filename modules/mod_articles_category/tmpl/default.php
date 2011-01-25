@@ -33,7 +33,7 @@ defined('_JEXEC') or die;
 				            (<?php echo $item->displayHits; ?>)  </span>
 				        <?php endif; ?></a>
 				            <?php endif; ?>
-			        </h<?php echo $item_heading; ?>>
+			        </h<?php echo $item_heading+1; ?>>
 
 
 				<?php if ($params->get('show_author')) :?>

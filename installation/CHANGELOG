@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Adding fi-FI installation langs. Modifying gu-IN.
  # [#24580] Localise xml default language is not highlighted in the drop down
  # [#24582] Languages not installed in db but present in the language folders in joomla issue
+ # [#24564] mod_articles_category creates wrong html code. Thanks Andras.
 
 24-Jan-2011 Jean-Marie Simonet
  $ Updating af-ZA
