@@ -30,6 +30,7 @@ $ -> Language fix or change
 25-Jan-2011 Jean-Marie Simonet
  $ Adding el-GR, ka-GE installation langs
  $ Adding fi-FI installation langs. Modifying gu-IN.
+ # [#24580] Localise xml default language is not highlighted in the drop down
 
 24-Jan-2011 Jean-Marie Simonet
  $ Updating af-ZA
