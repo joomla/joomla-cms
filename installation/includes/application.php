@@ -225,7 +225,7 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * Returns the langauge code and help url set in the localise.xml file.
+	 * Returns the language code and help url set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
 	 *
 	 * @return	bool|array	False on failure, array on success.
@@ -256,23 +256,56 @@ class JInstallation extends JApplication
 
 	}
 
-	/**
-	 * Returns the installed admin language files in the administrative and
-	 * front-end area.
-	 *
-	 * @return	array	Array with installed language packs in admin area
-	 */
-	public function getLocaliseAdmin()
-	{
-		jimport('joomla.filesystem.folder');
+/**
+ 	* Returns the installed language files in the administrative and
+ 	* front-end area.
+ 	*
+ 	* @return array Array with installed language packs in admin and site area
+ 	*/
+ 	public function getLocaliseAdmin($db=false)
+ 	{
+ 		jimport('joomla.filesystem.folder');
 
-		// Read the files in the admin area
-		$path = JLanguage::getLanguagePath(JPATH_SITE.DS.'administrator');
-		$langfiles['admin'] = JFolder::folders($path);
+ 		// Read the files in the admin area
+ 		$path = JLanguage::getLanguagePath(JPATH_SITE.DS.'administrator');
+ 		$langfiles['admin'] = JFolder::folders($path);
 
-		$path = JLanguage::getLanguagePath(JPATH_SITE);
-		$langfiles['site'] = JFolder::folders($path);
+ 		// Read the files in the site area
+ 		$path = JLanguage::getLanguagePath(JPATH_SITE);
+ 		$langfiles['site'] = JFolder::folders($path);
 
-		return $langfiles;
-	}
-}
+ 		if($db)
+ 		{
+ 			$langfiles_disk = $langfiles;
+ 			$langfiles = Array();
+ 			$langfiles['admin'] = Array();
+ 			$langfiles['site'] = Array();
+ 			$query = $db->getQuery(true);
+ 			$query->select('element,client_id');
+ 			$query->from('#__extensions');
+ 			$query->where('type = '.$db->quote('language'));
+ 			$db->setQuery($query);
+ 			$langs = $db->loadObjectList();
+ 			foreach($langs as $lang)
+ 			{
+ 				switch($lang->client_id)
+ 				{
+ 					case 0: // site
+ 						if(in_array($lang->element, $langfiles_disk['site']))
+ 						{
+ 							$langfiles['site'][] = $lang->element;
+ 						}
+ 						break;
+ 					case 1: // administrator
+ 						if(in_array($lang->element, $langfiles_disk['admin']))
+ 						{
+ 							$langfiles['admin'][] = $lang->element;
+ 						}
+ 						break;
+ 				}
+ 			}
+ 		}
+
+ 		return $langfiles;
+ 	}
+ }
