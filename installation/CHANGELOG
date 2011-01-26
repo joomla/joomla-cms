@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jan-2011 Jean-Marie Simonet
+ # [#24599] Templates filter searches all extensions. Thanks CY Lee.
+ 
 25-Jan-2011 Jean-Marie Simonet
  $ Adding el-GR, ka-GE installation langs
  $ Adding fi-FI installation langs. Modifying gu-IN.
