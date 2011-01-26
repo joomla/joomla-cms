@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jan-2011 Mark Dexter
+# [#24513] *Incorrect error string after saving default menu item with set 'Default Page' radio button to 'no' value
+
 26-Jan-2011 Jean-Marie Simonet
  # [#24599] Templates filter searches all extensions. Thanks CY Lee.
  $ Updating zh-CN
