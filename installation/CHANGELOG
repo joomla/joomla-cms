@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24599] Templates filter searches all extensions. Thanks CY Lee.
  $ Updating zh-CN
  # [#24619] Wrong description language code for email1 field. Thanks Bill.
+ $ Correcting some lang strings values.
  
 25-Jan-2011 Jean-Marie Simonet
  $ Adding el-GR, ka-GE installation langs
