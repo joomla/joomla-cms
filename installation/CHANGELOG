@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Jan-2011 Mark Dexter
 # [#24513] *Incorrect error string after saving default menu item with set 'Default Page' radio button to 'no' value
+# [#24607] *No translation of options (plugin names) in ordering field of plugins
 
 26-Jan-2011 Jean-Marie Simonet
  # [#24599] Templates filter searches all extensions. Thanks CY Lee.
