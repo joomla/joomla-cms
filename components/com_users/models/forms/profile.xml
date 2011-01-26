@@ -51,7 +51,7 @@
 		/>
 
 		<field name="email1" type="email"
-			description="Users_Profile_Email1_Desc"
+			description="COM_USERS_PROFILE_EMAIL1_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_EMAIL1_LABEL"
 			message="COM_USERS_PROFILE_EMAIL1_MESSAGE"
