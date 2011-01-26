@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#24619] Wrong description language code for email1 field. Thanks Bill.
  $ Correcting some lang strings values.
  #$ [#24615] Extra language definitions for icon tooltips in Messages component
+ #$ [#24587] beez template typo with position-15
  
 25-Jan-2011 Jean-Marie Simonet
  $ Adding el-GR, ka-GE installation langs
