@@ -38,6 +38,7 @@ $ -> Language fix or change
  $ Correcting some lang strings values.
  #$ [#24615] Extra language definitions for icon tooltips in Messages component
  #$ [#24587] beez template typo with position-15
+ $ Adding pt-PT installation lang
  
 25-Jan-2011 Jean-Marie Simonet
  $ Adding el-GR, ka-GE installation langs
