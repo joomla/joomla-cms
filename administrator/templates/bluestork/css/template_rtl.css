@@ -664,3 +664,53 @@ div#menu-assignment ul.menu-links li.menu-link input {
 #jform_sef_rewrite-lbl {
 	background: url(../images/admin/icon-16-notice-note.png) left top no-repeat;
 }
+
+/* -- MODAL STYLES ----------- */
+
+div#sbox-window {
+	text-align: right;
+}
+
+h2.modal-title {
+	margin: 5px 15px 0 0;
+}
+
+ul.menu_types {
+	padding: 0 15px 0 0;
+	margin: 0;
+}
+
+ul.menu_types li,
+dl.menu_type dd ul li {
+	float: right;
+	margin-left: 10px;
+	margin-right: 0;
+}
+dl.menu_type dt {
+	float: right;
+	margin: 13px 0 5px 0;
+}
+
+dl.menu_type dd {
+	clear: right;
+	margin: 0;
+}
+
+dl.menu_type dd ul li {
+	margin: 0;
+}
+
+dl.menu_type dd ul {
+	margin-left: 0;
+	margin-right: -40px;
+}
+
+ul#new-modules-list {
+	padding: 5px 15px 0 0;
+	margin: 0;
+}
+ul#new-modules-list li {
+	float:right;
+	margin: 0 0 0 20px;
+	font-size: 1.091em;
+}

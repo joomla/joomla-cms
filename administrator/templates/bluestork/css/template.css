@@ -2457,6 +2457,26 @@ dl.menu_type dd ul {
 	margin-left: -40px;
 }
 
+ul#new-modules-list {
+	padding: 5px 0 0 15px;
+	width:95%;
+	margin: 0;
+	list-style: none;
+	border-top: 1px solid #666;
+}
+ul#new-modules-list li {
+	list-style: none;
+	display: block;
+	float:left;
+	margin: 0 20px 0 0;
+	width: 47%;
+}
+ul#new-modules-list li a {
+	font-size: 1.091em;
+	line-height: 1.8em;
+}
+
+
 /* -- ACL STYLES ----------- */
 
 /* Relocated from com_users/media/default.css  */

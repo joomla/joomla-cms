@@ -1681,6 +1681,10 @@ dl.menu_type dt {
 	border-bottom: 1px solid #1b3f7c;
 }
 
+ul#new-modules-list {
+	border-top: 1px solid #1b3f7c;
+}
+
 /**
  * Override mediamanager.css styles
  * administrator/components/com_media/assets/mediamanager.css

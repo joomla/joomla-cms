@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jan-2011 Jean-Marie Simonet
+ # [#24320] Unstyled dialog when clicking 'new' in module manager. Thanks Andrea.
+ # Updating credits
+
 26-Jan-2011 Mark Dexter
 # [#24513] *Incorrect error string after saving default menu item with set 'Default Page' radio button to 'no' value
 # [#24607] *No translation of options (plugin names) in ordering field of plugins

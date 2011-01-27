@@ -1877,7 +1877,8 @@ h2.modal-title {
 	margin-left: 15px;
 	margin-bottom:0;
 	margin-top: 5px;
-	font-size: 1.5em;
+	font-size: 1.8em;
+	padding-bottom: .5em;
 }
 
 ul.menu_types {
@@ -1924,6 +1925,24 @@ dl.menu_type dd ul li {
 /* dl.menu_type dd ul {
 	margin-left: -40px;
 } */
+
+ul#new-modules-list {
+	padding: 5px 0 0 15px;
+	width:95%;
+	margin: 0;
+	list-style: none;
+}
+ul#new-modules-list li {
+	list-style: none;
+	display: block;
+	float:left;
+	margin: 0 20px 0 0;
+	width: 47%;
+}
+ul#new-modules-list li a {
+	font-size: 1em;
+	line-height: 1.5em;
+}
 
 body.contentpane #filter-bar {
 	font-size: 80%;

@@ -845,9 +845,12 @@ a img.calendar {
 }
 
 /* -- MODAL STYLES ----------- */
+div#sbox-window {
+	text-align: right;
+}
 
 h2.modal-title {
-	margin-right: 15px;
+	margin: 5px 15px 0 0;
 }
 
 ul.menu_types {
@@ -857,6 +860,7 @@ ul.menu_types li,
 dl.menu_type dd ul li {
 	float:right;
 	margin-left: 10px;
+	margin-right: 0;
 }
 
 dl.menu_type dt {
@@ -865,6 +869,23 @@ dl.menu_type dt {
 }
 dl.menu_type dd {
 	clear:right;
+}
+
+dl.menu_type dd ul li {
+	margin: 0;
+}
+
+dl.menu_type dd ul {
+	margin: 0;
+}
+
+ul#new-modules-list {
+	padding: 5px 15px 0 0;
+	margin: 0;
+}
+ul#new-modules-list li {
+	float:right;
+	margin: 0 0 0 20px;
 }
 
 /**
