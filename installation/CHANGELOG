@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jan-2011 Christophe Demko
+ # [#24558] Improve the Directory Permissions in com_admin (Rouven Weßling)
+
 27-Jan-2011 Jean-Marie Simonet
  # [#24320] Unstyled dialog when clicking 'new' in module manager. Thanks Andrea.
  # Updating credits
