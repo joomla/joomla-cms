@@ -659,7 +659,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$extension->set('folder', $folder);
 				$extension->set('name', $file);
 				$extension->set('state', -1);
-				$extension->set('manifest_cache', serialize($manifest_details));
+				$extension->set('manifest_cache', json_encode($manifest_details));
 				$results[] = $extension;
 			}
 			$folder_list = JFolder::folders(JPATH_SITE.DS.'plugins'.DS.$folder);
@@ -678,7 +678,7 @@ class JInstallerPlugin extends JAdapterInstance
 					$extension->set('folder', $folder);
 					$extension->set('name', $file);
 					$extension->set('state', -1);
-					$extension->set('manifest_cache', serialize($manifest_details));
+					$extension->set('manifest_cache', json_encode($manifest_details));
 					$results[] = $extension;
 				}
 			}
@@ -716,7 +716,7 @@ class JInstallerPlugin extends JAdapterInstance
 		}
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($manifestPath);
-		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;

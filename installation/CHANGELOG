@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Jan-2011 Jean-Marie Simonet
  # [#24320] Unstyled dialog when clicking 'new' in module manager. Thanks Andrea.
  # Updating credits
+ # [#24550] Manifest data is not being serialized as JSON during install and discovery install. Thanks Brian Towles.
 
 26-Jan-2011 Mark Dexter
 # [#24513] *Incorrect error string after saving default menu item with set 'Default Page' radio button to 'no' value

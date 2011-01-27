@@ -340,7 +340,7 @@ class JInstallerLibrary extends JAdapterInstance
 			$extension->set('element', $file);
 			$extension->set('name', $file);
 			$extension->set('state', -1);
-			$extension->set('manifest_cache', serialize($manifest_details));
+			$extension->set('manifest_cache', json_encode($manifest_details));
 			$results[] = $extension;
 		}
 		return $results;
@@ -371,7 +371,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JApplicationHelper::parseXMLInstallFile($this->parent->getPath('manifest'));
-		$this->parent->extension->manifest_cache = serialize($manifest_details);
+		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
 		$this->parent->extension->enabled = 1;
