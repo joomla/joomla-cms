@@ -297,15 +297,17 @@ abstract class JModuleHelper
 
 			// Set the query
 			$db->setQuery($query);
-			if (!($modules = $db->loadObjectList())) {
+			$modules = $db->loadObjectList();
+			$clean	= array();
+
+			if($db->getErrorNum()){
 				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
-				return false;
+				return $clean;
 			}
 
 			// Apply negative selections and eliminate duplicates
 			$negId	= $Itemid ? -(int)$Itemid : false;
 			$dupes	= array();
-			$clean	= array();
 			for ($i = 0, $n = count($modules); $i < $n; $i++)
 			{
 				$module = &$modules[$i];

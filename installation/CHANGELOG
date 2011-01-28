@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23915] Trashed articles - no indication of being trashed , when viewed at front of site
  # [#24404] Update GeSHI to 1.0.8.9 (Michael Babker)
  # [#24269] com_contact view contact > links (Nikolai Plath, Sergio Iglesias, Jennifer Marriott)
+ # [#24287] Disabling modules on a page leaves error messages (Nikolai Plath)
 
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs
