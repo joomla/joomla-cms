@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
  * ---------
  * Author: Marjolein Katsma (marjolein.is.back@gmail.com)
  * Copyright: (c) 2008 Marjolein Katsma (http://blog.marjoleinkatsma.com/)
- * Release Version: 1.0.8.8
+ * Release Version: 1.0.8.9
  * Date Started: 2008-12-12
  *
  * MySQL language file for GeSHi.

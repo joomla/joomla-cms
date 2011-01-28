@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 28-Jan-2011 Christophe Demko
  # [#23915] Trashed articles - no indication of being trashed , when viewed at front of site
+ # [#24404] Update GeSHI to 1.0.8.9 (Michael Babker)
 
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs

@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
  * -------
  * Author: Nigel McNie (nigel@geshi.org)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.8.8
+ * Release Version: 1.0.8.9
  * Date Started: 2004/06/18
  *
  * CSS language file for GeSHi.

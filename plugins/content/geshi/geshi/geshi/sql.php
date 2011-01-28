@@ -6,14 +6,18 @@ defined('_JEXEC') or die;
  * sql.php
  * -------
  * Author: Nigel McNie (nigel@geshi.org)
+ * Contributors:
+ *  - Jürgen Thomas (Juergen.Thomas@vs-polis.de)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter)
- * Release Version: 1.0.8.8
+ * Release Version: 1.0.8.9
  * Date Started: 2004/06/04
  *
  * SQL language file for GeSHi.
  *
  * CHANGES
  * -------
+ * 2010/07/19 (1.0.8.9)
+ *  -  Added many more keywords
  * 2008/05/23 (1.0.7.22)
  *  -  Added additional symbols for highlighting
  * 2004/11/27 (1.0.3)
@@ -61,30 +65,51 @@ $language_data = array (
     'ESCAPE_CHAR' => '\\',
     'KEYWORDS' => array(
         1 => array(
-            'ADD', 'ALL', 'ALTER', 'AND', 'AS', 'ASC',
-            'AUTO_INCREMENT', 'BETWEEN', 'BINARY', 'BOOLEAN',
-            'BOTH', 'BY', 'CHANGE', 'CHECK', 'COLUMN', 'COLUMNS',
-            'CREATE', 'CROSS', 'DATA', 'DATABASE', 'DATABASES',
-            'DEFAULT', 'DELAYED', 'DELETE', 'DESC', 'DESCRIBE',
-            'DISTINCT', 'DROP', 'ENCLOSED', 'ESCAPED', 'EXISTS',
-            'EXPLAIN', 'FIELD', 'FIELDS', 'FLUSH', 'FOR',
-            'FOREIGN', 'FROM', 'FULL', 'FUNCTION', 'GRANT',
-            'GROUP', 'HAVING', 'IDENTIFIED', 'IF', 'IGNORE',
-            'IN', 'INDEX', 'INFILE', 'INNER', 'INSERT', 'INTO',
-            'IS', 'JOIN', 'KEY', 'KEYS', 'KILL', 'LANGUAGE',
-            'LEADING', 'LEFT', 'LIKE', 'LIMIT', 'LINES', 'LOAD',
-            'LOCAL', 'LOCK', 'LOW_PRIORITY', 'MODIFY', 'NATURAL',
-            'NEXTVAL', 'NOT', 'NULL', 'ON', 'OPTIMIZE', 'OPTION',
-            'OPTIONALLY', 'OR', 'ORDER', 'OUTER', 'OUTFILE',
-            'PRIMARY', 'PROCEDURAL', 'PROCEEDURE', 'READ',
-            'REFERENCES', 'REGEXP', 'RENAME', 'REPLACE',
-            'RETURN', 'REVOKE', 'RIGHT', 'RLIKE', 'SELECT',
-            'SET', 'SETVAL', 'SHOW', 'SONAME', 'STATUS',
-            'STRAIGHT_JOIN', 'TABLE', 'TABLES', 'TEMINATED',
-            'TEMPORARY', 'TO', 'TRAILING', 'TRIGGER', 'TRUNCATE',
-            'TRUSTED', 'UNION', 'UNIQUE', 'UNLOCK', 'UNSIGNED',
-            'UPDATE', 'USE', 'USING', 'VALUES', 'VARIABLES',
-            'VIEW', 'WHERE', 'WITH', 'WRITE', 'XOR', 'ZEROFILL'
+            'ADD', 'ALL', 'ALTER', 'AND', 'AS', 'ASC', 'AUTO_INCREMENT',
+            'BEFORE', 'BEGIN', 'BETWEEN', 'BIGINT', 'BINARY', 'BLOB', 'BOOLEAN', 'BOTH', 'BY',
+            'CALL', 'CASE', 'CAST', 'CEIL', 'CEILING', 'CHANGE', 'CHAR', 'CHAR_LENGTH', 'CHARACTER',
+            'CHARACTER_LENGTH', 'CHECK', 'CLOB', 'COALESCE', 'COLLATE', 'COLUMN', 'COLUMNS',
+            'CONNECT', 'CONSTRAINT', 'CONVERT', 'COUNT', 'CREATE', 'CROSS', 'CURRENT',
+            'CURRENT_DATE', 'CURRENT_TIME', 'CURRENT_TIMESTAMP', 'CURRENT_USER',
+            'DATA', 'DATABASE', 'DATABASES', 'DATE', 'DAY', 'DEC', 'DECIMAL', 'DECLARE',
+            'DEFAULT', 'DELAYED', 'DELETE', 'DESC', 'DESCRIBE', 'DISTINCT', 'DOUBLE',
+            'DOMAIN', 'DROP',
+            'ELSE', 'ENCLOSED', 'END', 'ESCAPED', 'EXCEPT', 'EXEC', 'EXECUTE', 'EXISTS', 'EXP',
+            'EXPLAIN', 'EXTRACT',
+            'FALSE', 'FIELD', 'FIELDS', 'FILTER', 'FIRST', 'FLOAT', 'FLOOR', 'FLUSH', 'FOR',
+            'FOREIGN', 'FROM', 'FULL', 'FUNCTION',
+            'GET', 'GROUP', 'GROUPING', 'GO', 'GOTO', 'GRANT', 'GRANTED',
+            'HAVING', 'HOUR',
+            'IDENTIFIED', 'IDENTITY', 'IF', 'IGNORE', 'IN', 'INCREMENT', 'INDEX', 'INFILE', 'INNER',
+            'INOUT', 'INPUT', 'INSERT', 'INT', 'INTEGER', 'INTERSECT', 'INTERSECTION', 'INTERVAL',
+            'INTO', 'IS',
+            'JOIN',
+            'KEY', 'KEYS', 'KILL',
+            'LANGUAGE', 'LARGE', 'LAST', 'LEADING', 'LEFT', 'LENGTH', 'LIKE', 'LIMIT', 'LINES', 'LOAD',
+            'LOCAL', 'LOCK', 'LOW_PRIORITY', 'LOWER',
+            'MATCH', 'MAX', 'MERGE', 'MIN', 'MINUTE', 'MOD', 'MODIFIES', 'MODIFY', 'MONTH',
+            'NATIONAL', 'NATURAL', 'NCHAR', 'NEW', 'NEXT', 'NEXTVAL', 'NONE', 'NOT',
+            'NULL', 'NULLABLE', 'NULLIF', 'NULLS', 'NUMBER', 'NUMERIC',
+            'OF', 'OLD', 'ON', 'ONLY', 'OPEN', 'OPTIMIZE', 'OPTION',
+            'OPTIONALLY', 'OR', 'ORDER', 'OUT', 'OUTER', 'OUTFILE', 'OVER',
+            'POSITION', 'POWER', 'PRECISION', 'PREPARE', 'PRIMARY', 'PROCEDURAL', 'PROCEDURE',
+            'READ', 'REAL', 'REF', 'REFERENCES', 'REFERENCING', 'REGEXP', 'RENAME', 'REPLACE',
+            'RESULT', 'RETURN', 'RETURNS', 'REVOKE', 'RIGHT', 'RLIKE', 'ROLLBACK', 'ROW',
+            'ROW_NUMBER', 'ROWS', 'RESTRICT', 'ROLE', 'ROUTINE', 'ROW_COUNT',
+            'SAVEPOINT', 'SEARCH', 'SECOND', 'SECTION', 'SELECT', 'SELF', 'SEQUENCE',
+            'SESSION', 'SET', 'SETVAL', 'SHOW', 'SIMILAR', 'SIZE', 'SMALLINT', 'SOME',
+            'SONAME', 'SOURCE', 'SPACE', 'SQL', 'SQRT', 'START', 'STATUS',
+            'STRAIGHT_JOIN', 'STRUCTURE', 'STYLE', 'SUBSTRING', 'SUM',
+            'TABLE', 'TABLE_NAME', 'TABLES', 'TERMINATED', 'TEMPORARY', 'THEN', 'TIME',
+            'TIMESTAMP', 'TO', 'TRAILING', 'TRANSACTION', 'TRIGGER', 'TRIM', 'TRUE', 'TRUNCATE',
+            'TRUSTED', 'TYPE',
+            'UNDER', 'UNION', 'UNIQUE', 'UNKNOWN', 'UNLOCK', 'UNSIGNED',
+            'UPDATE', 'UPPER', 'USE', 'USER', 'USING',
+            'VALUE', 'VALUES', 'VARCHAR', 'VARIABLES', 'VARYING', 'VIEW',
+            'WHEN', 'WHERE', 'WITH', 'WITHIN', 'WITHOUT', 'WORK', 'WRITE',
+            'XOR',
+            'YEAR',
+            'ZEROFILL'
             )
         ),
     'SYMBOLS' => array(
