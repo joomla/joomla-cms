@@ -50,6 +50,15 @@ class ContentModelFeatured extends ContentModelArticles
 
 		$this->setState('filter.frontpage', true);
 
+		$user		= JFactory::getUser();
+		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
+			// filter on published for those who do not have edit or edit.state rights.
+			$this->setState('filter.published', 1);
+		}
+		else {
+			$this->setState('filter.published', array(0, 1, 2));
+		}
+
 		// check for category selection
 		if (is_array($featuredCategories = $params->get('featured_categories'))) {
 			$this->setState('filter.frontpage.categories', $featuredCategories);

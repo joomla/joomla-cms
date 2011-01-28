@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jan-2011 Christophe Demko
+ # [#23915] Trashed articles - no indication of being trashed , when viewed at front of site
+
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs
  
