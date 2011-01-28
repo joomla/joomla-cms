@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jan-2011 Mark Dexter
+# Fix MySQLi wording in installation language files
+
 28-Jan-2011 Christophe Demko
  # [#23915] Trashed articles - no indication of being trashed , when viewed at front of site
  # [#24404] Update GeSHI to 1.0.8.9 (Michael Babker)
