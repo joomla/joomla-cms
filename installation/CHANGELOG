@@ -42,6 +42,7 @@ $ -> Language fix or change
 
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs
+ #[#24657] Enabling debug language mode in installation application. Thanks Christophe.
  
 27-Jan-2011 Mark Dexter
 # [#24644] Joomla! Web Application Framework library is uninstallable

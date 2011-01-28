@@ -93,8 +93,12 @@ class JInstallation extends JApplication
 
 		$document->setBuffer($contents, 'installation');
 		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
+
 		$data = $document->render(false, $params);
 		JResponse::setBody($data);
+		if (JFactory::getConfig()->get('debug_lang')) {
+			$this->debugLanguage();
+		}
 	}
 
 	/**
@@ -153,15 +157,66 @@ class JInstallation extends JApplication
 		$conf->set('language', $options['language']);
 		$conf->set('debug_lang', $forced['debug']);
 		$conf->set('sampledata', $forced['sampledata']);
+	}
 
-		// Load Library language 
-		// Commented for now as it systematically loads en-GB.lib_joomla.ini 
-		// instead of the equivalent strings in the installation ini file when no lang .lib_joomla ini is present
-		
-		//$lang = JFactory::getLanguage();
-		//$lang->load('lib_joomla', JPATH_SITE)
-		//|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+	public static function debugLanguage()
+	{
+		ob_start();
+		$lang = JFactory::getLanguage();
+		echo '<h4>Parsing errors in language files</h4>';
+		$errorfiles = $lang->getErrorFiles();
 
+		if (count($errorfiles)) {
+			echo '<ul>';
+
+			foreach ($errorfiles as $file => $error)
+			{
+				echo "<li>$error</li>";
+			}
+			echo '</ul>';
+		}
+		else {
+			echo '<pre>None</pre>';
+		}
+
+		echo '<h4>Untranslated Strings</h4>';
+		echo '<pre>';
+		$orphans = $lang->getOrphans();
+
+		if (count($orphans)) {
+			ksort($orphans, SORT_STRING);
+
+			foreach ($orphans as $key => $occurance)
+			{
+				$guess = str_replace('_', ' ', $key);
+
+				$parts = explode(' ', $guess);
+				if (count($parts) > 1) {
+					array_shift($parts);
+					$guess = implode(' ', $parts);
+				}
+
+				$guess = trim($guess);
+			
+
+				$key = trim(strtoupper($key));
+				$key = preg_replace('#\s+#', '_', $key);
+				$key = preg_replace('#\W#', '', $key);
+
+				// Prepare the text
+				$guesses[] = $key.'="'.$guess.'"';
+				
+			}
+
+			echo "\n\n# ".$file."\n\n";
+			echo implode("\n", $guesses);
+		}
+		else {
+			echo 'None';
+		}
+		echo '</pre>';
+		$debug = ob_get_clean();
+		JResponse::appendBody($debug);
 	}
 
 	/**
