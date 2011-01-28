@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#24305] 3rd party components install in location "site" instead of "administrator" (Samuel Moffatt)
  # [#24444] com_newsfeeds doesn't set default view in frontend (Jeremy Wilken)
  # [#24394] Error page styling forces error box to far left (Jeremy Wilken, Nikolai Plath)
+ # [#24309] PHP Strict Standards Message, Category Blog (bill richardson)
 
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs
