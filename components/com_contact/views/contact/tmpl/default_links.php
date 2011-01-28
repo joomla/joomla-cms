@@ -8,30 +8,37 @@
  */
 
 defined('_JEXEC') or die;
+
+if ('plain' == $this->params->get('presentation_style')) :
+	echo '<h3>'.JText::_('COM_CONTACT_LINKS').'</h3>';
+else :
+    echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('COM_CONTACT_LINKS'), 'display-links');
+endif; 
 ?>
-<?php if ($this->params->get('presentation_style')!='plain'){?>
-	<?php echo JHtml::_($this->params->get('presentation_style').'.panel', JText::_('COM_CONTACT_LINKS'), 'display-links'); }?>
-<?php if ($this->params->get('presentation_style')=='plain'){?>
-	<?php echo '<h3>'.JText::_('COM_CONTACT_LINKS').'</h3>'; }?>
 
 <div class="contact-links">
-
 	<ul>
-		<?php if ($this->contact->params->get('linka')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linka') ?>"><?php echo $this->contact->params->get('linka_name')  ?></a></li>
-		<?php endif; ?>
-		<?php if ($this->contact->params->get('linkb')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linkb') ?>"><?php echo $this->contact->params->get('linkb_name')  ?></a></li>
-		<?php endif; ?>
-		<?php if ($this->contact->params->get('linkc')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linkc') ?>"><?php echo $this->contact->params->get('linkc_name')  ?></a></li>
-		<?php endif; ?>
-		<?php if ($this->contact->params->get('linkd')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linkd') ?>"><?php echo $this->contact->params->get('linkd_name')  ?></a></li>
-		<?php endif; ?>
-		<?php if ($this->contact->params->get('linke')) : ?>
-			<li><a href="<?php echo $this->contact->params->get('linke') ?>"><?php echo $this->contact->params->get('linke_name')  ?></a></li>
-		<?php endif; ?>
+		<?php
+		    foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
+			    $link = $this->contact->params->get('link'.$char);
+			    $label = $this->contact->params->get('link'.$char.'_name');
+			    
+			    if( ! $link) :
+			        continue;
+			    endif;
+			    
+			    // Add 'http://' if not present
+			    $link = (0 === strpos($link, 'http')) ? $link : 'http://'.$link;
+			    
+			    // If no label is present, take the link
+			    $label = ($label) ? $label : $link;
+			    ?>
+			<li>
+				<a href="<?php echo $link; ?>">
+				    <?php echo $label;  ?>
+				</a>
+			</li>
+		<?php endforeach; ?>
 	</ul>
 </div>
 
