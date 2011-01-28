@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#24404] Update GeSHI to 1.0.8.9 (Michael Babker)
  # [#24269] com_contact view contact > links (Nikolai Plath, Sergio Iglesias, Jennifer Marriott)
  # [#24287] Disabling modules on a page leaves error messages (Nikolai Plath)
+ # [#24305] 3rd party components install in location "site" instead of "administrator" (Samuel Moffatt)
 
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs

@@ -417,7 +417,7 @@ class JInstallerComponent extends JAdapterInstance
 		$row->set('enabled', 1);
 		$row->set('protected', 0);
 		$row->set('access', 0);
-		$row->set('client_id', 0);
+		$row->set('client_id', 1);
 		$row->set('params', $this->parent->getParams());
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
 
@@ -873,7 +873,7 @@ class JInstallerComponent extends JAdapterInstance
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
-			$row->client_id = 0;
+			$row->client_id = 1;
 			$row->params = $this->parent->getParams();
 		}
 
