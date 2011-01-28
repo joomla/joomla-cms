@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jan-2011 Jean-Marie Simonet
+ $ Correcting parse issues in 14 installation langs
+ 
 27-Jan-2011 Mark Dexter
 # [#24644] Joomla! Web Application Framework library is uninstallable
 # Fix SVN properties on some joomla_update sql scripts 
