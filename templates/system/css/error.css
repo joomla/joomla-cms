@@ -39,21 +39,21 @@ table, td, th, div, pre, blockquote, ul, ol, dl, address,.componentheading,.cont
 }
 
 #outline {
-	width: 814px;
-	margin: 0px;
+	width: 900px;
+	margin: 0 auto;
 	padding: 0px;
 	padding-top: 60px;
 	padding-bottom: 60px;
 	background: #FFFFFF;
 }
 #errorboxoutline {
-	width: 600px;
+	width: 900px;
 	margin: 0px;
 	padding: 0px;
 	border: 1px solid #000000;
 }
 #errorboxheader {
-	width: 600px;
+	width: 900px;
 	margin: 0px;
 	padding: 0px;
 	background: #E44249;
