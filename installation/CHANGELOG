@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 27-Jan-2011 Mark Dexter
 # [#24644] Joomla! Web Application Framework library is uninstallable
+# Fix SVN properties on some joomla_update sql scripts 
 
 27-Jan-2011 Christophe Demko
  # [#24558] Improve the Directory Permissions in com_admin (Rouven Weßling)

@@ -1,4 +1,4 @@
-# $Id: joomla_update_16rc1.sql 19600 2010-11-20 15:37:46Z chdemko $
+# $Id$
 
 #
 # Database updates for 1.6 RC1 to 1.6 GA

@@ -1,4 +1,4 @@
-# $Id: joomla.sql 17225 2010-05-24 03:01:15Z dextercowley $
+# $Id$
 
 #
 # Database updates for 1.6 Beta 1 to Beta 2
