@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#24269] com_contact view contact > links (Nikolai Plath, Sergio Iglesias, Jennifer Marriott)
  # [#24287] Disabling modules on a page leaves error messages (Nikolai Plath)
  # [#24305] 3rd party components install in location "site" instead of "administrator" (Samuel Moffatt)
+ # [#24444] com_newsfeeds doesn't set default view in frontend (Jeremy Wilken)
 
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs

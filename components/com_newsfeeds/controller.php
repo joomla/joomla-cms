@@ -35,7 +35,8 @@ class NewsfeedsController extends JController
 		$cachable = true;
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'categories');
+		$vName	= JRequest::getCmd('view', 'categories');
+		JRequest::setVar('view', $vName);
 
 		$user = JFactory::getUser();
 
