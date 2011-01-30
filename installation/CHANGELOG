@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jan-2011 Mark Dexter
+# [#24288] com_mailto Spam Email Relay
+
 29-Jan-2011 Jean-Marie Simonet
  $ Deleting one unused string from all installation ini files.
 

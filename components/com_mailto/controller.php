@@ -60,10 +60,10 @@ class MailtoController extends JController
 		$MailFrom	= $app->getCfg('mailfrom');
 		$FromName	= $app->getCfg('fromname');
 
-		$link		= base64_decode(JRequest::getVar('link', '', 'post', 'base64'));
+		$link		= MailtoHelper::validateHash(JRequest::getCMD('link', '', 'post')); 
 
 		// Verify that this is a local link
-		if (!JURI::isInternal($link)) {
+		if (!$link || !JURI::isInternal($link)) {
 			//Non-local url...
 			JError::raiseNotice(500, JText:: _ ('COM_MAILTO_EMAIL_NOT_SENT'));
 			return $this->mailto();
