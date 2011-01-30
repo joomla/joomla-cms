@@ -37,7 +37,7 @@ defined('_JEXEC') or die;
 
 
 				<?php if ($params->get('show_author')) :?>
-            		<span class="mod-articles-category-writtenby">
+					<span class="mod-articles-category-writtenby">
 					<?php echo $item->displayAuthorName; ?>
 					</span>
 				<?php endif;?>
@@ -64,6 +64,9 @@ defined('_JEXEC') or die;
 					elseif ($readmore = $item->alternative_readmore) :
 						echo $readmore;
 						echo JHTML::_('string.truncate', $item->title, $params->get('readmore_limit'));
+						if ($params->get('show_readmore_title', 0) != 0) :
+							echo JHTML::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+						endif;
 					elseif ($params->get('show_readmore_title', 0) == 0) :
 						echo JText::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE');	
 					else :
