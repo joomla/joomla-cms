@@ -27,6 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+30-Jan-2011 Jean-Marie Simonet
+ $ Customising a lang key to fit different languages
+
 29-Jan-2011 Mark Dexter
 # [#24288] com_mailto Spam Email Relay
 # [#24371] SQL error in com_contact if id not set
