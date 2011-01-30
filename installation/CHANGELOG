@@ -30,6 +30,7 @@ $ -> Language fix or change
 29-Jan-2011 Mark Dexter
 # [#24288] com_mailto Spam Email Relay
 # [#24371] SQL error in com_contact if id not set
+# [#24097] Add a button to the installation to remove the installation folder
 
 29-Jan-2011 Jean-Marie Simonet
  $ Deleting one unused string from all installation ini files.

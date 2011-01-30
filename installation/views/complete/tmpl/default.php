@@ -90,6 +90,17 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 									</td>
 								</tr>
 								<tr>
+									<td><input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" onclick="Install.removeFolder(this);"/></td>
+								</tr>
+								<tr class="message inlineError" id="theDefaultError" style="display: none">
+									<td>
+										<dl>
+											<dt class="error"><?php echo JText::_('JERROR'); ?></dt>
+											<dd id="theDefaultErrorMessage"></dd>
+										</dl>
+									</td>
+								<tr>
+								<tr>
 									<td>
 										<h3>
 										<?php echo JText::_('INSTL_COMPLETE_ADMINISTRATION_LOGIN_DETAILS'); ?>
