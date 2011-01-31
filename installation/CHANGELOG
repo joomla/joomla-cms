@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 31-Jan-2011 Jean-Marie Simonet
  $ Deleting duplicate lang string
+ $ Updating aa-AA.ini 
 
 30-Jan-2011 Jean-Marie Simonet
  $ Customising a lang key to fit different languages
