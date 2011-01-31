@@ -33,6 +33,7 @@ $ -> Language fix or change
 # [#24265] Strict standards: Declaration of WeblinksModelCategory::getItems() should be compatible with that of JModelList::getItems() in
 # [#24298] Screens jumps when using the ACL widget
 # [#24336] *PHP warning in extension manger
+# [#24674] Empty tooltips in module edit screens
 
 31-Jan-2011 Jean-Marie Simonet
  $ Deleting duplicate lang string
