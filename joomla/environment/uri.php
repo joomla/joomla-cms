@@ -380,7 +380,7 @@ class JURI extends JObject
 	 * @return	array Query variables.
 	 * @since	1.5
 	 */
-	public function getVar($name = null, $default=null)
+	public function getVar($name, $default=null)
 	{
 		if (array_key_exists($name, $this->_vars)) {
 			return $this->_vars[$name];
