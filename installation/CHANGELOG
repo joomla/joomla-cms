@@ -35,6 +35,7 @@ $ -> Language fix or change
 # [#24336] *PHP warning in extension manger
 # [#24674] Empty tooltips in module edit screens
 # [#24405] Library JURI has an optional parameter: it should be mandatory
+# [#24665] Inconsistency in the Add new newsfeed screen
 
 31-Jan-2011 Jean-Marie Simonet
  $ Deleting duplicate lang string
