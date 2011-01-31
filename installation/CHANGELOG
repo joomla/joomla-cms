@@ -32,6 +32,7 @@ $ -> Language fix or change
 # [#24681] *Issue in back-end login module with Languages not installed in db but present in the admin language folder
 # [#24265] Strict standards: Declaration of WeblinksModelCategory::getItems() should be compatible with that of JModelList::getItems() in
 # [#24298] Screens jumps when using the ACL widget
+# [#24336] *PHP warning in extension manger
 
 31-Jan-2011 Jean-Marie Simonet
  $ Deleting duplicate lang string
