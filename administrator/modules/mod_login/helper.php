@@ -24,8 +24,8 @@ abstract class modLoginHelper
 	{
 		jimport('joomla.language.helper');
 		$languages = array();
-		$languages = JLanguageHelper::createLanguageList(null);
-		array_unshift($languages, JHtml::_('select.option',  '', JText::_('JDEFAULT')));
+		$languages = JLanguageHelper::createLanguageList(null, JPATH_BASE, false, true);
+		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULT')));
 		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox"', 'value', 'text', null);
 	}
 
