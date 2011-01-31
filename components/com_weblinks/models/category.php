@@ -76,18 +76,17 @@ class WeblinksModelCategory extends JModelList
 	 *
 	 * @return	mixed	An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Invoke the parent getItems method to get the main list
-		$items = &parent::getItems();
+		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++) {
-			$item = &$items[$i];
 			if (!isset($this->_params)) {
-				$params = new JRegistry();
-				$params->loadJSON($item->params);
-				$item->params = $params;
+				$params = new JRegistry;
+				$params->loadJSON($items[$i]->params);
+				$items[$i]->params = $params;
 			}
 		}
 
