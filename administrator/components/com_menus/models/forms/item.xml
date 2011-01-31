@@ -165,7 +165,7 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			description="JFIELD_MODULE_LANGUAGE_DESC"
+			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
 			class="inputbox">
 			<option value="*">JALL</option>
 		</field>
