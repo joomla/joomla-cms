@@ -100,16 +100,12 @@ abstract class modArticlesLatestHelper
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid.':'.$item->category_alias;
 
-			if ($access || in_array($item->access, $authorised))
-			{
+			if ($access || in_array($item->access, $authorised)) {
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
-			}
-			else {
+			} else {
 				$item->link = JRoute::_('index.php?option=com_user&view=login');
 			}
-
-			$item->introtext = JHtml::_('content.prepare', $item->introtext);
 		}
 
 		return $items;
