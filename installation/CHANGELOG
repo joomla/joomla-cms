@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Jan-2011 Jean-Marie Simonet
+ $ Deleting duplicate lang string
 
 30-Jan-2011 Jean-Marie Simonet
  $ Customising a lang key to fit different languages
