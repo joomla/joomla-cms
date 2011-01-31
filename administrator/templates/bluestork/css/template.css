@@ -22,7 +22,9 @@ Dark grey color:			#666666 		RGB: 102/102/102
 Border grey color:			#CCCCCC 		RGB: 204/204/204
 
 ----------------------------------------------------------*/
-
+html {
+	overflow-y:scroll
+}
 
 body {
 	margin: 10px;
