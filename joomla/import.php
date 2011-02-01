@@ -7,7 +7,7 @@
  */
 
 // No direct access.
-defined('_JEXEC') or die;
+defined('JPATH_BASE') or die;
 
 // Load the loader class.
 if (!class_exists('JLoader')) {
