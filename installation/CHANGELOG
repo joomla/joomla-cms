@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 01-Fev-2011 Jean-Marie Simonet
  # [#24701] New preview screenshots required for the admin templates, Thanks Jozcef.
+ #$ [#24694] Missing tooltip in Web Links Manager. Thanks Bill.
 
 31-Jan-2011 Mark Dexter
 # [#24642] Incorrect term in a tooltip in the Menu Items screen

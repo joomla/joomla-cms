@@ -5,7 +5,8 @@
 <form>
 	<fieldset>
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" 
-			readonly="true" class="readonly" />
+			readonly="true" class="readonly"
+			description="JGLOBAL_FIELD_ID_DESC"/>
 
 		<field name="title" type="text" class="inputbox"
 			size="40" label="JGLOBAL_TITLE"
