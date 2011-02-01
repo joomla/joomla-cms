@@ -15,16 +15,18 @@ if (file_exists('config.php')) {
 	include 'config.php';
 }
 
-// Define expected Joomla constants.
+// Include helper class
+require_once(dirname(__FILE__).'/includes/JUnitHelper.php');
 
-define('DS',			DIRECTORY_SEPARATOR);
+// Define expected Joomla constants.
+define('DS', '/');
 
 if (!defined('JPATH_BASE'))
 {
 	// JPATH_BASE can be defined in init.php
 	// This gets around problems with soft linking the unittest folder into a Joomla tree,
 	// or using the unittest framework from a central location.
-	define('JPATH_BASE', dirname(__FILE__).'/test_application');
+	define('JPATH_BASE', JUnitHelper::normalize(dirname(__FILE__)).'/test_application');
 }
 
 if (!defined('JPATH_TESTS'))
@@ -42,8 +44,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Include the base test cases.
-//require_once JPATH_TESTS.'/includes/JoomlaTestCase.php';
-//require_once JPATH_TESTS.'/includes/JoomlaDatabaseTestCase.php';
+require_once JPATH_TESTS.'/includes/JoomlaTestCase.php';
+require_once JPATH_TESTS.'/includes/JoomlaDatabaseTestCase.php';
 
 // Include relative constants, JLoader and the jimport and jexit functions.
 require_once JPATH_BASE.'/defines.php';
