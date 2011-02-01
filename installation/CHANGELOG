@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Fev-2011 Jean-Marie Simonet
+ # [#24701] New preview screenshots required for the admin templates, Thanks Jozcef.
+
 31-Jan-2011 Mark Dexter
 # [#24642] Incorrect term in a tooltip in the Menu Items screen
 # [#24681] *Issue in back-end login module with Languages not installed in db but present in the admin language folder
