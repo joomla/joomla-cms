@@ -148,8 +148,11 @@ class JAdapter extends JObject
 	 */
 	public function loadAllAdapters($options = array())
 	{
-		$list = JFolder::files($this->_basepath.DS.$this->_adapterfolder);
+		jimport('joomla.filesystem.folder');
+		jimport('joomla.filesystem.file');
 
+		$list = JFolder::files($this->_basepath.DS.$this->_adapterfolder);
+		echo $this->_basepath.'/'.$this->_adapterfolder;
 		foreach ($list as $filename)
 		{
 			if (JFile::getExt($filename) == 'php') {
