@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Fev-2011 Jean-Marie Simonet
+ $ Updated bg-BG.ini
+
 01-Fev-2011 Jean-Marie Simonet
  # [#24701] New preview screenshots required for the admin templates, Thanks Jozcef.
  #$ [#24694] Missing tooltip in Web Links Manager. Thanks Bill.
