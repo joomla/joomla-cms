@@ -26,7 +26,7 @@ class Com_AlphaInstallerScript {
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_UNINSTALL_SCRIPT') .'</p>';
 	}
 
-	function update($parent) {
+	function updatex($parent) {
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_UPDATE_SCRIPT') .'</p>';
 	}
 
