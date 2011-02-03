@@ -335,8 +335,8 @@
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="0">JNo</option>
+				<option value="1">JYes</option>
 			</field>
 
 			<field name="show_create_date" type="list"
