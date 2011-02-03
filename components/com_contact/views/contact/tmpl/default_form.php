@@ -53,13 +53,13 @@ JHtml::_('behavior.keepalive');
 			</div>
 			<div>
 				<label for="contact-subject">
-					<?php echo JText::_('COM_CONTACT_CONTACT_MESSAGE_SUBJECT');?>:
+					<?php echo JText::_('COM_CONTACT_CONTACT_MESSAGE_SUBJECT');?>
 				</label>
 				<input type="text" name="subject" id="contact-subject" size="30" class="inputbox" value="" />
 			</div>
 			<div>
 				<label id="contact-textmsg" for="contact-text">
-					<?php echo JText::_('COM_CONTACT_CONTACT_ENTER_MESSAGE').'<span class="star">&#160;*</span></label>';?>:
+					<?php echo JText::_('COM_CONTACT_CONTACT_ENTER_MESSAGE').'<span class="star">&#160;*</span></label>';?>
 				</label>
 				<textarea cols="50" rows="10" name="text" id="contact-text" class="inputbox required"></textarea>
 			</div>

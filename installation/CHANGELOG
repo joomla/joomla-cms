@@ -31,6 +31,7 @@ $ -> Language fix or change
  #$ [#24724] Inconsistency in the Link Author article option. Thanks Bill.
  # [#24726] Link Author option lacks in Archived Articles menu item. Thanks Bill.
  $ Correcting some ini strings values
+ #$ [#24732] Message label incorrect showed and inconsistency with coma after labels in Contact form. Thanks Bill.
  
 02-Feb-2011 Mark Dexter
  # [#24702] *Don't show empty divs in mod_login
