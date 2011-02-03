@@ -30,6 +30,7 @@ $ -> Language fix or change
 02-Feb-2011 Mark Dexter
  # [#24702] *Don't show empty divs in mod_login
  # [#24704] *menu items metadata not implemented
+ # [#24698] *Incorrect tooltip for the Enabled column in Plug-In Manager
 
 
 02-Feb-2011 Jean-Marie Simonet
