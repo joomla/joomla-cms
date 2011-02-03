@@ -21,7 +21,6 @@
 				description="JGLOBAL_ARTICLE_ORDER_DESC"
 				label="JGLOBAL_ARTICLE_ORDER_LABEL"
 		>
-
 				<option value="date">JGLOBAL_OLDEST_FIRST</option>
 				<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -154,6 +153,17 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+			name="link_author"
+			type="list"
+			label="JGLOBAL_LINK_AUTHOR_LABEL"
+			description="JGLOBAL_LINK_AUTHOR_DESC"
+			>
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JNO</option>
+				<option	value="1">JYES</option>
 			</field>
 
 			<field name="show_create_date" type="list"
