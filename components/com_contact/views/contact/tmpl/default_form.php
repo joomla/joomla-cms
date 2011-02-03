@@ -47,7 +47,7 @@ JHtml::_('behavior.keepalive');
 			</div>
 			<div>
 				<label id="contact-emailmsg" for="contact-email">
-					<?php echo JText::_('JGLOBAL_EMAIL');?>
+					<?php echo JText::_('JGLOBAL_EMAIL').'<span class="star">&#160;*</span></label>';?>
 				</label>
 				<input type="text" id="contact-email" name="email" size="30" value="" class="inputbox required validate-email" maxlength="100" />
 			</div>
@@ -59,7 +59,7 @@ JHtml::_('behavior.keepalive');
 			</div>
 			<div>
 				<label id="contact-textmsg" for="contact-text">
-					<?php echo JText::_('COM_CONTACT_CONTACT_ENTER_MESSAGE');?>:
+					<?php echo JText::_('COM_CONTACT_CONTACT_ENTER_MESSAGE').'<span class="star">&#160;*</span></label>';?>:
 				</label>
 				<textarea cols="50" rows="10" name="text" id="contact-text" class="inputbox required"></textarea>
 			</div>

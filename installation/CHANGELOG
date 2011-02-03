@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#24704] *menu items metadata not implemented
  # [#24698] *Incorrect tooltip for the Enabled column in Plug-In Manager
  # [#24695] *Incorrect tooltip in News Feed Manager
+ # [#24708] *Contact form in frontend does not display the star for required fields
 
 
 02-Feb-2011 Jean-Marie Simonet
