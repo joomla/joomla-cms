@@ -31,9 +31,11 @@ JHtml::_('behavior.keepalive');
 </form>
 <?php else : ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" >
-	<div class="pretext">
-	<?php echo $params->get('pretext'); ?>
-	</div>
+	<?php if ($params->get('pretext')): ?>
+		<div class="pretext">
+		<p><?php echo $params->get('pretext'); ?></p>
+		</div>
+	<?php endif; ?>
 	<fieldset class="userdata">
 	<p id="form-login-username">
 		<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?></label>
@@ -73,8 +75,10 @@ JHtml::_('behavior.keepalive');
 		</li>
 		<?php endif; ?>
 	</ul>
-	<div class="posttext">
-	<?php echo $params->get('posttext'); ?>
-	</div>
+	<?php if ($params->get('posttext')): ?>
+		<div class="posttext">
+		<p><?php echo $params->get('posttext'); ?></p>
+		</div>
+	<?php endif; ?>
 </form>
 <?php endif; ?>

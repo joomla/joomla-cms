@@ -27,24 +27,28 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-02-Fev-2011 Jean-Marie Simonet
+02-Feb-2011 Mark Dexter
+ # [#24702] *Don't show empty divs in mod_login
+
+
+02-Feb-2011 Jean-Marie Simonet
  $ Updated bg-BG.ini
 
-01-Fev-2011 Jean-Marie Simonet
+01-Feb-2011 Jean-Marie Simonet
  # [#24701] New preview screenshots required for the admin templates, Thanks Jozcef.
  #$ [#24694] Missing tooltip in Web Links Manager. Thanks Bill.
 
 31-Jan-2011 Mark Dexter
-# [#24642] Incorrect term in a tooltip in the Menu Items screen
-# [#24681] *Issue in back-end login module with Languages not installed in db but present in the admin language folder
-# [#24265] Strict standards: Declaration of WeblinksModelCategory::getItems() should be compatible with that of JModelList::getItems() in
-# [#24298] Screens jumps when using the ACL widget
-# [#24336] *PHP warning in extension manger
-# [#24674] Empty tooltips in module edit screens
-# [#24405] Library JURI has an optional parameter: it should be mandatory
-# [#24665] Inconsistency in the Add new newsfeed screen
-# [#24591] No rounded corners in Opera for Modal
-# [#24557] Mod popular and latest article processing events in content plugins
+ # [#24642] Incorrect term in a tooltip in the Menu Items screen
+ # [#24681] *Issue in back-end login module with Languages not installed in db but present in the admin language folder
+ # [#24265] Strict standards: Declaration of WeblinksModelCategory::getItems() should be compatible with that of JModelList::getItems() in
+ # [#24298] Screens jumps when using the ACL widget
+ # [#24336] *PHP warning in extension manger
+ # [#24674] Empty tooltips in module edit screens
+ # [#24405] Library JURI has an optional parameter: it should be mandatory
+ # [#24665] Inconsistency in the Add new newsfeed screen
+ # [#24591] No rounded corners in Opera for Modal
+ # [#24557] Mod popular and latest article processing events in content plugins
 
 31-Jan-2011 Jean-Marie Simonet
  $ Deleting duplicate lang string
@@ -54,16 +58,16 @@ $ -> Language fix or change
  $ Customising a lang key to fit different languages
 
 29-Jan-2011 Mark Dexter
-# [#24288] com_mailto Spam Email Relay
-# [#24371] SQL error in com_contact if id not set
-# [#24097] Add a button to the installation to remove the installation folder
-# [#24274] Title is displayed in Readmore text although 'Title with Readmore' is turned off
+ # [#24288] com_mailto Spam Email Relay
+ # [#24371] SQL error in com_contact if id not set
+ # [#24097] Add a button to the installation to remove the installation folder
+ # [#24274] Title is displayed in Readmore text although 'Title with Readmore' is turned off
 
 29-Jan-2011 Jean-Marie Simonet
  $ Deleting one unused string from all installation ini files.
 
 28-Jan-2011 Mark Dexter
-# Fix MySQLi wording in installation language files
+ # Fix MySQLi wording in installation language files
 
 28-Jan-2011 Christophe Demko
  # [#23915] Trashed articles - no indication of being trashed , when viewed at front of site
@@ -80,8 +84,8 @@ $ -> Language fix or change
  # [#24657] Enabling debug language mode in installation application. Thanks Christophe.
  
 27-Jan-2011 Mark Dexter
-# [#24644] Joomla! Web Application Framework library is uninstallable
-# Fix SVN properties on some joomla_update sql scripts 
+ # [#24644] Joomla! Web Application Framework library is uninstallable
+ # Fix SVN properties on some joomla_update sql scripts 
 
 27-Jan-2011 Christophe Demko
  # [#24558] Improve the Directory Permissions in com_admin (Rouven Weßling)
@@ -92,8 +96,8 @@ $ -> Language fix or change
  # [#24550] Manifest data is not being serialized as JSON during install and discovery install. Thanks Brian Towles.
 
 26-Jan-2011 Mark Dexter
-# [#24513] *Incorrect error string after saving default menu item with set 'Default Page' radio button to 'no' value
-# [#24607] *No translation of options (plugin names) in ordering field of plugins
+ # [#24513] *Incorrect error string after saving default menu item with set 'Default Page' radio button to 'no' value
+ # [#24607] *No translation of options (plugin names) in ordering field of plugins
 
 26-Jan-2011 Jean-Marie Simonet
  # [#24599] Templates filter searches all extensions. Thanks CY Lee.
@@ -220,15 +224,15 @@ $ -> Language fix or change
  $ Adding zh-CN to installation langs
 
 10-Jan-2011 Mark Dexter
-# [#24250] PHP Notice In Archived Layout
-# Sample data fixes (Elin Waring)
-# [#24251] Article Category List Menu Item Missing Order By Parameters
-# Sample data fixes: remove xx-XX language and add Joomla! library to joomla.sql
-# [#24210] Revert to 1.5 behaviour for plugin language loading
-# Remove milkyway template files and related rows from database tables
-# [#24276] Fatal error: Cannot use object of type stdClass as array in ../libraries/joomla/updater/updater.php on line 108
-# [#24280] Getting 500 errors editing from category blog on front end with default sef on
-# [#24281] com_installer Admin XSS
+ # [#24250] PHP Notice In Archived Layout
+ # Sample data fixes (Elin Waring)
+ # [#24251] Article Category List Menu Item Missing Order By Parameters
+ # Sample data fixes: remove xx-XX language and add Joomla! library to joomla.sql
+ # [#24210] Revert to 1.5 behaviour for plugin language loading
+ # Remove milkyway template files and related rows from database tables
+ # [#24276] Fatal error: Cannot use object of type stdClass as array in ../libraries/joomla/updater/updater.php on line 108
+ # [#24280] Getting 500 errors editing from category blog on front end with default sef on
+ # [#24281] com_installer Admin XSS
 
 10-Jan-2011 Andrew Eddie
  # Fix typo in Joomla system plugin.
@@ -276,8 +280,8 @@ $ -> Language fix or change
  # Updating Copyright Year
 
 08-Jan-2011 Mark Dexter
-# [#24013] Short 'params' field length of 5k restricts modules, menus and template functionality
-# Sample data fixes (Elin Waring)
+ # [#24013] Short 'params' field length of 5k restricts modules, menus and template functionality
+ # Sample data fixes (Elin Waring)
 
 08-Jan-2011 Christophe Demko
  # [#24154] Add the required class automatically when required="true" (Jean-Marie Simonet)
@@ -309,8 +313,8 @@ $ -> Language fix or change
  $ [#24212] Incorrect modes specified in TinyMCE editor language file. Thanks Jozsef and Bill.
 
 07-Jan-2011 Mark Dexter
-# [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.
-# [#24174] XSS Vulnerability in helpsearch
+ # [#24106] onContentBeforeSave() and onContentAfterSave() do not work in the backend.
+ # [#24174] XSS Vulnerability in helpsearch
 
 07-Jan-2011 Christophe Demko
  # [#24157] Library RSS deals with multiple categories for items but not for the feed itself
@@ -353,12 +357,12 @@ $ -> Language fix or change
  $ Adding es-ES, nl-NL, tr-TR, uk-UA, id-ID, sr-SR, sr-YU in installation
 
 06-Jan-2011 Mark Dexter
-# Revert part of [#24140] so that database password is not required during installation
-# Fix typo in language XML file
-# [#23818] com_content - Category List - New Article: pressing cancel produces error: "You are not permitted to use that link to directly access that page (#10)"
-# [#23853] The last superuser can remove himself from the SU group
-# [#24167] Notice in the router
-# [#24169] Hathor security review fixes
+ # Revert part of [#24140] so that database password is not required during installation
+ # Fix typo in language XML file
+ # [#23818] com_content - Category List - New Article: pressing cancel produces error: "You are not permitted to use that link to directly access that page (#10)"
+ # [#23853] The last superuser can remove himself from the SU group
+ # [#24167] Notice in the router
+ # [#24169] Hathor security review fixes
 
 05-Jan-2011 Christophe Demko
  # [#24133] Beez templates set role search on the wrong element (Rouven Weßling)
@@ -397,7 +401,7 @@ $ -> Language fix or change
  
 
 03-Jan-2011 Mark Dexter
-# [#23845] [Patch] Administrators can create, edit, delete Super Users
+ # [#23845] [Patch] Administrators can create, edit, delete Super Users
 
 03-Jan-2011 Christophe Demko
  # [#23846] Possible to delete groups that have users
@@ -576,7 +580,7 @@ $ -> Language fix or change
  #[#23788] Fail to move or copy category to root. Thanks Mark.
 
 15-Dec-2010 Mark Dexter
-# Fix typo in configuration language file
+ # Fix typo in configuration language file
 
 15-Dec-2010 Jean-Marie Simonet
  $ Modifying strings wrong value
@@ -587,9 +591,9 @@ $ -> Language fix or change
 -------------------- 1.6.0 RC1 Release [14-Dec-2010] ------------------
 
 14-Dec-2010 Mark Dexter
-+ [#23750] Update of old core layouts in Milky Way (Elin Waring & Jennifer Marriott)
-# Reverting [#23697] since it causes problems in Menu Item edit. Re-opening issue.
-# [#23754] Security issue - Templates Manager: Edit Style --> Advanced Options
+ + [#23750] Update of old core layouts in Milky Way (Elin Waring & Jennifer Marriott)
+ # Reverting [#23697] since it causes problems in Menu Item edit. Re-opening issue.
+ # [#23754] Security issue - Templates Manager: Edit Style --> Advanced Options
 
 14-Dec-2010 Ian MacLennan
  # [#23373] Make decision and implement changes to URL structure
@@ -616,23 +620,23 @@ $ -> Language fix or change
  $ Normalizing some language strings, Correcting typos.
 
 13-Dec-2010 Mark Dexter
-# [#23377] Version information disclosure in joomla.xml
-# Sample data fixes (Elin Waring)
-# Better fix for installation error with [#23745] (Sam Moffatt)
+ # [#23377] Version information disclosure in joomla.xml
+ # Sample data fixes (Elin Waring)
+ # Better fix for installation error with [#23745] (Sam Moffatt)
 
 12-Dec-2010 Mark Dexter
-# [#23741] Menu -> Content -> Featured Articles gives error 500
-^ [#22758] Controlling module parameters for <jdoc:include type="module" /> (Dennis Hermatski)
-# [#22531] Private Message recipient not checking for backend access
-^ [#23745] Add a system plugin event called onBeforeCompileHead (Louis Landry)
-# [#23737] Number of list results not taken into account on listing view
-# [#22097] Records in #__session aren't deleted after user's logout; Joomla checks #__session too often (Dennis Hermatski)
-# [#21138] Article manager - no filter on created by (Roland Dalmulder)
-# [#23728] Content of the mail from is not retained if an error occurs
-# [#23725] Duplicate contradicting messages on send mail error
-# [#23696] Menus creation fail with 1.5-style menus metadata: using SimpleXMLElement attributes missing (string) typecast (Beat)
-# [#23697] Menus with default view have a view=(empty) in URL and are missing other defined attributes and 1.5-type-menu-metada does not display menu type correctly in backend (Beat)
-# Fix up error trying to run installation with [#23745]  
+ # [#23741] Menu -> Content -> Featured Articles gives error 500
+ ^ [#22758] Controlling module parameters for <jdoc:include type="module" /> (Dennis Hermatski)
+ # [#22531] Private Message recipient not checking for backend access
+ ^ [#23745] Add a system plugin event called onBeforeCompileHead (Louis Landry)
+ # [#23737] Number of list results not taken into account on listing view
+ # [#22097] Records in #__session aren't deleted after user's logout; Joomla checks #__session too often (Dennis Hermatski)
+ # [#21138] Article manager - no filter on created by (Roland Dalmulder)
+ # [#23728] Content of the mail from is not retained if an error occurs
+ # [#23725] Duplicate contradicting messages on send mail error
+ # [#23696] Menus creation fail with 1.5-style menus metadata: using SimpleXMLElement attributes missing (string) typecast (Beat)
+ # [#23697] Menus with default view have a view=(empty) in URL and are missing other defined attributes and 1.5-type-menu-metada does not display menu type correctly in backend (Beat)
+ # Fix up error trying to run installation with [#23745]  
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
@@ -661,7 +665,7 @@ $ -> Language fix or change
  # [#23291] Improve JBrowser (Rouven Weßling)
 
 10-Dec-2010 Mark Dexter
-^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
+ ^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
 
 10-Dec-2010 Christophe Demko
  # [#23589] mod_latestnews ignores "show featured" setting
@@ -676,8 +680,8 @@ $ -> Language fix or change
  $ [#23712] "User Manager: Add New View Permission Level" label is not logical. Thanks Peter and Bill
  
 09-Dec-2010 Mark Dexter
-# [#23695] Apply patch 23034 to contacts and newsfeeds
-# [#23690] Fullpath disclosure in template error files
+ # [#23695] Apply patch 23034 to contacts and newsfeeds
+ # [#23690] Fullpath disclosure in template error files
 
 09-Dec-2010 Christophe Demko
  # [#22725] Update Manager Fails (Dennis Hermacki)
@@ -691,16 +695,16 @@ $ -> Language fix or change
  # [#23677] RTL header issue in Bluestork. Thanks Andrea.
 
 08-Dec-2010 Mark Dexter
-# [#21207] Joomla 1.6 Beta 6 - not assigned to groups when via LDAP login. (Elin Waring)
-# [#23441] *Fatal error when saving a weblink from the new icon in a weblink category list
-# [#22992] Unpublished articles are still shown in user profile
-# [#22958] CSS class and id changes (cont'd) (Andrea Tarr)
-# [#22955] Upgrading plugin using method="upgrade" does not remove files omitted from xml (Sam Moffatt)
+ # [#21207] Joomla 1.6 Beta 6 - not assigned to groups when via LDAP login. (Elin Waring)
+ # [#23441] *Fatal error when saving a weblink from the new icon in a weblink category list
+ # [#22992] Unpublished articles are still shown in user profile
+ # [#22958] CSS class and id changes (cont'd) (Andrea Tarr)
+ # [#22955] Upgrading plugin using method="upgrade" does not remove files omitted from xml (Sam Moffatt)
 
 07-Dec-2010 Mark Dexter
-# [#22957] Upgrading a template that uses method="upgrade" removes manually added files
-# [#22682] Users without edit state can change date on screen via the calendar
-# [#23366] Remove special treatment for Konqueror with regard to minified javascript (Rouven Weßling)
+ # [#22957] Upgrading a template that uses method="upgrade" removes manually added files
+ # [#22682] Users without edit state can change date on screen via the calendar
+ # [#23366] Remove special treatment for Konqueror with regard to minified javascript (Rouven Weßling)
 
 07-Dec-2010 Jean-Marie Simonet
  [#23666] Attempting to log in with a non-existent account get's "Username and password do not match" message. Thanks Matt and Bill.
