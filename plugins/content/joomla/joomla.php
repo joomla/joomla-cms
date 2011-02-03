@@ -51,7 +51,7 @@ class plgContentJoomla extends JPlugin
 		$user = JFactory::getUser();
 
 		// Messaging for new items
-		JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models');
+		JModel::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/models', 'MessagesModel');
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_messages/tables');
 
 		$db = JFactory::getDbo();

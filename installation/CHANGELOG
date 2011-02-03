@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Feb-2011 Mark Dexter
+ # [#24317] Module articles category - fatal error
+
 03-Feb-2011 Jean-Marie Simonet
  #$ [#24724] Inconsistency in the Link Author article option. Thanks Bill.
  # [#24726] Link Author option lacks in Archived Articles menu item. Thanks Bill.
@@ -39,7 +42,6 @@ $ -> Language fix or change
  # [#24698] *Incorrect tooltip for the Enabled column in Plug-In Manager
  # [#24695] *Incorrect tooltip in News Feed Manager
  # [#24708] *Contact form in frontend does not display the star for required fields
-
 
 02-Feb-2011 Jean-Marie Simonet
  $ Updated bg-BG.ini

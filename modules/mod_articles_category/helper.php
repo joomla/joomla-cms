@@ -18,7 +18,7 @@ require_once $com_path.DS.'helpers'.DS.'route.php';
 
 jimport('joomla.application.component.model');
 
-JModel::addIncludePath($com_path.DS.'models');
+JModel::addIncludePath($com_path.DS.'models', 'ContentModel');
 
 abstract class modArticlesCategoryHelper
 {

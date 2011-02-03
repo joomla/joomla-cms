@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php';
-JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'models');
+JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'models', 'WeblinksModel');
 
 class modWeblinksHelper
 {

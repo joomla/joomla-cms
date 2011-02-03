@@ -17,7 +17,7 @@ class modBannersHelper
 	static function &getList(&$params)
 	{
 		jimport('joomla.application.component.model');
-		JModel::addIncludePath(JPATH_ROOT.'/components/com_banners/models');
+		JModel::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
 		$document	= JFactory::getDocument();
 		$app		= JFactory::getApplication();
 		$keywords	= explode(',', $document->getMetaData('keywords'));
