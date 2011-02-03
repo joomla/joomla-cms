@@ -16,7 +16,7 @@
  * @version SVN: $Id$
  */
 
-class Com_AlphaInstallerScript {
+class Com_GammaInstallerScript {
 
 	function install($parent) {
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_INSTALL_SCRIPT') . '</p>';
@@ -26,9 +26,9 @@ class Com_AlphaInstallerScript {
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_UNINSTALL_SCRIPT') .'</p>';
 	}
 
-	function updatex($parent) {
+	/*function update($parent) {
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_UPDATE_SCRIPT') .'</p>';
-	}
+	}*/
 
 	function preflight($type, $parent) {
 		echo '<p>'. JText::sprintf('COM_GAMMA_16_CUSTOM_PREFLIGHT', $type) .'</p>';
