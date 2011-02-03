@@ -170,7 +170,7 @@
 	<field
 		name="modified_time"
 		type="text"
-		label="JGLOBAL_MODIFIED_DATE"
+		label="JGLOBAL_FIELD_MODIFIED_LABEL"
 		class="readonly"
 		filter="unset"
 		readonly="true" />
