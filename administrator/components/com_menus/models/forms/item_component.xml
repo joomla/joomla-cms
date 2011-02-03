@@ -61,9 +61,6 @@
 		
 		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
 		>
-
-			
-
 			<field name="menu-meta_description" type="textarea"
 				label="JFIELD_META_DESCRIPTION_LABEL" description="JFIELD_META_DESCRIPTION_DESC"
 				rows="3" cols="40" />
