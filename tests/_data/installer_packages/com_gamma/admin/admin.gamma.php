@@ -17,4 +17,5 @@
  * @see http://joomlacode.org/gf/project/	JoomlaCode Project:
  */
 
- echo '<p>'. JText::_('COM_ALPHA_TESTING_COMPONENT') .'</p>';
+JToolBarHelper::Title(JText::_('COM_GAMMA_TITLE'));
+echo '<p>'. JText::_('COM_GAMMA_TESTING_COMPONENT_BACKEND') .'</p>';

@@ -1,1 +1,1 @@
-INSERT INTO jos_alpha_install VALUES(20100504);
+INSERT INTO jos_gamma_install VALUES(20100504);

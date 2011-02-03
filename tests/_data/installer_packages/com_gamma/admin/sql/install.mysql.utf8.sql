@@ -1,1 +1,1 @@
-CREATE TABLE IF NOT EXISTS #__alpha_install ( fielda int(10) )
+CREATE TABLE IF NOT EXISTS #__gamma_install ( fielda int(10) )
