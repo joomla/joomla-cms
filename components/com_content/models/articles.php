@@ -449,6 +449,7 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+			$query->where('contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
 		// Add the list ordering clause.
