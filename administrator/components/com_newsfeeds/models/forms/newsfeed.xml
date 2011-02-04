@@ -58,7 +58,7 @@
 			required="true" />
 
 		<field name="ordering" type="ordering" class="inputbox"
-			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL" description="COM_NEWSFEEDS_FIELD_ORDERING_DESC" />
+			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"
 			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"

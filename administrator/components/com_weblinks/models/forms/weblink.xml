@@ -65,8 +65,8 @@
 		</field>
 
 		<field name="ordering" type="Ordering" class="inputbox"
-			label="COM_WEBLINKS_FIELD_ORDERING_LABEL"
-			description="COM_WEBLINKS_FIELD_ORDERING_DESC" />
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />

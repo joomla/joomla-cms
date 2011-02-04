@@ -31,6 +31,7 @@ $ -> Language fix or change
  #$ Deleting hard-coded colons
  # [#24710] Contact language is ignored in frontend. Thanks Christophe.
  # [#24735] Removes references to non-existing stylesheet. Thanks Rouven
+ $# Normalizing some ini strings.
 
 03-Feb-2011 Mark Dexter
  # [#24317] Module articles category - fatal error
