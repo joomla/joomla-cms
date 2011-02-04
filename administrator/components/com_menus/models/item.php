@@ -817,6 +817,7 @@ class MenusModelItem extends JModelAdmin
 
 			// Confirm that the option is defined.
 			$option = '';
+			$base = '';
 			if (isset($args['option'])) {
 				// The option determines the base path to work with.
 				$option = $args['option'];
@@ -857,8 +858,19 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 
-			// TODO: Now check for a view manifest file
-			// TODO: Now check for a component manifest file
+			//Now check for a view manifest file
+			if (!$formFile) {
+				$path = JPath::clean($base.'/views/metadata.xml');
+				if (JFile::exists($path)) {
+					$formFile = $path;
+				} else {
+					//Now check for a component manifest file
+					$path = JPath::clean($base.'/metadata.xml');
+					if (JFile::exists($path)) {
+						$formFile = $path;
+					}						
+				}			
+			}	
 		}
 
 		if ($formFile) {
