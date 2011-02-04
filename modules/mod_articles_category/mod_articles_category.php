@@ -73,7 +73,7 @@ if (!empty($list)) {
 			case 'month_year':
 				$list = modArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
 				break;
-			case 'author_name':
+			case 'author':
 			case 'category_title':
 				$list = modArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
 				break;

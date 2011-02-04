@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-Feb-2011 Christophe Demko
  # [#24562] com_menu not looking for component xml file (Mark Dexter, Selene Feigl, marius van rijnsoever)
+ # [#24693] Articles Category Module Gropu by Author error (Mark Dexter)
 
 04-Feb-2011 Jean-Marie Simonet
  #$ Deleting hard-coded colons
