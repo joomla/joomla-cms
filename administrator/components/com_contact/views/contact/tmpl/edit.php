@@ -50,16 +50,16 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('published'); ?></li>
 
 				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>
-
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
-
-				<li><?php echo $this->form->getLabel('featured'); ?>
-				<?php echo $this->form->getInput('featured'); ?></li>
+				<?php echo $this->form->getInput('access'); ?></li>					
 
 				<li><?php echo $this->form->getLabel('ordering'); ?>
 				<?php echo $this->form->getInput('ordering'); ?></li>
+
+				<li><?php echo $this->form->getLabel('featured'); ?>
+				<?php echo $this->form->getInput('featured'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>

@@ -41,17 +41,17 @@ JHtml::_('behavior.formvalidation');
 			<li><?php echo $this->form->getLabel('url'); ?>
 			<?php echo $this->form->getInput('url'); ?></li>
 
-			<li><?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?></li>
-
 			<li><?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?></li>
 
-			<li><?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?></li>
+			<li><?php echo $this->form->getLabel('state'); ?>
+			<?php echo $this->form->getInput('state'); ?></li>			
 
 			<li><?php echo $this->form->getLabel('access'); ?>
 			<?php echo $this->form->getInput('access'); ?></li>
+
+			<li><?php echo $this->form->getLabel('ordering'); ?>
+			<?php echo $this->form->getInput('ordering'); ?></li>
 
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>

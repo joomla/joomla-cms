@@ -49,6 +49,7 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
+
 				<?php if ($this->canDo->get('core.admin')): ?>
 					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
 						<div class="button2-left"><div class="blank">
@@ -58,11 +59,12 @@ JHtml::_('behavior.keepalive');
 						</div></div>
 					</li>
 				<?php endif; ?>
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
 
 				<li><?php echo $this->form->getLabel('featured'); ?>
 				<?php echo $this->form->getInput('featured'); ?></li>
+
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
