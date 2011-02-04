@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- $Id$ -->
 <metadata>
-    <menu options="none" name="Name" msg="Message"></menu>  
-	<name>Name</name>
-	<description>description</description>
-<fields name="params">
-		<!-- Basic options. -->
-		<fieldset name="basic" label="COM_MENUS_BASIC_FIELDSET_LABEL">
-		<field	name="login_redirect_url"	type="text"
-		label="JFIELD_LOGIN_REDIRECT_URL_LABEL" description="JFIELD_LOGIN_REDIRECT_URL_DESC"
-		class="inputbox"/>
-		</fieldset>
-	</fields>
 </metadata>
