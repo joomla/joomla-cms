@@ -149,7 +149,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 <?php foreach ($this->settings as $setting) : ?>
 								<tr>
 									<td class="item">
-										<?php echo $setting->label; ?>:
+										<?php echo $setting->label; ?>
 									</td>
 									<td class="toggle">
 										<span>

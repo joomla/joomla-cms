@@ -109,7 +109,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 								</tr>
 								<tr>
 									<td class="notice">
-										<?php echo JText::_('JUSERNAME'); ?>: <?php echo $this->options['admin_user']; ?>
+										<?php echo JText::_('JUSERNAME'); ?> : <strong><?php echo $this->options['admin_user']; ?></strong>
 									</td>
 								</tr>
 								<tr>

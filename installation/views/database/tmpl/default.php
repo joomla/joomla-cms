@@ -69,7 +69,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('INSTL_DATABASE_TITLE'); ?>:</h2>
+				<h2><?php echo JText::_('INSTL_DATABASE_TITLE'); ?></h2>
 				<div class="install-text">
 						<?php echo JText::_('INSTL_DATABASE_DESC'); ?>
 				</div>

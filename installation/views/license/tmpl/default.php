@@ -69,7 +69,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 				</div>
 			</div>
 			<div class="m">
-				<h2><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?>:</h2>
+				<h2><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h2>
 				<iframe src="gpl.html" class="license" marginwidth="25" scrolling="auto"></iframe>
 				<div class="clr"></div>
 			</div>
