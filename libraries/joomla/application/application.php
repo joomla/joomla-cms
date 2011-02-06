@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Application
  */
 
-// No direct access.
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
+
 jimport('joomla.event.dispatcher');
 
 /**
@@ -186,7 +185,7 @@ class JApplication extends JObject
 				$editor	= 'none';
 			}
 		}
-		
+
 		$config->set('editor', $editor);
 
 		// Trigger the onAfterInitialise event.
@@ -885,10 +884,10 @@ class JApplication extends JObject
 			);
 			$db->query();
 		}
-		
+
 		// Check to see the the session already exists.
 		if (($this->getCfg('session_handler') != 'database' && ($time % 2 || $session->isNew()))
-			|| 
+			||
 			($this->getCfg('session_handler') == 'database' && $session->isNew())
 		)
 		{
@@ -912,14 +911,14 @@ class JApplication extends JObject
 		$db 		= JFactory::getDBO();
 		$session 	= JFactory::getSession();
 		$user		= JFactory::getUser();
-		
+
 		$db->setQuery(
 			'SELECT `session_id`' .
 			' FROM `#__session`' .
 			' WHERE `session_id` = '.$db->quote($session->getId()), 0, 1
 		);
 		$exists = $db->loadResult();
-		
+
 		// If the session record doesn't exist initialise it.
 		if (!$exists) {
 			if ($session->isNew()) {
@@ -927,19 +926,19 @@ class JApplication extends JObject
 					'INSERT INTO `#__session` (`session_id`, `client_id`, `time`)' .
 					' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) time().')'
 				);
-			} 
+			}
 			else {
 				$db->setQuery(
 					'INSERT INTO `#__session` (`session_id`, `client_id`, `guest`, `time`, `userid`, `username`)' .
 					' VALUES ('.$db->quote($session->getId()).', '.(int) $this->getClientId().', '.(int) $user->get('guest').', '.(int) $session->get('session.timer.start').', '.(int) $user->get('id').', '.$db->quote($user->get('username')).')'
 				);
 			}
-			
+
 			// If the insert failed, exit the application.
 			if (!$db->query()) {
 				jexit($db->getErrorMSG());
 			}
-	
+
 			//Session doesn't exist yet, create session variables
 			if ($session->isNew()) {
 				$session->set('registry',	new JRegistry('session'));

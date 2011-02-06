@@ -1,15 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Document
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
-
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
@@ -44,7 +41,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
-		
+
 		$feed_title = htmlspecialchars(
 			$app->getCfg('sitename_pagetitles',0)?
 			JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title):
@@ -128,14 +125,14 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<item>\n";
 			$feed.= "			<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";
 			$feed.= "			<link>".str_replace(' ','%20',$data->items[$i]->link)."</link>\n";
-			
+
 			if (empty($data->items[$i]->guid) === true) {
 				$feed.= "			<guid isPermaLink=\"true\">".str_replace(' ','%20',$data->items[$i]->link)."</guid>\n";
 			}
 			else {
 				$feed.= "			<guid isPermaLink=\"false\">".htmlspecialchars($data->items[$i]->guid, ENT_COMPAT, 'UTF-8')."</guid>\n";
 			}
-			
+
 			$feed.= "			<description><![CDATA[".$this->_relToAbs($data->items[$i]->description)."]]></description>\n";
 
 			if ($data->items[$i]->authorEmail!="") {

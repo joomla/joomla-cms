@@ -1,12 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Installer
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
@@ -98,7 +98,7 @@ class JInstallerTemplate extends JAdapterInstance
 		$db = $this->parent->getDbo();
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="template" AND element = "'. $element .'"');
 		$id = $db->loadResult();
-		
+
 		// Set the template root path
 		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.$element);
 
@@ -241,7 +241,7 @@ class JInstallerTemplate extends JAdapterInstance
 
 		return $row->get('extension_id');
 	}
-	
+
 	/**
 	 * Custom update method for components
 	 *
@@ -470,7 +470,7 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 	}
-	
+
 
 	/**
 	 * Refreshes the extension table cache
@@ -496,5 +496,5 @@ class JInstallerTemplate extends JAdapterInstance
 			JError::raiseWarning(101, JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'));
 			return false;
 		}
-	}	
+	}
 }

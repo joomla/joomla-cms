@@ -1,12 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Form
  */
-defined('JPATH_BASE') or die;
+
+defined('JPATH_PLATFORM') or die;
+
 jimport('joomla.html.html');
 jimport('joomla.access.access');
 jimport('joomla.form.formfield');
@@ -38,7 +39,7 @@ class JFormFieldRules extends JFormField
 	protected function getInput()
 	{
 		JHtml::_('behavior.tooltip');
-		
+
 		// Initialise some field attributes.
 		$section	= $this->element['section'] ? (string) $this->element['section'] : '';
 		$component	= $this->element['component'] ? (string) $this->element['component'] : '';

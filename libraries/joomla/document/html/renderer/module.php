@@ -1,12 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Document
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocument Module renderer
@@ -64,7 +64,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 		//get module parameters
 		$params = new JRegistry;
 		$params->loadJSON($module->params);
-		
+
 		// use parameters from template
 		if (isset($attribs['params'])) {
 			$template_params = new JRegistry;
@@ -73,7 +73,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$module = clone $module;
 			$module->params = (string) $params;
 		}
-		
+
 		$contents = '';
 
 		$cachemode = $params->get('cachemode','oldstatic');  // default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead

@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Form
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formrule');
 
@@ -26,7 +25,7 @@ class JFormRuleBoolean extends JFormRule
 	 * @var		string
 	 * @since	1.6
 	 */
-	protected $regex = '^(?:[01]|true|false)$'; 
+	protected $regex = '^(?:[01]|true|false)$';
 
 	/**
 	 * The regular expression modifiers to use when testing a form field value.

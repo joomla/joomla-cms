@@ -1,11 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  HTML
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for creating HTML Grids
@@ -67,13 +68,13 @@ abstract class JHtmlGrid
 		$direction	= strtolower($direction);
 		$images		= array('sort_asc.png', 'sort_desc.png');
 		$index		= intval($direction == 'desc');
-		
+
 		if ($order != $selected) {
 			$direction = $new_direction;
 		} else {
 			$direction	= ($direction == 'desc') ? 'asc' : 'desc';
 		}
-		
+
 		$html = '<a href="javascript:tableOrdering(\''.$order.'\',\''.$direction.'\',\''.$task.'\');" title="'.JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN').'">';
 		$html .= JText::_($title);
 

@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Access
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Access
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.access.rules');
 
@@ -110,7 +109,7 @@ class JAccess
 	protected static function getGroupPath($groupId)
 	{
 		static $groups, $paths;
-		
+
 		// Preload all groups
 		if (empty($groups)) {
 			$db		= JFactory::getDbo();
@@ -123,21 +122,21 @@ class JAccess
 		}
 
 		// Make sure groupId is valid
-		if (!array_key_exists($groupId, $groups)) 
+		if (!array_key_exists($groupId, $groups))
 		{
 			return array();
 		}
-		
+
 		// Get parent groups and leaf group
 		if (!isset($paths[$groupId])) {
 			$paths[$groupId] = array();
 			foreach($groups as $group) {
 				if ($group->lft <= $groups[$groupId]->lft && $group->rgt >= $groups[$groupId]->rgt) {
-					$paths[$groupId][] = $group->id; 
+					$paths[$groupId][] = $group->id;
 				}
 			}
 		}
-		
+
 		return $paths[$groupId];
 	}
 
@@ -217,28 +216,28 @@ class JAccess
  			}
  			// Registered user
  			else
- 			{			
+ 			{
 				$db = JFactory::getDbo();
-				
+
 				// Build the database query to get the rules for the asset.
 				$query	= $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
 				$query->from('#__user_usergroup_map AS map');
 				$query->where('map.user_id = '.(int) $userId);
 				$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
-	
+
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive) {
 					$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
-	
+
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
 				$result	= $db->loadResultArray();
-	
+
 				// Clean up any NULL or duplicate values, just in case
 				JArrayHelper::toInteger($result);
-	
+
 				if (empty($result)) {
 					$result = array('1');
 				}

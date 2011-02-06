@@ -1,9 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  HTML
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for creating HTML Grids
@@ -128,18 +131,18 @@ abstract class JHtmlJGrid
 			2	=> array('unpublish',	'JARCHIVED',	'JLIB_HTML_UNPUBLISH_ITEM',	'JARCHIVED',	false,	'archive',		'archive'),
 			-2	=> array('publish',		'JTRASHED',		'JLIB_HTML_PUBLISH_ITEM',	'JTRASHED',		false,	'trash',		'trash'),
 		);
-		
+
 		// Special state for dates
 		if ($publish_up || $publish_down)
 		{
 			$nullDate 	= JFActory::getDBO()->getNullDate();
 			$nowDate 	= JFactory::getDate()->toUnix();
-			
+
 			$tz	= JFactory::getApplication()->getCfg('offset');
-			
+
 			$publish_up		= ($publish_up 		!= $nullDate) ? JFactory::getDate($publish_up, $tz) 	: false;
 			$publish_down 	= ($publish_down 	!= $nullDate) ? JFactory::getDate($publish_down, $tz) 	: false;
-			
+
 			// Create tip text, only we have publish up or down settings
 			$tips = array();
 			if ($publish_up) {
@@ -149,7 +152,7 @@ abstract class JHtmlJGrid
 				$tips[] = JText::sprintf('JLIB_HTML_PUBLISHED_FINISHED', $publish_down->toFormat());
 			}
 			$tip = empty($tips) ? false : implode('<br/>', $tips);
-			
+
 			// Add tips and special titles
 			foreach($states as $key=>$state) {
 				// Create special titles for published items
@@ -162,7 +165,7 @@ abstract class JHtmlJGrid
 					if ($publish_down && $nowDate > $publish_down->toUnix()) {
 						$states[$key][2] = $states[$key][3] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 						$states[$key][5] = $states[$key][6] = 'expired';
-					} 
+					}
 				}
 
 				// Add tips to titles
@@ -175,7 +178,7 @@ abstract class JHtmlJGrid
 			}
 			return self::state($states, $value, $i, array('prefix'=>$prefix,'translate'=>!$tip), $enabled, true, $checkbox);
 		}
-		
+
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 

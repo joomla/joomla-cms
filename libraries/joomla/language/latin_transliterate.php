@@ -1,14 +1,12 @@
 <?php
 /**
- * @version			$Id: latin_transliteration.php
- * @package			Joomla.Framework
- * @subpackage		Language
- * @copyright		Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license			GNU General Public License version 2 or later; see LICENSE.txt
- * This file has to be saved as UTF8 no BOM
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Language
  */
-// No direct access.
-defined('JPATH_BASE') or die;
+
+defined('JPATH_PLATFORM') or die;
 
 class JLanguageTransliterate
 {

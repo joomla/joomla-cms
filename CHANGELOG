@@ -30,3 +30,4 @@ $ -> Language fix or change
  ^ Reworked JVersion, JLoader and the initial import script for the platform project.
  ^ Moved the example configuration file into the root libraries folder.
  ^ Added libraries and tests top level folders for clean separation.
+ ^ Changed file headers to remove the subversion tags and clean up the rest.

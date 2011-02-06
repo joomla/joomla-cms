@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Form
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
@@ -1428,7 +1427,7 @@ class JForm
 		}
 
 		// Get the value for the form field if not set.
-		// Default to the translated version of the 'default' attribute 
+		// Default to the translated version of the 'default' attribute
 		// if 'translate_default' attribute if set to 'true' or '1'
 		// else the value of the 'default' attribute for the field.
 		if ($value === null) {
