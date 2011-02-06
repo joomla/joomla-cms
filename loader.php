@@ -1,137 +1,149 @@
 <?php
 /**
- * @version $Id$
- * @package		Joomla.Framework
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @version    $Id$
+ * @package    Joomla.Platform
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('DS')) {
-	define('DS', DIRECTORY_SEPARATOR);
-}
+defined('JPATH_PLATFORM') or die;
 
+// Register JLoader::load as an autoload class handler.
 spl_autoload_register(array('JLoader','load'));
 
 /**
- * @package		Joomla.Framework
+ * Static class to handle loading of libraries.
+ *
+ * @package  Joomla.Platform
+ * @since    11.1
  */
 abstract class JLoader
 {
-	private static $paths = array();
+	/**
+	 * Container for already imported library paths.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	private static $imported = array();
 
+	/**
+	 * Container for already imported library paths.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	private static $classes = array();
 
 	/**
 	 * Loads a class from specified directories.
 	 *
-	 * @param string	The class name to look for (dot notation).
-	 * @param string	Search this directory for the class.
-	 * @param string	String used as a prefix to denote the full path of the file (dot notation).
-	 * @since 1.5
+	 * @param   string  $key   The class name to look for (dot notation).
+	 * @param   string  $base  Search this directory for the class.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	public static function import($filePath, $base = null, $key = 'libraries.')
+	public static function import($key, $base = null)
 	{
-		$keyPath = $key ? $key . $filePath : $filePath;
-
-		if (!isset(JLoader::$paths[$keyPath]))
+		// Only import the library if not already attempted.
+		if (!isset(self::$imported[$key]))
 		{
-			if (!$base) {
-				$base = dirname(__FILE__);
+			// Setup some variables.
+			$success	= false;
+			$parts		= explode('.', $key);
+			$class		= array_pop($parts);
+			$base		= (!empty($base)) ? $base : dirname(__FILE__);
+			$path		= str_replace('.', DS, $key);
+
+			// Handle special case for helper classes.
+			if ($class == 'helper') {
+				$class = ucfirst(array_pop($parts)).ucfirst($class);
+			}
+			// Standard class.
+			else {
+				$class = ucfirst($class);
 			}
 
-			$parts = explode('.', $filePath);
+			// If we are importing a library from the Joomla namespace set the class to autoload.
+			if (strpos($path, 'joomla') === 0) {
 
-			$className = array_pop($parts);
-			switch ($className)
-			{
-				case 'helper' :
-					$className = ucfirst(array_pop($parts)).ucfirst($className);
-					break;
+				// Since we are in the Joomla namespace prepend the classname with J.
+				$class	= 'J'.$class;
 
-				default :
-					$className = ucfirst($className);
-					break;
-			}
-
-			$path = str_replace('.', DS, $filePath);
-
-			if (strpos($filePath, 'joomla.') === 0)
-			{
-				// If we are loading a joomla class prepend the classname with a capital J.
-				$className = 'J'.$className;
-				$classes = JLoader::register($className, $base.DS.$path.'.php');
-				$rs = isset($classes[strtolower($className)]);
-			}
-			else
-			{
-				// If it is not in the joomla namespace then we have no idea if
-				// it uses our pattern for class names/files so just include
-				// if the file exists or set it to false if not
-
-				$filename = $base.DS.$path.'.php';
-				if (is_file($filename))
-				{
-					$rs   = (bool) include_once $filename;
-				}
-				else
-				{
-					// if the file doesn't exist fail
-					$rs   = false;
-
-					// note: JLoader::register does an is_file check itself so we don't need it above, we do it here because we
-					// try to load the file directly and it may not exist which could cause php to throw up nasty warning messages
-					// at us so we set it to false here and hope that if the programmer is good enough they'll check the return value
-					// instead of hoping it'll work. remmeber include only fires a warning, so $rs was going to be false with a nasty
-					// warning message
+				// Only register the class for autoloading if the file exists.
+				if (is_file($base.DS.$path.'.php')) {
+					self::$classes[strtolower($class)] = $base.DS.$path.'.php';
+					$success = true;
 				}
 			}
 
-			JLoader::$paths[$keyPath] = $rs;
+			/*
+			 * If we are not importing a library from the Joomla namespace directly include the
+			 * file since we cannot assert the file/folder naming conventions.
+			 */
+			else {
+
+				// If the file exists attempt to include it.
+				if (is_file($base.DS.$path.'.php')) {
+					$success = include $base.DS.$path.'.php';
+				}
+			}
+
+			// Add the import key to the memory cache container.
+			self::$imported[$key] = $success;
 		}
 
-		return JLoader::$paths[$keyPath];
+		return self::$imported[$key];
 	}
 
 	/**
-	 * Add a class to autoload.
+	 * Directly register a class to the autoload list.
 	 *
-	 * @param	string			The class name
-	 * @param	string			Full path to the file that holds the class
-	 * @return	array|boolean	Array of classes
-	 * @since	1.5
+	 * @param   string  $class  The class name
+	 * @param   string  $path   Full path to the file that holds the class
+	 *
+	 * @return  bool    True on success.
+	 *
+	 * @since   11.1
 	 */
-	public static function &register($class = null, $file = null)
+	public static function register ($class, $path)
 	{
-		if ($class && is_file($file))
-		{
-			// Force to lower case.
-			$class = strtolower($class);
-			JLoader::$classes[$class] = $file;
+		// Only register the class if the class and file exist.
+		if (!empty($class) && is_file($path)) {
+			self::$classes[strtolower($class)] = $path;
+			return true;
 		}
 
-		return JLoader::$classes;
+		return false;
 	}
 
 	/**
-	 * Load the file for a class
+	 * Load the file for a class.
 	 *
-	 * @param   string	The class that will be loaded
-	 * @return  boolean True on success
-	 * @since   1.5
+	 * @param   string  $class  The class to be loaded.
+	 *
+	 * @return  bool    True on success
+	 *
+	 * @since   11.1
 	 */
 	public static function load($class)
 	{
-		$class = strtolower($class); //force to lower case
+		// Sanitize class name.
+		$class = strtolower($class);
 
+		// If the class already exists do nothing.
 		if (class_exists($class)) {
+			  return;
+		}
+
+		// If the class is registered include the file.
+		if (isset(self::$classes[$class])) {
+			include self::$classes[$class];
 			return true;
 		}
 
-		if (array_key_exists($class, JLoader::$classes))
-		{
-			include_once JLoader::$classes[$class];
-			return true;
-		}
 		return false;
 	}
 }
@@ -141,19 +153,25 @@ abstract class JLoader
  *
  * This function provides a single exit point for the framework.
  *
- * @param	mixed	Exit code or string. Defaults to zero.
- * @since	1.5
+ * @param   mixed  $message  Exit code or string. Defaults to zero.
+ *
+ * @return  void
+ *
+ * @since   11.1
  */
 function jexit($message = 0)
 {
-	exit($message);
+    exit($message);
 }
 
 /**
- * Intelligent file importer
+ * Intelligent file importer.
  *
- * @param	string	A dot syntax path.
- * @since	1.5
+ * @param   string  $path  A dot syntax path.
+ *
+ * @return  bool    True on success.
+ *
+ * @since   11.1
  */
 function jimport($path)
 {
