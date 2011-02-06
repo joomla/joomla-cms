@@ -1,6 +1,5 @@
 0. Metadata
 -----------
-File version:	$Id$
 Copyright:		Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE
 
@@ -28,3 +27,6 @@ $ -> Language fix or change
 
 5-Feb-2011 Louis Landry
  ! Initiate work on Joomla Platform project.
+ ^ Reworked JVersion, JLoader and the initial import script for the platform project.
+ ^ Moved the example configuration file into the root libraries folder.
+ ^ Added libraries and tests top level folders for clean separation.
