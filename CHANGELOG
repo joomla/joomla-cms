@@ -1,0 +1,30 @@
+0. Metadata
+-----------
+File version:	$Id$
+Copyright:		Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+License:		GNU General Public License version 2 or later; see LICENSE
+
+1. Copyright and disclaimer
+---------------------------
+This application is open source software released under the GPL.  Please
+see source code and the LICENSE file
+
+
+2. Changelog
+------------
+This is a non-exhaustive (but still near complete) changelog for the Joomla
+Platform project, including alpha and beta versions.  Our thanks to all those
+people who've contributed bug reports and code fixes.
+
+Legend:
+
+* -> Security Fix
+# -> Issue Fix
+$ -> Language fix or change
++ -> Addition
+^ -> Change
+- -> Removed
+! -> Note
+
+5-Feb-2011 Louis Landry
+ ! Initiate work on Joomla Platform project.
