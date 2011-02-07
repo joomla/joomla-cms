@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Feb-2011 Jean-Marie Simonet
+ $ Correcting English spelling
+ 
 06-Feb-2011 Jean-Marie Simonet
  #  [#24743] Contact form typo - duplicate tag </label> for Email and Message. Thanks Peter and Elin.
  # [#24711] duplicate case in switch in ~/components/com_users/controller.php. Thanks Boris and Bill.
