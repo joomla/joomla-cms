@@ -1,0 +1,23 @@
+<?php
+/**
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
+ * @package    Joomla.Platform
+ */
+
+// BEFORE USING RENAME THIS FILE TO SOMETHING UNIQUE !!!
+
+// Initialize Joomla framework
+define('_JEXEC', 1);
+define('DS', DIRECTORY_SEPARATOR);
+define('JPATH_BASE', dirname(__FILE__).'/../../..');
+
+/* Required Files */
+require_once JPATH_BASE.'/includes/defines.php';
+require_once JPATH_BASE.'/includes/framework.php';
+
+// Instantiate the application.
+$app = JFactory::getApplication('site');
+
+$cache = JFactory::getCache();
+$cache->gc();
