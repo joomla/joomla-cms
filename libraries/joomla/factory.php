@@ -67,7 +67,7 @@ abstract class JFactory
 	{
 		if (!self::$config) {
 			if ($file === null) {
-				$file = dirname(__FILE__).DS.'config.php';
+				$file = JPATH_PLATFORM.'/config.php';
 			}
 
 			self::$config = self::_createConfig($file, $type);

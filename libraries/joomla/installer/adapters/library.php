@@ -31,13 +31,13 @@ class JInstallerLibrary extends JAdapterInstance
 	{
 		$source = $this->parent->getPath('source');
 		if (!$source) {
-			$this->parent->setPath('source', JPATH_LIBRARIES . '/'.$this->parent->extension->element);
+			$this->parent->setPath('source', JPATH_PLATFORM . '/'.$this->parent->extension->element);
 		}
 		$this->manifest = $this->parent->getManifest();
 		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
 		$name = strtolower((string)$this->manifest->libraryname);
 		$lang = JFactory::getLanguage();
-		$source = $path ? $path : JPATH_LIBRARIES . "/$name";
+		$source = $path ? $path : JPATH_PLATFORM . "/$name";
 			$lang->load($extension . '.sys', $source, null, false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, null, false, false)
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
@@ -106,7 +106,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_LIBRARIES.DS.implode(DS,explode('/',$group)));
+			$this->parent->setPath('extension_root', JPATH_PLATFORM.DS.implode(DS,explode('/',$group)));
 		}
 
 		/**
@@ -263,7 +263,7 @@ class JInstallerLibrary extends JAdapterInstance
 		{
 			$manifest = new JLibraryManifest($manifestFile);
 			// Set the plugin root path
-			$this->parent->setPath('extension_root', JPATH_LIBRARIES.DS.$manifest->libraryname);
+			$this->parent->setPath('extension_root', JPATH_PLATFORM.DS.$manifest->libraryname);
 
 			$xml = JFactory::getXML($manifestFile);
 
@@ -359,7 +359,7 @@ class JInstallerLibrary extends JAdapterInstance
 		/* Libraries are a strange beast, they are actually references to files
 		 * There are two parts to a library which are disjunct in their locations
 		 * 1) The manifest file (stored in /JPATH_MANIFESTS/libraries)
-		 * 2) The actual files (stored in /JPATH_LIBRARIES/libraryname)
+		 * 2) The actual files (stored in /JPATH_PLATFORM/libraryname)
 		 * Thus installation of a library is the process of dumping files
 		 * in two different places. As such it is impossible to perform
 		 * any operation beyond mere registration of a library under the presumption

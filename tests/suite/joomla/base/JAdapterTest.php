@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_LIBRARIES.'/joomla/base/adapter.php';
+require_once JPATH_PLATFORM.'/joomla/base/adapter.php';
 
 /**
  * Test class for JAdapter.
@@ -53,7 +53,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testSetAdapter().
 	 */
 	public function testSetAdapter() {
-		require_once(JPATH_LIBRARIES.'/joomla/base/adapterinstance.php');
+		require_once(JPATH_PLATFORM.'/joomla/base/adapterinstance.php');
 		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
 		$this->object->setAdapter('Testadapter');
 
@@ -78,7 +78,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testGetAdapter().
 	 */
 	public function testGetAdapter() {
-		require_once(JPATH_LIBRARIES.'/joomla/base/adapterinstance.php');
+		require_once(JPATH_PLATFORM.'/joomla/base/adapterinstance.php');
 		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
 
 		$this->assertThat(
@@ -97,7 +97,7 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	 * @todo Implement testLoadAllAdapters().
 	 */
 	public function testLoadAllAdapters() {
-		require_once(JPATH_LIBRARIES.'/joomla/base/adapterinstance.php');
+		require_once(JPATH_PLATFORM.'/joomla/base/adapterinstance.php');
 		$this->object = new JAdapter(JUnitHelper::normalize(dirname(__FILE__)), 'Test', 'TestAdapters');
 		$this->object->loadAllAdapters();
 

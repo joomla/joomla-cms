@@ -23,8 +23,9 @@ array_pop($parts);
 //Defines.
 define('JPATH_ROOT',			JPATH_BASE);
 define('JPATH_CONFIGURATION',		JPATH_ROOT);
-define('JPATH_LIBRARIES',		implode(DS, $parts));
+define('JPATH_PLATFORM',		implode(DS, $parts).'/libraries');
 define('JPATH_PLUGINS',			JPATH_ROOT.DS.'plugins');
 define('JPATH_THEMES',			JPATH_BASE.DS.'templates');
 define('JPATH_CACHE',			JPATH_BASE.DS.'cache');
 define('JPATH_MANIFESTS',		JPATH_BASE.DS.'manifests');
+

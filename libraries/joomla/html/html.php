@@ -8,7 +8,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_LIBRARIES.'/joomla/html/html');
+JHtml::addIncludePath(JPATH_PLATFORM.'/joomla/html/html');
 
 jimport('joomla.environment.uri');
 jimport('joomla.environment.browser');

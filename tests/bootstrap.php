@@ -10,6 +10,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @link		http://www.phpunit.de/manual/current/en/installation.html
  */
+define('_JEXEC', 1);
+
 // Load the custom initialisation file if it exists.
 if (file_exists('config.php')) {
 	include 'config.php';
@@ -34,7 +36,7 @@ if (!defined('JPATH_TESTS'))
 	define('JPATH_TESTS', dirname(__FILE__));
 }
 
-// Fix magic quotes.
+//// Fix magic quotes.
 @ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
@@ -49,7 +51,8 @@ require_once JPATH_TESTS.'/includes/JoomlaDatabaseTestCase.php';
 
 // Include relative constants, JLoader and the jimport and jexit functions.
 require_once JPATH_BASE.'/defines.php';
-require_once JPATH_LIBRARIES.'/joomla/import.php';
+require_once JPATH_PLATFORM.'/import.php';
+
 
 // Exclude all of the tests from code coverage reports
 PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);
@@ -58,3 +61,4 @@ PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);
 JError::setErrorHandling(E_NOTICE, 'ignore');
 JError::setErrorHandling(E_WARNING, 'ignore');
 JError::setErrorHandling(E_ERROR, 'ignore');
+

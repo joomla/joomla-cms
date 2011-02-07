@@ -8,7 +8,7 @@
  * @license   GNU General Public License
  */
 
-require_once JPATH_LIBRARIES.'/joomla/utilities/simplecrypt.php';
+require_once JPATH_PLATFORM.'/joomla/utilities/simplecrypt.php';
 
 /**
  * Test class for JSimpleCrypt.

@@ -8,7 +8,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_LIBRARIES. '/joomla/utilities/simplexml.php';
+require_once JPATH_PLATFORM. '/joomla/utilities/simplexml.php';
 
 /**
  * mapCallback is the function called by the map routine. It simply

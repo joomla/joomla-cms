@@ -46,7 +46,7 @@ class JSimpleXMLTest extends JoomlaTestCase
 	 */
 	protected function setUp()
 	{
-		include_once JPATH_LIBRARIES . '/joomla/utilities/simplexml.php';
+		include_once JPATH_PLATFORM . '/joomla/utilities/simplexml.php';
 
 		//parent::setUp();
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once JPATH_LIBRARIES.'/joomla/utilities/string.php';
+require_once JPATH_PLATFORM.'/joomla/utilities/string.php';
 require_once 'TestHelpers/JString-helper-dataset.php';
 
 /**

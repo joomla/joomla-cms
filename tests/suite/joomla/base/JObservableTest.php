@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_LIBRARIES.'/joomla/base/observable.php';
+require_once JPATH_PLATFORM.'/joomla/base/observable.php';
 
 /**
  * Test class for JObservable.

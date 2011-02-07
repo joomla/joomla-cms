@@ -8,7 +8,7 @@
  * @license   GNU General Public License
  */
 
-require_once JPATH_LIBRARIES . '/joomla/utilities/arrayhelper.php';
+require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
 
 /**
  * JArrayHelperTest
@@ -29,7 +29,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_LIBRARIES.'/joomla/utilities/string.php';
+		require_once JPATH_PLATFORM.'/joomla/utilities/string.php';
 	}
 
 	/**

@@ -94,7 +94,7 @@ abstract class JLoader
 			self::$imported[$key] = $success;
 		}
 
-		return self::$imported[$key];
+		return (bool)self::$imported[$key];
 	}
 
 	/**

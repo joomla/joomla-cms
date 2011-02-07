@@ -8,7 +8,7 @@
  * @license   GNU General Public License
  */
 
-require_once JPATH_LIBRARIES . '/loader.php';
+include_once JPATH_PLATFORM . '/loader.php';
 
 /**
  * Test class for JLoader.
@@ -145,17 +145,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRegistersAGoodClass()
 	{
-		$classList = JLoader::register('BogusLoad', $this->bogusFullPath);
-		$this->assertArrayHasKey(
-			'bogusload',
-			$classList,
-			'Should have a bogusload key in class list'
-		);
-		$this->assertEquals(
-			$this->bogusFullPath,
-			$classList['bogusload'],
-			'Should add Bogus Class to loaded class list'
-		);
+		$this->assertTrue(JLoader::register('BogusLoad', $this->bogusFullPath));
 	}
 
 	/**
@@ -167,59 +157,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFailsToRegisterABadClass()
 	{
-		$badClassList = JLoader::register("fred", "fred.php");
-		$this->assertArrayNotHasKey(
-			'fred',
-			$badClassList,
-			'Should not have a fred key in class list'
-		);
-	}
-
-	/**
-	 *	The test cases for loading classes
-	 *
-	 * @return array
-	 */
-	function casesLoader()
-	{
-		return array(
-			'JObject' => array(
-				'JObject',
-				true,
-				'JObject should load properly',
-			),
-			'ArrayObject' => array(
-				'ArrayObject',
-				true,
-				'ArrayObject should exist',
-			),
-			'Fred' => array(
-				'Fred',
-				false,
-				'Fred does not exist',
-			),
-		);
-	}
-
-	/**
-	 * This tests the load method with an existing standard PHP object, and a non-existent one.
-	 *
-	 * @param	string	$object		Name of object to be imported
-	 * @param	bool	$expect		Expected result
-	 * @param	string	$message	Failure message to be displayed
-	 *
-	 * @return void
-	 * @dataProvider casesLoader
-	 * @group   JLoader
-	 * @covers  JLoader::load
-	 */
-	public function testLoad( $object, $expect, $message )
-	{
-		$this->assertThat(
-			JLoader::load($object),
-			$this->equalTo($expect),
-			$message
-		);
+		$this->assertFalse(JLoader::register("fred", "fred.php"));
 	}
 
 	/**
