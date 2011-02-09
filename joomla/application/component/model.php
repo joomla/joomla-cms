@@ -66,20 +66,36 @@ abstract class JModel extends JObject
 	 * either pass a string or an array of directories.
 	 *
 	 * @param	string	A path to search.
-	 * @return	array	An array with directory elements
+	 * @param	string	A prefix for models
+	 * @return	array	An array with directory elements. If prefix is equal to '', all directories are returned
 	 */
-	public static function addIncludePath($path='')
+	public static function addIncludePath($path='', $prefix='')
 	{
 		static $paths;
 
 		if (!isset($paths)) {
 			$paths = array();
 		}
-		if (!empty($path) && !in_array($path, $paths)) {
-			jimport('joomla.filesystem.path');
-			array_unshift($paths, JPath::clean($path));
+
+		if (!isset($paths[$prefix])) {
+			$paths[$prefix] = array();
 		}
-		return $paths;
+
+		if (!isset($paths[''])) {
+			$paths[''] = array();
+		}
+
+		if (!empty($path))
+		{
+			jimport('joomla.filesystem.path');
+			if(!in_array($path, $paths[$prefix])) {
+				array_unshift($paths[$prefix], JPath::clean($path));
+			}
+			if(!in_array($path, $paths[''])) {
+				array_unshift($paths[''], JPath::clean($path));
+			}
+		}
+		return $paths[$prefix];
 	}
 
 	/**
@@ -131,9 +147,15 @@ abstract class JModel extends JObject
 		if (!class_exists($modelClass)) {
 			jimport('joomla.filesystem.path');
 			$path = JPath::find(
-				JModel::addIncludePath(),
+				JModel::addIncludePath(null, $prefix),
 				JModel::_createFileName('model', array('name' => $type))
 			);
+			if(!$path) {
+				$path = JPath::find(
+					JModel::addIncludePath(null, ''),
+					JModel::_createFileName('model', array('name' => $type))
+				);
+			}
 			if ($path) {
 				require_once $path;
 
