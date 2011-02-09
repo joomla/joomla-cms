@@ -1,19 +1,19 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Installer
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
 /**
  * Module installer
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Installer
  * @since		1.5
  */
@@ -349,7 +349,7 @@ class JInstallerModule extends JAdapterInstance
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
 			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
-			
+
 			// Create unpublished module in jos_modules
 			$module = JTable::getInstance('module');
 			$module->set('title', $this->get('name'));
@@ -358,7 +358,7 @@ class JInstallerModule extends JAdapterInstance
 			$module->set('showtitle', '1');
 			$module->set('client_id', $clientId);
 			$module->set('language', '*');
-			
+
 			$module->store();
 		}
 

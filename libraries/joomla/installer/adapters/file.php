@@ -1,12 +1,12 @@
 <?php
 /**
- * @version		$Id:file.php 6961 2010-03-15 16:06:53Z infograf768 $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Installer
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.filemanifest');
 jimport('joomla.base.adapterinstance');
@@ -14,7 +14,7 @@ jimport('joomla.base.adapterinstance');
 /**
  * File installer
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Installer
  * @since		1.6
  */
@@ -40,7 +40,7 @@ class JInstallerFile extends JAdapterInstance
 		||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
 		||	$lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
 	}
-	
+
 	/**
 	 * Custom install method
 	 *
@@ -80,10 +80,10 @@ class JInstallerFile extends JAdapterInstance
 
 
 		//Check if the extension by the same name is already installed
-		if ($this->extensionExistsInSystem($element)) 
+		if ($this->extensionExistsInSystem($element))
 		{
 			// Package with same name already exists
-			if(!$this->parent->getOverwrite()) 
+			if(!$this->parent->getOverwrite())
 			{
 				// we're not overwriting so abort
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_FILE_SAME_NAME'));
@@ -143,7 +143,7 @@ class JInstallerFile extends JAdapterInstance
 		 * Finalization and Cleanup Section
 		 * ---------------------------------------------------------------------------------------------
 		 */
-		 
+
 		// Get a database connector object
 		$db = $this->parent->getDbo();
 
@@ -180,7 +180,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 		else
-		{	
+		{
 			// Add an entry to the extension table with a whole heap of defaults
 			$row->set('name', $this->get('name'));
 			$row->set('type', 'file');
@@ -193,20 +193,20 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('params', '');
 			$row->set('system_data', '');
 			$row->set('manifest_cache', '');
-		
+
 			if (!$row->store())
 			{
 				// Install failed, roll back changes
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_ROLLBACK', $db->stderr(true)));
 				return false;
 			}
-			
+
 			// set the insert id
 			$row->set('extension_id', $db->insertid());
 
 			// Since we have created a module item, we add it to the installation step stack
 			// so that if we have to rollback the changes we can undo it.
-			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));			
+			$this->parent->pushStep(array ('type' => 'extension', 'extension_id' => $row->extension_id));
 		}
 
 
@@ -250,7 +250,7 @@ class JInstallerFile extends JAdapterInstance
 	{
 		// set the overwrite setting
 		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);		
+		$this->parent->setUpgrade(true);
 		$this->route = 'update';
 
 		// ...and adds new files
@@ -488,7 +488,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 	}
-	
+
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure

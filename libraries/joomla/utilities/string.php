@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Utilities
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * PHP mbstring and iconv local configuration
@@ -41,7 +39,7 @@ jimport('phputf8.strcasecmp');
  * All functions assume the validity of utf-8 strings.
  *
  * @static
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Utilities
  * @since		1.5
  */
@@ -691,11 +689,11 @@ abstract class JString
 	/**
 	 * Does a UTF-8 safe version of PHP parse_url function
 	 * @see http://us3.php.net/manual/en/function.parse-url.php
-	 * 
+	 *
 	 * @param string URL to parse
-	 * @return associative array or false if badly formed URL. 
+	 * @return associative array or false if badly formed URL.
 	 * @since 1.6
-	 */	
+	 */
 	public static function parse_url($url) {
 		$result = array();
 		// Build arrays of values we need to decode before parsing

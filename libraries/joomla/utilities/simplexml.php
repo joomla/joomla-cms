@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Utilities
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * SimpleXML implementation.
@@ -70,7 +68,7 @@ defined('JPATH_BASE') or die;
  * using datatype ANY (e.g. XHTML). With a DOM implementation you can
  * handle this.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Utilities
  * @since 1.5
  * @deprecated
@@ -347,7 +345,7 @@ class JSimpleXML extends JObject
  * To loop through all of the direct children of a specific tag for this object, it
  * is probably easier to use the arrays of the specific tag names, as explained above.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Utilities
  * @since 1.5
  * @deprecated

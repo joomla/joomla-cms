@@ -1,16 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Document
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
-
-
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocumentRenderer_Atom is a feed that implements the atom specification
@@ -19,7 +15,7 @@ defined('JPATH_BASE') or die;
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Document
  * @see http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  * @since	1.5
@@ -50,7 +46,7 @@ defined('JPATH_BASE') or die;
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
-		
+
 		$feed_title = htmlspecialchars(
 			$app->getCfg('sitename_pagetitles',0)?
 			JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title):

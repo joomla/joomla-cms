@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Environment
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Environment
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -18,7 +17,7 @@ defined('JPATH_BASE') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage  Environment
  * @since		1.5
  */
@@ -201,7 +200,7 @@ class JBrowser extends JObject
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Parses the user agent string and inititializes the object with
 	 * all the known features and quirks for the given browser.
@@ -229,7 +228,7 @@ class JBrowser extends JObject
 		} else {
 			$this->_accept = strtolower($accept);
 		}
-		
+
 		// Parse the HTTP Accept Header
 		$accept_mime = explode(",", $this->_accept);
 		for ($i = 0; $i < count($accept_mime); $i++) {
@@ -240,7 +239,7 @@ class JBrowser extends JObject
 			$accept_mime[$i] = $parts;
 		}
 
-		// Sort so the preferred value is the first 
+		// Sort so the preferred value is the first
 		usort($accept_mime, array( __CLASS__ , '_sortMime'));
 
 		$this->_accept_parsed = $accept_mime;

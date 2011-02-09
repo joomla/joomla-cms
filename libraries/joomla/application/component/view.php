@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
- * @copyright Copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Application
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base class for a Joomla View
@@ -16,7 +14,7 @@ defined('JPATH_BASE') or die;
  * Class holding methods for displaying presentation data.
  *
  * @abstract
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Application
  * @since		1.5
  */
@@ -399,7 +397,7 @@ class JView extends JObject
 	{
 		return $this->_layout;
 	}
-	
+
 	/**
 	* Get the layout template.
 	*
@@ -569,7 +567,7 @@ class JView extends JObject
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
-		
+
 		// change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
 		{
@@ -580,9 +578,9 @@ class JView extends JObject
 		jimport('joomla.filesystem.path');
 		$filetofind	= $this->_createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
-		
+
 		// If alternate layout can't be found, fall back to default layout
-		if ($this->_template == false) 
+		if ($this->_template == false)
 		{
 			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
 			$this->_template = JPath::find($this->_path['template'], $filetofind);

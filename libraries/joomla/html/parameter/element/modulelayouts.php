@@ -1,19 +1,19 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  HTML
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 require_once dirname(__FILE__).DS.'list.php';
 
 /**
  * Parameter to display a list of the layouts for a module from the module or default template overrides.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Parameter
  */
 class JElementModuleLayouts extends JElementList

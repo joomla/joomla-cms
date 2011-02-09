@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Form
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
@@ -16,7 +15,7 @@ jimport('joomla.filesystem.path');
  * Provides a storage for filesystem's paths where JForm's entities resides and methods for creating this entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Form
  * @since		1.6
  */

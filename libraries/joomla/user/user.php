@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	User
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  User
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.access.access');
 jimport('joomla.registry.registry');
@@ -16,7 +14,7 @@ jimport('joomla.registry.registry');
 /**
  * User class.  Handles all application interaction with a user
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	User
  * @since		1.5
  */

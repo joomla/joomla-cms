@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Document
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 //Register the renderer class with the loader
 JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
@@ -16,7 +15,7 @@ JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
  * Document class, provides an easy interface to parse and display a document
  *
  * @abstract
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Document
  * @since		1.5
  */

@@ -1,20 +1,19 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Cache
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.cache.controller');
 
 /**
  * Joomla! Cache callback type object
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Cache
  * @since		1.6
  */
@@ -97,9 +96,9 @@ class JCacheControllerCallback extends JCacheController
 				$data = $this->cache->get($id);
 			}
 		}
-		
+
 		$coptions= array();
-		
+
 		if ($data !== false) {
 
 			$cached = unserialize(trim($data));
@@ -113,9 +112,9 @@ class JCacheControllerCallback extends JCacheController
 			if (!is_array($args)) {
 				$Args = !empty($args) ? array( &$args) : array();
 			} else {
-				 $Args = &$args;				
+				 $Args = &$args;
 			}
-			
+
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id);
 			ob_start();
 			ob_implicit_flush(false);

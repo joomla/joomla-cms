@@ -1,12 +1,12 @@
 <?php
 /**
- * @version		$Id:observer.php 6961 2007-03-15 16:06:53Z tcp $
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Base
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Base object class.
@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  * This class allows for simple but smart objects with get and set methods
  * and an internal error handler.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Base
  * @since		1.5
  */

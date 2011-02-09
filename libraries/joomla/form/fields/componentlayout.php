@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Form
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.filesystem.file');
@@ -18,7 +17,7 @@ jimport('joomla.form.helper');
 /**
  * Form Field to display a list of the layouts for a component view from the extension or template overrides.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Form
  * @since		1.6
  */
@@ -123,7 +122,7 @@ class JFormFieldComponentLayout extends JFormField
 
 			// Prepare the grouped list
 			$groups=array();
-			
+
 			// Add a Use Global option if useglobal="true" in XML file
 			if ($this->element['useglobal'] == 'true') {
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][]	= JHTML::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
@@ -145,7 +144,7 @@ class JFormFieldComponentLayout extends JFormField
 
 						continue;
 			}
-				
+
 					// Get the help data from the XML file if present.
 					if (!$menu = $xml->xpath('layout[1]')) {
 						unset($component_layouts[$i]);
@@ -162,7 +161,7 @@ class JFormFieldComponentLayout extends JFormField
 					$groups['_']['items'][]	= JHTML::_('select.option', '_:'.$value, $text);
 				}
 			}
-						
+
 			// Loop on all templates
 			if ($templates)
 			{

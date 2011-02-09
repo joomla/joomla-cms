@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Environment
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Environment
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Create the request global object
@@ -30,7 +28,7 @@ define('JREQUEST_ALLOWHTML',4);
  * can be passed through an input filter to avoid injection or returned raw.
  *
  * @static
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Environment
  * @since		1.5
  */

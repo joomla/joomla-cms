@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Application
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.form.form');
@@ -15,7 +14,7 @@ jimport('joomla.form.form');
 /**
  * Prototype form model.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Application
  * @since		1.6
  */

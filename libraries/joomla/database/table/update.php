@@ -1,14 +1,12 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 
@@ -16,7 +14,7 @@ jimport('joomla.database.table');
  * Update table
  * Stores updates temporarily
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Table
  * @since		1.6
  */

@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Mail
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Mail
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Email helper class, provides static methods to perform various tasks relevant
@@ -17,7 +15,7 @@ defined('JPATH_BASE') or die;
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
  * @static
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Mail
  * @since		1.5
  */

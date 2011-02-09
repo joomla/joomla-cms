@@ -1,12 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Session
  */
 
-// No direct access.
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 // Register the session storage class with the loader
 JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
@@ -19,7 +19,7 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
  * Based on the standart PHP session handling mechanism it provides
  * for you more advanced features such as expire timeouts.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Session
  * @since		1.5
  */
@@ -411,7 +411,7 @@ class JSession extends JObject
 		session_start();
 
 		// Send modified header for IE 6.0 Security Policy
-		// Joomla! 1.6: Moved to configurable plugin due to security concerns 
+		// Joomla! 1.6: Moved to configurable plugin due to security concerns
 		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
 		return true;

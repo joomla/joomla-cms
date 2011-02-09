@@ -1,20 +1,19 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Document
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.module.helper');
 
 /**
  * DocumentHTML class, provides an easy interface to parse and display an html document
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Document
  * @since		1.5
  */
@@ -149,7 +148,7 @@ class JDocumentHTML extends JDocument
 		$this->_styleSheets	= (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets'])) ? array_merge($this->_styleSheets, $data['styleSheets']) : $this->_styleSheets;
 
 		if (isset($data['style'])) {
-			foreach($data['style'] AS $type=>$stdata) 
+			foreach($data['style'] AS $type=>$stdata)
 			{
 				if (!isset($this->_style[strtolower($type)]) || !stristr($this->_style[strtolower($type)],$stdata)) {
 					$this->addStyleDeclaration($stdata, $type);
@@ -161,7 +160,7 @@ class JDocumentHTML extends JDocument
 
 
 		if (isset($data['script'])) {
-			foreach($data['script'] AS $type=>$sdata) 
+			foreach($data['script'] AS $type=>$sdata)
 			{
 				if (!isset($this->_script[strtolower($type)]) || !stristr($this->_script[strtolower($type)],$sdata)) {
 					$this->addScriptDeclaration($sdata, $type);

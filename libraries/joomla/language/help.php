@@ -1,16 +1,17 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Language
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Language
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Help system class
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Language
  * @since		1.5
  */

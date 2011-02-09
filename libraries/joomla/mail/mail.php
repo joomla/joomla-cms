@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Mail
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Mail
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('phpmailer.phpmailer');
 jimport('joomla.mail.helper');
@@ -16,7 +14,7 @@ jimport('joomla.mail.helper');
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Framework
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Mail
  * @since		1.5
  */

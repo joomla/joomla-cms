@@ -1,16 +1,17 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  HTML
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for javascript behaviors
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	HTML
  * @version		1.5
  */
@@ -358,7 +359,7 @@ abstract class JHtmlBehavior
 	{
 		// Include mootools framework
 		self::framework();
-		
+
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/swf'.$uncompressed.'.js', true, true);
 		JHtml::_('script','system/progressbar'.$uncompressed.'.js', true, true);
@@ -664,7 +665,7 @@ abstract class JHtmlBehavior
 		$js = "window.addEvent('domready', function () {if (top != self) {top.location.replace(".$location.");}});";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($js);
-		
+
 		$loaded = true;
 	}
 

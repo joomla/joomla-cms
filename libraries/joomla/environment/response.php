@@ -1,15 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Environment
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Environment
  */
 
-
-// No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JResponse Class.
@@ -17,7 +14,7 @@ defined('JPATH_BASE') or die();
  * This class serves to provide the Joomla Framework with a common interface to access
  * response variables.  This includes header and body.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Environment
  * @since		1.5
  */

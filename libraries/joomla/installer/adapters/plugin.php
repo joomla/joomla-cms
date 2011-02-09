@@ -1,19 +1,19 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Installer
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
 /**
  * Plugin installer
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Installer
  * @since		1.5
  */
@@ -26,7 +26,7 @@ class JInstallerPlugin extends JAdapterInstance
 	protected $manifest_script = null;
 	protected $name = null;
 	protected $scriptElement = null;
-	protected $oldFiles = null;	
+	protected $oldFiles = null;
 
 	/**
 	 * Custom loadLanguage method
@@ -244,7 +244,7 @@ class JInstallerPlugin extends JAdapterInstance
 				return false;
 			}
 		}
-		
+
 		// if we're updating at this point when there is always going to be an extension_root find the old xml files
 		if($this->route == 'update')
 		{
@@ -253,7 +253,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$tmpInstaller = new JInstaller(); // create a new installer because findManifest sets stuff; side effects!
 			// look in the extension root
 			$tmpInstaller->setPath('source', $this->parent->getPath('extension_root'));
-			if ($tmpInstaller->findManifest()) 
+			if ($tmpInstaller->findManifest())
 			{
 				$old_manifest = $tmpInstaller->getManifest();
 				$this->oldFiles = $old_manifest->files;
