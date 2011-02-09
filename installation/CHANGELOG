@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24812] *Banners Tracks export modal needs more height
  # [#24811] Enable editor-xtd buttons to have meaningful tooltips. Thanks Jonathan.
  # [#24750] If a system plugin tries to load its language file, Joomla! falls back to setting the default site language to English.
+ # [#24797] Change pagination pagelist. Thanks Harald.
 
 07-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling
