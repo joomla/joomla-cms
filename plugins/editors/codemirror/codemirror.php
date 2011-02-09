@@ -237,8 +237,9 @@ class plgEditorCodemirror extends JPlugin
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
 					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
+					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$html[] = '<div class="button2-left"><div class="'.$button->get('name').'">';
-					$html[] = '<a '.$modal.' title="'.$button->get('text').'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
+					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
 					$html[] = $button->get('text').'</a></div></div>';
 				}
 			}

@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ Deleting unused string
  ^ [#24828] Image j_button2_right.png missing from system template.
  # [#24812] *Banners Tracks export modal needs more height
+ # [#24811] Enable editor-xtd buttons to have meaningful tooltips. Thanks Jonathan.
 
 07-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling
