@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+8-Feb-2011 Louis Landry
+ + Added simple HTTP client library.
+
 5-Feb-2011 Louis Landry
  ! Initiate work on Joomla Platform project.
  ^ Reworked JVersion, JLoader and the initial import script for the platform project.
