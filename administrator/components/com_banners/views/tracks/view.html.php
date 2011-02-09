@@ -57,7 +57,7 @@ class BannersViewTracks extends JView
 		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
 
 		$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component',600,250);
+			$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component',600,300);
 		$document = JFactory::getDocument();
 		$app = JFactory::getApplication();
 		if ($canDo->get('core.delete')) {
