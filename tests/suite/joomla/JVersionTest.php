@@ -8,6 +8,8 @@
  * @license   GNU General Public License
  */
 
+include_once JPATH_PLATFORM.'/version.php';
+
 /**
  * JVersionTest
  *
@@ -43,18 +45,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = new JVersion;
-		$this->object->PRODUCT	= $this->PRODUCT;
-		$this->object->RELEASE = $this->RELEASE;
-		$this->object->DEV_STATUS = $this->DEV_STATUS;
-		$this->object->DEV_LEVEL = $this->DEV_LEVEL;
-		$this->object->BUILD = $this->BUILD;
-		$this->object->CODENAME = $this->CODENAME;
-		$this->object->RELDATE = $this->RELDATE;
-		$this->object->RELTIME = $this->RELTIME;
-		$this->object->RELTZ = $this->RELTZ;
-		$this->object->COPYRIGHT = $this->COPYRIGHT;
-		$this->object->URL = $this->URL;
+
 	}
 
 	/**
@@ -74,10 +65,10 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$expected = 'Joomla! 12.23.999 Testing [ Desperation ] 22-June-3109 13:13 CDT';
+		$expected = 'Joomla Platform 11.1.0 Dev [ Ember ] 15-Apr-2011 00:00 GMT';
 		$this->assertEquals(
 			$expected,
-			$this->object->getLongVersion(),
+			JVersion::getLongVersion(),
 			'Should get the correct Long Version'
 		);
 	}
@@ -89,10 +80,10 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$expected = '12.23.999';
+		$expected = '11.1.0';
 		$this->assertEquals(
 			$expected,
-			$this->object->getShortVersion(),
+			JVersion::getShortVersion(),
 			'Should get the correct Short Version'
 		);
 	}
@@ -125,20 +116,10 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 				true,
 				'Should be compatible with itself',
 			),
-			'version 1.6.9' => array(
-				'1.6.9',
+			'version 11.1.0' => array(
+				'11.1.0',
 				true,
-				'Should be compatible with 1.6.9',
-			),
-			'version 1.6.99' => array(
-				'1.6.99',
-				true,
-				'Should be compatible with 1.6.99',
-			),
-			'version 1.6.0-betaxx' => array(
-				'1.6.0-betaxx',
-				true,
-				'Should be compatible with 1.6.0-betaxx',
+				'Should be compatible with 11.1.0',
 			),
 			'version 1.5.22' => array(
 				'1.5.22',
@@ -168,7 +149,7 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			$expect,
-			$this->equalTo($this->object->isCompatible($input)),
+			$this->equalTo(JVersion::isCompatible($input)),
 			$message
 		);
 	}
