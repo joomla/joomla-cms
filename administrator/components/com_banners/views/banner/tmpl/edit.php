@@ -29,7 +29,7 @@ JHtml::_('behavior.formvalidation');
 		});
 		document.id('jform_type1').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'none');
-			document.id('url').setStyle('display', 'none');
+			document.id('url').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'block');
 		});
 		if(document.id('jform_type0').checked==true) {

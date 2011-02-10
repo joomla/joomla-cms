@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Feb-2011 Christophe Demko
  # [#24446] *Contacts Category model tries to load params from menu even if no Itemid is set (Jean-Marie Simonet, Jeremy Wilken)
+ # [#24417] Clicks on a custom banner are not counted (bill richardson)
 
 10-Feb-2011 Jean-Marie Simonet
  #$ [#24776] *Weblinks icon hardcoded
