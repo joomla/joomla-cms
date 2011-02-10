@@ -232,8 +232,6 @@ $templateparams     = $app->getTemplate(true)->params;
                                 </div>
 
 
-                                <jdoc:include type="modules" name="debug" />
-
                         </div>
                                 <?php endif ; ?>
 
