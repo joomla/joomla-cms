@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Feb-2011 Jean-Marie Simonet
+ #$ [#24776] *Weblinks icon hardcoded
+
 09-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling
  $ Deleting unused string

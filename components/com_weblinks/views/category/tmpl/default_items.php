@@ -68,8 +68,14 @@ $listDirn	= $this->state->get('list.direction');
 
 			<td class="title">
 			<p>
-				<?php if ($this->params->get('link_icons') <> -1) : ?>
-					<?php echo JHTML::_('image','system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true);?>
+				<?php if ($this->params->get('icons') != 1) : ?>
+					 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
+				<?php else: ?>
+					<?php if (!$this->params->get('link_icons')) : ?>
+						<?php echo JHTML::_('image','system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true); ?>
+					<?php else: ?> 
+						<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
+					<?php endif; ?>
 				<?php endif; ?>
 				<?php
 					// Compute the correct link

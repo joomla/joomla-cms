@@ -17,19 +17,27 @@
 		</field>
 		
 		<field	name="count_clicks" type="radio"
-			
 				default="1"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
 						
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+		</field>
+		
+		<field	name="icons" type="radio"
+				default="1"
+				label="COM_WEBLINKS_FIELD_ICON_LABEL"
+				description="COM_WEBLINKS_FIELD_ICON_DESC"
+				filter="integer">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-				</field>
+		</field>
 
 		<field name="link_icons" type="media"
 			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
-		/>		
+		/>
 		
 	</fieldset>
 	
