@@ -20,8 +20,9 @@ input {
 	display: block;
 }
 
-div.toolbar-box {
-	height: 65px;
+#toolbar-box m {
+	height: 50px;
+	padding-left: 10px;
 }
 
 div.toolbar-list span {
@@ -108,3 +109,12 @@ input.readonly {
 div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
 	margin: 0;
 }
+
+div.pagetitle {
+	height: auto;
+}
+
+div.pagetitle h2 {
+	min-height: 48px;
+}
+

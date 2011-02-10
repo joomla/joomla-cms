@@ -438,14 +438,17 @@ textarea#message {
 
 /* Page titles */
 div.pagetitle {
-	padding-left: 60px;
+	height: 48px;
+	padding-left: 70px;
 	background-repeat: no-repeat;
-	margin-left: 10px;
+	background-position: 10px 0px;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 div.pagetitle h2 {
-	line-height: 48px;
-	font-size: 2em;
+	line-height: 24px;
+	font-size: 1.7em;
 	font-weight: bold;
 	color: #146295;
 	margin: 0;
