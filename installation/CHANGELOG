@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Feb-2011 Mark Dexter
+ # [#24322] *Submitting two articles in the same category with the same title but different aliases doesn't work on frontend
+
 10-Feb-2011 Christophe Demko
  # [#24446] *Contacts Category model tries to load params from menu even if no Itemid is set (Jean-Marie Simonet, Jeremy Wilken)
  # [#24417] Clicks on a custom banner are not counted (bill richardson)

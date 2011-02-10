@@ -19,7 +19,6 @@
 
 		<field name="alias" type="text"
 			description="JFIELD_ALIAS_DESC"
-			filter="unset"
 			label="JFIELD_ALIAS_LABEL"
 			size="45"
 		/>

@@ -45,6 +45,11 @@ $params = $this->state->get('params');
 			</div>
 
 			<div class="formelm">
+			<?php echo $this->form->getLabel('alias'); ?>
+			<?php echo $this->form->getInput('alias'); ?>
+			</div>
+
+			<div class="formelm">
 			<?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?>
 			</div>
