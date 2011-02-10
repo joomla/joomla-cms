@@ -160,6 +160,10 @@ class plgSystemLanguageFilter extends JPlugin
 	public function parseRule(&$router, &$uri)
 	{
 		$array = array();
+		$lang_code = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
+		if (!$lang_code) {
+			$lang_code = JLanguageHelper::detectLanguage();
+		}
 		if (self::$mode_sef) {
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
@@ -167,7 +171,6 @@ class plgSystemLanguageFilter extends JPlugin
 			$sef = $parts[0];
 
 			if (!isset(self::$sefs[$sef])) {
-				$lang_code = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setPath($sef . '/' . $path);
 				
@@ -188,7 +191,7 @@ class plgSystemLanguageFilter extends JPlugin
 		else {
 			$sef = $uri->getVar('lang');
 			if (!isset(self::$sefs[$sef])) {
-				$sef = self::$default_sef;
+				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setVar('lang', $sef);
 				$app = JFactory::getApplication();
 				$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());

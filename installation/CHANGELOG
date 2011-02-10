@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#24423] JHtml select.radiolist produces unnecessary label class suffix. Thanks Nikolai.
  # [#24372] plg_user_profile "Website" field XSS. Thanks Rouven and Christophe.
  # [#24790] Remove the border attribute. Thanks Rouven.
+ # [#24837] [#24767] *Detect browser lang and cookie broken when using languagefilter. Thanks Christophe.
 
 09-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling
