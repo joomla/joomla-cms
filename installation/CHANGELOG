@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Feb-2011 Jean-Marie Simonet
  #$ [#24776] *Weblinks icon hardcoded
+ # [#24423] JHtml select.radiolist produces unnecessary label class suffix. Thanks Nikolai.
 
 09-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling
