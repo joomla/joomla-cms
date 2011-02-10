@@ -1,6 +1,6 @@
 <?php
 
-require_once JPATH_LIBRARIES.'/joomla/registry/format/json.php';
+require_once JPATH_PLATFORM.'/joomla/registry/format/json.php';
 
 /**
  * Test class for JRegistryFormatJSON.

@@ -8,6 +8,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+//jimport('joomla.registry.format');
+JLoader::register('JRegistryFormat', JPATH_PLATFORM.'/joomla/registry/format.php');
+
 /**
  * PHP class format handler for JRegistry
  *

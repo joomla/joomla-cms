@@ -7,7 +7,7 @@
  */
 
 
-require_once JPATH_LIBRARIES.'/joomla/access/rules.php';
+require_once JPATH_PLATFORM.'/joomla/access/rules.php';
 
 /**
  * @package		JoomlaFramework

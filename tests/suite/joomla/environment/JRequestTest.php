@@ -5,7 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_LIBRARIES.'/joomla/environment/request.php';
+require_once JPATH_PLATFORM.'/joomla/environment/request.php';
 
 /**
  * Test class for JRequest.

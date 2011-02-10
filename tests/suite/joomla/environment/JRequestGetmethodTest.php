@@ -9,7 +9,7 @@
  *
  */
 
-require_once JPATH_LIBRARIES.'/joomla/environment/request.php';
+require_once JPATH_PLATFORM.'/joomla/environment/request.php';
 
 /**
  * A unit test class for JRequest

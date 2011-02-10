@@ -1,7 +1,7 @@
 <?php
 
-require_once JPATH_LIBRARIES.'/joomla/registry/registry.php';
-require_once JPATH_LIBRARIES.'/joomla/registry/format.php';
+require_once JPATH_PLATFORM.'/joomla/registry/registry.php';
+require_once JPATH_PLATFORM.'/joomla/registry/format.php';
 
 /**
  * Test class for JRegistry.
