@@ -4,19 +4,18 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
- html, body {
-	 margin: 0 !important;
-	 padding: 0 !important;
-	 font-family:  Tahoma, Verdana, sans-serif !important;
+html, body {
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: Tahoma, Verdana, sans-serif !important;
 }
 
- .item {
+.item {
 	float: left;
 	border: 1px solid #ccc !important;
 	margin: 3px;
 	position: relative;
-	padding:0 !important;
-
+	padding: 0 !important;
 }
 
 .item a {
@@ -30,15 +29,13 @@
 	text-decoration: none;
 	color: black;
 	line-height: 90px;
-	background:#fff !important;
-
-
+	background: #fff !important;
 }
 
 .item img {
 	display: inline;
 	margin-top: expression(( 80 - this.height ) / 2);
-	border:0
+	border: 0;
 }
 
 html>body .item img {
@@ -47,7 +44,7 @@ html>body .item img {
 
 .item span {
 	line-height: 100%;
-	clear:both;
+	clear: both;
 	display: block;
 	width: 100%;
 	position: absolute;
@@ -56,22 +53,19 @@ html>body .item img {
 	padding: 2px 0;
 	background-color: #eee;
 	overflow: hidden;
-	font-family:  Tahoma, Verdana, sans-serif !important;
-	font-size:11px
-
-
+	font-family: Tahoma, Verdana, sans-serif !important;
+	font-size: 11px;
 }
 
 .item  a:link span,
 .item a:visited span {
-	background:eee;
-	color:#333
+	background-color: #eee;
+	color: #333;
 }
-
 
 .item  a:hover span,
 .item a:active span,
 .item a:active focus {
-	background:eee;
-	color:#095197;
+	background-color: #eee;
+	color: #095197;
 }

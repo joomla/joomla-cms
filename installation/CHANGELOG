@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24446] *Contacts Category model tries to load params from menu even if no Itemid is set (Jean-Marie Simonet, Jeremy Wilken)
  # [#24417] Clicks on a custom banner are not counted (bill richardson)
  # [#24833] Debug position in beez 20 template doesn't work. (Jean-Marie Simonet)
+ # [#24830] Typo in media/media/css/popup-imagelist.css (wrong color value for background) (Peter Chovancak)
 
 10-Feb-2011 Jean-Marie Simonet
  #$ [#24776] *Weblinks icon hardcoded
