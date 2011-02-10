@@ -35,6 +35,7 @@ $ -> Language fix or change
  #$ [#24776] *Weblinks icon hardcoded
  # [#24423] JHtml select.radiolist produces unnecessary label class suffix. Thanks Nikolai.
  # [#24372] plg_user_profile "Website" field XSS. Thanks Rouven and Christophe.
+ # [#24790] Remove the border attribute. Thanks Rouven.
 
 09-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling

@@ -602,7 +602,7 @@ w
 		if (is_array($backtrace)) {
 			ob_start();
 			$j = 1;
-			echo '<table border="0" cellpadding="0" cellspacing="0" class="Table">';
+			echo '<table cellpadding="0" cellspacing="0" class="Table">';
 			echo '		<tr>';
 			echo '				<td colspan="3" class="TD"><strong>Call stack</strong></td>';
 			echo '		</tr>';
