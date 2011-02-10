@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Feb-2011 Christophe Demko
+ # [#24446] *Contacts Category model tries to load params from menu even if no Itemid is set (Jean-Marie Simonet, Jeremy Wilken)
+
 10-Feb-2011 Jean-Marie Simonet
  #$ [#24776] *Weblinks icon hardcoded
  # [#24423] JHtml select.radiolist produces unnecessary label class suffix. Thanks Nikolai.
