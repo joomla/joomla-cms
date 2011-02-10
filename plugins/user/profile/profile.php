@@ -31,7 +31,8 @@ class plgUserProfile extends JPlugin
 			return true;
 		}
 
-		if (is_object($data)){
+		if (is_object($data))
+		{
 			$userId = isset($data->id) ? $data->id : 0;
 
 			// Load the profile data from the database.
@@ -44,7 +45,8 @@ class plgUserProfile extends JPlugin
 			$results = $db->loadRowList();
 
 			// Check for a database error.
-			if ($db->getErrorNum()) {
+			if ($db->getErrorNum())
+			{
 				$this->_subject->setError($db->getErrorMsg());
 				return false;
 			}
@@ -52,7 +54,8 @@ class plgUserProfile extends JPlugin
 			// Merge the profile data.
 			$data->profile = array();
 
-			foreach ($results as $v) {
+			foreach ($results as $v)
+			{
 				$k = str_replace('profile.', '', $v[0]);
 				$data->profile[$k] = $v[1];
 			}
@@ -78,35 +81,31 @@ class plgUserProfile extends JPlugin
 		}
 		else
 		{
+			$value = htmlspecialchars($value);
 			if(substr ($value, 0, 4) == "http") {
-				echo '<a href="'.$value.'">'.$value.'</a>';
+				return '<a href="'.$value.'">'.$value.'</a>';
 			}
 			else {
-				echo '<a href="http://'.$value.'">'.$value.'</a>';
+				return '<a href="http://'.$value.'">'.$value.'</a>';
 			}
 		}
 	}
 
 	public static function calendar($value)
 	{
-		if (empty($value))
-		{
+		if (empty($value)) {
 			return JHtml::_('users.value', $value);
-		}
-		else
-		{
+		} else {
 			return JHtml::_('date', $value);
 		}
 	}
 
 	public static function tos($value)
 	{
-		if ($value)
-		{
+		if ($value) {
 			return JText::_('JYES');
 		}
-		else
-		{
+		else {
 			return JText::_('JNO');
 		}
 	}
@@ -124,7 +123,8 @@ class plgUserProfile extends JPlugin
 		$lang = JFactory::getLanguage();
 		$lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
-		if (!($form instanceof JForm)) {
+		if (!($form instanceof JForm))
+		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
 			return false;
 		}
@@ -241,7 +241,8 @@ class plgUserProfile extends JPlugin
 	{
 		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
 
-		if ($userId && $result && isset($data['profile']) && (count($data['profile']))) {
+		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
+		{
 			try
 			{
 				$db = JFactory::getDbo();
@@ -296,8 +297,8 @@ class plgUserProfile extends JPlugin
 
 		$userId	= JArrayHelper::getValue($user, 'id', 0, 'int');
 
-		if ($userId) {
-
+		if ($userId)
+		{
 			try
 			{
 				$db = JFactory::getDbo();
@@ -309,7 +310,6 @@ class plgUserProfile extends JPlugin
 				if (!$db->query()) {
 					throw new Exception($db->getErrorMsg());
 				}
-
 			}
 			catch (JException $e)
 			{

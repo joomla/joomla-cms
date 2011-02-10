@@ -28,7 +28,7 @@ abstract class JHtmlUsers
 			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
 		else {
-			return $value;
+			return htmlspecialchars($value);
 		}
 	}
 	public static function spacer($value)
@@ -60,14 +60,14 @@ abstract class JHtmlUsers
 						break;
 					}
 				}
-				;
 			}
 
-			if(substr ($value, 0, 4) == "http") {
+			$value = htmlspecialchars($value);
+			if (substr ($value, 0, 4) == "http") {
 				return '<a href="'.$value.'">'.$text.'</a>';
 			}
 			else {
-				echo '<a href="http://'.$value.'">'.$text.'</a>';
+				return '<a href="http://'.$value.'">'.$text.'</a>';
 			}
 		}
 	}
@@ -88,7 +88,7 @@ abstract class JHtmlUsers
 			$db->setQuery($query);
 			$title = $db->loadResult();
 			if ($title) {
-				return $title;
+				return htmlspecialchars($title);
 			}
 			else {
 				return self::value('');
@@ -104,7 +104,6 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-
 			$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR, $value);
 			$file = "$value.xml";
 
@@ -113,12 +112,10 @@ abstract class JHtmlUsers
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
 			
-			if ($result)
-			{
-				return $result['name'];
+			if ($result) {
+				return htmlspecialchars($result['name']);
 			}
-			else
-			{
+			else {
 				return self::value('');
 			}
 		}
@@ -132,7 +129,6 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-
 			$path = JLanguage::getLanguagePath(JPATH_SITE, $value);
 			$file = "$value.xml";
 
@@ -141,12 +137,10 @@ abstract class JHtmlUsers
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
 			
-			if ($result)
-			{
-				return $result['name'];
+			if ($result) {
+				return htmlspecialchars($result['name']);
 			}
-			else
-			{
+			else {
 				return self::value('');
 			}
 		}
@@ -169,7 +163,8 @@ abstract class JHtmlUsers
 			$query->where('folder = '.$db->quote('editors'));
 			$db->setQuery($query);
 			$title = $db->loadResult();
-			if ($title) {
+			if ($title)
+			{
 					$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, false)
 				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS .DS.'editors'.DS.$value, null, false, false)
 				||	$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
@@ -177,7 +172,8 @@ abstract class JHtmlUsers
 				$lang->load($title.'.sys');
 				return JText::_($title);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}
