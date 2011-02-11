@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Feb-2011 Jean-Marie Simonet
+ # [#24833] Debug position in beez 20 template doesn't work.
+
 10-Feb-2011 Mark Dexter
  # [#24322] *Submitting two articles in the same category with the same title but different aliases doesn't work on frontend
 
