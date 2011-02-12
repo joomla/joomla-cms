@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Feb-2011 Christophe Demko
+ # [#24873] Extra div element in Category List for unpublished articles (Mark Dexter)
+
 11-Feb-2011 Jean-Marie Simonet
  # [#24833] Debug position in beez 20 template doesn't work.
  #$ Normalizing fieldset label

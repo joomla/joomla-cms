@@ -153,9 +153,6 @@ $listDirn	= $this->state->get('list.direction');
 					</td>
 				<?php endif; ?>
 				</tr>
-			<?php if ($this->items[$i]->state == 0) : ?>
-			</div>
-			<?php endif; ?>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
