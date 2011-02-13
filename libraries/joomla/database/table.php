@@ -49,7 +49,7 @@ abstract class JTable extends JObject
 	 * Should rows be tracked as ACL assets?
 	 *
 	 * @var		boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_trackAssets = false;
 
@@ -64,7 +64,7 @@ abstract class JTable extends JObject
 	 * Indicator that the tables have been locked.
 	 *
 	 * @var		boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_locked = false;
 
@@ -142,7 +142,7 @@ abstract class JTable extends JObject
 	 * @param	string	An optional prefix for the table class name.
 	 * @param	array	An optional array of configuration values for the JTable object.
 	 * @return	mixed	A JTable object if found or boolean false if one could not be found.
-	 * @since	1.5
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/getInstance
 	*/
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
@@ -186,7 +186,7 @@ abstract class JTable extends JObject
 	 *
 	 * @param	mixed	A filesystem path or array of filesystem paths to add.
 	 * @return	array	An array of filesystem paths to find JTable classes in.
-	 * @since	1.5
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/addIncludePath
 	 */
 	public static function addIncludePath($path = null)
@@ -239,7 +239,7 @@ abstract class JTable extends JObject
 	 * primary name of the row. If this method is not overriden, the asset name is used.
 	 *
 	 * @return	string	The string to use as the title in the asset table.
-	 * @since	1.6
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/getAssetTitle
 	 */
 	protected function _getAssetTitle()
@@ -271,7 +271,7 @@ abstract class JTable extends JObject
 	 * Method to get the database table name for the class.
 	 *
 	 * @return	string	The name of the database table being modeled.
-	 * @since	1.5
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/getTableName
 	 */
 	public function getTableName()
@@ -283,7 +283,7 @@ abstract class JTable extends JObject
 	 * Method to get the primary key field name for the table.
 	 *
 	 * @return	string	The name of the primary key for the table.
-	 * @since	1.5
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/getKeyName
 	 */
 	public function getKeyName()
@@ -1335,7 +1335,7 @@ abstract class JTable extends JObject
 	 * Method to lock the database table for writing.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _lock()
 	{
@@ -1359,7 +1359,7 @@ abstract class JTable extends JObject
 	 * Method to unlock the database table for writing.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _unlock()
 	{

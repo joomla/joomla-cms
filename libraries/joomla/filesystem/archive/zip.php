@@ -30,7 +30,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	FileSystem
- * @since		1.5
+ * @since		11.1
  */
 class JArchiveZip extends JObject
 {
@@ -88,7 +88,7 @@ class JArchiveZip extends JObject
 	 * @param	array	$files		Array of files to add to archive
 	 * @param	array	$options	Compression options [unused]
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function create($archive, $files, $options = array ())
 	{
@@ -112,7 +112,7 @@ class JArchiveZip extends JObject
 	 * @param	array	$options		Extraction options [unused]
 	 *
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function extract($archive, $destination, $options = array ())
 	{
@@ -134,7 +134,7 @@ class JArchiveZip extends JObject
 	 * Method to determine if the server has native zip support for faster handling
 	 *
 	 * @return	boolean	True if php has native ZIP support
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function hasNativeSupport()
 	{
@@ -146,7 +146,7 @@ class JArchiveZip extends JObject
 	 *
 	 * @param	string	$data	ZIP archive data buffer
 	 * @return	boolean	True if valid, false if invalid.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function checkZipData(& $data)
 	{
@@ -167,7 +167,7 @@ class JArchiveZip extends JObject
 	 * @param	array	$options		Extraction options [unused]
 	 *
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _extract($archive, $destination, $options)
 	{
@@ -228,7 +228,7 @@ class JArchiveZip extends JObject
 	 * @param	array	$options		Extraction options [unused]
 	 *
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _extractNative($archive, $destination, $options)
 	{
@@ -293,7 +293,7 @@ class JArchiveZip extends JObject
 	 * @param	string	$data	The ZIP archive buffer.
 	 *
 	 * @return	array	Archive metadata array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _getZipInfo(& $data)
 	{
@@ -377,7 +377,7 @@ class JArchiveZip extends JObject
 	 * @param	int		$key	The position of the file in the archive.
 	 *
 	 * @return	string	Uncompresed file data buffer
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _getFileData($key)
 	{
@@ -416,7 +416,7 @@ class JArchiveZip extends JObject
 	 * @access	private
 	 * @param	int	$unixtime	The current UNIX timestamp.
 	 * @return	int	The current date in a 4-byte DOS format.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _unix2DOSTime($unixtime = null)
 	{
@@ -445,7 +445,7 @@ class JArchiveZip extends JObject
 	 * @param	array	$ctrldir	An array of central directory information.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _addToZIPFile(& $file, & $contents, & $ctrldir)
 	{
@@ -530,7 +530,7 @@ class JArchiveZip extends JObject
 	 * @param	string	$path		The path to store the archive.
 	 *
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _createZIPFile(& $contents, & $ctrlDir, $path)
 	{

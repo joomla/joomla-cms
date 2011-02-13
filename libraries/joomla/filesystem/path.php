@@ -29,7 +29,7 @@ if (!defined('JPATH_ROOT')) {
  *
  * @package		Joomla.Platform
  * @subpackage	FileSystem
- * @since		1.5
+ * @since		11.1
  */
 class JPath
 {
@@ -38,7 +38,7 @@ class JPath
 	 *
 	 * @param	string	Path to check
 	 * @return	boolean	True if path can have mode changed
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function canChmod($path)
 	{
@@ -59,7 +59,7 @@ class JPath
 	 * @param	string	Octal representation of the value to change file mode to [null = no change]
 	 * @param	string	Octal representation of the value to change folder mode to [null = no change]
 	 * @return	boolean	True if successful [one fail means the whole operation failed]
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function setPermissions($path, $filemode = '0644', $foldermode = '0755')
 	{
@@ -104,7 +104,7 @@ class JPath
 	 *
 	 * @param	string	The path of a file/folder
 	 * @return	string	Filesystem permissions
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getPermissions($path)
 	{
@@ -133,7 +133,7 @@ class JPath
 	 * @param	string	A file system path to check
 	 * @param	string	Directory separator (optional)
 	 * @return	string	A cleaned version of the path
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function check($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -157,7 +157,7 @@ class JPath
 	 * @param	string	The path to clean
 	 * @param	string	Directory separator (optional)
 	 * @return	string	The cleaned path
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -178,7 +178,7 @@ class JPath
 	 *
 	 * @param	string	Path to check ownership
 	 * @return	boolean	True if the php script owns the path passed
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function isOwner($path)
 	{
@@ -219,7 +219,7 @@ class JPath
 	 * @param	array|string	An path or array of path to search in
 	 * @param	string			The file name to look for.
 	 * @return	mixed			The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function find($paths, $file)
 	{

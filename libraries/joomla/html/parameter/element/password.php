@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage		Parameter
- * @since		1.5
+ * @since		11.1
  */
 
 class JElementPassword extends JElement

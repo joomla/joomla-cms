@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.6
+ * @since		11.1
  */
 class JExtension extends JObject
 {

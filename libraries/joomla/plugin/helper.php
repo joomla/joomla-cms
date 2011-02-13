@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Plugin
- * @since		1.5
+ * @since		11.1
  */
 abstract class JPluginHelper
 {
@@ -25,7 +25,7 @@ abstract class JPluginHelper
 	 * @param	string	$plugin	The plugin name.
 	 *
 	 * @return	mixed	An array of plugin data objects, or a plugin data object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
@@ -60,7 +60,7 @@ abstract class JPluginHelper
 	 * @param	string	$plugin	The plugin name.
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function isEnabled($type, $plugin = null)
 	{
@@ -78,7 +78,7 @@ abstract class JPluginHelper
 	 * @param	JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return	boolean		True on success.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
@@ -122,7 +122,7 @@ abstract class JPluginHelper
 	 * @param	JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return	boolean		True on success.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
 	{
@@ -170,7 +170,7 @@ abstract class JPluginHelper
 	 * Loads the published plugins.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected static function _load()
 	{

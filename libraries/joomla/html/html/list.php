@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 abstract class JHtmlList
 {
@@ -67,7 +67,7 @@ abstract class JHtmlList
 	 * @param	integer	$chop	The length of the truncated headline
 	 *
 	 * @return	array	An array of objects formatted for JHtml list processing
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function genericordering($sql, $chop = '30')
 	{
@@ -136,7 +136,7 @@ abstract class JHtmlList
 	 * @param	string $prefix	An optional prefix for the task
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
 	{

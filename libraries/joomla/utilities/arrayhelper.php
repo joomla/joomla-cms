@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Utilities
- * @since		1.5
+ * @since		11.1
  */
 class JArrayHelper
 {
@@ -24,7 +24,7 @@ class JArrayHelper
 	 * @static
 	 * @param	array	$array		The source array to convert
 	 * @param	mixed	$default	A default value (int|array) to assign if $array is not an array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function toInteger(&$array, $default = null)
 	{
@@ -51,7 +51,7 @@ class JArrayHelper
 	 * @param	array	$array		The array to map.
 	 * @param	string	$calss		Name of the class to create
 	 * @return	object	The object mapped from the given array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function toObject(&$array, $class = 'stdClass')
 	{
@@ -98,7 +98,7 @@ class JArrayHelper
 	 * @param	boolean	True to recurve through multi-level objects
 	 * @param	string	An optional regular expression to match on field names
 	 * @return	array	The array mapped from the given object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
 	{
@@ -118,7 +118,7 @@ class JArrayHelper
 	 * @param	boolean			True to recurve through multi-level objects
 	 * @param	string			An optional regular expression to match on field names
 	 * @return	array			The array mapped from the given object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private static function _fromObject($item, $recurse, $regex)
 	{
@@ -165,7 +165,7 @@ class JArrayHelper
 	 * @param	array	$array	The source array
 	 * @param	string	$index	The index of the column or name of object property
 	 * @return	array	Column of values from the source array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getColumn(&$array, $index)
 	{
@@ -197,7 +197,7 @@ class JArrayHelper
 	 * @param	mixed	$default	The default value to give if no key found
 	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
 	 * @return	mixed	The value from the source array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getValue(&$array, $name, $default=null, $type='')
 	{
@@ -261,7 +261,7 @@ class JArrayHelper
 	 *
 	 * @param	array		An array to test.
 	 * @return	boolean		True if the array is an associative array.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function isAssociative($array)
 	{
@@ -287,7 +287,7 @@ class JArrayHelper
 	 * @param	bool|array		$locale			Let sort occur using the locale language or not
 	 *
 	 * @return	array							The sorted array of objects
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function sortObjects(&$a, $k, $direction=1, $casesensitive = true, $locale = false)
 	{
@@ -314,7 +314,7 @@ class JArrayHelper
 	 * @param	array	$a	An array of objects
 	 * @param	array	$b	An array of objects
 	 * @return	int		Comparison status
-	 * @since	1.5
+	 * @since	11.1
 	 * @see		JArrayHelper::sortObjects()
 	 */
 	public static function _sortObjects(&$a, &$b)

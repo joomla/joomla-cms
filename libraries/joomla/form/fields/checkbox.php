@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldCheckbox extends JFormField
 {
@@ -24,7 +24,7 @@ class JFormFieldCheckbox extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $type = 'Checkbox';
 
@@ -32,7 +32,7 @@ class JFormFieldCheckbox extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getInput()
 	{

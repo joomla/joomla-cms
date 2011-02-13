@@ -19,7 +19,7 @@ jimport('joomla.form.helper');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldComponentLayout extends JFormField
 {
@@ -27,7 +27,7 @@ class JFormFieldComponentLayout extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $type = 'ComponentLayout';
 
@@ -35,7 +35,7 @@ class JFormFieldComponentLayout extends JFormField
 	 * Method to get the field input.
 	 *
 	 * @return	string	The field input.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getInput()
 	{

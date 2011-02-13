@@ -16,7 +16,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.6
+ * @since		11.1
  */
 class JInstallerFile extends JAdapterInstance
 {
@@ -27,7 +27,7 @@ class JInstallerFile extends JAdapterInstance
 	 *
 	 * @access	public
 	 * @param	string	$path the path where to find language files
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function loadLanguage($path)
 	{
@@ -46,7 +46,7 @@ class JInstallerFile extends JAdapterInstance
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function install()
 	{
@@ -264,7 +264,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @param	string	$id	The id of the file to uninstall
 	 * @param	int		$clientId	The id of the client (unused; files are global)
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function uninstall($id)
 	{
@@ -370,7 +370,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @access	private
 	 * @param	string	$element The element name of the extension to install
 	 * @return	boolean	True if extension exists
-	 * @since	1.6
+	 * @since	11.1
 	 */
 
 	private function extensionExistsInSystem($extension = null)
@@ -407,7 +407,7 @@ class JInstallerFile extends JAdapterInstance
 	 *
 	 * @access	private
 	 * @return	boolean	none
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function populateFilesAndFolderList()
 	{
@@ -492,7 +492,7 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function refreshManifestCache()
 	{

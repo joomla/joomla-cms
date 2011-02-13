@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage		HTML
- * @since		1.5
+ * @since		11.1
  */
 abstract class JButton extends JObject
 {
@@ -89,7 +89,7 @@ abstract class JButton extends JObject
 	 * @access	public
 	 * @param	string	$identifier	Icon identification string
 	 * @return	string	CSS class name
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function fetchIconClass($identifier)
 	{
@@ -102,7 +102,7 @@ abstract class JButton extends JObject
 	 * Can be redefined in the final button class
 	 *
 	 * @access		public
-	 * @since		1.5
+	 * @since		11.1
 	 */
 	public function fetchId()
 	{
@@ -116,7 +116,7 @@ abstract class JButton extends JObject
 	 *
 	 * @abstract
 	 * @access		public
-	 * @since		1.5
+	 * @since		11.1
 	 */
 	abstract public function fetchButton();
 }

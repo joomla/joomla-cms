@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage		HTML
- * @since		1.5
+ * @since		11.1
  */
 class JButtonStandard extends JButton
 {
@@ -45,7 +45,7 @@ class JButtonStandard extends JButton
 	 *
 	 * @access	public
 	 * @return	string	Button CSS Id
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function fetchId($type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -60,7 +60,7 @@ class JButtonStandard extends JButton
 	 * @param	string	$task	The task used by the application
 	 * @param	???		$list
 	 * @return	string	JavaScript command string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getCommand($name, $task, $list)
 	{

@@ -19,7 +19,7 @@ define('JROUTER_MODE_SEF', 1);
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 class JRouter extends JObject
 {

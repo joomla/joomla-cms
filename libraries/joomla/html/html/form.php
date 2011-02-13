@@ -25,7 +25,7 @@ abstract class JHtmlForm
 	 *
 	 * @static
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function token()
 	{

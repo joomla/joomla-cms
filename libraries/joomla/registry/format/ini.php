@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Registry
- * @since		1.5
+ * @since		11.1
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
@@ -28,7 +28,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * @param	object	Data source object.
 	 * @param	array	Options used by the formatter.
 	 * @return	string	INI formatted string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -63,7 +63,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 * @param	string	INI formatted string to convert.
 	 * @param	mixed	An array of options used by the formatter, or a boolean setting to process sections.
 	 * @return	object	Data object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function stringToObject($data, $options = array())
 	{
@@ -177,7 +177,7 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *
 	 * @param	mixed	The value to convert to INI format.
 	 * @return	string	The value in INI format.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getValueAsINI($value)
 	{

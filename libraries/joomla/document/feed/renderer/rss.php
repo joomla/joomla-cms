@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @package		Joomla.Platform
  * @subpackage	Document
  * @see			http://www.rssboard.org/rss-specification
- * @since		1.5
+ * @since		11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {

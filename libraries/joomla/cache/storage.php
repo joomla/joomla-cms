@@ -14,42 +14,42 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.5
+ * @since		11.1
  */
 class JCacheStorage
 {
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $rawname;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $_now;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $_lifetime;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $_locking;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $_language;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $_application;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $_hash;
 
@@ -57,7 +57,7 @@ class JCacheStorage
 	 * Constructor
 	 *
 	 * @param	array	$options optional parameters
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -87,7 +87,7 @@ class JCacheStorage
 	 * @static
 	 * @param	string	$handler	The cache storage handler to instantiate
 	 * @return	object	A JCacheStorageHandler object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInstance($handler=null, $options = array())
 	{
@@ -132,7 +132,7 @@ class JCacheStorage
 	 * @param	string	$group		The cache data group
 	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -143,7 +143,7 @@ class JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return	mixed	Boolean false on failure or a cached data object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAll()
 	{
@@ -160,7 +160,7 @@ class JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	string	$data	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -173,7 +173,7 @@ class JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -189,7 +189,7 @@ class JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -223,7 +223,7 @@ class JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	integer	$locktime Cached item max lock time
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function lock($id,$group,$locktime)
 	{
@@ -236,7 +236,7 @@ class JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -249,7 +249,7 @@ class JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	string	The cache_id string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getCacheId($id, $group)
 	{
@@ -264,7 +264,7 @@ class JCacheStorage
 	 *
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addIncludePath($path='')
 	{

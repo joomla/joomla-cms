@@ -15,37 +15,37 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Base
- * @since		1.6
+ * @since		11.1
  */
 class JAdapter extends JObject
 {
 	/**
 	 * @var		array	Associative array of adapters
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_adapters = array();
 
 	/**
 	 * @var		string	Adapter Folder
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_adapterfolder = 'adapters';
 
 	/**
 	 * @var		string	Adapter Class Prefix
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_classprefix = 'J';
 
 	/**
 	 * @var		string	Base Path for the adapter instance
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_basepath = null;
 
 	/**
 	 * @var		object	Database Connector Object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_db;
 
@@ -57,7 +57,7 @@ class JAdapter extends JObject
 	 * @param	string	$adapterfolder	Name of folder to append to base path
 	 *
 	 * @return	JAdapter
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
@@ -72,7 +72,7 @@ class JAdapter extends JObject
 	 * Get the database connector object
 	 *
 	 * @return	object	Database connector object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getDBO()
 	{
@@ -87,7 +87,7 @@ class JAdapter extends JObject
 	 * @param	array	$options	Adapter options
 	 *
 	 * @return	boolean True if successful
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setAdapter($name, &$adapter = null, $options = Array())
 	{
@@ -121,7 +121,7 @@ class JAdapter extends JObject
 	 * @param 	array 	$options	Adapter options
 	 *
 	 * @return 	object 	Adapter of type 'name' or false
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAdapter($name, $options = Array())
 	{
@@ -142,7 +142,7 @@ class JAdapter extends JObject
 	 * @params	array	$options	Adapter options
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function loadAllAdapters($options = array())
 	{

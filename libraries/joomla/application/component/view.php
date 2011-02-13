@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 class JView extends JObject
 {
@@ -417,7 +417,7 @@ class JView extends JObject
 	 *
 	 * @access	public
 	 * @return	string The name of the model
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function getName()
 	{
@@ -468,7 +468,7 @@ class JView extends JObject
 	* @access	public
 	* @param	string	The layout name or a string in format <template>:<layout file>
 	* @return	string 	Previous value
-	* @since	1.5
+	* @since	11.1
 	*/
 
 	function setLayout($layout)
@@ -495,7 +495,7 @@ class JView extends JObject
 	 * @access	public
 	 * @param	string	The extension
 	 * @return	string	Previous value
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function setLayoutExt($value)
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	FileSystem
- * @since		1.5
+ * @since		11.1
  */
 class JArchive
 {
@@ -23,7 +23,7 @@ class JArchive
 	 * @param	string	$extractdir		Directory to unpack into
 	 *
 	 * @return	boolean	True for success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -145,7 +145,7 @@ class JArchive
 	 * @param	string	$type
 	 *
 	 * @return	JObject
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getAdapter($type)
 	{

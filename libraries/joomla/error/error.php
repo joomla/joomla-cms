@@ -28,7 +28,7 @@ define('JERROR_ILLEGAL_MODE', 3);
  *
  * @package	Joomla.Platform
  * @subpackage	Error
- * @since		1.5
+ * @since		11.1
  */
 abstract class JError
 {
@@ -51,7 +51,7 @@ abstract class JError
 	 *
 	 * @param	mixed	&$object	Object to check
 	 * @return	boolean	True if argument is an exception, false otherwise.
-	 * @since	1.5
+	 * @since	11.1
 w
 	 */
 	public static function isError(& $object)
@@ -64,7 +64,7 @@ w
 	 * Method for retrieving the last exception object in the error stack
 	 *
 	 * @return	mixed	Last exception object in the error stack or boolean false if none exist
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getError($unset = false)
 	{
@@ -85,7 +85,7 @@ w
 	 * Method for retrieving the exception stack
 	 *
 	 * @return	array	Chronological array of errors that have been stored during script execution
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getErrors()
 	{
@@ -98,7 +98,7 @@ w
 	 * @access	public
 	 * @param	object JException
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addToStack(JException &$e) {
 		JError::$stack[] = &$e;
@@ -113,7 +113,7 @@ w
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 *
 	 * @return	mixed	The JException object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see		JException
 	 */
@@ -170,7 +170,7 @@ w
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function raiseError($code, $msg, $info = null)
 	{
@@ -185,7 +185,7 @@ w
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
 	{
@@ -200,7 +200,7 @@ w
 	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function raiseNotice($code, $msg, $info = null)
 	{
@@ -213,7 +213,7 @@ w
 	* @param	int		$level	The error level to retrieve. This can be any of PHP's own error levels, e.g. E_ALL, E_NOTICE...
 	*
 	* @return	array	All error handling details
-	* @since	1.5
+	* @since	11.1
 	*/
 	public static function getErrorHandling($level)
 	{
@@ -243,7 +243,7 @@ w
 	 * @param	mixed	$options	Optional: Any options needed for the given mode.
 	 *
 	 * @return	mixed	True on success, or a JException object if failed.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function setErrorHandling($level, $mode, $options = null)
 	{
@@ -326,7 +326,7 @@ w
 	* @param	string	$handler	Error handler to set for the new error level [optional]
 	*
 	* @return	boolean	True on success; false if the level already has been registered
-	* @since	1.5
+	* @since	11.1
 	*/
 	public static function registerErrorLevel($level, $name, $handler = 'ignore')
 	{
@@ -347,7 +347,7 @@ w
 	* @param	int		$level	Error level to translate
 	*
 	* @return	mixed	Human readable error level name or boolean false if it doesn't exist
-	* @since	1.5
+	* @since	11.1
 	*/
 	public static function translateErrorLevel($level)
 	{
@@ -366,7 +366,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -383,7 +383,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -416,7 +416,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -455,7 +455,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -489,7 +489,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -510,7 +510,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -541,7 +541,7 @@ w
 	 * @param	array	$options	Handler options
 	 *
 	 * @return	object	The exception object
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 * @see	raise()
 	 */
@@ -555,7 +555,7 @@ w
 	 *
 	 * @param	object	$error Exception object
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function customErrorPage(& $error)
 	{

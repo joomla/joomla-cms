@@ -15,7 +15,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.5
+ * @since		11.1
  */
 class JInstallerLanguage extends JAdapterInstance
 {
@@ -34,7 +34,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function install()
 	{
@@ -404,7 +404,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * @param	string	$tag		The tag of the language to uninstall
 	 * @param	int		$clientId	The id of the client (unused)
 	 * @return	mixed	Return value for uninstall method in component uninstall file
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function uninstall($eid)
 	{
@@ -570,7 +570,7 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function refreshManifestCache()
 	{

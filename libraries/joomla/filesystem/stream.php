@@ -80,7 +80,7 @@ class JStream extends JObject
 	 * @param	string	$context
 	 *
 	 * @return	JStream
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function __construct($writeprefix = '', $readprefix = '', $context = array())
 	{
@@ -94,7 +94,7 @@ class JStream extends JObject
 	 * Destructor
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function __destruct()
 	{
@@ -119,7 +119,7 @@ class JStream extends JObject
 	 * @param	bool		$detectprocessingmode	Detect the processing method for the file and use the appropriate function to handle output automatically
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function open($filename, $mode='r', $use_include_path=false, $context=null, $use_prefix=false, $relative=false, $detectprocessingmode=false)
 	{
@@ -220,7 +220,7 @@ class JStream extends JObject
 	 * Note: this function destroys the file handle as well
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function close()
 	{
@@ -275,7 +275,7 @@ class JStream extends JObject
 	 * Work out if we're at the end of the file for a stream
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function eof()
 	{
@@ -319,7 +319,7 @@ class JStream extends JObject
 	 * Retrieve the file size of the path
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function filesize()
 	{
@@ -374,7 +374,7 @@ class JStream extends JObject
 	 * @param	int		$length
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function gets($length=0)
 	{
@@ -425,7 +425,7 @@ class JStream extends JObject
 	 * @param	int		$length	Length of data to read
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/manual/en/function.fread.php
 	 */
 	function read($length=0)
@@ -513,7 +513,7 @@ class JStream extends JObject
 	 * @param	int		$whence	Seek mode to use
 	 *
 	 * @return	boolean	True on success, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 * @see http://www.php.net/manual/en/function.fseek.php
 	 */
 	function seek($offset, $whence=SEEK_SET)
@@ -560,7 +560,7 @@ class JStream extends JObject
 
 	/**
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function tell()
 	{
@@ -617,7 +617,7 @@ class JStream extends JObject
 	 * @param int Size of chunks to write in
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/manual/en/function.fwrite.php
 	 */
 	function write(&$string, $length=0, $chunk=0)
@@ -684,7 +684,7 @@ class JStream extends JObject
 	 * @param	mixed	$mode		Mode to use
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function chmod($filename='', $mode=0)
 	{
@@ -743,7 +743,7 @@ class JStream extends JObject
 	 * Get the stream metadata
 	 *
 	 * @return	array header/metadata
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://au.php.net/manual/en/function.stream-get-meta-data.php
 	 */
 	function get_meta_data()
@@ -765,7 +765,7 @@ class JStream extends JObject
 	 * Builds the context from the array
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function _buildContext()
 	{
@@ -786,7 +786,7 @@ class JStream extends JObject
 	 * @param	array	$context	Options to create the context with
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/stream_context_create
 	 */
 	function setContextOptions($context)
@@ -803,7 +803,7 @@ class JStream extends JObject
 	 * @param	string	$value		The value of the option
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/stream_context_create Stream Context Creation
 	 * @see		http://au.php.net/manual/en/context.php Context Options for various streams
 	 */
@@ -820,7 +820,7 @@ class JStream extends JObject
 	 * @param	string	$name		The option to unset
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/stream_context_create
 	 */
 	function deleteContextEntry($wrapper, $name)
@@ -850,7 +850,7 @@ class JStream extends JObject
 	 * Use this to change the values of the context after you've opened a stream
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function applyContextToStream()
 	{
@@ -886,7 +886,7 @@ class JStream extends JObject
 	 * @param	$params
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/manual/en/function.stream-filter-append.php
 	 */
 	function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array() )
@@ -923,7 +923,7 @@ class JStream extends JObject
 	 * @param	$params
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 * @see		http://www.php.net/manual/en/function.stream-filter-prepend.php
 	 */
 	function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array() )
@@ -961,7 +961,7 @@ class JStream extends JObject
 	 * @param	boolean		$byindex
 	 *
 	 * @return	boolean		Result of operation
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function removeFilter(&$resource, $byindex=false)
 	{
@@ -1002,7 +1002,7 @@ class JStream extends JObject
 	 * @param	boolean	$relative
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function copy($src, $dest, $context=null, $use_prefix=true, $relative=false)
 	{
@@ -1087,7 +1087,7 @@ class JStream extends JObject
 	 * @param	boolean	$relative
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function move($src, $dest, $context=null, $use_prefix=true, $relative=false)
 	{
@@ -1132,7 +1132,7 @@ class JStream extends JObject
 	 * @param	boolean	$relative
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function delete($filename, $context=null, $use_prefix=true, $relative=false)
 	{
@@ -1175,7 +1175,7 @@ class JStream extends JObject
 	 * @param	boolean	$relative
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function upload($src, $dest, $context=null, $use_prefix=true, $relative=false)
 	{
@@ -1200,7 +1200,7 @@ class JStream extends JObject
 	 * @param	$buffer
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function writeFile($filename, &$buffer)
 	{
@@ -1224,7 +1224,7 @@ class JStream extends JObject
 	 * @param	boolean	$relative	Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function _getFilename($filename, $mode, $use_prefix, $relative)
 	{
@@ -1257,7 +1257,7 @@ class JStream extends JObject
 	 * Return the internal file handle
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function getFileHandle()
 	{

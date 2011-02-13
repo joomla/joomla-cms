@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.6
+ * @since		11.1
  */
 abstract class JHtmlJGrid
 {
@@ -35,7 +35,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return The Html code
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function action($i, $task, $prefix='', $text='', $active_title='', $inactive_title='', $tip=false, $active_class='', $inactive_class='', $enabled = true, $translate=true, $checkbox='cb')
 	{
@@ -115,7 +115,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @see JHtmlJGrid::state
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
 	{
@@ -195,7 +195,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @see JHtmlJGrid::state
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox='cb')
 	{
@@ -221,7 +221,7 @@ abstract class JHtmlJGrid
 	 *							These pairs determine which values are displayed.
 	 * @return	string			The HTML code for the select tag
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function publishedOptions($config = array())
 	{
@@ -257,7 +257,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return	string	The required HTML.
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix='', $enabled=false, $checkbox='cb')
 	{
@@ -288,7 +288,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return	string	The required HTML.
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function orderUp($i, $task='orderup', $prefix='', $text = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox='cb')
 	{
@@ -314,7 +314,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return	string	The required HTML.
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function orderDown($i, $task='orderdown', $prefix='', $text = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox='cb')
 	{

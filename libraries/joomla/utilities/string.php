@@ -41,7 +41,7 @@ jimport('phputf8.strcasecmp');
  * @static
  * @package		Joomla.Platform
  * @subpackage	Utilities
- * @since		1.5
+ * @since		11.1
  */
 abstract class JString
 {

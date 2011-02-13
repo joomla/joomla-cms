@@ -13,19 +13,19 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Base
- * @since		1.6
+ * @since		11.1
  */
 class JAdapterInstance extends JObject {
 
 	/**
 	 * @var		object	Parent
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $parent = null;
 
 	/**
 	 * @var		object	Database
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $db = null;
 
@@ -37,7 +37,7 @@ class JAdapterInstance extends JObject {
 	 * @param 	array	$options	Configuration Options
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct(&$parent, &$db, $options = Array())
 	{

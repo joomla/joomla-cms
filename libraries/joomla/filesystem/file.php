@@ -16,7 +16,7 @@ jimport('joomla.filesystem.path');
  * @static
  * @package		Joomla.Platform
  * @subpackage	FileSystem
- * @since		1.5
+ * @since		11.1
  */
 class JFile
 {
@@ -53,7 +53,7 @@ class JFile
 	 * @param	string	$file	The name of the file [not full path]
 	 *
 	 * @return	string	The sanitised string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function makeSafe($file)
 	{
@@ -69,7 +69,7 @@ class JFile
 	 * @param	string	$path	An optional base path to prefix to the file names
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams=false)
 	{
@@ -134,7 +134,7 @@ class JFile
 	 * @param	mixed	$file The file name or an array of file names
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function delete($file)
 	{
@@ -190,7 +190,7 @@ class JFile
 	 * @param	string	$path	An optional base path to prefix to the file names
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function move($src, $dest, $path = '', $use_streams=false)
 	{
@@ -253,7 +253,7 @@ class JFile
 	 * @param	int		$offset		Offset of the file
 	 *
 	 * @return	mixed	Returns file contents or boolean False if failed
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -303,7 +303,7 @@ class JFile
 	 * @param	string	$buffer The buffer to write
 	 *
 	 * @return	boolean True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function write($file, &$buffer, $use_streams=false)
 	{
@@ -420,7 +420,7 @@ class JFile
 	 * @param	string	$file File path
 	 *
 	 * @return	boolean	True if path is a file
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function exists($file)
 	{
@@ -432,7 +432,7 @@ class JFile
 	 *
 	 * @param	string	$file	File path
 	 * @return	string	filename
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getName($file)
 	{

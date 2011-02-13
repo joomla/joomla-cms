@@ -21,7 +21,7 @@ class JTableUser extends JTable
 	 * Associative array of user names => group ids
 	 *
 	 * @access	public
-	 * @since	1.6
+	 * @since	11.1
 	 * @var		array
 	 */
 	var $groups;

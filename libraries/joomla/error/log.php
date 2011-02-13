@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package	Joomla.Platform
  * @subpackage	Error
- * @since		1.5
+ * @since		11.1
  */
 class JLog extends JObject
 {
@@ -44,7 +44,7 @@ class JLog extends JObject
 	 * @access	protected
 	 * @param	string	$path		Log file path
 	 * @param	array	$options	Log file options
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function __construct($path, $options)
 	{
@@ -60,7 +60,7 @@ class JLog extends JObject
 	 * @access	public
 	 * @static
 	 * @return	object	The JLog object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
@@ -94,7 +94,7 @@ class JLog extends JObject
 	 * @access	public
 	 * @param	array	$options	Associative array of options to set
 	 * @return	boolean				True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function setOptions($options) {
 
@@ -152,7 +152,7 @@ class JLog extends JObject
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _openLog()
 	{
@@ -206,7 +206,7 @@ class JLog extends JObject
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function _closeLog()
 	{

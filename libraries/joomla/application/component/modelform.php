@@ -16,7 +16,7 @@ jimport('joomla.form.form');
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.6
+ * @since		11.1
  */
 abstract class JModelForm extends JModel
 {
@@ -103,7 +103,7 @@ abstract class JModelForm extends JModel
 	 * @param	array	$data		Data for the form.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	abstract public function getForm($data = array(), $loadData = true);
 
@@ -166,7 +166,7 @@ abstract class JModelForm extends JModel
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return	array	The default data is an empty array.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function loadFormData()
 	{
@@ -180,7 +180,7 @@ abstract class JModelForm extends JModel
 	 * @param	mixed	The data expected for the form.
 	 * @param	string	The name of the plugin group to import (defaults to "content").
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{

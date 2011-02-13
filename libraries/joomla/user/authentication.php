@@ -30,7 +30,7 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
  *
  * @package		Joomla.Platform
  * @subpackage	User
- * @since		1.5
+ * @since		11.1
  */
 class JAuthentication extends JObservable
 {
@@ -145,7 +145,7 @@ class JAuthentication extends JObservable
  *
  * @package		Joomla.Platform
  * @subpackage	User
- * @since		1.5
+ * @since		11.1
  */
 class JAuthenticationResponse extends JObject
 {

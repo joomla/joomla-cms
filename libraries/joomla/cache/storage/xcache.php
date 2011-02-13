@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.5
+ * @since		11.1
  */
 class JCacheStorageXcache extends JCacheStorage
 {
@@ -24,7 +24,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 * @param	string	$group		The cache data group
 	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -44,7 +44,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 *  requires the php.ini setting xcache.admin.enable_auth = Off
 	 *
 	 * @return	array data
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAll()
 	{
@@ -85,7 +85,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	string	$data	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -100,7 +100,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -124,7 +124,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -144,7 +144,7 @@ class JCacheStorageXcache extends JCacheStorage
 	 * Garbage collect expired cache data
 	 *
 	 * @return boolean  True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function gc()
 	{

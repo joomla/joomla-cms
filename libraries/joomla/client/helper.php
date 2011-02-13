@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Client
- * @since		1.5
+ * @since		11.1
  */
 class JClientHelper
 {
@@ -27,7 +27,7 @@ class JClientHelper
 	 *
 	 * @return	array	Client layer configuration options, consisting of at least
 	 *					these fields: enabled, host, port, user, pass, root
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getCredentials($client, $force=false)
 	{
@@ -91,7 +91,7 @@ class JClientHelper
 	 * @param	string	Password
 	 *
 	 * @return	boolean	True if the given login credentials have been set and are valid
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function setCredentials($client, $user, $pass)
 	{
@@ -145,7 +145,7 @@ class JClientHelper
 	 * @static
 	 * @param	string	Client name, currently only 'ftp' is supported
 	 * @return	boolean	True if login credentials are available
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function hasCredentials($client)
 	{
@@ -200,7 +200,7 @@ class JClientHelper
 
 	 * @static
 	 * @return	boolean|JExeption	True, if FTP settings should be shown, or an exeption
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function setCredentialsFromRequest($client)
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.6
+ * @since		11.1
  */
 abstract class JHtmlSliders
 {
@@ -25,7 +25,7 @@ abstract class JHtmlSliders
 	 * @param	string	The pane identifier.
 	 * @param	array	An array of options.
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
@@ -37,7 +37,7 @@ abstract class JHtmlSliders
 	 * Close the current pane.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function end()
 	{
@@ -50,7 +50,7 @@ abstract class JHtmlSliders
 	 * @param	string	Text to display.
 	 * @param	string	Identifier of the panel.
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function panel($text, $id)
 	{
@@ -63,7 +63,7 @@ abstract class JHtmlSliders
 	 * @param	string	The pane identifier.
 	 * @param	array	Array of options.
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static function _loadBehavior($group, $params = array())
 	{

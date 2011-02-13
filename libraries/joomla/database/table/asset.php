@@ -15,7 +15,7 @@ jimport('joomla.database.tablenested');
  *
  * @package		Joomla.Platform
  * @subpackage	Database
- * @since		1.6
+ * @since		11.1
  * @link		http://docs.joomla.org/JTableAsset
  */
 class JTableAsset extends JTableNested

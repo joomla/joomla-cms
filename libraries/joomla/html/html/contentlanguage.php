@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 abstract class JHtmlContentLanguage
 {
@@ -27,7 +27,7 @@ abstract class JHtmlContentLanguage
 	 * Get a list of the available content language items.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function existing($all = false, $translate=false)
 	{

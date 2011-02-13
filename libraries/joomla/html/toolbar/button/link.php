@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JButtonLink extends JButton
 {
@@ -45,7 +45,7 @@ class JButtonLink extends JButton
 	 * @param	string	$name	The name of the button.
 	 *
 	 * @return	string	Button CSS Id
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function fetchId($type = 'Link', $name = '')
 	{
@@ -58,7 +58,7 @@ class JButtonLink extends JButton
 	 * @param	object	$definition	Button definition
 	 *
 	 * @return	string	JavaScript command string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getCommand($url)
 	{

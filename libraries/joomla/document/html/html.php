@@ -15,7 +15,7 @@ jimport('joomla.application.module.helper');
  *
  * @package		Joomla.Platform
  * @subpackage	Document
- * @since		1.5
+ * @since		11.1
  */
 
 jimport('joomla.document.document');

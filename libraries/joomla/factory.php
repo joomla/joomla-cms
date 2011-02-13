@@ -656,7 +656,7 @@ abstract class JFactory
 	 * @param	boolean	$uamask			User agent masking (prefix Mozilla)
 	 *
 	 * @return	JStream
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
 	{

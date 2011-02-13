@@ -16,7 +16,7 @@ jimport('joomla.installer.extension');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.6
+ * @since		11.1
  */
 class JPackageManifest extends JObject
 {
@@ -71,7 +71,7 @@ class JPackageManifest extends JObject
 	 * @param	string	$xmlpath	Path to XML manifest file
 	 *
 	 * @return	boolean	Result of load
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function loadManifestFromXML($xmlfile)
 	{

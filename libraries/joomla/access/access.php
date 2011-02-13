@@ -15,17 +15,17 @@ jimport('joomla.access.rules');
  *
  * @package		Joomla.Platform
  * @subpackage	User
- * @since		1.6
+ * @since		11.1
  */
 class JAccess
 {
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static $viewLevels = array();
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static $assetRules = array();
 
@@ -37,7 +37,7 @@ class JAccess
 	 * @param	mixed	$asset	Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
 	 * @return	boolean	True if authorised.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
@@ -72,7 +72,7 @@ class JAccess
 	 * @param	mixed	$asset		Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
 	 * @return	boolean	True if authorised.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function checkGroup($groupId, $action, $asset = null)
 	{
@@ -104,7 +104,7 @@ class JAccess
 	 * @param	mixed	$groupId	An integer or array of integers representing the identities to check.
 	 *
 	 * @return	mixed	True if allowed, false for an explicit deny, null for an implicit deny.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static function getGroupPath($groupId)
 	{
@@ -149,7 +149,7 @@ class JAccess
 	 * @param	boolean	$recursive	True to return the rules object with inherited rules.
 	 *
 	 * @return	object	JRules object for the asset.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getAssetRules($asset, $recursive = false)
 	{
@@ -198,7 +198,7 @@ class JAccess
 	 * @param	boolean	$recursive	True to include inherited user groups.
 	 *
 	 * @return	array	List of user group ids to which the user is mapped.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
@@ -259,7 +259,7 @@ class JAccess
 	 * @param	boolean	$recursive	Recursively include all child groups (optional)
 	 *
 	 * @return	array
-	 * @since	1.6
+	 * @since	11.1
 	 * @todo	This method should move somewhere else?
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
@@ -293,7 +293,7 @@ class JAccess
 	 * @param	integer	$userId	Id of the user for which to get the list of authorised view levels.
 	 *
 	 * @return	array	List of view levels for which the user is authorised.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
@@ -349,7 +349,7 @@ class JAccess
 	 * @param	string	$section	The name of the section within the component from which to retrieve the actions.
 	 *
 	 * @return	array	List of actions available for the given component and section.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getActions($component, $section = 'component')
 	{

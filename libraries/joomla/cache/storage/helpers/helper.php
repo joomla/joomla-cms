@@ -14,22 +14,22 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.6
+ * @since		11.1
  */
 class JCacheStorageHelper
 {
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $group = '';
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $size = 0;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $count = 0;
 
@@ -48,7 +48,7 @@ class JCacheStorageHelper
 	 *
 	 * @param	string	$size	Cached item size
 	 * @param	string	$group	The cache data group
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function updateSize($size)
 	{

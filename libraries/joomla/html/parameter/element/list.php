@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage		Parameter
- * @since		1.5
+ * @since		11.1
  */
 
 class JElementList extends JElement
@@ -31,7 +31,7 @@ class JElementList extends JElement
 	 *
 	 * @param	object	The current XML node.
 	 * @return	array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getOptions(&$node)
 	{

@@ -15,7 +15,7 @@ jimport('joomla.form.formrule');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormRuleRules extends JFormRule
 {
@@ -34,7 +34,7 @@ class JFormRuleRules extends JFormRule
 	 * @param	object	$form		The form object for which the field is being tested.
 	 *
 	 * @return	boolean	True if the value is valid, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 * @throws	JException on invalid rule.
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
@@ -60,7 +60,7 @@ class JFormRuleRules extends JFormRule
 	 * @param	mixed	$value		The form field value to validate.
 	 *
 	 * @return	array	A list of permission action names from the form field value.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getValueActions($value)
 	{
@@ -83,7 +83,7 @@ class JFormRuleRules extends JFormRule
 	 * 								form field object.
 	 *
 	 * @return	array	A list of permission action names from the form field element definition.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getFieldActions($element)
 	{

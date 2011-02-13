@@ -15,7 +15,7 @@ jimport('joomla.event.dispatcher');
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JEditor extends JObservable
 {
@@ -296,7 +296,7 @@ class JEditor extends JObservable
 	 * @param	array	$config	Associative array of editor config paramaters
 	 *
 	 * @return	mixed
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _loadEditor($config = array())
 	{

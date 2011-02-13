@@ -18,13 +18,13 @@ JFormHelper::loadFieldClass('list');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldCategory extends JFormFieldList
 {
 	/**
 	 * @var		string	The form field type.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $type = 'Category';
 
@@ -32,7 +32,7 @@ class JFormFieldCategory extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getOptions()
 	{

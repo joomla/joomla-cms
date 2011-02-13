@@ -14,17 +14,17 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.6
+ * @since		11.1
  */
 class JCacheController
 {
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $cache;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $options;
 
@@ -32,7 +32,7 @@ class JCacheController
 	 * Constructor
 	 *
 	 * @param	array	$options	options
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($options)
 	{
@@ -48,7 +48,7 @@ class JCacheController
 	}
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __call ($name, $arguments)
 	{
@@ -61,7 +61,7 @@ class JCacheController
 	 *
 	 * @param	string	$type	The cache object type to instantiate
 	 * @return	object	A JCache object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
@@ -90,7 +90,7 @@ class JCacheController
 	 *
 	 * @param	boolean	$enabled	True to enable caching
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setCaching($enabled)
 	{
@@ -102,7 +102,7 @@ class JCacheController
 	 *
 	 * @param	int		$lt	Cache lifetime
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setLifeTime($lt)
 	{
@@ -115,7 +115,7 @@ class JCacheController
 	 *
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addIncludePath($path='')
 	{
@@ -137,7 +137,7 @@ class JCacheController
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	mixed	False on no result, cached object otherwise
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function get($id, $group=null)
 	{
@@ -169,7 +169,7 @@ class JCacheController
 	 * @param	string	$group	The cache data group
 	 * @param	mixed	$data	The data to store
 	 * @return	boolean	True if cache was stored
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function store($data, $id, $group=null)
 	{

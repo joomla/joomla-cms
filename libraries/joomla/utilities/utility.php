@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Utilities
- * @since		1.5
+ * @since		11.1
  */
 class JUtility
 {
@@ -33,7 +33,7 @@ class JUtility
 	 * @param	mixed	$replytoname Reply to name(s)
 	 * @return	boolean	True on success
 	 *
-	 * @since		1.5
+	 * @since		11.1
 	 * @deprecated  1.6
 	 * @see			JMail::sendMail()
 	 */
@@ -95,7 +95,7 @@ class JUtility
 	 *
 	 * @return	string	Hashed var name
 	 *
-	 * @since		1.5
+	 * @since		11.1
 	 * @deprecated  1.6
 	 * @see			JApplication:getHash()
 	 */
@@ -113,7 +113,7 @@ class JUtility
 	 *
 	 * @return	array	Key/Value pairs for the attributes
 	 *
-	 * @since		1.5
+	 * @since		11.1
 	 */
 	public static function parseAttributes($string)
 	{
@@ -140,7 +140,7 @@ class JUtility
 	 *
 	 * @return	boolean	True if Windows OS.
 	 *
-	 * @since		1.5
+	 * @since		11.1
 	 * @deprecated  1.6
 	 * @see			JApplication::isWinOS()
 	 */
@@ -159,7 +159,7 @@ class JUtility
 	 *
 	 * @return	string
 	 *
-	 * @since		1.5
+	 * @since		11.1
 	 * @deprecated  1.6
 	 */
 	public static function dump(&$var, $htmlSafe = true)
@@ -178,7 +178,7 @@ class JUtility
 	 *
 	 * @return	int
 	 *
-	 * @since		1.5
+	 * @since		11.1
 	 * @deprecated  1.6
 	 * @see			http://www.php.net/manual/en/function.array-unshift.php#40270
 	 */
@@ -197,7 +197,7 @@ class JUtility
 	 *
 	 * @return	int size in bytes
 	 *
-	 * @since		1.6
+	 * @since		11.1
 	 * @deprecated  1.6
 	 * @see			JHtmlNumber::bytes
 	 */

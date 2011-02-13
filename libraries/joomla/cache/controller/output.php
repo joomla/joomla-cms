@@ -13,22 +13,22 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.6
+ * @since		11.1
  */
 class JCacheControllerOutput extends JCacheController
 {
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_id;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_group;
 
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_locktest = null;
 
@@ -38,7 +38,7 @@ class JCacheControllerOutput extends JCacheController
 	 * @param	string	The cache data id
 	 * @param	string	The cache data group
 	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function start($id, $group=null)
 	{
@@ -83,7 +83,7 @@ class JCacheControllerOutput extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @return	boolean	True if cache stored
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function end()
 	{

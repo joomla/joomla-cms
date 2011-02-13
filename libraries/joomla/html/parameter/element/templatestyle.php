@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * @package		Joomla.Administrator
  * @subpackage	Parameter
- * @since		1.6
+ * @since		11.1
 **/
 class JElementTemplateStyle extends JElement {
 

@@ -22,7 +22,7 @@ jimport('joomla.form.helper');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JForm
 {
@@ -30,7 +30,7 @@ class JForm
 	 * The JRegistry data store for form fields during display.
 	 *
 	 * @var		object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $data;
 
@@ -38,7 +38,7 @@ class JForm
 	 * The form object errors array.
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $errors = array();
 
@@ -46,7 +46,7 @@ class JForm
 	 * The name of the form instance.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $name;
 
@@ -54,7 +54,7 @@ class JForm
 	 * The form object options for use in rendering and validation.
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $options = array();
 
@@ -62,7 +62,7 @@ class JForm
 	 * The form XML definition.
 	 *
 	 * @var		object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $xml;
 
@@ -70,7 +70,7 @@ class JForm
 	 * Form instances.
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static $forms = array();
 
@@ -81,7 +81,7 @@ class JForm
 	 * @param	array	$options	An array of form options.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($name, array $options = array())
 	{
@@ -101,7 +101,7 @@ class JForm
 	 * @param	mixed	$data	An array or object of data to bind to the form.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function bind($data)
 	{
@@ -154,7 +154,7 @@ class JForm
 	 * @param	mixed	$data	An array or object of data to bind to the form for the group level.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function bindLevel($group, $data)
 	{
@@ -182,7 +182,7 @@ class JForm
 	 * @param	string	$group	The dot-separated form group path on which to filter the fields.
 	 *
 	 * @return	mixed	boolean	True on sucess.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function filter($data, $group = null)
 	{
@@ -235,7 +235,7 @@ class JForm
 	 * Return all errors, if any.
 	 *
 	 * @return	array	Array of error messages or JException objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getErrors()
 	{
@@ -250,7 +250,7 @@ class JForm
 	 * @param	mixed	$value	The optional value to use as the default for the field.
 	 *
 	 * @return	mixed	The JFormField object for the field or boolean false on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getField($name, $group = null, $value = null)
 	{
@@ -280,7 +280,7 @@ class JForm
 	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return	mixed	The attribute value for the field.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
@@ -310,7 +310,7 @@ class JForm
 	 * @param	string	$set	The optional name of the fieldset.
 	 *
 	 * @return	array	The array of JFormField objects in the fieldset.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getFieldset($set = null)
 	{
@@ -354,7 +354,7 @@ class JForm
 	 * @param	string	$group	The dot-separated form group path on which to filter the fieldsets.
 	 *
 	 * @return	array	The array of fieldset objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getFieldsets($group = null)
 	{
@@ -448,7 +448,7 @@ class JForm
 	 * <input name="joomla[foo]" /> and <input name="joomla[bar]" />.
 	 *
 	 * @return	string	The form control string.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getFormControl()
 	{
@@ -463,7 +463,7 @@ class JForm
 	 * 							group for which to find fields.
 	 *
 	 * @return	array	The array of JFormField objects in the field group.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getGroup($group, $nested = false)
 	{
@@ -498,7 +498,7 @@ class JForm
 	 * @param	mixed	$value	The optional value to use as the default for the field.
 	 *
 	 * @return	string	The form field markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getInput($name, $group = null, $value = null)
 	{
@@ -517,7 +517,7 @@ class JForm
 	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return	string	The form field markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getLabel($name, $group = null)
 	{
@@ -533,7 +533,7 @@ class JForm
 	 * Method to get the form name.
 	 *
 	 * @return	string	The name of the form.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getName()
 	{
@@ -548,7 +548,7 @@ class JForm
 	 * @param	mixed	$default	The optional default value of the field value is empty.
 	 *
 	 * @return	mixed	The value of the field or the default value if empty.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getValue($name, $group = null, $default = null)
 	{
@@ -578,7 +578,7 @@ class JForm
 	 * @param	string	$xpath		An optional xpath to search for the fields.
 	 *
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function load($data, $replace = true, $xpath = false)
 	{
@@ -680,7 +680,7 @@ class JForm
 	 * @param	string	$xpath		An optional xpath to search for the fields.
 	 *
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function loadFile($file, $reset = true, $xpath = false)
 	{
@@ -708,7 +708,7 @@ class JForm
 	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function removeField($name, $group = null)
 	{
@@ -736,7 +736,7 @@ class JForm
 	 * @param	string	$group	The dot-separated form group path for the group to remove.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function removeGroup($group)
 	{
@@ -763,7 +763,7 @@ class JForm
 	 * @param	boolean	$xml	True to also reset the XML form definition.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function reset($xml = false)
 	{
@@ -788,7 +788,7 @@ class JForm
 	 * @param	boolean	$replace	True to replace an existing field if one already exists.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setField(& $element, $group = null, $replace = true)
 	{
@@ -850,7 +850,7 @@ class JForm
 	 * @param	string	$group		The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
@@ -888,7 +888,7 @@ class JForm
 	 * @param	boolean	$replace	True to replace existing fields if they already exist.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setFields(& $elements, $group = null, $replace = true)
 	{
@@ -931,7 +931,7 @@ class JForm
 	 * @param	mixed	$value	The value to set for the field.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setValue($name, $group = null, $value = null)
 	{
@@ -962,7 +962,7 @@ class JForm
 	 * 							fields to be validated.
 	 *
 	 * @return	mixed	boolean	True on sucess.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function validate($data, $group = null)
 	{
@@ -1034,7 +1034,7 @@ class JForm
 	 * @param	mixed	$value		The value to filter for the field.
 	 *
 	 * @return	mixed	The filtered value.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function filterField($element, $value)
 	{
@@ -1147,7 +1147,7 @@ class JForm
 	 * @param	string	$group	The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return	mixed	The XML element object for the field or boolean false on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function findField($name, $group = null)
 	{
@@ -1229,7 +1229,7 @@ class JForm
 	 * @param	string	$name	The name of the fieldset.
 	 *
 	 * @return	mixed	Boolean false on error or array of JXMLElement objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function & findFieldsByFieldset($name)
 	{
@@ -1261,7 +1261,7 @@ class JForm
 	 * 							group for which to find fields.
 	 *
 	 * @return	mixed	Boolean false on error or array of JXMLElement objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function & findFieldsByGroup($group = null, $nested = false)
 	{
@@ -1327,7 +1327,7 @@ class JForm
 	 * @param	string	$group	The dot-separated form group path on which to find the group.
 	 *
 	 * @return	mixed	An array of XML element objects for the group or boolean false on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function &findGroup($group)
 	{
@@ -1406,7 +1406,7 @@ class JForm
 	 * @param	mixed	$value		The optional value to use as the default for the field.
 	 *
 	 * @return	mixed	The JFormField object for the field or boolean false on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function loadField($element, $group = null, $value = null)
 	{
@@ -1467,7 +1467,7 @@ class JForm
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return	mixed	JFormField object on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function loadFieldType($type, $new = true)
 	{
@@ -1481,7 +1481,7 @@ class JForm
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return	mixed	JFormRule object on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function loadRuleType($type, $new = true)
 	{
@@ -1493,7 +1493,7 @@ class JForm
 	 *
 	 * TODO:	Maybe we should receive all addXXXpaths attributes at once?
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function syncPaths()
 	{
@@ -1548,7 +1548,7 @@ class JForm
 	 * 								against the entire form.
 	 *
 	 * @return	mixed	Boolean true if field value is valid, JException on failure.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function validateField($element, $group = null, $value = null, $input = null)
 	{
@@ -1626,7 +1626,7 @@ class JForm
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -1639,7 +1639,7 @@ class JForm
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -1652,7 +1652,7 @@ class JForm
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addRulePath($new = null)
 	{
@@ -1671,7 +1671,7 @@ class JForm
 	 *
 	 * @return	object	JForm instance.
 	 * @throws	Exception if an error occurs.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
@@ -1757,7 +1757,7 @@ class JForm
 	 * @param	SimpleXMLElement	The new element to merge.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static function mergeNodes(SimpleXMLElement $source, SimpleXMLElement $new)
 	{

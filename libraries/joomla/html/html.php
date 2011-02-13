@@ -20,7 +20,7 @@ jimport('joomla.filesystem.file');
  * @static
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 abstract class JHtml
 {
@@ -197,7 +197,7 @@ abstract class JHtml
 	 * @param	string	The relative URL to use for the href attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function link($url, $text, $attribs = null)
 	{
@@ -216,7 +216,7 @@ abstract class JHtml
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	string	The message to display if the iframe tag is not supported
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function iframe($url, $name, $attribs = null, $noFrames = '')
 	{
@@ -235,7 +235,7 @@ abstract class JHtml
 	 * @param	folder		folder name to search into (images, css, js, ...)
 	 * @see		JBrowser
 	 * @return	array		files to be included
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
 	{
@@ -362,7 +362,7 @@ abstract class JHtml
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	boolean	If set to true, it tries to find an override for the file in the template
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $path_only = false)
 	{
@@ -422,7 +422,7 @@ abstract class JHtml
 	 * @see JBrowser
 	 *
 	 * @return	mixed		nothing if $path_only is false, null, path or array of path if specific css browser files were detected
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true)
 	{
@@ -472,7 +472,7 @@ abstract class JHtml
 	 * @param	boolean		detect browser to include specific browser js files
 	 * @return	mixed		nothing if $path_only is false, null, path or array of path if specific js browser files were detected
 	 * @see 	JHtml::stylesheet
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true)
 	{
@@ -556,7 +556,7 @@ abstract class JHtml
 	 *					setting, boolean false for server setting.
 	 * @return	string	A date translated by the given format and time zone.
 	 * @see		strftime
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian=false)
 	{
@@ -621,7 +621,7 @@ abstract class JHtml
 	 * @param	string			$href An URL that will be used to create the link
 	 * @param	string			$alt The alt attribute for img tag
  	 * @return	string
-	 * @since	1.5
+	 * @since	11.1
 	 */
  	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class='hasTip')
  	{
@@ -724,7 +724,7 @@ abstract class JHtml
 	 * @access	public
 	 * @param	string	A path to search.
 	 * @return	array	An array with directory elements
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function addIncludePath($path = '')
 	{

@@ -15,7 +15,7 @@ jimport('joomla.form.formrule');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormRuleUsername extends JFormRule
 {
@@ -34,7 +34,7 @@ class JFormRuleUsername extends JFormRule
 	 * @param	object	$form		The form object for which the field is being tested.
 	 *
 	 * @return	boolean	True if the value is valid, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 * @throws	JException on invalid rule.
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)

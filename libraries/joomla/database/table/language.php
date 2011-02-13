@@ -15,7 +15,7 @@ jimport('joomla.database.table');
  *
  * @package		Joomla.Administrator
  * @subpackage	com_languages
- * @since		1.6
+ * @since		11.1
  */
 class JTableLanguage extends JTable
 {

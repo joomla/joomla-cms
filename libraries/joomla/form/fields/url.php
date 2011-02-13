@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('text');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldUrl extends JFormFieldText
 {
@@ -24,7 +24,7 @@ class JFormFieldUrl extends JFormFieldText
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $type = 'Url';
 }

@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldFileList extends JFormFieldList
 {
@@ -28,7 +28,7 @@ class JFormFieldFileList extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $type = 'FileList';
 
@@ -36,7 +36,7 @@ class JFormFieldFileList extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getOptions()
 	{

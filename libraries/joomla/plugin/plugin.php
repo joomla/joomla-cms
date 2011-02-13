@@ -16,7 +16,7 @@ jimport('joomla.event.event');
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Plugin
- * @since		1.5
+ * @since		11.1
  */
 abstract class JPlugin extends JEvent
 {
@@ -25,7 +25,7 @@ abstract class JPlugin extends JEvent
 	 *
 	 * @var		A JRegistry object
 	 * @access	public
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public $params = null;
 
@@ -87,7 +87,7 @@ abstract class JPlugin extends JEvent
 	 * @param	string	$extension	The extension for which a language file should be loaded
 	 * @param	string	$basePath	The basepath to use
 	 * @return	boolean	True, if the file has successfully loaded.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
 	{

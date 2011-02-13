@@ -30,7 +30,7 @@ define('JREQUEST_ALLOWHTML',4);
  * @static
  * @package		Joomla.Platform
  * @subpackage	Environment
- * @since		1.5
+ * @since		11.1
  */
 class JRequest
 {
@@ -81,7 +81,7 @@ class JRequest
 	 * @param	string	$type		Return type for the variable, for valid values see {@link JFilterInput::clean()}.
 	 * @param	int		$mask		Filter mask for the variable.
 	 * @return	mixed	Requested variable.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getVar($name, $default = null, $hash = 'default', $type = 'none', $mask = 0)
 	{
@@ -163,7 +163,7 @@ class JRequest
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 * @return	integer	Requested variable.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInt($name, $default = 0, $hash = 'default')
 	{
@@ -181,7 +181,7 @@ class JRequest
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 * @return	float	Requested variable.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getFloat($name, $default = 0.0, $hash = 'default')
 	{
@@ -199,7 +199,7 @@ class JRequest
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 * @return	bool	Requested variable.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getBool($name, $default = false, $hash = 'default')
 	{
@@ -217,7 +217,7 @@ class JRequest
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 * @return	string	Requested variable.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getWord($name, $default = '', $hash = 'default')
 	{
@@ -235,7 +235,7 @@ class JRequest
 	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @return	string	Requested variable
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getCmd($name, $default = '', $hash = 'default')
 	{
@@ -254,7 +254,7 @@ class JRequest
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @param	int		$mask		Filter mask for the variable
 	 * @return	string	Requested variable
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getString($name, $default = '', $hash = 'default', $mask = 0)
 	{
@@ -270,7 +270,7 @@ class JRequest
 	 * @param	string	$hash		Hash
 	 * @param	boolean	$overwrite	Boolean
 	 * @return	string	Previous value
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
@@ -343,7 +343,7 @@ class JRequest
 	 * @param	string	$hash	to get (POST, GET, FILES, METHOD).
 	 * @param	int		$mask	Filter mask for the variable.
 	 * @return	mixed	Request hash.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function get($hash = 'default', $mask = 0)
 	{
@@ -440,7 +440,7 @@ class JRequest
 	 * Cleans the request from script injection.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function clean()
 	{
@@ -494,7 +494,7 @@ class JRequest
 	 *
 	 * @param	array	$array	Array to clean.
 	 * @param	boolean	True if the array is to be added to the GLOBALS.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	static function _cleanArray(&$array, $globalise=false)
 	{

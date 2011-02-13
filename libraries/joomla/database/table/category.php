@@ -46,7 +46,7 @@ class JTableCategory extends JTableNested
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getAssetTitle()
 	{
@@ -106,7 +106,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return	boolean
 	 * @see		JTable::check
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function check()
 	{
@@ -133,7 +133,7 @@ class JTableCategory extends JTableNested
 	 * @param	array		named array
 	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see		JTable:bind
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -164,7 +164,7 @@ class JTableCategory extends JTableNested
 	 * @param	boolean	True to update fields even if they are null.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function store($updateNulls = false)
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Language
- * @since		1.5
+ * @since		11.1
  */
 class JHelp
 {
@@ -142,7 +142,7 @@ class JHelp
 	 * @param	string	$selected	Language tag to select (if exists).
 	 *
 	 * @return	array	An array of arrays (text, value, selected).
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	static function createSiteList($pathToXml, $selected = null)
 	{

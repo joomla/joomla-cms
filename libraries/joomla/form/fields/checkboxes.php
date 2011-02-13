@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldCheckboxes extends JFormField
 {
@@ -24,7 +24,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $type = 'Checkboxes';
 
@@ -32,7 +32,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * Flag to tell the field to always be in multiple values mode.
 	 *
 	 * @var		boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $forceMultiple = true;
 
@@ -40,7 +40,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getInput()
 	{
@@ -88,7 +88,7 @@ class JFormFieldCheckboxes extends JFormField
 	 * Method to get the field options.
 	 *
 	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getOptions()
 	{

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @static
  * @package		Joomla.Platform
- * @since		1.5
+ * @since		11.1
  */
 class JRoute
 {
@@ -91,7 +91,7 @@ class JRoute
  * @static
  * @package		Joomla.Platform
  * @subpackage	Language
- * @since		1.5
+ * @since		11.1
  */
 class JText
 {
@@ -110,7 +110,7 @@ class JText
 	 * @return	string			The translated string or the key is $script is true
 	 * @example	<script>alert(Joomla.JText._('<?php echo JText::_("JDEFAULT", array("script"=>true));?>'));</script> will generate an alert message containing 'Default'
 	 * @example	<?php echo JText::_("JDEFAULT");?> it will generate a 'Default' string
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 */
 	public static function _($string, $jsSafe = false, $interpreteBackSlashes = true, $script = false)
@@ -150,7 +150,7 @@ class JText
 	 * @return	string			The translated string or the key if $script is true
 	 * @example	<?php echo JText::alt("JALL","language");?> it will generate a 'All' string in English but a "Toutes" string in French
 	 * @example	<?php echo JText::alt("JALL","module");?> it will generate a 'All' string in English but a "Tous" string in French
-	 * @since	1.5
+	 * @since	11.1
 	 *
 	 */
 	public static function alt($string, $alt, $jsSafe = false, $interpreteBackSlashes = true, $script = false)
@@ -176,7 +176,7 @@ class JText
 	 * @return	string	The translated strings or the key if 'script' is true in the array of options
 	 * @example	<script>alert(Joomla.JText._('<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1, array("script"=>true));?>'));</script> will generate an alert message containing '1 plugin successfully disabled'
 	 * @example	<?php echo JText::plural("COM_PLUGINS_N_ITEMS_UNPUBLISHED", 1);?> it will generate a '1 plugin successfully disabled' string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 
 	public static function plural($string, $n)
@@ -232,7 +232,7 @@ class JText
 	 *					-interpreteBackSlashes is a boolean to interprete backslashes \\->\, \n->new line, \t->tabulation
 	 *					-script is a boolean to indicate that the string will be push in the javascript language store
 	 * @return	string	The translated strings or the key if 'script' is true in the array of options
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function sprintf($string)
 	{
@@ -260,7 +260,7 @@ class JText
 	 *
 	 * @param	format The format string.
 	 * @param	mixed Mixed number of arguments for the sprintf function.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function printf($string)
 	{
@@ -283,7 +283,7 @@ class JText
 	 * Translate a string into the current language and stores it in the JavaScript language store.
 	 *
 	 * @param	string	The JText key.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function script($string = null, $jsSafe = false, $interpreteBackSlashes = true)
 	{

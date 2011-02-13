@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 abstract class JModel extends JObject
 {
@@ -25,7 +25,7 @@ abstract class JModel extends JObject
 	 * Indicates if the internal state has been set
 	 *
 	 * @var		boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $__state_set	= null;
 
@@ -33,7 +33,7 @@ abstract class JModel extends JObject
 	 * Database Connector
 	 *
 	 * @var		object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected $_db;
 
@@ -41,13 +41,13 @@ abstract class JModel extends JObject
 	 * The model (base) name
 	 *
 	 * @var		string
-	 * @since	1.6 (replaces _name variable in 1.5)
+	 * @since	11.1 (replaces _name variable in 1.5)
 	 */
 	protected $name;
 
 	/**
 	 * @var		string	The URL option for the component.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $option = null;
 
@@ -55,7 +55,7 @@ abstract class JModel extends JObject
 	 * An state object
 	 *
 	 * @var string
-	 * @since	1.6 (replaces _state variable in 1.5)
+	 * @since	11.1 (replaces _state variable in 1.5)
 	 */
 	protected $state;
 
@@ -171,7 +171,7 @@ abstract class JModel extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -227,7 +227,7 @@ abstract class JModel extends JObject
 	 * @param	int		Offset
 	 * @param	int		The number of records
 	 * @return	array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
@@ -242,7 +242,7 @@ abstract class JModel extends JObject
 	 *
 	 * @param	string The query
 	 * @return	int
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getListCount($query)
 	{
@@ -359,7 +359,7 @@ abstract class JModel extends JObject
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function populateState()
 	{

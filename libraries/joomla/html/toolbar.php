@@ -16,7 +16,7 @@ JLoader::register('JButton', dirname(__FILE__).DS.'toolbar'.DS.'button.php');
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JToolBar extends JObject
 {
@@ -104,7 +104,7 @@ class JToolBar extends JObject
 	 * Get the list of toolbar links.
 	 *
 	 * @return	array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getItems()
 	{
@@ -115,7 +115,7 @@ class JToolBar extends JObject
 	 * Get the name of the toolbar.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getName()
 	{
@@ -190,7 +190,7 @@ class JToolBar extends JObject
 	 *
 	 * @param	string	buttonType
 	 * @return	object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function loadButtonType($type, $new = false)
 	{
@@ -246,7 +246,7 @@ class JToolBar extends JObject
 	 *
 	 * @access	public
 	 * @param	string|array	directory or directories to search.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function addButtonPath($path)
 	{

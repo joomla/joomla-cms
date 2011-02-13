@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JButtonConfirm extends JButton
 {
@@ -46,7 +46,7 @@ class JButtonConfirm extends JButton
 	 *
 	 * @access	public
 	 * @return	string	Button CSS Id
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function fetchId($type='Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -59,7 +59,7 @@ class JButtonConfirm extends JButton
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getCommand($msg, $name, $task, $list)
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package	Joomla.Platform
  * @subpackage	Error
- * @since		1.5
+ * @since		11.1
  */
 class JException extends Exception
 {
@@ -147,7 +147,7 @@ class JException extends Exception
 	 *
 	 * @access	public
 	 * @return	string Error message
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __toString()
 	{
@@ -160,7 +160,7 @@ class JException extends Exception
 	 * @access	public
 	 * @deprecated
 	 * @return	string Error message
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function toString()
 	{
@@ -175,7 +175,7 @@ class JException extends Exception
 	 * @param	mixed  $default The default value
 	 * @return	mixed The value of the property
 	 * @see		getProperties()
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function get($property, $default=null)
 	{
@@ -192,7 +192,7 @@ class JException extends Exception
 	 * @param	boolean $public If true, returns only the public properties
 	 * @return	array
 	 * @see		get()
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getProperties($public = true)
 	{
@@ -216,7 +216,7 @@ class JException extends Exception
 	 * @param	boolean	$toString Indicates if JError objects should return their error message
 	 * @return	string	Error message
 	 * @access	public
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -247,7 +247,7 @@ class JException extends Exception
 	 *
 	 * @access	public
 	 * @return	array	Array of error messages or JErrors
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getErrors()
 	{
@@ -263,7 +263,7 @@ class JException extends Exception
 	 * @param	mixed  $value The value of the property to set
 	 * @return	mixed Previous value of the property
 	 * @see		setProperties()
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function set($property, $value = null)
 	{
@@ -279,7 +279,7 @@ class JException extends Exception
 	* @param	$array  mixed Either and associative array or another object
 	* @return	boolean
 	* @see		set()
-	* @since	1.5
+	* @since	11.1
 	*/
 	public function setProperties($properties)
 	{

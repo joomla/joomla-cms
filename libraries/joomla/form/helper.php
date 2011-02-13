@@ -17,7 +17,7 @@ jimport('joomla.filesystem.path');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormHelper
 {
@@ -33,7 +33,7 @@ class JFormHelper
 	 * </code>
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 *
 	 */
 	protected static $paths;
@@ -50,7 +50,7 @@ class JFormHelper
 	 * </code>
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static $entities = array();
 
@@ -61,7 +61,7 @@ class JFormHelper
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return	mixed	JFormField object on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function loadFieldType($type, $new = true)
 	{
@@ -75,7 +75,7 @@ class JFormHelper
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return	mixed	JFormRule object on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function loadRuleType($type, $new = true)
 	{
@@ -91,7 +91,7 @@ class JFormHelper
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return	mixed	Entity object on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static function loadType($entity, $type, $new = true)
 	{
@@ -123,7 +123,7 @@ class JFormHelper
 	 *
 	 * @param	string	Type of a field whose class should be loaded.
 	 * @return	mixed	Class name on success or false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function loadFieldClass($type)
 	{
@@ -136,7 +136,7 @@ class JFormHelper
 	 *
 	 * @param	string	Type of a rule whose class should be loaded.
 	 * @return	mixed	Class name on success or false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function loadRuleClass($type)
 	{
@@ -193,7 +193,7 @@ class JFormHelper
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -206,7 +206,7 @@ class JFormHelper
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -219,7 +219,7 @@ class JFormHelper
 	 * @param	mixed	$new	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addRulePath($new = null)
 	{
@@ -234,7 +234,7 @@ class JFormHelper
 	 * @param	mixed	A path or array of paths to add.
 	 *
 	 * @return	array	The list of paths that have been added.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static function addPath($entity, $new = null)
 	{

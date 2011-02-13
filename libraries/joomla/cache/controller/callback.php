@@ -15,7 +15,7 @@ jimport('joomla.cache.controller');
  *
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.6
+ * @since		11.1
  */
 class JCacheControllerCallback extends JCacheController
 {
@@ -31,7 +31,7 @@ class JCacheControllerCallback extends JCacheController
 	 *	- Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
 	 * @return	mixed	Result of the callback
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function call()
 	{
@@ -51,7 +51,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	boolean	Perform workarounds on data?
 	 * @param	array	Workaround options
 	 * @return	mixed	Result of the callback
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function get($callback, $args=array(), $id=false, $wrkarounds=false, $woptions=array())
 	{
@@ -149,7 +149,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	callback	$callback	Callback to cache
 	 * @param	array		$args	Arguments to the callback method to cache
 	 * @return	string	MD5 Hash : function cache id
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function _makeId($callback, $args)
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.6
+ * @since		11.1
  */
 class JCacheControllerPage extends JCacheController
 {
@@ -21,7 +21,7 @@ class JCacheControllerPage extends JCacheController
 	 * ID property for the cache page object.
 	 *
 	 * @var		integer
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_id;
 
@@ -29,7 +29,7 @@ class JCacheControllerPage extends JCacheController
 	 * Cache group
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_group;
 
@@ -37,7 +37,7 @@ class JCacheControllerPage extends JCacheController
 	 * Cache lock test
 	 *
 	 * @var		object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_locktest = null;
 
@@ -47,7 +47,7 @@ class JCacheControllerPage extends JCacheController
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function get($id=false, $group='page', $wrkarounds=true)
 	{
@@ -107,7 +107,7 @@ class JCacheControllerPage extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @return	boolean	True if cache stored
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function store($wrkarounds=true)
 	{
@@ -145,7 +145,7 @@ class JCacheControllerPage extends JCacheController
 	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
 	 *
 	 * @return	string	MD5 Hash : page cache id
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function _makeId()
 	{
@@ -157,7 +157,7 @@ class JCacheControllerPage extends JCacheController
 	 * There is no change in page data so send a not modified header and die gracefully
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function _noChange()
 	{
@@ -172,7 +172,7 @@ class JCacheControllerPage extends JCacheController
 	 * Set the ETag header in the response
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function _setEtag($etag)
 	{

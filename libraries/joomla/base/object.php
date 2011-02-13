@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Base
- * @since		1.5
+ * @since		11.1
  */
 class JObject
 {
@@ -24,7 +24,7 @@ class JObject
 	 * An array of errors
 	 *
 	 * @var		array of error messages or JExceptions objects.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected $_errors = array();
 
@@ -32,7 +32,7 @@ class JObject
 	 * Class constructor, overridden in descendant classes.
 	 *
 	 * @param	mixed $properties	Either and associative array or another object to set the initial properties of the object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($properties = null)
 	{
@@ -45,7 +45,7 @@ class JObject
 	 * Magic method to convert the object to a string gracefully.
 	 *
 	 * @return	string	The classname.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __toString()
 	{
@@ -57,7 +57,7 @@ class JObject
 	 *
 	 * @param	string $property	The name of the property.
 	 * @param	mixed  $default		The default value.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function def($property, $default=null)
 	{
@@ -73,7 +73,7 @@ class JObject
 	 *
 	 * @return	mixed	The value of the property.
 	 * @see		getProperties()
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function get($property, $default=null)
 	{
@@ -90,7 +90,7 @@ class JObject
 	 *
 	 * @return	array
 	 * @see		get()
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getProperties($public = true)
 	{
@@ -114,7 +114,7 @@ class JObject
 	 * @param	integer	$i			Option error index.
 	 * @param	boolean	$toString	Indicates if JError objects should return their error message.
 	 * @return	string	Error message
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -145,7 +145,7 @@ class JObject
 	 * Return all errors, if any.
 	 *
 	 * @return	array	Array of error messages or JErrors.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getErrors()
 	{
@@ -159,7 +159,7 @@ class JObject
 	 * @param	mixed  $value		The value of the property to set.
 	 *
 	 * @return	mixed	Previous value of the property.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function set($property, $value = null)
 	{
@@ -174,7 +174,7 @@ class JObject
 	 * @param	mixed $properties	Either and associative array or another object.
 	 * @return	boolean
 	 * @see		set()
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function setProperties($properties)
 	{

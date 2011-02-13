@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  * @deprecated	in favour of JHtml::_ static helpers
  */
 abstract class JPane extends JObject
@@ -82,7 +82,7 @@ abstract class JPane extends JObject
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JPaneTabs extends JPane
 {
@@ -179,7 +179,7 @@ class JPaneTabs extends JPane
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JPaneSliders extends JPane
 {

@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldRules extends JFormField
 {
@@ -24,7 +24,7 @@ class JFormFieldRules extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $type = 'Rules';
 
@@ -34,7 +34,7 @@ class JFormFieldRules extends JFormField
 	 * TODO: Add access check.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getInput()
 	{
@@ -270,7 +270,7 @@ class JFormFieldRules extends JFormField
 	 * Get a list of the user groups.
 	 *
 	 * @return	array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getUserGroups()
 	{

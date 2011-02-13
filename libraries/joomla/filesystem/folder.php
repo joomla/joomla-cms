@@ -16,7 +16,7 @@ jimport('joomla.filesystem.path');
  * @static
  * @package		Joomla.Platform
  * @subpackage	FileSystem
- * @since		1.5
+ * @since		11.1
  */
 abstract class JFolder
 {
@@ -28,7 +28,7 @@ abstract class JFolder
 	 * @param	string	An optional base path to prefix to the file names.
 	 * @param	boolean	Optionally force folder/file overwrites.
 	 * @return	mixed	JError object on failure or boolean True on success.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams=false)
 	{
@@ -594,7 +594,7 @@ abstract class JFolder
 	 * @param	integer	The current level, optional.
 	 * @param	integer	Unique identifier of the parent folder, if any.
 	 * @return	array	Folders in the given folder.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
@@ -630,7 +630,7 @@ abstract class JFolder
 	 * @access	public
 	 * @param	string The full path to sanitise.
 	 * @return	string The sanitised string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function makeSafe($path)
 	{

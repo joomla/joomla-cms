@@ -15,7 +15,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.5
+ * @since		11.1
  */
 class JInstallerModule extends JAdapterInstance
 {
@@ -34,7 +34,7 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * @param	string	$path the path where to find language files
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function loadLanguage($path=null)
 	{
@@ -83,7 +83,7 @@ class JInstallerModule extends JAdapterInstance
 	 *
 	 * @return	boolean	True on success
 	 *
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function install()
 	{
@@ -448,7 +448,7 @@ class JInstallerModule extends JAdapterInstance
 	 * This is really a shell for the install system
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function update()
 	{
@@ -548,7 +548,7 @@ class JInstallerModule extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function refreshManifestCache()
 	{
@@ -576,7 +576,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param	int		$id			The id of the module to uninstall
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function uninstall($id)
 	{
@@ -777,7 +777,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param	array	$arg	Installation step to rollback
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _rollback_menu($arg)
 	{
@@ -807,7 +807,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @param	array	$arg	Installation step to rollback
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _rollback_module($arg)
 	{

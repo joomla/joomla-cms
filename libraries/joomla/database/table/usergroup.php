@@ -35,7 +35,7 @@ class JTableUsergroup extends JTable
 	 * Method to check the current record to save
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function check()
 	{
@@ -71,7 +71,7 @@ class JTableUsergroup extends JTable
 	 * @param	integer	The left id to start with in building the tree.
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function rebuild($parent_id = 0, $left = 0)
 	{
@@ -123,7 +123,7 @@ class JTableUsergroup extends JTable
 	 * @param	boolean		$updateNulls	If false, null object variables are not updated
 	 *
 	 * @return	boolean		True successful, false otherwise and an internal error message is set
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function store($updateNulls = false)
 	{
@@ -141,7 +141,7 @@ class JTableUsergroup extends JTable
 	 * @param	int		$oid	The primary key of the user group to delete.
 	 *
 	 * @return	mixed	Boolean or Exception.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function delete($oid = null)
 	{

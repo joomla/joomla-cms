@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	User
- * @since		1.5
+ * @since		11.1
  */
 class JUserHelper
 {
@@ -27,7 +27,7 @@ class JUserHelper
 	 * @param	integer		$userId		The id of the user.
 	 * @param	integer		$groupId	The id of the group.
 	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
@@ -83,7 +83,7 @@ class JUserHelper
 	 *
 	 * @param	integer		$userId		The id of the user.
 	 * @return	mixed		Array on success, JException on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -99,7 +99,7 @@ class JUserHelper
 	 * @param	integer		$userId		The id of the user.
 	 * @param	integer		$groupId	The id of the group.
 	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -138,7 +138,7 @@ class JUserHelper
 	 * @param	integer		$userId		The id of the user.
 	 * @param	array		$groups		An array of group ids to put the user in.
 	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
@@ -216,7 +216,7 @@ class JUserHelper
 	 *
 	 * @param	string	$activation	Activation string
 	 * @return	boolean			True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function activateUser($activation)
 	{
@@ -463,7 +463,7 @@ class JUserHelper
 	 * @static
 	 * @param	int		$length	Length of the password to generate
 	 * @return	string			Random Password
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function genRandomPassword($length = 8)
 	{

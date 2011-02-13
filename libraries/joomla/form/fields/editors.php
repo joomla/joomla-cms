@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldEditors extends JFormFieldList
 {
@@ -26,7 +26,7 @@ class JFormFieldEditors extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $type = 'Editors';
 
@@ -34,7 +34,7 @@ class JFormFieldEditors extends JFormFieldList
 	 * Method to get the field options.
 	 *
 	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getOptions()
 	{

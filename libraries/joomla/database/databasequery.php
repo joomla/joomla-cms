@@ -13,25 +13,25 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Database
- * @since		1.6
+ * @since		11.1
  */
 class JDatabaseQueryElement
 {
 	/**
 	 * @var		string	The name of the element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_name = null;
 
 	/**
 	 * @var		array	An array of elements.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_elements = null;
 
 	/**
 	 * @var		string	Glue piece.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_glue = null;
 
@@ -43,7 +43,7 @@ class JDatabaseQueryElement
 	 * @param	string	$glue		The glue for elements.
 	 *
 	 * @return	JDatabaseQueryElement
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($name, $elements, $glue = ',')
 	{
@@ -58,7 +58,7 @@ class JDatabaseQueryElement
 	 * Magic function to convert the query element to a string.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __toString()
 	{
@@ -71,7 +71,7 @@ class JDatabaseQueryElement
 	 * @param	mixed	String or array.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function append($elements)
 	{
@@ -89,79 +89,79 @@ class JDatabaseQueryElement
  *
  * @package		Joomla.Platform
  * @subpackage	Database
- * @since		1.6
+ * @since		11.1
  */
 class JDatabaseQuery
 {
 	/**
 	 * @var		string	The query type.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_type = '';
 
 	/**
 	 * @var		object	The select element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_select = null;
 
 	/**
 	 * @var		object	The delete element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_delete = null;
 
 	/**
 	 * @var		object	The update element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_update = null;
 
 	/**
 	 * @var		object	The insert element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_insert = null;
 
 	/**
 	 * @var		object	The from element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_from = null;
 
 	/**
 	 * @var		object	The join element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_join = null;
 
 	/**
 	 * @var		object	The set element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_set = null;
 
 	/**
 	 * @var		object	The where element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_where = null;
 
 	/**
 	 * @var		object	The group by element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_group = null;
 
 	/**
 	 * @var		object	The having element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_having = null;
 
 	/**
 	 * @var		object	The order element.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_order = null;
 
@@ -171,7 +171,7 @@ class JDatabaseQuery
 	 * @param	string	$clear	Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function clear($clause = null)
 	{
@@ -249,7 +249,7 @@ class JDatabaseQuery
 	 * @param	mixed	$columns	A string or an array of field names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function select($columns)
 	{
@@ -269,7 +269,7 @@ class JDatabaseQuery
 	 * @param	string	$table	The name of the table to delete from.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function delete($table = null)
 	{
@@ -287,7 +287,7 @@ class JDatabaseQuery
 	 * @param	mixed	$tables	A string or array of table names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function insert($tables)
 	{
@@ -301,7 +301,7 @@ class JDatabaseQuery
 	 * @param	mixed	$tables	A string or array of table names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function update($tables)
 	{
@@ -315,7 +315,7 @@ class JDatabaseQuery
 	 * @param	mixed	A string or array of table names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function from($tables)
 	{
@@ -334,7 +334,7 @@ class JDatabaseQuery
 	 * @param	string	$conditions
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function join($type, $conditions)
 	{
@@ -350,7 +350,7 @@ class JDatabaseQuery
 	 * @param	string	$conditions
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function innerJoin($conditions)
 	{
@@ -363,7 +363,7 @@ class JDatabaseQuery
 	 * @param	string	$conditions
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function outerJoin($conditions)
 	{
@@ -376,7 +376,7 @@ class JDatabaseQuery
 	 * @param	string	$conditions
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function leftJoin($conditions)
 	{
@@ -389,7 +389,7 @@ class JDatabaseQuery
 	 * @param	string	$conditions
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function rightJoin($conditions)
 	{
@@ -403,7 +403,7 @@ class JDatabaseQuery
 	 * @param	string	$glue
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function set($conditions, $glue=',')
 	{
@@ -423,7 +423,7 @@ class JDatabaseQuery
 	 * @param	string	$glue
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function where($conditions, $glue='AND')
 	{
@@ -442,7 +442,7 @@ class JDatabaseQuery
 	 * @param	mixed	$columns	A string or array of ordering columns.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function group($columns)
 	{
@@ -461,7 +461,7 @@ class JDatabaseQuery
 	 * @param	string	$glue
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function having($conditions, $glue='AND')
 	{
@@ -480,7 +480,7 @@ class JDatabaseQuery
 	 * @param	mixed	$columns	A string or array of ordering columns.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function order($columns)
 	{
@@ -498,7 +498,7 @@ class JDatabaseQuery
 	 * Magic function to convert the query to a string.
 	 *
 	 * @return	string	The completed query.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __toString()
 	{

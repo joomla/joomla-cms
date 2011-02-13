@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Filter
- * @since		1.5
+ * @since		11.1
  */
 class JFilterOutput
 {
@@ -58,7 +58,7 @@ class JFilterOutput
 	 * @static
 	 * @param	string	$input	String to process
 	 * @return	string	Processed string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function linkXHTMLSafe($input)
 	{
@@ -73,7 +73,7 @@ class JFilterOutput
 	 * @static
 	 * @param	string	$input	String to process
 	 * @return	string	Processed string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function stringURLSafe($string)
 	{
@@ -101,7 +101,7 @@ class JFilterOutput
 	 * @static
 	 * @param	string	$input	String to process
 	 * @return	string	Processed string
-	 * @since	1.6
+	 * @since	11.1
 	*/
 	public static function stringURLUnicodeSlug($string)
 	{
@@ -154,7 +154,7 @@ class JFilterOutput
 	 * @static
 	 * @param	string	$m	String to process
 	 * @return	string	Replaced string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function _ampReplaceCallback($m)
 	{

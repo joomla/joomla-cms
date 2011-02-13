@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Mail
- * @since		1.5
+ * @since		11.1
  */
 abstract class JMailHelper
 {
@@ -51,7 +51,7 @@ abstract class JMailHelper
 	 * @static
 	 * @param	string	$body	email body string.
 	 * @return	string	Cleaned email body string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function cleanBody($body)
 	{
@@ -65,7 +65,7 @@ abstract class JMailHelper
 	 * @static
 	 * @param	string	$subject	email subject string.
 	 * @return	string	Cleaned email subject string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function cleanSubject($subject)
 	{
@@ -78,7 +78,7 @@ abstract class JMailHelper
 	 * @static
 	 * @param	string	$address	email address.
 	 * @return	string|false	email address string or boolean false if injected headers are present.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function cleanAddress($address)
 	{
@@ -94,7 +94,7 @@ abstract class JMailHelper
 	 * @static
 	 * @param	string	$email	String to be verified.
 	 * @return	boolean	True if string has the correct format; false otherwise.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function isEmailAddress($email)
 	{

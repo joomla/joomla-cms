@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Registry
- * @since		1.5
+ * @since		11.1
  */
 abstract class JRegistryFormat
 {
@@ -25,7 +25,7 @@ abstract class JRegistryFormat
 	 * @param	string	The format to load
 	 * @return	object	Registry format handler
 	 * @throws	JException
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInstance($type)
 	{
@@ -62,7 +62,7 @@ abstract class JRegistryFormat
 	 * @param	object	Data Source Object.
 	 * @param	array	An array of options for the formatter.
 	 * @return	string	Formatted string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	abstract public function objectToString($object, $options = null);
 
@@ -72,7 +72,7 @@ abstract class JRegistryFormat
 	 * @param	string	Formatted string
 	 * @param	array	An array of options for the formatter.
 	 * @return	object	Data Object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	abstract public function stringToObject($data, $options = null);
 }

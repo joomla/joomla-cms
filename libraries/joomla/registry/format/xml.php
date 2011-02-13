@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Registry
- * @since		1.5
+ * @since		11.1
  */
 class JRegistryFormatXML extends JRegistryFormat
 {
@@ -25,7 +25,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 * @param	object	Data source object.
 	 * @param	array	Options used by the formatter.
 	 * @return	string	XML formatted string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -61,7 +61,7 @@ class JRegistryFormatXML extends JRegistryFormat
 	 * @param	string	XML formatted string to convert.
 	 * @param	array	Options used by the formatter.
 	 * @return	object	Data object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function stringToObject($data, $options = array())
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage		Table
- * @since	1.6
+ * @since	11.1
  */
 class JTableExtension extends JTable
 {

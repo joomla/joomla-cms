@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage		Parameter
- * @since		1.5
+ * @since		11.1
  */
 class JElement extends JObject
 {

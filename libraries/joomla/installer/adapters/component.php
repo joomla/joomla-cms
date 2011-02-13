@@ -15,7 +15,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.5
+ * @since		11.1
  */
 class JInstallerComponent extends JAdapterInstance
 {
@@ -33,7 +33,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param	string	$path the path where to find language files
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function loadLanguage($path=null)
 	{
@@ -82,7 +82,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Custom install method for components
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function install()
 	{
@@ -496,7 +496,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Custom update method for components
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function update()
 	{
@@ -1164,7 +1164,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Method to build menu database entries for a component
 	 *
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _buildAdminMenus()
 	{
@@ -1351,7 +1351,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param	object	$component	Component table object
 	 *
 	 * @return	boolean	True if successful
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _removeAdminMenus(&$row)
 	{
@@ -1403,7 +1403,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param	array	$arg	Installation step to rollback
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _rollback_menu()
 	{
@@ -1414,7 +1414,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Discover unregistered extensions.
 	 *
 	 * @return	array	A list of extensions.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function discover()
 	{
@@ -1456,7 +1456,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * Install unregistered extensions that have been discovered.
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function discover_install()
 	{
@@ -1715,7 +1715,7 @@ class JInstallerComponent extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function refreshManifestCache()
 	{

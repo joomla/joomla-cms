@@ -18,7 +18,7 @@ jimport('joomla.installer.packagemanifest');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.6
+ * @since		11.1
  */
 class JInstallerPackage extends JAdapterInstance
 {
@@ -41,7 +41,7 @@ class JInstallerPackage extends JAdapterInstance
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function install()
 	{
@@ -204,7 +204,7 @@ class JInstallerPackage extends JAdapterInstance
 	 * @access	public
 	 * @param	int		$id	The id of the package to uninstall
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function uninstall($id)
 	{
@@ -331,7 +331,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function refreshManifestCache()
 	{

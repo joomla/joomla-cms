@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @package		Joomla.Platform
  * @subpackage	HTML
  * @static
- * @since		1.6
+ * @since		11.1
  */
 abstract class JHtmlAccess
 {

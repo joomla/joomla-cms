@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Utilities
- * @since		1.5
+ * @since		11.1
  */
 class JSimpleCrypt extends JObject
 {
@@ -32,7 +32,7 @@ class JSimpleCrypt extends JObject
 	 * @access	protected
 	 * @param	string	$key	Optional encryption key
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function __construct($key = null)
 	{

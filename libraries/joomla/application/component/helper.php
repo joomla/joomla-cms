@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 class JComponentHelper
 {
@@ -21,7 +21,7 @@ class JComponentHelper
 	 * The component list cache
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected static $_components = array();
 
@@ -32,7 +32,7 @@ class JComponentHelper
 	 * @param	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
 	 *
 	 * @return	object	An object with the fields for the component.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getComponent($option, $strict = false)
 	{
@@ -58,7 +58,7 @@ class JComponentHelper
 	 * @param	boolean	$string	If set and a component does not exist, false will be returned
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function isEnabled($option, $strict = false)
 	{
@@ -74,7 +74,7 @@ class JComponentHelper
 	 * @param	boolean		If set and a component does not exist, false will be returned
 	 *
 	 * @return	JRegistry	As of 1.6, this method returns a JRegistry (previous versions returned JParameter).
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getParams($option, $strict = false)
 	{
@@ -89,7 +89,7 @@ class JComponentHelper
 	 * @param	string	The component option.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function renderComponent($option, $params = array())
 	{
@@ -171,7 +171,7 @@ class JComponentHelper
 	 * Load the installed components into the _components property.
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected static function _load($option)
 	{

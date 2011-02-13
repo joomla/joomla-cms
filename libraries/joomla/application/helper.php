@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @static
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 class JApplicationHelper
 {
@@ -28,7 +28,7 @@ class JApplicationHelper
 	 *
 	 * @param	string $default The default option
 	 * @return	string Option
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getComponentName($default = NULL)
 	{
@@ -58,7 +58,7 @@ class JApplicationHelper
 	 * @param	int			$id		A client identifier
 	 * @param	boolean		$byName	If True, find the client by it's name
 	 * @return	mixed	Object describing the client or false if not known
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getClientInfo($id = null, $byName = false)
 	{
@@ -116,7 +116,7 @@ class JApplicationHelper
 	 *
 	 * @param	mixed	A client identifier either an array or object
 	 * @return	boolean	True if the information is added. False on error
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function addClientInfo($client)
 	{

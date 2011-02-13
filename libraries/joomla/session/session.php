@@ -21,7 +21,7 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
  *
  * @package		Joomla.Platform
  * @subpackage	Session
- * @since		1.5
+ * @since		11.1
  */
 class JSession extends JObject
 {
@@ -123,7 +123,7 @@ class JSession extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @return	JSession	The Session object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInstance($handler, $options)
 	{
@@ -207,7 +207,7 @@ class JSession extends JObject
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
 	 * @return	string  Hashed var name
-	 * @since		1.5
+	 * @since		11.1
 	 * @static
 	 */
 	public static function getFormToken($forceNew = false)

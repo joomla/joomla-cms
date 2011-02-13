@@ -17,7 +17,7 @@ JLoader::register('JDocumentRenderer', dirname(__FILE__).DS.'renderer.php');
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Document
- * @since		1.5
+ * @since		11.1
  */
 class JDocument extends JObject
 {

@@ -16,49 +16,49 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Filter
- * @since		1.5
+ * @since		11.1
  */
 class JFilterInput extends JObject
 {
 	/**
 	 * @var		array	An array of permitted tags.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $tagsArray;
 
 	/**
 	 * @var		array	An array of permitted tag attributes.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $attrArray;
 
 	/**
 	 * @var		int		WhiteList method = 0 (default), BlackList method = 1
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $tagsMethod;
 
 	/**
 	 * @var		int		WhiteList method = 0 (default), BlackList method = 1
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $attrMethod;
 
 	/**
 	 * @var		int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $xssAuto;
 
 	/**
 	 * @var		array	A list of the default blacklisted tags.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
 
 	/**
 	 * @var		array	A list of the default blacklisted tag attributes.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	var $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
 
@@ -71,7 +71,7 @@ class JFilterInput extends JObject
 	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
@@ -96,7 +96,7 @@ class JFilterInput extends JObject
 	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @return	object	The JFilterInput object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
@@ -122,7 +122,7 @@ class JFilterInput extends JObject
 	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
 	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 * @return	mixed	'Cleaned' version of input parameter
-	 * @since	1.5
+	 * @since	11.1
 	 * @static
 	 */
 	public function clean($source, $type='string')
@@ -223,7 +223,7 @@ class JFilterInput extends JObject
 	 *
 	 * @param	array	$attrSubSet	A 2 element array for attributes name,value
 	 * @return	boolean True if bad code is detected
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function checkAttribute($attrSubSet)
 	{
@@ -237,7 +237,7 @@ class JFilterInput extends JObject
 	 *
 	 * @param	string	$source	Input string to be 'cleaned'
 	 * @return	string	'Cleaned' version of input parameter
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _remove($source)
 	{
@@ -256,7 +256,7 @@ class JFilterInput extends JObject
 	 *
 	 * @param	string	Input string to be 'cleaned'
 	 * @return	string	'Cleaned' version of input parameter
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _cleanTags($source)
 	{
@@ -434,7 +434,7 @@ class JFilterInput extends JObject
 	 *
 	 * @param	array	$attrSet	Array of attribute pairs to filter
 	 * @return	array	Filtered array of attribute pairs
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
@@ -511,7 +511,7 @@ class JFilterInput extends JObject
 	 *
 	 * @param	string	$source The source string.
 	 * @return	string	Plaintext string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _decode($source)
 	{

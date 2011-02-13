@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.6
+ * @since		11.1
  */
 abstract class JHtmlNumber
 {
@@ -29,7 +29,7 @@ abstract class JHtmlNumber
 	 * @param	int		$precision	The number of digits to be used after the decimal place.
 	 *
 	 * @return	string	The number of bytes in the proper units.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function bytes($bytes, $unit = 'auto', $precision = 2)
 	{

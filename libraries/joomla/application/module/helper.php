@@ -17,7 +17,7 @@ jimport('joomla.application.component.helper');
  * @static
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 abstract class JModuleHelper
 {
@@ -218,7 +218,7 @@ abstract class JModuleHelper
 	 * @param	string	$module	The name of the module
 	 * @param	string	$layout	The name of the module layout. If alternative layout, in the form template:filename.
 	 * @return	string	The path to the module layout
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
@@ -370,7 +370,7 @@ abstract class JModuleHelper
 	* @param	object	$cacheparams module cache parameters - id or url parameters, depending on the module cache mode
 	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	*
-	* @since	1.6
+	* @since	11.1
 	*/
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{

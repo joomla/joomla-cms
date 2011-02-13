@@ -37,7 +37,7 @@ class JTableViewlevel extends JTable
 	 * @param	array		$array		The data to bind.
 	 * @param	mixed		$ignore		An array or space separated list of fields to ignore.
 	 * @return	boolean		True on success, false on failure.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function bind($array, $ignore = '')
 	{

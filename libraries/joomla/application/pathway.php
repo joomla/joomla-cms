@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 class JPathway extends JObject
 {
@@ -49,7 +49,7 @@ class JPathway extends JObject
 	 * @param	string		$client  The name of the client
 	 * @param	array		$options An associative array of options
 	 * @return	JPathway	A pathway object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	static function getInstance($client, $options = array())
 	{
@@ -106,7 +106,7 @@ class JPathway extends JObject
 	 * @access	public
 	 * @param	array	$pathway	An array of pathway objects.
 	 * @return	array	The previous pathway data.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function setPathway($pathway)
 	{

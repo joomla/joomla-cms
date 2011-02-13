@@ -16,7 +16,7 @@ jimport('joomla.base.observer');
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Event
- * @since		1.5
+ * @since		11.1
  */
 abstract class JEvent extends JObserver
 {

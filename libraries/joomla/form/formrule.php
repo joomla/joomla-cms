@@ -18,7 +18,7 @@ if (!defined('JCOMPAT_UNICODE_PROPERTIES')) {
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormRule
 {
@@ -26,7 +26,7 @@ class JFormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $regex;
 
@@ -34,7 +34,7 @@ class JFormRule
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $modifiers;
 
@@ -53,7 +53,7 @@ class JFormRule
 	 * @param	object	$form		The form object for which the field is being tested.
 	 *
 	 * @return	boolean	True if the value is valid, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 * @throws	JException on invalid rule.
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)

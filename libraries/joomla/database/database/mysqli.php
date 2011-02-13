@@ -42,7 +42,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * Database object constructor
 	 *
 	 * @param	array	List of options used to configure the connection
-	 * @since	1.5
+	 * @since	11.1
 	 * @see		JDatabase
 	 */
 	function __construct($options)
@@ -107,7 +107,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * Database object destructor
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __destruct()
 	{
@@ -130,7 +130,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function connected()
 	{
@@ -142,7 +142,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @param	string $database
 	 * @return	boolean True if the database has been successfully selected
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function select($database)
 	{
@@ -518,7 +518,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @return	mixed	The result of the query as an array, false if there are no more rows, or null on an error.
 	 *
-	 * @since	1.6.0
+	 * @since	11.1.0
 	 */
 	public function loadNextRow()
 	{
@@ -545,7 +545,7 @@ class JDatabaseMySQLi extends JDatabase
 	 *
 	 * @return	mixed	The result of the query as an object, false if there are no more rows, or null on an error.
 	 *
-	 * @since	1.6.0
+	 * @since	11.1.0
 	 */
 	public function loadNextObject($className = 'stdClass')
 	{

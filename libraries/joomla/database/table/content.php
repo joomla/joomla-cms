@@ -34,7 +34,7 @@ class JTableContent extends JTable
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getAssetName()
 	{
@@ -46,7 +46,7 @@ class JTableContent extends JTable
 	 * Method to return the title to use for the asset table.
 	 *
 	 * @return	string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getAssetTitle()
 	{
@@ -57,7 +57,7 @@ class JTableContent extends JTable
 	 * Get the parent asset id for the record
 	 *
 	 * @return	int
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
@@ -95,7 +95,7 @@ class JTableContent extends JTable
 	 *
 	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see		JTable:bind
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -138,7 +138,7 @@ class JTableContent extends JTable
 	 *
 	 * @return	boolean
 	 * @see		JTable::check
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function check()
 	{
@@ -201,7 +201,7 @@ class JTableContent extends JTable
 	 * @param	boolean	True to update fields even if they are null.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -314,7 +314,7 @@ class JTableContent extends JTable
 	 * Converts record to XML
 	 *
 	 * @param	boolean	Map foreign keys to text values
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function toXML($mapKeysToText=false)
 	{

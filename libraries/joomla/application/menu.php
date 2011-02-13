@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.5
+ * @since		11.1
  */
 class JMenu extends JObject
 {
@@ -44,7 +44,7 @@ class JMenu extends JObject
 	 * @param	array	$options	An array of configuration options.
 	 *
 	 * @return	JMenu
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -70,7 +70,7 @@ class JMenu extends JObject
 	 * @param	array	An associative array of options
 	 *
 	 * @return	JMenu	A menu object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -110,7 +110,7 @@ class JMenu extends JObject
 	 * @param	int		$id	The item id
 	 *
 	 * @return	mixed	The item object, or null if not found
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getItem($id)
 	{
@@ -129,7 +129,7 @@ class JMenu extends JObject
 	 * @param	string	$language	The language cod (since 1.6).
 	 *
 	 * @return	boolean	True, if succesfull
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function setDefault($id, $language='')
 	{
@@ -147,7 +147,7 @@ class JMenu extends JObject
 	 * @param	string	$language	The language code.
 	 *
 	 * @return	object	The item object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function getDefault($language='*')
 	{
@@ -278,7 +278,7 @@ class JMenu extends JObject
 	 *
 	 * @param	integer	$id	The menu id
 	 * @return	boolean	True if authorized
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function authorise($id)
 	{

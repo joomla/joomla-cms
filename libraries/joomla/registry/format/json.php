@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Registry
- * @since		1.6
+ * @since		11.1
  */
 class JRegistryFormatJSON extends JRegistryFormat
 {
@@ -23,7 +23,7 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 * @param	object	Data source object.
 	 * @param	array	Options used by the formatter.
 	 * @return	string	JSON formatted string.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function objectToString($object, $options = array())
 	{

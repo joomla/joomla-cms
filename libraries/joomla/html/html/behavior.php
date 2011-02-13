@@ -26,7 +26,7 @@ abstract class JHtmlBehavior
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -65,7 +65,7 @@ abstract class JHtmlBehavior
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 * @deprecated
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function mootools($debug = null)
 	{
@@ -76,7 +76,7 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for image captions.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function caption()
 	{
@@ -104,7 +104,7 @@ abstract class JHtmlBehavior
 	 * numberic and email. To use these add class="validate-email" and so on.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function formvalidation()
 	{
@@ -128,7 +128,7 @@ abstract class JHtmlBehavior
 	 * Global Configuration and System Information.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function switcher()
 	{
@@ -166,7 +166,7 @@ abstract class JHtmlBehavior
 	 * Avoid using a combobox in a slider or dynamic pane.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function combobox()
 	{
@@ -207,7 +207,7 @@ abstract class JHtmlBehavior
 	 * @param	array	$params		An array of options for the tooltip.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function tooltip($selector='.hasTip', $params = array())
 	{
@@ -277,7 +277,7 @@ abstract class JHtmlBehavior
 	 * @param	array	$params		An array of parameters for the modal behaviour.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -353,7 +353,7 @@ abstract class JHtmlBehavior
 	 * @param	string	$upload_queue
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
@@ -511,7 +511,7 @@ abstract class JHtmlBehavior
 	 * @param	$root	array
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
@@ -574,7 +574,7 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for a calendar control.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function calendar()
 	{
@@ -605,7 +605,7 @@ abstract class JHtmlBehavior
 	 * Keep session alive, for example, while editing or creating an article.
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function keepalive()
 	{
@@ -648,7 +648,7 @@ abstract class JHtmlBehavior
 	 * Break us out of any containing iframes
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function noframes($location='top.location.href')
 	{
@@ -675,7 +675,7 @@ abstract class JHtmlBehavior
 	 * @param	array	$array	The array to convert to JavaScript object notation
 	 *
 	 * @return	string	JavaScript object notation representation of the array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected static function _getJSObject($array=array())
 	{
@@ -726,7 +726,7 @@ abstract class JHtmlBehavior
 	 * Internal method to translate the JavaScript Calendar
 	 *
 	 * @return	string	JavaScript that translates the object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected static function _calendartranslation()
 	{

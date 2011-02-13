@@ -18,7 +18,7 @@ jimport('joomla.base.observable');
  *
  * @package		Joomla.Platform
  * @subpackage	Event
- * @since		1.5
+ * @since		11.1
  * @see			JPlugin
  * @link		http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
  */
@@ -30,7 +30,7 @@ class JDispatcher extends JObservable
 	 *
 	 * @access	public
 	 * @return	JDispatcher		The EventDispatcher object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInstance()
 	{
@@ -50,7 +50,7 @@ class JDispatcher extends JObservable
 	 * @param	string	$event		Name of the event to register handler for
 	 * @param	string	$handler	Name of the event handler
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function register($event, $handler)
 	{
@@ -80,7 +80,7 @@ class JDispatcher extends JObservable
 	 * @param	string	$event		The event to trigger.
 	 * @param	array	$args		An array of arguments.
 	 * @return	array	An array of results from each function call.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function trigger($event, $args = array())
 	{

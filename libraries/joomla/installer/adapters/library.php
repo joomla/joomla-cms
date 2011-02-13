@@ -16,7 +16,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package		Joomla.Platform
  * @subpackage	Installer
- * @since		1.6
+ * @since		11.1
  */
 class JInstallerLibrary extends JAdapterInstance
 {
@@ -25,7 +25,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 *
 	 * @access	public
 	 * @param	string	$path the path where to find language files
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function loadLanguage($path=null)
 	{
@@ -49,7 +49,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 *
 	 * @access	public
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function install()
 	{
@@ -232,7 +232,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @access	public
 	 * @param	string	$id	The id of the library to uninstall
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function uninstall($id)
 	{
@@ -389,7 +389,7 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function refreshManifestCache()
 	{

@@ -16,7 +16,7 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldEditor extends JFormField
 {
@@ -24,7 +24,7 @@ class JFormFieldEditor extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public $type = 'Editor';
 
@@ -32,7 +32,7 @@ class JFormFieldEditor extends JFormField
 	 * The JEditor object.
 	 *
 	 * @var		object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $editor;
 
@@ -40,7 +40,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getInput()
 	{
@@ -78,7 +78,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get a JEditor object based on the form field.
 	 *
 	 * @return	object	The JEditor object.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function &getEditor()
 	{
@@ -130,7 +130,7 @@ class JFormFieldEditor extends JFormField
 	 * Method to get the JEditor output for an onSave event.
 	 *
 	 * @return	string	The JEditor object output.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function save()
 	{

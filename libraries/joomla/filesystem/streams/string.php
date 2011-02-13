@@ -18,7 +18,7 @@ jimport('joomla.filesystem.support.stringcontroller');
  *
  * @package		Joomla.Platform
  * @subpackage	FileSystem
- * @since		1.6
+ * @since		11.1
  */
 class JStreamString
 {
@@ -45,7 +45,7 @@ class JStreamString
 	 * @param	$opened_path
 	 *
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_open($path, $mode, $options, &$opened_path)
 	{
@@ -65,7 +65,7 @@ class JStreamString
 
 	/**
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_stat()
 	{
@@ -77,7 +77,7 @@ class JStreamString
 	 * @param	$flags
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function url_stat($path, $flags = 0)
 	{
@@ -106,7 +106,7 @@ class JStreamString
 	 * @param	$count
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_read($count)
 	{
@@ -118,7 +118,7 @@ class JStreamString
 
 	/**
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_write($data)
 	{
@@ -128,7 +128,7 @@ class JStreamString
 
 	/**
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_tell()
 	{
@@ -137,7 +137,7 @@ class JStreamString
 
 	/**
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_eof()
 	{
@@ -153,7 +153,7 @@ class JStreamString
 	 * @param	$whence
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_seek($offset, $whence)
 	{
@@ -187,7 +187,7 @@ class JStreamString
 
 	/**
 	 * @return	boolean
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function stream_flush()
 	{

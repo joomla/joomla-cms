@@ -13,12 +13,12 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Cache
- * @since		1.5
+ * @since		11.1
  */
 class JCacheStorageFile extends JCacheStorage
 {
 	/**
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private $_root;
 
@@ -26,7 +26,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Constructor
 	 *
 	 * @param	array	$options optional parameters
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -43,7 +43,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$group		The cache data group
 	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
 	 * @return	mixed	Boolean false on failure or a cached data string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -70,7 +70,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Get all cached data
 	 *
 	 * @return	array data
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAll()
 	{
@@ -101,7 +101,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	string	$data	The data to store in cache
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -134,7 +134,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -154,7 +154,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
 	 * @return	boolean	True on success, false otherwise
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -188,7 +188,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Garbage collect expired cache data
 	 *
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function gc()
 	{
@@ -208,7 +208,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * Test to see if the cache storage is available.
 	 *
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function test()
 	{
@@ -223,7 +223,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$group	The cache data group
 	 * @param	integer	$locktime Cached item max lock time
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function lock($id,$group,$locktime)
 	{
@@ -271,7 +271,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -294,7 +294,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param	string	$id		Cache key to expire.
 	 * @param	string	$group	The cache data group.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function _checkExpire($id, $group)
 	{
@@ -318,7 +318,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
 	 * @return	string	The cache file path
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	private function _getFilePath($id, $group)
 	{
@@ -426,7 +426,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	The path to clean
 	 * @param	string	Directory separator (optional)
 	 * @return	string	The cleaned path
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	private function _cleanPath($path, $ds = DS)
 	{

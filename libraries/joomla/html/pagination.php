@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JPagination extends JObject
 {
@@ -58,7 +58,7 @@ class JPagination extends JObject
 	 * may be useful for filters and extra values when dealing with lists and GET requests.
 	 *
 	 * @var		array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $_additionalUrlParams = array();
 
@@ -128,7 +128,7 @@ class JPagination extends JObject
 	 *
 	 * @return	mixed	The old value for the parameter.
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function setAdditionalUrlParam($key, $value)
 	{
@@ -154,7 +154,7 @@ class JPagination extends JObject
 	 *
 	 * @return	mixed	The value if it exists or null if it does not.
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAdditionalUrlParam($key)
 	{
@@ -168,7 +168,7 @@ class JPagination extends JObject
 	 *
 	 * @param	int		$index The row index
 	 * @return	int		Rationalised offset for a row with a given index.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getRowOffset($index)
 	{
@@ -179,7 +179,7 @@ class JPagination extends JObject
 	 * Return the pagination data object, only creating it if it doesn't already exist.
 	 *
 	 * @return	object	Pagination data object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getData()
 	{
@@ -194,7 +194,7 @@ class JPagination extends JObject
 	 * Create and return the pagination pages counter string, ie. Page 2 of 4.
 	 *
 	 * @return	string	Pagination pages counter string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getPagesCounter()
 	{
@@ -210,7 +210,7 @@ class JPagination extends JObject
 	 * Create and return the pagination result set counter string, ie. Results 1-10 of 42
 	 *
 	 * @return	string	Pagination result set counter string.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getResultsCounter()
 	{
@@ -504,7 +504,7 @@ class JPagination extends JObject
 	 * Create and return the pagination data object.
 	 *
 	 * @return	object	Pagination data object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _buildDataObject()
 	{
@@ -582,7 +582,7 @@ class JPagination extends JObject
  *
  * @package		Joomla.Platform
  * @subpackage	HTML
- * @since		1.5
+ * @since		11.1
  */
 class JPaginationObject extends JObject
 {

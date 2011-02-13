@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage		HTML
- * @since		1.5
+ * @since		11.1
  */
 class JButtonPopup extends JButton
 {
@@ -50,7 +50,7 @@ class JButtonPopup extends JButton
 	 * @access		public
 	 * @param		string	$name	Button name
 	 * @return		string	Button CSS Id
-	 * @since		1.5
+	 * @since		11.1
 	 */
 	public function fetchId($type, $name)
 	{
@@ -63,7 +63,7 @@ class JButtonPopup extends JButton
 	 * @access	private
 	 * @param	object	$definition	Button definition
 	 * @return	string	JavaScript command string
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getCommand($name, $url, $width, $height, $top, $left)
 	{

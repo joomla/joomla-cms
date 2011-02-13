@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.6
+ * @since		11.1
  */
 class JCategories
 {
@@ -82,7 +82,7 @@ class JCategories
 	 * Class constructor
 	 *
 	 * @return	JCategories
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($options)
 	{
@@ -105,7 +105,7 @@ class JCategories
 	 * @param	$options An array of options
 	 *
 	 * @return	object
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getInstance($extension, $options = array())
 	{
@@ -141,7 +141,7 @@ class JCategories
 	 * @param an optional id integer or equal to 'root'
 	 *
 	 * @return	JCategoryNode|null
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function get($id = 'root', $forceload = false)
 	{
@@ -306,7 +306,7 @@ class JCategories
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.6
+ * @since		11.1
  */
 class JCategoryNode extends JObject
 {
@@ -389,7 +389,7 @@ class JCategoryNode extends JObject
 	 * @param	$category
 	 *
 	 * @return	JCategoryNode
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($category = null, &$constructor = null)
 	{
@@ -413,7 +413,7 @@ class JCategoryNode extends JObject
 	 * @param	JCategoryNode|null	$parent	The parent to be setted
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function setParent(&$parent)
 	{
@@ -450,7 +450,7 @@ class JCategoryNode extends JObject
 	 * @param	JNode	$child	The child to be added.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function addChild(&$child)
 	{
@@ -465,7 +465,7 @@ class JCategoryNode extends JObject
 	 * @param	int		$id	ID of a category
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function removeChild($id)
 	{
@@ -477,7 +477,7 @@ class JCategoryNode extends JObject
 	 * Get the children of this node
 	 *
 	 * @return	array the children
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function &getChildren($recursive = false)
 	{
@@ -506,7 +506,7 @@ class JCategoryNode extends JObject
 	 * Get the parent of this node
 	 *
 	 * @return	JNode|null the parent
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function &getParent()
 	{
@@ -517,7 +517,7 @@ class JCategoryNode extends JObject
 	 * Test if this node has children
 	 *
 	 * @return	bool
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function hasChildren()
 	{
@@ -528,7 +528,7 @@ class JCategoryNode extends JObject
 	 * Test if this node has a parent
 	 *
 	 * @return	bool
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function hasParent()
 	{
@@ -581,7 +581,7 @@ class JCategoryNode extends JObject
 	 * Returns the category parameters
 	 *
 	 * @return	JRegistry
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function getParams()
 	{
@@ -598,7 +598,7 @@ class JCategoryNode extends JObject
 	 * Returns the category metadata
 	 *
 	 * @return	JRegistry
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function getMetadata()
 	{

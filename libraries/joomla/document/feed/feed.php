@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Document
- * @since		1.5
+ * @since		11.1
  */
 
 jimport('joomla.document.document');
@@ -249,7 +249,7 @@ class JDocumentFeed extends JDocument
  *
  * @package		Joomla.Platform
  * @subpackage		Document
- * @since	1.5
+ * @since	11.1
  */
 class JFeedItem extends JObject
 {
@@ -391,7 +391,7 @@ class JFeedItem extends JObject
  *
  * @package		Joomla.Platform
  * @subpackage	Document
- * @since		1.5
+ * @since		11.1
  */
 class JFeedEnclosure extends JObject
 {
@@ -431,7 +431,7 @@ class JFeedEnclosure extends JObject
  *
  * @package		Joomla.Platform
  * @subpackage	Document
- * @since		1.5
+ * @since		11.1
  */
 class JFeedImage extends JObject
 {

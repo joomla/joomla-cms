@@ -15,43 +15,43 @@ jimport('joomla.application.component.modelform');
  *
  * @package		Joomla.Platform
  * @subpackage	Application
- * @since		1.6
+ * @since		11.1
  */
 abstract class JModelAdmin extends JModelForm
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $text_prefix = null;
 
 	/**
 	 * @var		string	The event to trigger after deleting the data.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $event_after_delete = null;
 
 	/**
 	 * @var		string	The event to trigger after saving the data.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $event_after_save = null;
 
 	/**
 	 * @var		string	The event to trigger after deleting the data.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $event_before_delete = null;
 
 	/**
 	 * @var		string	The event to trigger after saving the data.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $event_before_save = null;
 
 	/**
 	 * @var		string	The event to trigger after changing the published state of the data.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $event_change_state = null;
 
@@ -61,7 +61,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	array	$config	An optional associative array of configuration settings.
 	 *
 	 * @see		JController
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -111,7 +111,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	object	$record	A record object.
 	 *
 	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function canDelete($record)
 	{
@@ -125,7 +125,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	object	$record	A record object.
 	 *
 	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function canEditState($record)
 	{
@@ -139,7 +139,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	integer|array	$pks	The ID of the primary key or an array of IDs
 	 *
 	 * @return	mixed	Boolean false if there is an error, otherwise the count of records checked in.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function checkin($pks = array())
 	{
@@ -181,7 +181,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	int		$pk	The ID of the primary key.
 	 *
 	 * @return	boolean	True if successful, false if an error occurs.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function checkout($pk = null)
 	{
@@ -197,7 +197,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	array	$pks	An array of record primary keys.
 	 *
 	 * @return	boolean	True if successful, false if an error occurs.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function delete(&$pks)
 	{
@@ -266,7 +266,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	integer	$pk	The id of the primary key.
 	 *
 	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getItem($pk = null)
 	{
@@ -304,7 +304,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	object	$table	A JTable object.
 	 *
 	 * @return	array	An array of conditions to add to ordering queries.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -315,7 +315,7 @@ abstract class JModelAdmin extends JModelForm
 	 * Stock method to auto-populate the model state.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function populateState()
 	{
@@ -339,7 +339,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	JTable	$table	A reference to a JTable object.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function prepareTable(&$table)
 	{
@@ -353,7 +353,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	int		$value	The value of the published state.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function publish(&$pks, $value = 1)
 	{
@@ -413,7 +413,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	integer			$delta	Increment, usually +1 or -1
 	 *
 	 * @return	boolean|null	False on failure or error, true on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function reorder($pks, $delta = 0)
 	{
@@ -475,7 +475,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	array	$data	The form data.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function save($data)
 	{
@@ -557,7 +557,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	int		$order	+/-1
 	 *
 	 * @return	mixed
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	function saveorder($pks = null, $order = null)
 	{

@@ -15,7 +15,7 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldSpacer extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldSpacer extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected $type = 'Spacer';
 
@@ -31,7 +31,7 @@ class JFormFieldSpacer extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getInput()
 	{
@@ -42,7 +42,7 @@ class JFormFieldSpacer extends JFormField
 	 * Method to get the field label markup.
 	 *
 	 * @return	string	The field label markup.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getLabel()
 	{
@@ -87,7 +87,7 @@ class JFormFieldSpacer extends JFormField
 	 * Method to get the field title.
 	 *
 	 * @return	string	The field title.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	protected function getTitle()
 	{

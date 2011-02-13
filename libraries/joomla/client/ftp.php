@@ -50,7 +50,7 @@ if (!defined('FTP_NATIVE')) {
  *
  * @package		Joomla.Platform
  * @subpackage	Client
- * @since		1.5
+ * @since		11.1
  */
 class JFTP extends JObject
 {
@@ -293,7 +293,7 @@ class JFTP extends JObject
 	 *
 	 * @access	public
 	 * @return	boolean	True if connected
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function isConnected()
 	{

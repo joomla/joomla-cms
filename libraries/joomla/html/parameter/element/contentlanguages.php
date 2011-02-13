@@ -15,7 +15,7 @@ require_once dirname(__FILE__).DS.'list.php';
  *
  * @package		Joomla.Platform
  * @subpackage	Parameter
- * @since		1.6
+ * @since		11.1
  */
 class JElementContentLanguages extends JElementList
 {

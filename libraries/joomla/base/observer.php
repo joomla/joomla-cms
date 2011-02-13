@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * @abstract
  * @package		Joomla.Platform
  * @subpackage	Base
- * @since		1.5
+ * @since		11.1
  */
 abstract class JObserver extends JObject
 {

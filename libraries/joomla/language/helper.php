@@ -22,7 +22,7 @@ class JLanguageHelper
 	 * @param	string	Client key for the area
 	 * @param	string	Base path to use
 	 * @param	array	An array of arrays (text, value, selected)
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -66,7 +66,7 @@ class JLanguageHelper
 	 * Tries to detect the language.
 	 *
 	 * @return	string locale or null if not found
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function detectLanguage()
 	{
@@ -109,7 +109,7 @@ class JLanguageHelper
 	 *
 	 * @param	string array key
 	 * @return	array of published languages
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public static function getLanguages($key='default')
 	{

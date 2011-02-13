@@ -16,7 +16,7 @@ jimport('joomla.registry.registry');
  *
  * @package		Joomla.Platform
  * @subpackage	User
- * @since		1.5
+ * @since		11.1
  */
 class JUser extends JObject
 {
@@ -107,7 +107,7 @@ class JUser extends JObject
 	/**
 	 * Associative array of user names => group ids
 	 *
-	 * @since	1.6
+	 * @since	11.1
 	 * @var		array
 	 */
 	public $groups = array();
@@ -154,7 +154,7 @@ class JUser extends JObject
 	 * @param	int		$identifier	The primary key of the user to load (optional).
 	 *
 	 * @return	JUser
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($identifier = 0)
 	{
@@ -181,7 +181,7 @@ class JUser extends JObject
 	 * @param	int		$identifier	The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
 	 * @return	JUser	The User object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getInstance($identifier = 0)
 	{
@@ -219,7 +219,7 @@ class JUser extends JObject
 	 * @param	mixed	$default	Parameter default value
 	 *
 	 * @return	mixed	The value or the default if it did not exist
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getParam($key, $default = null)
 	{
@@ -233,7 +233,7 @@ class JUser extends JObject
 	 * @param	mixed	$value	Parameter value
 	 *
 	 * @return	mixed	Set parameter value
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function setParam($key, $value)
 	{
@@ -247,7 +247,7 @@ class JUser extends JObject
 	 * @param	mixed	$value	Parameter value
 	 *
 	 * @return	mixed	Set parameter value
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function defParam($key, $value)
 	{
@@ -270,7 +270,7 @@ class JUser extends JObject
 	 * @param	string	$assetname	The name of the asset on which to perform the action.
 	 *
 	 * @return	boolean	True if authorised
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function authorise($action, $assetname = null)
 	{
@@ -319,7 +319,7 @@ class JUser extends JObject
 	 * @param	string	$action		The name of the section within the component from which to retrieve the actions.
 	 *
 	 * @return	array	List of categories that this group can do this action to (empty array if none). Categories must be published.
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAuthorisedCategories($component, $action) {
 		// Brute force method: get all published category rows for the component and check each one
@@ -346,7 +346,7 @@ class JUser extends JObject
 	 * Gets an array of the authorised access levels for the user
 	 *
 	 * @return	array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAuthorisedViewLevels()
 	{
@@ -364,7 +364,7 @@ class JUser extends JObject
 	 * Gets an array of the authorised user groups
 	 *
 	 * @return	array
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function getAuthorisedGroups()
 	{
@@ -384,7 +384,7 @@ class JUser extends JObject
 	 * @param	int		$timestamp	The timestamp, defaults to 'now'.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function setLastVisit($timestamp = null)
 	{
@@ -406,7 +406,7 @@ class JUser extends JObject
 	 * @param	path	$path			Set the parameters setup file base path to be used to load the user parameters.
 	 *
 	 * @return	object	The user parameters object.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getParameters($loadsetupfile = false, $path = null)
 	{
@@ -442,7 +442,7 @@ class JUser extends JObject
 	 * @param	object	$params	The user parameters object
 	 *
 	 * @return	void
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function setParameters($params)
 	{
@@ -460,7 +460,7 @@ class JUser extends JObject
 	 * @param	string	$prefix	The user table prefix to be used
 	 *
 	 * @return	object	The user table object
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
 	{
@@ -488,7 +488,7 @@ class JUser extends JObject
 	 * @param	array	$array	The associative array to bind to the object
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function bind(& $array)
 	{
@@ -588,7 +588,7 @@ class JUser extends JObject
 	 * @param	boolean	$updateOnly	Save the object only if not a new user
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function save($updateOnly = false)
 	{
@@ -706,7 +706,7 @@ class JUser extends JObject
 	 * Method to delete the JUser object from the database
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function delete()
 	{
@@ -736,7 +736,7 @@ class JUser extends JObject
 	 * @param	mixed	$id	The user id of the user to load
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.6
+	 * @since	11.1
 	 */
 	public function load($id)
 	{

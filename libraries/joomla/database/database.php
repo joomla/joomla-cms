@@ -119,7 +119,7 @@ abstract class JDatabase extends JObject
 	 * UTF-8 support
 	 *
 	 * @var boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected $_utf = 0;
 
@@ -127,7 +127,7 @@ abstract class JDatabase extends JObject
 	 * The fields that are to be quote
 	 *
 	 * @var array
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected $_quoted = null;
 
@@ -135,7 +135,7 @@ abstract class JDatabase extends JObject
 	 *  Legacy compatibility
 	 *
 	 * @var bool
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected $_hasQuoted = null;
 
@@ -143,7 +143,7 @@ abstract class JDatabase extends JObject
 	 * Database object constructor
 	 *
 	 * @param	array	List of options used to configure the connection
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __construct($options)
 	{
@@ -220,7 +220,7 @@ abstract class JDatabase extends JObject
 	 * Database object destructor
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function __destruct()
 	{
@@ -265,7 +265,7 @@ abstract class JDatabase extends JObject
 	 * Determines if the connection to the server is active.
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	abstract public function connected();
 
@@ -273,14 +273,14 @@ abstract class JDatabase extends JObject
 	 * Determines UTF support
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	abstract public function hasUTF();
 
 	/**
 	 * Custom settings for UTF support
 	 *
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	abstract public function setUTF();
 
@@ -288,7 +288,7 @@ abstract class JDatabase extends JObject
 	 * Adds a field or array of field names to the list that are to be quoted
 	 *
 	 * @param	mixed	Field name or array of names
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function addQuoted($quoted)
 	{
@@ -376,7 +376,7 @@ abstract class JDatabase extends JObject
 	 * Get the database UTF-8 support
 	 *
 	 * @return	boolean
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function getUTFSupport()
 	{
@@ -442,7 +442,7 @@ abstract class JDatabase extends JObject
 	 * @param	string	$s	The identifier to quote.
 	 *
 	 * @return	string	The quoted identifier.
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	public function nameQuote($s)
 	{
@@ -708,7 +708,7 @@ abstract class JDatabase extends JObject
 	 *
 	 * @return	mixed	The result of the query as an array, false if there are no more rows, or null on an error.
 	 *
-	 * @since	1.6.0
+	 * @since	11.1.0
 	 */
 	abstract public function loadNextRow();
 
@@ -717,7 +717,7 @@ abstract class JDatabase extends JObject
 	 *
 	 * @return	mixed	The result of the query as an object, false if there are no more rows, or null on an error.
 	 *
-	 * @since	1.6.0
+	 * @since	11.1.0
 	 */
 	abstract public function loadNextObject();
 
