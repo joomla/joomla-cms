@@ -475,7 +475,9 @@ abstract class JFactory
 	{
 		jimport('joomla.registry.registry');
 
-		include_once $file;
+		if (is_file($file)) {
+			include_once $file;
+		}
 
 		// Create the registry with a default namespace of config
 		$registry = new JRegistry();

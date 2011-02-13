@@ -197,7 +197,7 @@ class JLanguage extends JObject
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
-		if (!class_exists($class)) {
+		if (!class_exists($class) && defined('JPATH_SITE')) {
 
 			// Class does not exist. Try to find it in the Site Language Folder
 			$localise = JPATH_SITE . "/language/$lang/$lang.localise.php";
@@ -205,7 +205,7 @@ class JLanguage extends JObject
 				require_once $localise;
 			}
 		}
-		if (!class_exists($class)) {
+		if (!class_exists($class) && defined('JPATH_ADMINISTRATOR')) {
 
 			// Class does not exist. Try to find it in the Administrator Language Folder
 			$localise = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
