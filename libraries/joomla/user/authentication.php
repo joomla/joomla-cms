@@ -55,7 +55,7 @@ class JAuthentication extends JObservable
 	 * @static
 	 * @access public
 	 * @return object The global JAuthentication object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getInstance()
 	{
@@ -80,7 +80,7 @@ class JAuthentication extends JObservable
 	 * @param array	Array holding the user credentials
 	 * @return mixed	Integer userid for valid user if credentials are valid or
 	 *					boolean false if they are not
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public function authenticate($credentials, $options)
 	{
@@ -263,7 +263,7 @@ class JAuthenticationResponse extends JObject
 	 * Constructor
 	 *
 	 * @param string $name The type of the response
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function __construct() { }
 }

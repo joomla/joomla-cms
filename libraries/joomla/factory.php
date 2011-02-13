@@ -67,7 +67,7 @@ abstract class JFactory
 	{
 		if (!self::$config) {
 			if ($file === null) {
-				$file = dirname(__FILE__).DS.'config.php';
+				$file = JPATH_PLATFORM.'/config.php';
 			}
 
 			self::$config = self::_createConfig($file, $type);
@@ -395,7 +395,7 @@ abstract class JFactory
 	 * @param string $uri uri name
 	 *
 	 * @return JURI object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getURI($uri = 'SERVER')
 	{
@@ -411,7 +411,7 @@ abstract class JFactory
 	 * @param mixed $tzOffset The timezone offset.
 	 *
 	 * @return JDate object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
@@ -463,13 +463,15 @@ abstract class JFactory
 	/**
 	 * Create a configuration object
 	 *
-	 * @param string $file The path to the configuration file
-	 * @param string $type The type of the configuration file
+	 * @param   string  $file       The path to the configuration file.
+	 * @param   string  $type       The type of the configuration file.
+	 * @param   string  $namespace  The namespace of the configuration file.
 	 *
-	 * @return JRegistry object
-	 * @since 1.5
+	 * @return  JRegistry
+	 *
+	 * @since   11.1
 	 */
-	private static function _createConfig($file, $type = 'PHP')
+	private static function _createConfig($file, $type = 'PHP', $namespace = '')
 	{
 		jimport('joomla.registry.registry');
 
@@ -478,11 +480,20 @@ abstract class JFactory
 		// Create the registry with a default namespace of config
 		$registry = new JRegistry();
 
-		// Create the JConfig object
-		$config = new JFrameworkConfig();
+		// Sanitize the namespace.
+		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
 
-		// Load the configuration values into the registry
-		$registry->loadObject($config);
+		// Build the config name.
+		$name = 'JConfig'.$namespace;
+
+		// Handle the PHP configuration type.
+		if ($type == 'PHP' && class_exists($name)) {
+			// Create the JConfig object
+			$config = new $name();
+
+			// Load the configuration values into the registry
+			$registry->loadObject($config);
+		}
 
 		return $registry;
 	}
@@ -493,7 +504,7 @@ abstract class JFactory
 	 * @param array $options An array containing session options
 	 *
 	 * @return JSession object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	private static function _createSession($options = array())
 	{
@@ -519,7 +530,7 @@ abstract class JFactory
 	 *
 	 * @return JDatabase object
 	 *
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	private static function _createDbo()
 	{
@@ -606,7 +617,7 @@ abstract class JFactory
 	 * Create a language object
 	 *
 	 * @return JLanguage object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	private static function _createLanguage()
 	{
@@ -624,7 +635,7 @@ abstract class JFactory
 	 * Create a document object
 	 *
 	 * @return JDocument object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	private static function _createDocument()
 	{

@@ -30,7 +30,7 @@ abstract class JInstallerHelper
 	 * @param string URL of file to download
 	 * @param string Download target filename [optional]
 	 * @return mixed Path to downloaded package or boolean false on failure
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
@@ -105,7 +105,7 @@ abstract class JInstallerHelper
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
 	 * @return Array Two elements - extractdir and packagefile
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function unpack($p_filename)
 	{
@@ -175,7 +175,7 @@ abstract class JInstallerHelper
 	 * @static
 	 * @param string $p_dir Path to package directory
 	 * @return mixed Extension type string or boolean false on fail
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function detectType($p_dir)
 	{
@@ -219,7 +219,7 @@ abstract class JInstallerHelper
 	 * @static
 	 * @param string $url URL to get name from
 	 * @return mixed String filename or boolean false if failed
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getFilenameFromURL($url)
 	{
@@ -238,7 +238,7 @@ abstract class JInstallerHelper
 	 * @param string $package Path to the uploaded package file
 	 * @param string $resultdir Path to the unpacked extension
 	 * @return boolean True on success
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{

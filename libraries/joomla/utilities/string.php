@@ -516,7 +516,7 @@ abstract class JString
 	 * @param string $from_encoding The source encoding.
 	 * @param string $to_encoding The target encoding.
 	 * @return string Transcoded string
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function transcode($source, $from_encoding, $to_encoding)
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Database
- * @since		1.0
+ * @since		11.1
  */
 class JDatabaseMySQL extends JDatabase
 {
@@ -84,7 +84,7 @@ class JDatabaseMySQL extends JDatabase
 	 * Database object destructor
 	 *
 	 * @return boolean
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public function __destruct()
 	{

@@ -111,7 +111,7 @@ class JSession extends JObject
 	 * Session object destructor
 	 *
 	 * @access private
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public function __destruct()
 	{

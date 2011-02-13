@@ -36,7 +36,7 @@ class JSessionStorage extends JObject
 	 * @param	name		$name The session store to instantiate
 	 *
 	 * @return	database	A JSessionStorage object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getInstance($name = 'none', $options = array())
 	{

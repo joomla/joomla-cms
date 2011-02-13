@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Table
- * @since		1.0
+ * @since		11.1
  * @tutorial	Joomla.Platform/jtable.cls
  * @link		http://docs.joomla.org/JTable
  */

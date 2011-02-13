@@ -90,7 +90,7 @@ class JPathway extends JObject
 	 *
 	 * @access public
 	 * @return array Array of pathway items
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function getPathway()
 	{
@@ -124,7 +124,7 @@ class JPathway extends JObject
 	 *
 	 * @access public
 	 * @return array Array of names of pathway items
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function getPathwayNames()
 	{
@@ -147,7 +147,7 @@ class JPathway extends JObject
 	 * @param string $name
 	 * @param string $link
 	 * @return boolean True on success
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function addItem($name, $link='')
 	{
@@ -169,7 +169,7 @@ class JPathway extends JObject
 	 * @param integer $id
 	 * @param string $name
 	 * @return boolean True on success
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function setItemName($id, $name)
 	{
@@ -191,7 +191,7 @@ class JPathway extends JObject
 	 * @param string $name Name of the item
 	 * @param string $link Link to the item
 	 * @return object Pathway item object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function _makeItem($name, $link)
 	{

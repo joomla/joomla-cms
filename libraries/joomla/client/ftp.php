@@ -134,7 +134,7 @@ class JFTP extends JObject
 	 *
 	 * @access protected
 	 * @param array $options Associative array of options to set
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function __construct($options=array()) {
 
@@ -171,7 +171,7 @@ class JFTP extends JObject
 	 * Closes an existing connection, if we have one
 	 *
 	 * @access protected
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function __destruct() {
 		if (is_resource($this->_conn)) {
@@ -194,7 +194,7 @@ class JFTP extends JObject
 	 * @param	string	$user		Username to use for a connection
 	 * @param	string	$pass		Password to use for a connection
 	 * @return	JFTP	The FTP Client object.
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Database
- * @since		1.0
+ * @since		11.1
  */
 class JDatabaseMySQLi extends JDatabase
 {

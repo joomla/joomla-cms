@@ -757,7 +757,7 @@ class JDocument extends JObject
 	* @access	public
 	* @param	string	The renderer type
 	* @return	object
-	* @since 1.5
+	* @since   11.1
 	*/
 	function loadRenderer($type)
 	{

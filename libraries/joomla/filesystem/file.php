@@ -26,7 +26,7 @@ class JFile
 	 * @param	string	$file	The file name
 	 *
 	 * @return	string	The file extension
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getExt($file)
 	{
@@ -40,7 +40,7 @@ class JFile
 	 * @param	string	$file The file name
 	 *
 	 * @return	string	The file name without the extension
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function stripExt($file)
 	{
@@ -353,7 +353,7 @@ class JFile
 	 * @param string $dest The path (including filename) to move the uploaded file to
 	 *
 	 * @return boolean True on success
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function upload($src, $dest, $use_streams=false)
 	{

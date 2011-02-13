@@ -101,7 +101,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @static
 	 * @return	object	An installer object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getInstance()
 	{

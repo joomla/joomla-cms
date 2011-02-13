@@ -490,7 +490,7 @@ class JUserHelper
 	 * @param string  $value
 	 * @param integer $count
 	 * @return string  $value converted to the 64 MD5 characters.
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	private static function _toAPRMD5($value, $count)
 	{
@@ -512,7 +512,7 @@ class JUserHelper
 	 * @access private
 	 * @param string $hex  Hex data.
 	 * @return string  Binary data.
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	private static function _bin($hex)
 	{

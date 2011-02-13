@@ -26,7 +26,7 @@ abstract class JEvent extends JObserver
 	 * @access public
 	 * @param array Arguments
 	 * @return mixed Routine return value
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public function update(&$args)
 	{

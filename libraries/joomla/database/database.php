@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package		Joomla.Platform
  * @subpackage	Database
- * @since		1.0
+ * @since		11.1
  */
 abstract class JDatabase extends JObject
 {
@@ -175,7 +175,7 @@ abstract class JDatabase extends JObject
 	 *
 	 * @param array Parameters to be passed to the database driver
 	 * @return JDatabase A database object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getInstance($options = array())
 	{

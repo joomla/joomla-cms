@@ -145,7 +145,7 @@ class JObservable extends JObject
 	 * @param	object	$observer	An observer object to detach.
 	 *
 	 * @return	boolean	True if the observer object was detached.
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public function detach($observer)
 	{

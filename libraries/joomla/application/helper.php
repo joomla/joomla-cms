@@ -345,7 +345,7 @@ class JApplicationHelper
 	 *
 	 * @param string	A file name
 	 * @param integer	0 to check site only, 1 to check site and admin, -1 to check admin only
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	protected static function _checkPath($path, $checkAdmin=1)
 	{

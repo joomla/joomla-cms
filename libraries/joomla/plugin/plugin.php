@@ -52,7 +52,7 @@ abstract class JPlugin extends JEvent
 	 * @param array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'group', 'params', 'language'
 	 * (this list is not meant to be comprehensive).
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public function __construct(&$subject, $config = array())
 	{

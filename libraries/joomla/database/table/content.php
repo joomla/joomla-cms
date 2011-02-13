@@ -15,7 +15,7 @@ jimport('joomla.database.tableasset');
  *
  * @package		Joomla.Platform
  * @subpackage	Table
- * @since		1.0
+ * @since		11.1
  */
 class JTableContent extends JTable
 {

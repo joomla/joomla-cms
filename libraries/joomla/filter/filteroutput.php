@@ -29,7 +29,7 @@ class JFilterOutput
 	* @param int The optional quote style for the htmlspecialchars function
 	* @param string|array An optional single field name or array of field names not
 	*					to be parsed (eg, for a textarea)
-	* @since 1.5
+	* @since   11.1
 	*/
 	public static function objectHTMLSafe(&$mixed, $quote_style=ENT_QUOTES, $exclude_keys='')
 	{
@@ -134,7 +134,7 @@ class JFilterOutput
 	* @todo There must be a better way???
 	*
 	* @static
-	* @since 1.5
+	* @since   11.1
 	*/
 	public static function ampReplace($text)
 	{

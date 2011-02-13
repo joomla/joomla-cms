@@ -708,7 +708,7 @@ class JView extends JObject
 	 * @param string	The resource type to create the filename for
 	 * @param array		An associative array of filename information
 	 * @return string	The filename
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	function _createFileName($type, $parts = array())
 	{
