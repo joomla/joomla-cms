@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Feb-2011 Jean-Marie Simonet
+ $ [#24874] Change "Templates Manager" to "Template Manager". Thanks Mark.
+
 12-Feb-2011 Christophe Demko
  # [#24873] Extra div element in Category List for unpublished articles (Mark Dexter)
 
