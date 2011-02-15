@@ -1,8 +1,8 @@
 <?php
 defined('_JEXEC') or die();
 
-jimport('joomla.log.formattedtext');
-
+// Include our parent class which is another adapter
+require_once(dirname(__FILE__).'/formattedtext.php');
 
 /**
  * Joomla! W3C Logging class
@@ -19,46 +19,13 @@ class JLogW3C extends JLogFormattedText {
 	 * Log Format
 	 * @var	string
 	 */
-	var $_format = "{DATE}\t{TIME}\t{PRIORITY}\t{CLIENTIP}\t{TYPE}\t{MESSAGE}";
+	protected $_format = "{DATE}\t{TIME}\t{PRIORITY}\t{CLIENTIP}\t{TYPE}\t{MESSAGE}";
 
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	array	$options	Log file options
-	 * @since	1.5
-	 */
-	function JLogW3C($options) {
-		// Set default values
-		//$this->_path = $path; //* @param	string	$path		Log file path
-		$this->setOptions($options);
-	}
-
-	function & getInstance($options = null) {
-		static $instances;
-		
-		$file = $options['file'] ? $options['file'] : 'error.w3c.log'; 
-		$path = $options['path'] ? $options['path'] : null;
-		
-		// Set default path if not set
-		if (!$path) {
-			$config = & JFactory :: getConfig();
-			$path = $config->getValue('config.log_path');
+	function setProperties($options=Array())
+	{
+                if(!isset($options['file'])) {
+			$options['file'] = 'error.w3c.php';
 		}
-
-		jimport('joomla.filesystem.path');
-		$path = JPath :: clean($path . DS . $file, false);
-		$sig = md5($path);
-		$options['path'] = $path;
-		
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-		
-		if (empty ($instances[$sig])) {
-			$instances[$sig] = new JLogW3C($options);
-		}
-
-		return $instances[$sig];
+		parent::setProperties($options);
 	}
 }

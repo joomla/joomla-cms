@@ -2,6 +2,8 @@
 
 defined('_JEXEC') or die();
 
+jimport('joomla.base.adapterinstance');
+
 /**
  * Joomla! Logging Format Base Class
  * 
@@ -13,7 +15,7 @@ defined('_JEXEC') or die();
  * @ssubpackage Log
  * @since 1.7
  */
-class JLogFormat extends JObject {
+class JLogFormat extends JAdapterInstance {
 	/**
 	 * Defines the fields available for listing
 	 * @return array an array of fields available for searching
@@ -60,15 +62,6 @@ class JLogFormat extends JObject {
 	 * Adds a log entry to the format
 	 */
 	function addLogEntry($logentry) {
-
-	}
-
-	/**
-	 * Set options
-	 * @param array options Set internal options
-	 * @abstract
-	 */
-	function setOptions($options) {
 
 	}
 
