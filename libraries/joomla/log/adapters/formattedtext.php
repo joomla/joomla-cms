@@ -1,6 +1,8 @@
 <?php
 defined('_JEXEC') or die();
 
+jimport('joomla.log.logformat');
+
 /**
  * Joomla! Formatted Text File Log class
  *
@@ -17,72 +19,19 @@ class JLogFormattedText extends JLogFormat {
 	 * Log File Pointer
 	 * @var	resource
 	 */
-	var $_file;
+	protected $file;
 
 	/**
 	* Log File Path
 	* @var	string
 	*/
-	var $_path;
+	protected $path;
 
 	/**
 	 * Log Format
 	 * @var	string
 	 */
-	var $_format = "{DATE}\t{TIME}\t{APPLICATION}\t{PRIORITY}\t{TYPE}\t{MESSAGE}";
-
-	/**
-	 * Constructor
-	 *
-	 * @access	protected
-	 * @param	string	$path		Log file path
-	 * @param	array	$options	Log file options
-	 * @since	1.5
-	 */
-	function JLogFormattedText($options) {
-		// Set default values
-		$this->setOptions($options);
-	}
-
-	/**
-	 * Returns a reference to the global log object, only creating it
-	 * if it doesn't already exist.
-	 *
-	 * This method must be invoked as:
-	 * 		<pre>  $log = & JLogFormattedText::getInstance();</pre>
-	 *
-	 * @static
-	 * @return	object	The JLog object.
-	 * @since	1.5
-	 */
-	function & getInstance($options = null) {
-		static $instances;
-
-		$file = $options['file'] ? $options['file'] : 'error.log'; 
-		$path = $options['path'] ? $options['path'] : null;
-
-		// Set default path if not set
-		if (!$path) {
-			$config = & JFactory :: getConfig();
-			$path = $config->getValue('config.log_path');
-		}
-
-		jimport('joomla.filesystem.path');
-		$path = JPath :: clean($path . DS . $file, false);
-		$options['path'] = $path;
-		$sig = md5($path);
-		$options['path'] = $path;
-		
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-		
-		if (empty ($instances[$sig])) {
-			$instances[$sig] = new JLogFormattedText($options);
-		}
-
-		return $instances[$sig];
-	}
+	protected $_format = "{DATE}\t{TIME}\t{APPLICATION}\t{PRIORITY}\t{TYPE}\t{MESSAGE}";
 
 	/**
 	 * Set log file options
@@ -92,20 +41,30 @@ class JLogFormattedText extends JLogFormat {
 	 * @return	boolean				True if successful
 	 * @since	1.5
 	 */
-	function setOptions($options) {
+	public function setProperties($options) {
 		if (isset ($options['format'])) {
 			$this->_format = $options['format'];
 		}
-		if (isset ($options['path'])) {
-			$this->_path = $options['path'];
+		if (isset ($options['file'])) {
+			$file = $options['file'];
+		} else {
+			$file = 'error.php';
 		}
-		//if (isset ($options['file'])) {
-		//	$this->_file = $options['file'];
-		//}
+
+                $path = isset($options['path']) ? $options['path'] : null;
+                // Set default path if not set
+                if (!$path) {
+                        $config = & JFactory :: getConfig();
+                        $path = $config->getValue('log_path');
+                }
+                $this->path = $path .'/'. $file;
+
+
 		return true;
 	}
 
-	function addLogEntry($entry) {
+	public function addLogEntry($entry) 
+	{
 		// Set some default field values if not already set.
 		if (!isset ($entry->clientip)) {
 			$entry->clientip = $_SERVER['REMOTE_ADDR'];
@@ -117,7 +76,7 @@ class JLogFormattedText extends JLogFormat {
 				$entry->time = $dt[1];
 			}
 		}
-
+		
 		// Ensure that the log entry keys are all uppercase
 		$tmpentry = get_object_vars($entry);
 		$tmpentry = array_change_key_case($tmpentry, CASE_UPPER);
@@ -137,7 +96,7 @@ class JLogFormattedText extends JLogFormat {
 
 		// Write the log entry line
 		if ($this->_openLog()) {
-			if (!fputs($this->_file, $line . "\n")) {
+			if (!fputs($this->file, $line . "\n")) {
 				return false;
 			}
 		} else {
@@ -155,18 +114,19 @@ class JLogFormattedText extends JLogFormat {
 	 */
 	function _openLog() {
 		// Only open if not already opened...
-		if (is_resource($this->_file)) {
+		if (is_resource($this->file)) {
 			return true;
 		}
 
 		$date = date("Y-m-d");
 		$time = date("H:i:s");
 		
-		if (!file_exists($this->_path)) {
+		if (!file_exists($this->path)) {
 			jimport("joomla.filesystem.folder");
-			if (!JFolder :: create(dirname($this->_path))) {
+			if (!JFolder :: create(dirname($this->path))) {
 				return false;
 			}
+			$header[] = "#<?php die('Direct Access To Log Files Not Permitted'); ?>";
 			$header[] = "#Version: 1.0";
 			$header[] = "#Date: " . $date . " " . $time;
 
@@ -187,11 +147,11 @@ class JLogFormattedText extends JLogFormat {
 			$head = false;
 		}
 
-		if (!$this->_file = fopen($this->_path, "a")) {
+		if (!$this->file = fopen($this->path, "a")) {
 			return false;
 		}
 		if ($head) {
-			if (!fputs($this->_file, $head)) {
+			if (!fputs($this->file, $head)) {
 				return false;
 			}
 		}
@@ -211,8 +171,8 @@ class JLogFormattedText extends JLogFormat {
 	 * @since	1.5
 	 */
 	function _closeLog() {
-		if (is_resource($this->_file)) {
-			fclose($this->_file);
+		if (is_resource($this->file)) {
+			fclose($this->file);
 		}
 		return true;
 	}
