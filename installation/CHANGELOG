@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Feb-2011 Jean-Marie Simonet
+ $# [#24897] Untranslated strings TPL_BEEZ5_ISCLOSED and TPL_BEEZ5_LOGO. Thanks Serge.
+
 13-Feb-2011 Jean-Marie Simonet
  $ [#24874] Change "Templates Manager" to "Template Manager". Thanks Mark.
 
