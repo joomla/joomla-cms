@@ -34,6 +34,7 @@ $ -> Language fix or change
  #$ [#24882] *Banners unique alias
  # [#24881] Problems with aliases when there is a menu alias menu type. Thanks Mark.
  # [#24872] Transliteration does not work in Category Manager
+ $ Corrected an ini string value
  
 13-Feb-2011 Jean-Marie Simonet
  $ [#24874] Change "Templates Manager" to "Template Manager". Thanks Mark.
