@@ -18,7 +18,7 @@
 		/>
 
 		<field name="alias" type="text"
-			description="JFIELD_ALIAS_DESC"
+			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
 			label="JFIELD_ALIAS_LABEL"
 			size="45"
 		/>

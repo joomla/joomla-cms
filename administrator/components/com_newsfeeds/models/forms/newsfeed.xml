@@ -14,7 +14,7 @@
 			required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
-			description="COM_NEWSFEEDS_FIELD_ALIAS_DESC" class="inputbox"
+			description="JFIELD_ALIAS_DESC" class="inputbox"
 			size="45" />
 
 		<field name="published" type="list"

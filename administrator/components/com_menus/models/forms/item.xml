@@ -25,7 +25,7 @@
 			name="alias"
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_ALIAS_DESC"
+			description="JFIELD_ALIAS_DESC"
 			class="inputbox"
 			size="40"/>
 
