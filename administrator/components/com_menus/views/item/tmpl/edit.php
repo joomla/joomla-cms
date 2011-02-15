@@ -61,10 +61,12 @@ JHTML::_('behavior.modal');
 					<?php $this->form->setFieldAttribute('link','readonly','false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
-				<?php endif ?>
+				<?php endif; ?>
 
-				<li><?php echo $this->form->getLabel('alias'); ?>
-				<?php echo $this->form->getInput('alias'); ?></li>
+				<?php if ($this->item->type != 'alias'): ?>
+					<li><?php echo $this->form->getLabel('alias'); ?>
+					<?php echo $this->form->getInput('alias'); ?></li>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('note'); ?>
 				<?php echo $this->form->getInput('note'); ?></li>

@@ -32,7 +32,8 @@ $ -> Language fix or change
  # [#24884] Missing messages for some menu item types having no Basic Options. Thanks Bill.
  $# [#24759] * Different Alias fields tooltips.
  #$ [#24882] *Banners unique alias
-
+ # [#24881] Problems with aliases when there is a menu alias menu type. Thanks Mark.
+ 
 13-Feb-2011 Jean-Marie Simonet
  $ [#24874] Change "Templates Manager" to "Template Manager". Thanks Mark.
 
