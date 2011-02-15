@@ -16,17 +16,17 @@ defined('_JEXEC') or die();
  */
 class JLogEntry extends JObject {
 	/** @var int logid Log Entry ID */
-	protected $logid = 0;
+	public $logid = 0;
 	/** @var string application Application responsible for log entry */
-	protected $application = '';
+	public $application = '';
 	/** @var string type Type of Entry */
-	protected $type = '';
+	public $type = '';
 	/** @var string priority Priority of entry ('panic', 'emerg', 'alert', 'crit', 'err', 'error', 'warn', 'warning', 'notice', 'info', 'debug', 'none') */
-	protected $priority = 'info';
+	public $priority = 'info';
 	/** @var date entrydate Date of Entry */
-	protected $entrydate = '0000-00-00 00:00:00'; // YYYY-MM-DD HH:MM:SS
+	public $entrydate = '0000-00-00 00:00:00'; // YYYY-MM-DD HH:MM:SS
 	/** @var string message Message to be logged */
-	protected $message = '';
+	public $message = '';
 
 	/**
 	 * Constructor
@@ -43,8 +43,7 @@ class JLogEntry extends JObject {
 		$this->priority = $priority;
 		$this->message = $message;
 		if(empty($entrydate)) {
-			$date = new JDate();
-			$this->entrydate = $date->toMySQL();
+			$this->entrydate = JFactory::getDate()->toMySQL();
 		}
 		$this->logid = $logid;
 	}

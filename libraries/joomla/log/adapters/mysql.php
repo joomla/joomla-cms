@@ -13,12 +13,7 @@ defined('_JEXEC') or die();
  * @since 1.7
  */
  
-class JLogMySQL extends JLogFormat {
-	
-	function JLogMySQL() {
-		
-	}
-	
+class JLogMySQL extends JLogFormat {	
 	function &getInstance() { 
 		static $instances;
 		$sig = md5('jlogmysql');
@@ -27,18 +22,6 @@ class JLogMySQL extends JLogFormat {
 		}
 		return $instances[$sig];
 	}
-
-/*	function &getInstance() {
-		return new JLogMySQL();
-	}*/
-/*	function &getInstance() { 
-		static $instances;
-		$sig = md5('jlogmysql');
-		if(!is_object($instances[$sig])) {
-			$instances = new JLogMySQL();
-		}
-		return $instances[$sig];
-	}*/
 
 	function addLogEntry($entry) {
 		$db =& JFactory::getDBO();
