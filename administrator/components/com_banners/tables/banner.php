@@ -170,6 +170,13 @@ class BannersTableBanner extends JTable
 				$this->setError($oldrow->getError());
 			}
 
+			// Verify that the alias is unique
+			$table = JTable::getInstance('Banner', 'BannersTable');
+			if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+				return false;
+			}
+			
 			// Store the new row
 			parent::store($updateNulls);
 
