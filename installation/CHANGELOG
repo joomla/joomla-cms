@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 15-Feb-2011 Jean-Marie Simonet
  $# [#24897] Untranslated strings TPL_BEEZ5_ISCLOSED and TPL_BEEZ5_LOGO. Thanks Serge.
+ # [#24884] Missing messages for some menu item types having no Basic Options. Thanks Bill.
 
 13-Feb-2011 Jean-Marie Simonet
  $ [#24874] Change "Templates Manager" to "Template Manager". Thanks Mark.
