@@ -34,6 +34,7 @@ $ -> Language fix or change
  $ Correcting an html tag in an ini string
  #$ [#24497] Improve the voting plugin. Thanks Rouven and Christophe.
  $ Taking off underline html tag in some ini strings. Thanks Serge.
+ $ Small correction in an ini file. Thanks Stella.
 
 15-Feb-2011 Jean-Marie Simonet
  $# [#24897] Untranslated strings TPL_BEEZ5_ISCLOSED and TPL_BEEZ5_LOGO. Thanks Serge.
