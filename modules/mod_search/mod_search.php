@@ -12,13 +12,15 @@ defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
 require_once dirname(__FILE__).DS.'helper.php';
+$lang = JFactory::getLanguage();
+$upper_limit = $lang->getUpperLimitSearchWord();
 
 $button			= $params->get('button', '');
 $imagebutton	= $params->get('imagebutton', '');
 $button_pos		= $params->get('button_pos', 'left');
 $button_text	= htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')));
 $width			= intval($params->get('width', 20));
-$maxlength		= $width > 20 ? $width : 20;
+$maxlength		= $upper_limit;
 $text			= htmlspecialchars($params->get('text', JText::_('MOD_SEARCH_SEARCHBOX_TEXT')));
 $label			= htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEXT')));
 $set_Itemid		= intval($params->get('set_itemid', 0));

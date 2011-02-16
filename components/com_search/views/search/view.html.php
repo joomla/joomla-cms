@@ -86,9 +86,11 @@ class SearchViewSearch extends JView
 		SearchHelper::logSearch($searchword);
 
 		//limit searchword
-
+		$lang = JFactory::getLanguage();
+		$upper_limit = $lang->getUpperLimitSearchWord();
+		$lower_limit = $lang->getLowerLimitSearchWord();
 		if (SearchHelper::limitSearchWord($searchword)) {
-			$error = JText::_('COM_SEARCH_ERROR_SEARCH_MESSAGE');
+			$error = JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
 		//sanatise searchword

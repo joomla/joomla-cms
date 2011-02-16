@@ -9,6 +9,8 @@
 
 // no direct access
 defined('_JEXEC') or die;
+$lang = JFactory::getLanguage();
+$upper_limit = $lang->getUpperLimitSearchWord();
 ?>
 
 <form id="searchForm" action="<?php echo JRoute::_('index.php?option=com_search');?>" method="post">
@@ -17,7 +19,7 @@ defined('_JEXEC') or die;
 		<label for="search-searchword">
 			<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>
 		</label>
-		<input type="text" name="searchword" id="search-searchword" size="30" maxlength="20" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
+		<input type="text" name="searchword" id="search-searchword" size="30" maxlength="<?php echo $upper_limit; ?>" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
 		<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_('COM_SEARCH_SEARCH');?></button>
 	</fieldset>
 
