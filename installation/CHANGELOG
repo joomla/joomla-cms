@@ -32,6 +32,7 @@ $ -> Language fix or change
  [#24923] *Normalise modals UI
  # [#24927] Modules do not have Trashed state. Thanks Serge.
  $ Correcting an html tag in an ini string
+ #$ [#24497] Improve the voting plugin. Thanks Rouven and Christophe.
 
 15-Feb-2011 Jean-Marie Simonet
  $# [#24897] Untranslated strings TPL_BEEZ5_ISCLOSED and TPL_BEEZ5_LOGO. Thanks Serge.
