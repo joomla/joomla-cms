@@ -27,10 +27,10 @@ JHtml::_('behavior.formvalidation');
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate">
 	<fieldset>
 		<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('component.save', this.form);">
-				<?php echo JText::_('JSAVE');?></button>
 			<button type="button" onclick="Joomla.submitform('component.apply', this.form);">
 				<?php echo JText::_('JAPPLY');?></button>
+			<button type="button" onclick="Joomla.submitform('component.save', this.form);">
+				<?php echo JText::_('JSAVE');?></button>
 			<button type="button" onclick="window.parent.SqueezeBox.close();">
 				<?php echo JText::_('JCANCEL');?></button>
 		</div>

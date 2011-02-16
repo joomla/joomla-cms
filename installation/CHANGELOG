@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 16-Feb-2011 Jean-Marie Simonet
-[#24932] *Search lower and upper limit do not take into account localise.php settings
+ [#24932] *Search lower and upper limit do not take into account localise.php settings
+ [#24923] *Normalise modals UI
 
 15-Feb-2011 Jean-Marie Simonet
  $# [#24897] Untranslated strings TPL_BEEZ5_ISCLOSED and TPL_BEEZ5_LOGO. Thanks Serge.
