@@ -61,10 +61,10 @@ class RedirectHelper
 		// Build the active state filter options.
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '*', 'JALL');
-		$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
 		$options[]	= JHtml::_('select.option', '1', 'JENABLED');
 		$options[]	= JHtml::_('select.option', '0', 'JDISABLED');
-		$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
+		$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
+		$options[]	= JHtml::_('select.option', '-2', 'JTRASHED');
 
 		return $options;
 	}

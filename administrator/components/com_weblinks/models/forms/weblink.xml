@@ -61,7 +61,7 @@
 			<option
 				value="-3">COM_WEBLINKS_FIELD_VALUE_REPORTED</option>
 			<option
-				value="-2">JTRASH</option>
+				value="-2">JTRASHED</option>
 		</field>
 
 		<field name="ordering" type="Ordering" class="inputbox"

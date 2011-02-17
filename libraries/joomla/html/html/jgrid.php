@@ -234,7 +234,7 @@ abstract class JHtmlJGrid
 			$options[]	= JHtml::_('select.option', '2', 'JARCHIVED');
 		}
 		if (!array_key_exists('trash', $config) || $config['trash']) {
-			$options[]	= JHtml::_('select.option', '-2', 'JTRASH');
+			$options[]	= JHtml::_('select.option', '-2', 'JTRASHED');
 		}
 		if (!array_key_exists('all', $config) || $config['all']) {
 			$options[]	= JHtml::_('select.option', '*', 'JALL');

@@ -49,7 +49,7 @@ class MessagesHelper extends JController
 		$options	= array();
 		$options[]	= JHtml::_('select.option',	'1',	JText::_('COM_MESSAGES_OPTION_READ'));
 		$options[]	= JHtml::_('select.option',	'0',	JText::_('COM_MESSAGES_OPTION_UNREAD'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASH'));
+		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
 		return $options;
 	}
 

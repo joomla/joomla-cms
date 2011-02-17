@@ -59,7 +59,7 @@ abstract class ModulesHelper
 		$options	= array();
 		$options[]	= JHtml::_('select.option',	'1',	JText::_('JPUBLISHED'));
 		$options[]	= JHtml::_('select.option',	'0',	JText::_('JUNPUBLISHED'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASH'));
+		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
 		return $options;
 	}
 

@@ -31,7 +31,7 @@
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASH</option>
+			<option value="-2">JTRASHED</option>
 		</field>
 
 		<field name="purchase_type" type="list"
