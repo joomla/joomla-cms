@@ -118,3 +118,8 @@ div.pagetitle h2 {
 	min-height: 48px;
 }
 
+fieldset.panelform fieldset.checkboxes.impunlimited {
+	float:none;
+	width: 170px;
+}
+

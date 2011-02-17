@@ -950,7 +950,7 @@ span.readonly {
 }
 
 #jform-imp {
-	width: 70px;
+	min-width: 70px;
 }
 
 .mod-desc { margin-left: 135px !important; float: none !important;}

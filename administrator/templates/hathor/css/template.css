@@ -2126,8 +2126,9 @@ div#jform_ordering {
 	width:30px;
 }
 
-fieldset.adminform input#jform-imp {
-	width:5em;
+fieldset.panelform label#jform-imp {
+	min-width:3em;
+	font-size: 1.091em;
 }
 
 fieldset.adminform input#jform_clickurl {

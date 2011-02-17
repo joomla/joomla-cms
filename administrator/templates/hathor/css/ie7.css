@@ -113,3 +113,8 @@ div.current ul.menu-links {
 div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
 	margin: 0;
 }
+
+fieldset.panelform fieldset.checkboxes.impunlimited {
+	float:none;
+	width: 170px;
+}
