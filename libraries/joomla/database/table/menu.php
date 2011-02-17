@@ -53,7 +53,7 @@ class JTableMenu extends JTableNested
 			return false;
 		}
 		// Verify that the default home menu is not unpublished
-		if ($this->home=='1' && $this->language=='*' && $array['published']=='0') {
+		if ($this->home=='1' && $this->language=='*' && $array['published'] !='1') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 			return false;
 		}
