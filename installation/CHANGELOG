@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
+ $ Adding Installation language nn-NO. Updating Credits.
 
 16-Feb-2011 Jean-Marie Simonet
  [#24932] *Search lower and upper limit do not take into account localise.php settings
