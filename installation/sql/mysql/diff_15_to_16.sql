@@ -626,12 +626,12 @@ ALTER TABLE `#__menu`
 ALTER TABLE `#__menu`
  ADD COLUMN `language` char(7) NOT NULL DEFAULT '' AFTER `home`;
 
-ALTER TABLE `jos_menu` ADD COLUMN `client_id` TINYINT(4) NOT NULL DEFAULT 0 AFTER `language`;
+ALTER TABLE `#__menu` ADD COLUMN `client_id` TINYINT(4) NOT NULL DEFAULT 0 AFTER `language`;
 
 ALTER TABLE `#__menu`
  ADD INDEX idx_language(`language`);
 
-ALTER TABLE `jos_menu` ADD UNIQUE `idx_alias_parent_id` (`client_id`,`parent_id`,`alias`);
+ALTER TABLE `#__menu` ADD UNIQUE `idx_alias_parent_id` (`client_id`,`parent_id`,`alias`);
 
 INSERT INTO `#__menu` VALUES
 	('','Menu_Item_Root','root','','','','',1,0,0,0,0,0,'0000-00-00 00:00:00',0,0,'',0,'',0,217,0,'*');

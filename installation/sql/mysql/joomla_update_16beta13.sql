@@ -13,6 +13,6 @@ ALTER TABLE `#__menu`
 ALTER TABLE `#__menu`
  ADD UNIQUE `idx_alias_parent_id` (`client_id`,`parent_id`,`alias`);
 
-UPDATE `jos_menu`
+UPDATE TABLE `#__menu`
  SET `menutype` = 'menu', `client_id` = 1
  WHERE `menutype` = '_adminmenu';
