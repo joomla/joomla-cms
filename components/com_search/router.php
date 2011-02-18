@@ -14,18 +14,6 @@ function SearchBuildRoute(&$query)
 {
 	$segments = array();
 
-	if (isset($query['searchword'])) {
-		$segments[] = $query['searchword'];
-		unset($query['searchword']);
-	}
-
-	// Retrieve configuration options - needed to know which SEF URLs are used
-	$app = JFactory::getApplication();
-	// Allows for searching on strings that include ".xxx" that appear to Apache as an extension
-	if (($app->getCfg('sef')) && ($app->getCfg('sef_rewrite')) && !($app->getCfg('sef_suffix')) && count($segments)) {
-		$segments[] .= '/';
-	}
-
 	if (isset($query['view'])) {
 		unset($query['view']);
 	}
