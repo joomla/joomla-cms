@@ -114,7 +114,7 @@ class JRouterSite extends JRouter
 		$vars	= array();
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu(true);
-
+		 
 		//Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option')) {
 			$item = $menu->getDefault(JFactory::getLanguage()->getTag());
@@ -141,8 +141,9 @@ class JRouterSite extends JRouter
 		//Get the itemid, if it hasn't been set force it to null
 		$this->setVar('Itemid', JRequest::getInt('Itemid', null));
 
-		// Only an Itemid ? Get the full information from the itemid
-		if (count($this->getVars()) == 1) {
+		// Only an Itemid  OR if filter language plugin set? Get the full information from the itemid
+		if (count($this->getVars()) == 1 || ( $app->getLanguageFilter() && count( $this->getVars()) == 2 )) {
+			
 			$item = $menu->getItem($this->getVar('Itemid'));
 			if ($item !== NULL && is_array($item->query)) {
 				$vars = $vars + $item->query;
