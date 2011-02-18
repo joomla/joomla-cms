@@ -50,7 +50,7 @@ class ConfigControllerComponent extends JController
 		$form	= $model->getForm();
 		$data	= JRequest::getVar('jform', array(), 'post', 'array');
 		$id		= JRequest::getInt('id');
-		$option	= JRequest::getWord('component');
+		$option	= JRequest::getCmd('component');
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', $option))
