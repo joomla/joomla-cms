@@ -853,6 +853,19 @@ class JController extends JObject
 
 		return $this;
 	}
+	/**
+	 * Unregister (unmap) a task in the class.
+	 *
+	 * @param	string		The task.
+	 * @return	JController	This object to support chaining.
+	 * @since	1.6
+	 */
+	public function unregisterTask($task)
+	{
+		unset($this->taskMap[strtolower($task)]);
+
+		return $this;
+	}
 
 	/**
 	 * Method to check whether an ID is in the edit list.

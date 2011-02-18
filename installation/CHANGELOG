@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#24883] Plugin User-Profile Birthday field alpha entry crashes Profile Fields in Admin
  # [#24890] A registered user can change their user name
  # [#24965] Banner Manager: Banners - increase is needed for colspan of table's footer
+ # [#24419] JController class lacks a unregisterTask method
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
