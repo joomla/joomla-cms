@@ -222,6 +222,7 @@ final class JSite extends JApplication
 					$return		= (string)$uri;
 					$this->setUserState('users.login.form.data',array( 'return' => $return ) );
 					$file = 'offline';
+					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
 				if (!is_dir(JPATH_THEMES.DS.$template->template) && !$this->getCfg('offline')) {
 					$file = 'component';
