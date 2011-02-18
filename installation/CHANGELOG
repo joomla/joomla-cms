@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#24455] Alias URL does not work with Language filter plugin active - sef off
  # [#24816] 404 errors when using pagebreak with sef enabled
  # [#24314] Remove com_search SEF encoding of search term
+ # [#24896] Module Banners: "All categories" option does not include all categories
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE

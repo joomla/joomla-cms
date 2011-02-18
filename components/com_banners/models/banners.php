@@ -120,8 +120,10 @@ class BannersModelBanners extends JModelList
 		else if ((is_array($categoryId)) && (count($categoryId) > 0)) {
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
-			$query->where('a.catid '.$type.' ('.$categoryId.')');
+			if($categoryId != '0') {
+				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
+				$query->where('a.catid '.$type.' ('.$categoryId.')');
+			}
 		}
 
 		if ($tagSearch) {
