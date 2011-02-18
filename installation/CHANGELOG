@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#24506] com_categories doesn't properly update paths of children categories when moved to a new parent
  # [#24532] Unused JDate code causing "Catchable fatal error"
  # [#24646] Send HTTP result code 503 for the offline page
+ # [#24911] Redirect component does not list 404 errors for missing child page when parent page does exist (patch supplied)
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
