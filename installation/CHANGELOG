@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Feb-2011 Mark Dexter
+ # [#24231] JS error notices default template in IE7+8
+
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
  $ Adding Installation language nn-NO. Updating Credits.
