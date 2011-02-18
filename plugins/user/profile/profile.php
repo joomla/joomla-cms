@@ -6,6 +6,7 @@
  */
 
 defined('JPATH_BASE') or die;
+jimport('joomla.utilities.date');
 
 /**
  * An example custom profile plugin.
@@ -245,6 +246,12 @@ class plgUserProfile extends JPlugin
 		{
 			try
 			{
+				//Sanitize the date
+				if (!empty($data['profile']['dob'])) {
+					$date = new JDate($data['profile']['dob']);
+					$data['profile']['dob'] = $date->toFormat('%Y-%m-%d');
+				}
+
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .

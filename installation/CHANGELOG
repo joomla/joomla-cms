@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#24816] 404 errors when using pagebreak with sef enabled
  # [#24314] Remove com_search SEF encoding of search term
  # [#24896] Module Banners: "All categories" option does not include all categories
+ # [#24883] Plugin User-Profile Birthday field alpha entry crashes Profile Fields in Admin
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
