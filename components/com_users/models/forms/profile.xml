@@ -26,6 +26,7 @@
 			required="true"
 			size="30"
 			validate="username"
+			readonly="true"
 		/>
 
 		<field name="password1" type="password"
