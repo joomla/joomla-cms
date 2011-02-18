@@ -200,7 +200,7 @@ class plgContentPagebreak extends JPlugin
 		$row->toc .= '<ul>
 		<li>
 			
-			<a href="'. JRoute::_('&showall=&limitstart=') .'" class="toclink">'
+			<a href="'. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart=') .'" class="toclink">'
 			. $heading .
 			'</a>
 			
@@ -210,7 +210,7 @@ class plgContentPagebreak extends JPlugin
 		$i = 2;
 
 		foreach ($matches as $bot) {
-			$link = JRoute::_('&showall=&limitstart='. ($i-1));
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i-1));
 
 
 			if (@$bot[0]) {
@@ -240,7 +240,7 @@ class plgContentPagebreak extends JPlugin
 		}
 
 		if ($this->params->get('showall')) {
-			$link = JRoute::_('&showall=1&limitstart=');
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=1&limitstart=');
 			$row->toc .= '
 			<li>
 				

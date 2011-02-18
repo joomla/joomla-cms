@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#24859] Debug Language showing up
  # [#24856] Get error after save options for component
  # [#24455] Alias URL does not work with Language filter plugin active - sef off
+ # [#24816] 404 errors when using pagebreak with sef enabled
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
