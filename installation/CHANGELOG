@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24975] JS patch for Beez5 - IE issue hide.js. Thanks Ole.
  # [#24947] Incorrect ID attribute's value in backend menu. Thanks Serge
  $ Deleted a duplicate string and corrected some extra spaces
+ # [#24933] The "Ordering" form field type defaults to "0", causing accidental changes to ordering of plugins. Thanks Bernie and Bill.
 
 17-Feb-2011 Mark Dexter
  # [#24231] JS error notices default template in IE7+8
