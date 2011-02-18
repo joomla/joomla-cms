@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Feb-2011 Jean-Marie Simonet
+ # [#24975] JS patch for Beez5 - IE issue hide.js. Thanks Ole.
+
 17-Feb-2011 Mark Dexter
  # [#24231] JS error notices default template in IE7+8
  # [#24825] in sql file bug
