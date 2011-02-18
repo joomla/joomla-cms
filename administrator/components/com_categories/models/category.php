@@ -376,8 +376,14 @@ class CategoriesModelCategory extends JModelAdmin
 		// Trigger the onContentAfterSave event.
 		$dispatcher->trigger($this->event_after_save, array($this->option.'.'.$this->name, &$table, $isNew));
 
-		// Rebuild the tree path.
+		// Rebuild the path for the category:
 		if (!$table->rebuildPath($table->id)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Rebuild the paths of the category's children:
+		if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path)) {
 			$this->setError($table->getError());
 			return false;
 		}

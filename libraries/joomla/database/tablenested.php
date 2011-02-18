@@ -1358,6 +1358,9 @@ class JTableNested extends JTable
 			return false;
 		}
 
+		// Update the current record's path to the new one:
+		$this->path = $path;
+
 		return true;
 	}
 

@@ -30,6 +30,7 @@ $ -> Language fix or change
 17-Feb-2011 Mark Dexter
  # [#24231] JS error notices default template in IE7+8
  # [#24825] in sql file bug
+ # [#24506] com_categories doesn't properly update paths of children categories when moved to a new parent
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE
