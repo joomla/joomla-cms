@@ -111,7 +111,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->click("cb0");
 		$this->click("//li[@id='toolbar-trash']/a/span");
 		$this->waitForPageToLoad("30000");
-		$this->select("filter_published", "label=Trash");
+		$this->select("filter_published", "label=Trashed");
 		$this->waitForPageToLoad("30000");
 		$this->click("cb0");
 		$this->click("//li[@id='toolbar-delete']/a/span");
@@ -213,7 +213,7 @@ class Menu0002 extends SeleniumJoomlaTestCase
 		$this->click("cb0");
 		$this->click("//li[@id='toolbar-trash']/a/span");
 		$this->waitForPageToLoad("30000");
-		$this->select("filter_published", "label=Trash");
+		$this->select("filter_published", "label=Trashed");
 		$this->waitForPageToLoad("30000");
 		$this->click("cb0");
 		$this->click("//li[@id='toolbar-delete']/a/span");

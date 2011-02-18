@@ -240,7 +240,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("checkall-toggle");
 		$this->click("//li[@id='toolbar-trash']/a/span");
 		$this->waitForPageToLoad("30000");
-		$this->select("filter_published", "label=Trash");
+		$this->select("filter_published", "label=Trashed");
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
 		$this->click("//li[@id='toolbar-delete']/a/span");

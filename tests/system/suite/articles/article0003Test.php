@@ -83,8 +83,9 @@ class Article0003 extends SeleniumJoomlaTestCase
 		echo "Go to Site -> Content Components article and check that you get not found notice\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component';
 		$this->gotoSite();
-		$this->open($link);
-		$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dd[contains(., 'Article not found')]"));
+		// Need 'true' in second argument if you will get a 404 error. Otherwise, test fails.
+		$this->open($link, 'true');
+		$this->assertTrue($this->isElementPresent("//div[@id='errorboxbody'][contains(., 'requested page cannot be found')]"));
 		echo "Log in to Site and check that you now can see Content Component article\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();
@@ -106,7 +107,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->click("link=Getting Started");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//dl[@id='system-message']/dd[contains(., 'Article not found')]"));
+		$this->assertTrue($this->isElementPresent("//div[@id='errorboxbody'][contains(., 'requested page cannot be found')]"));
 		echo "Log in to Site and check that Getting Started is now shown and editable\n";
 		$this->gotoSite();
 		$this->doFrontEndLogin();

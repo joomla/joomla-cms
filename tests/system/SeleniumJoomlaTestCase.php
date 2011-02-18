@@ -673,7 +673,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			}
 		}
 		else {
-			$this->click("//button[contains(text(),'Save')]");
+			// Need to click the Save & Close button
+			$this->click("//button[contains(text(),'Save')][contains(text(),'Close')]");
 			for ($second = 0; ; $second++) {
 				if ($second >= 60) $this->fail("timeout");
 				try {

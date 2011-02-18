@@ -57,6 +57,7 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		$this->deleteGroup($groupName);
 		$this->doAdminLogout();
 		$this->deleteAllVisibleCookies();
+		echo "Finished acl0003Test\n";
   }
 }
 

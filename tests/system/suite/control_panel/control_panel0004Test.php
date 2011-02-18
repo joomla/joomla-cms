@@ -64,7 +64,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		print("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		print("Filter Trashed categories." . "\n");
-		$this->select("filter_published", "label=Trash");
+		$this->select("filter_published", "label=Trashed");
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 		print("Select all trashed categories and delete." . "\n");

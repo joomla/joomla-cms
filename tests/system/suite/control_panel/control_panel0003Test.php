@@ -66,7 +66,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->assertFalse($this->isTextPresent("Com_Content001 Test Article"));
 
 		print("Delete article from trash" . "\n");
-		$this->select("filter_published", "label=Trash");
+		$this->select("filter_published", "label=Trashed");
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
