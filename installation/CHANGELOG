@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#24646] Send HTTP result code 503 for the offline page
  # [#24911] Redirect component does not list 404 errors for missing child page when parent page does exist (patch supplied)
  # [#24496] Improve installation.js
+ # [#24859] Debug Language showing up
 
 17-Feb-2011 Jean-Marie Simonet
  $ Updating ar-AA and sv-SE

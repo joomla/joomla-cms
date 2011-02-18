@@ -1440,7 +1440,7 @@ class JForm
 				{
 					$debug = $lang->setDebug(false);
 					$default = JText::_($default);
-					$lang->setDebug($default);
+					$lang->setDebug($debug);
 				}
 				else
 				{
