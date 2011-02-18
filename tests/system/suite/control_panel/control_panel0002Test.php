@@ -240,7 +240,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 
 		echo "Navigate to Contact Manager.\n";
-		$this->click("//ul[@id='menu-contacts']/li[1]/a");
+		$this->click("//ul[@id='menu-com-contact']/li[1]/a");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Contact Manager"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
@@ -251,7 +251,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-trash']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to Contact Category.\n";
-		$this->click("//ul[@id='menu-contacts']/li[2]/a");
+		$this->click("//ul[@id='menu-com-contact']/li[2]/a");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager: Contacts"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
@@ -275,7 +275,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-popup-options']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to News Feed Categories.\n";
-		$this->click("//ul[@id='menu-newsfeeds']/li[2]/a");
+		$this->click("//ul[@id='menu-com-newsfeeds']/li[2]/a");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));
@@ -313,7 +313,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-popup-options']/a/span"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-help']/a/span"));
 		echo "Navigate to Web Links Categories.\n";
-		$this->click("//ul[@id='menu-weblinks']/li[2]/a");
+		$this->click("//ul[@id='menu-com-weblinks']/li[2]/a");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager"));
 		$this->assertTrue($this->isElementPresent("//li[@id='toolbar-new']/a/span"));

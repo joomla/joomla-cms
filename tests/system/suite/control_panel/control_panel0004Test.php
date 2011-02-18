@@ -380,7 +380,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		echo "Test moving Weblinks categories\n";
-		$this->click("//ul[@id='menu-weblinks']/li[2]/a");
+		$this->click("//ul[@id='menu-com-weblinks']/li[2]/a");
 		$this->waitForPageToLoad("30000");
 		echo "Move weblinks Uncatgorised up\n";
 		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Up']");

@@ -349,7 +349,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
 
-    $this->click("//ul[@id='menu-banners']/li[1]/a");
+    $this->click("//ul[@id='menu-com-banners']/li[1]/a");
 	$screen='Banner Manager: Banners';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
@@ -545,7 +545,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	{
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    $this->click("//ul[@id='menu-contacts']/li[1]/a");
+    $this->click("//ul[@id='menu-com-contact']/li[1]/a");
 	$screen='Contact Manager: Contacts';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);

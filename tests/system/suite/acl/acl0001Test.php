@@ -18,7 +18,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		echo "Check starting condition as Super Admin user\n";
 			try
 		{
-			$this->assertTrue($this->isElementPresent("//a[@class=''][@href='#']"), 'User manager should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-users-users']"), 'User manager should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -27,7 +27,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		try
 		{
 			
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-groups']"), 'Groups should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-users-groups']"), 'Groups should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -35,7 +35,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//a[@class=''][@href='#'][contains(text(), 'Menus')]"), 'Menus should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-menus-menus']"), 'Menus should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -43,7 +43,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-banners']"), 'Banners should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-banners']"), 'Banners should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -51,7 +51,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-contacts']"), 'Contacts should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-contact']"), 'Contacts should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -59,7 +59,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-messaging']"), 'Messaging should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-messages']"), 'Messaging should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -67,7 +67,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-newsfeeds']"), 'Newsfeeds should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-newsfeeds']"), 'Newsfeeds should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -83,7 +83,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-weblinks']"), 'Weblinks should be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-weblinks']"), 'Weblinks should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -108,7 +108,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertTrue($this->isElementPresent("//ul[@id='menu-menu-manager']"), 'Menu Manager should not be visible');
+			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-menus-menus']"), 'Menu Manager should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -166,7 +166,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		try
 		{
 			
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-groups']"), 'Groups should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-groups']"), 'Groups should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -174,7 +174,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//a[@class=''][@href='#'][contains(text(), 'Menus')]"), 'Menus option should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-menus-menus']"), 'Menus option should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -182,7 +182,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-banners']"), 'Banners should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-banners']"), 'Banners should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -190,7 +190,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-contacts']"), 'Contacts should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-contact']"), 'Contacts should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -198,7 +198,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-messaging']"), 'Messaging should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-messages']"), 'Messaging should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -206,7 +206,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-newsfeeds']"), 'Newsfeeds should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-newsfeeds']"), 'Newsfeeds should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -222,7 +222,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-weblinks']"), 'Weblinks should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-weblinks']"), 'Weblinks should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{
@@ -247,7 +247,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			$this->assertFalse($this->isElementPresent("//ul[@id='menu-menu-manager']"), 'Menu Manager should not be visible');
+			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-menus-menus']"), 'Menu Manager should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
 		{

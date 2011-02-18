@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 18-Feb-2011 Mark Dexter
 # Fix failing system tests for "published" language change, 404 error change, Save & Close ACL modal change
+# Fix failing system tests for id changes made in [#24947]
 
 26-Jan-2011 Mark Dexter
 # Fix failing system test
