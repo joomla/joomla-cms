@@ -92,10 +92,20 @@ class JAdminCssMenu extends JTree
 		/*
 		 * Print a link if it exists
 		 */
+
+		$linkClass = '';
+
+		if ($this->_current->link != null) {
+			$linkClass = $this->getIconClass($this->_current->class);
+			if (!empty($linkClass)) {
+				$linkClass = ' class="'.$linkClass.'"';
+			}
+		}
+
 		if ($this->_current->link != null && $this->_current->target != null) {
-			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title."</a>";
+			echo "<a".$linkClass." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title."</a>";
 		} elseif ($this->_current->link != null && $this->_current->target == null) {
-			echo "<a class=\"".$this->getIconClass($this->_current->class)."\" href=\"".$this->_current->link."\">".$this->_current->title."</a>";
+			echo "<a".$linkClass." href=\"".$this->_current->link."\">".$this->_current->title."</a>";
 		} elseif ($this->_current->title != null) {
 			echo "<a>".$this->_current->title."</a>\n";
 		} else {
@@ -108,8 +118,11 @@ class JAdminCssMenu extends JTree
 		while ($this->_current->hasChildren())
 		{
 			if ($this->_current->class) {
-				echo '<ul id="menu-'.strtolower($this->_current->id).'"'.
-					' class="menu-component">'."\n";
+				$id = '';
+				if (!empty($this->_current->id)) {
+					$id = ' id="menu-'.strtolower($this->_current->id).'"';
+				}
+				echo '<ul'.$id.' class="menu-component">'."\n";
 			} else {
 				echo '<ul>'."\n";
 			}
@@ -211,7 +224,20 @@ class JMenuNode extends JNode
 		$this->link		= JFilterOutput::ampReplace($link);
 		$this->class	= $class;
 		$this->active	= $active;
-		$this->id		= str_replace(" ","-",$title);
+
+		$this->id = null;
+		if (!empty($link) && $link !== '#') {
+			$uri = new JURI($link);
+			$params = $uri->getQuery(true);
+			$parts = array();
+
+			foreach ($params as $name => $value) {
+				$parts[] = str_replace(array('.','_'), '-', $value);
+ 			}
+
+ 			$this->id = implode('-', $parts);
+		}
+
 		$this->target	= $target;
 	}
 }
