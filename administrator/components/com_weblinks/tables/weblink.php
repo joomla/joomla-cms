@@ -67,8 +67,8 @@ class WeblinksTableWeblink extends JTable
 			// Existing item
 			$this->modified		= $date->toMySQL();
 			$this->modified_by	= $user->get('id');
-			} else {
-			// New article. An article created and created_by field can be set by the user,
+		} else {
+			// New weblink. A weblink created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!intval($this->created)) {
 				$this->created = $date->toMySQL();
@@ -76,31 +76,14 @@ class WeblinksTableWeblink extends JTable
 			if (empty($this->created_by)) {
 				$this->created_by = $user->get('id');
 			}
-		}
-			$date	= JFactory::getDate();
-			$user	= JFactory::getUser();
-			if ($this->id) {
-				// Existing item
-				$this->modified		= $date->toMySQL();
-				$this->modified_by	= $user->get('id');
-				} else {
-				// New weblink. A weblink created and created_by field can be set by the user,
-				// so we don't touch either of these if they are set.
-				if (!intval($this->created)) {
-					$this->created = $date->toMySQL();
-				}
-				if (empty($this->created_by)) {
-					$this->created_by = $user->get('id');
-				}
-				
-			}
-			
+		}	
+		
 	// Verify that the alias is unique
-			$table = JTable::getInstance('Weblink', 'WeblinksTable');
-			if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
-				$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
-				return false;
-			}
+		$table = JTable::getInstance('Weblink', 'WeblinksTable');
+		if ($table->load(array('alias'=>$this->alias,'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
+			return false;
+		}
 		// Attempt to store the user data.
 		return parent::store($updateNulls);
 	}

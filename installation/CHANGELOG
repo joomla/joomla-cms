@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Feb-2011 Jean-Marie Simonet
+ # [#24978] duplicate code weblink .php
+ 
 18-Feb-2011 Jean-Marie Simonet
  # [#24975] JS patch for Beez5 - IE issue hide.js. Thanks Ole.
  # [#24947] Incorrect ID attribute's value in backend menu. Thanks Serge
