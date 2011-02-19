@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 19-Feb-2011 Jean-Marie Simonet
  # [#24978] duplicate code weblink .php
+ # [#24545] Stripped code in contents and custom html module. Thanks Amy and Janich.
  
 18-Feb-2011 Jean-Marie Simonet
  # [#24975] JS patch for Beez5 - IE issue hide.js. Thanks Ole.

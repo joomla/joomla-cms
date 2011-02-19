@@ -176,28 +176,30 @@ class ContentHelper
 
 		// Unfiltered assumes first priority.
 		if ($unfiltered) {
-			$filter = JFilterInput::getInstance(array(), array(), 1, 1, 0);
+			// Dont apply filtering.
 		}
-		// Black lists take second precedence.
-		else if ($blackList) {
-			// Remove the white-listed attributes from the black-list.
-			$filter = JFilterInput::getInstance(
-				array_diff($blackListTags, $whiteListTags), 			// blacklisted tags
-				array_diff($blackListAttributes, $whiteListAttributes), // blacklisted attributes
-				1,														// blacklist tags
-				1														// blacklist attributes
-			);
-		}
-		// White lists take third precedence.
-		else if ($whiteList) {
-			$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
-		}
-		// No HTML takes last place.
 		else {
-			$filter = JFilterInput::getInstance();
+			// Black lists take second precedence.
+			if ($blackList) {
+				// Remove the white-listed attributes from the black-list.
+				$filter = JFilterInput::getInstance(
+					array_diff($blackListTags, $whiteListTags), 			// blacklisted tags
+					array_diff($blackListAttributes, $whiteListAttributes), // blacklisted attributes
+					1,														// blacklist tags
+					1														// blacklist attributes
+				);
+			}
+			// White lists take third precedence.
+			else if ($whiteList) {
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+			}
+			// No HTML takes last place.
+			else {
+				$filter = JFilterInput::getInstance();
+			}
+			
+			$text = $filter->clean($text, 'html');
 		}
-
-		$text = $filter->clean($text, 'html');
 
 		return $text;
 	}
