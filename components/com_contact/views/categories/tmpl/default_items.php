@@ -36,7 +36,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
         <?php endif; ?>
         
 		<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
-			<dl class="contact-count"><dt>
+			<dl><dt>
 				<?php echo JText::_('COM_CONTACT_COUNT'); ?></dt>
 				<dd><?php echo $item->numitems; ?></dd>
 			</dl>

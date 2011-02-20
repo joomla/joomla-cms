@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 20-Feb-2011 Jean-Marie Simonet
- # [#24916] Missing class blog_children
+ # [#24916] Missing class blog_children. Thanks Markus and Bill.
+ # [#24915] Missing class default_children. Thanks Markus and Bill.
  
 19-Feb-2011 Jean-Marie Simonet
  # [#24978] duplicate code weblink .php
