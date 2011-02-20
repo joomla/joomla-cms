@@ -1978,16 +1978,18 @@ a.mod-articles-category-title
 	list-style-type:none;
 	margin:0
 }
+#main .categories-list dl dt,
+#main .categories-list dl dd
+{
+	display:inline
+}
 
 #main .cat-children
 { 
 	padding-left:5px
 }
 #main .cat-children ul dl dt,
-#main .cat-children ul dl dd,
-#main dl.article-count dt,
-#main dl.article-count dd
-
+#main .cat-children ul dl dd
 { display:inline}
 
 #main .cat-children ul

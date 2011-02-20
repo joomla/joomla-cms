@@ -548,6 +548,12 @@ ul.menu li.active ul li.active ul li a:link,
         margin-left:15px
 }
 
+#main .categories-list dl dt,
+#main .categories-list dl dd
+{
+	display:inline
+}
+
 .category-desc
 {
         line-height:1.7em;
@@ -1998,9 +2004,7 @@ margin:0}
 { padding-left:5px
 }
 #main .cat-children ul dl dt,
-#main .cat-children ul dl dd,
-#main dl.article-count dt,
-#main dl.article-count dd
+#main .cat-children ul dl dd
 { display:inline}
 
 #main .cat-children ul
