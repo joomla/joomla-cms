@@ -104,8 +104,8 @@ class ContentModelArticle extends JModelItem
 				// Join on contact table
 				$query->select('contact.id as contactid' ) ;
 				$query->join('LEFT','#__contact_details AS contact on contact.user_id = a.created_by');
-				
-				
+
+
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
@@ -209,8 +209,14 @@ class ContentModelArticle extends JModelItem
 			}
 			catch (JException $e)
 			{
-				$this->setError($e);
-				$this->_item[$pk] = false;
+				if ($e->getCode() == 404) {
+					// Need to go thru the error handler to allow Redirect to work.
+					JError::raiseError(404, $e->getMessage());
+				}
+				else {
+					$this->setError($e);
+					$this->_item[$pk] = false;
+				}
 			}
 		}
 
