@@ -96,9 +96,9 @@
 					label="MOD_WEBLINKS_FIELD_DESCRIPTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_DESCRIPTION_DESC">
 					<option
-						value="1">JYES</option>
+						value="1">JSHOW</option>
 					<option
-						value="0">JNO</option>
+						value="0">JHIDE</option>
 				</field>
 				<field
 					name="hits"
@@ -107,9 +107,9 @@
 					label="MOD_WEBLINKS_FIELD_HITS_LABEL"
 					description="MOD_WEBLINKS_FIELD_HITS_DESC">
 					<option
-						value="1">JYES</option>
+						value="1">JSHOW</option>
 					<option
-						value="0">JNO</option>
+						value="0">JHIDE</option>
 				</field>
 
 				<field
