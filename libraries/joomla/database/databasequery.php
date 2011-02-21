@@ -228,7 +228,7 @@ class JDatabaseQuery
 				$this->_type = null;
 				$this->_select = null;
 				$this->_delete = null;
-				$this->_udpate = null;
+				$this->_update = null;
 				$this->_insert = null;
 				$this->_from = null;
 				$this->_join = null;
