@@ -31,9 +31,9 @@ defined('_JEXEC') or die;
 				</td>
 				<td class="center">
 				<?php if (is_null($module->menuid)) : ?>
-					<?php echo JText::_('JNONE'); ?>
+					<?php echo JText::_('JNO'); ?>
 				<?php elseif ($module->menuid != 0) : ?>
-					<?php echo JText::_('COM_MENUS_MODULE_SHOW_VARIES'); ?>
+					<?php echo JText::_('JYES'); ?>
 				<?php else : ?>
 					<?php echo JText::_('JALL'); ?>
 				<?php endif; ?>

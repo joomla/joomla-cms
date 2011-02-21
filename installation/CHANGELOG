@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Feb-2011 Jean-Marie Simonet
+ # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
+ 
 20-Feb-2011 Jean-Marie Simonet
  # [#24916] Missing class blog_children. Thanks Markus and Bill.
  # [#24915] Missing class default_children. Thanks Markus and Bill.
