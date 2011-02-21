@@ -48,6 +48,7 @@ $ -> Language fix or change
  # [#24914] Wrong class in kategory list mode
  # [#24548] Abort during install of component and module fail due to rollback methods being protected instead of public.
  # [#24389] Plugins installed via discover are enabled
+ # [#22832] PNG images are not optimized
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
