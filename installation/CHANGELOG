@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#24909] *Category Save as Copy does not save with different title/alias
  # [#22624] bug: old extension version reported from cache after automatic extension update**
  # [#24433] *modal_contacts field type problems
+ # [#24963] Missing "parent" css class if menu is collapsed
 
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea

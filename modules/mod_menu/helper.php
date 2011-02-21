@@ -66,6 +66,8 @@ class modMenuHelper
 					$items[$lastitem]->shallower	= ($item->level < $items[$lastitem]->level);
 					$items[$lastitem]->level_diff	= ($items[$lastitem]->level - $item->level);
 				}
+				
+				$item->parent = (boolean) $menu->getItems('parent_id', (int) $item->id, true);
 
 				$lastitem			= $i;
 				$item->active		= false;
