@@ -63,24 +63,20 @@ class ContentViewArticle extends JView
 	protected function addToolbar()
 	{
 		JRequest::setVar('hidemainmenu', true);
-
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
-
 		JToolBarHelper::title(JText::_('COM_CONTENT_PAGE_'.($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// Built the actions for new and existing records.
-		if ($isNew)  {
-			// For new records, check the create permission.
-			if ($canDo->get('core.create')) {
-				JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
-				JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
-				JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
-			}
 
+		// For new records, check the create permission.
+		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
+			JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
+			JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
+			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else {
