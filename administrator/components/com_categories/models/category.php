@@ -331,14 +331,15 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		if (!$isNew && $data['id'] == 0 && $table->parent_id == $data['parent_id']) {
-			$m = null;
-			$data['alias'] = '';
-			if (preg_match('#\((\d+)\)$#', $table->title, $m)) {
-				$data['title'] = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $table->title);
-			}
-			else {
-				$data['title'] .= ' (2)';
+		if (JRequest::getVar('task') == 'save2copy') {
+			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
+			$orig_table = clone($this->getTable());
+			$orig_table->load( (int) $orig_data['id']);
+
+			if (((int) $data['parent_id'] === (int) $orig_table->parent_id) 
+			 && ($data['alias'] == $orig_table->alias)) {
+				$data['title'] .= ' (copy)';	
+				$data['alias'] .= '-copy';
 			}
 		}
 

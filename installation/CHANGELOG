@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 21-Feb-2011 Mark Dexter
 # [#24886] No save icon in article editor for new article with category level permission
+# [#24909] *Category Save as Copy does not save with different title/alias
 
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
