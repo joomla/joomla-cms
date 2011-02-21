@@ -52,6 +52,7 @@ $ -> Language fix or change
  # [#24519] Don't use the $() function in JavaScript.
  # [#25022] Upgrade Geshi to 1.0.8.10
  # [#24675] typo in databasequery.php - udpate
+ # [#25011] Beez_20 and Beez 5 xml patch 
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea

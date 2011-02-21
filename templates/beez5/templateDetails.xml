@@ -61,15 +61,14 @@
 				 <field name="wrapperSmall" type="text" default="53"
 					label="TPL_BEEZ5_FIELD_WRAPPERSMALL_LABEL"
 					description="TPL_BEEZ5_FIELD_WRAPPERSMALL_DESC"
-					filter="int" />
+					filter="integer" />
 
 				<field name="wrapperLarge" type="text" default="72"
 					label="TPL_BEEZ5_FIELD_WRAPPERLARGE_LABEL"
 					description="TPL_BEEZ5_FIELD_WRAPPERLARGE_DESC"
-					filter="int" />
+					filter="integer" />
 				<field name="logo" type="media"
-					hide_default="1"
-					label="TPL_BEEZ5_FIELD_LOGO_LABEL" description="TPL_BEEZ5_FIELD_LOGO_DESC" />
+					   label="TPL_BEEZ5_FIELD_LOGO_LABEL" description="TPL_BEEZ5_FIELD_LOGO_DESC" />
 
 				<field name="sitetitle"  type="text" default=""
 					label="TPL_BEEZ5_FIELD_SITETITLE_LABEL"
