@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
  * -------
  * Author: Nigel McNie (nigel@geshi.org)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.8.9
+ * Release Version: 1.0.8.10
  * Date Started: 2004/06/18
  *
  * CSS language file for GeSHi.
@@ -61,7 +61,15 @@ $language_data = array (
         ),
     'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
     'QUOTEMARKS' => array('"', "'"),
-    'ESCAPE_CHAR' => '\\',
+    'ESCAPE_CHAR' => '',
+    'ESCAPE_REGEXP' => array(
+        //Simple Single Char Escapes
+        //1 => "#\\\\[nfrtv\$\"\n\\\\]#i",
+        //Hexadecimal Char Specs
+        2 => "#\\\\[\da-fA-F]{1,6}\s?#i",
+        //Unicode Char Specs
+        //3 => "#\\\\u[\da-fA-F]{1,8}#i",
+        ),
     'KEYWORDS' => array(
         1 => array(
             'aqua', 'azimuth', 'background-attachment', 'background-color',
@@ -156,7 +164,10 @@ $language_data = array (
             'MULTI' => 'color: #808080; font-style: italic;'
             ),
         'ESCAPE_CHAR' => array(
-            0 => 'color: #000099; font-weight: bold;'
+            0 => 'color: #000099; font-weight: bold;',
+            //1 => 'color: #000099; font-weight: bold;',
+            2 => 'color: #000099; font-weight: bold;'
+            //3 => 'color: #000099; font-weight: bold;'
             ),
         'BRACKETS' => array(
             0 => 'color: #00AA00;'

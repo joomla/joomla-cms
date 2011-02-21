@@ -7,7 +7,7 @@ defined('_JEXEC') or die;
  * ---------------
  * Author: Nigel McNie (nigel@geshi.org)
  * Copyright: (c) 2004 Nigel McNie (http://qbnz.com/highlighter/)
- * Release Version: 1.0.8.9
+ * Release Version: 1.0.8.10
  * Date Started: 2004/07/10
  *
  * HTML 4.01 strict language file for GeSHi.
@@ -62,41 +62,23 @@ $language_data = array (
     'KEYWORDS' => array(
         2 => array(
             'a', 'abbr', 'acronym', 'address', 'applet',
-
             'base', 'basefont', 'bdo', 'big', 'blockquote', 'body', 'br', 'button', 'b',
-
             'caption', 'center', 'cite', 'code', 'colgroup', 'col',
-
             'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt',
-
             'em',
-
             'fieldset', 'font', 'form', 'frame', 'frameset',
-
             'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html',
-
             'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'i',
-
             'kbd',
-
             'label', 'legend', 'link', 'li',
-
             'map', 'meta',
-
             'noframes', 'noscript',
-
             'object', 'ol', 'optgroup', 'option',
-
             'param', 'pre', 'p',
-
             'q',
-
             'samp', 'script', 'select', 'small', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 's',
-
             'table', 'tbody', 'td', 'textarea', 'text', 'tfoot', 'thead', 'th', 'title', 'tr', 'tt',
-
             'ul', 'u',
-
             'var',
             ),
         3 => array(
@@ -154,6 +136,7 @@ $language_data = array (
             0 => 'color: #66cc66;'
             ),
         'SCRIPT' => array(
+            -2 => 'color: #404040;', // CDATA
             -1 => 'color: #808080; font-style: italic;', // comments
             0 => 'color: #00bbdd;',
             1 => 'color: #ddbb00;',
@@ -173,6 +156,9 @@ $language_data = array (
         ),
     'STRICT_MODE_APPLIES' => GESHI_ALWAYS,
     'SCRIPT_DELIMITERS' => array(
+        -2 => array(
+            '<![CDATA[' => ']]>'
+            ),
         -1 => array(
             '<!--' => '-->'
             ),
@@ -187,6 +173,7 @@ $language_data = array (
             )
     ),
     'HIGHLIGHT_STRICT_BLOCK' => array(
+        -2 => false,
         -1 => false,
         0 => false,
         1 => false,
