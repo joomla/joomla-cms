@@ -59,10 +59,10 @@ class ContentViewArticles extends JView
 	protected function addToolbar()
 	{
 		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
-
+		$user		= JFactory::getUser();
 		JToolBarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 ) {
 			JToolBarHelper::addNew('article.add','JTOOLBAR_NEW');
 		}
 
