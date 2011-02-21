@@ -115,7 +115,7 @@ function ContentBuildRoute(&$query)
 		$array = array_reverse($array);
 
 		if (!$advanced && count($array)) {
-			$array[0] = $catid.':'.$array[0];
+			$array[0] = (int)$catid.':'.$array[0];
 		}
 
 		$segments = array_merge($segments, $array);

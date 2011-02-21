@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#24589] Systematic elimination of DS as directory separator - Round 2
  # [#24838] mod_articles_category generates a PHP warning when using language filter
  # [#24489] Joomla displaying error after uploading an image using Media Manager and the path does not stay where it is after the upload
+ # [#24799] Double category strings in URLs
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
