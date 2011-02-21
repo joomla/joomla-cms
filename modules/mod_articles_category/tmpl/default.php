@@ -72,7 +72,7 @@ defined('_JEXEC') or die;
 					else :
 						
 						echo JText::_('MOD_ARTICLES_CATEGORY_READ_MORE');
-						echo JHTML::_('string.truncate', ($this->item->title), $params->get('readmore_limit'));
+						echo JHTML::_('string.truncate', ($item->title), $params->get('readmore_limit'));
 					endif; ?>
 	        </a>
 			</p>
