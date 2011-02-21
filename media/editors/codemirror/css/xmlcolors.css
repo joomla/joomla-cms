@@ -1,3 +1,7 @@
+html {
+  cursor: text;
+}
+
 .editbox {
   margin: .4em;
   padding: 0;
@@ -6,15 +10,6 @@
   color: black;
 }
 
-body.editbox {
-	border: 1px solid #cccccc;
-	padding: .4em;
-	
-}
-pre.code, .editbox {
-  color: #666666;
-  background: #ffffff;
-}
 .editbox p {
   margin: 0;
 }
@@ -52,10 +47,9 @@ span.xml-entity {
 }
 
 span.xml-error {
-  color: #F00;
+ color: #F00 !important;
 }
 
 span.xml-text {
   color: black;
-  
 }

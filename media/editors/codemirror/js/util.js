@@ -1,8 +1,5 @@
 /* A few useful utility functions. */
 
-var internetExplorer = document.selection && window.ActiveXObject && /MSIE/.test(navigator.userAgent);
-var webkit = /AppleWebKit/.test(navigator.userAgent);
-
 // Capture a method on an object.
 function method(obj, name) {
   return function() {obj[name].apply(obj, arguments);};
@@ -11,28 +8,15 @@ function method(obj, name) {
 // The value used to signal the end of a sequence in iterators.
 var StopIteration = {toString: function() {return "StopIteration"}};
 
-// Checks whether the argument is an iterator or a regular sequence,
-// turns it into an iterator.
-function iter(seq) {
-  var i = 0;
-  if (seq.next) return seq;
-  else return {
-	next: function() {
-	  if (i >= seq.length) throw StopIteration;
-	  else return seq[i++];
-	}
-  };
-}
-
 // Apply a function to each element in a sequence.
 function forEach(iter, f) {
   if (iter.next) {
-	try {while (true) f(iter.next());}
-	catch (e) {if (e != StopIteration) throw e;}
+    try {while (true) f(iter.next());}
+    catch (e) {if (e != StopIteration) throw e;}
   }
   else {
-	for (var i = 0; i < iter.length; i++)
-	  f(iter[i]);
+    for (var i = 0; i < iter.length; i++)
+      f(iter[i]);
   }
 }
 
@@ -44,16 +28,20 @@ function map(iter, f) {
 }
 
 // Create a predicate function that tests a string againsts a given
-// regular expression.
+// regular expression. No longer used but might be used by 3rd party
+// parsers.
 function matcher(regexp){
   return function(value){return regexp.test(value);};
 }
 
-// Test whether a DOM node has a certain CSS class. Much faster than
-// the MochiKit equivalent, for some reason.
-function hasClass(element, className){
+// Test whether a DOM node has a certain CSS class.
+function hasClass(element, className) {
   var classes = element.className;
   return classes && new RegExp("(^| )" + className + "($| )").test(classes);
+}
+function removeClass(element, className) {
+  element.className = element.className.replace(new RegExp(" " + className + "\\b", "g"), "");
+  return element;
 }
 
 // Insert a DOM node after another node.
@@ -65,19 +53,19 @@ function insertAfter(newNode, oldNode) {
 
 function removeElement(node) {
   if (node.parentNode)
-	node.parentNode.removeChild(node);
+    node.parentNode.removeChild(node);
 }
 
 function clearElement(node) {
   while (node.firstChild)
-	node.removeChild(node.firstChild);
+    node.removeChild(node.firstChild);
 }
 
 // Check whether a node is contained in another one.
 function isAncestor(node, child) {
   while (child = child.parentNode) {
-	if (node == child)
-	  return true;
+    if (node == child)
+      return true;
   }
   return false;
 }
@@ -85,24 +73,24 @@ function isAncestor(node, child) {
 // The non-breaking space character.
 var nbsp = "\u00a0";
 var matching = {"{": "}", "[": "]", "(": ")",
-				"}": "{", "]": "[", ")": "("};
+                "}": "{", "]": "[", ")": "("};
 
 // Standardize a few unportable event properties.
 function normalizeEvent(event) {
   if (!event.stopPropagation) {
-	event.stopPropagation = function() {this.cancelBubble = true;};
-	event.preventDefault = function() {this.returnValue = false;};
+    event.stopPropagation = function() {this.cancelBubble = true;};
+    event.preventDefault = function() {this.returnValue = false;};
   }
   if (!event.stop) {
-	event.stop = function() {
-	  this.stopPropagation();
-	  this.preventDefault();
-	};
+    event.stop = function() {
+      this.stopPropagation();
+      this.preventDefault();
+    };
   }
 
   if (event.type == "keypress") {
-	event.code = (event.charCode == null) ? event.keyCode : event.charCode;
-	event.character = String.fromCharCode(event.code);
+    event.code = (event.charCode == null) ? event.keyCode : event.charCode;
+    event.character = String.fromCharCode(event.code);
   }
   return event;
 }
@@ -110,18 +98,36 @@ function normalizeEvent(event) {
 // Portably register event handlers.
 function addEventHandler(node, type, handler, removeFunc) {
   function wrapHandler(event) {
-	handler(normalizeEvent(event || window.event));
+    handler(normalizeEvent(event || window.event));
   }
   if (typeof node.addEventListener == "function") {
-	node.addEventListener(type, wrapHandler, false);
-	if (removeFunc) return function() {node.removeEventListener(type, wrapHandler, false);};
+    node.addEventListener(type, wrapHandler, false);
+    if (removeFunc) return function() {node.removeEventListener(type, wrapHandler, false);};
   }
   else {
-	node.attachEvent("on" + type, wrapHandler);
-	if (removeFunc) return function() {node.detachEvent("on" + type, wrapHandler);};
+    node.attachEvent("on" + type, wrapHandler);
+    if (removeFunc) return function() {node.detachEvent("on" + type, wrapHandler);};
   }
 }
 
 function nodeText(node) {
-  return node.innerText || node.textContent || node.nodeValue || "";
+  return node.textContent || node.innerText || node.nodeValue || "";
+}
+
+function nodeTop(node) {
+  var top = 0;
+  while (node.offsetParent) {
+    top += node.offsetTop;
+    node = node.offsetParent;
+  }
+  return top;
+}
+
+function isBR(node) {
+  var nn = node.nodeName;
+  return nn == "BR" || nn == "br";
+}
+function isSpan(node) {
+  var nn = node.nodeName;
+  return nn == "SPAN" || nn == "span";
 }

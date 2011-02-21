@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.6" type="plugin" group="editors">
 	<name>plg_editors_codemirror</name>
-	<version>1.0</version>
-	<creationDate>May 2009</creationDate>
+	<version>0.94</version>
+	<creationDate>17 Feburary 2011</creationDate>
 	<author></author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl></authorUrl>
