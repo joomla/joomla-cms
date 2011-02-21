@@ -45,7 +45,8 @@ class plgButtonImage extends JPlugin
  		$user = JFactory::getUser();
 		if (	$user->authorise('core.edit', $asset)
 			||	$user->authorise('core.create', $asset)
-			|| ($user->authorise('core.edit.own', $asset) && $author==$user->id)) 
+			||  count($user->getAuthorisedCategories($asset, 'core.create')) > 0
+			|| ($user->authorise('core.edit.own', $asset) && $author == $user->id)) 
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 			JHtml::_('behavior.modal');

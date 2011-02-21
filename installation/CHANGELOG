@@ -40,6 +40,7 @@ $ -> Language fix or change
  # [#24524] Redirect is Not Working with SEF
  # [#24908] A banner with limited impressions will never show
  # [#24903] Cannot Translate Option Values using JForm SQL Field Type**
+ # [#24857] Users with create permission in a category cannot see the image button below the editor
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
