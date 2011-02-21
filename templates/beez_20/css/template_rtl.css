@@ -1,33 +1,120 @@
-/* Angie Radtke 2010 */
-#all {
-	text-align: right
+/**
+ * @version $Id$
+ * @author Design & Accessible Team ( Angie Radtke  )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+ 
+ 
+ #all
+{
+	text-align: right;
 }
 
-h1#logo {
-	text-align: right
+#wrapper
+{
+	float:right;
+}
+ 
+
+#logo span
+{
+	padding-right:90px;
+}
+
+
+h1#logo{
+	font-family: 'Titillium Maps',  Arial;
+	padding:0.9em 20px 20px 10px;
+	/*text-transform:uppercase;*/
+	text-align:right;
+}
+
+#logo
+{
+	margin-top:0.6em;
+	margin-left:10px;
+	/* position:absolute;*/
+	display:block;
+	padding:20px 20px 20px 10px;
+	width:425px;
+	padding-top:0.6em;
+	font-weight:normal;
+	line-height:1em;
+	font-size:3em;
+}
+
+.logoheader
+{
+	text-align:right;
+}
+
+/* ##########################  header  ########################### */
+
+#header
+{
+	font-size:1em;
+	position:relative
 }
 
 #header ul.menu {
 	text-align: right;
-
 }
 
+/* ++++++++++++++  search box+font options ++++++++++++++ */
 #line {
-text-align:left;
+	left: 20px;
+	margin-right: -10px;
+	right: auto;
+	text-align: left;
+}
+
+/* ++++++++++++++  breadcrumbs   ++++++++++++++ */
+
+#breadcrumbs {
+	/*display: block;*/
+	background: none;
+	float: right;
+	text-align: right;
+	width: 100%;
+}
+
+#breadcrumbs *
+{
+	text-align:right;
+	float: right;
 
 }
-#line  form
-{padding-left:30px}
-
+/* for IE7 and less */
+*:first-child+html .breadcrumbs, * html .breadcrumbs {
+	width: 100%;
+}
 #breadcrumbs
-{text-align:right;}
-ul.menu li {
-	text-align: right
+{
+	margin:15px 5px 15px 0px;
+}
+#breadcrumbs img
+{
+	padding: 4px 5px 0px 5px;
 }
 
+#breadcrumbs .showHere {
+	margin-left: 4px;
+}
 ul.menu li a:link,ul.menu li a:visited {
 	background: url(../images/nature/karo.gif) no-repeat scroll right 14px;
 	padding-right: 10px;
+}
+
+ul.menu li {
+	text-align: right;
 }
 
 ul.menu li.active ul li a:link,
@@ -85,6 +172,12 @@ a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
 	padding-right: 10px !important
 }
 
+.readmore a:hover, .readmore a:active, .readmore a:focus,
+a.readmore a:hover, a.readmore a:active, a.readmore a:focus
+{
+	background: url(../images/nature/arrow2_rtl.gif) no-repeat right 6px #555 !important;
+}
+
 .mailto-close {
 	left: 5px !important;
 	right: auto !important;
@@ -123,69 +216,69 @@ button.button
 
 #main ul
 {
-        padding:0 15px 0 0;
-        margin:10px 0 10px 0px;
+	padding:0 15px 0 0;
+	margin:10px 0 10px 0px;
 }
 
 #main ol
 {
-        padding:0 20px 0 0;
-        margin:10px 0 10px 0px;
+	padding:0 20px 0 0;
+	margin:10px 0 10px 0px;
 }
 
 .contact-email label
 {
-        width:17em;
-        float:right;
+	width:17em;
+	float:right;
 }
 
 #contact-email-copy
 {
-        float:right;
-        margin-left:10px;
+	float:right;
+	margin-left:10px;
 }
 
 table.weblinks th, table.category th {
-    text-align: right;
+	text-align: right;
 }
 
 dl.tabs {
-    float: right;
-    margin: 50px 0 0 0;
-    z-index: 50;
-    clear:both;
+	float: right;
+	margin: 50px 0 0 0;
+	z-index: 50;
+	clear:both;
 }
 
 dl.tabs dt {
-    float: right;
-    padding: 4px 10px;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    border-top: 1px solid #ccc;
-    margin-left: 3px;
+	float: right;
+	padding: 4px 10px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left: 3px;
 	margin-right: 0px;
 }
 
 form fieldset dt
 {
-        clear:right ;
-        float:right;
-        width:12em;
-        padding:3px 0
+	clear:right ;
+	float:right;
+	width:12em;
+	padding:3px 0
 }
 
 form fieldset dd
 {
-        float:right;
-        padding:3px 0
+	float:right;
+	padding:3px 0
 }
 
 #users-profile-core dt,
 #users-profile-custom dt
 {
-        float:right;
-        width:12em;
-        padding:3px 0;
+	float:right;
+	width:12em;
+	padding:3px 0;
  
    
 }
@@ -209,13 +302,14 @@ direction: ltr;
 	float:right;
 	text-align:right;
 	padding:10px 10px 0px 0px;
-
+	width: 100%;
 }
 
 #main .pagination ul
 {
 	float:right;
 	text-align:right;
+
 }
 
 #main .pagination li
@@ -230,22 +324,140 @@ direction: ltr;
 padding:4px 0;
 }
 
-.pagenav { 
+.left1 {
+	float: right;
+	margin: 10px 10px 3% 10px ;
+}
+
+
+/* ++++++++++++++  login  ++++++++++++++ */
+
+
+
+#login-form label
+{
+	margin-right:0px;
+	float:right
+}
+
+#form-login-remember label
+{
+	float:none;
+	width:auto;
+	display:inline
+}
+
+input.button,
+button.button,
+button.validate
+{
+	padding:3px 3px 5px 7px;
+}
+
+#modlgn-username,
+#modlgn-passwd
+{
+	margin-right:-30px;
+}
+
+.module_content #form-login-username label,
+.module_content #form-login-password label
+{
+	float:right;
+
+}
+
+.login-fields
+{
+	margin:10px 0
+}
+
+.login-fields label
+{
 	float:right;
 }
 
-/* ++++++++++++++  breadcrumbs  ++++++++++++++ */
-
-#breadcrumbs *
+.login-description img,
+.logout-description img
 {
-	text-align:right;
+	float:right;
+	margin-right:0px
+}
+
+.login-description,
+.logout-description
+{
+	padding-right:5px;
+	margin:20px 10 0 0;
+}
+
+/* ++++++++++++++  columns alignment left to right  ++++++++++++++ */
+ul.tabs li {
+	float: right;
+	border-left: 1px solid #DDDDDD;
+	border-right: 0px solid #DDDDDD;
+}
+
+
+ul.pagenav li.pagenav-next {
+	float: left;
+}
+ul.pagenav li.pagenav-prev {
+	float: right;
+}
+#close span {
+	width: auto;
+	left: 20px;
+	right: auto;
+}
+#header ul.menu li a:link,
+#header ul.menu li a:visited
+{
+	border-right:solid 0px #237D85;
+	border-left:solid 1px #237D85;
+}
+
+#header ul li.active a:link,
+#header ul li.active a:visited
+{
+	border-right:solid 0px #237D85;
+	border-left:solid 1px #237D85;
+}
+#fontsize {
+	margin: 0 1px 0 20px;
+	text-align: right;
+}
+#fontsize p a:link, #fontsize p a:visited {
+	border-left: 1px solid #CCCCCC;
+	border-right: none;
+}
+#header form .inputbox {
+	margin: 2px 2px 2px 13px;
+}
+#header form .inputbox:focus { margin: 1px 1px 0 11px; }
+#header ul.menu li {
+	float: right;
+}
+
+/* ############## Blog/featured columns ######## */
+
+.blog-featured .item, .blog .item {
 	float:right;
 }
-#breadcrumbs
-{
-	margin:15px 15px 20px 0px;
+.items-row .column-1 {
+	margin-right: 0;
+	margin-left: 4%;
 }
-#breadcrumbs img
-{
-	padding: 4px 5px 0 5px;
+
+#main ul.actions {
+	text-align: left;
+}
+
+.content_rating {
+	text-align: right;
+	
+}
+
+ul.menu li ul li ul li ul li ul {
+	padding-right: 7px;
 }
