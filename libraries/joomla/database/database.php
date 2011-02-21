@@ -243,7 +243,7 @@ abstract class JDatabase extends JObject
 			$class = 'JDatabase'.ucfirst($name);
 
 			if (!class_exists($class)) {
-				require_once dirname(__FILE__).DS.'database'.DS.$name.'.php';
+				require_once dirname(__FILE__).'/database/'.$name.'.php';
 			}
 
 			if (call_user_func_array(array(trim($class), 'test'), array())) {

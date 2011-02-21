@@ -49,7 +49,7 @@ class WeblinksViewWeblinks extends JView
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.DS.'helpers'.DS.'weblinks.php';
+		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
 
 		$state	= $this->get('State');
 		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));

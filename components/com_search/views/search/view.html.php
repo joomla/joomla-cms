@@ -24,7 +24,7 @@ class SearchViewSearch extends JView
 {
 	function display($tpl = null)
 	{
-		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'search.php';
+		require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/search.php';
 
 		// Initialise some variables
 		$app	= JFactory::getApplication();

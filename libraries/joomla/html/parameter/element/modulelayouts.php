@@ -8,7 +8,7 @@
 // No direct access
 defined('JPATH_BASE') or die;
 
-require_once dirname(__FILE__).DS.'list.php';
+require_once dirname(__FILE__).'/list.php';
 
 /**
  * Parameter to display a list of the layouts for a module from the module or default template overrides.

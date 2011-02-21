@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#22624] bug: old extension version reported from cache after automatic extension update**
  # [#24433] *modal_contacts field type problems
  # [#24963] Missing "parent" css class if menu is collapsed
+ # [#24589] Systematic elimination of DS as directory separator - Round 2
 
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea

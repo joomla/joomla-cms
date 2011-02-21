@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once dirname(__FILE__).DS.'articles.php';
+require_once dirname(__FILE__).'/articles.php';
 
 /**
  * @package		Joomla.Administrator

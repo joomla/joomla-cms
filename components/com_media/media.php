@@ -34,7 +34,7 @@ $lang = JFactory::getLanguage();
 ||	$lang->load($option, JPATH_COMPONENT_ADMINISTRATOR, $lang->getDefault(), false, false);
 
 // Load the admin HTML view
-require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'media.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/media.php';
 
 // Require the base controller
 require_once JPATH_COMPONENT.'/controller.php';

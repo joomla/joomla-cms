@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-$com_path = JPATH_SITE.DS.'components'.DS.'com_content';
-require_once $com_path.DS.'router.php';
-require_once $com_path.DS.'helpers'.DS.'route.php';
+$com_path = JPATH_SITE.'/components/com_content/';
+require_once $com_path.'router.php';
+require_once $com_path.'helpers/route.php';
 
 jimport('joomla.application.component.model');
 

@@ -50,7 +50,7 @@ error_reporting(E_ALL);
 /*
  * Check for existing configuration file.
  */
-if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_CONFIGURATION.DS.'configuration.php') > 10) && !file_exists(JPATH_INSTALLATION.DS.'index.php')) {
+if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CONFIGURATION.'/configuration.php') > 10) && !file_exists(JPATH_INSTALLATION.'/index.php')) {
 	header('Location: ../index.php');
 	exit();
 }
@@ -60,7 +60,7 @@ if (file_exists(JPATH_CONFIGURATION.DS.'configuration.php') && (filesize(JPATH_C
  */
 
 // Bootstrap the Joomla Framework.
-require_once JPATH_LIBRARIES.DS.'joomla'.DS.'import.php';
+require_once JPATH_LIBRARIES.'/joomla/import.php';
 
 // Joomla library imports.
 jimport('joomla.database.table');
