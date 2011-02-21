@@ -134,9 +134,14 @@ class InstallerModelUpdate extends JModelList
 			$update->loadFromXML($instance->detailsurl);
 			// install sets state and enqueues messages
 			$res = $this->install($update);
+
+			if ($res) {
+				$this->purge();
+			}
+
 			$result = $res & $result;
 		}
-
+		
 		// Set the final state
 		$this->setState('result', $result);
 	}
