@@ -1294,7 +1294,9 @@ a.jgrid:hover {
 .icon-32-remove {
 	background-image: url(../images/toolbar/icon-32-remove.png);
 }
-
+.icon-32-featured {
+	background-image: url(../images/toolbar/icon-32-featured.png);
+}
 /**
  * Quick Icons
  * Also knows as Header Icons

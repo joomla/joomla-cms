@@ -30,6 +30,7 @@ $ -> Language fix or change
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
  # [#24983] modifying Beez 20 to compatibility with RTL Thanks Mahmood and Ofer.
+ # [#24996] There is no featured button in the tool bar, so no way to make multiple articles featured. Thanks Elin.
  
 20-Feb-2011 Jean-Marie Simonet
  # [#24916] Missing class blog_children. Thanks Markus and Bill.

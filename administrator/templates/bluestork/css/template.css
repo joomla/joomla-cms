@@ -2094,6 +2094,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-32-delete-style				{	background-image: url(../images/toolbar/icon-32-delete-style.png);	}
 .icon-32-purge						{	background-image: url(../images/toolbar/icon-32-purge.png);	}
 .icon-32-remove						{	background-image: url(../images/toolbar/icon-32-remove.png);	}
+.icon-32-featured			{	background-image: url(../images/toolbar/icon-32-featured.png);	}
 .toolbar-inactive					{	background-position: 0px 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
