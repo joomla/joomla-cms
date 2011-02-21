@@ -126,7 +126,7 @@ class MediaControllerFile extends JController
 			else
 			{
 				// Trigger the onContentAfterSave event.
-				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file));
+				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
 				$log->addEntry(array('comment' => $folder));
 				$response = array(
 					'status' => '1',

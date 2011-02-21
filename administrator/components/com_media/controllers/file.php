@@ -37,6 +37,7 @@ class MediaControllerFile extends JController
 		$file		= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder		= JRequest::getVar('folder', '', '', 'path');
 		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
+		
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -98,7 +99,7 @@ class MediaControllerFile extends JController
 			else
 			{
 				// Trigger the onContentAfterSave event.
-				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file));
+				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file,true));
 				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($file['filepath'], strlen(COM_MEDIA_BASE))));
 				return true;
 			}

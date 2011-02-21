@@ -176,7 +176,7 @@ class MediaControllerFolder extends JController
 				JFile::write($path.DS."index.html", $data);
 
 				// Trigger the onContentAfterSave event.
-				$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file));
+				$dispatcher->trigger('onContentAfterSave', array('com_media.folder', &$object_file, true));
 				$this->setMessage(JText::sprintf('COM_MEDIA_CREATE_COMPLETE', substr($path, strlen(COM_MEDIA_BASE))));
 			}
 			JRequest::setVar('folder', ($parent) ? $parent.'/'.$folder : $folder);
