@@ -34,10 +34,9 @@ class JFormFieldModal_Newsfeeds extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Load the javascript and css
+		// Load the javascript
 		JHtml::_('behavior.framework');
-		JHTML::_('script','system/modal.js', false, true);
-		JHTML::_('stylesheet','system/modal.css', array(), true);
+		JHtml::_('behavior.modal', 'input.modal');
 
 		// Build the script.
 		$script = array();
@@ -55,8 +54,6 @@ class JFormFieldModal_Newsfeeds extends JFormField
 		$script[] = '	window.addEvent("domready", function() {';
 		$script[] = '		var div = new Element("div").setStyle("display", "none").injectBefore(document.id("menu-types"));';
 		$script[] = '		document.id("menu-types").injectInside(div);';
-		$script[] = '		SqueezeBox.initialize();';
-		$script[] = '		SqueezeBox.assign($$("input.modal"), {parse:"rel"});';
 		$script[] = '	});';
 
 		// Add the script to the document head.

@@ -291,7 +291,7 @@ abstract class JHtmlBehavior
 			self::framework();
 
 			// Load the javascript and css
-			$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+			$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 			JHtml::_('script','system/modal'.$uncompressed.'.js', true, true);
 			JHtml::_('stylesheet','system/modal.css', array(), true);
 
@@ -331,7 +331,6 @@ abstract class JHtmlBehavior
 		// Attach modal behavior to document
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
-
 			SqueezeBox.initialize(".$options.");
 			SqueezeBox.assign($$('".$selector."'), {
 				parse: 'rel'

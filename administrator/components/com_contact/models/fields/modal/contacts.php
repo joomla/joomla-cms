@@ -34,10 +34,9 @@ class JFormFieldModal_Contacts extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Load the javascript and css
+		// Load the javascript
 		JHtml::_('behavior.framework');
-		JHTML::_('script','system/modal.js', false, true);
-		JHTML::_('stylesheet','system/modal.css', array(), true);
+		JHTML::_('behavior.modal', 'a.modal');
 
 		// Build the script.
 		$script = array();
@@ -49,19 +48,6 @@ class JFormFieldModal_Contacts extends JFormField
 
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-
-		// Build the script.
-		$script = array();
-		$script[] = '	window.addEvent("domready", function() {';
-		$script[] = '		var div = new Element("div").setStyle("display", "none").injectBefore(document.id("menu-types"));';
-		$script[] = '		document.id("menu-types").injectInside(div);';
-		$script[] = '		SqueezeBox.initialize();';
-		$script[] = '		SqueezeBox.assign($$("input.modal"), {parse:"rel"});';
-		$script[] = '	});';
-
-		// Add the script to the document head.
-		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-
 
 		// Get the title of the linked chart
 		$db = JFactory::getDBO();
@@ -82,7 +68,6 @@ class JFormFieldModal_Contacts extends JFormField
 
 		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->id;
 
-		JHTML::_('behavior.modal', 'a.modal');
 		$html = "\n".'<div class="fltlft"><input type="text" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /></div>';
 		$html .= '<div class="button2-left"><div class="blank"><a class="modal" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'</a></div></div>'."\n";
 		// The active contact id field.

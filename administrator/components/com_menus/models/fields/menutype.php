@@ -71,21 +71,15 @@ class JFormFieldMenuType extends JFormFieldList
 				$value	= JText::_(JArrayHelper::getValue($this->_rlu, MenusHelper::getLinkKey($link)));
 				break;
 		}
-		// Load the javascript and css
+		// Load the javascript
 		JHtml::_('behavior.framework');
-		JHTML::_('script','system/modal.js', false, true);
-		JHTML::_('stylesheet','system/modal.css', array(), true);
+		JHtml::_('behavior.modal', 'input.modal');
 
-		// Attach modal behavior to document
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
 			var div = new Element('div').setStyle('display', 'none').injectBefore(document.id('menu-types'));
 			document.id('menu-types').injectInside(div);
-			SqueezeBox.initialize();
-			SqueezeBox.assign($$('input.modal'), {
-				parse: 'rel'
-			});
 		});");
 
 		$html[] = '<input type="text" readonly="readonly" disabled="disabled" value="'.$value.'"'.$size.$class.'>';
