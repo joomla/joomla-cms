@@ -107,33 +107,36 @@ abstract class modArticlesCategoryHelper
 		// Category filter
 		if ($catids) {
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
-		        // Get an instance of the generic categories model
-		        $categories = JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
-		        $categories->setState('params', $appParams);
-		        $levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
-		        $categories->setState('filter.get_children', $levels);
-		        $categories->setState('filter.published', 1);
-		        $categories->setState('filter.access', $access);
-		        $additional_catids = array();
+				// Get an instance of the generic categories model
+				$categories = JModel::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
+				$categories->setState('params', $appParams);
+				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
+				$categories->setState('filter.get_children', $levels);
+				$categories->setState('filter.published', 1);
+				$categories->setState('filter.access', $access);
+				$additional_catids = array();
 
-		        foreach($catids as $catid)
-		        {
-		            $categories->setState('filter.parentId', $catid);
-		            $recursive = true;
-		            $items = $categories->getItems($recursive);
+				foreach($catids as $catid)
+				{
+					$categories->setState('filter.parentId', $catid);
+					$recursive = true;
+					$items = $categories->getItems($recursive);
 
-		            foreach($items as $category)
-		            {
-		            	$condition = (($category->level - $categories->getParent()->level) <= $levels);
-		            	if ($condition) {
-							$additional_catids[] = $category->id;
-		            	}
+					if ($items)
+					{
+						foreach($items as $category)
+						{
+							$condition = (($category->level - $categories->getParent()->level) <= $levels);
+							if ($condition) {
+								$additional_catids[] = $category->id;
+							}
 
-		            }
-		        }
+						}
+					}
+				}
 
-		        $catids = array_unique(array_merge($catids, $additional_catids));
-		    }
+				$catids = array_unique(array_merge($catids, $additional_catids));
+			}
 
 			$articles->setState('filter.category_id', $catids);
 		}
@@ -204,7 +207,7 @@ abstract class modArticlesCategoryHelper
 			 else {
 				// Angie Fixed Routing
 				$app	= JFactory::getApplication();
-			    $menu	= $app->getMenu();
+				$menu	= $app->getMenu();
 				$menuitems	= $menu->getItems('link', 'index.php?option=com_users&view=login');
 			if(isset($menuitems[0])) {
 					$Itemid = $menuitems[0]->id;
@@ -272,95 +275,95 @@ abstract class modArticlesCategoryHelper
 	*/
 	public static function truncate($html, $maxLength = 0)
 	{
-	    $printedLength = 0;
-	    $position = 0;
-	    $tags = array();
+		$printedLength = 0;
+		$position = 0;
+		$tags = array();
 
-	    $output = '';
+		$output = '';
 
-	    if (empty($html)) {
+		if (empty($html)) {
 			return $output;
-	    }
+		}
 
-	    while ($printedLength < $maxLength && preg_match('{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;}', $html, $match, PREG_OFFSET_CAPTURE, $position))
-	    {
-	        list($tag, $tagPosition) = $match[0];
+		while ($printedLength < $maxLength && preg_match('{</?([a-z]+)[^>]*>|&#?[a-zA-Z0-9]+;}', $html, $match, PREG_OFFSET_CAPTURE, $position))
+		{
+			list($tag, $tagPosition) = $match[0];
 
-	        // Print text leading up to the tag.
+			// Print text leading up to the tag.
 			$str = JString::substr($html, $position, $tagPosition - $position);
-	        if ($printedLength + JString::strlen($str) > $maxLength) {
-	            $output .= JString::substr($str, 0, $maxLength - $printedLength);
-	            $printedLength = $maxLength;
-	            break;
-	        }
+			if ($printedLength + JString::strlen($str) > $maxLength) {
+				$output .= JString::substr($str, 0, $maxLength - $printedLength);
+				$printedLength = $maxLength;
+				break;
+			}
 
-	        $output .= $str;
-	        $lastCharacterIsOpenBracket = (JString::substr($output, -1, 1) === '<');
+			$output .= $str;
+			$lastCharacterIsOpenBracket = (JString::substr($output, -1, 1) === '<');
 
-	        if ($lastCharacterIsOpenBracket) {
+			if ($lastCharacterIsOpenBracket) {
 				$output = JString::substr($output, 0, JString::strlen($output) - 1);
-	        }
+			}
 
-	        $printedLength += JString::strlen($str);
+			$printedLength += JString::strlen($str);
 
-	        if ($tag[0] == '&') {
-	            // Handle the entity.
-	            $output .= $tag;
-	            $printedLength++;
-	        }
-	        else {
-	            // Handle the tag.
-	            $tagName = $match[1][0];
+			if ($tag[0] == '&') {
+				// Handle the entity.
+				$output .= $tag;
+				$printedLength++;
+			}
+			else {
+				// Handle the tag.
+				$tagName = $match[1][0];
 
-	            if ($tag[1] == '/') {
-	                // This is a closing tag.
-	                $openingTag = array_pop($tags);
+				if ($tag[1] == '/') {
+					// This is a closing tag.
+					$openingTag = array_pop($tags);
 
-	                $output .= $tag;
-	            }
-	            else if ($tag[JString::strlen($tag) - 2] == '/') {
-	                // Self-closing tag.
-	                $output .= $tag;
-	            }
-	            else {
-	                // Opening tag.
-	                $output .= $tag;
-	                $tags[] = $tagName;
-	            }
-	        }
+					$output .= $tag;
+				}
+				else if ($tag[JString::strlen($tag) - 2] == '/') {
+					// Self-closing tag.
+					$output .= $tag;
+				}
+				else {
+					// Opening tag.
+					$output .= $tag;
+					$tags[] = $tagName;
+				}
+			}
 
-	        // Continue after the tag.
-	        if ($lastCharacterIsOpenBracket) {
+			// Continue after the tag.
+			if ($lastCharacterIsOpenBracket) {
 				$position = ($tagPosition - 1) + JString::strlen($tag);
 			}
 			else {
 				$position = $tagPosition + JString::strlen($tag);
 			}
 
-	    }
+		}
 
-	    // Print any remaining text.
-	    if ($printedLength < $maxLength && $position < JString::strlen($html)) {
+		// Print any remaining text.
+		if ($printedLength < $maxLength && $position < JString::strlen($html)) {
 			$output .= JString::substr($html, $position, $maxLength - $printedLength);
-	    }
+		}
 
-	    // Close any open tags.
-	    while (!empty($tags))
-	    {
+		// Close any open tags.
+		while (!empty($tags))
+		{
 			$output .= sprintf('</%s>', array_pop($tags));
-	    }
+		}
 
-	    $length = JString::strlen($output);
-	    $lastChar = JString::substr($output, ($length - 1), 1);
-	    $characterNumber = ord($lastChar);
+		$length = JString::strlen($output);
+		$lastChar = JString::substr($output, ($length - 1), 1);
+		$characterNumber = ord($lastChar);
 
-	    if ($characterNumber === 194) {
+		if ($characterNumber === 194) {
 			$output = JString::substr($output, 0, JString::strlen($output) - 1);
-	    }
+		}
 
 		$output = JString::rtrim($output);
 
-	    return $output.'&hellip;';
+		return $output.'&hellip;';
 	}
 
 	public static function groupBy($list, $fieldName, $article_grouping_direction, $fieldNameToKeep = null)
@@ -410,8 +413,8 @@ abstract class modArticlesCategoryHelper
 
 		foreach($list as $key => $item)
 		{
-            switch($type)
-            {
+			switch($type)
+			{
 				case 'month_year':
 					$month_year = JString::substr($item->created, 0, 7);
 
@@ -432,7 +435,7 @@ abstract class modArticlesCategoryHelper
 
 					$grouped[$year][$key] = $item;
 					break;
-            }
+			}
 
 			unset($list[$key]);
 		}

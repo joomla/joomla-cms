@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24433] *modal_contacts field type problems
  # [#24963] Missing "parent" css class if menu is collapsed
  # [#24589] Systematic elimination of DS as directory separator - Round 2
+ # [#24838] mod_articles_category generates a PHP warning when using language filter
 
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
