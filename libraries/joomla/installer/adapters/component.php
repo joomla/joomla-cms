@@ -1407,7 +1407,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	protected function _rollback_menu()
+	public function _rollback_menu()
 	{
 		return true;
 	}

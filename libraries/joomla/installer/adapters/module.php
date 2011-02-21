@@ -779,7 +779,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	protected function _rollback_menu($arg)
+	public function _rollback_menu($arg)
 	{
 		// Get database connector object
 		$db = $this->parent->getDbo();
@@ -809,7 +809,7 @@ class JInstallerModule extends JAdapterInstance
 	 * @return	boolean	True on success
 	 * @since	1.5
 	 */
-	protected function _rollback_module($arg)
+	public function _rollback_module($arg)
 	{
 		// Get database connector object
 		$db = $this->parent->getDbo();
