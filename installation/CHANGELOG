@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#24489] Joomla displaying error after uploading an image using Media Manager and the path does not stay where it is after the upload
  # [#24799] Double category strings in URLs
  # [#24524] Redirect is Not Working with SEF
+ # [#24908] A banner with limited impressions will never show
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
