@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#24993] Cannot allow a group to create in a single sub category
  # [#24307] Login form does not use https
  # [#24528] Fatal error in mod_articles_category when showing readmore
+ # [#24880] Can't display teaser text in full article view.
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea

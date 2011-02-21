@@ -102,21 +102,12 @@ class ContentViewArticle extends JView
 		$offset = $this->state->get('list.offset');
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true) {
-			// TODO: This curtails the ability for a layout to show teaser information!!!
-			// If a guest user, they may be able to log in to view the full article
-			if (($this->params->get('show_noauth')) AND ($user->get('guest'))) {
-				// Redirect to login
-				$uri = JFactory::getURI();
-				$app->redirect('index.php?option=com_users&view=login&return=' . base64_encode($uri), JText::_('COM_CONTENT_ERROR_LOGIN_TO_VIEW_ARTICLE'));
+		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') ))) {
+
+						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
 				return;
-			}
-			else {
-				JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
-				return;
-			}
+			
 		}
 
 		if ($item->params->get('show_intro','1')=='1') {
