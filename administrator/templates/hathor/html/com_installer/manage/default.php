@@ -11,6 +11,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+JHTML::_('script','system/multiselect.js',false,true);
+
 $listOrder	= $this->state->get('list.ordering');
 $listDirn	= $this->state->get('list.direction');
 

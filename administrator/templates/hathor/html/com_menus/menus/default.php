@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
+JHTML::_('script','system/multiselect.js',false,true);
 
 $uri	= JFactory::getUri();
 $return	= base64_encode($uri);

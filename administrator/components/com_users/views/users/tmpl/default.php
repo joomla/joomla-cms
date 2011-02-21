@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
+JHTML::_('script','system/multiselect.js',false,true);
 
 $canDo = UsersHelper::getActions();
 $listOrder	= $this->state->get('list.ordering');
