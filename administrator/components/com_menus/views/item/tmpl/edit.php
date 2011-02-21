@@ -37,7 +37,7 @@ JHTML::_('behavior.modal');
 				var idReversed = field.id.split("").reverse().join("");
 				var separatorLocation = idReversed.indexOf('_');
 				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				$(name).addClass('invalid');
+				document.id(name).addClass('invalid');
 			});
 		}
 	}

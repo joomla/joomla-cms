@@ -64,7 +64,7 @@ var JFormValidator = new Class({
 	{
 		// Iterate through the form object and attach the validate method to all input fields.
 		form.getElements('input,textarea,select').each(function(el){
-			if (($(el).get('tag') == 'input' || $(el).get('tag') == 'button') && $(el).get('type') == 'submit') {
+			if ((document.id(el).get('tag') == 'input' || document.id(el).get('tag') == 'button') && document.id(el).get('type') == 'submit') {
 				if (el.hasClass('validate')) {
 					el.onclick = function(){return document.formvalidator.isValid(this.form);};
 				}
@@ -76,7 +76,7 @@ var JFormValidator = new Class({
 
 	validate: function(el)
 	{
-		el = $(el);
+		el = document.id(el);
     
 		// Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
 		if(el.get('disabled')) {

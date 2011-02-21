@@ -22,12 +22,12 @@ $canDo = UsersHelper::getActions();
 Joomla.submitbutton = function(task)
 {
 	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form'))) {
-		Joomla.submitform(task, document.getElementById('level-form'));
+		Joomla.submitform(task, document.id('level-form'));
 	}
 }
 /*
 window.addEvent('domready', function(){
-	$('user-groups').getElements('input').each(function(i){
+	document.id('user-groups').getElements('input').each(function(i){
 		// Event to check all child groups.
 		i.addEvent('check', function(e){
 			// Check the child groups.

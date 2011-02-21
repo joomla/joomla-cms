@@ -12,7 +12,7 @@
  * @since		1.5
  */
 
-(function($) {
+(function() {
 var ImageManager = this.ImageManager = {
 	initialize: function()
 	{
@@ -23,25 +23,25 @@ var ImageManager = this.ImageManager = {
 
 		// Setup image manager fields object
 		this.fields			= new Object();
-		this.fields.url		= $("f_url");
-		this.fields.alt		= $("f_alt");
-		this.fields.align	= $("f_align");
-		this.fields.title	= $("f_title");
-		this.fields.caption	= $("f_caption");
+		this.fields.url		= document.id("f_url");
+		this.fields.alt		= document.id("f_alt");
+		this.fields.align	= document.id("f_align");
+		this.fields.title	= document.id("f_title");
+		this.fields.caption	= document.id("f_caption");
 
 		// Setup image listing objects
-		this.folderlist = $('folderlist');
+		this.folderlist = document.id('folderlist');
 
 		this.frame		= window.frames['imageframe'];
 		this.frameurl	= this.frame.location.href;
 
 		// Setup imave listing frame
-		this.imageframe = $('imageframe');
+		this.imageframe = document.id('imageframe');
 		this.imageframe.manager = this;
 		this.imageframe.addEvent('load', function(){ ImageManager.onloadimageview(); });
 
 		// Setup folder up button
-		this.upbutton = $('upbutton');
+		this.upbutton = document.id('upbutton');
 		this.upbutton.removeEvents('click');
 		this.upbutton.addEvent('click', function(){ ImageManager.upFolder(); });
 	},
@@ -60,7 +60,7 @@ var ImageManager = this.ImageManager = {
 			}
 		}
 
-		a = this._getUriObject($('uploadForm').getProperty('action'));
+		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
 		//console.log(a);
 		q = $H(this._getQueryObject(a.query));
 		q.set('folder', folder);
@@ -75,7 +75,7 @@ var ImageManager = this.ImageManager = {
 		if (typeof(a.port) !== 'undefined' && a.port != 80) {
 			portString = ':'+a.port;
 		}
-		$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
+		document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+portString+a.path+'?'+a.query);
 	},
 
 	getImageFolder: function()
@@ -176,13 +176,13 @@ var ImageManager = this.ImageManager = {
 
 	populateFields: function(file)
 	{
-		$("f_url").value = image_base_path+file;
+		document.id("f_url").value = image_base_path+file;
 	},
 
 	showMessage: function(text)
 	{
-		var message  = $('message');
-		var messages = $('messages');
+		var message  = document.id('message');
+		var messages = document.id('messages');
 
 		if(message.firstChild)
 			message.removeChild(message.firstChild);

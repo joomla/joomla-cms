@@ -418,7 +418,7 @@ abstract class JHtmlBehavior
 		$opt['width']				= (isset($params['width'])) && $params['width'] ? (int)$params['width'] : null;
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
 		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? (int)$params['queued'] : null;
-		$opt['target']				= (isset($params['target'])) ? $params['target'] : '\\$(\'upload-browse\')';
+		$opt['target']				= (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
 		$opt['instantStart']		= (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
 		$opt['allowDuplicates']		= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
 		// limitSize is the old parameter name.  Remove in 1.7
@@ -491,7 +491,7 @@ abstract class JHtmlBehavior
 		// Attach tooltips to document
 		$uploaderInit =
 				'window.addEvent(\'domready\', function(){
-				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.' );
+				var Uploader = new FancyUpload2(document.id(\''.$id.'\'), document.id(\''.$upload_queue.'\'), '.$options.' );
 				});';
 		$document->addScriptDeclaration($uploaderInit);
 

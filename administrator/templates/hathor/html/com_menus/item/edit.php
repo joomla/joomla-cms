@@ -26,20 +26,20 @@ $canDo		= MenusHelper::getActions();
 		if (task == 'item.setType' || task == 'item.setMenuType') {
 			if(task == 'item.setType') {
 				document.id('item-form').elements['jform[type]'].value = type;
-				document.getElementById('fieldtype').value = 'type';
+				document.id('fieldtype').value = 'type';
 			} else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
-			Joomla.submitform('item.setType', document.getElementById('item-form'));
+			Joomla.submitform('item.setType', document.id('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			Joomla.submitform(task, document.getElementById('item-form'));
+			Joomla.submitform(task, document.id('item-form'));
 		} else {
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field){
 				var idReversed = field.id.split("").reverse().join("");
 				var separatorLocation = idReversed.indexOf('_');
 				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				$(name).addClass('invalid');
+				document.id(name).addClass('invalid');
 			});
 		}
 	}

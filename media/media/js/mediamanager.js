@@ -11,13 +11,13 @@
  * @subpackage  Media
  * @since		1.5
  */
-(function($) {
+(function() {
 var MediaManager = this.MediaManager = {
 
 	initialize: function()
 	{
-		this.folderframe	= $('folderframe');
-		this.folderpath		= $('folderpath');
+		this.folderframe	= document.id('folderframe');
+		this.folderpath		= document.id('folderpath');
 
 		this.updatepaths	= $$('input.update-folder');
 
@@ -43,11 +43,11 @@ var MediaManager = this.MediaManager = {
 
 	submit: function(task)
 	{
-		form = window.frames['folderframe'].document.getElementById('mediamanager-form');
+		form = window.frames['folderframe'].document.id('mediamanager-form');
 		form.task.value = task;
-		if ($('username')) {
-			form.username.value = $('username').value;
-			form.password.value = $('password').value;
+		if (document.id('username')) {
+			form.username.value = document.id('username').value;
+			form.password.value = document.id('password').value;
 		}
 		form.submit();
 	},
@@ -73,9 +73,9 @@ var MediaManager = this.MediaManager = {
 			this.tree.select(node, true);
 		}
 
-		$(viewstyle).addClass('active');
+		document.id(viewstyle).addClass('active');
 
-		a = this._getUriObject($('uploadForm').getProperty('action'));
+		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
 		q = $H(this._getQueryObject(a.query));
 		q.set('folder', folder);
 		var query = [];
@@ -87,24 +87,24 @@ var MediaManager = this.MediaManager = {
 		a.query = query.join('&');
 
 		if (a.port) {
-			$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
+			document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+':'+a.port+a.path+'?'+a.query);
 		} else {
-			$('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
+			document.id('uploadForm').setProperty('action', a.scheme+'://'+a.domain+a.path+'?'+a.query);
 		}
 	},
 
 	oncreatefolder: function()
 	{
-		if ($('foldername').value.length) {
-			$('dirpath').value = this.getFolder();
+		if (document.id('foldername').value.length) {
+			document.id('dirpath').value = this.getFolder();
 			Joomla.submitbutton('createfolder');
 		}
 	},
 
 	setViewType: function(type)
 	{
-		$(type).addClass('active');
-		$(viewstyle).removeClass('active');
+		document.id(type).addClass('active');
+		document.id(viewstyle).removeClass('active');
 		viewstyle = type;
 		var folder = this.getFolder();
 		this._setFrameUrl('index.php?option=com_media&view=mediaList&tmpl=component&folder='+folder+'&layout='+type);

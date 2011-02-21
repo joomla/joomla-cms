@@ -71,9 +71,9 @@ class MediaViewMedia extends JView
 
 			JHtml::_('behavior.uploader', 'upload-flash',
 				array(
-					'onBeforeStart' => 'function(){ Uploader.setOptions({url: $(\'uploadForm\').action + \'&folder=\' + $(\'mediamanager-form\').folder.value}); }',
+					'onBeforeStart' => 'function(){ Uploader.setOptions({url: document.id(\'uploadForm\').action + \'&folder=\' + document.id(\'mediamanager-form\').folder.value}); }',
 					'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
-					'targetURL' 	=> '\\$(\'uploadForm\').action',
+					'targetURL' 	=> '\\document.id(\'uploadForm\').action',
 					'typeFilter' 	=> $typeString,
 					'fileSizeMax'	=> (int) ($config->get('upload_maxsize',0) * 1024 * 1024),
 				)

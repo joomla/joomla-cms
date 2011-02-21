@@ -53,7 +53,7 @@ function setUserOptions() {
 
 function addControls() {
 	var xhtml = "http://www.w3.org/1999/xhtml";
-	var container = document.getElementById('fontsize');
+	var container = document.id('fontsize');
 
 	var link = [];
 	var linkClass = ["larger", "reset", "smaller"];
