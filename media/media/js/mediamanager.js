@@ -27,7 +27,7 @@ var MediaManager = this.MediaManager = {
 
 		this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: '../media/system/images/mootree.gif', onClick:
 				function(node){
-					target = $chk(node.data.target) ? node.data.target : '_self';
+					target = node.data.target != null ? node.data.target : '_self';
 
 					// Get the current URL.
 				   	uri = this._getUriObject(this.frameurl);
@@ -76,11 +76,11 @@ var MediaManager = this.MediaManager = {
 		document.id(viewstyle).addClass('active');
 
 		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
-		q = $H(this._getQueryObject(a.query));
+		q = new Hash(this._getQueryObject(a.query));
 		q.set('folder', folder);
 		var query = [];
 		q.each(function(v, k){
-			if ($chk(v)) {
+			if (v != null) {
 				this.push(k+'='+v);
 			}
 		}, query);
@@ -149,7 +149,7 @@ var MediaManager = this.MediaManager = {
 
 	_setFrameUrl: function(url)
 	{
-		if ($chk(url)) {
+		if (url != null) {
 			this.frameurl = url;
 		}
 		this.frame.location.href = this.frameurl;

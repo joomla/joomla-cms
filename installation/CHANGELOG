@@ -54,6 +54,7 @@ $ -> Language fix or change
  # [#24675] typo in databasequery.php - udpate
  # [#25011] Beez_20 and Beez 5 xml patch
  # [#23491] Upgrade Codemirror to Version 0.94
+ # [#24740] Make some scripts compatible with Mootools 1.3
  
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea

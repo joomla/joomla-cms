@@ -18,8 +18,8 @@ var JSwitcher = new Class({
 	current: null,
 
 	options : {
-		onShow: $empty,
-		onHide: $empty,
+		onShow: function(){},
+		onHide: function(){},
 		cookieName: 'switcher',
 		togglerSelector: 'a',
 		elementSelector: 'div.tab',
@@ -41,7 +41,7 @@ var JSwitcher = new Class({
 			el.addEvent('click', this.display.bind(this, el.id));
 		}.bind(this));
 
-		var first = $pick(Cookie.read(this.options.cookieName), this.togglers[0].id);
+		var first = [Cookie.read(this.options.cookieName), this.togglers[0].id].pick();
 		this.display(first);
 	},
 
@@ -49,11 +49,11 @@ var JSwitcher = new Class({
 		var toggler = document.id(togglerID);
 		var element = document.id(this.options.elementPrefix+togglerID);
 
-		if (!$chk(toggler) || !$chk(element) || toggler == this.current) {
+		if (toggler == null || element == null || toggler == this.current) {
 			return this;
 		}
 
-		if ($chk(this.current)) {
+		if (this.current != null) {
 			this.hide(document.id(this.options.elementPrefix+this.current));
 			document.id(this.current).removeClass('active');
 		}

@@ -18,7 +18,7 @@ var ImageManager = this.ImageManager = {
 	{
 		o = this._getUriObject(window.self.location.href);
 		//console.log(o);
-		q = $H(this._getQueryObject(o.query));
+		q = new Hash(this._getQueryObject(o.query));
 		this.editor = decodeURIComponent(q.get('e_name'));
 
 		// Setup image manager fields object
@@ -62,7 +62,7 @@ var ImageManager = this.ImageManager = {
 
 		a = this._getUriObject(document.id('uploadForm').getProperty('action'));
 		//console.log(a);
-		q = $H(this._getQueryObject(a.query));
+		q = new Hash(this._getQueryObject(a.query));
 		q.set('folder', folder);
 		var query = [];
 		q.each(function(v, k){
@@ -218,7 +218,7 @@ var ImageManager = this.ImageManager = {
 
 	_setFrameUrl: function(url)
 	{
-		if ($chk(url)) {
+		if (url != null) {
 			this.frameurl = url;
 		}
 		this.frame.location.href = this.frameurl;

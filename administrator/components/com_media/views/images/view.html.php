@@ -26,6 +26,7 @@ class MediaViewImages extends JView
 		$lang	= JFactory::getLanguage();
 		$append = '';
 
+		JHtml::_('behavior.framework', true);
 		JHTML::_('script','media/popup-imagemanager.js', true, true);
 		JHTML::_('stylesheet','media/popup-imagemanager.css', array(), true);
 

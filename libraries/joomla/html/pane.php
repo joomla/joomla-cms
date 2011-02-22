@@ -272,7 +272,7 @@ class JPaneSliders extends JPane
 		}
 		$options .= '}';
 
-		$js = '	window.addEvent(\'domready\', function(){ new Accordion($$(\'.panel h3.pane-toggler\'), $$(\'.panel div.pane-slider\'), '.$options.'); });';
+		$js = '	window.addEvent(\'domready\', function(){ new Fx.Accordion($$(\'.panel h3.pane-toggler\'), $$(\'.panel div.pane-slider\'), '.$options.'); });';
 
 		$document->addScriptDeclaration($js);
 	}
