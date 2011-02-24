@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Feb-2011 Mark Dexter
+ # Revert 24710 Contact language is ignored in frontend
+
 21-Feb-2011 Mark Dexter
  # [#24886] No save icon in article editor for new article with category level permission
  # [#24909] *Category Save as Copy does not save with different title/alias
