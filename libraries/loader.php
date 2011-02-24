@@ -86,7 +86,7 @@ abstract class JLoader
 
 				// If the file exists attempt to include it.
 				if (is_file($base.DS.$path.'.php')) {
-					$success = include $base.DS.$path.'.php';
+					$success = (bool) include $base.DS.$path.'.php';
 				}
 			}
 

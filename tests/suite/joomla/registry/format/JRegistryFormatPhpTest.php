@@ -1,5 +1,6 @@
 <?php
 
+require_once JPATH_PLATFORM.'/joomla/registry/format.php';
 require_once JPATH_PLATFORM.'/joomla/registry/format/php.php';
 
 /**
