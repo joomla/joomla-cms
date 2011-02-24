@@ -40,7 +40,7 @@ abstract class JLoader
 	 * @param   string  $key   The class name to look for (dot notation).
 	 * @param   string  $base  Search this directory for the class.
 	 *
-	 * @return  void
+	 * @return  bool    True on success.
 	 *
 	 * @since   11.1
 	 */
