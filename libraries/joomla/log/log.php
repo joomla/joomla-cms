@@ -1,21 +1,18 @@
 <?php
 /**
- * @version		$Id: log.php 17892 2010-06-27 04:00:43Z pasamio $
- * @package		Joomla.Framework
- * @subpackage	Log
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla! is free software. This version may have been modified pursuant
- * to the GNU General Public License, and as distributed it includes or
- * is derivative of works licensed under the GNU General Public License or
- * other free or open source software licenses.
- * See COPYRIGHT.php for copyright notices and details.
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Log
  */
 
-defined('_JEXEC') or die();
+defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.base.adapter');
 jimport('joomla.log.logentry');
+jimport('joomla.log.logformat');
+
+// @deprecated  11.2
+jimport('joomla.filesystem.path');
 
 /**
  * Joomla! Log Class
@@ -28,110 +25,231 @@ jimport('joomla.log.logentry');
  * MySQL offers the most features (e.g. rapid searching) but will incur
  * a performance hit due to INSERT being issued.
  *
- * @package Joomla.Framework
- * @subpackage Log
- * @final
- * @since 1.7
+ * @package     Joomla.Platform
+ * @subpackage  Log
+ * @since       11.1
  */
-class JLog extends JAdapter {
-	
-	/** @var array formats references to formatting objects
-	 *  @access private */
-	protected $_formats = Array();
-	/** @var array entries a list of logged entries
-	 * @access protected
-	 */
-	protected $_entries = Array();
-	
+class JLog
+{
 	/**
-	 * Constructor
-	 * @param $options Array of options
-	 * @param $formats Array of formats 
+	 * The format object for logging.
+	 *
+	 * @var    JLogFormat
+	 * @since  11.1
 	 */
-	function __construct($options, $formats) {
-		// adapter base path, class prefix
-		parent::__construct(dirname(__FILE__),'JLog');
-		
-		if(is_string($formats)) {
-			$formats = explode(',', $formats);
-			foreach($formats as $key=>$format) {
-				$formats[$key] = trim($format);
-			}
+	protected $format;
+
+	/**
+	 * Options array for the JLog instance.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $options = array();
+
+	/**
+	 * Container for JLog instances.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	private static $_instances = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $options  Log object options.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function __construct(array $options)
+	{
+		// The default format is the W3C logfile format.
+		if (empty($options['format'])) {
+			$options['format'] = 'w3c';
 		}
-		
-		if(is_array($formats)) {
-			// Clone this to local storage
-			$this->_formats = $formats;
-			// We should have an array here
-			// Params allow for CSV or Array
-			foreach($formats as $format) {
-				if($format) {
-					$this->getAdapter($format);
-				}
-			}
+		$options['format'] = strtolower($options['format']);
+
+		// Set the options for the class.
+		$this->options = array_merge($this->options, $options);
+
+		// Attempt to instantiate the format object.
+		try {
+			$class = 'JLogFormat'.ucfirst($options['format']);
+			$this->format = new $class($this->options);
+		}
+		catch (Exception $e) {
+			jexit(JText::_('Unable to create a JLog instance: ').$e->getMessage());
 		}
 	}
-	
+
 	/**
-	 * Returns a reference to the global log object, only creating it
+	 * Returns a reference to the a JLog object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>  $log = & JLog::getInstance();</pre>
+	 * 		<pre>$log = JLog::getInstance($options);</pre>
 	 *
-	 * @static
-	 * @return	object	The JLog object.
-	 * @since	1.5
+	 * @param   array       $options  The object configuration array.
+	 * @param   deprecated  $arg2     Formerly the object configuration array.
+	 * @param   deprecated  $arg3     Formerly the base path for the log file.
+	 *
+	 * @return	JLog
+	 *
+	 * @since	11.1
 	 */
-	function & getInstance($options = null, $formats = null) {
-		static $instances;
-		$config = & JFactory :: getConfig();
-		if(empty($options)) {
+	public static function getInstance($options = array(), $arg2 = null, $arg3 = null)
+	{
+		// Get the system configuration object.
+		$config = JFactory::getConfig();
+
+		// Determine if we are dealing with a deprecated usage of JLog::getInstance();
+		if (is_string($options)) {
+
+			// Deprecation warning.
+			JError::raiseWarning(100, 'JLog::getInstance() now accepts one options array.');
+
+			// Fix up arguments.
+			$file		= $options;
+			$options	= $arg2;
+			$path		= $arg3;
+
+			// Set default path if not set and sanitize it.
+			if (!$path) {
+				$path = $config->get('log_path');
+			}
+
+			// Fix up the options so that we use the w3c format.
+			$options['text_entry_format'] = $options['format'];
+			$options['text_file'] = $file;
+			$options['text_file_path'] = $path;
+			$options['format'] = 'w3c';
+		}
+
+		// If no options were explicitly set use the default from configuration.
+		if (empty ($options)) {
 			$options = $config->getValue('log_options');
-		} else {
-			// Check that we're not being called from old code
-			if(is_string($options)) {
-				// 1.5/1.6 Legacy Support warning
-				JError::raiseWarning(100, 'JLog has changed and no longer accepts old style params.');
-				// Wipe both options and formats at this point to system wide defaults
-				// We do this because we can't trust what we've been given
-				$options = $config->getValue('log_options');
-				$formats = $config->getValue('log_formats');
+		}
+
+		// Generate a unique signature for the JLog instance based on its options.
+		$signature = md5(serialize($options));
+
+		if (empty (self::$instances[$signature])) {
+			// Attempt to instantiate the object.
+			try {
+				self::$instances[$signature] = new JLog($options);
+			}
+			catch (Exception $e) {
+				jexit(JText::_('Unable to create a JLog instance: ').$e->getMessage());
 			}
 		}
-		
-		if(empty($formats)) { 
-			$formats = $config->getValue('log_formats', 'formattedtext');
-		}
-		
-		// fun way of creating a unique signature
-		$sig = md5(print_r($options,1).print_r($formats,1));		
 
-		if (!isset ($instances)) {
-			$instances = array ();
-		}
-
-		if (empty ($instances[$sig])) {
-			$instances[$sig] = new JLog($options, $formats);
-		}
-
-		return $instances[$sig];
+		return self::$instances[$signature];
 	}
-	
+
 	/**
-	 * Adds a log entry to sub formats and log cache
+	 * Method to add an entry to the log.
+	 *
+	 * @param   JLogEntry  The log entry object to add to the log.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
 	 */
-	function addEntry($entry) {
-		// Convert status+comment int a JLogEntry
-		if(is_array($entry)) {
-			$entry = new JLogEntry('legacy', $entry['status'], 'error', $entry['comment']);
+	public function add(JLogEntry $entry)
+	{
+		return $this->format->addEntry($entry);
+	}
+
+	/**
+	 * Method to add an entry to the log file.
+	 *
+	 * @param       array    Array of values to map to the format string for the log file.
+	 *
+	 * @return      boolean  True on success.
+	 *
+	 * @deprecated  11.2
+	 * @since       11.1
+	 */
+	public function addEntry($entry)
+	{
+		// Deprecation warning.
+		JError::raiseWarning(100, 'JLog::addEntry() is deprecated, use JLog::add() instead.');
+
+		// Easiest case is we already have a JLogEntry or Exception object to add.
+		if ($entry instanceof JLogEntry) {
+			return $this->add($entry);
 		}
-		foreach($this->_formats as $format) {
-			if (is_object($this->_adapters[$format])) {
-				$this->_adapters[$format]->addLogEntry($entry);
+		// We have either an object or array that needs to be converted to a JLogEntry.
+		elseif (is_array($entry) || is_object($entry)) {
+			$tmp = new JLogEntry();
+			foreach ((array) $entry as $k => $v)
+			{
+				switch ($k)
+				{
+					case 'c-ip':
+						$tmp->clientIP = $v;
+						break;
+					case 'status':
+						$tmp->category = $v;
+						break;
+					case 'level':
+						$tmp->priority = $v;
+						break;
+					case 'comment':
+						$tmp->message = $v;
+						break;
+					default:
+						$tmp->$k = $v;
+						break;
+				}
 			}
 		}
-		$this->_entries[] = $entry;
+		// Unrecognized type.
+		else {
+			return false;
+		}
+
+		return $this->add($tmp);
+	}
+
+	/**
+	 * Method to register all of the log format classes with the system autoloader.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	private function _registerFormats()
+	{
+		// Define the expected folder in which to find log format classes.
+		$formatsFolder = dirname(__FILE__).'/formats';
+
+		// Ignore the operation if the formats folder doesn't exist.
+		if (is_dir($formatsFolder)) {
+
+			// Open the formats folder.
+			$d = dir($formatsFolder);
+
+			// Iterate through the folder contents to search for format classes.
+			while (false !== ($entry = $d->read()))
+			{
+				// Only load for php files.
+				if (is_file($entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
+
+					// Get the name and full path for each file.
+					$name = preg_replace('#\.[^.]*$#', '', $entry);
+					$path = $formatsFolder.'/'.$entry;
+
+					// Register the class with the autoloader.
+					JLoader::register('JLogFormat'.ucfirst($name), $path);
+				}
+			}
+
+			// Close the formats folder.
+			$d->close();
+		}
 	}
 }
-
