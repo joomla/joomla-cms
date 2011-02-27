@@ -1,68 +1,57 @@
 <?php
+/**
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Log
+ */
 
-defined('_JEXEC') or die();
-
-jimport('joomla.base.adapterinstance');
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Logging Format Base Class
- * 
+ *
  * This class is used to be the basis of logging format classes
  * to allow for defined functions to exist regardless of the
  * child class
  *
- * @package Joomla.Framework
- * @ssubpackage Log
- * @since 1.7
+ * @package     Joomla.Platform
+ * @subpackage  Log
+ * @since       11.1
  */
-class JLogFormat extends JAdapterInstance {
+abstract class JLogFormat
+{
 	/**
-	 * Defines the fields available for listing
-	 * @return array an array of fields available for searching
+	 * Options array for the JLog instance.
+	 *
+	 * @var    array
+	 * @since  11.1
 	 */
-	function getFields() {
-		return Array ();
+	protected $options = array();
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $options  Log object options.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function __construct(array & $options)
+	{
+		// Set the options for the class.
+		$this->options = & $options;
 	}
 
 	/**
-	 * Determines if the format can handle search operations
-	 * @return bool
+	 * Method to add an entry to the log.
+	 *
+	 * @param   JLogEntry  The log entry object to add to the log.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
 	 */
-	function isSearchable() {
-		return false;
-	}
-
-	/**
-	 * Determines if the format is writeable
-	 * (e.g. a file may not be writable but is readable)
-	 * @return bool status of write ability
-	 */
-	function isWriteable() {
-		return false;
-	}
-
-	/**
-	 * Determines if the format is readable
-	 * A format may not be readable (e.g. syslog)
-	 * @return bool status of read ability
-	 */
-	function isReadable() {
-		return false;
-	}
-
-	/**
-	 * Determines if the format can return an array of JLogEntries
-	 * @return bool status of parseability
-	 */
-	function isParseable() {
-		return false;
-	}
-
-	/**
-	 * Adds a log entry to the format
-	 */
-	function addLogEntry($logentry) {
-
-	}
-
+	abstract public function addEntry(JLogEntry $entry);
 }
