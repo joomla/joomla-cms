@@ -1,50 +1,115 @@
 <?php
+/**
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Log
+ */
 
-defined('_JEXEC') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Log Entry class
  *
  * This class is designed to hold log entries for either writing
- * to an engine, or for supported engines, retrieving lists 
+ * to an engine, or for supported engines, retrieving lists
  * and building in memory (PHP based) search operations
- * 
- * @author Samuel Moffatt <sam.moffatt@joomla.org>
- * @package Joomla.Framework
- * @subpackage Log
- * @since 1.7
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Log
+ * @since       11.1
  */
-class JLogEntry extends JObject {
-	/** @var int logid Log Entry ID */
-	public $logid = 0;
-	/** @var string application Application responsible for log entry */
-	public $application = '';
-	/** @var string type Type of Entry */
-	public $type = '';
-	/** @var string priority Priority of entry ('panic', 'emerg', 'alert', 'crit', 'err', 'error', 'warn', 'warning', 'notice', 'info', 'debug', 'none') */
-	public $priority = 'info';
-	/** @var date entrydate Date of Entry */
-	public $entrydate = '0000-00-00 00:00:00'; // YYYY-MM-DD HH:MM:SS
-	/** @var string message Message to be logged */
-	public $message = '';
+class JLogEntry
+{
+	/**
+	 * Application responsible for log entry.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $category;
+
+	/**
+	 * The date the message was logged in ISO 8601 format.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $date = '0000-00-00T00:00Z';
+
+	/**
+	 * Message to be logged.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $message;
+
+	/**
+	 * The priority of the message to be logged.
+	 *
+	 * @see $_priorities
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	public $priority = 'INFO';
+
+	/**
+	 * List of available log priority levels [Based on the SysLog default levels].
+	 *
+	 * EMERGENCY  - The system is unusable.
+	 * ALERT      - Action must be taken immediately.
+	 * CRITICAL   - Critical conditions.
+	 * ERROR      - Error conditions.
+	 * WARNING    - Warning conditions.
+	 * NOTICE     - Normal, but significant condition.
+	 * INFO       - Informational message.
+	 * DEBUG      - Debugging message.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	private $_priorities = array(
+		'EMERGENCY',
+		'ALERT',
+		'CRITICAL',
+		'ERROR',
+		'WARNING',
+		'NOTICE',
+		'INFO',
+		'DEBUG'
+	);
 
 	/**
 	 * Constructor
-	 * @param $application Application identifier (extension unique element)
-	 * @param $type Type of entry
-	 * @param $priority Syslog style priority of entry (e.g. 'panic', 'emerg', 'alert', 'crit', 'err', 'error', 'warn', 'warning', 'notice', 'info', 'debug', 'none')
-	 * @param $message Contents of message
-	 * @param $entrydate Date of entry (defaults to now if not specified or blank) 
-	 * @param $logid Unique log identifier (user asssigned)
+	 *
+	 * @param   string  $priority  Message priority based on {$this->_priorities}.
+	 * @param   string  $message   The message to log.
+	 * @param   string  $category  Type of entry
+	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	function __construct($application='',$type='',$priority = 'info', $message = '', $entrydate = null, $logid = 0) {
-		$this->application = $application;
-		$this->type = $type;
-		$this->priority = $priority;
-		$this->message = $message;
-		if(empty($entrydate)) {
-			$this->entrydate = JFactory::getDate()->toMySQL();
+	public function __construct($priority = 'INFO', $message = '', $category = '', $date = null)
+	{
+		// Sanitize the priority.
+		$priority = strtoupper($priority);
+		if (!in_array($priority, $this->_priorities)) {
+			$priority = 'INFO';
 		}
-		$this->logid = $logid;
+		$this->priority = $priority;
+
+		$this->message = $message;
+
+		// Sanitize category if it exists.
+		if (!empty($category)) {
+			$this->category = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $category);
+		}
+
+		// Get the date string in ISO 8601 format.
+		$this->date = JFactory::getDate(($date ? $date : 'now'))->toISO8601();
 	}
 }
