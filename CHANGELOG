@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Feb-2011 Louis Landry
+ + JLog package.
+
 8-Feb-2011 Louis Landry
  + Added simple HTTP client library.
 
