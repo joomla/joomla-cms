@@ -11,9 +11,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Log Entry class
  *
- * This class is designed to hold log entries for either writing
- * to an engine, or for supported engines, retrieving lists
- * and building in memory (PHP based) search operations
+ * This class is designed to hold log entries for either writing to an engine, or for
+ * supported engines, retrieving lists and building in memory (PHP based) search operations.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
