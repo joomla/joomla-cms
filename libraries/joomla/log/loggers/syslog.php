@@ -8,22 +8,21 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logformat');
+jimport('joomla.log.logger');
 
 /**
  * Joomla! SysLog Log class
  *
- * This class is designed to call the PHP syslog function call which
- * is then sent to the system wide log system. For Linux/Unix based
- * systems this is the syslog subsystem, for the Windows based
- * implementations this can be found in the Event Log. For Windows,
+ * This class is designed to call the PHP SysLog function call which is then sent to the
+ * system wide log system. For Linux/Unix based systems this is the syslog subsystem, for
+ * the Windows based implementations this can be found in the Event Log. For Windows,
  * permissions may prevent PHP from properly outputting messages.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-class JLogFormatSysLog extends JLogFormat
+class JLoggerSysLog extends JLogger
 {
 	/**
 	 * Translation array for JLogEntry priorities to SysLog priority names.

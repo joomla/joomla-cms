@@ -9,17 +9,18 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla! Logging Format Base Class
+ * Joomla! Logger Base Class
  *
- * This class is used to be the basis of logging format classes
- * to allow for defined functions to exist regardless of the
- * child class
+ * This class is used to be the basis of logger classes to allow for defined functions
+ * to exist regardless of the child class.
+ *
+ *
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-abstract class JLogFormat
+abstract class JLogger
 {
 	/**
 	 * Options array for the JLog instance.

@@ -8,22 +8,22 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logformat');
+jimport('joomla.log.logger');
 
-// Register the JLogFormatFormattedtext class with the autoloader.
-JLoader::register('JLogFormatFormattedText', dirname(__FILE__).'/formattedtext.php');
+// Register the JLoggerFormattedText class with the autoloader.
+JLoader::register('JLoggerFormattedText', dirname(__FILE__).'/formattedtext.php');
 
 /**
  * Joomla! W3C Logging class
  *
- * This class is designed to build log files based on the
- * W3C specification at: http://www.w3.org/TR/WD-logfile.html
+ * This class is designed to build log files based on the W3C specification
+ * at: http://www.w3.org/TR/WD-logfile.html
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-class JLogFormatW3C extends JLogFormattedText
+class JLoggerW3C extends JLoggerFormattedText
 {
 	/**
 	 * The format for which each entry follows in the log file.  All fields must be named
