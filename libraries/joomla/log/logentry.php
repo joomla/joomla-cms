@@ -83,8 +83,8 @@ class JLogEntry
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $priority  Message priority based on {$this->_priorities}.
 	 * @param   string  $message   The message to log.
+	 * @param   string  $priority  Message priority based on {$this->_priorities}.
 	 * @param   string  $category  Type of entry
 	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
@@ -92,16 +92,16 @@ class JLogEntry
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($priority = 'INFO', $message = '', $category = '', $date = null)
+	public function __construct($message, $priority = 'INFO', $category = '', $date = null)
 	{
+		$this->message = $message;
+
 		// Sanitize the priority.
 		$priority = strtoupper($priority);
 		if (!in_array($priority, $this->_priorities)) {
 			$priority = 'INFO';
 		}
 		$this->priority = $priority;
-
-		$this->message = $message;
 
 		// Sanitize category if it exists.
 		if (!empty($category)) {
