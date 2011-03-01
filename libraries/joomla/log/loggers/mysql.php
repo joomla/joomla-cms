@@ -8,20 +8,20 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logformat');
+jimport('joomla.log.logger');
 
 /**
  * Joomla! MySQL Database Log class
  *
- * This class is designed to output logs to a specific MySQL database
- * table. Fields in this table are based on the SysLog style of
- * log output. This is designed to allow quick and easy searching.
+ * This class is designed to output logs to a specific MySQL database table. Fields in this
+ * table are based on the SysLog style of log output. This is designed to allow quick and
+ * easy searching.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-class JLogFormatMySQL extends JLogFormat
+class JLoggerMySQL extends JLogger
 {
 	/**
 	 * Constructor.

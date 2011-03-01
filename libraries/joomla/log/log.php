@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.logentry');
-jimport('joomla.log.logformat');
+jimport('joomla.log.logger');
 
 // @deprecated  11.2
 jimport('joomla.filesystem.path');
@@ -17,13 +17,11 @@ jimport('joomla.filesystem.path');
 /**
  * Joomla! Log Class
  *
- * This class hooks into the global log configuration
- * settings to allow for user configured logging events to be sent
- * to where the user wishes it to be sent. On high load sites
- * SysLog is probably the best (pure PHP function), then the text
- * file based formats (CSV, W3C or plain FormattedText) and finally
- * MySQL offers the most features (e.g. rapid searching) but will incur
- * a performance hit due to INSERT being issued.
+ * This class hooks into the global log configuration settings to allow for user configured
+ * logging events to be sent to where the user wishes it to be sent. On high load sites
+ * SysLog is probably the best (pure PHP function), then the text file based loggers (CSV, W3C
+ * or plain FormattedText) and finally MySQL offers the most features (e.g. rapid searching)
+ * but will incur a performance hit due to INSERT being issued.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
@@ -32,12 +30,12 @@ jimport('joomla.filesystem.path');
 class JLog
 {
 	/**
-	 * The format object for logging.
+	 * The logger object for writing logs to various places.
 	 *
-	 * @var    JLogFormat
+	 * @var    JLogger
 	 * @since  11.1
 	 */
-	protected $format;
+	protected $logger;
 
 	/**
 	 * Options array for the JLog instance.
@@ -46,6 +44,14 @@ class JLog
 	 * @since  11.1
 	 */
 	protected $options = array();
+
+	/**
+	 * True if the default logger classes have been registered.
+	 *
+	 * @var    bool
+	 * @since  11.1
+	 */
+	private static $registered = false;
 
 	/**
 	 * Container for JLog instances.
@@ -66,19 +72,25 @@ class JLog
 	 */
 	protected function __construct(array $options)
 	{
-		// The default format is the W3C logfile format.
-		if (empty($options['format'])) {
-			$options['format'] = 'w3c';
+		// If the logger classes haven't been registered let's get that done.
+		if (!self::$registered) {
+			$this->_registerLoggers();
+			self::$registered = true;
 		}
-		$options['format'] = strtolower($options['format']);
+
+		// The default format is the W3C logfile format.
+		if (empty($options['logger'])) {
+			$options['logger'] = 'w3c';
+		}
+		$options['logger'] = strtolower($options['logger']);
 
 		// Set the options for the class.
 		$this->options = array_merge($this->options, $options);
 
-		// Attempt to instantiate the format object.
+		// Attempt to instantiate the logger object.
 		try {
-			$class = 'JLogFormat'.ucfirst($options['format']);
-			$this->format = new $class($this->options);
+			$class = 'JLogger'.ucfirst($options['logger']);
+			$this->logger = new $class($this->options);
 		}
 		catch (Exception $e) {
 			jexit(JText::_('Unable to create a JLog instance: ').$e->getMessage());
@@ -86,8 +98,7 @@ class JLog
 	}
 
 	/**
-	 * Returns a reference to the a JLog object, only creating it
-	 * if it doesn't already exist.
+	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
 	 * 		<pre>$log = JLog::getInstance($options);</pre>
@@ -125,7 +136,7 @@ class JLog
 			$options['text_entry_format'] = $options['format'];
 			$options['text_file'] = $file;
 			$options['text_file_path'] = $path;
-			$options['format'] = 'w3c';
+			$options['logger'] = 'w3c';
 		}
 
 		// If no options were explicitly set use the default from configuration.
@@ -160,7 +171,7 @@ class JLog
 	 */
 	public function add(JLogEntry $entry)
 	{
-		return $this->format->addEntry($entry);
+		return $this->logger->addEntry($entry);
 	}
 
 	/**
@@ -216,24 +227,24 @@ class JLog
 	}
 
 	/**
-	 * Method to register all of the log format classes with the system autoloader.
+	 * Method to register all of the logger classes with the system autoloader.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	private function _registerFormats()
+	private function _registerLoggers()
 	{
-		// Define the expected folder in which to find log format classes.
-		$formatsFolder = dirname(__FILE__).'/formats';
+		// Define the expected folder in which to find logger classes.
+		$loggersFolder = dirname(__FILE__).'/loggers';
 
-		// Ignore the operation if the formats folder doesn't exist.
-		if (is_dir($formatsFolder)) {
+		// Ignore the operation if the loggers folder doesn't exist.
+		if (is_dir($loggersFolder)) {
 
-			// Open the formats folder.
-			$d = dir($formatsFolder);
+			// Open the loggers folder.
+			$d = dir($loggersFolder);
 
-			// Iterate through the folder contents to search for format classes.
+			// Iterate through the folder contents to search for logger classes.
 			while (false !== ($entry = $d->read()))
 			{
 				// Only load for php files.
@@ -241,14 +252,14 @@ class JLog
 
 					// Get the name and full path for each file.
 					$name = preg_replace('#\.[^.]*$#', '', $entry);
-					$path = $formatsFolder.'/'.$entry;
+					$path = $loggersFolder.'/'.$entry;
 
 					// Register the class with the autoloader.
-					JLoader::register('JLogFormat'.ucfirst($name), $path);
+					JLoader::register('JLogger'.ucfirst($name), $path);
 				}
 			}
 
-			// Close the formats folder.
+			// Close the loggers folder.
 			$d->close();
 		}
 	}

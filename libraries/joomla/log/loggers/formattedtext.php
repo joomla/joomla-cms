@@ -8,21 +8,20 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.log.logformat');
+jimport('joomla.log.logger');
 jimport('joomla.filesystem.folder');
 
 /**
  * Joomla! Formatted Text File Log class
  *
- * This class is designed to use as a base for building formatted
- * text files for output. By default it emulates the SysLog style
- * format output. This is a disk based output format.
+ * This class is designed to use as a base for building formatted text files for output. By
+ * default it emulates the SysLog style format output. This is a disk based output format.
  *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
  */
-class JLogFormatFormattedText extends JLogFormat
+class JLoggerFormattedText extends JLogger
 {
 	/**
 	 * The file pointer for the log file..
@@ -33,14 +32,6 @@ class JLogFormatFormattedText extends JLogFormat
 	protected $file;
 
 	/**
-	 * The full filesystem path for the log file.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $path;
-
-	/**
 	 * The format for which each entry follows in the log file.  All fields must be named
 	 * in all caps and be within curly brackets eg. {FOOBAR}.
 	 *
@@ -48,6 +39,14 @@ class JLogFormatFormattedText extends JLogFormat
 	 * @since  11.1
 	 */
 	protected $format = "{DATETIME}\t{PRIORITY}\t{CATEGORY}\t{MESSAGE}";
+
+	/**
+	 * The full filesystem path for the log file.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $path;
 
 	/**
 	 * Constructor.
