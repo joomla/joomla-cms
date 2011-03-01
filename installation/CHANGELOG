@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Mar-2011 Ian MacLennan
+ # [#25038] Codemirror update causes improper characters in template html/css editing
+
 24-Feb-2011 Mark Dexter
  # Revert 24710 Contact language is ignored in frontend
 
