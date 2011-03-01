@@ -80,7 +80,7 @@ class JLog
 
 		// The default format is the W3C logfile format.
 		if (empty($options['logger'])) {
-			$options['logger'] = 'w3c';
+			$options['logger'] = 'formattedtext';
 		}
 		$options['logger'] = strtolower($options['logger']);
 
@@ -120,7 +120,8 @@ class JLog
 		if (is_string($options)) {
 
 			// Deprecation warning.
-			JError::raiseWarning(100, 'JLog::getInstance() now accepts one options array.');
+			$deprecated = JLog::getInstance(array('text_file' => 'deprecated.php'));
+			$deprecated->add('JLog::getInstance() now accepts one options array.', 'NOTICE');
 
 			// Fix up arguments.
 			$file		= $options;
@@ -163,14 +164,22 @@ class JLog
 	/**
 	 * Method to add an entry to the log.
 	 *
-	 * @param   JLogEntry  The log entry object to add to the log.
+	 * @param   mixed   $entry     The JLogEntry object to add to the log or the message for a new JLogEntry object.
+	 * @param   string  $priority  Message priority based on {$this->_priorities}.
+	 * @param   string  $category  Type of entry
+	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function add(JLogEntry $entry)
+	public function add($entry, $priority = 'INFO', $category = '', $date = null)
 	{
+		// If the entry object isn't a JLogEntry object let's make one.
+		if (!($entry instanceof JLogEntry)) {
+			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
+		}
+
 		return $this->logger->addEntry($entry);
 	}
 
@@ -187,15 +196,16 @@ class JLog
 	public function addEntry($entry)
 	{
 		// Deprecation warning.
-		JError::raiseWarning(100, 'JLog::addEntry() is deprecated, use JLog::add() instead.');
+		$deprecated = JLog::getInstance(array('text_file' => 'deprecated.php'));
+		$deprecated->add('JLog::addEntry() is deprecated, use JLog::add() instead.', 'NOTICE');
 
-		// Easiest case is we already have a JLogEntry or Exception object to add.
+		// Easiest case is we already have a JLogEntry object to add.
 		if ($entry instanceof JLogEntry) {
 			return $this->add($entry);
 		}
 		// We have either an object or array that needs to be converted to a JLogEntry.
 		elseif (is_array($entry) || is_object($entry)) {
-			$tmp = new JLogEntry();
+			$tmp = new JLogEntry('');
 			foreach ((array) $entry as $k => $v)
 			{
 				switch ($k)
