@@ -40,7 +40,7 @@ abstract class JLoader
 	 * @param   string  $key   The class name to look for (dot notation).
 	 * @param   string  $base  Search this directory for the class.
 	 *
-	 * @return  void
+	 * @return  bool	The success or failure of the load
 	 *
 	 * @since   11.1
 	 */
@@ -86,7 +86,7 @@ abstract class JLoader
 
 				// If the file exists attempt to include it.
 				if (is_file($base.DS.$path.'.php')) {
-					$success = include $base.DS.$path.'.php';
+					$success = (boolean)include $base.DS.$path.'.php';
 				}
 			}
 
