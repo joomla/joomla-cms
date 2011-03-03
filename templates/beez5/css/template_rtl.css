@@ -3,8 +3,13 @@
 	text-align: right
 }
 
+#wrapper {
+    float: right;
+}
+
 h1#logo {
-	text-align: right
+	text-align: right;
+	margin:1.2em 10px 20px 20px;
 }
 
 #header ul.menu {
@@ -13,11 +18,14 @@ h1#logo {
 
 #line {
 	text-align:left;
-	padding-left:20px
-	
+	padding-left:9px;
+
 }
-#breadcrumbs
-{text-align:right;}
+
+#right {
+    float: right;
+    margin: 10px 2% 10px 0;
+}
 
 ul.menu li {
 	text-align: right
@@ -60,7 +68,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
 }
 
 h3 {
-	text-align: right
+	text-align: right;
 }
 
 h3.js_heading a {
@@ -229,17 +237,227 @@ padding:4px 0;
 }
 
 /* ++++++++++++++  breadcrumbs  ++++++++++++++ */
+#breadcrumbs {
+	/*display: block;*/
+	background: none;
+	float: right;
+	text-align: right;
+	width: 100%;
+}
 
 #breadcrumbs *
 {
 	text-align:right;
-	float:right;
+	float: right;
+
+}
+/* for IE7 and less */
+*:first-child+html .breadcrumbs, * html .breadcrumbs {
+	width: 100%;
 }
 #breadcrumbs
 {
-	margin:15px 15px 20px 0px;
+	margin:15px 5px 15px 0px;
 }
 #breadcrumbs img
 {
-	padding: 4px 5px 0 5px;
+	padding: 4px 5px 0px 5px;
+}
+
+#breadcrumbs .showHere {
+	margin-left: 4px;
+}
+
+#header form .inputbox {
+    margin: 2px 2px 2px 13px;
+}
+#header form .inputbox:focus { margin: 1px 1px 0 11px; }
+#fontsize {
+    margin: 0 1px 10px 20px;
+}
+
+#header ul.menu li {
+    float: right;
+}
+.left1 {
+    float: right;
+    margin: 10px 0px 10px 3%;
+}
+#header ul.menu li a:link,
+#header ul.menu li a:visited
+{
+border-right:solid 0px #eee;
+border-left:solid 1px #eee;
+}
+#header ul {
+    float: right;
+
+}
+
+
+/* ++++++++++++++  columns alignment left to right  ++++++++++++++ */
+ul.tabs li {
+    float: right;
+	border-left: 1px solid #DDDDDD;
+	border-right: 0px solid #DDDDDD;
+}
+
+/* ++++++++++++++  login ++++++++++++++ */
+
+#login-form
+{
+        padding-top:5px
+}
+
+#login-form fieldset
+{
+        padding:0px;
+  
+}
+
+#login-form .inputbox
+{
+        padding:2px;
+}
+
+#login-form fieldset.input
+{
+        padding:10px 0 0 0;
+        margin:0px 0 10px 5px;
+}
+
+#login-form label
+{
+        margin-right:0px;
+        float:right;
+}
+
+#form-login-remember label
+{
+	float:none;
+	width:auto;
+	display:inline
+}
+
+.logout-button
+{
+	margin-top:10px
+}
+
+input.button,
+button.button,
+button.validate
+{
+        cursor:pointer;
+        padding:3px 5px 3px 7px;
+        font-weight:bold;
+        line-height:1.2em;
+        font-family:arial;
+}
+
+#modlgn-username,
+#modlgn-passwd
+{
+		margin-right:-30px;
+}
+
+.module_content #form-login-username label,
+.module_content #form-login-password label
+{
+            float:right;
+}
+
+.login-fields
+{
+        margin:10px 0
+}
+
+.login-fields label
+{
+        float:right;
+}
+
+.login-description img,
+.logout-description img
+{
+        float:right;
+        margin-right:0px
+}
+
+.login-description,
+.logout-description
+{
+
+                padding-right:5px;
+                margin:20px 10px 0 0;
+}
+
+.logout-description
+{
+        margin-bottom:20px
+}
+
+.mostread li a:link, .mostread li a:visited, .latestnews li a:link, .latestnews li a:visited {
+    background: url("../images/arrow2_grey.png") no-repeat scroll 100% 7px transparent;
+}
+ul.latestnews li a, ul.mostread li a {
+    padding: 2px 15px 2px 2px;
+}
+.mostread li a:hover,
+.latestnews li a:hover,
+.mostread li a:active,
+.latestnews li a:active,
+.mostread li a:focus,
+.latestnews li a:focus
+{
+	background:#555 url(../images/arrow_white_grey.png) 100% 6px  no-repeat !important;
+}
+#main ul.actions {
+    text-align: left;
+}
+ul.pagenav li.pagenav-next {
+    float: left;
+}
+ul.pagenav li.pagenav-prev {
+    float: right;
+}
+#main .items-more ol li a {
+
+}
+#main .items-more ol li a {
+    padding: 5px 20px 5px 5px;
+}
+#main .items-more ol li a:hover,
+#main .items-more ol li a:active,
+#main .items-more ol li a:focus
+{
+        padding:5px 20px 5px 5px;
+}
+#close span {
+    left: 20px;
+    right: auto;
+    width: auto;
+}
+
+/* ############## Blog/featured columns ######## */
+
+.blog-featured .item, .blog .item {
+	float:right;
+}
+.items-row .column-1 {
+	margin-right: 0;
+	margin-left: 4%;
+}
+
+#main ul.actions {
+	text-align: left;
+}
+
+.content_rating {
+	text-align: right;
+	
+}
+
+ul.menu li ul li ul li ul li ul {
+	padding-right: 7px;
 }
