@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Mar-2011 Mark Dexter
+ # [#25006] Alternative Layout Not Implemented in com_search, com_users
+
 01-Mar-2011 Ian MacLennan
  # [#25038] Codemirror update causes improper characters in template html/css editing
 

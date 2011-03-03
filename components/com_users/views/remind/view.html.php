@@ -43,6 +43,12 @@ class UsersViewRemind extends JView
 			return false;
 		}
 
+		// Check for layout override
+		$active = JFactory::getApplication()->getMenu()->getActive();
+		if (isset($active->query['layout'])) {
+			$this->setLayout($active->query['layout']);
+		}		
+		
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
