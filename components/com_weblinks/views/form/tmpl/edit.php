@@ -83,7 +83,6 @@ $params = $this->state->get('params');
 
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<input type="hidden" name="task" value="" />
-		<?php echo JHTML::_( 'form.token' ); ?>
-		</div>
+		<?php echo JHTML::_( 'form.token' ); ?>		
 	</form>
 </div>
