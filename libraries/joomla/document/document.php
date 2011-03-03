@@ -425,10 +425,14 @@ class JDocument extends JObject
 	 *
 	 * @param	string  $url		URL to the linked script
 	 * @param	string  $type		Type of script. Defaults to 'text/javascript'
+	 * @param	bool	$defer		Adds the defer attribute.
+	 * @param	bool	$async		Adds the async attribute.
 	 * @access	public
 	 */
-	function addScript($url, $type="text/javascript") {
-		$this->_scripts[$url] = $type;
+	function addScript($url, $type = "text/javascript", $defer = false, $async = false) {
+		$this->_scripts[$url]['mime'] = $type;
+		$this->_scripts[$url]['defer'] = $defer;
+		$this->_scripts[$url]['async'] = $async;
 	}
 
 	/**
@@ -436,7 +440,7 @@ class JDocument extends JObject
 	 *
 	 * @access	public
 	 * @param	string  $content	Script
-	 * @param	string  $type	Scripting mime (defaults to 'text/javascript')
+	 * @param	string  $type		Scripting mime (defaults to 'text/javascript')
 	 * @return	void
 	 */
 	function addScriptDeclaration($content, $type = 'text/javascript')

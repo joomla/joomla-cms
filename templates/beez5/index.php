@@ -26,7 +26,10 @@ $color			= $this->params->get('templatecolor');
 $logo			= $this->params->get('logo');
 $navposition	= $this->params->get('navposition');
 $app			= JFactory::getApplication();
+$doc			= JFactory::getDocument();
 $templateparams	= $app->getTemplate(true)->params;
+
+$doc->addScript($this->baseurl.'/templates/beez5/javascript/md_stylechanger.js', 'text/javascript', true);
 ?>
 <?php if(!$templateparams->get('html5', 0)): ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -68,7 +71,6 @@ $templateparams	= $app->getTemplate(true)->params;
 			<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/html5.js"></script>
 		<![endif]-->
 <?php } ?>
-		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/md_stylechanger.js"></script>
 		<script type="text/javascript" src="<?php echo $this->baseurl ?>/templates/beez5/javascript/hide.js"></script>
 
 		<script type="text/javascript">
