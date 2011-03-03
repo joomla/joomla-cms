@@ -155,7 +155,9 @@ class ModulesModelModule extends JModelAdmin
 				else {
 					$table->title .= ' (2)';
 				}
-
+				// Unpublish duplicate module
+				$table->published = 0;
+				
 				if (!$table->check() || !$table->store()) {
 					throw new Exception($table->getError());
 				}
@@ -546,6 +548,18 @@ class ModulesModelModule extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
+		
+		// Alter the title and published state for Save as Copy
+		if (JRequest::getVar('task') == 'save2copy') {
+			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
+			$orig_table = clone($this->getTable());
+			$orig_table->load( (int) $orig_data['id']);
+
+			if ($data['title'] == $orig_table->title) {
+				$data['title'] .= ' (copy)';
+				$data['published'] = 0;
+			}
+		}
 
 		// Bind the data.
 		if (!$table->bind($data)) {
@@ -561,7 +575,8 @@ class ModulesModelModule extends JModelAdmin
 			$this->setError($table->getError());
 			return false;
 		}
-
+		
+		
 		// Trigger the onExtensionBeforeSave event.
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_modules.module', &$table, $isNew));
 		if (in_array(false, $result, true)) {

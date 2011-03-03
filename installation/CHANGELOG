@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#25035] extra closing div in \components\com_weblinks\views\form\tmpl\edit.php
  # [#25042] Extra markup in some component views
  # [#24865] sef plugin results in a blank page for large content
+ # [#25110] *Duplicated module is published
 
 01-Mar-2011 Ian MacLennan
  # [#25038] Codemirror update causes improper characters in template html/css editing
