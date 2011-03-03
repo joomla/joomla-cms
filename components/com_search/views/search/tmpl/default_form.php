@@ -21,6 +21,7 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 		</label>
 		<input type="text" name="searchword" id="search-searchword" size="30" maxlength="<?php echo $upper_limit; ?>" value="<?php echo $this->escape($this->searchword); ?>" class="inputbox" />
 		<button name="Search" onclick="this.form.submit()" class="button"><?php echo JText::_('COM_SEARCH_SEARCH');?></button>
+		<input type="hidden" name="task" value="search" />
 	</fieldset>
 
 	<div class="searchintro<?php echo $this->params->get('pageclass_sfx'); ?>">
@@ -70,7 +71,5 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 	</p>
 
 <?php endif; ?>
-	<div>
-		<input type="hidden" name="task" value="search" />
-	</div>
+
 </form>

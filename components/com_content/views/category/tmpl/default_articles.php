@@ -50,6 +50,11 @@ $listDirn	= $this->state->get('list.direction');
 		<?php endif; ?>
 
 	<?php if ($this->params->get('filter_field') != 'hide') :?>
+	
+		<!-- @TODO add hidden inputs -->
+		<input type="hidden" name="filter_order" value="" />
+		<input type="hidden" name="filter_order_Dir" value="" />
+		<input type="hidden" name="limitstart" value="" />
 	</fieldset>
 	<?php endif; ?>
 
@@ -173,12 +178,5 @@ $listDirn	= $this->state->get('list.direction');
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 	<?php endif; ?>
-
-	<div>
-		<!-- @TODO add hidden inputs -->
-		<input type="hidden" name="filter_order" value="" />
-		<input type="hidden" name="filter_order_Dir" value="" />
-		<input type="hidden" name="limitstart" value="" />
-	</div>
 </form>
 <?php endif; ?>

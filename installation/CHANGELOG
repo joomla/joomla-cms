@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#25006] Alternative Layout Not Implemented in com_search, com_users
  # [#24821] Add support for defer/async to JDocument
  # [#25035] extra closing div in \components\com_weblinks\views\form\tmpl\edit.php
+ # [#25042] Extra markup in some component views
 
 01-Mar-2011 Ian MacLennan
  # [#25038] Codemirror update causes improper characters in template html/css editing
