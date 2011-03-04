@@ -68,7 +68,7 @@ class JDatabaseQueryElement
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param	mixed	String or array.
+	 * @param	mixed	$elements	String or array.
 	 *
 	 * @return	void
 	 * @since	11.1
@@ -168,7 +168,7 @@ class JDatabaseQuery
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
-	 * @param	string	$clear	Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 * @param	string	$clause	Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
 	 * @return	void
 	 * @since	11.1
@@ -246,6 +246,11 @@ class JDatabaseQuery
 
 
 	/**
+	 * Add a single column, or array of columns to the SELECT clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 * The select method can, however, be called multiple times in the same query.
+	 *
 	 * @param	mixed	$columns	A string or an array of field names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
@@ -266,6 +271,10 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a table name to the DELETE clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 *
 	 * @param	string	$table	The name of the table to delete from.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
@@ -284,6 +293,10 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a table name to the INSERT clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 *
 	 * @param	mixed	$tables	A string or array of table names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
@@ -298,6 +311,10 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a table name to the UPDATE clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 *
 	 * @param	mixed	$tables	A string or array of table names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
@@ -312,7 +329,11 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param	mixed	A string or array of table names.
+	 * Add a table to the FROM clause of the query.
+	 *
+	 * Note that while an array of tables can be provided, it is recommended you use explicit joins.
+	 *
+	 * @param	mixed	$tables	A string or array of table names.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -330,8 +351,10 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param	string	$type
-	 * @param	string	$conditions
+	 * Add a JOIN clause to the query.
+	 *
+	 * @param	string	$type		The type of join. This string is prepended to the JOIN keyword.
+	 * @param	string	$conditions	A string or array of conditions.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -347,7 +370,9 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param	string	$conditions
+	 * Add an INNER JOIN clause to the query.
+	 *
+	 * @param	string	$conditions	A string or array of conditions.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -360,7 +385,9 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param	string	$conditions
+	 * Add an OUTER JOIN clause to the query.
+	 *
+	 * @param	string	$conditions	A string or array of conditions.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -373,7 +400,9 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param	string	$conditions
+	 * Add a LEFT JOIN clause to the query.
+	 *
+	 * @param	string	$conditions	A string or array of conditions.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -386,7 +415,9 @@ class JDatabaseQuery
 	}
 
 	/**
-	 * @param	string	$conditions
+	 * Add a RIGHT JOIN clause to the query.
+	 *
+	 * @param	string	$conditions	A string or array of conditions.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -399,8 +430,10 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a single condition string, or an array of strings to the SET clause of the query.
+	 *
 	 * @param	mixed	$conditions	A string or array of conditions.
-	 * @param	string	$glue
+	 * @param	string	$glue		The glue by which to join the condition strings. Defaults to ,.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -419,13 +452,15 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a single condition, or an array of conditions to the WHERE clause of the query.
+	 *
 	 * @param	mixed	$conditions	A string or array of where conditions.
-	 * @param	string	$glue
+	 * @param	string	$glue		The glue by which to join the conditions. Defaults to AND.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
 	 */
-	public function where($conditions, $glue='AND')
+	public function where($conditions, $glue = 'AND')
 	{
 		if (is_null($this->_where)) {
 			$glue = strtoupper($glue);
@@ -439,6 +474,8 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a grouping column to the GROUP clause of the query.
+	 *
 	 * @param	mixed	$columns	A string or array of ordering columns.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
@@ -457,8 +494,10 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * A conditions to the HAVING clause of the query.
+	 *
 	 * @param	mixed	$conditions	A string or array of columns.
-	 * @param	string	$glue
+	 * @param	string	$glue		The glue by which to join the conditions. Defaults to AND.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
 	 * @since	11.1
@@ -477,6 +516,8 @@ class JDatabaseQuery
 	}
 
 	/**
+	 * Add a ordering column to the ORDER clause of the query.
+	 *
 	 * @param	mixed	$columns	A string or array of ordering columns.
 	 *
 	 * @return	JDatabaseQuery	Returns this object to allow chaining.
@@ -509,9 +550,11 @@ class JDatabaseQuery
 			case 'select':
 				$query .= (string) $this->_select;
 				$query .= (string) $this->_from;
+
 				if ($this->_join) {
 					// special case for joins
-					foreach ($this->_join as $join) {
+					foreach ($this->_join as $join)
+					{
 						$query .= (string) $join;
 					}
 				}
@@ -540,7 +583,8 @@ class JDatabaseQuery
 
 				if ($this->_join) {
 					// special case for joins
-					foreach ($this->_join as $join) {
+					foreach ($this->_join as $join)
+					{
 						$query .= (string) $join;
 					}
 				}
