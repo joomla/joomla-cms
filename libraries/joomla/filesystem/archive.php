@@ -19,6 +19,8 @@ defined('JPATH_PLATFORM') or die;
 class JArchive
 {
 	/**
+	 * Extract an archive file to a directory.
+	 *
 	 * @param	string	$archivename	The name of the archive file
 	 * @param	string	$extractdir		Directory to unpack into
 	 *
@@ -86,7 +88,10 @@ class JArchive
 					else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))),null,1);
+						$result = JFile::copy(
+							$tmpfname,
+							$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1
+						);
 					}
 
 					@unlink($tmpfname);
@@ -121,7 +126,10 @@ class JArchive
 					else {
 						$path = JPath::clean($extractdir);
 						JFolder::create($path);
-						$result = JFile::copy($tmpfname,$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))),null,1);
+						$result = JFile::copy(
+							$tmpfname,
+							$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1
+						);
 					}
 
 					@unlink($tmpfname);
@@ -142,7 +150,9 @@ class JArchive
 	}
 
 	/**
-	 * @param	string	$type
+	 * Get a file compression adapter.
+	 *
+	 * @param	string	$type	The type of adapter (bzip2|gzip|tar|zip).
 	 *
 	 * @return	JObject
 	 * @since	11.1

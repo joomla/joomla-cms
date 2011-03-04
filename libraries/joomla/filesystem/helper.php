@@ -29,7 +29,7 @@ class JFilesystemHelper
 	/**
 	 * Remote file size function for streams that don't support it
 	 *
-	 * @param	string	$url
+	 * @param	string	$url	TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	11.1
@@ -111,8 +111,8 @@ class JFilesystemHelper
 	/**
 	 * Quick FTP chmod
 	 *
-	 * @param	string	$url
-	 * @param			$mode
+	 * @param	string	$url	TODO Add text
+	 * @param	int		$mode	The new permissions, given as an octal value.
 	 *
 	 * @return	mixed
 	 * @since	11.1
@@ -215,7 +215,7 @@ class JFilesystemHelper
 	/**
 	 * Returns a list of transports
 	 *
-	 * @return
+	 * @return	array
 	 * @since	11.1
 	 */
 	function getTransports()
@@ -227,7 +227,7 @@ class JFilesystemHelper
 	/**
 	 * Returns a list of filters
 	 *
-	 * @return
+	 * @return	array
 	 * @since	11.1
 	 */
 	function getFilters()
@@ -240,7 +240,7 @@ class JFilesystemHelper
 	/**
 	 * Returns a list of J! streams
 	 *
-	 * @return
+	 * @return	array	TODO Add text
 	 * @since	11.1
 	 */
 	function getJStreams()
@@ -258,7 +258,9 @@ class JFilesystemHelper
 	}
 
 	/**
-	 * @param	$streamname
+	 * TODO Add description
+	 *
+	 * @param	string	$streamname	TODO Add text, confirm type
 	 *
 	 * @return	boolean
 	 * @since	11.1

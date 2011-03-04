@@ -84,7 +84,7 @@ class JArchiveGzip extends JObject
 
 		// New style! streams!
 		$input = JFactory::getStream();
-		$input->set('processingmethod','gz'); // use gz
+		$input->set('processingmethod', 'gz'); // use gz
 
 		if (!$input->open($archive)) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
