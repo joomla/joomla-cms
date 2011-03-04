@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Mar-2011 Jean-Marie Simonet
+ $ Updating ja-JP
+
 03-Mar-2011 Mark Dexter
  # [#25006] Alternative Layout Not Implemented in com_search, com_users
  # [#24821] Add support for defer/async to JDocument
