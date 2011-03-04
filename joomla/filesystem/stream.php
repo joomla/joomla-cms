@@ -23,10 +23,13 @@ jimport('joomla.utilities.utility');
  * This class adheres to the stream wrapper operations:
  * http://www.php.net/manual/en/function.stream-get-wrappers.php
  *
- * @see http://au.php.net/manual/en/intro.stream.php PHP Stream Manual
- * @see http://au.php.net/manual/en/wrappers.php Stream Wrappers
- * @see http://au.php.net/manual/en/filters.php Stream Filters
- * @see http://au.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @package		Joomla.Framework
+ * @subpackage	FileSystem
+ * @see			http://au.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @see			http://au.php.net/manual/en/wrappers.php Stream Wrappers
+ * @see			http://au.php.net/manual/en/filters.php Stream Filters
+ * @see			http://au.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @since		1.6
  */
 class JStream extends JObject
 {
@@ -78,8 +81,8 @@ class JStream extends JObject
 	 * Constructor
 	 *
 	 * @param 	string	$writeprefix	Prefix of the stream; Note: unlike the JPATH_*, this has a final path seperator!
-	 * @param	string	$readprefix
-	 * @param	string	$context
+	 * @param	string	$readprefix		TODO Add text
+	 * @param	string	$context		TODO Add text
 	 *
 	 * @return	JStream
 	 * @since	1.6
@@ -111,7 +114,8 @@ class JStream extends JObject
 	// ----------------------------
 
 	/**
-	 * Open a stream with some lazy loading smarts
+	 * Open a stream with some lazy loading smarts.
+	 *
 	 * @param	string		$filename				Filename
 	 * @param	string		$mode					Mode string to use
 	 * @param	bool		$use_include_path		Use the PHP include path
@@ -208,7 +212,7 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -267,7 +271,7 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -366,19 +370,21 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
 	}
 
 	/**
-	 * @param	int		$length
+	 * Gets a string from the stream.
+	 *
+	 * @param	int		$length	TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function gets($length=0)
+	function gets($length = 0)
 	{
 		if (!$this->_fh) {
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
@@ -413,7 +419,7 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -497,10 +503,10 @@ class JStream extends JObject
 				}
 			}
 		}
-		while($remaining || !$length);
+		while ($remaining || !$length);
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -554,13 +560,15 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
 	}
 
 	/**
+	 * TODO Add description
+	 *
 	 * @return	mixed
 	 * @since	1.6
 	 */
@@ -592,12 +600,12 @@ class JStream extends JObject
 		}
 
 		// may return 0 so check its really false
-		if ($res === FALSE) {
+		if ($res === false) {
 			$this->setError($php_errormsg);
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $res;
@@ -614,9 +622,9 @@ class JStream extends JObject
 	 * JStream::set('chunksize', newsize);)
 	 * Note: This doesn't support gzip/bzip2 writing like reading does
 	 *
-	 * @param string Reference to the string to write
-	 * @param int Length of the string to write
-	 * @param int Size of chunks to write in
+	 * @param	string	&$string	Reference to the string to write
+	 * @param	int		$length		Length of the string to write
+	 * @param	int		$chunk		Size of chunks to write in
 	 *
 	 * @return	boolean
 	 * @since	1.6
@@ -673,7 +681,7 @@ class JStream extends JObject
 		while ($remaining);
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -682,7 +690,7 @@ class JStream extends JObject
 	/**
 	 * Chmod wrapper
 	 *
-	 * @param	string	$filename
+	 * @param	string	$filename	The name of the file.
 	 * @param	mixed	$mode		Mode to use
 	 *
 	 * @return	boolean
@@ -735,7 +743,7 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		// return the result
 		return $retval;
@@ -748,7 +756,7 @@ class JStream extends JObject
 	 * @since	1.6
 	 * @see		http://au.php.net/manual/en/function.stream-get-meta-data.php
 	 */
-	function get_meta_data()
+	public function get_meta_data()
 	{
 		if (!$this->_fh) {
 			$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_NOT_OPEN'));
@@ -870,7 +878,7 @@ class JStream extends JObject
 			}
 
 			// restore error tracking to what it was before
-			ini_set('track_errors',$track_errors);
+			ini_set('track_errors', $track_errors);
 		}
 
 		return $retval;
@@ -883,9 +891,9 @@ class JStream extends JObject
 	/**
 	 * Append a filter to the chain
 	 *
-	 * @param	$filtername
-	 * @param	$read_write
-	 * @param	$params
+	 * @param	string	$filtername	TODO Add text
+	 * @param	integer	$read_write	TODO Add text, confirm type
+	 * @param	array	$params		TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
@@ -911,7 +919,7 @@ class JStream extends JObject
 			}
 
 			// restore error tracking to what it was before
-			ini_set('track_errors',$track_errors);
+			ini_set('track_errors', $track_errors);
 		}
 
 		return $res;
@@ -920,9 +928,9 @@ class JStream extends JObject
 	/**
 	 * Prepend a filter to the chain
 	 *
-	 * @param	$filtername
-	 * @param	$read_write
-	 * @param	$params
+	 * @param	string	$filtername	TODO Add text
+	 * @param	integer	$read_write	TODO Add text, confirm type
+	 * @param	array	$params		TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
@@ -943,12 +951,12 @@ class JStream extends JObject
 				$this->setError($php_errormsg); // set the error msg
 			}
 			else {
-				array_unshift($res,'');
+				array_unshift($res, '');
 				$res[0] =&$this->filters;
 			}
 
 			// restore error tracking to what it was before
-			ini_set('track_errors',$track_errors);
+			ini_set('track_errors', $track_errors);
 		}
 
 		return $res;
@@ -959,13 +967,13 @@ class JStream extends JObject
 	 * append or prepend function alternatively via getting the
 	 * filter list)
 	 *
-	 * @param	resrouce	$resource
-	 * @param	boolean		$byindex
+	 * @param	resrouce	&$resource	TODO Add text
+	 * @param	boolean		$byindex	TODO Add text
 	 *
 	 * @return	boolean		Result of operation
 	 * @since	1.6
 	 */
-	function removeFilter(&$resource, $byindex=false)
+	function removeFilter(&$resource, $byindex = false)
 	{
 		$res = false;
 		// Capture PHP errors
@@ -985,7 +993,7 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
@@ -997,16 +1005,16 @@ class JStream extends JObject
 	/**
 	 * Copy a file from src to dest
 	 *
-	 * @param	string	$src
-	 * @param	string	$dest
-	 * @param			$context
-	 * @param	boolean	$user_prefix
-	 * @param	boolean	$relative
+	 * @param	string	$src		TODO Add text
+	 * @param	string	$dest		TODO Add text
+	 * @param	string	$context	TODO Add text
+	 * @param	boolean	$use_prefix	TODO Add text
+	 * @param	boolean	$relative	TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function copy($src, $dest, $context=null, $use_prefix=true, $relative=false)
+	function copy($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		$res = false;
 
@@ -1074,7 +1082,7 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
@@ -1082,16 +1090,16 @@ class JStream extends JObject
 	/**
 	 * Moves a file
 	 *
-	 * @param	string	$src
-	 * @param	string	$dest
-	 * @param			$context
-	 * @param	boolean	$user_prefix
-	 * @param	boolean	$relative
+	 * @param	string	$src		TODO Add text
+	 * @param	string	$dest		TODO Add text
+	 * @param	string	$context	TODO Add text
+	 * @param	boolean	$use_prefix	TODO Add text
+	 * @param	boolean	$relative	TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function move($src, $dest, $context=null, $use_prefix=true, $relative=false)
+	function move($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		$res = false;
 
@@ -1120,23 +1128,23 @@ class JStream extends JObject
 		$this->chmod($dest);
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
 
 	/**
-	 * Delete a file
+	 * Deletes a file.
 	 *
-	 * @param	string	$filename
-	 * @param			$context
-	 * @param	boolean	$user_prefix
-	 * @param	boolean	$relative
+	 * @param	string	$filename	TODO Add text
+	 * @param	string	$context	TODO Add text
+	 * @param	boolean	$use_prefix	TODO Add text
+	 * @param	boolean	$relative	TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function delete($filename, $context=null, $use_prefix=true, $relative=false)
+	function delete($filename, $context = null, $use_prefix = true, $relative = false)
 	{
 		$res = false;
 
@@ -1162,24 +1170,24 @@ class JStream extends JObject
 		}
 
 		// restore error tracking to what it was before
-		ini_set('track_errors',$track_errors);
+		ini_set('track_errors', $track_errors);
 
 		return $res;
 	}
 
 	/**
-	 * Upload a file
+	 * Upload a file.
 	 *
-	 * @param	string	$src
-	 * @param	string	$dest
-	 * @param			$context
-	 * @param	boolean	$user_prefix
-	 * @param	boolean	$relative
+	 * @param	string	$src		TODO Add text
+	 * @param	string	$dest		TODO Add text
+	 * @param	string	$context	TODO Add text
+	 * @param	boolean	$use_prefix	TODO Add text
+	 * @param	boolean	$relative	TODO Add text
 	 *
 	 * @return	mixed
 	 * @since	1.6
 	 */
-	function upload($src, $dest, $context=null, $use_prefix=true, $relative=false)
+	function upload($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
 		if (is_uploaded_file($src)) { // make sure its an uploaded file
 			return $this->copy($src, $dest, $context, $use_prefix, $relative);
@@ -1196,12 +1204,12 @@ class JStream extends JObject
 	// ----------------------------
 
 	/**
-	 * Writes a chunk of data to a file
+	 * Writes a chunk of data to a file.
 	 *
-	 * @param	$filename
-	 * @param	$buffer
+	 * @param	string	$filename	The file to write the buffer to.
+	 * @param	string	&$buffer	The data to be written to the file.
 	 *
-	 * @return
+	 * @return	boolean
 	 * @since	1.6
 	 */
 	function writeFile($filename, &$buffer)
@@ -1225,14 +1233,14 @@ class JStream extends JObject
 	 * @param	boolean	$use_prefix	Controls the use of a prefix
 	 * @param	boolean	$relative	Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
-	 * @return
+	 * @return	string
 	 * @since	1.6
 	 */
 	function _getFilename($filename, $mode, $use_prefix, $relative)
 	{
 		if ($use_prefix) {
 			// get rid of binary or t, should be at the end of the string
-			$tmode = trim($mode,'btf123456789');
+			$tmode = trim($mode, 'btf123456789');
 
 			// check if its a write mode then add the appropriate prefix
 			// get rid of JPATH_ROOT (legacy compat) along the way
@@ -1258,7 +1266,7 @@ class JStream extends JObject
 	/**
 	 * Return the internal file handle
 	 *
-	 * @return
+	 * @return	resource
 	 * @since	1.6
 	 */
 	function getFileHandle()
