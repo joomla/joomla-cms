@@ -26,7 +26,7 @@ class plgSystemAlpha extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgSystemAlpha(& $subject) {
-		parent :: __construct($subject);
+	function plgSystemAlpha(& $subject, $config) {
+		parent :: __construct($subject, $config);
 	}
 }
