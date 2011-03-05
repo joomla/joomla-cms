@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @abstract
  * @package		Joomla.Platform
  * @subpackage	Application
  * @since		11.1
@@ -63,11 +62,13 @@ abstract class JModel extends JObject
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param	string	A path to search.
-	 * @param	string	A prefix for models
-	 * @return	array	An array with directory elements. If prefix is equal to '', all directories are returned
+	 * @param	string	$path	A path to search.
+	 * @param	string	$prefix	A prefix for models.
+	 *
+	 * @return	array	An array with directory elements. If prefix is equal to '', all directories are returned.
+	 * @since	11.1
 	 */
-	public static function addIncludePath($path='', $prefix='')
+	public static function addIncludePath($path = '', $prefix = '')
 	{
 		static $paths;
 
@@ -83,25 +84,28 @@ abstract class JModel extends JObject
 			$paths[''] = array();
 		}
 
-		if (!empty($path))
-		{
+		if (!empty($path)) {
 			jimport('joomla.filesystem.path');
-			if(!in_array($path, $paths[$prefix])) {
+
+			if (!in_array($path, $paths[$prefix])) {
 				array_unshift($paths[$prefix], JPath::clean($path));
 			}
-			if(!in_array($path, $paths[''])) {
+
+			if (!in_array($path, $paths[''])) {
 				array_unshift($paths[''], JPath::clean($path));
 			}
 		}
+
 		return $paths[$prefix];
 	}
 
 	/**
 	 * Adds to the stack of model table paths in LIFO order.
 	 *
-	 * @static
-	 * @param	string|array The directory (-ies) to add.
+	 * @param	string|array $path	The directory (-ies) to add.
+	 *
 	 * @return	void
+	 * @since	11.1
 	 */
 	public static function addTablePath($path)
 	{
@@ -112,9 +116,11 @@ abstract class JModel extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @param	string	The resource type to create the filename for
-	 * @param	array	An associative array of filename information
+	 * @param	string	$type	The resource type to create the filename for.
+	 * @param	array	$parts	An associative array of filename information.
+	 *
 	 * @return	string	The filename
+	 * @since	11.1
 	 */
 	private static function _createFileName($type, $parts = array())
 	{
@@ -132,10 +138,12 @@ abstract class JModel extends JObject
 	/**
 	 * Returns a Model object, always creating it
 	 *
-	 * @param	string	The model type to instantiate
-	 * @param	string	Prefix for the model class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	string	$type	The model type to instantiate
+	 * @param	string	$prefix	Prefix for the model class name. Optional.
+	 * @param	array	$config	Configuration array for model. Optional.
+	 *
 	 * @return	mixed	A model object, or false on failure
+	 * @since	11.1
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
@@ -148,7 +156,7 @@ abstract class JModel extends JObject
 				JModel::addIncludePath(null, $prefix),
 				JModel::_createFileName('model', array('name' => $type))
 			);
-			if(!$path) {
+			if (!$path) {
 				$path = JPath::find(
 					JModel::addIncludePath(null, ''),
 					JModel::_createFileName('model', array('name' => $type))
@@ -158,11 +166,13 @@ abstract class JModel extends JObject
 				require_once $path;
 
 				if (!class_exists($modelClass)) {
-					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass ));
+					JError::raiseWarning(0, JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass));
 					return false;
 				}
 			}
-			else return false;
+			else {
+				return false;
+			}
 		}
 
 		return new $modelClass($config);
@@ -171,6 +181,9 @@ abstract class JModel extends JObject
 	/**
 	 * Constructor
 	 *
+	 * @param	array	$config	An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 *
+	 * @return	JModel
 	 * @since	11.1
 	 */
 	public function __construct($config = array())
@@ -178,39 +191,45 @@ abstract class JModel extends JObject
 		// Guess the option from the class name (Option)Model(View).
 		if (empty($this->option)) {
 			$r = null;
+
 			if (!preg_match('/(.*)Model/i', get_class($this), $r)) {
 				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'));
 			}
+
 			$this->option = 'com_'.strtolower($r[1]);
 		}
 
 		//set the view name
 		if (empty($this->name)) {
-			if (array_key_exists('name', $config))  {
+			if (array_key_exists('name', $config)) {
 				$this->name = $config['name'];
-			} else {
+			}
+			else {
 				$this->name = $this->getName();
 			}
 		}
 
 		//set the model state
-		if (array_key_exists('state', $config))  {
+		if (array_key_exists('state', $config)) {
 			$this->state = $config['state'];
-		} else {
+		}
+		else {
 			$this->state = new JObject();
 		}
 
 		//set the model dbo
-		if (array_key_exists('dbo', $config))  {
+		if (array_key_exists('dbo', $config)) {
 			$this->_db = $config['dbo'];
-		} else {
+		}
+		else {
 			$this->_db = JFactory::getDbo();
 		}
 
 		// set the default view search path
 		if (array_key_exists('table_path', $config)) {
 			$this->addTablePath($config['table_path']);
-		} else if (defined('JPATH_COMPONENT_ADMINISTRATOR')){
+		}
+		else if (defined('JPATH_COMPONENT_ADMINISTRATOR')) {
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 		}
 
@@ -221,12 +240,13 @@ abstract class JModel extends JObject
 	}
 
 	/**
-	 * Returns an object list
+	 * Gets an array of objects, being the result of database query.
 	 *
-	 * @param	string	The query
-	 * @param	int		Offset
-	 * @param	int		The number of records
-	 * @return	array
+	 * @param	string	$query		The query.
+	 * @param	int		$limitstart	Offset.
+	 * @param	int		$limit		The number of records.
+	 *
+	 * @return	array	An array of results.
 	 * @since	11.1
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
@@ -240,7 +260,8 @@ abstract class JModel extends JObject
 	/**
 	 * Returns a record count for the query
 	 *
-	 * @param	string The query
+	 * @param	string	$query	The query.
+	 *
 	 * @return	int
 	 * @since	11.1
 	 */
@@ -255,9 +276,13 @@ abstract class JModel extends JObject
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @param	string	The name of the view
-	 * @param	string  The class prefix. Optional.
+	 * @param	string	$name	The name of the view
+	 * @param	string  $prefix	The class prefix. Optional.
+	 * @param	array	$config	Configuration settings to pass to JTable::getInsance
+	 *
 	 * @return	mixed	Model object or boolean false if failed
+	 * @since	11.1
+	 * @see		JTable::getInstance
 	 */
 	private function _createTable($name, $prefix = 'Table', $config = array())
 	{
@@ -266,7 +291,7 @@ abstract class JModel extends JObject
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		//Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))  {
+		if (!array_key_exists('dbo', $config)) {
 			$config['dbo'] = $this->getDbo();;
 		}
 
@@ -290,6 +315,7 @@ abstract class JModel extends JObject
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return	string The name of the model
+	 * @since	11.1
 	 */
 	public function getName()
 	{
@@ -298,7 +324,7 @@ abstract class JModel extends JObject
 		if (empty($name)) {
 			$r = null;
 			if (!preg_match('/Model(.*)/i', get_class($this), $r)) {
-				JError::raiseError (500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
+				JError::raiseError(500, 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME');
 			}
 			$name = strtolower($r[1]);
 		}
@@ -309,9 +335,11 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param	string	Optional parameter name
-	 * @param	mixed	Optional default value
+	 * @param	string	$property	Optional parameter name
+	 * @param	mixed	$default	Optional default value
+	 *
 	 * @return	object	The property where specified, the state object where omitted
+	 * @since	11.1
 	 */
 	public function getState($property = null, $default = null)
 	{
@@ -329,18 +357,20 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param	string The table name. Optional.
-	 * @param	string The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	string	$name		The table name. Optional.
+	 * @param	string	$prefix		The class prefix. Optional.
+	 * @param	array	$options	Configuration array for model. Optional.
+	 *
 	 * @return	object	The table
+	 * @since	11.1
 	 */
-	public function getTable($name='', $prefix='Table', $options = array())
+	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
 		if (empty($name)) {
 			$name = $this->getName();
 		}
 
-		if ($table = $this->_createTable($name, $prefix, $options))  {
+		if ($table = $this->_createTable($name, $prefix, $options)) {
 			return $table;
 		}
 
@@ -368,8 +398,10 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database connector object
 	 *
-	 * @param	object	A JDatabase based object
+	 * @param	object	&$db	A JDatabase based object
+	 *
 	 * @return	void
+	 * @since	11.1
 	 */
 	public function setDbo(&$db)
 	{
@@ -379,11 +411,13 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set model state variables
 	 *
-	 * @param	string	The name of the property
-	 * @param	mixed	The value of the property to set
+	 * @param	string	$property	The name of the property
+	 * @param	mixed	$value		The value of the property to set
+	 *
 	 * @return	mixed	The previous value of the property
+	 * @since	11.1
 	 */
-	public function setState($property, $value=null)
+	public function setState($property, $value = null)
 	{
 		return $this->state->set($property, $value);
 	}

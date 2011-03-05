@@ -134,8 +134,9 @@ class JController extends JObject
 	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
-	 * @param	string|array The directory (string), or list of directories (array) to add.
-	 * @param	string	A prefix for models
+	 * @param	mixed	$path	The directory (string), or list of directories (array) to add.
+	 * @param	string	$prefix	A prefix for models
+	 *
 	 * @return	void
 	 */
 	public static function addModelPath($path, $prefix='')
@@ -147,10 +148,11 @@ class JController extends JObject
 	/**
 	 * Create the filename for a resource.
 	 *
-	 * @param	string	The resource type to create the filename for.
-	 * @param	array	An associative array of filename information. Optional.
+	 * @param	string	$type	The resource type to create the filename for.
+	 * @param	array	$parts	An associative array of filename information. Optional.
+	 *
 	 * @return	string	The filename.
-	 * @since	11.1		Replaced _createFileName.
+	 * @since	11.1	Replaced _createFileName.
 	 */
 	protected static function createFileName($type, $parts = array())
 	{
@@ -186,8 +188,9 @@ class JController extends JObject
 	/**
 	 * Method to get a singleton controller instance.
 	 *
-	 * @param	string	The prefix for the controller.
-	 * @param	array	An array of optional constructor options.
+	 * @param	string	$prefix	The prefix for the controller.
+	 * @param	array	$config	An array of optional constructor options.
+	 *
 	 * @return	mixed	JController derivative class or JException on error.
 	 * @since	11.1
 	 */
@@ -264,9 +267,11 @@ class JController extends JObject
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param	array	$config	An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
+	 *
+	 * @return	JController
 	 * @since	11.1
 	 */
 	public function __construct($config = array())
@@ -278,7 +283,6 @@ class JController extends JObject
 		$this->paths		= array();
 		$this->redirect		= null;
 		$this->taskMap		= array();
-
 
 		// Determine the methods to exclude from the base class.
 		$xMethods = get_class_methods('JController');
@@ -303,7 +307,7 @@ class JController extends JObject
 
 		//set the view name
 		if (empty($this->name)) {
-			if (array_key_exists('name', $config))  {
+			if (array_key_exists('name', $config)) {
 				$this->name = $config['name'];
 			}
 			else {
@@ -369,10 +373,11 @@ class JController extends JObject
 	/**
 	 * Adds to the search path for templates and resources.
 	 *
-	 * @param	string			The path type (e.g. 'model', 'view'.
-	 * @param	string|array	The directory or stream to search.
+	 * @param	string			$type	The path type (e.g. 'model', 'view'.
+	 * @param	string|array	$path	The directory or stream to search.
+	 *
 	 * @return	JController		This object to support chaining.
-	 * @since	11.1				Replaces _addPath.
+	 * @since	11.1			Replaces _addPath.
 	 */
 	protected function addPath($type, $path)
 	{
@@ -399,7 +404,8 @@ class JController extends JObject
 	/**
 	 * Add one or more view paths to the controller's stack, in LIFO order.
 	 *
-	 * @param	string|array The directory (string), or list of directories (array) to add.
+	 * @param	string|array	$path	The directory (string), or list of directories (array) to add.
+	 *
 	 * @return	JController		This object to support chaining.
 	 */
 	public function addViewPath($path)
@@ -413,6 +419,7 @@ class JController extends JObject
 	 * Authorization check
 	 *
 	 * @param	string	$task	The ACO Section Value to check access on
+	 *
 	 * @return	boolean	True if authorized
 	 * @since	11.1
 	 * @deprecated 1.6 - Apr 5, 2010
@@ -425,7 +432,8 @@ class JController extends JObject
 	/**
 	 * Authorisation check
 	 *
-	 * @param	string	$task	The ACO Section Value to check access on
+	 * @param	string	$task	The ACO Section Value to check access on.
+	 *
 	 * @return	boolean	True if authorised
 	 * @since	11.1
 	 */
@@ -484,11 +492,12 @@ class JController extends JObject
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @param	string  The name of the model.
-	 * @param	string	Optional model prefix.
-	 * @param	array	Configuration array for the model. Optional.
+	 * @param	string  $name	The name of the model.
+	 * @param	string	$prefix	Optional model prefix.
+	 * @param	array	$config	Configuration array for the model. Optional.
+	 *
 	 * @return	mixed	Model object on success; otherwise null failure.
-	 * @since	11.1		Replaces _createModel.
+	 * @since	11.1	Replaces _createModel.
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
@@ -509,12 +518,13 @@ class JController extends JObject
 	 * Note the "name, prefix, type" order of parameters, which differs from the
 	 * "name, type, prefix" order used in related public methods.
 	 *
-	 * @param	string	The name of the view.
-	 * @param	string	Optional prefix for the view class name.
-	 * @param	string	The type of view.
-	 * @param	array	Configuration array for the view. Optional.
+	 * @param	string	$name	The name of the view.
+	 * @param	string	$prefix	Optional prefix for the view class name.
+	 * @param	string	$type	The type of view.
+	 * @param	array	$config	Configuration array for the view. Optional.
+	 *
 	 * @return	mixed	View object on success; null or error result on failure.
-	 * @since	11.1		Replaces _createView.
+	 * @since	11.1	Replaces _createView.
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
@@ -538,7 +548,10 @@ class JController extends JObject
 
 				if (!class_exists($viewClass)) {
 					$result = JError::raiseError(
-						500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path));
+						500,
+						JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path)
+					);
+
 					return null;
 				}
 			}
@@ -556,10 +569,10 @@ class JController extends JObject
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param	boolean	$cachable	If true, the view output will be cached
+	 * @param	array	$urlparams	An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return	JController	This method to support chaining.
 	 * @since	11.1
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -567,7 +580,7 @@ class JController extends JObject
 		$document	= JFactory::getDocument();
 		$viewType	= $document->getType();
 		$viewName	= JRequest::getCmd('view', $this->default_view);
-		$viewLayout = JRequest::getCmd('layout', 'default');
+		$viewLayout	= JRequest::getCmd('layout', 'default');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath));
 
@@ -620,7 +633,8 @@ class JController extends JObject
 	/**
 	 * Execute a task by triggering a method in the derived class.
 	 *
-	 * @param	string The task to perform. If no matching task is found, the '__default' task is executed, if defined.
+	 * @param	string	$task	The task to perform. If no matching task is found, the '__default' task is executed, if defined.
+	 *
 	 * @return	mixed|false The value returned by the called method, false in error case.
 	 * @since	11.1
 	 */
@@ -655,9 +669,10 @@ class JController extends JObject
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional.
+	 * @param	string	$name	The model name. Optional.
+	 * @param	string	$prefix	The class prefix. Optional.
+	 * @param	array	$config	Configuration array for model. Optional.
+	 *
 	 * @return	object	The model.
 	 * @since	11.1
 	 */
@@ -739,10 +754,11 @@ class JController extends JObject
 	/**
 	 * Method to get a reference to the current view and load it if necessary.
 	 *
-	 * @param	string	The view name. Optional, defaults to the controller name.
-	 * @param	string	The view type. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for view. Optional.
+	 * @param	string	$name	The view name. Optional, defaults to the controller name.
+	 * @param	string	$type	The view type. Optional.
+	 * @param	string	$prefix	The class prefix. Optional.
+	 * @param	array	$config	Configuration array for view. Optional.
+	 *
 	 * @return	object	Reference to the view or an error.
 	 * @since	11.1
 	 */
@@ -765,9 +781,13 @@ class JController extends JObject
 		if (empty($views[$name])) {
 			if ($view = $this->createView($name, $prefix, $type, $config)) {
 				$views[$name] = & $view;
-			} else {
+			}
+			else {
 				$result = JError::raiseError(
-					500, JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix));
+					500,
+					JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_NOT_FOUND', $name, $type, $prefix)
+				);
+
 				return $result;
 			}
 		}
@@ -824,7 +844,8 @@ class JController extends JObject
 	/**
 	 * Register the default task to perform if a mapping is not found.
 	 *
-	 * @param	string		The name of the method in the derived class to perform if a named task is not found.
+	 * @param	string		$method	The name of the method in the derived class to perform if a named task is not found.
+	 *
 	 * @return	JController	This object to support chaining.
 	 * @since	11.1
 	 */
@@ -838,8 +859,9 @@ class JController extends JObject
 	/**
 	 * Register (map) a task to a method in the class.
 	 *
-	 * @param	string		The task.
-	 * @param	string		The name of the method in the derived class to perform for this task.
+	 * @param	string		$task	The task.
+	 * @param	string		$method	The name of the method in the derived class to perform for this task.
+	 *
 	 * @return	JController	This object to support chaining.
 	 * @since	11.1
 	 */
@@ -885,8 +907,9 @@ class JController extends JObject
 	/**
 	 * Sets the access control levels.
 	 *
-	 * @param	string The ACO section (eg, the component).
-	 * @param	string The ACO section value (if using a constant value).
+	 * @param	string	$section	The ACO section (eg, the component).
+	 * @param	string	$value		The ACO section value (if using a constant value).
+	 *
 	 * @return	void
 	 * @since	11.1
 	 * @deprecated 1.6 - Apr 5, 2010
@@ -900,8 +923,9 @@ class JController extends JObject
 	/**
 	 * Sets the internal message that is passed with a redirect
 	 *
-	 * @param	string	Message to display on redirect.
-	 * @param	string	Message type (since 1.6). Optional, defaults to 'message'.
+	 * @param	string	$text	Message to display on redirect.
+	 * @param	string	$type	Message type (since 11.1). Optional, defaults to 'message'.
+	 *
 	 * @return	string	Previous message
 	 * @since	11.1
 	 */
@@ -917,9 +941,11 @@ class JController extends JObject
 	/**
 	 * Sets an entire array of search paths for resources.
 	 *
-	 * @param	string			The type of path to set, typically 'view' or 'model'.
-	 * @param	string|array	The new set of search paths. If null or false, resets to the current directory only.
-	 * @since	11.1				Replaces _setPath.
+	 * @param	string			$type	The type of path to set, typically 'view' or 'model'.
+	 * @param	string|array	$path	The new set of search paths. If null or false, resets to the current directory only.
+	 *
+	 * @return	void
+	 * @since	11.1			Replaces _setPath.
 	 */
 	protected function setPath($type, $path)
 	{
@@ -939,7 +965,7 @@ class JController extends JObject
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
-	 * @since   1.5
+	 * @since   11.1
 	 */
 	public function setRedirect($url, $msg = null, $type = null)
 	{
