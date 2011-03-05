@@ -29,21 +29,23 @@ jimport('joomla.filesystem.path');
  */
 class JLog
 {
-	/**
-	 * The logger object for writing logs to various places.
-	 *
-	 * @var    JLogger
-	 * @since  11.1
-	 */
-	protected $logger;
+	const ALL = 1;
+	const EMERGENCY = 2;
+	const ALERT = 4;
+	const CRITICAL = 8;
+	const ERROR = 16;
+	const WARNING = 32;
+	const NOTICE = 64;
+	const INFO = 128;
+	const DEBUG = 256;
 
 	/**
-	 * Options array for the JLog instance.
+	 * The global JLog instance.
 	 *
-	 * @var    array
+	 * @var    JLog
 	 * @since  11.1
 	 */
-	protected $options = array();
+	protected static $instance;
 
 	/**
 	 * True if the default logger classes have been registered.
@@ -51,136 +53,184 @@ class JLog
 	 * @var    bool
 	 * @since  11.1
 	 */
-	private static $registered = false;
+	protected static $registered = false;
 
 	/**
-	 * Container for JLog instances.
+	 * Container for JLogger configurations.
 	 *
 	 * @var    array
 	 * @since  11.1
 	 */
-	private static $_instances = array();
+	protected $configurations = array();
+
+	/**
+	 * Container for JLogger objects.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $loggers = array();
+
+	/**
+	 * Lookup array for loggers.
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	protected $lookup = array();
 
 	/**
 	 * Constructor.
-	 *
-	 * @param   array  $options  Log object options.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct(array $options)
+	protected function __construct()
 	{
 		// If the logger classes haven't been registered let's get that done.
 		if (!self::$registered) {
-			$this->_registerLoggers();
+			$this->registerLoggers();
 			self::$registered = true;
 		}
+	}
 
-		// The default format is the W3C logfile format.
+	/**
+	 * Method to add an entry to the log.
+	 *
+	 * @param   mixed    $entry     The JLogEntry object to add to the log or the message for a new JLogEntry object.
+	 * @param   integer  $priority  Message priority.
+	 * @param   string   $category  Type of entry
+	 * @param   string   $date      Date of entry (defaults to now if not specified or blank)
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function add($entry, $priority = JLog::INFO, $category = '', $date = null)
+	{
+		// Automatically instantiate the singleton object if not already done.
+		if (empty(self::$instance)) {
+			self::setInstance(new JLog());
+		}
+
+		// If the entry object isn't a JLogEntry object let's make one.
+		if (!($entry instanceof JLogEntry)) {
+			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
+		}
+
+		return self::$instance->addLogEntry($entry);
+	}
+
+	/**
+	 * Method to set the way the JError will handle different error levels. Use this if you want to override the default settings.
+	 *
+	 * @param   array    $options     The object configuration array.
+	 * @param   integer  $priorities  ...
+	 * @param   array    $categories  ...
+
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function addLogger(array $options, $priorities = JLog::ALL, $categories = array())
+	{
+		// Automatically instantiate the singleton object if not already done.
+		if (empty(self::$instance)) {
+			self::setInstance(new JLog());
+		}
+
+		// The default logger is the formatted text log file.
 		if (empty($options['logger'])) {
 			$options['logger'] = 'formattedtext';
 		}
 		$options['logger'] = strtolower($options['logger']);
 
-		// Set the options for the class.
-		$this->options = array_merge($this->options, $options);
+		// Generate a unique signature for the JLog instance based on its options.
+		$signature = md5(serialize($options));
 
-		// Attempt to instantiate the logger object.
-		try {
-			$class = 'JLogger'.ucfirst($options['logger']);
-			$this->logger = new $class($this->options);
+		// Register the configuration if it doesn't exist.
+		if (empty(self::$instance->configurations[$signature])) {
+			self::$instance->configurations[$signature] = $options;
 		}
-		catch (Exception $e) {
-			jexit(JText::_('Unable to create a JLog instance: ').$e->getMessage());
-		}
+
+		self::$instance->lookup[$signature] = (object) array('priorities' => $priorities, 'categories' => array_map('strtolower', $categories));
 	}
 
 	/**
-	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
+	 * Returns a reference to the JLog object for a given log file path, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
-	 * 		<pre>$log = JLog::getInstance($options);</pre>
+	 * 		<pre>$log = JLog::getInstance($file, $options, $path);</pre>
 	 *
-	 * @param   array       $options  The object configuration array.
-	 * @param   deprecated  $arg2     Formerly the object configuration array.
-	 * @param   deprecated  $arg3     Formerly the base path for the log file.
+	 * @param  string  $file     The filename of the log file.
+	 * @param  array   $options  The object configuration array.
+	 * @param  string  $path     The base path for the log file.
 	 *
-	 * @return	JLog
+	 * @return	    JLog
 	 *
-	 * @since	11.1
+	 * @deprecated  11.2
+	 * @since	    11.1
 	 */
-	public static function getInstance($options = array(), $arg2 = null, $arg3 = null)
+	public static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
+		// Deprecation warning.
+		JLog::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', JLog::WARNING, 'deprecated');
+
+		// Initialize static instances array.
+		static $instances;
+		if (!isset($instances)) {
+			$instances = array();
+		}
+
 		// Get the system configuration object.
 		$config = JFactory::getConfig();
 
-		// Determine if we are dealing with a deprecated usage of JLog::getInstance();
-		if (is_string($options)) {
+		// Set default path if not set and sanitize it.
+		if (!$path) {
+			$path = $config->get('log_path');
+		}
 
-			// Deprecation warning.
-			$deprecated = JLog::getInstance(array('text_file' => 'deprecated.php'));
-			$deprecated->add('JLog::getInstance() now accepts one options array.', 'NOTICE');
-
-			// Fix up arguments.
-			$file		= $options;
-			$options	= $arg2;
-			$path		= $arg3;
-
-			// Set default path if not set and sanitize it.
-			if (!$path) {
-				$path = $config->get('log_path');
-			}
+		// Only create the object if not already created.
+		if (empty($instances[$path])) {
+			$instances[$path] = new JLog();
 
 			// Fix up the options so that we use the w3c format.
 			$options['text_entry_format'] = $options['format'];
 			$options['text_file'] = $file;
 			$options['text_file_path'] = $path;
 			$options['logger'] = 'w3c';
-		}
 
-		// If no options were explicitly set use the default from configuration.
-		if (empty ($options)) {
-			$options = $config->getValue('log_options');
-		}
-
-		// Generate a unique signature for the JLog instance based on its options.
-		$signature = md5(serialize($options));
-
-		if (empty (self::$instances[$signature])) {
-			// Attempt to instantiate the object.
-			try {
-				self::$instances[$signature] = new JLog($options);
+			// If no options were explicitly set use the default from configuration.
+			if (empty($options)) {
+				$options = $config->getValue('log_options');
 			}
-			catch (Exception $e) {
-				jexit(JText::_('Unable to create a JLog instance: ').$e->getMessage());
-			}
+
+			// Generate a unique signature for the JLog instance based on its options.
+			$signature = md5(serialize($options));
+
+			// Register the configuration.
+			$instances[$path]->configurations[$signature] = $options;
+
+			// Setup the lookup to catch all.
+			$instances[$path]->lookup[$signature] = (object) array('priorities' => JLog::ALL, 'categories' => array());
 		}
 
-		return self::$instances[$signature];
+		return $instances[$path];
 	}
 
 	/**
-	 * Method to add an entry to the log.
+	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
 	 *
-	 * @param   mixed   $entry     The JLogEntry object to add to the log or the message for a new JLogEntry object.
-	 * @param   string  $priority  Message priority based on {$this->_priorities}.
-	 * @param   string  $category  Type of entry
-	 * @param   string  $date      Date of entry (defaults to now if not specified or blank)
+	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function add($entry, $priority = 'INFO', $category = '', $date = null)
+	public static function setInstance(JLog $instance)
 	{
-		// If the entry object isn't a JLogEntry object let's make one.
-		if (!($entry instanceof JLogEntry)) {
-			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
-		}
-
-		return $this->logger->addEntry($entry);
+		self::$instance = & $instance;
 	}
 
 	/**
@@ -196,12 +246,11 @@ class JLog
 	public function addEntry($entry)
 	{
 		// Deprecation warning.
-		$deprecated = JLog::getInstance(array('text_file' => 'deprecated.php'));
-		$deprecated->add('JLog::addEntry() is deprecated, use JLog::add() instead.', 'NOTICE');
+		JLog::add('JLog::addEntry() is deprecated, use JLog::add() instead.', JLog::WARNING, 'deprecated');
 
 		// Easiest case is we already have a JLogEntry object to add.
 		if ($entry instanceof JLogEntry) {
-			return $this->add($entry);
+			return $this->addLogEntry($entry);
 		}
 		// We have either an object or array that needs to be converted to a JLogEntry.
 		elseif (is_array($entry) || is_object($entry)) {
@@ -233,7 +282,76 @@ class JLog
 			return false;
 		}
 
-		return $this->add($tmp);
+		return $this->addLogEntry($tmp);
+	}
+
+	/**
+	 * Method to add an entry to the appropriate loggers.
+	 *
+	 * @param   JLogEntry  $entry  The JLogEntry object to send to the loggers.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function addLogEntry(JLogEntry $entry)
+	{
+		// Find all the appropriate loggers based on priority and category for the entry.
+		$loggers = $this->findLoggers($entry->priority, $entry->category);
+
+		foreach ($loggers as $signature)
+		{
+			// Attempt to instantiate the logger object if it doesn't already exist.
+			if (empty($this->loggers[$signature])) {
+
+				try {
+					$class = 'JLogger'.ucfirst($this->configurations[$signature]['logger']);
+					$this->loggers[$signature] = new $class($this->configurations[$signature]);
+				}
+				catch (Exception $e) {
+					jexit(JText::_('Unable to create a JLogger instance: ').$e->getMessage());
+				}
+			}
+
+			// Add the entry to the logger.
+			$this->loggers[$signature]->addEntry($entry);
+		}
+	}
+
+	/**
+	 * Method to find the loggers to use based on priority and category values.
+	 *
+	 * @param   integer  $priority  Message priority.
+	 * @param   string   $category  Type of entry
+	 *
+	 * @return  array  The array of loggers to use for the given priority and category values.
+	 *
+	 * @since   11.1
+	 */
+	protected function findLoggers($priority, $category)
+	{
+		// Initialize variables.
+		$loggers = array();
+
+		// Sanitize inputs.
+		$priority = (int) $priority;
+		$category = strtolower($category);
+
+		// Let's go iterate over the loggers and get all the ones we need.
+		foreach ($this->lookup as $signature => $rules)
+		{
+			// Check to make sure the priority matches the logger.
+			if ($priority & $rules->priorities) {
+
+				// If either there are no set categories (meaning all) or the specific category is set, add this logger.
+				if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories)) {
+					$loggers[] = $signature;
+				}
+
+			}
+		}
+
+		return $loggers;
 	}
 
 	/**
@@ -243,7 +361,7 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	private function _registerLoggers()
+	protected function registerLoggers()
 	{
 		// Define the expected folder in which to find logger classes.
 		$loggersFolder = dirname(__FILE__).'/loggers';
