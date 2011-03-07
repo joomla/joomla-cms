@@ -262,6 +262,8 @@ class JFilterInput extends JObject
 	 */
 	protected function _cleanTags($source)
 	{
+		// First, pre-process this for illegal characters inside attribute values
+		$source = $this->_escapeAttributeValues($source);
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag		= null;
 		$postTag	= $source;
@@ -338,6 +340,21 @@ class JFilterInput extends JObject
 				$nextSpace		= strpos($fromSpace, ' ');
 				$openQuotes		= strpos($fromSpace, '"');
 				$closeQuotes	= strpos(substr($fromSpace, ($openQuotes +1)), '"') + $openQuotes +1;
+				
+				$startAtt = '';
+				$startAttPosition = 0;
+				
+				// Find position of equal and open quotes ignoring 
+				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE)) {
+					$startAtt = $matches[0][0];
+					$startAttPosition = $matches[0][1];
+					$closeQuotes = strpos(substr($fromSpace, ($startAttPosition + strlen($startAtt))), '"') + $startAttPosition + strlen($startAtt);
+					$nextEqual = $startAttPosition + strpos($startAtt, '=');
+					$openQuotes = $startAttPosition + strpos($startAtt, '"');
+					$nextSpace = strpos(substr($fromSpace, $closeQuotes), ' ') + $closeQuotes;
+				}
+
+				
 
 				// Do we have an attribute to process? [check for equal sign]
 				if ($fromSpace != '/' && (($nextEqual && $nextSpace && $nextSpace < $nextEqual ) || !$nextEqual))
@@ -351,12 +368,7 @@ class JFilterInput extends JObject
 					// if there is an ending, use this, if not do not worry
 					if($attribEnd > 0)
 					{
-						if((int) $fromSpace > 0)
-						{
-							$fromSpace = substr($fromSpace, $attribEnd + 1);
-						} else {
-							$fromSpace = substr($fromSpace, 0, $attribEnd).'="'.substr($fromSpace, 0, $attribEnd).'"'.substr($fromSpace, $attribEnd);
-						}
+						$fromSpace = substr($fromSpace, $attribEnd + 1);
 					}
 				}
 				if (strpos($fromSpace, '=') !== false) {
@@ -453,7 +465,8 @@ class JFilterInput extends JObject
 
 			// Split into name/value pairs
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
-			list ($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
+			// Take the last attribute in case there is an attribute with no value
+			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
 
 			/*
 			 * Remove all "non-regular" attribute names
@@ -465,6 +478,8 @@ class JFilterInput extends JObject
 
 			// XSS attribute value filtering
 			if (isset($attrSubSet[1])) {
+				// trim leading and trailing spaces
+				$attrSubSet[1] = trim($attrSubSet[1]);
 				// strips unicode, hex, etc
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
 				// strip normal newline within attr value
@@ -478,7 +493,7 @@ class JFilterInput extends JObject
 				// strip slashes
 				$attrSubSet[1] = stripslashes($attrSubSet[1]);
 			} else {
-				$attrSubSet[1] = NULL;
+				continue;
 			}
 
 			// Autostrip script tags
@@ -501,7 +516,8 @@ class JFilterInput extends JObject
 					 */
 					$newSet[] = $attrSubSet[0].'="0"';
 				} else {
-					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[0].'"';
+					// Leave empty attributes alone
+					$newSet[] = $attrSubSet[0].'=""';
 				}
 			}
 		}
@@ -534,4 +550,44 @@ class JFilterInput extends JObject
 		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
 		return $source;
 	}
+	
+	/**
+	 * Escape < > and " inside attribute values
+	 *
+	 * @param	string	$source The source string.
+	 * @return	string	Filtered string
+	 * @since	1.6
+	 */
+	protected function _escapeAttributeValues($source)
+	{
+		$alreadyFiltered = '';
+		$remainder = $source;
+		$badChars = array ('<', '"', '>');
+		$escapedChars = array ('&lt;', '&quot;', '&gt;');
+		// Process each portion based on presence of =" and "<space>, "/>, or ">
+		// See if there are any more attributes to process
+		while (preg_match('#\s*=\s*\"#', $remainder, $matches, PREG_OFFSET_CAPTURE))
+		{
+			// get the portion before the attribute value
+			$quotePosition = $matches[0][1];
+			$nextBefore = $quotePosition + strlen($matches[0][0]);
+			// get the portion after attribute value
+			if (preg_match('#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#', substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE)) {
+				// We have a closing quote
+				$nextAfter = $nextBefore + $matches[0][1];
+			} else {
+				// No closing quote
+				$nextAfter = strlen($remainder);
+			}
+			// Get the actual attribute value
+			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
+			// Escape bad chars
+			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
+			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . '"';
+			$remainder = substr($remainder, $nextAfter + 1);
+		}
+		
+		// At this point, we just have to return the $alreadyFiltered and the $remainder
+		return $alreadyFiltered . $remainder;
+	}	
 }

@@ -93,7 +93,7 @@ $app = JFactory::getApplication();
 			if ($task == 'edit' || $task == 'editA' || JRequest::getInt('hidemainmenu')) {
 				$logoutLink = '';
 			} else {
-				$logoutLink = JRoute::_('index.php?option=com_login&task=logout');
+				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JUtility::getToken() .'=1');
 			}
 			$hideLinks	= JRequest::getBool('hidemainmenu');
 			$output = array();

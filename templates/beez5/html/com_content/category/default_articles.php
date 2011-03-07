@@ -24,8 +24,8 @@ JHtml::_('behavior.tooltip');
 JHtml::core();
 
 $n = count($this->items);
-$listOrder	= $this->state->get('list.ordering');
-$listDirn	= $this->state->get('list.direction');
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -109,20 +109,20 @@ $listDirn	= $this->state->get('list.direction');
 					</td>
 					<?php endif; ?>
 
-				<?php if ($this->params->get('list_show_author',1) && !empty($article->author )) : ?>	
-							<td class="list-author"> 
+				<?php if ($this->params->get('list_show_author',1) && !empty($article->author )) : ?>
+							<td class="list-author">
 								<?php $author =  $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-				
+
 									<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-										<?php 	echo 
+										<?php 	echo
 										 JHTML::_('link',JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),$author); ?>
-						
+
 									<?php else :?>
 										<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 									<?php endif; ?>
 							</td>
-					<?php endif; ?>	
+					<?php endif; ?>
 
 					<?php if ($this->params->get('list_show_hits',1)) : ?>
 					<td class="list-hits">

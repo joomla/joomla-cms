@@ -13,9 +13,8 @@ defined('_JEXEC') or die;
 
 JHTML::_('script','system/multiselect.js',false,true);
 
-$listOrder	= $this->state->get('list.ordering');
-$listDirn	= $this->state->get('list.direction');
-
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->showMessage) : ?>
@@ -33,14 +32,14 @@ $listDirn	= $this->state->get('list.direction');
 		<thead>
 			<tr>
 				<th class="checkmark-col""><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(this)" /></th>
-				<th class="title nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>	
-               	<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?></th>			
+				<th class="title nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
+               	<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?></th>
 				<th class="width-10 center"><?php echo JHTML::_('grid.sort', 'JENABLED', 'enabled', $listDirn, $listOrder); ?></th>
                 <th class="center"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
 				<th class="width-10 center"><?php echo JText::_('JVERSION'); ?></th>
 				<th class="width-10"><?php echo JText::_('JDATE'); ?></th>
                 <th class="width-15 center"><?php echo JText::_('JAUTHOR'); ?></th>
-				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?></th>							
+				<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?></th>
 				<th class="nowrap id-col"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_ID', 'extension_id', $listDirn, $listOrder); ?></th>
 			</tr>
 		</thead>
@@ -50,7 +49,7 @@ $listDirn	= $this->state->get('list.direction');
 			<tr class="row<?php echo $i%2; if ($item->protected) echo ' protected';?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->extension_id); ?></td>
 				<td><span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>"><?php echo $item->name; ?></span></td>
-                <td class="center"><?php echo $item->client; ?></td>				
+                <td class="center"><?php echo $item->client; ?></td>
 				<td class="center">
 					<?php if (!$item->element) : ?>
 					<strong>X</strong>
@@ -67,8 +66,8 @@ $listDirn	= $this->state->get('list.direction');
 					</span>
 				</td>
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
-				
-				
+
+
 				<td><?php echo $item->extension_id ?></td>
 			</tr>
 		<?php endforeach; ?>

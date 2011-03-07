@@ -251,4 +251,29 @@ class ContentModelArticles extends JModelList
 		// Return the result
 		return $db->loadObjectList();
 	}
+	
+	/**
+	 * Method to get a list of articles.
+	 * Overridden to add a check for access levels.
+	 *
+	 * @return	mixed	An array of data items on success, false on failure.
+	 * @since	1.6.1
+	 */
+	public function getItems()
+	{
+		$items	= parent::getItems();
+		$app	= JFactory::getApplication();
+		if ($app->isSite()) {
+			$user	= JFactory::getUser();
+			$groups	= $user->getAuthorisedViewLevels();
+
+			for ($x = 0; $x < count($items); $x++) {
+				//Check the access level. Remove articles the user shouldn't see
+				if (!in_array($items[$x]->access, $groups)) {
+					unset($items[$x]);
+				}
+			}
+		}
+		return $items;
+	}	
 }

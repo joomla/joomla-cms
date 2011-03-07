@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 JHtml::core();
 
-$n = count($this->items);
-$listOrder	= $this->state->get('list.ordering');
-$listDirn	= $this->state->get('list.direction');
+$n			= count($this->items);
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <?php if (empty($this->items)) : ?>
@@ -36,11 +36,11 @@ $listDirn	= $this->state->get('list.direction');
 	<table class="category">
 		<?php if ($this->params->get('show_headings')==1) : ?>
 		<thead><tr>
-				
+
 				<th class="item-title" id="tableOrdering">
 					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_FEED_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
-				
+
 
 				<?php if ($this->params->get('show_articles')) : ?>
 				<th class="item-num-art" id="tableOrdering2">
@@ -84,9 +84,9 @@ $listDirn	= $this->state->get('list.direction');
 					<?php  endif; ?>
 
 				</tr>
-				
+
 			<?php endforeach; ?>
-			
+
 		</tbody>
 	</table>
 

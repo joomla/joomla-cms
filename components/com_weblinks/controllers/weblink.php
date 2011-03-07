@@ -183,7 +183,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		$return = JRequest::getVar('return', null, 'default', 'base64');
 
-		if (empty($return)) {
+		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
 			return JURI::base();
 		}
 		else {

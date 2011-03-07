@@ -386,13 +386,13 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			'Attribute value missing' => array(
 				'',
 				'<img height= />',
-				'<img height="height" />',
+				'<img height="" />',
 				'From generic cases'
 			),
 			'Attribute without =' => array(
 				'',
 				'<img height="300" ismap />',
-				'<img height="300" ismap="ismap" />',
+				'<img height="300" />',
 				'From generic cases'
 			),
 			'Bad Attribute Name' => array(
@@ -408,11 +408,10 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'From generic cases'
 			),
 			'tracker9725' => array(
-				// Test for recursion with single tags
 				'string',
 				'<img class="one two" />',
 				'<img class="one two" />',
-				'From generic cases'
+				'Test for recursion with single tags - From generic cases'
 			),
 		);
 	}
@@ -833,37 +832,37 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'Unquoted Attribute Without Space' => array(
 				'',
-				'<img height=300>',
-				'<img />',
+				'<img class=myclass height=300 >',
+				'<img class="myclass" />',
 				'From specific cases'
 			),
 			'Unquoted Attribute' => array(
 				'',
-				'<img height=300 />',
+				'<img class = myclass  height = 300/>',
 				'<img />',
 				'From specific cases'
 			),
 			'Single quoted Attribute' => array(
 				'',
-				'<img height=\'300\' />',
-				'<img />',
+				'<img class=\'myclass\' height=\'300\' />',
+				'<img class="myclass" />',
 				'From specific cases'
 			),
 			'Attribute is zero' => array(
 				'',
-				'<img height=0 />',
-				'<img />',
+				'<img class=0 height=0 />',
+				'<img class="0" />',
 				'From specific cases'
 			),
 			'Attribute value missing' => array(
 				'',
-				'<img height= />',
-				'<img />',
+				'<img class= height= />',
+				'<img class="" />',
 				'From specific cases'
 			),
 			'Attribute without =' => array(
 				'',
-				'<img height="300" ismap />',
+				'<img ismap class />',
 				'<img />',
 				'From specific cases'
 			),
@@ -879,7 +878,14 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'<img class="one two" />',
 				'From specific cases'
-			)
+			),
+			'class with no =' => array(
+				// Test for recursion with single tags
+				'string',
+				'<img class />',
+				'<img />',
+				'From specific cases'
+			),			
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -921,6 +927,102 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	function blacklist()
 	{
 		$casesSpecific = array(
+			'security_tracker_24802_a' => array(
+				'',
+				'<img src="<img src=x"/onerror=alert(1)//">',
+				'<img src="&lt;img src=x&quot;/onerror=alert(1)//" />',
+				'From specific cases'
+			),
+			'security_tracker_24802_b' => array(
+				'',
+				'<img src="<img src=x"/onerror=alert(1)"//>"',
+				'img src="&lt;img src=x&quot;/onerror=alert(1)&quot;//&gt;"',
+				'From specific cases'
+			),
+			'security_tracker_24802_c' => array(
+				'',
+				'<img src="<img src=x"/onerror=alert(1)"//>',
+				'img src="&lt;img src=x&quot;/onerror=alert(1)&quot;//&gt;"',
+				'From specific cases'
+			),
+			'security_tracker_24802_d' => array(
+				'',
+				'<img src="x"/onerror=alert(1)//">',
+				'<img src="x&quot;/onerror=alert(1)//" />',
+				'From specific cases'
+			),
+			'security_tracker_24802_e' => array(
+				'',
+				'<img src=<img src=x"/onerror=alert(1)//">',
+				'<img src=<img src="x/onerror=alert(1)//" />',
+				'From specific cases'
+			),
+			'empty_alt' => array(
+				'string',
+				'<img alt="" src="my_source" />',
+				'<img alt="" src="my_source" />',
+				'Test empty alt attribute'
+			),
+			'disabled_no_equals_a' => array(
+				'string',
+				'<img disabled src="my_source" />',
+				'<img src="my_source" />',
+				'Test empty alt attribute'
+			),
+			'disabled_no_equals_b' => array(
+				'string',
+				'<img alt="" disabled src="aaa" />',
+				'<img alt="" src="aaa" />',
+				'Test empty alt attribute'
+			),
+			'disabled_no_equals_c' => array(
+				'string',
+				'<img disabled />',
+				'<img />',
+				'Test empty alt attribute'
+			),
+			'disabled_no_equals_d' => array(
+				'string',
+				'<img height="300" disabled />',
+				'<img height="300" />',
+				'Test empty alt attribute'
+			),
+			'disabled_no_equals_e' => array(
+				'string',
+				'<img height disabled />',
+				'<img />',
+				'Test empty alt attribute'
+			),
+			'test_nested' => array(
+				'string',
+				'<img src="<img src=x"/onerror=alert(1)//>" />',
+				'<img src="&lt;img src=x&quot;/onerror=alert(1)//&gt;" />',
+				'Test empty alt attribute'
+			),
+			'infinte_loop_a' => array(
+				'string',
+				'<img src="x" height = "zzz" />',
+				'<img src="x" height="zzz" />',
+				'Test empty alt attribute'
+			),
+			'infinte_loop_b' => array(
+				'string',
+				'<img src = "xxx" height = "zzz" />',
+				'<img src="xxx" height="zzz" />',
+				'Test empty alt attribute'
+			),
+			'quotes_in_text' => array(
+				'string',
+				'<p class="my_class">This is a = "test" <a href="http://mysite.com" img="my_image">link test</a>. This is some more text.</p>',
+				'<p class="my_class">This is a = "test" <a href="http://mysite.com" img="my_image">link test</a>. This is some more text.</p>',
+				'Test valid nested tag'
+			),
+			'normal_nested' => array(
+				'string',
+				'<p class="my_class">This is a <a href="http://mysite.com" img = "my_image">link test</a>. This is <span class="myclass" font = "myfont" > some more</span> text.</p>',
+				'<p class="my_class">This is a <a href="http://mysite.com" img="my_image">link test</a>. This is <span class="myclass" font="myfont"> some more</span> text.</p>',
+				'Test valid nested tag'
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 

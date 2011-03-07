@@ -172,7 +172,10 @@ class ConfigControllerApplication extends JController
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
-
+		
+		// Check for request forgeries.
+		JRequest::checkToken( 'get' ) or die( 'Invalid Token' );
+		
 		// Initialise model.
 		$model	= $this->getModel('Application');
 

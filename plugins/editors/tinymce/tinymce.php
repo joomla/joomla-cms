@@ -74,7 +74,7 @@ class plgEditorTinymce extends JPlugin
 				$skin = "skin : \"default\",";
 		}
 
-		$compressed			= $this->params->def('compressed', 0);
+		$compressed		= 0;
 		$cleanup_startup	= $this->params->def('cleanup_startup', 0);
 		$cleanup_save		= $this->params->def('cleanup_save', 2);
 		$entity_encoding	= $this->params->def('entity_encoding', 'raw');

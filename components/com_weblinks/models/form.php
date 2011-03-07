@@ -53,6 +53,11 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$this->setState('weblink.catid', $categoryId);
 
 		$return = JRequest::getVar('return', null, 'default', 'base64');
+
+		if (!JUri::isInternal(base64_decode($return))) {
+			$return = null;
+		}
+
 		$this->setState('return_page', base64_decode($return));
 
 		// Load the parameters.

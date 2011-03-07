@@ -12,10 +12,11 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
+
 $function	= JRequest::getCmd('function', 'jSelectPosition');
 $lang		= JFactory::getLanguage();
-$ordering	= $this->state->get('list.ordering');
-$direction	= $this->state->get('list.direction');
+$ordering	= $this->escape($this->state->get('list.ordering'));
+$direction	= $this->escape($this->state->get('list.direction'));
 $clientId	= $this->state->get('filter.client_id');
 $state		= $this->state->get('filter.state');
 $template	= $this->state->get('filter.template');

@@ -105,6 +105,10 @@ class TemplatesControllerSource extends JController
 		$recordId	= JRequest::getVar('id');
 		$context	= 'com_templates.edit.source';
 
+		if (preg_match('#\.\.#', base64_decode($recordId))) {
+			return JError::raiseError(500, 'COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND');
+		}
+
 		// Access check.
 		if (!$this->allowEdit()) {
 			return JError::raiseWarning(403, 'JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED');
