@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Updating xx-XX.ini
  # [#25177] hr.gif and sr.gif are transparent. Thanks Erik.
  $ Correcting typo in ini file
+ $ [#25136] "Plugin" instead of "Module" in en-GB.lib_joomla.ini
 
 -------------------- 1.6.1 Stable Release [07-Mar-2011] ------------------
 
