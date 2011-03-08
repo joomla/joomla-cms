@@ -513,7 +513,7 @@ class JFTP extends JObject
 
 		// Send rename to command to the server
 		if (!$this->_putCmd('RNTO '.$to, 250)) {
-			JError::raiseWarning('35', JText::sprintf('JLIB_CLIENT_ERROR_JFTP_RENAME_BAD_RESPONSE_FROM', $this->_response, $to));
+			JError::raiseWarning('35', JText::sprintf('JLIB_CLIENT_ERROR_JFTP_RENAME_BAD_RESPONSE_TO', $this->_response, $to));
 			return false;
 		}
 

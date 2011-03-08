@@ -33,6 +33,7 @@ $ -> Language fix or change
  $ Correcting typo in ini file
  $ [#25136] "Plugin" instead of "Module" in en-GB.lib_joomla.ini
  $ Changing milkyway to beez_20 in ini file. Thanks Sovann Heng.
+ #$ Typo in ini key. Thanks Sovann Heng
 
 -------------------- 1.6.1 Stable Release [07-Mar-2011] ------------------
 
