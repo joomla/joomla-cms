@@ -220,7 +220,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		if (parent::save($data)) {
 			if (isset($data['featured'])) {
-				$this->featured($this->getState('article.id'), $data['featured']);
+				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 			return true;
 		}
