@@ -40,7 +40,11 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 
 
 	/**
-	 * @todo Implement test__toString().
+	 * Tests the object constructor.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::__construct
+	 * @return void
 	 */
 	public function test__construct() {
 		$this->object = new JObject(array('property1' => 'value1', 'property2' => 5));
@@ -51,14 +55,22 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement test__toString().
+	 * Tests the toString magic Method.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::__toString
+	 * @return void
 	 */
 	public function test__toString() {
 		$this->assertEquals("JObject", $this->o->__toString());
 	}
 
 	/**
-	 * @todo Implement testDef().
+	 * Tests setting the default for a property of the object.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::def
+	 * @return void
 	 */
 	public function testDef() {
 		$this->o->def("check");
@@ -70,7 +82,11 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGet().
+	 * Tests getting a property of the object.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::get
+	 * @return void
 	 */
 	public function testGet() {
 		$this->assertEquals("onaplane", $this->o->get("foo", "onaplane"));
@@ -78,31 +94,98 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGetProperties().
+	 * Tests getting the properties of the object.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::getProperties
+	 * @return void
 	 */
 	public function testGetProperties() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object = new JObject(
+			array(
+				'_privateproperty1' => 'valuep1',
+				'property1' => 'value1',
+				'property2' => 5
+			)
+		);
+		$this->assertEquals(
+			array(
+				'_errors' => array(),
+				'_privateproperty1' => 'valuep1',
+				'property1' => 'value1',
+				'property2' => 5
+			),
+			$this->object->getProperties( false ),
+			'Should get all properties, including private ones'
+		);
+		$this->assertEquals(
+			array(
+				'property1' => 'value1',
+				'property2' => 5
+			),
+			$this->object->getProperties(),
+			'Should get all public properties'
+		);
 	}
 
 	/**
-	 * @todo Implement testGetError().
+	 * Tests getting a single error.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::getError
+	 * @return void
 	 */
 	public function testGetError() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->o->setError( 1234 );
+		$this->o->setError( 'Second Test Error' );
+		$this->o->setError( 'Third Test Error' );
+		$this->assertEquals(
+			1234,
+			$this->o->getError(0, false),
+			'Should return the test error as number'
+		);
+		$this->assertEquals(
+			'Second Test Error',
+			$this->o->getError(1),
+			'Should return the second test error'
+		);
+		$this->assertEquals(
+			'Third Test Error',
+			$this->o->getError(),
+			'Should return the third test error'
+		);
 	}
 
 	/**
-	 * @todo Implement testGetErrors().
+	 * Tests getting the array of errors.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::getErrors
+	 * @return void
 	 */
 	public function testGetErrors() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$errors = array( 1234, 'Second Test Error', 'Third Test Error' );
+		foreach( $errors as $error){
+			$this->o->setError( $error );
+		}
+		$this->assertAttributeEquals(
+			$this->o->getErrors(),
+			'_errors',
+			$this->o
+		);
+		$this->assertEquals(
+			$errors,
+			$this->o->getErrors(),
+			'Should return every error set'
+		);
 	}
 
 	/**
-	 * @todo Implement testSet().
+	 * Tests setting a property.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::set
+	 * @return void
 	 */
 	public function testSet() {
 		$this->assertEquals(null, $this->o->set("foo", "imintheair"));
@@ -111,7 +194,11 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testSetProperties().
+	 * Tests setting multiple properties.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::setProperties
+	 * @return void
 	 */
 	public function testSetProperties() {
 		$a = array("foo" => "ghost", "knife" => "stewie");
@@ -121,18 +208,40 @@ class JObjectTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testSetError().
+	 * Tests setting an error.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::setError
+	 * @return void
 	 */
 	public function testSetError() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->o->setError( 'A Test Error' );
+		$this->assertAttributeEquals(
+			array( 'A Test Error' ),
+			'_errors',
+			$this->o
+		);
 	}
 
 	/**
-	 * @todo Implement testToString().
+	 * Tests getting the string of the object.
+	 *
+	 * @group	JObject
+	 * @covers	JObject::toString
+	 * @return void
 	 */
 	public function testToString() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object = new JObject(
+			array(
+				'_privateproperty1' => 'valuep1',
+				'property1' => 'value1',
+				'property2' => 5
+			)
+		);
+		$this->assertEquals(
+			"JObject",
+			$this->object->toString(),
+			'Should convert the object to a string'
+		);
 	}
 }
