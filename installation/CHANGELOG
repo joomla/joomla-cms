@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Mar-2011 Jean-Marie Simonet
  $ [#25231] Typo in en-GB.lib_joomla.ini. Thanks Serge.
+ # [#25213] Several places calling getXMLparser instead of getXMLParser. Thanks Bill and Anon 
  
 08-Mar-2011 Jean-Marie Simonet
  $ Updating xx-XX.ini
