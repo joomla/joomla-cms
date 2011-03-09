@@ -137,15 +137,16 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 			'_children',
 			$this->object
 		);
+		
 		$newChild = new JNode;
 		$this->object->addChild( $newChild );
 		$this->assertEquals(
-			array( $newChild ),
+			array( spl_object_hash($newChild) => $newChild ),
 			$this->object->getChildren(),
 			'Node should have the created child'
 		);
 		$this->assertAttributeEquals(
-			array( $newChild ),
+			array( spl_object_hash($newChild) => $newChild ),
 			'_children',
 			$this->object
 		);
