@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2011 Jean-Marie Simonet
+ $ [#25231] Typo in en-GB.lib_joomla.ini. Thanks Serge.
+ 
 08-Mar-2011 Jean-Marie Simonet
  $ Updating xx-XX.ini
  # [#25177] hr.gif and sr.gif are transparent. Thanks Erik.
