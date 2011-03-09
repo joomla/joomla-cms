@@ -39,14 +39,14 @@ class WrapperViewWrapper extends JView
 		}
 		$this->document->setTitle($title);
 
-		if ($this->params->get('menu-meta_description'))
+		if ($params->get('menu-meta_description'))
 		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
+			$this->document->setDescription($params->get('menu-meta_description'));
 		}
 
-		if ($this->params->get('menu-meta_keywords')) 
+		if ($params->get('menu-meta_keywords')) 
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
 		}
 
 		$wrapper = new stdClass();

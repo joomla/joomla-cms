@@ -32,6 +32,8 @@ $ -> Language fix or change
  # [#25213] Several places calling getXMLparser instead of getXMLParser. Thanks Bill and Anon 
  $ [#25145] Incorrect SMTP security option. Thanks Ian and Jozcef.
  # [#25240] *Issue with Articles created in front-end and set to featured. Thanks Andrew.
+ # [#25238] 1.6.1 breaks wrapper menu links. Thanks Elin
+
  
 08-Mar-2011 Jean-Marie Simonet
  $ Updating xx-XX.ini
