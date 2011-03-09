@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#25240] *Issue with Articles created in front-end and set to featured. Thanks Andrew.
  # [#25238] 1.6.1 breaks wrapper menu links. Thanks Elin
  # [#25172] RTL issues with beez 2 & beez 5. Thanks Ofer.
+ # [#24836] Blog pagination options missed in Gobal configuration (com_content). Thanks Bill.
 
  
 08-Mar-2011 Jean-Marie Simonet

@@ -478,6 +478,11 @@
 			<option
 				value="1">JGLOBAL_ACROSS</option>
 		</field>
+		
+		<field name="spacer1"
+			type="spacer"
+			hr="true"
+			/>
 		<field name="subcategories" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_BLOG_EXTENDED_LABEL"
 			/>			
@@ -495,65 +500,6 @@
 				<option value="4">J4</option>
 				<option value="5">J5</option>
 			</field>
-
-		<field name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
-
-		<field name="orderby_pri"
-			type="list"
-			default="none"
-			label="JGLOBAL_CATEGORY_ORDER_LABEL"
-			description="JGLOBAL_CATEGORY_ORDER_DESC">
-			<option
-				value="none">JGLOBAL_NO_ORDER</option>
-			<option
-				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
-			<option
-				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
-			<option
-				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
-		</field>
-
-		<field name="orderby_sec"
-			type="list"
-			default="rdate"
-			label="JGLOBAL_Article_Order_Label"
-			description="JGLOBAL_Article_Order_Desc">
-			<option
-				value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
-			<option
-				value="date">JGLOBAL_OLDEST_FIRST</option>
-			<option
-				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
-			<option
-				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
-			<option
-				value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
-			<option
-				value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
-			<option
-				value="hits">JGLOBAL_MOST_HITS</option>
-			<option
-				value="rhits">JGLOBAL_LEAST_HITS</option>
-			<option
-				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
-		</field>
-
-		<field name="order_date" type="list"
-				default="published"
-				description="JGLOBAL_ORDERING_DATE_DESC"
-				label="JGLOBAL_ORDERING_DATE_LABEL"
-			>
-
-				<option value="created">JGLOBAL_CREATED</option>
-				<option value="modified">JGLOBAL_MODIFIED</option>
-				<option value="published">JPUBLISHED</option>
-			</field>
-			
-		
-
 		</fieldset>
 
 	<fieldset name="list_default_parameters"
@@ -626,6 +572,63 @@
 				<option value="1">JSHOW</option>
 		</field>
 
+	</fieldset>
+	
+	<fieldset name="shared"
+		label="COM_CONTENT_SHARED_LABEL"
+		description="COM_CONTENT_SHARED_DESC"
+		>
+	<field name="orderby_pri"
+			type="list"
+			default="none"
+			label="JGLOBAL_CATEGORY_ORDER_LABEL"
+			description="JGLOBAL_CATEGORY_ORDER_DESC">
+			<option
+				value="none">JGLOBAL_NO_ORDER</option>
+			<option
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option
+				value="order">JGLOBAL_CATEGORY_MANAGER_ORDER</option>
+		</field>
+
+		<field name="orderby_sec"
+			type="list"
+			default="rdate"
+			label="JGLOBAL_Article_Order_Label"
+			description="JGLOBAL_Article_Order_Desc">
+			<option
+				value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+			<option
+				value="date">JGLOBAL_OLDEST_FIRST</option>
+			<option
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option
+				value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+			<option
+				value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+			<option
+				value="hits">JGLOBAL_MOST_HITS</option>
+			<option
+				value="rhits">JGLOBAL_LEAST_HITS</option>
+			<option
+				value="order">JGLOBAL_ARTICLE_MANAGER_ORDER</option>
+		</field>
+
+		<field name="order_date" type="list"
+				default="published"
+				description="JGLOBAL_ORDERING_DATE_DESC"
+				label="JGLOBAL_ORDERING_DATE_LABEL"
+			>
+
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+			</field>
+			
 		<field name="show_pagination"
 			type="list"
 			default="2"
@@ -644,7 +647,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-
+		
 	</fieldset>
 
 	<fieldset name="integration"
