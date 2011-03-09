@@ -26,8 +26,7 @@
 
 #logo span
 {
-	padding-right:90px;
-}
+	padding-right:15px;}
 
 
 h1#logo{
@@ -351,7 +350,7 @@ input.button,
 button.button,
 button.validate
 {
-	padding:3px 3px 5px 7px;
+	padding:3px 7px 5px 7px;
 }
 
 #modlgn-username,

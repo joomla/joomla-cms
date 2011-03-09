@@ -6,3 +6,6 @@ h1#logo {
 	left: 0;
 	right: auto;
 }
+#logo span {
+    padding-right: 2px;
+}

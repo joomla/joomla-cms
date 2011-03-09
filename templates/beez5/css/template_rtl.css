@@ -13,7 +13,9 @@ h1#logo {
 }
 
 #header ul.menu {
-	text-align: right
+	width: auto;
+	left: 15px;
+	right: auto;
 }
 
 #line {
@@ -232,8 +234,16 @@ direction: ltr;
 padding:4px 0;
 }
 
-.pagenav { 
+ul.pagenav {
 	float:right;
+	width: 100%;
+}
+
+ul.pagenav li.pagenav-next {
+    float: left;
+}
+ul.pagenav li.pagenav-prev {
+    float: right;
 }
 
 /* ++++++++++++++  breadcrumbs  ++++++++++++++ */
@@ -414,12 +424,6 @@ ul.latestnews li a, ul.mostread li a {
 }
 #main ul.actions {
     text-align: left;
-}
-ul.pagenav li.pagenav-next {
-    float: left;
-}
-ul.pagenav li.pagenav-prev {
-    float: right;
 }
 #main .items-more ol li a {
 
