@@ -107,7 +107,7 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 	 * Tests finding if a node has children.
 	 *
 	 * @group	JNode
-	 * @covers	JNode::setParent
+	 * @covers	JNode::hasChildren
 	 * @return void
 	 */
 	public function testHasChildren() {
@@ -124,7 +124,11 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testGetChildren().
+	 * Tests getting the children of a node.
+	 *
+	 * @group	JNode
+	 * @covers	JNode::getChildren
+	 * @return void
 	 */
 	public function testGetChildren() {
 		$this->assertEquals(
