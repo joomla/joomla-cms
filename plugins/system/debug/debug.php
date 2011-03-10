@@ -52,7 +52,11 @@ class plgSystemDebug extends JPlugin
 		if (!JDEBUG) {
 			return;
 		}
-		
+
+		if (!$_PROFILER instanceof JProfiler) {
+			return;
+		}
+
 		// Load the language 
 		$this->loadLanguage();
 
