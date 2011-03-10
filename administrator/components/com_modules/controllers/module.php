@@ -55,7 +55,7 @@ class ModulesControllerModule extends JControllerForm
 		$extensionId = JRequest::getInt('eid');
 		if (empty($extensionId)) {
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.'&layout=edit', false));
-			return JError::raiseWarning(500, 'COM_MODULES_ERROR_INVALID_EXTENSION');
+			return JError::raiseWarning(500, JText::_('COM_MODULES_ERROR_INVALID_EXTENSION'));
 		}
 
 		$app->setUserState('com_modules.add.module.extension_id', $extensionId);

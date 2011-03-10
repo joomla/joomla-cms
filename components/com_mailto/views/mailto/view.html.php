@@ -34,7 +34,7 @@ class MailtoViewMailto extends JView
 		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
 
 		if ($data->link == '') {
-			JError::raiseError(403, 'COM_MAILTO_LINK_IS_MISSING');
+			JError::raiseError(403, JText::_('COM_MAILTO_LINK_IS_MISSING'));
 			$false = false;
 			return $false;
 		}

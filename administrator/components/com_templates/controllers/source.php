@@ -106,12 +106,12 @@ class TemplatesControllerSource extends JController
 		$context	= 'com_templates.edit.source';
 
 		if (preg_match('#\.\.#', base64_decode($recordId))) {
-			return JError::raiseError(500, 'COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND');
+			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 		}
 
 		// Access check.
 		if (!$this->allowEdit()) {
-			return JError::raiseWarning(403, 'JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED');
+			return JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 		}
 
 		// Check-out succeeded, push the new record id into the session.
@@ -160,18 +160,18 @@ class TemplatesControllerSource extends JController
 
 		// Access check.
 		if (!$this->allowSave()) {
-			return JError::raiseWarning(403, 'JERROR_SAVE_NOT_PERMITTED');
+			return JError::raiseWarning(403, JText::_('JERROR_SAVE_NOT_PERMITTED'));
 		}
 
 		// Match the stored id's with the submitted.
 		if (empty($data['extension_id']) || empty($data['filename'])) {
-			return JError::raiseError(500, 'COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH');
+			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 		else if ($data['extension_id'] != $model->getState('extension.id')) {
-			return JError::raiseError(500, 'COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH');
+			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 		else if ($data['filename'] != $model->getState('filename')) {
-			return JError::raiseError(500, 'COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH');
+			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 
 		// Validate the posted data.

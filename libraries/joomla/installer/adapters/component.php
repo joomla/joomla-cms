@@ -1157,7 +1157,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 		else {
 			// No component option defined... cannot delete what we don't know about
-			JError::raiseWarning(100, 'JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION');
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_COMP_UNINSTALL_NO_OPTION'));
 			return false;
 		}
 	}

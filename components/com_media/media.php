@@ -58,7 +58,7 @@ if (strpos($cmd, '.') != false) {
 		require_once $controllerPath;
 	}
 	else {
-		JError::raiseError(500, 'JERROR_INVALID_CONTROLLER');
+		JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER'));
 	}
 }
 else {
@@ -74,7 +74,7 @@ if (class_exists($controllerClass)) {
 	$controller = new $controllerClass();
 }
 else {
-	JError::raiseError(500, 'JERROR_INVALID_CONTROLLER_CLASS');
+	JError::raiseError(500, JText::_('JERROR_INVALID_CONTROLLER_CLASS'));
 }
 
 // Set the model and view paths to the administrator folders
