@@ -83,13 +83,21 @@ class WeblinksViewForm extends JView
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
+		if (empty($this->item->id)) {
+		$head = JText::_('COM_WEBLINKS_FORM_SUBMIT_WEBLINK');
+		}
+		else {
+		$head = JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK');
+		}
+
 		if ($menu) {
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		} else {
-			$this->params->def('page_heading', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
+			$this->params->def('page_heading', $head);
 		}
 
-		$title = $this->params->def('page_title', JText::_('COM_WEBLINKS_FORM_EDIT_WEBLINK'));
+		$title = $this->params->def('page_title', $head);
 		if ($app->getCfg('sitename_pagetitles', 0)) {
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
