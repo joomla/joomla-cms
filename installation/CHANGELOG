@@ -31,6 +31,7 @@ $ -> Language fix or change
  $# [#25252] *Missing weblink ini strings when submit/edit weblink from a content.
  # [#25262] Logout in administration menu not working
  #$ [#25232] Some errors and warnings are not translated due to missing JText::_(). Thanks Rouven
+ # [#25210] Language filter redirecting breaks image uploading in frontend. Patch included. Thanks Bernie.
 
 09-Mar-2011 Jean-Marie Simonet
  $ [#25231] Typo in en-GB.lib_joomla.ini. Thanks Serge.
