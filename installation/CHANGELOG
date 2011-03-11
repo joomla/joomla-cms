@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Mar-2011 Jean-Marie Simonet
  #$ [#25269] *Save & Copy template styles issue
+ # [#25176] 404 after pagebreak in <--prev next --> footer. Thanks Ian and Dave.
  
 10-Mar-2011 Jean-Marie Simonet
  $# [#25252] *Missing weblink ini strings when submit/edit weblink from a content.
