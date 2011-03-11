@@ -166,13 +166,23 @@ class JInstallationControllerSetup extends JController
 			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 			$return = $ftp->delete($file);
 
+			// Delete the extra XML file while we're at it
+			if ($return)
+			{
+				$file = JPath::clean($options->ftp_root.'/joomla.xml');
+				if (file_exists($file))
+				{
+					$return = $ftp->delete($file);
+				}
+			}
+
 			$ftp->quit();
 		} else {
 			// Try to delete the folder.
 			// We use output buffering so that any error message echoed JFolder::delete
 			// doesn't land in our JSON output.
 			ob_start();
-			$return = JFolder::delete($path);
+			$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT.'/joomla.xml') || JFile::delete(JPATH_ROOT.'/joomla.xml'));
 			ob_end_clean();
 		}
 		
