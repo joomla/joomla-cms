@@ -49,6 +49,6 @@ class MessagesController extends JController
 		parent::display();
 
 		// Load the submenu.
-		//MessagesHelper::addSubmenu(JRequest::getCmd('view', 'messages'));
+		MessagesHelper::addSubmenu(JRequest::getCmd('view', 'messages'));
 	}
 }
