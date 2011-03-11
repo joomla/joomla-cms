@@ -556,7 +556,7 @@ class ModulesModelModule extends JModelAdmin
 			$orig_table->load( (int) $orig_data['id']);
 
 			if ($data['title'] == $orig_table->title) {
-				$data['title'] .= ' (copy)';
+				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
 				$data['published'] = 0;
 			}
 		}

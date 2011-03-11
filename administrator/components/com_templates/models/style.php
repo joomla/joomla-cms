@@ -366,7 +366,12 @@ class TemplatesModelStyle extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
-
+		if (JRequest::getVar('task') == 'save2copy') {
+		$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
+		$data['home'] = 0;
+		$data['assigned'] ='';
+		}
+		
 		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());

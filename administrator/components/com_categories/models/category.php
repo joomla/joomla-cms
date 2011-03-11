@@ -338,7 +338,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (((int) $data['parent_id'] === (int) $orig_table->parent_id) 
 			 && ($data['alias'] == $orig_table->alias)) {
-				$data['title'] .= ' (copy)';	
+				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');	
 				$data['alias'] .= '-copy';
 			}
 		}
