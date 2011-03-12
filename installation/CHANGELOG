@@ -28,6 +28,9 @@ $ -> Language fix or change
 ! -> Note
 
 11-Mar-2011 Jean-Marie Simonet
+ # [#25289] The front end rendering of the media field is missing srings (Elin Waring)
+
+11-Mar-2011 Jean-Marie Simonet
  #$ [#25269] *Save & Copy template styles issue
  # [#25176] 404 after pagebreak in <--prev next --> footer. Thanks Ian and Dave.
  # [#25285] *Normalizing com_messages UI
