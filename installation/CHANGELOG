@@ -27,9 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-11-Mar-2011 Jean-Marie Simonet
+12-Mar-2011 Christophe Demko
  # [#25289] The front end rendering of the media field is missing srings (Elin Waring)
  # [#25276] *Weblinks adding words "Web links" before the actual link text (Jean-Marie Simonet)
+ # [#25305] Wrong CSS class declaration (Ernesto Patarroyo, bill richardson, Jean-Marie Simonet)
 
 11-Mar-2011 Jean-Marie Simonet
  #$ [#25269] *Save & Copy template styles issue

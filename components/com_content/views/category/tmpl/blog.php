@@ -50,7 +50,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
 	<?php foreach ($this->lead_items as &$item) : ?>
-		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? 'class="system-unpublished"' : null; ?>">
+		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 			<?php
 				$this->item = &$item;
 				echo $this->loadTemplate('item');
