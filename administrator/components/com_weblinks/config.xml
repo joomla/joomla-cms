@@ -30,8 +30,9 @@
 				label="COM_WEBLINKS_FIELD_ICON_LABEL"
 				description="COM_WEBLINKS_FIELD_ICON_DESC"
 				filter="integer">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="0">COM_WEBLINKS_FIELD_ICON_OPTION_TEXT</option>
+				<option value="1">COM_WEBLINKS_FIELD_ICON_OPTION_ICON</option>
+				<option value="2">COM_WEBLINKS_FIELD_ICON_OPTION_WEBLINK</option>
 		</field>
 
 		<field name="link_icons" type="media"

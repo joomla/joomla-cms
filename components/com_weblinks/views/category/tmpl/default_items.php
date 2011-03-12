@@ -71,9 +71,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 			<td class="title">
 			<p>
-				<?php if ($this->params->get('icons') != 1) : ?>
+				<?php if ($this->params->get('icons') == 0) : ?>
 					 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
-				<?php else: ?>
+				<?php elseif ($this->params->get('icons') == 1) : ?>
 					<?php if (!$this->params->get('link_icons')) : ?>
 						<?php echo JHTML::_('image','system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), NULL, true); ?>
 					<?php else: ?> 
