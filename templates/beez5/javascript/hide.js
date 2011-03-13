@@ -42,12 +42,6 @@ window.addEvent('domready', function () {
 		});
 	}
 
-	if (document.id('breadcrumbs')) {
-		document.id('breadcrumbs').setProperties( {
-			role : 'breadcrumbs'
-		});
-	}
-
 	if (document.id('mod-search-searchword')) {
 		document.id(document.id('mod-search-searchword').form).set( {
 			role : 'search'

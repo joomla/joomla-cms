@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Mar-2011 Christophe Demko
+ # [#24998] Don't add aria role breadcrumbs (Rouven Weßling, Mark Dexter)
+
 12-Mar-2011 Christophe Demko
  # [#25289] The front end rendering of the media field is missing srings (Elin Waring)
  # [#25276] *Weblinks adding words "Web links" before the actual link text (Jean-Marie Simonet)
