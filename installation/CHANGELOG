@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 14-Mar-2011 Jean-Marie Simonet
  # [#25320] Typos on the 404 page. Thanks Bill.
+ #$ [#25259] Article edit page permits you to attempt to edit checked-out articles, causing 403 errors. Thanks Bernie
  
 13-Mar-2011 Christophe Demko
  # [#24998] Don't add aria role breadcrumbs (Rouven Weßling, Mark Dexter)

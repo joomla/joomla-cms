@@ -94,6 +94,15 @@ class JHTMLIcon
 
 		JHtml::_('behavior.tooltip');
 
+		// Show checked_out icon if the article is checked out by a different user
+		if (property_exists($article, 'checked_out') && property_exists($article, 'checked_out_time') && $article->checked_out > 0 && $article->checked_out != $user->get('id')) {
+			$checkoutUser = JFactory::getUser($article->checked_out);
+			$button = JHTML::_('image','system/checked_out.png', NULL, NULL, true);
+			$date = JHTML::_('date',$article->checked_out_time);
+			$tooltip = JText::_('JLIB_HTML_CHECKED_OUT').' :: '.JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name).' <br /> '.$date;
+			return '<span class="hasTip" title="'.htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8').'">'.$button.'</span>';
+		}
+
 		$url	= 'index.php?task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHTML::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
