@@ -144,13 +144,15 @@ $templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
 											<?php $module = JModuleHelper::getModule( 'search' );
 											echo JModuleHelper::renderModule( $module);	?>
 												<p><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>	
-										</div>
-							
-									<p><?php echo $this->error->getCode() ; echo $this->error->getMessage();?><br />
-							
-					<?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?>.</p>
-				</div><!-- end wrapper -->			
-			</div><!-- end contentarea -->
+											</div>
+
+						<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
+
+						<h2>#<?php echo $this->error->getCode() ;?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
+
+
+			</div><!-- end wrapper -->
+		</div><!-- end contentarea -->
 
 						<?php if ($this->debug) :
 							echo $this->renderBacktrace();
