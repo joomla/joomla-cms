@@ -23,7 +23,7 @@ $user		= JFactory::getUser();
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
-<?php if ($params->get('show_title')|| $params->get('access-edit')) : ?>
+<?php if ($params->get('show_title')) : ?>
 	<h2>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>">
