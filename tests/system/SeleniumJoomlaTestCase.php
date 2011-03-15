@@ -745,6 +745,32 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 		$this->gotoAdmin();
 	}
+	
+	function setCache($level)
+	{
+		$this->gotoAdmin();
+		$this->jClick('Global Configuration');
+		$this->click("system");
+		echo "Set caching to $level\n";
+		switch ($level)
+		{
+			case 'on-basic':
+				$this->select("jform_caching", "label=ON - Conservative caching");
+				break;
+
+			case 'on-full' :
+				$this->select("jform_caching", "label=ON - Progressive caching");
+				break;
+
+			case 'off'	:
+			default:
+				$this->select("jform_caching", "label=OFF - Caching disabled");
+				break;
+		}
+
+		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->waitForPageToLoad("30000");
+	}
 
 	function checkNotices()
 	{
