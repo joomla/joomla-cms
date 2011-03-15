@@ -38,43 +38,122 @@ class JNodeTest extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @todo Implement testAddChild().
+	 * Tests adding a child to a new node.
+	 *
+	 * @group	JNode
+	 * @covers	JNode::addChild
+	 * @return void
 	 */
 	public function testAddChild() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$newParent = new JNode;
+		$newParent->addChild( $this->object );
+		$this->assertAttributeEquals(
+			$newParent,
+			'_parent',
+			$this->object
+		);
 	}
 
 	/**
-	 * @todo Implement testGetParent().
+	 * Tests getting the parent of a node.
+	 *
+	 * @group	JNode
+	 * @covers	JNode::getParent
+	 * @return void
 	 */
 	public function testGetParent() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals(
+			null,
+			$this->object->getParent(),
+			'New node should have null parent'
+		);
+		$this->assertAttributeEquals(
+			null,
+			'_parent',
+			$this->object
+		);
+		$newParent = new JNode;
+		$newParent->addChild( $this->object );
+		$this->assertEquals(
+			$newParent,
+			$this->object->getParent(),
+			'Node should have this parent'
+		);
+		$this->assertAttributeEquals(
+			$newParent,
+			'_parent',
+			$this->object
+		);
 	}
 
 	/**
-	 * @todo Implement testSetParent().
+	 * Tests setting the parent of a node.
+	 *
+	 * @group	JNode
+	 * @covers	JNode::setParent
+	 * @return void
 	 */
 	public function testSetParent() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$newParent = new JNode;
+		$this->object->setParent( $newParent );
+		$this->assertAttributeEquals(
+			$newParent,
+			'_parent',
+			$this->object
+		);
 	}
 
 	/**
-	 * @todo Implement testHasChildren().
+	 * Tests finding if a node has children.
+	 *
+	 * @group	JNode
+	 * @covers	JNode::hasChildren
+	 * @return void
 	 */
 	public function testHasChildren() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertFalse(
+			$this->object->hasChildren(),
+			'New node should have no children'
+		);
+		$newChild = new JNode;
+		$this->object->addChild( $newChild );
+		$this->assertTrue(
+			$this->object->hasChildren(),
+			'Node should have children'
+		);
 	}
 
 	/**
-	 * @todo Implement testGetChildren().
+	 * Tests getting the children of a node.
+	 *
+	 * @group	JNode
+	 * @covers	JNode::getChildren
+	 * @return void
 	 */
 	public function testGetChildren() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals(
+			array(),
+			$this->object->getChildren(),
+			'New node should have null children'
+		);
+		$this->assertAttributeEquals(
+			array(),
+			'_children',
+			$this->object
+		);
+		
+		$newChild = new JNode;
+		$this->object->addChild( $newChild );
+		$this->assertEquals(
+			array( spl_object_hash($newChild) => $newChild ),
+			$this->object->getChildren(),
+			'Node should have the created child'
+		);
+		$this->assertAttributeEquals(
+			array( spl_object_hash($newChild) => $newChild ),
+			'_children',
+			$this->object
+		);
 	}
 }
 
