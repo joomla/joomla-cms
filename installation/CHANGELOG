@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 15-Mar-2011 Jean-Marie Simonet
- [#25088] System information > Directory Permissions: List incomplete. Thanks Nikolai and Reinhard.
+ # [#25088] System information > Directory Permissions: List incomplete. Thanks Nikolai and Reinhard.
+ # [#25027] module assignment slider gives inaccurate information for modules with "all except". Thanks Elin and Christophe.
 
 14-Mar-2011 Jean-Marie Simonet
  # [#25320] Typos on the 404 page. Thanks Bill.
