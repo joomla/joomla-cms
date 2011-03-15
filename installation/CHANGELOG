@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Mar-2011 Jean-Marie Simonet
+ [#25088] System information > Directory Permissions: List incomplete. Thanks Nikolai and Reinhard.
+
 14-Mar-2011 Jean-Marie Simonet
  # [#25320] Typos on the 404 page. Thanks Bill.
  #$ [#25259] Article edit page permits you to attempt to edit checked-out articles, causing 403 errors. Thanks Bernie
