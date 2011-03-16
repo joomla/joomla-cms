@@ -9,6 +9,14 @@
 // No direct access
 defined('_JEXEC') or die;
 
+/**
+ * Renders an article element
+ *
+ * @package		Joomla
+ * @subpackage	Content
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @since		1.5
+ */
 class JElementArticle extends JElement
 {
 	/**

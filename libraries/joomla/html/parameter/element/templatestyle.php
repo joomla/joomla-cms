@@ -13,6 +13,7 @@ defined( '_JEXEC' ) or die( 'Access denied' );
 /**
  * @package		Joomla.Administrator
  * @subpackage	Parameter
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.6
 **/
 class JElementTemplateStyle extends JElement {

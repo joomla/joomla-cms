@@ -17,7 +17,8 @@ defined('JPATH_BASE') or die;
  *
  * @abstract
  * @package		Joomla.Framework
- * @subpackage		Parameter
+ * @subpackage	Parameter
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */
 class JElement extends JObject

@@ -9,6 +9,14 @@
 // No direct access
 defined('_JEXEC') or die;
 
+/**
+ * Renders a contact element
+ *
+ * @package		Joomla
+ * @subpackage	Contact
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @since		1.5
+ */
 class JElementContact extends JElement
 {
 	/**

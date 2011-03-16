@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package		Newsfeeds
  * @subpackage	Parameter
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */
 

@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Renders a author element
+ * Renders an author element
  *
  * @package		Joomla
- * @subpackage	Articles
+ * @subpackage	Content
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */
 class JElementAuthor extends JElement

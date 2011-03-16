@@ -15,6 +15,7 @@ require_once dirname(__FILE__).DS.'list.php';
  *
  * @package		Joomla.Framework
  * @subpackage	Parameter
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
 class JElementComponentLayouts extends JElementList
 {

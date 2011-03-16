@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Mar-2011 Christophe Demko
  # [#25318] Wrong order in Module Latest Users (Marijke Stuivenberg)
+ # [#23458] Unused JElement classes in core (Rouven Weßling)
 
 16-Mar-2011 Jean-Marie Simonet
  # [#25338] *Unused show title parameter for archives menu item
