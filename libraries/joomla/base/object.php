@@ -208,6 +208,6 @@ class JObject
 	 */
 	function toString()
 	{
-		return __toString();
+		return $this->__toString();
 	}
 }
