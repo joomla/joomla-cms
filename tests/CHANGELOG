@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Mar-2011 Mark Dexter
+# Fix failing unit test (Rouven Weßling)
+
 18-Feb-2011 Mark Dexter
 # Fix failing system tests for "published" language change, 404 error change, Save & Close ACL modal change
 # Fix failing system tests for id changes made in [#24947]

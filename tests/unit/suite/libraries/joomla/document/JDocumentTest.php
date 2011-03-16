@@ -298,15 +298,35 @@ class JDocumentTest extends PHPUnit_Framework_TestCase {
 
 		$this->object->addScript('http://www.joomla.org');
 		$this->assertThat(
-			$this->object->_scripts['http://www.joomla.org'],
+			$this->object->_scripts['http://www.joomla.org']['mime'],
 			$this->equalTo('text/javascript'),
 			'JDocument->addScript failed'
 		);
-
-		$this->object->addScript('http://test.joomla.org', 'My Type');
 		$this->assertThat(
-			$this->object->_scripts['http://test.joomla.org'],
+			$this->object->_scripts['http://www.joomla.org']['defer'],
+			$this->equalTo(FALSE),
+			'JDocument->addScript failed'
+		);
+		$this->assertThat(
+			$this->object->_scripts['http://www.joomla.org']['async'],
+			$this->equalTo(FALSE),
+			'JDocument->addScript failed'
+		);
+
+		$this->object->addScript('http://test.joomla.org', 'My Type', TRUE, TRUE);
+		$this->assertThat(
+			$this->object->_scripts['http://test.joomla.org']['mime'],
 			$this->equalTo('My Type'),
+			'JDocument->addScript failed'
+		);
+		$this->assertThat(
+			$this->object->_scripts['http://test.joomla.org']['defer'],
+			$this->equalTo(TRUE),
+			'JDocument->addScript failed'
+		);
+		$this->assertThat(
+			$this->object->_scripts['http://test.joomla.org']['async'],
+			$this->equalTo(TRUE),
 			'JDocument->addScript failed'
 		);
 
