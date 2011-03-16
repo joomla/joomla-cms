@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Mar-2011 Jean-Marie Simonet
+ # [#25338] *Unused show title parameter for archives menu item
+ 
 15-Mar-2011 Jean-Marie Simonet
  # [#25088] System information > Directory Permissions: List incomplete. Thanks Nikolai and Reinhard.
  # [#25027] module assignment slider gives inaccurate information for modules with "all except". Thanks Elin and Christophe.

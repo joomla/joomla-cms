@@ -118,16 +118,6 @@
 			<option	value="1">JYES</option>
 		</field>
 
-
-			<field name="show_title" type="list"
-				description="JGLOBAL_SHOW_TITLE_DESC"
-				label="JGLOBAL_SHOW_TITLE_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
 			<field name="link_titles" type="list"
 				description="JGLOBAL_LINKED_TITLES_DESC"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
