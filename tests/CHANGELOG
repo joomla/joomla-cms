@@ -30,6 +30,7 @@ $ -> Language fix or change
 16-Mar-2011 Mark Dexter
 # [#25286] Fix failing unit test for JDocument (Rouven Weßling)
 # [#25301] Xcache can not be tested using phpunit (Rouven Weßling)
+# [#25348] Add more unit tests for JURI (Rouven Weßling)
 
 18-Feb-2011 Mark Dexter
 # Fix failing system tests for "published" language change, 404 error change, Save & Close ACL modal change

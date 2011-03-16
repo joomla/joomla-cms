@@ -37,12 +37,13 @@ class JURITest extends PHPUnit_Framework_TestCase {
 	protected function tearDown() {
 	}
 
-	/**
-	 * @todo Implement test__toString().
-	 */
 	public function test__toString() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->__toString(),
+			$this->equalTo('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment')
+		);
 	}
 
 	/**
@@ -77,65 +78,125 @@ class JURITest extends PHPUnit_Framework_TestCase {
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
-	/**
-	 * @todo Implement testParse().
-	 */
 	public function testParse() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getHost(),
+			$this->equalTo('www.example.com')
+		);
+
+		$this->assertThat(
+			$this->object->getPath(),
+			$this->equalTo('/path/file.html')
+		);
+		
+		$this->assertThat(
+			$this->object->getScheme(),
+			$this->equalTo('http')
+		);
 	}
 
-	/**
-	 * @todo Implement testToString().
-	 */
 	public function testToString() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->toString(),
+			$this->equalTo('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment')
+		);
+		
+		$this->object->setQuery('somevar=somevalue');
+		$this->object->setVar('somevar2', 'somevalue2');
+		$this->object->setScheme('ftp');
+		$this->object->setUser('root');
+		$this->object->setPass('secret');
+		$this->object->setHost('www.example.org');
+		$this->object->setPort('8888');
+		$this->object->setFragment('someFragment');
+		$this->object->setPath('/this/is/a/path/to/a/file');
+		
+		$this->assertThat(
+			$this->object->toString(),
+			$this->equalTo('ftp://root:secret@www.example.org:8888/this/is/a/path/to/a/file?somevar=somevalue&somevar2=somevalue2#someFragment')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetVar().
-	 */
 	public function testSetVar() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setVar('somevar', 'somevalue');
+
+		$this->assertThat(
+			$this->object->getVar('somevar'),
+			$this->equalTo('somevalue')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetVar().
-	 */
+	public function testHasVar() {
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->hasVar('somevar'),
+			$this->equalTo(false)
+		);
+
+		$this->assertThat(
+			$this->object->hasVar('var'),
+			$this->equalTo(true)
+		);
+	}
+
 	public function testGetVar() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getVar('var'),
+			$this->equalTo('value')
+		);
+
+		$this->assertThat(
+			$this->object->getVar('var2'),
+			$this->equalTo('')
+		);
+
+		$this->assertThat(
+			$this->object->getVar('var2', 'default'),
+			$this->equalTo('default')
+		);
 	}
 
-	/**
-	 * @todo Implement testDelVar().
-	 */
 	public function testDelVar() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getVar('var'),
+			$this->equalTo('value')
+		);
+
+		$this->object->delVar('var');
+
+		$this->assertThat(
+			$this->object->getVar('var'),
+			$this->equalTo('')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetQuery().
-	 */
 	public function testSetQuery() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setQuery('somevar=somevalue');
+
+		$this->assertThat(
+			$this->object->getQuery(),
+			$this->equalTo('somevar=somevalue')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetQuery().
-	 */
 	public function testGetQuery() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getQuery(),
+			$this->equalTo('var=value')
+		);
 	}
 
-	/**
-	 * @todo Implement testBuildQuery().
-	 */
 	public function testBuildQuery()
 	{
 		$params = array(
@@ -152,124 +213,146 @@ class JURITest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, JURI::buildQuery($params));
 	}
 
-	/**
-	 * @todo Implement testGetScheme().
-	 */
 	public function testGetScheme() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getScheme(),
+			$this->equalTo('http')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetScheme().
-	 */
 	public function testSetScheme() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setScheme('ftp');
+
+		$this->assertThat(
+			$this->object->getScheme(),
+			$this->equalTo('ftp')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetUser().
-	 */
 	public function testGetUser() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+		
+		$this->assertThat(
+			$this->object->getUser(),
+			$this->equalTo('someuser')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetUser().
-	 */
 	public function testSetUser() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setUser('root');
+
+		$this->assertThat(
+			$this->object->getUser(),
+			$this->equalTo('root')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetPass().
-	 */
 	public function testGetPass() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+		
+		$this->assertThat(
+			$this->object->getPass(),
+			$this->equalTo('somepass')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetPass().
-	 */
 	public function testSetPass() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setPass('secret');
+
+		$this->assertThat(
+			$this->object->getPass(),
+			$this->equalTo('secret')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetHost().
-	 */
 	public function testGetHost() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getHost(),
+			$this->equalTo('www.example.com')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetHost().
-	 */
 	public function testSetHost() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setHost('www.example.org');
+
+		$this->assertThat(
+			$this->object->getHost(),
+			$this->equalTo('www.example.org')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetPort().
-	 */
 	public function testGetPort() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getPort(),
+			$this->equalTo('80')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetPort().
-	 */
 	public function testSetPort() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setPort('8888');
+
+		$this->assertThat(
+			$this->object->getPort(),
+			$this->equalTo('8888')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetPath().
-	 */
 	public function testGetPath() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getPath(),
+			$this->equalTo('/path/file.html')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetPath().
-	 */
 	public function testSetPath() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setPath('/this/is/a/path/to/a/file.htm');
+
+		$this->assertThat(
+			$this->object->getPath(),
+			$this->equalTo('/this/is/a/path/to/a/file.htm')
+		);
 	}
 
-	/**
-	 * @todo Implement testGetFragment().
-	 */
 	public function testGetFragment() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->getFragment(),
+			$this->equalTo('fragment')
+		);
 	}
 
-	/**
-	 * @todo Implement testSetFragment().
-	 */
 	public function testSetFragment() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->setFragment('someFragment');
+
+		$this->assertThat(
+			$this->object->getFragment(),
+			$this->equalTo('someFragment')
+		);
 	}
 
-	/**
-	 * @todo Implement testIsSSL().
-	 */
 	public function testIsSSL() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->object->parse('https://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->isSSL(),
+			$this->equalTo(true)
+		);
+
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$this->object->isSSL(),
+			$this->equalTo(false)
+		);
 	}
 
 	/**

@@ -388,7 +388,8 @@ class JURI extends JObject
 	/**
 	 * Returns a query variable by name.
 	 *
-	 * @param	string $name Name of the query variable to get.
+	 * @param	string $name	Name of the query variable to get.
+	 * @param	string $default	Default value to return if the variable is not set.
 	 * @return	array Query variables.
 	 * @since	1.5
 	 */
