@@ -48,6 +48,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
 		}
 
+		if($store == 'xcache') {
+			$this->markTestSkipped('Xcache does not work with cli, skipped');
+		}
+
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -72,6 +76,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
 		}
 
+		if($store == 'xcache') {
+			$this->markTestSkipped('Xcache does not work with cli, skipped');
+		}
+
 		$id = 'randomTestID2423423';
 		$group = '_testing';
 		$data = 'testData';
@@ -92,9 +100,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
 		}
 
-		/*if($store == 'xcache') {
-			$this->markTestSkipped('Due to an xcache "bug/feature", this test will not function as expected, skipped');
-		}*/
+		if($store == 'xcache') {
+			$this->markTestSkipped('Xcache does not work with cli, skipped');
+		}
+
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -119,6 +128,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 
 		if($store == 'eaccelerator') {
 			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
+		}
+
+		if($store == 'xcache') {
+			$this->markTestSkipped('Xcache does not work with cli, skipped');
 		}
 
 		$id = 'randomTestID';
@@ -150,6 +163,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 			$this->markTestSkipped('Eaccelerator does not wotk with cli, skipped');
 		}
 
+		if($store == 'xcache') {
+			$this->markTestSkipped('Xcache does not work with cli, skipped');
+		}
+
 		$id = 'randomTestID';
 		$group = '_testing';
 		$data = 'testData';
@@ -175,6 +192,10 @@ class JCacheStorageTest_Main extends PHPUnit_Framework_TestCase
 	{
 		if($store == 'eaccelerator') {
 			$this->markTestSkipped('Eaccelerator does not work with cli, skipped');
+		}
+
+		if($store == 'xcache') {
+			$this->markTestSkipped('Xcache does not work with cli, skipped');
 		}
 
 		$id = 'randomTestID';

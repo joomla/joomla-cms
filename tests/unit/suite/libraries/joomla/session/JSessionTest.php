@@ -146,7 +146,17 @@ class JSessionTest extends PHPUnit_Framework_TestCase
 	public function testGetStores()
 	{
 		$expected = array('database', 'none');
-		$this->assertEquals($expected, JSession::getStores(), 'Line: '.__LINE__.' database and none are available');
+		$return = JSession::getStores();
+		$this->assertEquals(
+			$expected[0],
+			$return[0],
+			'Line: '.__LINE__.' database and none are available'
+		);
+		$this->assertEquals(
+			$expected[1],
+			$return[1],
+			'Line: '.__LINE__.' database and none are available'
+		);
 	}
 
 	public function testIsNew()
