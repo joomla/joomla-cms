@@ -8,6 +8,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.log.log');
+
 /**
  * Joomla! Log Entry class
  *
@@ -52,7 +54,7 @@ class JLogEntry
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $priority = 'INFO';
+	public $priority = JLog::INFO;
 
 	/**
 	 * List of available log priority levels [Based on the SysLog default levels].
@@ -70,14 +72,14 @@ class JLogEntry
 	 * @since  11.1
 	 */
 	private $_priorities = array(
-		'EMERGENCY',
-		'ALERT',
-		'CRITICAL',
-		'ERROR',
-		'WARNING',
-		'NOTICE',
-		'INFO',
-		'DEBUG'
+		JLog::EMERGENCY,
+		JLog::ALERT,
+		JLog::CRITICAL,
+		JLog::ERROR,
+		JLog::WARNING,
+		JLog::NOTICE,
+		JLog::INFO,
+		JLog::DEBUG
 	);
 
 	/**
@@ -92,20 +94,19 @@ class JLogEntry
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($message, $priority = 'INFO', $category = '', $date = null)
+	public function __construct($message, $priority = JLog::INFO, $category = '', $date = null)
 	{
-		$this->message = $message;
+		$this->message = (string) $message;
 
 		// Sanitize the priority.
-		$priority = strtoupper($priority);
-		if (!in_array($priority, $this->_priorities)) {
-			$priority = 'INFO';
+		if (!in_array($priority, $this->_priorities, true)) {
+			$priority = JLog::INFO;
 		}
 		$this->priority = $priority;
 
 		// Sanitize category if it exists.
 		if (!empty($category)) {
-			$this->category = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $category);
+			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
 
 		// Get the date string in ISO 8601 format.
