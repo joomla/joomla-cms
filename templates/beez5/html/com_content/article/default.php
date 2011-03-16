@@ -34,7 +34,7 @@ else :
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if ($params->get('show_title') : ?>
+<?php if ($params->get('show_title')) : ?>
 		<h2>
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
