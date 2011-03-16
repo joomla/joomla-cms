@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 
 		case 2:
 			// open in a popup window
-			echo "<a href=\"#\" onclick=\"javascript: window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">".
+			echo "<a href=\"#\" onclick=\"window.open('". $link ."', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\">".
 				htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8') .'</a>';
 			break;
 

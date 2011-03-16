@@ -115,7 +115,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '<li>';
 
 			$html[] = '<div class="panel">';
-			$html[] =	'<h3 class="pane-toggler title"><a href="javascript:void(0);"><span>';
+			$html[] =	'<h3 class="pane-toggler title"><a href="#"><span>';
 			$html[] =	str_repeat('<span class="level">|&ndash;</span> ', $curLevel = $group->level) . $group->text;
 			$html[] =	'</span></a></h3>';
 			$html[] =	'<div class="pane-slider content pane-hide">';

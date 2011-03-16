@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 JHtml::_('behavior.noframes');
+JHtml::_('behavior.framework');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -36,13 +37,13 @@ JHtml::_('behavior.noframes');
 <?php  endif; ?>
 
 <script type="text/javascript">
-	function setFocus() {
+	window.addEvent('domready', function () {
 		document.getElementById('form-login').username.select();
 		document.getElementById('form-login').username.focus();
-	}
+	});
 </script>
 </head>
-<body onload="javascript:setFocus()">
+<body>
 	<div id="border-top" class="h_blue">
 		<div>
 			<div>

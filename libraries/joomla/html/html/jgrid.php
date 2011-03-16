@@ -53,7 +53,7 @@ abstract class JHtmlJGrid
 			JHtml::_('behavior.tooltip');
 		}
 		if ($enabled) {
-			return '<a class="jgrid'.($tip?' hasTip':'').'" href="javascript:void(0);" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars($translate?JText::_($active_title):$active_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></a>';
+			return '<a class="jgrid'.($tip?' hasTip':'').'" href="#" onclick="return listItemTask(\''.$checkbox.$i.'\',\''.$prefix.$task.'\')" title="'.addslashes(htmlspecialchars($translate?JText::_($active_title):$active_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$active_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></a>';
 		}
 		else {
 			return '<span class="jgrid'.($tip?' hasTip':'').'" title="'.addslashes(htmlspecialchars($translate?JText::_($inactive_title):$inactive_title, ENT_COMPAT, 'UTF-8')).'"><span class="state '.$inactive_class.'"><span class="text">'.($translate?JText::_($text):$text).'</span></span></span>';
