@@ -38,7 +38,7 @@ class UsersHelperDebug
 
 		$items = $db->setQuery($query)->loadObjectList();
 
-		if (sizeof($items)) {
+		if (count($items)) {
 			$lang = JFactory::getLanguage();
 
 			foreach ($items as &$item)

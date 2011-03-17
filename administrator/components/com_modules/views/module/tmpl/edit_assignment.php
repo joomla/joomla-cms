@@ -68,7 +68,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 			<?php foreach ($menuTypes as &$type) : 
 				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');
 				
-				$count 	= sizeof($type->links);
+				$count 	= count($type->links);
 				$i		= 0;
 				if ($count) :
 				?>					

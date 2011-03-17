@@ -76,7 +76,7 @@ class CacheModelCache extends JModelList
 
 			if ($data != false) {
 				$this->_data = $data;
-				$this->_total = sizeof($data);
+				$this->_total = count($data);
 
 				if ($this->_total) {
 					// Apply custom ordering
