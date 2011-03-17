@@ -10,15 +10,24 @@
 // No direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.modelform');
 jimport('joomla.application.component.modelitem');
-
+jimport('joomla.event.dispatcher');
+jimport('joomla.plugin.helper');
 /**
  * @package		Joomla.Site
  * @subpackage	com_contact
  * @since 1.5
  */
-class ContactModelContact extends JModelItem
+class ContactModelContact extends JModelForm
 {
+	/**
+	 * @since	1.6
+	 */
+	protected $view_item = 'contact';
+	
+	protected $_item = null;
+	
 	/**
 	 * Model context string.
 	 *
@@ -44,12 +53,49 @@ class ContactModelContact extends JModelItem
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
-
+					
 		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))){
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
 		}
+	}
+
+	/**
+	 * Method to get the contact form.
+	 *
+	 * The base form is loaded from XML and then an event is fired
+	 * 
+	 *
+	 * @param	array	$data		An optional array of data for the form to interrogate.
+	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return	JForm	A JForm object on success, false on failure
+	 * @since	1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		// Get the form.
+		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
+		if (empty($form)) {
+			return false;
+		}
+		
+		$id = $this->getState('contact.id');
+		$params = $this->getState('params');
+		$contact = $this->_item[$id];
+		$params->merge($contact->params);
+		
+		if(!$params->get('show_email_copy', 0)){
+			$form->removeField('contact_email_copy');
+		}
+		
+		return $form;
+	}
+	
+	protected function loadFormData()
+	{
+		$data = (array)JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+		return $data;
 	}
 
 	/**
@@ -157,6 +203,7 @@ class ContactModelContact extends JModelItem
 			}
 
 		}
+		
 		if ($this->_item[$pk])
 		{
 			if ($extendedData = $this->getContactQuery($pk)) {
@@ -168,10 +215,7 @@ class ContactModelContact extends JModelItem
 
 	}
 
-
-
-
-	protected function  getContactQuery($pk = null)
+	protected function getContactQuery($pk = null)
 	{
 		// TODO: Cache on the fingerprint of the arguments
 		$db		= $this->getDbo();
@@ -266,4 +310,3 @@ class ContactModelContact extends JModelItem
 		}
 	}
 }
-

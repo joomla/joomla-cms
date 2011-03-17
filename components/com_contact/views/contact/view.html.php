@@ -23,7 +23,9 @@ require_once JPATH_COMPONENT.'/models/category.php';
 class ContactViewContact extends JView
 {
 	protected $state;
+	protected $form;
 	protected $item;
+	protected $return_page;
 
 	function display($tpl = null)
 	{
@@ -33,9 +35,16 @@ class ContactViewContact extends JView
 		$dispatcher = JDispatcher::getInstance();
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
-
-		// Get Category Model data
+		$this->form	= $this->get('Form');
+		
+		// Get the parameters
+		$params = JComponentHelper::getParams('com_contact');
+		
 		if ($item) {
+			// If we found an item, merge the item parameters
+			$params->merge($item->params);
+			
+			// Get Category Model data
 			$categoryModel = JModel::getInstance('Category', 'ContactModel', array('ignore_request' => true));
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
@@ -49,14 +58,7 @@ class ContactViewContact extends JView
 
 			return false;
 		}
-
-		// Get the parameters of the active menu item
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
-		$params	= $app->getParams();
-
-		$params->merge($item->params);
-
+		
 		// check if access is not public
 		$groups	= $user->getAuthorisedViewLevels();
 
@@ -78,8 +80,7 @@ class ContactViewContact extends JView
 		if ($item->email_to && $params->get('show_email')) {
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
-
-		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country')) {
+			if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country')) {
 			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode)) {
 				$params->set('address_check', 1);
 			}
@@ -87,6 +88,7 @@ class ContactViewContact extends JView
 		else {
 			$params->set('address_check', 0);
 		}
+
 
 		// Manage the display mode for contact detail groups
 		switch ($params->get('contact_icons'))

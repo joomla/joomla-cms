@@ -42,7 +42,7 @@ $params = &$this->item->params;
 				<?php echo JText::_('JGLOBAL_NUM'); ?>
 			</th>
 			<th class="item-title">
-				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME', 'a.name', $listDirn, $listOrder); ?>
+				<?php echo JHtml::_('grid.sort', 'COM_CONTACT_CONTACT_EMAIL_NAME_LABEL', 'a.name', $listDirn, $listOrder); ?>
 			</th>
 			<?php if ($this->params->get('show_position_headings')) : ?>
 			<th class="item-position">
