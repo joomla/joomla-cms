@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Mar-2011 Christophe Demko
+ # [#24954] Module, plugin, and component scriptfile are not copied to final install point (Ian MacLennan)
+
 17-Mar-2011 Jean-Marie Simonet
  # [#25356] Following  tracker 25210. Thanks Christophe.
  
