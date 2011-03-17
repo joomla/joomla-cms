@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#25319] Incorrect language keys in error.php of atomic template (bill richardson)
  # [#24987] Contact form not using Jform, makes event not work as expected (Elin Waring, Jean-Marie Simonet)
  # [#25347] Menu alias not respecting "active" (bill richardson)
+ # [#25360] Ordering of two modules options are inconsistent (bill richardson, Jozsef Tamas Herczeg)
 
 17-Mar-2011 Jean-Marie Simonet
  # [#25356] Following  tracker 25210. Thanks Christophe.

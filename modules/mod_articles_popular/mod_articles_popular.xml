@@ -31,6 +31,25 @@
 			<fieldset name="basic">
 
 				<field
+					name="catid"
+					type="category"
+					extension="com_content"
+					multiple="true"
+					size="10"
+					default=""
+					label="JCATEGORY"
+					description="MOD_POPULAR_FIELD_CATEGORY_DESC" >
+					<option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
+
+				<field
+					name="count"
+					type="text"
+					default="5"
+					label="MOD_POPULAR_FIELD_COUNT_LABEL"
+					description="MOD_POPULAR_FIELD_COUNT_DESC" />
+
+					<field
 					name="show_front"
 					type="radio"
 					default="1"
@@ -42,24 +61,6 @@
 						value="0">JHIDE</option>
 				</field>
 
-				<field
-					name="count"
-					type="text"
-					default="5"
-					label="MOD_POPULAR_FIELD_COUNT_LABEL"
-					description="MOD_POPULAR_FIELD_COUNT_DESC" />
-
-				<field
-					name="catid"
-					type="category"
-					extension="com_content"
-					multiple="true"
-					size="10"
-					default=""
-					label="JCATEGORY"
-					description="MOD_POPULAR_FIELD_CATEGORY_DESC" >
-					<option value="">JOPTION_ALL_CATEGORIES</option>
-				</field>
 			</fieldset>
 
 			<fieldset

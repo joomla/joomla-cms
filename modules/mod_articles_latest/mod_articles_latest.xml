@@ -48,6 +48,20 @@
 					description="MOD_LATEST_NEWS_FIELD_COUNT_DESC" />
 
 				<field
+					name="show_featured"
+					type="list"
+					default=""
+					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
+					description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC">
+					<option
+						value="">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
+					<option
+						value="1">MOD_LATEST_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
+				</field>
+
+				<field
 					name="ordering"
 					type="list"
 					default="published"
@@ -75,20 +89,6 @@
 						value="by_me">MOD_LATEST_NEWS_VALUE_ADDED_BY_ME</option>
 					<option
 						value="not_me">MOD_LATEST_NEWS_VALUE_NOTADDED_BY_ME</option>
-				</field>
-
-				<field
-					name="show_featured"
-					type="list"
-					default=""
-					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
-					description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC">
-					<option
-						value="">JSHOW</option>
-					<option
-						value="0">JHIDE</option>
-					<option
-						value="1">MOD_LATEST_NEWS_VALUE_ONLY_SHOW_FEATURED</option>
 				</field>
 
 			</fieldset>
