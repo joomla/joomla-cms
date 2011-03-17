@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Mar-2011 Christophe Demko
  # [#24954] Module, plugin, and component scriptfile are not copied to final install point (Ian MacLennan)
+ # [#25319] Incorrect language keys in error.php of atomic template (bill richardson)
 
 17-Mar-2011 Jean-Marie Simonet
  # [#25356] Following  tracker 25210. Thanks Christophe.
