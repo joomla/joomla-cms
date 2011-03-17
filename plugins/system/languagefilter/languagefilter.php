@@ -174,7 +174,9 @@ class plgSystemLanguageFilter extends JPlugin
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setPath($sef . '/' . $path);
 				
-				if ($_SERVER['REQUEST_METHOD'] != "POST" || empty($_POST)) {
+				$post = JRequest::get('POST');
+				if (JRequest::getMethod() != "POST" || count($post) == 0)
+				{
 					$app = JFactory::getApplication();
 					if ($app->getCfg('sef_rewrite')) {
 						$app->redirect($uri->base().$uri->toString(array('path', 'query', 'fragment')));
@@ -195,8 +197,12 @@ class plgSystemLanguageFilter extends JPlugin
 			if (!isset(self::$sefs[$sef])) {
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setVar('lang', $sef);
-				$app = JFactory::getApplication();
-				$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
+				$post = JRequest::get('POST');
+				if (JRequest::getMethod() != "POST" || count($post) == 0)
+				{
+					$app = JFactory::getApplication();
+					$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
+				}
 			}
 		}
 
