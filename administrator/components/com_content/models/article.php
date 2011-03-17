@@ -261,29 +261,46 @@ class ContentModelArticle extends JModelAdmin
 				throw new Exception($db->getErrorMsg());
 			}
 
-			// Adjust the mapping table.
-			// Clear the existing features settings.
-			$db->setQuery(
-				'DELETE FROM #__content_frontpage' .
-				' WHERE content_id IN ('.implode(',', $pks).')'
-			);
-			if (!$db->query()) {
-				throw new Exception($db->getErrorMsg());
-			}
-
-			if ($value == 1) {
-				// Featuring.
-				$tuples = array();
-				foreach ($pks as $i => $pk) {
-					$tuples[] = '('.$pk.', '.(int)($i + 1).')';
-				}
+			if ((int)$value == 0) {
+				// Adjust the mapping table.
+				// Clear the existing features settings.
 				$db->setQuery(
-					'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
-					' VALUES '.implode(',', $tuples)
+					'DELETE FROM #__content_frontpage' .
+					' WHERE content_id IN ('.implode(',', $pks).')'
 				);
 				if (!$db->query()) {
-					$this->setError($db->getErrorMsg());
-					return false;
+					throw new Exception($db->getErrorMsg());
+				}
+			} else {
+				// first, we find out which of our new featured articles are already featured.
+				$query = $db->getQuery(true);
+				$query->select('f.content_id');
+				$query->from('#__content_frontpage AS f');
+				$query->where('content_id IN ('.implode(',', $pks).')');
+				//echo $query;
+				$db->setQuery($query);
+
+				if (!is_array($old_featured = $db->loadResultArray())) {
+					throw new Exception($db->getErrorMsg());
+				}
+				
+				// we diff the arrays to get a list of the articles that are newly featured
+				$new_featured = array_diff($pks, $old_featured);
+				
+				// Featuring.
+				$tuples = array();
+				foreach ($new_featured as $pk) {
+					$tuples[] = '('.$pk.', 0)';
+				}
+				if (count($tuples)) {
+					$db->setQuery(
+						'INSERT INTO #__content_frontpage (`content_id`, `ordering`)' .
+						' VALUES '.implode(',', $tuples)
+					);
+					if (!$db->query()) {
+						$this->setError($db->getErrorMsg());
+						return false;
+					}
 				}
 			}
 

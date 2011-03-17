@@ -36,6 +36,7 @@ $ -> Language fix or change
 
 17-Mar-2011 Jean-Marie Simonet
  # [#25356] Following  tracker 25210. Thanks Christophe.
+ # [#25118] Featured articles are reordered when editing one of them. Thanks Ian and Christophe.
  
 16-Mar-2011 Mark Dexter
  # Fix typo in 25308 (revision 20969)
