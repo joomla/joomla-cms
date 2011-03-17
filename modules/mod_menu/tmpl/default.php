@@ -27,10 +27,11 @@ foreach ($list as $i => &$item) :
 		$class .= 'current ';
 	}
 
-	if (in_array($item->id, $path)) {
-		$class .= 'active ';
+	if (	$item->type == 'alias' &&
+			in_array($item->params->get('aliasoptions'),$path)
+		||	in_array($item->id, $path)) {
+	  $class .= 'active ';
 	}
-
 	if ($item->deeper) {
 		$class .= 'deeper ';
 	}
