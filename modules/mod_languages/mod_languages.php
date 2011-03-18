@@ -16,7 +16,17 @@ require_once dirname(__FILE__).'/helper.php';
 $headerText	= JString::trim($params->get('header_text'));
 $footerText	= JString::trim($params->get('footer_text'));
 
-$list 	= modLanguagesHelper::getList($params);
+$cacheid = md5(JRequest::getVar('lang').$module->module);
+
+$cacheparams = new stdClass;
+$cacheparams->cachemode = 'id';
+$cacheparams->class = 'modLanguagesHelper';
+$cacheparams->method = 'getList';
+$cacheparams->methodparams = $params;
+$cacheparams->modeparams = $cacheid;
+
+$list = JModuleHelper::moduleCache ($module, $params, $cacheparams);
+
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_languages', $params->get('layout', 'default'));
