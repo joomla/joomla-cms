@@ -35,7 +35,7 @@
 		<field name="state" type="list"
 			default="1"
 			description="JFIELD_PUBLISHED_DESC"
-			label="JGLOBAL_STATE"
+			label="JSTATUS"
 			size="1"
 		>
 			<option value="1">JPUBLISHED</option>

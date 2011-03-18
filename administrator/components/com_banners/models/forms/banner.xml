@@ -22,7 +22,7 @@
 		>
 		</field>
 		<field name="state" type="list"
-			label="JGLOBAL_STATE" description="COM_BANNERS_FIELD_STATE_DESC"
+			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
 			class="inputbox" size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>

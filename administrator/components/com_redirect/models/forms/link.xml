@@ -41,7 +41,7 @@
 		<field
 			name="published"
 			type="list"
-			label="JGLOBAL_STATE"
+			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"

@@ -70,7 +70,7 @@
 			type="list"
 			id="published"
 			class="inputbox"
-			label="JGLOBAL_STATE"
+			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			size="1"
 			default="1"

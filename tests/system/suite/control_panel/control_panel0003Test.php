@@ -72,7 +72,7 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->click("checkall-toggle");
 		$this->click("//li[@id='toolbar-delete']/a/span");
 		$this->waitForPageToLoad("30000");
-		$this->select("filter_published", "label=- Select State -");
+		$this->select("filter_published", "label=- Select Status -");
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
 

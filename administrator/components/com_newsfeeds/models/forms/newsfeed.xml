@@ -18,7 +18,7 @@
 			size="45" />
 
 		<field name="published" type="list"
-			label="JGLOBAL_STATE" description="JFIELD_PUBLISHED_DESC"
+			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
 			class="inputbox" size="1" default="1"
 		>
 			<option value="1">

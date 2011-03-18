@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 				<?php echo JText::_('MOD_LATEST_LATEST_ITEMS'); ?>
 			</th>
 			<th>
-				<strong><?php echo JText::_('JPUBLISHED'); ?></strong>
+				<strong><?php echo JText::_('JSTATUS'); ?></strong>
 			</th>
 			<th>
 				<strong><?php echo JText::_('MOD_LATEST_CREATED'); ?></strong>

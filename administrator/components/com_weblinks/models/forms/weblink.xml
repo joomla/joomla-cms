@@ -47,7 +47,7 @@
 		<field
 			name="state"
 			type="list"
-			label="JGLOBAL_STATE"
+			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
 			class="inputbox"
 			size="1"

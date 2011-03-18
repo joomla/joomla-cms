@@ -21,7 +21,7 @@
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="ContentHelper::filterText" buttons="true" />
 
-		<field name="state" type="list" label="JGLOBAL_STATE"
+		<field name="state" type="list" label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC" class="inputbox"
 			filter="intval" size="1" default="1"
 		>

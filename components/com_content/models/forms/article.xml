@@ -51,7 +51,7 @@
 			id="state"
 			name="state"
 			type="list"
-			label="JGLOBAL_STATE"
+			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			class="inputbox"
 			size="1"

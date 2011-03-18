@@ -34,7 +34,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th class="checkmark-col""><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(this)" /></th>
 				<th class="title nowrap"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
                	<th><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?></th>
-				<th class="width-10 center"><?php echo JHTML::_('grid.sort', 'JENABLED', 'enabled', $listDirn, $listOrder); ?></th>
+				<th class="width-10 center"><?php echo JHTML::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?></th>
                 <th class="center"><?php echo JHTML::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
 				<th class="width-10 center"><?php echo JText::_('JVERSION'); ?></th>
 				<th class="width-10"><?php echo JText::_('JDATE'); ?></th>
