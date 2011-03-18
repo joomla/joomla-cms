@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Mar-2011 Jean-Marie Simonet
+# [#24710] Contact language is ignored in frontend. Thanks Christophe.
+
 17-Mar-2011 Christophe Demko
  # [#24954] Module, plugin, and component scriptfile are not copied to final install point (Ian MacLennan)
  # [#25319] Incorrect language keys in error.php of atomic template (bill richardson)
