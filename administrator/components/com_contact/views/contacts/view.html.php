@@ -62,10 +62,10 @@ class ContactViewContacts extends JView
 	{
 		require_once JPATH_COMPONENT.'/helpers/contact.php';
 		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'));
-
+		$user	= JFactory::getUser();
 		JToolBarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0) {
 			JToolBarHelper::addNew('contact.add','JTOOLBAR_NEW');
 		}
 

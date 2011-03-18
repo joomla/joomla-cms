@@ -30,6 +30,7 @@ $ -> Language fix or change
 18-Mar-2011 Jean-Marie Simonet
 # [#24710] Contact language is ignored in frontend. Thanks Christophe.
 # [#25021] Static caching of language switcher ruins the correct class lang-active behaviour. Thanks Mark Visser and Christophe. Tip: save again the switcher parameters.
+# [#25025] Fix New and Save icons for other components. Thanks Elin and Bill
 
 17-Mar-2011 Christophe Demko
  # [#24954] Module, plugin, and component scriptfile are not copied to final install point (Ian MacLennan)

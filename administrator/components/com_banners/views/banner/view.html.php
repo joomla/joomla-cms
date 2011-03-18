@@ -61,7 +61,7 @@ class BannersViewBanner extends JView
 		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create'))) {
+		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)) {
 			JToolBarHelper::apply('banner.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('banner.save', 'JTOOLBAR_SAVE');
 

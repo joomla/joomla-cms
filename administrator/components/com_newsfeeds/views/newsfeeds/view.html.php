@@ -51,9 +51,9 @@ class NewsfeedsViewNewsfeeds extends JView
 	{
 		$state	= $this->get('State');
 		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
-
+		$user	= JFactory::getUser();
 		JToolBarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
-		if ($canDo->get('core.create')) {
+		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
 			JToolBarHelper::addNew('newsfeed.add','JTOOLBAR_NEW');
 		}
 		if ($canDo->get('core.edit')) {

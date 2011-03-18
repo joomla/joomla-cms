@@ -56,9 +56,9 @@ class BannersViewBanners extends JView
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
 		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
-
+		$user	= JFactory::getUser();
 		JToolBarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
-		if ($canDo->get('core.create')) {
+		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0) {
 			JToolBarHelper::addNew('banner.add','JTOOLBAR_NEW');
 		}
 
