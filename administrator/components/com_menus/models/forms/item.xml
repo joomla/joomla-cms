@@ -28,6 +28,10 @@
 			description="JFIELD_ALIAS_DESC"
 			class="inputbox"
 			size="40"/>
+		
+		<field name="aliastip"
+			type="spacer"
+			label="COM_MENUS_TIP_ALIAS_LABEL"/>
 
 		<field
 			name="note"
