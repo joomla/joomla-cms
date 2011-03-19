@@ -102,7 +102,7 @@ class JNode extends JObject
 	 */
 	function hasChildren()
 	{
-		return count($this->_children);
+		return (bool)count($this->_children);
 	}
 
 	/**
