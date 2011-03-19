@@ -80,9 +80,9 @@ class JArchiveTar extends JObject
 		$this->_metadata = null;
 
 		$stream = JFactory::getStream();
-		if (!$stream->open($archive, 'rb'))
-		{
+		if (!$stream->open($archive, 'rb')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_READ'));
+
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
@@ -108,7 +108,7 @@ class JArchiveTar extends JObject
 
 			if ($size) {
 				//$contents = fread($this->_fh, $size);
-				$contents = substr($stream->read($bsize),0, octdec($info['size']));
+				$contents = substr($stream->read($bsize), 0, octdec($info['size']));
 			}
 
 			if ($info['filename']) {
@@ -140,7 +140,7 @@ class JArchiveTar extends JObject
 					/* Some other type. */
 				}
 
-				$type = strtolower( $file['type'] );
+				$type = strtolower($file['type']);
 
 				if ($type == 'file' || $type == 'unix file') {
 					$path = JPath::clean($destination.DS.$file['name']);

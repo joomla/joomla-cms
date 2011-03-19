@@ -82,13 +82,13 @@ class JArchiveZip extends JObject
 	/**
 	 * Create a ZIP compressed file from an array of file data.
 	 *
-	 * @todo	Finish Implementation
+	 * @param	string	$archive	Path to save archive.
+	 * @param	array	$files		Array of files to add to archive.
+	 * @param	array	$options	Compression options (unused).
 	 *
-	 * @param	string	$archive	Path to save archive
-	 * @param	array	$files		Array of files to add to archive
-	 * @param	array	$options	Compression options [unused]
-	 * @return	boolean	True if successful
+	 * @return	boolean	True if successful.
 	 * @since	11.1
+	 * @todo	Finish Implementation
 	 */
 	public function create($archive, $files, $options = array ())
 	{
@@ -144,11 +144,12 @@ class JArchiveZip extends JObject
 	/**
 	 * Checks to see if the data is a valid ZIP file.
 	 *
-	 * @param	string	$data	ZIP archive data buffer
+	 * @param	string	&$data	ZIP archive data buffer.
+	 *
 	 * @return	boolean	True if valid, false if invalid.
 	 * @since	11.1
 	 */
-	public function checkZipData(& $data)
+	public function checkZipData(&$data)
 	{
 		if (strpos($data, $this->_fileHeader) === false) {
 			return false;
@@ -161,15 +162,14 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path using a php based algorithm that only requires zlib support
 	 *
-	 * @access	private
-	 * @param	string	$archive		Path to ZIP archive to extract
-	 * @param	string	$destination	Path to extract archive into
-	 * @param	array	$options		Extraction options [unused]
+	 * @param	string	$archive		Path to ZIP archive to extract.
+	 * @param	string	$destination	Path to extract archive into.
+	 * @param	array	$options		Extraction options [unused].
 	 *
 	 * @return	boolean	True if successful
 	 * @since	11.1
 	 */
-	function _extract($archive, $destination, $options)
+	protected function _extract($archive, $destination, $options)
 	{
 		// Initialise variables.
 		$this->_data = null;
@@ -222,7 +222,6 @@ class JArchiveZip extends JObject
 	/**
 	 * Extract a ZIP compressed file to a given path using native php api calls for speed
 	 *
-	 * @access	private
 	 * @param	string	$archive		Path to ZIP archive to extract
 	 * @param	string	$destination	Path to extract archive into
 	 * @param	array	$options		Extraction options [unused]
@@ -230,7 +229,7 @@ class JArchiveZip extends JObject
 	 * @return	boolean	True if successful
 	 * @since	11.1
 	 */
-	function _extractNative($archive, $destination, $options)
+	protected function _extractNative($archive, $destination, $options)
 	{
 		if ($zip = zip_open($archive)) {
 			if (is_resource($zip)) {
@@ -289,13 +288,12 @@ class JArchiveZip extends JObject
 	 *		'type'	--  File type
 	 * </pre>
 	 *
-	 * @access	private
-	 * @param	string	$data	The ZIP archive buffer.
+	 * @param	string	&$data	The ZIP archive buffer.
 	 *
-	 * @return	array	Archive metadata array
+	 * @return	array	Archive metadata array.
 	 * @since	11.1
 	 */
-	function _getZipInfo(& $data)
+	protected function _getZipInfo(&$data)
 	{
 		// Initialise variables.
 		$entries = array ();
@@ -373,13 +371,12 @@ class JArchiveZip extends JObject
 	/**
 	 * Returns the file data for a file by offsest in the ZIP archive
 	 *
-	 * @access	private
 	 * @param	int		$key	The position of the file in the archive.
 	 *
-	 * @return	string	Uncompresed file data buffer
+	 * @return	string	Uncompressed file data buffer.
 	 * @since	11.1
 	 */
-	function _getFileData($key)
+	protected function _getFileData($key)
 	{
 		if ($this->_metadata[$key]['_method'] == 0x8) {
 			return gzinflate(substr($this->_data, $this->_metadata[$key]['_dataStart'], $this->_metadata[$key]['csize']));
@@ -413,12 +410,12 @@ class JArchiveZip extends JObject
 	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
 	 * comparison).
 	 *
-	 * @access	private
 	 * @param	int	$unixtime	The current UNIX timestamp.
+	 *
 	 * @return	int	The current date in a 4-byte DOS format.
 	 * @since	11.1
 	 */
-	function _unix2DOSTime($unixtime = null)
+	protected function _unix2DOSTime($unixtime = null)
 	{
 		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
 
@@ -437,17 +434,15 @@ class JArchiveZip extends JObject
 	/**
 	 * Adds a "file" to the ZIP archive.
 	 *
-	 * @todo Review and finish implementation
-	 *
-	 * @access	private
-	 * @param	array	$file		File data array to add
-	 * @param	array	$contents	An array of existing zipped files.
-	 * @param	array	$ctrldir	An array of central directory information.
+	 * @param	array	&$file		File data array to add
+	 * @param	array	&$contents	An array of existing zipped files.
+	 * @param	array	&$ctrldir	An array of central directory information.
 	 *
 	 * @return	void
 	 * @since	11.1
+	 * @todo	Review and finish implementation
 	 */
-	function _addToZIPFile(& $file, & $contents, & $ctrldir)
+	protected function _addToZIPFile(&$file, &$contents, &$ctrldir)
 	{
 		$data = & $file['data'];
 		$name = str_replace('\\', '/', $file['name']);
@@ -520,19 +515,18 @@ class JArchiveZip extends JObject
 
 	/**
 	 * Creates the ZIP file.
+	 *
 	 * Official ZIP file format: http://www.pkware.com/appnote.txt
 	 *
-	 * @todo Review and finish implementation
-	 *
-	 * @access	private
-	 * @param	array	$contents	An array of existing zipped files.
-	 * @param	array	$ctrldir	An array of central directory information.
+	 * @param	array	&$contents	An array of existing zipped files.
+	 * @param	array	&$ctrlDir	An array of central directory information.
 	 * @param	string	$path		The path to store the archive.
 	 *
 	 * @return	boolean	True if successful
 	 * @since	11.1
+	 * @todo	Review and finish implementation
 	 */
-	function _createZIPFile(& $contents, & $ctrlDir, $path)
+	protected function _createZIPFile(&$contents, &$ctrlDir, $path)
 	{
 		$data = implode('', $contents);
 		$dir = implode('', $ctrlDir);
