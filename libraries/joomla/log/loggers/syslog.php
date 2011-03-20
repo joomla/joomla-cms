@@ -40,14 +40,14 @@ class JLoggerSysLog extends JLogger
 	 * @since  11.1
 	 */
 	private $_priorities = array(
-		'EMERGENCY' => 'EMERG',
-		'ALERT' => 'ALERT',
-		'CRITICAL' => 'CRIT',
-		'ERROR' => 'ERR',
-		'WARNING' => 'WARNING',
-		'NOTICE' => 'NOTICE',
-		'INFO' => 'INFO',
-		'DEBUG' => 'DEBUG'
+		JLog::EMERGENCY => 'EMERG',
+		JLog::ALERT => 'ALERT',
+		JLog::CRITICAL => 'CRIT',
+		JLog::ERROR => 'ERR',
+		JLog::WARNING => 'WARNING',
+		JLog::NOTICE => 'NOTICE',
+		JLog::INFO => 'INFO',
+		JLog::DEBUG => 'DEBUG'
 	);
 
 	/**
