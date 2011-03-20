@@ -21,7 +21,7 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerMySQL extends JLogger
+class JLoggerDatabase extends JLogger
 {
 	/**
 	 * Constructor.

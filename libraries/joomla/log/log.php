@@ -29,15 +29,77 @@ jimport('joomla.filesystem.path');
  */
 class JLog
 {
-	const ALL = 1;
-	const EMERGENCY = 2;
-	const ALERT = 4;
-	const CRITICAL = 8;
-	const ERROR = 16;
-	const WARNING = 32;
-	const NOTICE = 64;
-	const INFO = 128;
-	const DEBUG = 256;
+	/**
+	 * DEBUG      - Debugging message.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const ALL = 30719;
+
+	/**
+	 * EMERGENCY  - The system is unusable.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const EMERGENCY = 1;
+
+	/**
+	 * ALERT      - Action must be taken immediately.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const ALERT = 2;
+
+	/**
+	 * CRITICAL   - Critical conditions.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const CRITICAL = 4;
+
+	/**
+	 * ERROR      - Error conditions.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const ERROR = 8;
+
+	/**
+	 * WARNING    - Warning conditions.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const WARNING = 16;
+
+	/**
+	 * NOTICE     - Normal, but significant condition.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const NOTICE = 32;
+
+	/**
+	 * INFO       - Informational message.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const INFO = 64;
+
+	/**
+	 * DEBUG      - Debugging message.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	const DEBUG = 128;
 
 	/**
 	 * The global JLog instance.
@@ -154,7 +216,7 @@ class JLog
 			self::$instance->configurations[$signature] = $options;
 		}
 
-		self::$instance->lookup[$signature] = (object) array('priorities' => $priorities, 'categories' => array_map('strtolower', $categories));
+		self::$instance->lookup[$signature] = (object) array('priorities' => $priorities, 'categories' => array_map('strtolower', (array) $categories));
 	}
 
 	/**
@@ -221,6 +283,7 @@ class JLog
 
 	/**
 	 * Returns a reference to the a JLog object, only creating it if it doesn't already exist.
+	 * Note: This is principly made available for testing and internal purposes.
 	 *
 	 * @param   JLog  $instance  The logging object instance to be used by the static methods.
 	 *
@@ -347,7 +410,6 @@ class JLog
 				if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories)) {
 					$loggers[] = $signature;
 				}
-
 			}
 		}
 
