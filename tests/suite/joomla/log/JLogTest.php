@@ -16,7 +16,6 @@ require_once JPATH_PLATFORM.'/joomla/log/logger.php';
 class JLogTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var	JRequest
 	 * @access protected
 	 */
 	protected $inspector;
