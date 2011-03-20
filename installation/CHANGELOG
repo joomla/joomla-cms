@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2011 Mark Dexter
+ # Fix typo in revision 20991
+
 20-Mar-2011 Jean-Marie Simonet
  # [#25400] *langswitcher module can display content languages with no specific home page. Thanks Christophe.
  # [#25401] *Content language ordering not implemented. Thanks Christophe.

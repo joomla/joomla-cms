@@ -64,7 +64,7 @@ JHTML::_('behavior.modal');
 				<?php endif; ?>
 
 				<?php if ($this->item->type == 'alias'): ?>
-					<li <?php echo $this->form->getLabel('aliastip'); ?></li>
+					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
 				<?php endif; ?>
 
 				<?php if ($this->item->type !='url'): ?>
