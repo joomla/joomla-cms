@@ -31,7 +31,12 @@ abstract class modLanguagesHelper
 		$homes = $db->loadObjectList('language');
 
 		foreach($languages as $i => &$language) {
+			// Do not display language without frontend UI
 			if (!JLanguage::exists($language->lang_code)) {
+				unset($languages[$i]);
+			}
+			// Do not display language without specific home menu
+			elseif (!isset($homes[$language->lang_code])) {
 				unset($languages[$i]);
 			}
 			else {
