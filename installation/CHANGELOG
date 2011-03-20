@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 20-Mar-2011 Jean-Marie Simonet
  # [#25400] *langswitcher module can display content languages with no specific home page. Thanks Christophe.
+ # [#25401] *Content language ordering not implemented. Thanks Christophe.
  
 19-Mar-2011 Jean-Marie Simonet
  #$  [#25349] Menu item type Alias, not editable alias. Thanks Pavel.
