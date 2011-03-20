@@ -13,7 +13,7 @@ jimport('joomla.form.formfield');
 /**
  * Field to select a user id from a modal list.
  *
- * @package		Joomla.Administrator
+ * @package		Joomla.Platform
  * @subpackage	com_users
  * @since		11.1
  */

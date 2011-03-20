@@ -9,7 +9,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * @package		Joomla.Administrator
+ * @package		Joomla.Platform
  * @subpackage	Parameter
  * @since		11.1
 **/
