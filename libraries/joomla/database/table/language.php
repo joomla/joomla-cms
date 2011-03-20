@@ -13,7 +13,7 @@ jimport('joomla.database.table');
 /**
  * Languages table.
  *
- * @package		Joomla.Administrator
+ * @package		Joomla.Platform
  * @subpackage	com_languages
  * @since		11.1
  */

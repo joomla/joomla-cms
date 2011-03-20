@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id: log.php 17585 2010-06-09 18:59:44Z pasamio $
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Error
  * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt

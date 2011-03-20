@@ -12,7 +12,7 @@ jimport('joomla.form.formfield');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Platform
  * @subpackage	Form
  * @since		1.6
  */
