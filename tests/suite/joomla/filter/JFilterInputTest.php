@@ -1,12 +1,11 @@
 <?php
 /**
- * JFilterInputTest
- *
- * @version		$Id: JFilterInputTest.php 20255 2011-01-10 17:08:15Z chdemko $
- * @package		Joomla.UnitTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license		GNU General Public License
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.UnitTest
  */
+
+defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM.'/joomla/filter/filterinput.php';
 

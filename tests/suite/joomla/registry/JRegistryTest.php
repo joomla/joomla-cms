@@ -1,4 +1,11 @@
 <?php
+/**
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.UnitTest
+ */
+
+defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM.'/joomla/registry/registry.php';
 require_once JPATH_PLATFORM.'/joomla/registry/format.php';
@@ -62,7 +69,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 	public function testDef()
 	{
 		$a = new JRegistry();
-		
+
 		$this->assertThat(
 			$a->def('foo', 'bar'),
 			$this->equalTo('bar'),
@@ -73,7 +80,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$a->get('foo'),
 			$this->equalTo('bar'),
 			'Line: '.__LINE__.'. default should now be the current value'
-		);		
+		);
 	}
 
 	/**
@@ -164,7 +171,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			'Line: '.__LINE__.' The path should not exist, returning false.'
 		);
 	}
-	
+
 	/*
 	 * Test the JRegistry get method
 	 */
@@ -407,7 +414,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 			$this->equalTo('testloadobject'),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 		// Test case from Tracker Issue 22444
 		$registry = new JRegistry();
 		$object = new JObject();
@@ -509,7 +516,7 @@ class JRegistryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(0, $a->get('param3'), '$b value of 0 should override $a value');
 		$this->assertEquals(-1, $a->get('param4'), '$b value of -1 should override $a value');
 		$this->assertEquals(1, $a->get('param5'), '$b value of 1 should override $a value');
-		
+
 		$a = new JRegistry();
 		$b = new stdClass();
 		$this->assertFalse($a->merge($b), 'Line: '.__LINE__.'. Attempt to merge non JRegistry should return false');
