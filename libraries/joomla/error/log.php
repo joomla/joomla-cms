@@ -1,14 +1,12 @@
 <?php
 /**
- * @version		$Id: log.php 17585 2010-06-09 18:59:44Z pasamio $
- * @package		Joomla.Platform
- * @subpackage	Error
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.Platform
+ * @subpackage  Error
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 // TODO: Wack this into a language file when this gets merged
 if(JDEBUG)

@@ -7,12 +7,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once JPATH_PLATFORM.'/joomla/log/logger.php';
-require_once JPATH_PLATFORM.'/joomla/log/loggers/database.php';
+require_once JPATH_PLATFORM.'/joomla/log/logentry.php';
 
 /**
- * Test class for JLoggerDatabase.
+ * Test class for JLogEntry.
  */
-class JLoggerDatabaseTest extends PHPUnit_Framework_TestCase
+class JLogEntryTest extends PHPUnit_Framework_TestCase
 {
 }

@@ -1,12 +1,11 @@
 <?php
 /**
- * JArrayHelperTest
- *
- * @version   $Id: JArrayHelperTest.php 20196 2011-01-09 02:40:25Z ian $
- * @package   Joomla.UnitTest
- * @copyright Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
- * @license   GNU General Public License
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ * @package     Joomla.UnitTest
  */
+
+defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
 
@@ -995,7 +994,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 		$input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
 	{
 		// Skip for MAC until PHP sort bug is fixed
-		if (substr(php_uname(), 0, 6) != 'Darwin') 
+		if (substr(php_uname(), 0, 6) != 'Darwin')
 		{
 			if ($defaults) {
 				$output = JArrayHelper::sortObjects($input, $key);
