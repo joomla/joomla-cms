@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.log.logger');
 
 /**
- * Joomla MessageQueue logger class.
+ * Joomla! MySQL Database Log class
  *
  * This class is designed to output logs to a specific MySQL database table. Fields in this
  * table are based on the SysLog style of log output. This is designed to allow quick and
@@ -22,8 +22,36 @@ jimport('joomla.log.logger');
  * @subpackage  Log
  * @since       11.1
  */
-class JLoggerMessageQueue extends JLogger
+class JLoggerDatabase extends JLogger
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $options  Log object options.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function __construct(array & $options)
+	{
+		// Call the parent constructor.
+		parent::__construct($options);
+
+		// Check if we are supposed to use the system database connection.
+		if (empty($this->options['db_type'])) {
+			$this->db = JFactory::getDBO();
+		}
+		else {
+			// TODO: Build a database connection.
+		}
+
+		// Ensure we have a database table in which to add the log entries.
+		if (empty($this->options['db_table'])) {
+			$this->options['db_table'] = '#__log_entries';
+		}
+	}
+
 	/**
 	 * Method to add an entry to the log.
 	 *
@@ -35,28 +63,6 @@ class JLoggerMessageQueue extends JLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		switch ($entry->priority)
-		{
-			case 'EMERGENCY':
-			case 'ALERT':
-			case 'CRITICAL':
-			case 'ERROR':
-				JFactory::getApplication()->enqueueMessage($entry->message, 'error');
-				break;
-			case 'WARNING':
-				JFactory::getApplication()->enqueueMessage($entry->message, 'warning');
-				break;
-			case 'NOTICE':
-				JFactory::getApplication()->enqueueMessage($entry->message, 'notice');
-				break;
-			case 'INFO':
-				JFactory::getApplication()->enqueueMessage($entry->message, 'message');
-				break;
-			default:
-				// Ignore other priorities.
-				break;
-		}
-
-		return true;
+		return $this->db->insertObject($this->options['db_table'], $entry);
 	}
 }

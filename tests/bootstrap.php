@@ -5,10 +5,11 @@
  * Joomla is assumed to include the /unittest/ directory.
  * eg, /path/to/joomla/unittest/
  *
+ * @package     Joomla.UnitTest
+ *
  * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  * @link        http://www.phpunit.de/manual/current/en/installation.html
- * @package     Joomla.UnitTest
  */
 
 define('_JEXEC', 1);
