@@ -247,7 +247,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Custom update method
 	 *
 	 * @return boolean True on success, false on failure
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public function update()
 	{

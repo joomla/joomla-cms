@@ -41,13 +41,13 @@ class JProfiler extends JObject
 
 	/**
 	 * @var float
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	protected $_previous_time = 0.0;
 
 	/**
 	 * @var float
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	protected $_previous_mem = 0.0;
 
@@ -55,7 +55,7 @@ class JProfiler extends JObject
 	 * Boolean if the OS is Windows.
 	 *
 	 * @var boolean
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	protected $_iswin = false;
 

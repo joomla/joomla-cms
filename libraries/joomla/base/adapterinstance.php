@@ -53,7 +53,7 @@ class JAdapterInstance extends JObject {
 	 * Retrieves the parent object
 	 *
 	 * @return 	object parent
-	 * @since 	1.6
+	 * @since 	11.1
 	 */
 	public function getParent()
 	{

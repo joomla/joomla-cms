@@ -150,7 +150,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @access public
 	 * @return string	Redirect location (or null)
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public function getRedirectURL()
 	{
@@ -162,7 +162,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @access public
 	 * @param  string 	New redirect location
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public function setRedirectURL($newurl) {
 		$this->redirect_url = $newurl;

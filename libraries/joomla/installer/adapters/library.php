@@ -194,7 +194,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * Custom update method
 	 * @access public
 	 * @return boolean True on success
-	 * @since  1.5
+	 * @since  11.1
 	 */
 	public function update()
 	{
@@ -324,7 +324,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 *
 	 * @access public
 	 * @return array(JExtension) list of extensions available
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public function discover()
 	{
@@ -352,7 +352,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * @access public
 	 * @param int $id The id of the extension to install (from #__discoveredextensions)
 	 * @return void
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public function discover_install()
 	{

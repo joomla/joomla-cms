@@ -244,7 +244,7 @@ class JInstallerFile extends JAdapterInstance
 	 * Custom update method
 	 * @access public
 	 * @return boolean True on success
-	 * @since  1.5
+	 * @since  11.1
 	 */
 	public function update()
 	{

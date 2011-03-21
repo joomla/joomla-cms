@@ -537,7 +537,7 @@ abstract class JString
 	 * @author <hsivonen@iki.fi>
 	 * @param string UTF-8 encoded string
 	 * @return boolean true if valid
-	 * @since 1.6
+	 * @since 11.1
 	 * @see http://hsivonen.iki.fi/php-utf8/
 	 * @see compliant
 	 */
@@ -672,7 +672,7 @@ abstract class JString
 	 * @see http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
 	 * @param string UTF-8 string to check
 	 * @return boolean TRUE if string is valid UTF-8
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public static function compliant($str)
 	{
@@ -692,7 +692,7 @@ abstract class JString
 	 *
 	 * @param string URL to parse
 	 * @return associative array or false if badly formed URL.
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	public static function parse_url($url) {
 		$result = array();
