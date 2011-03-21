@@ -176,7 +176,7 @@ class MenusModelItems extends JModelList
 		$query->join('LEFT', '`#__users` AS u ON u.id = a.checked_out');
 
 		//Join over components
-		$query->select('c.name AS componentname');
+		$query->select('c.element AS componentname');
 		$query->join('LEFT', '`#__extensions` AS c ON c.extension_id = a.component_id');
 
 		// Join over the asset groups.

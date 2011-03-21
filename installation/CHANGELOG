@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Mar-2011 Jean-Marie Simonet
+ # [#25355] com_menus translation is missing for list items. Thanks Kolyamba.
+ 
 20-Mar-2011 Mark Dexter
  # Fix typo in revision 20991
 
