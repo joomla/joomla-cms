@@ -110,7 +110,7 @@ class JLogEntry
 			$this->category = (string) strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $category));
 		}
 
-		// Get the date string in ISO 8601 format.
-		$this->date = JFactory::getDate(($date ? $date : 'now'))->toISO8601();
+		// Get the date as a JDate object.
+		$this->date = JFactory::getDate(($date ? $date : 'now'));
 	}
 }
