@@ -17,4 +17,25 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/database.php';
  */
 class JLoggerDatabaseTest extends PHPUnit_Framework_TestCase
 {
+	/**
+	 * Setup for testing.
+	 *
+	 * @return void
+	 */
+	public function setUp()
+	{
+	}
+
+	/**
+	 * Test the JLogEntry::__construct method.
+	 */
+	public function test__construct()
+	{
+//		$tmp = new JLogEntry();
+//		$this->assertThat(
+//			$this->inspector->configurations,
+//			$this->equalTo($expectedConfigurations),
+//			'Line: '.__LINE__.'.'
+//		);
+	}
 }
