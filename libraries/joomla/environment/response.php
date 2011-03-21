@@ -234,7 +234,7 @@ class JResponse
 	 * @param	string	$data	data
 	 *
 	 * @return	string	compressed data
-	 * @since	11.1		Replaces _compress method in 1.5
+	 * @since	11.1		Replaces _compress method in 11.1
 	 */
 	protected static function compress($data)
 	{
@@ -282,7 +282,7 @@ class JResponse
 	 * Check, whether client supports compressed data
 	 *
 	 * @return	boolean
-	 * @since	11.1		Replaces _clientEncoding method from 1.5.
+	 * @since	11.1		Replaces _clientEncoding method from 11.1
 	 */
 	protected static function clientEncoding()
 	{

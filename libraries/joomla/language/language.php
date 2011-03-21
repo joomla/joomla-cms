@@ -384,7 +384,7 @@ class JLanguage extends JObject
 	 * Getter for pluralSufficesCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function getPluralSuffixesCallback() {
 		return $this->pluralSufficesCallback;
@@ -394,7 +394,7 @@ class JLanguage extends JObject
 	 * Set the pluralSuffices function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function setPluralSufficesCallback($function) {
 		$previous = $this->pluralSufficesCallback;
@@ -423,7 +423,7 @@ class JLanguage extends JObject
 	 * Getter for ignoredSearchWordsCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function getIgnoredSearchWordsCallback() {
 		return $this->ignoredSearchWordsCallback;
@@ -433,7 +433,7 @@ class JLanguage extends JObject
 	 * Setter for the ignoredSearchWordsCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function setIgnoredSearchWordsCallback($function) {
 		$previous = $this->ignoredSearchWordsCallback;
@@ -462,7 +462,7 @@ class JLanguage extends JObject
 	 * Getter for lowerLimitSearchWordCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function getLowerLimitSearchWordCallback() {
 		return $this->lowerLimitSearchWordCallback;
@@ -472,7 +472,7 @@ class JLanguage extends JObject
 	 * Setter for the lowerLimitSearchWordCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function setLowerLimitSearchWordCallback($function) {
 		$previous = $this->lowerLimitSearchWordCallback;
@@ -501,7 +501,7 @@ class JLanguage extends JObject
 	 * Getter for upperLimitSearchWordCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function getUpperLimitSearchWordCallback() {
 		return $this->upperLimitSearchWordCallback;
@@ -511,7 +511,7 @@ class JLanguage extends JObject
 	 * Setter for the upperLimitSearchWordCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function setUpperLimitSearchWordCallback($function) {
 		$previous = $this->upperLimitSearchWordCallback;
@@ -540,7 +540,7 @@ class JLanguage extends JObject
 	 * Getter for searchDisplayedCharactersNumberCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function getSearchDisplayedCharactersNumberCallback() {
 		return $this->searchDisplayedCharactersNumberCallback;
@@ -550,7 +550,7 @@ class JLanguage extends JObject
 	 * Setter for the searchDisplayedCharactersNumberCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       1.6
+	 * @since       11.1
 	 */
 	public function setSearchDisplayedCharactersNumberCallback($function) {
 		$previous = $this->searchDisplayedCharactersNumberCallback;

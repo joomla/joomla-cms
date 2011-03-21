@@ -12,7 +12,7 @@ jimport('joomla.updater.updateadapter');
 
 /**
  * Collection Update Adapter Class
- * @since 1.6
+ * @since 11.1
  */
 class JUpdaterCollection extends JUpdateAdapter {
 	/** @var object Root of the tree */

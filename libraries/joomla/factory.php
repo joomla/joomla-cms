@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
  * Joomla Framework Factory class
  *
  * @package Joomla.Platform
- * @since   1.5
+ * @since   11.1
  */
 abstract class JFactory
 {
@@ -257,7 +257,7 @@ abstract class JFactory
 	 * @param int    $cache_time time to cache feed for (using internal cache mechanism)
 	 *
 	 * @return mixed SimplePie parsed object on success, false on failure
-	 * @since: 1.6
+	 * @since: 11.1
 	 * @static
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
@@ -571,7 +571,7 @@ abstract class JFactory
 	 *
 	 * @access private
 	 * @return JMail object
-	 * @since  1.5
+	 * @since  11.1
 	 */
 	private static function _createMailer()
 	{

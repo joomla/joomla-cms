@@ -637,7 +637,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 *
 	 * @access public
 	 * @return array(JExtension) list of extensions available
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	function discover()
 	{
@@ -692,7 +692,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * @access public
 	 * @param int $id The id of the extension to install (from #__discoveredextensions)
 	 * @return void
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	function discover_install()
 	{

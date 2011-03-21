@@ -185,7 +185,7 @@ class JSession extends JObject
 	 *
 	 * @param  string	Hashed token to be verified
 	 * @param  boolean  If true, expires the session
-	 * @since  1.5
+	 * @since  11.1
 	 */
 	public function hasToken($tCheck, $forceExpire = true)
 	{

@@ -7,8 +7,6 @@
  * @package     Joomla.UnitTest
  */
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Test case class for Joomla Unit Testing
  *

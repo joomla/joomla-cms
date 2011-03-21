@@ -345,7 +345,7 @@ class JCacheStorageFile extends JCacheStorage
 	 *
 	 * @param string The path to the folder to delete.
 	 * @return boolean True on success.
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	private function _deleteFolder($path)
 	{
@@ -454,7 +454,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	array	Array with names of files which should not be shown in
 	 * the result.
 	 * @return	array	Files in the given folder.
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	private function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
 	{
@@ -521,7 +521,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	array	Array with regular expressions matching folders which
 	 * should not be shown in the result.
 	 * @return	array	Folders in the given folder.
-	 * @since 1.6
+	 * @since 11.1
 	 */
 	private function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
 	{

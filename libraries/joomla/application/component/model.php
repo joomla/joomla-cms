@@ -40,7 +40,7 @@ abstract class JModel extends JObject
 	 * The model (base) name
 	 *
 	 * @var		string
-	 * @since	11.1 (replaces _name variable in 1.5)
+	 * @since	11.1 (replaces _name variable in 11.1
 	 */
 	protected $name;
 
@@ -54,7 +54,7 @@ abstract class JModel extends JObject
 	 * An state object
 	 *
 	 * @var string
-	 * @since	11.1 (replaces _state variable in 1.5)
+	 * @since	11.1 (replaces _state variable in 11.1
 	 */
 	protected $state;
 

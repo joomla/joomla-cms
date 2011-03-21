@@ -269,7 +269,7 @@ class JFormRuleRulesTest extends JoomlaTestCase
 	 *
 	 * @return  array  The form field element.
 	 *
-	 * @since   1.6
+	 * @since   11.1
 	 */
 	public function getFieldElement($type = 'item')
 	{
@@ -345,7 +345,7 @@ class JFormRuleRulesTest extends JoomlaTestCase
 	 *
 	 * @return  array  The data object.
 	 *
-	 * @since   1.6
+	 * @since   11.1
 	 */
 	public function getRuleData($type = 'item')
 	{

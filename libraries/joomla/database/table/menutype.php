@@ -70,7 +70,7 @@ class JTableMenuType extends JTable
 	 *
 	 * @param	boolean True to update fields even if they are null.
 	 * @return	boolean	True on success.
-	 * @since	1.0
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
@@ -141,7 +141,7 @@ class JTableMenuType extends JTable
 	 * @param	mixed	An optional primary key value to delete.  If not set the
 	 *					instance property value is used.
 	 * @return	boolean	True on success.
-	 * @since	1.0
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)

@@ -14,7 +14,7 @@ jimport('joomla.form.formfield');
  *
  * @package		Joomla.Platform
  * @subpackage	Form
- * @since		1.6
+ * @since		11.1
  */
 class JFormFieldTest extends JFormField
 {
