@@ -151,11 +151,11 @@ class JDatabaseMySQLExporter
 		foreach ($this->from as $table)
 		{
 			// Replace the magic prefix if found.
-			$table = preg_replace('#^$prefix#', '#__', $table);
+			$table = $this->getGenericTableName($table);
 
 			// Get the details columns information.
-			$fields	= self::getColumns($table);
-			$keys	= self::getKeys($table);
+			$fields	= $this->getColumns($table);
+			$keys	= $this->getKeys($table);
 
 			$buffer[] = '  <table_structure name="'.$table .'">';
 
@@ -237,6 +237,25 @@ class JDatabaseMySQLExporter
 		}
 
 		return $this->cache['columns'][$table];
+	}
+
+	/**
+	 * Get the generic name of the table, converting the database prefix to the wildcard string.
+	 *
+	 * @param   string  $table	The name of the table.
+	 *
+	 * @return  string  The real name of the table.
+	 * @since   11.1
+	 */
+	protected function getGenericTableName($table)
+	{
+		// TODO Incorporate into parent class and use $this.
+		$prefix	= $this->db->getPrefix();
+
+		// Replace the magic prefix if found.
+		$table = preg_replace('#^$prefix#', '#__', $table);
+
+		return $table;
 	}
 
 	/**
