@@ -176,6 +176,44 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Gets an exporter class object.
+	 *
+	 * @return  JDatbaseMySqlExporter  An exporter object.
+	 * @since   11.1
+	 */
+	public function getExporter()
+	{
+		// Lazy load the exporter class.
+		if (!class_exists('JDatbaseMySqlExporter')) {
+			require dirname(__FILE__).'/mysqlexporter.php';
+		}
+
+		$o = new JDatbaseMySqlImporter;
+		$o->setDbo($this);
+
+		return $o;
+	}
+
+	/**
+	 * Gets an exporter class object.
+	 *
+	 * @return  JDatbaseMySqlImporter  An importer object.
+	 * @since   11.1
+	 */
+	public function getImporter()
+	{
+		// Lazy load the importer class.
+		if (!class_exists('JDatbaseMySqlImporter')) {
+			require dirname(__FILE__).'/mysqlimporter.php';
+		}
+
+		$o = new JDatbaseMySqlImporter;
+		$o->setDbo($this);
+
+		return $o;
+	}
+
+	/**
 	 * Execute the query
 	 *
 	 * @return	mixed	A database resource if successful, FALSE if not.
