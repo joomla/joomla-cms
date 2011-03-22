@@ -76,6 +76,19 @@ class JDatabaseMySqlExporterInspector extends JDatabaseMySqlExporter
 	}
 
 	/**
+	 * Exposes the protected getGenericTableName method.
+	 *
+	 * @param   string  $table  The name of a table.
+	 *
+	 * @return  string  The name of the table with the database prefix replaced with #__.
+	 * @since   11.1
+	 */
+	public function getGenericTableName($table)
+	{
+		return parent::getGenericTableName($table);
+	}
+
+	/**
 	 * Exposes the protected getKeys method.
 	 *
 	 * @param   mixed  $table  The name of a table or an array of table names.

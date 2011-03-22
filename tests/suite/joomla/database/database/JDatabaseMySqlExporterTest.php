@@ -51,6 +51,16 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
+		->method('getPrefix')
+		->will(
+			$this->returnValue(
+				'jos_'
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
 		->method('nameQuote')
 		->will(
 			$this->returnCallback(
@@ -77,16 +87,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 				array($this, 'callbackLoadObjectList')
 			)
 		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
-		->method('getPrefix')
-		->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function callbackLoadObjectList()
 	{
-		if ($this->lastQuery == 'SHOW FULL COLUMNS FROM `jos_test`') {
+		if ($this->lastQuery == 'SHOW FULL COLUMNS FROM `#__test`') {
 			return array(
 				(object) array(
 					'Field' => 'id',
@@ -123,7 +123,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 				),
 			);
 		}
-		else if ($this->lastQuery == 'SHOW KEYS FROM `jos_test`') {
+		else if ($this->lastQuery == 'SHOW KEYS FROM `#__test`') {
 			return array(
 				(object) array(
 					'Table' => 'jos_test',
@@ -192,10 +192,10 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="jos_test">
+  <table_structure name="#__test">
    <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
    <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="jos_test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
   </table_structure>
  </database>
 </mysqldump>'
@@ -253,10 +253,10 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="jos_test">
+  <table_structure name="#__test">
    <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
    <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="jos_test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
   </table_structure>
  </database>
 </mysqldump>'
@@ -286,10 +286,10 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 			$instance->buildXmlStructure(),
 			$this->equalTo(
 				array(
-					'  <table_structure name="jos_test">',
+					'  <table_structure name="#__test">',
 					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
 					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
-					'   <key Table="jos_test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />',
+					'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />',
 					'  </table_structure>'
 				)
 			),
@@ -453,7 +453,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 
 		try
 		{
-			$result = $instance->getColumns('jos_test');
+			$result = $instance->getColumns('#__test');
 
 			$this->assertThat(
 				is_array($result),
@@ -468,6 +468,24 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 				$e->getMessage()
 			);
 		}
+	}
+
+	/**
+	 * Tests the method getGenericTableName method.
+	 *
+	 * @return  void
+	 * @since   11.1
+	 */
+	public function testGetGenericTableName()
+	{
+		$instance = new JDatabaseMySqlExporterInspector;
+		$instance->setDbo($this->dbo);
+
+		$this->assertThat(
+			$instance->getGenericTableName('jos_test'),
+			$this->equalTo('#__test'),
+			'The testGetGenericTableName should replace the database prefix with #__.'
+		);
 	}
 
 	/**
@@ -486,12 +504,12 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 
 		try
 		{
-			$result = $instance->getKeys('jos_test');
+			$result = $instance->getKeys('#__test');
 
 			$this->assertThat(
 				is_array($result),
 				$this->isTrue(),
-				'getColumns method should return an array matching the sample data.'
+				'getKeys method should return an array matching the sample data.'
 			);
 		}
 		catch (PHPUnit_Framework_Error $e)
