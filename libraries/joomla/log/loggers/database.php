@@ -33,7 +33,7 @@ class JLoggerDatabase extends JLogger
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct(array & $options)
+	public function __construct(array & $options)
 	{
 		// Call the parent constructor.
 		parent::__construct($options);
