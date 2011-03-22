@@ -11,6 +11,7 @@ require_once dirname(__FILE__).'/JDatabaseMySqlExporterInspector.php';
  *
  * @package    Joomla.UnitTest
  * @subpackage Database
+ * @since      11.1
  */
 class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 {
@@ -40,6 +41,7 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 			'JDatabaseMySql',
 			array(
 				'getErrorNum',
+				'getPrefix',
 				'nameQuote',
 				'loadObjectList',
 				'setQuery',
@@ -73,6 +75,16 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 		->will(
 			$this->returnCallback(
 				array($this, 'callbackLoadObjectList')
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getPrefix')
+		->will(
+			$this->returnValue(
+				'jos_'
 			)
 		);
 	}
@@ -218,6 +230,12 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	/**
+	 * Test the buildXML method.
+	 *
+	 * @return  void
+	 * @since   11.1
+	 */
 	public function testBuildXml()
 	{
 		$instance = new JDatabaseMySqlExporterInspector;
@@ -246,7 +264,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 			'buildXml has not returned the expected result.'
 		);
 	}
-
 
 	/**
 	 * Tests the buildXmlStructure method.
@@ -411,8 +428,6 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 				$this->equalTo(array('jos_foobar')),
 				'The from method should convert a string input to an array.'
 			);
-
-			$instance->from(array('jos_foobar'));
 		}
 		catch (Exception $e)
 		{
