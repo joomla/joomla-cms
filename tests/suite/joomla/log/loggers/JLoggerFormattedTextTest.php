@@ -24,6 +24,7 @@ class JLoggerFormattedTextTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		include_once 'TestStubs/JLoggerFormattedText_Inspector.php';
 	}
 
 	/**
@@ -31,11 +32,29 @@ class JLoggerFormattedTextTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__construct()
 	{
-//		$tmp = new JLogEntry();
-//		$this->assertThat(
-//			$this->inspector->configurations,
-//			$this->equalTo($expectedConfigurations),
-//			'Line: '.__LINE__.'.'
-//		);
+		// Check the default settings.
+		$options = array();
+		$tmp = new JLoggerFormattedTextInspector($options);
+
+		// Format.
+		$this->assertThat(
+			$tmp->format,
+			$this->equalTo("{DATETIME}\t{PRIORITY}\t{CATEGORY}\t{MESSAGE}"),
+			'Line: '.__LINE__.'.'
+		);
+
+		// File name.
+		$this->assertThat(
+			$tmp->options['text_file'],
+			$this->equalTo('error.php'),
+			'Line: '.__LINE__.'.'
+		);
+
+		// File path.
+		$this->assertThat(
+			$tmp->options['text_file_path'],
+			$this->equalTo(JFactory::getConfig()->get('log_path')),
+			'Line: '.__LINE__.'.'
+		);
 	}
 }

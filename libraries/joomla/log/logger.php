@@ -40,7 +40,7 @@ abstract class JLogger
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct(array & $options)
+	public function __construct(array & $options)
 	{
 		// Set the options for the class.
 		$this->options = & $options;

@@ -60,7 +60,7 @@ class JLoggerSysLog extends JLogger
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct(array & $options)
+	public function __construct(array & $options)
 	{
 		// Call the parent constructor.
 		parent::__construct($options);
@@ -106,7 +106,7 @@ class JLoggerSysLog extends JLogger
 	 *
 	 * @since   11.1
 	 */
-	protected function __destruct()
+	public function __destruct()
 	{
 		// Close the SysLog connection.
 		closelog();

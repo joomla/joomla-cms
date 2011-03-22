@@ -58,7 +58,7 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct(array & $options)
+	public function __construct(array & $options)
 	{
 		// Call the parent constructor.
 		parent::__construct($options);
@@ -123,7 +123,7 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @since   11.1
 	 */
-	protected function __destruct()
+	public function __destruct()
 	{
 		if (is_resource($this->file)) {
 			fclose($this->file);
