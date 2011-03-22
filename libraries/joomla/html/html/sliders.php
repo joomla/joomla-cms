@@ -53,7 +53,7 @@ abstract class JHtmlSliders
 	 */
 	public static function panel($text, $id)
 	{
-		return '</div></div><div class="panel"><h3 class="pane-toggler title" id="'.$id.'"><a href="#"><span>'.$text.'</span></a></h3><div class="pane-slider content">';
+		return '</div></div><div class="panel"><h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3><div class="pane-slider content">';
 	}
 
 	/**

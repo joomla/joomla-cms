@@ -53,7 +53,7 @@ abstract class JHtmlTabs
 	 */
 	public static function panel($text, $id)
 	{
-		return '</dd><dt class="tabs '.$id.'"><span><h3><a href="#">'.$text.'</a></h3></span></dt><dd class="tabs">';
+		return '</dd><dt class="tabs '.$id.'"><span><h3><a href="javascript:void(0);">'.$text.'</a></h3></span></dt><dd class="tabs">';
 	}
 
 	/**

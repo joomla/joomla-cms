@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Mar-2011 Jean-Marie Simonet
+ # [#25399] *rev 20974 breaks normal sliders/tabs behavior.
+ 
 21-Mar-2011 Jean-Marie Simonet
  # [#25355] com_menus translation is missing for list items. Thanks Kolyamba.
  
