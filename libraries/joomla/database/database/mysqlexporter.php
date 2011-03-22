@@ -9,11 +9,11 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * MySQL export driver
+ * MySQL export driver.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseMySQLExporter
 {
@@ -188,6 +188,7 @@ class JDatabaseMySQLExporter
 
 		return $buffer;
 	}
+
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
@@ -272,6 +273,7 @@ class JDatabaseMySQLExporter
 	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
 	 *
 	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @since   11.1
 	 * @throws  Exception if input is not a string or array.
 	 */
 	public function from($from)
@@ -292,10 +294,10 @@ class JDatabaseMySQLExporter
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param    JDatabaseMySQL  $db  The database connector.
+	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
-	 * @returns  JDatabaseMySQLExporter  Method supports chaining.
-	 * @since    11.1
+	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @since   11.1
 	 */
 	public function setDbo(JDatabaseMySQL $db)
 	{
