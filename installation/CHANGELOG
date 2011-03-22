@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 22-Mar-2011 Jean-Marie Simonet
  # [#25399] *rev 20974 breaks normal sliders/tabs behavior.
+ # Minor typos errors in some ini files. Thanks Sovann Heng.
  
 21-Mar-2011 Jean-Marie Simonet
  # [#25355] com_menus translation is missing for list items. Thanks Kolyamba.
