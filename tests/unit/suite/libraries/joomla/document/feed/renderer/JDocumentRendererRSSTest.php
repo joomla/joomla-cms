@@ -5,6 +5,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once JPATH_BASE.'/libraries/joomla/environment/request.php';
 require_once JPATH_BASE.'/libraries/joomla/document/renderer.php';
 require_once JPATH_BASE.'/libraries/joomla/document/feed/feed.php';
 require_once JPATH_BASE.'/libraries/joomla/document/feed/renderer/rss.php';
@@ -27,6 +28,8 @@ class JDocumentRendererRSSTest extends PHPUnit_Framework_TestCase {
 	 * @access protected
 	 */
 	protected function setUp() {
+		$_SERVER['REQUEST_METHOD'] = 'get';
+		JRequest::setVar('type', 'rss');
 		$this->object = new JDocumentFeed;
 		$app = JFactory::getApplication('site');
 		$_SERVER['HTTP_HOST'] = 'localhost';

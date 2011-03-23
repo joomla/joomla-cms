@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Mar-2011 Mark Dexter
+# [#25359] Fix failing unit test for JDocumentRenderRSS
+
 16-Mar-2011 Mark Dexter
 # [#25286] Fix failing unit test for JDocument (Rouven Weßling)
 # [#25301] Xcache can not be tested using phpunit (Rouven Weßling)

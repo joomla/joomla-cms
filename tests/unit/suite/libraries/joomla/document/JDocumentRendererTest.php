@@ -6,6 +6,7 @@
  */
 
 require_once JPATH_BASE.'/libraries/joomla/document/renderer.php';
+require_once JPATH_BASE.'/libraries/joomla/document/document.php';
 
 /**
  * Test class for JDocumentRenderer.
