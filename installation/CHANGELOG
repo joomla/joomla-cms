@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 23-Mar-2011 Jean-Marie Simonet
  # Adding Khmer flag to language switcher images. Thanks Sovann Heng.
+ # [#25417] JPane slider effect not functioning properly. Thanks Byron and Bill.
  
 23-Mar-2011 Christophe Demko
  # [#25416] *Although en-GB language is protected by default in db, it can be uninstalled (Jean-Marie Simonet)
