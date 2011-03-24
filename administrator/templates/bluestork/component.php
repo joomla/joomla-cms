@@ -21,7 +21,13 @@ defined('_JEXEC') or die;
 <?php if ($this->direction == 'rtl') : ?>
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
+<?php if ($this->params->get('textBig')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/textbig.css" />
+<?php endif; ?>
 
+<?php if ($this->params->get('highContrast')) : ?>
+	<link rel="stylesheet" type="text/css" href="templates/<?php echo  $this->template ?>/css/highcontrast.css" />
+<?php endif; ?>
 </head>
 <body class="contentpane">
 	<jdoc:include type="message" />
