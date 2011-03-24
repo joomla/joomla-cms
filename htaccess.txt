@@ -28,17 +28,25 @@ RewriteEngine On
 # This attempts to block the most common type of exploit `attempts` to Joomla!
 #
 # Block out any script trying to base64_encode data within the URL.
-RewriteCond %{QUERY_STRING} base64_encode.*\(.*\) [OR]
+RewriteCond %{QUERY_STRING} base64_encode[^(]*\([^)]*\) [OR]
 # Block out any script that includes a <script> tag in URL.
-RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} (<|%3C)([^s]*s)+cript.*(>|%3E) [NC,OR]
 # Block out any script trying to set a PHP GLOBALS variable via URL.
 RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
 # Block out any script trying to modify a _REQUEST variable via URL.
 RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
-# Send all blocked request to homepage with 403 Forbidden error!
-RewriteRule ^(.*)$ index.php [F,L]
+# Return 403 Forbidden header and show the content of the root homepage
+RewriteRule .* index.php [F]
 #
 ## End - Rewrite rules to block out some common exploits.
+
+## Begin - Custom redirects
+#
+# If you need to redirect some pages, or set a canonical non-www to
+# www redirect (or vice versa), place that code here. Ensure those
+# redirects use the correct RewriteRule syntax and the [R=301,L] flags.
+#
+## End - Custom redirects
 
 ##
 # Uncomment following line if your webserver's URL
@@ -50,12 +58,20 @@ RewriteRule ^(.*)$ index.php [F,L]
 
 ## Begin - Joomla! core SEF Section.
 #
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+#
+# If the requested path and file is not /index.php and the request
+# has not already been internally rewritten to the index.php script
+RewriteCond %{REQUEST_URI} !^/index\.php
+# and the request is for something within the component folder,
+# or for the site root, or for an extensionless URL, or the
+# requested URL ends with one of the listed extensions
+RewriteCond %{REQUEST_URI} /component/|(/[^.]*|\.(php|html?|feed|pdf|raw))$ [NC]
+# and the requested path and file doesn't directly match a physical file
 RewriteCond %{REQUEST_FILENAME} !-f
+# and the requested path and file doesn't directly match a physical folder
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} !^/index.php
-RewriteCond %{REQUEST_URI} (/component/) [OR]
-RewriteCond %{REQUEST_URI} (/|\.php|\.html|\.htm|\.feed|\.pdf|\.raw|/[^.]*)$  [NC]
-RewriteRule (.*) index.php
-RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+# internally rewrite the request to the index.php script
+RewriteRule .* index.php [L]
 #
 ## End - Joomla! core SEF Section.
