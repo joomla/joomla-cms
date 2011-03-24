@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#25417] JPane slider effect not functioning properly. Thanks Byron and Bill.
  # [#22425] Improve .htaccess rewrite efficency. Thanks Ian Galpin.
  #$ Adding Croatian to installation languages
+ # [#25432] Hathor: minor bug that causes hidden Date values in com_templates. Thanks CY Lee and Bill.
  
 23-Mar-2011 Christophe Demko
  # [#25416] *Although en-GB language is protected by default in db, it can be uninstalled (Jean-Marie Simonet)

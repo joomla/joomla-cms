@@ -88,7 +88,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $this->escape($item->xmldata->get('version')); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->xmldata->get('creationdate')); ?>
+					<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
 				</td>
 				<td>
 					<?php if ($author = $item->xmldata->get('author')) : ?>
