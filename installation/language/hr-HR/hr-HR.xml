@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="1.6" client="installation">
+	<name>Croatian</name>
+	<version>1.6.1</version>
+	<creationDate>2011-03-23</creationDate>
+	<author>Hrvoje Jerkovic</author>
+ 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>hr-HR.ini</filename>
+	</files>
+	<metadata>
+		<name>Croatian</name>
+		<tag>hr-HR</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

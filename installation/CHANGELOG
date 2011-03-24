@@ -31,6 +31,7 @@ $ -> Language fix or change
  # Adding Khmer flag to language switcher images. Thanks Sovann Heng.
  # [#25417] JPane slider effect not functioning properly. Thanks Byron and Bill.
  # [#22425] Improve .htaccess rewrite efficency. Thanks Ian Galpin.
+ #$ Adding Croatian to installation languages
  
 23-Mar-2011 Christophe Demko
  # [#25416] *Although en-GB language is protected by default in db, it can be uninstalled (Jean-Marie Simonet)
