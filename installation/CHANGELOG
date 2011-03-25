@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Mar-2011 Jean-Marie Simonet
+ # [#25436] *Metatag Robots not working for menu items
+ 
 23-Mar-2011 Jean-Marie Simonet
  # Adding Khmer flag to language switcher images. Thanks Sovann Heng.
  # [#25417] JPane slider effect not functioning properly. Thanks Byron and Bill.

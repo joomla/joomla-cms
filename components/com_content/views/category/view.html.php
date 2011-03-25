@@ -245,6 +245,11 @@ class ContentViewCategory extends JView
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
+		
+		if ($this->params->get('robots')) 
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
 
 		if ($app->getCfg('MetaTitle') == '1') {
 			$this->document->setMetaData('title', $this->category->getMetadata()->get('page_title'));
