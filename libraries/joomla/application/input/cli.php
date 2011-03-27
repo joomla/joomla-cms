@@ -9,16 +9,16 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.application.input');
+
 /**
- * Joomla! Input Base Class
- *
- * This is an abstracted input class used to manage retrieving data from the application environment.
+ * Joomla! Input CLI Class
  *
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
  */
-class JInputCLI
+class JInputCLI extends JInput
 {
 	/**
 	 * Constructor.
