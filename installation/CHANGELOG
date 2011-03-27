@@ -30,6 +30,7 @@ $ -> Language fix or change
 27-Mar-2011 Jean-Marie Simonet
  #$ Adding Azeri to installation languages
  # [#25224] Many places calling JHTML:: instead of JHtml:: Thanks Peter and Bill.
+ # [#25451] Installer missing client-side check that package was selected prior to pressing Upload and Install Button. Thanks Amy.
  
 24-Mar-2011 Jean-Marie Simonet
  # [#25436] *Metatag Robots not working for menu items

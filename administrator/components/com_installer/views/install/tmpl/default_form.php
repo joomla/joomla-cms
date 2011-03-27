@@ -12,6 +12,18 @@
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
+	Joomla.submitbutton = function(pressbutton) {
+		var form = document.getElementById('adminForm');
+
+		// do field validation
+		if (form.install_package.value == ""){
+			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true); ?>");
+		} else {
+			form.installtype.value = 'upload';
+			form.submit();
+		}
+	}
+        
 	Joomla.submitbutton3 = function(pressbutton) {
 		var form = document.getElementById('adminForm');
 
