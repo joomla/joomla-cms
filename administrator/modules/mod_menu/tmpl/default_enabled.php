@@ -146,7 +146,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 	// Menu Types
 	foreach (ModMenuHelper::getMenus() as $menuType)
 	{
-		$titleicon = $menuType->home ? ' <span>'.JHTML::_('image','menu/icon-16-default.png', NULL, NULL, true).'</span>' : '';
+		$titleicon = $menuType->home ? ' <span>'.JHtml::_('image','menu/icon-16-default.png', NULL, NULL, true).'</span>' : '';
 		$menu->addChild(
 		new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
 				);

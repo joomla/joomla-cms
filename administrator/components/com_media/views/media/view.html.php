@@ -33,10 +33,10 @@ class MediaViewMedia extends JView
 
 		JHtml::_('behavior.framework', true);
 
-		JHTML::_('script','media/mediamanager.js', true, true);
-		JHTML::_('stylesheet','media/mediamanager.css', array(), true);
+		JHtml::_('script','media/mediamanager.js', true, true);
+		JHtml::_('stylesheet','media/mediamanager.css', array(), true);
 		if ($lang->isRTL()) :
-			JHTML::_('stylesheet','media/mediamanager_rtl.css', array(), true);
+			JHtml::_('stylesheet','media/mediamanager_rtl.css', array(), true);
 		endif;
 
 		JHtml::_('behavior.modal');
@@ -45,10 +45,10 @@ class MediaViewMedia extends JView
 			document.preview = SqueezeBox;
 		});");
 
-		JHTML::_('script','system/mootree.js', true, true, false, false);
-		JHTML::_('stylesheet','system/mootree.css', array(), true);	
+		JHtml::_('script','system/mootree.js', true, true, false, false);
+		JHtml::_('stylesheet','system/mootree.css', array(), true);	
 		if ($lang->isRTL()) :
-			JHTML::_('stylesheet','media/mootree_rtl.css', array(), true);
+			JHtml::_('stylesheet','media/mootree_rtl.css', array(), true);
 		endif;
 
 		if ($config->get('enable_flash', 1)) {

@@ -34,7 +34,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('published' => $published)));?>
 					</select>
-					<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+					<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 			<?php endif; ?>
 
 		<button type="submit" onclick="submitbutton('category.batch');">

@@ -50,7 +50,7 @@ class JElementModuleLayouts extends JElementList
 			$module	= preg_replace('#\W#', '', $module);
 			$path1	= $base.DS.'modules'.DS.$module.DS.'tmpl';
 			$path2	= $base.DS.'templates'.DS.$template.DS.'html'.DS.$module;
-			$options[]	= JHTML::_('select.option', '', '');
+			$options[]	= JHtml::_('select.option', '', '');
 		}
 
 		if ($path1 && $path2) {
@@ -60,15 +60,15 @@ class JElementModuleLayouts extends JElementList
 
 			$files	= JFolder::files($path1, '^[^_]*\.php$');
 			foreach ($files as $file) {
-				$options[]	= JHTML::_('select.option', JFile::stripExt($file));
+				$options[]	= JHtml::_('select.option', JFile::stripExt($file));
 			}
 
 			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
+				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 				foreach ($files as $file) {
-					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
+					$options[]	= JHtml::_('select.option', JFile::stripExt($file));
 				}
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
+				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 			}
 		}
 

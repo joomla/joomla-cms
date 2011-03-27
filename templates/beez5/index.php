@@ -19,7 +19,7 @@ if ($showRightColumn==0 and $showleft==0) {
 	$showno = 0;
 }
 
-JHTML::_('behavior.framework', true);
+JHtml::_('behavior.framework', true);
 
 // get params
 $color			= $this->params->get('templatecolor');

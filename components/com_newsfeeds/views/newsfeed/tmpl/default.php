@@ -76,7 +76,7 @@ if ($lang->isRTL() && $myrtl == 0) {
 				{
 					$text = JFilterOutput::stripImages($text);
 				}
-				$text = JHTML::_('string.truncate', $text, $this->params->get('feed_character_count'));
+				$text = JHtml::_('string.truncate', $text, $this->params->get('feed_character_count'));
 					echo str_replace('&apos;', "'", $text);
 				?>
 

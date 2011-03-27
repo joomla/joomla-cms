@@ -256,10 +256,10 @@ abstract class JHtmlList
 	{
 		$categories = JHtml::_('category.options', $extension);
 		if ($sel_cat) {
-			array_unshift($categories, JHTML::_('select.option',  '0', JText::_('JOPTION_SELECT_CATEGORY')));
+			array_unshift($categories, JHtml::_('select.option',  '0', JText::_('JOPTION_SELECT_CATEGORY')));
 		}
 
-		$category = JHTML::_(
+		$category = JHtml::_(
 			'select.genericlist',
 			$categories,
 			$name,

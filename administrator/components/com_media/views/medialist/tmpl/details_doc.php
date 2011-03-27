@@ -17,7 +17,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 		<tr>
 			<td>
 				<a  title="<?php echo $this->_tmp_doc->name; ?>">
-					<?php  echo JHTML::_('image',$this->_tmp_doc->icon_16, $this->_tmp_doc->title, null, true, true) ? JHTML::_('image',$this->_tmp_doc->icon_16, $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true) : JHTML::_('image','media/con_info.png', $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true);?> </a>
+					<?php  echo JHtml::_('image',$this->_tmp_doc->icon_16, $this->_tmp_doc->title, null, true, true) ? JHtml::_('image',$this->_tmp_doc->icon_16, $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true) : JHtml::_('image','media/con_info.png', $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true);?> </a>
 			</td>
 			<td class="description"  title="<?php echo $this->_tmp_doc->name; ?>">
 				<?php echo $this->_tmp_doc->title; ?>
@@ -30,7 +30,7 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 			</td>
 		<?php if ($user->authorise('core.delete','com_media')):?>
 			<td>
-				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JUtility::getToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>"><?php echo JHTML::_('image','media/remove.png', JText::_('Delete'), array('width' => 16, 'height' => 16, 'border' => 0), true);?></a>
+				<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JUtility::getToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>"><?php echo JHtml::_('image','media/remove.png', JText::_('Delete'), array('width' => 16, 'height' => 16, 'border' => 0), true);?></a>
 				<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" />
 			</td>
 		<?php endif;?>

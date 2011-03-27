@@ -52,12 +52,12 @@ $fieldsets = $this->form->getFieldsets();
 
 	<div class="width-40 fltrt">
 		<?php
-		echo JHTML::_('sliders.start');
+		echo JHtml::_('sliders.start');
 		foreach ($fieldsets as $fieldset) :
 			if ($fieldset->name == 'user_details') :
 				continue;
 			endif;
-			echo JHTML::_('sliders.panel', JText::_($fieldset->label), $fieldset->name);
+			echo JHtml::_('sliders.panel', JText::_($fieldset->label), $fieldset->name);
 		?>
 		<fieldset class="panelform">
 		<ul class="adminformlist">
@@ -72,7 +72,7 @@ $fieldsets = $this->form->getFieldsets();
 		</ul>
 		</fieldset>
 		<?php endforeach; ?>
-		<?php echo JHTML::_('sliders.end'); ?>
+		<?php echo JHtml::_('sliders.end'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

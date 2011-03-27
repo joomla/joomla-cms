@@ -861,7 +861,7 @@ class JHtmlTest extends JoomlaTestCase
 	}
 
 	/**
-	 * Tests JHTML::calendar() method with and without 'readonly' attribute.
+	 * Tests JHtml::calendar() method with and without 'readonly' attribute.
 	 */
 	public function testCalendar()
 	{
@@ -895,7 +895,7 @@ class JHtmlTest extends JoomlaTestCase
 			// Reset the document
 			JFactory::$document = JDocument::getInstance('html', array('unique_key' => serialize($data)));
 
-			$input = JHTML::calendar($data['date'], $data['name'], $data['id'], $data['format'], $data['attribs']);
+			$input = JHtml::calendar($data['date'], $data['name'], $data['id'], $data['format'], $data['attribs']);
 			$this->assertThat(
 				strlen($input),
 				$this->greaterThan(0),

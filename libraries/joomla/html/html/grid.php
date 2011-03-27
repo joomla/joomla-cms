@@ -78,7 +78,7 @@ abstract class JHtmlGrid
 		$html .= JText::_($title);
 
 		if ($order == $selected) {
-			$html .= JHTML::_('image','system/'.$images[$index], '', NULL, true);
+			$html .= JHtml::_('image','system/'.$images[$index], '', NULL, true);
 		}
 
 		$html .= '</a>';
@@ -187,7 +187,7 @@ abstract class JHtmlGrid
 
 		$href = '
 		<a href="#" onclick="return listItemTask(\'cb'. $i .'\',\''. $prefix.$task .'\')" title="'. $action .'">'.
-		JHTML::_('image','admin/'.$img, $alt, NULL, true).'</a>'
+		JHtml::_('image','admin/'.$img, $alt, NULL, true).'</a>'
 		;
 
 		return $href;
@@ -228,7 +228,7 @@ abstract class JHtmlGrid
 
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		// $image = JHTML::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
+		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
 		$href = '<a href="javascript:saveorder('.(count($rows)-1).', \''.$task.'\')" class="saveorder" title="'.JText::_('JLIB_HTML_SAVE_ORDER').'"></a>';
 
 		return $href;
@@ -242,13 +242,13 @@ abstract class JHtmlGrid
 		if ($overlib) {
 			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
-			$date	= JHTML::_('date',$row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
-			$time	= JHTML::_('date',$row->checked_out_time, 'H:i');
+			$date	= JHtml::_('date',$row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
+			$time	= JHtml::_('date',$row->checked_out_time, 'H:i');
 
 			$hover = '<span class="editlinktip hasTip" title="'. JText::_('JLIB_HTML_CHECKED_OUT') .'::'. $text .'<br />'. $date .'<br />'. $time .'">';
 		}
 
-		$checked = $hover .JHTML::_('image','admin/checked_out.png', NULL, NULL, true).'</span>';
+		$checked = $hover .JHtml::_('image','admin/checked_out.png', NULL, NULL, true).'</span>';
 
 		return $checked;
 	}

@@ -32,7 +32,7 @@ $published = $this->state->get('filter.published');
 				<option value=""><?php echo JText::_('JSELECT') ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published)));?>
 			</select>
-			<?php echo JHTML::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+			<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 		</fieldset>
 	<?php endif; ?>
 	<button type="submit" onclick="Joomla.submitbutton('item.batch');">

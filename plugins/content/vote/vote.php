@@ -48,8 +48,8 @@ class plgContentVote extends JPlugin
 			$img = '';
 
 			// look for images in template if available
-			$starImageOn = JHTML::_('image','system/rating_star.png', NULL, NULL, true);
-			$starImageOff = JHTML::_('image','system/rating_star_blank.png', NULL, NULL, true);
+			$starImageOn = JHtml::_('image','system/rating_star.png', NULL, NULL, true);
+			$starImageOff = JHtml::_('image','system/rating_star_blank.png', NULL, NULL, true);
 
 			for ($i=0; $i < $rating; $i++) {
 				$img .= $starImageOn;

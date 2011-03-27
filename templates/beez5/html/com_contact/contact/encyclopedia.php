@@ -31,9 +31,9 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<?php // We are going to use the contact address field for the main image caption. 
 				// If we have a caption load the caption behavior. ?>
 			<?php if ($this->contact->address) {
-				JHTML::_('behavior.caption');
+				JHtml::_('behavior.caption');
 			}?>
-				<?php echo JHTML::_('image',$this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle','class' =>'caption','title'=> $this->contact->address)); ?>
+				<?php echo JHtml::_('image',$this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle','class' =>'caption','title'=> $this->contact->address)); ?>
 			</div>
 		<?php endif; ?> 	
 	</div>

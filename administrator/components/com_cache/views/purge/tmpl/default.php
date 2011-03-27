@@ -32,6 +32,6 @@ defined('_JEXEC') or die;
 
 <div>
 	<input type="hidden" name="task" value="" />
-	<?php echo JHTML::_('form.token'); ?>
+	<?php echo JHtml::_('form.token'); ?>
 </div>
 </form>

@@ -53,10 +53,10 @@ class modBreadCrumbsHelper
 		// specific one first, and if that is not present we load the default separator
 		if ($custom == null) {
 			if ($lang->isRTL()){
-				$_separator = JHTML::_('image','system/arrow_rtl.png', NULL, NULL, true);
+				$_separator = JHtml::_('image','system/arrow_rtl.png', NULL, NULL, true);
 			}
 			else{
-				$_separator = JHTML::_('image','system/arrow.png', NULL, NULL, true);
+				$_separator = JHtml::_('image','system/arrow.png', NULL, NULL, true);
 			}
 		} else {
 			$_separator = htmlspecialchars($custom);

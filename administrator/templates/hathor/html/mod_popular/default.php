@@ -43,7 +43,7 @@ defined('_JEXEC') or die;
 				endif; ?>
 			</th>
 			<td class="center">
-				<?php echo JHTML::_('date',$item->created, 'Y-m-d H:i:s'); ?>
+				<?php echo JHtml::_('date',$item->created, 'Y-m-d H:i:s'); ?>
 			</td>
 			<td class="center">
 				<?php echo $item->hits;?>

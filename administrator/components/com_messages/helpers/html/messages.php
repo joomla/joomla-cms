@@ -30,7 +30,7 @@ class JHtmlMessages extends JController
 			0	=> array('publish_x.png',	'messages.publish',		'COM_MESSAGES_OPTION_UNREAD',	'COM_MESSAGES_MARK_AS_READ')
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= JHTML::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
+		$html	= JHtml::_('image','admin/'.$state[0], JText::_($state[2]), NULL, true);
 		if ($canChange) {
 			$html = '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					.$html.'</a>';

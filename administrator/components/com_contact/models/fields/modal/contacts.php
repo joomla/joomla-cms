@@ -36,7 +36,7 @@ class JFormFieldModal_Contacts extends JFormField
 	{
 		// Load the javascript
 		JHtml::_('behavior.framework');
-		JHTML::_('behavior.modal', 'a.modal');
+		JHtml::_('behavior.modal', 'a.modal');
 
 		// Build the script.
 		$script = array();

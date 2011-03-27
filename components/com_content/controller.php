@@ -29,7 +29,7 @@ class ContentController extends JController
 		}
 		// Article frontpage Editor article proxying:
 		elseif(JRequest::getCmd('view') === 'articles' && JRequest::getCmd('layout') === 'modal') {
-			JHTML::_('stylesheet','system/adminlist.css', array(), true);
+			JHtml::_('stylesheet','system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
@@ -49,7 +49,7 @@ class ContentController extends JController
 	{
 		$cachable = true;
 
-		JHTML::_('behavior.caption');
+		JHtml::_('behavior.caption');
 
 		// Set the default view name and format from the Request.
 		// Note we are using a_id to avoid collisions with the router and the return page.

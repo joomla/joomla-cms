@@ -40,7 +40,7 @@ class JElementTemplateStyle extends JElement {
 		array_unshift( $data, $default );
 
 		$selected = $this->_getSelected();
-		$html = JHTML::_( 'select.genericlist', $data, $control_name.'['.$name.']', 'class="inputbox" size="6"', 'id', 'description', $selected );
+		$html = JHtml::_( 'select.genericlist', $data, $control_name.'['.$name.']', 'class="inputbox" size="6"', 'id', 'description', $selected );
 		return $html;
 	}
 

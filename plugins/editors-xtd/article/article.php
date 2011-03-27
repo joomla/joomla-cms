@@ -57,7 +57,7 @@ class plgButtonArticle extends JPlugin
 		$doc = JFactory::getDocument();
 		$doc->addScriptDeclaration($js);
 
-		JHTML::_('behavior.modal');
+		JHtml::_('behavior.modal');
 
 		/*
 		 * Use the built-in element view to select the article.

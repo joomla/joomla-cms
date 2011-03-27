@@ -18,15 +18,15 @@ jimport('joomla.application.component.helper');
  * @subpackage	com_weblinks
  * @since 1.5
  */
-class JHTMLIcon
+class JHtmlIcon
 {
 	static function create($weblink, $params)
 	{
 		$uri = JFactory::getURI();
 
 		$url = JRoute::_(WeblinksHelperRoute::getFormRoute(0, base64_encode($uri)));
-		$text = JHTML::_('image','system/new.png', JText::_('JNEW'), NULL, true);
-		$button = JHTML::_('link',$url, $text);
+		$text = JHtml::_('image','system/new.png', JText::_('JNEW'), NULL, true);
+		$button = JHtml::_('link',$url, $text);
 		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_FORM_CREATE_WEBLINK').'">'.$button.'</span>';
 		return $output;
 	}
@@ -47,7 +47,7 @@ class JHTMLIcon
 		JHtml::_('behavior.tooltip');
 		$url	= WeblinksHelperRoute::getFormRoute($weblink->id, base64_encode($uri));
 		$icon	= $weblink->state ? 'edit.png' : 'edit_unpublished.png';
-		$text	= JHTML::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
+		$text	= JHtml::_('image','system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 
 		if ($weblink->state == 0) {
 			$overlib = JText::_('JUNPUBLISHED');
@@ -56,7 +56,7 @@ class JHTMLIcon
 			$overlib = JText::_('JPUBLISHED');
 		}
 
-		$date = JHTML::_('date',$weblink->created);
+		$date = JHtml::_('date',$weblink->created);
 		$author = $weblink->created_by_alias ? $weblink->created_by_alias : $weblink->author;
 
 		$overlib .= '&lt;br /&gt;';
@@ -64,7 +64,7 @@ class JHTMLIcon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= htmlspecialchars($author, ENT_COMPAT, 'UTF-8');
 
-		$button = JHTML::_('link',JRoute::_($url), $text);
+		$button = JHtml::_('link',JRoute::_($url), $text);
 
 		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_EDIT').' :: '.$overlib.'">'.$button.'</span>';
 
