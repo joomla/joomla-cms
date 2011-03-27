@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Mar-2011 Jean-Marie Simonet
+ #$ Adding Azeri to installation languages
+ 
 24-Mar-2011 Jean-Marie Simonet
  # [#25436] *Metatag Robots not working for menu items
  
