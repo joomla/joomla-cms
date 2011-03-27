@@ -85,9 +85,9 @@ class JInput
 		}
 
 		if (is_null($source)) {
-			$this->_data = $_REQUEST;
+			$this->_data = & $_REQUEST;
 		} else {
-			$this->_data = $source;
+			$this->_data = & $source;
 		}
 
 		// Set the options for the class.
