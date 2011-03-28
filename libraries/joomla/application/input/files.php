@@ -44,11 +44,7 @@ class JInputFiles extends JInput
 			$this->filter = JFilterInput::getInstance();
 		}
 
-		if (is_null($source)) {
-			$this->_data = $_REQUEST;
-		} else {
-			$this->_data = $source;
-		}
+		$this->data = & $_FILES;
 
 		// Set the options for the class.
 		$this->options = $options;
@@ -67,11 +63,11 @@ class JInputFiles extends JInput
 	 */
 	public function get($name, $default, $filter = 'cmd')
 	{
-		if (isset ($this->_data[$name])) {
-			return $this->filter->clean($this->_data[$name], $filter);
+		if (isset ($this->data[$name])) {
+			return $this->filter->clean($this->data[$name], $filter);
 		}
 
-		foreach ($this->_inputs AS $input)
+		foreach ($this->inputs AS $input)
 		{
 			$return = $input->get($name, $default, $filter);
 
@@ -95,6 +91,6 @@ class JInputFiles extends JInput
 	 */
 	public function set($name, $value)
 	{
-		$this->_data[$name] = $value;
+		$this->data[$name] = $value;
 	}
 }

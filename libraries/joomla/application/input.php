@@ -85,9 +85,9 @@ class JInput
 		}
 
 		if (is_null($source)) {
-			$this->_data = & $_REQUEST;
+			$this->data = & $_REQUEST;
 		} else {
-			$this->_data = & $source;
+			$this->data = & $source;
 		}
 
 		// Set the options for the class.
@@ -106,20 +106,20 @@ class JInput
 	public function __get($name)
 	{
 		// TODO Add handling for 'method'
-		if (isset ($this->_inputs[$name])) {
-			return $this->_inputs[$name];
+		if (isset ($this->inputs[$name])) {
+			return $this->inputs[$name];
 		}
 
 		$className = 'JInput'.$name;
 		if (class_exists($className)) {
-			$this->_inputs[$name] = new $className (null, $this->options);
-			return $this->_inputs[$name];
+			$this->inputs[$name] = new $className (null, $this->options);
+			return $this->inputs[$name];
 		}
 
-		$superGlobal = '_'.$name;
-		if (isset (${ $superGlobal })) {
-			$this->_inputs[$name] = new JInput(${$superGlobal}, $this->options);
-			return $this->_inputs[$name];
+		$superGlobal = '_'.strtoupper($name);
+		if (isset ($GLOBALS[$superGlobal])) {
+			$this->inputs[$name] = new JInput($GLOBALS[$superGlobal], $this->options);
+			return $this->inputs[$name];
 		}
 
 		// TODO throw an exception
@@ -136,13 +136,13 @@ class JInput
 	 * 
 	 * @since   11.1
 	 */
-	public function get($name, $default, $filter = 'cmd')
+	public function get($name, $default = null, $filter = 'cmd')
 	{
-		if (isset ($this->_data[$name])) {
-			return $this->filter->clean($this->_data[$name], $filter);
+		if (isset ($this->data[$name])) {
+			return $this->filter->clean($this->data[$name], $filter);
 		}
 
-		foreach ($this->_inputs AS $input)
+		foreach ((array) $this->inputs as $input)
 		{
 			$return = $input->get($name, $default, $filter);
 
@@ -166,7 +166,7 @@ class JInput
 	 */
 	public function set($name, $value)
 	{
-		$this->_data[$name] = $value;
+		$this->data[$name] = $value;
 	}
 
 	/**
@@ -216,7 +216,7 @@ class JInput
 			while (false !== ($entry = $d->read()))
 			{
 				// Only load for php files.
-				if (is_file($entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
+				if (file_exists($folder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
 
 					// Get the name and full path for each file.
 					$name = preg_replace('#\.[^.]*$#', '', $entry);
