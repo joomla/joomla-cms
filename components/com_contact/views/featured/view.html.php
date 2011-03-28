@@ -114,7 +114,6 @@ class ContactViewFeatured extends JView
 		}
 		$id = (int) @$menu->query['id'];
 
-
 		$title = $this->params->get('page_title', '');
 		if (empty($title)) {
 			$title = $app->getCfg('sitename');
@@ -132,6 +131,11 @@ class ContactViewFeatured extends JView
 		if ($this->params->get('menu-meta_keywords')) 
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots')) 
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 	}
 }

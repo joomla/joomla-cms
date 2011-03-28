@@ -65,6 +65,21 @@ class SearchViewSearch extends JView
 		}
 		$this->document->setTitle($title);
 
+		if ($params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($params->get('menu-meta_description'));
+		}
+
+		if ($params->get('menu-meta_keywords')) 
+		{
+			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+		}
+
+		if ($params->get('robots')) 
+		{
+			$this->document->setMetadata('robots', $params->get('robots'));
+		}
+
 		// built select lists
 		$orders = array();
 		$orders[] = JHtml::_('select.option',  'newest', JText::_('COM_SEARCH_NEWEST_FIRST'));

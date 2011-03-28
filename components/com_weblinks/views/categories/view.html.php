@@ -104,5 +104,10 @@ class WeblinksViewCategories extends JView
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
+
+		if ($this->params->get('robots')) 
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
 	}
 }

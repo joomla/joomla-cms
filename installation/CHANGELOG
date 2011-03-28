@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Mar-2011 Jean-Marie Simonet
+ # [#25481] *Combined patch for various meta issues in menu items. Thanks Piotr
+ 
 27-Mar-2011 Jean-Marie Simonet
  #$ Adding Azeri to installation languages
  # [#25224] Many places calling JHTML:: instead of JHtml:: Thanks Peter and Bill.

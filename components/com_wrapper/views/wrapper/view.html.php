@@ -49,6 +49,11 @@ class WrapperViewWrapper extends JView
 			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
 		}
 
+		if ($params->get('robots')) 
+		{
+			$this->document->setMetadata('robots', $params->get('robots'));
+		}
+
 		$wrapper = new stdClass();
 		// auto height control
 		if ($params->def('height_auto')) {

@@ -234,7 +234,7 @@ class ContactViewContact extends JView
 		if (empty($title)) {
 			$title = $this->item->name;
 		}
-		$this->document->setTitle($title);		
+		$this->document->setTitle($title);
 
 		if ($this->item->metadesc)
 		{
@@ -252,6 +252,11 @@ class ContactViewContact extends JView
 		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords')) 
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots')) 
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
 		if ($app->getCfg('MetaTitle') == '1') {
