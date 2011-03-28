@@ -244,7 +244,7 @@ class JDatabaseMySQLExporter
 	 *
 	 * @param   string  $table	The name of the table.
 	 *
-	 * @return  string  The real name of the table.
+	 * @return  string  The name of the table with the database prefix replaced with #__.
 	 * @since   11.1
 	 */
 	protected function getGenericTableName($table)
@@ -253,7 +253,7 @@ class JDatabaseMySQLExporter
 		$prefix	= $this->db->getPrefix();
 
 		// Replace the magic prefix if found.
-		$table = preg_replace('#^$prefix#', '#__', $table);
+		$table = preg_replace("|^$prefix|", '#__', $table);
 
 		return $table;
 	}
