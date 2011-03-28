@@ -45,7 +45,7 @@ class JInputCookie extends JInput
 		}
 
 		// Set the data source.
-		$this->_data = & $_COOKIE;
+		$this->data = & $_COOKIE;
 
 		// Set the options for the class.
 		$this->options = $options;
@@ -92,6 +92,6 @@ class JInputCookie extends JInput
 	{
 		setcookie($name, $value, $expire, $path, $domain, $secure, $httpOnly);
 
-		$this->_data[$name] = $value;
+		$this->data[$name] = $value;
 	}
 }
