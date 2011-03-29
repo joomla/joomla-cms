@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2011 Mark Dexter
+ # [#25288] Media form field is not allowed access to media manager in the front end
+
 29-Mar-2011 Jean-Marie Simonet
  # Correcting some components xml
  # Normalizing front-end modules xml (format and sys.ini missing)

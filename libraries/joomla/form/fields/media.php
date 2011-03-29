@@ -47,7 +47,10 @@ class JFormFieldMedia extends JFormField
 		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField= $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$asset		= $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'] ;
-
+		if ($asset == "") {
+			 $asset = JRequest::getCmd('option');
+		}
+		
 		$link = (string) $this->element['link'];
 		if (!self::$initialised) {
 
