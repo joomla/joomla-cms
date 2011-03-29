@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#25129] Media manager popup - Change of directory don't reflect in list of images and folders on windows system (XAMPP)
  # [#24736] Don't always load Mootools (More) in the backend.
  # [#25139] Changing modules doesn't reflect changes with enabled caching.
+ # [#25071] onchange event does not fire in JFormFieldAMedia
 
 29-Mar-2011 Jean-Marie Simonet
  # Correcting some components xml

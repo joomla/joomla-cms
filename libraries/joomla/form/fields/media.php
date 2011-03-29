@@ -62,7 +62,9 @@ class JFormFieldMedia extends JFormField
 			$script[] = '	function jInsertFieldValue(value,id) {';
 			$script[] = '		var old_id = document.getElementById(id).value;';
 			$script[] = '		if (old_id != id) {';
-			$script[] = '			document.getElementById(id).value = value;';
+			$script[] = '			var elem = document.getElementById(id)';
+			$script[] = '			elem.value = value;';
+			$script[] = '			elem.onchange();';
 			$script[] = '		}';
 			$script[] = '	}';
 
@@ -117,7 +119,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a title="'.JText::_('JLIB_FORM_BUTTON_CLEAR').'"' .
 					' href="#"'.
-					' onclick="document.getElementById(\''.$this->id.'\').value=\'\';">';
+					' onclick="document.getElementById(\''.$this->id.'\').value=\'\'; document.getElementById(\''.$this->id.'\').onchange();">';
 		$html[] = '			'.JText::_('JLIB_FORM_BUTTON_CLEAR').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
