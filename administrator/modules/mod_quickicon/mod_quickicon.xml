@@ -18,6 +18,10 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_quickicon.ini</language>
+		<language tag="en-GB">en-GB.mod_quickicon.sys.ini</language>	
+	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_QUICKICON" />
 	<config>
 		<fields name="params">

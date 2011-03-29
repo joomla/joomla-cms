@@ -17,6 +17,10 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_logged.ini</language>
+		<language tag="en-GB">en-GB.mod_logged.sys.ini</language>	
+	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LOGGED" />
 	<config>
 		<fields name="params">

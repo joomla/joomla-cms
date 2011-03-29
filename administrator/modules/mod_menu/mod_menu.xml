@@ -19,6 +19,10 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_menu.ini</language>
+		<language tag="en-GB">en-GB.mod_menu.sys.ini</language>	
+	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MENU" />
 	<config>
 		<fields name="params">

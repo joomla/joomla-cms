@@ -18,6 +18,10 @@
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_online.ini</language>
+		<language tag="en-GB">en-GB.mod_online.sys.ini</language>	
+	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_ONLINE" />
 	<config>
 		<fields name="params">
