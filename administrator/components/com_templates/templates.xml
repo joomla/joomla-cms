@@ -9,8 +9,7 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
-	<description>
-	COM_TEMPLATES_XML_DESCRIPTION</description>
+	<description>COM_TEMPLATES_XML_DESCRIPTION</description>
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>

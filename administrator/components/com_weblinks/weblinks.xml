@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.6.0" method="upgrade">
-	<name>weblinks</name>
+	<name>com_weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
 	<copyright>(C) 2005 - 2011 Open Source Matters. All rights reserved.

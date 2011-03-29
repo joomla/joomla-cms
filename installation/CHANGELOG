@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2011 Jean-Marie Simonet
+ # Correcting some components xml
+ 
 28-Mar-2011 Jean-Marie Simonet
  # [#25481] *Combined patch for various meta issues in menu items. Thanks Piotr
  
