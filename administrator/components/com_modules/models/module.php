@@ -104,17 +104,15 @@ class ModulesModelModule extends JModelAdmin
 				}
 
 				// Clear module cache
-				$cache = JFactory::getCache($table->module);
-				$cache->clean();
+				parent::cleanCache($table->module, $table->client_id);
 			}
 			else {
 				throw new Exception($table->getError());
 			}
 		}
 
-		// Clear module cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
+		// Clear modules cache
+		$this->cleanCache();
 
 		return true;
 	}
@@ -179,10 +177,6 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$tuples[] = '('.(int) $table->id.','.(int) $menuid.')';
 				}
-
-				// Clear module cache
-				$cache = JFactory::getCache($table->module);
-				$cache->clean();
 			}
 			else {
 				throw new Exception($table->getError());
@@ -199,9 +193,8 @@ class ModulesModelModule extends JModelAdmin
 			}
 		}
 
-		// Clear module cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
+		// Clear modules cache
+		$this->cleanCache();
 
 		return true;
 	}
@@ -687,11 +680,12 @@ class ModulesModelModule extends JModelAdmin
 		$this->setState('module.extension_id',	$extensionId);
 		$this->setState('module.id',			$table->id);
 
-		// Clear module cache
-		$cache = JFactory::getCache();
-		$cache->clean($table->module);
-		$cache->clean('com_modules');
-
+		// Clear modules cache
+		$this->cleanCache();
+		
+		// Clean module cache
+		parent::cleanCache($table->module, $table->client_id);
+		
 		return true;
 	}
 
@@ -711,4 +705,13 @@ class ModulesModelModule extends JModelAdmin
 
 		return $condition;
 	}
+	
+	/**
+	 * Custom clean cache method for different clients
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('com_modules', $this->getClient());
+	}	
 }

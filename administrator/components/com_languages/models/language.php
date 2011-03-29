@@ -178,8 +178,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		$this->setState('language.id', $table->lang_id);
 
 		// Clean the cache.
-		$cache = JFactory::getCache('com_languages');
-		$cache->clean();
+		$this->cleanCache();
 
 		return true;
 	}
@@ -218,9 +217,20 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache('com_languages');
-		$cache->clean();
+		$this->cleanCache();
 
 		return true;
 	}
+	
+	/**
+	 * Custom clean cache method
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('_system', 0);
+		parent::cleanCache('_system', 1);
+		parent::cleanCache('com_languages', 0);
+		parent::cleanCache('com_languages', 1);
+	}	
 }

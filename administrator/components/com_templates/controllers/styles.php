@@ -51,24 +51,6 @@ class TemplatesControllerStyles extends JControllerAdmin
 	}
 
 	/**
-	 * Proxy for execute.
-	 *
-	 * If the task is an action which modifies data, the component cache is cleared.
-	 *
-	 * @since	1.6
- 	 */
-	public function execute($task)
-	{
-		parent::execute($task);
-
-		// Clear the component's cache
-		if ($task != 'display') {
-			$cache = JFactory::getCache('com_templates');
-			$cache->clean();
-		}
-	}
-
-	/**
 	 * Proxy for getModel.
 	 *
 	 * @since	1.6

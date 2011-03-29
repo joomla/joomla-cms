@@ -91,10 +91,9 @@ class TemplatesModelStyle extends JModelAdmin
 				return false;
 			}
 		}
-
-		$cache = JFactory::getCache();
-		$cache->clean('com_templates');
-		$cache->clean('_system');
+		
+		// Clean cache
+		$this->cleanCache();
 
 		return true;
 	}
@@ -146,10 +145,9 @@ class TemplatesModelStyle extends JModelAdmin
 				throw new Exception($table->getError());
 			}
 		}
-
-		$cache = JFactory::getCache();
-		$cache->clean('com_templates');
-		$cache->clean('_system');
+		
+		// Clean cache
+		$this->cleanCache();
 
 		return true;
 	}
@@ -443,8 +441,7 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache();
-		$cache->clean();
+		$this->cleanCache();
 
 		// Trigger the onExtensionAfterSave event.
 		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.style', &$table, $isNew));
@@ -512,10 +509,8 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache();
-		$cache->clean('com_templates');
-		$cache->clean('_system');
-
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -568,10 +563,8 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache();
-		$cache->clean('com_templates');
-		$cache->clean('_system');
-
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -584,5 +577,15 @@ class TemplatesModelStyle extends JModelAdmin
 	public function getHelp()
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
+	}
+	
+	/**
+	 * Custom clean cache method
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('com_templates');
+		parent::cleanCache('_system');
 	}
 }

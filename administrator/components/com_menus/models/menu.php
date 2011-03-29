@@ -202,11 +202,9 @@ class MenusModelMenu extends JModelForm
 
 		$this->setState('menu.id', $table->id);
 
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -236,11 +234,9 @@ class MenusModelMenu extends JModelForm
 			}
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -278,4 +274,14 @@ class MenusModelMenu extends JModelForm
 
 		return $result;
 	}
+
+	/**
+	 * Custom clean cache method
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('com_modules');
+		parent::cleanCache('mod_menu');
+	}	
 }

@@ -311,8 +311,7 @@ class ContentModelArticle extends JModelAdmin
 
 		$table->reorder();
 
-		$cache = JFactory::getCache('com_content');
-		$cache->clean();
+		$this->cleanCache();
 
 		return true;
 	}
@@ -331,4 +330,20 @@ class ContentModelArticle extends JModelAdmin
 		$condition[] = 'catid = '.(int) $table->catid;
 		return $condition;
 	}
+
+	/**
+	 * Custom clean the cache of com_content and content modules
+	 *
+	 * @since	1.6
+	 */
+	protected function cleanCache()
+	{
+		parent::cleanCache('com_content');
+		parent::cleanCache('mod_articles_archive');
+		parent::cleanCache('mod_articles_categories');
+		parent::cleanCache('mod_articles_category');
+		parent::cleanCache('mod_articles_latest');
+		parent::cleanCache('mod_articles_news');
+		parent::cleanCache('mod_articles_popular');
+	}	
 }

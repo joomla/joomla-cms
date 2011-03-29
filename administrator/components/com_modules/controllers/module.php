@@ -20,24 +20,6 @@ jimport('joomla.application.component.controllerform');
 class ModulesControllerModule extends JControllerForm
 {
 	/**
-	 * Override the execute method to clear the modules cache for non-display tasks.
-	 *
-	 * @param	string		The task to perform.
-	 * @return	mixed|false	The value returned by the called method, false in error case.
-	 * @since	1.6
-	 */
-	public function execute($task)
-	{
-		parent::execute($task);
-
-		// Clear the component's cache
-		if ($task != 'edit' && $task != 'cancel' && $task != 'add') {
-			$cache = JFactory::getCache('com_modules');
-			$cache->clean();
-		}
-	}
-
-	/**
 	 * Override parent add method.
 	 */
 	public function add()

@@ -341,8 +341,8 @@ class ContactModelContact extends JModelAdmin
 
 		$table->reorder();
 
-		$cache = JFactory::getCache('com_contact');
-		$cache->clean();
+		// Clean component's cache
+		$this->cleanCache();
 
 		return true;
 	}

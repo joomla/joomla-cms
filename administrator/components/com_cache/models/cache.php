@@ -117,11 +117,8 @@ class CacheModelCache extends JModelList
 		);
 
 		jimport('joomla.cache.cache');
-
-		// We need to clear the previously used cache handlers, otherwise backend cachebase can't be used
-		JCache::$_handler = array();
-
 		$cache = JCache::getInstance('', $options);
+		
 		return $cache;
 	}
 

@@ -141,10 +141,6 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	public function setPublished($cid, $value = 0)
 	{
-		// Clean the cache.
-		$cache = JFactory::getCache('com_languages');
-		$cache->clean();
-
 		return JTable::getInstance('Language')->publish($cid, $value);
 	}
 
@@ -175,9 +171,21 @@ class LanguagesModelLanguages extends JModelList
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache('com_languages');
-		$cache->clean();
+		$this->cleanCache();
 
 		return true;
 	}
+
+	/**
+	 * Custom clean cache method, 2 places for 2 clients
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('_system', 0);
+		parent::cleanCache('_system', 1);
+		parent::cleanCache('com_languages', 0);
+		parent::cleanCache('com_languages', 1);
+	}	
+
 }

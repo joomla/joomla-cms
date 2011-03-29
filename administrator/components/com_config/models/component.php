@@ -165,8 +165,8 @@ class ConfigModelComponent extends JModelForm
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache('_system');
-		$cache->clean();
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return true;
 	}

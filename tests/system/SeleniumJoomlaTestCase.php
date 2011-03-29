@@ -743,10 +743,34 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("//button[@type='button']");
 		$this->waitForPageToLoad("30000");
+		$this->select($filter, "label=- Select Status -");
+		$this->waitForPageToLoad("30000");
 		$this->gotoAdmin();
 	}
 	
-	function setCache($level)
+	function changeCategory($title = null, $menu = 'Article Manager', $newCategory = 'Uncategorised')
+	{
+		echo "Changing category for $title in $menu to $newCategory\n";
+		$this->gotoAdmin();
+		$this->click("link=$menu");
+		$this->waitForPageToLoad("30000");
+		$this->type("filter_search", $title);
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("link=$title");
+		$this->waitForPageToLoad("30000");
+		$this->select("jform_catid", "label=*$newCategory*");
+		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->waitForPageToLoad("30000");	
+				
+	}
+	/**
+	 * 
+	 * Sets caching option
+	 * 
+	 * @param string $level	Options are off, on-basic, on-full
+	 */
+	function setCache($level = 'off')
 	{
 		$this->gotoAdmin();
 		$this->jClick('Global Configuration');

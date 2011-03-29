@@ -391,6 +391,9 @@ class CategoriesModelCategory extends JModelAdmin
 
 		$this->setState($this->getName().'.id', $table->id);
 
+		// Clear the cache
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -410,6 +413,9 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
+		// Clear the cache
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -431,6 +437,9 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
+		// Clear the cache
+		$this->cleanCache();
+		
 		return true;
 
 	}
@@ -484,6 +493,9 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
+		// Clear the cache
+		$this->cleanCache();
+		
 		return true;
 	}
 
@@ -518,7 +530,7 @@ class CategoriesModelCategory extends JModelAdmin
 				return false;
 			}
 		}
-
+		
 		return true;
 	}
 
@@ -676,10 +688,6 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_categories');
-		$cache->clean();
-
 		return true;
 	}
 
@@ -797,10 +805,31 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_categories');
-		$cache->clean();
-
 		return true;
+	}
+
+	/**
+	 * Custom clean the cache of com_content and content modules
+	 *
+	 * @since	1.6
+	 */
+	protected function cleanCache()
+	{
+		$extension = JRequest::getCmd('extension');
+		switch ($extension)
+		{
+			case 'com_content':
+				parent::cleanCache('com_content');
+				parent::cleanCache('mod_articles_archive');
+				parent::cleanCache('mod_articles_categories');
+				parent::cleanCache('mod_articles_category');
+				parent::cleanCache('mod_articles_latest');
+				parent::cleanCache('mod_articles_news');
+				parent::cleanCache('mod_articles_popular');
+				break;
+			default:
+				parent::cleanCache($extension);
+				break;
+		}
 	}
 }

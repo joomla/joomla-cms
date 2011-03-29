@@ -317,10 +317,10 @@ class LanguagesModelInstalled extends JModelList
 		}
 
 		// Clean the cache.
-		$cache = JFactory::getCache();
-		$cache->clean('com_languages');
-		$cache->clean('_system');
-
+		$this->cleanCache();
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		
 		return true;
 	}
 

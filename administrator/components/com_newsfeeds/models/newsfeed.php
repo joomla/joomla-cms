@@ -201,6 +201,25 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	}
 
 	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param	array	$pks	A list of the primary keys to change.
+	 * @param	int		$value	The value of the published state.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	1.6
+	 */
+	function publish(&$pks, $value = 1)
+	{
+		$result = parent::publish($pks, $value);
+		
+		// Clean extra cache for newsfeeds
+		$this->cleanCache('feed_parser');
+
+		return $result;
+	}
+
+	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
 	 * @param	object	A record object.

@@ -314,4 +314,14 @@ class PluginsModelPlugin extends JModelAdmin
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
 	}
+
+	/**
+	 * Custom clean cache method, plugins are cached in 2 places for different clients
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('com_plugins', 0);
+		parent::cleanCache('com_plugins', 1);
+	}	
 }

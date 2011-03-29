@@ -167,10 +167,8 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache();
-		$cache->clean('com_modules');
-		$cache->clean('mod_menu');
+		// Clean the cache
+		$this->cleanCache();
 
 		return true;
 	}
@@ -233,111 +231,109 @@ class MenusModelItem extends JModelAdmin
 			'SELECT COUNT(id)' .
 			' FROM #__menu'
 			);
-			$count = $db->loadResult();
+		$count = $db->loadResult();
 
-			if ($error = $db->getErrorMsg()) {
-				$this->setError($error);
-				return false;
+		if ($error = $db->getErrorMsg()) {
+			$this->setError($error);
+			return false;
+		}
+
+		// Parent exists so we let's proceed
+		while (!empty($pks) && $count > 0)
+		{
+			// Pop the first id off the stack
+			$pk = array_shift($pks);
+
+			$table->reset();
+
+			// Check that the row actually exists
+			if (!$table->load($pk)) {
+				if ($error = $table->getError()) {
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else {
+					// Not fatal error
+					$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					continue;
+				}
 			}
 
-			// Parent exists so we let's proceed
-			while (!empty($pks) && $count > 0)
+			// Copy is a bit tricky, because we also need to copy the children
+			$db->setQuery(
+			'SELECT id' .
+			' FROM #__menu' .
+			' WHERE lft > '.(int) $table->lft.' AND rgt < '.(int) $table->rgt
+			);
+			$childIds = $db->loadResultArray();
+
+			// Add child ID's to the array only if they aren't already there.
+			foreach ($childIds as $childId)
 			{
-				// Pop the first id off the stack
-				$pk = array_shift($pks);
-
-				$table->reset();
-
-				// Check that the row actually exists
-				if (!$table->load($pk)) {
-					if ($error = $table->getError()) {
-						// Fatal error
-						$this->setError($error);
-						return false;
-					}
-					else {
-						// Not fatal error
-						$this->setError(JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-						continue;
-					}
+				if (!in_array($childId, $pks)) {
+					array_push($pks, $childId);
 				}
-
-				// Copy is a bit tricky, because we also need to copy the children
-				$db->setQuery(
-				'SELECT id' .
-				' FROM #__menu' .
-				' WHERE lft > '.(int) $table->lft.' AND rgt < '.(int) $table->rgt
-				);
-				$childIds = $db->loadResultArray();
-
-				// Add child ID's to the array only if they aren't already there.
-				foreach ($childIds as $childId)
-				{
-					if (!in_array($childId, $pks)) {
-						array_push($pks, $childId);
-					}
-				}
-
-				// Make a copy of the old ID and Parent ID
-				$oldId				= $table->id;
-				$oldParentId		= $table->parent_id;
-
-				// Reset the id because we are making a copy.
-				$table->id			= 0;
-
-				// If we a copying children, the Old ID will turn up in the parents list
-				// otherwise it's a new top level item
-				$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
-				$table->menutype	= $menuType;
-
-				// Set the new location in the tree for the node.
-				$table->setLocation($table->parent_id, 'last-child');
-
-				// TODO: Deal with ordering?
-				//$table->ordering	= 1;
-				$table->level		= null;
-				$table->lft		= null;
-				$table->rgt	= null;
-
-				// Alter the title & alias
-				list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-				$table->title   = $title;
-				$table->alias   = $alias;
-
-				// Check the row.
-				if (!$table->check()) {
-					$this->setError($table->getError());
-					return false;
-				}
-				// Store the row.
-				if (!$table->store()) {
-					$this->setError($table->getError());
-					return false;
-				}
-
-				// Now we log the old 'parent' to the new 'parent'
-				$parents[$oldId] = $table->id;
-				$count--;
 			}
 
-			// Rebuild the hierarchy.
-			if (!$table->rebuild()) {
+			// Make a copy of the old ID and Parent ID
+			$oldId				= $table->id;
+			$oldParentId		= $table->parent_id;
+
+			// Reset the id because we are making a copy.
+			$table->id			= 0;
+
+			// If we a copying children, the Old ID will turn up in the parents list
+			// otherwise it's a new top level item
+			$table->parent_id	= isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+			$table->menutype	= $menuType;
+
+			// Set the new location in the tree for the node.
+			$table->setLocation($table->parent_id, 'last-child');
+
+			// TODO: Deal with ordering?
+			//$table->ordering	= 1;
+			$table->level		= null;
+			$table->lft		= null;
+			$table->rgt	= null;
+
+			// Alter the title & alias
+			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			$table->title   = $title;
+			$table->alias   = $alias;
+
+			// Check the row.
+			if (!$table->check()) {
+				$this->setError($table->getError());
+				return false;
+			}
+			// Store the row.
+			if (!$table->store()) {
 				$this->setError($table->getError());
 				return false;
 			}
 
-			// Rebuild the tree path.
-			if (!$table->rebuildPath($table->id)) {
-				$this->setError($table->getError());
-				return false;
-			}
+			// Now we log the old 'parent' to the new 'parent'
+			$parents[$oldId] = $table->id;
+			$count--;
+		}
 
-			// Clear the component's cache
-			$cache = JFactory::getCache('com_modules');
-			$cache->clean();
-			$cache->clean('mod_menu');
+		// Rebuild the hierarchy.
+		if (!$table->rebuild()) {
+			$this->setError($table->getError());
+			return false;
+		}
 
-			return true;
+		// Rebuild the tree path.
+		if (!$table->rebuildPath($table->id)) {
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+				
+		return true;
 	}
 
 	/**
@@ -465,11 +461,9 @@ class MenusModelItem extends JModelAdmin
 				}
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+				
 		return true;
 	}
 
@@ -979,11 +973,9 @@ class MenusModelItem extends JModelAdmin
 			unset($registry);
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache();
-		$cache->clean('com_modules');
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+				
 		return true;
 	}
 
@@ -1048,16 +1040,16 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.id', $table->id);
 		$this->setState('item.menutype', $table->menutype);
 
-		// Clear the component's cache
-		$cache = JFactory::getCache('com_modules');
-		$cache->clean();
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+				
 		if (isset($data['link'])) {
-			$base = JURI::base();
-			$juri = JURI::getInstance($base.$data['link']);
-			$com = $juri->getVar('option');
-			$cache->clean($com);
+			$base 	= JURI::base();
+			$juri 	= JURI::getInstance($base.$data['link']);
+			$option = $juri->getVar('option');
+
+			// Clean the cache
+			parent::cleanCache($option);
 		}
 
 		return true;
@@ -1084,11 +1076,9 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache();
-		$cache->clean('com_modules');
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+				
 		return true;
 	}
 
@@ -1156,11 +1146,9 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache();
-		$cache->clean('com_modules');
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+				
 		return true;
 	}
 
@@ -1192,35 +1180,10 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 
-		// Clear the component's cache
-		$cache = JFactory::getCache();
-		$cache->clean('com_modules');
-		$cache->clean('mod_menu');
-
+		// Clean the cache
+		$this->cleanCache();
+				
 		return parent::publish($pks,$value);
-	}
-
-	/**
-	 * Method to adjust the ordering of a row.
-	 *
-	 * Returns NULL if the user did not have edit
-	 * privileges for any of the selected primary keys.
-	 *
-	 * @param	int				$pks	The ID of the primary key to move.
-	 * @param	integer			$delta	Increment, usually +1 or -1
-	 *
-	 * @return	boolean|null	False on failure or error, true on success.
-	 * @since	1.6
-	 */
-
-	public function reorder($pks, $delta = 0) {
-
-		// Clear the component's cache
-		$cache = JFactory::getCache();
-		$cache->clean('com_modules');
-		$cache->clean('mod_menu');
-
-		return parent::reorder($pks, $delta);
 	}
 
 	/**
@@ -1252,4 +1215,15 @@ class MenusModelItem extends JModelAdmin
 
 		return array($title ,$alias);
 	}
+	
+	/**
+	 * Custom clean cache method
+	 *
+	 * @since	1.6
+	 */
+	function cleanCache() {
+		parent::cleanCache('com_modules');
+		parent::cleanCache('mod_menu');
+	}	
+	
 }
