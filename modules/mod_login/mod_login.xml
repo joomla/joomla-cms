@@ -20,9 +20,8 @@
 		<filename>index.html</filename>		<filename>mod_login.xml</filename>
 	</files>
 	<languages>
-		<language
-			tag="en-GB">en-GB.mod_login.ini</language>
-			tag="en-GB">en-GB.mod_login.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_login.ini</language>
+		<language tag="en-GB">en-GB.mod_login.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
