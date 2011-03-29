@@ -14,15 +14,14 @@
 	<version>1.6.0</version>
 	<description>MOD_RELATED_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_related_items">mod_related_items.php</filename>
+		<filename module="mod_related_items">mod_related_items.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>		<filename>mod_related_items.xml</filename>
 	</files>
 	<languages>
-		<language
-			tag="en-GB">en-GB.mod_related_items.ini</language>
+		<language tag="en-GB">en-GB.mod_related_items.ini</language>
+		<language tag="en-GB">en-GB.mod_related_items.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_RELATED" />
 	<config>

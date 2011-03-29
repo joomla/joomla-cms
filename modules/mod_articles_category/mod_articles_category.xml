@@ -23,8 +23,8 @@
 		<filename>mod_articles_category.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_articles_category.ini
-		</language>
+		<language tag="en-GB">en-GB.mod_articles_category.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_category.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_CATEGORY" />
 	<config>

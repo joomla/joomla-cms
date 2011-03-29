@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 29-Mar-2011 Jean-Marie Simonet
  # Correcting some components xml
+ # Normalizing front-end modules xml (format and sys.ini missing)
  
 28-Mar-2011 Jean-Marie Simonet
  # [#25481] *Combined patch for various meta issues in menu items. Thanks Piotr

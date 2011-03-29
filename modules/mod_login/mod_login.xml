@@ -14,8 +14,7 @@
 	<version>1.6.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_login">mod_login.php</filename>
+		<filename module="mod_login">mod_login.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>		<filename>mod_login.xml</filename>
@@ -23,6 +22,7 @@
 	<languages>
 		<language
 			tag="en-GB">en-GB.mod_login.ini</language>
+			tag="en-GB">en-GB.mod_login.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>

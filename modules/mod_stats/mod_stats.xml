@@ -14,15 +14,14 @@
 	<version>1.6.0</version>
 	<description>MOD_STATS_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_stats">mod_stats.php</filename>
+		<filename module="mod_stats">mod_stats.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>		<filename>mod_stats.xml</filename>
 	</files>
 	<languages>
-		<language
-			tag="en-GB">en-GB.mod_stats.ini</language>
+		<language tag="en-GB">en-GB.mod_stats.ini</language>
+		<language tag="en-GB">en-GB.mod_stats.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_STATISTICS" />
 	<config>

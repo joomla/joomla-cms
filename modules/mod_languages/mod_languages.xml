@@ -14,8 +14,7 @@
 	<version>1.6.0</version>
 	<description>MOD_LANGUAGES_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_languages">mod_languages.php</filename>
+		<filename module="mod_languages">mod_languages.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>
@@ -23,6 +22,7 @@
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_languages.ini</language>
+		<language tag="en-GB">en-GB.mod_languages.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
 	<config>

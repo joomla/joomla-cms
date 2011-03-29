@@ -21,8 +21,8 @@
 		<filename>mod_wrapper.xml</filename>
 	</files>
 	<languages>
-		<language
-			tag="en-GB">en-GB.mod_weblinks.ini</language>
+		<language tag="en-GB">en-GB.mod_weblinks.ini</language>
+		<language tag="en-GB">en-GB.mod_weblinks.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WEBLINKS" />
 	<config>

@@ -14,8 +14,7 @@
 	<version>1.6.0</version>
 	<description>MOD_BREADCRUMBS_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
+		<filename module="mod_breadcrumbs">mod_breadcrumbs.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>

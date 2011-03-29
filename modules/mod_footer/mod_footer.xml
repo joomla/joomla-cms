@@ -14,14 +14,13 @@
 	<version>1.6.0</version>
 	<description>MOD_FOOTER_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_footer">mod_footer.php</filename>
+		<filename module="mod_footer">mod_footer.php</filename>
 		<folder>tmpl</folder>
 		<filename>index.html</filename>		<filename>mod_footer.xml</filename>
 	</files>
 	<languages>
-		<language
-			tag="en-GB">en-GB.mod_footer.ini</language>
+		<language tag="en-GB">en-GB.mod_footer.ini</language>
+		<language tag="en-GB">en-GB.mod_footer.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_FOOTER" />
 	<config>

@@ -13,11 +13,15 @@
 	<version>1.6.0</version>
 	<description>MOD_CUSTOM_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_custom">mod_custom.php</filename>
+		<filename module="mod_custom">mod_custom.php</filename>
 		<filename>index.html</filename>
 		<folder>tmpl</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_custom.ini</language>
+		<language tag="en-GB">en-GB.mod_custom.sys.ini</language>	
+	</languages>
+
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_CUSTOM_HTML" />
 	<config>
 		<fields name="params">

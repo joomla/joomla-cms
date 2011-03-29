@@ -14,16 +14,15 @@
 	<version>1.6.0</version>
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
 	<files>
-		<filename
-			module="mod_articles_news">mod_articles_news.php</filename>
+		<filename module="mod_articles_news">mod_articles_news.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 		<filename>index.html</filename>
 		<filename>mod_articles_news.xml</filename>
 	</files>
 	<languages>
-		<language
-			tag="en-GB">en-GB.mod_articles_news.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
+		<language tag="en-GB">en-GB.mod_articles_news.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_NEWSFLASH" />
 	<config>
