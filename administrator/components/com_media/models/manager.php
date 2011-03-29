@@ -52,6 +52,9 @@ class MediaModelManager extends JModel
 		if (empty($base)) {
 			$base = COM_MEDIA_BASE;
 		}
+		//corrections for windows paths
+		$base = str_replace(DS, '/', $base);
+		$com_media_base_uni = str_replace(DS, '/', COM_MEDIA_BASE);
 
 		// Get the list of folders
 		jimport('joomla.filesystem.folder');
@@ -65,7 +68,7 @@ class MediaModelManager extends JModel
 
 		foreach ($folders as $folder)
 		{
-			$folder		= str_replace(COM_MEDIA_BASE, "", $folder);
+			$folder		= str_replace($com_media_base_uni, "", str_replace(DS, '/', $folder));
 			$value		= substr($folder, 1);
 			$text		= str_replace(DS, "/", $folder);
 			$options[]	= JHtml::_('select.option', $value, $text);
