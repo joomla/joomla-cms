@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Mar-2011 Jean-Marie Simonet
+ #$ Adding Bosnian to installation languages
+ 
 29-Mar-2011 Mark Dexter
  # [#25288] Media form field is not allowed access to media manager in the front end
  # [#25129] Media manager popup - Change of directory don't reflect in list of images and folders on windows system (XAMPP)
