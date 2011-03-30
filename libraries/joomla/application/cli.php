@@ -24,33 +24,33 @@ jimport('joomla.registry.registry');
 class JCli
 {
 	/**
-	 * The name of the program.
-	 *
-	 * @var    string
+	 * @var    JInput  The application input object.
 	 * @since  11.1
 	 */
-	protected $name;
+	public $input;
 
 	/**
-	 * The application configuration object.
-	 *
-	 * @var    JRegistry
+	 * @var    JRegistry  The application configuration object.
 	 * @since  11.1
 	 */
 	protected $config;
 
 	/**
-	 * The application input object.
-	 *
-	 * @var		JInput
-	 * @since   11.1
+	 * @var    string  The name of the program.
+	 * @since  11.1
 	 */
-	public $input;
+	protected $name;
+
+	/**
+	 * @var    array  The instantiated CLI objects by name.
+	 * @since  11.1
+	 */
+	protected static $instances;
 
 	/**
 	 * Class constructor.
 	 *
-	 * @param   array  A configuration array.
+	 * @param   array  $config  A configuration array.
 	 *
 	 * @return  void
 	 *
@@ -93,8 +93,8 @@ class JCli
 	 * This method must be invoked as:
 	 * 		<pre>$cli = JCli::getInstance();</pre>
 	 *
-	 * @param   mixed  The site object name.
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   string  $name    The site object name.
+	 * @param   array   $config  An optional associative array of configuration settings.
 	 *
 	 * @return  JCli
 	 *
@@ -122,7 +122,7 @@ class JCli
 	/**
 	 * Execute the application.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  bool  True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -134,7 +134,7 @@ class JCli
 	/**
 	 * Exit the application.
 	 *
-	 * @param   integer  Exit code.
+	 * @param   integer  $code  Exit code.
 	 *
 	 * @return  void
 	 *
@@ -146,9 +146,10 @@ class JCli
 	}
 
 	/**
-	 * Write a string to stndard output.
+	 * Write a string to standard output.
 	 *
-	 * @param   string  The text to display.
+	 * @param   string  $text  The text to display.
+	 * @param   bool    $nl    True to append a new line at the end of the output string.
 	 *
 	 * @return  void
 	 *
@@ -174,8 +175,8 @@ class JCli
 	/**
 	 * Registers a handler to a particular event group.
 	 *
-	 * @param   string  The event name.
-	 * @param   mixed   The handler, a function or an instance of a event object.
+	 * @param   string    $event    The event name.
+	 * @param   callback  $handler  The handler, a function or an instance of a event object.
 	 *
 	 * @return  void
 	 *
@@ -189,14 +190,14 @@ class JCli
 	/**
 	 * Calls all handlers associated with an event group.
 	 *
-	 * @param   string  The event name.
-	 * @param   array   An array of arguments.
+	 * @param   string  $event  The event name.
+	 * @param   array   $args   An array of arguments.
 	 *
 	 * @return  array   An array of results from each function call.
 	 *
 	 * @since   11.1
 	 */
-	function triggerEvent($event, $args=null)
+	function triggerEvent($event, $args = null)
 	{
 		return JDispatcher::getInstance()->trigger($event, $args);
 	}
@@ -204,14 +205,14 @@ class JCli
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @param   string  The name of the property
-	 * @param   mixed   The default value if none is set.
+	 * @param   string  $key      The name of the property
+	 * @param   mixed   $default  The default value if none is set.
 	 *
 	 * @return  mixed   The value of the configuration.
 	 *
 	 * @since   11.1
  	 */
-	public function get($key, $default=null)
+	public function get($key, $default = null)
 	{
 		return $this->config->get($key, $default);
 	}
@@ -219,8 +220,8 @@ class JCli
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @param   string  The name of the property
-	 * @param   mixed   The value of the property to set
+	 * @param   string  $key    The name of the property
+	 * @param   mixed   $value  The value of the property to set
 	 *
 	 * @return  mixed   Previous value of the property
 	 *
@@ -236,9 +237,9 @@ class JCli
 	/**
 	 * Load the configuration file into the site object.
 	 *
-	 * @param   string   The path to the configuration file.
+	 * @param   string   $file  The path to the configuration file.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  bool     True on success.
 	 *
 	 * @since   11.1
 	 */

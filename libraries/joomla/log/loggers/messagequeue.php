@@ -29,7 +29,7 @@ class JLoggerMessageQueue extends JLogger
 	 *
 	 * @param   JLogEntry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -37,26 +37,24 @@ class JLoggerMessageQueue extends JLogger
 	{
 		switch ($entry->priority)
 		{
-			case 'EMERGENCY':
-			case 'ALERT':
-			case 'CRITICAL':
-			case 'ERROR':
+			case JLog::EMERGENCY:
+			case JLog::ALERT:
+			case JLog::CRITICAL:
+			case JLog::ERROR:
 				JFactory::getApplication()->enqueueMessage($entry->message, 'error');
 				break;
-			case 'WARNING':
+			case JLog::WARNING:
 				JFactory::getApplication()->enqueueMessage($entry->message, 'warning');
 				break;
-			case 'NOTICE':
+			case JLog::NOTICE:
 				JFactory::getApplication()->enqueueMessage($entry->message, 'notice');
 				break;
-			case 'INFO':
+			case JLog::INFO:
 				JFactory::getApplication()->enqueueMessage($entry->message, 'message');
 				break;
 			default:
 				// Ignore other priorities.
 				break;
 		}
-
-		return true;
 	}
 }

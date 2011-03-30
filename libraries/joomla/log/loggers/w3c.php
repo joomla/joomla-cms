@@ -27,10 +27,8 @@ JLoader::register('JLoggerFormattedText', dirname(__FILE__).'/formattedtext.php'
 class JLoggerW3C extends JLoggerFormattedText
 {
 	/**
-	 * The format for which each entry follows in the log file.  All fields must be named
-	 * in all caps and be within curly brackets eg. {FOOBAR}.
-	 *
-	 * @var    string
+	 * @var    string  The format for which each entry follows in the log file.  All fields must be
+	 *                 named in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
 	protected $format = "{DATE}\t{TIME}\t{PRIORITY}\t{CLIENTIP}\t{CATEGORY}\t{MESSAGE}";

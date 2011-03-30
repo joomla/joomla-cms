@@ -10,23 +10,25 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Inspector class for the JCli library.
+ * Inspector classes for the JInput library.
  */
 
 /**
  * @package		Joomla.UnitTest
  * @subpackage	Application
  */
-class JInputInspector extends JInput
+class JCliInspector extends JCli
 {
-	public $options;
-	public $filter;
-	public $data;
-	public $inputs;
-	public static $registered;
+	public $name;
+	public $config;
 
-	public static function register()
+	public function __construct()
 	{
-		return parent::register();
+		return parent::__construct();
+	}
+
+	public function loadConfiguration()
+	{
+		return parent::loadConfiguration();
 	}
 }

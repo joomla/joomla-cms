@@ -57,12 +57,12 @@ class JLoggerDatabase extends JLogger
 	 *
 	 * @param   JLogEntry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		return $this->db->insertObject($this->options['db_table'], $entry);
+		$this->db->insertObject($this->options['db_table'], $entry);
 	}
 }

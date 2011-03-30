@@ -25,26 +25,20 @@ jimport('joomla.filesystem.folder');
 class JLoggerFormattedText extends JLogger
 {
 	/**
-	 * The file pointer for the log file..
-	 *
-	 * @var    resource
+	 * @var    resource  The file pointer for the log file.
 	 * @since  11.1
 	 */
 	protected $file;
 
 	/**
-	 * The format for which each entry follows in the log file.  All fields must be named
-	 * in all caps and be within curly brackets eg. {FOOBAR}.
-	 *
-	 * @var    string
+	 * @var    string  The format for which each entry follows in the log file.  All fields must
+	 *                 be named in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
 	protected $format = "{DATETIME}\t{PRIORITY}\t{CATEGORY}\t{MESSAGE}";
 
 	/**
-	 * The full filesystem path for the log file.
-	 *
-	 * @var    string
+	 * @var    string  The full filesystem path for the log file.
 	 * @since  11.1
 	 */
 	protected $path;
@@ -57,6 +51,7 @@ class JLoggerFormattedText extends JLogger
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @throws  LogException
 	 */
 	public function __construct(array & $options)
 	{
@@ -107,11 +102,11 @@ class JLoggerFormattedText extends JLogger
 
 		// Open the file for writing (append mode).
 		if (!$this->file = fopen($this->path, 'a')) {
-			// Throw exception.
+			throw new LogException();
 		}
 		if ($head) {
 			if (!fputs($this->file, $head)) {
-				// Throw exception.
+				throw new LogException();
 			}
 		}
 	}
@@ -135,9 +130,10 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @param   JLogEntry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
+	 * @throws  LogException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
@@ -184,9 +180,7 @@ class JLoggerFormattedText extends JLogger
 
 		// Write the new entry to the file.
 		if (!fputs($this->file, $line."\n")) {
-			return false;
+			throw new LogException();
 		}
-
-		return true;
 	}
 }

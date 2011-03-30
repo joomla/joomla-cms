@@ -26,18 +26,7 @@ jimport('joomla.log.logger');
 class JLoggerSysLog extends JLogger
 {
 	/**
-	 * Translation array for JLogEntry priorities to SysLog priority names.
-	 *
-	 * EMERG   - The system is unusable.
-	 * ALERT   - Action must be taken immediately.
-	 * CRIT    - Critical conditions.
-	 * ERR     - Error conditions.
-	 * WARNING - Warning conditions.
-	 * NOTICE  - Normal, but significant condition.
-	 * INFO    - Informational message.
-	 * DEBUG   - Debugging message.
-	 *
-	 * @var    array
+	 * @var    array  Translation array for JLogEntry priorities to SysLog priority names.
 	 * @since  11.1
 	 */
 	private $_priorities = array(
@@ -117,7 +106,7 @@ class JLoggerSysLog extends JLogger
 	 *
 	 * @param   JLogEntry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
@@ -127,6 +116,6 @@ class JLoggerSysLog extends JLogger
 		$priority = constant(strtoupper('LOG_'.$this->_priorities[$entry->priority]));
 
 		// Send the entry to SysLog.
-		return syslog($priority, '['.$entry->category.'] '.$entry->message);
+		syslog($priority, '['.$entry->category.'] '.$entry->message);
 	}
 }

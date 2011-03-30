@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
  * This class is used to be the basis of logger classes to allow for defined functions
  * to exist regardless of the child class.
  *
- *
- *
  * @package     Joomla.Platform
  * @subpackage  Log
  * @since       11.1
@@ -24,9 +22,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JLogger
 {
 	/**
-	 * Options array for the JLog instance.
-	 *
-	 * @var    array
+	 * @var    array  Options array for the JLog instance.
 	 * @since  11.1
 	 */
 	protected $options = array();
@@ -51,7 +47,7 @@ abstract class JLogger
 	 *
 	 * @param   JLogEntry  The log entry object to add to the log.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */

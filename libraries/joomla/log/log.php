@@ -31,113 +31,85 @@ jimport('joomla.filesystem.path');
 class JLog
 {
 	/**
-	 * DEBUG      - Debugging message.
-	 *
-	 * @var    integer
+	 * @var    integer  All log priorities.
 	 * @since  11.1
 	 */
 	const ALL = 30719;
 
 	/**
-	 * EMERGENCY  - The system is unusable.
-	 *
-	 * @var    integer
+	 * @var    integer  The system is unusable.
 	 * @since  11.1
 	 */
 	const EMERGENCY = 1;
 
 	/**
-	 * ALERT      - Action must be taken immediately.
-	 *
-	 * @var    integer
+	 * @var    integer  Action must be taken immediately.
 	 * @since  11.1
 	 */
 	const ALERT = 2;
 
 	/**
-	 * CRITICAL   - Critical conditions.
-	 *
-	 * @var    integer
+	 * @var    integer  Critical conditions.
 	 * @since  11.1
 	 */
 	const CRITICAL = 4;
 
 	/**
-	 * ERROR      - Error conditions.
-	 *
-	 * @var    integer
+	 * @var    integer  Error conditions.
 	 * @since  11.1
 	 */
 	const ERROR = 8;
 
 	/**
-	 * WARNING    - Warning conditions.
-	 *
-	 * @var    integer
+	 * @var    integer  Warning conditions.
 	 * @since  11.1
 	 */
 	const WARNING = 16;
 
 	/**
-	 * NOTICE     - Normal, but significant condition.
-	 *
-	 * @var    integer
+	 * @var    integer  Normal, but significant condition.
 	 * @since  11.1
 	 */
 	const NOTICE = 32;
 
 	/**
-	 * INFO       - Informational message.
-	 *
-	 * @var    integer
+	 * @var    integer  Informational message.
 	 * @since  11.1
 	 */
 	const INFO = 64;
 
 	/**
-	 * DEBUG      - Debugging message.
-	 *
-	 * @var    integer
+	 * @var    integer  Debugging message.
 	 * @since  11.1
 	 */
 	const DEBUG = 128;
 
 	/**
-	 * The global JLog instance.
-	 *
-	 * @var    JLog
+	 * @var    JLog  The global JLog instance.
 	 * @since  11.1
 	 */
 	protected static $instance;
 
 	/**
-	 * True if the default logger classes have been registered.
-	 *
-	 * @var    bool
+	 * @var    bool  True if the default logger classes have been registered.
 	 * @since  11.1
 	 */
 	protected static $registered = false;
 
 	/**
-	 * Container for JLogger configurations.
-	 *
-	 * @var    array
+	 * @var    array  Container for JLogger configurations.
 	 * @since  11.1
 	 */
 	protected $configurations = array();
 
 	/**
-	 * Container for JLogger objects.
-	 *
-	 * @var    array
+	 * @var    array  Container for JLogger objects.
 	 * @since  11.1
 	 */
 	protected $loggers = array();
 
 	/**
-	 * Lookup array for loggers.
-	 *
-	 * @var    array
+	 * @var    array  Lookup array for loggers.
 	 * @since  11.1
 	 */
 	protected $lookup = array();

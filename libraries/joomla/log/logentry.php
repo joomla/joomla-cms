@@ -24,52 +24,32 @@ jimport('joomla.log.log');
 class JLogEntry
 {
 	/**
-	 * Application responsible for log entry.
-	 *
-	 * @var    string
+	 * @var    string  Application responsible for log entry.
 	 * @since  11.1
 	 */
 	public $category;
 
 	/**
-	 * The date the message was logged in ISO 8601 format.
-	 *
-	 * @var    string
+	 * @var    JDate  The date the message was logged.
 	 * @since  11.1
 	 */
-	public $date = '0000-00-00T00:00Z';
+	public $date;
 
 	/**
-	 * Message to be logged.
-	 *
-	 * @var    string
+	 * @var    string  Message to be logged.
 	 * @since  11.1
 	 */
 	public $message;
 
 	/**
-	 * The priority of the message to be logged.
-	 *
-	 * @see $_priorities
-	 *
-	 * @var    string
+	 * @var    string  The priority of the message to be logged.
 	 * @since  11.1
+	 * @see    $_priorities
 	 */
 	public $priority = JLog::INFO;
 
 	/**
-	 * List of available log priority levels [Based on the SysLog default levels].
-	 *
-	 * EMERGENCY  - The system is unusable.
-	 * ALERT      - Action must be taken immediately.
-	 * CRITICAL   - Critical conditions.
-	 * ERROR      - Error conditions.
-	 * WARNING    - Warning conditions.
-	 * NOTICE     - Normal, but significant condition.
-	 * INFO       - Informational message.
-	 * DEBUG      - Debugging message.
-	 *
-	 * @var    array
+	 * @var    array  List of available log priority levels [Based on the SysLog default levels].
 	 * @since  11.1
 	 */
 	private $_priorities = array(

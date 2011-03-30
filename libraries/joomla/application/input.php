@@ -21,41 +21,31 @@ defined('JPATH_PLATFORM') or die;
 class JInput
 {
 	/**
-	 * Options array for the JInput instance.
-	 *
-	 * @var    array
+	 * @var    array  Options array for the JInput instance.
 	 * @since  11.1
 	 */
-	protected $options = array ();
+	protected $options = array();
 
 	/**
-	 * Filter object to use.
-	 *
-	 * @var    JFilterInput
+	 * @var    JFilterInput  Filter object to use.
 	 * @since  11.1
 	 */
 	protected $filter = null;
 
 	/**
-	 * Input data.
-	 * 
-	 * @var    array
+	 * @var    array  Input data.
 	 * @since  11.1
 	 */
 	protected $data = array();
 
 	/**
-	 * Input objects.
-	 * 
-	 * @var    array
+	 * @var    array  Input objects.
 	 * @since  11.1
 	 */
 	protected $inputs = array();
 
 	/**
-	 * True if the default input classes have been registered.
-	 *
-	 * @var    bool
+	 * @var    bool  True if the default input classes have been registered.
 	 * @since  11.1
 	 */
 	protected static $registered = false;
@@ -98,9 +88,9 @@ class JInput
 	 * Magic method to get an input object
 	 *
 	 * @param   mixed   $name  Name of the input object to retrieve.
-	 * 
+	 *
 	 * @return  JInput  The request input object
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function __get($name)
@@ -131,9 +121,9 @@ class JInput
 	 * @param   string  $name     Name of the value to get.
 	 * @param   mixed   $default  Default value to return if variable does not exist.
 	 * @param   string  $filter   Filter to apply to the value.
-	 * 
+	 *
 	 * @return  mixed  The filtered input value.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
@@ -150,7 +140,7 @@ class JInput
 				return $return;
 			}
 		}
-		
+
 		return $default;
 	}
 
@@ -159,9 +149,9 @@ class JInput
 	 *
 	 * @param   string  $name   Name of the value to set.
 	 * @param   mixed   $value  Value to assign to the input.
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function set($name, $value)
@@ -174,9 +164,9 @@ class JInput
 	 *
 	 * @param   mixed    $name     Name of the value to get.
 	 * @param   string   $default  Default value to return if variable does not exist.
-	 * 
-	 * @return  boolean  The filtered boolean input value.
-	 * 
+	 *
+	 * @return  bool     The filtered boolean input value.
+	 *
 	 * @since   11.1
 	 */
 	public function __call($name, $arguments)
@@ -193,7 +183,7 @@ class JInput
 			return $this->get($arguments[0], $default, $filter);
 		}
 	}
-	
+
 	/**
 	 * Method to register all of the extended classes with the system autoloader.
 	 *
