@@ -1378,7 +1378,7 @@ class JTableNested extends JTable
 		// Validate arguments
 		if (is_array($idArray) && is_array($lft_array) && count($idArray) == count($lft_array))
 		{
-			for ($i = 0; $i < count($idArray); $i++)
+			for ($i = 0, $count = count($idArray); $i < $count; $i++)
 			{
 				// Do an update to change the lft values in the table for each id
 				$query = $this->_db->getQuery(true);

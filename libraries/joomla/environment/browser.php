@@ -232,7 +232,7 @@ class JBrowser extends JObject
 		
 		// Parse the HTTP Accept Header
 		$accept_mime = explode(",", $this->_accept);
-		for ($i = 0; $i < count($accept_mime); $i++) {
+		for ($i = 0, $count = count($accept_mime); $i < $count; $i++) {
 			$parts = explode(';q=', trim($accept_mime[$i]));
 			if (count($parts) === 1) {
 				$parts[1] = 1;

@@ -127,7 +127,7 @@ class SearchViewSearch extends JView
 
 			require_once JPATH_SITE.DS.'components'.DS.'com_content'.DS.'helpers'.DS.'route.php';
 
-			for ($i=0; $i < count($results); $i++)
+			for ($i=0, $count = count($results); $i < $count; $i++)
 			{
 				$row = &$results[$i]->text;
 

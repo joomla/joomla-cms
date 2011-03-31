@@ -132,7 +132,7 @@ class JLog extends JObject
 
 		// Fill in the field data
 		$line = $this->_format;
-		for ($i = 0; $i < count($fields[0]); $i++)
+		for ($i = 0, $count = count($fields[0]); $i < $count; $i++)
 		{
 			$line = str_replace($fields[0][$i], (isset ($entry[$fields[1][$i]])) ? $entry[$fields[1][$i]] : "-", $line);
 		}

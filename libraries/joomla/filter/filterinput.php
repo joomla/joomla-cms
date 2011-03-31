@@ -415,7 +415,7 @@ class JFilterInput extends JObject
 					// Open or Single tag
 					$attrSet = $this->_cleanAttributes($attrSet);
 					$preTag .= '<'.$tagName;
-					for ($i = 0; $i < count($attrSet); $i ++) {
+					for ($i = 0, $count = count($attrSet); $i < $count; $i ++) {
 						$preTag .= ' '.$attrSet[$i];
 					}
 

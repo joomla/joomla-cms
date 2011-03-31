@@ -182,7 +182,7 @@ class JFormFieldComponentLayout extends JFormField
 						// Files with corresponding xml files are alternate menu items, not alternate layout files
 						// So we need to exclude these files
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
-						for ($j = 0; $j < count($xml_files); $j++)
+						for ($j = 0, $count = count($xml_files); $j < $count; $j++)
 						{
 							$xml_files[$j] = JFile::stripext(JFile::getName($xml_files[$j]));
 						}
