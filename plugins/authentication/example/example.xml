@@ -13,7 +13,10 @@
 		<filename plugin="example">example.php</filename>
 		<filename>index.html</filename>
 	</files>
-
+	<languages>
+		<language tag="en-GB">en-GB.plg_authentication_example.ini</language>
+		<language tag="en-GB">en-GB.plg_authentication_example.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 

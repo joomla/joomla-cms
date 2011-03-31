@@ -16,12 +16,10 @@
 		<filename>index.html</filename>
 		<folder>profiles</folder>
 	</files>
-
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_profile.ini</language>
 		<language tag="en-GB">en-GB.plg_user_profile.sys.ini</language>
 	</languages>
-
 	<config>
 		<fields name="params">
 

@@ -13,13 +13,13 @@
 	<files>
 		<filename plugin="example">example.php</filename>
 		<filename>index.html</filename>
-		<folder>language</folder>
 		<!--
 			if you want to install the language files in the plugin folder.
 			Create a "language" folder at the root of the pack i.e
 			language/en-GB/en-GB.plg_content_example.ini
 			language/en-GB/en-GB.plg_content_example.sys.ini
 		-->
+		<folder>language</folder>
 	</files>
 	<languages folder="language">
 		<!--

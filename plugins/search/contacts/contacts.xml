@@ -13,7 +13,10 @@
 		<filename plugin="contacts">contacts.php</filename>
 		<filename>index.html</filename>
 	</files>
-
+	<languages>
+		<language tag="en-GB">en-GB.plg_search_contacts.ini</language>
+		<language tag="en-GB">en-GB.plg_search_contacts.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 

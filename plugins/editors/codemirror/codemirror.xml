@@ -12,7 +12,10 @@
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
 		<filename>index.html</filename>	</files>
-
+	<languages>
+		<language tag="en-GB">en-GB.plg_editors_codemirror.ini</language>
+		<language tag="en-GB">en-GB.plg_editors_codemirror.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 

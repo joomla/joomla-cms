@@ -13,7 +13,10 @@
 		<filename plugin="newsfeeds">newsfeeds.php</filename>
 		<filename>index.html</filename>
 	</files>
-
+	<languages>
+		<language tag="en-GB">en-GB.plg_search_newsfeeds.ini</language>
+		<language tag="en-GB">en-GB.plg_search_newsfeeds.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 

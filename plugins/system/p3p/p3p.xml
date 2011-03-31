@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.6" type="plugin" group="system">
+<extension version="1.6" type="plugin" group="system">
 	<name>plg_system_p3p</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2010</creationDate>
@@ -13,6 +13,10 @@
 		<filename plugin="p3p">p3p.php</filename>
 		<filename>index.html</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_p3p.ini</language>
+		<language tag="en-GB">en-GB.plg_system_p3p.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -25,4 +29,4 @@
 			</fieldset>
 		</fields>
 	</config>
-</install>
+</extension>

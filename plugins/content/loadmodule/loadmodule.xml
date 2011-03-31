@@ -13,7 +13,10 @@
 		<filename plugin="loadmodule">loadmodule.php</filename>
 		<filename>index.html</filename>
 	</files>
-
+	<languages>
+		<language tag="en-GB">en-GB.plg_content_loadmodule.ini</language>
+		<language tag="en-GB">en-GB.plg_content_loadmodule.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 

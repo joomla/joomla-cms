@@ -12,7 +12,10 @@
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
 		<filename>index.html</filename>	</files>
-
+	<languages>
+		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
+		<language tag="en-GB">en-GB.plg_editors_tinymce.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 

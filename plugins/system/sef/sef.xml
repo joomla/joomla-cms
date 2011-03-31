@@ -13,4 +13,8 @@
 		<filename plugin="sef">sef.php</filename>
 		<filename>index.html</filename>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_sef.ini</language>
+		<language tag="en-GB">en-GB.plg_system_sef.sys.ini</language>
+	</languages>
 </extension>

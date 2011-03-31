@@ -12,8 +12,11 @@
 	<files>
 		<filename plugin="gmail">gmail.php</filename>
 		<filename>index.html</filename>
-	</files>
-
+	</files>	
+	<languages>
+		<language tag="en-GB">en-GB.plg_authentication_gmail.ini</language>
+		<language tag="en-GB">en-GB.plg_authentication_gmail.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 
