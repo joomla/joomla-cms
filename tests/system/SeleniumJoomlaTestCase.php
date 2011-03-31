@@ -641,6 +641,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 					$doAction = 'login.admin';
 					break;
 				case 'Configure':
+				case 'Super Admin':
 					$doAction = 'core.admin';
 					break;
 				case 'Access Component':
@@ -658,10 +659,17 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				case 'Edit State':
 					$doAction = 'edit.state';
 					break;
+				case 'Edit Own':
+					$doAction = 'edit.own';
+					break;
 			}
 
 			$this->select("//select[contains(@id,'$doAction')][contains(@title,'$group')]", "label=$permission");
 		}
+
+		echo "Close panel for group '$group'\n";
+		$this->click("//ul[@id='rules']//li/div[@class='panel']//h3[contains(.,'Public')]");
+		
 		if ($component == 'Global Configuration') {
 			$this->click("//li[@id='toolbar-save']/a/span");
 			$this->waitForPageToLoad("30000");

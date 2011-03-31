@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Mar-2011 Mark Dexter
++ [#22618] Automated ACL system test to test manage permission (Tim Plummer)
+
 23-Mar-2011 Mark Dexter
 # [#25359] Fix failing unit test for JDocumentRenderRSS
 
