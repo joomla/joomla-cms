@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Mar-2011 Jean-Marie Simonet
+[#25495] *Wrong lang load order when editing plugin
+
 30-Mar-2011 Jean-Marie Simonet
  #$ Adding Bosnian to installation languages
  
