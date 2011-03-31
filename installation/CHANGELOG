@@ -29,7 +29,8 @@ $ -> Language fix or change
 
 31-Mar-2011 Jean-Marie Simonet
  # [#25495] *Wrong lang load order when editing plugin
- # Normalizing plugins xml (languages missing)
+ # Normalizing plugins xml (languages missing). Thanks Bill
+ # [#25486] Undefined notice on 404 page
 
 30-Mar-2011 Jean-Marie Simonet
  #$ Adding Bosnian to installation languages

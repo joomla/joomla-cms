@@ -137,16 +137,18 @@ if(!$templateparams->get('html5', 0)): ?>
 			<div id="errorboxbody">
 						<h2><?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?><br />
 								<?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?></h2>
-											<div id="searchbox">
-														<h3 class="unseen"><?php echo JText::_('TPL_BEEZ5_SEARCH'); ?></h3>
-											<p><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></p>
-											<?php $module = JModuleHelper::getModule( 'search' );
-											echo JModuleHelper::renderModule( $module);	?>
-												<p><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>	
-										</div>
-							
-									
-							
+								<?php if (JModuleHelper::getModule( 'search' )) : ?>
+									<div id="searchbox">
+									<h3 class="unseen"><?php echo JText::_('TPL_BEEZ5_SEARCH'); ?></h3>
+									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></p>
+									<?php $module = JModuleHelper::getModule( 'search' );
+									echo JModuleHelper::renderModule( $module);	?>
+									</div>
+								<?php endif; ?>
+								<div>	 
+								<p><a href="<?php echo $this->baseurl; ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>	
+								</div>
+						
 					<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 					
 					<h2>#<?php echo $this->error->getCode() ; ?>&nbsp;<?php echo $this->error->getMessage();?></h2><br />
