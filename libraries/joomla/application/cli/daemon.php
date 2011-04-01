@@ -23,6 +23,18 @@ jimport('joomla.filesystem.folder');
 class JDaemon extends JCli
 {
 	/**
+	 * @var    array  The available POSIX signals to be caught by default.
+	 * @since  11.1
+	 * @see    http://php.net/manual/pcntl.constants.php
+	 */
+	protected static $signals = array(
+		SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGUSR1,
+		SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCLD, SIGCHLD, SIGCONT,
+		SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH,
+		SIGPOLL, SIGIO, SIGPWR, SIGSYS, SIGBABY, SIG_BLOCK, SIG_UNBLOCK, SIG_SETMASK
+	);
+
+	/**
 	 * @var    bool  True if the daemon is in the process of exiting.
 	 * @since  11.1
 	 */
@@ -39,18 +51,6 @@ class JDaemon extends JCli
 	 * @since  11.1
 	 */
 	protected $running = false;
-
-	/**
-	 * @var    array  The available POSIX signals to be caught by default.
-	 * @since  11.1
-	 * @see    http://php.net/manual/pcntl.constants.php
-	 */
-	protected static $signals = array(
-		SIGHUP, SIGINT, SIGQUIT, SIGILL, SIGTRAP, SIGABRT, SIGIOT, SIGBUS, SIGFPE, SIGUSR1,
-		SIGSEGV, SIGUSR2, SIGPIPE, SIGALRM, SIGTERM, SIGSTKFLT, SIGCLD, SIGCHLD, SIGCONT,
-		SIGTSTP, SIGTTIN, SIGTTOU, SIGURG, SIGXCPU, SIGXFSZ, SIGVTALRM, SIGPROF, SIGWINCH,
-		SIGPOLL, SIGIO, SIGPWR, SIGSYS, SIGBABY, SIG_BLOCK, SIG_UNBLOCK, SIG_SETMASK
-	);
 
 	/**
 	 * Class constructor.
@@ -80,6 +80,115 @@ class JDaemon extends JCli
 	}
 
 	/**
+	 * Method to handle POSIX signals.
+	 *
+	 * @param   integer  $signal  The recieved POSIX signal.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @see     pcntl_signal()
+	 */
+	static public function signal($signal)
+	{
+		// Log all signals sent to the daemon.
+		JLog::add('Received signal: '.$signal, JLog::DEBUG);
+
+		// Fire the onRecieveSignal event.
+		$this->triggerEvent('onRecieveSignal', array($signal));
+
+		switch ($signal)
+		{
+			case SIGTERM :
+				// Handle shutdown tasks
+				if ($this->running && $this->isActive()) {
+					$this->shutdown();
+				} else {
+					$this->close();
+				}
+				break;
+			case SIGHUP :
+				// Handle restart tasks
+				if ($this->running && $this->isActive()) {
+					$this->shutdown(true);
+				} else {
+					$this->close();
+				}
+				break;
+			case SIGCHLD :
+				// A child process has died
+				while (pcntl_wait($signal, WNOHANG OR WUNTRACED) > 0)
+				{
+					usleep(1000);
+				}
+				break;
+			case SIGCLD:
+				while (($pid = pcntl_wait($signal, WNOHANG)) > 0)
+				{
+					$signal = pcntl_wexitstatus($signal);
+				}
+				break;
+			default :
+				break;
+		}
+	}
+
+	/**
+	 * Check to see if the daemon is active.  This does not assume that $this daemon is active, but
+	 * only if an instance of the application is active as a daemon.
+	 *
+	 * @return  bool
+	 *
+	 * @since   11.1
+	 */
+	public function isActive()
+	{
+		// Get the process id file location for the application.
+		$pidFile = $this->config->get('application_pid_file');
+
+		// If the process id file doesn't exist then the daemon is obviously not running.
+		if (!file_exists($pidFile)) {
+			return false;
+		}
+
+		// Read the contents of the process id file as an integer.
+		$fp = fopen($pidFile, 'r');
+		$pid = fread($fp, filesize($pidFile));
+		$pid = intval($pid);
+		fclose($fp);
+
+		// Check to make sure that the process id exists as a positive integer.
+		if (!$pid) {
+			return false;
+		}
+
+		// Check to make sure the process is active by pinging it and ensure it responds.
+		if (!posix_kill($pid, 0)) {
+
+			// No response so remove the process id file and log the situation.
+			@ unlink($pidFile);
+			JLog::add('The process found based on PID file was unresponsive.', JLog::WARNING);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Restart daemon process.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function restart()
+	{
+		JLog::add('Stopping '.$this->name, JLog::INFO);
+		$this->shutdown(true);
+	}
+
+	/**
 	 * Spawn daemon process.
 	 *
 	 * @return  bool
@@ -101,27 +210,20 @@ class JDaemon extends JCli
 			// Daemonization succeeded (is that a word?), so now we start our main execution loop.
 			while (true)
 			{
-				usleep(1000);
+				// Perform basic garbage collection.
 				$this->gc();
+
+				// Don't completely overload the CPU.
+				usleep(1000);
+
+				// Execute the main daemon logic.
 				$this->execute();
 			}
 		}
+		// We were not able to daemonize the application so log the failure and die gracefully.
 		else {
 			JLog::add('Starting '.$this->name.' failed', JLog::INFO);
 		}
-	}
-
-	/**
-	 * Restart daemon process.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function restart()
-	{
-		JLog::add('Stopping '.$this->name, JLog::INFO);
-		$this->shutdown(true);
 	}
 
 	/**
@@ -138,22 +240,59 @@ class JDaemon extends JCli
 	}
 
 	/**
-	 * Method to perform basic garbage collection and memory management in the sense of clearing the
-	 * stat cache.  We will probably call this method pretty regularly in our main loop.
+	 * Method to change the identity of the daemon process and resources.
 	 *
-	 * @return  void
+	 * @return  bool
 	 *
 	 * @since   11.1
+	 * @see     posix_setuid()
+	 * @see     posix_setgid()
 	 */
-	protected function gc()
+	protected function changeIdentity()
 	{
-		// Perform generic garbage collection.  Only available in PHP 5.3+
-		if (function_exists('gc_collect_cycles')) {
-			gc_collect_cycles();
+		// Get the group and user ids to set for the daemon.
+		$uid = (int) $this->config->get('application_uid', 0);
+		$gid = (int) $this->config->get('application_gid', 0);
+
+		// Get the application process id file path.
+		$file = $this->config->get('application_pid_file');
+
+		// Change the user id for the process id file if necessary.
+		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid))) {
+			JLog::add('Unable to change user ownership of the proccess id file.', JLog::ERROR);
+			return false;
 		}
 
-		// Clear the stat cache so it doesn't blow up memory.
-		clearstatcache();
+		// Change the group id for the process id file if necessary.
+		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid))) {
+			JLog::add('Unable to change group ownership of the proccess id file.', JLog::ERROR);
+			return false;
+		}
+
+		// Set the correct home directory for the process.
+		if ($uid && ($info = posix_getpwuid($uid)) && is_dir($info['dir'])) {
+			system('export HOME="'.$info['dir'].'"');
+		}
+
+		// Change the user id for the process necessary.
+		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid))) {
+			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR);
+			return false;
+		}
+
+		// Change the group id for the process necessary.
+		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid))) {
+			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR);
+			return false;
+		}
+
+		// Get the user and group information based on uid and gid.
+		$user  = posix_getpwuid($uid);
+		$group = posix_getgrgid($gid);
+
+		JLog::add('Changed daemon identity to '.$user['name'].':'.$group['name'], JLog::INFO);
+
+		return true;
 	}
 
 	/**
@@ -202,17 +341,17 @@ class JDaemon extends JCli
 		}
 
 		// Attempt to change the identity of user running the process.
-//		if (!$this->changeIdentity()) {
-//
-//			// If the identity change was required then we need to return false.
-//			if ($this->config->get('application_require_identity')) {
-//				JLog::add('Unable to change process owner.', JLog::CRITICAL);
-//				return false;
-//			}
-//			else {
-//				JLog::add('Unable to change process owner.', JLog::WARNING);
-//			}
-//		}
+		if (!$this->changeIdentity()) {
+
+			// If the identity change was required then we need to return false.
+			if ($this->config->get('application_require_identity')) {
+				JLog::add('Unable to change process owner.', JLog::CRITICAL);
+				return false;
+			}
+			else {
+				JLog::add('Unable to change process owner.', JLog::WARNING);
+			}
+		}
 
 		// Setup the signal handlers for the daemon.
 		if (!$this->setupSignalHandlers()) {
@@ -221,174 +360,6 @@ class JDaemon extends JCli
 
 		// Change the current working directory to the application working directory.
 		@ chdir($this->config->get('application_directory'));
-
-		return true;
-	}
-
-	/**
-	 * Method to write the process id file out to disk.
-	 *
-	 * @return  bool
-	 *
-	 * @since   11.1
-	 */
-	protected function writeProcessIdFile()
-	{
-		// Verify the process id is valid.
-		if ($this->processId < 1) {
-			JLog::add('The process id is invalid.', JLog::EMERGENCY);
-			return false;
-		}
-
-		// Get the application process id file path.
-		$file = $this->config->get('application_pid_file');
-		if (empty($file)) {
-			JLog::add('The process id file path is empty.', JLog::ERROR);
-			return false;
-		}
-
-		// Make sure that the folder where we are writing the process id file exists.
-		$folder = dirname($file);
-		if (!is_dir($folder) && !JFolder::create($folder)) {
-			JLog::add('Unable to create directory: '.$folder, JLog::ERROR);
-			return false;
-		}
-
-		// Write the process id file out to disk.
-		if (!file_put_contents($file, $this->processId)) {
-			JLog::add('Unable to write proccess id file: '.$file, JLog::ERROR);
-			return false;
-		}
-
-		// Make sure the permissions for the proccess id file are accurate.
-		if (!chmod($file, 0644)) {
-			JLog::add('Unable to adjust permissions for the proccess id file: '.$file, JLog::ERROR);
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Method to handle POSIX signals.
-	 *
-	 * @param   integer  $signal  The recieved POSIX signal.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @see     pcntl_signal()
-	 */
-	static public function handleSignal($signal)
-	{
-		// Log all signals sent to the daemon.
-		JLog::add('Received signal: '.$signal, JLog::DEBUG);
-
-		// Fire the onRecieveSignal event.
-		$this->triggerEvent('onRecieveSignal', array($signal));
-
-		switch ($signal)
-		{
-			case SIGTERM :
-				// Handle shutdown tasks
-				if ($this->running && $this->isActive()) {
-					$this->shutdown();
-				} else {
-					$this->close();
-				}
-				break;
-			case SIGHUP :
-				// Handle restart tasks
-				if ($this->running && $this->isActive()) {
-					$this->shutdown(true);
-				} else {
-					$this->close();
-				}
-				break;
-			case SIGCHLD :
-				// A child process has died
-				while (pcntl_wait($signal, WNOHANG OR WUNTRACED) > 0)
-				{
-					usleep(1000);
-				}
-				break;
-			case SIGCLD:
-				while (($pid = pcntl_wait($signal, WNOHANG)) > 0)
-				{
-					$signal = pcntl_wexitstatus($signal);
-				}
-				break;
-			default :
-				break;
-		}
-	}
-
-	/**
-	 * Method to attach the JDaemon signal handler to the known signals.  Applications can override
-	 * these handlers by using the pcntl_signal() function and attaching a different callback method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 * @see     pcntl_signal()
-	 */
-	protected function setupSignalHandlers()
-	{
-		// We add the error suppression for the loop because on some platforms some constants are not defined.
-		foreach (@ self::$signals as $signal)
-		{
-			// Ignore signals that are not defined.
-			if (!is_int($signal)) {
-				continue;
-			}
-
-			// Attach the signal handler for the signal.
-			if (!pcntl_signal($signal, array('JDaemon', 'handleSignal'))) {
-				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Check to see if the daemon is active.  This does not assume that $this daemon is active, but
-	 * only if an instance of the application is active as a daemon.
-	 *
-	 * @return  bool
-	 *
-	 * @since   11.1
-	 */
-	public function isActive()
-	{
-		// Get the process id file location for the application.
-		$pidFile = $this->config->get('application_pid_file');
-
-		// If the process id file doesn't exist then the daemon is obviously not running.
-		if (!file_exists($pidFile)) {
-			return false;
-		}
-
-		// Read the contents of the process id file as an integer.
-		$fp = fopen($pidFile, 'r');
-		$pid = fread($fp, filesize($pidFile));
-		$pid = intval($pid);
-		fclose($fp);
-
-		// Check to make sure that the process id exists as a positive integer.
-		if (!$pid) {
-			return false;
-		}
-
-		// Check to make sure the process is active by pinging it and ensure it responds.
-		if (!posix_kill($pid, 0)) {
-			// No response so remove the process id file and log the situation.
-			@ unlink($pidFile);
-			JLog::add('The process found based on PID file was unresponsive.', JLog::WARNING);
-
-			return false;
-		}
 
 		return true;
 	}
@@ -433,51 +404,22 @@ class JDaemon extends JCli
 	}
 
 	/**
-	 * Method to shut down the daemon and optionally restart it.
-	 *
-	 * @param   bool  $restart  True to restart the daemon on exit.
+	 * Method to perform basic garbage collection and memory management in the sense of clearing the
+	 * stat cache.  We will probably call this method pretty regularly in our main loop.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function shutdown($restart = false)
+	protected function gc()
 	{
-		// If we are already exiting, chill.
-		if ($this->exiting) {
-			return;
-		}
-		// If not, now we are.
-		else {
-			$this->exiting = true;
+		// Perform generic garbage collection.  Only available in PHP 5.3+
+		if (function_exists('gc_collect_cycles')) {
+			gc_collect_cycles();
 		}
 
-		// Following caused a bug if pid couldn't be written because of
-		// privileges
-		// || !file_exists(self::opt('appPidLocation'))
-		if ($this->running && $this->isActive()) {
-			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
-			$this->close();
-		}
-
-		// Read the contents of the process id file as an integer.
-		$fp = fopen($this->config->get('application_pid_file'), 'r');
-		$pid = fread($fp, filesize($this->config->get('application_pid_file')));
-		$pid = intval($pid);
-		fclose($fp);
-
-		// Remove the process id file.
-		@ unlink($this->config->get('application_pid_file'));
-
-		// If we are supposed to restart the daemon we need to execute the same command.
-		if ($restart) {
-			$this->close(exec(implode(' ', $GLOBALS['argv']).' > /dev/null &'));
-		}
-		// If we are not supposed to restart the daemon let's just kill -9.
-		else {
-			passthru('kill -9 '.$pid);
-			$this->close();
-		}
+		// Clear the stat cache so it doesn't blow up memory.
+		clearstatcache();
 	}
 
 	/**
@@ -563,5 +505,126 @@ class JDaemon extends JCli
 		$this->config->set('application_check_config', $tmp);
 
 		return $loaded;
+	}
+
+	/**
+	 * Method to attach the JDaemon signal handler to the known signals.  Applications can override
+	 * these handlers by using the pcntl_signal() function and attaching a different callback method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 * @see     pcntl_signal()
+	 */
+	protected function setupSignalHandlers()
+	{
+		// We add the error suppression for the loop because on some platforms some constants are not defined.
+		foreach (@ self::$signals as $signal)
+		{
+			// Ignore signals that are not defined.
+			if (!is_int($signal)) {
+				continue;
+			}
+
+			// Attach the signal handler for the signal.
+			if (!pcntl_signal($signal, array('JDaemon', 'signal'))) {
+				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to shut down the daemon and optionally restart it.
+	 *
+	 * @param   bool  $restart  True to restart the daemon on exit.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function shutdown($restart = false)
+	{
+		// If we are already exiting, chill.
+		if ($this->exiting) {
+			return;
+		}
+		// If not, now we are.
+		else {
+			$this->exiting = true;
+		}
+
+		// Following caused a bug if pid couldn't be written because of
+		// privileges
+		// || !file_exists(self::opt('appPidLocation'))
+		if ($this->running && $this->isActive()) {
+			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
+			$this->close();
+		}
+
+		// Read the contents of the process id file as an integer.
+		$fp = fopen($this->config->get('application_pid_file'), 'r');
+		$pid = fread($fp, filesize($this->config->get('application_pid_file')));
+		$pid = intval($pid);
+		fclose($fp);
+
+		// Remove the process id file.
+		@ unlink($this->config->get('application_pid_file'));
+
+		// If we are supposed to restart the daemon we need to execute the same command.
+		if ($restart) {
+			$this->close(exec(implode(' ', $GLOBALS['argv']).' > /dev/null &'));
+		}
+		// If we are not supposed to restart the daemon let's just kill -9.
+		else {
+			passthru('kill -9 '.$pid);
+			$this->close();
+		}
+	}
+
+	/**
+	 * Method to write the process id file out to disk.
+	 *
+	 * @return  bool
+	 *
+	 * @since   11.1
+	 */
+	protected function writeProcessIdFile()
+	{
+		// Verify the process id is valid.
+		if ($this->processId < 1) {
+			JLog::add('The process id is invalid.', JLog::EMERGENCY);
+			return false;
+		}
+
+		// Get the application process id file path.
+		$file = $this->config->get('application_pid_file');
+		if (empty($file)) {
+			JLog::add('The process id file path is empty.', JLog::ERROR);
+			return false;
+		}
+
+		// Make sure that the folder where we are writing the process id file exists.
+		$folder = dirname($file);
+		if (!is_dir($folder) && !JFolder::create($folder)) {
+			JLog::add('Unable to create directory: '.$folder, JLog::ERROR);
+			return false;
+		}
+
+		// Write the process id file out to disk.
+		if (!file_put_contents($file, $this->processId)) {
+			JLog::add('Unable to write proccess id file: '.$file, JLog::ERROR);
+			return false;
+		}
+
+		// Make sure the permissions for the proccess id file are accurate.
+		if (!chmod($file, 0644)) {
+			JLog::add('Unable to adjust permissions for the proccess id file: '.$file, JLog::ERROR);
+			return false;
+		}
+
+		return true;
 	}
 }
