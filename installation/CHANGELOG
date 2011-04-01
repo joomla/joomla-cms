@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24917] Module latest user parameter link to contact does not work
  # [#25385] Optimize for loops
  # [#25425] Extension "upgrade" method re-installing component
+ # [#25496] Database error not handled in mod_users_latest and mod_articles_archive
 
 31-Mar-2011 Jean-Marie Simonet
  # [#25495] *Wrong lang load order when editing plugin

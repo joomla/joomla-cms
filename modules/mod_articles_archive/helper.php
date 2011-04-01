@@ -28,7 +28,7 @@ class modArchiveHelper
 		}
 
 		$db->setQuery($query, 0, intval($params->get('count')));
-		$rows = $db->loadObjectList();
+		$rows = (array) $db->loadObjectList();
 
 		$app	= JFactory::getApplication();
 		$menu	= $app->getMenu();

@@ -23,10 +23,6 @@ class modUsersLatestHelper
 		$query->from('#__users AS a');
 		$db->setQuery($query,0,$params->get('shownumber'));;
 		$result = $db->loadObjectList();
-		if ($db->getErrorNum()) {
-			JError::raiseWarning(500, $db->stderr());
-		}
-
 		return $result;
 	}
 }
