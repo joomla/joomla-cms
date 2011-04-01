@@ -30,6 +30,7 @@ $ -> Language fix or change
 31-Mar-2011 Mark Dexter
  # [#24917] Module latest user parameter link to contact does not work
  # [#25385] Optimize for loops
+ # [#25425] Extension "upgrade" method re-installing component
 
 31-Mar-2011 Jean-Marie Simonet
  # [#25495] *Wrong lang load order when editing plugin
