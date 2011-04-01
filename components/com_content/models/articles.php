@@ -174,8 +174,8 @@ class ContentModelArticles extends JModelList
 
 		// Process an Archived Article layout
 		if ($this->getState('filter.published') == 2) {
-			// If badcats is not null, this means that the article is inside an unpublished category
-			// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
+			// If badcats is not null, this means that the article is inside an archived category
+			// In this case, the state is set to 2 to indicate Archived (even if the article state is Published)
 			$query->select($this->getState('list.select','CASE WHEN badcats.id is null THEN a.state ELSE 2 END AS state'));
 		}
 		else {
