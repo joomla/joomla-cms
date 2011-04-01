@@ -59,12 +59,15 @@ class JCli
 	protected function __construct($config = array())
 	{
 		// Close the application if we are not executed from the command line.
-		if (!defined(STDOUT) || !defined(STDIN) || !isset($_SERVER['argv'])) {
+		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv'])) {
 			$this->close();
 		}
 
 		// Set the site object name.
 		$this->name = isset($config['name']) ? $config['name'] : 'Joomla CLI';
+
+		// Make sure that the application name is UNIX compliant.
+		$this->name = (string) preg_replace('/[^A-Z0-9_-]/i', '', $this->name);
 
 		// Get the command line options
 		$this->input = new JInputCli();
@@ -73,7 +76,7 @@ class JCli
 		$this->config = new JRegistry();
 
 		// Set the configuration file name.
-		$config['configFile'] = isset($config['configFile']) ? $config['configFile'] : JPATH_APPLICATION.'/configuration.php';
+		$config['configFile'] = isset($config['configFile']) ? $config['configFile'] : JPATH_BASE.'/configuration.php';
 
 		// Load the configuration object.
 		$this->loadConfiguration($config['configFile']);

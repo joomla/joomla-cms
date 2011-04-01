@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filter.filterinput');
+
 /**
  * Joomla! Input Base Class
  *
