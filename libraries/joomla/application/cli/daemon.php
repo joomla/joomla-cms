@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.cli');
 jimport('joomla.application.exception');
+jimport('joomla.filesystem.folder');
 
 /**
  * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
@@ -76,9 +77,6 @@ class JDaemon extends JCli
 
 		// Call the parent constructor.
 		parent::__construct($config);
-
-		// Make sure that the application name is UNIX compliant.
-		$this->name = (string) preg_replace('/[^A-Z0-9_-]/i', '', $this->name);
 	}
 
 	/**
@@ -103,6 +101,7 @@ class JDaemon extends JCli
 			// Daemonization succeeded (is that a word?), so now we start our main execution loop.
 			while (true)
 			{
+				usleep(1000);
 				$this->gc();
 				$this->execute();
 			}
@@ -179,7 +178,10 @@ class JDaemon extends JCli
 		$this->running = false;
 
 		// Fork process!
-		if (!$this->fork()) {
+		try {
+			$this->fork();
+		}
+		catch (ApplicationException $e) {
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
 			return false;
 		}
@@ -200,17 +202,17 @@ class JDaemon extends JCli
 		}
 
 		// Attempt to change the identity of user running the process.
-		if (!$this->changeIdentity()) {
-
-			// If the identity change was required then we need to return false.
-			if ($this->config->get('application_require_identity')) {
-				JLog::add('Unable to change process owner.', JLog::CRITICAL);
-				return false;
-			}
-			else {
-				JLog::add('Unable to change process owner.', JLog::WARNING);
-			}
-		}
+//		if (!$this->changeIdentity()) {
+//
+//			// If the identity change was required then we need to return false.
+//			if ($this->config->get('application_require_identity')) {
+//				JLog::add('Unable to change process owner.', JLog::CRITICAL);
+//				return false;
+//			}
+//			else {
+//				JLog::add('Unable to change process owner.', JLog::WARNING);
+//			}
+//		}
 
 		// Setup the signal handlers for the daemon.
 		if (!$this->setupSignalHandlers()) {
@@ -219,6 +221,50 @@ class JDaemon extends JCli
 
 		// Change the current working directory to the application working directory.
 		@ chdir($this->config->get('application_directory'));
+
+		return true;
+	}
+
+	/**
+	 * Method to write the process id file out to disk.
+	 *
+	 * @return  bool
+	 *
+	 * @since   11.1
+	 */
+	protected function writeProcessIdFile()
+	{
+		// Verify the process id is valid.
+		if ($this->processId < 1) {
+			JLog::add('The process id is invalid.', JLog::EMERGENCY);
+			return false;
+		}
+
+		// Get the application process id file path.
+		$file = $this->config->get('application_pid_file');
+		if (empty($file)) {
+			JLog::add('The process id file path is empty.', JLog::ERROR);
+			return false;
+		}
+
+		// Make sure that the folder where we are writing the process id file exists.
+		$folder = dirname($file);
+		if (!is_dir($folder) && !JFolder::create($folder)) {
+			JLog::add('Unable to create directory: '.$folder, JLog::ERROR);
+			return false;
+		}
+
+		// Write the process id file out to disk.
+		if (!file_put_contents($file, $this->processId)) {
+			JLog::add('Unable to write proccess id file: '.$file, JLog::ERROR);
+			return false;
+		}
+
+		// Make sure the permissions for the proccess id file are accurate.
+		if (!chmod($file, 0644)) {
+			JLog::add('Unable to adjust permissions for the proccess id file: '.$file, JLog::ERROR);
+			return false;
+		}
 
 		return true;
 	}
@@ -288,13 +334,22 @@ class JDaemon extends JCli
 	 */
 	protected function setupSignalHandlers()
 	{
-		foreach (self::$signals as $signal)
+		// We add the error suppression for the loop because on some platforms some constants are not defined.
+		foreach (@ self::$signals as $signal)
 		{
+			// Ignore signals that are not defined.
+			if (!is_int($signal)) {
+				continue;
+			}
+
+			// Attach the signal handler for the signal.
 			if (!pcntl_signal($signal, array('JDaemon', 'handleSignal'))) {
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
 				return false;
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -436,9 +491,11 @@ class JDaemon extends JCli
 	 */
 	protected function loadConfiguration($file)
 	{
+		$loaded = true;
+
 		// Perform the configuration file load.
 		if (!parent::loadConfiguration($file)) {
-			return false;
+			$loaded = false;
 		}
 
 		/*
@@ -495,16 +552,16 @@ class JDaemon extends JCli
 
 		// The home directory of the daemon.
 		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
-		$this->config->set('application_directory', $tmp);
+		$this->config->set('application_directory', strtolower($tmp));
 
 		// The pid file location.
-		$tmp = (string) $this->config->get('application_pid_file', '/var/run/'.$this->name.'/'.$this->name.'.pid');
-		$this->config->set('application_pid_file', $tmp);
+		$tmp = (string) $this->config->get('application_pid_file', '/tmp/'.$this->name.'/'.$this->name.'.pid');
+		$this->config->set('application_pid_file', strtolower($tmp));
 
 		// The chkconfig parameters for init.d: runlevel startpriority stoppriority
 		$tmp = (string) $this->config->get('application_check_config', '- 99 0');
 		$this->config->set('application_check_config', $tmp);
 
-		return true;
+		return $loaded;
 	}
 }
