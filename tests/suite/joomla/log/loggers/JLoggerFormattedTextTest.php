@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once JPATH_PLATFORM.'/joomla/log/logger.php';
 require_once JPATH_PLATFORM.'/joomla/log/loggers/formattedtext.php';
 
 /**
@@ -25,43 +24,156 @@ class JLoggerFormattedTextTest extends JoomlaTestCase
 	public function setUp()
 	{
 		include_once 'TestStubs/JLoggerFormattedText_Inspector.php';
-
-		parent::setUp();
-
-		if (class_exists('JTestConfig')) {
-			$config = JFactory::getConfig();
-			$config->loadObject(new JTestConfig());
-		}
 	}
 
 	/**
-	 * Test the JLogEntry::__construct method.
+	 * Test the JLoggerFormattedText::__construct method.
 	 */
-	public function test__construct()
+	public function testConstructor01()
 	{
-		// Check the default settings.
-		$options = array();
-		$tmp = new JLoggerFormattedTextInspector($options);
+		// Setup the basic configuration.
+		$config = array(
+			'text_file_path' => JPATH_TESTS.'/tmp',
+			'text_file' => '',
+			'text_entry_format' => null
+		);
+		$logger = new JLoggerFormattedTextInspector($config);
 
-		// Format.
-		$this->assertThat(
-			$tmp->format,
-			$this->equalTo('{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}'),
-			'Line: '.__LINE__.'.'
+		// Default format string.
+		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}', 'Line: '.__LINE__);
+
+		// Default format string.
+		$this->assertEquals($logger->fields, array('DATETIME', 'PRIORITY', 'CATEGORY', 'MESSAGE'), 'Line: '.__LINE__);
+
+		// Default file name.
+		$this->assertEquals($logger->path, JPATH_TESTS.'/tmp/error.php', 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Test the JLoggerFormattedText::__construct method.
+	 */
+	public function testConstructor02()
+	{
+		// Setup the basic configuration.
+		$config = array(
+			'text_file_path' => JPATH_TESTS.'/tmp',
+			'text_file' => 'foo.log',
+			'text_entry_format' => null
+		);
+		$logger = new JLoggerFormattedTextInspector($config);
+
+		// Default format string.
+		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}', 'Line: '.__LINE__);
+
+		// Default format string.
+		$this->assertEquals($logger->fields, array('DATETIME', 'PRIORITY', 'CATEGORY', 'MESSAGE'), 'Line: '.__LINE__);
+
+		// Default file name.
+		$this->assertEquals($logger->path, JPATH_TESTS.'/tmp/foo.log', 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Test the JLoggerFormattedText::__construct method.
+	 */
+	public function testConstructor03()
+	{
+		// Setup the basic configuration.
+		$config = array(
+			'text_file_path' => JPATH_TESTS.'/tmp',
+			'text_file' => '',
+			'text_entry_format' => '{DATETIME}	{PRIORITY}	{MESSAGE}'
+		);
+		$logger = new JLoggerFormattedTextInspector($config);
+
+		// Default format string.
+		$this->assertEquals($logger->format, '{DATETIME}	{PRIORITY}	{MESSAGE}', 'Line: '.__LINE__);
+
+		// Default format string.
+		$this->assertEquals($logger->fields, array('DATETIME', 'PRIORITY', 'MESSAGE'), 'Line: '.__LINE__);
+
+		// Default file name.
+		$this->assertEquals($logger->path, JPATH_TESTS.'/tmp/error.php', 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Test the JLoggerFormattedText::addEntry method.
+	 */
+	public function testAddEntry()
+	{
+		// Setup the basic configuration.
+		$config = array(
+			'text_file_path' => JPATH_TESTS.'/tmp',
+			'text_file' => '',
+			'text_entry_format' => '{PRIORITY}	{CATEGORY}	{MESSAGE}'
+		);
+		$logger = new JLoggerFormattedTextInspector($config);
+
+		// Remove the log file if it exists.
+		@ unlink($logger->path);
+
+		$logger->addEntry(new JLogEntry('Testing Entry 01'));
+		$this->assertEquals(
+			$this->getLastLine($logger->path),
+			'INFO	-	Testing Entry 01',
+			'Line: '.__LINE__
 		);
 
-		// File name.
-		$this->assertThat(
-			$tmp->options['text_file'],
-			$this->equalTo('error.php'),
-			'Line: '.__LINE__.'.'
+		$logger->addEntry(new JLogEntry('Testing 02', JLog::ERROR));
+		$this->assertEquals(
+			$this->getLastLine($logger->path),
+			'ERROR	-	Testing 02',
+			'Line: '.__LINE__
 		);
 
-		// File path.
-		$this->assertThat(
-			$tmp->options['text_file_path'],
-			$this->equalTo(JFactory::getConfig()->get('log_path')),
-			'Line: '.__LINE__.'.'
+		$logger->addEntry(new JLogEntry('Testing3', JLog::EMERGENCY, 'deprecated'));
+		$this->assertEquals(
+			$this->getLastLine($logger->path),
+			'EMERGENCY	deprecated	Testing3',
+			'Line: '.__LINE__
 		);
+
+		// Remove the log file if it exists.
+		@ unlink($logger->path);
+	}
+
+	/**
+	 * Method to get the last line of a file.  This is fairly safe for very large files.
+	 *
+	 * @param   string  $path  The path to the file for which to get the last line.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	protected function getLastLine($path)
+	{
+		// Initialise variables.
+		$cursor = -1;
+		$line   = '';
+
+		// Open the file up to the last character.
+		$f = fopen($path, 'r');
+		fseek($f, $cursor, SEEK_END);
+		$char = fgetc($f);
+
+		// Trim trailing newline characters.
+		while ($char === "\n" || $char === "\r")
+		{
+		    fseek($f, $cursor--, SEEK_END);
+		    $char = fgetc($f);
+		}
+
+		// Read until the start of the file or first newline character.
+		while ($char !== false && $char !== "\n" && $char !== "\r")
+		{
+		    $line = $char.$line;
+		    fseek($f, $cursor--, SEEK_END);
+		    $char = fgetc($f);
+		}
+
+		// Close the file.
+		fclose($f);
+
+		return $line;
 	}
 }

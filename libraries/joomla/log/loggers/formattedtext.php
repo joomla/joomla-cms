@@ -39,10 +39,31 @@ class JLoggerFormattedText extends JLogger
 	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
 
 	/**
+	 * @var    array  The parsed fields from the format string.
+	 * @since  11.1
+	 */
+	protected $fields = array();
+
+	/**
 	 * @var    string  The full filesystem path for the log file.
 	 * @since  11.1
 	 */
 	protected $path;
+
+	/**
+	 * @var    array  Translation array for JLogEntry priorities to text strings.
+	 * @since  11.1
+	 */
+	protected $priorities = array(
+		JLog::EMERGENCY => 'EMERGENCY',
+		JLog::ALERT     => 'ALERT',
+		JLog::CRITICAL  => 'CRITICAL',
+		JLog::ERROR     => 'ERROR',
+		JLog::WARNING   => 'WARNING',
+		JLog::NOTICE    => 'NOTICE',
+		JLog::INFO      => 'INFO',
+		JLog::DEBUG     => 'DEBUG'
+	);
 
 	/**
 	 * Constructor.
@@ -58,11 +79,6 @@ class JLoggerFormattedText extends JLogger
 		// Call the parent constructor.
 		parent::__construct($options);
 
-		// Use the default entry format unless explicitly set otherwise.
-		if (!empty($this->options['text_entry_format'])) {
-			$this->format = (string) $this->options['text_entry_format'];
-		}
-
 		// The name of the text file defaults to 'error.php' if not explicitly given.
 		if (empty($this->options['text_file'])) {
 			$this->options['text_file'] = 'error.php';
@@ -73,42 +89,21 @@ class JLoggerFormattedText extends JLogger
 			$this->options['text_file_path'] = JFactory::getConfig()->get('log_path');
 		}
 
+		// False to treat the log file as a php file.
+		if (empty($this->options['text_file_no_php'])) {
+			$this->options['text_file_no_php'] = false;
+		}
+
 		// Build the full path to the log file.
 		$this->path = $this->options['text_file_path'].'/'.$this->options['text_file'];
 
-		// If the file doesn't already exist we need to create it and generate the file header.
-		if (!is_file($this->path)) {
-
-			// Make sure the folder exists in which to create the log file.
-			JFolder::create(dirname($this->path));
-
-			// Build the log file header.
-			$head[] = '#<?php die(\'Direct Access To Log Files Not Permitted\'); ?>';
-			$head[] = '#Version: 1.0';
-			$head[] = '#Date: '.gmdate('Y-m-d H:i:s').' UTC';
-			$head[] = '#Software: '.JVersion::getLongVersion();
-			$head[] = '';
-
-			// Prepare the fields string
-			$fields = strtolower(str_replace('}', '', str_replace('{', '', $this->format)));
-			$head[] = '#Fields: '.$fields;
-			$head[] = '';
-
-			$head = implode("\n", $head);
-		}
-		else {
-			$head = false;
+		// Use the default entry format unless explicitly set otherwise.
+		if (!empty($this->options['text_entry_format'])) {
+			$this->format = (string) $this->options['text_entry_format'];
 		}
 
-		// Open the file for writing (append mode).
-		if (!$this->file = fopen($this->path, 'a')) {
-			// Throw exception.
-		}
-		if ($head) {
-			if (!fputs($this->file, $head)) {
-				// Throw exception.
-			}
-		}
+		// Build the fields array based on the format string.
+		$this->parseFields();
 	}
 
 	/**
@@ -133,9 +128,15 @@ class JLoggerFormattedText extends JLogger
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @throws  LogException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
+		// Initialise the file if not already done.
+		if (!is_resource($this->file)) {
+			$this->initFile();
+		}
+
 		// Set some default field values if not already set.
 		if (!isset ($entry->clientIP)) {
 
@@ -160,44 +161,22 @@ class JLoggerFormattedText extends JLogger
 			$entry->date = $entry->date->format('Y-m-d', false);
 		}
 
+		// Decode the entry priority into an english string.
+		$entry->priority = $this->priorities[$entry->priority];
+
 		// Get a list of all the entry keys and make sure they are upper case.
 		$tmp = array_change_key_case(get_object_vars($entry), CASE_UPPER);
 
-		// Get all of the available fields in the format string.
-		$fields = array();
-		preg_match_all("/{(.*?)}/i", $this->format, $fields);
-
 		// Fill in field data for the line.
 		$line = $this->format;
-		for ($i = 0; $i < count($fields[0]); $i++)
+		foreach ($this->fields as $field)
 		{
-			$line = str_replace($fields[0][$i], (isset($tmpentry[$fields[1][$i]])) ? $tmpentry[$fields[1][$i]] : '-', $line);
+			$line = str_replace('{'.$field.'}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
 		}
 
 		// Write the new entry to the file.
 		if (!fputs($this->file, $line."\n")) {
-			return false;
-		}
-
-		return true;
-	}
-
-	protected function foo()
-	{
-		// Build the full path to the log file.
-		$this->path = $this->options['text_file_path'].'/'.$this->options['text_file'];
-
-		// If the file doesn't already exist we need to create it and generate the file header.
-		if (!is_file($this->path)) {
-
-			// Make sure the folder exists in which to create the log file.
-			JFolder::create(dirname($this->path));
-
-			// Get the header for the log file.
-			$head = $this->generateFileHeader();
-		}
-		else {
-			$head = false;
+			throw new LogException();
 		}
 	}
 
@@ -228,5 +207,63 @@ class JLoggerFormattedText extends JLogger
 		$head[] = '';
 
 		return implode("\n", $head);
+	}
+
+	/**
+	 * Method to initialise the log file.  This will create the folder path to the file if it doesn't already
+	 * exist and also get a new file header if the file doesn't already exist.  If the file already exists it
+	 * will simply open it for writing.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function initFile()
+	{
+		// If the file doesn't already exist we need to create it and generate the file header.
+		if (!is_file($this->path)) {
+
+			// Make sure the folder exists in which to create the log file.
+			JFolder::create(dirname($this->path));
+
+			// Build the log file header.
+			$head = $this->generateFileHeader();
+		}
+		else {
+			$head = false;
+		}
+
+		// Open the file for writing (append mode).
+		if (!$this->file = fopen($this->path, 'a')) {
+			// Throw exception.
+		}
+		if ($head) {
+			if (!fputs($this->file, $head)) {
+				throw new LogException();
+			}
+		}
+	}
+
+	/**
+	 * Method to parse the format string into an array of fields.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function parseFields()
+	{
+		// Initialise variables.
+		$this->fields = array();
+		$matches = array();
+
+		// Get all of the available fields in the format string.
+		preg_match_all("/{(.*?)}/i", $this->format, $matches);
+
+		// Build the parsed fields list based on the found fields.
+		foreach ($matches[1] as $match)
+		{
+			$this->fields[] = strtoupper($match);
+		}
 	}
 }

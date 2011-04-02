@@ -22,5 +22,6 @@ class JLoggerFormattedTextInspector extends JLoggerFormattedText
 	public $file;
 	public $format = "{DATETIME}\t{PRIORITY}\t{CATEGORY}\t{MESSAGE}";
 	public $options;
+	public $fields;
 	public $path;
 }
