@@ -8,6 +8,8 @@
 
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
 require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
+require_once 'PHPUnit/Extensions/Database/DataSet/QueryDataSet.php';
+require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
 
 /**
  * Test case class for Joomla Unit Testing
@@ -215,6 +217,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		$pdo = new PDO($options['driver'].':host='.$options['host'].';dbname='.$options['database'], $options['user'], $options['password']);
 		return $this->createDefaultDBConnection($pdo, $options['database']);
 	}
+
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *

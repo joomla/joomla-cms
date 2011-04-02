@@ -21,6 +21,6 @@ class JLoggerSysLogTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddEntry()
 	{
-		$this->markTestSkipped('TODO: Figure out how to test this logger.');
+		$this->markTestIncomplete('TODO: Figure out how to test this logger.');
 	}
 }

@@ -10,22 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/w3c.php';
+require_once dirname(__FILE__).'/stubs/w3c/inspector.php';
 
 /**
  * Test class for JLoggerW3C.
  */
 class JLoggerW3CTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * Setup for testing.
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		include_once 'TestStubs/JLoggerW3C_Inspector.php';
-	}
-
 	/**
 	 * Test the JLoggerW3C::addEntry method.
 	 */

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 require_once JPATH_PLATFORM.'/joomla/log/log.php';
 require_once JPATH_PLATFORM.'/joomla/log/logentry.php';
 require_once JPATH_PLATFORM.'/joomla/log/logger.php';
+require_once dirname(__FILE__).'/stubs/log/inspector.php';
 
 /**
  * Test class for JLog.
@@ -22,16 +23,6 @@ class JLogTest extends PHPUnit_Framework_TestCase
 	 * @access protected
 	 */
 	protected $inspector;
-
-	/**
-	 * Setup for testing.
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		include_once 'TestStubs/JLog_Inspector.php';
-	}
 
 	/**
 	 * Test the JLog::setInstance method.

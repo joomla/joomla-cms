@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/messagequeue.php';
+require_once dirname(__FILE__).'/stubs/messagequeue/mock.application.php';
 
 /**
  * Test class for JLoggerMessageQueue.
@@ -29,8 +30,6 @@ class JLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		include_once 'TestStubs/JApplication_Mock.php';
-
 		$this->app = JFactory::$application;
 		JFactory::$application = new JApplicationMock();
 	}

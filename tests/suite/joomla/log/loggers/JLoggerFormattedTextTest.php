@@ -10,22 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 require_once JPATH_PLATFORM.'/joomla/log/loggers/formattedtext.php';
+require_once dirname(__FILE__).'/stubs/formattedtext/inspector.php';
 
 /**
  * Test class for JLoggerFormattedText.
  */
 class JLoggerFormattedTextTest extends JoomlaTestCase
 {
-	/**
-	 * Setup for testing.
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		include_once 'TestStubs/JLoggerFormattedText_Inspector.php';
-	}
-
 	/**
 	 * Test the JLoggerFormattedText::__construct method.
 	 */
