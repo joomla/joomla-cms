@@ -29,7 +29,7 @@ class JLoggerSysLog extends JLogger
 	 * @var    array  Translation array for JLogEntry priorities to SysLog priority names.
 	 * @since  11.1
 	 */
-	private $_priorities = array(
+	protected $priorities = array(
 		JLog::EMERGENCY => 'EMERG',
 		JLog::ALERT => 'ALERT',
 		JLog::CRITICAL => 'CRIT',
@@ -97,7 +97,6 @@ class JLoggerSysLog extends JLogger
 	 */
 	public function __destruct()
 	{
-		// Close the SysLog connection.
 		closelog();
 	}
 
@@ -113,7 +112,7 @@ class JLoggerSysLog extends JLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Generate the value for the priority based on predefined constants.
-		$priority = constant(strtoupper('LOG_'.$this->_priorities[$entry->priority]));
+		$priority = constant(strtoupper('LOG_'.$this->priorities[$entry->priority]));
 
 		// Send the entry to SysLog.
 		syslog($priority, '['.$entry->category.'] '.$entry->message);

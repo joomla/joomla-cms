@@ -31,7 +31,7 @@ class JLoggerW3C extends JLoggerFormattedText
 	 *                 named in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
-	protected $format = "{DATE}\t{TIME}\t{PRIORITY}\t{CLIENTIP}\t{CATEGORY}\t{MESSAGE}";
+	protected $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
 	/**
 	 * Constructor.

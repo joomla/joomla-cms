@@ -31,11 +31,11 @@ class JLoggerFormattedText extends JLogger
 	protected $file;
 
 	/**
-	 * @var    string  The format for which each entry follows in the log file.  All fields must
-	 *                 be named in all caps and be within curly brackets eg. {FOOBAR}.
+	 * @var    string  The format for which each entry follows in the log file.  All fields must be named
+	 *                 in all caps and be within curly brackets eg. {FOOBAR}.
 	 * @since  11.1
 	 */
-	protected $format = "{DATETIME}\t{PRIORITY}\t{CATEGORY}\t{MESSAGE}";
+	protected $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
 
 	/**
 	 * @var    string  The full filesystem path for the log file.
@@ -51,7 +51,6 @@ class JLoggerFormattedText extends JLogger
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws  LogException
 	 */
 	public function __construct(array & $options)
 	{
@@ -102,11 +101,11 @@ class JLoggerFormattedText extends JLogger
 
 		// Open the file for writing (append mode).
 		if (!$this->file = fopen($this->path, 'a')) {
-			throw new LogException();
+			// Throw exception.
 		}
 		if ($head) {
 			if (!fputs($this->file, $head)) {
-				throw new LogException();
+				// Throw exception.
 			}
 		}
 	}
@@ -130,10 +129,9 @@ class JLoggerFormattedText extends JLogger
 	 *
 	 * @param   JLogEntry  The log entry object to add to the log.
 	 *
-	 * @return  void
+	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
-	 * @throws  LogException
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
@@ -155,32 +153,79 @@ class JLoggerFormattedText extends JLogger
 		// If the time field is missing or the date field isn't only the date we need to rework it.
 		if ((strlen($entry->date) != 10) || !isset($entry->time)) {
 
-			// Get a JDate object for the date string.
-			$date = JFactory::getDate($entry->date);
-
 			// Get the date and time strings in GMT.
-			$entry->datetime = $date->toISO8601();
-			$entry->date = $date->format('Y-m-d', false);
-			$entry->time = $date->format('H:i:s', false);
+			$entry->datetime = $entry->date->toISO8601();
+			$entry->time = $entry->date->format('H:i:s', false);
+			$entry->date = $entry->date->format('Y-m-d', false);
 		}
 
 		// Get a list of all the entry keys and make sure they are upper case.
 		$tmp = array_change_key_case(get_object_vars($entry), CASE_UPPER);
 
 		// Get all of the available fields in the format string.
-		$fields = array ();
+		$fields = array();
 		preg_match_all("/{(.*?)}/i", $this->format, $fields);
 
 		// Fill in field data for the line.
 		$line = $this->format;
 		for ($i = 0; $i < count($fields[0]); $i++)
 		{
-			$line = str_replace($fields[0][$i], (isset ($tmpentry[$fields[1][$i]])) ? $tmpentry[$fields[1][$i]] : '-', $line);
+			$line = str_replace($fields[0][$i], (isset($tmpentry[$fields[1][$i]])) ? $tmpentry[$fields[1][$i]] : '-', $line);
 		}
 
 		// Write the new entry to the file.
 		if (!fputs($this->file, $line."\n")) {
-			throw new LogException();
+			return false;
 		}
+
+		return true;
+	}
+
+	protected function foo()
+	{
+		// Build the full path to the log file.
+		$this->path = $this->options['text_file_path'].'/'.$this->options['text_file'];
+
+		// If the file doesn't already exist we need to create it and generate the file header.
+		if (!is_file($this->path)) {
+
+			// Make sure the folder exists in which to create the log file.
+			JFolder::create(dirname($this->path));
+
+			// Get the header for the log file.
+			$head = $this->generateFileHeader();
+		}
+		else {
+			$head = false;
+		}
+	}
+
+	/**
+	 * Method to generate the log file header.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function generateFileHeader()
+	{
+		// Initialize variables.
+		$head = array();
+
+		// Build the log file header.
+
+		// If the no php flag is not set add the php die statement.
+		if (empty($this->options['text_file_no_php'])) {
+			$head[] = '#<?php die(\'Forbidden.\'); ?>';
+		}
+		$head[] = '#Date: '.gmdate('Y-m-d H:i:s').' UTC';
+		$head[] = '#Software: '.JVersion::getLongVersion();
+		$head[] = '';
+
+		// Prepare the fields string
+		$head[] = '#Fields: '.strtolower(str_replace('}', '', str_replace('{', '', $this->format)));
+		$head[] = '';
+
+		return implode("\n", $head);
 	}
 }

@@ -63,4 +63,3 @@ PHP_CodeCoverage_Filter::getInstance()->addDirectoryToBlacklist(JPATH_TESTS);
 JError::setErrorHandling(E_NOTICE, 'ignore');
 JError::setErrorHandling(E_WARNING, 'ignore');
 JError::setErrorHandling(E_ERROR, 'ignore');
-
