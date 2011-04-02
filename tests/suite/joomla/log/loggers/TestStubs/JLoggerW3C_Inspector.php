@@ -17,10 +17,10 @@ defined('JPATH_PLATFORM') or die;
  * @package		Joomla.UnitTest
  * @subpackage	Log
  */
-class JLoggerFormattedTextInspector extends JLoggerFormattedText
+class JLoggerW3CInspector extends JLoggerW3C
 {
 	public $file;
-	public $format = '{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}';
+	public $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 	public $options;
 	public $fields;
 	public $path;
