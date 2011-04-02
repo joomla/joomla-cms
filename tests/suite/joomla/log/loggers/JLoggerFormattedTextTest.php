@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/formattedtext.php';
 /**
  * Test class for JLoggerFormattedText.
  */
-class JLoggerFormattedTextTest extends PHPUnit_Framework_TestCase
+class JLoggerFormattedTextTest extends JoomlaTestCase
 {
 	/**
 	 * Setup for testing.
@@ -25,6 +25,13 @@ class JLoggerFormattedTextTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		include_once 'TestStubs/JLoggerFormattedText_Inspector.php';
+
+		parent::setUp();
+
+		if (class_exists('JTestConfig')) {
+			$config = JFactory::getConfig();
+			$config->loadObject(new JTestConfig());
+		}
 	}
 
 	/**
@@ -39,7 +46,7 @@ class JLoggerFormattedTextTest extends PHPUnit_Framework_TestCase
 		// Format.
 		$this->assertThat(
 			$tmp->format,
-			$this->equalTo("{DATETIME}\t{PRIORITY}\t{CATEGORY}\t{MESSAGE}"),
+			$this->equalTo('{DATETIME}	{PRIORITY}	{CATEGORY}	{MESSAGE}'),
 			'Line: '.__LINE__.'.'
 		);
 
