@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 /**

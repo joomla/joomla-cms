@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.log.log');
 jimport('joomla.log.logger');
 
 /**
@@ -46,14 +47,9 @@ class JLoggerEcho extends JLogger
 	 */
 	public function addEntry(JLogEntry $entry)
 	{
-		if (defined('STDERR')) {
-			fwrite(STDERR, $this->priorities[$entry->priority].': '.$entry->message."\n");
-		}
-		elseif (defined('STDOUT')) {
-			fwrite(STDOUT, $this->priorities[$entry->priority].': '.$entry->message."\n");
-		}
-		else {
-			echo $this->priorities[$entry->priority].': '.$entry->message."\n";
-		}
+		echo $this->priorities[$entry->priority].': '.
+				$entry->message.
+				(empty($entry->category) ? '' : ' ['.$entry->category.']').
+				"\n";
 	}
 }

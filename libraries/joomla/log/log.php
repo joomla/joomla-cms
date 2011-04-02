@@ -125,7 +125,7 @@ class JLog
 	{
 		// If the logger classes haven't been registered let's get that done.
 		if (!self::$registered) {
-			$this->registerLoggers();
+			$this->register();
 			self::$registered = true;
 		}
 	}
@@ -154,7 +154,7 @@ class JLog
 			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
 		}
 
-		return self::$instance->addLogEntry($entry);
+		self::$instance->addLogEntry($entry);
 	}
 
 	/**
@@ -396,29 +396,28 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	protected function registerLoggers()
+	protected function register()
 	{
 		// Define the expected folder in which to find logger classes.
-		$loggersFolder = dirname(__FILE__).'/loggers';
+		$folder = dirname(__FILE__).'/loggers';
 
 		// Ignore the operation if the loggers folder doesn't exist.
-		if (is_dir($loggersFolder)) {
+		if (is_dir($folder)) {
 
 			// Open the loggers folder.
-			$d = dir($loggersFolder);
+			$d = dir($folder);
 
 			// Iterate through the folder contents to search for logger classes.
 			while (false !== ($entry = $d->read()))
 			{
 				// Only load for php files.
-				if (is_file($loggersFolder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
+				if (is_file($folder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
 
-					// Get the name and full path for each file.
+					// Sanitize the name of the file.
 					$name = preg_replace('#\.[^.]*$#', '', $entry);
-					$path = $loggersFolder.'/'.$entry;
 
 					// Register the class with the autoloader.
-					JLoader::register('JLogger'.ucfirst($name), $path);
+					JLoader::register('JLogger'.ucfirst($name), $folder.'/'.$entry);
 				}
 			}
 
