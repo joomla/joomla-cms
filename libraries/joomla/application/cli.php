@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.application.applicationexception');
 jimport('joomla.application.input.cli');
 jimport('joomla.event.dispatcher');
 jimport('joomla.log.log');

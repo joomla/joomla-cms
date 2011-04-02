@@ -77,6 +77,13 @@ class JDaemon extends JCli
 
 		// Call the parent constructor.
 		parent::__construct($config);
+
+		// Set some system limits.
+		set_time_limit($this->config->get('max_execution_time', 0));
+		ini_set('memory_limit',$this->config->get('max_memory_limit', '128M'));
+
+		// Flush content immediatly.
+		ob_implicit_flush();
 	}
 
 	/**
@@ -147,7 +154,7 @@ class JDaemon extends JCli
 		$pidFile = $this->config->get('application_pid_file');
 
 		// If the process id file doesn't exist then the daemon is obviously not running.
-		if (!file_exists($pidFile)) {
+		if (!is_file($pidFile)) {
 			return false;
 		}
 
@@ -441,7 +448,8 @@ class JDaemon extends JCli
 		}
 
 		/*
-		 * Make sure some necessary values are loaded into the configuration object.
+		 * Setup some application metadata options.  This is useful if we ever want to write out startup scripts
+		 * or just have some sort of information available to share about things.
 		 */
 
 		// The application author name.  This string is used in generating startup scripts and has
@@ -457,10 +465,28 @@ class JDaemon extends JCli
 		$tmp = (string) $this->config->get('application_description', 'A generic Joomla Platform application.');
 		$this->config->set('application_description', filter_var($tmp, FILTER_SANITIZE_STRING));
 
+		/*
+		 * Setup the application path options.  This defines the default executable name, executable directory,
+		 * and also the path to the daemon process id file.
+		 */
+
 		// The application executable daemon.  This string is used in generating startup scripts.
-		$tmp = (string) $this->config->get('application_executable', $this->input->executable);
-		preg_match('/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/', $tmp, $matches);
-		$this->config->set('application_executable', @ basename((string) $matches[0]));
+		$tmp = (string) $this->config->get('application_executable', basename($this->input->executable));
+		$this->config->set('application_executable', $tmp);
+
+		// The home directory of the daemon.
+		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
+		$this->config->set('application_directory', $tmp);
+
+		// The pid file location.  This defaults to a path inside the /tmp directory.
+		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/'.$this->name.'/'.$this->name.'.pid'));
+		$this->config->set('application_pid_file', $tmp);
+
+		/*
+		 * Setup the application identity options.  It is important to remember if the default of 0 is set for
+		 * either UID or GID then changing that setting will not be attempted as there is no real way to "change"
+		 * the identity of a process from some user to root.
+		 */
 
 		// The user id under which to run the daemon.
 		$tmp = (int) $this->config->get('application_uid', 0);
@@ -472,37 +498,25 @@ class JDaemon extends JCli
 		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
 		$this->config->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
 
+		// Option to kill the daemon if it cannot switch to the chosen identity.
+		$tmp = (bool) $this->config->get('application_require_identity', 1);
+		$this->config->set('application_require_identity', $tmp);
 
+		/*
+		 * Setup the application runtime options.  By default our execution time limit is infinite obviously
+		 * because a daemon should be constantly running unless told otherwise.  The default limit for memory
+		 * usage is 128M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
+		 * management leaves a bit to be desired :-)
+		 */
 
 		// The maximum execution time of the application in seconds.  Zero is infinite.
 		$tmp = (int) $this->config->get('max_execution_time', 0);
 		$this->config->set('max_execution_time', $tmp);
 
-		// The maximum request parsing time of the application in seconds.  Zero is infinite.
-		$tmp = (int) $this->config->get('max_input_time', 0);
-		$this->config->set('max_input_time', $tmp);
-
-		// The maximum amount of memory the application can use.  Zero is infinite.
+		// The maximum amount of memory the application can use.
 		$tmp = (string) $this->config->get('max_memory_limit', '128M');
 		$this->config->set('max_memory_limit', $tmp);
 
-		// Option to kill the daemon if it cannot switch to the chosen identity.
-		$tmp = (bool) $this->config->get('application_require_identity', 1);
-		$this->config->set('application_require_identity', $tmp);
-
-
-
-		// The home directory of the daemon.
-		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
-		$this->config->set('application_directory', strtolower($tmp));
-
-		// The pid file location.
-		$tmp = (string) $this->config->get('application_pid_file', '/tmp/'.$this->name.'/'.$this->name.'.pid');
-		$this->config->set('application_pid_file', strtolower($tmp));
-
-		// The chkconfig parameters for init.d: runlevel startpriority stoppriority
-		$tmp = (string) $this->config->get('application_check_config', '- 99 0');
-		$this->config->set('application_check_config', $tmp);
 
 		return $loaded;
 	}
@@ -556,9 +570,7 @@ class JDaemon extends JCli
 			$this->exiting = true;
 		}
 
-		// Following caused a bug if pid couldn't be written because of
-		// privileges
-		// || !file_exists(self::opt('appPidLocation'))
+		// If we aren't already daemonized then just kill the application.
 		if ($this->running && $this->isActive()) {
 			JLog::add('Process was not daemonized yet, just halting current process', JLog::INFO);
 			$this->close();

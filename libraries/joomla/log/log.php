@@ -411,7 +411,7 @@ class JLog
 			while (false !== ($entry = $d->read()))
 			{
 				// Only load for php files.
-				if (is_file($entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
+				if (is_file($loggersFolder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
 
 					// Get the name and full path for each file.
 					$name = preg_replace('#\.[^.]*$#', '', $entry);

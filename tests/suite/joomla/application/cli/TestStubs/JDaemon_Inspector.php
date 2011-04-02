@@ -20,6 +20,7 @@ defined('JPATH_PLATFORM') or die;
 class JDaemonInspector extends JDaemon
 {
 	public $exiting;
+	public $config;
 	public $running;
 	public $processId;
 	public $inputs;
