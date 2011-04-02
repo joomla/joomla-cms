@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Apr-2011 Mark Dexter
+# Fix doInstall to set error reporting to Maximum
+
 31-Mar-2011 Mark Dexter
 + [#22618] Automated ACL system test to test manage permission (Tim Plummer)
 

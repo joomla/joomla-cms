@@ -102,6 +102,9 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->jClick('Global Configuration');
 		$this->click("server");
 		$this->select("jform_error_reporting", "label=Maximum");
+		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->waitForPageToLoad("30000");
+		
 
 		$this->setCache($cfg->cache);
 		
