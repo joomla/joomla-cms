@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+  <table name="jos_log_entries">
+    <column>priority</column>
+    <column>message</column>
+    <column>date</column>
+    <column>category</column>
+    <row>
+      <value>1</value>
+      <value>Testing</value>
+      <value>1980-04-18 00:00:00</value>
+      <null />
+    </row>
+  </table>
+</dataset>
