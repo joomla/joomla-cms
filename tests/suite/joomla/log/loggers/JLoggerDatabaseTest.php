@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once JPATH_PLATFORM.'/joomla/log/logger.php';
 require_once JPATH_PLATFORM.'/joomla/log/loggers/database.php';
 
 /**
@@ -18,24 +17,10 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/database.php';
 class JLoggerDatabaseTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * Setup for testing.
-	 *
-	 * @return void
+	 * Test the JLoggerDatabase::addEntry method.
 	 */
-	public function setUp()
+	public function testAddEntry()
 	{
-	}
-
-	/**
-	 * Test the JLogEntry::__construct method.
-	 */
-	public function test__construct()
-	{
-//		$tmp = new JLogEntry();
-//		$this->assertThat(
-//			$this->inspector->configurations,
-//			$this->equalTo($expectedConfigurations),
-//			'Line: '.__LINE__.'.'
-//		);
+		$this->markTestSkipped('TODO: Figure out how to test this logger.');
 	}
 }
