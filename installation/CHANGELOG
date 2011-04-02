@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Apr-2011 Jean-Marie Simonet
+ $ Added missing strings
+
 01-Apr-2011 Mark Dexter
  # Fix incorrect comments in articles model
 

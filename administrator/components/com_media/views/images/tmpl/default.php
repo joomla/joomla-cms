@@ -41,7 +41,7 @@ echo $params->get('image_path', 'images');?>/';
 				<?php if (!$this->state->get('field.id')):?>
 					<td><label for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label></td>
 					<td>
-						<select size="1" id="f_align" title="Positioning of this image">
+						<select size="1" id="f_align" >
 							<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
 							<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
 							<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
@@ -60,7 +60,7 @@ echo $params->get('image_path', 'images');?>/';
 					<td><input type="text" id="f_title" value="" /></td>
 					<td><label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label></td>
 					<td>
-						<select size="1" id="f_caption" title="caption">
+						<select size="1" id="f_caption" >
 							<option value="" selected="selected" ><?php echo JText::_('JNO') ?></option>
 							<option value="1"><?php echo JText::_('JYES') ?></option>
 						</select>
