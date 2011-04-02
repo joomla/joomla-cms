@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once JPATH_PLATFORM.'/joomla/log/logger.php';
 require_once JPATH_PLATFORM.'/joomla/log/loggers/messagequeue.php';
 
 /**
@@ -18,24 +17,74 @@ require_once JPATH_PLATFORM.'/joomla/log/loggers/messagequeue.php';
 class JLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * @var   mixed  The main application object from JFactory while we mock it out.
+	 * @since 11.1
+	 */
+	protected $app;
+
+	/**
 	 * Setup for testing.
 	 *
 	 * @return void
 	 */
 	public function setUp()
 	{
+		include_once 'TestStubs/JApplication_Mock.php';
+
+		$this->app = JFactory::$application;
+		JFactory::$application = new JApplicationMock();
 	}
 
 	/**
-	 * Test the JLogEntry::__construct method.
+	 * Tear down.
+	 *
+	 * @return void
 	 */
-	public function test__construct()
+	public function tearDown()
 	{
-//		$tmp = new JLogEntry();
-//		$this->assertThat(
-//			$this->inspector->configurations,
-//			$this->equalTo($expectedConfigurations),
-//			'Line: '.__LINE__.'.'
-//		);
+		JFactory::$application = $this->app;
+	}
+
+	/**
+	 * Test the JLoggerMessageQueue::addEntry method.
+	 */
+	public function testAddEntry01()
+	{
+		// Create bogus config.
+		$config = array();
+
+		// Get an instance of the logger.
+		$logger = new JLoggerMessageQueue($config);
+
+		// Add a basic error message, it ignores the category.
+		$logger->addEntry(new JLogEntry('TESTING', JLog::ERROR, 'DePrEcAtEd'));
+		$expected = array(
+			array('message' => 'TESTING', 'type' => 'error')
+		);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+
+		// Now lets add a debug message that should be ignored.
+		$logger->addEntry(new JLogEntry('Debugging', JLog::DEBUG));
+		$expected = array(
+			array('message' => 'TESTING', 'type' => 'error')
+		);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+
+		// Next we add a regular info message.
+		$logger->addEntry(new JLogEntry('My information message.', JLog::INFO));
+		$expected = array(
+			array('message' => 'TESTING', 'type' => 'error'),
+			array('message' => 'My information message.', 'type' => 'message')
+		);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+
+		// One last "notice" and we'll call it a day.
+		$logger->addEntry(new JLogEntry('You are on NOTICE!', JLog::NOTICE));
+		$expected = array(
+			array('message' => 'TESTING', 'type' => 'error'),
+			array('message' => 'My information message.', 'type' => 'message'),
+			array('message' => 'You are on NOTICE!', 'type' => 'notice'),
+		);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
 	}
 }
