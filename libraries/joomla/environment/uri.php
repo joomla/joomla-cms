@@ -138,7 +138,10 @@ class JURI extends JObject
 					// Since we do not have REQUEST_URI to work with, we will assume we are
 					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 					// QUERY_STRING environment variables.
-					//
+					
+					if (strlen($_SERVER['QUERY_STRING']) && strpos($_SERVER['REQUEST_URI'], $_SERVER['QUERY_STRING']) === false) {
+						$theURI .= '?'.$_SERVER['QUERY_STRING'];
+					}
 				}
 				else
 				{
@@ -150,26 +153,6 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
-
-				// Now we need to clean what we got since we can't trust the server var
-				// Need to check that the URI is fully decoded in case of multiple-encoded attack vectors.
-				$halt	= 0;
-				while ($theURI != urldecode($theURI))
-				{
-					$last	= $theURI;
-					$theURI = urldecode($theURI);
-
-					if (++$halt > 10) {
-						// Runaway check. URI has been seriously compromised.
-						jexit();
-					}
-				}
-				
-				$theURI = str_replace('"', '&quot;',$theURI);
-				$theURI = str_replace('<', '&lt;',$theURI);
-				$theURI = str_replace('>', '&gt;',$theURI);
-				$theURI = preg_replace('/eval\((.*)\)/', '', $theURI);
-				$theURI = preg_replace('/[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']/', '""', $theURI);
 			}
 			else
 			{
@@ -476,31 +459,7 @@ class JURI extends JObject
 			return false;
 		}
 
-		$out = array();
-
-		//reset in case we are looping
-		if (!isset($akey) && !count($out))  {
-			unset($out);
-			$out = array();
-		}
-
-		foreach ($params as $key => $val)
-		{
-			if (is_array($val))
-			{
-				if (!is_null($akey)) {
-                    $out[] = self::buildQuery($val,$akey.'['.$key.']');
-                } else {
-                    $out[] = self::buildQuery($val,$key);
-                }
-				continue;
-			}
-
-			$thekey = (!$akey) ? $key : $akey.'['.$key.']';
-			$out[] = $thekey."=".urlencode($val);
-		}
-
-		return implode("&",$out);
+		return urldecode(http_build_query($params, '', '&'));
 	}
 
 	/**
