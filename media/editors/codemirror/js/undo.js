@@ -238,7 +238,7 @@ UndoHistory.prototype = {
     this.history.push(diffs);
     if (this.history.length > this.maxDepth) {
       this.history.shift();
-      lostundo += 1;
+      this.lostundo += 1;
     }
   },
 

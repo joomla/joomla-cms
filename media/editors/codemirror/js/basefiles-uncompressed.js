@@ -2587,6 +2587,7 @@ function tokenizer(source, state) {
   };
   return tokenizer;
 }
+
 /**
  * Storage and control for undo information within a CodeMirror
  * editor. 'Why on earth is such a complicated mess required for
@@ -2827,7 +2828,7 @@ UndoHistory.prototype = {
     this.history.push(diffs);
     if (this.history.length > this.maxDepth) {
       this.history.shift();
-      lostundo += 1;
+      this.lostundo += 1;
     }
   },
 
@@ -3000,6 +3001,7 @@ UndoHistory.prototype = {
     return start;
   }
 };
+
 /* A few useful utility functions. */
 
 // Capture a method on an object.

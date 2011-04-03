@@ -340,7 +340,7 @@ var JSParser = Editor.Parser = (function() {
     // in its argument list have to be added to this context.
     function functiondef(type, value){
       if (type == "variable"){register(value); cont(functiondef);}
-      else if (type == "(") cont(pushcontext, commasep(funarg, ")"), statement, popcontext);
+      else if (type == "(") cont(pushlex(")"), pushcontext, commasep(funarg, ")"), poplex, statement, popcontext);
     }
     function funarg(type, value){
       if (type == "variable"){register(value); cont();}

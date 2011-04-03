@@ -53,6 +53,7 @@ var CodeMirror = (function(){
     width: "",
     height: "300px",
     minHeight: 100,
+    onDynamicHeightChange: null,
     autoMatchParens: false,
     markParen: null,
     unmarkParen: null,
@@ -483,8 +484,12 @@ var CodeMirror = (function(){
         else if (lineHeight) {
           computedHeight = trailingLines * lineHeight;
         }
-        if (computedHeight)
-          self.wrapping.style.height = Math.max(vmargin + computedHeight, self.options.minHeight) + "px";
+        if (computedHeight) {
+          if (self.options.onDynamicHeightChange)
+            computedHeight = self.options.onDynamicHeightChange(computedHeight);
+          if (computedHeight)
+            self.wrapping.style.height = Math.max(vmargin + computedHeight, self.options.minHeight) + "px";
+        }
       }
       setTimeout(updateHeight, 300);
       self.options.onCursorActivity = function(x) {
@@ -524,15 +529,17 @@ var CodeMirror = (function(){
         area.form.addEventListener("submit", updateField, false);
       else
         area.form.attachEvent("onsubmit", updateField);
-      var realSubmit = area.form.submit;
-      function wrapSubmit() {
-        updateField();
-        // Can't use realSubmit.apply because IE6 is too stupid
-        area.form.submit = realSubmit;
-        area.form.submit();
+      if (typeof area.form.submit == "function") {
+        var realSubmit = area.form.submit;
+        function wrapSubmit() {
+          updateField();
+          // Can't use realSubmit.apply because IE6 is too stupid
+          area.form.submit = realSubmit;
+          area.form.submit();
+          area.form.submit = wrapSubmit;
+        }
         area.form.submit = wrapSubmit;
       }
-      try {area.form.submit = wrapSubmit;} catch(e){}
     }
 
     function insert(frame) {
@@ -550,7 +557,8 @@ var CodeMirror = (function(){
       area.parentNode.removeChild(mirror.wrapping);
       area.style.display = "";
       if (area.form) {
-        try {area.form.submit = realSubmit;} catch(e) {}
+        if (typeof area.form.submit == "function")
+          area.form.submit = realSubmit;
         if (typeof area.form.removeEventListener == "function")
           area.form.removeEventListener("submit", updateField, false);
         else

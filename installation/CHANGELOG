@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#25340] The robots.txt file offers no protection for a site installed in a folder.
  # [#24285] Headlinks in header sum up when using progressive/conservative cache
  # [#25403] "Font Size" not working with Internet Explorer 7
+ # [#25508] Update CodeMirror to Version 1.0
  
 02-Apr-2011 Jean-Marie Simonet
  $ Added missing strings
