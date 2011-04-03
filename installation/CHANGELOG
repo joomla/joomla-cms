@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#22870] Improved fix for XSS issue found in Joomla 1.5.20
  # [#25522] Extra quote in com_weblinks
  # [#25074] Form onchange event pointing to non-existant event
+ # [#22926] browser detection script reports wrong informations
  
 02-Apr-2011 Jean-Marie Simonet
  $ Added missing strings

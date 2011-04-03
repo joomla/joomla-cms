@@ -268,16 +268,17 @@ class JBrowser extends JObject
 			if (strpos($this->_lowerAgent, 'mobileexplorer') !== false ||
 				strpos($this->_lowerAgent, 'openwave') !== false ||
 				strpos($this->_lowerAgent, 'opera mini') !== false ||
+				strpos($this->_lowerAgent, 'opera mobi') !== false ||
 				strpos($this->_lowerAgent, 'operamini') !== false) {
 				$this->setFeature('frames', false);
 				$this->setFeature('javascript', false);
 				$this->setQuirk('avoid_popup_windows');
 				$this->_mobile = true;
 			} elseif (preg_match('|Opera[/ ]([0-9.]+)|', $this->_agent, $version)) {
-						$this->setBrowser('opera');
-						list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
-						$this->setFeature('javascript', true);
-						$this->setQuirk('no_filename_spaces');
+				$this->setBrowser('opera');
+				list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+				$this->setFeature('javascript', true);
+				$this->setQuirk('no_filename_spaces');
 
 				if ($this->_majorVersion >= 7) {
 					$this->setFeature('dom');
@@ -285,6 +286,16 @@ class JBrowser extends JObject
 					$this->setFeature('accesskey');
 					$this->setQuirk('double_linebreak_textarea');
 				}
+				/* Due to changes in Opera UA, we need to check Version/xx.yy,
+				 * but only if version is > 9.80. See: http://dev.opera.com/articles/view/opera-ua-string-changes/ */
+				if ($this->_majorVersion == 9 && $this->_minorVersion >= 80) {
+					preg_match('|Version[/ ]([0-9.]+)|', $this->_agent, $version);
+					list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+				}
+			} elseif (preg_match('|Chrome[/ ]([0-9.]+)|', $this->_agent, $version)) {
+				$this->setBrowser('chrome');
+				list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+				$this->setFeature('javascript', true);
 			} elseif (strpos($this->_lowerAgent, 'elaine/') !== false ||
 						strpos($this->_lowerAgent, 'palmsource') !== false ||
 						strpos($this->_lowerAgent, 'digital paths') !== false) {
@@ -423,6 +434,7 @@ class JBrowser extends JObject
 				if (strpos($this->_agent, 'Safari') !== false &&
 					$this->_majorVersion >= 60) {
 					// Safari.
+					$this->setBrowser('safari');
 					$this->setFeature('utf');
 					$this->setFeature('javascript', 1.4);
 					$this->setFeature('dom');
@@ -437,6 +449,9 @@ class JBrowser extends JObject
 						$this->setFeature('svg');
 						$this->setFeature('xhtml+xml');
 					}
+					// Set browser version, not engine version
+					preg_match('|Version[/ ]([0-9.]+)|', $this->_agent, $version);
+					list($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
 				} else {
 					// Konqueror.
 					$this->setFeature('javascript', 1.5);
