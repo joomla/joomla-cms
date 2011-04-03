@@ -395,7 +395,7 @@ abstract class JModuleHelper
 
 		$wrkaroundoptions = array (
 			'nopathway' 	=> 1,
-			'nohead' 		=> 0,
+			'nohead' 		=> 1,
 			'nomodules' 	=> 1,
 			'modulemode' 	=> 1,
 			'mergehead' 	=> 1
