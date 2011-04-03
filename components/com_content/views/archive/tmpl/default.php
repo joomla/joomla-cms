@@ -24,7 +24,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
 	<div class="filter-search">
 		<?php if ($this->params->get('filter_field') != 'hide') : ?>
 		<label class="filter-search-lbl" for="filter-search"><?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
-		<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.jForm.submit();" />
+		<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->filter); ?>" class="inputbox" onchange="document.getElementById('adminForm').submit();" />
 		<?php endif; ?>
 
 		<?php echo $this->form->monthField; ?>
