@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#25403] "Font Size" not working with Internet Explorer 7
  # [#25508] Update CodeMirror to Version 1.0
  # [#22870] Improved fix for XSS issue found in Joomla 1.5.20
+ # [#25522] Extra quote in com_weblinks
  
 02-Apr-2011 Jean-Marie Simonet
  $ Added missing strings

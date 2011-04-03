@@ -29,7 +29,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 		<?php  else: ?>
 			<?php //Otherwise get one from the database if it exists. ?>
 			<?php  if ($this->parent->description) : ?>
-				<div class="category-desc base-desc"">
+				<div class="category-desc base-desc">
 					<?php  echo JHtml::_('content.prepare', $this->parent->description); ?>
 				</div>
 			<?php  endif; ?>
