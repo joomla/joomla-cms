@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Apr-2011 Jean-Marie Simonet
+ #$ Upgrading fi-FI installation language
+
 02-Apr-2011 Mark Dexter
  # [#25340] The robots.txt file offers no protection for a site installed in a folder.
  # [#24285] Headlinks in header sum up when using progressive/conservative cache
