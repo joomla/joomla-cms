@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.logentry');
+jimport('joomla.log.logexception');
 jimport('joomla.log.logger');
 
 // @deprecated  11.2
@@ -333,6 +334,7 @@ class JLog
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @throws  LogException
 	 */
 	protected function addLogEntry(JLogEntry $entry)
 	{
@@ -344,12 +346,12 @@ class JLog
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature])) {
 
-				try {
-					$class = 'JLogger'.ucfirst($this->configurations[$signature]['logger']);
+				$class = 'JLogger'.ucfirst($this->configurations[$signature]['logger']);
+				if (class_exists($class)) {
 					$this->loggers[$signature] = new $class($this->configurations[$signature]);
 				}
-				catch (Exception $e) {
-					jexit(JText::_('Unable to create a JLogger instance: ').$e->getMessage());
+				else {
+					throw new LogException(JText::_('Unable to create a JLogger instance: '));
 				}
 			}
 
