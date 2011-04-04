@@ -69,4 +69,68 @@ class JLoggerDatabaseTest extends JoomlaDatabaseTestCase
 		// Verify that the data sets are equal.
 		$this->assertDataSetsEqual($expected, $actual);
 	}
+
+	/**
+	 * Test the JLoggerDatabase::addEntry method.
+	 */
+	public function testAddEntry02()
+	{
+		// Setup the basic configuration.
+		@ include_once JPATH_TESTS . '/config.php';
+		if (class_exists('JTestConfig')) {
+			$config = new JTestConfig;
+		}
+
+		// Setup the basic configuration.
+		$config = array(
+			'db_driver' => $config->dbtype,
+			'db_host' => $config->host,
+			'db_user' => $config->user,
+			'db_pass' => $config->password,
+			'db_database' => $config->db,
+			'db_prefix' => $config->dbprefix
+		);
+		$logger = new JLoggerDatabaseInspector($config);
+
+		// Get the expected database from XML.
+		$expected = $this->createXMLDataSet(dirname(__FILE__).'/stubs/database/S01E01.xml');
+
+		// Add the new entries to the database.
+		$logger->addEntry(new JLogEntry('Testing Entry 02', JLog::INFO, null, '2009-12-01 12:30:00'));
+		$logger->addEntry(new JLogEntry('Testing3', JLog::EMERGENCY, 'deprecated', '2010-12-01 02:30:00'));
+
+		// Get the actual dataset from the database.
+		$actual = new PHPUnit_Extensions_Database_DataSet_QueryDataSet($this->getConnection());
+		$actual->addTable('jos_log_entries');
+
+		// Verify that the data sets are equal.
+		$this->assertDataSetsEqual($expected, $actual);
+	}
+
+	/**
+	 * Test the JLoggerDatabase::connect method.
+	 */
+	public function testConnect01()
+	{
+		// Load the config if available.
+		@ include_once JPATH_TESTS . '/config.php';
+		if (class_exists('JTestConfig')) {
+			$config = new JTestConfig;
+		}
+
+		// Setup the basic configuration.
+		$config = array(
+			'db_driver' => $config->dbtype,
+			'db_host' => $config->host,
+			'db_user' => $config->user,
+			'db_pass' => $config->password,
+			'db_database' => $config->db,
+			'db_prefix' => $config->dbprefix
+		);
+
+		$logger = new JLoggerDatabaseInspector($config);
+		$logger->connect();
+
+		$this->assertTrue($logger->dbo instanceof JDatabase, 'Line: '.__LINE__);
+	}
 }

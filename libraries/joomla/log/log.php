@@ -91,6 +91,14 @@ class JLog
 	protected static $instance;
 
 	/**
+	 * @var         array  The array of instances created through the deprecated getInstance method.
+	 * @since       11.1
+	 * @see         JLog::getInstance()
+	 * @deprecated  11.2
+	 */
+	public static $legacy = array();
+
+	/**
 	 * @var    bool  True if the default logger classes have been registered.
 	 * @since  11.1
 	 */
@@ -212,12 +220,6 @@ class JLog
 		// Deprecation warning.
 		JLog::add('JLog::getInstance() is deprecated.  See JLog::addLogger().', JLog::WARNING, 'deprecated');
 
-		// Initialize static instances array.
-		static $instances;
-		if (!isset($instances)) {
-			$instances = array();
-		}
-
 		// Get the system configuration object.
 		$config = JFactory::getConfig();
 
@@ -226,32 +228,32 @@ class JLog
 			$path = $config->get('log_path');
 		}
 
-		// Only create the object if not already created.
-		if (empty($instances[$path])) {
-			$instances[$path] = new JLog();
-
-			// Fix up the options so that we use the w3c format.
-			$options['text_entry_format'] = $options['format'];
-			$options['text_file'] = $file;
-			$options['text_file_path'] = $path;
-			$options['logger'] = 'w3c';
-
-			// If no options were explicitly set use the default from configuration.
-			if (empty($options)) {
-				$options = $config->getValue('log_options');
-			}
-
-			// Generate a unique signature for the JLog instance based on its options.
-			$signature = md5(serialize($options));
-
-			// Register the configuration.
-			$instances[$path]->configurations[$signature] = $options;
-
-			// Setup the lookup to catch all.
-			$instances[$path]->lookup[$signature] = (object) array('priorities' => JLog::ALL, 'categories' => array());
+		// If no options were explicitly set use the default from configuration.
+		if (empty($options)) {
+			$options = (array) $config->getValue('log_options');
 		}
 
-		return $instances[$path];
+		// Fix up the options so that we use the w3c format.
+		$options['text_entry_format'] = empty($options['format']) ? null : $options['format'];
+		$options['text_file'] = $file;
+		$options['text_file_path'] = $path;
+		$options['logger'] = 'w3c';
+
+		// Generate a unique signature for the JLog instance based on its options.
+		$signature = md5(serialize($options));
+
+		// Only create the object if not already created.
+		if (empty(self::$legacy[$signature])) {
+			self::$legacy[$signature] = new JLog();
+
+			// Register the configuration.
+			self::$legacy[$signature]->configurations[$signature] = $options;
+
+			// Setup the lookup to catch all.
+			self::$legacy[$signature]->lookup[$signature] = (object) array('priorities' => JLog::ALL, 'categories' => array());
+		}
+
+		return self::$legacy[$signature];
 	}
 
 	/**
@@ -264,9 +266,11 @@ class JLog
 	 *
 	 * @since   11.1
 	 */
-	public static function setInstance(JLog $instance)
+	public static function setInstance($instance)
 	{
-		self::$instance = & $instance;
+		if (($instance instanceof JLog) || $instance === null) {
+			self::$instance = & $instance;
+		}
 	}
 
 	/**
@@ -335,7 +339,7 @@ class JLog
 		// Find all the appropriate loggers based on priority and category for the entry.
 		$loggers = $this->findLoggers($entry->priority, $entry->category);
 
-		foreach ($loggers as $signature)
+		foreach ((array) $loggers as $signature)
 		{
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature])) {
@@ -374,7 +378,7 @@ class JLog
 		$category = strtolower($category);
 
 		// Let's go iterate over the loggers and get all the ones we need.
-		foreach ($this->lookup as $signature => $rules)
+		foreach ((array) $this->lookup as $signature => $rules)
 		{
 			// Check to make sure the priority matches the logger.
 			if ($priority & $rules->priorities) {

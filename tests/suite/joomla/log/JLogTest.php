@@ -17,12 +17,74 @@ require_once dirname(__FILE__).'/stubs/log/inspector.php';
 /**
  * Test class for JLog.
  */
-class JLogTest extends PHPUnit_Framework_TestCase
+class JLogTest extends PHPUnit_Extensions_OutputTestCase
 {
 	/**
 	 * @access protected
 	 */
 	protected $inspector;
+
+	/**
+	 * Test the JLog::getInstance method.
+	 */
+	public function testGetInstance()
+	{
+		// Get an instance of the JLog class.
+		$log = JLog::getInstance();
+
+		// Verify that it is a JLog.
+		$this->assertTrue(($log instanceof JLog), 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Test the JLog::addEntry method.
+	 */
+	public function testAddEntry01()
+	{
+		$log = new JLogInspector;
+
+		$entry = array(
+			'c-ip' => '127.0.0.1',
+			'status' => 'deprecated',
+			'level' => JLog::DEBUG,
+			'comment' => 'Test Entry',
+			'foo' => 'bar'
+		);
+
+		$log->addEntry($entry);
+
+		$this->assertEquals($log->queue[0]->category, 'deprecated', 'Line: '.__LINE__);
+		$this->assertEquals($log->queue[0]->priority, JLog::DEBUG, 'Line: '.__LINE__);
+		$this->assertEquals($log->queue[0]->message, 'Test Entry', 'Line: '.__LINE__);
+		$this->assertEquals($log->queue[0]->foo, 'bar', 'Line: '.__LINE__);
+		$this->assertEquals($log->queue[0]->clientIP, '127.0.0.1', 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Test the JLog::addEntry method.
+	 */
+	public function testAddEntry02()
+	{
+		$log = new JLogInspector;
+
+		$this->assertFalse($log->addEntry(123), 'Line: '.__LINE__);
+		$this->assertFalse($log->addEntry('foobar'), 'Line: '.__LINE__);
+		$this->assertFalse($log->addEntry(3.14), 'Line: '.__LINE__);
+	}
+
+	/**
+	 * Test the JLog::addEntry method.
+	 */
+	public function testAddEntry03()
+	{
+		$log = new JLogInspector;
+
+		$entry = new JLogEntry('TESTING', JLog::DEBUG);
+
+		$log->addEntry($entry);
+
+		$this->assertEquals($log->queue[0], $entry, 'Line: '.__LINE__);
+	}
 
 	/**
 	 * Test the JLog::setInstance method.
@@ -295,6 +357,36 @@ class JLogTest extends PHPUnit_Framework_TestCase
 				)),
 			'Line: '.__LINE__.'.'
 		);
-
 	}
+
+	/**
+	 * Test the JLog::addLogEntry method.
+	 */
+	public function testAddLogEntry()
+	{
+		// First let's test a set of priorities.
+		$this->inspector = new JLogInspector;
+		JLog::setInstance($this->inspector);
+
+		// Add a loggers to the JLog object.
+		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
+
+		$this->expectOutputString("DEBUG: TESTING [deprecated]\n");
+		$this->inspector->addLogEntry(new JLogEntry('TESTING', JLog::DEBUG, 'DePrEcAtEd'));
+	}
+
+	/**
+	 * Test the JLog::addLogEntry method.
+	 */
+	public function testAddLoggerAutoInstantiation()
+	{
+		JLog::setInstance(null);
+
+		JLog::addLogger(array('logger' => 'echo'), JLog::ALL);
+
+		$this->expectOutputString("WARNING: TESTING [deprecated]\n");
+		JLog::add(new JLogEntry('TESTING', JLog::WARNING, 'DePrEcAtEd'));
+	}
+
+
 }

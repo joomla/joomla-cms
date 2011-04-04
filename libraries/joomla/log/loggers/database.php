@@ -159,6 +159,9 @@ class JLoggerDatabase extends JLogger
 			if ($db->getErrorNum() > 0) {
 				throw new LogException(JText::sprintf('JLIB_UTIL_ERROR_CONNECT_DATABASE', $db->getErrorNum(), $db->getErrorMsg()));
 			}
+
+			// Assign the database connector to the class.
+			$this->dbo = $db;
 		}
 		catch (DatabaseException $e) {
 			throw new LogException($e->getMessage());

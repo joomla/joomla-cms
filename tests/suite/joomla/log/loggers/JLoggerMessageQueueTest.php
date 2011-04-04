@@ -77,12 +77,22 @@ class JLoggerMessageQueueTest extends PHPUnit_Framework_TestCase
 		);
 		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
 
-		// One last "notice" and we'll call it a day.
+		// Who's on notice?
 		$logger->addEntry(new JLogEntry('You are on NOTICE!', JLog::NOTICE));
 		$expected = array(
 			array('message' => 'TESTING', 'type' => 'error'),
 			array('message' => 'My information message.', 'type' => 'message'),
 			array('message' => 'You are on NOTICE!', 'type' => 'notice'),
+		);
+		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
+
+		// One last "warning" and we'll call it a day.
+		$logger->addEntry(new JLogEntry('You\'ve been warned...', JLog::WARNING));
+		$expected = array(
+			array('message' => 'TESTING', 'type' => 'error'),
+			array('message' => 'My information message.', 'type' => 'message'),
+			array('message' => 'You are on NOTICE!', 'type' => 'notice'),
+			array('message' => 'You\'ve been warned...', 'type' => 'warning'),
 		);
 		$this->assertEquals(JFactory::$application->queue, $expected, 'Line: '.__LINE__);
 	}

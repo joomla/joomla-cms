@@ -23,13 +23,22 @@ class JLogInspector extends JLog
 	public $loggers;
 	public $lookup;
 
+	public $queue = array();
+
 	public function __construct()
 	{
 		return parent::__construct();
 	}
 
+	public static function clearInstance()
+	{
+		JLog::$instance == null;
+	}
+
 	public function addLogEntry(JLogEntry $entry)
 	{
+		$this->queue[] = $entry;
+
 		return parent::addLogEntry($entry);
 	}
 
