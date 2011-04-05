@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Apr-2011 Mark Dexter
  # [#25540] JModelForm enables 'com_checkin' for 'core.manage' - should be 'core.admin'
+ # [#24974] The word Array appears below the document when Cache is turned on
 
 05-Apr-2011 Jean-Marie Simonet
  #$ Adding Icelandic to installation languages

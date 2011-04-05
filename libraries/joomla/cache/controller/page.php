@@ -89,7 +89,7 @@ class JCacheControllerPage extends JCacheController
 		if ($data !== false) {
 			$data = unserialize(trim($data));
 			if ($wrkarounds === true) {
-				echo JCache::getWorkarounds($data);
+				$data = JCache::getWorkarounds($data);
 			}
 
 			$this->_setEtag($id);
