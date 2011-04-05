@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 05-Apr-2011 Jean-Marie Simonet
  #$ Adding Icelandic to installation languages
+ #$ Upgrading ru_RU installation language
  
 04-Apr-2011 Mark Dexter
  # [#25519] Minor Bugs in mod_whosonline
