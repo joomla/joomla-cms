@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Apr-2011 Mark Dexter
+ # [#25519] Minor Bugs in mod_whosonline
+
 04-Apr-2011 Jean-Marie Simonet
  #$ Upgrading fi-FI installation language
 

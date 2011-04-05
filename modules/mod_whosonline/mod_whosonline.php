@@ -22,6 +22,7 @@ if ($showmode == 0 || $showmode == 2) {
 if ($showmode > 0) {
 	$names	= modWhosonlineHelper::getOnlineUserNames();
 }
+
 $linknames = $params->get('linknames', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 

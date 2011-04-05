@@ -52,17 +52,6 @@
 					<option
 						value="1">JYes</option>
 				</field>
-				<field
-					name="linktowhat"
-					type="list"
-					default="0"
-					label="MOD_WHOSONLINE_FIELD_LINKTOWHAT_LABEL"
-					description="MOD_WHOSONLINE_FIELD_LINKTOWHAT_DESC">
-					<option
-						value="0">MOD_WHOSONLINE_FIELD_VALUE_PROFILE</option>
-					<option
-						value="1">MOD_WHOSONLINE_FIELD_VALUE_CONTACT</option>
-				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
