@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	Registry
  * @since		11.1
  */
-class JRegistryFormatINI extends JRegistryFormat
+class JRegistryFormatIni extends JRegistryFormat
 {
 	private static $cache = array();
 
