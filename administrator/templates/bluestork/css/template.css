@@ -683,6 +683,10 @@ div.current fieldset {
 	border: none 0;
 }
 
+div.current fieldset.adminform {
+	border: 1px #ccc solid;
+}
+
 div.current fieldset.radio {
 	float: left;
 }

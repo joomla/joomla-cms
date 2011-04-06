@@ -327,6 +327,10 @@ div.current fieldset {
 	border: none 0;
 }
 
+div.current fieldset.adminform {
+	border: 1px solid #000000;
+}
+
 /**
  * Login Settings
  */

@@ -30,6 +30,7 @@ $ -> Language fix or change
 06-Apr-2011 Jean-Marie Simonet
  # [#25551] #24285 change breaks module cache functionality, needs to be reverted. Thanks Klas.
  # [#25572] *ROOT parent category wrongly displays in featured and blog layout
+ # [#25571] admin templates does not add a border on fielset when using tabs. Thanks Christophe.
 
 05-Apr-2011 Mark Dexter
  # [#25540] JModelForm enables 'com_checkin' for 'core.manage' - should be 'core.admin'
