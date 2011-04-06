@@ -415,6 +415,61 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'From generic cases'
 			),
+			'tel_01' => array(
+				'tel',
+				'1 (202) 223-1234',
+				'1.2022231234',
+				'NANP'
+			),
+			'tel_02' => array(
+				'tel',
+				'12022231234',
+				'1.2022231234',
+				'NANP'
+			),	
+			'tel_03' => array(
+				'tel',
+				'+1-202-223-1234',
+				'1.2022231234',
+				'NANP'
+			),
+			'tel_04' => array(
+				'tel',
+				'+34 202 123 1234',
+				'34.2021231234',
+				'ITU-T'
+			),
+			'tel_05' => array(
+				'tel',
+				'+34.2021231234',
+				'34.2021231234',
+				'EPP'
+			),
+			'tel_06' => array(
+				'tel',
+				'342021231234567',
+				'342.021231234567',
+				'ITU-T'
+			),
+			'tel_07' => array(
+				'tel',
+				'202123123456',
+				'.202123123456',
+				'ITU-T'
+			),
+			'tel_08' => array(
+				'tel',
+				'ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz!"#$%&\'()*+,-',
+				'.',
+				'Any'
+			),
+			'tel_09' => array(
+				'tel',
+				'+34.2021231234x555',
+				'34.2021231234',
+				'EPP'
+			),			
+			
 		);
 	}
 
