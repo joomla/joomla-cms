@@ -201,9 +201,9 @@ class JFilterInput extends JObject
 					$result = '1.'.$number;
 				} elseif 
 				 (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/',$source) == 1) {
-					$countrycode =  strstr($source,' ',true);
+					$countrycode =  substr($source,0,strpos($source,' '));
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
-					$number = strstr($source,'');
+					$number = strstr($source,' ');
 					$number = (string) preg_replace('/[^\d]/', '', $number);
 					$result = $countrycode.'.'.$number;
 				} elseif
