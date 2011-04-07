@@ -6,7 +6,7 @@
 	if the interface doesn't support it properly -->
 
 	<!-- Generic Metadata -->
-	<name>FILES_ALPHA</name>
+	<name>FILES_TEST1</name>
 	<author>John Doe</author>
 	<authorEmail>john.doe@example.org</authorEmail>
 	<authorUrl>http://www.example.org</authorUrl>
@@ -14,7 +14,7 @@
 	<license>License Info</license>
 	<version>1.6.0</version>
 	<creationDate>August 2010</creationDate>
-	<description>FILES_ALPHA_XML_DESCRIPTION</description>
+	<description>FILES_TEST1_XML_DESCRIPTION</description>
 
 	<!-- Fileset definition -->
 	<fileset>
