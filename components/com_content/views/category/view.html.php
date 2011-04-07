@@ -149,10 +149,11 @@ class ContentViewCategory extends JView
 				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
 			}
 
+			$limit = $numLeading + $numIntro + $numLinks;
 			// The remainder are the links.
-			for ($i = $numLeading + $numIntro; $i < $max; $i++)
+			for ($i = $numLeading + $numIntro; $i < $limit && $i < $max;$i++)
 			{
-				$this->link_items[$i] = &$items[$i];
+					$this->link_items[$i] = &$items[$i];
 			}
 		}
 
