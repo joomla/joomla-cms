@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#25247] Fix a number of incorrect comment in components
  # [#25563] Category Blog - More Article links don't have limitation
  # [#25497] *Notices with module Articles category
+ # [#25576] Gmail authentication fails (Verify Peer variable mistyped)
 
 07-Apr-2011 Jean-Marie Simonet
  # [#25569] the package strings are not translated when installing or managing. Thanks Christophe
