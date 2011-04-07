@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Apr-2011 Jean-Marie Simonet
+ # [#25569] the package strings are not translated when installing or managing. Thanks Christophe
+
 06-Apr-2011 Jean-Marie Simonet
  # [#25551] #24285 change breaks module cache functionality, needs to be reverted. Thanks Klas.
  # [#25572] *ROOT parent category wrongly displays in featured and blog layout
