@@ -237,8 +237,10 @@ abstract class modArticlesCategoryHelper
 
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
-			$item->introtext = JHtml::_('content.prepare', $item->introtext);
-			$item->introtext = self::_cleanIntrotext($item->introtext);
+			if ($show_introtext) {
+				$item->introtext = JHtml::_('content.prepare', $item->introtext);
+				$item->introtext = self::_cleanIntrotext($item->introtext);
+			}
 			$item->displayIntrotext = $show_introtext ? self::truncate($item->introtext, $introtext_limit) : '';
 			// added Angie show_unauthorizid
 			$item->displayReadmore = $item->alternative_readmore;
