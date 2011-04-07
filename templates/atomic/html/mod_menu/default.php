@@ -2,7 +2,7 @@
 /**
  * @version		$Id: default.php 18212 2010-07-22 06:02:54Z eddieajau $
  * @package		Joomla.Site
- * @subpackage	mod_menu
+ * @subpackage	Templates.atomic
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

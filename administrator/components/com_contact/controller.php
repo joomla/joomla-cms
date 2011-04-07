@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
  * Component Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @subpackage	com_contact
  */
 class ContactController extends JController
 {

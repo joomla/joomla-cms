@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
  * Utility class working with system
  *
  * @package		Joomla.Administrator
- * @subpackage	Admin
+ * @subpackage	com_admin
  * @since		1.6
  */
 abstract class JHtmlSystem

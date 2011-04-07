@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
+ * @package		Joomla.Administrator
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,8 +16,8 @@ jimport('joomla.form.formfield');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
+ * @package		Joomla.Administrator
+ * @subpackage	com_content
  * @since		1.6
  */
 class JFormFieldFilters extends JFormField

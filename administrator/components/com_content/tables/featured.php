@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 /**
  * @package		Joomla.Administrator
- * @subpackage	Content
+ * @subpackage	com_content
  */
 class ContentTableFeatured extends JTable
 {

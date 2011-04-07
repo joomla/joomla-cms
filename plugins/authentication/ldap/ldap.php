@@ -1,8 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	JFramework
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * LDAP Authentication Plugin
  *
- * @package		Joomla
- * @subpackage	JFramework
+ * @package		Joomla.Plugin
+ * @subpackage	Authentication.ldap
  * @since 1.5
  */
 

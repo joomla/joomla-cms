@@ -6,7 +6,6 @@
  * A tool to automatically create and synchronise contacts with a user
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @package Contact_Creator
  */
 
 // No direct access.
@@ -16,8 +15,8 @@ jimport('joomla.plugins.plugin');
 
 /**
  * Class for Contact Creator
- * @package		Joomla.Plugins
- * @subpackage	user.contactcreator
+ * @package		Joomla.Plugin
+ * @subpackage	User.contactcreator
  * @version		1.6
  */
 class plgUserContactCreator extends JPlugin

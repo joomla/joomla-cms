@@ -14,7 +14,7 @@ jimport('joomla.form.formfield');
  * Form Field class for the Joomla Framework.
  *
  * @package		Joomla.Administrator
- * @subpackage	Modules
+ * @subpackage	com_modules
  * @since		1.6
  */
 class JFormFieldModuleOrder extends JFormField

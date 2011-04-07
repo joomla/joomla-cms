@@ -13,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Vote plugin.
  *
- * @package		Joomla
- * @subpackage	plg_vote
+ * @package		Joomla.Plugin
+ * @subpackage	Content.vote
  */
 class plgContentVote extends JPlugin
 {

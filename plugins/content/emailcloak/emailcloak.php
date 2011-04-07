@@ -13,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Email cloack plugin class.
  *
- * @package		Joomla
- * @subpackage	plg_emailcloak
+ * @package		Joomla.Plugin
+ * @subpackage	Content.emailcloak
  */
 class plgContentEmailcloak extends JPlugin
 {

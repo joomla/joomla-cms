@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Joomla! P3P Header Plugin
  *
- * @package		Joomla
- * @subpackage	System
+ * @package		Joomla.Plugin
+ * @subpackage	System.p3p
  */
 class plgSystemP3p extends JPlugin
 {

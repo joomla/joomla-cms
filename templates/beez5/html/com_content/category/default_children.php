@@ -2,7 +2,7 @@
 /**
  * @version		$Id: default_children.php 17017 2010-05-13 10:48:48Z eddieajau $
  * @package		Joomla.Site
- * @subpackage	com_content
+ * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Joomla! Page Cache Plugin
  *
- * @package		Joomla
- * @subpackage	System
+ * @package		Joomla.Plugin
+ * @subpackage	System.cache
  */
 class plgSystemCache extends JPlugin
 {

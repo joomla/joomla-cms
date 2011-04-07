@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Renders an article element
  *
- * @package		Joomla
- * @subpackage	Content
+ * @package		Joomla.Administrator
+ * @subpackage	com_content
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */

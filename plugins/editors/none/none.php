@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Plain Textarea Editor Plugin
  *
- * @package		Joomla
- * @subpackage	Editors
+ * @package		Joomla.Plugin
+ * @subpackage	Editors.none
  * @since		1.5
  */
 class plgEditorNone extends JPlugin

@@ -11,8 +11,8 @@ jimport('joomla.utilities.date');
 /**
  * An example custom profile plugin.
  *
- * @package		Joomla.Plugins
- * @subpackage	user.profile
+ * @package		Joomla.Plugin
+ * @subpackage	User.profile
  * @version		1.6
  */
 class plgUserProfile extends JPlugin

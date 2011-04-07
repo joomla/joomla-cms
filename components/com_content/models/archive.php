@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . DS . 'articles.php';
 /**
  * Content Component Archive Model
  *
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	com_content
  * @since		1.5
  */

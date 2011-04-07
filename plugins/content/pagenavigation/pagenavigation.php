@@ -13,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Pagenavigation plugin class.
  *
- * @package		Joomla
- * @subpackage	plg_pagenavigation
+ * @package		Joomla.Plugin
+ * @subpackage	Content.pagenavigation
  */
 class plgContentPagenavigation extends JPlugin
 {

@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,7 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * Editor Pagebreak buton
  *
- * @package Editors-xtd
+ * @package		Joomla.Plugin
+ * @subpackage	Editors-xtd.pagebreak
  * @since 1.5
  */
 class plgButtonPagebreak extends JPlugin

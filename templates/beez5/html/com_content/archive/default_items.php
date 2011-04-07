@@ -2,7 +2,7 @@
 /**
  * @version		$Id: default_items.php 17224 2010-05-23 09:14:11Z infograf768 $
  * @package		Joomla.Site
- * @subpackage	com_content
+ * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

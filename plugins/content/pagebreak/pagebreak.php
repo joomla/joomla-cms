@@ -21,8 +21,8 @@ defined('_JEXEC') or die;
  * or
  * <code><hr class="system-pagebreak" alt="The first page" title="The page title" /></code>
  *
- * @package		Joomla
- * @subpackage	plg_pagebreak
+ * @package		Joomla.Plugin
+ * @subpackage	Content.pagebreak
  * @since		1.6
  */
 class plgContentPagebreak extends JPlugin

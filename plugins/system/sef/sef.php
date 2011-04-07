@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,10 +11,10 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 /**
-* Joomla! SEF Plugin
-*
- * @package		Joomla
- * @subpackage	System
+ * Joomla! SEF Plugin
+ *
+ * @package		Joomla.Plugin
+ * @subpackage	System.sef
  */
 class plgSystemSef extends JPlugin
 {

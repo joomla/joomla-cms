@@ -14,7 +14,7 @@ require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
  * User model.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_admin
  * @since		1.6
  */
 class AdminModelProfile extends UsersModelUser

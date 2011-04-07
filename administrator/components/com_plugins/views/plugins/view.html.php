@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
  * View class for a list of plugins.
  *
  * @package		Joomla.Administrator
- * @subpackage	Plugins
+ * @subpackage	com_plugins
  * @since		1.5
  */
 class PluginsViewPlugins extends JView

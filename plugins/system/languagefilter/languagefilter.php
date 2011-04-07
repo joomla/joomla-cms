@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,10 +12,10 @@ jimport('joomla.language.helper');
 jimport('joomla.plugin.plugin');
 
 /**
-* Joomla! Language Filter Plugin
-*
- * @package		Joomla
- * @subpackage	System
+ * Joomla! Language Filter Plugin
+ *
+ * @package		Joomla.Plugin
+ * @subpackage	System.languagefilter
  * @since		1.6
  */
 class plgSystemLanguageFilter extends JPlugin

@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	Search
+ * @subpackage	com_search
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +16,7 @@ jimport('joomla.application.component.model');
  * Search Component Search Model
  *
  * @package		Joomla.Site
- * @subpackage	Search
+ * @subpackage	com_search
  * @since 1.5
  */
 class SearchModelSearch extends JModel

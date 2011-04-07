@@ -12,7 +12,7 @@ jimport('joomla.form.formfield');
 /**
  * Clicks Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Administrator
  * @subpackage	com_banners
  * @since		1.6
  */

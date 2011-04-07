@@ -13,8 +13,8 @@ jimport('joomla.plugin.plugin');
 /**
  * CodeMirror Editor Plugin.
  *
- * @package		Joomla
- * @subpackage	Editors
+ * @package		Joomla.Plugin
+ * @subpackage	Editors.codemirror
  * @since		1.6
  */
 class plgEditorCodemirror extends JPlugin

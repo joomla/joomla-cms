@@ -19,7 +19,6 @@ JLoader::register('JFormFieldList', JPATH_LIBRARIES.'/joomla/form/fields/list.ph
  * Sample data Form Field class.
  *
  * @package		Joomla.Installation
- * @subpackage	Form
  * @since		1.6
  */
 class JFormFieldSample extends JFormFieldList

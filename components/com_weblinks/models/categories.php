@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 /**
  * This models supports retrieving lists of article categories.
  *
- * @package		Joomla.Administrator
+ * @package		Joomla.Site
  * @subpackage	com_weblinks
  * @since		1.6
  */

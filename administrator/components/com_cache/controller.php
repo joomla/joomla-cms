@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Cache
+ * @subpackage	com_cache
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  * Cache Controller
  *
  * @package		Joomla.Administrator
- * @subpackage	Cache
+ * @subpackage	com_cache
  * @since 1.6
  */
 class CacheController extends JController

@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Checkin
+ * @subpackage	com_checkin
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
  *
  * @static
  * @package		Joomla.Administrator
- * @subpackage	Checkin
+ * @subpackage	com_checkin
  * @since 1.0
  */
 class CheckinViewCheckin extends JView

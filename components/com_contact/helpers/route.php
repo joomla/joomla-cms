@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Contact
+ * @package		Joomla.Site
+ * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -18,8 +18,8 @@ jimport('joomla.application.categories');
  * Contact Component Route Helper
  *
  * @static
- * @package		Joomla
- * @subpackage	Contact
+ * @package		Joomla.Site
+ * @subpackage	com_contact
  * @since 1.5
  */
 abstract class ContactHelperRoute

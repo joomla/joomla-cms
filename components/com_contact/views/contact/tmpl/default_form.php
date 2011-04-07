@@ -3,7 +3,7 @@
  /**
  * @version		$Id: default_form.php 11845 2009-05-27 23:28:59Z robs
  * @package		Joomla.Site
- * @subpackage	Contact
+ * @subpackage	com_contact
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */

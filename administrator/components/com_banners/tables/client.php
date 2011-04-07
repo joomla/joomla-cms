@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 /**
  * Client table
  *
- * @package		Joomla.Framework
+ * @package		Joomla.Administrator
  * @subpackage	com_banners
  * @since		1.6
  */

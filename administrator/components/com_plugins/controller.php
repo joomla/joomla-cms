@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
  * Plugins master display controller.
  *
  * @package		Joomla.Administrator
- * @subpackage	Plugins
+ * @subpackage	com_plugins
  * @since		1.5
  */
 class PluginsController extends JController

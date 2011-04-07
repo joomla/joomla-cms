@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla.Framework
+ * @package		Joomla.UnitTest
  * @subpackage	Form
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,7 +14,7 @@ jimport('joomla.form.formrule');
 /**
  * Form Rule class for the Joomla Framework.
  *
- * @package		Joomla.Framework
+ * @package		Joomla.UnitTest
  * @subpackage	Form
  * @since		1.6
  */

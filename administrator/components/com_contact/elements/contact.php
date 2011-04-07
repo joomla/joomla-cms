@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Renders a contact element
  *
- * @package		Joomla
- * @subpackage	Contact
+ * @package		Joomla.Administrator
+ * @subpackage	com_contact
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */

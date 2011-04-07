@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Cpanel
+ * @subpackage	com_cpanel
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -18,7 +18,7 @@ jimport('joomla.application.module.helper');
  *
  * @static
  * @package		Joomla.Administrator
- * @subpackage	Cpanel
+ * @subpackage	com_cpanel
  * @since 1.0
  */
 class CpanelViewCpanel extends JView

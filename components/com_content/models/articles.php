@@ -13,7 +13,7 @@ jimport('joomla.application.component.modellist');
 /**
  * This models supports retrieving lists of articles.
  *
- * @package		Joomla.Administrator
+ * @package		Joomla.Site
  * @subpackage	com_content
  * @since		1.6
  */

@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 
 /**
  * @package		Joomla.Site
- * @subpackage	Wrapper
+ * @subpackage	com_wrapper
  */
 class WrapperViewWrapper extends JView
 {

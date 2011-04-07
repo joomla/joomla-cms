@@ -1,8 +1,8 @@
 <?php
 /**
  * version $Id$
- * @package		Joomla
- * @subpackage	Newsfeeds
+ * @package		Joomla.Site
+ * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
@@ -17,8 +17,8 @@ jimport('joomla.application.component.view');
  * HTML View class for the Newsfeeds component
  *
  * @static
- * @package		Joomla
- * @subpackage	Newsfeeds
+ * @package		Joomla.Site
+ * @subpackage	com_newsfeeds
  * @since 1.0
  */
 class NewsfeedsViewNewsfeed extends JView

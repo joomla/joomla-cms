@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	Content
+ * @subpackage	com_newsfeeds
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  * Newsfeeds Component Controller
  *
  * @package		Joomla.Site
- * @subpackage	Newsfeeds
+ * @subpackage	com_newsfeeds
  * @since		1.5
  */
 class NewsfeedsController extends JController

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
+ * @package		Joomla.Administrator
  * @subpackage	mod_unread
  * @since		1.6
  */

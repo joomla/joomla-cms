@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Renders a newsfeed selection element
  *
- * @package		Newsfeeds
- * @subpackage	Parameter
+ * @package		Joomla.Administrator
+ * @subpackage	com_newsfeeds
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */

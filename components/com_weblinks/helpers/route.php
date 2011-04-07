@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
- * @subpackage	Weblinks
+ * @package		Joomla.Site
+ * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -18,8 +18,8 @@ jimport('joomla.application.categories');
  * Weblinks Component Route Helper
  *
  * @static
- * @package		Joomla
- * @subpackage	Weblinks
+ * @package		Joomla.Site
+ * @subpackage	com_weblinks
  * @since 1.5
  */
 abstract class WeblinksHelperRoute

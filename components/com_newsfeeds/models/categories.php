@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 /**
  * This models supports retrieving lists of newsfeed categories.
  *
- * @package		Joomla.Administrator
+ * @package		Joomla.Site
  * @subpackage	com_newsfeeds
  * @since		1.6
  */

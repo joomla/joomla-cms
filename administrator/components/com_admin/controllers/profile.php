@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_admin
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,7 +16,7 @@ jimport('joomla.application.component.controllerform');
  * User profile controller class.
  *
  * @package		Joomla.Administrator
- * @subpackage	com_users
+ * @subpackage	com_admin
  * @since		1.6
  */
 class AdminControllerProfile extends JControllerForm

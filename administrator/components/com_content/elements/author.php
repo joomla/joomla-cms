@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	Articles
+ * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Renders an author element
  *
- * @package		Joomla
- * @subpackage	Content
+ * @package		Joomla.Administrator
+ * @subpackage	com_content
  * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  * @since		1.5
  */

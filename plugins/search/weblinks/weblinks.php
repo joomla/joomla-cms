@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -16,8 +15,8 @@ require_once JPATH_SITE.'/components/com_weblinks/helpers/route.php';
 /**
  * Weblinks Search plugin
  *
- * @package		Joomla
- * @subpackage	Search
+ * @package		Joomla.Plugin
+ * @subpackage	Search.weblinks
  * @since		1.6
  */
 class plgSearchWeblinks extends JPlugin

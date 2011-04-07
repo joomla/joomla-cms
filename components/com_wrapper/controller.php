@@ -16,7 +16,7 @@ jimport('joomla.application.component.controller');
  * Content Component Controller
  *
  * @package		Joomla.Site
- * @subpackage	com_content
+ * @subpackage	com_wrapper
  * @since		1.5
  */
 class WrapperController extends JController

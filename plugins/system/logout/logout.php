@@ -1,7 +1,6 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -15,8 +14,8 @@ jimport('joomla.utilities.utility');
 /**
  * Plugin class for logout redirect handling.
  *
- * @package		Joomla
- * @subpackage	plgSystemLogout
+ * @package		Joomla.Plugin
+ * @subpackage	System.logout
  */
 class plgSystemLogout extends JPlugin
 {

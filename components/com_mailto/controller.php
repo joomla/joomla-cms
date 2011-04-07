@@ -2,7 +2,7 @@
 /**
  * @version		$Id$
  * @package		Joomla.Site
- * @subpackage	MailTo
+ * @subpackage	com_mailto
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 
 /**
  * @package		Joomla.Site
- * @subpackage	MailTo
+ * @subpackage	com_mailto
  */
 class MailtoController extends JController
 {

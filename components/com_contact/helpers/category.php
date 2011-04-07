@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id$
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
@@ -18,7 +18,7 @@ jimport('joomla.application.categories');
  * Contact Component Category Tree
  *
  * @static
- * @package		Joomla
+ * @package		Joomla.Site
  * @subpackage	com_contact
  * @since 1.6
  */
