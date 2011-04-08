@@ -52,8 +52,6 @@ class LanguagesViewLanguages extends JView
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
-
 		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'langmanager.png');
 
 		if ($canDo->get('core.create')) {

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Apr-2011 Jean-Marie Simonet
+ # [#25585] *Unused Jtoolbarhelper title in Language Manager Content Languages
+
 07-Apr-2011
  # [#24016] Native support for IIS Rewrite
  # [#25247] Fix a number of incorrect comment in components
