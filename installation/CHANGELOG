@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 08-Apr-2011 Jean-Marie Simonet
  # [#25585] *Unused Jtoolbarhelper title in Language Manager Content Languages
+ # [#24321] Hiding "Add New Shortcuts" removed Groups and Levels in admin menu. Thanks Christophe.
 
 07-Apr-2011
  # [#24016] Native support for IIS Rewrite

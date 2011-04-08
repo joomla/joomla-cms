@@ -78,7 +78,7 @@ if ($user->authorise('core.manage', 'com_users'))
 	new JMenuNode(JText::_('MOD_MENU_COM_USERS_USERS'), '#'), true
 	);
 	$createUser = $shownew && $user->authorise('core.create', 'com_users');
-	$createGrp	= $createUser &&  $user->authorise('core.admin', 'com_users');
+	$createGrp	= $user->authorise('core.admin', 'com_users');
 
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_COM_USERS_USER_MANAGER'), 'index.php?option=com_users&view=users', 'class:user'),
