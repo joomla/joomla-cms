@@ -13,7 +13,7 @@ $user = JFactory::getUser();
 ?>
 <table width="100%">
 	<tr valign="top">
-		<td width="200">
+		<td>
 			<fieldset id="treeview">
 				<legend><?php echo JText::_('COM_MEDIA_FOLDERS'); ?></legend>
 				<div id="media-tree_tree"></div>
