@@ -202,7 +202,7 @@ class JLog
 	}
 
 	/**
-	 * Returns a reference to the JLog object for a given log file path, only creating it if it doesn't already exist.
+	 * Returns a JLog object for a given log file/configuration, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as:
 	 * 		<pre>$log = JLog::getInstance($file, $options, $path);</pre>
