@@ -163,7 +163,11 @@ class JFormRuleUrlTest extends JoomlaTestCase
 			$this->isTrue(),
 			'Line:'.__LINE__.' The rule should pass and return true.'
 		);		
-		
+		$this->assertThat(
+			$rule->test($xml->field[0], 'http://www.österreich.at'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The rule should pass and return true.'
+		);			
 		
 	}
 }
