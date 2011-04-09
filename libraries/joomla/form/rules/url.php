@@ -1,9 +1,13 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-//defined('JOOMLA_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formrule');
 jimport('joomla.utilities.string');
