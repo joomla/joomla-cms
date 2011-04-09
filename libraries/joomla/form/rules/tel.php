@@ -48,6 +48,7 @@ class JFormRuleTel extends JFormRule
 		 
 		//Regex by Steve Levithan
 		//see http://blog.stevenlevithan.com/archives/validate-phone-number
+		//Note that valid ITU-T and EPP must begin with +.
 		$regexarray = array(
 			'NANP' => '/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/',
 			'ITU-T'=> '/^\+(?:[0-9] ?){6,14}[0-9]$/',
@@ -73,8 +74,9 @@ class JFormRuleTel extends JFormRule
 				return false;
 			}
 		} else {
-			//If the rule is set but no plan is selected just check that there are betwen 
-			//7 and 15 digits inclusive. 
+			//If the rule is set but no plan is selected just check that there are between 
+			//7 and 15 digits inclusive and no illegal characters (but common number separators
+			//are allowed). 
 			$cleanvalue = preg_replace('/[+. -(\)]/','',$value);
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true) {

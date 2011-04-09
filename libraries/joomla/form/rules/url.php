@@ -3,7 +3,7 @@
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  */
 
-defined('JOOMLA_PLATFORM') or die;
+//defined('JOOMLA_PLATFORM') or die;
 
 jimport('joomla.form.formrule');
 jimport('joomla.utilities.string');
@@ -19,7 +19,7 @@ jimport('joomla.utilities.string');
 class JFormRuleUrl extends JFormRule
 {
 	/**
-	 * Method to test the url for a valid parts.
+	 * Method to test an external url for a valid parts.
 	 *
 	 * @param	object	$element	The JXMLElement object representing the <field /> tag for the
 	 * 								form field object.
@@ -41,12 +41,12 @@ class JFormRuleUrl extends JFormRule
 		// See http://www.w3.org/Addressing/URL/url-spec.txt	
 		if ($element['schemes'] == ''){
 			$scheme = array('http','https','ftp','sftp','gopher','mailto','news','prospero','telnet',
-				'rlogin','tn3270','wais','url','mid','cid','nntp');
+				'rlogin','tn3270','wais','url','mid','cid','nntp','tel','urn','ldap','file');
 		} else {
 			$scheme	= explode(",",$element['schemes']);
 			
 		}
-		$urlScheme = parse_url($value,PHP_URL_SCHEME);
+		$urlScheme = strtolower(parse_url($value,PHP_URL_SCHEME));
 		if (in_array($urlScheme,$scheme) == false){
 			return false;
 		}
