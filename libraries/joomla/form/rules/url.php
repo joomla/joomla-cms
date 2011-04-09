@@ -45,13 +45,19 @@ class JFormRuleUrl extends JFormRule
 		// See http://www.w3.org/Addressing/URL/url-spec.txt	
 		if ($element['schemes'] == ''){
 			$scheme = array('http','https','ftp','sftp','gopher','mailto','news','prospero','telnet',
-				'rlogin','tn3270','wais','url','mid','cid','nntp','tel','urn','ldap','file');
+				'rlogin','tn3270','wais','url','mid','cid','nntp','tel','urn','ldap','file','fax','modem');
 		} else {
 			$scheme	= explode(",",$element['schemes']);
 			
 		}
 		$urlScheme = strtolower(parse_url($value,PHP_URL_SCHEME));
 		if (in_array($urlScheme,$scheme) == false){
+			return false;
+		}
+		if (($urlScheme == 'http' || $urlScheme == 'https' || $urlScheme == 'ftp' ||
+			$urlScheme == 'sftp' || $urlScheme == 'gopher' || $urlScheme == 'wais'
+			|| $urlScheme == 'gopher' || $urlScheme == 'prospero' || $urlScheme == 'telnet' )
+			&& ((substr($value,strlen($urlScheme),3)) !== '://')){
 			return false;
 		}
 		if (!JString::valid(parse_url($value,PHP_URL_HOST))){
