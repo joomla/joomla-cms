@@ -50,7 +50,7 @@ class JFormRuleUrl extends JFormRule
 			$scheme	= explode(",",$element['schemes']);
 			
 		}
-		$urlScheme = strtolower(parse_url($value,PHP_URL_SCHEME));
+		$urlScheme = strtolower((string) JString::parse_url($value,PHP_URL_SCHEME));
 		if (in_array($urlScheme,$scheme) == false){
 			return false;
 		}
@@ -60,13 +60,13 @@ class JFormRuleUrl extends JFormRule
 			&& ((substr($value,strlen($urlScheme),3)) !== '://')){
 			return false;
 		}
-		if (!JString::valid(parse_url($value,PHP_URL_HOST))){
+		if (!JString::valid((JString::parse_url($value,PHP_URL_HOST)))){
 			return false;
 		}
-		if (!is_int(parse_url($value,PHP_URL_PORT)) && parse_url($value,PHP_URL_PORT) != null ){
+		if (!is_int((JString::parse_url($value,PHP_URL_PORT)) && JString::parse_url($value,PHP_URL_PORT) != null )){
 			return false;
 		}
-		if (!JString::valid(parse_url($value,PHP_URL_PATH))){
+		if (!JString::valid((JString::parse_url($value,PHP_URL_PATH)))){
 			return false;
 		}		
 		return true;			
