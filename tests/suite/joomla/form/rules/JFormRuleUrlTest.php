@@ -143,6 +143,11 @@ class JFormRuleUrlTest extends JoomlaTestCase
 			'Line:'.__LINE__.' The rule should pass and return true.'
 		);
 		$this->assertThat(
+			$rule->test($xml->field[0], 'file:///document.extension'),
+			$this->isTrue(),
+			'Line:'.__LINE__.' The rule should pass and return true.'
+		);		
+		$this->assertThat(
 			$rule->test($xml->field[1], 'gopher://gopher.mydomain.com'),
 			$this->isTrue(),
 			'Line:'.__LINE__.' The rule should pass and return true.'

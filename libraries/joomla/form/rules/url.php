@@ -42,6 +42,7 @@ class JFormRuleUrl extends JFormRule
 	 */
 	public function test(& $element, $value, $group = null, & $input = null, & $form = null)
 	{
+		$urlParts = JString::parse_url($value);
 		// See http://www.w3.org/Addressing/URL/url-spec.txt	
 		if ($element['schemes'] == ''){
 			$scheme = array('http','https','ftp','sftp','gopher','mailto','news','prospero','telnet',
@@ -50,7 +51,8 @@ class JFormRuleUrl extends JFormRule
 			$scheme	= explode(",",$element['schemes']);
 			
 		}
-		$urlScheme = strtolower((string) JString::parse_url($value,PHP_URL_SCHEME));
+		$urlScheme = (string) $urlParts['scheme'];
+		$urlSceheme = strtolower($urlScheme);
 		if (in_array($urlScheme,$scheme) == false){
 			return false;
 		}
@@ -60,13 +62,13 @@ class JFormRuleUrl extends JFormRule
 			&& ((substr($value,strlen($urlScheme),3)) !== '://')){
 			return false;
 		}
-		if (!JString::valid((JString::parse_url($value,PHP_URL_HOST)))){
+		if (!JString::valid((string) $urlParts['host'])){
 			return false;
 		}
-		if (!is_int((JString::parse_url($value,PHP_URL_PORT)) && JString::parse_url($value,PHP_URL_PORT) != null )){
+		if (!is_int((string) $urlParts['port']) && (string) $urlParts['port'] != null ){
 			return false;
 		}
-		if (!JString::valid((JString::parse_url($value,PHP_URL_PATH)))){
+		if (!JString::valid((string) $urlParts['path'])){
 			return false;
 		}		
 		return true;			
