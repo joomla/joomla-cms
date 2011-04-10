@@ -12,7 +12,7 @@ jimport('joomla.filesystem.path');
 
 /**
  * JForm's helper class.
- * Provides a storage for filesystem's paths where JForm's entities resides and methods for creating this entities.
+ * Provides a storage for filesystem's paths where JForm's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
  * @package		Joomla.Platform
@@ -145,7 +145,7 @@ class JFormHelper
 
 	/**
 	 * Load a class for one of the form's entities of a particular type.
-	 * Currently, it makes sence to use this method for the "field" and "rule" entities
+	 * Currently, it makes sense to use this method for the "field" and "rule" entities
 	 * (but you can support more entities in your subclass).
 	 *
 	 * @param	string	One of the form entities (field or rule).
@@ -243,8 +243,8 @@ class JFormHelper
 
 		// Add the default entity's search path if not set.
 		if (empty($paths)) {
-			// Until we support limited number of entities (form, field and rule)
-			// we can do this dumb pluralisation:
+			// While we support limited number of entities (form, field and rule)
+			// we can do this simple pluralisation:
 			$entity_plural = $entity . 's';
 			// But when someday we would want to support more entities, then we should consider adding
 			// an inflector class to "libraries/joomla/utilities" and use it here (or somebody can use a real inflector in his subclass).
