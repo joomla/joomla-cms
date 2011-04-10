@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 10-Apr-2011 Jean-Marie Simonet
  $ Adding lib_joomla.ini into site language folder and localise.php in admin language folder to prevent confusion for TTs.
+ $ Changing en-GB.xmls version for 1.6.2
  
 09-Apr-2011 Jean-Marie Simonet
  #$ Updating pl-PL installation language
