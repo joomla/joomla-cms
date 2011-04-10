@@ -27,8 +27,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Apr-2011 Jean-Marie Simonet
+ $ Adding lib_joomla.ini into site language folder and localise.php in admin language folder to prevent confusion for TTs.
+ 
 09-Apr-2011 Jean-Marie Simonet
- #$ Updating pl-PL installaton language
+ #$ Updating pl-PL installation language
 
 08-Apr-2011 Jean-Marie Simonet
  # [#25585] *Unused Jtoolbarhelper title in Language Manager Content Languages
