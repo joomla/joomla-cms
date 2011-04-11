@@ -30,8 +30,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo JFilterOutput::ampReplace(JFactory::getURI()->toString()); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if ($this->params->get('filter_field') != 'hide') :?>
+	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters">
+		<?php if ($this->params->get('filter_field') != 'hide') :?>	
 		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
@@ -48,10 +49,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php echo $this->pagination->getLimitBox(); ?>
 		</div>
 		<?php endif; ?>
-
-	<?php if ($this->params->get('filter_field') != 'hide') :?>
-	
-		<!-- @TODO add hidden inputs -->
+		
+	<!-- @TODO add hidden inputs -->
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
