@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#25581] RTL in Atomic
  # [#25603] *Email Cloak Plugin outputs preformatted code in email "to" field
  # [#21809] access levels - pagination::orderDownIcon appearing before last item
+ # [#24835] Administrator (with a capital A) does weird stuff
 
 10-Apr-2011 Jean-Marie Simonet
  $ Adding lib_joomla.ini into site language folder and localise.php in admin language folder to prevent confusion for TTs.
