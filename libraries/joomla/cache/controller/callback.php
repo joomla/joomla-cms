@@ -26,7 +26,7 @@ class JCacheControllerCallback extends JCacheController
 	 * as long as the first argument passed is the callback definition.
 	 *
 	 * The callback definition can be in several forms:
-	 *	- Standard PHP Callback array <http://php.net/callback> [recommended]
+	 *	- Standard PHP Callback array see <http://php.net/callback> [recommended]
 	 *	- Function name as a string eg. 'foo' for function foo()
 	 *	- Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
@@ -50,6 +50,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	string	Cache id
 	 * @param	boolean	Perform workarounds on data?
 	 * @param	array	Workaround options
+	 * 
 	 * @return	mixed	Result of the callback
 	 * @since	11.1
 	 */
@@ -148,6 +149,7 @@ class JCacheControllerCallback extends JCacheController
 	 *
 	 * @param	callback	$callback	Callback to cache
 	 * @param	array		$args	Arguments to the callback method to cache
+	 * 
 	 * @return	string	MD5 Hash : function cache id
 	 * @since	11.1
 	 */

@@ -35,14 +35,15 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * Start the cache
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
+	 * @param	string	$id		The cache data id
+	 * @param	string	$group	The cache data group
+	 * 
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	11.1
 	 */
 	public function start($id, $group=null)
 	{
-		// If we have data in cache use that...
+		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
 
 		$this->_locktest = new stdClass;
@@ -64,7 +65,7 @@ class JCacheControllerOutput extends JCacheController
 			}
 			return true;
 		} else {
-			// Nothing in cache... lets start the output buffer and start collecting data for next time.
+			// Nothing in cache... let's start the output buffer and start collecting data for next time.
 			if ($this->_locktest->locked == false) {
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
