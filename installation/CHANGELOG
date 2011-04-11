@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 11-Apr-2011 Mark Dexter
  # [#25602] Sort in Article Category List broken
+ # [#23364] Installation of tar.gz packages fails in xampp under Windows
 
 10-Apr-2011 Jean-Marie Simonet
  $ Adding lib_joomla.ini into site language folder and localise.php in admin language folder to prevent confusion for TTs.
