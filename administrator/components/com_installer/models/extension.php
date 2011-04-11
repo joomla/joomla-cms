@@ -124,6 +124,11 @@ class InstallerModel extends JModelList
 					||	$lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 				break;
+				case 'file':
+					$extension = 'files_' . $item->element;
+						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
+					||	$lang->load("$extension.sys", JPATH_SITE, $lang->getDefault(), false, false);
+				break;
 				case 'library':
 					$extension = 'lib_' . $item->element;
 						$lang->load("$extension.sys", JPATH_SITE, null, false, false)
