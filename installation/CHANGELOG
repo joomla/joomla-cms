@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#23364] Installation of tar.gz packages fails in xampp under Windows
  # [#25614] *en-GB.files_joomla.sys.ini not loading
  # [#25541] Apply (Save and present in Editor again) does not checkout row
+ # [#23878] Remove remaining ereg* functions - Obscolete in PHP 5.3
 
 10-Apr-2011 Jean-Marie Simonet
  $ Adding lib_joomla.ini into site language folder and localise.php in admin language folder to prevent confusion for TTs.
