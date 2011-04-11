@@ -440,7 +440,7 @@ class JApplication extends JObject
 	/**
 	 * Method to get the application name.
 	 *
-	 * The dispatcher name by default parsed using the classname, or it can be set
+	 * The dispatcher name is by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor.
 	 *
 	 * @return	string The name of the dispatcher.
@@ -561,7 +561,7 @@ class JApplication extends JObject
 	 *
 	 * Username and encoded password are passed the the onUserLogin event which
 	 * is responsible for the user validation. A successful validation updates
-	 * the current session record with the users details.
+	 * the current session record with the user's details.
 	 *
 	 * Username and encoded password are sent as credentials (along with other
 	 * possibilities) to each observer (authentication plugin) for user
@@ -939,7 +939,7 @@ class JApplication extends JObject
 				jexit($db->getErrorMSG());
 			}
 
-			//Session doesn't exist yet, create session variables
+			// Session doesn't exist yet, so create session variables
 			if ($session->isNew()) {
 				$session->set('registry',	new JRegistry('session'));
 				$session->set('user',		new JUser());
@@ -950,7 +950,7 @@ class JApplication extends JObject
 	/**
 	 * Gets the client id of the current running application.
 	 *
-	 * @return	int A client identifier.
+	 * @return	int	A client identifier.
 	 * @since	11.1
 	 */
 	public function getClientId()

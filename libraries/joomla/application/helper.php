@@ -56,7 +56,7 @@ class JApplicationHelper
 	 * with no arguments which can be used to add custom application information.
 	 *
 	 * @param	int			$id		A client identifier
-	 * @param	boolean		$byName	If True, find the client by it's name
+	 * @param	boolean		$byName	If True, find the client by its name
 	 * @return	mixed	Object describing the client or false if not known
 	 * @since	11.1
 	 */
@@ -149,7 +149,7 @@ class JApplicationHelper
 	*/
 	public static function getPath($varname, $user_option=null)
 	{
-		// check needed for handling of custom/new module xml file loading
+		// Check needed for handling of custom/new module xml file loading
 		$check = (($varname == 'mod0_xml') || ($varname == 'mod1_xml'));
 
 		if (!$user_option && !$check) {
@@ -227,7 +227,7 @@ class JApplicationHelper
 				break;
 
 			case 'mod1_xml':
-				// admin modules
+				// Admin modules
 				$path = DS.'modules'.DS. $user_option .DS. $user_option. '.xml';
 				$result = self::_checkPath($path, -1);
 				break;
@@ -239,7 +239,7 @@ class JApplicationHelper
 				$j16path = DS.'plugins'.DS. $user_option.DS.$parts[1].'.xml';
 				$j15 = self::_checkPath($j15path, 0);
 				$j16 = self::_checkPath( $j16path, 0);
-				// return 1.6 if working otherwise default to whatever 1.5 gives us
+				// Return 1.6 if working otherwise default to whatever 1.5 gives us
 				$result = $j16 ? $j16 : $j15;
 				break;
 
@@ -286,7 +286,7 @@ class JApplicationHelper
 
 		$data['name'] = (string)$xml->name;
 
-		// check if we're a language if so use that
+		// Check if we're a language. If so use metafile.
 		$data['type'] = $xml->getName() == 'metafile' ? 'language' : (string)$xml->attributes()->type;
 
 		$data['creationDate'] =((string)$xml->creationDate) ? (string)$xml->creationDate : JText::_('Unknown');
@@ -343,9 +343,9 @@ class JApplicationHelper
 	/**
 	 * Tries to find a file in the administrator or site areas
 	 *
-	 * @param string	A file name
-	 * @param integer	0 to check site only, 1 to check site and admin, -1 to check admin only
-	 * @since   11.1
+	 * @param	string	A file name
+	 * @param	integer	0 to check site only, 1 to check site and admin, -1 to check admin only
+	 * @since	11.1
 	 */
 	protected static function _checkPath($path, $checkAdmin=1)
 	{

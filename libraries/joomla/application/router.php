@@ -76,7 +76,7 @@ class JRouter extends JObject
 		}
 
 		if (empty($instances[$client])) {
-			//Load the router object
+			// Load the router object
 			$info = JApplicationHelper::getClientInfo($client, true);
 
 			$path = $info->path.DS.'includes'.DS.'router.php';
@@ -128,10 +128,10 @@ class JRouter extends JObject
 	 */
 	public function build($url)
 	{
-		//Create the URI object
+		// Create the URI object
 		$uri = $this->_createURI($url);
 
-		//Process the uri information based on custom defined rules
+		// Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
 
 		// Build RAW URL
@@ -212,7 +212,7 @@ class JRouter extends JObject
 	/**
 	 * Get the router variable array
 	 *
-	 * @return  array An associative array of router variables
+	 * @return	array	An associative array of router variables
 	 */
 	public function getVars()
 	{
