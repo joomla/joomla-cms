@@ -38,13 +38,13 @@ abstract class JModelAdmin extends JModelForm
 	protected $event_after_save = null;
 
 	/**
-	 * @var		string	The event to trigger after deleting the data.
+	 * @var		string	The event to trigger before deleting the data.
 	 * @since	11.1
 	 */
 	protected $event_before_delete = null;
 
 	/**
-	 * @var		string	The event to trigger after saving the data.
+	 * @var		string	The event to trigger before saving the data.
 	 * @since	11.1
 	 */
 	protected $event_before_save = null;
@@ -110,7 +110,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param	object	$record	A record object.
 	 *
-	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return	boolean	True if allowed to delete the record. Defaults to the permission for the component.
 	 * @since	11.1
 	 */
 	protected function canDelete($record)
@@ -124,7 +124,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @param	object	$record	A record object.
 	 *
-	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission for the component.
 	 * @since	11.1
 	 */
 	protected function canEditState($record)
@@ -489,7 +489,7 @@ abstract class JModelAdmin extends JModelForm
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 
-		// Allow an exception to be throw.
+		// Allow an exception to be thrown.
 		try
 		{
 			// Load the row if saving an existing record.
@@ -587,7 +587,7 @@ abstract class JModelAdmin extends JModelForm
 					return false;
 				}
 
-				// remember to reorder within position and client_id
+				// Remember to reorder within position and client_id
 				$condition = $this->getReorderConditions($table);
 				$found = false;
 

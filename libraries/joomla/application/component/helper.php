@@ -29,7 +29,7 @@ class JComponentHelper
 	 * Get the component information.
 	 *
 	 * @param	string	$option	The component option.
-	 * @param	boolean	$string	If set and a component does not exist, the enabled attribue will be set to false
+	 * @param	boolean	$string	If set and the component does not exist, the enabled attribue will be set to false
 	 *
 	 * @return	object	An object with the fields for the component.
 	 * @since	11.1
@@ -55,7 +55,7 @@ class JComponentHelper
 	 * Checks if the component is enabled
 	 *
 	 * @param	string	$option	The component option.
-	 * @param	boolean	$string	If set and a component does not exist, false will be returned
+	 * @param	boolean	$string	If set and the component does not exist, false will be returned
 	 *
 	 * @return	boolean
 	 * @since	11.1
@@ -71,7 +71,7 @@ class JComponentHelper
 	 * Gets the parameter object for the component
 	 *
 	 * @param	string		The option for the component.
-	 * @param	boolean		If set and a component does not exist, false will be returned
+	 * @param	boolean		If set and the component does not exist, false will be returned
 	 *
 	 * @return	JRegistry	As of 1.6, this method returns a JRegistry (previous versions returned JParameter).
 	 * @since	11.1
@@ -110,8 +110,10 @@ class JComponentHelper
 			return;
 		}
 
-		$scope = $app->scope; //record the scope
-		$app->scope = $option;  //set scope to component name
+		 // Record the scope
+		$scope = $app->scope;
+		// Set scope to component name
+		$app->scope = $option;
 
 		// Build the component path.
 		$option	= preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
@@ -122,14 +124,14 @@ class JComponentHelper
 		define('JPATH_COMPONENT_SITE',			JPATH_SITE.DS.'components'.DS.$option);
 		define('JPATH_COMPONENT_ADMINISTRATOR',	JPATH_ADMINISTRATOR.DS.'components'.DS.$option);
 
-		// get component path
+		// Get component path
 		if ($app->isAdmin() && file_exists(JPATH_COMPONENT.DS.'admin.'.$file.'.php')) {
 			$path = JPATH_COMPONENT.DS.'admin.'.$file.'.php';
 		} else {
 			$path = JPATH_COMPONENT.DS.$file.'.php';
 		}
 
-		// If component disabled throw error
+		// If component is disabled throw error
 		if (!self::isEnabled($option) || !file_exists($path)) {
 			JError::raiseError(404, JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
 		}
@@ -162,7 +164,8 @@ class JComponentHelper
 			include_once $path;
 		}
 
-		$app->scope = $scope; //revert the scope
+		// Revert the scope
+		$app->scope = $scope;
 
 		return $contents;
 	}

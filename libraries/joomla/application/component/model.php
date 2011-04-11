@@ -51,7 +51,7 @@ abstract class JModel extends JObject
 	protected $option = null;
 
 	/**
-	 * An state object
+	 * A state object
 	 *
 	 * @var string
 	 * @since	11.1 (replaces _state variable in 1.5)
@@ -199,7 +199,7 @@ abstract class JModel extends JObject
 			$this->option = 'com_'.strtolower($r[1]);
 		}
 
-		//set the view name
+		// Set the view name
 		if (empty($this->name)) {
 			if (array_key_exists('name', $config)) {
 				$this->name = $config['name'];
@@ -209,7 +209,7 @@ abstract class JModel extends JObject
 			}
 		}
 
-		//set the model state
+		// Set the model state
 		if (array_key_exists('state', $config)) {
 			$this->state = $config['state'];
 		}
@@ -217,7 +217,7 @@ abstract class JModel extends JObject
 			$this->state = new JObject();
 		}
 
-		//set the model dbo
+		// Set the model dbo
 		if (array_key_exists('dbo', $config)) {
 			$this->_db = $config['dbo'];
 		}
@@ -225,7 +225,7 @@ abstract class JModel extends JObject
 			$this->_db = JFactory::getDbo();
 		}
 
-		// set the default view search path
+		// Set the default view search path
 		if (array_key_exists('table_path', $config)) {
 			$this->addTablePath($config['table_path']);
 		}
@@ -233,14 +233,14 @@ abstract class JModel extends JObject
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
 		}
 
-		// set the internal state marker - used to ignore setting state from the request
+		// Set the internal state marker - used to ignore setting state from the request
 		if (!empty($config['ignore_request'])) {
 			$this->__state_set = true;
 		}
 	}
 
 	/**
-	 * Gets an array of objects, being the result of database query.
+	 * Gets an array of objects from the results of database query.
 	 *
 	 * @param	string	$query		The query.
 	 * @param	int		$limitstart	Offset.
@@ -290,7 +290,7 @@ abstract class JModel extends JObject
 		$name	= preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
-		//Make sure we are returning a DBO object
+		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config)) {
 			$config['dbo'] = $this->getDbo();;
 		}
@@ -311,7 +311,7 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get the model name
 	 *
-	 * The model name by default parsed using the classname, or it can be set
+	 * The model name. By default parsed using the classname or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return	string The name of the model
@@ -347,7 +347,7 @@ abstract class JModel extends JObject
 			// Private method to auto-populate the model state.
 			$this->populateState();
 
-			// Set the model state set flat to true.
+			// Set the model state set flag to true.
 			$this->__state_set = true;
 		}
 

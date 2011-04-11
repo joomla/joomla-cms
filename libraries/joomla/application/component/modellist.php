@@ -326,7 +326,7 @@ class JModelList extends JModel
 			JRequest::setVar('limitstart', 0);
 		}
 
-		// Save the new value only if it was set in this request.
+		// Save the new value only if it is set in this request.
 		if ($new_state !== null) {
 			$app->setUserState($key, $new_state);
 		}
