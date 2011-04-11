@@ -102,7 +102,7 @@ class JCategories
 	 * Returns a reference to a JCategories object
 	 *
 	 * @param	$extension	Name of the categories extension
-	 * @param	$options 	An array of options
+	 * @param	$options	An array of options
 	 *
 	 * @return	object
 	 * @since	11.1

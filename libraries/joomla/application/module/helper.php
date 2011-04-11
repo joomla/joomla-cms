@@ -356,11 +356,11 @@ abstract class JModuleHelper
 	* Module cache helper
 	*
 	* Caching modes:
-	* to be set in XML:
+	* To be set in XML:
 	* 'static'		one cache file for all pages with the same module parameters
 	* 'oldstatic'	1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
 	* 'itemid'		changes on itemid change,
-	* to be called from inside the module:
+	* To be called from inside the module:
 	* 'safeuri'		id created from $cacheparams->modeparams array,
 	* 'id'			module sets own cache id's
 	*
