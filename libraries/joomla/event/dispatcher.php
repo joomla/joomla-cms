@@ -49,6 +49,7 @@ class JDispatcher extends JObservable
 	 * @access	public
 	 * @param	string	$event		Name of the event to register handler for
 	 * @param	string	$handler	Name of the event handler
+	 * 
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -57,13 +58,13 @@ class JDispatcher extends JObservable
 		// Are we dealing with a class or function type handler?
 		if (function_exists($handler))
 		{
-			// Ok, function type event handler... lets attach it.
+			// Ok, function type event handler... let's attach it.
 			$method = array('event' => $event, 'handler' => $handler);
 			$this->attach($method);
 		}
 		elseif (class_exists($handler))
 		{
-			// Ok, class type event handler... lets instantiate and attach it.
+			// Ok, class type event handler... let's instantiate and attach it.
 			$this->attach(new $handler($this));
 		}
 		else
@@ -79,6 +80,7 @@ class JDispatcher extends JObservable
 	 * @access	public
 	 * @param	string	$event		The event to trigger.
 	 * @param	array	$args		An array of arguments.
+	 * 
 	 * @return	array	An array of results from each function call.
 	 * @since	11.1
 	 */

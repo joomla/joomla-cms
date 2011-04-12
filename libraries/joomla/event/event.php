@@ -25,13 +25,14 @@ abstract class JEvent extends JObserver
 	 *
 	 * @access public
 	 * @param array Arguments
+	 * 
 	 * @return mixed Routine return value
 	 * @since   11.1
 	 */
 	public function update(&$args)
 	{
 		/*
-		 * First lets get the event from the argument array.  Next we will unset the
+		 * First let's get the event from the argument array.  Next we will unset the
 		 * event argument as it has no bearing on the method to handle the event.
 		 */
 		$event = $args['event'];
