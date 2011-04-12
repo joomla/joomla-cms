@@ -47,16 +47,16 @@ abstract class JError
 	protected static $stack = array();
 
 	/**
-	 * Method to determine if a value is an exception object.  This check supports both JException and PHP5 Exception objects
+	 * Method to determine if a value is an exception object.  This check supports 
+	 * both JException and PHP5 Exception objects
 	 *
 	 * @param	mixed	&$object	Object to check
 	 * @return	boolean	True if argument is an exception, false otherwise.
 	 * @since	11.1
-w
 	 */
 	public static function isError(& $object)
 	{
-		// supports PHP 5 exception handling
+		// Supports PHP 5 exception handling
 		return $object instanceof Exception;
 	}
 
@@ -97,6 +97,7 @@ w
 	 *
 	 * @access	public
 	 * @param	object JException
+	 * 
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -121,7 +122,7 @@ w
 	{
 		jimport('joomla.error.exception');
 
-		// build error object
+		// Build error object
 		$exception = new JException($msg, $code, $level, $info, $backtrace);
 		return JError::throwError($exception);
 	}
@@ -132,14 +133,14 @@ w
 
 		// If thrown is hit again, we've come back to JError in the middle of throwing another JError, so die!
 		if ($thrown) {
-			//echo debug_print_backtrace();
+			// echo debug_print_backtrace();
 			jexit(JText::_('JLIB_ERROR_INFINITE_LOOP'));
 		}
 
 		$thrown = true;
 		$level = $exception->get('level');
 
-		// see what to do with this kind of error
+		// See what to do with this kind of error
 		$handler = JError::getErrorHandling($level);
 
 		$function = 'handle'.ucfirst($handler['mode']);
@@ -155,8 +156,8 @@ w
 				'<br />' . $exception->getMessage()
 			);
 		}
-		//we don't need to store the error, since JException already does that for us!
-		//remove loop check
+		// We don't need to store the error, since JException already does that for us!
+		// Remove loop check
 		$thrown = false;
 
 		return $reference;
@@ -167,7 +168,8 @@ w
 	 *
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that 
+	 * 							the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
 	 * @since	11.1
@@ -182,7 +184,8 @@ w
 	 *
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that 
+	 * 							the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
 	 * @since	11.1
@@ -197,7 +200,8 @@ w
 	 *
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that the user should never see, like a database DSN).
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information 
+	 * 							that the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
 	 * @since	11.1
@@ -261,7 +265,7 @@ w
 				continue;
 			}
 
-			// set callback options
+			// Set callback options
 			if ($mode == 'callback') {
 				if (!is_array($options)) {
 					return JError::raiseError(E_ERROR, 'JError:'.JERROR_ILLEGAL_OPTIONS, 'Options for callback not valid');
@@ -281,7 +285,7 @@ w
 				}
 			}
 
-			// save settings
+			// Save settings
 			JError::$handlers[$eLevel] = array ('mode' => $mode);
 			if ($options != null) {
 				JError::$handlers[$eLevel]['options'] = $options;
@@ -303,7 +307,7 @@ w
 	}
 
 	/**
-	 * Method that dettaches the error handler from JError
+	 * Method that detaches the error handler from JError
 	 *
 	 * @access public
 	 * @see restore_error_handler
@@ -396,7 +400,7 @@ w
 			echo "<br /><b>jos-$level_human</b>: ".$error->get('message')."<br />\n";
 		}
 		else {
-			// output as simple text
+			// Output as simple text
 			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human: ".$error->get('message')."\n");
 			}
@@ -426,7 +430,7 @@ w
 		$info = $error->get('info');
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
-			// output as html
+			// Output as html
 			echo "<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n";
 
 			if ($info != null) {
@@ -436,7 +440,7 @@ w
 			echo $error->getBacktrace(true);
 		}
 		else {
-			// output as simple text
+			// Output as simple text
 			echo "J$level_human: ".$error->get('message')."\n";
 			if ($info != null) {
 				echo "\t".$info."\n";
@@ -464,11 +468,11 @@ w
 		$level_human = JError::translateErrorLevel($error->get('level'));
 
 		if (isset ($_SERVER['HTTP_HOST'])) {
-			// output as html
+			// Output as html
 			jexit("<br /><b>J$level_human</b>: ".$error->get('message')."<br />\n");
 		}
 		else {
-			// output as simple text
+			// Output as simple text
 			if (defined('STDERR')) {
 				fwrite(STDERR, "J$level_human: ".$error->get('message')."\n");
 				jexit();
