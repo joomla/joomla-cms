@@ -9,9 +9,13 @@
 		</message>
 	</layout>
 
-	<!-- Add fields to the parameters object for the layout. -->
+<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="advanced" label="COM_MENUS_LAYOUT_FEATURED_OPTIONS">
+			<field name="layout_type" 
+				type="hidden"
+				default="blog"
+			/>
 			<field name="bloglayout" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
 			/>

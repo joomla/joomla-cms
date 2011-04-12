@@ -27,6 +27,11 @@
 <fields name="params">
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 
+			<field name="layout_type" 
+				type="hidden"
+				default="blog"
+			/>
+			
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"

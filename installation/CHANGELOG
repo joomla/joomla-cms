@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Apr-2011 Mark Dexter
  # [#25593] Module Articles Category takes server timezone instead of Joomla one
+ # [#25370] new layouts - No pagination on articles category page if first visit
 
 11-Apr-2011 Mark Dexter
  # [#25602] Sort in Article Category List broken
