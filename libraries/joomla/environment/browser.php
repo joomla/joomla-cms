@@ -24,31 +24,49 @@ defined('JPATH_PLATFORM') or die;
 
 class JBrowser extends JObject
 {
-	/** @var integer Major version number. */
+	/**
+	 *  @var integer Major version number. 
+	 */
 	protected $_majorVersion = 0;
 
-	/** @var integer Minor version number. */
+	/**
+	 *  @var integer Minor version number.
+	 */
 	protected $_minorVersion = 0;
 
-	/** @var string Browser name. */
+	/**
+	 *  @var string Browser name. 
+	 */
 	protected $_browser = '';
 
-	/** @var string Full user agent string. */
+	/** 
+	 * @var string Full user agent string. 
+	 */
 	protected $_agent = '';
 
-	/** @var string Lower-case user agent string. */
+	/**
+	 *  @var string Lower-case user agent string. 
+	 */
 	protected $_lowerAgent = '';
 
-	/** @var string HTTP_ACCEPT string. */
+	/** 
+	 * @var string HTTP_ACCEPT string. 
+	 */
 	protected $_accept = '';
 
-	/** @var array Parsed HTTP_ACCEPT string */
+	/** 
+	 * @var array Parsed HTTP_ACCEPT string 
+	 */
 	protected $_accept_parsed = array();
 
-	/** @var string Platform the browser is running on. */
+	/** 
+	 * @var string Platform the browser is running on. 
+	 */
 	protected $_platform = '';
 
-	/** @var array Known robots. */
+	/** 
+	 * @var array Known robots. 
+	 */
 	protected $_robots = array(
 		/* The most common ones. */
 		'Googlebot',
@@ -99,10 +117,14 @@ class JBrowser extends JObject
 		'ZyBorg',
 	);
 
-	/** @var boolean Is this a mobile browser? */
+	/** 
+	 * @var boolean Is this a mobile browser? 
+	 */
 	protected $_mobile = false;
 
-	/** @var array Features. */
+	/** 
+	 * @var array Features. 
+	 */
 	protected $_features = array(
 		'html'			=> true,
 		'wml'			=> false,
@@ -123,7 +145,9 @@ class JBrowser extends JObject
 		'svg'			=> false
 	);
 
-	/** @var array Quirks. */
+	/** 
+	 * @var array Quirks. 
+	 */
 	protected $_quirks = array(
 		'avoid_popup_windows'			=> false,
 		'break_disposition_header'		=> false,
@@ -244,7 +268,7 @@ class JBrowser extends JObject
 
 		$this->_accept_parsed = $accept_mime;
 
-		// Check if browser excepts content type application/xhtml+xml. */* doesn't count ;)
+		// Check if browser accepts content type application/xhtml+xml. */* doesn't count ;)
 		foreach ($this->_accept_parsed as $mime) {
 			if (($mime[0] == 'application/xhtml+xml')) {
 				$this->setFeature('xhtml+xml');
@@ -317,7 +341,8 @@ class JBrowser extends JObject
 
 				/* Some Handhelds have their screen resolution in the
 				 * user agent string, which we can use to look for
-				 * mobile agents. */
+				 * mobile agents. 
+				 */
 				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->_agent)) {
 					$this->_mobile = true;
 				}

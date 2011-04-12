@@ -158,7 +158,7 @@ class JCacheController
 			if ($locktest->locked == true) $this->cache->unlock($id, $group);
 		}
 
-		// Check again because we might got it from second attempt
+		// Check again because we might get it from second attempt
 		if ($data !== false) {
 			$data = unserialize(trim($data));  // trim to fix unserialize errors
 		}
