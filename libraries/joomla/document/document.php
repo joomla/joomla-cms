@@ -242,6 +242,7 @@ class JDocument extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param type $type The document type to instantiate
+	 * 
 	 * @return object  The document object.
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
@@ -396,6 +397,7 @@ class JDocument extends JObject
 	 * @param string	$content		Value of the content tag
 	 * @param bool		$http_equiv		META type "http-equiv" defaults to null
 	 * @param bool		$sync			Should http-equiv="content-type" by synced with HTTP-header?
+	 *
 	 * @return void
 	 * @access public
 	 */
@@ -484,6 +486,7 @@ class JDocument extends JObject
 	 *
 	 * @param	string	$type  Charset encoding string
 	 * @access  public
+	 * 
 	 * @return  void
 	 */
 	function setCharset($type = 'utf-8') {
@@ -666,11 +669,11 @@ class JDocument extends JObject
 	/**
 	 * Sets the document MIME encoding that is sent to the browser.
 	 *
-	 * <p>This usually will be text/html because most browsers cannot yet
+	 * This usually will be text/html because most browsers cannot yet
 	 * accept the proper mime settings for XHTML: application/xhtml+xml
 	 * and to a lesser extent application/xml and text/xml. See the W3C note
 	 * ({@link http://www.w3.org/TR/xhtml-media-types/
-	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.</p>
+	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.
 	 *
 	 * @param	string		$type
 	 * @param	boolean		Should the type be synced with HTML?
@@ -798,6 +801,7 @@ class JDocument extends JObject
 	 * @param boolean	$cache		If true, cache the output
 	 * @param boolean	$compress	If true, compress the output
 	 * @param array		$params		Associative array of attributes
+	 * 
 	 * @return	The rendered data
 	 */
 	function render($cache = false, $params = array())

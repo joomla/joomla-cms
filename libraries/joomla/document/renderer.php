@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JDocumentRenderer extends JObject
 {
 	/**
-	* reference to the JDocument object that instantiated the renderer
+	* Reference to the JDocument object that instantiated the renderer
 	*
 	* @var		object
 	* @access	protected
@@ -50,6 +50,7 @@ class JDocumentRenderer extends JObject
 	 * @param string	$name		The name of the element to render
 	 * @param array		$array		Array of values
 	 * @param string	$content	Override the output of the renderer
+	 * 
 	 * @return string	The output of the script
 	 */
 	public function render($name, $params = null, $content = null)

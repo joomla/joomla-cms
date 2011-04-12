@@ -44,7 +44,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
-		// get line endings
+		// Get line endings
 		$lnEnd	= $document->_getLineEnd();
 		$tab	= $document->_getTab();
 		$tagEnd	= ' />';
@@ -71,7 +71,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			}
 		}
 
-		// dont add empty descriptions
+		// Don't add empty descriptions
 		$documentDescription = $document->getDescription();
 		if ($documentDescription) {
 			$buffer .= $tab.'<meta name="description" content="'.htmlspecialchars($documentDescription).'" />'.$lnEnd;

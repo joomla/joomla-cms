@@ -214,7 +214,7 @@ class JDocumentFeed extends JDocument
 		}
 		$this->setMimeEncoding($renderer->getContentType());
 
-		//output
+		// Output
 		// Generate prolog
 		$data	= "<?xml version=\"1.0\" encoding=\"".$this->_charset."\"?>\n";
 		$data	.= "<!-- generator=\"".$this->getGenerator()."\" -->\n";
@@ -406,7 +406,7 @@ class JFeedEnclosure extends JObject
 	 var $url = "";
 
 	/**
-	 * Lenght enclosure element
+	 * Length enclosure element
 	 *
 	 * required
 	 *
@@ -466,7 +466,7 @@ class JFeedImage extends JObject
 	 var $link = "";
 
 	 /**
-	 * witdh image attribute
+	 * Width image attribute
 	 *
 	 * optional
 	 *

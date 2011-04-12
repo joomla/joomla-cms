@@ -64,7 +64,7 @@ class JClientHelper
 					break;
 			}
 
-			// If user and pass are not set in global config lets see if its in the session
+			// If user and pass are not set in global config lets see if they are in the session
 			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {
 				$session = JFactory::getSession();
 				$options['user'] = $session->get($client.'.user', null, 'JClientHelper');
@@ -197,9 +197,8 @@ class JClientHelper
 	 * If valid credentials were passed along with the request, they are saved to the session.
 	 * This functions returns an exeption if invalid credentials have been given or if the
 	 * connection to the server failed for some other reason.
-
-	 * @static
-	 * @return	boolean|JExeption	True, if FTP settings should be shown, or an exeption
+	 * 
+	 * @return  boolean|JExeption  True, if FTP settings should be shown, or an exeption
 	 * @since	11.1
 	 */
 	public static function setCredentialsFromRequest($client)

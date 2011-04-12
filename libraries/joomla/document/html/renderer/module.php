@@ -22,6 +22,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 *
 	 * @param	string $name	The name of the module to render
 	 * @param	array $attribs	Associative array of values
+	 * 
 	 * @return	string			The output of the script
 	 */
 	public function render($module, $attribs = array(), $content = null)
@@ -52,20 +53,20 @@ class JDocumentRendererModule extends JDocumentRenderer
 			}
 		}
 
-		// get the user and configuration object
-		//$user = JFactory::getUser();
+		// Get the user and configuration object
+		// $user = JFactory::getUser();
 		$conf = JFactory::getConfig();
 
-		// set the module content
+		// Set the module content
 		if (!is_null($content)) {
 			$module->content = $content;
 		}
 
-		//get module parameters
+		// Get module parameters
 		$params = new JRegistry;
 		$params->loadJSON($module->params);
 
-		// use parameters from template
+		// Use parameters from template
 		if (isset($attribs['params'])) {
 			$template_params = new JRegistry;
 			$template_params->loadJSON(html_entity_decode($attribs['params'], ENT_COMPAT, 'UTF-8'));
@@ -75,13 +76,14 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		$contents = '';
-
-		$cachemode = $params->get('cachemode','oldstatic');  // default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
+  		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the 
+  		// module instead
+		$cachemode = $params->get('cachemode','oldstatic');
 
 		if ($params->get('cache', 0) == 1  && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
 
-			// default to itemid creating mehod and workarounds on
+			// Default to itemid creating method and workarounds on
 			$cacheparams = new stdClass;
 			$cacheparams->cachemode = $cachemode;
 			$cacheparams->class = 'JModuleHelper';

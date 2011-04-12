@@ -65,10 +65,10 @@ class JDocumentHTML extends JDocument
 	{
 		parent::__construct($options);
 
-		//set document type
+		// Set document type
 		$this->_type = 'html';
 
-		//set default mime type and document metadata (meta data syncs with mime type by default)
+		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		$this->setMetaData('Content-Type', 'text/html', true);
 		$this->setMetaData('robots', 'index, follow');
 	}
@@ -174,14 +174,15 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Adds <link> tags to the head of the document
 	 *
-	 * <p>$relType defaults to 'rel' as it is the most common relation type used.
+	 * $relType defaults to 'rel' as it is the most common relation type used.
 	 * ('rev' refers to reverse relation, 'rel' indicates normal, forward relation.)
-	 * Typical tag: <link href="index.php" rel="Start"></p>
+	 * Typical tag: <link href="index.php" rel="Start">
 	 *
 	 * @param	string  $href		The link that is being related.
 	 * @param	string  $relation	Relation of link.
 	 * @param	string  $relType	Relation type attribute.  Either rel or rev (default: 'rel').
 	 * @param	array	$attributes Associative array of remaining attributes.
+	 * 
 	 * @return	void
 	 */
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
@@ -194,9 +195,9 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Adds a shortcut icon (favicon)
 	 *
-	 * <p>This adds a link to the icon shown in the favorites list or on
+	 * This adds a link to the icon shown in the favorites list or on
 	 * the left of the url in the address bar. Some browsers display
-	 * it on the tab, as well.</p>
+	 * it on the tab, as well.
 	 *
 	 * @param	string  $href		The link that is being related.
 	 * @param	string  $type		File type
@@ -226,6 +227,7 @@ class JDocumentHTML extends JDocument
 	 * @param string	$type	The type of renderer
 	 * @param string	$name	The name of the element to render
 	 * @param array		$attribs Associative array of remaining attributes.
+	 * 
 	 * @return	The output of the renderer
 	 */
 	public function getBuffer($type = null, $name = null, $attribs = array())
@@ -279,7 +281,7 @@ class JDocumentHTML extends JDocument
 	}
 
 	/**
-	 * Set the contents a document include
+	 * Set the contents a document includes
 	 *
 	 * @param	string	$content	The content to be set in the buffer.
 	 * @param	array	$options	Array of optional elements.
@@ -393,10 +395,10 @@ class JDocumentHTML extends JDocument
 
 		$contents = '';
 
-		//Check to see if we have a valid template file
+		// Check to see if we have a valid template file
 		if (file_exists($directory.DS.$filename))
 		{
-			//store the file path
+			// Store the file path
 			$this->_file = $directory.DS.$filename;
 
 			//get the file content
@@ -431,7 +433,7 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _fetchTemplate($params = array())
 	{
-		// check
+		// Check
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$filter		= JFilterInput::getInstance();
 		$template	= $filter->clean($params['template'], 'cmd');
@@ -443,8 +445,8 @@ class JDocumentHTML extends JDocument
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
-		// 1.5 or core then
-		// 1.6
+		// 1.5 or core then 1.6
+		
 			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
 		||	$lang->load('tpl_'.$template, $directory.DS.$template, null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
@@ -455,7 +457,7 @@ class JDocumentHTML extends JDocument
 		$this->baseurl  = JURI::base(true);
 		$this->params	= isset($params['params']) ? $params['params'] : new JRegistry;
 
-		// load
+		// Load
 		$this->_template = $this->_loadTemplate($directory.DS.$template, $file);
 	}
 
