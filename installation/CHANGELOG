@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Apr-2011 Mark Dexter
+ # [#25593] Module Articles Category takes server timezone instead of Joomla one
+
 11-Apr-2011 Mark Dexter
  # [#25602] Sort in Article Category List broken
  # [#23364] Installation of tar.gz packages fails in xampp under Windows
