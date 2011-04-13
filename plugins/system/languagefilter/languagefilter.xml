@@ -14,8 +14,8 @@
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_content_languagefilter.ini</language>
-		<language tag="en-GB">en-GB.plg_content_languagefilter.sys.ini</language>
+		<language tag="en-GB">en-GB.plg_system_languagefilter.ini</language>
+		<language tag="en-GB">en-GB.plg_system_languagefilter.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
