@@ -97,7 +97,6 @@ class JInput
 	 */
 	public function __get($name)
 	{
-		// TODO Add handling for 'method'
 		if (isset ($this->inputs[$name])) {
 			return $this->inputs[$name];
 		}
@@ -134,16 +133,39 @@ class JInput
 			return $this->filter->clean($this->data[$name], $filter);
 		}
 
-		foreach ((array) $this->inputs as $input)
-		{
-			$return = $input->get($name, $default, $filter);
+		return $default;
+	}
 
-			if ($return != null) {
-				return $return;
+	/**
+	 * Gets an array of values from the request.
+	 *
+	 * @param   array   $vars     Associative array of keys and filter types to apply.
+	 *
+	 * @return  mixed  The filtered input data.
+	 *
+	 * @since   11.1
+	 */
+	public function getArray($vars, $datasource = null)
+	{
+		$results = array();
+
+		foreach ($vars AS $k => $v)
+		{
+			if (is_array($v)) {
+				if (is_null($datasource)) {
+					$results[$k] = $this->getArray($v, $this->get($k, array(), 'array'));
+				} else {
+					$results[$k] = $this->getArray($v, $datasource[$k]);
+				}
+			} else {
+				if (is_null($datasource)) {
+					$results[$k] = $this->get($k, null, $v);
+				} else {
+					$results[$k] = $this->filter($this->data[$name], $filter);
+				}
 			}
 		}
-
-		return $default;
+		return $results;
 	}
 
 	/**
@@ -184,6 +206,19 @@ class JInput
 
 			return $this->get($arguments[0], $default, $filter);
 		}
+	}
+
+	/**
+	 * Gets the request method.
+	 *
+	 * @return  string     The request method.
+	 *
+	 * @since   11.1
+	 */
+	public function getMethod($name, $arguments)
+	{
+		$method = strtoupper($_SERVER['REQUEST_METHOD']);
+		return $method;
 	}
 
 	/**

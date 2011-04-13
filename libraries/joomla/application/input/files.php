@@ -21,36 +21,6 @@ jimport('joomla.application.input');
 class JInputFiles extends JInput
 {
 	/**
-	 * Constructor.
-	 *
-	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
-	 * @param   array  $options  Array of configuration parameters (Optional)
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($source = null, $options = array ())
-	{
-		// If the input classes haven't been registered let's get that done.
-		if (!self::$registered) {
-			self::register();
-			self::$registered = true;
-		}
-
-		if (isset ($options['filter'])) {
-			$this->filter = $options['filter'];
-		} else {
-			$this->filter = JFilterInput::getInstance();
-		}
-
-		$this->data = & $_FILES;
-
-		// Set the options for the class.
-		$this->options = $options;
-	}
-
-	/**
 	 * Gets a value from the input data.
 	 *
 	 * @param   string  $name     Name of the value to get.
