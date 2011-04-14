@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Apr-2011
+ # [#25617] performance of assets table query with > 40 articles on website in registered mode
+
 13-Apr-2011 Jean-Marie Simonet
  # Correcting error in the plugin language filter xml
  
