@@ -34,10 +34,16 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
+		if (!empty($record->id)) {
+			if ($record->published != -2) {
+				return ;
+			}		
+			$user = JFactory::getUser();
 
-		return $user->authorise('core.delete', $record->extension.'.category.'.(int) $record->id);
-	}
+			return $user->authorise('core.delete', $record->extension.'.category.'.(int) $record->id);
+
+		}
+	}			
 
 	/**
 	 * Method to test whether a record can be deleted.

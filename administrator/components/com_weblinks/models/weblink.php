@@ -34,18 +34,23 @@ class WeblinksModelWeblink extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		if ($record->catid) {
-			return $user->authorise('core.delete', 'com_weblinks.category.'.(int) $record->catid);
-		}
-		else {
-			return parent::canDelete($record);
-		}
+		if (!empty($record->id)) {
+			if ($record->state != -2) {
+				return ;
+			}
+			$user = JFactory::getUser();
+	
+			if ($record->catid) {
+				return $user->authorise('core.delete', 'com_weblinks.category.'.(int) $record->catid);
+			}
+			else {
+				return parent::canDelete($record);
+			}
+		}	
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param	object	A record object.
 	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.

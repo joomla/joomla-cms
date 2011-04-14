@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+
+-------------------- 1.6.2 Stable Release [14-Apr-2011] ------------------
+
 14-Apr-2011
  # [#25617] performance of assets table query with > 40 articles on website in registered mode
 

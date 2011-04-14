@@ -410,7 +410,7 @@ final class JSite extends JApplication
 		$menu = $this->getMenu();
 		$item = $menu->getActive();
 		if (!$item) {
-			$item = $menu->getItem(JRequest::getVar('Itemid'));
+			$item = $menu->getItem(JRequest::getInt('Itemid'));
 		}
 
 		$id = 0;

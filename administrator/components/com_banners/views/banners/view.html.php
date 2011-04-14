@@ -88,15 +88,14 @@ class BannersViewBanners extends JView
 			JToolBarHelper::custom('banners.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::trash('banners.trash','JTOOLBAR_TRASH');
+		}
+		if ( $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'banners.delete','JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
-		else if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('banners.trash','JTOOLBAR_TRASH');
-			JToolBarHelper::divider();
-		}
-
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_banners');
 			JToolBarHelper::divider();

@@ -279,6 +279,15 @@ class JFilterInput extends JObject
 			$postTag		= substr($postTag, $tagOpen_start);
 			$fromTagOpen	= substr($postTag, 1);
 			$tagOpen_end	= strpos($fromTagOpen, '>');
+			
+			// Check for mal-formed tag where we have a second '<' before the first '>'
+			$nextOpenTag = (strlen($postTag) > $tagOpen_start) ? strpos($postTag, '<', $tagOpen_start + 1) : false;
+			if (($nextOpenTag !== false) && ($nextOpenTag < $tagOpen_end)) {
+				// At this point we have a mal-formed tag -- remove the offending open
+				$postTag = substr($postTag, 0, $tagOpen_start) . substr($postTag, $tagOpen_start + 1);
+				$tagOpen_start	= strpos($postTag, '<');
+				continue;
+			}
 
 			// Let's catch any non-terminated tags and skip over them
 			if ($tagOpen_end === false) {
@@ -566,13 +575,19 @@ class JFilterInput extends JObject
 		$escapedChars = array ('&lt;', '&quot;', '&gt;');
 		// Process each portion based on presence of =" and "<space>, "/>, or ">
 		// See if there are any more attributes to process
-		while (preg_match('#\s*=\s*\"#', $remainder, $matches, PREG_OFFSET_CAPTURE))
+		while (preg_match('#\s*=\s*(\"|\')#', $remainder, $matches, PREG_OFFSET_CAPTURE))
 		{
 			// get the portion before the attribute value
 			$quotePosition = $matches[0][1];
 			$nextBefore = $quotePosition + strlen($matches[0][0]);
+			
+			// Figure out if we have a single or double quote and look for the matching closing quote
+			// Closing quote should be "/>, ">, "<space>, or " at the end of the string
+			$quote = substr($matches[0][0], -1);
+			$pregMatch = ($quote == '"') ? '#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#' : "#(\'\s*/\s*>|\'\s*>|\'\s+|\'$)#";
+			
 			// get the portion after attribute value
-			if (preg_match('#(\"\s*/\s*>|\"\s*>|\"\s+|\"$)#', substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE)) {
+			if (preg_match($pregMatch, substr($remainder, $nextBefore), $matches, PREG_OFFSET_CAPTURE)) {
 				// We have a closing quote
 				$nextAfter = $nextBefore + $matches[0][1];
 			} else {
@@ -583,11 +598,40 @@ class JFilterInput extends JObject
 			$attributeValue = substr($remainder, $nextBefore, $nextAfter - $nextBefore);
 			// Escape bad chars
 			$attributeValue = str_replace($badChars, $escapedChars, $attributeValue);
-			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . '"';
+			$attributeValue = $this->_stripCSSExpressions($attributeValue);
+			$alreadyFiltered .= substr($remainder, 0, $nextBefore) . $attributeValue . $quote;
 			$remainder = substr($remainder, $nextAfter + 1);
 		}
 		
 		// At this point, we just have to return the $alreadyFiltered and the $remainder
 		return $alreadyFiltered . $remainder;
-	}	
+	}
+	/**
+	 * Remove CSS Expressions in the form of <property>:expression(...)
+	 *
+	 * @param	string	$source The source string.
+	 * @return	string	Filtered string
+	 * @since	1.6
+	 */
+	protected function _stripCSSExpressions($source)
+	{
+		// Strip any comments out (in the form of /*...*/)
+		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
+		// Test for :expression
+		if (!stripos($test, ':expression')) {
+			// Not found, so we are done
+			$return = $source;
+		} 
+		else {
+			// At this point, we have stripped out the comments and have found :expression
+			// Test stripped string for :expression followed by a '('
+			if (preg_match_all('#:expression\s*\(#', $test, $matches)) {
+				// If found, remove :expression
+				$test = str_ireplace(':expression', '', $test);
+				$return = $test;
+			}
+		}
+		return $return;
+	}
+	
 }

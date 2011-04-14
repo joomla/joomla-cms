@@ -69,11 +69,11 @@ class BannersViewClients extends JView
 			JToolBarHelper::archiveList('clients.archive','JTOOLBAR_ARCHIVE');
 			JToolBarHelper::custom('clients.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 		}
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
-		} else if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('clients.trash','JTOOLBAR_TRASH');
+		}
+		if ( $canDo->get('core.delete')) {
+			JToolBarHelper::deleteList('', 'clients.delete','JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
 		}
 

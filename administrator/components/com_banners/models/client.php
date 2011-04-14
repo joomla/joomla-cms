@@ -28,13 +28,18 @@ class BannersModelClient extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		$user = JFactory::getUser();
-
-		if (!empty($record->catid)) {
-			return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
-		}
-		else {
-			return $user->authorise('core.delete', 'com_banners');
+		if (!empty($record->id)) {
+				if ($record->state != -2) {
+					return ;
+				}
+			$user = JFactory::getUser();
+	
+			if (!empty($record->catid)) {
+				return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
+			}
+			else {
+				return $user->authorise('core.delete', 'com_banners');
+			}
 		}
 	}
 

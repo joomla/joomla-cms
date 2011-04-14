@@ -24,6 +24,45 @@ class RedirectModelLink extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_REDIRECT';
+	
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param	object	$record	A record object.
+	 *
+	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since	1.6
+	 */
+	protected function canDelete($record)
+	{
+		if (!empty($record->id)) {
+			if ($record->state != -2) {
+				return ;
+			}
+			$user = JFactory::getUser();
+			return $user->authorise('core.delete', 'com_redirect');
+		}
+	}
+
+	/**
+	 * Method to test whether a record can have its state edited.
+	 *
+	 * @param	object	$record	A record object.
+	 *
+	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @since	1.6
+	 */
+	protected function canEditState($record)
+	{
+		$user = JFactory::getUser();
+
+		// Check the component since there are no categories or other assets.
+		if (!empty($record->id)) {
+			return parent::canEditState($record);
+		}
+	}
+	
+	
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *

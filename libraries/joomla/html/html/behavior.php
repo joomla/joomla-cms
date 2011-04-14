@@ -660,10 +660,13 @@ abstract class JHtmlBehavior
 		// Include mootools framework
 		self::framework();
 
-		$js = "window.addEvent('domready', function () {if (top != self) {top.location.replace(".$location.");}});";
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; } else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
+		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 		
+		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
+		JResponse::setHeader('X-Content-Security-Policy', 'frame-ancestors \'self\'');
 		$loaded = true;
 	}
 

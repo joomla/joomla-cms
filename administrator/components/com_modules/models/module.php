@@ -85,8 +85,11 @@ class ModulesModelModule extends JModelAdmin
 			if ($table->load($pk)) {
 
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules')) {
-					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+				if (!$user->authorise('core.delete', 'com_modules') || 
+							$table->published != -2) {
+					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));	
+					//	throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
+					return;
 				}
 
 				if (!$table->delete($pk)) {

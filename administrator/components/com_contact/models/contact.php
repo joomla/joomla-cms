@@ -30,19 +30,18 @@ class ContactModelContact extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected function canDelete($record)
-	{
-		$user = JFactory::getUser();
-
-		if ($record->catid) {
+	{ 
+		if (!empty($record->id)) {
+			if ($record->published != -2) {
+				return ;
+			}		
+			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_contact.category.'.(int) $record->catid);
-		}
-		else {
-			return parent::canDelete($record);
-		}
+		}	
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state edited.
 	 *
 	 * @param	object	$record	A record object.
 	 *
