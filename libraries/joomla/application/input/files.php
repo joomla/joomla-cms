@@ -20,6 +20,9 @@ jimport('joomla.application.input');
  */
 class JInputFiles extends JInput
 {
+	
+	private $_decodedData = array();
+	
 	/**
 	 * Gets a value from the input data.
 	 *
@@ -31,22 +34,39 @@ class JInputFiles extends JInput
 	 * 
 	 * @since   11.1
 	 */
-	public function get($name, $default, $filter = 'cmd')
+	public function get($name, $default = null, $filter = 'cmd')
 	{
 		if (isset ($this->data[$name])) {
-			return $this->filter->clean($this->data[$name], $filter);
+			$results = $this->decodeData(
+				array(
+					$this->data[$name]['name'],
+					$this->data[$name]['type'],
+					$this->data[$name]['tmp_name'],
+					$this->data[$name]['error'],
+					$this->data[$name]['size']
+				)
+			);
+			return $results;
 		}
 
-		foreach ($this->inputs AS $input)
-		{
-			$return = $input->get($name, $default, $filter);
-
-			if ($return != null) {
-				return $return;
-			}
-		}
-		
 		return $default;
+
+	}
+
+	protected function decodeData($data)
+	{
+		$result = array();
+		
+		if (is_array($data[0])) {
+			foreach ($data[0] AS $k => $v) {
+				$result[$k] = $this->decodeData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
+			}
+			return $result;
+		}
+
+		return array(
+				'name' => $data[0], 'type' => $data[1], 'tmp_name' => $data[2], 'error' => $data[3], 'size' => $data[4]
+		);
 	}
 
 	/**
@@ -61,6 +81,6 @@ class JInputFiles extends JInput
 	 */
 	public function set($name, $value)
 	{
-		$this->data[$name] = $value;
+
 	}
 }
