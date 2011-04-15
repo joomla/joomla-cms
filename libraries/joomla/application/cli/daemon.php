@@ -80,7 +80,7 @@ class JDaemon extends JCli
 
 		// Set some system limits.
 		set_time_limit($this->config->get('max_execution_time', 0));
-		ini_set('memory_limit',$this->config->get('max_memory_limit', '128M'));
+		ini_set('memory_limit',$this->config->get('max_memory_limit', '256M'));
 
 		// Flush content immediatly.
 		ob_implicit_flush();
@@ -510,13 +510,16 @@ class JDaemon extends JCli
 		 */
 
 		// The maximum execution time of the application in seconds.  Zero is infinite.
-		$tmp = (int) $this->config->get('max_execution_time', 0);
-		$this->config->set('max_execution_time', $tmp);
+		$tmp = $this->config->get('max_execution_time');
+		if ($tmp !== null) {
+			$this->config->set('max_execution_time', (int) $tmp);
+		}
 
 		// The maximum amount of memory the application can use.
-		$tmp = (string) $this->config->get('max_memory_limit', '128M');
-		$this->config->set('max_memory_limit', $tmp);
-
+		$tmp = $this->config->get('max_memory_limit', '256M');
+		if ($tmp !== null) {
+			$this->config->set('max_memory_limit', (string) $tmp);
+		}
 
 		return $loaded;
 	}
