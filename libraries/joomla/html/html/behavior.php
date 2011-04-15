@@ -666,7 +666,7 @@ abstract class JHtmlBehavior
 		$document->addScriptDeclaration($js);
 		
 		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
-		JResponse::setHeader('X-Content-Security-Policy', 'frame-ancestors \'self\'');
+
 		$loaded = true;
 	}
 
