@@ -139,7 +139,8 @@ class JInput
 	/**
 	 * Gets an array of values from the request.
 	 *
-	 * @param   array   $vars     Associative array of keys and filter types to apply.
+	 * @param   array   $vars        Associative array of keys and filter types to apply.
+	 * @param	mixed	$datasource  Array to retrieve data from, or null
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
@@ -153,7 +154,7 @@ class JInput
 		{
 			if (is_array($v)) {
 				if (is_null($datasource)) {
-					$results[$k] = $this->getArray($v, $this->get($k, array(), 'array'));
+					$results[$k] = $this->getArray($v, $this->get($k, null, 'array'));
 				} else {
 					$results[$k] = $this->getArray($v, $datasource[$k]);
 				}
@@ -161,7 +162,7 @@ class JInput
 				if (is_null($datasource)) {
 					$results[$k] = $this->get($k, null, $v);
 				} else {
-					$results[$k] = $this->filter($this->data[$name], $filter);
+					$results[$k] = $this->filter->clean($datasource[$k], $v);
 				}
 			}
 		}
