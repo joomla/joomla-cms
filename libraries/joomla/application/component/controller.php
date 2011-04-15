@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Base class for a Joomla Controller
  *
- * Controller (controllers are where you put all the actual code) Provides basic
+ * Controller (Controllers are where you put all the actual code.) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
  * @abstract
@@ -117,7 +117,7 @@ class JController extends JObject
 	protected $redirect;
 
 	/**
-	 * Current or most recent task to be performed.
+	 * Current or most recently performed task.
 	 *
 	 * @var		string
 	 * @since	11.1		Replaces _task.
@@ -332,10 +332,10 @@ class JController extends JObject
 			$this->registerDefaultTask('display');
 		}
 
-		// set the models prefix
+		// Set the models prefix
 		if (empty($this->model_prefix)) {
 			if (array_key_exists('model_prefix', $config)) {
-				// user-defined prefix
+				// User-defined prefix
 				$this->model_prefix = $config['model_prefix'];
 			}
 			else {
@@ -343,7 +343,7 @@ class JController extends JObject
 			}
 		}
 
-		// set the default model search path
+		// Set the default model search path
 		if (array_key_exists('model_path', $config)) {
 			// user-defined dirs
 			$this->addModelPath($config['model_path'], $this->model_prefix);
@@ -352,9 +352,9 @@ class JController extends JObject
 			$this->addModelPath($this->basePath.'/models', $this->model_prefix);
 		}
 
-		// set the default view search path
+		// Set the default view search path
 		if (array_key_exists('view_path', $config)) {
-			// user-defined dirs
+			// User-defined dirs
 			$this->setPath('view', $config['view_path']);
 		}
 		else {
@@ -374,7 +374,7 @@ class JController extends JObject
 	/**
 	 * Adds to the search path for templates and resources.
 	 *
-	 * @param	string			$type	The path type (e.g. 'model', 'view'.
+	 * @param	string			$type	The path type (e.g. 'model', 'view').
 	 * @param	string|array	$path	The directory or stream to search.
 	 *
 	 * @return	JController		This object to support chaining.
@@ -382,20 +382,20 @@ class JController extends JObject
 	 */
 	protected function addPath($type, $path)
 	{
-		// just force path to array
+		// Just force path to array
 		settype($path, 'array');
 
 		if (!isset($this->paths[$type])) {
 			$this->paths[$type] = array();
 		}
 
-		// loop through the path directories
+		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			// no surrounding spaces allowed!
+			// No surrounding spaces allowed!
 			$dir = rtrim(JPath::check($dir, '/'), '/').'/';
 
-			// add to the top of the search dirs
+			// Add to the top of the search dirs
 			array_unshift($this->paths[$type], $dir);
 		}
 
@@ -405,7 +405,7 @@ class JController extends JObject
 	/**
 	 * Add one or more view paths to the controller's stack, in LIFO order.
 	 *
-	 * @param	string|array	$path	The directory (string), or list of directories (array) to add.
+	 * @param	string|array	$path	The directory (string) or list of directories (array) to add.
 	 *
 	 * @return	JController		This object to support chaining.
 	 */
@@ -417,11 +417,11 @@ class JController extends JObject
 	}
 
 	/**
-	 * Authorization check
+	 * Authorisation check
 	 *
 	 * @param	string	$task	The ACO Section Value to check access on
 	 *
-	 * @return	boolean	True if authorized
+	 * @return	boolean	True if authorised
 	 * @since	11.1
 	 * @deprecated 1.6 - Apr 5, 2010
 	 */
@@ -513,7 +513,7 @@ class JController extends JObject
 
 	/**
 	 * Method to load and return a view object. This method first looks in the
-	 * current template directory for a match, and failing that uses a default
+	 * current template directory for a match and, failing that, uses a default
 	 * set path to load the view class file.
 	 *
 	 * Note the "name, prefix, type" order of parameters, which differs from the
@@ -614,7 +614,7 @@ class JController extends JObject
 
 				foreach ($urlparams AS $key => $value)
 				{
-					// add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
 					$registeredurlparams->$key = $value;
 				}
 
@@ -688,17 +688,17 @@ class JController extends JObject
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config)) {
-			// task is a reserved state
+			// Task is a reserved state
 			$model->setState('task', $this->task);
 
-			// Lets get the application object and set menu information if its available
+			// Let's get the application object and set menu information if it's available
 			$app	= JFactory::getApplication();
 			$menu	= $app->getMenu();
 
 			if (is_object($menu)) {
 				if ($item = $menu->getActive()) {
 					$params	= $menu->getParams($item->id);
-					// Set Default State Data
+					// Set default state data
 					$model->setState('parameters.menu', $params);
 				}
 			}
@@ -709,7 +709,7 @@ class JController extends JObject
 	/**
 	 * Method to get the controller name
 	 *
-	 * The dispatcher name by default parsed using the classname, or it can be set
+	 * The dispatcher name is set by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
 	 * @return	string The name of the dispatcher
@@ -731,9 +731,9 @@ class JController extends JObject
 	}
 
 	/**
-	 * Get the last task that is or was to be performed.
+	 * Get the last task that is being performed or was most recently performed.
 	 *
-	 * @return	string The task that was or is being performed.
+	 * @return	string The task that is being performed or was most recently performed.
 	 * @since	11.1
 	 */
 	public function getTask()
@@ -972,7 +972,7 @@ class JController extends JObject
 	{
 		$this->redirect = $url;
 		if ($msg !== null) {
-			// controller may have set this directly
+			// Controller may have set this directly
 			$this->message	= $msg;
 		}
 

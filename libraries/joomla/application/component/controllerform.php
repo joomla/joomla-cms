@@ -23,7 +23,7 @@ jimport('joomla.application.component.controller');
 class JControllerForm extends JController
 {
 	/**
-	 * @var		string	The context for storing internal data, eg record.
+	 * @var		string	The context for storing internal data, e.g. record.
 	 * @since	11.1
 	 */
 	protected $context;
@@ -91,7 +91,8 @@ class JControllerForm extends JController
 
 		// Guess the list view as the plural of the item view.
 		if (empty($this->view_list)) {
-			// @TODO Probably worth moving to an inflector class based on http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
+			// @TODO Probably worth moving to an inflector class based on
+			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
 
 			// Simple pluralisation based on public domain snippet by Paul Osman
 			// For more complex types, just manually set the variable in your class.
@@ -276,7 +277,7 @@ class JControllerForm extends JController
 	public function edit($key = null, $urlVar = null)
 	{
 		// Initialise variables.
-		$app		= JFactory::getApplication();
+		$app		= JFactory::getApplication(); or was most recently performed
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
@@ -288,7 +289,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		// The urlVar may be different from the primary key to avoid data collisions.
+		// To avoid data collisions the urlVar may be different from the primary key.
 		if (empty($urlVar)) {
 			$urlVar = $key;
 		}
@@ -436,7 +437,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		// The urlVar may be different from the primary key to avoid data collisions.
+		// To avoid data collisions the urlVar may be different from the primary key.
 		if (empty($urlVar)) {
 			$urlVar = $key;
 		}
@@ -447,7 +448,7 @@ class JControllerForm extends JController
 		$registry	= $session->get('registry');
 
 		if (!$this->checkEditId($context, $recordId)) {
-			// Somehow the person just went to the form and saved it - we don't allow that.
+			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));
@@ -462,7 +463,7 @@ class JControllerForm extends JController
 		if ($task == 'save2copy') {
 			// Check-in the original row.
 			if ($checkin  && $model->checkin($data[$key]) === false) {
-				// Check-in failed, go back to the item and display a notice.
+				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
 				$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $urlVar));
@@ -494,7 +495,7 @@ class JControllerForm extends JController
 			return false;
 		}
 
-		// Test if the data is valid.
+		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
@@ -535,12 +536,12 @@ class JControllerForm extends JController
 			return false;
 		}
 
-		// Save succeeded, check-in the record.
+		// Save succeeded, so check-in the record.
 		if ($checkin && $model->checkin($validData[$key]) === false) {
 			// Save the data in the session.
 			$app->setUserState($context.'.data', $validData);
 
-			// Check-in failed, go back to the record and display a notice.
+			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));

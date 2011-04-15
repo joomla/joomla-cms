@@ -61,6 +61,7 @@ class JCacheController
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
 	 * @param	string	$type	The cache object type to instantiate
+	 * 
 	 * @return	object	A JCache object
 	 * @since	11.1
 	 */
@@ -90,6 +91,7 @@ class JCacheController
 	 * Set caching enabled state
 	 *
 	 * @param	boolean	$enabled	True to enable caching
+	 * 
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -102,6 +104,7 @@ class JCacheController
 	 * Set cache lifetime
 	 *
 	 * @param	int		$lt	Cache lifetime
+	 * 
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -156,7 +159,7 @@ class JCacheController
 			if ($locktest->locked == true) $this->cache->unlock($id, $group);
 		}
 
-		// check again, we might got it from second attempt
+		// Check again because we might get it from second attempt
 		if ($data !== false) {
 			$data = unserialize(trim($data));  // trim to fix unserialize errors
 		}

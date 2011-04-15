@@ -133,11 +133,8 @@ class JRules
 	 */
 	public function allow($action, $identity)
 	{
-// TODO: Remove debug when finished testing.
-//echo "<br>Action: $action, ".print_r($identity, 1);
 		// Check we have information about this action.
 		if (isset($this->_data[$action])) {
-//print_r($this->_data[$action]);
 			return $this->_data[$action]->allow($identity);
 		}
 		return null;

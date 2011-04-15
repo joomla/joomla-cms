@@ -79,7 +79,7 @@ class JNode extends JObject
 	/**
 	 * Get the children of this node
 	 *
-	 * @return array the children
+	 * @return	array	the children
 	 */
 	function &getChildren()
 	{
@@ -116,4 +116,3 @@ class JNode extends JObject
 		return $this->getParent() != null;
 	}
 }
-

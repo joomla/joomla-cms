@@ -15,7 +15,7 @@ jimport('joomla.utilities.string');
  * JURI Class
  *
  * This class serves two purposes.  First to parse a URI and provide a common interface
- * for the Joomla Framework to access and manipulate a URI.  Second to attain the URI of
+ * for the Joomla Framework to access and manipulate a URI.  Second to obtain the URI of
  * the current executing script from the server regardless of server.
  *
  * @package		Joomla.Platform
@@ -212,7 +212,7 @@ class JURI extends JObject
 				}
 				else
 				{
-					//Others
+					// Others
 					$script_name =  $_SERVER['SCRIPT_NAME'];
 				}
 
@@ -293,7 +293,7 @@ class JURI extends JObject
 			$retval = true;
 		}
 
-		//We need to replace &amp; with & for parse_str to work right...
+		// We need to replace &amp; with & for parse_str to work right...
 		if (isset ($_parts['query']) && strpos($_parts['query'], '&amp;')) {
 			$_parts['query'] = str_replace('&amp;', '&', $_parts['query']);
 		}
@@ -307,7 +307,7 @@ class JURI extends JObject
 		$this->_query = isset ($_parts['query'])? $_parts['query'] : null;
 		$this->_fragment = isset ($_parts['fragment']) ? $_parts['fragment'] : null;
 
-		//parse the query
+		// Parse the query
 
 		if (isset($_parts['query'])) {
 			parse_str($_parts['query'], $this->_vars);
@@ -325,7 +325,8 @@ class JURI extends JObject
 	 */
 	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
-		$query = $this->getQuery(); //make sure the query is created
+		// Make sure the query is created
+		$query = $this->getQuery(); 
 
 		$uri = '';
 		$uri .= in_array('scheme', $parts)  ? (!empty($this->_scheme) ? $this->_scheme.'://' : '') : '';
@@ -354,7 +355,7 @@ class JURI extends JObject
 		$tmp = @$this->_vars[$name];
 		$this->_vars[$name] = $value;
 
-		//empty the query
+		// Empty the query
 		$this->_query = null;
 
 		return $tmp;
@@ -424,7 +425,7 @@ class JURI extends JObject
 			parse_str($query, $this->_vars);
 		}
 
-		//empty the query
+		// Empty the query
 		$this->_query = null;
 	}
 
@@ -440,7 +441,7 @@ class JURI extends JObject
 			return $this->_vars;
 		}
 
-		//If the query is empty build it first
+		// If the query is empty build it first
 		if (is_null($this->_query)) {
 			$this->_query = self::buildQuery($this->_vars);
 		}
@@ -451,7 +452,6 @@ class JURI extends JObject
 	/**
 	 * Build a query from a array (reverse of the PHP parse_str()).
 	 *
-	 * @static
 	 * @return	string The resulting query string.
 	 * @since	11.1
 	 * @see	parse_str()
@@ -464,7 +464,7 @@ class JURI extends JObject
 
 		$out = array();
 
-		//reset in case we are looping
+		// Reset in case we are looping
 		if (!isset($akey) && !count($out))  {
 			unset($out);
 			$out = array();
@@ -515,7 +515,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI username
-	 *		returns the username, or null if no username was specified.
+	 *		Returns the username, or null if no username was specified.
 	 *
 	 * @return	string The URI username.
 	 * @since	11.1
@@ -538,7 +538,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI password
-	 *		returns the password, or null if no password was specified.
+	 *		Returns the password, or null if no password was specified.
 	 *
 	 * @return	string The URI password.
 	 * @since	11.1
@@ -561,7 +561,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI host
-	 *		returns the hostname/ip, or null if no hostname/ip was specified.
+	 *		Returns the hostname/ip or null if no hostname/ip was specified.
 	 *
 	 * @return	string The URI host.
 	 * @since	11.1
@@ -584,7 +584,7 @@ class JURI extends JObject
 
 	/**
 	 * Get URI port
-	 *		returns the port number, or null if no port was specified.
+	 *		Returns the port number, or null if no port was specified.
 	 *
 	 * @return	int The URI port number.
 	 */
@@ -628,7 +628,7 @@ class JURI extends JObject
 
 	/**
 	 * Get the URI archor string
-	 *		everything after the "#".
+	 *		Everything after the "#".
 	 *
 	 * @return	string The URI anchor string.
 	 * @since	11.1

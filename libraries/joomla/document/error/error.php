@@ -31,7 +31,7 @@ class JDocumentError extends JDocument
 	 * Class constructor
 	 *
 	 * @access protected
-	 * @param	string	$type		(either html or tex)
+	 * @param	string	$type		(either html or text)
 	 * @param	array	$attributes Associative array of attributes
 	 */
 	function __construct($options = array())
@@ -50,6 +50,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @access	public
 	 * @param	object	$error	Error object to set
+	 * 
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -107,19 +108,20 @@ class JDocumentError extends JDocument
 	 *
 	 * @param string	$template	The name of the template
 	 * @param string	$filename	The actual filename
+	 * 
 	 * @return string The contents of the template
 	 */
 	function _loadTemplate($directory, $filename)
 	{
 		$contents = '';
 
-		//Check to see if we have a valid template file
+		// Check to see if we have a valid template file
 		if (file_exists($directory.DS.$filename))
 		{
-			//store the file path
+			// Store the file path
 			$this->_file = $directory.DS.$filename;
 
-			//get the file content
+			// Get the file content
 			ob_start();
 			require_once $directory.DS.$filename;
 			$contents = ob_get_contents();

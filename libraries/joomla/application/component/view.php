@@ -127,7 +127,7 @@ class JView extends JObject
 	 */
 	function __construct($config = array())
 	{
-		//set the view name
+		// Set the view name
 		if (empty($this->_name))
 		{
 			if (array_key_exists('name', $config))  {
@@ -137,12 +137,12 @@ class JView extends JObject
 			}
 		}
 
-		// set the charset (used by the variable escaping functions)
+		// Set the charset (used by the variable escaping functions)
 		if (array_key_exists('charset', $config)) {
 			$this->_charset = $config['charset'];
 		}
 
-		// user-defined escaping callback
+		// User-defined escaping callback
 		if (array_key_exists('escape', $config)) {
 			$this->setEscape($config['escape']);
 		}
@@ -156,21 +156,21 @@ class JView extends JObject
 
 		// set the default template search path
 		if (array_key_exists('template_path', $config)) {
-			// user-defined dirs
+			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		} else {
 			$this->_setPath('template', $this->_basePath.DS.'views'.DS.$this->getName().DS.'tmpl');
 		}
 
-		// set the default helper search path
+		// Set the default helper search path
 		if (array_key_exists('helper_path', $config)) {
-			// user-defined dirs
+			// User-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
 		} else {
 			$this->_setPath('helper', $this->_basePath.DS.'helpers');
 		}
 
-		// set the layout
+		// Set the layout
 		if (array_key_exists('layout', $config)) {
 			$this->setLayout($config['layout']);
 		} else {
@@ -212,19 +212,19 @@ class JView extends JObject
 	* <code>
 	* $view = new JView();
 	*
-	* // assign directly
+	* // Assign directly
 	* $view->var1 = 'something';
 	* $view->var2 = 'else';
 	*
-	* // assign by name and value
+	* // Assign by name and value
 	* $view->assign('var1', 'something');
 	* $view->assign('var2', 'else');
 	*
-	* // assign by assoc-array
+	* // Assign by assoc-array
 	* $ary = array('var1' => 'something', 'var2' => 'else');
 	* $view->assign($obj);
 	*
-	* // assign by object
+	* // Assign by object
 	* $obj = new stdClass;
 	* $obj->var1 = 'something';
 	* $obj->var2 = 'else';
@@ -237,14 +237,14 @@ class JView extends JObject
 	*/
 	function assign()
 	{
-		// get the arguments; there may be 1 or 2.
+		// Get the arguments; there may be 1 or 2.
 		$arg0 = @func_get_arg(0);
 		$arg1 = @func_get_arg(1);
 
-		// assign by object
+		// Assign by object
 		if (is_object($arg0))
 		{
-			// assign public properties
+			// Assign public properties
 			foreach (get_object_vars($arg0) as $key => $val)
 			{
 				if (substr($key, 0, 1) != '_') {
@@ -254,7 +254,7 @@ class JView extends JObject
 			return true;
 		}
 
-		// assign by associative array
+		// Assign by associative array
 		if (is_array($arg0))
 		{
 			foreach ($arg0 as $key => $val)
@@ -266,9 +266,9 @@ class JView extends JObject
 			return true;
 		}
 
-		// assign by string name and mixed value.
+		// Assign by string name and mixed value.
 
-		// we use array_key_exists() instead of isset() becuase isset()
+		// We use array_key_exists() instead of isset() becuase isset()
 		// fails if the value is set to null.
 		if (is_string($arg0) && substr($arg0, 0, 1) != '_' && func_num_args() > 1)
 		{
@@ -291,10 +291,10 @@ class JView extends JObject
 	* <code>
 	* $view = new JView();
 	*
-	* // assign by name and value
+	* // Assign by name and value
 	* $view->assignRef('var1', $ref);
 	*
-	* // assign directly
+	* // Assign directly
 	* $view->ref = &$var1;
 	* </code>
 	*
@@ -319,7 +319,7 @@ class JView extends JObject
 	/**
 	 * Escapes a value for output in a view script.
 	 *
-	 * If escaping mechanism is one of htmlspecialchars or htmlentities, uses
+	 * If escaping mechanism is either htmlspecialchars or htmlentities, uses
 	 * {@link $_encoding} setting.
 	 *
 	 * @param  mixed The output to escape.
@@ -337,8 +337,8 @@ class JView extends JObject
 	/**
 	 * Method to get data from a registered model or a property of the view
 	 *
-	 * @param	string	The name of the method to call on the model, or the property to get
-	 * @param	string	The name of the model to reference, or the default value [optional]
+	 * @param	string	The name of the method to call on the model or the property to get
+	 * @param	string	The name of the model to reference or the default value [optional]
 	 * @return mixed	The return value of the method
 	 */
 	public function get($property, $default = null)
@@ -354,20 +354,20 @@ class JView extends JObject
 		// First check to make sure the model requested exists
 		if (isset($this->_models[$model]))
 		{
-			// Model exists, lets build the method name
+			// Model exists, let's build the method name
 			$method = 'get'.ucfirst($property);
 
 			// Does the method exist?
 			if (method_exists($this->_models[$model], $method))
 			{
-				// The method exists, lets call it and return what we get
+				// The method exists, let's call it and return what we get
 				$result = $this->_models[$model]->$method();
 				return $result;
 			}
 
 		}
 
-		// degrade to JObject::get
+		// Degrade to JObject::get
 		$result = parent::get($property, $default);
 		return $result;
 
@@ -543,8 +543,8 @@ class JView extends JObject
 	 * Load a template file -- first look in the templates folder for an override
 	 *
 	 * @access	public
-	 * @param string The name of the template source file ...
-	 * automatically searches the template paths and compiles as needed.
+	 * @param	string	The name of the template source file ...
+	 * 					automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
 	function loadTemplate($tpl = null)
@@ -556,9 +556,9 @@ class JView extends JObject
 		$layout = $this->getLayout();
 		$layoutTemplate = $this->getLayoutTemplate();
 
-		//create the template file name based on the layout
+		// Create the template file name based on the layout
 		$file = isset($tpl) ? $layout.'_'.$tpl : $layout;
-		// clean the file name
+		// Clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $file);
 		$tpl  = isset($tpl)? preg_replace('/[^A-Z0-9_\.-]/i', '', $tpl) : $tpl;
 
@@ -569,13 +569,13 @@ class JView extends JObject
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load('tpl_'.$template, JPATH_THEMES."/$template", $lang->getDefault(), false, false);
 
-		// change the template folder if alternative layout is in different template
+		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate != '_' && $layoutTemplate != $template)
 		{
 			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
 		}
 
-		// load the template script
+		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind	= $this->_createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
@@ -589,22 +589,22 @@ class JView extends JObject
 
 		if ($this->_template != false)
 		{
-			// unset so as not to introduce into template scope
+			// Unset so as not to introduce into template scope
 			unset($tpl);
 			unset($file);
 
-			// never allow a 'this' property
+			// Never allow a 'this' property
 			if (isset($this->this)) {
 				unset($this->this);
 			}
 
-			// start capturing output into a buffer
+			// Start capturing output into a buffer
 			ob_start();
-			// include the requested template filename in the local scope
+			// Include the requested template filename in the local scope
 			// (this will execute the view logic).
 			include $this->_template;
 
-			// done with the requested template; get the buffer and
+			// Done with the requested template; get the buffer and
 			// clear it.
 			$this->_output = ob_get_contents();
 			ob_end_clean();
@@ -635,7 +635,7 @@ class JView extends JObject
 
 		if ($helper != false)
 		{
-			// include the requested template filename in the local scope
+			// Include the requested template filename in the local scope
 			include_once $helper;
 		}
 	}
@@ -653,13 +653,13 @@ class JView extends JObject
 		$component	= JApplicationHelper::getComponentName();
 		$app		= JFactory::getApplication();
 
-		// clear out the prior search dirs
+		// Clear out the prior search dirs
 		$this->_path[$type] = array();
 
-		// actually add the user-specified directories
+		// Actually add the user-specified directories
 		$this->_addPath($type, $path);
 
-		// always add the fallback directories as last resort
+		// Always add the fallback directories as last resort
 		switch (strtolower($type))
 		{
 			case 'template':
@@ -697,7 +697,7 @@ class JView extends JObject
 				$dir .= DIRECTORY_SEPARATOR;
 			}
 
-			// add to the top of the search dirs
+			// Add to the top of the search dirs
 			array_unshift($this->_path[$type], $dir);
 		}
 	}
@@ -705,10 +705,10 @@ class JView extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @access private
-	 * @param string	The resource type to create the filename for
-	 * @param array		An associative array of filename information
-	 * @return string	The filename
+	 * @access	private
+	 * @param	string	The resource type to create the filename for
+	 * @param	array	An associative array of filename information
+	 * @return	string	The filename
 	 * @since   11.1
 	 */
 	function _createFileName($type, $parts = array())

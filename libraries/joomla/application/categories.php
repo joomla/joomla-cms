@@ -102,8 +102,8 @@ class JCategories
 	/**
 	 * Returns a reference to a JCategories object
 	 *
-	 * @param	$extension Name of the categories extension
-	 * @param	$options An array of options
+	 * @param	$extension	Name of the categories extension
+	 * @param	$options	An array of options
 	 *
 	 * @return	object
 	 * @since	11.1
@@ -139,7 +139,7 @@ class JCategories
 	/**
 	 * Loads a specific category and all its children in a JCategoryNode object
 	 *
-	 * @param an optional id integer or equal to 'root'
+	 * @param	$id	an optional id integer or equal to 'root'
 	 *
 	 * @return	JCategoryNode|null
 	 * @since	11.1
@@ -159,11 +159,11 @@ class JCategories
 			$this->_load($id);
 		}
 
-		// If we already have a value in _nodes for this $id, then use it
+		// If we already have a value in _nodes for this $id, then use it.
 		if (isset($this->_nodes[$id])) {
 			return $this->_nodes[$id];
 		}
-		// If we processed this $id already and it was not valid, then return null
+		// If we processed this $id already and it was not valid, then return null.
 		else if (isset($this->_checkedCategories[$id])) {
 			return null;
 		}
@@ -177,12 +177,12 @@ class JCategories
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
-		// Record that this $id has been checked
+		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
 		$query = new JDatabaseQuery;
 
-		// right join with c for category
+		// Right join with c for category
 		$query->select('c.*');
 		$query->select('CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(":", c.id, c.alias) ELSE c.id END as slug');
 		$query->from('#__categories as c');
@@ -238,7 +238,7 @@ class JCategories
 		$childrenLoaded = false;
 
 		if (count($results)) {
-			// foreach categories
+			// Foreach categories
 			foreach($results as $result)
 			{
 				// Deal with root category
@@ -256,14 +256,14 @@ class JCategories
 					// Create the JCategoryNode and add to _nodes
 					$this->_nodes[$result->id] = new JCategoryNode($result, $this);
 
-					// If this is not root, and if the current nodes parent is in the list or the current node parent is 0
+					// If this is not root and if the current node's parent is in the list or the current node parent is 0
 					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
 						// Compute relationship between node and its parent - set the parent in the _nodes field
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
 					}
 
-					// if the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
-					// then remove this nodes from the list
+					// If the node's parent id is not in the _nodes list and the node is not root (doesn't have parent_id == 0),
+					// then remove the node from the list
 					if (!(isset($this->_nodes[$result->parent_id]) || $result->parent_id == 0)) {
 						unset($this->_nodes[$result->id]);
 						continue;
@@ -557,7 +557,7 @@ class JCategoryNode extends JObject
 	/**
 	 * Returns the right or left sibling of a category
 	 *
-	 * @param boolean $right if set to false, returns the left sibling
+	 * @param	boolean	$right	if set to false, returns the left sibling
 	 * @return JCategoryNode|null
 	 */
 	function getSibling($right = true)

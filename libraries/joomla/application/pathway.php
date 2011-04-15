@@ -144,10 +144,10 @@ class JPathway extends JObject
 	/**
 	 * Create and add an item to the pathway.
 	 *
-	 * @access public
-	 * @param string $name
-	 * @param string $link
-	 * @return boolean True on success
+	 * @access	public
+	 * @param	string	$name
+	 * @param	string	$link
+	 * @return	boolean	True on success
 	 * @since   11.1
 	 */
 	function addItem($name, $link='')
@@ -166,10 +166,10 @@ class JPathway extends JObject
 	/**
 	 * Set item name.
 	 *
-	 * @access public
-	 * @param integer $id
-	 * @param string $name
-	 * @return boolean True on success
+	 * @access	public
+	 * @param	integer $id
+	 * @param	string	$name
+	 * @return	boolean	True on success
 	 * @since   11.1
 	 */
 	function setItemName($id, $name)

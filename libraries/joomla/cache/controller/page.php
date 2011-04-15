@@ -47,6 +47,7 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
+	 * 
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	11.1
 	 */
@@ -60,7 +61,7 @@ class JCacheControllerPage extends JCacheController
 			$id = $this->_makeId();
 		}
 
-		// If the etag matches the page id ... sent a no change header and exit : utilize browser cache
+		// If the etag matches the page id ... set a no change header and exit : utilize browser cache
 		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 			if ($etag == $id) {
@@ -115,7 +116,7 @@ class JCacheControllerPage extends JCacheController
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
 
-		// Get id and group and reset them placeholders
+		// Get id and group and reset the placeholders
 		$id		= $this->_id;
 		$group	= $this->_group;
 		$this->_id		= null;
@@ -143,7 +144,8 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
+	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request 
+	 * 			hash ... perhaps hashed with a serialized request
 	 *
 	 * @return	string	MD5 Hash : page cache id
 	 * @since	11.1

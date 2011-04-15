@@ -174,6 +174,7 @@ class JException extends Exception
 	 * @access	public
 	 * @param	string $property The name of the property
 	 * @param	mixed  $default The default value
+	 * 
 	 * @return	mixed The value of the property
 	 * @see		getProperties()
 	 * @since	11.1
@@ -191,6 +192,7 @@ class JException extends Exception
 	 *
 	 * @access	public
 	 * @param	boolean $public If true, returns only the public properties
+	 * 
 	 * @return	array
 	 * @see		get()
 	 * @since	11.1
@@ -215,6 +217,7 @@ class JException extends Exception
 	 *
 	 * @param	integer	$i Option error index
 	 * @param	boolean	$toString Indicates if JError objects should return their error message
+	 *
 	 * @return	string	Error message
 	 * @access	public
 	 * @since	11.1
@@ -262,6 +265,7 @@ class JException extends Exception
 	 * @access	public
 	 * @param	string $property The name of the property
 	 * @param	mixed  $value The value of the property to set
+	 * 
 	 * @return	mixed Previous value of the property
 	 * @see		setProperties()
 	 * @since	11.1
@@ -278,13 +282,15 @@ class JException extends Exception
 	*
 	* @access	protected
 	* @param	$array  mixed Either and associative array or another object
+	*
 	* @return	boolean
 	* @see		set()
 	* @since	11.1
 	*/
 	public function setProperties($properties)
 	{
-		$properties = (array) $properties; //cast to an array
+		// Cast to an array
+		$properties = (array) $properties; 
 
 		if (is_array($properties))
 		{

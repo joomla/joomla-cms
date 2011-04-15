@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 jimport('joomla.access.rules');
 
 /**
- * Class that handles all access authorization routines.
+ * Class that handles all access authorisation routines.
  *
  * @package		Joomla.Platform
  * @subpackage	User
@@ -99,7 +99,7 @@ class JAccess
 	}
 
 	/**
-	 * Gets the parent groups that a leaf group belongs to in it's branch back to the root of the tree
+	 * Gets the parent groups that a leaf group belongs to in its branch back to the root of the tree
 	 * (including the leaf group id).
 	 *
 	 * @param	mixed	$groupId	An integer or array of integers representing the identities to check.

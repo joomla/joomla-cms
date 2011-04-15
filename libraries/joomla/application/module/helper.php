@@ -49,7 +49,7 @@ abstract class JModuleHelper
 			}
 		}
 
-		// if we didn't find it, and the name is mod_something, create a dummy object
+		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
 			$result				= new stdClass;
@@ -122,7 +122,7 @@ abstract class JModuleHelper
 	 * @param	object	A module object.
 	 * @param	array	An array of attributes for the module (probably from the XML).
 	 *
-	 * @return	strign	The HTML content of the module output.
+	 * @return	string	The HTML content of the module output.
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
@@ -181,12 +181,12 @@ abstract class JModuleHelper
 			$chrome[$chromePath] = true;
 		}
 
-		//make sure a style is set
+		// Make sure a style is set
 		if (!isset($attribs['style'])) {
 			$attribs['style'] = 'none';
 		}
 
-		//dynamically add outline style
+		// Dynamically add outline style
 		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 			$attribs['style'] .= ' outline';
 		}
@@ -313,7 +313,7 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition, or if
+				// The module is excluded if there is an explicit prohibition or if
 				// the Itemid is missing or zero and the module is in exclude mode.
 				$negHit	= ($negId === (int) $module->menuid)
 						|| (!$negId && (int)$module->menuid < 0);
@@ -336,7 +336,7 @@ abstract class JModuleHelper
 					$file				= $module->module;
 					$custom				= substr($file, 0, 4) == 'mod_' ?  0 : 1;
 					$module->user		= $custom;
-					// Custom module name is given by the title field, otherwise strip off "com_"
+					// Custom module name is given by the title field, otherwise strip off "mod_"
 					$module->name		= $custom ? $module->title : substr($file, 4);
 					$module->style		= null;
 					$module->position	= strtolower($module->position);
@@ -357,19 +357,20 @@ abstract class JModuleHelper
 	* Module cache helper
 	*
 	* Caching modes:
-	* to be set in XML:
-	* 'static' - one cache file for all pages with the same module parameters
-	* 'oldstatic' - 1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
-	* 'itemid' - changes on itemid change,
-	* to be called from inside the module:
-	* 'safeuri' - id created from $cacheparams->modeparams array,
-	* 'id' - module sets own cache id's
+	* To be set in XML:
+	* 'static'		one cache file for all pages with the same module parameters
+	* 'oldstatic'	1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
+	* 'itemid'		changes on itemid change,
+	* To be called from inside the module:
+	* 'safeuri'		id created from $cacheparams->modeparams array,
+	* 'id'			module sets own cache id's
 	*
 	* @static
 	* @param	object	$module	Module object
 	* @param	object	$moduleparams module parameters
 	* @param	object	$cacheparams module cache parameters - id or url parameters, depending on the module cache mode
-	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their 
+	* 					variable types, for valid values see {@link JFilterInput::clean()}.
 	*
 	* @since	11.1
 	*/
@@ -387,7 +388,7 @@ abstract class JModuleHelper
 		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 		$conf = JFactory::getConfig();
 
-		// turn cache off for internal callers if parameters are set to off and for all loged in users
+		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if($moduleparams->get('owncache', null) === 0  || $conf->get('caching') == 0 || $user->get('id')) {
 			$cache->setCaching(false);
 		}
@@ -416,7 +417,7 @@ abstract class JModuleHelper
 					$uri = JRequest::get();
 					$safeuri = new stdClass();
 					foreach ($cacheparams->modeparams AS $key => $value) {
-						// use int filter for id/catid to clean out spamy slugs
+						// Use int filter for id/catid to clean out spamy slugs
 						if (isset($uri[$key])) {
 							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0,$value);
 						}

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 define('_QQ_', '"');
 
 
-// import some libariries
+// import some libraries
 jimport('joomla.filesystem.stream');
 
 /**
@@ -249,9 +249,9 @@ class JLanguage extends JObject
 	/**
 	 * Returns a language object
 	 *
-	 * @param	string $lang  The language to use.
+	 * @param	string 	$lang  The language to use.
 	 * @param	boolean	$debug	The debug mode
-	 * @return	JLanguage  The Language object.
+	 * @return	JLanguage	The Language object.
 	 * @since	11.1
 	 */
 	public static function getInstance($lang, $debug=false)
@@ -266,13 +266,13 @@ class JLanguage extends JObject
 	 * Translate function, mimics the php gettext (alias _) function
 	 *
 	 * @param	string		$string	The string to translate
-	 * @param	boolean	$jsSafe		Make the result javascript safe
-	 * @param	boolean	$interpreteBackslashes		Interprete \t and \n
-	 * @return	string	The translation of the string
-	 * @note	The function check if $jsSafe is true then if $interpreteBackslashes is true
+	 * @param	boolean		$jsSafe		Make the result javascript safe
+	 * @param	boolean		$interpretBackslashes		Interpret \t and \n
+	 * @return	string		The translation of the string
+	 * @note	The function checks if $jsSafe is true then if $interpretBackslashes is true
 	 * @since	11.1
 	 */
-	public function _($string, $jsSafe = false, $interpreteBackSlashes = true)
+	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
 		$key = strtoupper($string);
 		if (isset ($this->strings[$key])) {
@@ -307,8 +307,8 @@ class JLanguage extends JObject
 			// javascript filter
 			$string = addslashes($string);
 		}
-		elseif ($interpreteBackSlashes) {
-			// interprete \n and \t characters
+		elseif ($interpretBackSlashes) {
+			// interpret \n and \t characters
 			$string = str_replace(array('\\\\','\t','\n'),array("\\", "\t","\n"),$string);
 		}
 
@@ -364,12 +364,12 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * pluralSuffices function
+	 * pluralSuffixes function
 	 *
-	 * This method return an array of suffices for plural rules
+	 * This method return an array of suffixes for plural rules
 	 *
 	 * @param	int	$count	The count number
-	 * @return	array	The array of suffices
+	 * @return	array	The array of suffixes
 	 * @since	11.1
 	 */
 	public function getPluralSuffixes($count) {

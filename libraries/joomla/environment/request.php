@@ -83,6 +83,7 @@ class JRequest
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 * @param	string	$type		Return type for the variable, for valid values see {@link JFilterInput::clean()}.
 	 * @param	int		$mask		Filter mask for the variable.
+	 * 
 	 * @return	mixed	Requested variable.
 	 * @since	11.1
 	 */
@@ -165,6 +166,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * 
 	 * @return	integer	Requested variable.
 	 * @since	11.1
 	 */
@@ -183,6 +185,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * 
 	 * @return	float	Requested variable.
 	 * @since	11.1
 	 */
@@ -201,6 +204,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * 
 	 * @return	bool	Requested variable.
 	 * @since	11.1
 	 */
@@ -219,6 +223,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * 
 	 * @return	string	Requested variable.
 	 * @since	11.1
 	 */
@@ -237,6 +242,7 @@ class JRequest
 	 * @param	string	$name		Variable name
 	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
+	 *
 	 * @return	string	Requested variable
 	 * @since	11.1
 	 */
@@ -256,6 +262,7 @@ class JRequest
 	 * @param	string	$default	Default value if the variable does not exist
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD)
 	 * @param	int		$mask		Filter mask for the variable
+	 *
 	 * @return	string	Requested variable
 	 * @since	11.1
 	 */
@@ -266,18 +273,19 @@ class JRequest
 	}
 
 	/**
-	 * Set a variabe in on of the request variables.
+	 * Set a variabe in one of the request variables.
 	 *
 	 * @param	string	$name		Name
 	 * @param	string	$value		Value
 	 * @param	string	$hash		Hash
 	 * @param	boolean	$overwrite	Boolean
+	 *
 	 * @return	string	Previous value
 	 * @since	11.1
 	 */
 	public static function setVar($name, $value = null, $hash = 'method', $overwrite = true)
 	{
-		//If overwrite is true, makes sure the variable hasn't been set yet
+		// If overwrite is true, makes sure the variable hasn't been set yet
 		if (!$overwrite && array_key_exists($name, $_REQUEST)) {
 			return $_REQUEST[$name];
 		}
@@ -559,8 +567,9 @@ class JRequest
 		else
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
+			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults. 
 			if (is_null($noHtmlFilter)) {
-				$noHtmlFilter = JFilterInput::getInstance(/* $tags, $attr, $tag_method, $attr_method, $xss_auto */);
+				$noHtmlFilter = JFilterInput::getInstance();
 			}
 			$var = $noHtmlFilter->clean($var, $type);
 		}

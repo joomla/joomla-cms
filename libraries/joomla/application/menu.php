@@ -21,21 +21,21 @@ class JMenu extends JObject
 	/**
 	 * Array to hold the menu items
 	 *
-	 * @param array
+	 * @param	array
 	 */
 	protected $_items = array ();
 
 	/**
 	 * Identifier of the default menu item
 	 *
-	 * @param integer
+	 * @param	integer
 	 */
 	protected $_default = array();
 
 	/**
 	 * Identifier of the active menu item
 	 *
-	 * @param integer
+	 * @param	integer
 	 */
 	protected $_active = 0;
 
@@ -49,7 +49,8 @@ class JMenu extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		$this->load(); //load the menu items
+		// Load the menu items
+		$this->load();
 
 		foreach ($this->_items as $k => $item)
 		{
@@ -57,7 +58,7 @@ class JMenu extends JObject
 				$this->_default[$item->language] = $item->id;
 			}
 
-			// Decode params
+			// Decode the item params
 			$result = new JRegistry;
 			$result->loadJSON($item->params);
 			$item->params = $result;
@@ -95,7 +96,8 @@ class JMenu extends JObject
 			}
 			else {
 				//$error = JError::raiseError(500, 'Unable to load menu: '.$client);
-				$error = null; //Jinx : need to fix this
+				//TODO: Solve this
+				$error = null;
 				return $error;
 			}
 
