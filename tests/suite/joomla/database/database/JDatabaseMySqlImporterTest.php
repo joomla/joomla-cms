@@ -56,7 +56,10 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 				'loadObjectList',
 				'quote',
 				'setQuery',
-			)
+			),
+			array(),
+			null,
+			false
 		);
 
 		$this->dbo->expects(
