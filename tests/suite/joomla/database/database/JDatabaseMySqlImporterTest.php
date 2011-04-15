@@ -58,7 +58,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 				'setQuery',
 			),
 			array(),
-			null,
+			'',
 			false
 		);
 

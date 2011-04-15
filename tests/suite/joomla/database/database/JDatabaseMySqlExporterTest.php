@@ -44,8 +44,11 @@ class JDatabaseMySqlExporterTest extends PHPUnit_Framework_TestCase
 				'getPrefix',
 				'nameQuote',
 				'loadObjectList',
-				'setQuery',
-			)
+				'setQuery'
+			),
+			array(),
+			'',
+			false
 		);
 
 		$this->dbo->expects(
