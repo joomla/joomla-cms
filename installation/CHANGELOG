@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Apr-2011 Jean-Marie Simonet
+ # Removing install check
 
 -------------------- 1.6.2 Stable Release [14-Apr-2011] ------------------
 
