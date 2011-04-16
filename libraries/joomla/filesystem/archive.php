@@ -37,7 +37,7 @@ class JArchive
 		$result = false;
 		$ext = JFile::getExt(strtolower($archivename));
 
-		// check if a tar is embedded...gzip/bzip2 can just be plain files!
+		// Check if a tar is embedded...gzip/bzip2 can just be plain files!
 		if (JFile::getExt(JFile::stripExt(strtolower($archivename))) == 'tar') {
 			$untar = true;
 		}
@@ -61,10 +61,12 @@ class JArchive
 				break;
 
 			case 'tgz':
-				$untar = true;	// This format is a tarball gzip'd
+				// This format is a tarball gzip'd
+				$untar = true;	
 
-			case 'gz':	// This may just be an individual file (e.g. sql script)
+			case 'gz':	
 			case 'gzip':
+				// This may just be an individual file (e.g. sql script)
 				$adapter = JArchive::getAdapter('gzip');
 
 				if ($adapter) {
@@ -100,10 +102,13 @@ class JArchive
 				break;
 
 			case 'tbz2' :
-				$untar = true; // This format is a tarball bzip2'd
+				// This format is a tarball bzip2'd
+				$untar = true; 
 
-			case 'bz2'  :	// This may just be an individual file (e.g. sql script)
+
+			case 'bz2'  :
 			case 'bzip2':
+				// This may just be an individual file (e.g. sql script)
 				$adapter = JArchive::getAdapter('bzip2');
 
 				if ($adapter) {

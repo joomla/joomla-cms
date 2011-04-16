@@ -28,6 +28,7 @@ abstract class JFolder
 	 * @param	string	The path to the destination folder.
 	 * @param	string	An optional base path to prefix to the file names.
 	 * @param	boolean	Optionally force folder/file overwrites.
+	 * 
 	 * @return	mixed	JError object on failure or boolean True on success.
 	 * @since	11.1
 	 */
@@ -59,7 +60,7 @@ abstract class JFolder
 			return JError::raiseError(-1, JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE'));
 		}
 
-		// if we're using ftp and don't have streams enabled
+		// If we're using ftp and don't have streams enabled
 		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
@@ -147,6 +148,7 @@ abstract class JFolder
 	 *
 	 * @param string A path to create from the base path.
 	 * @param int Directory permissions to set for folders created.
+	 * 
 	 * @return boolean True if successful.
 	 * @since   11.1
 	 */
@@ -271,6 +273,7 @@ abstract class JFolder
 	 * Delete a folder.
 	 *
 	 * @param string The path to the folder to delete.
+	 * 
 	 * @return boolean True on success.
 	 * @since   11.1
 	 */
@@ -339,7 +342,7 @@ abstract class JFolder
 		}
 
 		// In case of restricted permissions we zap it one way or the other
-		// as long as the owner is either the webserver or the ftp
+		// as long as the owner is either the webserver or the ftp.
 		if (@rmdir($path))
 		{
 			$ret = true;
@@ -365,6 +368,7 @@ abstract class JFolder
 	 * @param string The path to the source folder.
 	 * @param string The path to the destination folder.
 	 * @param string An optional base path to prefix to the file names.
+	 * 
 	 * @return mixed Error message on false or boolean true on success.
 	 * @since   11.1
 	 */
@@ -430,6 +434,7 @@ abstract class JFolder
 	 * Wrapper for the standard file_exists function
 	 *
 	 * @param string Folder name relative to installation dir
+	 * 
 	 * @return boolean True if path is a folder
 	 * @since   11.1
 	 */
@@ -444,11 +449,12 @@ abstract class JFolder
 	 * @param	string	The path of the folder to read.
 	 * @param	string	A filter for file names.
 	 * @param	mixed	True to recursively search into sub-folders, or an
-	 * integer to specify the maximum depth.
+	 * 					integer to specify the maximum depth.
 	 * @param	boolean	True to return the full path to the file.
 	 * @param	array	Array with names of files which should not be shown in
-	 * the result.
+	 * 					the result.
 	 * @param	array	Array of filter to exclude
+	 * 
 	 * @return	array	Files in the given folder.
 	 * @since   11.1
 	 */
@@ -486,12 +492,13 @@ abstract class JFolder
 	 * @param	string	The path of the folder to read.
 	 * @param	string	A filter for folder names.
 	 * @param	mixed	True to recursively search into sub-folders, or an
-	 * integer to specify the maximum depth.
+	 * 					integer to specify the maximum depth.
 	 * @param	boolean	True to return the full path to the folders.
 	 * @param	array	Array with names of folders which should not be shown in
-	 * the result.
+	 * 					the result.
 	 * @param	array	Array with regular expressions matching folders which
-	 * should not be shown in the result.
+	 * 					should not be shown in the result.
+	 * 
 	 * @return	array	Folders in the given folder.
 	 * @since   11.1
 	 */
@@ -529,12 +536,13 @@ abstract class JFolder
 	 * @param	string	The path of the folder to read.
 	 * @param	string	A filter for file names.
 	 * @param	mixed	True to recursively search into sub-folders, or an
-	 * integer to specify the maximum depth.
+	 * 					integer to specify the maximum depth.
 	 * @param	boolean	True to return the full path to the file.
 	 * @param	array	Array with names of files which should not be shown in
-	 * the result.
+	 * 					the result.
 	 * @param	string	Regexp of files to exclude
 	 * @param	boolean	true to read the files, false to read the folders
+	 * 
 	 * @return	array	Files.
 	 * @since   11.1
 	 */
@@ -543,7 +551,7 @@ abstract class JFolder
 		// Initialise variables.
 		$arr = array();
 
-		// read the source directory
+		// Read the source directory
 		$handle = opendir($path);
 		while (($file = readdir($handle)) !== false)
 		{
@@ -559,11 +567,11 @@ abstract class JFolder
 				{
 					// (fullpath is dir and folders are searched or fullpath is not dir and files are searched) and file matches the filter
 					if ($full) {
-						// full path is requested
+						// Full path is requested
 						$arr[] = $fullpath;
 					}
 					else {
-						// filename is requested
+						// Filename is requested
 						$arr[] = $file;
 					}
 				}
@@ -591,9 +599,10 @@ abstract class JFolder
 	 * @param	string	The path of the folder to read.
 	 * @param	string	A filter for folder names.
 	 * @param	integer	The maximum number of levels to recursively read,
-	 * defaults to three.
+	 * 					defaults to three.
 	 * @param	integer	The current level, optional.
 	 * @param	integer	Unique identifier of the parent folder, if any.
+	 * 
 	 * @return	array	Folders in the given folder.
 	 * @since	11.1
 	 */
@@ -606,7 +615,7 @@ abstract class JFolder
 		if ($level < $maxLevel)
 		{
 			$folders = self::folders($path, $filter);
-			// first path, index foldernames
+			// First path, index foldernames
 			foreach ($folders as $name)
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];

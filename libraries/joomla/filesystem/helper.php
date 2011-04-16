@@ -23,9 +23,9 @@ jimport('joomla.filesystem.folder');
  */
 class JFilesystemHelper
 {
-	// ----------------------------
-	// Support Functions; should probably live in a helper?
-	// ----------------------------
+	/** 
+	 * Support Functions; should probably live in a helper?
+	 */ 
 
 	/**
 	 * Remote file size function for streams that don't support it
@@ -187,11 +187,9 @@ class JFilesystemHelper
 		return array('w','w+','a','a+','r+','x','x+');
 	}
 
-	// ----------------------------
-	// Stream and Filter Support Operations
-	// ----------------------------
-
 	/**
+	 * Stream and Filter Support Operations
+	 * 
 	 * Returns the supported streams, in addition to direct file access
 	 * Also includes Joomla! streams as well as PHP streams
 	 *
@@ -221,7 +219,7 @@ class JFilesystemHelper
 	 */
 	function getTransports()
 	{
-		// is this overkill?
+		// Is this overkill?
 		return stream_get_transports();
 	}
 
@@ -233,7 +231,7 @@ class JFilesystemHelper
 	 */
 	function getFilters()
 	{
-		// note: this will look like the getSupported() function with J! filters
+		// Note: This will look like the getSupported() function with J! filters.
 		// TODO: add user space filter loading like user space stream loading
 		return stream_get_filters();
 	}
@@ -241,8 +239,7 @@ class JFilesystemHelper
 	/**
 	 * Returns a list of J! streams
 	 *
-	 * @return	array	TODO Add text
-	 * @since	11.1
+	 * @return	array		 * @since	11.1
 	 */
 	function getJStreams()
 	{

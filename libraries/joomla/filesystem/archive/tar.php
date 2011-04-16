@@ -90,11 +90,11 @@ class JArchiveTar extends JObject
 		$position = 0;
 		$return_array = array ();
 		$i = 0;
-		$chunksize = 512; // tar has items in 512 byte packets
-
+		// Tar has items in 512 byte packets
+		$chunksize = 512; 
 		while ($entry = $stream->read($chunksize))
 		{
-			//$entry = &$this->_data[$i];
+
 			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
 
 			if (!$info) {
@@ -108,7 +108,7 @@ class JArchiveTar extends JObject
 			$contents = '';
 
 			if ($size) {
-				//$contents = fread($this->_fh, $size);
+
 				$contents = substr($stream->read($bsize), 0, octdec($info['size']));
 			}
 
@@ -158,7 +158,8 @@ class JArchiveTar extends JObject
 
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
-					$contents = ''; // reclaim some memory
+					// Reclaim some memory
+					$contents = ''; 
 				}
 			}
 		}
