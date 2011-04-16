@@ -25,7 +25,6 @@ class JFilterOutput
 	* Object parameters that are non-string, array, object or start with underscore
 	* will be converted
 	*
-	* @static
 	* @param object An object to be parsed
 	* @param int The optional quote style for the htmlspecialchars function
 	* @param string|array An optional single field name or array of field names not
@@ -54,10 +53,11 @@ class JFilterOutput
 	}
 
 	/**
-	 * This method processes a string and replaces all instances of & with &amp; in links only
+	 * This method processes a string and replaces all instances of & with &amp; in links only.
 	 *
 	 * @static
 	 * @param	string	$input	String to process
+	 * 
 	 * @return	string	Processed string
 	 * @since	11.1
 	 */
@@ -71,26 +71,25 @@ class JFilterOutput
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
 	 *
-	 * @static
 	 * @param	string	$input	String to process
 	 * @return	string	Processed string
 	 * @since	11.1
 	 */
 	public static function stringURLSafe($string)
 	{
-		//remove any '-' from the string they will be used as concatonater
+		//remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
 		$lang = JFactory::getLanguage();
 		$str = $lang->transliterate($str);
 
-		// convert certain symbols to letter representation
+		// Convert certain symbols to letter representation
 		$str = str_replace(array('&', '"', '<', '>'), array('a', 'q', 'l', 'g'), $str);
 
-		// lowercase and trim
+		// Lowercase and trim
 		$str = trim(strtolower($str));
 
-		// remove any duplicate whitespace, and ensure all characters are alphanumeric
+		// Remove any duplicate whitespace, and ensure all characters are alphanumeric
 		$str = preg_replace(array('/\s+/','/[^A-Za-z0-9\-]/'), array('-',''), $str);
 
 		return $str;
@@ -106,26 +105,27 @@ class JFilterOutput
 	*/
 	public static function stringURLUnicodeSlug($string)
 	{
-		//replace double byte whitespaces by single byte (Far-East languages)
+		// Replace double byte whitespaces by single byte (East Asian languages)
 		$str = preg_replace('/\xE3\x80\x80/', ' ', $string);
 
 
-		// remove any '-' from the string as they will be used as concatenator.
+		// Remove any '-' from the string as they will be used as concatenator.
 		// Would be great to let the spaces in but only Firefox is friendly with this
 
 		$str = str_replace('-', ' ', $str);
 
-		// replace forbidden characters by whitespaces
+		// Replace forbidden characters by whitespaces
 		$str = preg_replace( '#[:\#\*"@+=;!&\.%()\]\/\'\\\\|\[]#',"\x20", $str );
 
-		//delete all '?'
+		// Delete all '?'
 		$str = str_replace('?', '', $str);
 
-		//trim white spaces at beginning and end of alias, make lowercase
+		// Trim white spaces at beginning and end of alias and make lowercase
 		$str = trim(JString::strtolower($str));
 
-		// remove any duplicate whitespace and replace whitespaces by hyphens
+		// Remove any duplicate whitespace and replace whitespaces by hyphens
 		$str =preg_replace('#\x20+#','-', $str);
+		
 		return $str;
 	}
 
@@ -152,14 +152,15 @@ class JFilterOutput
 	/**
 	 * Callback method for replacing & with &amp; in a string
 	 *
-	 * @static
 	 * @param	string	$m	String to process
+	 * 
 	 * @return	string	Replaced string
 	 * @since	11.1
 	 */
 	public static function _ampReplaceCallback($m)
 	{
 		$rx = '&(?!amp;)';
+		
 		return preg_replace('#'.$rx.'#', '&amp;', $m[0]);
 	}
 
@@ -177,6 +178,7 @@ class JFilterOutput
 		$text = preg_replace('/&quot;/', ' ', $text);
 		$text = strip_tags($text);
 		$text = htmlspecialchars($text, ENT_COMPAT, 'UTF-8');
+
 		return $text;
 	}
 

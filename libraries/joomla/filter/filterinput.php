@@ -72,6 +72,7 @@ class JFilterInput extends JObject
 	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * 
 	 * @since	11.1
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
@@ -263,13 +264,15 @@ class JFilterInput extends JObject
 				}
 				break;
 		}
+
 		return $result;
 	}
 
 	/**
-	 * Function to determine if contents of an attribute is safe
+	 * Function to determine if contents of an attribute are safe
 	 *
-	 * @param	array	$attrSubSet	A 2 element array for attributes name,value
+	 * @param	array	$attrSubSet	A 2 element array for attribute's name, value
+	 * 
 	 * @return	boolean True if bad code is detected
 	 * @since	11.1
 	 */
@@ -277,6 +280,7 @@ class JFilterInput extends JObject
 	{
 		$attrSubSet[0] = strtolower($attrSubSet[0]);
 		$attrSubSet[1] = strtolower($attrSubSet[1]);
+
 		return (((strpos($attrSubSet[1], 'expression') !== false) && ($attrSubSet[0]) == 'style') || (strpos($attrSubSet[1], 'javascript:') !== false) || (strpos($attrSubSet[1], 'behaviour:') !== false) || (strpos($attrSubSet[1], 'vbscript:') !== false) || (strpos($attrSubSet[1], 'mocha:') !== false) || (strpos($attrSubSet[1], 'livescript:') !== false));
 	}
 
@@ -284,6 +288,7 @@ class JFilterInput extends JObject
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
 	 * @param	string	$source	Input string to be 'cleaned'
+	 * 
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	11.1
 	 */
@@ -296,6 +301,7 @@ class JFilterInput extends JObject
 			$source = $this->_cleanTags($source);
 			$loopCounter ++;
 		}
+		
 		return $source;
 	}
 
@@ -312,9 +318,10 @@ class JFilterInput extends JObject
 		$preTag		= null;
 		$postTag	= $source;
 		$currentSpace = false;
-		$attr = '';	// moffats: setting to null due to issues in migration system - undefined variable errors
+		// moffats: Setting to null due to issues in migration system - undefined variable errors
+		$attr = '';	
 
-		// Is there a tag? If so it will certainly start with a '<'
+		// Is there a tag? If so it will certainly start with a '<'.
 		$tagOpen_start	= strpos($source, '<');
 
 		while ($tagOpen_start !== false) {
@@ -341,7 +348,7 @@ class JFilterInput extends JObject
 				continue;
 			}
 
-			// Lets get some information about our tag and setup attribute pairs
+			// Let's get some information about our tag and setup attribute pairs
 			$tagOpen_nested	= (strpos($fromTagOpen, '<') + $tagOpen_start +1);
 			$currentTag		= substr($fromTagOpen, 0, $tagOpen_end);
 			$tagLength		= strlen($currentTag);
@@ -394,7 +401,7 @@ class JFilterInput extends JObject
 					} else {
 						$attribEnd = $nextSpace - 1;
 					}
-					// if there is an ending, use this, if not do not worry
+					// If there is an ending, use this, if not, do not worry.
 					if($attribEnd > 0)
 					{
 						if((int) $fromSpace > 0)
@@ -406,21 +413,20 @@ class JFilterInput extends JObject
 					}
 				}
 				if (strpos($fromSpace, '=') !== false) {
-					/*
-					 * If the attribute value is wrapped in quotes we need to
-					 * grab the substring from the closing quote, otherwise grab
-					 * till the next space
-					 */
+					
+					 // If the attribute value is wrapped in quotes we need to
+					 // grab the substring from the closing quote, otherwise grab
+					 // until the next space.
+					 
 					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes +1)), '"') !== false)) {
 						$attr = substr($fromSpace, 0, ($closeQuotes +1));
 					} else {
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
 				} else {
-					/*
-					 * No more equal signs so add any extra text in the tag into
-					 * the attribute array [eg. checked]
-					 */
+					 // No more equal signs so add any extra text in the tag into
+					 // the attribute array [eg. checked]
+					 
 					if ($fromSpace != '/') {
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
@@ -442,11 +448,11 @@ class JFilterInput extends JObject
 			// Is our tag in the user input array?
 			$tagFound = in_array(strtolower($tagName), $this->tagsArray);
 
-			// If the tag is allowed lets append it to the output string
+			// If the tag is allowed let's append it to the output string.
 			if ((!$tagFound && $this->tagsMethod) || ($tagFound && !$this->tagsMethod)) {
 				// Reconstruct tag with allowed attributes
 				if (!$isCloseTag) {
-					// Open or Single tag
+					// Open or single tag
 					$attrSet = $this->_cleanAttributes($attrSet);
 					$preTag .= '<'.$tagName;
 					for ($i = 0; $i < count($attrSet); $i ++) {
@@ -460,7 +466,7 @@ class JFilterInput extends JObject
 						$preTag .= ' />';
 					}
 				} else {
-					// Closing Tag
+					// Closing tag
 					$preTag .= '</'.$tagName.'>';
 				}
 			}
@@ -474,6 +480,7 @@ class JFilterInput extends JObject
 		if ($postTag != '<') {
 			$preTag .= $postTag;
 		}
+		
 		return $preTag;
 	}
 
@@ -501,27 +508,26 @@ class JFilterInput extends JObject
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
 			list ($attrSubSet[0]) = explode(' ', $attrSubSet[0]);
 
-			/*
-			 * Remove all "non-regular" attribute names
-			 * AND blacklisted attributes
-			 */
+			 // Remove all "non-regular" attribute names
+			 // AND blacklisted attributes
+			 
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on')))) {
 				continue;
 			}
 
 			// XSS attribute value filtering
 			if (isset($attrSubSet[1])) {
-				// strips unicode, hex, etc
+				// Strip unicode, hex, etc
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
-				// strip normal newline within attr value
+				// Strip normal newline within attr value
 				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
-				// strip double quotes
+				// Strip double quotes
 				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
-				// convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr value)
+				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
 				if ((substr($attrSubSet[1], 0, 1) == "'") && (substr($attrSubSet[1], (strlen($attrSubSet[1]) - 1), 1) == "'")) {
 					$attrSubSet[1] = substr($attrSubSet[1], 1, (strlen($attrSubSet[1]) - 2));
 				}
-				// strip slashes
+				// Strip slashes
 				$attrSubSet[1] = stripslashes($attrSubSet[1]);
 			} else {
 				$attrSubSet[1] = NULL;
@@ -541,16 +547,15 @@ class JFilterInput extends JObject
 				if (empty($attrSubSet[1]) === false) {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[1].'"';
 				} else if ($attrSubSet[1] === "0") {
-					/*
-					 * Special Case
-					 * Is the value 0?
-					 */
+					 // Special Case
+					 // Is the value 0?
 					$newSet[] = $attrSubSet[0].'="0"';
 				} else {
 					$newSet[] = $attrSubSet[0].'="'.$attrSubSet[0].'"';
 				}
 			}
 		}
+		
 		return $newSet;
 	}
 
@@ -567,17 +572,18 @@ class JFilterInput extends JObject
 
 		if(!is_array($ttr))
 		{
-			// entity decode
+			// Entity decode
 			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
 			foreach($trans_tbl as $k => $v) {
 				$ttr[$v] = utf8_encode($k);
 			}
 		}
 		$source = strtr($source, $ttr);
-		// convert decimal
+		// Convert decimal
 		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
-		// convert hex
+		// Convert hex
 		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+
 		return $source;
 	}
 }
