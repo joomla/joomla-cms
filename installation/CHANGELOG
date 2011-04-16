@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Apr-2011 Jean-Marie Simonet
  $ Updating es-ES installation file
+ # [#25650] Can't insert image for menu item. Thanks Dennis and Rouven
  
 15-Apr-2011 Jean-Marie Simonet
  # Removing install check
