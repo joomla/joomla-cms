@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Apr-2011 Jean-Marie Simonet
+ $ Updating es-ES installation file
+ 
 15-Apr-2011 Jean-Marie Simonet
  # Removing install check
 
