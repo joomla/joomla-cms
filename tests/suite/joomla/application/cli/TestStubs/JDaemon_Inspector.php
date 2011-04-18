@@ -28,6 +28,7 @@ class JDaemonInspector extends JDaemon
 
 	public function __construct($config = array())
 	{
+		$config['max_memory_limit'] = '2048M';
 		return parent::__construct($config);
 	}
 

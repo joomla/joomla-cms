@@ -80,7 +80,7 @@ class JDaemon extends JCli
 
 		// Set some system limits.
 		set_time_limit($this->config->get('max_execution_time', 0));
-		ini_set('memory_limit',$this->config->get('max_memory_limit', '256M'));
+		ini_set('memory_limit',isset($config['max_memory_limit']) ? $config['max_memory_limit'] : $this->config->get('max_memory_limit', '256M'));
 
 		// Flush content immediatly.
 		ob_implicit_flush();
@@ -96,30 +96,32 @@ class JDaemon extends JCli
 	 * @since   11.1
 	 * @see     pcntl_signal()
 	 */
-	static public function signal($signal)
+	public static function signal($signal)
 	{
+		$app = JFactory::getApplication();
+
 		// Log all signals sent to the daemon.
 		JLog::add('Received signal: '.$signal, JLog::DEBUG);
 
 		// Fire the onRecieveSignal event.
-		$this->triggerEvent('onRecieveSignal', array($signal));
+		$app->triggerEvent('onRecieveSignal', array($signal));
 
 		switch ($signal)
 		{
 			case SIGTERM :
 				// Handle shutdown tasks
-				if ($this->running && $this->isActive()) {
-					$this->shutdown();
+				if ($app->running && $app->isActive()) {
+					$app->shutdown();
 				} else {
-					$this->close();
+					$app->close();
 				}
 				break;
 			case SIGHUP :
 				// Handle restart tasks
-				if ($this->running && $this->isActive()) {
-					$this->shutdown(true);
+				if ($app->running && $app->isActive()) {
+					$app->shutdown(true);
 				} else {
-					$this->close();
+					$app->close();
 				}
 				break;
 			case SIGCHLD :
