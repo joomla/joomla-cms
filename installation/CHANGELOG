@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.6.3 Stable Release [18-Apr-2011] ------------------
+
 18-Apr-2011 Mark Dexter
  # [#25661] *Redirect not now fully editable
  # [#25657] Mootools no longer loaded in backend
