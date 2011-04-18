@@ -35,13 +35,13 @@ class RedirectModelLink extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-			if ($record->state != -2) {
-				return ;
+		
+			if ($record->published != -2) {
+				return false;
 			}
 			$user = JFactory::getUser();
-			return $user->authorise('core.delete', 'com_redirect');
-		}
+			return $user->authorise('core.admin', 'com_redirect');
+		
 	}
 
 	/**
@@ -57,9 +57,8 @@ class RedirectModelLink extends JModelAdmin
 		$user = JFactory::getUser();
 
 		// Check the component since there are no categories or other assets.
-		if (!empty($record->id)) {
-			return parent::canEditState($record);
-		}
+			return $user->authorise('core.admin', 'com_redirect');
+
 	}
 	
 	
@@ -94,7 +93,7 @@ class RedirectModelLink extends JModelAdmin
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data)) {
+		if ($this->canEditState((object) $data) != true) {
 			// Disable fields for display.
 			$form->setFieldAttribute('published', 'disabled', 'true');
 
@@ -147,7 +146,7 @@ class RedirectModelLink extends JModelAdmin
 		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIRECT_REDIRECTED_ON', JHtml::_('date',time()));
 
 		// Access checks.
-		if (!$user->authorise('core.edit', 'com_redirect')) {
+		if (!$user->authorise('core.admin', 'com_redirect')) {
 			$pks = array();
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			return false;

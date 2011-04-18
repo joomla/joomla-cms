@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Apr-2011 Mark Dexter
+ # [#25661] *Redirect not now fully editable
+
 16-Apr-2011 Jean-Marie Simonet
  $ Updating es-ES installation file
  # [#25650] Can't insert image for menu item. Thanks Dennis and Rouven
