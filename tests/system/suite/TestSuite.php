@@ -32,6 +32,7 @@ require_once 'com_users/group0001Test.php';
 require_once 'com_users/group0002Test.php';
 require_once 'com_users/group0003Test.php';
 require_once 'modules/module0001Test.php';
+require_once 'redirect/redirect0001Test.php';
 require_once 'sample_data/sample_data0001Test.php';
 require_once 'acl/acl0001Test.php';
 require_once 'acl/acl0002Test.php';
@@ -72,6 +73,7 @@ class TestSuite
 		$suite->addTestSuite('Group0002Test');
 		$suite->addTestSuite('Group0003Test');
 		$suite->addTestSuite('Module0001');
+		$suite->addTestSuite('Redirect0001Test');
 		$suite->addTestSuite('SampleData0001');
 		$suite->addTestSuite('Acl0001Test');
 		$suite->addTestSuite('Acl0002Test');
