@@ -115,6 +115,27 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 	}
+	
+	/**
+	 * Enables any disabled rows in #__update_sites table
+	 *
+	 * @return	boolean result of operation
+	 * @since	1.6
+	 */
+	public function enableSites()
+	{
+		$db = JFactory::getDBO();
+		$db->setQuery('UPDATE #__update_sites SET enabled = 1 WHERE enabled = 0');
+		if ($db->Query()) {
+			if ($rows = $db->getAffectedRows()) {
+				$this->_message .= JText::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
+			}
+			return true;
+		} else {
+			$this->_message .= JText::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
+			return false;
+		}
+	}
 
 	/**
 	 * Update function.
