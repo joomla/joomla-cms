@@ -28,11 +28,10 @@ abstract class JHtml
 	/**
 	 * Option values related to the generation of HTML output. Recognized
 	 * options are:
-	 * <ul><li>fmtDepth, integer. The current indent depth.
-	 * </li><li>fmtEol, string. The end of line string, default is linefeed.
-	 * </li><li>fmtIndent, string. The string to use for indentation, default is
-	 * tab.
-	 * </ul>
+	 * 		fmtDepth, integer. The current indent depth.
+	 * 		fmtEol, string. The end of line string, default is linefeed.
+	 * 		fmtIndent, string. The string to use for indentation, default is
+	 * 		tab.
 	 *
 	 * @var array
 	 */
@@ -55,7 +54,7 @@ abstract class JHtml
 	{
 		$key = preg_replace('#[^A-Z0-9_\.]#i', '', $key);
 
-		// Check to see if we need to load a helper file
+		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
 		$prefix = (count($parts) == 3 ? array_shift($parts) : 'JHtml');
@@ -81,7 +80,7 @@ abstract class JHtml
 		{
 			$function = self::$registry[$key];
 			$args = func_get_args();
-			// remove function name from arguments
+			// Remove function name from arguments
 			array_shift($args);
 			return JHtml::call($function, $args);
 		}
@@ -113,7 +112,7 @@ abstract class JHtml
 		{
 			JHtml::register($key, $toCall);
 			$args = func_get_args();
-			// remove function name from arguments
+			// Remove function name from arguments
 			array_shift($args);
 			return JHtml::call($toCall, $args);
 		}
@@ -229,18 +228,19 @@ abstract class JHtml
 	}
 
 	/**
-	 * compute the files to be include
+	 * Compute the files to be include
 	 * @param	string		path to file
 	 * @param	boolean		path to file is relative to /media folder
 	 * @param	boolean		detect browser to include specific browser js files
 	 * @param	folder		folder name to search into (images, css, js, ...)
 	 * @see		JBrowser
+	 * 
 	 * @return	array		files to be included
 	 * @since	11.1
 	 */
 	private static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
 	{
-		// if http is present in filename
+		// If http is present in filename
 		if (strpos($file, 'http') === 0)
 		{
 			$includes = array($file);
@@ -257,7 +257,7 @@ abstract class JHtml
 				$ext		= JFile::getExt($file);
 				$strip		= JFile::stripExt($file);
 
-				// try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
+				// Try to include files named filename.ext, filename_browser.ext, filename_browser_major.ext, filename_browser_major_minor.ext
 				// where major and minor are the browser version names
 				$potential = array($file, $strip.'_'.$browser.'.'.$ext,  $strip.'_'.$browser.'_'.$major.'.'.$ext, $strip.'_'.$browser.'_'.$major.'_'.$minor.'.'.$ext);
 			}
@@ -266,7 +266,7 @@ abstract class JHtml
 				$potential = array($file);
 			}
 
-			// if relative search in template directory or media directory
+			// If relative search in template directory or media directory
 			if($relative)
 			{
 
@@ -277,26 +277,26 @@ abstract class JHtml
 				// Prepare array of files
 				$includes = array();
 
-				// for each potential files
+				// For each potential files
 				foreach ($potential as $file)
 				{
-					// if the file is in the template folder
+					// If the file is in the template folder
 					if (file_exists(JPATH_THEMES . "/$template/$folder/$file"))
 					{
 						$includes[] = JURI::base(true) . "/templates/$template/$folder/$file";
 					}
 					else
 					{
-						// if the file contains any /: it can be in an media extension subfolder
+						// If the file contains any /: it can be in an media extension subfolder
 						if (strpos($file, '/'))
 						{
-							// divide the file extracting the extension as the first part before /
+							// Divide the file extracting the extension as the first part before /
 							list($extension, $file) = explode('/', $file, 2);
 
-							// if the file yet contains any /: it can be a plugin
+							// If the file yet contains any /: it can be a plugin
 							if (strpos($file, '/'))
 							{
-								// divide the file extracting the element as the first part before /
+								// Divide the file extracting the element as the first part before /
 								list($element, $file) = explode('/', $file, 2);
 
 								// Try to deal with plugins group in the media folder
@@ -340,7 +340,7 @@ abstract class JHtml
 					}
 				}
 			}
-			// if not relative and http is not present in filename
+			// If not relative and http is not present in filename
 			else
 			{
 				$includes = array();
@@ -373,7 +373,7 @@ abstract class JHtml
 
 		$includes = self::_includeRelativeFiles($file, $relative, false, 'images');
 
-		// if only path is required
+		// If only path is required
 		if($path_only)
 		{
 			if (count($includes)) {
@@ -428,7 +428,7 @@ abstract class JHtml
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true)
 	{
 		// Need to adjust for the change in API from 1.5 to 1.6.
-		// function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
+		// Function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 		if (is_string($attribs)) {
 			// Assume this was the old $path variable.
 			$file = $attribs.$file;
@@ -442,7 +442,7 @@ abstract class JHtml
 
 		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'css');
 
-		// if only path is required
+		// If only path is required
 		if ($path_only) {
 			if (count($includes)==0) {
 				return null;
@@ -454,7 +454,7 @@ abstract class JHtml
 				return $includes;
 			}
 		}
-		// if inclusion is required
+		// If inclusion is required
 		else {
 			$document = JFactory::getDocument();
 			foreach ($includes as $include)
@@ -471,6 +471,7 @@ abstract class JHtml
 	 * @param	boolean		path to file is relative to /media folder
 	 * @param	boolean		return the path to the file only
 	 * @param	boolean		detect browser to include specific browser js files
+	 * 
 	 * @return	mixed		nothing if $path_only is false, null, path or array of path if specific js browser files were detected
 	 * @see 	JHtml::stylesheet
 	 * @since	11.1
@@ -487,14 +488,14 @@ abstract class JHtml
 			$framework	= $relative;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		if ($framework) {
 			JHtml::_('behavior.framework');
 		}
 
 		$includes = self::_includeRelativeFiles($file, $relative, $detect_browser, 'js');
 
-		// if only path is required
+		// If only path is required
 		if ($path_only) {
 			if (count($includes)==0) {
 				return null;
@@ -506,7 +507,7 @@ abstract class JHtml
 				return $includes;
 			}
 		}
-		// if inclusion is required
+		// If inclusion is required
 		else {
 			$document = JFactory::getDocument();
 			foreach ($includes as $include)
@@ -621,6 +622,7 @@ abstract class JHtml
 	 * @param	string			$text The text for the tip
 	 * @param	string			$href An URL that will be used to create the link
 	 * @param	string			$alt The alt attribute for img tag
+ 	 *
  	 * @return	string
 	 * @since	11.1
 	 */
@@ -667,6 +669,7 @@ abstract class JHtml
 		if ($title) {
 			$tooltip = $title.'::'.$tooltip;
 		}
+		
 		return '<span class="'.$class.'" title="' . $tooltip . '">'.$tip.'</span>';
 	}
 
@@ -703,10 +706,14 @@ abstract class JHtml
 			{
 				$document = JFactory::getDocument();
 				$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
-				inputField: "'.$id.'",		// id of the input field
-				ifFormat: "'.$format.'",	// format of the input field
-				button: "'.$id.'_img",		// trigger for the calendar (button ID)
-				align: "Tl",				// alignment (defaults to "Bl")
+				// Id of the input field
+				inputField: "'.$id.'",
+				// Format of the input field				
+				ifFormat: "'.$format.'",
+				// Trigger for the calendar (button ID)
+				button: "'.$id.'_img",
+				// Alignment (defaults to "Bl")
+				align: "Tl",				
 				singleClick: true,
 				firstDay: '.JFactory::getLanguage()->getFirstDay().'
 				});});');
@@ -729,10 +736,10 @@ abstract class JHtml
 	 */
 	public static function addIncludePath($path = '')
 	{
-		// force path to array
+		// Force path to array
 		settype($path, 'array');
 
-		// loop through the path directories
+		// Loop through the path directories
 		foreach ($path as $dir)
 		{
 			if (!empty($dir) && !in_array($dir, JHtml::$includePaths)) {
@@ -742,5 +749,4 @@ abstract class JHtml
 
 		return JHtml::$includePaths;
 	}
-
 }

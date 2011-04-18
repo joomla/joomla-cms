@@ -159,7 +159,6 @@ abstract class JHtmlRules
 		foreach ($options as &$option)
 		{
 			// Pad the option text with spaces using depth level as a multiplier.
-			//$option->text = str_repeat('&#160;&#160;',$option->level).$option->text;
 
 			$option->identities = ($option->parents) ? explode(',', $option->parents.','.$option->value) : array($option->value);
 		}

@@ -177,7 +177,7 @@ abstract class JHtmlList
 
 		$and = '';
 		if ($reg) {
-		// does not include registered users in the list
+		// Does not include registered users in the list
 			$and = ' AND m.group_id != 2';
 		}
 

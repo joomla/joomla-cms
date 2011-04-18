@@ -49,7 +49,7 @@ class JEditor extends JObservable
 	protected $author = null;
 
 	/**
-	 * constructor
+	 * Constructor
 	 *
 	 * @param	string	The editor name
 	 */
@@ -130,7 +130,7 @@ class JEditor extends JObservable
 		$this->author	= $author;
 		$this->_loadEditor($params);
 
-		//check if editor is already loaded
+		// Check whether editor is already loaded
 		if (is_null(($this->_editor))) {
 			return;
 		}
@@ -173,7 +173,7 @@ class JEditor extends JObservable
 	{
 		$this->_loadEditor();
 
-		//check if editor is already loaded
+		// Check whether editor is already loaded
 		if (is_null(($this->_editor))) {
 			return;
 		}
@@ -254,7 +254,8 @@ class JEditor extends JObservable
 	 * Get the editor buttons
 	 *
 	 * @param	string	$editor		The name of the editor.
-	 * @param	mixed	$buttons	Can be boolean or array, if boolean defines if the buttons are displayed, if array defines a list of buttons not to show.
+	 * @param	mixed	$buttons	Can be boolean or array, if boolean defines if the buttons are 
+	 * 								displayed, if array defines a list of buttons not to show.
 	 *
 	 * @since   11.1
 	 */
@@ -301,7 +302,7 @@ class JEditor extends JObservable
 	 */
 	protected function _loadEditor($config = array())
 	{
-		//check if editor is already loaded
+		// Check whether editor is already loaded
 		if (!is_null(($this->_editor))) {
 			return;
 		}
@@ -342,7 +343,7 @@ class JEditor extends JObservable
 		$name = 'plgEditor'.$this->_name;
 
 		if ($this->_editor = new $name ($this, (array)$plugin)) {
-			// load plugin parameters
+			// Load plugin parameters
 			$this->initialise();
 			JPluginHelper::importPlugin('editors-xtd');
 		}

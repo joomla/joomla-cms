@@ -318,7 +318,7 @@ class JFilterInput extends JObject
 		$preTag		= null;
 		$postTag	= $source;
 		$currentSpace = false;
-		// moffats: Setting to null due to issues in migration system - undefined variable errors
+		// Setting to null to deal with undefined variables
 		$attr = '';	
 
 		// Is there a tag? If so it will certainly start with a '<'.

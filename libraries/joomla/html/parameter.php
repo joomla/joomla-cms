@@ -40,7 +40,7 @@ class JParameter extends JRegistry
 	protected $_xml = null;
 
 	/**
-	* loaded elements
+	* Loaded elements
 	*
 	* @var		array
 	* @since	11.1
@@ -48,7 +48,7 @@ class JParameter extends JRegistry
 	protected $_elements = array();
 
 	/**
-	* directories, where element types can be stored
+	* Directories, where element types can be stored
 	*
 	* @var		array
 	* @since	11.1
@@ -90,12 +90,14 @@ class JParameter extends JRegistry
 	 * @param	string	The name of the parameter.
 	 * @param	string	An optional value for the parameter.
 	 * @param	string	An optional group for the parameter.
+	 * 
 	 * @return	string	The value set, or the default if the value was not previously set (or null).
 	 * @since	11.1
 	 */
 	public function def($key, $default = '', $group = '_default')
 	{
 		$value = $this->get($key, (string) $default, $group);
+		
 		return $this->set($key, $value);
 	}
 
@@ -144,6 +146,7 @@ class JParameter extends JRegistry
 	 *
 	 * @param	string	An optional name of the HTML form control. The default is 'params' if not supplied.
 	 * @param	string	An optional group to render.  The default group is used if not supplied.
+	 * 
 	 * @return	string	HTML
 	 * @since	11.1
 	 */
@@ -157,7 +160,7 @@ class JParameter extends JRegistry
 		$html = array ();
 
 		if ($description = $this->_xml[$group]->attributes('description')) {
-			// add the params description to the display
+			// Add the params description to the display
 			$desc	= JText::_($description);
 			$html[]	= '<p class="paramrow_desc">'.$desc.'</p>';
 		}
@@ -183,6 +186,7 @@ class JParameter extends JRegistry
 	 *
 	 * @param	string	An optional name of the HTML form control. The default is 'params' if not supplied.
 	 * @param	string	An optional group to render.  The default group is used if not supplied.
+	 * 
 	 * @return	array
 	 * @since	11.1
 	 */
@@ -203,6 +207,7 @@ class JParameter extends JRegistry
 	 * Return the number of parameters in a group.
 	 *
 	 * @param	string	An optional group.  The default group is used if not supplied.
+	 * 
 	 * @return	mixed	False if no params exist or integer number of parameters that exist.
 	 * @since	11.1
 	 */
@@ -239,6 +244,7 @@ class JParameter extends JRegistry
 	 *
 	 * @param	string	An optional name of the HTML form control. The default is 'params' if not supplied.
 	 * @param	string	An optional group to render.  The default group is used if not supplied.
+	 * 
 	 * @return	array	An array of all parameters, each as array of the label, the form element and the tooltip.
 	 * @since	11.1
 	 */
@@ -261,6 +267,7 @@ class JParameter extends JRegistry
 	 * @param	object	A parameter XML element.
 	 * @param	string	An optional name of the HTML form control. The default is 'params' if not supplied.
 	 * @param	string	An optional group to render.  The default group is used if not supplied.
+	 * 
 	 * @return	array	Any array of the label, the form element and the tooltip.
 	 * @since	11.1
 	 */
@@ -320,6 +327,7 @@ class JParameter extends JRegistry
 	 *
 	 * @param	string	The element type.
 	 * @param	boolean	False (default) to reuse parameter elements; true to load the parameter element type again.
+	 * 
 	 * @return	object
 	 * @since	11.1
 	 */

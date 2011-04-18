@@ -33,7 +33,7 @@ class JElement extends JObject
 	protected $_name = null;
 
 	/**
-	* reference to the object that instantiated the element
+	* Reference to the object that instantiated the element
 	*
 	* @access	protected
 	* @var		object
@@ -51,7 +51,7 @@ class JElement extends JObject
 	}
 
 	/**
-	* get the element name
+	* Get the element name
 	*
 	* @access	public
 	* @return	string	type of the parameter

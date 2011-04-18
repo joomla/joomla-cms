@@ -72,7 +72,7 @@ abstract class JHtmlTabs
 
 		if (!array_key_exists($group,$loaded))
 		{
-			// Include mootools framework
+			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
 			$display = (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
