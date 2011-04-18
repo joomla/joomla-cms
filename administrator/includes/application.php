@@ -141,6 +141,7 @@ class JAdministrator extends JApplication
 			switch ($document->getType()) {
 				case 'html':
 					$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
+					JHtml::_('behavior.framework');
 					break;
 
 				default:
