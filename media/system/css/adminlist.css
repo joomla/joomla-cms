@@ -1,0 +1,291 @@
+/**
+ * @version		$Id: adminlist.css 20196 2011-01-09 02:40:25Z ian $
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* Common CSS for adminlist grids */
+
+
+html, body {
+	background-color: #F0F0F0;
+	color: ButtonText;
+	font-family:  Tahoma, Verdana, sans-serif !important;
+	margin: 0px !important; padding: 0px !important;
+
+
+}
+
+
+table.adminlist {
+	width: 99%;
+	border-spacing: 1px;
+	background-color: #f3f3f3;
+	color: #666;
+	font-size:11px
+}
+
+table.adminlist td,
+table.adminlist th {
+	padding: 4px !important;
+	font-size:11px
+}
+
+table.adminlist thead th {
+	text-align: center;
+	background: #f7f7f7;
+	color: #666;
+	border-bottom: 1px solid #CCC;
+	border-left: 1px solid #fff;
+}
+
+table.adminlist thead th.left {
+	text-align: left;
+}
+
+table.adminlist thead a:hover {
+	text-decoration: none;
+}
+
+table.adminlist thead th img {
+	vertical-align: middle;
+	padding-left: 3px;
+}
+
+table.adminlist tbody th {
+	font-weight: bold;
+}
+
+table.adminlist th a img {
+	border:0
+}
+
+table.adminlist tbody tr {
+	background-color: #fff;
+	text-align: left;
+}
+
+table.adminlist tbody tr.row0:hover td,
+table.adminlist tbody tr.row1:hover td	{
+	background-color: #e8f6fe;
+}
+
+table.adminlist tbody tr td {
+	background: #fff;
+	border: 1px solid #fff;
+}
+
+table.adminlist tbody tr.row1 td {
+	background: #f0f0f0;
+	border-top: 1px solid #FFF;
+}
+
+table.adminlist tfoot tr {
+	text-align: center;
+	color: #333;
+}
+
+table.adminlist tfoot td,table.adminlist tfoot th {
+	background-color: #f7f7f7;
+	border-top: 1px solid #999;
+	text-align: center;
+}
+
+table.adminlist td.order {
+	text-align: center;
+	white-space: nowrap;
+	width: 200px;
+}
+
+table.adminlist td.order span {
+	float: left;
+	width: 20px;
+	text-align: center;
+	background-repeat: no-repeat;
+	height: 13px;
+}
+
+table.adminlist .pagination {
+	display: inline-block;
+	padding: 0;
+	margin: 0 auto;
+}
+
+/* Tree indentation & nesting - Up to 10 levels deep so don't go crazy :) */
+table.adminlist td.indent-4	 {	padding-left: 4px;		}
+table.adminlist td.indent-19	 {	padding-left: 19px;		}
+table.adminlist td.indent-34	 {	padding-left: 34px;		}
+table.adminlist td.indent-49	 {	padding-left: 49px;		}
+table.adminlist td.indent-64	 {	padding-left: 64px;		}
+table.adminlist td.indent-79	 {	padding-left: 79px;		}
+table.adminlist td.indent-94	 {	padding-left: 94px;		}
+table.adminlist td.indent-109	 {	padding-left: 109px;	}
+table.adminlist td.indent-124	 {	padding-left: 124px;	}
+table.adminlist td.indent-139	 {	padding-left: 139px;	}
+
+table.adminlist tr td.btns a {
+	text-decoration: underline;
+}
+
+
+/* added Angie */
+
+/* Filter Form */
+fieldset ol,
+ol#property-values {
+	margin: 0;
+	padding: 0
+}
+
+fieldset li,
+ol#property-values li {
+	list-style: none;
+	margin: 0;
+	padding: 5px
+}
+
+fieldset.filter {
+	border: 0;
+	margin: 0;
+	padding: 0 0 5px
+}
+
+fieldset.filter ol {
+	border: 0;
+	list-style: none;
+	margin: 0;
+	padding: 5px 0 0
+}
+
+fieldset.filter ol li {
+	float: left;
+	padding: 0 5px 0 0
+}
+
+fieldset.filter ol li fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0
+}
+
+fieldset.filter .left {
+	float: left;
+
+	width:auto;
+	margin:0;
+	text-align:left
+}
+
+fieldset.filter .left label
+{ float:left; padding:2px}
+fieldset.filter .right {
+	float: right;
+
+
+}
+
+fieldset#buttonbar {
+	border: 0;
+	text-align: right
+}
+
+fieldset#buttonbar ul {
+	list-style: none;
+	margin: 0;
+	padding: 0
+}
+
+fieldset#buttonbar li {
+	margin: 0;
+	padding: 5px
+}
+
+
+button {
+	margin-top: 4px;
+	background: #fff;
+	border: 1px solid #ccc;
+	text-decoration: none;
+
+}
+
+button:hover {
+	cursor: pointer;
+	background: #E8F6FE;
+	text-decoration: none;
+	border: 1px solid #aaa;
+
+}
+
+.clearfix {
+	overflow:hidden;
+}
+
+fieldset input,
+fieldset textarea,
+fieldset select,
+fieldset img,
+fieldset button {
+	float: left;
+	width: auto;
+	margin: 5px 5px 5px 0px;
+	font-size:11px !important
+}
+
+
+
+.list-footer div.limit {
+	float: left;
+	line-height: 22px;
+	margin: 0 10px;
+}
+
+.list-footer div.limit select#limit {
+	width: 50px;
+}
+
+/* ++++++++++++++  pagination  ++++++++++++++ */
+
+.list-footer
+{
+	margin:10px 0 ;
+	padding:10px 0 10px 0px;
+	text-align:center
+
+}
+
+ table .list-footer ul
+{
+	list-style-type:none;
+	margin:0 !important;
+	padding:0;
+	text-align:left;
+	border:solid 0px #ccc;
+	float:left
+}
+
+ .list-footer li
+{
+	display:inline;
+	padding:2px 5px !important;
+	text-align:left;
+	border:solid 0px #eee;
+	margin:0 2px;
+	font-size:11px
+}
+
+.list-footer  li.pagination-start,
+.list-footer li.pagination-next,
+.list-footer  li.pagination-end,
+.list-footer  li.pagination-prev {
+	 border:0
+}
+
+.list-footer  li.pagination-start ,
+.list-footer  li.pagination-start  span {
+	padding:4px
+}
+
+p.counter {
+	font-weight:bold;
+}
