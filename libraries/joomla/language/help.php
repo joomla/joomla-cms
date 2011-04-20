@@ -38,10 +38,10 @@ class JHelp
 			$component = JApplicationHelper::getComponentName();
 		}
 
-		/*
-		 *  Determine the location of the help file.  At this stage the URL
-		 *  can contain substitution codes that will be replaced later.
-		 */
+
+		//  Determine the location of the help file.  At this stage the URL
+		//  can contain substitution codes that will be replaced later.
+
 		if ($override) {
 			$url = $override;
 		}

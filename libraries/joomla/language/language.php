@@ -135,12 +135,12 @@ class JLanguage extends JObject
 	protected $transliterator = null;
 
 	/**
-	 * Name of the pluralSufficesCallback function for this language
+	 * Name of the pluralSuffixesCallback function for this language
 	 *
 	 * @var		string
 	 * @since	11.1
 	 */
-	protected $pluralSufficesCallback = null;
+	protected $pluralSuffixesCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language
@@ -227,7 +227,7 @@ class JLanguage extends JObject
 				$this->transliterator = array($class, 'transliterate');
 			}
 			if (method_exists($class, 'getPluralSuffixes')) {
-				$this->pluralSufficesCallback = array($class, 'getPluralSuffixes');
+				$this->pluralSuffixesCallback = array($class, 'getPluralSuffixes');
 			}
 			if (method_exists($class, 'getIgnoredSearchWords')) {
 				$this->ignoredSearchWordsCallback = array($class, 'getIgnoredSearchWords');
@@ -308,7 +308,7 @@ class JLanguage extends JObject
 			$string = addslashes($string);
 		}
 		elseif ($interpretBackSlashes) {
-			// interpret \n and \t characters
+			// Interpret \n and \t characters
 			$string = str_replace(array('\\\\','\t','\n'),array("\\", "\t","\n"),$string);
 		}
 
@@ -373,8 +373,8 @@ class JLanguage extends JObject
 	 * @since	11.1
 	 */
 	public function getPluralSuffixes($count) {
-		if ($this->pluralSufficesCallback !== null) {
-			return call_user_func($this->pluralSufficesCallback, $count);
+		if ($this->pluralSuffixesCallback !== null) {
+			return call_user_func($this->pluralSuffixesCallback, $count);
 		}
 		else {
 			return array((string)$count);
@@ -382,24 +382,35 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Getter for pluralSufficesCallback function
+	 * Getter for pluralSuffixesCallback function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       11.1
+	 * @deprecated
+	 */
+	public function getPluralSufficesCallback() {
+		return $this->getPluralSuffixesCallback();
+	}
+	/**
+	 * Getter for pluralSuffixesCallback function
+	 *
+	 * @return      string|function Function name or the actual function for PHP 5.3
+	 * @since       11.1
+	 * 
 	 */
 	public function getPluralSuffixesCallback() {
-		return $this->pluralSufficesCallback;
-	}
+		return $this->pluralSuffixesCallback;
+	}	
 
 	/**
-	 * Set the pluralSuffices function
+	 * Set the pluralSuffixes function
 	 *
 	 * @return      string|function Function name or the actual function for PHP 5.3
 	 * @since       11.1
 	 */
-	public function setPluralSufficesCallback($function) {
-		$previous = $this->pluralSufficesCallback;
-		$this->pluralSufficesCallback = $function;
+	public function setPluralSuffixesCallback($function) {
+		$previous = $this->pluralSuffixesCallback;
+		$this->pluralSuffixesCallback = $function;
 		return $previous;
 	}
 
@@ -566,6 +577,7 @@ class JLanguage extends JObject
 	 *
 	 * @param	string $lang Language to check
 	 * @param	string $basePath Optional path to check
+	 * 
 	 * @return	boolean True if the language exists
 	 * @since	11.1
 	 */
@@ -602,6 +614,7 @@ class JLanguage extends JObject
 	 * @param	string	$lang		The language to load, default null for the current language
 	 * @param	boolean $reload		Flag that will force a language to be reloaded if set to true
 	 * @param	boolean	$default	Flag that force the default language to be loaded if the current does not exist
+	 * 
 	 * @return	boolean	True, if the file has successfully loaded.
 	 * @since	11.1
 	 */
@@ -619,13 +632,13 @@ class JLanguage extends JObject
 
 		$result = false;
 		if (isset($this->paths[$extension][$filename]) && ! $reload) {
-			// Strings for this file have already been loaded
+			// Strings for this file have already been loaded.
 			$result = true;
 		} else {
 			// Load the language file
 			$result = $this->loadLanguage($filename, $extension);
 
-			// Check if there was a problem with loading the file
+			// Check whether there was a problem with loading the file
 			if ($result === false && $default) {
 				// No strings, so either file doesn't exist or the file is invalid
 				$oldFilename = $filename;
@@ -651,6 +664,7 @@ class JLanguage extends JObject
 	 *
 	 * @param	string The name of the file
 	 * @param	string The name of the extension
+	 * 
 	 * @return	boolean True if new strings have been added to the language
 	 * @see		JLanguage::load()
 	 * @since	11.1
@@ -772,10 +786,11 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Get a matadata language property
+	 * Get a metadata language property
 	 *
 	 * @param	string $property	The name of the property
 	 * @param	mixed  $default	The default value
+	 * 
 	 * @return	mixed The value of the property
 	 * @since	11.1
 	 */
@@ -840,6 +855,7 @@ class JLanguage extends JObject
 	 * Get a list of language files that have been loaded
 	 *
 	 * @param	string	$extension	An option extension name
+	 * 
 	 * @return	array
 	 * @since	11.1
 	 */
@@ -868,7 +884,7 @@ class JLanguage extends JObject
 	}
 
 	/**
-	 * Get for the language tag (as defined in RFC 3066)
+	 * Getter for the language tag (as defined in RFC 3066)
 	 *
 	 * @return	string The language tag
 	 * @since	11.1
@@ -998,6 +1014,7 @@ class JLanguage extends JObject
 	 * Returns a list of known languages for an area
 	 *
 	 * @param	string	$basePath	The basepath to use
+	 * 
 	 * @return	array	key/value pair with the language file and real name
 	 * @since	11.1
 	 */
@@ -1014,6 +1031,7 @@ class JLanguage extends JObject
 	 *
 	 * @param	string $basePath  The basepath to use
 	 * @param	string $language	The language tag
+	 * 
 	 * @return	string	language related path or null
 	 * @since	11.1
 	 */
@@ -1032,6 +1050,7 @@ class JLanguage extends JObject
 	 * Once called, the language still needs to be loaded using JLanguage::load()
 	 *
 	 * @param	string	$lang	Language code
+	 * 
 	 * @return	string	Previous value
 	 * @since	11.1
 	 */
@@ -1095,6 +1114,7 @@ class JLanguage extends JObject
 	 * Searches for language directories within a certain base dir
 	 *
 	 * @param	string	$dir	directory of files
+	 * 
 	 * @return	array	Array holding the found languages as filename => real name pairs
 	 * @since	11.1
 	 */
@@ -1157,6 +1177,7 @@ class JLanguage extends JObject
 	 * Parse XML file for language information.
 	 *
 	 * @param	string	$path	Path to the xml files
+	 * 
 	 * @return	array	Array holding the found metadata as a key => value pair
 	 * @deprecated use parseXMLLanguageFile instead
 	 * @since	11.1
@@ -1170,6 +1191,7 @@ class JLanguage extends JObject
 	 * Parse XML file for language information.
 	 *
 	 * @param	string	$path	Path to the xml files
+	 * 
 	 * @return	array	Array holding the found metadata as a key => value pair
 	 * @since	11.1
 	 */
@@ -1194,4 +1216,3 @@ class JLanguage extends JObject
 		return $metadata;
 	}
 }
-

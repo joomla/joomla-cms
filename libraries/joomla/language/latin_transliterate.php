@@ -8,9 +8,31 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+/**
+ * @package		Joomla.Platform
+ * @subpackage	Language
+ * @static
+ * @since   11.1
+ */
 
+/**
+ * Class to transliterate strings
+ *
+ * @static
+ * @package		Joomla.Platform
+ * @subpackage	Language
+ * @since		11.1
+ */
 class JLanguageTransliterate
 {
+	/**
+	 * Returns strings transliterated from UTF-8 to Latin
+	 *
+	 * @param	string	$string
+	 * @param	boolean	$case 	Optionally specify upper or lower case. Default to null.
+	 * 
+	 * @return	string	transliterated string
+	 */
 	static function utf8_latin_to_ascii( $string, $case=0 ){
 
 		static $UTF8_LOWER_ACCENTS = NULL;
