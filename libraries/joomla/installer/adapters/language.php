@@ -22,7 +22,6 @@ class JInstallerLanguage extends JAdapterInstance
 {
 	/**
 	 * Core language pack flag
-	 * @access	private
 	 * @var		boolean
 	 */
 	protected $_core = false;
@@ -33,7 +32,6 @@ class JInstallerLanguage extends JAdapterInstance
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs.
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -137,7 +135,7 @@ class JInstallerLanguage extends JAdapterInstance
 			}
 		}
 
-		// If the language directory does not exist, lets create it
+		// If the language directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_site')))
 		{
@@ -149,22 +147,24 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 		else
 		{
-			// look for an update function or update tag
+			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
-			// upgrade manually set
-			// update function available
-			// update tag detected
+			// Upgrade manually set or
+			// Update function available or
+			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JXMLElement')) {
 				return $this->update(); // transfer control to the update function
 			}
 			else if (!$this->parent->getOverwrite())
 			{
-				// overwrite is set
-				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe
-				if (file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
+				// Overwrite is set
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
+				if (file_exists($this->parent->getPath('extension_site'))) { 
+					// If the site exists say so.
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))));
 				}
-				else { // if the admin exists say that
+				else { 
+					// If the admin exists say so.
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))));
 				}
 				return false;
@@ -172,8 +172,8 @@ class JInstallerLanguage extends JAdapterInstance
 		}
 
 		/*
-		 * If we created the language directory and will want to remove it if we
-		 * have to roll back the installation, lets add it to the installation
+		 * If we created the language directory we will want to remove it if we
+		 * have to roll back the installation, so let's add it to the installation
 		 * step stack
 		 */
 		if ($created) {
@@ -216,7 +216,8 @@ class JInstallerLanguage extends JAdapterInstance
 		$row->set('name', $this->get('name'));
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
-		$row->set('folder', ''); // There is no folder for languages
+		// There is no folder for languages
+		$row->set('folder', ''); 
 		$row->set('enabled', 1);
 		$row->set('protected', 0);
 		$row->set('access', 0);
@@ -339,11 +340,8 @@ class JInstallerLanguage extends JAdapterInstance
 		// Get the language description and set it as message
 		$this->parent->set('message', (string)$xml->description);
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		 // Finalization and Cleanup Section
+
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(Array('element'=>$this->get('tag'),
@@ -409,13 +407,13 @@ class JInstallerLanguage extends JAdapterInstance
 	 */
 	public function uninstall($eid)
 	{
-		// load up the extension details
+		// Load up the extension details
 		$extension = JTable::getInstance('extension');
 		$extension->load($eid);
-		// grab a copy of the client details
+		// Grab a copy of the client details
 		$client = JApplicationHelper::getClientInfo($extension->get('client_id'));
 
-		// check the element isn't blank to prevent nuking the languages directory...just in case
+		// Check the element isn't blank to prevent nuking the languages directory...just in case
 		$element = $extension->get('element');
 		if (empty($element))
 		{
@@ -423,14 +421,14 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		// verify that it's not the default language for that client
+		// Verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
 		if ($params->get($client->name)==$element) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
 			return false;
 		}
 
-		// construct the path from the client, the language and the extension element name
+		// Construct the path from the client, the language and the extension element name
 		$path = $client->path.DS.'language'.DS.$element;
 
 		// Get the package manifest object and remove media
@@ -440,10 +438,10 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->manifest = $this->parent->getManifest();
 		$this->parent->removeFiles($this->manifest->media);
 
-		// check it exists
+		// Check it exists
 		if (!JFolder::exists($path))
 		{
-			// if the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
+			// If the folder doesn't exist lets just nuke the row as well and presume the user killed it for us
 			$extension->delete();
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PATH_EMPTY'));
 			return false;
@@ -451,7 +449,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 		if (!JFolder::delete($path))
 		{
-			// if deleting failed we'll leave the extension entry in tact just in case
+			// If deleting failed we'll leave the extension entry in tact just in case
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DIRECTORY'));
 			return false;
 		}
@@ -570,6 +568,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
+	 * 
 	 * @return  boolean result of operation, true if updated, false on failure
 	 * @since	11.1
 	 */
@@ -584,6 +583,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 
 		if ($this->parent->extension->store()) {
+			
 			return true;
 		}
 		else {

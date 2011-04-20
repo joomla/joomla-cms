@@ -24,7 +24,6 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @access	public
 	 * @param	string	$path the path where to find language files
 	 * @since	11.1
 	 */
@@ -47,8 +46,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 	/**
 	 * Custom install method
-	 *
-	 * @access	public
+	 * 
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -57,11 +55,7 @@ class JInstallerLibrary extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		 // Manifest Document Setup Section
 
 		// Set the extensions name
 		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'string');
@@ -74,16 +68,16 @@ class JInstallerLibrary extends JAdapterInstance
 		$result = $db->loadResult();
 		if ($result)
 		{
-			// already installed, can we upgrade?
+			// Already installed, can we upgrade?
 			if ($this->parent->getOverwrite() || $this->parent->getUpgrade())
 			{
-				// we can upgrade, so uninstall the old one
+				// We can upgrade, so uninstall the old one
 				$installer = new JInstaller(); // we don't want to compromise this instance!
 				$installer->uninstall('library', $result);
 			}
 			else
 			{
-				// abort the install, no upgrade possible
+				// Abort the install, no upgrade possible
 				$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_ALREADY_INSTALLED'));
 				return false;
 			}
@@ -110,13 +104,9 @@ class JInstallerLibrary extends JAdapterInstance
 			$this->parent->setPath('extension_root', JPATH_PLATFORM.DS.implode(DS,explode('/',$group)));
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		 // Filesystem Processing Section
 
-		// If the plugin directory does not exist, lets create it
+		// If the plugin directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
@@ -127,11 +117,10 @@ class JInstallerLibrary extends JAdapterInstance
 			}
 		}
 
-		/*
-		 * If we created the plugin directory and will want to remove it if we
-		 * have to roll back the installation, lets add it to the installation
-		 * step stack
-		 */
+		// If we created the plugin directory and will want to remove it if we
+		// have to roll back the installation, lets add it to the installation
+		// step stack
+
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
@@ -148,11 +137,7 @@ class JInstallerLibrary extends JAdapterInstance
 		$this->parent->parseLanguages($this->manifest->languages);
 		$this->parent->parseMedia($this->manifest->media);
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Extension Registration
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Extension Registration
 		$row = JTable::getInstance('extension');
 		$row->name = $this->get('name');
 		$row->type = 'library';
@@ -172,11 +157,7 @@ class JInstallerLibrary extends JAdapterInstance
 			return false;
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
@@ -193,21 +174,17 @@ class JInstallerLibrary extends JAdapterInstance
 
 	/**
 	 * Custom update method
-	 * @access public
+	 * 
 	 * @return boolean True on success
 	 * @since  11.1
 	 */
 	public function update()
 	{
-		// since this is just files, an update removes old files
+		// Since this is just files, an update removes old files
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Manifest Document Setup Section
 
 		// Set the extensions name
 		$name = (string)$this->manifest->name;
@@ -220,18 +197,18 @@ class JInstallerLibrary extends JAdapterInstance
 		$db->setQuery('SELECT extension_id FROM #__extensions WHERE type="library" AND element = "'. $element .'"');
 		$result = $db->loadResult();
 		if ($result) {
-			// already installed, which would make sense
+			// Already installed, which would make sense
 			$installer->uninstall('library', $result);
 		}
-		// now create the new files
+		// Now create the new files
 		return $this->install();
 	}
 
 	/**
 	 * Custom uninstall method
 	 *
-	 * @access	public
 	 * @param	string	$id	The id of the library to uninstall
+	 * 
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -275,11 +252,10 @@ class JInstallerLibrary extends JAdapterInstance
 				return false;
 			}
 
-			/*
-			 * Check for a valid XML root tag.
-			 * @todo: Remove backwards compatability in a future version
-			 * Should be 'extension', but for backward compatability we will accept 'install'.
-			 */
+			// Check for a valid XML root tag.
+			// TODO: Remove backwards compatability in a future version
+			// Should be 'extension', but for backward compatability we will accept 'install'.
+			
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
@@ -292,7 +268,7 @@ class JInstallerLibrary extends JAdapterInstance
 		}
 		else
 		{
-			// remove this row entry since its invalid
+			// Remove this row entry since its invalid
 			$row->delete($row->extension_id);
 			unset($row);
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
@@ -323,7 +299,6 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 *
-	 * @access public
 	 * @return array(JExtension) list of extensions available
 	 * @since 11.1
 	 */
@@ -350,8 +325,8 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @access public
-	 * @param int $id The id of the extension to install (from #__discoveredextensions)
+	 * @param int $id The id of the extension to install
+	 * 
 	 * @return void
 	 * @since 11.1
 	 */
