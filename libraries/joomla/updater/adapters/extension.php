@@ -26,7 +26,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
 				break;
-			case 'UPDATES': // don't do anything
+			// Don't do anything	
+			case 'UPDATES': 
 				break;
 			default:
 				if(in_array($name, $this->_updatecols)) {
@@ -48,7 +49,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			case 'UPDATE':
 				$ver = new JVersion();
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
-				// check that the product matches and that the version matches (optionally a regexp)
+				// Check that the product matches and that the version matches (optionally a regexp)
 				if($product == $this->current_update->targetplatform['NAME'] && preg_match('/'.$this->current_update->targetplatform['VERSION'].'/',$ver->RELEASE)) {
 					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
 					unset($this->current_update->targetplatform);

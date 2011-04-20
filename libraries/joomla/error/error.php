@@ -30,6 +30,7 @@ define('JERROR_ILLEGAL_MODE', 3);
  * @package	Joomla.Platform
  * @subpackage	Error
  * @since		11.1
+ * @deprecated
  */
 abstract class JError
 {

@@ -16,15 +16,25 @@ jimport('joomla.updater.updateadapter');
  * @since 11.1
  */
 class JUpdaterCollection extends JUpdateAdapter {
-	/** @var object Root of the tree */
+	/** 
+	 * @var object Root of the tree 
+	 */
 	private $base;
-	/** @var array Tree of objects */
+	/** 
+	 * @var array Tree of objects 
+	 */
 	protected $parent = Array(0);
-	/** @var boolean Used to control if an item has a child or not */
+	/** 
+	 * @var boolean Used to control if an item has a child or not 
+	 */
 	protected $pop_parent = 0;
-	/** @var array A list of discovered update sites */
+	/** 
+	 * @var array A list of discovered update sites
+	 */
 	protected $update_sites;
-	/** @var array A list of discovered updates */
+	/** 
+	 * @var array A list of discovered updates 
+	 */
 	protected $updates;
 
 	/**
@@ -58,12 +68,13 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 * @param object parser object
 	 * @param string name of element that is opened
 	 * @param array array of attributes for the element
+	 * 
 	 */
 	public function _startElement($parser, $name, $attrs = Array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
-		// reset the data
+		// Reset the data
 		eval('$this->'. $tag .'->_data = "";');
 		switch($name)
 		{
@@ -82,7 +93,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 				$update->set('update_site_id', $this->_update_site_id);
 				foreach($this->_updatecols AS $col)
 				{
-					// reset the values if it doesn't exist
+					// Reset the values if it doesn't exist
 					if(!array_key_exists($col, $attrs))
 					{
 						$attrs[$col] = '';
@@ -94,19 +105,19 @@ class JUpdaterCollection extends JUpdateAdapter {
 				}
 				$client = JApplicationHelper::getClientInfo($attrs['CLIENT'],1);
 				$attrs['CLIENT_ID'] = $client->id;
-				// lower case all of the fields
+				// Lower case all of the fields
 				foreach($attrs as $key=>$attr)
 				{
 					$values[strtolower($key)] = $attr;
 				}
 
-				// only add the update if it is on the same platform and release as we are
+				// Only add the update if it is on the same platform and release as we are
 				$ver = new JVersion();
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd')); // lower case and remove the exclamation mark
-				// set defaults, the extension file should clarify in case but it may be only available in one version
-				// this allows an update site to specify a targetplatform
+				// Set defaults, the extension file should clarify in case but it may be only available in one version
+				// This allows an update site to specify a targetplatform
 				// targetplatformversion can be a regexp, so 1.[56] would be valid for an extension that supports 1.5 and 1.6
-				// Note: whilst the version is a regexp here, the targetplatform is not (new extension per platform)
+				// Note: Whilst the version is a regexp here, the targetplatform is not (new extension per platform)
 				//		Additionally, the version is a regexp here and it may also be in an extension file if the extension is
 				//		compatible against multiple versions of the same platform (e.g. a library)
 				if(!isset($values['targetplatform'])) $values['targetplatform'] = $product; // set this to ourself as a default
@@ -148,6 +159,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	/*
 	 * Find an update
 	 * @param array options to use; update_site_id: the unique ID of the update site to look at
+	 * 
 	 * @return array update_sites and updates discovered
 	 */
 	public function findUpdate($options)

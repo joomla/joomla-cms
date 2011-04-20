@@ -155,7 +155,7 @@ class JMail extends PHPMailer
 	 */
 	public function addRecipient($recipient)
 	{
-		// If the recipient is an aray, add each recipient... otherwise just add the one
+		// If the recipient is an array, add each recipient... otherwise just add the one
 		if (is_array($recipient)) {
 			foreach ($recipient as $to)
 			{
@@ -181,7 +181,7 @@ class JMail extends PHPMailer
 	 */
 	public function addCC($cc)
 	{
-		// If the carbon copy recipient is an aray, add each recipient... otherwise just add the one
+		// If the carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset ($cc)) {
 			if (is_array($cc)) {
 				foreach ($cc as $to)
@@ -209,7 +209,7 @@ class JMail extends PHPMailer
 	 */
 	public function addBCC($bcc)
 	{
-		// If the blind carbon copy recipient is an aray, add each recipient... otherwise just add the one
+		// If the blind carbon copy recipient is an array, add each recipient... otherwise just add the one
 		if (isset($bcc)) {
 			if (is_array($bcc)) {
 				foreach ($bcc as $to)
@@ -237,7 +237,7 @@ class JMail extends PHPMailer
 	 */
 	public function addAttachment($attachment)
 	{
-		// If the file attachments is an aray, add each file... otherwise just add the one
+		// If the file attachments is an array, add each file... otherwise just add the one
 		if (isset($attachment)) {
 			if (is_array($attachment)) {
 				foreach ($attachment as $file)
@@ -314,7 +314,7 @@ class JMail extends PHPMailer
 	 * @param	string	$host	SMTP Host [optional]
 	 * @param	string	$user	SMTP Username [optional]
 	 * @param	string	$pass	SMTP Password [optional]
-	 * @param			$secure
+	 * @param	string	$secure
 	 * @param	int		$port
 	 *
 	 * @return	boolean	True on success
