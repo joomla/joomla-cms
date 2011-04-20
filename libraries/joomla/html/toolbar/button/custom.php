@@ -21,7 +21,6 @@ class JButtonCustom extends JButton
 	/**
 	 * Button type
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = 'Custom';
@@ -34,7 +33,6 @@ class JButtonCustom extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
 	 * @return	string	Button CSS Id
 	 * @since	11.1
 	 */

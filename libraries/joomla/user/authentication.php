@@ -38,9 +38,8 @@ class JAuthentication extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @access protected
 	 */
-	function __construct()
+	protected function __construct()
 	{
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
@@ -158,7 +157,6 @@ class JAuthenticationResponse extends JObject
 	 * The type of authentication that was successful
 	 *
 	 * @var type string
-	 * @access public
 	 */
 	public $type		= '';
 
@@ -173,7 +171,6 @@ class JAuthenticationResponse extends JObject
 	 * Any UTF-8 string that the End User wants to use as a username.
 	 *
 	 * @var fullname string
-	 * @access public
 	 */
 	public $username		= '';
 
@@ -224,7 +221,6 @@ class JAuthenticationResponse extends JObject
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
 	 *
 	 * @var postcode string
-	 * @access public
 	 */
 	public $postcode		= '';
 
@@ -232,7 +228,6 @@ class JAuthenticationResponse extends JObject
 	 * The End User's country of residence as specified by ISO3166.
 	 *
 	 * @var country string
-	 * @access public
 	 */
 	public $country		= '';
 
@@ -240,7 +235,6 @@ class JAuthenticationResponse extends JObject
 	 * End User's preferred language as specified by ISO639.
 	 *
 	 * @var language string
-	 * @access public
 	 */
 	public $language		= '';
 
@@ -248,7 +242,6 @@ class JAuthenticationResponse extends JObject
 	 * ASCII string from TimeZone database
 	 *
 	 * @var timezone string
-	 * @access public
 	 */
 	public $timezone		= '';
 

@@ -22,7 +22,6 @@ class JElementList extends JElement
 	/**
 	* Element type
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'List';

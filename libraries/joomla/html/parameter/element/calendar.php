@@ -20,7 +20,6 @@ class JElementCalendar extends JElement
 {
 	/**
 	* Element name
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Calendar';

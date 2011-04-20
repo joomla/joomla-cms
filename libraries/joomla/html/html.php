@@ -193,10 +193,11 @@ abstract class JHtml
 	/**
 	 * Write a <a></a> element
 	 *
-	 * @access	public
 	 * @param	string	The relative URL to use for the href attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
+	 * 
+	 * @return string <a></a> string
 	 * @since	11.1
 	 */
 	public static function link($url, $text, $attribs = null)
@@ -211,11 +212,12 @@ abstract class JHtml
 	/**
 	 * Write a <iframe></iframe> element
 	 *
-	 * @access	public
 	 * @param	string	The relative URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	string	The message to display if the iframe tag is not supported
+	 * 
+	 * @return	string	<iframe></iframe> element or message if not supported
 	 * @since	11.1
 	 */
 	public static function iframe($url, $name, $attribs = null, $noFrames = '')
@@ -358,11 +360,12 @@ abstract class JHtml
 	/**
 	 * Write a <img></img> element
 	 *
-	 * @access	public
 	 * @param	string	The relative or absolute URL to use for the src attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	boolean	If set to true, it tries to find an override for the file in the template
+	 * 
+	 * @return string
 	 * @since	11.1
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $path_only = false)
@@ -729,8 +732,8 @@ abstract class JHtml
 	 * Add a directory where JHtml should search for helpers. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @access	public
 	 * @param	string	A path to search.
+	 * 
 	 * @return	array	An array with directory elements
 	 * @since	11.1
 	 */

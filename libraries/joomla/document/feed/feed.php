@@ -27,9 +27,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $syndicationURL = "";
+	public var $syndicationURL = "";
 
 	/**
 	 * Image feed element
@@ -37,9 +36,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		object
-	 * @access	public
 	 */
-	var $image = null;
+	public var $image = null;
 
 	/**
 	 * Copyright feed elememnt
@@ -47,9 +45,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $copyright = "";
+	public var $copyright = "";
 
 	/**
 	 * Published date feed element
@@ -57,9 +54,8 @@ class JDocumentFeed extends JDocument
 	 *  optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $pubDate = "";
+	public var $pubDate = "";
 
 	/**
 	 * Lastbuild date feed element
@@ -67,9 +63,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $lastBuildDate = "";
+	public var $lastBuildDate = "";
 
 	/**
 	 * Editor feed element
@@ -77,17 +72,15 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $editor = "";
+	public var $editor = "";
 
 	/**
 	 * Docs feed element
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $docs = "";
+	public var $docs = "";
 
 	/**
 	 * Editor email feed element
@@ -95,9 +88,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $editorEmail = "";
+	public var $editorEmail = "";
 
 	/**
 	 * Webmaster email feed element
@@ -105,9 +97,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $webmaster = "";
+	public var $webmaster = "";
 
 	/**
 	 * Category feed element
@@ -115,9 +106,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $category = "";
+	public var $category = "";
 
 	/**
 	 * TTL feed attribute
@@ -125,9 +115,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $ttl = "";
+	public var $ttl = "";
 
 	/**
 	 * Rating feed element
@@ -135,9 +124,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $rating = "";
+	public var $rating = "";
 
 	/**
 	 * Skiphours feed element
@@ -145,9 +133,8 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $skipHours = "";
+	public var $skipHours = "";
 
 	/**
 	 * Skipdays feed element
@@ -155,25 +142,22 @@ class JDocumentFeed extends JDocument
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $skipDays = "";
+	public var $skipDays = "";
 
 	/**
 	 * The feed items collection
 	 *
 	 * @var array
-	 * @access public
 	 */
-	var $items = array();
+	public var $items = array();
 
 	/**
 	 * Class constructor
 	 *
-	 * @access protected
 	 * @param	array	$options Associative array of options
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -184,12 +168,11 @@ class JDocumentFeed extends JDocument
 	/**
 	 * Render the document
 	 *
-	 * @access public
 	 * @param boolean	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
 	 * @return	The rendered data
 	 */
-	function render($cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
 		global $option;
 
@@ -236,9 +219,8 @@ class JDocumentFeed extends JDocument
 	 * Adds an JFeedItem to the feed.
 	 *
 	 * @param object JFeedItem $item The feeditem to add to the feed.
-	 * @access public
 	 */
-	function addItem(&$item)
+	public function addItem(&$item)
 	{
 		$item->source = $this->link;
 		$this->items[] = $item;
@@ -260,9 +242,8 @@ class JFeedItem extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $title;
+	public var $title;
 
 	/**
 	 * Link item element
@@ -270,9 +251,8 @@ class JFeedItem extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $link;
+	public var $link;
 
 	/**
 	 * Description item element
@@ -280,9 +260,8 @@ class JFeedItem extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $description;
+	public  var $description;
 
 	/**
 	 * Author item element
@@ -290,9 +269,8 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $author;
+	 public var $author;
 
 	 /**
 	 * Author email element
@@ -300,9 +278,8 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $authorEmail;
+	 public var $authorEmail;
 
 
 	/**
@@ -311,9 +288,8 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var		array or string
-	 * @access	public
 	 */
-	 var $category;
+	 public var $category;
 
 	 /**
 	 * Comments element
@@ -321,17 +297,15 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $comments;
+	 public var $comments;
 
 	 /**
 	 * Enclosure element
 	 *
 	 * @var		object
-	 * @access	public
 	 */
-	 var $enclosure =  null;
+	 public var $enclosure =  null;
 
 	 /**
 	 * Guid element
@@ -339,7 +313,6 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
 	 var $guid;
 
@@ -361,9 +334,8 @@ class JFeedItem extends JObject
 	 *	1043082341
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $date;
+	 public var $date;
 
 	 /**
 	 * Source element
@@ -371,18 +343,16 @@ class JFeedItem extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $source;
+	 public var $source;
 
 
 	 /**
 	 * Set the JFeedEnclosure for this item
 	 *
-	 * @access public
 	 * @param object $enclosure The JFeedItem to add to the feed.
 	 */
-	 function setEnclosure($enclosure)	{
+	 public function setEnclosure($enclosure)	{
 		 $this->enclosure = $enclosure;
 	 }
 }
@@ -402,9 +372,8 @@ class JFeedEnclosure extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $url = "";
+	 public var $url = "";
 
 	/**
 	 * Length enclosure element
@@ -412,9 +381,8 @@ class JFeedEnclosure extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $length = "";
+	 public var $length = "";
 
 	 /**
 	 * Type enclosure element
@@ -422,9 +390,8 @@ class JFeedEnclosure extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $type = "";
+	 public var $type = "";
 }
 
 /**
@@ -442,9 +409,8 @@ class JFeedImage extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $title = "";
+	 public var $title = "";
 
 	 /**
 	 * URL image attribute
@@ -452,9 +418,8 @@ class JFeedImage extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	var $url = "";
+	public var $url = "";
 
 	/**
 	 * Link image attribute
@@ -462,9 +427,8 @@ class JFeedImage extends JObject
 	 * required
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $link = "";
+	 public var $link = "";
 
 	 /**
 	 * Width image attribute
@@ -472,9 +436,8 @@ class JFeedImage extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $width;
+	 public var $width;
 
 	 /**
 	 * Title feed attribute
@@ -482,9 +445,8 @@ class JFeedImage extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $height;
+	 public var $height;
 
 	 /**
 	 * Title feed attribute
@@ -492,7 +454,6 @@ class JFeedImage extends JObject
 	 * optional
 	 *
 	 * @var		string
-	 * @access	public
 	 */
-	 var $description;
+	 public var $description;
 }

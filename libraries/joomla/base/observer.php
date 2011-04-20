@@ -29,11 +29,10 @@ abstract class JObserver extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
 	 * @param	object		$subject	The object to observe.
 	 * @return	void
 	 */
-	function __construct(&$subject)
+	protected function __construct(&$subject)
 	{
 		// Register the observer ($this) so we can be notified
 		$subject->attach($this);
@@ -46,9 +45,9 @@ abstract class JObserver extends JObject
 	 * Method to update the state of observable objects
 	 *
 	 * @abstract	Implement in child classes
-	 * @access		public
 	 * @param		array		$args		An array of arguments to pass to the listener.
+	 * 
 	 * @return		mixed
 	 */
-	abstract public function update(&$args);
+	public abstract public function update(&$args);
 }

@@ -67,7 +67,6 @@ class JToolBar extends JObject
 	 * Returns the global JToolBar object, only creating it if it
 	 * doesn't already exist.
 	 *
-	 * @access	public
 	 * @param	string		$name  The name of the toolbar.
 	 * 
 	 * @return	JToolBar	The JToolBar object.
@@ -251,7 +250,6 @@ class JToolBar extends JObject
 	 * added them. If the parameter type cannot be found in the custom folders,
 	 * it will look in libraries/joomla/html/toolbar/button.
 	 *
-	 * @access	public
 	 * @param	string|array	directory or directories to search.
 	 * @since	11.1
 	 */

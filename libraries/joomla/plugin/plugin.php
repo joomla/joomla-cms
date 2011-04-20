@@ -25,7 +25,6 @@ abstract class JPlugin extends JEvent
 	 * A JRegistry object holding the parameters for the plugin
 	 *
 	 * @var		A JRegistry object
-	 * @access	public
 	 * @since	11.1
 	 */
 	public $params = null;
@@ -34,7 +33,6 @@ abstract class JPlugin extends JEvent
 	 * The name of the plugin
 	 *
 	 * @var		sring
-	 * @access	protected
 	 */
 	protected $_name = null;
 
@@ -42,7 +40,6 @@ abstract class JPlugin extends JEvent
 	 * The plugin type
 	 *
 	 * @var		string
-	 * @access	protected
 	 */
 	protected $_type = null;
 
@@ -84,7 +81,6 @@ abstract class JPlugin extends JEvent
 	/**
 	 * Loads the plugin language file
 	 *
-	 * @access	public
 	 * @param	string	$extension	The extension for which a language file should be loaded
 	 * @param	string	$basePath	The basepath to use
 	 * 

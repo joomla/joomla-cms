@@ -24,15 +24,13 @@ class JPathway extends JObject
 {
 	/**
 	 * Array to hold the pathway item objects
-	 * @access private
 	 */
-	var $_pathway = null;
+	private var $_pathway = null;
 
 	/**
 	 * Integer number of items in the pathway
-	 * @access private
 	 */
-	var $_count = 0;
+	private var $_count = 0;
 
 	/**
 	 * Class constructor
@@ -46,13 +44,13 @@ class JPathway extends JObject
 	/**
 	 * Returns a JPathway object
 	 *
-	 * @access	public
 	 * @param	string		$client  The name of the client
 	 * @param	array		$options An associative array of options
+	 * 
 	 * @return	JPathway	A pathway object.
 	 * @since	11.1
 	 */
-	static function getInstance($client, $options = array())
+	public static function getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -89,11 +87,10 @@ class JPathway extends JObject
 	/**
 	 * Return the JPathWay items array
 	 *
-	 * @access public
 	 * @return array Array of pathway items
 	 * @since   11.1
 	 */
-	function getPathway()
+	public function getPathway()
 	{
 		$pw = $this->_pathway;
 
@@ -104,12 +101,11 @@ class JPathway extends JObject
 	/**
 	 * Set the JPathway items array.
 	 *
-	 * @access	public
 	 * @param	array	$pathway	An array of pathway objects.
 	 * @return	array	The previous pathway data.
 	 * @since	11.1
 	 */
-	function setPathway($pathway)
+	public function setPathway($pathway)
 	{
 		$oldPathway	= $this->_pathway;
 		$pathway	= (array) $pathway;
@@ -123,11 +119,10 @@ class JPathway extends JObject
 	/**
 	 * Create and return an array of the pathway names.
 	 *
-	 * @access public
 	 * @return array Array of names of pathway items
 	 * @since   11.1
 	 */
-	function getPathwayNames()
+	public function getPathwayNames()
 	{
 		// Initialise variables.
 		$names = array (null);
@@ -144,13 +139,13 @@ class JPathway extends JObject
 	/**
 	 * Create and add an item to the pathway.
 	 *
-	 * @access	public
 	 * @param	string	$name
 	 * @param	string	$link
+	 * 
 	 * @return	boolean	True on success
 	 * @since   11.1
 	 */
-	function addItem($name, $link='')
+	public function addItem($name, $link='')
 	{
 		// Initalize variables
 		$ret = false;
@@ -166,13 +161,12 @@ class JPathway extends JObject
 	/**
 	 * Set item name.
 	 *
-	 * @access	public
 	 * @param	integer $id
 	 * @param	string	$name
 	 * @return	boolean	True on success
 	 * @since   11.1
 	 */
-	function setItemName($id, $name)
+	public function setItemName($id, $name)
 	{
 		// Initalize variables
 		$ret = false;
@@ -188,13 +182,13 @@ class JPathway extends JObject
 	/**
 	 * Create and return a new pathway object.
 	 *
-	 * @access private
 	 * @param string $name Name of the item
 	 * @param string $link Link to the item
+	 * 
 	 * @return object Pathway item object
 	 * @since   11.1
 	 */
-	function _makeItem($name, $link)
+	private function _makeItem($name, $link)
 	{
 		$item = new stdClass();
 		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');

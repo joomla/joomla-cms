@@ -97,7 +97,6 @@ abstract class JError
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @access	public
 	 * @param	object JException
 	 * 
 	 * @return	void
@@ -300,7 +299,6 @@ abstract class JError
 	/**
 	 * Method that attaches the error handler to JError
 	 *
-	 * @access public
 	 * @see set_error_handler
 	 */
 	public static function attachHandler()
@@ -311,7 +309,6 @@ abstract class JError
 	/**
 	 * Method that detaches the error handler from JError
 	 *
-	 * @access public
 	 * @see restore_error_handler
 	 */
 	public static function detachHandler()

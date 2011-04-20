@@ -595,7 +595,6 @@ abstract class JFolder
 	/**
 	 * Lists folder in format suitable for tree display.
 	 *
-	 * @access	public
 	 * @param	string	The path of the folder to read.
 	 * @param	string	A filter for folder names.
 	 * @param	integer	The maximum number of levels to recursively read,
@@ -637,8 +636,8 @@ abstract class JFolder
 	/**
 	 * Makes path name safe to use.
 	 *
-	 * @access	public
 	 * @param	string The full path to sanitise.
+	 * 
 	 * @return	string The sanitised string.
 	 * @since	11.1
 	 */

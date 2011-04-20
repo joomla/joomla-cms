@@ -22,7 +22,6 @@ class JElementHidden extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Hidden';

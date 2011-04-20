@@ -49,7 +49,6 @@ class JSessionStorageApc extends JSessionStorage
 	/**
 	 * Close the SessionHandler backend.
 	 *
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function close()
@@ -61,11 +60,11 @@ class JSessionStorageApc extends JSessionStorage
 	 * Read the data for a particular session identifier from the
 	 * SessionHandler backend.
 	 *
-	 * @access public
 	 * @param string $id  The session identifier.
+	 * 
 	 * @return string  The session data.
 	 */
-	function read($id)
+	public function read($id)
 	{
 		$sess_id = 'sess_'.$id;
 		return (string) apc_fetch($sess_id);
@@ -101,12 +100,11 @@ class JSessionStorageApc extends JSessionStorage
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @access public
 	 * @param integer $maxlifetime  The maximum age of a session.
 	 * 
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime = null)
+	public function gc($maxlifetime = null)
 	{
 		return true;
 	}

@@ -22,7 +22,6 @@ class JElementCategory extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Category';

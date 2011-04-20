@@ -21,11 +21,10 @@ class JTableUser extends JTable
 	/**
 	 * Associative array of user names => group ids
 	 *
-	 * @access	public
 	 * @since	11.1
 	 * @var		array
 	 */
-	var $groups;
+	public var $groups;
 
 	/**
 	* @param database A database connector object
@@ -43,12 +42,12 @@ class JTableUser extends JTable
 	 * Method to load a user, user groups, and any other necessary data
 	 * from the database so that it can be bound to the user object.
 	 *
-	 * @access	public
 	 * @param	integer		$userId		An optional user id.
+	 * 
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.0
 	 */
-	function load($userId = null, $reset = true)
+	public function load($userId = null, $reset = true)
 	{
 		// Get the id to load.
 		if ($userId !== null) {
@@ -111,13 +110,13 @@ class JTableUser extends JTable
 	/**
 	 * Method to bind the user, user groups, and any other necessary data.
 	 *
-	 * @access	public
 	 * @param	array		$array		The data to bind.
 	 * @param	mixed		$ignore		An array or space separated list of fields to ignore.
+	 * 
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.0
 	 */
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (key_exists('params', $array) && is_array($array['params'])) {
 			$registry = new JRegistry();
@@ -305,12 +304,11 @@ class JTableUser extends JTable
 	 * Method to delete a user, user groups, and any other necessary
 	 * data from the database.
 	 *
-	 * @access	public
 	 * @param	integer		$userId		An optional user id.
 	 * @return	boolean		True on success, false on failure.
 	 * @since	1.0
 	 */
-	function delete($userId = null)
+	public function delete($userId = null)
 	{
 		// Set the primary key to delete.
 		$k = $this->_tbl_key;

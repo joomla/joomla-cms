@@ -280,7 +280,6 @@ abstract class JUserHelper
 	/**
 	 * Formats a password using the current encryption.
 	 *
-	 * @access	public
 	 * @param	string	$plaintext	The plaintext password to encrypt.
 	 * @param	string	$salt		The salt to use to encrypt the password. []
 	 *								If not present, a new salt will be
@@ -377,7 +376,6 @@ abstract class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @access public
 	 * @param string $encryption  The kind of pasword encryption to use.
 	 *							Defaults to md5-hex.
 	 * @param string $seed		The seed to get the salt from (probably a
@@ -490,9 +488,9 @@ abstract class JUserHelper
 	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
-	 * @access private
 	 * @param string  $value
 	 * @param integer $count
+	 * 
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since   11.1
 	 */

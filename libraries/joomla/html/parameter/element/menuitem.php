@@ -22,7 +22,6 @@ class JElementMenuItem extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'MenuItem';

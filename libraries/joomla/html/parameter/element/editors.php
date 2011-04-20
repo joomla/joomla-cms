@@ -22,7 +22,6 @@ class JElementEditors extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Editors';
