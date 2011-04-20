@@ -53,8 +53,6 @@ class JAuthentication extends JObservable
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @static
-	 * @access public
 	 * @return object The global JAuthentication object
 	 * @since   11.1
 	 */
@@ -77,7 +75,6 @@ class JAuthentication extends JObservable
 	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
-	 * @access public
 	 * @param array	Array holding the user credentials
 	 * @return mixed	Integer userid for valid user if credentials are valid or
 	 *					boolean false if they are not
@@ -108,7 +105,7 @@ class JAuthentication extends JObservable
 				$plugin = new $className($this, (array)$plugin);
 			}
 			else {
-				// bail here if the plugin can't be created
+				// Bail here if the plugin can't be created
 				JError::raiseWarning(50, JText::sprintf('JLIB_USER_ERROR_AUTHENTICATION_FAILED_LOAD_PLUGIN', $className));
 				continue;
 			}
@@ -116,7 +113,7 @@ class JAuthentication extends JObservable
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
 
-			// If authentication is successfull break out of the loop
+			// If authentication is successful break out of the loop
 			if ($response->status === JAUTHENTICATE_STATUS_SUCCESS)
 			{
 				if (empty($response->type)) {
@@ -142,7 +139,7 @@ class JAuthentication extends JObservable
 }
 
 /**
- * Authorization response class, provides an object for storing user and error details
+ * Authorisation response class, provides an object for storing user and error details
  *
  * @package		Joomla.Platform
  * @subpackage	User
@@ -154,7 +151,6 @@ class JAuthenticationResponse extends JObject
 	 * Response status (see status codes)
 	 *
 	 * @var type string
-	 * @access public
 	 */
 	public $status		= JAUTHENTICATE_STATUS_FAILURE;
 
@@ -170,7 +166,6 @@ class JAuthenticationResponse extends JObject
 	 *  The error message
 	 *
 	 * @var error_message string
-	 * @access public
 	 */
 	public $error_message	= '';
 
@@ -186,7 +181,6 @@ class JAuthenticationResponse extends JObject
 	 * Any UTF-8 string that the End User wants to use as a password.
 	 *
 	 * @var password string
-	 * @access public
 	 */
 	public $password		= '';
 
@@ -194,7 +188,6 @@ class JAuthenticationResponse extends JObject
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
 	 *
 	 * @var email string
-	 * @access public
 	 */
 	public $email			= '';
 
@@ -202,7 +195,7 @@ class JAuthenticationResponse extends JObject
 	 * UTF-8 string free text representation of the End User's full name.
 	 *
 	 * @var fullname string
-	 * @access public
+	 * 
 	 */
 	public $fullname		= '';
 
@@ -216,22 +209,21 @@ class JAuthenticationResponse extends JObject
 	 * not the month or day, the value returned SHALL be "1980-00-00".
 	 *
 	 * @var fullname string
-	 * @access public
 	 */
 	public $birthdate		= '';
 
 	/**
 	 * The End User's gender, "M" for male, "F" for female.
 	 *
-	 * @var fullname string
-	 * @access public
+	 * @var gender string
+	 * 
 	 */
 	public $gender		= '';
 
 	/**
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
 	 *
-	 * @var fullname string
+	 * @var postcode string
 	 * @access public
 	 */
 	public $postcode		= '';
@@ -239,7 +231,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * The End User's country of residence as specified by ISO3166.
 	 *
-	 * @var fullname string
+	 * @var country string
 	 * @access public
 	 */
 	public $country		= '';
@@ -247,7 +239,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * End User's preferred language as specified by ISO639.
 	 *
-	 * @var fullname string
+	 * @var language string
 	 * @access public
 	 */
 	public $language		= '';
@@ -255,7 +247,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * ASCII string from TimeZone database
 	 *
-	 * @var fullname string
+	 * @var timezone string
 	 * @access public
 	 */
 	public $timezone		= '';

@@ -95,20 +95,14 @@ class JSessionStorage extends JObject
 	 * 
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public abstract function open($save_path, $session_name)
-	{
-		return true;
-	}
+	public abstract function open($save_path, $session_name);
 
 	/**
 	 * Close the SessionHandler backend.
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public abstract function close()
-	{
-		return true;
-	}
+	public abstract function close();
 
 	/**
 	 * Read the data for a particular session identifier from the
@@ -117,10 +111,7 @@ class JSessionStorage extends JObject
 	 * @param string $id  The session identifier.
 	 * @return string  The session data.
 	 */
-	public abstract function read($id)
-	{
-		return;
-	}
+	public abstract function read($id);
 
 	/**
 	 * Write session data to the SessionHandler backend.
@@ -129,10 +120,7 @@ class JSessionStorage extends JObject
 	 * @param	string	$session_data	The session data.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public abstract function write($id, $session_data)
-	{
-		return true;
-	}
+	public abstract function write($id, $session_data);
 
 	/**
 	 * Destroy the data for a particular session identifier in the
@@ -142,10 +130,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public abstract function destroy($id)
-	{
-		return true;
-	}
+	public abstract function destroy($id); 
 
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
@@ -153,18 +138,12 @@ class JSessionStorage extends JObject
 	 * @param	integer	$maxlifetime	The maximum age of a session.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public abstract function gc($maxlifetime = null)
-	{
-		return true;
-	}
+	public abstract function gc($maxlifetime = null);
 
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public static function test()
-	{
-		return true;
-	}
+	public static function test();
 }
