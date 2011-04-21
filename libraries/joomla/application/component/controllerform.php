@@ -277,7 +277,7 @@ class JControllerForm extends JController
 	public function edit($key = null, $urlVar = null)
 	{
 		// Initialise variables.
-		$app		= JFactory::getApplication(); or was most recently performed
+		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$table		= $model->getTable();
 		$cid		= JRequest::getVar('cid', array(), 'post', 'array');
