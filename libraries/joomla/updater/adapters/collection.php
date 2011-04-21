@@ -44,14 +44,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 */
 	protected function _getStackLocation()
 	{
-			/*$return = '';
 
-			foreach($this->_stack as $stack) {
-					$return .= $stack.'->';
-			}
-
-			return rtrim($return, '->');*/
-			return implode('->', $this->_stack);
+		return implode('->', $this->_stack);
 	}
 
 	/**

@@ -58,7 +58,6 @@ class JUpdate extends JObject
 		return $this->_stack[count($this->_stack) - 1];
 	}
 
-
 	/**
 	 * XML Start Element callback
 	 * Note: This is public because it is called externally
@@ -73,8 +72,7 @@ class JUpdate extends JObject
 		$tag = $this->_getStackLocation();
 		// Reset the data
 		eval('$this->'. $tag .'->_data = "";');
-		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
-		//print_r($attrs); echo '<br />';
+
 		switch($name) {
 			// This is a new update; create a current update
 			case 'UPDATE': 

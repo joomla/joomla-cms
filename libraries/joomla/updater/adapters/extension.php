@@ -18,8 +18,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		$tag = $this->_getStackLocation();
 		// reset the data
 		eval('$this->'. $tag .'->_data = "";');
-		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
-		//print_r($attrs); echo '<br />';
+
 		switch($name) {
 			case 'UPDATE':
 				$this->current_update = JTable::getInstance('update');
