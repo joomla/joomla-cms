@@ -32,7 +32,7 @@ abstract class JObserver extends JObject
 	 * @param	object		$subject	The object to observe.
 	 * @return	void
 	 */
-	protected function __construct(&$subject)
+	public function __construct(&$subject)
 	{
 		// Register the observer ($this) so we can be notified
 		$subject->attach($this);
@@ -49,5 +49,5 @@ abstract class JObserver extends JObject
 	 * 
 	 * @return		mixed
 	 */
-	public abstract public function update(&$args);
+	public abstract function update(&$args);
 }

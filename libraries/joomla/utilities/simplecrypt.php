@@ -23,7 +23,7 @@ class JSimpleCrypt extends JObject
 	 * Encryption/Decryption Key
 	 * @var		string
 	 */
-	private var $_key;
+	private $_key;
 
 	/**
 	 * Object Constructor takes an optional key to be used for encryption/decryption.  If no key is given then the
@@ -34,7 +34,7 @@ class JSimpleCrypt extends JObject
 	 * @return	void
 	 * @since	11.1
 	 */
-	protected function __construct($key = null)
+	public function __construct($key = null)
 	{
 		if ($key) {
 			$this->_key = (string) $key;

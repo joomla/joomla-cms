@@ -75,7 +75,7 @@ class JRegistryFormatIni extends JRegistryFormat
 			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 		} else {
 			// Backward compatibility for 1.5 usage.
-			@deprecated
+			//@deprecated
 			$sections = (boolean) $options;
 		}
 

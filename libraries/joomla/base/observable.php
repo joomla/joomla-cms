@@ -44,7 +44,7 @@ class JObservable extends JObject
 	 *
 	 * @note Make Sure it's not directly instansiated
 	 */
-	protected function __construct()
+	public function __construct()
 	{
 		$this->_observers = array();
 	}

@@ -107,7 +107,7 @@ class JSimpleXML extends JObject
 	 * Constructor.
 	 *
 	 */
-	protected function __construct($options = null)
+	public function __construct($options = null)
 	{
 		if (! function_exists('xml_parser_create')) {
 			// TODO throw warning
