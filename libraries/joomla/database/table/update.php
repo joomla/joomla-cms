@@ -22,21 +22,23 @@ jimport('joomla.database.table');
 class JTableUpdate extends JTable
 {
 	/**
-	 * Constructor
+	 * Contructor
 	 *
+	 * @access protected
 	 * @param database A database connector object
 	 */
-	protected function __construct( &$db ) {
+	function __construct( &$db ) {
 		parent::__construct( '#__updates', 'update_id', $db );
 	}
 
 	/**
 	* Overloaded check function
 	*
+	* @access public
 	* @return boolean True if the object is ok
 	* @see JTable:bind
 	*/
-	public function check()
+	function check()
 	{
 		// check for valid name
 		if (trim( $this->name ) == '' || trim( $this->element ) == '') {
@@ -49,13 +51,13 @@ class JTableUpdate extends JTable
 	/**
 	* Overloaded bind function
 	*
+	* @access public
 	* @param array $hash named array
-	* 
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
-	* @since   11.1
+	* @since 11.1
 	*/
-	public function bind($array, $ignore = '')
+	function bind($array, $ignore = '')
 	{
 		if (isset( $array['params'] ) && is_array($array['params']))
 		{

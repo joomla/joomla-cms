@@ -25,7 +25,7 @@ class JTableUsergroup extends JTable
 	 *
 	 * @param	object	Database object
 	 * @return	void
-	 * @since	1.0
+	 * @since	11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -166,7 +166,7 @@ class JTableUsergroup extends JTable
 		// Select the category ID and it's children
 		$db->setQuery(
 			'SELECT c.id' .
-			' FROM `'.$this->_tbl.'` AS c' .
+			' FROM '.$db->nameQuote($this->_tbl).' AS c' .
 			' WHERE c.lft >= '.(int) $this->lft.' AND c.rgt <= '.$this->rgt
 		);
 		$ids = $db->loadResultArray();
@@ -179,7 +179,7 @@ class JTableUsergroup extends JTable
 
 		// Delete the category and it's children
 		$db->setQuery(
-			'DELETE FROM `'.$this->_tbl.'`' .
+			'DELETE FROM '.$db->nameQuote($this->_tbl).
 			' WHERE id IN ('.implode(',', $ids).')'
 		);
 		if (!$db->query()) {
@@ -187,32 +187,53 @@ class JTableUsergroup extends JTable
 			return false;
 		}
 
-		// Delete the usergroup in view levels
-		$replace = array();
-		foreach ($ids as $id)
-		{
-			$replace []= ','.$db->quote("[$id,").','.$db->quote("[").')';
-			$replace []= ','.$db->quote(",$id,").','.$db->quote(",").')';
-			$replace []= ','.$db->quote(",$id]").','.$db->quote("]").')';
-			$replace []= ','.$db->quote("[$id]").','.$db->quote("[]").')';
-		}
+			// Delete the usergroup in view levels
+			$replace = array();
+			foreach ($ids as $id)
+			{
+				$replace []= ','.$db->quote("[$id,").','.$db->quote("[").')';
+				$replace []= ','.$db->quote(",$id,").','.$db->quote(",").')';
+				$replace []= ','.$db->quote(",$id]").','.$db->quote("]").')';
+				$replace []= ','.$db->quote("[$id]").','.$db->quote("[]").')';
+			}
+			//sqlsrv change. Alternative for regexp
+			$query = $db->getQuery(true);
+			$query->select('id, rules');
+			$query->from('#__viewlevels');
+			$db->setQuery($query);
+			$rules = $db->loadObjectList();
 
-		$query = $db->getQuery(true);
-		$query->set('rules='.str_repeat('replace(',4*count($ids)).'rules'.implode('',$replace));
-		$query->update('#__viewlevels');
-		$query->where('rules REGEXP "(,|\\\\[)('.implode('|', $ids).')(,|\\\\])"');
-		$db->setQuery($query);
-		if (!$db->query()) {
-			$this->setError($db->getErrorMsg());
-			return false;
-		}
+			$match_ids = array();
+			foreach($rules as $rule)
+			{
+				foreach($ids as $id)
+				{
+					if(strstr($rule->rules, '['.$id) || strstr($rule->rules, ','.$id) || strstr($rule->rules, $id.']'))
+						$match_ids[] = $rule->id;
+				}
+			}
 
-		// Delete the user to usergroup mappings for the group(s) from the database.
-		$db->setQuery(
-			'DELETE FROM `#__user_usergroup_map`' .
-			' WHERE `group_id` IN ('.implode(',', $ids).')'
-		);
-		$db->query();
+			if(!empty($match_ids))
+			{
+				$query = $db->getQuery(true);
+				$query->set('rules='.str_repeat('replace(',4*count($ids)).'rules'.implode('',$replace));
+				$query->update('#__viewlevels');
+				//$query->where('rules REGEXP "(,|\\\\[)('.implode('|', $ids).')(,|\\\\])"');
+				$query->where('id IN ('.implode(',', $match_ids).')');
+				$db->setQuery($query);
+				if (!$db->query()) {
+					$this->setError($db->getErrorMsg());
+					return false;
+				}
+			}
+
+
+			// Delete the user to usergroup mappings for the group(s) from the database.
+			$db->setQuery(
+			'DELETE FROM '.$db->nameQuote('#__user_usergroup_map') .
+			' WHERE '.$db->nameQuote('group_id').' IN ('.implode(',', $ids).')'
+			);
+			$db->query();
 
 		// Check for a database error.
 		if ($db->getErrorNum()) {

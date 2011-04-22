@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseImporterMySQL
+class JDatabaseImporterMySQLi
 {
 	/**
 	 * @var    array  An array of cached data.
@@ -25,7 +25,7 @@ class JDatabaseImporterMySQL
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseDriverMySQL  The database connector to use for exporting structure and/or data.
+	 * @var    JDatabaseDriverMySQLi  The database connector to use for exporting structure and/or data.
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -53,7 +53,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseImporterMySQL
+	 * @return  JDatabaseImporterMySQLi
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -79,7 +79,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function asXml()
@@ -92,7 +92,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
@@ -116,7 +116,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * @param   mixed  $from  The data source to import.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function from($from)
@@ -643,12 +643,12 @@ class JDatabaseImporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMySQL  $db  The database connector.
+	 * @param   JDatabaseDriverMySQLi  $db  The database connector.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseDriverMySQL $db)
+	public function setDbo(JDatabaseDriverMySQLi $db)
 	{
 		$this->db = $db;
 
@@ -660,7 +660,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 * @return  JDatabaseImporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)

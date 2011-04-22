@@ -25,7 +25,7 @@ class JTableViewlevel extends JTable
 	 *
 	 * @param	object	Database object
 	 * @return	void
-	 * @since	1.0
+	 * @since	11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -56,7 +56,7 @@ class JTableViewlevel extends JTable
 	 * Method to check the current record to save
 	 *
 	 * @return	boolean	True on success
-	 * @since	1.0
+	 * @since	11.1
 	 */
 	public function check()
 	{

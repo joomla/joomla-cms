@@ -21,10 +21,11 @@ class JTableUser extends JTable
 	/**
 	 * Associative array of user names => group ids
 	 *
+	 * @access	public
 	 * @since	11.1
 	 * @var		array
 	 */
-	public $groups;
+	var $groups;
 
 	/**
 	* @param database A database connector object
@@ -42,12 +43,12 @@ class JTableUser extends JTable
 	 * Method to load a user, user groups, and any other necessary data
 	 * from the database so that it can be bound to the user object.
 	 *
+	 * @access	public
 	 * @param	integer		$userId		An optional user id.
-	 * 
 	 * @return	boolean		True on success, false on failure.
-	 * @since	1.0
+	 * @since	11.1
 	 */
-	public function load($userId = null, $reset = true)
+	function load($userId = null, $reset = true)
 	{
 		// Get the id to load.
 		if ($userId !== null) {
@@ -110,13 +111,13 @@ class JTableUser extends JTable
 	/**
 	 * Method to bind the user, user groups, and any other necessary data.
 	 *
+	 * @access	public
 	 * @param	array		$array		The data to bind.
 	 * @param	mixed		$ignore		An array or space separated list of fields to ignore.
-	 * 
 	 * @return	boolean		True on success, false on failure.
-	 * @since	1.0
+	 * @since	11.1
 	 */
-	public function bind($array, $ignore = '')
+	function bind($array, $ignore = '')
 	{
 		if (key_exists('params', $array) && is_array($array['params'])) {
 			$registry = new JRegistry();
@@ -135,9 +136,9 @@ class JTableUser extends JTable
 
 			// Get the titles for the user groups.
 			$this->_db->setQuery(
-				'SELECT `id`, `title`' .
-				' FROM `#__usergroups`' .
-				' WHERE `id` = '.implode(' OR `id` = ', $this->groups)
+				'SELECT '.$this->_db->nameQuote('id').', '.$this->_db->nameQuote('title') .
+				' FROM '.$this->_db->nameQuote('#__usergroups') .
+				' WHERE '.$this->_db->nameQuote('id').' = '.implode(' OR '.$this->_db->nameQuote('id').' = ', $this->groups)
 			);
 			// Set the titles for the user groups.
 			$this->groups = $this->_db->loadAssocList('title','id');
@@ -183,8 +184,8 @@ class JTableUser extends JTable
 		}
 
 		// Set the registration timestamp
-		if ($this->registerDate == null || $this->registerDate == '0000-00-00 00:00:00' ) {
-			$this->registerDate = JFactory::getDate()->toMySQL();
+		if ($this->registerDate == null || $this->registerDate == $this->_db->getNullDate() ) {
+			$this->registerDate = $this->_db->toSQLDate(JFactory::getDate());
 		}
 
 
@@ -272,8 +273,8 @@ class JTableUser extends JTable
 		{
 			// Delete the old user group maps.
 			$this->_db->setQuery(
-				'DELETE FROM `#__user_usergroup_map`' .
-				' WHERE `user_id` = '.(int) $this->id
+				'DELETE FROM '.$this->_db->nameQuote('#__user_usergroup_map') .
+				' WHERE '.$this->_db->nameQuote('user_id').' = '.(int) $this->id
 			);
 			$this->_db->query();
 
@@ -285,7 +286,7 @@ class JTableUser extends JTable
 
 			// Set the new user group maps.
 			$this->_db->setQuery(
-				'INSERT INTO `#__user_usergroup_map` (`user_id`, `group_id`)' .
+				'INSERT INTO '.$this->_db->nameQuote('#__user_usergroup_map').' ('.$this->_db->nameQuote('user_id').', '.$this->_db->nameQuote('group_id').')' .
 				' VALUES ('.$this->id.', '.implode('), ('.$this->id.', ', $this->groups).')'
 			);
 			$this->_db->query();
@@ -304,11 +305,12 @@ class JTableUser extends JTable
 	 * Method to delete a user, user groups, and any other necessary
 	 * data from the database.
 	 *
+	 * @access	public
 	 * @param	integer		$userId		An optional user id.
 	 * @return	boolean		True on success, false on failure.
-	 * @since	1.0
+	 * @since	11.1
 	 */
-	public function delete($userId = null)
+	function delete($userId = null)
 	{
 		// Set the primary key to delete.
 		$k = $this->_tbl_key;
@@ -318,8 +320,8 @@ class JTableUser extends JTable
 
 		// Delete the user.
 		$this->_db->setQuery(
-			'DELETE FROM `'.$this->_tbl.'`' .
-			' WHERE `'.$this->_tbl_key.'` = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->nameQuote($this->_tbl).
+			' WHERE '.$this->_db->nameQuote($this->_tbl_key).' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -331,8 +333,8 @@ class JTableUser extends JTable
 
 		// Delete the user group maps.
 		$this->_db->setQuery(
-			'DELETE FROM `#__user_usergroup_map`' .
-			' WHERE `user_id` = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->nameQuote('#__user_usergroup_map') .
+			' WHERE '.$this->_db->nameQuote('user_id').' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -347,8 +349,8 @@ class JTableUser extends JTable
 		 */
 
 		$this->_db->setQuery(
-			'DELETE FROM `#__messages_cfg`' .
-			' WHERE `user_id` = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->nameQuote('#__messages_cfg') .
+			' WHERE '.$this->_db->nameQuote('user_id').' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -359,8 +361,8 @@ class JTableUser extends JTable
 		}
 
 		$this->_db->setQuery(
-			'DELETE FROM `#__messages`' .
-			' WHERE `user_id_to` = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->nameQuote('#__messages') .
+			' WHERE '.$this->_db->nameQuote('user_id_to').' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -397,9 +399,9 @@ class JTableUser extends JTable
 
 		// Update the database row for the user.
 		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `lastvisitDate` = '.$this->_db->Quote($date->toMySQL()) .
-			' WHERE `id` = '.(int) $userId
+			'UPDATE '.$this->_db->nameQuote($this->_tbl).
+			' SET '.$this->_db->nameQuote('lastvisitDate').' = '.$this->_db->Quote($this->_db->toSQLDate($date)) .
+			' WHERE '.$this->_db->nameQuote('id').' = '.(int) $userId
 		);
 		$this->_db->query();
 

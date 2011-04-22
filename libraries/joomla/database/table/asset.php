@@ -66,9 +66,9 @@ class JTableAsset extends JTableNested
 	{
 		// Get the asset id for the asset.
 		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__assets`' .
-			' WHERE `name` = '.$this->_db->Quote($name)
+			'SELECT '.$this->_db->nameQuote('id') .
+			' FROM '.$this->_db->nameQuote('#__assets') .
+			' WHERE '.$this->_db->nameQuote('name').' = '.$this->_db->Quote($name)
 		);
 		$assetId = (int) $this->_db->loadResult();
 		if (empty($assetId)) {
@@ -87,7 +87,7 @@ class JTableAsset extends JTableNested
 	 * Asset that the nested set data is valid.
 	 *
 	 * @return	boolean	True if the instance is sane and able to be stored in the database.
-	 * @since	1.0
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/check
 	 */
 	public function check()
@@ -100,7 +100,7 @@ class JTableAsset extends JTableNested
 			$this->_db->setQuery(
 				'SELECT COUNT(id)' .
 				' FROM '.$this->_db->nameQuote($this->_tbl).
-				' WHERE `id` = '.$this->parent_id
+				' WHERE '.$this->_db->nameQuote('id').' = '.$this->parent_id
 			);
 			if ($this->_db->loadResult()) {
 				return true;

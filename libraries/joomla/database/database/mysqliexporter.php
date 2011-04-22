@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySQL
+class JDatabaseExporterMySQLi
 {
 	/**
 	 * @var    array  An array of cached data.
@@ -25,7 +25,7 @@ class JDatabaseExporterMySQL
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseDriverMySQL  The database connector to use for exporting structure and/or data.
+	 * @var    JDatabaseDriverMySQLi  The database connector to use for exporting structure and/or data.
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -53,7 +53,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseExporterMySQL
+	 * @return  JDatabaseExporterMySQLi
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -105,7 +105,7 @@ class JDatabaseExporterMySQL
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function asXml()
@@ -193,14 +193,14 @@ class JDatabaseExporterMySQL
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseDriverMySQL)) {
+		if (!($this->db instanceof JDatabaseDriverMySql)) {
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
@@ -292,7 +292,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
 	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 * @throws  Exception if input is not a string or array.
 	 */
@@ -314,12 +314,12 @@ class JDatabaseExporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMySQL  $db  The database connector.
+	 * @param   JDatabaseDriverMySQLi  $db  The database connector.
 	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseDriverMySQL $db)
+	public function setDbo(JDatabaseDriverMySQLi $db)
 	{
 		$this->db = $db;
 
@@ -331,7 +331,7 @@ class JDatabaseExporterMySQL
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseExporterMySQL  Method supports chaining.
+	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)
