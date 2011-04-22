@@ -46,13 +46,13 @@ class JFormRuleTel extends JFormRule
 		if (!$required && empty($value)) {
 			return true;
 		}		
-		//See http://www.nanpa.com/
-		//http://tools.ietf.org/html/rfc4933
-		//http://www.itu.int/rec/T-REC-E.164/en
+		// @see http://www.nanpa.com/
+		// @see http://tools.ietf.org/html/rfc4933
+		// @see http://www.itu.int/rec/T-REC-E.164/en
 		 
-		//Regex by Steve Levithan
-		//see http://blog.stevenlevithan.com/archives/validate-phone-number
-		//Note that valid ITU-T and EPP must begin with +.
+		// Regex by Steve Levithan
+		// @see http://blog.stevenlevithan.com/archives/validate-phone-number
+		// @note that valid ITU-T and EPP must begin with +.
 		$regexarray = array(
 			'NANP' => '/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/',
 			'ITU-T'=> '/^\+(?:[0-9] ?){6,14}[0-9]$/',
@@ -72,9 +72,9 @@ class JFormRuleTel extends JFormRule
 			 }
 	
 			$regex = $regexarray[$plan];
-			// Test the value against the regular expression.
-			
+			// Test the value against the regular expression.			
 			if (preg_match($regex, $value) == false) {
+				
 				return false;
 			}
 		} else {
@@ -84,11 +84,14 @@ class JFormRuleTel extends JFormRule
 			$cleanvalue = preg_replace('/[+. -(\)]/','',$value);
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true) {
+				
 				return true;
 			} else {
+				
 				return false;
 			}
-		}			
+		}	
+				
 		return true;	
 	}
 }	

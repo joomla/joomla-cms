@@ -18,22 +18,40 @@ defined('JPATH_PLATFORM') or die;
  */
 class JExtension extends JObject
 {
-	/** @var string $filename Filename of the extension */
+	/** 
+	 * @var string $filename Filename of the extension 
+	 */
 	var $filename = '';
-	/** @var string $type Type of the extension */
+	/** 
+	 * @var string $type Type of the extension 
+	 */
 	var $type = '';
-	/** @var string $id Unique Identifier for the extension */
+	/** 
+	 * @var string $id Unique Identifier for the extension 
+	 * */
 	var $id = '';
-	/** @var boolean $published The status of the extension */
-	var $published = false; // published status
-	/** @var string $client String representation of client. Valid for modules, templates and languages */
-	var $client = 'site'; // valid for modules, templates and languages; set by default
-	/** @var string $group The group name of the plugin. Not used for other known extension types */
-	var $group =  ''; // valid for plugins
-	/** @var Object $manifest_cache An object representation of the manifest file */
-	var $manifest_cache = null; // manifest cache; stored metadata
-	/** @var Object $params An object representation of the extension params */
-	var $params = null;	// extension params
+	/**
+	 *  @var boolean $published The status of the extension 
+	 *  */
+	var $published = false; 
+	/** 
+	 * @var string $client String representation of client. Valid for modules, templates and languages.
+	 * 					set by default to site
+	 */
+	var $client = 'site';
+	/** 
+	 * @var string $group The group name of the plugin. Not used for other known extension types (only plugins) 
+	 */
+	var $group =  ''; 
+	/**
+	 *  @var Object $manifest_cache An object representation of the manifest file
+	 *  							Stored metadata 
+	 */
+	var $manifest_cache = null; 
+	/** 
+	 * @var Object $params An object representation of the extension params 
+	 */
+	var $params = null;	
 
 	/**
 	 * Constructor
@@ -49,7 +67,7 @@ class JExtension extends JObject
 			switch($this->type)
 			{
 				case 'component':
-					// by default a component doesn't have anything
+					// By default a component doesn't have anything
 					break;
 
 				case 'module':
@@ -69,8 +87,8 @@ class JExtension extends JObject
 					break;
 
 				default:
-					// catch all
-					// get and set client and group if we don't recognise the extension
+					// Catch all
+					// Get and set client and group if we don't recognise the extension
 					if ($client = (string)$element->attributes()->client)
 					{
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);

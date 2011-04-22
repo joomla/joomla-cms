@@ -10,13 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
-* Custom session storage handler for PHP
-*
-* @abstract
+ * Custom session storage handler for PHP
+ *
+ * @abstract
  * @package		Joomla.Platform
  * @subpackage	Session
  * @since		11.1
-* @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorage extends JObject
 {
@@ -92,22 +92,17 @@ class JSessionStorage extends JObject
 	 *
 	 * @param	string	$save_path		The path to the session object.
 	 * @param	string	$session_name	The name of the session.
+	 * 
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public function open($save_path, $session_name)
-	{
-		return true;
-	}
+	public abstract function open($save_path, $session_name);
 
 	/**
 	 * Close the SessionHandler backend.
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public function close()
-	{
-		return true;
-	}
+	public abstract function close();
 
 	/**
 	 * Read the data for a particular session identifier from the
@@ -116,10 +111,7 @@ class JSessionStorage extends JObject
 	 * @param string $id  The session identifier.
 	 * @return string  The session data.
 	 */
-	public function read($id)
-	{
-		return;
-	}
+	public abstract function read($id);
 
 	/**
 	 * Write session data to the SessionHandler backend.
@@ -128,10 +120,7 @@ class JSessionStorage extends JObject
 	 * @param	string	$session_data	The session data.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function write($id, $session_data)
-	{
-		return true;
-	}
+	public abstract function write($id, $session_data);
 
 	/**
 	 * Destroy the data for a particular session identifier in the
@@ -141,10 +130,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function destroy($id)
-	{
-		return true;
-	}
+	public abstract function destroy($id); 
 
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
@@ -152,18 +138,12 @@ class JSessionStorage extends JObject
 	 * @param	integer	$maxlifetime	The maximum age of a session.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function gc($maxlifetime = null)
-	{
-		return true;
-	}
+	public abstract function gc($maxlifetime = null);
 
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public static function test()
-	{
-		return true;
-	}
+	public static function test();
 }

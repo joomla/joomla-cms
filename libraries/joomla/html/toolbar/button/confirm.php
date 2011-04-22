@@ -21,7 +21,6 @@ class JButtonConfirm extends JButton
 	/**
 	 * Button type
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = 'Confirm';
@@ -45,7 +44,6 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
 	 * @return	string	Button CSS Id
 	 * @since	11.1
 	 */
@@ -57,8 +55,8 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @access	private
 	 * @param	object	$definition	Button definition
+	 * 
 	 * @return	string	JavaScript command string
 	 * @since	11.1
 	 */

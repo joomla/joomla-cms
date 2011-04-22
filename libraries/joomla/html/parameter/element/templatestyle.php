@@ -22,8 +22,9 @@ class JElementTemplateStyle extends JElement {
 	* @access	protected
 	* @var		string
 	**/
-	var	$_name = 'TemplateStyle';
+	protected var	$_name = 'TemplateStyle';
 
+	
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
 		$db = JFactory::getDBO();

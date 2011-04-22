@@ -148,8 +148,8 @@ class JPagination extends JObject
 	}
 
 	/**
-	 * Method to get an additional URL parameter to be added to all pagination class generated
-	 * links if it exists.
+	 * Method to get an additional URL parameter (if it exists) to be added to 
+	 * all pagination class generated links.
 	 *
 	 * @param	string	$key	The name of the URL parameter for which to get the value.
 	 *
@@ -536,7 +536,8 @@ class JPagination extends JObject
 		{
 			$page = ($this->get('pages.current') -2) * $this->limit;
 
-			//$page = $page == 0 ? '' : $page; //set the empty for removal from route
+			// Set the empty for removal from route
+			//$page = $page == 0 ? '' : $page; 
 
 			$data->start->base	= '0';
 			$data->start->link	= JRoute::_($params.'&'.$this->prefix.'limitstart=0');
@@ -564,8 +565,8 @@ class JPagination extends JObject
 		for ($i = $this->get('pages.start'); $i <= $stop; $i ++)
 		{
 			$offset = ($i -1) * $this->limit;
-
-			//$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
+			// Set the empty for removal from route
+			//$offset = $offset == 0 ? '' : $offset;  
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 			if ($i != $this->get('pages.current') || $this->_viewall)

@@ -28,17 +28,15 @@ defined('JPATH_PLATFORM') or die;
 	 * Document mime type
 	 *
 	 * @var		string
-	 * @access	private
 	 */
-	var $_mime = "application/atom+xml";
+	private var $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed
 	 *
-	 * @access public
 	 * @return string
 	 */
-	function render()
+	public function render()
 	{
 		$app	= JFactory::getApplication();
 		$now	= JFactory::getDate();

@@ -25,14 +25,12 @@ class JDocumentJSON extends JDocument
 	 * Document name
 	 *
 	 * @var		string
-	 * @access  protected
 	 */
 	protected $_name = 'joomla';
 
 	/**
 	 * Class constructor
 	 *
-	 * @access public
 	 * @param	array	$options Associative array of options
 	 */
 	public function __construct($options = array())
@@ -49,7 +47,6 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Render the document.
 	 *
-	 * @access public
 	 * @param boolean	$cache		If true, cache the output
 	 * @param array	$params		Associative array of attributes
 	 * @return	The rendered data
@@ -67,27 +64,20 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Get the document head data
 	 *
-	 * @access	public
 	 * @return	array	The document head data in array form
 	 */
-	public function getHeadData()
-	{
-	}
+	public abstract function getHeadData();
 
 	/**
 	 * Set the document head data
 	 *
-	 * @access	public
 	 * @param	array	$data	The document head data in array form
 	 */
-	public function setHeadData($data)
-	{
-	}
+	public abstract function setHeadData($data)
 
 	/**
 	 * Returns the document name
 	 *
-	 * @access public
 	 * @return string
 	 */
 	public function getName() {
@@ -98,7 +88,6 @@ class JDocumentJSON extends JDocument
 	 * Sets the document name
 	 *
 	 * @param	string	$name	Document name
-	 * @access  public
 	 * @return  void
 	 */
 	public function setName($name = 'joomla') {

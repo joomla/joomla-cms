@@ -22,7 +22,6 @@ class JElementCategory extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Category';
@@ -36,7 +35,7 @@ class JElementCategory extends JElement
 		$filter		= explode(',', $node->attributes('filter'));
 
 		if (!isset ($extension)) {
-			// alias for extension
+			// Alias for extension
 			$extension = $node->attributes('scope');
 			if (!isset ($extension)) {
 				$extension = 'com_content';

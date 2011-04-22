@@ -412,12 +412,14 @@ abstract class JFormField
 		$title = '';
 
 		if ($this->hidden) {
+			
 			return $title;
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 		$title = $this->translateLabel ? JText::_($title) : $title;
+		
 		return $title;
 	}
 
@@ -453,7 +455,7 @@ abstract class JFormField
 						($this->translateDescription ? JText::_($this->description) : $this->description), ENT_COMPAT, 'UTF-8').'"';
 		}
 
-	// Add the label text and closing tag.
+		// Add the label text and closing tag.
 		if ($this->required) {
 			$label .= '>'.$text.'<span class="star">&#160;*</span></label>';
 		} else {

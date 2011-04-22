@@ -20,10 +20,11 @@ abstract class JHtmlTel
 	/**
 	 * Converts strings of integers into more readable telephone format
 	 *
-	 * By default, the proper format will automatically be chosen.
+	 * By default, the ITU-T format will automatically be used.
 	 * However, one of the allowed unit types may also be used instead.
 	 *
-	 * @param	int		$number		The integers in a phone number with dot separated country code		
+	 * @param	int		$number		The integers in a phone number with dot separated country code
+	 * 								ccc.nnnnnnn where ccc represents country code and nnn represents the local number.		
 	 * @param	string	$displayplanThe numbering plan used to display the numbers.
 	 * @param	string	$layout		Optional user defined layout to be used.
 	 *
@@ -36,7 +37,8 @@ abstract class JHtmlTel
 		$countrycode =  $number[0];
 		$number = $number[1];
 
-		if ($displayplan == 'ITU-T' || $displayplan == 'International' || $displayplan == 'int' || $displayplan== 'missdn'){
+		if ($displayplan == 'ITU-T' || $displayplan == 'International' || $displayplan == 'int' 
+			|| $displayplan == 'missdn' || $displayplan == null){
 			$display[0] = '+';
 			$display[1] = $countrycode;
 			$display[2] = ' ';

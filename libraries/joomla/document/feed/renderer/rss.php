@@ -23,17 +23,15 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var		string
-	 * @access	private
 	 */
-	var $_mime = "application/rss+xml";
+	private var $_mime = "application/rss+xml";
 
 	/**
 	 * Render the feed
 	 *
-	 * @access public
 	 * @return	string
 	 */
-	function render()
+	public function render()
 	{
 		$app	= JFactory::getApplication();
 		$now	= JFactory::getDate();
@@ -184,10 +182,9 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	/**
 	 * Convert links in a text from relative to absolute
 	 *
-	 * @access public
 	 * @return	string
 	 */
-	function _relToAbs($text)
+	public function _relToAbs($text)
 	{
 		$base = JURI::base();
 		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto)([^\"]*)\"/", "$1=\"$base\$2\"", $text);

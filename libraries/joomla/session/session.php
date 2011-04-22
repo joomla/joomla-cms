@@ -18,7 +18,7 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
  * Provides access to session-state values as well as session-level
  * settings and lifetime management methods.
  * Based on the standart PHP session handling mechanism it provides
- * for you more advanced features such as expire timeouts.
+ * more advanced features such as expire timeouts.
  *
  * @package		Joomla.Platform
  * @subpackage	Session
@@ -111,7 +111,6 @@ class JSession extends JObject
 	/**
 	 * Session object destructor
 	 *
-	 * @access private
 	 * @since   11.1
 	 */
 	public function __destruct()
@@ -165,6 +164,7 @@ class JSession extends JObject
 	 * it is present, if not it will invalidate the session.
 	 *
 	 * @param	boolean  If true, force a new token to be created
+	 * 
 	 * @return  string	The session token
 	 */
 	public function getToken($forceNew = false)
@@ -186,6 +186,8 @@ class JSession extends JObject
 	 *
 	 * @param  string	Hashed token to be verified
 	 * @param  boolean  If true, expires the session
+	 * 
+	 * @return boolean
 	 * @since  11.1
 	 */
 	public function hasToken($tCheck, $forceExpire = true)
@@ -209,7 +211,6 @@ class JSession extends JObject
 	 *
 	 * @return	string  Hashed var name
 	 * @since		11.1
-	 * @static
 	 */
 	public static function getFormToken($forceNew = false)
 	{
@@ -296,6 +297,7 @@ class JSession extends JObject
 	 * @param	string  Name of a variable
 	 * @param	mixed	Default value of a variable if not set
 	 * @param	string  Namespace to use, default to 'default'
+	 * 
 	 * @return  mixed	Value of a variable
 	 */
 	public function get($name, $default = null, $namespace = 'default')
@@ -320,6 +322,7 @@ class JSession extends JObject
 	 * @param	string  Name of a variable.
 	 * @param	mixed	Value of a variable.
 	 * @param	string  Namespace to use, default to 'default'.
+	 * 
 	 * @return  mixed	Old value of a variable.
 	 */
 	public function set($name, $value = null, $namespace = 'default')
@@ -370,7 +373,8 @@ class JSession extends JObject
 	 */
 	public function clear($name, $namespace = 'default')
 	{
-		$namespace = '__'.$namespace; //add prefix to namespace to avoid collisions
+		// Add prefix to namespace to avoid collisions
+		$namespace = '__'.$namespace; 
 
 		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
@@ -395,7 +399,7 @@ class JSession extends JObject
 	 */
 	protected function _start()
 	{
-		//  start session if not startet
+		// Start session if not started
 		if ($this->_state == 'restart') {
 			session_id($this->_createId());
 		} else {
@@ -413,7 +417,7 @@ class JSession extends JObject
 
 		// Send modified header for IE 6.0 Security Policy
 		// Joomla! 1.6: Moved to configurable plugin due to security concerns
-		//header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
+		// header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
 		return true;
 	}
@@ -425,13 +429,13 @@ class JSession extends JObject
 	 * with the current session in its storage (file or DB). It forces new session to be
 	 * started after this method is called. It does not unset the session cookie.
 	 *
-	 * @return  void
+	 * @return  boolean	true on success
 	 * @see	session_unset()
 	 * @see	session_destroy()
 	 */
 	public function destroy()
 	{
-		// session was already destroyed
+		// Session was already destroyed
 		if ($this->_state === 'destroyed') {
 			return true;
 		}
@@ -495,23 +499,23 @@ class JSession extends JObject
 			return false;
 		}
 
-		// save values
+		// Save values
 		$values	= $_SESSION;
 
-		// keep session config
+		// Keep session config
 		$trans	=	ini_get('session.use_trans_sid');
 		if ($trans) {
 			ini_set('session.use_trans_sid', 0);
 		}
 		$cookie	=	session_get_cookie_params();
 
-		// create new session id
+		// Create new session id
 		$id	=	$this->_createId(strlen($this->getId()));
 
-		// kill session
+		// Kill session
 		session_destroy();
 
-		// re-register the session store after a session has been destroyed, to avoid PHP bug
+		// Re-register the session store after a session has been destroyed, to avoid PHP bug
 		$this->_store->register();
 
 		// restore config
@@ -529,7 +533,7 @@ class JSession extends JObject
 	 * Writes session data and ends session
 	 *
 	 * Session data is usually stored after your script terminated without the need
-	 * to call JSession::close(),but as session data is locked to prevent concurrent
+	 * to call JSession::close(), but as session data is locked to prevent concurrent
 	 * writes only one script may operate on a session at any time. When using
 	 * framesets together with sessions you will experience the frames loading one
 	 * by one due to this locking. You can reduce the time needed to load all the
@@ -585,6 +589,7 @@ class JSession extends JObject
 	 * Create a token-string
 	 *
 	 * @param	int	length of string
+	 * 
 	 * @return  string  generated token
 	 */
 	protected function _createToken($length = 32)
@@ -636,29 +641,30 @@ class JSession extends JObject
 	}
 
 	/**
-	 * set additional session options
+	 * Set additional session options
 	 *
 	 * @param	array	list of parameter
+	 * 
 	 * @return  boolean  true on success
 	 */
 	protected function _setOptions(&$options)
 	{
-		// set name
+		// Set name
 		if (isset($options['name'])) {
 			session_name(md5($options['name']));
 		}
 
-		// set id
+		// Set id
 		if (isset($options['id'])) {
 			session_id($options['id']);
 		}
 
-		// set expire time
+		// Set expire time
 		if (isset($options['expire'])) {
 			$this->_expire	=	$options['expire'];
 		}
 
-		// get security options
+		// Get security options
 		if (isset($options['security'])) {
 			$this->_security	=	explode(',', $options['security']);
 		}
@@ -667,7 +673,7 @@ class JSession extends JObject
 			$this->_force_ssl = (bool) $options['force_ssl'];
 		}
 
-		//sync the session maxlifetime
+		// Sync the session maxlifetime
 		ini_set('session.gc_maxlifetime', $this->_expire);
 
 		return true;
@@ -683,39 +689,40 @@ class JSession extends JObject
 	 * If one check failed, session data has to be cleaned.
 	 *
 	 * @param	boolean  reactivate session
+	 * 
 	 * @return  boolean  true on success
 	 * @see		http://shiflett.org/articles/the-truth-about-sessions
 	 */
 	protected function _validate($restart = false)
 	{
-		// allow to restart a session
+		// Allow to restart a session
 		if ($restart) {
 			$this->_state	=	'active';
 
-			$this->set('session.client.address'	, null);
+			$this->set('session.client.address'		, null);
 			$this->set('session.client.forwarded'	, null);
-			$this->set('session.client.browser'	, null);
+			$this->set('session.client.browser'		, null);
 			$this->set('session.token'				, null);
 		}
 
-		// check if session has expired
+		// Check if session has expired
 		if ($this->_expire) {
 			$curTime =	$this->get('session.timer.now' , 0 );
 			$maxTime =	$this->get('session.timer.last', 0) +  $this->_expire;
 
-			// empty session variables
+			// Empty session variables
 			if ($maxTime < $curTime) {
 				$this->_state	=	'expired';
 				return false;
 			}
 		}
 
-		// record proxy forwarded for in the session in case we need it later
+		// Record proxy forwarded for in the session in case we need it later
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$this->set('session.client.forwarded', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		}
 
-		// check for client adress
+		// Check for client adress
 		if (in_array('fix_adress', $this->_security) && isset($_SERVER['REMOTE_ADDR'])) {
 			$ip	= $this->get('session.client.address');
 
@@ -727,7 +734,7 @@ class JSession extends JObject
 			}
 		}
 
-		// check for clients browser
+		// Check for clients browser
 		if (in_array('fix_browser', $this->_security) && isset($_SERVER['HTTP_USER_AGENT'])) {
 			$browser = $this->get('session.client.browser');
 

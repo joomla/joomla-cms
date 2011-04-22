@@ -33,6 +33,7 @@ define('JREQUEST_ALLOWHTML',4);
  * @static
  * @package		Joomla.Platform
  * @subpackage	Environment
+ * @deprecated	Get the JInput object from the application instead
  * @since		11.1
  */
 class JRequest

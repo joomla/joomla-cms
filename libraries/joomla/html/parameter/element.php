@@ -27,15 +27,13 @@ class JElement extends JObject
 	* This has to be set in the final
 	* renderer classes.
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = null;
 
 	/**
-	* reference to the object that instantiated the element
+	* Reference to the object that instantiated the element
 	*
-	* @access	protected
 	* @var		object
 	*/
 	protected $_parent = null;
@@ -51,9 +49,8 @@ class JElement extends JObject
 	}
 
 	/**
-	* get the element name
+	* Get the element name
 	*
-	* @access	public
 	* @return	string	type of the parameter
 	*/
 	public function getName() {

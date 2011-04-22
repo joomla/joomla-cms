@@ -23,7 +23,6 @@ class JElementContentLanguages extends JElementList
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'ContentLanguages';

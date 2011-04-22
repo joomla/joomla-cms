@@ -86,7 +86,7 @@ class JFormHelper
 	/**
 	 * Method to load a form entity object given a type.
 	 * Each type is loaded only once and then used as a prototype for other objects of same type.
-	 * Please, use this method only with those entities which support types (forms aren't support them).
+	 * Please, use this method only with those entities which support types (forms don't support them).
 	 *
 	 * @param	string	$type	The entity type.
 	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.

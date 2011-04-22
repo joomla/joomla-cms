@@ -21,7 +21,6 @@ class JButtonStandard extends JButton
 	/**
 	 * Button type
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = 'Standard';
@@ -44,7 +43,6 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
 	 * @return	string	Button CSS Id
 	 * @since	11.1
 	 */
@@ -60,6 +58,7 @@ class JButtonStandard extends JButton
 	 * @param	string	$name	The task name as seen by the user
 	 * @param	string	$task	The task used by the application
 	 * @param	???		$list
+	 * 
 	 * @return	string	JavaScript command string
 	 * @since	11.1
 	 */

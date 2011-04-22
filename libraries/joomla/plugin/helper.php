@@ -105,7 +105,7 @@ abstract class JPluginHelper
 				}
  			}
 
-			// bail out early if we're not using default args
+			// Bail out early if we're not using default args
 			if(!$defaults) {
 				return $results;
 			}

@@ -213,9 +213,9 @@ abstract class JHtmlMenu
 
 		$mitems_temp = $mitems;
 
-		// establish the hierarchy of the menu
+		// Establish the hierarchy of the menu
 		$children = array();
-		// first pass - collect children
+		// First pass - collect children
 		foreach ($mitems as $v)
 		{
 			$id = $v->id;
@@ -224,7 +224,7 @@ abstract class JHtmlMenu
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
-		// second pass - get an indent list of the items
+		// Second pass - get an indent list of the items
 		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)

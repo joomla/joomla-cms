@@ -20,14 +20,14 @@ class JElementCalendar extends JElement
 {
 	/**
 	* Element name
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Calendar';
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		JHtml::_('behavior.calendar'); //load the calendar behavior
+		// Load the calendar behavior
+		JHtml::_('behavior.calendar'); 
 
 		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';

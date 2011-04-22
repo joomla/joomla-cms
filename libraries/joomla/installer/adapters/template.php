@@ -89,7 +89,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$clientId = 0;
 		}
 
-		// Set the extensions name
+		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string)$xml->name, 'cmd');
 
 		$element = strtolower(str_replace(" ", "_", $name));
@@ -104,16 +104,16 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $basePath.DS.'templates'.DS.$element);
 
 
-		// if its on the fs...
+		// if it's on the fs...
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade()))
 		{
 			$updateElement = $xml->update;
-			// upgrade manually set
-			// update function available
-			// update tag detected
+			// Upgrade manually set or
+			// Update function available or
+			// Update tag detected
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || is_a($updateElement, 'JXMLElement'))
 			{
-				// force these one
+				// Force this one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 				if ($id) { // if there is a matching extension mark this as an update; semantics really
@@ -122,8 +122,8 @@ class JInstallerTemplate extends JAdapterInstance
 			}
 			else if (!$this->parent->getOverwrite())
 			{
-				// overwrite is set
-				// we didn't have overwrite set, find an udpate function or find an update tag so lets call it safe
+				// Overwrite is not set
+				// If we didn't have overwrite set, find an udpate function or find an update tag so let's call it safe
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_PLG_INSTALL_DIRECTORY', JText::_('JLIB_INSTALLER_'.$this->route), $this->parent->getPath('extension_root')));
 				return false;
 			}
@@ -138,7 +138,7 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		// If the template directory does not exist, lets create it
+		// If the template directory does not exist, let's create it
 		$created = false;
 		if (!file_exists($this->parent->getPath('extension_root'))) {
 			if (!$created = JFolder::create($this->parent->getPath('extension_root'))) {
@@ -149,7 +149,7 @@ class JInstallerTemplate extends JAdapterInstance
 		}
 
 		// If we created the template directory and will want to remove it if we have to roll back
-		// the installation, lets add it to the installation step stack
+		// the installation, let's add it to the installation step stack
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
@@ -191,11 +191,8 @@ class JInstallerTemplate extends JAdapterInstance
 			return false;
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Extension Registration
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		 // Extension Registration
+
 		$row = JTable::getInstance('extension');
 
 		if($this->route == 'update' && $id)
@@ -206,7 +203,8 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			$row->type = 'template';
 			$row->element = $this->get('element');
-			$row->folder = ''; // There is no folder for templates
+			// There is no folder for templates
+			$row->folder = ''; 
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
@@ -237,7 +235,8 @@ class JInstallerTemplate extends JAdapterInstance
 			$lang->setDebug($debug);
 			$query->set('params='.$db->Quote($row->params));
 			$db->setQuery($query);
-			$db->query(); // There is a chance this could fail but we don't care...
+			// There is a chance this could fail but we don't care...
+			$db->query(); 
 		}
 
 		return $row->get('extension_id');
@@ -267,7 +266,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// Initialise variables.
 		$retval	= true;
 
-		// First order of business will be to load the module object table from the database.
+		// First order of business will be to load the template object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');
 
@@ -316,11 +315,11 @@ class JInstallerTemplate extends JAdapterInstance
 		$this->parent->setPath('extension_root', $client->path.DS.'templates'.DS.strtolower($name));
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));
 
-		// We do findManifest to avoid problem when uninstalling a list of extension: getManifest cache its manifest file
+		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
 		if (!($manifest instanceof JXMLElement)) {
-			// kill the extension entry
+			// Kill the extension entry
 			$row->delete($row->extension_id);
 			unset($row);
 			// Make sure we delete the folders
@@ -343,7 +342,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$retval = false;
 		}
 
-		//Set menu that assigned to the template back to default template
+		// Set menu that assigned to the template back to default template
 		$query = 'UPDATE #__menu INNER JOIN #__template_styles'.
 				' ON #__template_styles.id = #__menu.template_style_id'.
 				' SET #__menu.template_style_id = 0'.
@@ -381,7 +380,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			if ($template == 'system') {
 				continue;
-				// ignore special system template
+				// Ignore special system template
 			}
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE."/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
@@ -398,7 +397,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			if ($template == 'system') {
 				continue;
-				// ignore special system template
+				// Ignore special system template
 			}
 
 			$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_ADMINISTRATOR."/templates/$template/templateDetails.xml");
@@ -416,7 +415,11 @@ class JInstallerTemplate extends JAdapterInstance
 	}
 
 	/**
-	 * Perform an install from a discovered extension
+	 * Discover_install
+	 * Perform an install for a discovered extension
+	 * 
+	 * @return boolean
+	 * @since 11.1
 	 */
 	function discover_install()
 	{
@@ -480,7 +483,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function refreshManifestCache()
 	{
-		// Need to find to find where the XML file is since we don't store this normally
+		// Need to find to find where the XML file is since we don't store this normally.
 		$client = JApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$manifestPath = $client->path.DS.'templates'. DS.$this->parent->extension->element.DS.'templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);

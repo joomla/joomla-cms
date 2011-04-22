@@ -27,7 +27,7 @@ class JArchiveBzip2 extends JObject
 	var $_data = null;
 
 	/**
-	 * Constructor tries to load the bz2 extension of not loaded
+	 * Constructor tries to load the bz2 extension if not loaded
 	 *
 	 * @return	void
 	 * @since	11.1
@@ -66,28 +66,10 @@ class JArchiveBzip2 extends JObject
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		/* // old style: read the whole file and then parse it
-		if (!$this->_data = JFile::read($archive)) {
-			$this->set('error.message', 'Unable to read archive');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		$buffer = bzdecompress($this->_data);
-		unset($this->_data);
-		if (empty ($buffer)) {
-			$this->set('error.message', 'Unable to decompress data');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		if (JFile::write($destination, $buffer) === false) {
-			$this->set('error.message', 'Unable to write archive');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-		//*/
-
 		// New style! streams!
 		$input = JFactory::getStream();
-		$input->set('processingmethod', 'bz'); // use bzip
+		// Use bzip
+		$input->set('processingmethod', 'bz'); 
 
 		if (!$input->open($archive)) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_READ'));
@@ -99,7 +81,8 @@ class JArchiveBzip2 extends JObject
 
 		if (!$output->open($destination, 'w')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_BZIP_UNABLE_TO_WRITE'));
-			$input->close(); // close the previous file
+			// Close the previous file
+			$input->close(); 
 
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}

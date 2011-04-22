@@ -318,8 +318,8 @@ class JURI extends JObject
 	/**
 	 * Returns full uri string.
 	 *
-	 * @access	public
 	 * @param	array $parts An array specifying the parts to render.
+	 * 
 	 * @return	string The rendered URI string.
 	 * @since	11.1
 	 */

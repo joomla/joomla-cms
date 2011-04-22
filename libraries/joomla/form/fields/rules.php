@@ -78,14 +78,13 @@ class JFormFieldRules extends JFormField
 			$assetId = $this->form->getValue($assetField);
 		}
 
-		// Use the compact form for the content rules (to be deprecated).
-//		if (!empty($component) && $section != 'component') {
-//			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-//		}
+		// Use the compact form for the content rules (deprecated).
+		//if (!empty($component) && $section != 'component') {
+		//	return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+		//}
 
-		//
+
 		// Full width format.
-		//
 
 		// Get the rules for just this asset (non-recursive).
 		$assetRules = JAccess::getAssetRules($assetId);
@@ -212,8 +211,6 @@ class JFormFieldRules extends JFormField
 											JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED').'</span></span>';
 							}
 						}
-
-						//Now handle the groups with core.admin who always inherit an allow.
 					}
 					else if (!empty($component)) {
 						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">'.
@@ -249,7 +246,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</div></div>';
 			$html[] = '</li>';
 
-		} // endforeach
+		} 
 
 		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';
@@ -290,4 +287,3 @@ class JFormFieldRules extends JFormField
 		return $options;
 	}
 }
-

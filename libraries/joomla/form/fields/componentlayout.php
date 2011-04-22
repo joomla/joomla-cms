@@ -180,7 +180,7 @@ class JFormFieldComponentLayout extends JFormField
 					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true)))
 					{
 						// Files with corresponding xml files are alternate menu items, not alternate layout files
-						// So we need to exclude these files
+						// so we need to exclude these files from the list.
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
 						for ($j = 0; $j < count($xml_files); $j++)
 						{

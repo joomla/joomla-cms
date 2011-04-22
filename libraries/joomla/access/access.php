@@ -323,7 +323,7 @@ class JAccess
 		// Initialise the authorised array.
 		$authorised = array(1);
 
-		// Find the authorized levels.
+		// Find the authorised levels.
 		foreach (self::$viewLevels as $level => $rule)
 		{
 			foreach ($rule as $id)
