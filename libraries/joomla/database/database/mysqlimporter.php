@@ -25,7 +25,7 @@ class JDatabaseImporterMySQL
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseDriverMySQL  The database connector to use for exporting structure and/or data.
+	 * @var    JDatabaseMySQL  The database connector to use for exporting structure and/or data.
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -99,7 +99,7 @@ class JDatabaseImporterMySQL
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseDriverMySql)) {
+		if (!($this->db instanceof JDatabaseMySql)) {
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
@@ -643,12 +643,12 @@ class JDatabaseImporterMySQL
 	/**
 	 * Sets the database connector to use for exporting structure and/or data from MySQL.
 	 *
-	 * @param   JDatabaseDriverMySQL  $db  The database connector.
+	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseDriverMySQL $db)
+	public function setDbo(JDatabaseMySQL $db)
 	{
 		$this->db = $db;
 

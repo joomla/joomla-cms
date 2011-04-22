@@ -25,7 +25,7 @@ class JDatabaseExporterMySQLi
 	protected $cache = array();
 
 	/**
-	 * @var    JDatabaseDriverMySQLi  The database connector to use for exporting structure and/or data.
+	 * @var    JDatabaseMySQLi  The database connector to use for exporting structure and/or data.
 	 * @since  11.1
 	 */
 	protected $db = null;
@@ -200,7 +200,7 @@ class JDatabaseExporterMySQLi
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseDriverMySql)) {
+		if (!($this->db instanceof JDatabaseMySql)) {
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
@@ -319,7 +319,7 @@ class JDatabaseExporterMySQLi
 	 * @return  JDatabaseExporterMySQLi  Method supports chaining.
 	 * @since   11.1
 	 */
-	public function setDbo(JDatabaseDriverMySQLi $db)
+	public function setDbo(JDatabaseMySQLi $db)
 	{
 		$this->db = $db;
 

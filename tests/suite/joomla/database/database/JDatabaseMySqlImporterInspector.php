@@ -5,6 +5,7 @@
  */
 
 require_once JPATH_PLATFORM.'/joomla/database/database/mysqlimporter.php';
+require_once JPATH_PLATFORM.'/joomla/database/databaseexception.php';
 
 /**
  * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
@@ -12,7 +13,7 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqlimporter.php';
  * @package    Joomla.UnitTest
  * @subpackage Database
  */
-class JDatabaseMySqlImporterInspector extends JDatabaseMySqlImporter
+class JDatabaseMySqlImporterInspector extends JDatabaseImporterMySql
 {
 	/**
 	 * Gets any property from the class.
