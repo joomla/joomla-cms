@@ -22,7 +22,7 @@ class JElementTemplateStyle extends JElement {
 	* @access	protected
 	* @var		string
 	**/
-	protected var	$_name = 'TemplateStyle';
+	protected	$_name = 'TemplateStyle';
 
 	
 	public function fetchElement( $name, $value, &$node, $control_name )

@@ -25,12 +25,12 @@ class JPathway extends JObject
 	/**
 	 * Array to hold the pathway item objects
 	 */
-	private var $_pathway = null;
+	private $_pathway = null;
 
 	/**
 	 * Integer number of items in the pathway
 	 */
-	private var $_count = 0;
+	private $_count = 0;
 
 	/**
 	 * Class constructor

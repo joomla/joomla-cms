@@ -24,7 +24,7 @@ class JTableUser extends JTable
 	 * @since	11.1
 	 * @var		array
 	 */
-	public var $groups;
+	public $groups;
 
 	/**
 	* @param database A database connector object

@@ -8946,7 +8946,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	selectRow: function(row, _nocheck){
-		//private variable _nocheck: boolean whether or not to confirm the row is in the table body
+		//privateiable _nocheck: boolean whether or not to confirm the row is in the table body
 		//added here for optimization when selecting ranges
 		if (this.isSelected(row) || (!_nocheck && !this.body.getChildren().contains(row))) return;
 		if (!this.options.allowMultiSelect) this.selectNone();

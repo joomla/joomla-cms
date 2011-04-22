@@ -27,147 +27,147 @@ class JDocument extends JObject
 	 *
 	 * @var	string
 	 */
-	public var $title = '';
+	public $title = '';
 
 	/**
 	 * Document description
 	 *
 	 * @var	string
 	 */
-	public var $description = '';
+	public $description = '';
 
 	/**
 	 * Document full URL
 	 *
 	 * @var	string
 	 */
-	public var $link = '';
+	public $link = '';
 
 	/**
 	 * Document base URL
 	 *
 	 * @var	string
 	 */
-	public var $base = '';
+	public $base = '';
 
 	/**
 	 * Contains the document language setting
 	 *
 	 * @var	string
 	 */
-	public var $language = 'en-gb';
+	public $language = 'en-gb';
 
 	/**
 	 * Contains the document direction setting
 	 *
 	 * @var	string
 	 */
-	public var $direction = 'ltr';
+	public $direction = 'ltr';
 
 	/**
 	 * Document generator
 	 *
 	 * @var		string
 	 */
-	public var $_generator = 'Joomla! 1.6 - Open Source Content Management';
+	public $_generator = 'Joomla! 1.6 - Open Source Content Management';
 
 	/**
 	 * Document modified date
 	 *
 	 * @var		string
 	 */
-	public var $_mdate = '';
+	public $_mdate = '';
 
 	/**
 	 * Tab string
 	 *
 	 * @var		string
 	 */
-	private var $_tab = "\11";
+	private $_tab = "\11";
 
 	/**
 	 * Contains the line end string
 	 *
 	 * @var		string
 	 */
-	private var $_lineEnd = "\12";
+	private $_lineEnd = "\12";
 
 	/**
 	 * Contains the character encoding string
 	 *
 	 * @var	string
 	 */
-	private var $_charset = 'utf-8';
+	private $_charset = 'utf-8';
 
 	/**
 	 * Document mime type
 	 *
 	 * @var		string
 	 */
-	private var $_mime = '';
+	private $_mime = '';
 
 	/**
 	 * Document namespace
 	 *
 	 * @var		string
 	 */
-	private var $_namespace = '';
+	private $_namespace = '';
 
 	/**
 	 * Document profile
 	 *
 	 * @var		string
 	 */
-	private var $_profile = '';
+	private $_profile = '';
 
 	/**
 	 * Array of linked scripts
 	 *
 	 * @var		array
 	 */
-	private var $_scripts = array();
+	private $_scripts = array();
 
 	/**
 	 * Array of scripts placed in the header
 	 *
 	 * @var  array
 	 */
-	private var $_script = array();
+	private $_script = array();
 
 	/**
 	 * Array of linked style sheets
 	 *
 	 * @var	array
 	 */
-	private var $_styleSheets = array();
+	private $_styleSheets = array();
 
 	/**
 	 * Array of included style declarations
 	 *
 	 * @var	array
 	 */
-	private var $_style = array();
+	private $_style = array();
 
 	/**
 	 * Array of meta tags
 	 *
 	 * @var	array
 	 */
-	private var $_metaTags = array();
+	private $_metaTags = array();
 
 	/**
 	 * The rendering engine
 	 *
 	 * @var	object
 	 */
-	private var $_engine = null;
+	private $_engine = null;
 
 	/**
 	 * The document type
 	 *
 	 * @var	string
 	 */
-	private var $_type = null;
+	private $_type = null;
 
 	/**
 	 * Array of buffered output

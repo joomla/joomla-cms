@@ -26,56 +26,56 @@ class JView extends JObject
 	 *
 	 * @var		array
 	 */
-	protected var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * Registered models
 	 *
 	 * @var		array
 	 */
-	protected var $_models = array();
+	protected $_models = array();
 
 	/**
 	 * The base path of the view
 	 *
 	 * @var		string
 	 */
-	protected var $_basePath = null;
+	protected $_basePath = null;
 
 	/**
 	 * The default model
 	 *
 	 * @var	string
 	 */
-	protected var $_defaultModel = null;
+	protected $_defaultModel = null;
 
 	/**
 	 * Layout name
 	 *
 	 * @var		string
 	 */
-	protected var $_layout = 'default';
+	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
 	 *
 	 * @var		string
 	 */
-	protected var $_layoutExt = 'php';
+	protected $_layoutExt = 'php';
 
 	/**
 	 * Layout template
 	 *
 	 * @var		string
 	 */
-	protected var $_layoutTemplate = '_';
+	protected $_layoutTemplate = '_';
 
 	/**
 	* The set of search directories for resources (templates)
 	*
 	* @var array
 	*/
-	protected var $_path = array(
+	protected $_path = array(
 		'template' => array(),
 		'helper' => array()
 	);
@@ -85,28 +85,28 @@ class JView extends JObject
 	*
 	* @var string
 	*/
-	private var $_template = null;
+	private $_template = null;
 
 	/**
 	* The output of the template script.
 	*
 	* @var string
 	*/
-	private var $_output = null;
+	private $_output = null;
 
 	/**
 	 * Callback for escaping.
 	 *
 	 * @var string
 	 */
-	private var $_escape = 'htmlspecialchars';
+	private $_escape = 'htmlspecialchars';
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
 	 */
-	private var $_charset = 'UTF-8';
+	private $_charset = 'UTF-8';
 
 	/**
 	 * Constructor
@@ -193,7 +193,7 @@ class JView extends JObject
 	* an object, an associative array, or a single value by name.
 	*
 	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
+	* these are either private properties for JView or privateiables
 	* within the template script itself.
 	*
 	* <code>
@@ -271,7 +271,7 @@ class JView extends JObject
 	* Assign variable for the view (by reference).
 	*
 	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or private variables
+	* these are either private properties for JView or privateiables
 	* within the template script itself.
 	*
 	* <code>

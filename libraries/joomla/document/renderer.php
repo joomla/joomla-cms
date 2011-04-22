@@ -24,14 +24,14 @@ class JDocumentRenderer extends JObject
 	*
 	* @var		object
 	*/
-	protected var	$_doc = null;
+	protected	$_doc = null;
 
 	/**
 	 * Renderer mime type
 	 *
 	 * @var		string
 	 */
-	private var $_mime = "text/html";
+	private $_mime = "text/html";
 
 	/**
 	* Class constructor
