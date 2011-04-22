@@ -68,6 +68,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th width="5%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 				</th>
+				<th width="5%" class="nowrap">
+					<?php echo JHtml::_('grid.sort',  'COM_LANGUAGES_HOMEPAGE', '', $listDirn, $listOrder); ?>
+				</th>
 				<th width="1%" class="nowrap">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 				</th>
@@ -75,7 +78,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="9">
+				<td colspan="10">
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 			</tr>
@@ -118,6 +121,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
+				</td>
+				<td class="center">
+					<?php if ($item->home == '1') : ?>
+						<?php echo JText::_('JYES');?>
+					<?php else:?>
+						<?php echo JText::_('JNO');?>
+					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php echo $item->lang_id; ?>

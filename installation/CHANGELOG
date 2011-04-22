@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Apr-2011 Jean-Marie Simonet
+ # [#25722] *Displaying status of Content languages Default Home page in Manager.
 
 -------------------- 1.6.3 Stable Release [18-Apr-2011] ------------------
 
