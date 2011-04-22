@@ -193,7 +193,7 @@ class JView extends JObject
 	* an object, an associative array, or a single value by name.
 	*
 	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or privateiables
+	* these are either private properties for JView or private variables
 	* within the template script itself.
 	*
 	* <code>
@@ -271,7 +271,7 @@ class JView extends JObject
 	* Assign variable for the view (by reference).
 	*
 	* You are not allowed to set variables that begin with an underscore;
-	* these are either private properties for JView or privateiables
+	* these are either private properties for JView or private variables
 	* within the template script itself.
 	*
 	* <code>
