@@ -80,6 +80,11 @@ class TemplatesModelStyle extends JModelAdmin
 				if (!$user->authorise('core.delete', 'com_templates')) {
 					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
+				// You should not delete a default style
+				if ($table->home != '0'){
+					JError::raiseWarning(SOME_ERROR_NUMBER,Jtext::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
+					return false;
+				}
 
 				if (!$table->delete($pk)) {
 					$this->setError($table->getError());

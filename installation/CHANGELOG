@@ -30,7 +30,8 @@ $ -> Language fix or change
 23-Apr-2011 Jean-Marie Simonet
  #$ [#25724] *Improving the langswitcher module, correcting some ini strings
  # [#25717] *If plugin language filter is enabled a contact with linked user shows articles in all languages instead of filtered for current language. Thanks Marcel and Dennis.
-
+ # [#25725] You can delete the default template style. Thanks Elin.
+ 
 22-Apr-2011 Jean-Marie Simonet
  # [#25722] *Displaying status of Content languages Default Home page in Manager.
 
