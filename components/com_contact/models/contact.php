@@ -239,7 +239,7 @@ class ContactModelContact extends JModelForm
 				$query->where('a.published IN (1,2)');
 				$query->where('cc.published IN (1,2)');
 			}
-			$groups		= implode(',', $user->getAuthorisedViewLevels());
+			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 
 			try {
@@ -269,6 +269,7 @@ class ContactModelContact extends JModelForm
 			if ($result) {
 				$user	= JFactory::getUser();
 				$groups	= implode(',', $user->getAuthorisedViewLevels());
+				
 				//get the content by the linked user
 				$query	= $db->getQuery(true);
 				$query->select('id, title, state, access, created'); 
@@ -276,6 +277,10 @@ class ContactModelContact extends JModelForm
 				$query->where('created_by = '.(int)$result->user_id);
 				$query->where('access IN ('. $groups.')');
 				$query->order('state DESC, created DESC');
+				// filter per language if plugin published
+				if (JFactory::getApplication()->getLanguageFilter()) {
+					$query->where('language='.$db->quote(JFactory::getLanguage()->getTag()).' OR language ="*"');
+				}
 				if (is_numeric($published)) {
 					$query->where('state IN (1,2)');
 				}
@@ -283,29 +288,27 @@ class ContactModelContact extends JModelForm
 				$articles = $db->loadObjectList();
 				$result->articles = $articles;
 
-			//get the profile information for the linked user
-			if ($result) {
-					require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
-					$userModel = JModel::getInstance('User','UsersModel',array('ignore_request' => true));
-						$data = $userModel->getItem((int)$result->user_id);
-			
-					JPluginHelper::importPlugin('user');
-					$form = new JForm('com_users.profile');
-					// Get the dispatcher.
-					$dispatcher	= JDispatcher::getInstance();
-	
-					// Trigger the form preparation event.
-					$dispatcher->trigger('onContentPrepareForm', array($form, $data));
-					// Trigger the data preparation event.
-					$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
-	
-					// Load the data into the form after the plugins have operated.
-					$form->bind($data);
-					$result->profile = $form;
-				}
+				//get the profile information for the linked user
+				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
+				$userModel = JModel::getInstance('User','UsersModel',array('ignore_request' => true));
+					$data = $userModel->getItem((int)$result->user_id);
+		
+				JPluginHelper::importPlugin('user');
+				$form = new JForm('com_users.profile');
+				// Get the dispatcher.
+				$dispatcher	= JDispatcher::getInstance();
 
-			$this->contact = $result;
-			return $result;
+				// Trigger the form preparation event.
+				$dispatcher->trigger('onContentPrepareForm', array($form, $data));
+				// Trigger the data preparation event.
+				$dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
+
+				// Load the data into the form after the plugins have operated.
+				$form->bind($data);
+				$result->profile = $form;
+	
+				$this->contact = $result;
+				return $result;
 			}
 		}
 	}
