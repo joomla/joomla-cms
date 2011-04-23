@@ -33,6 +33,7 @@
 			description="COM_LANGUAGES_FIELD_TITLE_NATIVE_DESC"
 			label="COM_LANGUAGES_FIELD_TITLE_NATIVE_LABEL"
 			maxlength="50"
+			required="true"
 			size="40"
 		/>
 
@@ -50,6 +51,7 @@
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
 			maxlength="7"
+			required="true"
 			size="10"
 		/>
 
