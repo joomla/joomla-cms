@@ -380,6 +380,18 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
+	 * Get the version of the database connector.
+	 *
+	 * @return  string  The database connector version.
+	 *
+	 * @since   11.1
+	 */
+	public function getVersion()
+	{
+		return mysql_get_server_info($this->connection);
+	}
+
+	/**
 	 * Determines if the database engine supports UTF-8 character encoding.
 	 *
 	 * @return  boolean  True if supported.

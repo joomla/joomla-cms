@@ -86,7 +86,7 @@ abstract class JDatabase
 	protected $offset = 0;
 
 	/**
-	 * @var    string  The current SQL statement to execute.
+	 * @var    mixed  The current SQL statement to execute.
 	 * @since  11.1
 	 */
 	protected $sql;
@@ -368,7 +368,7 @@ abstract class JDatabase
 			if (($current == '"' || $current == '\'')) {
 				$n = 2;
 
-				while(substr($sql,$i - $n + 1, 1) == '\\' && $n < $i)
+				while (substr($sql,$i - $n + 1, 1) == '\\' && $n < $i)
 				{
 					$n ++;
 				}
@@ -1211,6 +1211,15 @@ abstract class JDatabase
 	abstract public function getTableList();
 
 	/**
+	 * Get the version of the database connector
+	 *
+	 * @return  string  The database connector version.
+	 *
+	 * @since   11.1
+	 */
+	abstract public function getVersion();
+
+	/**
 	 * Determines if the database engine supports UTF-8 character encoding.
 	 *
 	 * @return  boolean  True if supported.
@@ -1487,16 +1496,6 @@ abstract class JDatabase
 	 * @deprecated  11.2
 	 */
 	abstract public function explain();
-
-	/**
-	 * Get the version of the database connector
-	 *
-	 * @return      string  The database connector version.
-	 *
-	 * @since       11.1
-	 * @deprecated  11.2
-	 */
-	abstract public function getVersion();
 
 	/**
 	 * Execute a query batch.

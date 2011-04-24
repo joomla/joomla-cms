@@ -384,6 +384,19 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
+	 * Get the version of the database connector.
+	 *
+	 * @return  string  The database connector version.
+	 *
+	 * @since   11.1
+	 */
+	public function getVersion()
+	{
+		//TODO: Don't hardcode this.
+		return '5.1.0';
+	}
+
+	/**
 	 * Determines if the database engine supports UTF-8 character encoding.
 	 *
 	 * @return  boolean  True if supported.
@@ -699,20 +712,6 @@ class JDatabaseSQLAzure extends JDatabase
 		$this->sql = $backup;
 
 		return $buffer;
-	}
-
-	/**
-	 * Get the version of the database connector.
-	 *
-	 * @return      string  The database connector version.
-	 *
-	 * @since       11.1
-	 * @deprecated  11.2
-	 */
-	public function getVersion()
-	{
-		//TODO: Don't hardcode this.
-		return '5.1.0';
 	}
 
 	/**
