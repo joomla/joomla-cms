@@ -1058,11 +1058,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Get the row from the result set cursor.
-		return mysqli_fetch_row($cursor);
+		return mysqli_fetch_row($cursor ? $cursor : $this->cursor);
 	}
 
 	/**
@@ -1076,11 +1072,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Get the row from the result set cursor.
-		return mysqli_fetch_assoc($cursor);
+		return mysqli_fetch_assoc($cursor ? $cursor : $this->cursor);
 	}
 
 	/**
@@ -1095,11 +1087,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Get the row from the result set cursor.
-		return mysqli_fetch_object($cursor, $class);
+		return mysqli_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
 
 	/**
@@ -1113,11 +1101,7 @@ class JDatabaseMySQLi extends JDatabase
 	 */
 	protected function freeResult($cursor = null)
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Free the result memory.
-		mysqli_free_result($cursor);
+		mysqli_free_result($cursor ? $cursor : $this->cursor);
 	}
 
 	/**

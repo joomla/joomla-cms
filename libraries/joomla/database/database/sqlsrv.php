@@ -1052,11 +1052,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	protected function fetchArray($cursor = null)
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Get the row from the result set cursor.
-		return sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC);
+		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_NUMERIC);
 	}
 
 	/**
@@ -1070,11 +1066,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Get the row from the result set cursor.
-		return sqlsrv_fetch_array($cursor, SQLSRV_FETCH_ASSOC);
+		return sqlsrv_fetch_array($cursor ? $cursor : $this->cursor, SQLSRV_FETCH_ASSOC);
 	}
 
 	/**
@@ -1089,11 +1081,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Get the row from the result set cursor.
-		return sqlsrv_fetch_object($cursor, $class);
+		return sqlsrv_fetch_object($cursor ? $cursor : $this->cursor, $class);
 	}
 
 	/**
@@ -1107,11 +1095,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	protected function freeResult($cursor = null)
 	{
-		// Get the cursor.
-		$cursor = $cursor ? $cursor : $this->cursor;
-
-		// Free the result memory.
-		sqlsrv_free_stmt($cursor);
+		sqlsrv_free_stmt($cursor ? $cursor : $this->cursor);
 	}
 
 	/**
