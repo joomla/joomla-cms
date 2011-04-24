@@ -1048,6 +1048,79 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
+	 * Method to fetch a row from the result set cursor as an array.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   11.1
+	 */
+	protected function fetchArray($cursor = null)
+	{
+		// Get the cursor.
+		$cursor = $cursor ? $cursor : $this->cursor;
+
+		// Get the row from the result set cursor.
+		return mysqli_fetch_row($cursor);
+	}
+
+	/**
+	 * Method to fetch a row from the result set cursor as an associative array.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   11.1
+	 */
+	protected function fetchAssoc($cursor = null)
+	{
+		// Get the cursor.
+		$cursor = $cursor ? $cursor : $this->cursor;
+
+		// Get the row from the result set cursor.
+		return mysqli_fetch_assoc($cursor);
+	}
+
+	/**
+	 * Method to fetch a row from the result set cursor as an object.
+	 *
+	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
+	 * @param   string  $class   The class name to use for the returned row object.
+	 *
+	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   11.1
+	 */
+	protected function fetchObject($cursor = null, $class = 'stdClass')
+	{
+		// Get the cursor.
+		$cursor = $cursor ? $cursor : $this->cursor;
+
+		// Get the row from the result set cursor.
+		return mysqli_fetch_object($cursor, $class);
+	}
+
+	/**
+	 * Method to free up the memory used for the result set.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function freeResult($cursor = null)
+	{
+		// Get the cursor.
+		$cursor = $cursor ? $cursor : $this->cursor;
+
+		// Free the result memory.
+		mysqli_free_result($cursor);
+	}
+
+	/**
 	 * Diagnostic method to return explain information for a query.
 	 *
 	 * @return      string  The explain output.

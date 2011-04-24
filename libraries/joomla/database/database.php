@@ -989,6 +989,51 @@ abstract class JDatabase
 	abstract public function updateObject($table, & $object, $key, $nulls = false);
 
 	/**
+	 * Method to fetch a row from the result set cursor as an array.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   11.1
+	 */
+	abstract protected function fetchArray($cursor = null);
+
+	/**
+	 * Method to fetch a row from the result set cursor as an associative array.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   11.1
+	 */
+	abstract protected function fetchAssoc($cursor = null);
+
+	/**
+	 * Method to fetch a row from the result set cursor as an object.
+	 *
+	 * @param   mixed   $cursor  The optional result set cursor from which to fetch the row.
+	 * @param   string  $class   The class name to use for the returned row object.
+	 *
+	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
+	 *
+	 * @since   11.1
+	 */
+	abstract protected function fetchObject($cursor = null, $class = 'stdClass');
+
+	/**
+	 * Method to free up the memory used for the result set.
+	 *
+	 * @param   mixed  $cursor  The optional result set cursor from which to fetch the row.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	abstract protected function freeResult($cursor = null);
+
+	/**
 	 * Adds a field or array of field names to the list that are to be quoted.
 	 *
 	 * @param       mixed  $quoted  Field name or array of names.
