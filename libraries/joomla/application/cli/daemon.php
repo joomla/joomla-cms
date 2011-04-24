@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.cli');
-jimport('joomla.application.exception');
+jimport('joomla.application.applicationexception');
 jimport('joomla.filesystem.folder');
 
 /**
