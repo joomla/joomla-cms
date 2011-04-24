@@ -147,7 +147,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	function connected()
+	public function connected()
 	{
 		// TODO: Run a blank query here
 		return true;
@@ -483,12 +483,12 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the first row from the result set as an associative array.
-		if ($array = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_ASSOC)) {
+		if ($array = $this->fetchAssoc($cursor)) {
 			$ret = $array;
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -521,7 +521,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get all of the rows from the result set.
-		while ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_ASSOC))
+		while ($row = $this->fetchAssoc($cursor))
 		{
 			$value = ($column) ? (isset($row[$column]) ? $row[$column] : $row) : $row;
 			if ($key) {
@@ -533,7 +533,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -558,12 +558,12 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the next row from the result set as an object of type $class.
-		if ($row =  sqlsrv_fetch_object($cursor, $class)) {
+		if ($row =  $this->fetchObject($cursor, $class)) {
 			return $row;
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 		$cursor = null;
 
 		return false;
@@ -587,12 +587,12 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the next row from the result set as an object of type $class.
-		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC)) {
+		if ($row = $this->fetchArray($cursor)) {
 			return $row;
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 		$cursor = null;
 
 		return false;
@@ -619,12 +619,12 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the first row from the result set as an object of type $class.
-		if ($object = sqlsrv_fetch_object($cursor, $class)) {
+		if ($object = $this->fetchObject($cursor, $class)) {
 			$ret = $object;
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -655,7 +655,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get all of the rows from the result set as objects of type $class.
-		while ($row = sqlsrv_fetch_object($cursor, $class))
+		while ($row = $this->fetchObject($cursor, $class))
 		{
 			if ($key) {
 				$array[$row->$key] = $row;
@@ -666,7 +666,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -690,12 +690,12 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the first row from the result set as an array.
-		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC)) {
+		if ($row = $this->fetchArray($cursor)) {
 			$ret = $row[0];
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -722,13 +722,13 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get all of the rows from the result set as arrays.
-		while ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
+		while ($row = $this->fetchArray($cursor))
 		{
 			$array[] = $row[$offset];
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -753,12 +753,12 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get the first row from the result set as an array.
-		if ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC)) {
+		if ($row = $this->fetchArray($cursor)) {
 			$ret = $row;
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -788,7 +788,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Get all of the rows from the result set as arrays.
-		while ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_NUMERIC))
+		while ($row = $this->fetchArray($cursor))
 		{
 			if ($key !== null) {
 				$array[$row[$key]] = $row;
@@ -799,7 +799,7 @@ class JDatabaseSQLSrv extends JDatabase
 		}
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -1129,7 +1129,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$first = true;
 		$buffer = '<table id="explain-sql">';
 		$buffer .= '<thead><tr><td colspan="99">'.$this->getQuery().'</td></tr>';
-		while ($row = sqlsrv_fetch_array($cursor, SQLSRV_FETCH_ASSOC))
+		while ($row = $this->fetchAssoc($cursor))
 		{
 			if ($first) {
 				$buffer .= '<tr>';
@@ -1150,7 +1150,7 @@ class JDatabaseSQLSrv extends JDatabase
 		$buffer .= '</tbody></table>';
 
 		// Free up system resources and return.
-		sqlsrv_free_stmt($cursor);
+		$this->freeResult($cursor);
 
 		// Remove the explain status.
 		$this->setQuery('SET SHOWPLAN_ALL OFF');

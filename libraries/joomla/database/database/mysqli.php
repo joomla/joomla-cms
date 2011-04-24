@@ -500,12 +500,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get the first row from the result set as an associative array.
-		if ($array = mysqli_fetch_assoc($cursor)) {
+		if ($array = $this->fetchAssoc($cursor)) {
 			$ret = $array;
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -538,7 +538,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get all of the rows from the result set.
-		while ($row = mysqli_fetch_assoc($cursor))
+		while ($row = $this->fetchAssoc($cursor))
 		{
 			$value = ($column) ? (isset($row[$column]) ? $row[$column] : $row) : $row;
 			if ($key) {
@@ -550,7 +550,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -575,12 +575,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get the next row from the result set as an object of type $class.
-		if ($row = mysqli_fetch_object($cursor, $class)) {
+		if ($row = $this->fetchObject($cursor, $class)) {
 			return $row;
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 		$cursor = null;
 
 		return false;
@@ -604,12 +604,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get the next row from the result set as an object of type $class.
-		if ($row = mysqli_fetch_row($cursor)) {
+		if ($row = $this->fetchArray($cursor)) {
 			return $row;
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 		$cursor = null;
 
 		return false;
@@ -636,12 +636,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get the first row from the result set as an object of type $class.
-		if ($object = mysqli_fetch_object($cursor, $class)) {
+		if ($object = $this->fetchObject($cursor, $class)) {
 			$ret = $object;
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -672,7 +672,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get all of the rows from the result set as objects of type $class.
-		while ($row = mysqli_fetch_object($cursor, $class))
+		while ($row = $this->fetchObject($cursor, $class))
 		{
 			if ($key) {
 				$array[$row->$key] = $row;
@@ -683,7 +683,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -707,12 +707,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get the first row from the result set as an array.
-		if ($row = mysqli_fetch_row($cursor)) {
+		if ($row = $this->fetchArray($cursor)) {
 			$ret = $row[0];
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -739,13 +739,13 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get all of the rows from the result set as arrays.
-		while ($row = mysqli_fetch_row($cursor))
+		while ($row = $this->fetchArray($cursor))
 		{
 			$array[] = $row[$offset];
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -770,12 +770,12 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get the first row from the result set as an array.
-		if ($row = mysqli_fetch_row($cursor)) {
+		if ($row = $this->fetchArray($cursor)) {
 			$ret = $row;
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $ret;
 	}
@@ -805,7 +805,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Get all of the rows from the result set as arrays.
-		while ($row = mysqli_fetch_row($cursor))
+		while ($row = $this->fetchArray($cursor))
 		{
 			if ($key !== null) {
 				$array[$row[$key]] = $row;
@@ -816,7 +816,7 @@ class JDatabaseMySQLi extends JDatabase
 		}
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $array;
 	}
@@ -1132,7 +1132,7 @@ class JDatabaseMySQLi extends JDatabase
 		$first = true;
 		$buffer = '<table id="explain-sql">';
 		$buffer .= '<thead><tr><td colspan="99">'.$this->getQuery().'</td></tr>';
-		while ($row = mysqli_fetch_assoc($cursor))
+		while ($row = $this->fetchAssoc($cursor))
 		{
 			if ($first) {
 				$buffer .= '<tr>';
@@ -1156,7 +1156,7 @@ class JDatabaseMySQLi extends JDatabase
 		$this->sql = $backup;
 
 		// Free up system resources and return.
-		mysqli_free_result($cursor);
+		$this->freeResult($cursor);
 
 		return $buffer;
 	}
