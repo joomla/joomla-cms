@@ -261,7 +261,7 @@ class JFeedItem extends JObject
 	 *
 	 * @var		string
 	 */
-	public  var $description;
+	public $description;
 
 	/**
 	 * Author item element

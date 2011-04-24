@@ -66,14 +66,20 @@ class JDocumentJSON extends JDocument
 	 *
 	 * @return	array	The document head data in array form
 	 */
-	public abstract function getHeadData();
+	public function getHeadData()
+	{
+		return array();
+	}
 
 	/**
 	 * Set the document head data
 	 *
 	 * @param	array	$data	The document head data in array form
 	 */
-	public abstract function setHeadData($data)
+	public function setHeadData($data)
+	{
+		// Do nothing.
+	}
 
 	/**
 	 * Returns the document name

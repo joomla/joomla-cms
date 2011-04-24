@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @since		11.1
  * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-class JSessionStorage extends JObject
+abstract class JSessionStorage extends JObject
 {
 	/**
 	* Constructor
@@ -92,7 +92,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @param	string	$save_path		The path to the session object.
 	 * @param	string	$session_name	The name of the session.
-	 * 
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public abstract function open($save_path, $session_name);
@@ -130,7 +130,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public abstract function destroy($id); 
+	public abstract function destroy($id);
 
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
