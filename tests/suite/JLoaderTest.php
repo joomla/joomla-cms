@@ -145,7 +145,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRegistersAGoodClass()
 	{
-		$this->assertTrue(JLoader::register('BogusLoad', $this->bogusFullPath));
+		JLoader::register('BogusLoad', $this->bogusFullPath);
+
+		$this->assertTrue(in_array($this->bogusFullPath, JLoader::getClassList()));
 	}
 
 	/**
@@ -157,7 +159,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFailsToRegisterABadClass()
 	{
-		$this->assertFalse(JLoader::register("fred", "fred.php"));
+		JLoader::register("fred", "fred.php");
+
+		$this->assertFalse(in_array('fred.php', JLoader::getClassList()));
 	}
 
 	/**
