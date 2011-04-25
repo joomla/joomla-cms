@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Apr-2011 Jean-Marie Simonet
+ #$ Updating ta-IN installation language
+
 23-Apr-2011 Jean-Marie Simonet
  #$ [#25724] *Improving the langswitcher module, correcting some ini strings
  # [#25717] *If plugin language filter is enabled a contact with linked user shows articles in all languages instead of filtered for current language. Thanks Marcel and Dennis.
