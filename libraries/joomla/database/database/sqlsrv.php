@@ -392,8 +392,11 @@ class JDatabaseSQLSrv extends JDatabase
 	 */
 	public function getVersion()
 	{
-		//TODO: Don't hardcode this.
-		return '5.1.0';
+		// Set the query to get the version information.
+		$this->setQuery('SELECT SERVERPROPERTY(\'ProductVersion\')');
+		$version = $this->loadResult();
+
+		return $version;
 	}
 
 	/**
