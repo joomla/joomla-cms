@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 25-Apr-2011 Jean-Marie Simonet
  #$ Updating ta-IN installation language
+ # [#25739] Batch actions for articles. Thanks Dennis.
 
 23-Apr-2011 Jean-Marie Simonet
  #$ [#25724] *Improving the langswitcher module, correcting some ini strings
