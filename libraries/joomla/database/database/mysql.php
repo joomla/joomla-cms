@@ -691,19 +691,6 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
-	 * Get the version of the database connector.
-	 *
-	 * @return      string  The database connector version.
-	 *
-	 * @since       11.1
-	 * @deprecated  11.2
-	 */
-	public function getVersion()
-	{
-		return mysql_get_server_info($this->connection);
-	}
-
-	/**
 	 * Execute a query batch.
 	 *
 	 * @return      mixed  A database resource if successful, false if not.
