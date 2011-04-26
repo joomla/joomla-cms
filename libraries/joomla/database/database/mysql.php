@@ -214,18 +214,18 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Gets an exporter class object.
 	 *
-	 * @return  JDatbaseExporterMySQL  An exporter object.
+	 * @return  JDatabaseExporterMySQL  An exporter object.
 	 *
 	 * @since   11.1
 	 */
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatbaseExporterMySQL')) {
+		if (!class_exists('JDatabaseExporterMySQL')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatbaseExporterMySQL;
+		$o = new JDatabaseExporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -234,18 +234,18 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @return  JDatbaseImporterMySQL  An importer object.
+	 * @return  JDatabaseImporterMySQL  An importer object.
 	 *
 	 * @since   11.1
 	 */
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatbaseImporterMySQL')) {
+		if (!class_exists('JDatabaseImporterMySQL')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatbaseImporterMySQL;
+		$o = new JDatabaseImporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -279,7 +279,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		if ($new) {
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatbaseQueryMySQL')) {
+			if (!class_exists('JDatabaseQueryMySQL')) {
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryMySQL;
