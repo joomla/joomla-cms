@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 26-Apr-2011 Jean-Marie Simonet
  $ [#25742] SPACERDROP_LABEL too long for a label. Thanks Paulo.
+ # [#25753] Hathor bugs with batch function. Thanks Dennis.
 
  25-Apr-2011 Jean-Marie Simonet
  #$ Updating ta-IN installation language

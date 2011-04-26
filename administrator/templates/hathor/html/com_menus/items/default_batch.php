@@ -25,7 +25,7 @@ $published = $this->state->get('filter.published');
 	<?php echo JHtml::_('access.assetgrouplist', 'batch[assetgroup_id]', '', 'class="inputbox"', array('title' => JText::_('JGLOBAL_BATCH_NOCHANGE'), 'id' => 'batch-access'));?>
 
 	<?php if ($published >= 0) : ?>
-		<label id="batch-choose-action-lbl" for="batch-menu-id">
+		<label id="batch-choose-action-lbl" for="batch-choose-action">
 			<?php echo JText::_('COM_MENUS_BATCH_MENU_LABEL'); ?>
 		</label>
 		<fieldset id="batch-choose-action" class="combo">
