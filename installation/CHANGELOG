@@ -27,7 +27,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-25-Apr-2011 Jean-Marie Simonet
+26-Apr-2011 Jean-Marie Simonet
+ $ [#25742] SPACERDROP_LABEL too long for a label. Thanks Paulo.
+
+ 25-Apr-2011 Jean-Marie Simonet
  #$ Updating ta-IN installation language
  # [#25739] Batch actions for articles. Thanks Dennis.
 
