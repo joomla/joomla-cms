@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Apr-2011 Christophe Demko
+ # [#24360] User Profile Date showing wrong Birthday date (Omar Ramos)
+
 27-Apr-2011 Jean-Marie Simonet
  # [#25759] Broken system messages in beez_20 and beez5. Thanks Dennis.
  # [#25752] No ending fieldset tag in com_contact. Thanks Dennis.

@@ -97,7 +97,7 @@ class plgUserProfile extends JPlugin
 		if (empty($value)) {
 			return JHtml::_('users.value', $value);
 		} else {
-			return JHtml::_('date', $value);
+			return JHtml::_('date', $value, null, null);
 		}
 	}
 
