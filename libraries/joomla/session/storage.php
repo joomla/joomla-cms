@@ -145,5 +145,5 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public static function test();
+	public static abstract function test();
 }
