@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 27-Apr-2011 Christophe Demko
  # [#24360] User Profile Date showing wrong Birthday date (Omar Ramos)
+ # [#25771] *Languagefilter plugin parameter not implemented (Jean-Marie Simonet)
 
 27-Apr-2011 Jean-Marie Simonet
  # [#25759] Broken system messages in beez_20 and beez5. Thanks Dennis.

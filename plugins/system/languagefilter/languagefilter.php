@@ -160,8 +160,13 @@ class plgSystemLanguageFilter extends JPlugin
 	{
 		$array = array();
 		$lang_code = JRequest::getString(JUtility::getHash('language'), null ,'cookie');
+		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code) {
-			$lang_code = JLanguageHelper::detectLanguage();
+			if ($this->params->get('detect_browser', 1)){
+				$lang_code = JLanguageHelper::detectLanguage();
+			} else {
+				$lang_code = self::$default_sef;
+ 			}
 		}
 		if (self::$mode_sef) {
 			$path = $uri->getPath();
