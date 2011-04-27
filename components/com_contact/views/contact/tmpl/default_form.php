@@ -19,8 +19,8 @@ JHtml::_('behavior.tooltip');
 
 <div class="contact-form">
 	<form id="contact-form" action="<?php echo JRoute::_('index.php'); ?>" method="post" class="form-validate">
-				<fieldset>
-		<legend><?php echo JText::_('COM_CONTACT_FORM_LABEL'); ?></legend>
+		<fieldset>
+			<legend><?php echo JText::_('COM_CONTACT_FORM_LABEL'); ?></legend>
 			<dl>
 				<dt><?php echo $this->form->getLabel('contact_name'); ?></dt>
 				<dd><?php echo $this->form->getInput('contact_name'); ?></dd>
@@ -42,5 +42,6 @@ JHtml::_('behavior.tooltip');
 					<?php echo JHtml::_( 'form.token' ); ?>
 				</dd>
 			</dl>
+		</fieldset>
 	</form>
 </div>

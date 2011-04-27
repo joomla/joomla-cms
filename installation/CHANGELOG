@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 27-Apr-2011 Jean-Marie Simonet
  # [#25759] Broken system messages in beez_20 and beez5. Thanks Dennis.
+ # [#25752] No ending fieldset tag in com_contact. Thanks Dennis.
  
 26-Apr-2011 Jean-Marie Simonet
  $ [#25742] SPACERDROP_LABEL too long for a label. Thanks Paulo.
