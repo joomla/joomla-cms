@@ -229,7 +229,7 @@ class JTableNested extends JTable
 	 * @param	string	WHERE clause to use for limiting the selection of rows to compact the
 	 *					ordering values.
 	 * @return	mixed	Boolean true on success.
-	 * @since	1.0
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/move
 	 */
 	public function move($delta, $where = '')
@@ -323,7 +323,9 @@ class JTableNested extends JTable
 		}
 
 		// Lock the table for writing.
-		if (!$this->_lock()) return false;
+		if (!$this->_lock()) {
+			return false;
+		}
 
 		/*
 		 * Move the sub-tree out of the nested sets by negating its left and right values.
@@ -510,24 +512,21 @@ class JTableNested extends JTable
 			$asset		= JTable::getInstance('Asset');
 
 			// Lock the table for writing.
-			if (!$asset->_lock())
-			{
+			if (!$asset->_lock()) {
 				// Error message set in lock method.
 				return false;
 			}
-			if ($asset->loadByName($name))
-			{
+
+			if ($asset->loadByName($name)) {
 				// Delete the node in assets table.
-				if (!$asset->delete(null, $children))
-				{
+				if (!$asset->delete(null, $children)) {
 					$this->setError($asset->getError());
 					$asset->_unlock();
 					return false;
 				}
 				$asset->_unlock();
 			}
-			else
-			{
+			else {
 				$this->setError($asset->getError());
 				$asset->_unlock();
 				return false;
@@ -618,7 +617,7 @@ class JTableNested extends JTable
 	 * Asset that the nested set data is valid.
 	 *
 	 * @return	boolean	True if the instance is sane and able to be stored in the database.
-	 * @since	1.0
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTable/check
 	 */
 	public function check()
@@ -819,7 +818,7 @@ class JTableNested extends JTable
 	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param	integer The user id of the user performing the operation.
 	 * @return	boolean	True on success.
-	 * @since	1.0.4
+	 * @since	11.1
 	 * @link	http://docs.joomla.org/JTableNested/publish
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -1072,7 +1071,8 @@ class JTableNested extends JTable
 		if (!$sibling = $this->_getNode($node->rgt + 1, 'left'))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$query->unlock($this->_db);
+			$this->_locked=false;
 			return false;
 		}
 
@@ -1358,6 +1358,9 @@ class JTableNested extends JTable
 			return false;
 		}
 
+		// Update the current record's path to the new one:
+		$this->path = $path;
+
 		return true;
 	}
 
@@ -1375,7 +1378,7 @@ class JTableNested extends JTable
 		// Validate arguments
 		if (is_array($idArray) && is_array($lft_array) && count($idArray) == count($lft_array))
 		{
-			for ($i = 0; $i < count($idArray); $i++)
+			for ($i = 0, $count = count($idArray); $i < $count; $i++)
 			{
 				// Do an update to change the lft values in the table for each id
 				$query = $this->_db->getQuery(true);
@@ -1392,16 +1395,16 @@ class JTableNested extends JTable
 					$this->_unlock();
 					return false;
 				}
-				if ($this->_debug)
-				{
+
+				if ($this->_debug) {
 					$this->_logtable();
 				}
 
 			}
+
 			return $this->rebuild();
 		}
-		else
-		{
+		else {
 			return false;
 		}
 	}

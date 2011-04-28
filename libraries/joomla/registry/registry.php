@@ -194,7 +194,7 @@ class JRegistry
 	/**
 	 * Load the public variables of the object into the default namespace.
 	 *
-	 * @param	object	The object holding the public vars to load
+	 * @param	object	The object holding the publics to load
 	 * @param	string	Namespace to load the INI string into [optional]
 	 * @return	boolean	True on success
 	 * @since	11.1

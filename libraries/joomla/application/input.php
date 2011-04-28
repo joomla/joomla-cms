@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLoader::discover('JInput', dirname(__FILE__).'/input');
+
 jimport('joomla.filter.filterinput');
 
 /**
@@ -47,12 +49,6 @@ class JInput
 	protected $inputs = array();
 
 	/**
-	 * @var    bool  True if the default input classes have been registered.
-	 * @since  11.1
-	 */
-	protected static $registered = false;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
@@ -62,14 +58,8 @@ class JInput
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($source = null, $options = array ())
+	public function __construct($source = null, $options = array())
 	{
-		// If the input classes haven't been registered let's get that done.
-		if (!self::$registered) {
-			self::register();
-			self::$registered = true;
-		}
-
 		if (isset ($options['filter'])) {
 			$this->filter = $options['filter'];
 		} else {
@@ -220,43 +210,5 @@ class JInput
 	{
 		$method = strtoupper($_SERVER['REQUEST_METHOD']);
 		return $method;
-	}
-
-	/**
-	 * Method to register all of the extended classes with the system autoloader.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected static function register()
-	{
-		// Define the expected folder in which to find input classes.
-		$folder = dirname(__FILE__).'/input';
-
-		// Ignore the operation if the folder doesn't exist.
-		if (is_dir($folder)) {
-
-			// Open the folder.
-			$d = dir($folder);
-
-			// Iterate through the folder contents to search for input classes.
-			while (false !== ($entry = $d->read()))
-			{
-				// Only load for php files.
-				if (file_exists($folder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
-
-					// Get the name and full path for each file.
-					$name = preg_replace('#\.[^.]*$#', '', $entry);
-					$path = $folder.'/'.$entry;
-
-					// Register the class with the autoloader.
-					JLoader::register('JInput'.ucfirst($name), $path);
-				}
-			}
-
-			// Close the folder.
-			$d->close();
-		}
 	}
 }

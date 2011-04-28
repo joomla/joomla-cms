@@ -22,7 +22,7 @@ class JTableContent extends JTable
 {
 	/**
 	 * @param	database	A database connector object
-	 * @since	1.0
+	 * @since	11.1
 	 */
 	function __construct(&$db)
 	{
@@ -168,7 +168,7 @@ class JTableContent extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up) {
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
@@ -244,7 +244,7 @@ class JTableContent extends JTable
 	 * @param	integer The user id of the user performing the operation.
 	 *
 	 * @return	boolean	True on success.
-	 * @since	1.0.4
+	 * @since	11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -280,8 +280,8 @@ class JTableContent extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `state` = '.(int) $state .
+			'UPDATE '.$this->_db->nameQuote($this->_tbl).
+			' SET '.$this->_db->nameQuote('state').' = '.(int) $state .
 			' WHERE ('.$where.')' .
 			$checkin
 		);

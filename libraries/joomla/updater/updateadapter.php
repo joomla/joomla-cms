@@ -11,6 +11,14 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 
+/**
+ * UpdateAdapter class.
+ *
+ * @package		Joomla.Platform
+ * @subpackage	Update
+ * @since		11.1
+ */
+
 class JUpdateAdapter extends JAdapterInstance {
 	protected $xml_parser;
 	protected $_stack = Array('base');
@@ -30,5 +38,4 @@ class JUpdateAdapter extends JAdapterInstance {
 	protected function _getLastTag() {
 		return $this->_stack[count($this->_stack) - 1];
 	}
-
 }

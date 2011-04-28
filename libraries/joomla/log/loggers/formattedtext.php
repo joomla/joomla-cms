@@ -161,7 +161,7 @@ class JLoggerFormattedText extends JLogger
 			$entry->date = $entry->date->format('Y-m-d', false);
 		}
 
-		// Decode the entry priority into an english string.
+		// Decode the entry priority into an English string.
 		$entry->priority = $this->priorities[$entry->priority];
 
 		// Get a list of all the entry keys and make sure they are upper case.

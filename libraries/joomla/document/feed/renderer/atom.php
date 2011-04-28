@@ -28,17 +28,15 @@ defined('JPATH_PLATFORM') or die;
 	 * Document mime type
 	 *
 	 * @var		string
-	 * @access	private
 	 */
-	var $_mime = "application/atom+xml";
+	private $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed
 	 *
-	 * @access public
 	 * @return string
 	 */
-	function render()
+	public function render()
 	{
 		$app	= JFactory::getApplication();
 		$now	= JFactory::getDate();
@@ -85,7 +83,7 @@ defined('JPATH_PLATFORM') or die;
 		$feed.= "	<generator uri=\"http://joomla.org\" version=\"1.6\">".$data->getGenerator()."</generator>\n";
 		$feed.= '	<link rel="self" type="application/atom+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
 
-		for ($i=0;$i<count($data->items);$i++)
+		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
 			$feed.= "	<entry>\n";
 			$feed.= "		<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";

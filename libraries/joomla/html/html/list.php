@@ -38,7 +38,7 @@ abstract class JHtmlList
 		}
 
 		if (!$javascript) {
-			$javascript = "onchange=\"javascript:if (document.forms.adminForm." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name . ".options[selectedIndex].value} else {document.imagelib.src='templates/bluestork/images/admin/blank.png'}\"";
+			$javascript = "onchange=\"if (document.forms.adminForm." . $name . ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name . ".options[selectedIndex].value} else {document.imagelib.src='templates/bluestork/images/admin/blank.png'}\"";
 		}
 
 		jimport('joomla.filesystem.folder');
@@ -177,7 +177,7 @@ abstract class JHtmlList
 
 		$and = '';
 		if ($reg) {
-		// does not include registered users in the list
+		// Does not include registered users in the list
 			$and = ' AND m.group_id != 2';
 		}
 
@@ -255,10 +255,10 @@ abstract class JHtmlList
 	{
 		$categories = JHtml::_('category.options', $extension);
 		if ($sel_cat) {
-			array_unshift($categories, JHTML::_('select.option',  '0', JText::_('JOPTION_SELECT_CATEGORY')));
+			array_unshift($categories, JHtml::_('select.option',  '0', JText::_('JOPTION_SELECT_CATEGORY')));
 		}
 
-		$category = JHTML::_(
+		$category = JHtml::_(
 			'select.genericlist',
 			$categories,
 			$name,

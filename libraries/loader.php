@@ -99,24 +99,82 @@ abstract class JLoader
 	}
 
 	/**
-	 * Directly register a class to the autoload list.
+	 * Method to discover classes of a given type in a given path.
 	 *
-	 * @param   string  $class  The class name
-	 * @param   string  $path   Full path to the file that holds the class
+	 * @param   string  $classPrefix  The class name prefix to use for discovery.
+	 * @param   string  $parentPath   Full path to the parent folder for the classes to discover.
+	 * @param   bool    $force        True to overwrite the autoload path value for the class if it already exists.
 	 *
-	 * @return  bool    True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function register ($class, $path)
+	public static function discover($classPrefix, $parentPath, $force = true)
 	{
-		// Only register the class if the class and file exist.
-		if (!empty($class) && is_file($path)) {
-			self::$_classes[strtolower($class)] = $path;
-			return true;
-		}
+		// Ignore the operation if the folder doesn't exist.
+		if (is_dir($parentPath)) {
 
-		return false;
+			// Open the folder.
+			$d = dir($parentPath);
+
+			// Iterate through the folder contents to search for input classes.
+			while (false !== ($entry = $d->read()))
+			{
+				// Only load for php files.
+				if (file_exists($parentPath.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
+
+					// Get the class name and full path for each file.
+					$class = strtolower($classPrefix.preg_replace('#\.[^.]*$#', '', $entry));
+					$path  = $parentPath.'/'.$entry;
+
+					// Register the class with the autoloader if not already registered or the force flag is set.
+					if (empty(self::$_classes[$class]) || $force) {
+						JLoader::register($class, $path);
+					}
+				}
+			}
+
+			// Close the folder.
+			$d->close();
+		}
+	}
+
+	/**
+	 * Method to get the list of registered classes and their respective file paths for the autoloader.
+	 *
+	 * @return  array  The array of class => path values for the autoloader.
+	 *
+	 * @since   11.1
+	 */
+	public static function getClassList()
+	{
+		return self::$_classes;
+	}
+
+	/**
+	 * Directly register a class to the autoload list.
+	 *
+	 * @param   string  $class  The class name to register.
+	 * @param   string  $path   Full path to the file that holds the class to register.
+	 * @param   bool    $force  True to overwrite the autoload path value for the class if it already exists.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public static function register($class, $path, $force = true)
+	{
+		// Sanitize class name.
+		$class = strtolower($class);
+
+		// Only attempt to register the class if the name and file exist.
+		if (!empty($class) && is_file($path)) {
+
+			// Register the class with the autoloader if not already registered or the force flag is set.
+			if (empty(self::$_classes[$class]) || $force) {
+				self::$_classes[$class] = $path;
+			}
+		}
 	}
 
 	/**

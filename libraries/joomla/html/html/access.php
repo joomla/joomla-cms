@@ -30,7 +30,7 @@ abstract class JHtmlAccess
 	 * @param	string	The form field name.
 	 * @param	string	The name of the selected section.
 	 * @param	string	Additional attributes to add to the select field.
-	 * @param	mixed	True to add "All Sections" option or and array of option
+	 * @param	mixed	True to add "All Sections" option or and array of options
 	 * @param	string	The form field id
 	 *
 	 * @return	string	The required HTML for the SELECT tag.
@@ -162,7 +162,7 @@ abstract class JHtmlAccess
 			if ((!$checkSuperAdmin) || $isSuperAdmin || (!JAccess::checkGroup($item->id, 'core.admin'))) {
 				// Setup  the variable attributes.
 				$eid = $count . 'group_' . $item->id;
-				// don't call in_array unless something is selected
+				// Don't call in_array unless something is selected
 				$checked = '';
 				if ($selected) {
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';

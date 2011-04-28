@@ -39,18 +39,18 @@ class JInputTest extends PHPUnit_Framework_TestCase
 	public function testGet()
 	{
 		$this->inspector = new JInputInspector(null, array('filter' => new JFilterInputMock()));
-		
+
 		$_REQUEST['foo'] = 'bar';
-		
+
 		// Test the get method.
 		$this->assertThat(
 			$this->inspector->get('foo'),
 			$this->equalTo('bar'),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 		$_GET['foo'] = 'bar2';
-		
+
 		// Test the get method.
 		$this->assertThat(
 			$this->inspector->get->get('foo'),
@@ -82,7 +82,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 			),
 			array('filter' => $filterMock)
 		);
-		
+
 		$this->assertThat(
 			$input->getArray(
 				array('var1' => 'filter1', 'var2' => 'filter2', 'var3' => 'filter3')
@@ -125,7 +125,7 @@ class JInputTest extends PHPUnit_Framework_TestCase
 			),
 			array('filter' => $filterMock)
 		);
-		
+
 		$this->assertThat(
 			$input->getArray(
 				array('var2' => 'filter2', 'var3' => array('var2' => 'filter3'))
@@ -169,9 +169,9 @@ class JInputTest extends PHPUnit_Framework_TestCase
 			$this->isTrue(),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 		$_COOKIE['foo'] = 'bar';
-		
+
 		// Test the get method.
 		$this->assertThat(
 			$this->inspector->cookie->get('foo'),

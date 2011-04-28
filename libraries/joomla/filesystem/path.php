@@ -50,6 +50,7 @@ class JPath
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -83,9 +84,9 @@ class JPath
 								$ret = false;
 							}
 						}
-					} // if
-				} // if
-			} // while
+					}
+				}
+			}
 			closedir($dh);
 			if (isset ($foldermode)) {
 				if (!@ chmod($path, octdec($foldermode))) {
@@ -96,7 +97,8 @@ class JPath
 			if (isset ($filemode)) {
 				$ret = @ chmod($path, octdec($filemode));
 			}
-		} // if
+		}
+
 		return $ret;
 	}
 
@@ -125,6 +127,7 @@ class JPath
 			// execute
 			$parsed_mode .= ($mode { $i } & 01) ? "x" : "-";
 		}
+
 		return $parsed_mode;
 	}
 

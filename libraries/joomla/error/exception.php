@@ -146,7 +146,6 @@ class JException extends Exception
 	/**
 	 * Returns to error message
 	 *
-	 * @access	public
 	 * @return	string Error message
 	 * @since	11.1
 	 */
@@ -158,8 +157,8 @@ class JException extends Exception
 	/**
 	 * Returns to error message
 	 *
-	 * @access	public
 	 * @deprecated
+	 *
 	 * @return	string Error message
 	 * @since	11.1
 	 */
@@ -171,10 +170,9 @@ class JException extends Exception
 	/**
 	 * Returns a property of the object or the default value if the property is not set.
 	 *
-	 * @access	public
 	 * @param	string $property The name of the property
 	 * @param	mixed  $default The default value
-	 * 
+	 *
 	 * @return	mixed The value of the property
 	 * @see		getProperties()
 	 * @since	11.1
@@ -190,9 +188,8 @@ class JException extends Exception
 	/**
 	 * Returns an associative array of object properties
 	 *
-	 * @access	public
 	 * @param	boolean $public If true, returns only the public properties
-	 * 
+	 *
 	 * @return	array
 	 * @see		get()
 	 * @since	11.1
@@ -219,7 +216,6 @@ class JException extends Exception
 	 * @param	boolean	$toString Indicates if JError objects should return their error message
 	 *
 	 * @return	string	Error message
-	 * @access	public
 	 * @since	11.1
 	 */
 	public function getError($i = null, $toString = true)
@@ -249,7 +245,6 @@ class JException extends Exception
 	/**
 	 * Return all errors, if any
 	 *
-	 * @access	public
 	 * @return	array	Array of error messages or JErrors
 	 * @since	11.1
 	 */
@@ -262,10 +257,9 @@ class JException extends Exception
 	/**
 	 * Modifies a property of the object, creating it if it does not already exist.
 	 *
-	 * @access	public
 	 * @param	string $property The name of the property
 	 * @param	mixed  $value The value of the property to set
-	 * 
+	 *
 	 * @return	mixed Previous value of the property
 	 * @see		setProperties()
 	 * @since	11.1
@@ -290,7 +284,7 @@ class JException extends Exception
 	public function setProperties($properties)
 	{
 		// Cast to an array
-		$properties = (array) $properties; 
+		$properties = (array) $properties;
 
 		if (is_array($properties))
 		{
@@ -308,7 +302,7 @@ class JException extends Exception
 	 * Add an error message
 	 *
 	 * @param	string $error Error message
-	 * @access	public
+	 *
 	 * @since	1.0
 	 */
 	public function setError($error)

@@ -25,7 +25,7 @@ class JTableUsergroup extends JTable
 	 *
 	 * @param	object	Database object
 	 * @return	void
-	 * @since	1.0
+	 * @since	11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -166,7 +166,7 @@ class JTableUsergroup extends JTable
 		// Select the category ID and it's children
 		$db->setQuery(
 			'SELECT c.id' .
-			' FROM `'.$this->_tbl.'` AS c' .
+			' FROM '.$db->nameQuote($this->_tbl).' AS c' .
 			' WHERE c.lft >= '.(int) $this->lft.' AND c.rgt <= '.$this->rgt
 		);
 		$ids = $db->loadResultArray();
@@ -179,7 +179,7 @@ class JTableUsergroup extends JTable
 
 		// Delete the category and it's children
 		$db->setQuery(
-			'DELETE FROM `'.$this->_tbl.'`' .
+			'DELETE FROM '.$db->nameQuote($this->_tbl).
 			' WHERE id IN ('.implode(',', $ids).')'
 		);
 		if (!$db->query()) {

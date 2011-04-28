@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__).DS.'list.php';
+require_once dirname(__FILE__).'/list.php';
 
 /**
  * Renders a select list of Asset Groups
@@ -17,13 +17,13 @@ require_once dirname(__FILE__).DS.'list.php';
  * @package		Joomla.Platform
  * @subpackage	Parameter
  * @since		11.1
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
 class JElementContentLanguages extends JElementList
 {
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'ContentLanguages';

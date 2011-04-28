@@ -183,7 +183,7 @@ class JDocumentHTML extends JDocument
 	 * @param	string  $relation	Relation of link.
 	 * @param	string  $relType	Relation type attribute.  Either rel or rev (default: 'rel').
 	 * @param	array	$attributes Associative array of remaining attributes.
-	 * 
+	 *
 	 * @return	void
 	 */
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
@@ -228,7 +228,7 @@ class JDocumentHTML extends JDocument
 	 * @param string	$type	The type of renderer
 	 * @param string	$name	The name of the element to render
 	 * @param array		$attribs Associative array of remaining attributes.
-	 * 
+	 *
 	 * @return	The output of the renderer
 	 */
 	public function getBuffer($type = null, $name = null, $attribs = array())
@@ -447,7 +447,7 @@ class JDocumentHTML extends JDocument
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
 		// 1.5 or core then 1.6
-		
+
 			$lang->load('tpl_'.$template, JPATH_BASE, null, false, false)
 		||	$lang->load('tpl_'.$template, $directory.DS.$template, null, false, false)
 		||	$lang->load('tpl_'.$template, JPATH_BASE, $lang->getDefault(), false, false)

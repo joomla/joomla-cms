@@ -13,6 +13,8 @@ jimport('joomla.log.logentry');
 jimport('joomla.log.logexception');
 jimport('joomla.log.logger');
 
+JLoader::discover('JLogger', dirname(__FILE__).'/loggers');
+
 // @deprecated  11.2
 jimport('joomla.filesystem.path');
 
@@ -20,7 +22,7 @@ jimport('joomla.filesystem.path');
  * Joomla! Log Class
  *
  * This class hooks into the global log configuration settings to allow for user configured
- * logging events to be sent to where the user wishes it to be sent. On high load sites
+ * logging events to be sent to where the user wishes them to be sent. On high load sites
  * SysLog is probably the best (pure PHP function), then the text file based loggers (CSV, W3C
  * or plain FormattedText) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
@@ -100,12 +102,6 @@ class JLog
 	public static $legacy = array();
 
 	/**
-	 * @var    bool  True if the default logger classes have been registered.
-	 * @since  11.1
-	 */
-	protected static $registered = false;
-
-	/**
 	 * @var    array  Container for JLogger configurations.
 	 * @since  11.1
 	 */
@@ -132,11 +128,6 @@ class JLog
 	 */
 	protected function __construct()
 	{
-		// If the logger classes haven't been registered let's get that done.
-		if (!self::$registered) {
-			$this->register();
-			self::$registered = true;
-		}
 	}
 
 	/**
@@ -167,7 +158,8 @@ class JLog
 	}
 
 	/**
-	 * Method to set the way the JError will handle different error levels. Use this if you want to override the default settings.
+	 * Method to set the way the JError will handle different error levels.
+	 * Use this if you want to override the default settings.
 	 *
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  ...
@@ -393,42 +385,5 @@ class JLog
 		}
 
 		return $loggers;
-	}
-
-	/**
-	 * Method to register all of the logger classes with the system autoloader.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function register()
-	{
-		// Define the expected folder in which to find logger classes.
-		$folder = dirname(__FILE__).'/loggers';
-
-		// Ignore the operation if the loggers folder doesn't exist.
-		if (is_dir($folder)) {
-
-			// Open the loggers folder.
-			$d = dir($folder);
-
-			// Iterate through the folder contents to search for logger classes.
-			while (false !== ($entry = $d->read()))
-			{
-				// Only load for php files.
-				if (is_file($folder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
-
-					// Sanitize the name of the file.
-					$name = preg_replace('#\.[^.]*$#', '', $entry);
-
-					// Register the class with the autoloader.
-					JLoader::register('JLogger'.ucfirst($name), $folder.'/'.$entry);
-				}
-			}
-
-			// Close the loggers folder.
-			$d->close();
-		}
 	}
 }

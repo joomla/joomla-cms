@@ -1,9 +1,10 @@
 <?php
 /**
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
  * @package     Joomla.Platform
  * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseMySQLImporter
+class JDatabaseImporterMySQL
 {
 	/**
 	 * @var    array  An array of cached data.
@@ -52,7 +53,7 @@ class JDatabaseMySQLImporter
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseMySQLImporter
+	 * @return  JDatabaseImporterMySQL
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -78,7 +79,7 @@ class JDatabaseMySQLImporter
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseMySQLImporter  Method supports chaining.
+	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function asXml()
@@ -91,7 +92,7 @@ class JDatabaseMySQLImporter
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseMySQLImporter  Method supports chaining.
+	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
@@ -115,7 +116,7 @@ class JDatabaseMySQLImporter
 	 *
 	 * @param   mixed  $from  The data source to import.
 	 *
-	 * @return  JDatabaseMySQLImporter  Method supports chaining.
+	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function from($from)
@@ -644,7 +645,7 @@ class JDatabaseMySQLImporter
 	 *
 	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
-	 * @return  JDatabaseMySQLImporter  Method supports chaining.
+	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function setDbo(JDatabaseMySQL $db)
@@ -659,7 +660,7 @@ class JDatabaseMySQLImporter
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseMySQLImporter  Method supports chaining.
+	 * @return  JDatabaseImporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)

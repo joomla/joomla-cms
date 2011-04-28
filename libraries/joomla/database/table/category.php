@@ -118,7 +118,7 @@ class JTableCategory extends JTableNested
 		}
 		$this->alias = trim($this->alias);
 		if (empty($this->alias)) {
-			$this->alias = strtolower($this->title);
+			$this->alias = $this->title;
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);

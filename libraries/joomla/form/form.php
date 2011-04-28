@@ -288,6 +288,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
+
 			return $default;
 		}
 
@@ -387,6 +388,7 @@ class JForm
 
 		// If no fieldsets are found return empty.
 		if (empty($sets)) {
+
 			return $fieldsets;
 		}
 
@@ -569,7 +571,7 @@ class JForm
 	 *
 	 * The replace option works per field.  If a field being loaded already exists in the current
 	 * form definition then the behavior or load will vary depending upon the replace flag.  If it
-	 * is set to true, then the existing field will be replaced in it's exact location by the new
+	 * is set to true, then the existing field will be replaced in its exact location by the new
 	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
 	 * method will move on to the next field to load.
 	 *
@@ -637,7 +639,7 @@ class JForm
 			$fields = $element->xpath('descendant-or-self::field');
 			foreach ($fields as $field)
 			{
-				// Get the group names as strings for anscestor fields elements.
+				// Get the group names as strings for ancestor fields elements.
 				$attrs	= $field->xpath('ancestor::fields[@name]/@name');
 				$groups	= array_map('strval', $attrs ? $attrs : array());
 
@@ -650,7 +652,7 @@ class JForm
 						$dom->parentNode->removeChild($dom);
 					}
 
-					// Else remove it from the incoming definition so it isn't replaced.'
+					// Else remove it from the incoming definition so it isn't replaced.
 					else {
 						unset($field);
 					}
@@ -796,12 +798,14 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
+
 			return false;
 		}
 
 		// Make sure the element to set is valid.
 		if (!($element instanceof JXMLElement)) {
 			// TODO: throw exception.
+
 			return false;
 		}
 
@@ -810,6 +814,7 @@ class JForm
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old)) {
+
 			return true;
 		}
 
@@ -858,6 +863,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
+
 			return false;
 		}
 
@@ -866,6 +872,7 @@ class JForm
 
 		// If the element doesn't exist return false.
 		if (!($element instanceof JXMLElement)) {
+
 			return false;
 		}
 		// Otherwise set the attribute and return true.
@@ -896,6 +903,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
+
 			return false;
 		}
 
@@ -904,6 +912,7 @@ class JForm
 		{
 			if (!($element instanceof JXMLElement)) {
 				// TODO: throw exception.
+
 				return false;
 			}
 		}
@@ -913,6 +922,7 @@ class JForm
 		foreach ($elements as $element)
 		{
 			if (!$this->setField($element, $group, $replace)) {
+
 				$return = false;
 			}
 		}
@@ -992,7 +1002,7 @@ class JForm
 			$value	= null;
 			$name	= (string) $field['name'];
 
-			// Get the group names as strings for anscestor fields elements.
+			// Get the group names as strings for ancestor fields elements.
 			$attrs	= $field->xpath('ancestor::fields[@name]/@name');
 			$groups	= array_map('strval', $attrs ? $attrs : array());
 			$group	= implode('.', $groups);
@@ -1185,7 +1195,7 @@ class JForm
 			$groupNames = explode('.', $group);
 			foreach ($fields as & $field)
 			{
-				// Get the group names as strings for anscestor fields elements.
+				// Get the group names as strings for ancestor fields elements.
 				$attrs = $field->xpath('ancestor::fields[@name]/@name');
 				$names	= array_map('strval', $attrs ? $attrs : array());
 
@@ -1208,7 +1218,7 @@ class JForm
 			// Search through the fields for the right one.
 			foreach ($fields as & $field)
 			{
-				// If we find an anscestor fields element with a group name then it isn't what we want.
+				// If we find an ancestor fields element with a group name then it isn't what we want.
 				if ($field->xpath('ancestor::fields[@name]')) {
 					continue;
 				}
@@ -1374,7 +1384,7 @@ class JForm
 					// For the found fields elements validate that they are in the correct groups.
 					foreach ($children as $fields)
 					{
-						// Get the group names as strings for anscestor fields elements.
+						// Get the group names as strings for ancestor fields elements.
 						$attrs = $fields->xpath('ancestor-or-self::fields[@name]/@name');
 						$names = array_map('strval', $attrs ? $attrs : array());
 
@@ -1440,7 +1450,7 @@ class JForm
 				{
 					$debug = $lang->setDebug(false);
 					$default = JText::_($default);
-					$lang->setDebug($default);
+					$lang->setDebug($debug);
 				}
 				else
 				{

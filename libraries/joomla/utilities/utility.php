@@ -32,6 +32,7 @@ class JUtility
 	 * @param	mixed	$attachment	Attachment file name(s)
 	 * @param	mixed	$replyto	Reply to email address(es)
 	 * @param	mixed	$replytoname Reply to name(s)
+	 *
 	 * @return	boolean	True on success
 	 *
 	 * @since		11.1
@@ -122,7 +123,7 @@ class JUtility
 		$attr		= array();
 		$retarray	= array();
 
-		// Lets grab all the key/value pairs using a regular expression
+		// Let's grab all the key/value pairs using a regular expression
 		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
 		if (is_array($attr)) {

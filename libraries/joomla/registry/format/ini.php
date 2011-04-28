@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	Registry
  * @since		11.1
  */
-class JRegistryFormatIni extends JRegistryFormat
+class JRegistryFormatINI extends JRegistryFormat
 {
 	private static $cache = array();
 
@@ -63,8 +63,10 @@ class JRegistryFormatIni extends JRegistryFormat
 	 *
 	 * @param	string	INI formatted string to convert.
 	 * @param	mixed	An array of options used by the formatter, or a boolean setting to process sections.
+	 *
 	 * @return	object	Data object.
 	 * @since	11.1
+	 *
 	 */
 	public function stringToObject($data, $options = array())
 	{
@@ -73,6 +75,7 @@ class JRegistryFormatIni extends JRegistryFormat
 			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 		} else {
 			// Backward compatibility for 1.5 usage.
+			//@deprecated
 			$sections = (boolean) $options;
 		}
 

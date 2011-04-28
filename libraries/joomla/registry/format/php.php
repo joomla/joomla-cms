@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	Registry
  * @since		11.1
  */
-class JRegistryFormatPhp extends JRegistryFormat {
+class JRegistryFormatPHP extends JRegistryFormat {
 
 	/**
 	 * Converts an object into a php class string.

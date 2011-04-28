@@ -36,6 +36,8 @@ abstract class JFactory
 	 * @param array	 $config An optional associative array of configuration settings.
 	 * @param string $prefix application prefix
 	 *
+	 * @see JApplication
+	 *
 	 * @return JApplication	object
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix='J')
@@ -62,6 +64,8 @@ abstract class JFactory
 	 * @param string $file The path to the configuration file
 	 * @param string $type The type of the configuration file
 	 *
+	 * @see JRegistry
+	 *
 	 * @return JRegistry object
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
@@ -85,6 +89,8 @@ abstract class JFactory
 	 *
 	 * @param array $options An array containing session options
 	 *
+	 * @see JSession
+	 *
 	 * @return JSession object
 	 */
 	public static function getSession($options = array())
@@ -101,6 +107,8 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JLanguage} object, only creating it
 	 * if it doesn't already exist.
+	 *
+	 * @see JLanguage
 	 *
 	 * @return JLanguage object
 	 */
@@ -138,6 +146,7 @@ abstract class JFactory
 	 *
 	 * @param int $id The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
+	 * @see JUser
 	 * @return JUser object
 	 */
 	public static function getUser($id = null)
@@ -165,6 +174,8 @@ abstract class JFactory
 	 * @param string $group   The cache group name
 	 * @param string $handler The handler to use
 	 * @param string $storage The storage method
+	 *
+	 * @see JCache
 	 *
 	 * @return JCache object
 	 */
@@ -239,6 +250,8 @@ abstract class JFactory
 	 * Returns the global {@link JMail} object, only creating it
 	 * if it doesn't already exist
 	 *
+	 * @see JMail
+	 *
 	 * @return JMail object
 	 */
 	public static function getMailer()
@@ -259,7 +272,6 @@ abstract class JFactory
 	 *
 	 * @return mixed SimplePie parsed object on success, false on failure
 	 * @since: 11.1
-	 * @static
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
@@ -395,6 +407,8 @@ abstract class JFactory
 	 *
 	 * @param string $uri uri name
 	 *
+	 * @see JURI
+	 *
 	 * @return JURI object
 	 * @since   11.1
 	 */
@@ -410,6 +424,8 @@ abstract class JFactory
 	 *
 	 * @param mixed $time     The initial time for the JDate object
 	 * @param mixed $tzOffset The timezone offset.
+	 *
+	 * @see JDate
 	 *
 	 * @return JDate object
 	 * @since   11.1
@@ -513,11 +529,11 @@ abstract class JFactory
 	{
 		jimport('joomla.session.session');
 
-		//get the editor configuration setting
+		// Get the editor configuration setting
 		$conf		= self::getConfig();
 		$handler	= $conf->get('session_handler', 'none');
 
-		// config time is in minutes
+		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
@@ -530,6 +546,8 @@ abstract class JFactory
 
 	/**
 	 * Create an database object
+	 *
+	 * @see JDatabase
 	 *
 	 * @return JDatabase object
 	 *
@@ -570,7 +588,6 @@ abstract class JFactory
 	/**
 	 * Create a mailer object
 	 *
-	 * @access private
 	 * @return JMail object
 	 * @since  11.1
 	 */
@@ -619,6 +636,8 @@ abstract class JFactory
 	/**
 	 * Create a language object
 	 *
+	 * @see JLanguage
+	 *
 	 * @return JLanguage object
 	 * @since   11.1
 	 */
@@ -637,6 +656,8 @@ abstract class JFactory
 	/**
 	 * Create a document object
 	 *
+	 * @see JDocument
+	 *
 	 * @return JDocument object
 	 * @since   11.1
 	 */
@@ -646,7 +667,7 @@ abstract class JFactory
 
 		$lang	= self::getLanguage();
 
-		//Keep backwards compatibility with Joomla! 1.0
+		// Keep backwards compatibility with Joomla! 1.0
 		$raw	= JRequest::getBool('no_html');
 		$type	= JRequest::getWord('format', $raw ? 'raw' : 'html');
 
@@ -668,6 +689,8 @@ abstract class JFactory
 	 * @param	boolean	$use_network	Use network if available for writing; use false to disable (e.g. FTP, SCP)
 	 * @param	string	$ua				UA User agent to use
 	 * @param	boolean	$uamask			User agent masking (prefix Mozilla)
+	 *
+	 * @see JStream
 	 *
 	 * @return	JStream
 	 * @since	11.1

@@ -106,12 +106,19 @@ class JPagination extends JObject
 
 		// Set the pagination iteration loop values.
 		$displayedPages	= 10;
-		$this->set('pages.start', (floor(($this->get('pages.current') -1) / $displayedPages)) * $displayedPages +1);
-		if ($this->get('pages.start') + $displayedPages -1 < $this->get('pages.total')) {
-			$this->set('pages.stop', $this->get('pages.start') + $displayedPages -1);
+		$this->set('pages.start', $this->get('pages.current') - ($displayedPages / 2));
+		if ($this->get('pages.start') < 1) {
+			$this->set('pages.start', 1);
 		}
-		else {
+		if (($this->get('pages.start') + $displayedPages) > $this->get('pages.total')) {
 			$this->set('pages.stop', $this->get('pages.total'));
+			if ($this->get('pages.total') < $displayedPages) {
+				$this->set('pages.start', 1);
+			} else {
+				$this->set('pages.start', $this->get('pages.total') - $displayedPages + 1);
+			}
+		} else {
+			$this->set('pages.stop', ($this->get('pages.start') + $displayedPages - 1));
 		}
 
 		// If we are viewing all records set the view all flag to true.
@@ -148,8 +155,8 @@ class JPagination extends JObject
 	}
 
 	/**
-	 * Method to get an additional URL parameter to be added to all pagination class generated
-	 * links if it exists.
+	 * Method to get an additional URL parameter (if it exists) to be added to
+	 * all pagination class generated links.
 	 *
 	 * @param	string	$key	The name of the URL parameter for which to get the value.
 	 *
@@ -479,10 +486,10 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0) {
-				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.." . $this->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"document.adminForm.." . $this->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
 			}
 			else {
-				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"document.adminForm.." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
 			}
 		}
 		else {
@@ -536,7 +543,8 @@ class JPagination extends JObject
 		{
 			$page = ($this->get('pages.current') -2) * $this->limit;
 
-			//$page = $page == 0 ? '' : $page; //set the empty for removal from route
+			// Set the empty for removal from route
+			//$page = $page == 0 ? '' : $page;
 
 			$data->start->base	= '0';
 			$data->start->link	= JRoute::_($params.'&'.$this->prefix.'limitstart=0');
@@ -564,8 +572,8 @@ class JPagination extends JObject
 		for ($i = $this->get('pages.start'); $i <= $stop; $i ++)
 		{
 			$offset = ($i -1) * $this->limit;
-
-			//$offset = $offset == 0 ? '' : $offset;  //set the empty for removal from route
+			// Set the empty for removal from route
+			//$offset = $offset == 0 ? '' : $offset;
 
 			$data->pages[$i] = new JPaginationObject($i, $this->prefix);
 			if ($i != $this->get('pages.current') || $this->_viewall)

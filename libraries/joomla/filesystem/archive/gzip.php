@@ -63,62 +63,63 @@ class JArchiveGzip extends JObject
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
-		/*
-		if (!$this->_data = JFile::read($archive)) {
-			$this->set('error.message', 'Unable to read archive');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		$position = $this->_getFilePosition();
-		$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
-		if (empty ($buffer)) {
-			$this->set('error.message', 'Unable to decompress data');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		if (JFile::write($destination, $buffer) === false) {
-			$this->set('error.message', 'Unable to write archive');
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-		return true;
-		*/
-
-		// New style! streams!
-		$input = JFactory::getStream();
-		$input->set('processingmethod', 'gz'); // use gz
-
-		if (!$input->open($archive)) {
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
-
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		$output = JFactory::getStream();
-
-		if (!$output->open($destination, 'w')) {
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
-			$input->close(); // close the previous file
-
-			return JError::raiseWarning(100, $this->get('error.message'));
-		}
-
-		$written = 0;
-		do
+		if(!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
-			$this->_data = $input->read($input->get('chunksize', 8196));
-			if ($this->_data) {
-				if (!$output->write($this->_data)) {
-					$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
+			if (!$this->_data = JFile::read($archive)) {
+				$this->set('error.message', 'Unable to read archive');
+				return JError::raiseWarning(100, $this->get('error.message'));
+			}
 
-					return JError::raiseWarning(100, $this->get('error.message'));
-				}
+			$position = $this->_getFilePosition();
+			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
+			if (empty ($buffer)) {
+				$this->set('error.message', 'Unable to decompress data');
+				return JError::raiseWarning(100, $this->get('error.message'));
+			}
+
+			if (JFile::write($destination, $buffer) === false) {
+				$this->set('error.message', 'Unable to write archive');
+				return JError::raiseWarning(100, $this->get('error.message'));
 			}
 		}
-		while ($this->_data);
+		else
+		{
+			// New style! streams!
+			$input = JFactory::getStream();
+			$input->set('processingmethod','gz'); // use gz
 
-		$output->close();
-		$input->close();
+			if (!$input->open($archive)) {
+				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
 
+				return JError::raiseWarning(100, $this->get('error.message'));
+			}
+
+			$output = JFactory::getStream();
+
+			if (!$output->open($destination, 'w')) {
+				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
+				$input->close(); // close the previous file
+
+				return JError::raiseWarning(100, $this->get('error.message'));
+			}
+
+			$written = 0;
+			do
+			{
+				$this->_data = $input->read($input->get('chunksize', 8196));
+				if ($this->_data) {
+					if (!$output->write($this->_data)) {
+						$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
+
+						return JError::raiseWarning(100, $this->get('error.message'));
+					}
+				}
+			}
+			while ($this->_data);
+
+			$output->close();
+			$input->close();
+		}
 		return true;
 	}
 

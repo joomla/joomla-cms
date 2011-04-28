@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.cli');
-jimport('joomla.application.exception');
+jimport('joomla.application.applicationexception');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -61,7 +61,7 @@ class JDaemon extends JCli
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct($config = array())
+	protected function __construct()
 	{
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP')) {
@@ -76,11 +76,11 @@ class JDaemon extends JCli
 		}
 
 		// Call the parent constructor.
-		parent::__construct($config);
+		parent::__construct();
 
 		// Set some system limits.
 		set_time_limit($this->config->get('max_execution_time', 0));
-		ini_set('memory_limit',$this->config->get('max_memory_limit', '256M'));
+		ini_set('memory_limit',isset($config['max_memory_limit']) ? $config['max_memory_limit'] : $this->config->get('max_memory_limit', '256M'));
 
 		// Flush content immediatly.
 		ob_implicit_flush();
@@ -96,30 +96,32 @@ class JDaemon extends JCli
 	 * @since   11.1
 	 * @see     pcntl_signal()
 	 */
-	static public function signal($signal)
+	public static function signal($signal)
 	{
+		$app = JFactory::getApplication();
+
 		// Log all signals sent to the daemon.
 		JLog::add('Received signal: '.$signal, JLog::DEBUG);
 
 		// Fire the onRecieveSignal event.
-		$this->triggerEvent('onRecieveSignal', array($signal));
+		$app->triggerEvent('onRecieveSignal', array($signal));
 
 		switch ($signal)
 		{
 			case SIGTERM :
 				// Handle shutdown tasks
-				if ($this->running && $this->isActive()) {
-					$this->shutdown();
+				if ($app->running && $app->isActive()) {
+					$app->shutdown();
 				} else {
-					$this->close();
+					$app->close();
 				}
 				break;
 			case SIGHUP :
 				// Handle restart tasks
-				if ($this->running && $this->isActive()) {
-					$this->shutdown(true);
+				if ($app->running && $app->isActive()) {
+					$app->shutdown(true);
 				} else {
-					$this->close();
+					$app->close();
 				}
 				break;
 			case SIGCHLD :
@@ -180,6 +182,100 @@ class JDaemon extends JCli
 		}
 
 		return true;
+	}
+
+	/**
+	 * Load an object or array into the application configuration object.
+	 *
+	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function loadConfiguration($data)
+	{
+		// Execute the parent load method.
+		parent::loadConfiguration($data);
+
+		/*
+		 * Setup some application metadata options.  This is useful if we ever want to write out startup scripts
+		 * or just have some sort of information available to share about things.
+		 */
+
+		// The application author name.  This string is used in generating startup scripts and has
+		// a maximum of 50 characters.
+		$tmp = (string) $this->config->get('author_name', 'Joomla Platform');
+		$this->config->set('author_name', (strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
+
+		// The application author email.  This string is used in generating startup scripts.
+		$tmp = (string) $this->config->get('author_email', 'admin@joomla.org');
+		$this->config->set('author_email', filter_var($tmp, FILTER_VALIDATE_EMAIL));
+
+		// The application name.  This string is used in generating startup scripts.
+		$tmp = (string) $this->config->get('application_name', 'JDaemon');
+		$this->config->set('application_name', (string) preg_replace('/[^A-Z0-9_-]/i', '', $tmp));
+
+		// The application description.  This string is used in generating startup scripts.
+		$tmp = (string) $this->config->get('application_description', 'A generic Joomla Platform application.');
+		$this->config->set('application_description', filter_var($tmp, FILTER_SANITIZE_STRING));
+
+		/*
+		 * Setup the application path options.  This defines the default executable name, executable directory,
+		 * and also the path to the daemon process id file.
+		 */
+
+		// The application executable daemon.  This string is used in generating startup scripts.
+		$tmp = (string) $this->config->get('application_executable', basename($this->input->executable));
+		$this->config->set('application_executable', $tmp);
+
+		// The home directory of the daemon.
+		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
+		$this->config->set('application_directory', $tmp);
+
+		// The pid file location.  This defaults to a path inside the /tmp directory.
+		$name = $this->config->get('application_name');
+		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/'.$name.'/'.$name.'.pid'));
+		$this->config->set('application_pid_file', $tmp);
+
+		/*
+		 * Setup the application identity options.  It is important to remember if the default of 0 is set for
+		 * either UID or GID then changing that setting will not be attempted as there is no real way to "change"
+		 * the identity of a process from some user to root.
+		 */
+
+		// The user id under which to run the daemon.
+		$tmp = (int) $this->config->get('application_uid', 0);
+		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+		$this->config->set('application_uid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
+
+		// The group id under which to run the daemon.
+		$tmp = (int) $this->config->get('application_gid', 0);
+		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
+		$this->config->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
+
+		// Option to kill the daemon if it cannot switch to the chosen identity.
+		$tmp = (bool) $this->config->get('application_require_identity', 1);
+		$this->config->set('application_require_identity', $tmp);
+
+		/*
+		 * Setup the application runtime options.  By default our execution time limit is infinite obviously
+		 * because a daemon should be constantly running unless told otherwise.  The default limit for memory
+		 * usage is 128M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
+		 * management leaves a bit to be desired :-)
+		 */
+
+		// The maximum execution time of the application in seconds.  Zero is infinite.
+		$tmp = $this->config->get('max_execution_time');
+		if ($tmp !== null) {
+			$this->config->set('max_execution_time', (int) $tmp);
+		}
+
+		// The maximum amount of memory the application can use.
+		$tmp = $this->config->get('max_memory_limit', '256M');
+		if ($tmp !== null) {
+			$this->config->set('max_memory_limit', (string) $tmp);
+		}
 	}
 
 	/**
@@ -427,101 +523,6 @@ class JDaemon extends JCli
 
 		// Clear the stat cache so it doesn't blow up memory.
 		clearstatcache();
-	}
-
-	/**
-	 * Load the configuration file into the site object.
-	 *
-	 * @param   string  $file  The path to the configuration file.
-	 *
-	 * @return  bool    True on success.
-	 *
-	 * @since   11.1
-	 */
-	protected function loadConfiguration($file)
-	{
-		$loaded = true;
-
-		// Perform the configuration file load.
-		if (!parent::loadConfiguration($file)) {
-			$loaded = false;
-		}
-
-		/*
-		 * Setup some application metadata options.  This is useful if we ever want to write out startup scripts
-		 * or just have some sort of information available to share about things.
-		 */
-
-		// The application author name.  This string is used in generating startup scripts and has
-		// a maximum of 50 characters.
-		$tmp = (string) $this->config->get('author_name', 'Joomla Platform');
-		$this->config->set('author_name', (strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
-
-		// The application author email.  This string is used in generating startup scripts.
-		$tmp = (string) $this->config->get('author_email', 'admin@joomla.org');
-		$this->config->set('author_email', filter_var($tmp, FILTER_VALIDATE_EMAIL));
-
-		// The application description.  This string is used in generating startup scripts.
-		$tmp = (string) $this->config->get('application_description', 'A generic Joomla Platform application.');
-		$this->config->set('application_description', filter_var($tmp, FILTER_SANITIZE_STRING));
-
-		/*
-		 * Setup the application path options.  This defines the default executable name, executable directory,
-		 * and also the path to the daemon process id file.
-		 */
-
-		// The application executable daemon.  This string is used in generating startup scripts.
-		$tmp = (string) $this->config->get('application_executable', basename($this->input->executable));
-		$this->config->set('application_executable', $tmp);
-
-		// The home directory of the daemon.
-		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
-		$this->config->set('application_directory', $tmp);
-
-		// The pid file location.  This defaults to a path inside the /tmp directory.
-		$tmp = (string) $this->config->get('application_pid_file', strtolower('/tmp/'.$this->name.'/'.$this->name.'.pid'));
-		$this->config->set('application_pid_file', $tmp);
-
-		/*
-		 * Setup the application identity options.  It is important to remember if the default of 0 is set for
-		 * either UID or GID then changing that setting will not be attempted as there is no real way to "change"
-		 * the identity of a process from some user to root.
-		 */
-
-		// The user id under which to run the daemon.
-		$tmp = (int) $this->config->get('application_uid', 0);
-		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
-		$this->config->set('application_uid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
-
-		// The group id under which to run the daemon.
-		$tmp = (int) $this->config->get('application_gid', 0);
-		$options = array('options' => array('min_range' => 0, 'max_range' => 65000));
-		$this->config->set('application_gid', filter_var($tmp, FILTER_VALIDATE_INT, $options));
-
-		// Option to kill the daemon if it cannot switch to the chosen identity.
-		$tmp = (bool) $this->config->get('application_require_identity', 1);
-		$this->config->set('application_require_identity', $tmp);
-
-		/*
-		 * Setup the application runtime options.  By default our execution time limit is infinite obviously
-		 * because a daemon should be constantly running unless told otherwise.  The default limit for memory
-		 * usage is 128M, which admittedly is a little high, but remember it is a "limit" and PHP's memory
-		 * management leaves a bit to be desired :-)
-		 */
-
-		// The maximum execution time of the application in seconds.  Zero is infinite.
-		$tmp = $this->config->get('max_execution_time');
-		if ($tmp !== null) {
-			$this->config->set('max_execution_time', (int) $tmp);
-		}
-
-		// The maximum amount of memory the application can use.
-		$tmp = $this->config->get('max_memory_limit', '256M');
-		if ($tmp !== null) {
-			$this->config->set('max_memory_limit', (string) $tmp);
-		}
-
-		return $loaded;
 	}
 
 	/**

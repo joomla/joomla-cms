@@ -467,13 +467,13 @@ class JUser extends JObject
 	{
 		static $tabletype;
 
-		//Set the default tabletype;
+		// Set the default tabletype;
 		if (!isset($tabletype)) {
 			$tabletype['name']		= 'user';
 			$tabletype['prefix']	= 'JTable';
 		}
 
-		//Set a custom table type is defined
+		// Set a custom table type is defined
 		if (isset($type)) {
 			$tabletype['name']		= $type;
 			$tabletype['prefix']	= $prefix;
@@ -495,7 +495,7 @@ class JUser extends JObject
 	{
 		jimport('joomla.user.helper');
 
-		// Lets check to see if the user is new or not
+		// Let's check to see if the user is new or not
 		if (empty($this->id)) {
 			// Check the password and create the crypted password
 			if (empty($array['password'])) {
@@ -713,7 +713,7 @@ class JUser extends JObject
 	{
 		JPluginHelper::importPlugin('user');
 
-		//trigger the onUserBeforeDelete event
+		// Trigger the onUserBeforeDelete event
 		$dispatcher = JDispatcher::getInstance();
 		$dispatcher->trigger('onUserBeforeDelete', array($this->getProperties()));
 
@@ -725,7 +725,7 @@ class JUser extends JObject
 			$this->setError($table->getError());
 		}
 
-		//trigger the onUserAfterDelete event
+		// Trigger the onUserAfterDelete event
 		$dispatcher->trigger('onUserAfterDelete', array($this->getProperties(), $result, $this->getError()));
 
 		return $result;
@@ -750,11 +750,10 @@ class JUser extends JObject
 			return false;
 		}
 
-		/*
-		 * Set the user parameters using the default xml file.  We might want to
-		 * extend this in the future to allow for the ability to have custom
-		 * user parameters, but for right now we'll leave it how it is.
-		 */
+		// Set the user parameters using the default xml file.  We might want to
+		// extend this in the future to allow for the ability to have custom
+		// user parameters, but for right now we'll leave it how it is.
+
 		$this->_params->loadJSON($table->params);
 
 		// Assuming all is well at this point lets bind the data

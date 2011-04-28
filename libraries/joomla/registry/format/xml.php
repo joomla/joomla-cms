@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	Registry
  * @since		11.1
  */
-class JRegistryFormatXml extends JRegistryFormat
+class JRegistryFormatXML extends JRegistryFormat
 {
 	/**
 	 * Converts an object into an XML formatted string.

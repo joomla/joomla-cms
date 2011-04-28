@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * @package		Joomla.Platform
  * @subpackage	Parameter
  * @since		11.1
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
 **/
 class JElementTemplateStyle extends JElement {
 
@@ -22,7 +23,8 @@ class JElementTemplateStyle extends JElement {
 	* @access	protected
 	* @var		string
 	**/
-	var	$_name = 'TemplateStyle';
+	protected	$_name = 'TemplateStyle';
+
 
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{

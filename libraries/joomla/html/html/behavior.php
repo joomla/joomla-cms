@@ -19,11 +19,11 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlBehavior
 {
 	/**
-	 * Method to load the mootools framework into the document head
+	 * Method to load the MooTools framework into the document head
 	 *
-	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
+	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
 	 *
-	 * @param	string	$extras	Mootools file to load
+	 * @param	string	$extras	MooTools file to load
 	 * @param	boolean	$debug	Is debugging mode on? [optional]
 	 *
 	 * @return	void
@@ -83,12 +83,12 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -102,7 +102,7 @@ abstract class JHtmlBehavior
 	 * To enable form validation the form tag must have class="form-validate".
 	 * Each field that needs to be validated need to have class="validate".
 	 * Additional handlers can be added to the handler for username, password,
-	 * numberic and email. To use these add class="validate-email" and so on.
+	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
 	 * @return	void
 	 * @since	11.1
@@ -111,12 +111,12 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -135,12 +135,12 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -161,7 +161,7 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Add unobtrusive javascript support for a comboox effect.
+	 * Add unobtrusive javascript support for a combobox effect.
 	 *
 	 * Note that this control is only reliable in absolutely positioned elements.
 	 * Avoid using a combobox in a slider or dynamic pane.
@@ -173,12 +173,12 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -202,7 +202,7 @@ abstract class JHtmlBehavior
 	 * - onShow			func	The default function for the show event, passes the tip element and the currently hovered element.
 	 * - onHide			func	The default function for the hide event, passes the currently hovered element.
 	 *
-	 * Uses the core Tips class in mootools.
+	 * Uses the core Tips class in MooTools.
 	 *
 	 * @param	string	$selector	The class selector for the tooltip.
 	 * @param	array	$params		An array of options for the tooltip.
@@ -218,7 +218,7 @@ abstract class JHtmlBehavior
 			$tips = array();
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework(true);
 
 		$sig = md5(serialize(array($selector,$params)));
@@ -289,7 +289,7 @@ abstract class JHtmlBehavior
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
-			// Include mootools framework
+			// Include MooTools framework
 			self::framework();
 
 			// Load the javascript and css
@@ -358,7 +358,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -421,7 +421,7 @@ abstract class JHtmlBehavior
 		$opt['width']				= (isset($params['width'])) && $params['width'] ? (int)$params['width'] : null;
 		$opt['multiple']			= (isset($params['multiple']) && !($params['multiple'])) ? '\\false' : '\\true';
 		$opt['queued']				= (isset($params['queued']) && !($params['queued'])) ? (int)$params['queued'] : null;
-		$opt['target']				= (isset($params['target'])) ? $params['target'] : '\\$(\'upload-browse\')';
+		$opt['target']				= (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
 		$opt['instantStart']		= (isset($params['instantStart']) && ($params['instantStart'])) ? '\\true' : '\\false';
 		$opt['allowDuplicates']		= (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? '\\false' : '\\true';
 		// limitSize is the old parameter name.  Remove in 1.7
@@ -494,7 +494,7 @@ abstract class JHtmlBehavior
 		// Attach tooltips to document
 		$uploaderInit =
 				'window.addEvent(\'domready\', function(){
-				var Uploader = new FancyUpload2($(\''.$id.'\'), $(\''.$upload_queue.'\'), '.$options.' );
+				var Uploader = new FancyUpload2(document.id(\''.$id.'\'), document.id(\''.$upload_queue.'\'), '.$options.' );
 				});';
 		$document->addScriptDeclaration($uploaderInit);
 
@@ -522,7 +522,7 @@ abstract class JHtmlBehavior
 			$trees = array();
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -581,7 +581,7 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
@@ -612,18 +612,18 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$config		= JFactory::getConfig();
 		$lifetime	= ($config->get('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
-		//refresh time is 1 minute less than the liftime assined in the configuration.php file
+		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
 
 		// the longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0) {
@@ -655,17 +655,20 @@ abstract class JHtmlBehavior
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
-		$js = "window.addEvent('domready', function () {if (top != self) {top.location.replace(".$location.");}});";
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; } else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
+		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
+
+		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
 
 		$loaded = true;
 	}
@@ -700,16 +703,19 @@ abstract class JHtmlBehavior
 					$object .= 'window.getSize().y-80';
 					$object .= ' }';
 					$object .= ',';
-				} else {
+				}
+				else {
 					$object .= ' '.$k.': ';
 					$object .= ($v) ? 'true' : 'false';
 					$object .= ',';
 				}
-			} else if (!is_array($v) && !is_object($v)) {
+			}
+			else if (!is_array($v) && !is_object($v)) {
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
-			} else {
+			}
+			else {
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}

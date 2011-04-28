@@ -21,7 +21,6 @@ class JButtonStandard extends JButton
 	/**
 	 * Button type
 	 *
-	 * @access	protected
 	 * @var		string
 	 */
 	protected $_name = 'Standard';
@@ -44,7 +43,6 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
 	 * @return	string	Button CSS Id
 	 * @since	11.1
 	 */
@@ -60,11 +58,13 @@ class JButtonStandard extends JButton
 	 * @param	string	$name	The task name as seen by the user
 	 * @param	string	$task	The task used by the application
 	 * @param	???		$list
+	 *
 	 * @return	string	JavaScript command string
 	 * @since	11.1
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
+		JHtml::_('behavior.framework');
 		$message	= JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');
 		$message	= addslashes($message);
 

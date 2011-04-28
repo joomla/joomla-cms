@@ -50,6 +50,7 @@ class JXMLElement extends SimpleXMLElement
 	 * Legacy method gets an elements attribute by name.
 	 *
 	 * @param		string
+	 *
 	 * @return		string
 	 * @deprecated	1.6 - Feb 5, 2010
 	 */
@@ -63,6 +64,7 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * @param	boolean	Should we use indentation and newlines ?
 	 * @param	integer	Indentaion level.
+	 *
 	 * @return	string
 	 */
 	public function asFormattedXML($compressed = false, $indent = "\t", $level = 0)

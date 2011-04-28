@@ -25,65 +25,57 @@ class JView extends JObject
 	 * The name of the view
 	 *
 	 * @var		array
-	 * @access protected
 	 */
-	var $_name = null;
+	protected $_name = null;
 
 	/**
 	 * Registered models
 	 *
 	 * @var		array
-	 * @access protected
 	 */
-	var $_models = array();
+	protected $_models = array();
 
 	/**
 	 * The base path of the view
 	 *
 	 * @var		string
-	 * @access	protected
 	 */
-	var $_basePath = null;
+	protected $_basePath = null;
 
 	/**
 	 * The default model
 	 *
 	 * @var	string
-	 * @access protected
 	 */
-	var $_defaultModel = null;
+	protected $_defaultModel = null;
 
 	/**
 	 * Layout name
 	 *
 	 * @var		string
-	 * @access	protected
 	 */
-	var $_layout = 'default';
+	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
 	 *
 	 * @var		string
-	 * @access	protected
 	 */
-	var $_layoutExt = 'php';
+	protected $_layoutExt = 'php';
 
 	/**
 	 * Layout template
 	 *
 	 * @var		string
-	 * @access	protected
 	 */
-	var $_layoutTemplate = '_';
+	protected $_layoutTemplate = '_';
 
 	/**
 	* The set of search directories for resources (templates)
 	*
 	* @var array
-	* @access protected
 	*/
-	var $_path = array(
+	protected $_path = array(
 		'template' => array(),
 		'helper' => array()
 	);
@@ -92,40 +84,35 @@ class JView extends JObject
 	* The name of the default template source file.
 	*
 	* @var string
-	* @access private
 	*/
-	var $_template = null;
+	private $_template = null;
 
 	/**
 	* The output of the template script.
 	*
 	* @var string
-	* @access private
 	*/
-	var $_output = null;
+	private $_output = null;
 
 	/**
 	 * Callback for escaping.
 	 *
 	 * @var string
-	 * @access private
 	 */
-	var $_escape = 'htmlspecialchars';
+	private $_escape = 'htmlspecialchars';
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
-	 * @access private
 	 */
-	var $_charset = 'UTF-8';
+	private $_charset = 'UTF-8';
 
 	/**
 	 * Constructor
 	 *
-	 * @access	protected
 	 */
-	function __construct($config = array())
+	protected function __construct($config = array())
 	{
 		// Set the view name
 		if (empty($this->_name))
@@ -154,7 +141,7 @@ class JView extends JObject
 			$this->_basePath	= JPATH_COMPONENT;
 		}
 
-		// set the default template search path
+		// Set the default template search path
 		if (array_key_exists('template_path', $config)) {
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
@@ -232,10 +219,9 @@ class JView extends JObject
 	*
 	* </code>
 	*
-	* @access public
 	* @return bool True on success, false on failure.
 	*/
-	function assign()
+	public function assign()
 	{
 		// Get the arguments; there may be 1 or 2.
 		$arg0 = @func_get_arg(0);
@@ -298,14 +284,13 @@ class JView extends JObject
 	* $view->ref = &$var1;
 	* </code>
 	*
-	* @access public
 	*
 	* @param string The name for the reference in the view.
 	* @param mixed The referenced variable.
 	*
 	* @return bool True on success, false on failure.
 	*/
-	function assignRef($key, &$val)
+	public function assignRef($key, &$val)
 	{
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
@@ -376,11 +361,10 @@ class JView extends JObject
 	/**
 	 * Method to get the model object
 	 *
-	 * @access	public
 	 * @param	string	The name of the model (optional)
 	 * @return	mixed	JModel object
 	 */
-	function getModel($name = null)
+	public function getModel($name = null)
 	{
 		if ($name === null) {
 			$name = $this->_defaultModel;
@@ -391,10 +375,9 @@ class JView extends JObject
 	/**
 	* Get the layout.
 	*
-	* @access public
 	* @return string The layout name
 	*/
-	function getLayout()
+	public function getLayout()
 	{
 		return $this->_layout;
 	}
@@ -402,10 +385,9 @@ class JView extends JObject
 	/**
 	* Get the layout template.
 	*
-	* @access public
 	* @return string The layout template name
 	*/
-	function getLayoutTemplate()
+	public function getLayoutTemplate()
 	{
 		return $this->_layoutTemplate;
 	}
@@ -416,11 +398,10 @@ class JView extends JObject
 	 * The model name by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
-	 * @access	public
 	 * @return	string The name of the model
 	 * @since	11.1
 	 */
-	function getName()
+	public function getName()
 	{
 		$name = $this->_name;
 
@@ -447,12 +428,11 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @access	public
 	 * @param	object		The model to add to the view.
 	 * @param	boolean		Is this the default model?
 	 * @return	object		The added model
 	 */
-	function setModel(&$model, $default = false)
+	public function setModel(&$model, $default = false)
 	{
 		$name = strtolower($model->getName());
 		$this->_models[$name] = &$model;
@@ -466,13 +446,12 @@ class JView extends JObject
 	/**
 	* Sets the layout name to use
 	*
-	* @access	public
 	* @param	string	The layout name or a string in format <template>:<layout file>
 	* @return	string 	Previous value
 	* @since	11.1
 	*/
 
-	function setLayout($layout)
+	public function setLayout($layout)
 	{
 		$previous = $this->_layout;
 		if (strpos($layout, ':') === false )
@@ -493,12 +472,11 @@ class JView extends JObject
 	/**
 	 * Allows a different extension for the layout files to be used
 	 *
-	 * @access	public
 	 * @param	string	The extension
 	 * @return	string	Previous value
 	 * @since	11.1
 	 */
-	function setLayoutExt($value)
+	public function setLayoutExt($value)
 	{
 		$previous	= $this->_layoutExt;
 		if ($value = preg_replace('#[^A-Za-z0-9]#', '', trim($value))) {
@@ -542,12 +520,11 @@ class JView extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @access	public
 	 * @param	string	The name of the template source file ...
 	 * 					automatically searches the template paths and compiles as needed.
 	 * @return string The output of the the template script.
 	 */
-	function loadTemplate($tpl = null)
+	public function loadTemplate($tpl = null)
 	{
 		// clear prior output
 		$this->_output = null;
@@ -619,12 +596,11 @@ class JView extends JObject
 	/**
 	 * Load a helper file
 	 *
-	 * @access	public
 	 * @param string The name of the helper source file ...
 	 * automatically searches the helper paths and compiles as needed.
 	 * @return boolean Returns true if the file was loaded
 	 */
-	function loadHelper($hlp = null)
+	public function loadHelper($hlp = null)
 	{
 		// clean the file name
 		$file = preg_replace('/[^A-Z0-9_\.-]/i', '', $hlp);
@@ -643,11 +619,10 @@ class JView extends JObject
 	/**
 	* Sets an entire array of search paths for templates or resources.
 	*
-	* @access protected
 	* @param string 		The type of path to set, typically 'template'.
 	* @param string|array	The new set of search paths.  If null or false, resets to the current directory only.
 	*/
-	function _setPath($type, $path)
+	protected function _setPath($type, $path)
 	{
 		jimport('joomla.application.helper');
 		$component	= JApplicationHelper::getComponentName();
@@ -677,10 +652,9 @@ class JView extends JObject
 	/**
 	* Adds to the search path for templates and resources.
 	*
-	* @access protected
 	* @param string|array The directory or stream to search.
 	*/
-	function _addPath($type, $path)
+	protected function _addPath($type, $path)
 	{
 		// just force to array
 		settype($path, 'array');
@@ -705,13 +679,13 @@ class JView extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @access	private
 	 * @param	string	The resource type to create the filename for
 	 * @param	array	An associative array of filename information
+	 *
 	 * @return	string	The filename
 	 * @since   11.1
 	 */
-	function _createFileName($type, $parts = array())
+	private function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 

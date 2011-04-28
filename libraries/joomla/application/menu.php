@@ -280,7 +280,7 @@ class JMenu extends JObject
 	 * object and optionally an access extension object
 	 *
 	 * @param	integer	$id	The menu id
-	 * @return	boolean	True if authorized
+	 * @return	boolean	True if authorised
 	 * @since	11.1
 	 */
 	public function authorise($id)

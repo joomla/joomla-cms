@@ -1,0 +1,51 @@
+/**
+ * @version		$Id: system.css 20196 2011-01-09 02:40:25Z ian $
+ * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+/* System Messages */
+#system-message    { margin-bottom: 10px; padding: 0;}
+#system-message dt { font-weight: bold;  display: none; }
+#system-message dd { margin: 0; font-weight: bold; text-indent: 30px; }
+#system-message dd ul { color: #0055BB; background-position: 4px top; background-repeat: no-repeat; margin-bottom: 10px; list-style: none; padding: 10px; border-top: 3px solid #84A7DB; border-bottom: 3px solid #84A7DB;}
+#system-message dd ul li{ line-height:1.5em }
+
+/* System Standard Messages */
+#system-message dd.message ul {
+	background-color: #C3D2E5;
+	background-image: url(../images/notice-info.png);
+}
+
+/* System Error Messages */
+#system-message dd.error ul,
+#system-message dd.warning ul,
+#system-message dd.notice ul
+{
+	color: #c00;
+}
+
+#system-message dd.error ul {
+	background-color: #E6C0C0;
+	background-image: url(../images/notice-alert.png);
+	border-top-color: #DE7A7B;
+	border-bottom-color: #DE7A7B;
+}
+
+/* System Warning Messages */
+#system-message dd.warning ul {
+	color: #c00;
+	background-color: #E6C8A6;
+	background-image: url(../images/notice-note.png);
+	border-top-color: #FFBB00;
+	border-bottom-color: #FFBB00;
+}
+
+/* System Notice Messages */
+#system-message dd.notice ul {
+	color: #c00;
+	background-color: #EFE7B8;
+	background-image: url(../images/notice-note.png);
+	border-top-color: #F0DC7E;
+	border-bottom-color: #F0DC7E;
+}

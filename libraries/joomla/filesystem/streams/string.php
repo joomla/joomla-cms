@@ -158,9 +158,10 @@ class JStreamString
 	 */
 	function stream_seek($offset, $whence)
 	{
-		//$whence: SEEK_SET, SEEK_CUR, SEEK_END
+		// $whence: SEEK_SET, SEEK_CUR, SEEK_END
 		if ($offset > $this->_len) {
-			return false; // we can't seek beyond our len
+			// We can't seek beyond our len.
+			return false;
 		}
 
 		switch($whence)
@@ -192,7 +193,8 @@ class JStreamString
 	 */
 	function stream_flush()
 	{
-		return true; // we don't store data
+		// We don't store data.
+		return true;
 	}
 }
 

@@ -14,7 +14,7 @@ jimport('joomla.database.table');
 /**
  * Languages table.
  *
- * @package		Joomla.Platform
+ * @package		Joomla.Administrator
  * @subpackage	com_languages
  * @since		11.1
  */

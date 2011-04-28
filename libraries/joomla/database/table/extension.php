@@ -53,7 +53,7 @@ class JTableExtension extends JTable
 	* @param array $hash named array
 	* @return null|string	null is operation was satisfactory, otherwise returns an error
 	* @see JTable:bind
-	* @since   11.1
+	* @since 11.1
 	*/
 	function bind($array, $ignore = '')
 	{
@@ -133,8 +133,8 @@ class JTableExtension extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `enabled` = '.(int) $state .
+			'UPDATE '.$this->_db->nameQuote($this->_tbl).
+			' SET '.$this->_db->nameQuote('enabled').' = '.(int) $state .
 			' WHERE ('.$where.')' .
 			$checkin
 		);

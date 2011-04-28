@@ -20,18 +20,18 @@ jimport('joomla.application.input');
  */
 class JInputFiles extends JInput
 {
-	
+
 	private $_decodedData = array();
-	
+
 	/**
 	 * Gets a value from the input data.
 	 *
 	 * @param   string  $name     Name of the value to get.
 	 * @param   mixed   $default  Default value to return if variable does not exist.
 	 * @param   string  $filter   Filter to apply to the value.
-	 * 
+	 *
 	 * @return  mixed  The filtered input value.
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function get($name, $default = null, $filter = 'cmd')
@@ -56,7 +56,7 @@ class JInputFiles extends JInput
 	protected function decodeData($data)
 	{
 		$result = array();
-		
+
 		if (is_array($data[0])) {
 			foreach ($data[0] AS $k => $v) {
 				$result[$k] = $this->decodeData(array($data[0][$k], $data[1][$k], $data[2][$k], $data[3][$k], $data[4][$k]));
@@ -74,9 +74,9 @@ class JInputFiles extends JInput
 	 *
 	 * @param   string  $name   Name of the value to set.
 	 * @param   mixed   $value  Value to assign to the input.
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function set($name, $value)

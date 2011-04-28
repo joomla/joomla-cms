@@ -93,11 +93,7 @@ class JInstallerComponent extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Manifest Document Setup Section
 
 		// Set the extensions name
 		$name = strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
@@ -119,11 +115,8 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('extension_administrator', JPath::clean(JPATH_ADMINISTRATOR.DS.'components'.DS.$this->get('element')));
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Basic Checks Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Basic Checks Section
+
 
 		// Make sure that we have an admin element
 		if (!$this->manifest->administration) {
@@ -131,45 +124,39 @@ class JInstallerComponent extends JAdapterInstance
 			return false;
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Filesystem Processing Section
 
-		/*
-		 * If the component site or admin directory already exists, then we will assume that the component is already
-		 * installed or another component is using that directory.
-		 */
+
+		// If the component site or admin directory already exists, then we will assume that the component is already
+		// installed or another component is using that directory.
+
 		if (file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator'))) {
-			// look for an update function or update tag
+			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
-			// upgrade manually set
-			// update function available
-			// update tag detected
+			// Upgrade manually set
+			// Update function available
+			// Update tag detected
 
 			if ($this->parent->getUpgrade() || ($this->parent->manifestClass && method_exists($this->parent->manifestClass,'update')) || $updateElement) {
 				return $this->update(); // transfer control to the update function
 			}
 			else if (!$this->parent->getOverwrite()) {
-				// overwrite is set
-				// we didn't have overwrite set, find an update function or find an update tag so lets call it safe
-				if (file_exists($this->parent->getPath('extension_site'))) { // if the site exists say that
+				// Overwrite is set
+				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
+				if (file_exists($this->parent->getPath('extension_site'))) {
+					// If the site exists say so
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')));
 				}
 				else {
-					// if the admin exists say that
+					// If the admin exists say so
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_ADMIN', $this->parent->getPath('extension_administrator')));
 				}
 				return false;
 			}
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Installer Trigger Loading
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Installer Trigger Loading
+
 		// If there is an manifest class file, lets load it; we'll copy it later (don't have dest yet)
 		$manifestScript = (string)$this->manifest->scriptfile;
 
@@ -177,7 +164,7 @@ class JInstallerComponent extends JAdapterInstance
 			$manifestScriptFile = $this->parent->getPath('source').DS.$manifestScript;
 
 			if (is_file($manifestScriptFile)) {
-				// load the file
+				// Load the file
 				include_once $manifestScriptFile;
 			}
 
@@ -185,15 +172,15 @@ class JInstallerComponent extends JAdapterInstance
 			$classname = $this->get('element').'InstallerScript';
 
 			if (class_exists($classname)) {
-				// create a new instance
+				// Create a new instance
 				$this->parent->manifestClass = new $classname($this);
-				// and set this so we can copy it later
+				// And set this so we can copy it later
 				$this->set('manifest_script', $manifestScript);
 				// Note: if we don't find the class, don't bother to copy the file
 			}
 		}
 
-		// run preflight if possible (since we know we're not an update)
+		// Run preflight if possible (since we know we're not an update)
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -205,10 +192,11 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		$msg = ob_get_contents(); // create msg object; first use here
+		// Create msg object; first use here
+		$msg = ob_get_contents();
 		ob_end_clean();
 
-		// If the component directory does not exist, lets create it
+		// If the component directory does not exist, let's create it
 		$created = false;
 
 		if (!file_exists($this->parent->getPath('extension_site'))) {
@@ -218,15 +206,14 @@ class JInstallerComponent extends JAdapterInstance
 			}
 		}
 
-		/*
-		 * Since we created the component directory and will want to remove it if we have to roll back
-		 * the installation, lets add it to the installation step stack
-		 */
+		// Since we created the component directory and will want to remove it if we have to roll back
+		// the installation, let's add it to the installation step stack
+
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
 		}
 
-		// If the component admin directory does not exist, lets create it
+		// If the component admin directory does not exist, let's create it
 		$created = false;
 
 		if (!file_exists($this->parent->getPath('extension_administrator'))) {

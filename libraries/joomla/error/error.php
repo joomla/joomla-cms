@@ -30,9 +30,18 @@ define('JERROR_ILLEGAL_MODE', 3);
  * @package	Joomla.Platform
  * @subpackage	Error
  * @since		11.1
+ * @deprecated
  */
 abstract class JError
 {
+	/**
+	 * @var    bool  True to enable legacy error handling using JError, false to use exception handling.  This flag
+	 *               is present to allow an easy transition into exception handling for code written against the
+	 *               existing JError API in Joomla.
+	 * @since  11.1
+	 */
+	public static $legacy = false;
+
 	protected static $levels = array(
 		E_NOTICE => 'Notice',
 		E_WARNING => 'Warning',
@@ -48,7 +57,7 @@ abstract class JError
 	protected static $stack = array();
 
 	/**
-	 * Method to determine if a value is an exception object.  This check supports 
+	 * Method to determine if a value is an exception object.  This check supports
 	 * both JException and PHP5 Exception objects
 	 *
 	 * @param	mixed	&$object	Object to check
@@ -96,9 +105,8 @@ abstract class JError
 	/**
 	 * Method to add non-JError thrown JExceptions to the JError stack for debugging purposes
 	 *
-	 * @access	public
 	 * @param	object JException
-	 * 
+	 *
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -169,7 +177,7 @@ abstract class JError
 	 *
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that 
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that
 	 * 							the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
@@ -185,7 +193,7 @@ abstract class JError
 	 *
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that 
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information that
 	 * 							the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
@@ -201,7 +209,7 @@ abstract class JError
 	 *
 	 * @param	string	$code	The application-internal error code for this error
 	 * @param	string	$msg	The error message, which may also be shown the user if need be.
-	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information 
+	 * @param	mixed	$info	Optional: Additional error information (usually only developer-relevant information
 	 * 							that the user should never see, like a database DSN).
 	 *
 	 * @return	object	$error	The configured JError object
@@ -299,7 +307,6 @@ abstract class JError
 	/**
 	 * Method that attaches the error handler to JError
 	 *
-	 * @access public
 	 * @see set_error_handler
 	 */
 	public static function attachHandler()
@@ -310,7 +317,6 @@ abstract class JError
 	/**
 	 * Method that detaches the error handler from JError
 	 *
-	 * @access public
 	 * @see restore_error_handler
 	 */
 	public static function detachHandler()
@@ -605,7 +611,7 @@ abstract class JError
 		if (is_array($backtrace)) {
 			ob_start();
 			$j = 1;
-			echo '<table border="0" cellpadding="0" cellspacing="0" class="Table">';
+			echo '<table cellpadding="0" cellspacing="0" class="Table">';
 			echo '		<tr>';
 			echo '				<td colspan="3" class="TD"><strong>Call stack</strong></td>';
 			echo '		</tr>';

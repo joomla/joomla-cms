@@ -23,17 +23,15 @@ class JDocumentRenderer extends JObject
 	* Reference to the JDocument object that instantiated the renderer
 	*
 	* @var		object
-	* @access	protected
 	*/
-	var	$_doc = null;
+	protected	$_doc = null;
 
 	/**
 	 * Renderer mime type
 	 *
 	 * @var		string
-	 * @access	private
 	 */
-	var $_mime = "text/html";
+	private $_mime = "text/html";
 
 	/**
 	* Class constructor
@@ -51,7 +49,7 @@ class JDocumentRenderer extends JObject
 	 * @param string	$name		The name of the element to render
 	 * @param array		$array		Array of values
 	 * @param string	$content	Override the output of the renderer
-	 * 
+	 *
 	 * @return string	The output of the script
 	 */
 	public function render($name, $params = null, $content = null)

@@ -30,6 +30,7 @@ abstract class JInstallerHelper
 	 * @static
 	 * @param string URL of file to download
 	 * @param string Download target filename [optional]
+	 *
 	 * @return mixed Path to downloaded package or boolean false on failure
 	 * @since   11.1
 	 */
@@ -92,7 +93,7 @@ abstract class JInstallerHelper
 		// Close file pointer resource
 		fclose($inputHandle);
 
-		// restore error tracking to what it was before
+		// Restore error tracking to what it was before
 		ini_set('track_errors',$track_errors);
 
 		// Return the name of the downloaded package
@@ -105,6 +106,7 @@ abstract class JInstallerHelper
 	 *
 	 * @static
 	 * @param string $p_filename The uploaded package filename or install directory
+	 *
 	 * @return Array Two elements - extractdir and packagefile
 	 * @since   11.1
 	 */
@@ -120,7 +122,7 @@ abstract class JInstallerHelper
 		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
 		$archivename = JPath::clean($archivename);
 
-		// do the unpacking of the archive
+		// Do the unpacking of the archive
 		$result = JArchive::extract($archivename, $extractdir);
 
 		if ($result === false) {
@@ -129,7 +131,7 @@ abstract class JInstallerHelper
 
 
 		/*
-		 * Lets set the extraction directory and package file in the result array so we can
+		 * Let's set the extraction directory and package file in the result array so we can
 		 * cleanup everything properly later on.
 		 */
 		$retval['extractdir'] = $extractdir;
@@ -175,6 +177,7 @@ abstract class JInstallerHelper
 	 *
 	 * @static
 	 * @param string $p_dir Path to package directory
+	 *
 	 * @return mixed Extension type string or boolean false on fail
 	 * @since   11.1
 	 */
@@ -219,6 +222,7 @@ abstract class JInstallerHelper
 	 *
 	 * @static
 	 * @param string $url URL to get name from
+	 *
 	 * @return mixed String filename or boolean false if failed
 	 * @since   11.1
 	 */
@@ -238,6 +242,7 @@ abstract class JInstallerHelper
 	 * @static
 	 * @param string $package Path to the uploaded package file
 	 * @param string $resultdir Path to the unpacked extension
+	 *
 	 * @return boolean True on success
 	 * @since   11.1
 	 */
@@ -262,9 +267,12 @@ abstract class JInstallerHelper
 	}
 
 	/**
+	 * Splitsql
+	 *
 	 * Splits contents of a sql file into array of discreet queries
 	 * queries need to be delimited with end of statement marker ';'
 	 * @param string
+	 *
 	 * @return array
 	 */
 	public static function splitSql($sql)

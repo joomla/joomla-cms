@@ -20,35 +20,65 @@ jimport('joomla.filesystem.file');
  */
 class JLibraryManifest extends JObject
 {
-	/** @var string name Name of Library */
+	/**
+	 * @var string name Name of Library
+	 */
 	var $name = '';
-	/** @var string libraryname File system name of the library */
+	/**
+	 * @var string libraryname File system name of the library
+	 */
 	var $libraryname = '';
-	/** @var string version Version of the library */
+	/**
+	 *  @var string version Version of the library
+	 */
 	var $version = '';
-	/** @var string description Description of the library */
+	/**
+	 * @var string description Description of the library
+	 */
 	var $description = '';
-	/** @var date creationDate Creation Date of the extension */
+	/**
+	 * @var date creationDate Creation Date of the extension
+	 */
 	var $creationDate = '';
-	/** @var string copyright Copyright notice for the extension */
+	/**
+	 * @var string copyright Copyright notice for the extension
+	 */
 	var $copyright = '';
-	/** @var string license License for the extension */
+	/**
+	 * @var string license License for the extension
+	 */
 	var $license = '';
-	/** @var string author Author for the extension */
+	/**
+	 * @var string author Author for the extension
+	 */
 	var $author = '';
-	/** @var string authoremail Author email for the extension */
+	/**
+	 * @var string authoremail Author email for the extension
+	 */
 	var $authoremail = '';
-	/** @var string authorurl Author url for the extension */
+	/**
+	 * @var string authorurl Author url for the extension
+	 */
 	var $authorurl = '';
-	/** @var string packager Name of the packager for the library (may also be porter) */
+	/**
+	 * @var string packager Name of the packager for the library (may also be porter)
+	 */
 	var $packager = '';
-	/** @var string packagerurl URL of the packager for the library (may also be porter) */
+	/**
+	 * @var string packagerurl URL of the packager for the library (may also be porter)
+	 */
 	var $packagerurl = '';
-	/** @var string update URL of the update site */
+	/**
+	 * @var string update URL of the update site
+	 */
 	var $update = '';
-	/** @var string[] filelist List of files in the library */
+	/**
+	 * @var string[] filelist List of files in the library
+	 */
 	var $filelist = Array();
-	/** @var string manifest_file Path to manifest file */
+	/**
+	 * @var string manifest_file Path to manifest file
+	 */
 	var $manifest_file = '';
 
 	/**

@@ -48,9 +48,9 @@ class JArrayHelper
 	/**
 	 * Utility function to map an array to a stdClass object.
 	 *
-	 * @static
 	 * @param	array	$array		The array to map.
-	 * @param	string	$calss		Name of the class to create
+	 * @param	string	$class		Name of the class to create
+	 *
 	 * @return	object	The object mapped from the given array
 	 * @since	11.1
 	 */
@@ -94,10 +94,10 @@ class JArrayHelper
 	/**
 	 * Utility function to map an object to an array
 	 *
-	 * @static
 	 * @param	object	The source object
 	 * @param	boolean	True to recurve through multi-level objects
 	 * @param	string	An optional regular expression to match on field names
+	 *
 	 * @return	array	The array mapped from the given object
 	 * @since	11.1
 	 */
@@ -114,10 +114,10 @@ class JArrayHelper
 	/**
 	 * Private Utility function to map an object|array to an array
 	 *
-	 * @static
 	 * @param	array|object	The source object|array
 	 * @param	boolean			True to recurve through multi-level objects
 	 * @param	string			An optional regular expression to match on field names
+	 *
 	 * @return	array			The array mapped from the given object
 	 * @since	11.1
 	 */
@@ -162,9 +162,9 @@ class JArrayHelper
 	/**
 	 * Extracts a column from an array of arrays or objects
 	 *
-	 * @static
 	 * @param	array	$array	The source array
 	 * @param	string	$index	The index of the column or name of object property
+	 *
 	 * @return	array	Column of values from the source array
 	 * @since	11.1
 	 */
@@ -192,11 +192,11 @@ class JArrayHelper
 	/**
 	 * Utility function to return a value from a named array or a specified default
 	 *
-	 * @static
 	 * @param	array	$array		A named array
 	 * @param	string	$name		The key to search for
 	 * @param	mixed	$default	The default value to give if no key found
 	 * @param	string	$type		Return type for the variable (INT, FLOAT, STRING, WORD, BOOLEAN, ARRAY)
+	 *
 	 * @return	mixed	The value from the source array
 	 * @since	11.1
 	 */
@@ -261,6 +261,7 @@ class JArrayHelper
 	 * Method to determine if an array is an associative array.
 	 *
 	 * @param	array		An array to test.
+	 *
 	 * @return	boolean		True if the array is an associative array.
 	 * @since	11.1
 	 */
@@ -280,11 +281,10 @@ class JArrayHelper
 	/**
 	 * Utility function to sort an array of objects on a given field
 	 *
-	 * @static
 	 * @param	array			$arr			An array of objects
 	 * @param	string|array	$k				The key or a array of key to sort on
 	 * @param	int|array		$direction		Direction or an array of direction to sort in [1 = Ascending] [-1 = Descending]
-	 * @param	bool|array		$casesensitive	Let sort occur casesensitive or insensitive
+	 * @param	bool|array		$casesensitive	Let sort occur case sensitive or insensitive
 	 * @param	bool|array		$locale			Let sort occur using the locale language or not
 	 *
 	 * @return	array							The sorted array of objects
@@ -314,6 +314,7 @@ class JArrayHelper
 	 * @static
 	 * @param	array	$a	An array of objects
 	 * @param	array	$b	An array of objects
+	 *
 	 * @return	int		Comparison status
 	 * @since	11.1
 	 * @see		JArrayHelper::sortObjects()
@@ -350,10 +351,12 @@ class JArrayHelper
 			}
 
 			if ($cmp > 0) {
+
 				return $direction;
 			}
 
 			if ($cmp < 0) {
+
 				return - $direction;
 			}
 		}

@@ -493,3 +493,12 @@ CREATE TABLE IF NOT EXISTS `jos_viewlevels` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE IF NOT EXISTS `jos_dbtest` (
+`id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`title` VARCHAR( 50 ) NOT NULL ,
+`start_date` DATETIME NOT NULL ,
+`description` TEXT NOT NULL
+)  DEFAULT CHARSET=utf8;

@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package		Joomla.Platform
  * @subpackage		Parameter
  * @since		11.1
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
 
 class JElementTextarea extends JElement
@@ -22,7 +23,6 @@ class JElementTextarea extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
 	* @var		string
 	*/
 	protected $_name = 'Textarea';
@@ -32,7 +32,7 @@ class JElementTextarea extends JElement
 		$rows = $node->attributes('rows');
 		$cols = $node->attributes('cols');
 		$class = ($node->attributes('class') ? 'class="'.$node->attributes('class').'"' : 'class="text_area"');
-		// convert <br /> tags so they are not visible when editing
+		// Convert <br /> tags so they are not visible when editing
 		$value = str_replace('<br />', "\n", $value);
 
 		return '<textarea name="'.$control_name.'['.$name.']" cols="'.$cols.'" rows="'.$rows.'" '.$class.' id="'.$control_name.$name.'" >'.$value.'</textarea>';

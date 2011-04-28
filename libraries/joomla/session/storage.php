@@ -10,15 +10,15 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
-* Custom session storage handler for PHP
-*
-* @abstract
+ * Custom session storage handler for PHP
+ *
+ * @abstract
  * @package		Joomla.Platform
  * @subpackage	Session
  * @since		11.1
-* @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-class JSessionStorage extends JObject
+abstract class JSessionStorage extends JObject
 {
 	/**
 	* Constructor
@@ -92,6 +92,7 @@ class JSessionStorage extends JObject
 	 *
 	 * @param	string	$save_path		The path to the session object.
 	 * @param	string	$session_name	The name of the session.
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function open($save_path, $session_name)

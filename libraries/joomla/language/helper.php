@@ -23,6 +23,8 @@ class JLanguageHelper
 	 * @param	string	Client key for the area
 	 * @param	string	Base path to use
 	 * @param	array	An array of arrays (text, value, selected)
+	 *
+	 * @return	array 	List of system languages
 	 * @since	11.1
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
@@ -77,12 +79,12 @@ class JLanguageHelper
 			$systemLangs	= self::getLanguages();
 			foreach ($browserLangs as $browserLang)
 			{
-				// slice out the part before ; on first step, the part before - on second, place into array
+				// Slice out the part before ; on first step, the part before - on second, place into array
 				$browserLang = substr($browserLang, 0, strcspn($browserLang, ';'));
 				$primary_browserLang = substr($browserLang, 0, 2);
 				foreach($systemLangs as $systemLang)
 				{
-					// take off 3 letters iso code languages as they can't match browsers' languages and default them to en
+					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
 					$Jinstall_lang = $systemLang->lang_code;
 
 					if (strlen($Jinstall_lang) < 6)
@@ -109,6 +111,7 @@ class JLanguageHelper
 	 * Get available languages
 	 *
 	 * @param	string array key
+	 *
 	 * @return	array of published languages
 	 * @since	11.1
 	 */
@@ -132,7 +135,8 @@ class JLanguageHelper
 				if (!$languages = $cache->get('languages')) {
 					$db 	= JFactory::getDBO();
 					$query	= $db->getQuery(true);
-					$query->select('*')->from('#__languages')->where('published=1');
+					// TODO Use an ordering field for 1.7 $query->select('*')->from('#__languages')->where('published=1')->order('ordering ASC');
+					$query->select('*')->from('#__languages')->where('published=1')->order('lang_id ASC');
 					$db->setQuery($query);
 
 					$languages['default'] 	= $db->loadObjectList();

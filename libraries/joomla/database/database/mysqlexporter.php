@@ -1,9 +1,10 @@
 <?php
 /**
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
  * @package     Joomla.Platform
  * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -15,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseMySQLExporter
+class JDatabaseExporterMySQL
 {
 	/**
 	 * @var    array  An array of cached data.
@@ -52,7 +53,7 @@ class JDatabaseMySQLExporter
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @return  JDatabaseMySQLExporter
+	 * @return  JDatabaseExporterMySQL
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -104,7 +105,7 @@ class JDatabaseMySQLExporter
 	/**
 	 * Set the output option for the exporter to XML format.
 	 *
-	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function asXml()
@@ -192,14 +193,14 @@ class JDatabaseMySQLExporter
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseMySql)) {
+		if (!($this->db instanceof JDatabaseMySQL)) {
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
 
@@ -264,7 +265,7 @@ class JDatabaseMySQLExporter
 	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  array  An arry of the column specification for the table.
-	 * @since   1.0
+	 * @since   11.1
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
 	 */
@@ -291,7 +292,7 @@ class JDatabaseMySQLExporter
 	 *
 	 * @param   mixed  $from  The name of a single table, or an array of the table names to export.
 	 *
-	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 * @throws  Exception if input is not a string or array.
 	 */
@@ -315,7 +316,7 @@ class JDatabaseMySQLExporter
 	 *
 	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
-	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function setDbo(JDatabaseMySQL $db)
@@ -330,7 +331,7 @@ class JDatabaseMySQLExporter
 	 *
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
-	 * @return  JDatabaseMySQLExporter  Method supports chaining.
+	 * @return  JDatabaseExporterMySQL  Method supports chaining.
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)

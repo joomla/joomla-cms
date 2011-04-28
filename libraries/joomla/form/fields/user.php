@@ -112,7 +112,6 @@ class JFormFieldUser extends JFormField
 	}
 
 	/**
-	/**
 	 * Method to get the users to exclude from the list of users
 	 *
 	 * @return	array|null array of users to exclude or null to to not exclude them

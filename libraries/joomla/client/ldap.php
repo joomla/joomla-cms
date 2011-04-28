@@ -18,44 +18,44 @@ defined('JPATH_PLATFORM') or die;
  */
 class JLDAP extends JObject
 {
-	/** 
+	/**
 	 * @var string Hostname of LDAP server
 	 */
 	var $host = null;
-	/** 
+	/**
 	 * @var bool Authorization Method to use
 	 */
 	var $auth_method = null;
-	/** 
+	/**
 	 * @var int Port of LDAP server
 	 */
 	var $port = null;
-	/** 
+	/**
 	 * @var string Base DN (e.g. o=MyDir)
 	 */
 	var $base_dn = null;
-	/** 
+	/**
 	 * @var string User DN (e.g. cn=Users,o=MyDir)
 	 */
 	var $users_dn = null;
-	/** 
+	/**
 	 * @var string Search String
 	 */
 	var $search_string = null;
-	/** 
+	/**
 	 * @var boolean Use LDAP Version 3
 	 */
 	var $use_ldapV3 = null;
-	/** 
+	/**
 	 * @var boolean No referrals (server transfers)
 	 */
 	var $no_referrals = null;
-	/** 
+	/**
 	 * @var boolean Negotiate TLS (encrypted communications)
 	 */
 	var $negotiate_tls = null;
 
-	/** 
+	/**
 	 * @var string Username to connect to server
 	 */
 	var $username = null;
@@ -64,11 +64,11 @@ class JLDAP extends JObject
 	 */
 	var $password = null;
 
-	/** 
+	/**
 	 * @var mixed LDAP Resource Identifier
 	 */
 	var $_resource = null;
-	/** 
+	/**
 	 * @var string Current DN
 	 */
 	var $_dn = null;
@@ -77,7 +77,7 @@ class JLDAP extends JObject
 	 * Constructor
 	 *
 	 * @param object An object of configuration variables
-	 * 
+	 *
 	 */
 	function __construct($configObj = null)
 	{
@@ -171,7 +171,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string The username
 	 * @param string The password
-	 * 
+	 *
 	 * @return boolean Result
 	 */
 	function bind($username = null, $password = null, $nosub = 0)
@@ -235,7 +235,7 @@ class JLDAP extends JObject
 						$firstentry = @ldap_next_entry($resource, $firstentry);
 					}
 					// Load user-specified attributes
-					$attributes_array = @ldap_get_attributes($resource, $firstentry); 
+					$attributes_array = @ldap_get_attributes($resource, $firstentry);
 					// Ldap returns an array of arrays, fit this into attributes result array
 					foreach ($attributes_array as $ki => $ai)
 					{
@@ -260,7 +260,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string dn The DN which contains the attribute you want to replace
 	 * @param string attribute The attribute values you want to replace
-	 * 
+	 *
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
 
@@ -274,7 +274,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string dn The DN which contains the attribute you want to modify
 	 * @param string attribute The attribute values you want to modify
-	 * 
+	 *
 	 * @return mixed result of comparison (true, false, -1 on error)
 	 */
 	function modify($dn, $attribute) {
@@ -311,7 +311,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string dn The DN of the object you want to read
 	 * @param string attribute The attribute values you want to read (Optional)
-	 * 
+	 *
 	 * @return array of attributes or -1 on error
 	 */
 	function read($dn, $attribute = array())
@@ -331,7 +331,7 @@ class JLDAP extends JObject
 	 * Deletes a given DN from the tree
 	 *
 	 * @param string dn The DN of the object you want to delete
-	 * 
+	 *
 	 * @return bool result of operation
 	 */
 	function delete($dn) {
@@ -343,7 +343,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string dn The DN where you want to put the object
 	 * @param array entries An array of arrays describing the object to add
-	 * 
+	 *
 	 * @return bool result of operation
 	 */
 	function create($dn, $entries) {
@@ -356,7 +356,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string dn The DN of the entry to add the attribute
 	 * @param array entry An array of arrays with attributes to add
-	 * 
+	 *
 	 * @return bool Result of operation
 	 */
 	function add($dn, $entry) {
@@ -370,7 +370,7 @@ class JLDAP extends JObject
 	 * @param string newdn The DN of the entry should be (only cn=newvalue)
 	 * @param string newparent The full DN of the parent (null by default)
 	 * @param bool deleteolddn Delete the old values (default)
-	 * 
+	 *
 	 * @return bool Result of operation
 	 */
 	function rename($dn, $newdn, $newparent, $deleteolddn) {
@@ -477,7 +477,7 @@ class JLDAP extends JObject
 	 *
 	 * @param string password Clear text password to encrypt
 	 * @param string type Type of password hash, either md5 or SHA
-	 * 
+	 *
 	 * @return string encrypted password
 	 */
 	function generatePassword($password, $type='md5') {

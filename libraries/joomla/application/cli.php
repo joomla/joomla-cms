@@ -37,38 +37,24 @@ class JCli
 	protected $config;
 
 	/**
-	 * @var    string  The name of the program.
+	 * @var    JCli  The application instance.
 	 * @since  11.1
 	 */
-	protected $name;
-
-	/**
-	 * @var    array  The instantiated CLI objects by name.
-	 * @since  11.1
-	 */
-	protected static $instances;
+	protected static $instance;
 
 	/**
 	 * Class constructor.
-	 *
-	 * @param   array  $config  A configuration array.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function __construct($config = array())
+	protected function __construct()
 	{
 		// Close the application if we are not executed from the command line.
 		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv'])) {
 			$this->close();
 		}
-
-		// Set the site object name.
-		$this->name = isset($config['name']) ? $config['name'] : 'Joomla CLI';
-
-		// Make sure that the application name is UNIX compliant.
-		$this->name = (string) preg_replace('/[^A-Z0-9_-]/i', '', $this->name);
 
 		// Get the command line options
 		$this->input = new JInputCli();
@@ -76,11 +62,8 @@ class JCli
 		// Create the registry with a default namespace of config
 		$this->config = new JRegistry();
 
-		// Set the configuration file name.
-		$config['configFile'] = isset($config['configFile']) ? $config['configFile'] : JPATH_BASE.'/configuration.php';
-
 		// Load the configuration object.
-		$this->loadConfiguration($config['configFile']);
+		$this->loadConfiguration($this->fetchConfigurationData());
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
@@ -91,48 +74,34 @@ class JCli
 	}
 
 	/**
-	 * Returns a reference to the global JCli object, only creating it if it
-	 * doesn't already exist.
+	 * Returns a reference to the global JCli object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as:
-	 * 		<pre>$cli = JCli::getInstance();</pre>
-	 *
-	 * @param   string  $name    The site object name.
-	 * @param   array   $config  An optional associative array of configuration settings.
+	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
 	 * @return  JCli
 	 *
 	 * @since   11.1
 	 */
-	public static function getInstance($name = 'Joomla CLI', $config = array())
+	public static function & getInstance()
 	{
-		// Initialize the static array.
-		static $instances;
-		if (!isset($instances)) {
-			$instances = array();
-		}
-
 		// Only create the object if it doesn't exist.
-		if (empty($instances[$name]))
-		{
-			// If no name is explicitly set, use the instance name.
-			$config['name'] = isset($config['name']) ? $config['name'] : $name;
-			$instances[$name] = new JCli($config);
+		if (empty(self::$instance)) {
+			self::$instance = new JCli();
 		}
 
-		return $instances[$name];
+		return self::$instance;
 	}
 
 	/**
 	 * Execute the application.
 	 *
-	 * @return  bool  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
 	public function execute()
 	{
-		return true;
+		$this->close();
 	}
 
 	/**
@@ -147,6 +116,26 @@ class JCli
 	public function close($code = 0)
 	{
 		exit($code);
+	}
+
+	/**
+	 * Load an object or array into the application configuration object.
+	 *
+	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function loadConfiguration($data)
+	{
+		// Load the data into the configuration object.
+		if (is_array($data)) {
+			$this->config->loadArray($data);
+		}
+		elseif (is_object($data)) {
+			$this->config->loadObject($data);
+		}
 	}
 
 	/**
@@ -239,16 +228,19 @@ class JCli
 	}
 
 	/**
-	 * Load the configuration file into the site object.
+	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
+	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
+	 * for your specific application.
 	 *
-	 * @param   string   $file  The path to the configuration file.
-	 *
-	 * @return  bool     True on success.
+	 * @return  mixed  Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.1
 	 */
-	protected function loadConfiguration($file)
+	protected function fetchConfigurationData()
 	{
+		// Set the configuration file name.
+		$file = JPATH_BASE.'/configuration.php';
+
 		// Import the configuration file.
 		if (!is_file($file)) {
 			return false;
@@ -261,9 +253,6 @@ class JCli
 		}
 		$config = new JConfig();
 
-		// Load the configuration values into the registry
-		$this->config->loadObject($config);
-
-		return true;
+		return $config;
 	}
 }

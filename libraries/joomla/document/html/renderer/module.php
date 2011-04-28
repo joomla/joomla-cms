@@ -23,7 +23,7 @@ class JDocumentRendererModule extends JDocumentRenderer
 	 *
 	 * @param	string $name	The name of the module to render
 	 * @param	array $attribs	Associative array of values
-	 * 
+	 *
 	 * @return	string			The output of the script
 	 */
 	public function render($module, $attribs = array(), $content = null)
@@ -77,9 +77,9 @@ class JDocumentRendererModule extends JDocumentRenderer
 		}
 
 		$contents = '';
-  		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the 
-  		// module instead
-		$cachemode = $params->get('cachemode','oldstatic');
+		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the
+		// module instead
+		$cachemode = $params->get('cachemode', 'oldstatic');
 
 		if ($params->get('cache', 0) == 1  && $conf->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{

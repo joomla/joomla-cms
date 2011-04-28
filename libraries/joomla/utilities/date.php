@@ -321,7 +321,6 @@ class JDate extends DateTime
 			parent::setTimezone($this->_tz);
 		}
 
-
 		return $return;
 	}
 
@@ -459,6 +458,7 @@ class JDate extends DateTime
 	 */
 	public function toISO8601($local = false)
 	{
+
 		return $this->format(DateTime::RFC3339, $local);
 	}
 
@@ -473,6 +473,7 @@ class JDate extends DateTime
 	 */
 	public function toMySQL($local = false)
 	{
+
 		return $this->format('Y-m-d H:i:s', $local);
 	}
 

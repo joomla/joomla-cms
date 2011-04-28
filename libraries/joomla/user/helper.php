@@ -20,13 +20,14 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	User
  * @since		11.1
  */
-class JUserHelper
+abstract class JUserHelper
 {
 	/**
 	 * Method to add a user to a group.
 	 *
 	 * @param	integer		$userId		The id of the user.
 	 * @param	integer		$groupId	The id of the group.
+	 *
 	 * @return	mixed		Boolean true on success, JException on error.
 	 * @since	11.1
 	 */
@@ -135,9 +136,9 @@ class JUserHelper
 	/**
 	 * Method to set the groups for a user.
 	 *
-	 * @access	public
 	 * @param	integer		$userId		The id of the user.
 	 * @param	array		$groups		An array of group ids to put the user in.
+	 *
 	 * @return	mixed		Boolean true on success, JException on error.
 	 * @since	11.1
 	 */
@@ -200,7 +201,7 @@ class JUserHelper
 			$user	= JFactory::getUser((int) $userId);
 		}
 
-		// Get the dispatcher and load the users plugins.
+		// Get the dispatcher and load the user's plugins.
 		$dispatcher	= JDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
@@ -216,6 +217,7 @@ class JUserHelper
 	 * Method to activate a user
 	 *
 	 * @param	string	$activation	Activation string
+	 *
 	 * @return	boolean			True on success
 	 * @since	11.1
 	 */
@@ -224,7 +226,7 @@ class JUserHelper
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 
-		// Lets get the id of the user we want to activate
+		// Let's get the id of the user we want to activate
 		$query = 'SELECT id'
 		. ' FROM #__users'
 		. ' WHERE activation = '.$db->Quote($activation)
@@ -262,6 +264,7 @@ class JUserHelper
 	 * Returns userid if a user exists
 	 *
 	 * @param string The username to search on
+	 *
 	 * @return int The user id or 0 if not found
 	 */
 	public static function getUserId($username)
@@ -277,7 +280,6 @@ class JUserHelper
 	/**
 	 * Formats a password using the current encryption.
 	 *
-	 * @access	public
 	 * @param	string	$plaintext	The plaintext password to encrypt.
 	 * @param	string	$salt		The salt to use to encrypt the password. []
 	 *								If not present, a new salt will be
@@ -374,7 +376,6 @@ class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @access public
 	 * @param string $encryption  The kind of pasword encryption to use.
 	 *							Defaults to md5-hex.
 	 * @param string $seed		The seed to get the salt from (probably a
@@ -487,9 +488,9 @@ class JUserHelper
 	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
-	 * @access private
 	 * @param string  $value
 	 * @param integer $count
+	 *
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since   11.1
 	 */
@@ -510,8 +511,8 @@ class JUserHelper
 	/**
 	 * Converts hexadecimal string to binary data.
 	 *
-	 * @access private
 	 * @param string $hex  Hex data.
+	 *
 	 * @return string  Binary data.
 	 * @since   11.1
 	 */

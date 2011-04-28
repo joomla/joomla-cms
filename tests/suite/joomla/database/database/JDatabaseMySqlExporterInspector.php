@@ -12,7 +12,7 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqlexporter.php';
  * @package    Joomla.UnitTest
  * @subpackage Database
  */
-class JDatabaseMySqlExporterInspector extends JDatabaseMySqlExporter
+class JDatabaseMySqlExporterInspector extends JDatabaseExporterMySql
 {
 	/**
 	 * Gets any property from the class.

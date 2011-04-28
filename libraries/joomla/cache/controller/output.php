@@ -38,7 +38,7 @@ class JCacheControllerOutput extends JCacheController
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
-	 * 
+	 *
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	11.1
 	 */

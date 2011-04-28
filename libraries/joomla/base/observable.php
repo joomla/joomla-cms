@@ -21,7 +21,6 @@ class JObservable extends JObject
 	/**
 	 * An array of Observer objects to notify
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_observers = array();
@@ -29,7 +28,6 @@ class JObservable extends JObject
 	/**
 	 * The state of the observable object
 	 *
-	 * @access protected
 	 * @var mixed
 	 */
 	protected $_state = null;
@@ -37,7 +35,6 @@ class JObservable extends JObject
 	/**
 	 * A multi dimensional array of [function][] = key for observers
 	 *
-	 * @access protected
 	 * @var array
 	 */
 	protected $_methods = array();
@@ -45,9 +42,9 @@ class JObservable extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @access protected - Make Sure it's not directly instansiated
+	 * @note Make Sure it's not directly instansiated
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->_observers = array();
 	}

@@ -136,7 +136,7 @@ class JFormFieldModuleLayout extends JFormField
 					// Add an option to the module group
 					$value = JFile::stripExt($file);
 					$text = $lang->hasKey($key = strtoupper($module.'_LAYOUT_'.$value)) ? JText::_($key) : $value;
-					$groups['_']['items'][]	= JHTML::_('select.option', '_:'.$value, $text);
+					$groups['_']['items'][]	= JHtml::_('select.option', '_:'.$value, $text);
 				}
 			}
 
@@ -174,7 +174,7 @@ class JFormFieldModuleLayout extends JFormField
 								// Add an option to the template group
 								$value = JFile::stripExt($file);
 								$text = $lang->hasKey($key = strtoupper('TPL_'.$template->element.'_'.$module.'_LAYOUT_'.$value)) ? JText::_($key) : $value;
-								$groups[$template->element]['items'][]	= JHTML::_('select.option', $template->element.':'.$value, $text);
+								$groups[$template->element]['items'][]	= JHtml::_('select.option', $template->element.':'.$value, $text);
 							}
 						}
 					}
@@ -191,9 +191,11 @@ class JFormFieldModuleLayout extends JFormField
 
 			// Add a grouped list
 			$html[] = JHtml::_('select.groupedlist', $groups, $this->name, array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
+
 			return implode($html);
 		}
 		else {
+
 			return '';
 		}
 	}

@@ -26,7 +26,6 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @access	public
 	 * @param	string	$path the path where to find language files
 	 * @since	11.1
 	 */
@@ -45,7 +44,6 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @access	public
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -54,13 +52,9 @@ class JInstallerFile extends JAdapterInstance
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Manifest Document Setup Section
 
-		// Set the extensions name
+		// Set the extension's name
 		$name = JFilterInput::getInstance()->clean((string)$this->manifest->name, 'string');
 		$this->set('name', $name);
 
@@ -98,17 +92,12 @@ class JInstallerFile extends JAdapterInstance
 		}
 
 
-		//Populate File and Folder List to copy
+		// Populate File and Folder List to copy
 		$this->populateFilesAndFolderList();
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Filesystem Processing Section
 
-
-		//Now that we have folder list, lets start creating them
+		// Now that we have folder list, lets start creating them
 		foreach ($this->folderList as $folder)
 		{
 			if (!JFolder::exists($folder))
@@ -117,15 +106,14 @@ class JInstallerFile extends JAdapterInstance
 				if (!$created = JFolder::create($folder))
 				{
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder));
-					// if installation fails, rollback
+					// If installation fails, rollback
 					$this->parent->abort();
 					return false;
 				}
 
-				/*
-				 * Since we created a directory and will want to remove it if we have to roll back
-				 * the installation due to some errors, lets add it to the installation step stack
-				 */
+				 // Since we created a directory and will want to remove it if we have to roll back
+				 // the installation due to some errors, lets add it to the installation step stack
+
 				if ($created) {
 					$this->parent->pushStep(array ('type' => 'folder', 'path' => $folder));
 				}
@@ -133,17 +121,13 @@ class JInstallerFile extends JAdapterInstance
 
 		}
 
-		//Now that we have file list , lets start copying them
+		// Now that we have file list, let's start copying them
 		$this->parent->copyFiles($this->fileList);
 
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		 // Finalization and Cleanup Section
 
 		// Get a database connector object
 		$db = $this->parent->getDbo();
@@ -170,10 +154,12 @@ class JInstallerFile extends JAdapterInstance
 
 		if ($id)
 		{
-			// load the entry and update the manifest_cache
+			// Load the entry and update the manifest_cache
 			$row->load($id);
-			$row->set('name', $this->get('name')); // update name
-			$row->manifest_cache = $this->parent->generateManifestCache(); // update manifest
+			// Update name
+			$row->set('name', $this->get('name'));
+			// Update manifest
+			$row->manifest_cache = $this->parent->generateManifestCache();
 			if (!$row->store()) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
@@ -186,7 +172,8 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('name', $this->get('name'));
 			$row->set('type', 'file');
 			$row->set('element', $this->get('element'));
-			$row->set('folder', ''); // There is no folder for files so leave it blank
+			// There is no folder for files so leave it blank
+			$row->set('folder', '');
 			$row->set('enabled', 1);
 			$row->set('protected', 0);
 			$row->set('access', 0);
@@ -202,7 +189,7 @@ class JInstallerFile extends JAdapterInstance
 				return false;
 			}
 
-			// set the insert id
+			// Set the insert id
 			$row->set('extension_id', $db->insertid());
 
 			// Since we have created a module item, we add it to the installation step stack
@@ -243,13 +230,13 @@ class JInstallerFile extends JAdapterInstance
 
 	/**
 	 * Custom update method
-	 * @access public
+	 *
 	 * @return boolean True on success
 	 * @since  11.1
 	 */
 	public function update()
 	{
-		// set the overwrite setting
+		// Set the overwrite setting
 		$this->parent->setOverwrite(true);
 		$this->parent->setUpgrade(true);
 		$this->route = 'update';
@@ -261,9 +248,8 @@ class JInstallerFile extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @access	public
 	 * @param	string	$id	The id of the file to uninstall
-	 * @param	int		$clientId	The id of the client (unused; files are global)
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -307,12 +293,12 @@ class JInstallerFile extends JAdapterInstance
 			$packagePath = $this->parent->getPath('source');
 			$jRootPath = JPath::clean(JPATH_ROOT);
 
-			// loop through all elements and get list of files and folders
+			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
 					$folder = (string)$eFiles->attributes()->folder;
 					$target = (string)$eFiles->attributes()->target;
-					//Create folder path
+					// Create folder path
 					if(empty($target))
 					{
 						$targetFolder = JPATH_ROOT;
@@ -326,7 +312,7 @@ class JInstallerFile extends JAdapterInstance
 					// Check if all children exists
 					if (count($eFiles->children()) > 0)
 					{
-						// loop through all filenames elements
+						// Loop through all filenames elements
 						foreach ($eFiles->children() as $eFileName)
 						{
 							if ($eFileName->getName() == 'folder') {
@@ -353,7 +339,7 @@ class JInstallerFile extends JAdapterInstance
 
 		} else {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_NOTFOUND_MANIFEST'));
-			// delete the row because its broken
+			// Delete the row because its broken
 			$row->delete();
 			return false;
 		}
@@ -366,10 +352,10 @@ class JInstallerFile extends JAdapterInstance
 	}
 
 	/**
-	 * function used to check if extension is already installed
+	 * Function used to check if extension is already installed
 	 *
-	 * @access	private
 	 * @param	string	$element The element name of the extension to install
+	 *
 	 * @return	boolean	True if extension exists
 	 * @since	11.1
 	 */
@@ -404,9 +390,8 @@ class JInstallerFile extends JAdapterInstance
 	}
 
 	/**
-	 * function used to populate files and folder list
+	 * Function used to populate files and folder list
 	 *
-	 * @access	private
 	 * @return	boolean	none
 	 * @since	11.1
 	 */
@@ -424,7 +409,7 @@ class JInstallerFile extends JAdapterInstance
 		$packagePath = $this->parent->getPath('source');
 		$jRootPath = JPath::clean(JPATH_ROOT);
 
-		// loop through all elements and get list of files and folders
+		// Loop through all elements and get list of files and folders
 		foreach ($this->manifest->fileset->files as $eFiles)
 		{
 			// Check if the element is files element
@@ -455,7 +440,7 @@ class JInstallerFile extends JAdapterInstance
 			//Check if source folder exists
 			if (! JFolder::exists($sourceFolder)) {
 				JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $sourceFolder));
-				// if installation fails, rollback
+				// If installation fails, rollback
 				$this->parent->abort();
 				return false;
 			}
@@ -463,7 +448,7 @@ class JInstallerFile extends JAdapterInstance
 			// Check if all children exists
 			if (count($eFiles->children()))
 			{
-				// loop through all filenames elements
+				// Loop through all filenames elements
 				foreach ($eFiles->children() as $eFileName)
 				{
 					$path['src'] = $sourceFolder.DS.$eFileName;

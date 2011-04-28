@@ -369,7 +369,7 @@ abstract class JModuleHelper
 	* @param	object	$module	Module object
 	* @param	object	$moduleparams module parameters
 	* @param	object	$cacheparams module cache parameters - id or url parameters, depending on the module cache mode
-	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their 
+	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their
 	* 					variable types, for valid values see {@link JFilterInput::clean()}.
 	*
 	* @since	11.1
