@@ -1175,23 +1175,6 @@ abstract class JDatabase
 	abstract public function getTableColumns($tables, $typeOnly = true);
 
 	/**
-	 * Retrieves field information about the given tables.
-	 *
-	 * @param   mixed  $tables    A table name or a list of table names.
-	 * @param   bool   $typeOnly  True to only return field types.
-	 *
-	 * @return  array  An array of fields by table.
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 * @deprecated  11.1
-	 */
-	public function getTableFields($tables, $typeOnly = true)
-	{
-		return $this->getTableColumns($tables, $typeOnly);
-	}
-
-	/**
 	 * Method to get an array of all tables in the database.
 	 *
 	 * @return  array  An array of all the tables in the database.
@@ -1522,6 +1505,23 @@ abstract class JDatabase
 	 * @deprecated  11.2
 	 */
 	abstract public function explain();
+
+	/**
+	 * Retrieves field information about the given tables.
+	 *
+	 * @param   mixed  $tables    A table name or a list of table names.
+	 * @param   bool   $typeOnly  True to only return field types.
+	 *
+	 * @return  array  An array of fields by table.
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 * @deprecated  11.1
+	 */
+	public function getTableFields($tables, $typeOnly = true)
+	{
+		return $this->getTableColumns($tables, $typeOnly);
+	}
 
 	/**
 	 * Execute a query batch.
