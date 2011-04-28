@@ -191,11 +191,11 @@ class JFormFieldModuleLayout extends JFormField
 
 			// Add a grouped list
 			$html[] = JHtml::_('select.groupedlist', $groups, $this->name, array('id'=>$this->id, 'group.id'=>'id', 'list.attr'=>$attr, 'list.select'=>$selected));
-			
+
 			return implode($html);
 		}
 		else {
-			
+
 			return '';
 		}
 	}

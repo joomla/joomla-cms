@@ -16,24 +16,24 @@ jimport('joomla.updater.updateadapter');
  * @since 11.1
  */
 class JUpdaterCollection extends JUpdateAdapter {
-	/** 
-	 * @var object Root of the tree 
+	/**
+	 * @var object Root of the tree
 	 */
 	private $base;
-	/** 
-	 * @var array Tree of objects 
+	/**
+	 * @var array Tree of objects
 	 */
 	protected $parent = Array(0);
-	/** 
-	 * @var boolean Used to control if an item has a child or not 
+	/**
+	 * @var boolean Used to control if an item has a child or not
 	 */
 	protected $pop_parent = 0;
-	/** 
+	/**
 	 * @var array A list of discovered update sites
 	 */
 	protected $update_sites;
-	/** 
-	 * @var array A list of discovered updates 
+	/**
+	 * @var array A list of discovered updates
 	 */
 	protected $updates;
 
@@ -62,7 +62,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	 * @param object parser object
 	 * @param string name of element that is opened
 	 * @param array array of attributes for the element
-	 * 
+	 *
 	 */
 	public function _startElement($parser, $name, $attrs = Array())
 	{
@@ -153,7 +153,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 	/*
 	 * Find an update
 	 * @param array options to use; update_site_id: the unique ID of the update site to look at
-	 * 
+	 *
 	 * @return array update_sites and updates discovered
 	 */
 	public function findUpdate($options)

@@ -21,54 +21,54 @@ jimport('joomla.installer.extension');
  */
 class JPackageManifest extends JObject
 {
-	/** 
-	 * @var string name Name of the package 
+	/**
+	 * @var string name Name of the package
 	 */
 	var $name = '';
 
-	/** 
-	 * @var string packagename Unique name of the package 
+	/**
+	 * @var string packagename Unique name of the package
 	 */
 	var $packagename = '';
 
-	/** 
-	 * @var string url Website for the package 
+	/**
+	 * @var string url Website for the package
 	 */
 	var $url = '';
 
-	/** 
-	 * @var string description Description for the package 
+	/**
+	 * @var string description Description for the package
 	 */
 	var $description = '';
 
-	/** 
-	 * @var string packager Packager of the package 
+	/**
+	 * @var string packager Packager of the package
 	 */
 	var $packager = '';
 
-	/** 
-	 * @var string packagerurl Packager's URL of the package 
+	/**
+	 * @var string packagerurl Packager's URL of the package
 	 */
 	var $packagerurl = '';
 
-	/** 
-	 * @var string update Update site for the package 
+	/**
+	 * @var string update Update site for the package
 	 */
 	var $update = '';
 
-	/** 
-	 * @var string version Version of the package 
+	/**
+	 * @var string version Version of the package
 	 */
 	var $version = '';
 
-	/** 
-	 * 
-	 * @var JExtension[] filelist List of files in this package 
+	/**
+	 *
+	 * @var JExtension[] filelist List of files in this package
 	 */
 	var $filelist = Array();
 
-	/** 
-	 * @var string manifest_file Path to the manifest file 
+	/**
+	 * @var string manifest_file Path to the manifest file
 	 */
 	var $manifest_file = '';
 

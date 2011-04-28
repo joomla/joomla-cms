@@ -35,7 +35,7 @@ abstract class JFactory
 	 * @param mixed	 $id     A client identifier or name.
 	 * @param array	 $config An optional associative array of configuration settings.
 	 * @param string $prefix application prefix
-	 * 
+	 *
 	 * @see JApplication
 	 *
 	 * @return JApplication	object
@@ -63,9 +63,9 @@ abstract class JFactory
 	 *
 	 * @param string $file The path to the configuration file
 	 * @param string $type The type of the configuration file
-	 * 
+	 *
 	 * @see JRegistry
-	 * 
+	 *
 	 * @return JRegistry object
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
@@ -88,7 +88,7 @@ abstract class JFactory
 	 * if it doesn't already exist.
 	 *
 	 * @param array $options An array containing session options
-	 * 
+	 *
 	 * @see JSession
 	 *
 	 * @return JSession object
@@ -107,7 +107,7 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JLanguage} object, only creating it
 	 * if it doesn't already exist.
-	 * 
+	 *
 	 * @see JLanguage
 	 *
 	 * @return JLanguage object
@@ -174,7 +174,7 @@ abstract class JFactory
 	 * @param string $group   The cache group name
 	 * @param string $handler The handler to use
 	 * @param string $storage The storage method
-	 * 
+	 *
 	 * @see JCache
 	 *
 	 * @return JCache object
@@ -249,7 +249,7 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JMail} object, only creating it
 	 * if it doesn't already exist
-	 * 
+	 *
 	 * @see JMail
 	 *
 	 * @return JMail object
@@ -406,7 +406,7 @@ abstract class JFactory
 	 * Return a reference to the {@link JURI} object
 	 *
 	 * @param string $uri uri name
-	 * 
+	 *
 	 * @see JURI
 	 *
 	 * @return JURI object
@@ -424,7 +424,7 @@ abstract class JFactory
 	 *
 	 * @param mixed $time     The initial time for the JDate object
 	 * @param mixed $tzOffset The timezone offset.
-	 * 
+	 *
 	 * @see JDate
 	 *
 	 * @return JDate object
@@ -655,7 +655,7 @@ abstract class JFactory
 
 	/**
 	 * Create a document object
-	 * 
+	 *
 	 * @see JDocument
 	 *
 	 * @return JDocument object

@@ -62,9 +62,9 @@ class JArchive
 
 			case 'tgz':
 				// This format is a tarball gzip'd
-				$untar = true;	
+				$untar = true;
 
-			case 'gz':	
+			case 'gz':
 			case 'gzip':
 				// This may just be an individual file (e.g. sql script)
 				$adapter = JArchive::getAdapter('gzip');
@@ -103,7 +103,7 @@ class JArchive
 
 			case 'tbz2' :
 				// This format is a tarball bzip2'd
-				$untar = true; 
+				$untar = true;
 
 
 			case 'bz2'  :

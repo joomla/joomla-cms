@@ -56,7 +56,7 @@ class JButtonConfirm extends JButton
 	 * Get the JavaScript command for the button
 	 *
 	 * @param	object	$definition	Button definition
-	 * 
+	 *
 	 * @return	string	JavaScript command string
 	 * @since	11.1
 	 */

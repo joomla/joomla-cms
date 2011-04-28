@@ -46,7 +46,7 @@ class JPathway extends JObject
 	 *
 	 * @param	string		$client  The name of the client
 	 * @param	array		$options An associative array of options
-	 * 
+	 *
 	 * @return	JPathway	A pathway object.
 	 * @since	11.1
 	 */
@@ -141,7 +141,7 @@ class JPathway extends JObject
 	 *
 	 * @param	string	$name
 	 * @param	string	$link
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since   11.1
 	 */
@@ -184,7 +184,7 @@ class JPathway extends JObject
 	 *
 	 * @param string $name Name of the item
 	 * @param string $link Link to the item
-	 * 
+	 *
 	 * @return object Pathway item object
 	 * @since   11.1
 	 */

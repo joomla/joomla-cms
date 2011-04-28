@@ -91,7 +91,7 @@ class JArchiveTar extends JObject
 		$return_array = array ();
 		$i = 0;
 		// Tar has items in 512 byte packets
-		$chunksize = 512; 
+		$chunksize = 512;
 		while ($entry = $stream->read($chunksize))
 		{
 
@@ -159,7 +159,7 @@ class JArchiveTar extends JObject
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
 					// Reclaim some memory
-					$contents = ''; 
+					$contents = '';
 				}
 			}
 		}

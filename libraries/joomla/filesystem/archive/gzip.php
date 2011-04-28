@@ -78,7 +78,7 @@ class JArchiveGzip extends JObject
 		if (!$output->open($destination, 'w')) {
 			$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
 			// Close the previous file
-			$input->close(); 
+			$input->close();
 
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}

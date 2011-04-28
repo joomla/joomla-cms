@@ -221,7 +221,7 @@ class JDocument extends JObject
 	 * if it doesn't already exist.
 	 *
 	 * @param type $type The document type to instantiate
-	 * 
+	 *
 	 * @return object  The document object.
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
@@ -342,7 +342,7 @@ class JDocument extends JObject
 	 *
 	 * @param	string	$name			Value of name or http-equiv tag
 	 * @param	bool	$http_equiv	META type "http-equiv" defaults to null
-	 * 
+	 *
 	 * @return	string
 	 */
 	public function getMetaData($name, $http_equiv = false)
@@ -438,7 +438,7 @@ class JDocument extends JObject
 	 *
 	 * @param	string  $content	Style declarations
 	 * @param	string  $type		Type of stylesheet (defaults to 'text/css')
-	 * 
+	 *
 	 * @return	void
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
@@ -454,7 +454,7 @@ class JDocument extends JObject
 	 * Sets the document charset
 	 *
 	 * @param	string	$type  Charset encoding string
-	 * 
+	 *
 	 * @return  void
 	 */
 	public function setCharset($type = 'utf-8') {
@@ -501,7 +501,7 @@ class JDocument extends JObject
 	 * Returns the document direction declaration.
 	 *
 	 * @return string
-	 * 
+	 *
 	 */
 	public function getDirection() {
 		return $this->direction;
@@ -511,7 +511,7 @@ class JDocument extends JObject
 	 * Sets the title of the document
 	 *
 	 * @param	string	$title
-	 * 
+	 *
 	 */
 	public function setTitle($title) {
 		$this->title = $title;
@@ -530,7 +530,7 @@ class JDocument extends JObject
 	 * Sets the base URI of the document
 	 *
 	 * @param	string	$base
-	 * 
+	 *
 	 */
 	public function setBase($base) {
 		$this->base = $base;
@@ -540,7 +540,7 @@ class JDocument extends JObject
 	 * Return the base URI of the document.
 	 *
 	 * @return	string
-	 * 
+	 *
 	 */
 	public function getBase() {
 		return $this->base;
@@ -550,7 +550,7 @@ class JDocument extends JObject
 	 * Sets the description of the document
 	 *
 	 * @param	string	$title
-	 * 
+	 *
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
@@ -570,7 +570,7 @@ class JDocument extends JObject
 	 * Sets the document link
 	 *
 	 * @param	string	$url  A url
-	 * 
+	 *
 	 * @return  void
 	 */
 	public function setLink($url) {
@@ -609,7 +609,7 @@ class JDocument extends JObject
 	 * Sets the document modified date
 	 *
 	 * @param	string
-	 * 
+	 *
 	 * @return  void
 	 */
 	public function setModifiedDate($date) {
@@ -692,7 +692,7 @@ class JDocument extends JObject
 	 * Sets the string used to indent HTML
 	 *
 	 * @param	string	$string	String used to indent ("\11", "\t", '  ', etc.).
-	 * 
+	 *
 	 * @return	void
 	 */
 	public function setTab($string) {
@@ -752,7 +752,7 @@ class JDocument extends JObject
 	 * @param boolean	$cache		If true, cache the output
 	 * @param boolean	$compress	If true, compress the output
 	 * @param array		$params		Associative array of attributes
-	 * 
+	 *
 	 * @return	The rendered data
 	 */
 	public function render($cache = false, $params = array())

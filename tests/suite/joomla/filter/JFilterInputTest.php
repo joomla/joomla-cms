@@ -426,7 +426,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'12022231234',
 				'1.2022231234',
 				'NANP'
-			),	
+			),
 			'tel_03' => array(
 				'tel',
 				'+1-202-223-1234',
@@ -468,8 +468,8 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'+34.2021231234x555',
 				'34.2021231234',
 				'EPP'
-			),			
-			
+			),
+
 		);
 	}
 

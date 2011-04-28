@@ -196,7 +196,7 @@ abstract class JHtml
 	 * @param	string	The relative URL to use for the href attribute
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
-	 * 
+	 *
 	 * @return string <a></a> string
 	 * @since	11.1
 	 */
@@ -216,7 +216,7 @@ abstract class JHtml
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	string	The message to display if the iframe tag is not supported
-	 * 
+	 *
 	 * @return	string	<iframe></iframe> element or message if not supported
 	 * @since	11.1
 	 */
@@ -236,7 +236,7 @@ abstract class JHtml
 	 * @param	boolean		detect browser to include specific browser js files
 	 * @param	folder		folder name to search into (images, css, js, ...)
 	 * @see		JBrowser
-	 * 
+	 *
 	 * @return	array		files to be included
 	 * @since	11.1
 	 */
@@ -364,7 +364,7 @@ abstract class JHtml
 	 * @param	string	The target attribute to use
 	 * @param	array	An associative array of attributes to add
 	 * @param	boolean	If set to true, it tries to find an override for the file in the template
-	 * 
+	 *
 	 * @return string
 	 * @since	11.1
 	 */
@@ -474,7 +474,7 @@ abstract class JHtml
 	 * @param	boolean		path to file is relative to /media folder
 	 * @param	boolean		return the path to the file only
 	 * @param	boolean		detect browser to include specific browser js files
-	 * 
+	 *
 	 * @return	mixed		nothing if $path_only is false, null, path or array of path if specific js browser files were detected
 	 * @see 	JHtml::stylesheet
 	 * @since	11.1
@@ -672,7 +672,7 @@ abstract class JHtml
 		if ($title) {
 			$tooltip = $title.'::'.$tooltip;
 		}
-		
+
 		return '<span class="'.$class.'" title="' . $tooltip . '">'.$tip.'</span>';
 	}
 
@@ -711,12 +711,12 @@ abstract class JHtml
 				$document->addScriptDeclaration('window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
 				inputField: "'.$id.'",
-				// Format of the input field				
+				// Format of the input field
 				ifFormat: "'.$format.'",
 				// Trigger for the calendar (button ID)
 				button: "'.$id.'_img",
 				// Alignment (defaults to "Bl")
-				align: "Tl",				
+				align: "Tl",
 				singleClick: true,
 				firstDay: '.JFactory::getLanguage()->getFirstDay().'
 				});});');
@@ -733,7 +733,7 @@ abstract class JHtml
 	 * either pass a string or an array of directories.
 	 *
 	 * @param	string	A path to search.
-	 * 
+	 *
 	 * @return	array	An array with directory elements
 	 * @since	11.1
 	 */

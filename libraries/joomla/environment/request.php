@@ -84,7 +84,7 @@ class JRequest
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 * @param	string	$type		Return type for the variable, for valid values see {@link JFilterInput::clean()}.
 	 * @param	int		$mask		Filter mask for the variable.
-	 * 
+	 *
 	 * @return	mixed	Requested variable.
 	 * @since	11.1
 	 */
@@ -167,7 +167,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
-	 * 
+	 *
 	 * @return	integer	Requested variable.
 	 * @since	11.1
 	 */
@@ -186,7 +186,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
-	 * 
+	 *
 	 * @return	float	Requested variable.
 	 * @since	11.1
 	 */
@@ -205,7 +205,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
-	 * 
+	 *
 	 * @return	bool	Requested variable.
 	 * @since	11.1
 	 */
@@ -224,7 +224,7 @@ class JRequest
 	 * @param	string	$name		Variable name.
 	 * @param	string	$default	Default value if the variable does not exist.
 	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
-	 * 
+	 *
 	 * @return	string	Requested variable.
 	 * @since	11.1
 	 */
@@ -568,7 +568,7 @@ class JRequest
 		else
 		{
 			// Since no allow flags were set, we will apply the most strict filter to the variable
-			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults. 
+			// $tags, $attr, $tag_method, $attr_method, $xss_auto use defaults.
 			if (is_null($noHtmlFilter)) {
 				$noHtmlFilter = JFilterInput::getInstance();
 			}

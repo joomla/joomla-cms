@@ -157,9 +157,9 @@ class JInstallerFile extends JAdapterInstance
 			// Load the entry and update the manifest_cache
 			$row->load($id);
 			// Update name
-			$row->set('name', $this->get('name')); 
+			$row->set('name', $this->get('name'));
 			// Update manifest
-			$row->manifest_cache = $this->parent->generateManifestCache(); 
+			$row->manifest_cache = $this->parent->generateManifestCache();
 			if (!$row->store()) {
 				// Install failed, roll back changes
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_ROLLBACK', JText::_('JLIB_INSTALLER_'.$this->route), $db->stderr(true)));
@@ -173,7 +173,7 @@ class JInstallerFile extends JAdapterInstance
 			$row->set('type', 'file');
 			$row->set('element', $this->get('element'));
 			// There is no folder for files so leave it blank
-			$row->set('folder', ''); 
+			$row->set('folder', '');
 			$row->set('enabled', 1);
 			$row->set('protected', 0);
 			$row->set('access', 0);
@@ -230,7 +230,7 @@ class JInstallerFile extends JAdapterInstance
 
 	/**
 	 * Custom update method
-	 * 
+	 *
 	 * @return boolean True on success
 	 * @since  11.1
 	 */
@@ -249,7 +249,7 @@ class JInstallerFile extends JAdapterInstance
 	 * Custom uninstall method
 	 *
 	 * @param	string	$id	The id of the file to uninstall
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -355,7 +355,7 @@ class JInstallerFile extends JAdapterInstance
 	 * Function used to check if extension is already installed
 	 *
 	 * @param	string	$element The element name of the extension to install
-	 * 
+	 *
 	 * @return	boolean	True if extension exists
 	 * @since	11.1
 	 */
@@ -391,7 +391,7 @@ class JInstallerFile extends JAdapterInstance
 
 	/**
 	 * Function used to populate files and folder list
-	 * 
+	 *
 	 * @return	boolean	none
 	 * @since	11.1
 	 */

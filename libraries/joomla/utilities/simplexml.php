@@ -111,7 +111,7 @@ class JSimpleXML extends JObject
 	{
 		if (! function_exists('xml_parser_create')) {
 			// TODO throw warning
-			return false; 
+			return false;
 		}
 
 		// Create the parser resource and make sure both versions of PHP autodetect the format.
@@ -141,7 +141,7 @@ class JSimpleXML extends JObject
 	 *
 	 * @param string  Well-formed xml string data
 	 * @param string  currently ignored
-	 * 
+	 *
 	 * @return object JSimpleXMLElement
 	 */
 	function loadString($string, $classname = null) {
@@ -386,7 +386,7 @@ class JSimpleXMLElement extends JObject
 	 * @param string $name
 	 * @param array $attrs
 	 * @param int $parents
-	 * 
+	 *
 	 * @return JSimpleXMLElement
 	 */
 	function __construct($name, $attrs = array(), $level = 0)
@@ -492,7 +492,7 @@ class JSimpleXMLElement extends JObject
 	 * @param string	$name
 	 * @param array		$attrs
 	 * @param int		$level
-	 * 
+	 *
 	 * @return JSimpleXMLElement	The added child object
 	 */
 	function addChild($name, $attrs = array(), $level = null)
@@ -600,7 +600,7 @@ class JSimpleXMLElement extends JObject
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
 	 * @return string
-	 */ 
+	 */
 	function toString($whitespace=true)
 	{
 		// Start a new line, indent by the number indicated in $this->level, add a <, and add the name of the tag
@@ -620,7 +620,7 @@ class JSimpleXMLElement extends JObject
 			$out .= " />";
 		}
 		// Otherwise...
-		else 
+		else
 		{
 			// If there are children
 			if (!empty($this->_children))

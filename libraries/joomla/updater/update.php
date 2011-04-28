@@ -64,7 +64,7 @@ class JUpdate extends JObject
 	 * @param object parser object
 	 * @param string name of the tag found
 	 * @param array attributes of the tag
-	 * 
+	 *
 	 */
 	public function _startElement($parser, $name, $attrs = Array())
 	{
@@ -75,14 +75,14 @@ class JUpdate extends JObject
 
 		switch($name) {
 			// This is a new update; create a current update
-			case 'UPDATE': 
+			case 'UPDATE':
 				$this->_current_update = new stdClass();
 				break;
 			// Don't do anything
-			case 'UPDATES': 
+			case 'UPDATES':
 				break;
 			// For everything else there's...the default!
-			default: 
+			default:
 				$name = strtolower($name);
 				$this->_current_update->$name->_data = '';
 				foreach($attrs as $key=>$data) {
@@ -96,7 +96,7 @@ class JUpdate extends JObject
 	/**
 	 * Callback for closing the element
 	 * Note: This is public because it is called externally
-	 * 
+	 *
 	 * @param object parser object
 	 * @param string name of element that was closed
 	 */
@@ -106,7 +106,7 @@ class JUpdate extends JObject
 		switch($name)
 		{
 			// Closing update, find the latest version and check
-			case 'UPDATE': 
+			case 'UPDATE':
 				$ver = new JVersion();
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
@@ -144,10 +144,10 @@ class JUpdate extends JObject
 	/**
 	 * Character Parser Function
 	 * Note: This is public because its called externally
-	 * 
+	 *
 	 * @param		data
 	 * @param		parser
-	 * 
+	 *
 	 */
 	public function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();

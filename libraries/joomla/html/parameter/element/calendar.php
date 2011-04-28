@@ -27,7 +27,7 @@ class JElementCalendar extends JElement
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		// Load the calendar behavior
-		JHtml::_('behavior.calendar'); 
+		JHtml::_('behavior.calendar');
 
 		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';

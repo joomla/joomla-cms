@@ -26,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
 class JBrowser extends JObject
 {
 	/**
-	 *  @var integer Major version number. 
+	 *  @var integer Major version number.
 	 */
 	protected $_majorVersion = 0;
 
@@ -36,37 +36,37 @@ class JBrowser extends JObject
 	protected $_minorVersion = 0;
 
 	/**
-	 *  @var string Browser name. 
+	 *  @var string Browser name.
 	 */
 	protected $_browser = '';
 
-	/** 
-	 * @var string Full user agent string. 
+	/**
+	 * @var string Full user agent string.
 	 */
 	protected $_agent = '';
 
 	/**
-	 *  @var string Lower-case user agent string. 
+	 *  @var string Lower-case user agent string.
 	 */
 	protected $_lowerAgent = '';
 
-	/** 
-	 * @var string HTTP_ACCEPT string. 
+	/**
+	 * @var string HTTP_ACCEPT string.
 	 */
 	protected $_accept = '';
 
-	/** 
-	 * @var array Parsed HTTP_ACCEPT string 
+	/**
+	 * @var array Parsed HTTP_ACCEPT string
 	 */
 	protected $_accept_parsed = array();
 
-	/** 
-	 * @var string Platform the browser is running on. 
+	/**
+	 * @var string Platform the browser is running on.
 	 */
 	protected $_platform = '';
 
-	/** 
-	 * @var array Known robots. 
+	/**
+	 * @var array Known robots.
 	 */
 	protected $_robots = array(
 		/* The most common ones. */
@@ -118,13 +118,13 @@ class JBrowser extends JObject
 		'ZyBorg',
 	);
 
-	/** 
-	 * @var boolean Is this a mobile browser? 
+	/**
+	 * @var boolean Is this a mobile browser?
 	 */
 	protected $_mobile = false;
 
-	/** 
-	 * @var array Features. 
+	/**
+	 * @var array Features.
 	 */
 	protected $_features = array(
 		'html'			=> true,
@@ -146,8 +146,8 @@ class JBrowser extends JObject
 		'svg'			=> false
 	);
 
-	/** 
-	 * @var array Quirks. 
+	/**
+	 * @var array Quirks.
 	 */
 	protected $_quirks = array(
 		'avoid_popup_windows'			=> false,
@@ -342,7 +342,7 @@ class JBrowser extends JObject
 
 				/* Some Handhelds have their screen resolution in the
 				 * user agent string, which we can use to look for
-				 * mobile agents. 
+				 * mobile agents.
 				 */
 				if (preg_match('/; (120x160|240x280|240x320|320x320)\)/', $this->_agent)) {
 					$this->_mobile = true;

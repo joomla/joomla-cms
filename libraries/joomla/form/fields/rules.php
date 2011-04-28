@@ -246,7 +246,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</div></div>';
 			$html[] = '</li>';
 
-		} 
+		}
 
 		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';

@@ -30,33 +30,33 @@ jimport('joomla.utilities.utility');
 class JStream extends JObject
 {
 	// Publicly settable vars (protected to let our parent read them)
-	/** 
-	 * @var File Mode 
+	/**
+	 * @var File Mode
 	 * */
 	protected $filemode = 0644;
 
-	/** 
-	 * @var Directory Mode 
+	/**
+	 * @var Directory Mode
 	 * */
 	protected $dirmode = 0755;
 
-	/** 
-	 * @var Default Chunk Size 
+	/**
+	 * @var Default Chunk Size
 	 */
 	protected $chunksize = 8192;
 
-	/** 
-	 * @var Filename 
+	/**
+	 * @var Filename
 	 * */
 	protected $filename;
 
-	/** 
-	 * @var Prefix of the connection for writing 
+	/**
+	 * @var Prefix of the connection for writing
 	 */
 	protected $writeprefix;
 
-	/** 
-	 * @var Prefix of the connection for reading 
+	/**
+	 * @var Prefix of the connection for reading
 	 */
 	protected $readprefix;
 
@@ -66,33 +66,33 @@ class JStream extends JObject
 	 */
 	protected $processingmethod = 'f';
 
-	/** 
-	 * @var array Filters applied to the current stream 
+	/**
+	 * @var array Filters applied to the current stream
 	 */
 	protected $filters = Array();
 
-	/** 
-	 * @var File Handle 
+	/**
+	 * @var File Handle
 	 */
 	private $_fh;
 
-	/** 
-	 * @var File size 
+	/**
+	 * @var File size
 	 */
 	private $_filesize;
 
-	/** 
-	 * @var Context to use when opening the connection 
+	/**
+	 * @var Context to use when opening the connection
 	 */
 	private $_context = null;
 
-	/** 
-	 * @var Context options; used to rebuild the context 
+	/**
+	 * @var Context options; used to rebuild the context
 	 */
 	private $_contextOptions;
 
-	/** 
-	 * @var The mode under which the file was opened 
+	/**
+	 * @var The mode under which the file was opened
 	 */
 	private $_openmode;
 
@@ -132,7 +132,7 @@ class JStream extends JObject
 
 	/**
 	 *  Generic File Operations
-	 *  
+	 *
 	 * Open a stream with some lazy loading smarts
 	 * @param	string		$filename				Filename
 	 * @param	string		$mode					Mode string to use
@@ -282,11 +282,11 @@ class JStream extends JObject
 		}
 		else {
 			// reset this
-			$this->_fh = null; 
+			$this->_fh = null;
 			$retval = true;
 		}
 
-		// If we wrote, chmod the file after it's closed 
+		// If we wrote, chmod the file after it's closed
 		if ($this->_openmode[0] == 'w') {
 			$this->chmod();
 		}
@@ -368,20 +368,20 @@ class JStream extends JObject
 		if (!$res) {
 			$tmp_error = '';
 
-			if ($php_errormsg) {  
+			if ($php_errormsg) {
 				// Something went wrong.
 				// Store the error in case we need it.
-				$tmp_error = $php_errormsg; 
+				$tmp_error = $php_errormsg;
 			}
 
 			$res = JFilesystemHelper::remotefsize($this->filename);
 
 			if (!$res) {
-				if ($tmp_error) { 
+				if ($tmp_error) {
 					// Use the php_errormsg from before
 					$this->setError($tmp_error);
 				}
-				else { 
+				else {
 					// Error but nothing from php? How strange! Create our own
 					$this->setError(JText::_('JLIB_FILESYSTEM_ERROR_STREAMS_FILE_SIZE'));
 				}
@@ -467,11 +467,11 @@ class JStream extends JObject
 	{
 		if (!$this->_filesize && !$length) {
 			// Get the filesize
-			$this->filesize(); 
+			$this->filesize();
 
 			if (!$this->_filesize) {
 				// Set it to the biggest and then wait until eof
-				$length = -1; 
+				$length = -1;
 			}
 			else {
 				$length = $this->_filesize;
@@ -1033,7 +1033,7 @@ class JStream extends JObject
 
 	/**
 	 * Support operations (copy, move)
-	 */ 
+	 */
 
 	/**
 	 * Copy a file from src to dest
@@ -1097,15 +1097,15 @@ class JStream extends JObject
 			$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
 			$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 
-			if ($context_support && $context) { 
+			if ($context_support && $context) {
 				// Use the provided context
 				$res = @copy($src, $dest, $context);
 			}
-			else if ($context_support && $this->_context) { 
+			else if ($context_support && $this->_context) {
 				// Use the objects context
 				$res = @copy($src, $dest, $this->_context);
 			}
-			else { 
+			else {
 				// Don't use any context
 				$res = @copy($src, $dest);
 			}
@@ -1149,15 +1149,15 @@ class JStream extends JObject
 		$src = $this->_getFilename($src, 'w', $use_prefix, $relative);
 		$dest = $this->_getFilename($dest, 'w', $use_prefix, $relative);
 
-		if ($context) { 
+		if ($context) {
 			// Use the provided context
 			$res = @rename($src, $dest, $context);
 		}
-		else if ($this->_context) { 
+		else if ($this->_context) {
 			// Use the object's context
 			$res = @rename($src, $dest, $this->_context);
 		}
-		else { 
+		else {
 			// Don't use any context
 			$res = @rename($src, $dest);
 		}
@@ -1197,15 +1197,15 @@ class JStream extends JObject
 
 		$filename = $this->_getFilename($filename, 'w', $use_prefix, $relative);
 
-		if ($context) { 
+		if ($context) {
 			// Use the provided context
 			$res = @unlink($filename, $context);
 		}
-		else if ($this->_context) { 
+		else if ($this->_context) {
 			// Use the object's context
 			$res = @unlink($filename, $this->_context);
 		}
-		else { 
+		else {
 			// Don't use any context
 			$res = @unlink($filename);
 		}
@@ -1235,7 +1235,7 @@ class JStream extends JObject
 	 */
 	function upload($src, $dest, $context=null, $use_prefix=true, $relative=false)
 	{
-		if (is_uploaded_file($src)) { 
+		if (is_uploaded_file($src)) {
 			// Make sure it's an uploaded file
 			return $this->copy($src, $dest, $context, $use_prefix, $relative);
 		}

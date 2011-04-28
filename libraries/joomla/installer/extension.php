@@ -18,40 +18,40 @@ defined('JPATH_PLATFORM') or die;
  */
 class JExtension extends JObject
 {
-	/** 
-	 * @var string $filename Filename of the extension 
+	/**
+	 * @var string $filename Filename of the extension
 	 */
 	var $filename = '';
-	/** 
-	 * @var string $type Type of the extension 
+	/**
+	 * @var string $type Type of the extension
 	 */
 	var $type = '';
-	/** 
-	 * @var string $id Unique Identifier for the extension 
+	/**
+	 * @var string $id Unique Identifier for the extension
 	 * */
 	var $id = '';
 	/**
-	 *  @var boolean $published The status of the extension 
+	 *  @var boolean $published The status of the extension
 	 *  */
-	var $published = false; 
-	/** 
+	var $published = false;
+	/**
 	 * @var string $client String representation of client. Valid for modules, templates and languages.
 	 * 					set by default to site
 	 */
 	var $client = 'site';
-	/** 
-	 * @var string $group The group name of the plugin. Not used for other known extension types (only plugins) 
+	/**
+	 * @var string $group The group name of the plugin. Not used for other known extension types (only plugins)
 	 */
-	var $group =  ''; 
+	var $group =  '';
 	/**
 	 *  @var Object $manifest_cache An object representation of the manifest file
-	 *  							Stored metadata 
+	 *  							Stored metadata
 	 */
-	var $manifest_cache = null; 
-	/** 
-	 * @var Object $params An object representation of the extension params 
+	var $manifest_cache = null;
+	/**
+	 * @var Object $params An object representation of the extension params
 	 */
-	var $params = null;	
+	var $params = null;
 
 	/**
 	 * Constructor

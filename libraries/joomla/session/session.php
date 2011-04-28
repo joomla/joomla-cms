@@ -164,7 +164,7 @@ class JSession extends JObject
 	 * it is present, if not it will invalidate the session.
 	 *
 	 * @param	boolean  If true, force a new token to be created
-	 * 
+	 *
 	 * @return  string	The session token
 	 */
 	public function getToken($forceNew = false)
@@ -186,7 +186,7 @@ class JSession extends JObject
 	 *
 	 * @param  string	Hashed token to be verified
 	 * @param  boolean  If true, expires the session
-	 * 
+	 *
 	 * @return boolean
 	 * @since  11.1
 	 */
@@ -297,7 +297,7 @@ class JSession extends JObject
 	 * @param	string  Name of a variable
 	 * @param	mixed	Default value of a variable if not set
 	 * @param	string  Namespace to use, default to 'default'
-	 * 
+	 *
 	 * @return  mixed	Value of a variable
 	 */
 	public function get($name, $default = null, $namespace = 'default')
@@ -322,7 +322,7 @@ class JSession extends JObject
 	 * @param	string  Name of a variable.
 	 * @param	mixed	Value of a variable.
 	 * @param	string  Namespace to use, default to 'default'.
-	 * 
+	 *
 	 * @return  mixed	Old value of a variable.
 	 */
 	public function set($name, $value = null, $namespace = 'default')
@@ -374,7 +374,7 @@ class JSession extends JObject
 	public function clear($name, $namespace = 'default')
 	{
 		// Add prefix to namespace to avoid collisions
-		$namespace = '__'.$namespace; 
+		$namespace = '__'.$namespace;
 
 		if ($this->_state !== 'active') {
 			// @TODO :: generated error here
@@ -589,7 +589,7 @@ class JSession extends JObject
 	 * Create a token-string
 	 *
 	 * @param	int	length of string
-	 * 
+	 *
 	 * @return  string  generated token
 	 */
 	protected function _createToken($length = 32)
@@ -644,7 +644,7 @@ class JSession extends JObject
 	 * Set additional session options
 	 *
 	 * @param	array	list of parameter
-	 * 
+	 *
 	 * @return  boolean  true on success
 	 */
 	protected function _setOptions(&$options)
@@ -689,7 +689,7 @@ class JSession extends JObject
 	 * If one check failed, session data has to be cleaned.
 	 *
 	 * @param	boolean  reactivate session
-	 * 
+	 *
 	 * @return  boolean  true on success
 	 * @see		http://shiflett.org/articles/the-truth-about-sessions
 	 */

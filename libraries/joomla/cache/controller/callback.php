@@ -51,7 +51,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @param	string	Cache id
 	 * @param	boolean	Perform workarounds on data?
 	 * @param	array	Workaround options
-	 * 
+	 *
 	 * @return	mixed	Result of the callback
 	 * @since	11.1
 	 */
@@ -150,7 +150,7 @@ class JCacheControllerCallback extends JCacheController
 	 *
 	 * @param	callback	$callback	Callback to cache
 	 * @param	array		$args	Arguments to the callback method to cache
-	 * 
+	 *
 	 * @return	string	MD5 Hash : function cache id
 	 * @since	11.1
 	 */

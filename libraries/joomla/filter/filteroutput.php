@@ -57,7 +57,7 @@ class JFilterOutput
 	 *
 	 * @static
 	 * @param	string	$input	String to process
-	 * 
+	 *
 	 * @return	string	Processed string
 	 * @since	11.1
 	 */
@@ -125,7 +125,7 @@ class JFilterOutput
 
 		// Remove any duplicate whitespace and replace whitespaces by hyphens
 		$str =preg_replace('#\x20+#','-', $str);
-		
+
 		return $str;
 	}
 
@@ -153,14 +153,14 @@ class JFilterOutput
 	 * Callback method for replacing & with &amp; in a string
 	 *
 	 * @param	string	$m	String to process
-	 * 
+	 *
 	 * @return	string	Replaced string
 	 * @since	11.1
 	 */
 	public static function _ampReplaceCallback($m)
 	{
 		$rx = '&(?!amp;)';
-		
+
 		return preg_replace('#'.$rx.'#', '&amp;', $m[0]);
 	}
 

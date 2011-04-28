@@ -162,7 +162,7 @@ class JStreamString
 		// $whence: SEEK_SET, SEEK_CUR, SEEK_END
 		if ($offset > $this->_len) {
 			// We can't seek beyond our len.
-			return false; 
+			return false;
 		}
 
 		switch($whence)
@@ -195,7 +195,7 @@ class JStreamString
 	function stream_flush()
 	{
 		// We don't store data.
-		return true; 
+		return true;
 	}
 }
 

@@ -23,9 +23,9 @@ jimport('joomla.filesystem.folder');
  */
 class JFilesystemHelper
 {
-	/** 
+	/**
 	 * Support Functions; should probably live in a helper?
-	 */ 
+	 */
 
 	/**
 	 * Remote file size function for streams that don't support it
@@ -189,7 +189,7 @@ class JFilesystemHelper
 
 	/**
 	 * Stream and Filter Support Operations
-	 * 
+	 *
 	 * Returns the supported streams, in addition to direct file access
 	 * Also includes Joomla! streams as well as PHP streams
 	 *

@@ -72,7 +72,7 @@ class JFilterInput extends JObject
 	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
 	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * 
+	 *
 	 * @since	11.1
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
@@ -189,7 +189,7 @@ class JFilterInput extends JObject
 			case 'USERNAME' :
 				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
-			case 'TEL' :	
+			case 'TEL' :
 				$source = trim($source);
 				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/',$source) == 1) {
 					$number = (string) preg_replace('/[^\d]/', '', $source);
@@ -198,9 +198,9 @@ class JFilterInput extends JObject
 					}
 					if (substr($number,0,2) == '+1') {
 						$number = substr($number,2);
-					}					
+					}
 					$result = '1.'.$number;
-				} elseif 
+				} elseif
 				 (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/',$source) == 1) {
 					$countrycode =  substr($source,0,strpos($source,' '));
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
@@ -211,32 +211,32 @@ class JFilterInput extends JObject
 				 (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/',$source)  == 1){
 				 	if (strstr($source,'x')) {
 				 		$xpos = strpos($source,'x');
-				 		$source = substr($source,0,$xpos); 		
-				 	}				 
+				 		$source = substr($source,0,$xpos);
+				 	}
 				 	$countrycode =  strstr($source,'.',true);
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
 					$number = strstr($source,'.');
 					$number = (string) preg_replace('/[^\d]/', '', $number);
-					$result = $countrycode.'.'.$number;			 		
-				} else 
+					$result = $countrycode.'.'.$number;
+				} else
 				{ $source = (string) preg_replace('/[^\d]/', '', $source);
-					if ($source != null) { 
+					if ($source != null) {
 						$length = strlen($source);
 						if ($length <= 12) {
 							$result='.'.$source;
-							
+
 						} else {
 							$cclen = $length - 12;
 							$result = substr($source,0,$cclen).'.'.substr($source,$cclen);
 						}
-					}		
+					}
 					 else {
 						$result = '.';
-					}						
+					}
 				}
-				
+
 				break;
-				
+
 			default :
 				// Are we dealing with an array?
 				if (is_array($source))
@@ -272,7 +272,7 @@ class JFilterInput extends JObject
 	 * Function to determine if contents of an attribute are safe
 	 *
 	 * @param	array	$attrSubSet	A 2 element array for attribute's name, value
-	 * 
+	 *
 	 * @return	boolean True if bad code is detected
 	 * @since	11.1
 	 */
@@ -288,7 +288,7 @@ class JFilterInput extends JObject
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
 	 * @param	string	$source	Input string to be 'cleaned'
-	 * 
+	 *
 	 * @return	string	'Cleaned' version of input parameter
 	 * @since	11.1
 	 */
@@ -301,7 +301,7 @@ class JFilterInput extends JObject
 			$source = $this->_cleanTags($source);
 			$loopCounter ++;
 		}
-		
+
 		return $source;
 	}
 
@@ -319,7 +319,7 @@ class JFilterInput extends JObject
 		$postTag	= $source;
 		$currentSpace = false;
 		// Setting to null to deal with undefined variables
-		$attr = '';	
+		$attr = '';
 
 		// Is there a tag? If so it will certainly start with a '<'.
 		$tagOpen_start	= strpos($source, '<');
@@ -413,11 +413,11 @@ class JFilterInput extends JObject
 					}
 				}
 				if (strpos($fromSpace, '=') !== false) {
-					
+
 					 // If the attribute value is wrapped in quotes we need to
 					 // grab the substring from the closing quote, otherwise grab
 					 // until the next space.
-					 
+
 					if (($openQuotes !== false) && (strpos(substr($fromSpace, ($openQuotes +1)), '"') !== false)) {
 						$attr = substr($fromSpace, 0, ($closeQuotes +1));
 					} else {
@@ -426,7 +426,7 @@ class JFilterInput extends JObject
 				} else {
 					 // No more equal signs so add any extra text in the tag into
 					 // the attribute array [eg. checked]
-					 
+
 					if ($fromSpace != '/') {
 						$attr = substr($fromSpace, 0, $nextSpace);
 					}
@@ -480,7 +480,7 @@ class JFilterInput extends JObject
 		if ($postTag != '<') {
 			$preTag .= $postTag;
 		}
-		
+
 		return $preTag;
 	}
 
@@ -510,7 +510,7 @@ class JFilterInput extends JObject
 
 			 // Remove all "non-regular" attribute names
 			 // AND blacklisted attributes
-			 
+
 			if ((!preg_match('/[a-z]*$/i', $attrSubSet[0])) || (($this->xssAuto) && ((in_array(strtolower($attrSubSet[0]), $this->attrBlacklist)) || (substr($attrSubSet[0], 0, 2) == 'on')))) {
 				continue;
 			}
@@ -555,7 +555,7 @@ class JFilterInput extends JObject
 				}
 			}
 		}
-		
+
 		return $newSet;
 	}
 

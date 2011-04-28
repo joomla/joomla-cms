@@ -25,7 +25,7 @@ abstract class JEvent extends JObserver
 	 * Method to trigger events.
 	 *
 	 * @param array Arguments
-	 * 
+	 *
 	 * @return mixed Routine return value
 	 * @since   11.1
 	 */

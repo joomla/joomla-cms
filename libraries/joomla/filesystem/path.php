@@ -50,7 +50,7 @@ class JPath
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -97,8 +97,8 @@ class JPath
 			if (isset ($filemode)) {
 				$ret = @ chmod($path, octdec($filemode));
 			}
-		} 
-		
+		}
+
 		return $ret;
 	}
 
@@ -127,7 +127,7 @@ class JPath
 			// execute
 			$parsed_mode .= ($mode { $i } & 01) ? "x" : "-";
 		}
-		
+
 		return $parsed_mode;
 	}
 

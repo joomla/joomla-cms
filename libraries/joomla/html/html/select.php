@@ -72,12 +72,12 @@ abstract class JHtmlSelect
 	 * 						Defaults to the same as the name.
 	 * 						list.select, string|array: Identifies one or more option elements
 	 * 							to be selected, bassed on the option key values.
-	 * 						
+	 *
 	 * @param	string  The name of the object variable for the option value. If
 	 * set to null, the index of the value array is used.
 	 * @param	string  The name of the object variable for the option text.
 	 * @param	mixed	The key that is selected (accepts an array or a string).
-	 * 
+	 *
 	 * @return  string  HTML for the select list.
 	 */
 	public static function genericlist(
@@ -157,9 +157,9 @@ abstract class JHtmlSelect
 	 * 					of selected options. Default: none.
 	 * 					list.translate: Boolean. If set, text and labels are translated via
 	 * 					JText::_().
-	 * 
+	 *
 	 * @throws JException If a group has unprocessable contents.
-	 * 
+	 *
 	 * @return string  HTML for the select list
 	 */
 	public static function groupedlist($data, $name, $options = array())
@@ -290,7 +290,7 @@ abstract class JHtmlSelect
 	* argument passed.
 	* @param mixed The key that is selected
 	* @param string The printf format to be applied to the number
-	* 
+	*
 	* @return string HTML for the select list
 	*/
 	public static function integerlist(
@@ -389,10 +389,10 @@ abstract class JHtmlSelect
 	 * 					option.text: The property that will hold the the displayed text.
 	 * 					Defaults to "text". If set to null, the option array is assumed to be a
 	 * 					list of displayable scalars.
-	 * 
+	 *
 	 * @param	string  The property that will hold the the displayed text. This
 	 * 					parameter is ignored if an options array is passed.
-	 * 
+	 *
 	 * @return  object
 	 */
 	public static function option(
@@ -480,10 +480,10 @@ abstract class JHtmlSelect
 	 * 					option.text: The property that will hold the the displayed text.
 	 * 					Defaults to "text". If set to null, the option array is assumed to be a
 	 * 					list of displayable scalars.
-	 * 
+	 *
 	 * @param	string  The name of the object variable for the option text.
 	 * @param	mixed	The key that is selected (accepts an array or a string)
-	 * 
+	 *
 	 * @return  string  HTML for the select list
 	 */
 	public static function options(
@@ -639,7 +639,7 @@ abstract class JHtmlSelect
 	* @param mixed The key that is selected
 	* @param string The name of the object variable for the option value
 	* @param string The name of the object variable for the option text
-	* 
+	*
 	* @return string HTML for the select list
 	*/
 	public static function radiolist(

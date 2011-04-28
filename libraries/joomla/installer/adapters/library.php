@@ -46,7 +46,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 	/**
 	 * Custom install method
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -174,7 +174,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 	/**
 	 * Custom update method
-	 * 
+	 *
 	 * @return boolean True on success
 	 * @since  11.1
 	 */
@@ -208,7 +208,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * Custom uninstall method
 	 *
 	 * @param	string	$id	The id of the library to uninstall
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -255,7 +255,7 @@ class JInstallerLibrary extends JAdapterInstance
 			// Check for a valid XML root tag.
 			// TODO: Remove backwards compatability in a future version
 			// Should be 'extension', but for backward compatability we will accept 'install'.
-			
+
 			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_INVALID_MANIFEST'));
@@ -326,7 +326,7 @@ class JInstallerLibrary extends JAdapterInstance
 	 * Custom discover_install method
 	 *
 	 * @param int $id The id of the extension to install
-	 * 
+	 *
 	 * @return void
 	 * @since 11.1
 	 */

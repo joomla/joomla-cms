@@ -27,7 +27,7 @@ abstract class JUserHelper
 	 *
 	 * @param	integer		$userId		The id of the user.
 	 * @param	integer		$groupId	The id of the group.
-	 * 
+	 *
 	 * @return	mixed		Boolean true on success, JException on error.
 	 * @since	11.1
 	 */
@@ -138,7 +138,7 @@ abstract class JUserHelper
 	 *
 	 * @param	integer		$userId		The id of the user.
 	 * @param	array		$groups		An array of group ids to put the user in.
-	 * 
+	 *
 	 * @return	mixed		Boolean true on success, JException on error.
 	 * @since	11.1
 	 */
@@ -217,7 +217,7 @@ abstract class JUserHelper
 	 * Method to activate a user
 	 *
 	 * @param	string	$activation	Activation string
-	 * 
+	 *
 	 * @return	boolean			True on success
 	 * @since	11.1
 	 */
@@ -264,7 +264,7 @@ abstract class JUserHelper
 	 * Returns userid if a user exists
 	 *
 	 * @param string The username to search on
-	 * 
+	 *
 	 * @return int The user id or 0 if not found
 	 */
 	public static function getUserId($username)
@@ -490,7 +490,7 @@ abstract class JUserHelper
 	 *
 	 * @param string  $value
 	 * @param integer $count
-	 * 
+	 *
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since   11.1
 	 */
@@ -512,7 +512,7 @@ abstract class JUserHelper
 	 * Converts hexadecimal string to binary data.
 	 *
 	 * @param string $hex  Hex data.
-	 * 
+	 *
 	 * @return string  Binary data.
 	 * @since   11.1
 	 */

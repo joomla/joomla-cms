@@ -148,7 +148,7 @@ class JFTP extends JObject
 			JLoader::load('JBuffer');
 		}
 
-		// @deprecated 11.1	
+		// @deprecated 11.1
 		// Register faked "destructor" in PHP4 to close all connections we might have made
 		if (version_compare(PHP_VERSION, '5') == -1) {
 			register_shutdown_function(array(&$this, '__destruct'));
@@ -181,7 +181,7 @@ class JFTP extends JObject
 	 * @param	string	$port		Port to connect to
 	 * @param	array	$options	Array with any of these options: type=>[FTP_AUTOASCII|FTP_ASCII|FTP_BINARY], timeout=>(int)
 	 * @param	string	$user		Username to use for a connection
-	 * 
+	 *
 	 * @param	string	$pass		Password to use for a connection
 	 * @return	JFTP	The FTP Client object.
 	 * @since   11.1
@@ -214,7 +214,7 @@ class JFTP extends JObject
 	 * Set client options
 	 *
 	 * @param	array	$options	Associative array of options to set
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function setOptions($options) {
@@ -233,7 +233,7 @@ class JFTP extends JObject
 	 *
 	 * @param	string	$host	Host to connect to [Default: 127.0.0.1]
 	 * @param	string	$port	Port to connect on [Default: port 21]
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function connect($host = '127.0.0.1', $port = 21) {
@@ -474,7 +474,7 @@ class JFTP extends JObject
 	 *
 	 * @param	string	$from	Path to change file/folder from
 	 * @param	string	$to		Path to change file/folder to
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function rename($from, $to) {
@@ -508,7 +508,7 @@ class JFTP extends JObject
 	 *
 	 * @param	string		$path	Path to change mode on
 	 * @param	string/int	$mode	Octal value to change mode to, e.g. '0777', 0777 or 511
-	 * 
+	 *
 	 * @return	boolean		True if successful
 	 */
 	function chmod($path, $mode) {
@@ -548,7 +548,7 @@ class JFTP extends JObject
 	 * Method to delete a path [file/folder] on the FTP server
 	 *
 	 * @param	string	$path	Path to delete
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function delete($path) {
@@ -578,7 +578,7 @@ class JFTP extends JObject
 	 * Method to create a directory on the FTP server
 	 *
 	 * @param	string	$path Directory to create
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function mkdir($path) {
@@ -604,7 +604,7 @@ class JFTP extends JObject
 	 * Method to restart data transfer at a given byte
 	 *
 	 * @param	int	$point	Byte to restart transfer at
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function restart($point) {
@@ -752,7 +752,7 @@ class JFTP extends JObject
 	/**
 	 * Method to get a file from the FTP server and save it to a local file
 	 *
-	 * @param string	$local	Local path to save remote file to 
+	 * @param string	$local	Local path to save remote file to
 	 * @param string	$remote	Path to remote file to get on the FTP server
 	 *
 	 * @return boolean True if successful
@@ -821,7 +821,7 @@ class JFTP extends JObject
 	 *
 	 * @param	string	$local	Path to local file to store on the FTP server
 	 * @param	string	$remote	FTP path to file to create
-	 * 
+	 *
 	 * @return boolean True if successful
 	 */
 	function store($local, $remote = null) {
@@ -1063,7 +1063,7 @@ class JFTP extends JObject
 	 * @param	string	$path	Path to the local file to be stored on the FTP server
 	 * @param 	string	$type	Return type [raw|all|folders|files]
 	 * @param 	boolean	$search	Recursively search subdirectories
-	 * 
+	 *
 	 * @return mixed : if $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
 	function listDetails($path = null, $type = 'all') {
@@ -1259,7 +1259,7 @@ class JFTP extends JObject
 	 * Send command to the FTP server and validate an expected response code
 	 *
 	 * @param	string	$cmd				Command to send to the FTP server
-	 * @param 	mixed	$expectedResponse	Integer response code or array of 
+	 * @param 	mixed	$expectedResponse	Integer response code or array of
 	 * 										integer response codes
 	 * @return boolean True if command executed successfully
 	 */

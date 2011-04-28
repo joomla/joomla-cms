@@ -53,7 +53,7 @@ abstract class JString
 	 * @param $str - string String being examined
 	 * @param $search - string String being searced for
 	 * @param $offset - int Optional, specifies the position from which the search should be performed
-	 * 
+	 *
 	 * @return mixed Number of characters before the first match or FALSE on failure
 	 * @see http://www.php.net/strpos
 	 */
@@ -87,7 +87,7 @@ abstract class JString
 	 * @param string
 	 * @param integer number of UTF-8 characters offset (from left)
 	 * @param integer (optional) length in UTF-8 characters from offset
-	 * 
+	 *
 	 * @return mixed string or FALSE if failure
 	 * @see http://www.php.net/substr
 	 */
@@ -109,7 +109,7 @@ abstract class JString
 	 * Annex #21: Case Mappings
 	 *
 	 * @param string
-	 * 
+	 *
 	 * @return mixed either string in lowercase or FALSE is UTF-8 invalid
 	 * @see http://www.php.net/strtolower
 	 */
@@ -126,7 +126,7 @@ abstract class JString
 	 * Annex #21: Case Mappings
 	 *
 	 * @param string
-	 * 
+	 *
 	 * @return mixed either string in uppercase or FALSE is UTF-8 invalid
 	 * @see http://www.php.net/strtoupper
 	 */
@@ -139,7 +139,7 @@ abstract class JString
 	 * Returns the number of characters in the string (NOT THE NUMBER OF BYTES),
 	 *
 	 * @param string UTF-8 string
-	 * 
+	 *
 	 * @return int number of UTF-8 characters in string
 	 * @see http://www.php.net/strlen
 	 */
@@ -173,7 +173,7 @@ abstract class JString
 	 *
 	 * @param string UTF-8 encoded
 	 * @param int number to characters to split string by
-	 * 
+	 *
 	 * @return array
 	 * @see http://www.php.net/str_split
 	*/
@@ -190,7 +190,7 @@ abstract class JString
 	 * @param string string 1 to compare
 	 * @param string string 2 to compare
 	 * @param mixed The locale used by strcoll or false to use classical comparison
-	 * 
+	 *
 	 * @return int < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 	 * @see http://www.php.net/strcasecmp
 	 * @see http://www.php.net/strcoll
@@ -237,7 +237,7 @@ abstract class JString
 	 * @param string string 1 to compare
 	 * @param string string 2 to compare
 	 * @param mixed The locale used by strcoll or false to use classical comparison
-	 * 
+	 *
 	 * @return int < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 	 * @see http://www.php.net/strcmp
 	 * @see http://www.php.net/strcoll
@@ -310,7 +310,7 @@ abstract class JString
 	 *
 	 * @param string the haystack
 	 * @param string the needle
-	 * 
+	 *
 	 * @return string the sub string
 	 * @see http://www.php.net/stristr
 	*/
@@ -331,7 +331,7 @@ abstract class JString
 	public static function strrev($str)
 	{
 		jimport('phputf8.strrev');
-		
+
 		return utf8_strrev($str);
 	}
 
@@ -343,7 +343,7 @@ abstract class JString
 	 * @param string the mask
 	 * @param int start optional
 	 * @param int length optional
-	 * 
+	 *
 	 * @return int
 	 * @see http://www.php.net/strspn
 	*/
@@ -367,7 +367,7 @@ abstract class JString
 	 * @param string the replacement string
 	 * @param int start
 	 * @param int length (optional)
-	 * 
+	 *
 	 * @retufrn string
 	 * @see http://www.php.net/substr_replace
 	*/
@@ -390,7 +390,7 @@ abstract class JString
 	 *
 	 * @param string the string to be trimmed
 	 * @param string the optional charlist of additional characters to trim
-	 * 
+	 *
 	 * @return string the trimmed string
 	 * @see http://www.php.net/ltrim
 	*/
@@ -417,7 +417,7 @@ abstract class JString
 	 *
 	 * @param string the string to be trimmed
 	 * @param string the optional charlist of additional characters to trim
-	 * 
+	 *
 	 * @return string the trimmed string
 	 * @see http://www.php.net/rtrim
 	 */
@@ -444,7 +444,7 @@ abstract class JString
 	 *
 	 * @param string the string to be trimmed
 	 * @param string the optional charlist of additional characters to trim
-	 * 
+	 *
 	 * @return string the trimmed string
 	 * @see http://www.php.net/trim
 	*/
@@ -496,7 +496,7 @@ abstract class JString
 	 * @param string $source The string to transcode.
 	 * @param string $from_encoding The source encoding.
 	 * @param string $to_encoding The target encoding.
-	 * 
+	 *
 	 * @return string Transcoded string
 	 * @since   11.1
 	 */
@@ -518,7 +518,7 @@ abstract class JString
 	 * Note: this function has been modified to simple return true or false
 	 * @author <hsivonen@iki.fi>
 	 * @param string UTF-8 encoded string
-	 * 
+	 *
 	 * @return boolean true if valid
 	 * @since 11.1
 	 * @see http://hsivonen.iki.fi/php-utf8/
@@ -654,7 +654,7 @@ abstract class JString
 	 * @see valid
 	 * @see http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
 	 * @param string UTF-8 string to check
-	 * 
+	 *
 	 * @return boolean TRUE if string is valid UTF-8
 	 * @since 11.1
 	 */
@@ -675,7 +675,7 @@ abstract class JString
 	 * @see http://us3.php.net/manual/en/function.parse-url.php
 	 *
 	 * @param string URL to parse
-	 * 
+	 *
 	 * @return associative array or false if badly formed URL.
 	 * @since 11.1
 	 */

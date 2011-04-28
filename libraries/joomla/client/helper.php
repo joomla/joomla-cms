@@ -198,7 +198,7 @@ class JClientHelper
 	 * If valid credentials were passed along with the request, they are saved to the session.
 	 * This functions returns an exeption if invalid credentials have been given or if the
 	 * connection to the server failed for some other reason.
-	 * 
+	 *
 	 * @return  boolean|JExeption  True, if FTP settings should be shown, or an exeption
 	 * @since	11.1
 	 */

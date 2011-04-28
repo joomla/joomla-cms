@@ -204,7 +204,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$row->type = 'template';
 			$row->element = $this->get('element');
 			// There is no folder for templates
-			$row->folder = ''; 
+			$row->folder = '';
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
@@ -236,7 +236,7 @@ class JInstallerTemplate extends JAdapterInstance
 			$query->set('params='.$db->Quote($row->params));
 			$db->setQuery($query);
 			// There is a chance this could fail but we don't care...
-			$db->query(); 
+			$db->query();
 		}
 
 		return $row->get('extension_id');
@@ -417,7 +417,7 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Discover_install
 	 * Perform an install for a discovered extension
-	 * 
+	 *
 	 * @return boolean
 	 * @since 11.1
 	 */

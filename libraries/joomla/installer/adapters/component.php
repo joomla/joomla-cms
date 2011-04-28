@@ -116,7 +116,7 @@ class JInstallerComponent extends JAdapterInstance
 		$this->parent->setPath('extension_root', $this->parent->getPath('extension_administrator')); // copy this as its used as a common base
 
 		// Basic Checks Section
-	
+
 
 		// Make sure that we have an admin element
 		if (!$this->manifest->administration) {
@@ -126,10 +126,10 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Filesystem Processing Section
 
-		
+
 		// If the component site or admin directory already exists, then we will assume that the component is already
 		// installed or another component is using that directory.
-		
+
 		if (file_exists($this->parent->getPath('extension_site')) || file_exists($this->parent->getPath('extension_administrator'))) {
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
@@ -143,7 +143,7 @@ class JInstallerComponent extends JAdapterInstance
 			else if (!$this->parent->getOverwrite()) {
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
-				if (file_exists($this->parent->getPath('extension_site'))) { 
+				if (file_exists($this->parent->getPath('extension_site'))) {
 					// If the site exists say so
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_DIR_SITE', $this->parent->getPath('extension_site')));
 				}
@@ -193,7 +193,7 @@ class JInstallerComponent extends JAdapterInstance
 		}
 
 		// Create msg object; first use here
-		$msg = ob_get_contents(); 
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// If the component directory does not exist, let's create it
@@ -208,7 +208,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		// Since we created the component directory and will want to remove it if we have to roll back
 		// the installation, let's add it to the installation step stack
-		
+
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_site')));
 		}

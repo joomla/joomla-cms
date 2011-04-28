@@ -209,7 +209,7 @@ class JFile
 		}
 
 		// Check src path
-		if (!is_readable($src)) { 
+		if (!is_readable($src)) {
 
 			return JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE');
 		}
@@ -453,10 +453,10 @@ class JFile
 	{
 		$slash = strrpos($file, DS);
 		if ($slash !== false) {
-			
+
 			return substr($file, $slash + 1);
 		} else {
-			
+
 			return $file;
 		}
 	}

@@ -147,7 +147,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$this->object->setQuery($query);
 
 		$result = $this->object->query();
-		
+
 		$this->assertThat(
 			$this->object->getAffectedRows(),
 			$this->equalTo(4),
@@ -190,7 +190,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 
 		$this->object->setQuery($query);
 		$result = $this->object->loadResult();
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo(2),
@@ -208,7 +208,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 		$result = $this->object->loadResultArray();
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo(array('Testing', 'Testing2', 'Testing3', 'Testing4')),
@@ -225,7 +225,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 		$result = $this->object->loadAssoc();
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo(array('title' => 'Testing')),
@@ -242,7 +242,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$query->from('jos_dbtest');
 		$this->object->setQuery($query);
 		$result = $this->object->loadAssocList();
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo(array(
@@ -271,7 +271,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$objCompare->title = 'Testing3';
 		$objCompare->start_date = '1980-04-18 00:00:00';
 		$objCompare->description = 'three';
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo($objCompare),
@@ -323,7 +323,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$objCompare->description = 'four';
 
 		$expected[] = clone $objCompare;
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
@@ -343,7 +343,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 		$result = $this->object->loadRow();
 
 		$expected = array(3, 'Testing3', '1980-04-18 00:00:00', 'three');
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
@@ -366,7 +366,7 @@ class JDatabaseMySQLTest extends JoomlaDatabaseTestCase {
 			array(1, 'Testing', '1980-04-18 00:00:00', 'one'),
 			array(2, 'Testing2', '1980-04-18 00:00:00', 'one')
 		);
-		
+
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),

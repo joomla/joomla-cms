@@ -75,7 +75,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @param	string	The session identifier.
 	 * @param	string	The session data.
-	 * 
+	 *
 	 * @return	boolean	True on success, false otherwise.
 	 * @since	11.1
 	 */
@@ -115,7 +115,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * SessionHandler backend.
 	 *
 	 * @param	string	The session identifier.
-	 * 
+	 *
 	 * @return	boolean	True on success, false otherwise.
 	 * @since	11.1
 	 */

@@ -205,7 +205,7 @@ var implement = function(name, method){
 		if (typeOf(hook) == 'type') implement.call(hook, name, method);
 		else hook.call(this, name, method);
 	}
-	
+
 	var previous = this.prototype[name];
 	if (previous == null || !previous.$protected) this.prototype[name] = method;
 
@@ -874,14 +874,14 @@ Function.implement({
 		try {
 			return this.apply(bind, Array.from(args));
 		} catch (e){}
-		
+
 		return null;
 	},
 
 	bind: function(bind){
 		var self = this,
 			args = (arguments.length > 1) ? Array.slice(arguments, 1) : null;
-		
+
 		return function(){
 			if (!args && !arguments.length) return self.call(bind);
 			if (args && arguments.length) return self.apply(bind, args.concat(Array.from(arguments)));
@@ -1756,7 +1756,7 @@ this.Events = new Class({
 		}, this);
 		return this;
 	},
-	
+
 	removeEvent: function(type, fn){
 		type = removeOn(type);
 		var events = this.$events[type];
@@ -2091,9 +2091,9 @@ local.setDocument = function(document){
 	} catch(e){};
 
 	if (this.isHTMLDocument){
-		
+
 		testNode.style.display = 'none';
-		
+
 		// IE returns comment nodes for getElementsByTagName('*') for some documents
 		testNode.appendChild(document.createComment(''));
 		starSelectsComments = (testNode.getElementsByTagName('*').length > 0);
@@ -2141,19 +2141,19 @@ local.setDocument = function(document){
 		} catch(e){};
 
 		this.brokenGEBCN = cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
-		
+
 		// Webkit dont return selected options on querySelectorAll
 		try {
 			testNode.innerHTML = '<select><option selected="selected">a</option></select>';
 			this.brokenCheckedQSA = (testNode.querySelectorAll(':checked').length == 0);
 		} catch(e){};
-		
+
 		// IE returns incorrect results for attr[*^$]="" selectors on querySelectorAll
 		try {
 			testNode.innerHTML = '<a class=""></a>';
 			this.brokenEmptyAttributeQSA = (testNode.querySelectorAll('[class*=""]').length != 0);
 		} catch(e){};
-		
+
 	}
 
 	root.removeChild(testNode);
@@ -2487,7 +2487,7 @@ var combinators = {
 					for (i = 0; item = children[i++];) if (item.getAttributeNode('id').nodeValue == id){
 						this.push(item, tag, null, classes, attributes, pseudos);
 						break;
-					} 
+					}
 					return;
 				}
 				if (!item){
@@ -2696,7 +2696,7 @@ var pseudos = {
 	'root': function(node){
 		return (node === this.root);
 	},
-	
+
 	'selected': function(node){
 		return node.selected;
 	}
@@ -3032,7 +3032,7 @@ var IFrame = new Type('IFrame', function(){
 	var onLoad = function(){
 		onload.call(iframe.contentWindow);
 	};
-	
+
 	if (window.frames[props.id]) onLoad();
 	else iframe.addListener('load', onLoad);
 	return iframe;
@@ -4270,7 +4270,7 @@ Element.implement({
 			x: offset.x - scroll.x,
 			y: offset.y - scroll.y
 		};
-		
+
 		if (relative && (relative = document.id(relative))){
 			var relativePosition = relative.getPosition();
 			return {x: position.x - relativePosition.x - leftBorder(relative), y: position.y - relativePosition.y - topBorder(relative)};
@@ -5101,7 +5101,7 @@ var Request = this.Request = new Class({
 		}.bind(this));
 		xhr.onreadystatechange = function(){};
 		clearTimeout(this.timer);
-		
+
 		this.response = {text: this.xhr.responseText || '', xml: this.xhr.responseXML};
 		if (this.options.isSuccess.call(this, this.status))
 			this.success(this.response.text, this.response.xml);
@@ -5138,15 +5138,15 @@ var Request = this.Request = new Class({
 	onFailure: function(){
 		this.fireEvent('complete').fireEvent('failure', this.xhr);
 	},
-	
+
 	loadstart: function(event){
 		this.fireEvent('loadstart', [event, this.xhr]);
 	},
-	
+
 	progress: function(event){
 		this.fireEvent('progress', [event, this.xhr]);
 	},
-	
+
 	timeout: function(){
 		this.fireEvent('timeout', this.xhr);
 	},
@@ -5170,7 +5170,7 @@ var Request = this.Request = new Class({
 		}
 		return false;
 	},
-	
+
 	send: function(options){
 		if (!this.check(options)) return this;
 
@@ -5206,7 +5206,7 @@ var Request = this.Request = new Class({
 		}
 
 		if (!url) url = document.location.pathname;
-		
+
 		var trimPosition = url.lastIndexOf('/');
 		if (trimPosition > -1 && (trimPosition = url.indexOf('#')) > -1) url = url.substr(0, trimPosition);
 
@@ -5226,7 +5226,7 @@ var Request = this.Request = new Class({
 
 		xhr.open(method.toUpperCase(), url, this.options.async, this.options.user, this.options.password);
 		if (this.options.user && 'withCredentials' in xhr) xhr.withCredentials = true;
-		
+
 		xhr.onreadystatechange = this.onStateChange.bind(this);
 
 		Object.each(this.headers, function(value, key){
@@ -5607,7 +5607,7 @@ var domready = function(){
 	if (ready) return;
 	Browser.loaded = ready = true;
 	document.removeListener('DOMContentLoaded', domready).removeListener('readystatechange', check);
-	
+
 	document.fireEvent('domready');
 	window.fireEvent('domready');
 };
@@ -5669,7 +5669,7 @@ Element.Events.load = {
 			domready();
 			delete Element.Events.load;
 		}
-		
+
 		return true;
 	}
 };

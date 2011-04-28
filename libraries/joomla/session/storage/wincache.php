@@ -38,7 +38,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 *
 	 * @param string $save_path     The path to the session object.
 	 * @param string $session_name  The name of the session.
-	 * 
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function open($save_path, $session_name)
@@ -61,7 +61,7 @@ class JSessionStorageWincache extends JSessionStorage
  	 * SessionHandler backend.
  	 *
  	 * @param string $id  The session identifier.
- 	 * 
+ 	 *
  	 * @return string  The session data.
  	 */
 	public function read($id)
@@ -75,7 +75,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 *
 	 * @param string $id            The session identifier.
 	 * @param string $session_data  The session data.
-	 * 
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function write($id, $session_data)
@@ -89,7 +89,7 @@ class JSessionStorageWincache extends JSessionStorage
 	  * SessionHandler backend.
 	  *
 	  * @param string $id  The session identifier.
-	  * 
+	  *
 	  * @return boolean  True on success, false otherwise.
 	  */
 	public function destroy($id)
@@ -102,7 +102,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
 	 * @param integer $maxlifetime  The maximum age of a session.
-	 * 
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function gc($maxlifetime = null)

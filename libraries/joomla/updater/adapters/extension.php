@@ -25,8 +25,8 @@ class JUpdaterExtension extends JUpdateAdapter
 				$this->current_update->update_site_id = $this->_update_site_id;
 				$this->current_update->detailsurl = $this->_url;
 				break;
-			// Don't do anything	
-			case 'UPDATES': 
+			// Don't do anything
+			case 'UPDATES':
 				break;
 			default:
 				if(in_array($name, $this->_updatecols)) {

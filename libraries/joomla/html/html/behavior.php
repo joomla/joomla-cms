@@ -700,18 +700,18 @@ abstract class JHtmlBehavior
 					$object .= 'window.getSize().y-80';
 					$object .= ' }';
 					$object .= ',';
-				} 
+				}
 				else {
 					$object .= ' '.$k.': ';
 					$object .= ($v) ? 'true' : 'false';
 					$object .= ',';
 				}
-			} 
+			}
 			else if (!is_array($v) && !is_object($v)) {
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
-			} 
+			}
 			else {
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}

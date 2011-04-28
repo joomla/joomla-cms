@@ -48,7 +48,7 @@ class JDispatcher extends JObservable
 	 *
 	 * @param	string	$event		Name of the event to register handler for
 	 * @param	string	$handler	Name of the event handler
-	 * 
+	 *
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -78,7 +78,7 @@ class JDispatcher extends JObservable
 	 *
 	 * @param	string	$event		The event to trigger.
 	 * @param	array	$args		An array of arguments.
-	 * 
+	 *
 	 * @return	array	An array of results from each function call.
 	 * @since	11.1
 	 */

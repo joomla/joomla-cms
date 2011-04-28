@@ -19,28 +19,28 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * Verify the default values for the log entry object.
-	 * 
+	 *
 	 * Test the JLogEntry::__construct method.
 	 */
 	public function testDefaultValues()
 	{
 		$tmp = new JLogEntry('Lorem ipsum dolor sit amet');
 		$date = JFactory::getDate('now');
-		
+
 		// Message.
 		$this->assertThat(
 			$tmp->message,
 			$this->equalTo('Lorem ipsum dolor sit amet'),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 		// Priority.
 		$this->assertThat(
 			$tmp->priority,
 			$this->equalTo(JLog::INFO),
 			'Line: '.__LINE__.'.'
 		);
-		
+
 		// Category.
 		$this->assertThat(
 			$tmp->category,
@@ -58,7 +58,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Verify the priority for the entry object cannot be something not in the approved list.
-	 * 
+	 *
 	 * Test the JLogEntry::__construct method.
 	 */
 	public function testBadPriorityValues()
@@ -87,7 +87,7 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Test that non-standard category values are sanitized.
-	 * 
+	 *
 	 * Test the JLogEntry::__construct method.
 	 */
 	public function testCategorySanitization()

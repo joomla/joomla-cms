@@ -319,14 +319,14 @@ class JURI extends JObject
 	 * Returns full uri string.
 	 *
 	 * @param	array $parts An array specifying the parts to render.
-	 * 
+	 *
 	 * @return	string The rendered URI string.
 	 * @since	11.1
 	 */
 	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		// Make sure the query is created
-		$query = $this->getQuery(); 
+		$query = $this->getQuery();
 
 		$uri = '';
 		$uri .= in_array('scheme', $parts)  ? (!empty($this->_scheme) ? $this->_scheme.'://' : '') : '';

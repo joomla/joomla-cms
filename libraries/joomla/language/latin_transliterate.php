@@ -30,7 +30,7 @@ class JLanguageTransliterate
 	 *
 	 * @param	string	$string
 	 * @param	boolean	$case 	Optionally specify upper or lower case. Default to null.
-	 * 
+	 *
 	 * @return	string	transliterated string
 	 */
 	static function utf8_latin_to_ascii( $string, $case=0 ){

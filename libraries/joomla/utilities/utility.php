@@ -32,7 +32,7 @@ class JUtility
 	 * @param	mixed	$attachment	Attachment file name(s)
 	 * @param	mixed	$replyto	Reply to email address(es)
 	 * @param	mixed	$replytoname Reply to name(s)
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 *
 	 * @since		11.1

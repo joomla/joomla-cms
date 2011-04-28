@@ -43,7 +43,7 @@ class JDocumentRAW extends JDocument
 	 *
 	 * @param boolean	$cache		If true, cache the output
 	 * @param array		$params		Associative array of attributes
-	 * 
+	 *
 	 * @return	The rendered data
 	 */
 	public function render($cache = false, $params = array())

@@ -159,11 +159,11 @@ class JInstallerLanguage extends JAdapterInstance
 			{
 				// Overwrite is set
 				// We didn't have overwrite set, find an update function or find an update tag so lets call it safe
-				if (file_exists($this->parent->getPath('extension_site'))) { 
+				if (file_exists($this->parent->getPath('extension_site'))) {
 					// If the site exists say so.
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_site'))));
 				}
-				else { 
+				else {
 					// If the admin exists say so.
 					JError::raiseWarning(1, JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))));
 				}
@@ -217,7 +217,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$row->set('type', 'language');
 		$row->set('element', $this->get('tag'));
 		// There is no folder for languages
-		$row->set('folder', ''); 
+		$row->set('folder', '');
 		$row->set('enabled', 1);
 		$row->set('protected', 0);
 		$row->set('access', 0);
@@ -568,7 +568,7 @@ class JInstallerLanguage extends JAdapterInstance
 
 	/**
 	 * Refreshes the extension table cache
-	 * 
+	 *
 	 * @return  boolean result of operation, true if updated, false on failure
 	 * @since	11.1
 	 */
@@ -583,7 +583,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 
 		if ($this->parent->extension->store()) {
-			
+
 			return true;
 		}
 		else {

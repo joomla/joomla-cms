@@ -288,7 +288,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
-			
+
 			return $default;
 		}
 
@@ -388,7 +388,7 @@ class JForm
 
 		// If no fieldsets are found return empty.
 		if (empty($sets)) {
-			
+
 			return $fieldsets;
 		}
 
@@ -798,14 +798,14 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
-			
+
 			return false;
 		}
 
 		// Make sure the element to set is valid.
 		if (!($element instanceof JXMLElement)) {
 			// TODO: throw exception.
-			
+
 			return false;
 		}
 
@@ -814,7 +814,7 @@ class JForm
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old)) {
-			
+
 			return true;
 		}
 
@@ -863,7 +863,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
-			
+
 			return false;
 		}
 
@@ -872,7 +872,7 @@ class JForm
 
 		// If the element doesn't exist return false.
 		if (!($element instanceof JXMLElement)) {
-			
+
 			return false;
 		}
 		// Otherwise set the attribute and return true.
@@ -903,7 +903,7 @@ class JForm
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof JXMLElement)) {
 			// TODO: throw exception.
-			
+
 			return false;
 		}
 
@@ -912,7 +912,7 @@ class JForm
 		{
 			if (!($element instanceof JXMLElement)) {
 				// TODO: throw exception.
-				
+
 				return false;
 			}
 		}
@@ -922,7 +922,7 @@ class JForm
 		foreach ($elements as $element)
 		{
 			if (!$this->setField($element, $group, $replace)) {
-				
+
 				$return = false;
 			}
 		}

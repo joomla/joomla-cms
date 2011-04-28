@@ -749,11 +749,11 @@ class JUser extends JObject
 			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id));
 			return false;
 		}
-		
+
 		// Set the user parameters using the default xml file.  We might want to
 		// extend this in the future to allow for the ability to have custom
 		// user parameters, but for right now we'll leave it how it is.
-		 
+
 		$this->_params->loadJSON($table->params);
 
 		// Assuming all is well at this point lets bind the data

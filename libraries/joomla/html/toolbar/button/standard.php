@@ -58,7 +58,7 @@ class JButtonStandard extends JButton
 	 * @param	string	$name	The task name as seen by the user
 	 * @param	string	$task	The task used by the application
 	 * @param	???		$list
-	 * 
+	 *
 	 * @return	string	JavaScript command string
 	 * @since	11.1
 	 */

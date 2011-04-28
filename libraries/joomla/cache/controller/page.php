@@ -47,7 +47,7 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @param	string	$id		The cache data id
 	 * @param	string	$group	The cache data group
-	 * 
+	 *
 	 * @return	boolean	True if the cache is hit (false else)
 	 * @since	11.1
 	 */
@@ -144,7 +144,7 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request 
+	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request
 	 * 			hash ... perhaps hashed with a serialized request
 	 *
 	 * @return	string	MD5 Hash : page cache id

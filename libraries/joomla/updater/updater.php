@@ -36,7 +36,7 @@ class JUpdater extends JAdapter {
 	 * if it doesn't already exist.
 	 *
 	 * @return	object	An installer object
-	 * 
+	 *
 	 */
 	public static function &getInstance()
 	{
@@ -50,9 +50,9 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Finds an update for an extension
-	 * 
+	 *
 	 * @param int Extension Identifier; if zero use all sites
-	 * 
+	 *
 	 * @return boolean If there are updates or not
 	 */
 	public function findUpdates($eid=0) {
@@ -73,7 +73,7 @@ class JUpdater extends JAdapter {
 			$this->setAdapter($result['type']);
 			if(!isset($this->_adapters[$result['type']])) {
 				// Ignore update sites requiring adapters we don't have installed
-				continue; 
+				continue;
 			}
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if(is_array($update_result))

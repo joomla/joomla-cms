@@ -48,7 +48,7 @@ class JDocumentError extends JDocument
 	 * Set error object
 	 *
 	 * @param	object	$error	Error object to set
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -105,7 +105,7 @@ class JDocumentError extends JDocument
 	 *
 	 * @param string	$template	The name of the template
 	 * @param string	$filename	The actual filename
-	 * 
+	 *
 	 * @return string The contents of the template
 	 */
 	function _loadTemplate($directory, $filename)

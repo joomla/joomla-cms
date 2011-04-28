@@ -192,7 +192,7 @@ class JAuthenticationResponse extends JObject
 	 * UTF-8 string free text representation of the End User's full name.
 	 *
 	 * @var fullname string
-	 * 
+	 *
 	 */
 	public $fullname		= '';
 
@@ -213,7 +213,7 @@ class JAuthenticationResponse extends JObject
 	 * The End User's gender, "M" for male, "F" for female.
 	 *
 	 * @var gender string
-	 * 
+	 *
 	 */
 	public $gender		= '';
 

@@ -23,7 +23,7 @@ class JLanguageHelper
 	 * @param	string	Client key for the area
 	 * @param	string	Base path to use
 	 * @param	array	An array of arrays (text, value, selected)
-	 * 
+	 *
 	 * @return	array 	List of system languages
 	 * @since	11.1
 	 */
@@ -111,7 +111,7 @@ class JLanguageHelper
 	 * Get available languages
 	 *
 	 * @param	string array key
-	 * 
+	 *
 	 * @return	array of published languages
 	 * @since	11.1
 	 */

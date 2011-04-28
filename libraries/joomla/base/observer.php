@@ -46,7 +46,7 @@ abstract class JObserver extends JObject
 	 *
 	 * @abstract	Implement in child classes
 	 * @param		array		$args		An array of arguments to pass to the listener.
-	 * 
+	 *
 	 * @return		mixed
 	 */
 	public abstract function update(&$args);

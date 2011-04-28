@@ -61,7 +61,7 @@ class JCacheController
 	 * Returns a reference to a cache adapter object, always creating it
 	 *
 	 * @param	string	$type	The cache object type to instantiate
-	 * 
+	 *
 	 * @return	object	A JCache object
 	 * @since	11.1
 	 */
@@ -91,7 +91,7 @@ class JCacheController
 	 * Set caching enabled state
 	 *
 	 * @param	boolean	$enabled	True to enable caching
-	 * 
+	 *
 	 * @return	void
 	 * @since	11.1
 	 */
@@ -104,7 +104,7 @@ class JCacheController
 	 * Set cache lifetime
 	 *
 	 * @param	int		$lt	Cache lifetime
-	 * 
+	 *
 	 * @return	void
 	 * @since	11.1
 	 */

@@ -178,13 +178,13 @@ class JInstallerModule extends JAdapterInstance
 
 		$id = $db->loadResult();
 
-		
+
 		// If the module directory already exists, then we will assume that the
 		// module is already installed or another module is using that
 		// directory.
 		// Check that this is either an issue where its not overwriting or it is
 		// set to upgrade anyway
-		
+
 		if (file_exists($this->parent->getPath('extension_root')) && (!$this->parent->getOverwrite() || $this->parent->getUpgrade())) {
 			// Look for an update function or update tag
 			$updateElement = $this->manifest->update;
@@ -196,7 +196,7 @@ class JInstallerModule extends JAdapterInstance
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
 
-				if ($id) { 
+				if ($id) {
 					// If there is a matching extension mark this as an update; semantics really
 					$this->route = 'Update';
 				}
@@ -250,7 +250,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Create msg object; first use here
-		$msg = ob_get_contents(); 
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// Filesystem Processing Section
@@ -269,7 +269,7 @@ class JInstallerModule extends JAdapterInstance
 		// Since we created the module directory and will want to remove it if
 		// we have to roll back the installation, lets add it to the
 		// installation step stack
-		 
+
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
@@ -345,11 +345,11 @@ class JInstallerModule extends JAdapterInstance
 			$module->store();
 		}
 
-		
+
 		// Let's run the queries for the module
 		// If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		// file for utf-8 support or non-utf-8 support
-		
+
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
 		if (strtolower($this->route) == 'install') {
@@ -392,7 +392,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		// Finalization and Cleanup Section
@@ -414,7 +414,7 @@ class JInstallerModule extends JAdapterInstance
 		}
 
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		if ($msg != '') {
@@ -734,7 +734,7 @@ class JInstallerModule extends JAdapterInstance
 		try
 		{
 			// clean up any other ones that might exist as well
-			$db->Query(); 
+			$db->Query();
 		}
 		catch(JException $e)
 		{

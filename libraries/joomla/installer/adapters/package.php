@@ -23,7 +23,7 @@ jimport('joomla.installer.packagemanifest');
  */
 class JInstallerPackage extends JAdapterInstance
 {
-	/** 
+	/**
 	 * @var string method of system
 	 */
 	protected $route = 'install';
@@ -109,7 +109,7 @@ class JInstallerPackage extends JAdapterInstance
 					$package['dir'] = $file;
 					$package['type'] = JInstallerHelper::detectType($file);
 				}
-				else { 
+				else {
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
@@ -142,13 +142,13 @@ class JInstallerPackage extends JAdapterInstance
 			$row->type = 'package';
 			$row->element = $this->get('element');
 			// There is no folder for modules
-			$row->folder = ''; 
+			$row->folder = '';
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
 			$row->client_id = 0;
 			// custom data
-			$row->custom_data = ''; 
+			$row->custom_data = '';
 			$row->params = $this->parent->getParams();
 		}
 		// Update the manifest cache for the entry
@@ -191,7 +191,7 @@ class JInstallerPackage extends JAdapterInstance
 	 * Custom uninstall method
 	 *
 	 * @param	int		$id	The id of the package to uninstall
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */

@@ -45,11 +45,11 @@ class JFormRuleTel extends JFormRule
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 		if (!$required && empty($value)) {
 			return true;
-		}		
+		}
 		// @see http://www.nanpa.com/
 		// @see http://tools.ietf.org/html/rfc4933
 		// @see http://www.itu.int/rec/T-REC-E.164/en
-		 
+
 		// Regex by Steve Levithan
 		// @see http://blog.stevenlevithan.com/archives/validate-phone-number
 		// @note that valid ITU-T and EPP must begin with +.
@@ -59,39 +59,39 @@ class JFormRuleTel extends JFormRule
 			'EPP' => '/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/'
 		);
 		if (isset($element['plan'])){
-		
+
 			$plan = (string) $element['plan'];
 			if ($plan =='northamerica' || $plan == 'us' ) {
 				$plan = 'NANP';
 			} else
 			 if ( $plan == 'International' || $plan == 'int' || $plan == 'missdn' || !$plan) {
 			 	$plan = 'ITU-T';
-			 } else 
+			 } else
 			 if ( $plan == 'IETF') {
 			 	$plan='EPP';
 			 }
-	
+
 			$regex = $regexarray[$plan];
-			// Test the value against the regular expression.			
+			// Test the value against the regular expression.
 			if (preg_match($regex, $value) == false) {
-				
+
 				return false;
 			}
 		} else {
-			//If the rule is set but no plan is selected just check that there are between 
+			//If the rule is set but no plan is selected just check that there are between
 			//7 and 15 digits inclusive and no illegal characters (but common number separators
-			//are allowed). 
+			//are allowed).
 			$cleanvalue = preg_replace('/[+. -(\)]/','',$value);
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true) {
-				
+
 				return true;
 			} else {
-				
+
 				return false;
 			}
-		}	
-				
-		return true;	
+		}
+
+		return true;
 	}
-}	
+}

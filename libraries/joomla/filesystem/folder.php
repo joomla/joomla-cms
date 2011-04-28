@@ -28,7 +28,7 @@ abstract class JFolder
 	 * @param	string	The path to the destination folder.
 	 * @param	string	An optional base path to prefix to the file names.
 	 * @param	boolean	Optionally force folder/file overwrites.
-	 * 
+	 *
 	 * @return	mixed	JError object on failure or boolean True on success.
 	 * @since	11.1
 	 */
@@ -148,7 +148,7 @@ abstract class JFolder
 	 *
 	 * @param string A path to create from the base path.
 	 * @param int Directory permissions to set for folders created.
-	 * 
+	 *
 	 * @return boolean True if successful.
 	 * @since   11.1
 	 */
@@ -273,7 +273,7 @@ abstract class JFolder
 	 * Delete a folder.
 	 *
 	 * @param string The path to the folder to delete.
-	 * 
+	 *
 	 * @return boolean True on success.
 	 * @since   11.1
 	 */
@@ -368,7 +368,7 @@ abstract class JFolder
 	 * @param string The path to the source folder.
 	 * @param string The path to the destination folder.
 	 * @param string An optional base path to prefix to the file names.
-	 * 
+	 *
 	 * @return mixed Error message on false or boolean true on success.
 	 * @since   11.1
 	 */
@@ -434,7 +434,7 @@ abstract class JFolder
 	 * Wrapper for the standard file_exists function
 	 *
 	 * @param string Folder name relative to installation dir
-	 * 
+	 *
 	 * @return boolean True if path is a folder
 	 * @since   11.1
 	 */
@@ -454,7 +454,7 @@ abstract class JFolder
 	 * @param	array	Array with names of files which should not be shown in
 	 * 					the result.
 	 * @param	array	Array of filter to exclude
-	 * 
+	 *
 	 * @return	array	Files in the given folder.
 	 * @since   11.1
 	 */
@@ -498,7 +498,7 @@ abstract class JFolder
 	 * 					the result.
 	 * @param	array	Array with regular expressions matching folders which
 	 * 					should not be shown in the result.
-	 * 
+	 *
 	 * @return	array	Folders in the given folder.
 	 * @since   11.1
 	 */
@@ -542,7 +542,7 @@ abstract class JFolder
 	 * 					the result.
 	 * @param	string	Regexp of files to exclude
 	 * @param	boolean	true to read the files, false to read the folders
-	 * 
+	 *
 	 * @return	array	Files.
 	 * @since   11.1
 	 */
@@ -601,7 +601,7 @@ abstract class JFolder
 	 * 					defaults to three.
 	 * @param	integer	The current level, optional.
 	 * @param	integer	Unique identifier of the parent folder, if any.
-	 * 
+	 *
 	 * @return	array	Folders in the given folder.
 	 * @since	11.1
 	 */
@@ -637,7 +637,7 @@ abstract class JFolder
 	 * Makes path name safe to use.
 	 *
 	 * @param	string The full path to sanitise.
-	 * 
+	 *
 	 * @return	string The sanitised string.
 	 * @since	11.1
 	 */

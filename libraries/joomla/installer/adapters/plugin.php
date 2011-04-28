@@ -20,8 +20,8 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerPlugin extends JAdapterInstance
 {
-	/** 
-	 * @var string install function routing 
+	/**
+	 * @var string install function routing
 	 * */
 	var $route = 'install';
 
@@ -169,7 +169,7 @@ class JInstallerPlugin extends JAdapterInstance
 				// Force this one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
-				if ($id) { 
+				if ($id) {
 					// If there is a matching extension mark this as an update; semantics really
 					$this->route = 'update';
 				}
@@ -186,7 +186,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 // Installer Trigger Loading
 
 		// If there is an manifest class file, let's load it; we'll copy it later (don't have destination yet).
-		
+
 		if ((string)$xml->scriptfile)
 		{
 			$manifestScript = (string)$xml->scriptfile;
@@ -254,7 +254,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 // If we created the plugin directory and will want to remove it if we
 		 // have to roll back the installation, let's add it to the installation
 		 // step stack
-		 
+
 		if ($created) {
 			$this->parent->pushStep(array ('type' => 'folder', 'path' => $this->parent->getPath('extension_root')));
 		}
@@ -321,7 +321,7 @@ class JInstallerPlugin extends JAdapterInstance
 			// Custom data
 			$row->custom_data = '';
 			// System data
-			$row->system_data = ''; 
+			$row->system_data = '';
 			$row->manifest_cache = $this->parent->generateManifestCache();
 
 			// Editor plugins are published by default
@@ -345,7 +345,7 @@ class JInstallerPlugin extends JAdapterInstance
 		 // Let's run the queries for the module
 		 //	If Joomla 1.5 compatible, with discreet sql files - execute appropriate
 		 //	file for utf-8 support or non-utf-8 support
-		 
+
 		// Try for Joomla 1.5 type queries
 		// Second argument is the utf compatible version attribute
 		if(strtolower($this->route) == 'install') {
@@ -387,7 +387,7 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 
 		// Finalization and Cleanup Section
@@ -407,7 +407,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$this->parent->manifestClass->postflight($this->route, $this);
 		}
 		// Append messages
-		$msg .= ob_get_contents(); 
+		$msg .= ob_get_contents();
 		ob_end_clean();
 		if ($msg != '') {
 			$this->parent->set('extension_message', $msg);
@@ -417,7 +417,7 @@ class JInstallerPlugin extends JAdapterInstance
 
 	/**
 	 * Custom update method
-	 * 
+	 *
 	 * @return	boolean	True on success
 	 * @since	11.1
 	 */
@@ -553,7 +553,7 @@ class JInstallerPlugin extends JAdapterInstance
 			}
 		}
 		// Create msg object; first use here
-		$msg = ob_get_contents(); 
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 		// Let's run the queries for the module
@@ -578,7 +578,7 @@ class JInstallerPlugin extends JAdapterInstance
 			$this->parent->manifestClass->uninstall($this);
 		}
 		// Append messages
-		$msg = ob_get_contents(); 
+		$msg = ob_get_contents();
 		ob_end_clean();
 
 
@@ -632,7 +632,7 @@ class JInstallerPlugin extends JAdapterInstance
 				$manifest_details = JApplicationHelper::parseXMLInstallFile(JPATH_SITE.'/plugins/'.$folder.'/'.$file);
 				$file = JFile::stripExt($file);
 				// Ignore example plugins
-				if ($file == 'example') continue; 
+				if ($file == 'example') continue;
 				$extension = JTable::getInstance('extension');
 				$extension->set('type', 'plugin');
 				$extension->set('client_id', 0);
@@ -671,7 +671,7 @@ class JInstallerPlugin extends JAdapterInstance
 	 * Custom discover_install method
 	 *
 	 * @param int $id The id of the extension to install
-	 * 
+	 *
 	 * @return mixed
 	 * @since 11.1
 	 */

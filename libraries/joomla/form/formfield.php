@@ -412,14 +412,14 @@ abstract class JFormField
 		$title = '';
 
 		if ($this->hidden) {
-			
+
 			return $title;
 		}
 
 		// Get the label text from the XML element, defaulting to the element name.
 		$title = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
 		$title = $this->translateLabel ? JText::_($title) : $title;
-		
+
 		return $title;
 	}
 
