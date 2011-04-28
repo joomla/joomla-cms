@@ -32,56 +32,58 @@ class plgSystemLanguageFilter extends JPlugin
 
 	public function __construct(&$subject, $config)
 	{
-		$app = JFactory::getApplication();
-		$router = $app->getRouter();
-		if ($app->isSite()) {
-			// setup language data
-			self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
-			self::$sefs 		= JLanguageHelper::getLanguages('sef');
-			self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-			self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
-
-			$app->setLanguageFilter(true);
-			$uri = JFactory::getURI();
-			if (self::$mode_sef) {
-				// Get the route path from the request.
-				$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
-
-				// Apache mod_rewrite is Off
-				$path = JFactory::getConfig()->get('sef_rewrite') ? $path : JString::substr($path, 10);
-
-				// Trim any spaces or slashes from the ends of the path and explode into segments.
-				$path  = JString::trim($path, '/ ');
-				$parts = explode('/', $path);
-
-				// The language segment is always at the beginning of the route path if it exists.
-				$sef = $uri->getVar('lang');
-				
-				if (!empty($parts) && empty($sef)) {
-					$sef = reset($parts);
+		// Ensure that constructor is called one time
+		if (!self::$default_lang) {
+			$app = JFactory::getApplication();
+			$router = $app->getRouter();
+			if ($app->isSite()) {
+				// setup language data
+				self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
+				self::$sefs 		= JLanguageHelper::getLanguages('sef');
+				self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
+				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
+	
+				$app->setLanguageFilter(true);
+				$uri = JFactory::getURI();
+				if (self::$mode_sef) {
+					// Get the route path from the request.
+					$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
+	
+					// Apache mod_rewrite is Off
+					$path = JFactory::getConfig()->get('sef_rewrite') ? $path : JString::substr($path, 10);
+	
+					// Trim any spaces or slashes from the ends of the path and explode into segments.
+					$path  = JString::trim($path, '/ ');
+					$parts = explode('/', $path);
+	
+					// The language segment is always at the beginning of the route path if it exists.
+					$sef = $uri->getVar('lang');
+					
+					if (!empty($parts) && empty($sef)) {
+						$sef = reset($parts);
+					}
+				}
+				else {
+					$sef = $uri->getVar('lang');
+				}
+				if (isset(self::$sefs[$sef])) {
+					$lang_code = self::$sefs[$sef]->lang_code;
+					// Create a cookie
+					$conf = JFactory::getConfig();
+					$cookie_domain 	= $conf->get('config.cookie_domain', '');
+					$cookie_path 	= $conf->get('config.cookie_path', '/');
+					setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+					// set the request var
+					JRequest::setVar('language',$lang_code);
 				}
 			}
-			else {
-				$sef = $uri->getVar('lang');
-			}
-			if (isset(self::$sefs[$sef])) {
-				$lang_code = self::$sefs[$sef]->lang_code;
-				// Create a cookie
-				$conf = JFactory::getConfig();
-				$cookie_domain 	= $conf->get('config.cookie_domain', '');
-				$cookie_path 	= $conf->get('config.cookie_path', '/');
-				setcookie(JUtility::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
-				// set the request var
-				JRequest::setVar('language',$lang_code);
+			parent::__construct($subject, $config);
+			// 	Detect browser feature
+			if ($app->isSite()) {
+				$app->setDetectBrowser($this->params->get('detect_browser', '1')=='1');
 			}
 		}
-		parent::__construct($subject, $config);
-		// 	Detect browser feature
-		if ($app->isSite()) {
-			$app->setDetectBrowser($this->params->get('detect_browser', '1')=='1');
-		}
-
 	}
 
 	public function onAfterInitialise()
