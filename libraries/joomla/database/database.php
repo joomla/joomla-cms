@@ -68,14 +68,16 @@ abstract class JDatabase
 	 *                 etc.  The child classes should define this as necessary.  If a single character string the
 	 *                 same character is used for both sides of the quoted name, else the first character will be
 	 *                 used for the opening quote and the second for the closing quote.
-	 * @since  11.1
+	 * @since      11.1
+	 * @deprecated 12.1
 	 */
 	protected $nameQuote;
 
 	/**
 	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
 	 *                 defined in child classes to hold the appropriate value for the engine.
-	 * @since  11.1
+	 * @since      11.1
+	 * @deprecated 12.1
 	 */
 	protected $nullDate;
 
@@ -430,18 +432,6 @@ abstract class JDatabase
 	public function getLog()
 	{
 		return $this->log;
-	}
-
-	/**
-	 * Get the null or zero representation of a timestamp for the database driver.
-	 *
-	 * @return  string  Null or zero representation of a timestamp.
-	 *
-	 * @since   11.1
-	 */
-	public function getNullDate()
-	{
-		return $this->nullDate;
 	}
 
 	/**
@@ -864,17 +854,21 @@ abstract class JDatabase
 	}
 
 	/**
-	 * Wrap an SQL statement identifier name such as field, table or database names in quotes to prevent injection
+	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
 	 * @param   string  $name  The identifier name to wrap in quotes.
 	 *
 	 * @return  string  The quote wrapped name.
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @deprecate  12.1
 	 */
 	public function nameQuote($name)
 	{
+		// Deprecation warning.
+		JLog::add('JDatabase::nameQuote() is deprecated, use JDatabaseQuery::quoteName.', JLog::WARNING, 'deprecated');
+
 		// Don't quote names with dot-notation.
 		if (strpos($name, '.') !== false) {
 			return $name;
@@ -897,11 +891,15 @@ abstract class JDatabase
 	 *
 	 * @return  string  The quoted input string.
 	 *
-	 * @since   11.1
+	 * @since      11.1
+	 * @depracted  12.1
 	 */
 	public function quote($text, $escape = true)
 	{
-		return '\''.($escape ? $this->getEscaped($text) : $text).'\'';
+		// Deprecation warning.
+		JLog::add('JDatabase::quote() is deprecated, use JDatabaseQuery::quote.', JLog::WARNING, 'deprecated');
+
+		return $this->getQuery(true)->quote($text, $escape);
 	}
 
 	/**
@@ -1111,18 +1109,6 @@ abstract class JDatabase
 	abstract public function connected();
 
 	/**
-	 * Method to get a JDate object represented as a datetime string in a format recognized by the database server.
-	 *
-	 * @param   JDate   $date   The JDate object with which to return the datetime string.
-	 * @param   bool    $local  True to return the date string in the local time zone, false to return it in GMT.
-	 *
-	 * @return  string  The datetime string in the format recognized for the database system.
-	 *
-	 * @since   11.1
-	 */
-	abstract public function dateToString($date, $local = false);
-
-	/**
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
 	 * @return  integer  The number of affected rows.
@@ -1139,18 +1125,6 @@ abstract class JDatabase
 	 * @since   11.1
 	 */
 	abstract public function getCollation();
-
-	/**
-	 * Method to escape a string for usage in an SQL statement.
-	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   11.1
-	 */
-	abstract public function getEscaped($text, $extra = false);
 
 	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
@@ -1198,7 +1172,24 @@ abstract class JDatabase
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	abstract public function getTableFields($tables, $typeOnly = true);
+	abstract public function getTableColumns($tables, $typeOnly = true);
+
+	/**
+	 * Retrieves field information about the given tables.
+	 *
+	 * @param   mixed  $tables    A table name or a list of table names.
+	 * @param   bool   $typeOnly  True to only return field types.
+	 *
+	 * @return  array  An array of fields by table.
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 * @deprecated  11.1
+	 */
+	public function getTableFields($tables, $typeOnly = true)
+	{
+		return $this->getTableColumns($tables, $typeOnly);
+	}
 
 	/**
 	 * Method to get an array of all tables in the database.
@@ -1422,6 +1413,41 @@ abstract class JDatabase
 		JLog::add('JDatabase::getErrorNum() is deprecated, use exception handling instead.', JLog::WARNING, 'deprecated');
 
 		return $this->errorNum;
+	}
+
+	/**
+	 * Method to escape a string for usage in an SQL statement.
+	 *
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since       11.1
+	 * @deprecated  11.1
+	 */
+	public function getEscaped($text, $extra = false)
+	{
+		// Deprecation warning.
+		JLog::add('JDatabase::getEscaped() is deprecated, use JDatabaseQuery::escape.', JLog::WARNING, 'deprecated');
+
+		return $this->getQuery(true)->escape($text, $extra);
+	}
+
+	/**
+	 * Get the null or zero representation of a timestamp for the database driver.
+	 *
+	 * @return  string  Null or zero representation of a timestamp.
+	 *
+	 * @since       11.1
+	 * @deprecated  11.1
+	 */
+	public function getNullDate()
+	{
+		// Deprecation warning.
+		JLog::add('JDatabase::getNullDate() is deprecated, use JDatabaseQuery::getNullDate.', JLog::WARNING, 'deprecated');
+
+		return $this->getQuery(true)->nullDate(false);
 	}
 
 	/**

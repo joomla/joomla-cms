@@ -29,22 +29,6 @@ class JDatabaseMySQLi extends JDatabase
 	public $name = 'mysqli';
 
 	/**
-	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 *                 etc.  The child classes should define this as necessary.  If a single character string the
-	 *                 same character is used for both sides of the quoted name, else the first character will be
-	 *                 used for the opening quote and the second for the closing quote.
-	 * @since  11.1
-	 */
-	protected $nameQuote = '`';
-
-	/**
-	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 *                 defined in child classes to hold the appropriate value for the engine.
-	 * @since  11.1
-	 */
-	protected $nullDate = '0000-00-00 00:00:00';
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -167,19 +151,27 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	 * Method to get a JDate object represented as a datetime string in a format recognized by the database server.
+	 * Drops a table from the database.
 	 *
-	 * @param   JDate   $date   The JDate object with which to return the datetime string.
-	 * @param   bool    $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   string  $tableName  The name of the database table to drop.
+	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  string  The datetime string in the format recognized for the database system.
-	 *
+	 * @return  JDatbaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
-	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 */
-	public function dateToString($date, $local = false)
+	function dropTable($tableName, $ifExists = true)
 	{
-		return $date->toMySQL($local);
+		$query = $this->getQuery(true);
+
+		$this->setQuery(
+			'DROP TABLE '.
+			($ifExists ? 'IF EXISTS ' : '').
+			$query->quoteName($tableName)
+		);
+
+		$this->query();
+
+		return $this;
 	}
 
 	/**
@@ -213,28 +205,9 @@ class JDatabaseMySQLi extends JDatabase
 	}
 
 	/**
-	 * Method to escape a string for usage in an SQL statement.
-	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   11.1
-	 */
-	public function getEscaped($text, $extra = false)
-	{
-		$result = mysqli_real_escape_string($this->connection, $text);
-		if ($extra) {
-			$result = addcslashes($result, '%_');
-		}
-		return $result;
-	}
-
-	/**
 	 * Gets an exporter class object.
 	 *
-	 * @return  JDatabaseExporterMySQLi  An exporter object.
+	 * @return  JDatbaseExporterMySQLi  An exporter object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -242,11 +215,11 @@ class JDatabaseMySQLi extends JDatabase
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatabaseExporterMySQLi')) {
+		if (!class_exists('JDatbaseExporterMySQLi')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatabaseExporterMySQLi;
+		$o = new JDatbaseExporterMySQLi;
 		$o->setDbo($this);
 
 		return $o;
@@ -255,7 +228,7 @@ class JDatabaseMySQLi extends JDatabase
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @return  JDatabaseImporterMySQLi  An importer object.
+	 * @return  JDatbaseImporterMySQLi  An importer object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -263,11 +236,11 @@ class JDatabaseMySQLi extends JDatabase
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatabaseImporterMySQLi')) {
+		if (!class_exists('JDatbaseImporterMySQLi')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatabaseImporterMySQLi;
+		$o = new JDatbaseImporterMySQLi;
 		$o->setDbo($this);
 
 		return $o;
@@ -301,10 +274,10 @@ class JDatabaseMySQLi extends JDatabase
 	{
 		if ($new) {
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryMySQL')) {
+			if (!class_exists('JDatbaseQueryMySQL')) {
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQueryMySQLi;
+			return new JDatabaseQueryMySQLi($this->getConnection());
 		}
 		else {
 			return $this->sql;
@@ -352,7 +325,7 @@ class JDatabaseMySQLi extends JDatabase
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function getTableFields($tables, $typeOnly = true)
+	public function getTableColumns($tables, $typeOnly = true)
 	{
 		// Initialise variables.
 		$result = array();

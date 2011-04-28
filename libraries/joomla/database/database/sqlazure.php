@@ -46,6 +46,18 @@ class JDatabaseSQLAzure extends JDatabase
 	protected $nullDate = '1900-01-01 00:00:00';
 
 	/**
+	 * Test to see if the SQLSRV connector is available.
+	 *
+	 * @return  bool  True on success, false otherwise.
+	 *
+	 * @since   11.1
+	 */
+	public static function test()
+	{
+		return (function_exists('sqlsrv_connect'));
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $options  List of options used to configure the connection
@@ -129,15 +141,39 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * Test to see if the SQLSRV connector is available.
+	 * @param   string  $tableName  The name of the database table.
 	 *
-	 * @return  bool  True on success, false otherwise.
-	 *
+	 * @return  Any constraints available for the table
 	 * @since   11.1
 	 */
-	public static function test()
+	private function _getTableConstraints($tableName)
 	{
-		return (function_exists('sqlsrv_connect'));
+		$query = $this->getQuery(true);
+
+		$this->setQuery(
+			'SELECT CONSTRAINT_NAME FROM'.
+			' INFORMATION_SCHEMA.TABLE_CONSTRAINTS'.
+			' WHERE TABLE_NAME = '.$query->quote($tableName)
+		);
+
+		return $this->loadResultArray();
+	}
+
+	/**
+	 * @param   array   $constraints  A string
+	 * @param   string  $prefix       A string
+	 * @param   string  $backup       A string
+	 *
+	 * @return  void
+	 * @since   11.1
+	 */
+	private function _renameConstraints($constraints = array(), $prefix = null, $backup = null)
+	{
+		foreach($constraints as $constraint)
+		{
+			$this->setQuery('sp_rename '.$constraint.','.str_replace($prefix, $backup, $constraint));
+			$this->query();
+		}
 	}
 
 	/**
@@ -154,18 +190,27 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * Method to get a JDate object represented as a datetime string in a format recognized by the database server.
+	 * Drops a table from the database.
 	 *
-	 * @param   JDate   $date   The JDate object with which to return the datetime string.
-	 * @param   bool    $local  True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   string  $tableName  The name of the database table to drop.
+	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  string  The datetime string in the format recognized for the database system.
-	 *
+	 * @return  JDatbaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
 	 */
-	public function dateToString($date, $local = false)
+	function dropTable($tableName, $ifExists = true)
 	{
-		return $date->format('Y-m-d H:i:s', $local);
+		$query = $this->getQuery(true);
+
+		$this->setQuery(
+			'IF EXISTS(SELECT TABLE_NAME FROM'.
+			' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '.
+			$query->quote($tableName).') DROP TABLE'
+		);
+
+		$this->query();
+
+		return $this;
 	}
 
 	/**
@@ -194,38 +239,9 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * Method to escape a string for usage in an SQL statement.
-	 *
-	 * The escaping for MSSQL isn't handled in the driver though that would be nice.  Because of this we need
-	 * to handle the escaping ourselves.  This is a first crack at it based on research done by Hooduku.
-	 *
-	 * @param   string  The string to be escaped.
-	 * @param   bool    Optional parameter to provide extra escaping.
-	 *
-	 * @return  string  The escaped string.
-	 *
-	 * @since   11.1
-	 */
-	public function getEscaped($text, $extra = false)
-	{
-		// TODO: MSSQL Compatible escaping
-		$result = addslashes($text);
-		$result = str_replace("\'", "''", $result);
-		$result = str_replace('\"', '"', $result);
-		//$result = str_replace("\\", "''", $result);
-
-		if ($extra) {
-			// We need the below str_replace since the search in sql server doesnt recognize _ character.
-			$result = str_replace('_', '[_]', $result);
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Gets an exporter class object.
 	 *
-	 * @return  JDatabaseExporterSQLAzure  An exporter object.
+	 * @return  JDatbaseExporterSQLAzure  An exporter object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -233,11 +249,11 @@ class JDatabaseSQLAzure extends JDatabase
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatabaseExporterSQLAzure')) {
+		if (!class_exists('JDatbaseExporterSQLAzure')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatabaseExporterSQLAzure;
+		$o = new JDatbaseExporterSQLAzure;
 		$o->setDbo($this);
 
 		return $o;
@@ -246,7 +262,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @return  JDatabaseImporterSQLAzure  An importer object.
+	 * @return  JDatbaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -254,11 +270,11 @@ class JDatabaseSQLAzure extends JDatabase
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatabaseImporterSQLAzure')) {
+		if (!class_exists('JDatbaseImporterSQLAzure')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatabaseImporterSQLAzure;
+		$o = new JDatbaseImporterSQLAzure;
 		$o->setDbo($this);
 
 		return $o;
@@ -292,10 +308,10 @@ class JDatabaseSQLAzure extends JDatabase
 	{
 		if ($new) {
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQuerySQLAzure')) {
+			if (!class_exists('JDatbaseQuerySQLAzure')) {
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQuerySQLAzure;
+			return new JDatbaseQuerySQLAzure;
 		}
 		else {
 			return $this->sql;
@@ -330,7 +346,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function getTableFields( $tables, $typeOnly = true )
+	public function getTableColumns( $tables, $typeOnly = true )
 	{
 		// Initialise variables.
 		$result = array();
@@ -392,11 +408,8 @@ class JDatabaseSQLAzure extends JDatabase
 	 */
 	public function getVersion()
 	{
-		// Set the query to get the version information.
-		$this->setQuery('SELECT SERVERPROPERTY(\'ProductVersion\')');
-		$version = $this->loadResult();
-
-		return $version;
+		//TODO: Don't hardcode this.
+		return '5.1.0';
 	}
 
 	/**

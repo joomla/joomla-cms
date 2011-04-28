@@ -9,32 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once('databasequery.php');
-
-/**
- * Query Element Class.
- *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
- */
-class JDatabaseQueryElementSQLSrv extends JDatabaseQueryElement
-{
-	/**
-	 * Constructor.
-	 *
-	 * @param	string	$name		The name of the element.
-	 * @param	mixed	$elements	String or array.
-	 * @param	string	$glue		The glue for elements.
-	 *
-	 * @return	JDatabaseQueryElementSQLSrv
-	 * @since	11.1
-	 */
-	public function __construct($name, $elements, $glue = ',')
-	{
-		parent::__construct($name, $elements, $glue);
-	}
-}
+jimport('joomla.database.databasequery');
 
 /**
  * Query Building Class.
@@ -46,436 +21,88 @@ class JDatabaseQueryElementSQLSrv extends JDatabaseQueryElement
 class JDatabaseQuerySQLSrv extends JDatabaseQuery
 {
 	/**
-	 * @param	mixed	$columns	A string or an array of field names.
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
+	 *                 etc.  The child classes should define this as necessary.  If a single character string the
+	 *                 same character is used for both sides of the quoted name, else the first character will be
+	 *                 used for the opening quote and the second for the closing quote.
+	 * @since  11.1
 	 */
-	function select($columns)
-	{
-		$this->_type = 'select';
-
-		if (is_null($this->_select)) {
-			$this->_select = new JDatabaseQueryElementSQLSrv('SELECT', $columns);
-		}
-		else {
-			$this->_select->append($columns);
-		}
-
-		return $this;
-	}
+	protected $name_quotes = '`';
 
 	/**
-	 * @param	string	$table	The name of the table to delete from.
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
+	 *                 defined in child classes to hold the appropriate value for the engine.
+	 * @since  11.1
 	 */
-	function delete($table = null)
-	{
-		$this->_type	= 'delete';
-		$this->_delete	= new JDatabaseQueryElementSQLSrv('DELETE', null);
-
-		if (!empty($table)) {
-			$this->from($table);
-		}
-
-		return $this;
-	}
+	protected $null_date = '1900-01-01 00:00:00';
 
 	/**
-	 * @param	mixed	$tables	A string or array of table names.
+	 * Magic function to convert the query to a string.
 	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @return  string	The completed query.
+	 * @since   11.1
 	 */
-	function insert($tables)
+	public function __toString()
 	{
-		$this->_type	= 'insert';
-		$this->_insert	= new JDatabaseQueryElementSQLSrv('INSERT INTO', $tables);
+		$query = '';
 
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	$tables	A string or array of table names.
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function update($tables)
-	{
-		$this->_type = 'update';
-		$this->_update = new JDatabaseQueryElementSQLSrv('UPDATE', $tables);
-
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	A string or array of table names.
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function from($tables)
-	{
-		if (is_null($this->_from)) {
-			$this->_from = new JDatabaseQueryElementSQLSrv('FROM', $tables);
-		}
-		else {
-			$this->_from->append($tables);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param	string	$type
-	 * @param	string	$conditions
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function join($type, $conditions)
-	{
-		if (is_null($this->_join)) {
-			$this->_join = array();
-		}
-		$this->_join[] = new JDatabaseQueryElementSQLSrv(strtoupper($type) . ' JOIN', $conditions);
-
-		return $this;
-	}
-
-	/**
-	 * @param	string	$conditions
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function innerJoin($conditions)
-	{
-		$this->join('INNER', $conditions);
-
-		return $this;
-	}
-
-	/**
-	 * @param	string	$conditions
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function outerJoin($conditions)
-	{
-		$this->join('OUTER', $conditions);
-
-		return $this;
-	}
-
-	/**
-	 * @param	string	$conditions
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function leftJoin($conditions)
-	{
-		$this->join('LEFT', $conditions);
-
-		return $this;
-	}
-
-	/**
-	 * @param	string	$conditions
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function rightJoin($conditions)
-	{
-		$this->join('RIGHT', $conditions);
-
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	$conditions	A string or array of conditions.
-	 * @param	string	$glue
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function set($conditions, $glue=',')
-	{
-		if (is_null($this->_set)) {
-			$glue = strtoupper($glue);
-			$this->_set = new JDatabaseQueryElementSQLSrv('SET', $conditions, "\n\t$glue ");
-		}
-		else {
-			$this->_set->append($conditions);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	$conditions	A string or array of where conditions.
-	 * @param	string	$glue
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function where($conditions, $glue='AND')
-	{
-		if (is_null($this->_where)) {
-			$glue = strtoupper($glue);
-			$this->_where = new JDatabaseQueryElementSQLSrv('WHERE', $conditions, " $glue ");
-		}
-		else {
-			$this->_where->append($conditions);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	$columns	A string or array of ordering columns.
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function group($columns)
-	{
-		if (is_null($this->_group)) {
-			$this->_group = new JDatabaseQueryElementSQLSrv('GROUP BY', $columns);
-		}
-		else {
-			$this->_group->append($columns);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	$conditions	A string or array of columns.
-	 * @param	string	$glue
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function having($conditions, $glue='AND')
-	{
-		if (is_null($this->_having)) {
-			$glue = strtoupper($glue);
-			$this->_having = new JDatabaseQueryElementSQLSrv('HAVING', $conditions, " $glue ");
-		}
-		else {
-			$this->_having->append($conditions);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param	mixed	$columns	A string or array of ordering columns.
-	 *
-	 * @return	JDatabaseQuerySQLSrv	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	function order($columns)
-	{
-		if (is_null($this->_order)) {
-			$this->_order = new JDatabaseQueryElementSQLSrv('ORDER BY', $columns);
-		}
-		else {
-			$this->_order->append($columns);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * @param string $name  A string
-	 *
-	 * @return  Show table query syntax
-	 * @since 11.1
-	 */
-	function showTables($name)
-	{
-		$this->select('NAME');
-		$this->from($name.'..sysobjects');
-		$this->where('xtype = \'U\'');
-
-		return $this;
-	}
-
-	/**
-	 * @param string $table_name  A string
-	 *
-	 * @return  Drop if exists syntax
-	 * @since 11.1
-	 */
-	function dropIfExists($table_name)
-	{
-		$this->_type = 'drop';
-
-		$drop_syntax = 'IF EXISTS(SELECT TABLE_NAME FROM'.
-                    ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = \''
-                    .$table_name.'\') DROP TABLE';
-
-                    if (is_null($this->_drop)) {
-                    	$this->_drop = new JDatabaseQueryElementSQLSrv($drop_syntax, $table_name);
-                    }
-
-                    return $this;
-	}
-
-	/**
-	 * @param string $table_name  A string
-	 * @param object $db  Database object
-	 * @param string $prefix  A string
-	 * @param string $backup  A string
-	 *
-	 * @return  Rename table syntax
-	 * @since 11.1
-	 */
-	function renameTable($table_name, &$db, $prefix = null, $backup = null)
-	{
-		 $this->_type = 'rename';
-		 $constraints = array();
-
-		 if(!is_null($prefix) && !is_null($backup)){
-		 	$constraints = $this->_get_table_constraints($table_name, $db);
-		 }
-
-		 if(!empty($constraints))
-		 	$this->_renameConstraints($constraints, $prefix, $backup, $db);
-
-		 if (is_null($this->_rename)) {
-		 	$this->_rename = new JDatabaseQueryElementSQLSrv('sp_rename', $table_name);
-		 }
-		 else {
-		 	$this->_rename->append($table_name);
-		 }
-
-		 return $this;
-	}
-
-	/**
-	 * @param string $table_name  A string
-	 * @param string $prefix  A string
-	 * @param string $backup  A string
-	 * @param object $db  Database object
-	 * @return  Rename Constraints syntax
-	 * @since 11.1
-	 */
-	private function _renameConstraints($constraints = array(), $prefix = null, $backup = null, $db)
-	{
-		foreach($constraints as $constraint)
+		switch ($this->type)
 		{
-			$db->setQuery('sp_rename '.$constraint.','.str_replace($prefix, $backup, $constraint));
-			$db->query();
+			case 'insert':
+				$query .= (string) $this->insert;
 
-			// Check for errors.
-			if ($db->getErrorNum()) {
+				// Set method
+				if ($this->set) {
+					$query .= (string) $this->set;
+				}
+				// Columns-Values method
+				else if ($this->values) {
+					if ($this->columns) {
+						$query .= (string) $this->where;
+					}
 
-			}
-		}
-	}
+					$tableName = array_shift($this->insert->getElements());
 
-	/**
-	 * @param string $table_name  A string
-	 * @param object $db  Database object
-	 * @return  Any constraints available for the table
-	 * @since 11.1
-	 */
-	private function _get_table_constraints($table_name, $db)
-	{
-		$sql = "SELECT CONSTRAINT_NAME FROM".
-				" INFORMATION_SCHEMA.TABLE_CONSTRAINTS".
-				" WHERE TABLE_NAME = ".$db->quote($table_name);
-		$db->setQuery($sql);
-		return $db->loadResultArray();
-	}
-	/**
-	 * @param string $table_name  A string
-	 * @param boolean $increment_field Provinding value for autoincrement primary key or not
-	 * @return  JDatabaseQuerySQLSrv  Returns this object to allow chaining.
-	 * @since 11.1
-	 */
-	function insertInto($table_name, $increment_field=false)
-	{
-		$this->_type = 'insert_into';
-		if($increment_field)
-		$this->_auto_increment_field = 'SET IDENTITY_INSERT '.$table_name;
+					$query .= 'VALUES ';
+					$query .= (string) $this->values;
 
-		$this->_insert_into = new JDatabaseQueryElementSQLSrv('INSERT INTO', $table_name);
+					$query = 'SET IDENTITY_INSERT '.$tableName.' ON;' .
+						$query .
+						'SET IDENTITY_INSERT '.$tableName.' OFF;';
+				}
 
-		return $this;
-	}
+				break;
 
-	/**
-	 * @param string $fields A string
-	 *
-	 * @return  JDatabaseQuerySQLSrv  Returns this object to allow chaining.
-	 * @since 11.1
-	 */
-	function fields($fields)
-	{
-		if (is_null($this->_fields)) {
-			$this->_fields = new JDatabaseQueryElementSQLSrv('(', $fields);
-		}
-		else {
-			$this->_fields->append($fields);
+			default:
+				$query = parent::__toString();
+				break;
 		}
 
-		return $this;
+		return $query;
 	}
 
 	/**
-	 * @param string $values  A string
+	 * Casts a value to a char.
 	 *
-	 * @return  JDatabaseQuerySQLSrv  Returns this object to allow chaining.
-	 * @since 11.1
+	 * Ensure that the value is properly quoted before passing to the method.
+	 *
+	 * @param   string  $value  The value to cast as a char.
+	 *
+	 * @return  string  Returns the cast value.
+	 * @since   11.1
 	 */
-	function values($values)
+	function castAsChar($value)
 	{
-		if (is_null($this->_values)) {
-			$this->_values = new JDatabaseQueryElementSQLSrv('VALUES (', $values);
-		}
-		else {
-			$this->_values->append($values);
-		}
-
-		return $this;
+		return 'CAST('.$value.' as NVARCHAR(10))';
 	}
 
 	/**
-	 * @param string $query A string
+	 * Gets the function to determine the length of a character string.
 	 *
-	 * @return  JDatabaseQuerySQLSrv  Returns this object to allow chaining.
-	 * @since 11.1
-	 */
-	function auto_increment($query)
-	{
-		return $this->_auto_increment_field.' ON;'.$query.';'.$this->_auto_increment_field.' OFF;' ;
-	}
-
-	/**
-	 * @param $field A string
+	 * @param   string  $value  A value.
 	 *
-	 * @return  JDatabaseQuerySQLSrv  Returns this object to allow chaining.
-	 * @since 11.1
-	 */
-	function castToChar($field)
-	{
-		return 'CAST('.$field.' as nvarchar(10))';
-	}
-
-	/**
-	 * @param $field A string
+	 * @return  string  The required char lenght call.
 	 *
-	 * @return  JDatabaseQuerySQLSrv  Returns this object to allow chaining.
 	 * @since 11.1
 	 */
 	function charLength($field)
@@ -484,65 +111,77 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 	}
 
 	/**
-	 * @param array $fields
+	 * Concatenates an array of column names or values.
 	 *
-	 * @param string separator
-	 * @return  String concantenaation of all the fields
-	 * @since 11.1
+	 * @param   array   $values     An array of values to concatenate.
+	 * @param   string  $separator  As separator to place between each value.
+	 *
+	 * @return  string  The concatenated values.
+	 *
+	 * @since   11.1
 	 */
-	function concat($fields, $separator = null)
+	function concatenate($values, $separator = null)
 	{
-		if($separator)
-		{
-			return '('.implode("+'".$separator."'+", $fields).')';
-		}else{
-			return '('.implode('+', $fields).')';
+		if ($separator) {
+			return '('.implode('+'.$this->quote($separator).'+', $values).')';
+		}
+		else{
+			return '('.implode('+', $values).')';
 		}
 	}
 
 	/**
-	 * @param string $field
+	 * Gets the current date and time.
 	 *
-	 * @param string separator
-	 * @return  Length function for the field
-	 * @since 11.1
-	 */
-	function length($field)
-	{
-		return 'LEN('.$field.')';
-	}
-
-	/**
+	 * @return  string
 	 *
-	 * @return  NOW function
-	 * @since 11.1
+	 * @since   11.1
 	 */
-	function now()
+	function currentTimestamp()
 	{
 		return 'GETDATE()';
 	}
 
-/**
-	 * Method to lock the database table for writing.
+	/**
+	 * Method to escape a string for usage in an SQL statement.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * The escaping for MSSQL isn't handled in the driver though that would be nice.  Because of this we need
+	 * to handle the escaping ourselves.
+	 *
+	 * @param   string  The string to be escaped.
+	 * @param   bool    Optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since   11.1
 	 */
-	public function lock($table_name, &$db)
+	public function escape($text, $extra = false)
 	{
-		//No implementation for sql server for now
-		return true;
+		// TODO: MSSQL Compatible escaping
+		$result = addslashes($text);
+		$result = str_replace("\'", "''", $result);
+		$result = str_replace('\"', '"', $result);
+		//$result = str_replace("\\", "''", $result);
+
+		if ($extra) {
+			// We need the below str_replace since the search in sql server doesnt recognize _ character.
+			$result = str_replace('_', '[_]', $result);
+		}
+
+		return $result;
 	}
 
 	/**
-	 * Method to unlock the database table for writing.
+	 * Get the length of a a string in bytes.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   string  $value  The string to measure.
+	 *
+	 * @return  int
+	 *
+	 * @since   11.1
 	 */
-	public function unlock(&$db)
+	function length($value)
 	{
-		//No implementation for sql server for now
-		return true;
+		return 'LEN('.$value.')';
 	}
 }

@@ -12,45 +12,46 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Element Class.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseQueryElement
 {
 	/**
-	 * @var		string	The name of the element.
-	 * @since	11.1
+	 * @var    string  The name of the element.
+	 * @since  11.1
 	 */
-	protected $_name = null;
+	protected $name = null;
 
 	/**
-	 * @var		array	An array of elements.
-	 * @since	11.1
+	 * @var    array  An array of elements.
+	 * @since  11.1
 	 */
-	protected $_elements = null;
+	protected $elements = null;
 
 	/**
-	 * @var		string	Glue piece.
-	 * @since	11.1
+	 * @var    string  Glue piece.
+	 * @since  11.1
 	 */
-	protected $_glue = null;
+	protected $glue = null;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param	string	$name		The name of the element.
-	 * @param	mixed	$elements	String or array.
-	 * @param	string	$glue		The glue for elements.
+	 * @param   string	$name      The name of the element.
+	 * @param   mixed	$elements  String or array.
+	 * @param   string	$glue      The glue for elements.
 	 *
-	 * @return	JDatabaseQueryElement
-	 * @since	11.1
+	 * @return  JDatabaseQueryElement
+	 *
+	 * @since   11.1
 	 */
 	public function __construct($name, $elements, $glue = ',')
 	{
-		$this->_elements	= array();
-		$this->_name		= $name;
-		$this->_glue		= $glue;
+		$this->elements	= array();
+		$this->name		= $name;
+		$this->glue		= $glue;
 
 		$this->append($elements);
 	}
@@ -58,254 +59,295 @@ class JDatabaseQueryElement
 	/**
 	 * Magic function to convert the query element to a string.
 	 *
-	 * @return	string
-	 * @since	11.1
+	 * @return  string
+	 *
+	 * @since   11.1
 	 */
 	public function __toString()
 	{
-		return PHP_EOL.$this->_name.' '.implode($this->_glue, $this->_elements);
+		if (substr($this->name, -2) == '()') {
+			return PHP_EOL.substr($this->name, 0, -2).'('.implode($this->glue, $this->elements).')';
+		}
+		else {
+			return PHP_EOL.$this->name.' '.implode($this->glue, $this->elements);
+		}
 	}
 
 	/**
 	 * Appends element parts to the internal list.
 	 *
-	 * @param	mixed	String or array.
+	 * @param   mixed  String or array.
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function append($elements)
 	{
 		if (is_array($elements)) {
-			$this->_elements = array_merge($this->_elements, $elements);
+			$this->elements = array_merge($this->elements, $elements);
 		}
 		else {
-			$this->_elements = array_merge($this->_elements, array($elements));
+			$this->elements = array_merge($this->elements, array($elements));
 		}
+	}
+
+	/**
+	 * Gets the elements of this element.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.1
+	 */
+	public function getElements()
+	{
+		return $this->elements;
 	}
 }
 
 /**
  * Query Building Class.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  */
 abstract class JDatabaseQuery
 {
 	/**
-	 * @var		string	The query type.
-	 * @since	11.1
+	 * @var    resource  The database connection resource.
+	 * @since  11.1
 	 */
-	protected $_type = '';
+	protected $connection = null;
 
 	/**
-	 * @var		object	The select element.
-	 * @since	11.1
+	 * @var    string  The query type.
+	 * @since  11.1
 	 */
-	protected $_select = null;
+	protected $type = '';
 
 	/**
-	 * @var		object	The delete element.
-	 * @since	11.1
+	 * @var    string  The query element for a generic query (type = null).
+	 * @since  11.1
 	 */
-	protected $_delete = null;
+	protected $element = null;
 
 	/**
-	 * @var		object	The update element.
-	 * @since	11.1
+	 * @var    object  The select element.
+	 * @since  11.1
 	 */
-	protected $_update = null;
+	protected $select = null;
 
 	/**
-	 * @var		object	The insert element.
-	 * @since	11.1
+	 * @var    object  The delete element.
+	 * @since  11.1
 	 */
-	protected $_insert = null;
+	protected $delete = null;
 
 	/**
-	 * @var		object	The from element.
-	 * @since	11.1
+	 * @var    object  The update element.
+	 * @since  11.1
 	 */
-	protected $_from = null;
+	protected $update = null;
 
 	/**
-	 * @var		object	The join element.
-	 * @since	11.1
+	 * @var    object  The insert element.
+	 * @since  11.1
 	 */
-	protected $_join = null;
+	protected $insert = null;
 
 	/**
-	 * @var		object	The set element.
-	 * @since	11.1
+	 * @var    object  The from element.
+	 * @since  11.1
 	 */
-	protected $_set = null;
+	protected $from = null;
 
 	/**
-	 * @var		object	The where element.
-	 * @since	11.1
+	 * @var    object  The join element.
+	 * @since  11.1
 	 */
-	protected $_where = null;
+	protected $join = null;
 
 	/**
-	 * @var		object	The group by element.
-	 * @since	11.1
+	 * @var    object  The set element.
+	 * @since  11.1
 	 */
-	protected $_group = null;
+	protected $set = null;
 
 	/**
-	 * @var		object	The having element.
-	 * @since	11.1
+	 * @var    object  The where element.
+	 * @since  11.1
 	 */
-	protected $_having = null;
+	protected $where = null;
 
 	/**
-	 * @var		object	The order element.
-	 * @since	11.1
+	 * @var    object  The group by element.
+	 * @since  11.1
 	 */
-	protected $_order = null;
+	protected $group = null;
 
 	/**
-	 * @var   object  The show table element.
+	 * @var    object  The having element.
+	 * @since  11.1
+	 */
+	protected $having = null;
+
+	/**
+	 * @var    object  The column list for an INSERT statement.
+	 * @since  11.1
+	 */
+	protected $columns = null;
+
+	/**
+	 * @var    object  The values list for an INSERT statement.
+	 * @since  11.1
+	 */
+	protected $values = null;
+
+	/**
+	 * @var    object  The order element.
+	 * @since  11.1
+	 */
+	protected $order = null;
+
+	/**
+	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
+	 *                 etc.  The child classes should define this as necessary.  If a single character string the
+	 *                 same character is used for both sides of the quoted name, else the first character will be
+	 *                 used for the opening quote and the second for the closing quote.
+	 * @since       11.1
+	 */
+	protected $name_quotes = '';
+
+	/**
+	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
+	 *                 defined in child classes to hold the appropriate value for the engine.
+	 * @since  11.1
+	 */
+	protected $null_date = '';
+
+	/**
+	 * Class constructor.
+	 *
+	 * @param   JDatabase  $db  The database connector resource.
+	 *
+	 * @return  JDatabaseQuery
+	 * @since   11.1
+	 */
+	public function __construct(JDatabase $db)
+	{
+		$this->db = $db;
+	}
+
+	/**
+	 * Casts a value to a char.
+	 *
+	 * Ensure that the value is properly quoted before passing to the method.
+	 *
+	 * @param   string  $value  The value to cast as a char.
+	 *
+	 * @return  string  Returns the cast value.
+	 *
+	 * @since   11.1
+	 */
+	public function castAsChar($value)
+	{
+		return $value;
+	}
+
+	/**
+	 * Gets the number of characters in a string.
+	 *
+	 * Note, use 'length' to find the number of bytes in a string.
+	 *
+	 * @param   string  $value  A value.
+	 *
+	 * @return  string  The required char lenght call.
+	 *
 	 * @since 11.1
 	 */
-	protected $_show_tables = null;
-
-	/**
-	 * @var   object  The drop table element.
-	 * @since 11.1
-	 */
-	protected $_drop = null;
-
-	/**
-	 * @var   object  The rename table element.
-	 * @since 11.1
-	 */
-	protected $_rename = null;
-
-	/**
-	 * @var   object  The insert element.
-	 * @since 11.1
-	 */
-	protected $_insert_into = null;
-
-	/**
-	 * @var   object  The insert value element.
-	 * @since 11.1
-	 */
-	protected $_values = null;
-
-	/**
-	 * @var   object  The insert field element.
-	 * @since 11.1
-	 */
-	protected $_fields = null;
-
-	/**
-	 * @var   object  The auto increment insert field element.
-	 * @since 11.1
-	 */
-	protected $_auto_increment_field = null;
+	public function charLength($field)
+	{
+		return 'CHAR_LENGTH('.$field.')';
+	}
 
 	/**
 	 * Clear data from the query or a specific clause of the query.
 	 *
-	 * @param	string	$clear	Optionally, the name of the clause to clear, or nothing to clear the whole query.
+	 * @param   string  $clear  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function clear($clause = null)
 	{
 		switch ($clause)
 		{
 			case 'select':
-				$this->_select = null;
-				$this->_type = null;
+				$this->select = null;
+				$this->type = null;
 				break;
 
 			case 'delete':
-				$this->_delete = null;
-				$this->_type = null;
+				$this->delete = null;
+				$this->type = null;
 				break;
 
 			case 'update':
-				$this->_update = null;
-				$this->_type = null;
+				$this->update = null;
+				$this->type = null;
 				break;
 
 			case 'insert':
-				$this->_insert = null;
-				$this->_type = null;
+				$this->insert = null;
+				$this->type = null;
 				break;
 
 			case 'from':
-				$this->_from = null;
+				$this->from = null;
 				break;
 
 			case 'join':
-				$this->_join = null;
+				$this->join = null;
 				break;
 
 			case 'set':
-				$this->_set = null;
+				$this->set = null;
 				break;
 
 			case 'where':
-				$this->_where = null;
+				$this->where = null;
 				break;
 
 			case 'group':
-				$this->_group = null;
+				$this->group = null;
 				break;
 
 			case 'having':
-				$this->_having = null;
+				$this->having = null;
 				break;
 
 			case 'order':
-				$this->_order = null;
-				break;
-
-			case 'showTables':
-				$this->_show_tables = null;
-				break;
-
-			case 'drop':
-				$this->_drop = null;
-				break;
-
-			case 'rename':
-				$this->_rename = null;
-				break;
-
-			case 'insert_into':
-				$this->_insert_into = null;
-				$this->_fields = null;
-				$this->_values = null;
-				$this->_auto_increment_field = null;
+				$this->order = null;
 				break;
 
 			default:
-				$this->_type = null;
-				$this->_select = null;
-				$this->_delete = null;
-				$this->_udpate = null;
-				$this->_insert = null;
-				$this->_from = null;
-				$this->_join = null;
-				$this->_set = null;
-				$this->_where = null;
-				$this->_group = null;
-				$this->_having = null;
-				$this->_order = null;
-				$this->_show_tables = null;
-				$this->_drop = null;
-				$this->_rename = null;
-				$this->_insert_into = null;
+				$this->type = null;
+				$this->select = null;
+				$this->delete = null;
+				$this->update = null;
+				$this->insert = null;
+				$this->from = null;
+				$this->join = null;
+				$this->set = null;
+				$this->where = null;
+				$this->group = null;
+				$this->having = null;
+				$this->order = null;
+				$this->columns = null;
+
 				$this->_values = null;
-				$this->_fields = null;
 				$this->_auto_increment_field = null;
 				break;
 		}
@@ -313,338 +355,588 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 
-
 	/**
-	 * @param	mixed	$columns	A string or an array of field names.
+	 * Adds a column, or array of column names that would be used for an INSERT INTO statement.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function select($columns);
-
-	/**
-	 * @param	string	$table	The name of the table to delete from.
+	 * @param   mixed  $columns  A column name, or array of column names.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function delete($table = null);
-
-	/**
-	 * @param	mixed	$tables	A string or array of table names.
+	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @since   11.1
 	 */
-	abstract public function insert($tables);
+	function columns($columns)
+	{
+		if (is_null($this->columns)) {
+			$this->columns = new JDatabaseQueryElement('()', $columns);
+		}
+		else {
+			$this->columns->append($columns);
+		}
+
+		return $this;
+	}
 
 	/**
-	 * @param	mixed	$tables	A string or array of table names.
+	 * Concatenates an array of column names or values.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function update($tables);
-
-	/**
-	 * @param	mixed	A string or array of table names.
+	 * @param   array   $values     An array of values to concatenate.
+	 * @param   string  $separator  As separator to place between each value.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function from($tables);
-
-	/**
-	 * @param	string	$type
-	 * @param	string	$conditions
+	 * @return  string  The concatenated values.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @since   11.1
 	 */
-	abstract public function join($type, $conditions);
+	function concatenate($values, $separator = null)
+	{
+		if ($separator) {
+			return 'CONCATENATE('.implode(' || '.$this->quote($separator).' || ', $values).')';
+		}
+		else{
+			return 'CONCATENATE('.implode(' || ', $values).')';
+		}
+	}
 
 	/**
-	 * @param	string	$conditions
+	 * Gets the current date and time.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function innerJoin($conditions);
-
-	/**
-	 * @param	string	$conditions
+	 * @return  string
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @since   11.1
 	 */
-	abstract public function outerJoin($conditions);
+	function currentTimestamp()
+	{
+		return 'CURRENT_TIMESTAMP()';
+	}
 
 	/**
-	 * @param	string	$conditions
+	 * Returns a PHP date() function compliant date format for the database driver.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function leftJoin($conditions);
-
-	/**
-	 * @param	string	$conditions
+	 * @return  string  The format string.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
+	 * @since   11.1
 	 */
-	abstract public function rightJoin($conditions);
+	public function dateFormat()
+	{
+		return 'Y-m-d H:i:s';
+	}
 
 	/**
-	 * @param	mixed	$conditions	A string or array of conditions.
-	 * @param	string	$glue
+	 * Add a table name to the DELETE clause of the query.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function set($conditions, $glue=',');
-
-	/**
-	 * @param	mixed	$conditions	A string or array of where conditions.
-	 * @param	string	$glue
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
 	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function where($conditions, $glue='AND');
-
-	/**
-	 * @param	mixed	$columns	A string or array of ordering columns.
-	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function group($columns);
-
-	/**
-	 * @param	mixed	$conditions	A string or array of columns.
-	 * @param	string	$glue
-	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function having($conditions, $glue='AND');
-
-	/**
-	 * @param	mixed	$columns	A string or array of ordering columns.
-	 *
-	 * @return	JDatabaseQuery	Returns this object to allow chaining.
-	 * @since	11.1
-	 */
-	abstract public function order($columns);
-
-	/**
-	 * @param string $name  A string
-	 *
-	 * @return  Show table query syntax
-	 * @since 11.1
-	 */
-	abstract public function showTables($name);
-
-	/**
-	 * @param string $table_name  A string
-	 *
-	 * @return  Drop if exists syntax
-	 * @since 11.1
-	 */
-	abstract public function dropIfExists($table_name);
-
-	/**
-	 * @param string $table_name  A string
-	 * @param object $db  Database object
-	 * @param string $prefix  A string
-	 * @param string $backup  A string
-	 *
-	 * @return  Rename table syntax
-	 * @since 11.1
-	 */
-	abstract public function renameTable($table_name, &$db, $prefix = null, $backup = null);
-
-	/**
-	 * @param string $table_name  A string
-	 * @param boolean $increment_field Provinding value for autoincrement primary key or not
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 * @since 11.1
-	 */
-	abstract public function insertInto($table_name, $increment_field=false);
-
-	/**
-	 * @param string $fields  A string
-	 *
-	 * @since 11.1
-	 */
-	abstract public function fields($fields);
-
-	/**
-	 * @param string $values  A string
-	 *
-	 * @since 11.1
-	 */
-	abstract public function values($values);
-
-	/**
-	 * @param string $query A string
-	 *
-	 * @return The auto increment syntax
-	 * @since 11.1
-	 */
-	abstract public function auto_increment($query);
-
-	/**
-	 * @param $field A string
+	 * @param   string  $table  The name of the table to delete from.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 * @since 11.1
+	 *
+	 * @since   11.1
 	 */
-	abstract public function castToChar($field);
+	public function delete($table = null)
+	{
+		$this->_type	= 'delete';
+		$this->_delete	= new JDatabaseQueryElement('DELETE', null);
+
+		if (!empty($table)) {
+			$this->from($table);
+		}
+
+		return $this;
+	}
 
 	/**
-	 * @param $field A string
+	 * Method to escape a string for usage in an SQL statement.
+	 *
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since       11.1
+	 */
+	abstract public function escape($text, $extra = false);
+
+	/**
+	 * Add a table to the FROM clause of the query.
+	 *
+	 * Note that while an array of tables can be provided, it is recommended you use explicit joins.
+	 *
+	 * @param   mixed  $tables  A string or array of table names.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 * @since 11.1
+	 *
+	 * @since   11.1
 	 */
-	abstract public function charLength($field);
+	public function from($tables)
+	{
+		if (is_null($this->_from)) {
+			$this->_from = new JDatabaseQueryElement('FROM', $tables);
+		}
+		else {
+			$this->_from->append($tables);
+		}
+
+		return $this;
+	}
 
 	/**
-	 * @param array $fields
+	 * Add a grouping column to the GROUP clause of the query.
 	 *
-	 * @param string separator
-	 * @return  String concantenaation of all the fields
-	 * @since 11.1
+	 * @param   mixed  $columns  A string or array of ordering columns.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
 	 */
-	abstract public function concat($fields, $separator = null);
+	public function group($columns)
+	{
+		if (is_null($this->_group)) {
+			$this->_group = new JDatabaseQueryElement('GROUP BY', $columns);
+		}
+		else {
+			$this->_group->append($columns);
+		}
+
+		return $this;
+	}
 
 	/**
-	 * @param string $field
+	 * A conditions to the HAVING clause of the query.
 	 *
-	 * @param string separator
-	 * @return  Length function for the field
-	 * @since 11.1
+	 * @param   mixed   $conditions  A string or array of columns.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
 	 */
-	abstract public function length($field);
+	public function having($conditions, $glue='AND')
+	{
+		if (is_null($this->_having)) {
+			$glue = strtoupper($glue);
+			$this->_having = new JDatabaseQueryElement('HAVING', $conditions, " $glue ");
+		}
+		else {
+			$this->_having->append($conditions);
+		}
+
+		return $this;
+	}
 
 	/**
+	 * Add an INNER JOIN clause to the query.
 	 *
-	 * @return  NOW function
-	 * @since 11.1
+	 * @param   string  $conditions  A string or array of conditions.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
 	 */
-	abstract public function now();
+	public function innerJoin($conditions)
+	{
+		$this->join('INNER', $conditions);
+
+		return $this;
+	}
 
 	/**
-	 * Method to lock the database table for writing.
+	 * Add a table name to the INSERT clause of the query.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 *
+	 * @param   mixed  $table  The name of the table to insert data into.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
 	 */
-	abstract public function lock($table_name, &$db);
+	public function insert($table)
+	{
+		$this->_type	= 'insert';
+		$this->_insert	= new JDatabaseQueryElement('INSERT INTO', $table);
+
+		return $this;
+	}
+
 	/**
-	 * Method to unlock the database table for writing.
+	 * Add a JOIN clause to the query.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   string  $type        The type of join. This string is prepended to the JOIN keyword.
+	 * @param   string  $conditions  A string or array of conditions.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
 	 */
-	abstract public function unlock(&$db);
+	public function join($type, $conditions)
+	{
+		if (is_null($this->_join)) {
+			$this->_join = array();
+		}
+		$this->_join[] = new JDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * Add a LEFT JOIN clause to the query.
+	 *
+	 * @param   string  $conditions  A string or array of conditions.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function leftJoin($conditions)
+	{
+		$this->join('LEFT', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * Get the length of a string in bytes.
+	 *
+	 * Note, use 'charLength' to find the number of characters in a string.
+	 *
+	 * @param   string  $value  The string to measure.
+	 *
+	 * @return  int
+	 *
+	 * @since   11.1
+	 */
+	function length($value)
+	{
+		return 'LENGTH('.$value.')';
+	}
+
+	/**
+	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
+	 *
+	 * @param   string  $text    The string to quote.
+	 * @param   bool    $escape  True to escape the string, false to leave it unchanged.
+	 *
+	 * @return  string  The quoted input string.
+	 *
+	 * @since   11.1
+	 */
+	public function quote($text, $escape = true)
+	{
+		return '\''.($escape ? $this->escape($text) : $text).'\'';
+	}
+
+	/**
+	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
+	 * risks and reserved word conflicts.
+	 *
+	 * @param   string  $name  The identifier name to wrap in quotes.
+	 *
+	 * @return  string  The quote wrapped name.
+	 *
+	 * @since   11.1
+	 */
+	public function quoteName($name)
+	{
+		// Don't quote names with dot-notation.
+		if (strpos($name, '.') !== false) {
+			return $name;
+		}
+		else {
+			$q = $this->name_quotes;
+
+			if (strlen($q) == 2) {
+				return $q[0].$name.$q[1];
+			}
+			else if (strlen($q) == 1) {
+				return $q.$name.$q;
+			}
+			else {
+				return $name;
+			}
+		}
+	}
+
+	/**
+	 * Add an OUTER JOIN clause to the query.
+	 *
+	 * @param   string  $conditions  A string or array of conditions.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function outerJoin($conditions)
+	{
+		$this->join('OUTER', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * Get the null or zero representation of a timestamp for the database driver.
+	 *
+	 * @param   boolean  $quoted  Optionally wraps the null date in database quotes (true by default).
+	 *
+	 * @return  string  Null or zero representation of a timestamp.
+	 *
+	 * @since   11.1
+	 */
+	public function nullDate($quoted = true)
+	{
+		if ($quoted) {
+			return $this->quote($this->null_date);
+		}
+		else {
+			return $this->null_date;
+		}
+	}
+
+	/**
+	 * Add a ordering column to the ORDER clause of the query.
+	 *
+	 * @param   mixed  $columns  A string or array of ordering columns.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function order($columns)
+	{
+		if (is_null($this->_order)) {
+			$this->_order = new JDatabaseQueryElement('ORDER BY', $columns);
+		}
+		else {
+			$this->_order->append($columns);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a RIGHT JOIN clause to the query.
+	 *
+	 * @param   string  $conditions  A string or array of conditions.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function rightJoin($conditions)
+	{
+		$this->join('RIGHT', $conditions);
+
+		return $this;
+	}
+
+	/**
+	 * Add a single column, or array of columns to the SELECT clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 * The select method can, however, be called multiple times in the same query.
+	 *
+	 * @param   mixed  $columns  A string or an array of field names.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function select($columns)
+	{
+		$this->_type = 'select';
+
+		if (is_null($this->_select)) {
+			$this->_select = new JDatabaseQueryElement('SELECT', $columns);
+		}
+		else {
+			$this->_select->append($columns);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a single condition string, or an array of strings to the SET clause of the query.
+	 *
+	 * @param   mixed   $conditions  A string or array of conditions.
+	 * @param   string  $glue        The glue by which to join the condition strings. Defaults to ,.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function set($conditions, $glue=',')
+	{
+		if (is_null($this->_set)) {
+			$glue = strtoupper($glue);
+			$this->_set = new JDatabaseQueryElement('SET', $conditions, "\n\t$glue ");
+		}
+		else {
+			$this->_set->append($conditions);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a table name to the UPDATE clause of the query.
+	 *
+	 * Note that you must not mix insert, update, delete and select method calls when building a query.
+	 *
+	 * @param   mixed  $tables  A string or array of table names.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function update($tables)
+	{
+		$this->_type = 'update';
+		$this->_update = new JDatabaseQueryElement('UPDATE', $tables);
+
+		return $this;
+	}
+
+	/**
+	 * Adds a tuple, or array of tuples that would be used as values for an INSERT INTO statement.
+	 *
+	 * @param  string  $values  A single tuple, or array of tuples.
+	 *
+	 * @return  JDatabaseQuerySQLAzure  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	function values($values)
+	{
+		if (is_null($this->_values)) {
+			$this->values = new JDatabaseQueryElement('()', $values, '), (');
+		}
+		else {
+			$this->values->append($values);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a single condition, or an array of conditions to the WHERE clause of the query.
+	 *
+	 * @param   mixed   $conditions  A string or array of where conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function where($conditions, $glue = 'AND')
+	{
+		if (is_null($this->_where)) {
+			$glue = strtoupper($glue);
+			$this->_where = new JDatabaseQueryElement('WHERE', $conditions, " $glue ");
+		}
+		else {
+			$this->_where->append($conditions);
+		}
+
+		return $this;
+	}
 
 	/**
 	 * Magic function to convert the query to a string.
 	 *
-	 * @return	string	The completed query.
-	 * @since	11.1
+	 * @return  string	The completed query.
+	 *
+	 * @since   11.1
 	 */
 	public function __toString()
 	{
 		$query = '';
 
-		switch ($this->_type)
+		switch ($this->type)
 		{
+			case 'element':
+				$query .= (string) $this->element;
+				break;
+
 			case 'select':
-				$query .= (string) $this->_select;
-				$query .= (string) $this->_from;
-				if ($this->_join) {
+				$query .= (string) $this->select;
+				$query .= (string) $this->from;
+				if ($this->join) {
 					// special case for joins
-					foreach ($this->_join as $join) {
+					foreach ($this->join as $join)
+					{
 						$query .= (string) $join;
 					}
 				}
 
-				if ($this->_where) {
-					$query .= (string) $this->_where;
+				if ($this->where) {
+					$query .= (string) $this->where;
 				}
 
-				if ($this->_group) {
-					$query .= (string) $this->_group;
+				if ($this->group) {
+					$query .= (string) $this->group;
 				}
 
-				if ($this->_having) {
-					$query .= (string) $this->_having;
+				if ($this->having) {
+					$query .= (string) $this->having;
 				}
 
-				if ($this->_order) {
-					$query .= (string) $this->_order;
+				if ($this->order) {
+					$query .= (string) $this->order;
 				}
 
 				break;
 
 			case 'delete':
-				$query .= (string) $this->_delete;
-				$query .= (string) $this->_from;
+				$query .= (string) $this->delete;
+				$query .= (string) $this->from;
 
-				if ($this->_join) {
+				if ($this->join) {
 					// special case for joins
-					foreach ($this->_join as $join) {
+					foreach ($this->join as $join)
+					{
 						$query .= (string) $join;
 					}
 				}
 
-				if ($this->_where) {
-					$query .= (string) $this->_where;
+				if ($this->where) {
+					$query .= (string) $this->where;
 				}
 
 				break;
 
 			case 'update':
-				$query .= (string) $this->_update;
-				$query .= (string) $this->_set;
+				$query .= (string) $this->update;
+				$query .= (string) $this->set;
 
-				if ($this->_where) {
-					$query .= (string) $this->_where;
+				if ($this->where) {
+					$query .= (string) $this->where;
 				}
 
 				break;
 
 			case 'insert':
-				$query .= (string) $this->_insert;
-				$query .= (string) $this->_set;
+				$query .= (string) $this->insert;
 
-				if ($this->_where) {
-					$query .= (string) $this->_where;
+				// Set method
+				if ($this->set) {
+					$query .= (string) $this->set;
+				}
+				// Columns-Values method
+				else if ($this->values) {
+					if ($this->columns) {
+						$query .= (string) $this->columns;
+					}
+
+					$query .= 'VALUES ';
+					$query .= (string) $this->values;
 				}
 
 				break;
 
-			case 'showTables':
-				$query .= (string) $this->_show_tables;
 
-				break;
 
-			case 'drop':
-				$query .= (string) $this->_drop;
-
-				break;
-
-			case 'rename':
-				$query .= (string) $this->_rename;
-
-				break;
 
 			case 'insert_into':
-				$query .= (string) $this->_insert_into;
+				$query .= (string) $this->insert_into;
 
 				if ($this->_fields) {
 					$query .= (string) $this->_fields;
