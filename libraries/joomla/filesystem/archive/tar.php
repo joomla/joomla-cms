@@ -80,37 +80,73 @@ class JArchiveTar extends JObject
 		$this->_data = null;
 		$this->_metadata = null;
 
-		$stream = JFactory::getStream();
-		if (!$stream->open($archive, 'rb')) {
-			$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_READ'));
-
+		if (!$this->_data = JFile::read($archive))
+		{
+			$this->set('error.message', 'Unable to read archive');
 			return JError::raiseWarning(100, $this->get('error.message'));
 		}
 
+		if (!$this->_getTarInfo($this->_data))
+		{
+			return JError::raiseWarning(100, $this->get('error.message'));
+		}
+
+		for ($i=0,$n=count($this->_metadata);$i<$n;$i++)
+		{
+			$type	= strtolower( $this->_metadata[$i]['type'] );
+			if ($type == 'file' || $type == 'unix file')
+			{
+				$buffer = $this->_metadata[$i]['data'];
+				$path = JPath::clean($destination.DS.$this->_metadata[$i]['name']);
+				// Make sure the destination folder exists
+				if (!JFolder::create(dirname($path)))
+				{
+					$this->set('error.message', 'Unable to create destination');
+					return JError::raiseWarning(100, $this->get('error.message'));
+				}
+				if (JFile::write($path, $buffer) === false)
+				{
+					$this->set('error.message', 'Unable to write entry');
+					return JError::raiseWarning(100, $this->get('error.message'));
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Get the list of files/data from a Tar archive buffer.
+	 *
+	 * @access	private
+	 * @param 	string	$data	The Tar archive buffer.
+	 * @return	array	Archive metadata array
+	 * <pre>
+	 * KEY: Position in the array
+	 * VALUES: 'attr'  --  File attributes
+	 *         'data'  --  Raw file contents
+	 *         'date'  --  File modification time
+	 *         'name'  --  Filename
+	 *         'size'  --  Original file size
+	 *         'type'  --  File type
+	 * </pre>
+	 * @since	1.5
+	 */
+	function _getTarInfo(& $data)
+	{
 		$position = 0;
 		$return_array = array ();
-		$i = 0;
-		// Tar has items in 512 byte packets
-		$chunksize = 512;
-		while ($entry = $stream->read($chunksize))
+
+		while ($position < strlen($data))
 		{
-
-			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $entry);
-
+			$info = @ unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", substr($data, $position));
 			if (!$info) {
-				$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_DECOMPRESS'));
-
-				return JError::raiseWarning(100, $this->get('error.message'));
+				$this->set('error.message', 'Unable to decompress data');
+				return false;
 			}
 
-			$size = octdec($info['size']);
-			$bsize = ceil($size / $chunksize) * $chunksize;
-			$contents = '';
-
-			if ($size) {
-
-				$contents = substr($stream->read($bsize), 0, octdec($info['size']));
-			}
+			$position += 512;
+			$contents = substr($data, $position, octdec($info['size']));
+			$position += ceil(octdec($info['size']) / 512) * 512;
 
 			if ($info['filename']) {
 				$file = array (
@@ -140,32 +176,10 @@ class JArchiveTar extends JObject
 				else {
 					/* Some other type. */
 				}
-
-				$type = strtolower($file['type']);
-
-				if ($type == 'file' || $type == 'unix file') {
-					$path = JPath::clean($destination.DS.$file['name']);
-
-					// Make sure the destination folder exists
-					if (!JFolder::create(dirname($path))) {
-						$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_CREATE_DESTINATION'));
-
-						return JError::raiseWarning(100, $this->get('error.message'));
-					}
-
-					if (JFile::write($path, $contents, true) === false) {
-						$this->set('error.message', JText::_('JLIB_FILESYSTEM_TAR_UNABLE_TO_WRITE_ENTRY'));
-
-						return JError::raiseWarning(100, $this->get('error.message'));
-					}
-					// Reclaim some memory
-					$contents = '';
-				}
+				$return_array[] = $file;
 			}
 		}
-
-		$stream->close();
-
+		$this->_metadata = $return_array;
 		return true;
 	}
 }

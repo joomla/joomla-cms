@@ -1012,12 +1012,12 @@ class JInstaller extends JAdapter
 		}
 
 		// Work out what files have been deleted
-		if ($oldFiles && is_a($oldFiles, 'JXMLElement'))
+		if ($oldFiles && ($oldFiles instanceof JXMLElement))
 		{
 			$oldEntries = $oldFiles->children();
 			if (count($oldEntries))
 			{
-				$deletions = $this->findDeletedFiles($oldEntries, $element);
+				$deletions = $this->findDeletedFiles($oldEntries, $element->children());
 				foreach ($deletions['folders'] as $deleted_folder) {
 					JFolder::delete($destination.DS.$deleted_folder);
 				}

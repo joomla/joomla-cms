@@ -16,6 +16,7 @@ require_once dirname(__FILE__).DS.'list.php';
  *
  * @package		Joomla.Platform
  * @subpackage	Parameter
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
 class JElementComponentLayouts extends JElementList
 {
@@ -47,7 +48,7 @@ class JElementComponentLayouts extends JElementList
 			$extn	= preg_replace('#\W#', '', $extn);
 			$path1	= JPATH_SITE.DS.'components'.DS.$extn.DS.'views'.DS.$view.DS.'tmpl';
 			$path2	= JPATH_SITE.DS.'templates'.DS.$template.DS.'html'.DS.$extn.DS.$view;
-			$options[]	= JHTML::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
+			$options[]	= JHtml::_('select.option', '', JText::_('JOPTION_USE_MENU_REQUEST_SETTING'));
 		}
 
 		if ($path1 && $path2)
@@ -58,16 +59,16 @@ class JElementComponentLayouts extends JElementList
 
 			$files	= JFolder::files($path1, '^[^_]*\.php$');
 			foreach ($files as $file) {
-				$options[]	= JHTML::_('select.option', JFile::stripExt($file));
+				$options[]	= JHtml::_('select.option', JFile::stripExt($file));
 			}
 
 			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$'))
 			{
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
+				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 				foreach ($files as $file) {
-					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
+					$options[]	= JHtml::_('select.option', JFile::stripExt($file));
 				}
-				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
+				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT_TEMPLATE'));
 			}
 		}
 

@@ -282,6 +282,22 @@ class JInstallerModule extends JAdapterInstance
 			return false;
 		}
 
+		// If there is a manifest script, lets copy it.
+		if ($this->get('manifest_script')) {
+			$path['src'] = $this->parent->getPath('source').DS.$this->get('manifest_script');
+			$path['dest'] = $this->parent->getPath('extension_root').DS.$this->get('manifest_script');
+
+			if (!file_exists($path['dest']) || $this->parent->getOverwrite()) {
+				if (!$this->parent->copyFiles(array ($path))) {
+					// Install failed, rollback changes
+					$this->parent->abort(JText::_('JLIB_INSTALLER_ABORT_MOD_INSTALL_MANIFEST'));
+
+					return false;
+				}
+			}
+		}
+
+
 		// Parse optional tags
 		$this->parent->parseMedia($this->manifest->media, $clientId);
 		$this->parent->parseLanguages($this->manifest->languages, $clientId);

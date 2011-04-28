@@ -421,7 +421,14 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		// Verify that it's not the default language for that client
+		// check that the language is not protected, Normally en-GB.
+		$protected  = $extension->get('protected');
+		if ($protected == 1) {
+			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PROTECTED'));
+			return false;
+		}
+
+		// verify that it's not the default language for that client
 		$params = JComponentHelper::getParams('com_languages');
 		if ($params->get($client->name)==$element) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_DEFAULT'));
@@ -583,7 +590,6 @@ class JInstallerLanguage extends JAdapterInstance
 		$this->parent->extension->name = $manifest_details['name'];
 
 		if ($this->parent->extension->store()) {
-
 			return true;
 		}
 		else {

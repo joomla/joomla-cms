@@ -118,7 +118,7 @@ class JTableCategory extends JTableNested
 		}
 		$this->alias = trim($this->alias);
 		if (empty($this->alias)) {
-			$this->alias = strtolower($this->title);
+			$this->alias = $this->title;
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);
@@ -171,14 +171,14 @@ class JTableCategory extends JTableNested
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
-		$db		= $this->getDbo();
+
 		if ($this->id) {
 			// Existing category
-			$this->modified_time	= $db->toSQLDate($date);
+			$this->modified_time	= $date->toMySQL();
 			$this->modified_user_id	= $user->get('id');
 		} else {
 			// New category
-			$this->created_time		= $db->toSQLDate($date);
+			$this->created_time		= $date->toMySQL();
 			$this->created_user_id	= $user->get('id');
 		}
 	// Verify that the alias is unique

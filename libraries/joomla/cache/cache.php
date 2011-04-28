@@ -377,14 +377,12 @@ class JCache extends JObject
 	 * @return	object	A JCacheStorage object
 	 * @since	11.1
 	 */
-	public function _getStorage()
+	public function &_getStorage()
 	{
-		if (isset(self::$_handler[$this->_options['storage']]) && self::$_handler[$this->_options['storage']] instanceof JCacheStorage) {
-			return self::$_handler[$this->_options['storage']];
+		if (!isset($this->_handler)) {
+			$this->_handler = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
 		}
-
-		self::$_handler[$this->_options['storage']] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		return self::$_handler[$this->_options['storage']];
+		return $this->_handler;
 	}
 
 	/**

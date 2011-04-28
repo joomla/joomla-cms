@@ -68,7 +68,6 @@ class JDocumentJSON extends JDocument
 	 */
 	public function getHeadData()
 	{
-		return array();
 	}
 
 	/**
@@ -78,7 +77,6 @@ class JDocumentJSON extends JDocument
 	 */
 	public function setHeadData($data)
 	{
-		// Do nothing.
 	}
 
 	/**

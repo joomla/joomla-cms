@@ -106,12 +106,19 @@ class JPagination extends JObject
 
 		// Set the pagination iteration loop values.
 		$displayedPages	= 10;
-		$this->set('pages.start', (floor(($this->get('pages.current') -1) / $displayedPages)) * $displayedPages +1);
-		if ($this->get('pages.start') + $displayedPages -1 < $this->get('pages.total')) {
-			$this->set('pages.stop', $this->get('pages.start') + $displayedPages -1);
+		$this->set('pages.start', $this->get('pages.current') - ($displayedPages / 2));
+		if ($this->get('pages.start') < 1) {
+			$this->set('pages.start', 1);
 		}
-		else {
+		if (($this->get('pages.start') + $displayedPages) > $this->get('pages.total')) {
 			$this->set('pages.stop', $this->get('pages.total'));
+			if ($this->get('pages.total') < $displayedPages) {
+				$this->set('pages.start', 1);
+			} else {
+				$this->set('pages.start', $this->get('pages.total') - $displayedPages + 1);
+			}
+		} else {
+			$this->set('pages.stop', ($this->get('pages.start') + $displayedPages - 1));
 		}
 
 		// If we are viewing all records set the view all flag to true.
@@ -479,10 +486,10 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0) {
-				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.." . $this->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"document.adminForm.." . $this->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
 			}
 			else {
-				return "<a title=\"".$item->text."\" onclick=\"javascript: document.adminForm.." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"document.adminForm.." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
 			}
 		}
 		else {

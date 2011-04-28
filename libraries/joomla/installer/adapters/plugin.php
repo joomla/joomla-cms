@@ -700,7 +700,7 @@ class JInstallerPlugin extends JAdapterInstance
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->state = 0;
 		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
+		$this->parent->extension->enabled = ('editors' == $this->parent->extension->folder) ? 1 : 0;
 		$this->parent->extension->params = $this->parent->getParams();
 		if ($this->parent->extension->store()) {
 			return $this->parent->extension->get('extension_id');

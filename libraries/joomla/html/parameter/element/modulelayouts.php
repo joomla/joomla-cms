@@ -9,13 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-require_once dirname(__FILE__).DS.'list.php';
+require_once dirname(__FILE__).'/list.php';
 
 /**
  * Parameter to display a list of the layouts for a module from the module or default template overrides.
  *
  * @package		Joomla.Platform
  * @subpackage	Parameter
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
 class JElementModuleLayouts extends JElementList
 {

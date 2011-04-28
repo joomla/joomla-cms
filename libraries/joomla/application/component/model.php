@@ -60,6 +60,12 @@ abstract class JModel extends JObject
 	protected $state;
 
 	/**
+	 * @var		string	The event to trigger when cleaning cache.
+	 * @since	1.6.2
+	 */
+	protected $event_clean_cache = null;
+
+	/**
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
@@ -238,6 +244,14 @@ abstract class JModel extends JObject
 		if (!empty($config['ignore_request'])) {
 			$this->__state_set = true;
 		}
+
+		// Set the clean cache event
+		if (isset($config['event_clean_cache'])) {
+			$this->event_clean_cache = $config['event_clean_cache'];
+		} else  if (empty($this->event_clean_cache)) {
+			$this->event_clean_cache = 'onContentCleanCache';
+		}
+
 	}
 
 	/**
@@ -421,5 +435,34 @@ abstract class JModel extends JObject
 	public function setState($property, $value = null)
 	{
 		return $this->state->set($property, $value);
+	}
+
+	/**
+	 * Clean the cache
+	 *
+	 * @param	string	$group		The cache group
+	 * @param	string	$client_id	The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since	1.6
+	 */
+	protected function cleanCache($group = null, $client_id = 0)
+	{
+		// Initialise variables;
+		$conf = JFactory::getConfig();
+		$dispatcher = JDispatcher::getInstance();
+
+		$options = array(
+			'defaultgroup' 	=> ($group) 	? $group : (isset($this->option) ? $this->option : JRequest::getCmd('option')),
+			'cachebase'		=> ($client_id) ? JPATH_ADMINISTRATOR.DS.'cache' : $conf->get('cache_path', JPATH_SITE.DS.'cache')
+		);
+
+		jimport('joomla.cache.cache');
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+
+		// Trigger the onContentCleanCache event.
+		$dispatcher->trigger($this->event_clean_cache, $options);
 	}
 }

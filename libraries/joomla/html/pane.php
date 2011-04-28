@@ -172,7 +172,7 @@ class JPaneTabs extends JPane
 		$js = '	window.addEvent(\'domready\', function(){ $$(\'dl.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
 
 		$document->addScriptDeclaration($js);
-		JHTML::_('script','system/tabs.js', false, true);
+		JHtml::_('script','system/tabs.js', false, true);
 	}
 }
 
@@ -229,7 +229,7 @@ class JPaneSliders extends JPane
 	public function startPanel($text, $id)
 	{
 		return '<div class="panel">'
-			.'<h3 class="pane-toggler title" id="'.$id.'"><a href="#"><span>'.$text.'</span></a></h3>'
+			.'<h3 class="pane-toggler title" id="'.$id.'"><a href="javascript:void(0);"><span>'.$text.'</span></a></h3>'
 			.'<div class="pane-slider content">';
 	}
 
@@ -272,7 +272,7 @@ class JPaneSliders extends JPane
 		}
 		$options .= '}';
 
-		$js = '	window.addEvent(\'domready\', function(){ new Accordion($$(\'.panel h3.pane-toggler\'), $$(\'.panel div.pane-slider\'), '.$options.'); });';
+		$js = '	window.addEvent(\'domready\', function(){ new Fx.Accordion($$(\'.panel h3.pane-toggler\'), $$(\'.panel div.pane-slider\'), '.$options.'); });';
 
 		$document->addScriptDeclaration($js);
 	}

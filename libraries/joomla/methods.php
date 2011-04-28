@@ -67,7 +67,7 @@ class JRoute
 			}
 
 			// Determine which scheme we want.
-			$scheme	= ($ssl === 1) ? 'https' : 'http';
+			$scheme	= ((int)$ssl === 1) ? 'https' : 'http';
 
 			// Make sure our URL path begins with a slash.
 			if (!preg_match('#^/#', $url)) {

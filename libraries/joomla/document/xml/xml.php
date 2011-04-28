@@ -66,7 +66,6 @@ class JDocumentXML extends JDocument
 	 */
 	public function getHeadData()
 	{
-		return array();
 	}
 
 	/**
@@ -76,7 +75,6 @@ class JDocumentXML extends JDocument
 	 */
 	public function setHeadData($data)
 	{
-		// Do nothing.
 	}
 
 	/**

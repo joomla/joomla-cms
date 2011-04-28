@@ -542,9 +542,9 @@ abstract class JTable extends JObject
 		if (!$this->_trackAssets) {
 			return true;
 		}
-		$query = $this->_db->getQuery(true);
+
 		if ($this->_locked) {
-			$query->unlock($this->_db);
+			$this->_unlock();
 		}
 
 		//
@@ -706,7 +706,7 @@ abstract class JTable extends JObject
 
 		// Check for a database error.
 		if (!$this->_db->query()) {
-			$e = new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
+			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), $this->_db->getErrorMsg()));
 			$this->setError($e);
 			return false;
 		}
@@ -748,7 +748,7 @@ abstract class JTable extends JObject
 		}
 
 		// Get the current time in MySQL format.
-		$time = $this->_db->toSQLDate(JFactory::getDate());
+		$time = JFactory::getDate()->toMysql();
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);

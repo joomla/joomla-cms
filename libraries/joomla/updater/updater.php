@@ -85,7 +85,7 @@ class JUpdater extends JAdapter {
 				}
 				if(array_key_exists('updates', $update_result) && count($update_result['updates']))
 				{
-					for($k = 0; $k < count($update_result['updates']); $k++)
+					for($k = 0, $count = count($update_result['updates']); $k < $count; $k++)
 					{
 						$current_update = &$update_result['updates'][$k];
 						$update = JTable::getInstance('update');

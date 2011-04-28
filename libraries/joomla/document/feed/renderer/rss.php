@@ -116,7 +116,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed.= "		<skipDays>".htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8')."</skipDays>\n";
 		}
 
-		for ($i=0; $i<count($data->items); $i++)
+		for ($i=0, $count = count($data->items); $i < $count; $i++)
 		{
 			if ((strpos($data->items[$i]->link, 'http://') === false) and (strpos($data->items[$i]->link, 'https://') === false)) {
 				$data->items[$i]->link = str_replace(' ','%20',$url.$data->items[$i]->link);

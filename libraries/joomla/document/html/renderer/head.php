@@ -119,8 +119,18 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate script file links
-		foreach ($document->_scripts as $strSrc => $strType) {
-			$buffer .= $tab.'<script type="'.$strType.'" src="'.$strSrc.'"></script>'.$lnEnd;
+		foreach ($document->_scripts as $strSrc => $strAttr) {
+			$buffer .= $tab.'<script src="'.$strSrc.'"';
+			if (!is_null($strAttr['mime'])) {
+				$buffer .= ' type="'.$strAttr['mime'].'"';
+			}
+			if ($strAttr['defer']) {
+				$buffer .= ' defer="defer"';
+			}
+			if ($strAttr['async']) {
+				$buffer .= ' async="async"';
+			}
+			$buffer .= '></script>'.$lnEnd;
 		}
 
 		// Generate script declarations

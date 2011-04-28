@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage	Registry
  * @since		11.1
  */
-class JRegistryFormatJson extends JRegistryFormat
+class JRegistryFormatJSON extends JRegistryFormat
 {
 	/**
 	 * Converts an object into a JSON formatted string.

@@ -60,7 +60,6 @@ class JStreamString
 			return true;
 		}
 		else {
-
 			return false;
 		}
 	}

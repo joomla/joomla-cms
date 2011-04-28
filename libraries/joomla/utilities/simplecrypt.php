@@ -69,7 +69,7 @@ class JSimpleCrypt extends JObject
 	{
 		$ai = $this->_xorCharString($s);
 		$s1 = "";
-		for ($i = 0; $i < count($ai); $i++)
+		for ($i = 0, $count = count($ai); $i < $count; $i++)
 			$s1 = $s1 . $this->_intToHex((int) $ai[$i]);
 		return $s1;
 	}

@@ -496,7 +496,7 @@ class JFTP extends JObject
 
 		// Send rename to command to the server
 		if (!$this->_putCmd('RNTO '.$to, 250)) {
-			JError::raiseWarning('35', JText::sprintf('JLIB_CLIENT_ERROR_JFTP_RENAME_BAD_RESPONSE_FROM', $this->_response, $to));
+			JError::raiseWarning('35', JText::sprintf('JLIB_CLIENT_ERROR_JFTP_RENAME_BAD_RESPONSE_TO', $this->_response, $to));
 			return false;
 		}
 
@@ -1143,14 +1143,14 @@ class JFTP extends JObject
 		}
 
 		// Regular expressions for the directory listing parsing
-		$regexps['UNIX'] = '([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)';
-		$regexps['MAC'] = '([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)';
-		$regexps['WIN'] = '([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)';
+		$regexps['UNIX'] = '#([-dl][rwxstST-]+).* ([0-9]*) ([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{1,2}:[0-9]{2})|[0-9]{4}) (.+)#';
+		$regexps['MAC'] = '#([-dl][rwxstST-]+).* ?([0-9 ]*)?([a-zA-Z0-9]+).* ([a-zA-Z0-9]+).* ([0-9]*) ([a-zA-Z]+[0-9: ]*[0-9])[ ]+(([0-9]{2}:[0-9]{2})|[0-9]{4}) (.+)#';
+		$regexps['WIN'] = '#([0-9]{2})-([0-9]{2})-([0-9]{2}) +([0-9]{2}):([0-9]{2})(AM|PM) +([0-9]+|<DIR>) +(.+)#';
 
 		// Find out the format of the directory listing by matching one of the regexps
 		$osType = null;
 		foreach ($regexps as $k=>$v) {
-			if (@ereg($v, $contents[0])) {
+			if (@preg_match($v, $contents[0])) {
 				$osType = $k;
 				$regexp = $v;
 				break;
@@ -1167,7 +1167,7 @@ class JFTP extends JObject
 		if ($osType == 'UNIX') {
 			foreach ($contents as $file) {
 				$tmp_array = null;
-				if (@ereg($regexp, $file, $regs)) {
+				if (@preg_match($regexp, $file, $regs)) {
 					$fType = (int) strpos("-dl", $regs[1] { 0 });
 					//$tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
@@ -1196,7 +1196,7 @@ class JFTP extends JObject
 		elseif ($osType == 'MAC') {
 			foreach ($contents as $file) {
 				$tmp_array = null;
-				if (@ereg($regexp, $file, $regs)) {
+				if (@preg_match($regexp, $file, $regs)) {
 					$fType = (int) strpos("-dl", $regs[1] { 0 });
 					//$tmp_array['line'] = $regs[0];
 					$tmp_array['type'] = $fType;
@@ -1224,7 +1224,7 @@ class JFTP extends JObject
 		} else {
 			foreach ($contents as $file) {
 				$tmp_array = null;
-				if (@ereg($regexp, $file, $regs)) {
+				if (@preg_match($regexp, $file, $regs)) {
 					$fType = (int) ($regs[7] == '<DIR>');
 					$timestamp = strtotime("$regs[3]-$regs[1]-$regs[2] $regs[4]:$regs[5]$regs[6]");
 					//$tmp_array['line'] = $regs[0];

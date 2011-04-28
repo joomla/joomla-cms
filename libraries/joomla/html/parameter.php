@@ -20,6 +20,7 @@ JLoader::register('JElement', dirname(__FILE__).'/parameter/element.php');
  * @package		Joomla.Platform
  * @subpackage	Parameter
  * @since		11.1
+ * @deprecated  11.1
  */
 class JParameter extends JRegistry
 {

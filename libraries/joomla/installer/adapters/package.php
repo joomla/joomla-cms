@@ -31,7 +31,7 @@ class JInstallerPackage extends JAdapterInstance
 	public function loadLanguage($path)
 	{
 		$this->manifest = $this->parent->getManifest();
-		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->name, 'cmd'));
+		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string)$this->manifest->packagename, 'cmd'));
 		$lang = JFactory::getLanguage();
 		$source = $path;
 		$lang->load($extension . '.sys', $source, null, false, false)

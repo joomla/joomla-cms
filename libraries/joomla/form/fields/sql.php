@@ -45,6 +45,7 @@ class JFormFieldSQL extends JFormFieldList
 		// Initialize some field attributes.
 		$key	= $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
 		$value	= $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
+		$translate = $this->element['translate'] ? (string) $this->element['translate'] : false;
 		$query	= (string) $this->element['query'];
 
 		// Get the database object.
@@ -63,7 +64,12 @@ class JFormFieldSQL extends JFormFieldList
 		// Build the field options.
 		if (!empty($items)) {
 			foreach($items as $item) {
-				$options[] = JHtml::_('select.option', $item->$key, $item->$value);
+ 				if ($translate == true) {
+					$options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
+				} 
+				else {
+					$options[] = JHtml::_('select.option', $item->$key, $item->$value);
+				}
 			}
 		}
 

@@ -95,14 +95,20 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public function open($save_path, $session_name);
+	public function open($save_path, $session_name)
+	{
+		return true;
+	}
 
 	/**
 	 * Close the SessionHandler backend.
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public function close();
+	public function close()
+	{
+		return true;
+	}
 
 	/**
 	 * Read the data for a particular session identifier from the
@@ -111,7 +117,10 @@ abstract class JSessionStorage extends JObject
 	 * @param string $id  The session identifier.
 	 * @return string  The session data.
 	 */
-	public function read($id);
+	public function read($id)
+	{
+		return;
+	}
 
 	/**
 	 * Write session data to the SessionHandler backend.
@@ -120,7 +129,10 @@ abstract class JSessionStorage extends JObject
 	 * @param	string	$session_data	The session data.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function write($id, $session_data);
+	public function write($id, $session_data)
+	{
+		return true;
+	}
 
 	/**
 	 * Destroy the data for a particular session identifier in the
@@ -130,7 +142,10 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function destroy($id);
+	public function destroy($id)
+	{
+		return true;
+	}
 
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
@@ -138,12 +153,18 @@ abstract class JSessionStorage extends JObject
 	 * @param	integer	$maxlifetime	The maximum age of a session.
 	 * @return	boolean	True on success, false otherwise.
 	 */
-	public function gc($maxlifetime = null);
+	public function gc($maxlifetime = null)
+	{
+		return true;
+	}
 
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	public static function test();
+	public static function test()
+	{
+		return true;
+	}
 }

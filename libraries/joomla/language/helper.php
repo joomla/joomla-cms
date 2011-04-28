@@ -135,7 +135,8 @@ class JLanguageHelper
 				if (!$languages = $cache->get('languages')) {
 					$db 	= JFactory::getDBO();
 					$query	= $db->getQuery(true);
-					$query->select('*')->from('#__languages')->where('published=1');
+					// TODO Use an ordering field for 1.7 $query->select('*')->from('#__languages')->where('published=1')->order('ordering ASC');
+					$query->select('*')->from('#__languages')->where('published=1')->order('lang_id ASC');
 					$db->setQuery($query);
 
 					$languages['default'] 	= $db->loadObjectList();

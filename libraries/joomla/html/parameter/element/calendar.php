@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package		Joomla.Platform
  * @subpackage	Parameter
  * @since		11.1
+ * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
  */
 class JElementCalendar extends JElement
 {
@@ -34,6 +35,6 @@ class JElementCalendar extends JElement
 		$id		= $control_name.$name;
 		$name	= $control_name.'['.$name.']';
 
-		return JHTML::_('calendar',$value, $name, $id, $format, array('class' => $class));
+		return JHtml::_('calendar',$value, $name, $id, $format, array('class' => $class));
 	}
 }
