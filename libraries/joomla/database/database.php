@@ -760,7 +760,7 @@ abstract class JDatabase
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function loadResultArray($offset = 0)
+	public function loadColumn($offset = 0)
 	{
 		// Initialise variables.
 		$array = array();
@@ -1520,7 +1520,30 @@ abstract class JDatabase
 	 */
 	public function getTableFields($tables, $typeOnly = true)
 	{
+		// Deprecation warning.
+		JLog::add('JDatabase::getTableFields() is deprecated. Use JDatabase::getTableColumns().', JLog::WARNING, 'deprecated');
+
 		return $this->getTableColumns($tables, $typeOnly);
+	}
+
+	/**
+	 * Method to get an array of values from the <var>$offset</var> field in each row of the result set from
+	 * the database query.
+	 *
+	 * @param   integer  $offset  The row offset to use to build the result array.
+	 *
+	 * @return  mixed    The return value or null if the query failed.
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 * @deprecated  11.1
+	 */
+	public function loadResultArray($offset = 0)
+	{
+		// Deprecation warning.
+		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::getColumn().', JLog::WARNING, 'deprecated');
+
+		return $this->loadColumn($offset);
 	}
 
 	/**
