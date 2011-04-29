@@ -39,7 +39,7 @@ class JAuthentication extends JObservable
 	 * Constructor
 	 *
 	 */
-	protected function __construct()
+	public function __construct()
 	{
 		$isLoaded = JPluginHelper::importPlugin('authentication');
 
