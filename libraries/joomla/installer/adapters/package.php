@@ -279,7 +279,7 @@ class JInstallerPackage extends JAdapterInstance
 		$db		= $this->parent->getDbo();
 		$result = $id;
 
-		$query = new JDatabaseQuery();
+		$query = $db->getQuery(true);
 		$query->select('extension_id');
 		$query->from('#__extensions');
 		$query->where('type = '. $db->Quote($type));

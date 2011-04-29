@@ -180,7 +180,7 @@ class JCategories
 		// Record that has this $id has been checked
 		$this->_checkedCategories[$id] = true;
 
-		$query = new JDatabaseQuery;
+		$query = $db->getQuery(true);
 
 		// Right join with c for category
 		$query->select('c.*');

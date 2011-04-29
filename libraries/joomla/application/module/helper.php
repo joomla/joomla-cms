@@ -273,7 +273,7 @@ abstract class JModuleHelper
 		if (!($clean = $cache->get($cacheid))) {
 			$db	= JFactory::getDbo();
 
-			$query = new JDatabaseQuery;
+			$query = $db->getQuery(true);
 			$query->select('id, title, module, position, content, showtitle, params, mm.menuid');
 			$query->from('#__modules AS m');
 			$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
