@@ -195,7 +195,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @param   string  $tableName  The name of the database table to drop.
 	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatbaseSQLSrv  Returns this object to support chaining.
+	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -241,7 +241,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Gets an exporter class object.
 	 *
-	 * @return  JDatbaseExporterSQLAzure  An exporter object.
+	 * @return  JDatabaseExporterSQLAzure  An exporter object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -249,11 +249,11 @@ class JDatabaseSQLAzure extends JDatabase
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatbaseExporterSQLAzure')) {
+		if (!class_exists('JDatabaseExporterSQLAzure')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatbaseExporterSQLAzure;
+		$o = new JDatabaseExporterSQLAzure;
 		$o->setDbo($this);
 
 		return $o;
@@ -262,7 +262,7 @@ class JDatabaseSQLAzure extends JDatabase
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @return  JDatbaseImporterSQLAzure  An importer object.
+	 * @return  JDatabaseImporterSQLAzure  An importer object.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
@@ -270,11 +270,11 @@ class JDatabaseSQLAzure extends JDatabase
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatbaseImporterSQLAzure')) {
+		if (!class_exists('JDatabaseImporterSQLAzure')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatbaseImporterSQLAzure;
+		$o = new JDatabaseImporterSQLAzure;
 		$o->setDbo($this);
 
 		return $o;
@@ -308,10 +308,10 @@ class JDatabaseSQLAzure extends JDatabase
 	{
 		if ($new) {
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatbaseQuerySQLAzure')) {
+			if (!class_exists('JDatabaseQuerySQLAzure')) {
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatbaseQuerySQLAzure;
+			return new JDatabaseQuerySQLAzure;
 		}
 		else {
 			return $this->sql;
