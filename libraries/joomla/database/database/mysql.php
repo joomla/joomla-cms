@@ -356,7 +356,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	protected function getTableKeys($table)
+	public function getTableKeys($table)
 	{
 		// Get the details columns information.
 		$this->setQuery(

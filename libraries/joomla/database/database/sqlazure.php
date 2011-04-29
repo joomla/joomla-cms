@@ -392,7 +392,7 @@ class JDatabaseSQLAzure extends JDatabase
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	protected function getTableKeys($table)
+	public function getTableKeys($table)
 	{
 		// TODO To implement.
 		return array();
