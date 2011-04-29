@@ -173,17 +173,19 @@ class JDocument extends JObject
 	 * Array of buffered output
 	 *
 	 * @var		mixed (depends on the renderer)
-	 * @access	private
 	 */
 	protected static $_buffer = null;
 
-
 	/**
-	* Class constructor
-	*
-	* @param	array	$options Associative array of options
-	*/
-	protected function __construct($options = array())
+	 * Class constructor.
+	 *
+	 * @param   array  $options  Associative array of options
+	 *
+	 * @return  JDocument
+	 *
+	 * @since   11.1
+	 */
+	public function __construct($options = array())
 	{
 		parent::__construct();
 
@@ -234,15 +236,13 @@ class JDocument extends JObject
 
 		$signature = serialize(array($type, $attributes));
 
-		if (empty($instances[$signature]))
-		{
+		if (empty($instances[$signature])) {
 			$type	= preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 			$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
 			$ntype	= null;
 
 			// Check if the document type exists
-			if (!file_exists($path))
-			{
+			if (!file_exists($path)) {
 				// Default to the raw format
 				$ntype	= $type;
 				$type	= 'raw';
@@ -250,12 +250,12 @@ class JDocument extends JObject
 
 			// Determine the path and class
 			$class = 'JDocument'.$type;
-			if (!class_exists($class))
-			{
+			if (!class_exists($class)) {
 				$path	= dirname(__FILE__).DS.$type.DS.$type.'.php';
 				if (file_exists($path)) {
 					require_once $path;
-				} else {
+				}
+				else {
 					JError::raiseError(500,JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
 				}
 			}
@@ -263,8 +263,7 @@ class JDocument extends JObject
 			$instance	= new $class($attributes);
 			$instances[$signature] = &$instance;
 
-			if (!is_null($ntype))
-			{
+			if (!is_null($ntype)) {
 				// Set the type to the Document type originally requested
 				$instance->setType($ntype);
 			}
@@ -278,7 +277,8 @@ class JDocument extends JObject
 	 *
 	 * @param	string $type
 	 */
-	public function setType($type) {
+	public function setType($type)
+	{
 		$this->_type = $type;
 	}
 
@@ -287,7 +287,8 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	public function getType() {
+	public function getType()
+	{
 		return $this->_type;
 	}
 
@@ -296,7 +297,8 @@ class JDocument extends JObject
 	 *
 	 * @return	array	The document head data in array form
 	 */
-	public function getHeadData() {
+	public function getHeadData()
+	{
 		// Impelemented in child classes
 	}
 
@@ -305,7 +307,8 @@ class JDocument extends JObject
 	 *
 	 * @param	array	$data	The document head data in array form
 	 */
-	public function setHeadData($data) {
+	public function setHeadData($data)
+	{
 		// Impelemented in child classes
 	}
 
@@ -314,7 +317,8 @@ class JDocument extends JObject
 	 *
 	 * @param	array	$data	The document head data in array form
 	 */
-	public function mergeHeadData($data) {
+	public function mergeHeadData($data)
+	{
 		// Impelemented in child classes
 	}
 
@@ -323,7 +327,8 @@ class JDocument extends JObject
 	 *
 	 * @return	The contents of the document buffer
 	 */
-	public function getBuffer() {
+	public function getBuffer()
+	{
 		return self::$_buffer;
 	}
 
@@ -333,7 +338,8 @@ class JDocument extends JObject
 	 * @param	string	$content	The content to be set in the buffer.
 	 * @param	array	$options	Array of optional elements.
 	 */
-	public function setBuffer($content, $options = array()) {
+	public function setBuffer($content, $options = array())
+	{
 		self::$_buffer = $content;
 	}
 
@@ -351,15 +357,19 @@ class JDocument extends JObject
 		$name = strtolower($name);
 		if ($name == 'generator') {
 			$result = $this->getGenerator();
-		} elseif ($name == 'description') {
+		}
+		else if ($name == 'description') {
 			$result = $this->getDescription();
-		} else {
+		}
+		else {
 			if ($http_equiv == true) {
 				$result = @$this->_metaTags['http-equiv'][$name];
-			} else {
+			}
+			else {
 				$result = @$this->_metaTags['standard'][$name];
 			}
 		}
+
 		return $result;
 	}
 
@@ -376,18 +386,23 @@ class JDocument extends JObject
 	public function setMetaData($name, $content, $http_equiv = false, $sync = true)
 	{
 		$name = strtolower($name);
+
 		if ($name == 'generator') {
 			$this->setGenerator($content);
-		} elseif ($name == 'description') {
+		}
+		else if ($name == 'description') {
 			$this->setDescription($content);
-		} else {
+		}
+		else {
 			if ($http_equiv == true) {
 				$this->_metaTags['http-equiv'][$name] = $content;
+
 				// Syncing with HTTP-header
 				if($sync && strtolower($name) == 'content-type') {
 					$this->setMimeEncoding($content, false);
 				}
-			} else {
+			}
+			else {
 				$this->_metaTags['standard'][$name] = $content;
 			}
 		}
@@ -401,7 +416,8 @@ class JDocument extends JObject
 	 * @param	bool	$defer		Adds the defer attribute.
 	 * @param	bool	$async		Adds the async attribute.
 	 */
-	public function addScript($url, $type = "text/javascript", $defer = false, $async = false) {
+	public function addScript($url, $type = "text/javascript", $defer = false, $async = false)
+	{
 		$this->_scripts[$url]['mime'] = $type;
 		$this->_scripts[$url]['defer'] = $defer;
 		$this->_scripts[$url]['async'] = $async;
@@ -418,7 +434,8 @@ class JDocument extends JObject
 	{
 		if (!isset($this->_script[strtolower($type)])) {
 			$this->_script[strtolower($type)] = $content;
-		} else {
+		}
+		else {
 			$this->_script[strtolower($type)] .= chr(13).$content;
 		}
 	}
@@ -449,7 +466,8 @@ class JDocument extends JObject
 	{
 		if (!isset($this->_style[strtolower($type)])) {
 			$this->_style[strtolower($type)] = $content;
-		} else {
+		}
+		else {
 			$this->_style[strtolower($type)] .= chr(13).$content;
 		}
 	}
@@ -461,7 +479,8 @@ class JDocument extends JObject
 	 *
 	 * @return  void
 	 */
-	public function setCharset($type = 'utf-8') {
+	public function setCharset($type = 'utf-8')
+	{
 		$this->_charset = $type;
 	}
 
@@ -470,7 +489,8 @@ class JDocument extends JObject
 	 *
 	 * @return string
 	 */
-	public function getCharset() {
+	public function getCharset()
+	{
 		return $this->_charset;
 	}
 
@@ -479,7 +499,8 @@ class JDocument extends JObject
 	 *
 	 * @param	string	$lang
 	 */
-	public function setLanguage($lang = "en-gb") {
+	public function setLanguage($lang = "en-gb")
+	{
 		$this->language = strtolower($lang);
 	}
 
@@ -488,7 +509,8 @@ class JDocument extends JObject
 	 *
 	 * @return string
 	 */
-	public function getLanguage() {
+	public function getLanguage()
+	{
 		return $this->language;
 	}
 
@@ -497,7 +519,8 @@ class JDocument extends JObject
 	 *
 	 * @param	string	$lang
 	 */
-	public function setDirection($dir = "ltr") {
+	public function setDirection($dir = "ltr")
+	{
 		$this->direction = strtolower($dir);
 	}
 
@@ -507,7 +530,8 @@ class JDocument extends JObject
 	 * @return string
 	 *
 	 */
-	public function getDirection() {
+	public function getDirection()
+	{
 		return $this->direction;
 	}
 
@@ -517,7 +541,8 @@ class JDocument extends JObject
 	 * @param	string	$title
 	 *
 	 */
-	public function setTitle($title) {
+	public function setTitle($title)
+	{
 		$this->title = $title;
 	}
 
@@ -526,7 +551,8 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	public function getTitle() {
+	public function getTitle()
+	{
 		return $this->title;
 	}
 
@@ -536,7 +562,8 @@ class JDocument extends JObject
 	 * @param	string	$base
 	 *
 	 */
-	public function setBase($base) {
+	public function setBase($base)
+	{
 		$this->base = $base;
 	}
 
@@ -546,7 +573,8 @@ class JDocument extends JObject
 	 * @return	string
 	 *
 	 */
-	public function getBase() {
+	public function getBase()
+	{
 		return $this->base;
 	}
 
@@ -556,7 +584,8 @@ class JDocument extends JObject
 	 * @param	string	$title
 	 *
 	 */
-	public function setDescription($description) {
+	public function setDescription($description)
+	{
 		$this->description = $description;
 	}
 
@@ -566,7 +595,8 @@ class JDocument extends JObject
 	 * @return	string
 	 *
 	 */
-	public function getDescription() {
+	public function getDescription()
+	{
 		return $this->description;
 	}
 
@@ -577,7 +607,8 @@ class JDocument extends JObject
 	 *
 	 * @return  void
 	 */
-	public function setLink($url) {
+	public function setLink($url)
+	{
 		$this->link = $url;
 	}
 
@@ -586,7 +617,8 @@ class JDocument extends JObject
 	 *
 	 * @return string
 	 */
-	public function getLink() {
+	public function getLink()
+	{
 		return $this->link;
 	}
 
@@ -596,7 +628,8 @@ class JDocument extends JObject
 	 * @param	string
 	 * @return  void
 	 */
-	public function setGenerator($generator) {
+	public function setGenerator($generator)
+	{
 		$this->_generator = $generator;
 	}
 
@@ -605,7 +638,8 @@ class JDocument extends JObject
 	 *
 	 * @return string
 	 */
-	public function getGenerator() {
+	public function getGenerator()
+	{
 		return $this->_generator;
 	}
 
@@ -616,7 +650,8 @@ class JDocument extends JObject
 	 *
 	 * @return  void
 	 */
-	public function setModifiedDate($date) {
+	public function setModifiedDate($date)
+	{
 		$this->_mdate = $date;
 	}
 
@@ -625,7 +660,8 @@ class JDocument extends JObject
 	 *
 	 * @return string
 	 */
-	public function getModifiedDate() {
+	public function getModifiedDate()
+	{
 		return $this->_mdate;
 	}
 
@@ -642,7 +678,8 @@ class JDocument extends JObject
 	 * @param	boolean		Should the type be synced with HTML?
 	 * @return	void
 	 */
-	public function setMimeEncoding($type = 'text/html', $sync = true) {
+	public function setMimeEncoding($type = 'text/html', $sync = true)
+	{
 		$this->_mime = strtolower($type);
 
 		// Syncing with meta-data
@@ -656,7 +693,8 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	public function getMimeEncoding() {
+	public function getMimeEncoding()
+	{
 		return $this->_mime;
 	}
 
@@ -668,7 +706,8 @@ class JDocument extends JObject
 	 */
 	public function setLineEnd($style)
 	{
-		switch ($style) {
+		switch ($style)
+		{
 			case 'win':
 				$this->_lineEnd = "\15\12";
 				break;
@@ -688,7 +727,8 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	private function _getLineEnd() {
+	private function _getLineEnd()
+	{
 		return $this->_lineEnd;
 	}
 
@@ -699,7 +739,8 @@ class JDocument extends JObject
 	 *
 	 * @return	void
 	 */
-	public function setTab($string) {
+	public function setTab($string)
+	{
 		$this->_tab = $string;
 	}
 
@@ -708,7 +749,8 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	private function _getTab() {
+	private function _getTab()
+	{
 		return $this->_tab;
 	}
 
@@ -723,12 +765,13 @@ class JDocument extends JObject
 	{
 		$class	= 'JDocumentRenderer'.$type;
 
-		if (!class_exists($class))
-		{
+		if (!class_exists($class)) {
 			$path = dirname(__FILE__).DS.$this->_type.DS.'renderer'.DS.$type.'.php';
+
 			if (file_exists($path)) {
 				require_once $path;
-			} else {
+			}
+			else {
 				JError::raiseError(500,JText::_('Unable to load renderer class'));
 			}
 		}
@@ -738,6 +781,7 @@ class JDocument extends JObject
 		}
 
 		$instance = new $class($this);
+
 		return $instance;
 	}
 
@@ -746,7 +790,8 @@ class JDocument extends JObject
 	 *
 	 * @return null
 	 */
-	public function parse($params = array()) {
+	public function parse($params = array())
+	{
 		return null;
 	}
 
@@ -764,6 +809,7 @@ class JDocument extends JObject
 		if ($mdate = $this->getModifiedDate()) {
 			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
 		}
+
 		JResponse::setHeader('Content-Type', $this->_mime .  '; charset=' . $this->_charset);
 	}
 }
