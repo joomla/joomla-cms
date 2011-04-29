@@ -311,7 +311,7 @@ class JDatabaseSQLAzure extends JDatabase
 			if (!class_exists('JDatabaseQuerySQLAzure')) {
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
-			return new JDatabaseQuerySQLAzure;
+			return new JDatabaseQuerySQLAzure($this);
 		}
 		else {
 			return $this->sql;
