@@ -186,7 +186,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * @param string  $key		Cache key to expire.
 	 * @param integer $lifetime  Lifetime of the data in seconds.
 	 */
-	private function _setExpire($key)
+	protected function _setExpire($key)
 	{
 		$lifetime	= ini_get("session.gc_maxlifetime");
 		$expire		= $this->_db->get($key.'_expire');

@@ -274,7 +274,7 @@ class JInstallerPackage extends JAdapterInstance
 		return $retval;
 	}
 
-	private function _getExtensionID($type, $id, $client, $group)
+	protected function _getExtensionID($type, $id, $client, $group)
 	{
 		$db		= $this->parent->getDbo();
 		$result = $id;

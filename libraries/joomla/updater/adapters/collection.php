@@ -19,19 +19,23 @@ class JUpdaterCollection extends JUpdateAdapter {
 	/**
 	 * @var object Root of the tree
 	 */
-	private $base;
+	protected $base;
+
 	/**
 	 * @var array Tree of objects
 	 */
 	protected $parent = Array(0);
+
 	/**
 	 * @var boolean Used to control if an item has a child or not
 	 */
 	protected $pop_parent = 0;
+
 	/**
 	 * @var array A list of discovered update sites
 	 */
 	protected $update_sites;
+
 	/**
 	 * @var array A list of discovered updates
 	 */

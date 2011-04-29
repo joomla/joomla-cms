@@ -21,7 +21,7 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerFile extends JAdapterInstance
 {
-	private $route = 'install';
+	protected $route = 'install';
 
 	/**
 	 * Custom loadLanguage method
@@ -360,7 +360,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @since	11.1
 	 */
 
-	private function extensionExistsInSystem($extension = null)
+	protected function extensionExistsInSystem($extension = null)
 	{
 
 		// Get a database connector object
@@ -395,7 +395,7 @@ class JInstallerFile extends JAdapterInstance
 	 * @return	boolean	none
 	 * @since	11.1
 	 */
-	private function populateFilesAndFolderList()
+	protected function populateFilesAndFolderList()
 	{
 
 		// Initialise variable

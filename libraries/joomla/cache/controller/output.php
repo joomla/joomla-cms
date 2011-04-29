@@ -21,17 +21,17 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * @since	11.1
 	 */
-	private $_id;
+	protected $_id;
 
 	/**
 	 * @since	11.1
 	 */
-	private $_group;
+	protected $_group;
 
 	/**
 	 * @since	11.1
 	 */
-	private $_locktest = null;
+	protected $_locktest = null;
 
 	/**
 	 * Start the cache

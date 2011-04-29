@@ -74,27 +74,27 @@ class JStream extends JObject
 	/**
 	 * @var File Handle
 	 */
-	private $_fh;
+	protected $_fh;
 
 	/**
 	 * @var File size
 	 */
-	private $_filesize;
+	protected $_filesize;
 
 	/**
 	 * @var Context to use when opening the connection
 	 */
-	private $_context = null;
+	protected $_context = null;
 
 	/**
 	 * @var Context options; used to rebuild the context
 	 */
-	private $_contextOptions;
+	protected $_contextOptions;
 
 	/**
 	 * @var The mode under which the file was opened
 	 */
-	private $_openmode;
+	protected $_openmode;
 
 	/**
 	 * Constructor

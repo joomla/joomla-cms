@@ -52,7 +52,7 @@ class JLogEntry
 	 * @var    array  List of available log priority levels [Based on the SysLog default levels].
 	 * @since  11.1
 	 */
-	private $_priorities = array(
+	protected $_priorities = array(
 		JLog::EMERGENCY,
 		JLog::ALERT,
 		JLog::CRITICAL,

@@ -31,7 +31,7 @@ class JDocumentRenderer extends JObject
 	 *
 	 * @var		string
 	 */
-	private $_mime = "text/html";
+	protected $_mime = "text/html";
 
 	/**
 	* Class constructor

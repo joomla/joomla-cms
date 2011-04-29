@@ -83,91 +83,91 @@ class JDocument extends JObject
 	 *
 	 * @var		string
 	 */
-	private $_tab = "\11";
+	protected $_tab = "\11";
 
 	/**
 	 * Contains the line end string
 	 *
 	 * @var		string
 	 */
-	private $_lineEnd = "\12";
+	protected $_lineEnd = "\12";
 
 	/**
 	 * Contains the character encoding string
 	 *
 	 * @var	string
 	 */
-	private $_charset = 'utf-8';
+	protected $_charset = 'utf-8';
 
 	/**
 	 * Document mime type
 	 *
 	 * @var		string
 	 */
-	private $_mime = '';
+	protected $_mime = '';
 
 	/**
 	 * Document namespace
 	 *
 	 * @var		string
 	 */
-	private $_namespace = '';
+	protected $_namespace = '';
 
 	/**
 	 * Document profile
 	 *
 	 * @var		string
 	 */
-	private $_profile = '';
+	protected $_profile = '';
 
 	/**
 	 * Array of linked scripts
 	 *
 	 * @var		array
 	 */
-	private $_scripts = array();
+	protected $_scripts = array();
 
 	/**
 	 * Array of scripts placed in the header
 	 *
 	 * @var  array
 	 */
-	private $_script = array();
+	protected $_script = array();
 
 	/**
 	 * Array of linked style sheets
 	 *
 	 * @var	array
 	 */
-	private $_styleSheets = array();
+	protected $_styleSheets = array();
 
 	/**
 	 * Array of included style declarations
 	 *
 	 * @var	array
 	 */
-	private $_style = array();
+	protected $_style = array();
 
 	/**
 	 * Array of meta tags
 	 *
 	 * @var	array
 	 */
-	private $_metaTags = array();
+	protected $_metaTags = array();
 
 	/**
 	 * The rendering engine
 	 *
 	 * @var	object
 	 */
-	private $_engine = null;
+	protected $_engine = null;
 
 	/**
 	 * The document type
 	 *
 	 * @var	string
 	 */
-	private $_type = null;
+	protected $_type = null;
 
 	/**
 	 * Array of buffered output
@@ -727,7 +727,7 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	private function _getLineEnd()
+	protected function _getLineEnd()
 	{
 		return $this->_lineEnd;
 	}
@@ -749,7 +749,7 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	private function _getTab()
+	protected function _getTab()
 	{
 		return $this->_tab;
 	}

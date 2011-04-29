@@ -117,7 +117,7 @@ class JCacheControllerView extends JCacheController
 	 * @return	string	MD5 Hash : view cache id
 	 * @since	11.1
 	 */
-	private function _makeId(&$view, $method)
+	protected function _makeId(&$view, $method)
 	{
 		return md5(serialize(array(JCache::makeId(), get_class($view), $method)));
 	}

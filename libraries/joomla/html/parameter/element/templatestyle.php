@@ -44,7 +44,7 @@ class JElementTemplateStyle extends JElement {
 		return $html;
 	}
 
-	private function _getSelected()
+	protected function _getSelected()
 	{
 		$id = JRequest::getVar( 'cid', 0 );
 		$db = JFactory::getDBO();

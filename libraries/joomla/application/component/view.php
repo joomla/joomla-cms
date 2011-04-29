@@ -85,28 +85,28 @@ class JView extends JObject
 	*
 	* @var string
 	*/
-	private $_template = null;
+	protected $_template = null;
 
 	/**
 	* The output of the template script.
 	*
 	* @var string
 	*/
-	private $_output = null;
+	protected $_output = null;
 
 	/**
 	 * Callback for escaping.
 	 *
 	 * @var string
 	 */
-	private $_escape = 'htmlspecialchars';
+	protected $_escape = 'htmlspecialchars';
 
 	/**
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var string
 	 */
-	private $_charset = 'UTF-8';
+	protected $_charset = 'UTF-8';
 
 	/**
 	 * Constructor
@@ -685,7 +685,7 @@ class JView extends JObject
 	 * @return	string	The filename
 	 * @since   11.1
 	 */
-	private function _createFileName($type, $parts = array())
+	protected function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 

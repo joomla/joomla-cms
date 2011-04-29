@@ -26,12 +26,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * @since	11.1
 	 */
-	private $_persistent = false;
+	protected $_persistent = false;
 
 	/**
 	 * @since	11.1
 	 */
-	private $_compress = 0;
+	protected $_compress = 0;
 
 	/**
 	 * Constructor
@@ -53,7 +53,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	object	memcache connection object
 	 * @since	11.1
 	 */
-	private function getConnection()
+	protected function getConnection()
 	{
 		if ((extension_loaded('memcache') && class_exists('Memcache')) != true ) {
 			return false;
@@ -370,7 +370,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @since	11.1
 	 * @return boolean  True on success, false otherwise.
 	 */
-	private function lockindex()
+	protected function lockindex()
 	{
 		$looptime 	= 300;
 		$data_lock 	= self::$_db->add($this->_hash.'-index_lock', 1, false, 30);
@@ -402,7 +402,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 * @return	boolean	True on success, false otherwise.
 	 * @since	11.1
 	 */
-	private function unlockindex()
+	protected function unlockindex()
 	{
 		return self::$_db->delete($this->_hash.'-index_lock');
 	}

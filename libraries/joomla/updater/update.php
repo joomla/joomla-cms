@@ -34,9 +34,9 @@ class JUpdate extends JObject
 	protected $relationships;
 	protected $targetplatform;
 
-	private $_xml_parser;
-	private $_stack = Array('base');
-	private $_state_store = Array();
+	protected $_xml_parser;
+	protected $_stack = Array('base');
+	protected $_state_store = Array();
 
 	/**
 	 * Gets the reference to the current direct parent

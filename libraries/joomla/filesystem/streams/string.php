@@ -23,21 +23,21 @@ jimport('joomla.filesystem.support.stringcontroller');
  */
 class JStreamString
 {
-	private $_currentstring;
+	protected $_currentstring;
 
-	private $_path;
+	protected $_path;
 
-	private $_mode;
+	protected $_mode;
 
-	private $_options;
+	protected $_options;
 
-	private $_opened_path;
+	protected $_opened_path;
 
-	private $_pos;
+	protected $_pos;
 
-	private $_len;
+	protected $_len;
 
-	private $_stat;
+	protected $_stat;
 
 	/**
 	 * @param	$path

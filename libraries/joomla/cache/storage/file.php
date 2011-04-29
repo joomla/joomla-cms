@@ -21,7 +21,7 @@ class JCacheStorageFile extends JCacheStorage
 	/**
 	 * @since	11.1
 	 */
-	private $_root;
+	protected $_root;
 
 	/**
 	 * Constructor
@@ -297,7 +297,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @param	string	$group	The cache data group.
 	 * @since	11.1
 	 */
-	private function _checkExpire($id, $group)
+	protected function _checkExpire($id, $group)
 	{
 		$path = $this->_getFilePath($id, $group);
 
@@ -321,7 +321,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	string	The cache file path
 	 * @since	11.1
 	 */
-	private function _getFilePath($id, $group)
+	protected function _getFilePath($id, $group)
 	{
 		$name	= $this->_getCacheId($id, $group);
 		$dir	= $this->_root.DS.$group;
@@ -348,7 +348,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return boolean True on success.
 	 * @since 11.1
 	 */
-	private function _deleteFolder($path)
+	protected function _deleteFolder($path)
 	{
 	// Sanity check
 		if (!$path || !is_dir($path) || empty($this->_root)) {
@@ -429,7 +429,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	string	The cleaned path
 	 * @since	11.1
 	 */
-	private function _cleanPath($path, $ds = DS)
+	protected function _cleanPath($path, $ds = DS)
 	{
 		$path = trim($path);
 
@@ -457,7 +457,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	array	Files in the given folder.
 	 * @since 11.1
 	 */
-	private function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
+	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*','.*~'))
 	{
 		// Initialise variables.
 		$arr = array();
@@ -524,7 +524,7 @@ class JCacheStorageFile extends JCacheStorage
 	 * @return	array	Folders in the given folder.
 	 * @since 11.1
 	 */
-	private function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
+	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS','.DS_Store','__MACOSX'), $excludefilter = array('^\..*'))
 	{
 		// Initialise variables.
 		$arr = array();

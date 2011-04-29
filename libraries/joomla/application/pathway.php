@@ -25,12 +25,12 @@ class JPathway extends JObject
 	/**
 	 * Array to hold the pathway item objects
 	 */
-	private $_pathway = null;
+	protected $_pathway = null;
 
 	/**
 	 * Integer number of items in the pathway
 	 */
-	private $_count = 0;
+	protected $_count = 0;
 
 	/**
 	 * Class constructor
@@ -188,7 +188,7 @@ class JPathway extends JObject
 	 * @return object Pathway item object
 	 * @since   11.1
 	 */
-	private function _makeItem($name, $link)
+	protected function _makeItem($name, $link)
 	{
 		$item = new stdClass();
 		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');

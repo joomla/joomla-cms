@@ -29,7 +29,7 @@ defined('JPATH_PLATFORM') or die;
 	 *
 	 * @var		string
 	 */
-	private $_mime = "application/atom+xml";
+	protected $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed

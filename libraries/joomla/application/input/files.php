@@ -21,7 +21,7 @@ jimport('joomla.application.input');
 class JInputFiles extends JInput
 {
 
-	private $_decodedData = array();
+	protected $_decodedData = array();
 
 	/**
 	 * Gets a value from the input data.

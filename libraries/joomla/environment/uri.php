@@ -663,7 +663,7 @@ class JURI extends JObject
 	 * @return	string Cleaned and resolved URI path.
 	 * @since	11.1
 	 */
-	private function _cleanPath($path)
+	protected function _cleanPath($path)
 	{
 		$path = explode('/', preg_replace('#(/+)#', '/', $path));
 

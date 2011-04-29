@@ -82,7 +82,7 @@ class JModelList extends JModel
 	 * @return	JDatabaseQuery
 	 * @since	11.1
 	 */
-	private function _getListQuery()
+	protected function _getListQuery()
 	{
 		// Capture the last store id used.
 		static $lastStoreId;

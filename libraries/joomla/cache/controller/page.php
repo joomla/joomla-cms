@@ -24,7 +24,7 @@ class JCacheControllerPage extends JCacheController
 	 * @var		integer
 	 * @since	11.1
 	 */
-	private $_id;
+	protected $_id;
 
 	/**
 	 * Cache group
@@ -32,7 +32,7 @@ class JCacheControllerPage extends JCacheController
 	 * @var		string
 	 * @since	11.1
 	 */
-	private $_group;
+	protected $_group;
 
 	/**
 	 * Cache lock test
@@ -40,7 +40,7 @@ class JCacheControllerPage extends JCacheController
 	 * @var		object
 	 * @since	11.1
 	 */
-	private $_locktest = null;
+	protected $_locktest = null;
 
 	/**
 	 * Get the cached page data
@@ -150,7 +150,7 @@ class JCacheControllerPage extends JCacheController
 	 * @return	string	MD5 Hash : page cache id
 	 * @since	11.1
 	 */
-	private function _makeId()
+	protected function _makeId()
 	{
 		//return md5(JRequest::getURI());
 		return JCache::makeId();
@@ -162,7 +162,7 @@ class JCacheControllerPage extends JCacheController
 	 * @return	void
 	 * @since	11.1
 	 */
-	private function _noChange()
+	protected function _noChange()
 	{
 		$app = JFactory::getApplication();
 
@@ -177,7 +177,7 @@ class JCacheControllerPage extends JCacheController
 	 * @return	void
 	 * @since	11.1
 	 */
-	private function _setEtag($etag)
+	protected function _setEtag($etag)
 	{
 		JResponse::setHeader('ETag', $etag, true);
 	}

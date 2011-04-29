@@ -154,7 +154,7 @@ class JCacheControllerCallback extends JCacheController
 	 * @return	string	MD5 Hash : function cache id
 	 * @since	11.1
 	 */
-	private function _makeId($callback, $args)
+	protected function _makeId($callback, $args)
 	{
 		if (is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);

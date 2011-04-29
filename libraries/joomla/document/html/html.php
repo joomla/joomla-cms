@@ -390,7 +390,7 @@ class JDocumentHTML extends JDocument
 	 * @param string	$filename	The actual filename
 	 * @return string The contents of the template
 	 */
-	private function _loadTemplate($directory, $filename)
+	protected function _loadTemplate($directory, $filename)
 	{
 //		$component	= JApplicationHelper::getComponentName();
 
@@ -467,7 +467,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @return	The parsed contents of the template
 	 */
-	private function _parseTemplate()
+	protected function _parseTemplate()
 	{
 		$replace = array();
 		$matches = array();
@@ -495,7 +495,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @return string rendered template
 	 */
-	private function _renderTemplate() {
+	protected function _renderTemplate() {
 		$replace = array();
 		$with = array();
 
