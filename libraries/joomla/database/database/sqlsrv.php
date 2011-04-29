@@ -134,7 +134,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  Any constraints available for the table
 	 * @since   11.1
 	 */
-	private function _get_table_constraints($tableName)
+	protected function _get_table_constraints($tableName)
 	{
 		$query = $this->getQuery(true);
 
@@ -155,7 +155,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 * @return  void
 	 * @since   11.1
 	 */
-	private function _renameConstraints($constraints = array(), $prefix = null, $backup = null)
+	protected function _renameConstraints($constraints = array(), $prefix = null, $backup = null)
 	{
 		foreach($constraints as $constraint)
 		{
@@ -789,7 +789,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	private function _checkFieldExists($table, $field)
+	protected function _checkFieldExists($table, $field)
 	{
 		$table = $this->replacePrefix((string) $table);
 		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS".
@@ -816,7 +816,7 @@ class JDatabaseSQLSrv extends JDatabase
 	 *
 	 * @since   11.1
 	 */
-	private function _limit($sql, $limit, $offset)
+	protected function _limit($sql, $limit, $offset)
 	{
 		$orderBy = stristr($sql, 'ORDER BY');
 		if (is_null($orderBy) || empty($orderBy)) {
