@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.event.dispatcher');
+jimport('joomla.environment.response');
 
 /**
  * Base class for a Joomla! application.
