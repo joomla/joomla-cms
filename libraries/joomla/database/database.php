@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.database.databaseexception');
+JLoader::register('DatabaseException', JPATH_PLATFORM.'/joomla/database/databaseexception.php');
 jimport('joomla.filesystem.folder');
 
 /**
@@ -1175,6 +1175,18 @@ abstract class JDatabase
 	abstract public function getTableColumns($tables, $typeOnly = true);
 
 	/**
+	 * Retrieves field information about the given tables.
+	 *
+	 * @param   mixed  $tables    A table name or a list of table names.
+	 *
+	 * @return  array  An array of keys for the table(s).
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 */
+	abstract public function getTableKeys($tables);
+
+	/**
 	 * Method to get an array of all tables in the database.
 	 *
 	 * @return  array  An array of all the tables in the database.
@@ -1523,7 +1535,16 @@ abstract class JDatabase
 		// Deprecation warning.
 		JLog::add('JDatabase::getTableFields() is deprecated. Use JDatabase::getTableColumns().', JLog::WARNING, 'deprecated');
 
-		return $this->getTableColumns($tables, $typeOnly);
+		$results = array();
+
+		settype($tables, 'array');
+
+		foreach ($tables as $table)
+		{
+			$results[$table] = $this->getTableColumns($table, $typeOnly);
+		}
+
+		return $results;
 	}
 
 	/**
