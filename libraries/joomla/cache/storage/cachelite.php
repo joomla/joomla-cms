@@ -21,7 +21,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * @since	11.1
 	 */
-	private static $CacheLiteInstance = null;
+	protected static $CacheLiteInstance = null;
 
 	/**
 	 * @since	11.1
@@ -58,7 +58,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Instantiates the appropriate CacheLite object.
 	 * Only initializes the engine if it does not already exist.
-	 * Note this is a private method
+	 * Note this is a protected method
 	 * @param array $options optional parameters
 	 * @since		11.1
 	 */

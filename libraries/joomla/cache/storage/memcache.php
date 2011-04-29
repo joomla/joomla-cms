@@ -21,7 +21,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * @since	11.1
 	 */
-	private static $_db = null;
+	protected static $_db = null;
 
 	/**
 	 * @since	11.1

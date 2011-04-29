@@ -25,7 +25,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  11.1
 	 */
-	private static $_imported = array();
+	protected static $_imported = array();
 
 	/**
 	 * Container for already imported library paths.
@@ -33,7 +33,7 @@ abstract class JLoader
 	 * @var    array
 	 * @since  11.1
 	 */
-	private static $_classes = array();
+	protected static $_classes = array();
 
 	/**
 	 * Loads a class from specified directories.

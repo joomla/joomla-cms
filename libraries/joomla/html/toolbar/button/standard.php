@@ -54,7 +54,6 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @access	private
 	 * @param	string	$name	The task name as seen by the user
 	 * @param	string	$task	The task used by the application
 	 * @param	???		$list
@@ -70,10 +69,10 @@ class JButtonStandard extends JButton
 
 		if ($list) {
 			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
-		} else {
+		}
+		else {
 			$cmd = "javascript:Joomla.submitbutton('$task')";
 		}
-
 
 		return $cmd;
 	}

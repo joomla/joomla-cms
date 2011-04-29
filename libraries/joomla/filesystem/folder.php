@@ -546,7 +546,7 @@ abstract class JFolder
 	 * @return	array	Files.
 	 * @since   11.1
 	 */
-	private static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)
+	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)
 	{
 		// Initialise variables.
 		$arr = array();

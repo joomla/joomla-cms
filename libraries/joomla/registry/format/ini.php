@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
-	private static $cache = array();
+	protected static $cache = array();
 
 	/**
 	 * Converts an object into an INI formatted string

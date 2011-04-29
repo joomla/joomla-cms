@@ -41,14 +41,14 @@ abstract class JHtml
 		'format.indent' => "\t"
  );
 
-	private static $includePaths = array();
+	protected static $includePaths = array();
 
 	/**
 	 * An array to hold method references
 	 *
 	 * @var array
 	 */
-	private static $registry = array();
+	protected static $registry = array();
 
 	protected static function extract($key)
 	{
@@ -173,7 +173,7 @@ abstract class JHtml
 	 * @param	string	Function or method to call
 	 * @param	array	Arguments to be passed to function
 	 */
-	private static function call($function, $args)
+	protected static function call($function, $args)
 	{
 		if (is_callable($function))
 		{
@@ -240,7 +240,7 @@ abstract class JHtml
 	 * @return	array		files to be included
 	 * @since	11.1
 	 */
-	private static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
+	protected static function _includeRelativeFiles($file, $relative, $detect_browser, $folder)
 	{
 		// If http is present in filename
 		if (strpos($file, 'http') === 0)

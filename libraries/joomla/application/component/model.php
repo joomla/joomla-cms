@@ -129,7 +129,7 @@ abstract class JModel extends JObject
 	 * @return	string	The filename
 	 * @since	11.1
 	 */
-	private static function _createFileName($type, $parts = array())
+	protected static function _createFileName($type, $parts = array())
 	{
 		$filename = '';
 
@@ -359,7 +359,7 @@ abstract class JModel extends JObject
 	public function getState($property = null, $default = null)
 	{
 		if (!$this->__state_set) {
-			// Private method to auto-populate the model state.
+			// Protected method to auto-populate the model state.
 			$this->populateState();
 
 			// Set the model state set flag to true.

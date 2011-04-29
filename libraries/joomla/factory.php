@@ -488,7 +488,7 @@ abstract class JFactory
 	 *
 	 * @since   11.1
 	 */
-	private static function _createConfig($file, $type = 'PHP', $namespace = '')
+	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
 	{
 		jimport('joomla.registry.registry');
 
@@ -525,7 +525,7 @@ abstract class JFactory
 	 * @return JSession object
 	 * @since   11.1
 	 */
-	private static function _createSession($options = array())
+	protected static function _createSession($options = array())
 	{
 		jimport('joomla.session.session');
 
@@ -553,7 +553,7 @@ abstract class JFactory
 	 *
 	 * @since   11.1
 	 */
-	private static function _createDbo()
+	protected static function _createDbo()
 	{
 		jimport('joomla.database.database');
 		jimport('joomla.database.table');
@@ -591,7 +591,7 @@ abstract class JFactory
 	 * @return JMail object
 	 * @since  11.1
 	 */
-	private static function _createMailer()
+	protected static function _createMailer()
 	{
 		jimport('joomla.mail.mail');
 
@@ -641,7 +641,7 @@ abstract class JFactory
 	 * @return JLanguage object
 	 * @since   11.1
 	 */
-	private static function _createLanguage()
+	protected static function _createLanguage()
 	{
 		jimport('joomla.language.language');
 
@@ -661,7 +661,7 @@ abstract class JFactory
 	 * @return JDocument object
 	 * @since   11.1
 	 */
-	private static function _createDocument()
+	protected static function _createDocument()
 	{
 		jimport('joomla.document.document');
 

@@ -494,7 +494,7 @@ abstract class JUserHelper
 	 * @return string  $value converted to the 64 MD5 characters.
 	 * @since   11.1
 	 */
-	private static function _toAPRMD5($value, $count)
+	protected static function _toAPRMD5($value, $count)
 	{
 		/* 64 characters that are valid for APRMD5 passwords. */
 		$APRMD5 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -516,7 +516,7 @@ abstract class JUserHelper
 	 * @return string  Binary data.
 	 * @since   11.1
 	 */
-	private static function _bin($hex)
+	protected static function _bin($hex)
 	{
 		$bin = '';
 		$length = strlen($hex);

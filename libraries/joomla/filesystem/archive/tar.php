@@ -117,7 +117,6 @@ class JArchiveTar extends JObject
 	/**
 	 * Get the list of files/data from a Tar archive buffer.
 	 *
-	 * @access	private
 	 * @param 	string	$data	The Tar archive buffer.
 	 * @return	array	Archive metadata array
 	 * <pre>
@@ -131,7 +130,7 @@ class JArchiveTar extends JObject
 	 * </pre>
 	 * @since	1.5
 	 */
-	function _getTarInfo(& $data)
+	protected function _getTarInfo(& $data)
 	{
 		$position = 0;
 		$return_array = array ();
