@@ -319,23 +319,6 @@ class JDatabaseSQLAzure extends JDatabase
 	}
 
 	/**
-	 * Shows the table CREATE statement that creates the given tables.
-	 *
-	 * This is unsupported by MSSQL.
-	 *
-	 * @param   mixed  $tables  A table name or a list of table names.
-	 *
-	 * @return  array  A list of the create SQL for the tables.
-	 *
-	 * @since   11.1
-	 * @throws  DatabaseException
-	 */
-	public function getTableCreate($tables)
-	{
-		return '';
-	}
-
-	/**
 	 * Retrieves field information about the given tables.
 	 *
 	 * @param   mixed  $tables    A table name or a list of table names.
@@ -380,6 +363,39 @@ class JDatabaseSQLAzure extends JDatabase
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Shows the table CREATE statement that creates the given tables.
+	 *
+	 * This is unsupported by MSSQL.
+	 *
+	 * @param   mixed  $tables  A table name or a list of table names.
+	 *
+	 * @return  array  A list of the create SQL for the tables.
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 */
+	public function getTableCreate($tables)
+	{
+		return '';
+	}
+
+	/**
+	 * Get the details list of keys for a table.
+	 *
+	 * @param   string  $table  The name of the table.
+	 *
+	 * @return  array  An arry of the column specification for the table.
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 */
+	protected function getTableKeys($table)
+	{
+		// TODO To implement.
+		return array();
 	}
 
 	/**

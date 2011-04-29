@@ -152,7 +152,7 @@ class JDatabaseMySQL extends JDatabase
 	 * @param   string  $tableName  The name of the database table to drop.
 	 * @param   bool    $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  JDatbaseSQLSrv  Returns this object to support chaining.
+	 * @return  JDatabaseSQLSrv  Returns this object to support chaining.
 	 * @since   11.1
 	 */
 	function dropTable($tableName, $ifExists = true)
@@ -203,18 +203,18 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Gets an exporter class object.
 	 *
-	 * @return  JDatbaseExporterMySQL  An exporter object.
+	 * @return  JDatabaseExporterMySQL  An exporter object.
 	 *
 	 * @since   11.1
 	 */
 	public function getExporter()
 	{
 		// Make sure we have an exporter class for this driver.
-		if (!class_exists('JDatbaseExporterMySQL')) {
+		if (!class_exists('JDatabaseExporterMySQL')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_EXPORTER'));
 		}
 
-		$o = new JDatbaseExporterMySQL;
+		$o = new JDatabaseExporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -223,18 +223,18 @@ class JDatabaseMySQL extends JDatabase
 	/**
 	 * Gets an importer class object.
 	 *
-	 * @return  JDatbaseImporterMySQL  An importer object.
+	 * @return  JDatabaseImporterMySQL  An importer object.
 	 *
 	 * @since   11.1
 	 */
 	public function getImporter()
 	{
 		// Make sure we have an importer class for this driver.
-		if (!class_exists('JDatbaseImporterMySQL')) {
+		if (!class_exists('JDatabaseImporterMySQL')) {
 			throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_IMPORTER'));
 		}
 
-		$o = new JDatbaseImporterMySQL;
+		$o = new JDatabaseImporterMySQL;
 		$o->setDbo($this);
 
 		return $o;
@@ -268,7 +268,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		if ($new) {
 			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatbaseQueryMySQL')) {
+			if (!class_exists('JDatabaseQueryMySQL')) {
 				throw new DatabaseException(JText::_('JLIB_DATABASE_ERROR_MISSING_QUERY'));
 			}
 			return new JDatabaseQueryMySQL;
@@ -309,47 +309,62 @@ class JDatabaseMySQL extends JDatabase
 	}
 
 	/**
-	 * Retrieves field information about the given tables.
+	 * Retrieves field information about a given table.
 	 *
-	 * @param   mixed  $tables    A table name or a list of table names.
-	 * @param   bool   $typeOnly  True to only return field types.
+	 * @param   string  $table     The name of the database table.
+	 * @param   bool    $typeOnly  True to only return field types.
 	 *
-	 * @return  array  An array of fields by table.
+	 * @return  array  An array of fields for the database table.
 	 *
 	 * @since   11.1
 	 * @throws  DatabaseException
 	 */
-	public function getTableColumns($tables, $typeOnly = true)
+	public function getTableColumns($table, $typeOnly = true)
 	{
-		// Initialise variables.
 		$result = array();
+		$query = $this->getQuery(true);
 
-		// Sanitize input to an array and iterate over the list.
-		settype($tables, 'array');
+		// Set the query to get the table fields statement.
+		$this->setQuery('SHOW FULL COLUMNS FROM '.$this->nameQuote($this->getEscaped($table)));
+		$fields = $this->loadObjectList();
 
-		foreach ($tables as $table)
-		{
-			// Set the query to get the table fields statement.
-			$this->setQuery('SHOW FULL COLUMNS FROM '.$this->nameQuote($this->getEscaped($table)));
-			$fields = $this->loadObjectList();
-
-			// If we only want the type as the value add just that to the list.
-			if ($typeOnly) {
-				foreach ($fields as $field)
-				{
-					$result[$table][$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type);
-				}
+		// If we only want the type as the value add just that to the list.
+		if ($typeOnly) {
+			foreach ($fields as $field)
+			{
+				$result[$field->Field] = preg_replace("/[(0-9)]/",'', $field->Type);
 			}
-			// If we want the whole field data object add that to the list.
-			else {
-				foreach ($fields as $field)
-				{
-					$result[$table][$field->Field] = $field;
-				}
+		}
+		// If we want the whole field data object add that to the list.
+		else {
+			foreach ($fields as $field)
+			{
+				$result[$field->Field] = $field;
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get the details list of keys for a table.
+	 *
+	 * @param   string  $table  The name of the table.
+	 *
+	 * @return  array  An arry of the column specification for the table.
+	 *
+	 * @since   11.1
+	 * @throws  DatabaseException
+	 */
+	protected function getTableKeys($table)
+	{
+		// Get the details columns information.
+		$this->setQuery(
+			'SHOW KEYS FROM '.$this->db->nameQuote($table)
+		);
+		$keys = $this->loadObjectList();
+
+		return $keys;
 	}
 
 	/**
