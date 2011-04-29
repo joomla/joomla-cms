@@ -155,8 +155,8 @@ class JDatabaseExporterMySQLi
 			$table = $this->getGenericTableName($table);
 
 			// Get the details columns information.
-			$fields	= $this->getColumns($table);
-			$keys	= $this->getKeys($table);
+			$fields	= $this->db->getTableColumns($table);
+			$keys	= $this->db->getTableKeys($table);
 
 			$buffer[] = '  <table_structure name="'.$table .'">';
 
@@ -213,34 +213,6 @@ class JDatabaseExporterMySQLi
 	}
 
 	/**
-	 * Get the details list of columns for a table.
-	 *
-	 * @param   string  $table  The name of the table.
-	 *
-	 * @return  array   An arry of the column specification for the table.
-	 * @since   11.1
-	 * @throws  Exception
-	 * @todo    Move into database connector class.
-	 */
-	protected function getColumns($table)
-	{
-		if (empty($this->cache['columns'][$table])) {
-			// Get the details columns information.
-			$this->db->setQuery(
-				'SHOW FULL COLUMNS FROM '.$this->db->nameQuote($table)
-			);
-			$this->cache['columns'][$table] = $this->db->loadObjectList('Field');
-
-			// Check for a db error.
-			if ($this->db->getErrorNum()) {
-				throw new Exception($this->db->getErrorMsg());
-			}
-		}
-
-		return $this->cache['columns'][$table];
-	}
-
-	/**
 	 * Get the generic name of the table, converting the database prefix to the wildcard string.
 	 *
 	 * @param   string  $table	The name of the table.
@@ -257,34 +229,6 @@ class JDatabaseExporterMySQLi
 		$table = preg_replace("|^$prefix|", '#__', $table);
 
 		return $table;
-	}
-
-	/**
-	 * Get the details list of keys for a table.
-	 *
-	 * @param   string  $table  The name of the table.
-	 *
-	 * @return  array  An arry of the column specification for the table.
-	 * @since   11.1
-	 * @throws  Exception
-	 * @todo    Move into database connector class.
-	 */
-	protected function getKeys($table)
-	{
-		if (empty($this->cache['keys'][$table])) {
-			// Get the details columns information.
-			$this->db->setQuery(
-				'SHOW KEYS FROM '.$this->db->nameQuote($table)
-			);
-			$this->cache['keys'][$table] = $this->db->loadObjectList();
-
-			// Check for a db error.
-			if ($this->db->getErrorNum()) {
-				throw new Exception($db->getErrorMsg());
-			}
-		}
-
-		return $this->cache['keys'][$table];
 	}
 
 	/**
