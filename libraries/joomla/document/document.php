@@ -728,7 +728,7 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	protected function _getLineEnd()
+	public function _getLineEnd()
 	{
 		return $this->_lineEnd;
 	}
@@ -750,7 +750,7 @@ class JDocument extends JObject
 	 *
 	 * @return	string
 	 */
-	protected function _getTab()
+	public function _getTab()
 	{
 		return $this->_tab;
 	}
