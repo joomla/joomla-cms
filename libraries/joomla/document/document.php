@@ -83,98 +83,98 @@ class JDocument extends JObject
 	 *
 	 * @var		string
 	 */
-	protected $_tab = "\11";
+	public $_tab = "\11";
 
 	/**
 	 * Contains the line end string
 	 *
 	 * @var		string
 	 */
-	protected $_lineEnd = "\12";
+	public $_lineEnd = "\12";
 
 	/**
 	 * Contains the character encoding string
 	 *
 	 * @var	string
 	 */
-	protected $_charset = 'utf-8';
+	public $_charset = 'utf-8';
 
 	/**
 	 * Document mime type
 	 *
 	 * @var		string
 	 */
-	protected $_mime = '';
+	public $_mime = '';
 
 	/**
 	 * Document namespace
 	 *
 	 * @var		string
 	 */
-	protected $_namespace = '';
+	public $_namespace = '';
 
 	/**
 	 * Document profile
 	 *
 	 * @var		string
 	 */
-	protected $_profile = '';
+	public $_profile = '';
 
 	/**
 	 * Array of linked scripts
 	 *
 	 * @var		array
 	 */
-	protected $_scripts = array();
+	public $_scripts = array();
 
 	/**
 	 * Array of scripts placed in the header
 	 *
 	 * @var  array
 	 */
-	protected $_script = array();
+	public $_script = array();
 
 	/**
 	 * Array of linked style sheets
 	 *
 	 * @var	array
 	 */
-	protected $_styleSheets = array();
+	public $_styleSheets = array();
 
 	/**
 	 * Array of included style declarations
 	 *
 	 * @var	array
 	 */
-	protected $_style = array();
+	public $_style = array();
 
 	/**
 	 * Array of meta tags
 	 *
 	 * @var	array
 	 */
-	protected $_metaTags = array();
+	public $_metaTags = array();
 
 	/**
 	 * The rendering engine
 	 *
 	 * @var	object
 	 */
-	protected $_engine = null;
+	public $_engine = null;
 
 	/**
 	 * The document type
 	 *
 	 * @var	string
 	 */
-	protected $_type = null;
+	public $_type = null;
 
 	/**
 	 * Array of buffered output
 	 *
 	 * @var		mixed (depends on the renderer)
 	 */
-	protected static $_buffer = null;
+	public static $_buffer = null;
 
 	/**
 	 * Class constructor.
