@@ -112,7 +112,7 @@ class JView extends JObject
 	 * Constructor
 	 *
 	 */
-	protected function __construct($config = array())
+	public function __construct($config = array())
 	{
 		// Set the view name
 		if (empty($this->_name))
