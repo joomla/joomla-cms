@@ -13,6 +13,7 @@ jimport('joomla.filesystem.path');
 jimport('joomla.form.formfield');
 jimport('joomla.registry.registry');
 jimport('joomla.form.helper');
+jimport('joomla.utilities.arrayhelper');
 
 /**
  * Form Class for the Joomla Framework.
