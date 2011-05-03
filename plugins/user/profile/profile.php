@@ -18,6 +18,20 @@ jimport('joomla.utilities.date');
 class plgUserProfile extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
 	 * @param	string	$context	The context for the data
 	 * @param	int		$data		The user id
 	 * @param	object
@@ -120,9 +134,6 @@ class plgUserProfile extends JPlugin
 	 */
 	function onContentPrepareForm($form, $data)
 	{
-		// Load user_profile plugin language
-		$lang = JFactory::getLanguage();
-		$lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 
 		if (!($form instanceof JForm))
 		{
