@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#25796] *Editing template files is impossible if Codemirror and editor None are disabled
  # [#25795] *Normalizing language load in profile plugin
  # [#25642] Update TinyMCE to version 3.3.9.4. Thanks Rouven.
+ # [#24574] After Reading message, the counter does not refresh. Thanks Marco and Roland.
  
 28-Apr-2011 Christophe Demko
  # [#25693] Incorrect importing of languagefilter, plugin's class is initialised twice (Dennis Hermatski)

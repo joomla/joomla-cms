@@ -105,6 +105,15 @@ class MessagesModelMessage extends JModelAdmin
 					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 					return false;
 				}
+				else {
+					// Mark message read
+					$db		= $this->getDbo();
+					$query	= $db->getQuery(true);
+					$query->update('#__messages');
+					$query->set('state = 1');
+					$query->where('message_id = '.$this->item->message_id);
+					$db->setQuery($query)->query();
+				}
 			}
 		
 			// Get the user name for an existing messasge.
