@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-May-2011 Jean-Marie Simonet
+ # [#25796] *Editing template files is impossible if Codemirror and editor None are disabled
+ 
 28-Apr-2011 Christophe Demko
  # [#25693] Incorrect importing of languagefilter, plugin's class is initialised twice (Dennis Hermatski)
 
