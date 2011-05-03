@@ -12,7 +12,7 @@ function insertTable() {
 	tinyMCEPopup.restoreSelection();
 
 	if (!AutoValidator.validate(formObj)) {
-		tinyMCEPopup.alert(inst.getLang('invalid_data'));
+		tinyMCEPopup.alert(AutoValidator.getErrorMessages(formObj).join('. ') + '.');
 		return false;
 	}
 
