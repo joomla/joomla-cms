@@ -45,7 +45,6 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		echo "Go to back end and delete the redirect\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		$this->open("/joomla_development/j16_trunk/administrator/index.php");
 		$this->click("link=Redirect");
 		$this->waitForPageToLoad("30000");
 		$this->click("checkall-toggle");
