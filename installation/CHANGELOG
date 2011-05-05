@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-May-2011 Jean-Marie Simonet
+ # [#25820] *Automatic site content language change at login parameter not implemented in languagefilter.
+
 03-May-2011 Jean-Marie Simonet
  # [#25796] *Editing template files is impossible if Codemirror and editor None are disabled
  # [#25795] *Normalizing language load in profile plugin
