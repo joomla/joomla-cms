@@ -211,22 +211,6 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
-	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
-	 *                 etc.  The child classes should define this as necessary.  If a single character string the
-	 *                 same character is used for both sides of the quoted name, else the first character will be
-	 *                 used for the opening quote and the second for the closing quote.
-	 * @since       11.1
-	 */
-	protected $name_quotes = '';
-
-	/**
-	 * @var    string  The null or zero representation of a timestamp for the database driver.  This should be
-	 *                 defined in child classes to hold the appropriate value for the engine.
-	 * @since  11.1
-	 */
-	protected $null_date = '';
-
-	/**
 	 * Magic method to provide method alias support for quote() and nameQuote().
 	 *
 	 * @param   string  $method  The called method.
@@ -266,7 +250,7 @@ abstract class JDatabaseQuery
 	 * @return  JDatabaseQuery
 	 * @since   11.1
 	 */
-	public function __construct(JDatabase $db)
+	public function __construct(JDatabase $db = null)
 	{
 		$this->db = $db;
 	}
@@ -481,9 +465,17 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since       11.1
+	 * @since   11.1
+	 * @throws  DatabaseError if the internal db property is not a valid object.
 	 */
-	abstract public function escape($text, $extra = false);
+	public function escape($text, $extra = false)
+	{
+		if (!($this->db instanceof JDatabase)) {
+			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		}
+
+		$this->db->escape($text, $extra);
+	}
 
 	/**
 	 * Add a table to the FROM clause of the query.
@@ -648,10 +640,15 @@ abstract class JDatabaseQuery
 	 * @return  string  The quoted input string.
 	 *
 	 * @since   11.1
+	 * @throws  DatabaseError if the internal db property is not a valid object.
 	 */
 	public function quote($text, $escape = true)
 	{
-		return '\''.($escape ? $this->escape($text) : $text).'\'';
+		if (!($this->db instanceof JDatabase)) {
+			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		}
+
+		return '\''.($escape ? $this->db->escape($text) : $text).'\'';
 	}
 
 	/**
@@ -663,26 +660,15 @@ abstract class JDatabaseQuery
 	 * @return  string  The quote wrapped name.
 	 *
 	 * @since   11.1
+	 * @throws  DatabaseError if the internal db property is not a valid object.
 	 */
 	public function quoteName($name)
 	{
-		// Don't quote names with dot-notation.
-		if (strpos($name, '.') !== false) {
-			return $name;
+		if (!($this->db instanceof JDatabase)) {
+			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
-		else {
-			$q = $this->name_quotes;
 
-			if (strlen($q) == 2) {
-				return $q[0].$name.$q[1];
-			}
-			else if (strlen($q) == 1) {
-				return $q.$name.$q;
-			}
-			else {
-				return $name;
-			}
-		}
+		return $this->db->quoteName($name);
 	}
 
 	/**
