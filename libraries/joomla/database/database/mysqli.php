@@ -126,6 +126,28 @@ class JDatabaseMySQLi extends JDatabase
 		}
 	}
 
+
+	/**
+	 * Method to escape a string for usage in an SQL statement.
+	 *
+	 * @param   string  $text   The string to be escaped.
+	 * @param   bool    $extra  Optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since   11.1
+	 */
+	public function escape($text, $extra = false)
+	{
+		$result = mysqli_real_escape_string($this->getConnection(), $text);
+
+		if ($extra) {
+			$result = addcslashes($result, '%_');
+		}
+
+		return $result;
+	}
+
 	/**
 	 * Test to see if the MySQL connector is available.
 	 *

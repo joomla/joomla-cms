@@ -165,6 +165,35 @@ class JDatabaseSQLSrv extends JDatabase
 	}
 
 	/**
+	 * Method to escape a string for usage in an SQL statement.
+	 *
+	 * The escaping for MSSQL isn't handled in the driver though that would be nice.  Because of this we need
+	 * to handle the escaping ourselves.
+	 *
+	 * @param   string  The string to be escaped.
+	 * @param   bool    Optional parameter to provide extra escaping.
+	 *
+	 * @return  string  The escaped string.
+	 *
+	 * @since   11.1
+	 */
+	public function escape($text, $extra = false)
+	{
+		// TODO: MSSQL Compatible escaping
+		$result = addslashes($text);
+		$result = str_replace("\'", "''", $result);
+		$result = str_replace('\"', '"', $result);
+		//$result = str_replace("\\", "''", $result);
+
+		if ($extra) {
+			// We need the below str_replace since the search in sql server doesnt recognize _ character.
+			$result = str_replace('_', '[_]', $result);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Test to see if the SQLSRV connector is available.
 	 *
 	 * @return  bool  True on success, false otherwise.
