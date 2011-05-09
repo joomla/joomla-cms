@@ -14,12 +14,13 @@ $showleft = 0;
 $showbottom = 0;
 
 // get params
-$color              = $params->get('templatecolor');
-$navposition        = $params->get('navposition');
+$color			= $params->get('templatecolor');
+$navposition	= $params->get('navposition');
 
-?>
-<?php 
-$templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
+//get language and direction
+$doc = JFactory::getDocument();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,9 +28,8 @@ $templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<?php  $doc=JFactory::getDocument();
- $language=$doc->language;?>
-<meta name="language" content="<?php echo $language; ?>" />
+
+<meta name="language" content="<?php echo $this->language; ?>" />
 
 	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
 <?php if ($this->error->getCode()>=400 && $this->error->getCode() < 500) { 	?>
@@ -41,7 +41,7 @@ $templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/print.css" type="text/css" media="Print" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />     
 <?php
-	$files = JHtml::_('stylesheet','templates/beez5/css/general.css',null,false,true);
+	$files = JHtml::_('stylesheet','templates/beez_20/css/general.css',null,false,true);
 	if ($files):
 		if (!is_array($files)):
 			$files = array($files);
@@ -50,11 +50,15 @@ $templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
 ?>
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 <?php
-	 	endforeach;
+		endforeach;
 	endif;
 ?>
+		 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
 		<?php if ($this->direction == 'rtl') : ?>
-		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/template_rtl.css" type="text/css" />
+			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/template_rtl.css" type="text/css" />
+			<?php if (file_exists(JPATH_SITE. DS . '/templates/beez_20/css/' . $color . '_rtl.css')) :?>
+				<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo $color ?>_rtl.css" type="text/css" />
+			<?php endif; ?>
 		<?php endif; ?>
 		<!--[if lte IE 6]>
 			<link href="<?php echo $this->baseurl ?>/templates/beez_20/css/ieonly.css" rel="stylesheet" type="text/css" />

@@ -10,7 +10,14 @@ defined('_JEXEC') or die;
 
 ?>
 <?php 
+//get template params
 $templateparams	=  JFactory::getApplication()->getTemplate(true)->params;
+
+//get language and direction
+$doc = JFactory::getDocument();
+$this->language = $doc->language;
+$this->direction = $doc->direction;
+
 if(!$templateparams->get('html5', 0)): ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php else: ?>
@@ -19,11 +26,9 @@ if(!$templateparams->get('html5', 0)): ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<?php  $doc=JFactory::getDocument();
- $language=$doc->language;?>
-<meta name="language" content="<?php echo $language; ?>" />
+<meta name="language" content="<?php echo $this->language; ?>" />
 
-	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
+<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
 <?php if ($this->error->getCode()>=400 && $this->error->getCode() < 500) { 	?>
 
 
@@ -86,20 +91,19 @@ if(!$templateparams->get('html5', 0)): ?>
 			<?php endif; ?>
 					<div class="logoheader">
 						<?php
-								$params = JFactory::getApplication()->getTemplate(true)->params;
-								$logo =  $params->get('logo'); 
+								$logo =  $templateparams->get('logo'); 
 							?>
 						
 							<?php jimport( 'joomla.application.module.helper' ); ?>
 
 						<h1 id="logo">
 						<?php if ($logo != null ): ?>
-						<img src="<?php echo $this->baseurl  .'/'. $logo; ?>" alt="<?php echo htmlspecialchars($params->get('sitetitle'));?>" />
+						<img src="<?php echo $this->baseurl  .'/'. $logo; ?>" alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
 						<?php else: ?>
-						<?php echo htmlspecialchars($params->get('sitetitle'));?>
+						<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
 						<?php endif; ?>
 						<span class="header1">
-						<?php echo htmlspecialchars($params->get('sitedescription'));?>
+						<?php echo htmlspecialchars($templateparams->get('sitedescription'));?>
 						</span></h1>
 					</div><!-- end logoheader -->
 	
