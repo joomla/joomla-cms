@@ -177,6 +177,217 @@ class JDatabaseQueryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test for the castAsChar method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testCastAsChar()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$this->assertThat(
+			$q->castAsChar('123'),
+			$this->equalTo('123'),
+			'The default castAsChar behaviour is to return the input.'
+		);
+
+	}
+
+	/**
+	 * Test for the charLength method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testCharLength()
+	{
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		$this->assertThat(
+			$q->charLength('a.title'),
+			$this->equalTo('CHAR_LENGTH(a.title)')
+		);
+	}
+
+	/**
+	 * Test for the clear method (clearing all types and clauses).
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testClear_all()
+	{
+		$properties = array(
+			'select',
+			'delete',
+			'update',
+			'insert',
+			'from',
+			'join',
+			'set',
+			'where',
+			'group',
+			'having',
+			'order',
+			'columns',
+			'values',
+		);
+
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		// First pass - set the values.
+		foreach ($properties as $property)
+		{
+			$q->$property = $property;
+		}
+
+		// Clear the whole query.
+		$q->clear();
+
+		// Check that all properties have been cleared
+		foreach ($properties as $property)
+		{
+			$this->assertThat(
+				$q->get($property),
+				$this->equalTo(null)
+			);
+		}
+
+		// And check that the type has been cleared.
+		$this->assertThat(
+			$q->type,
+			$this->equalTo(null)
+		);
+	}
+
+	/**
+	 * Test for the clear method (clearing each clause).
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testClear_clause()
+	{
+		$clauses = array(
+			'from',
+			'join',
+			'set',
+			'where',
+			'group',
+			'having',
+			'order',
+			'columns',
+			'values',
+		);
+
+
+		// Test each clause.
+		foreach ($clauses as $clause)
+		{
+			$q = new JDatabaseQueryInspector($this->dbo);
+
+			// Set the clauses
+			foreach ($clauses as $clause2)
+			{
+				$q->$clause2 = $clause2;
+			}
+
+			// Clear the clause.
+			$q->clear($clause);
+
+			// Check that clause was cleared.
+			$this->assertThat(
+				$q->get($clause),
+				$this->equalTo(null)
+			);
+
+			// Check the state of the other clauses.
+			foreach ($clauses as $clause2)
+			{
+				if ($clause != $clause2) {
+					$this->assertThat(
+						$q->get($clause2),
+						$this->equalTo($clause2),
+						"Clearing $clause resulted in $clause2 having a value of ".$q->get($clause2).'.'
+					);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Test for the clear method (clearing each query type).
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testClear_type()
+	{
+		$types = array(
+			'select',
+			'delete',
+			'update',
+			'insert',
+		);
+
+		$clauses = array(
+			'from',
+			'join',
+			'set',
+			'where',
+			'group',
+			'having',
+			'order',
+			'columns',
+			'values',
+		);
+
+		$q = new JDatabaseQueryInspector($this->dbo);
+
+		// Set the clauses.
+		foreach ($clauses as $clause)
+		{
+			$q->$clause = $clause;
+		}
+
+		// Check that all properties have been cleared
+		foreach ($types as $type)
+		{
+			// Set the type.
+			$q->$type = $type;
+
+			// Clear the type.
+			$q->clear($type);
+
+			// Check the type has been cleared.
+			$this->assertThat(
+				$q->type,
+				$this->equalTo(null)
+			);
+
+			$this->assertThat(
+				$q->get($type),
+				$this->equalTo(null)
+			);
+
+			// Now check the claues have not been affected.
+			foreach ($clauses as $clause)
+			{
+				$this->assertThat(
+					$q->get($clause),
+					$this->equalTo($clause)
+				);
+			}
+		}
+	}
+
+	/**
 	 * @todo Implement testFrom().
 	 */
 	public function testFrom()
