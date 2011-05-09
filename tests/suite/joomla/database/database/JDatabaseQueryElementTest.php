@@ -85,11 +85,21 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 * @return	void
 	 * @dataProvider casesConstruct
 	 */
-	public function test__Construct($element, $expected) {
+	public function test__Construct($element, $expected)
+	{
 		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
-		$this->assertAttributeEquals($expected['name'], '_name', $baseElement, 'Line ' . __LINE__. ' _name should be set');
-		$this->assertAttributeEquals($expected['elements'], '_elements', $baseElement, 'Line ' . __LINE__. ' _elements should be set');
-		$this->assertAttributeEquals($expected['glue'], '_glue', $baseElement, 'Line ' . __LINE__. ' _glue should be set');
+
+		$this->assertAttributeEquals(
+			$expected['name'], 'name', $baseElement, 'Line ' . __LINE__. ' name should be set'
+		);
+
+		$this->assertAttributeEquals(
+			$expected['elements'], 'elements', $baseElement, 'Line ' . __LINE__. ' elements should be set'
+		);
+
+		$this->assertAttributeEquals(
+			$expected['glue'], 'glue', $baseElement, 'Line ' . __LINE__. ' glue should be set'
+		);
 	}
 
 	/**
@@ -101,7 +111,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 * 				elements => element array,
 	 * 				glue => glue
 	 * - array	appendElement	the element to be appended (same format as above)
-	 * - array 	expected	array of elements that should be the value of the _elements attribute after the merge
+	 * - array 	expected	array of elements that should be the value of the elements attribute after the merge
 	 * - string	expected value of __toString() for element after append
 	 */
 	function casesAppend()
@@ -151,19 +161,20 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @param	array 	base element values
 	 * @param	array 	append element values
-	 * @param	array	expected element values for _elements field after append
+	 * @param	array	expected element values for elements field after append
 	 * @param	string	expected value of toString (not used in this test)
 	 *
 	 * @return void
 	 * @dataProvider casesAppend
 	 */
 
-	public function testAppend($element, $append, $expected, $string) {
+	public function testAppend($element, $append, $expected, $string)
+	{
 		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
 		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
 		$expectedElement = new JDatabaseQueryElement($expected['name'], $expected['elements'], $expected['glue']);
 		$baseElement->append($appendElement);
-		$this->assertAttributeEquals(array($expectedElement), '_elements', $baseElement);
+		$this->assertAttributeEquals(array($expectedElement), 'elements', $baseElement);
 	}
 
 	/**
@@ -171,17 +182,17 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @param	array 	base element values
 	 * @param	array 	append element values
-	 * @param	array	expected element values for _elements field after append
+	 * @param	array	expected element values for elements field after append
 	 * @param	string	expected value of toString
 	 *
 	 * @return void
 	 * @dataProvider casesAppend
 	 */
-	public function test__toString($element, $append, $expected, $string) {
+	public function test__toString($element, $append, $expected, $string)
+	{
 		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
 		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
 		$baseElement->append($appendElement);
 		$this->assertEquals($string, $baseElement->__toString());
 	}
 }
-?>
