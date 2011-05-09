@@ -15,6 +15,11 @@ require_once JPATH_PLATFORM.'/joomla/database/database/mysqli.php';
 class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * @var	 JDatabaseMySQLi
+	 */
+	protected $object;
+
+	/**
 	 * Data for the testEscape test.
 	 *
 	 * @return  array
@@ -28,12 +33,6 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 			array("'%_abc123", true, '\\\'\\%\_abc123'),
 		);
 	}
-
-	/**
-	 * @var	JDatabaseMySQLi
-	 * @access protected
-	 */
-	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -57,15 +56,8 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement test__destruct().
 	 */
-	public function test__destruct() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testTest().
-	 */
-	public function testTest() {
+	public function test__destruct()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -73,7 +65,8 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement testConnected().
 	 */
-	public function testConnected() {
+	public function testConnected()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -91,33 +84,33 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testEscape($text, $extra, $result)
 	{
-		$this->assertThat(
-			$this->object->escape($text, $extra),
-			$this->equalTo($result),
-			'The string was not escaped properly'
-		);
-	}
-
-	/**
-	 * @todo Implement testSelect().
-	 */
-	public function testSelect() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * @todo Implement testHasUTF().
+	 * @todo Implement testExplain().
 	 */
-	public function testHasUTF() {
+	public function testExplain()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * @todo Implement testSetUTF().
+	 * @todo Implement testGetAffectedRows().
 	 */
-	public function testSetUTF() {
+	public function testGetAffectedRows()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testGetCollation().
+	 */
+	public function testGetCollation()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -134,41 +127,127 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testQuery().
-	 */
-	public function testQuery() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetAffectedRows().
-	 */
-	public function testGetAffectedRows() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testQueryBatch().
-	 */
-	public function testQueryBatch() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testExplain().
-	 */
-	public function testExplain() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * @todo Implement testGetNumRows().
 	 */
-	public function testGetNumRows() {
+	public function testGetNumRows()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testGetTableCreate().
+	 */
+	public function testGetTableCreate()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testGetTableFields().
+	 */
+	public function testGetTableFields()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testGetTableList().
+	 */
+	public function testGetTableList()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testGetVersion().
+	 */
+	public function testGetVersion()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testHasUTF().
+	 */
+	public function testHasUTF()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testInsertid().
+	 */
+	public function testInsertid()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testInsertObject().
+	 */
+	public function testInsertObject()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadAssoc().
+	 */
+	public function testLoadAssoc()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadAssocList().
+	 */
+	public function testLoadAssocList()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadNextObject().
+	 */
+	public function testLoadNextObject()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadNextRow().
+	 */
+	public function testLoadNextRow()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadObject().
+	 */
+	public function testLoadObject()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testLoadObjectList().
+	 */
+	public function testLoadObjectList()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -176,7 +255,8 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement testLoadResult().
 	 */
-	public function testLoadResult() {
+	public function testLoadResult()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -193,41 +273,10 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @todo Implement testLoadAssoc().
-	 */
-	public function testLoadAssoc() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testLoadAssocList().
-	 */
-	public function testLoadAssocList() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testLoadObject().
-	 */
-	public function testLoadObject() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testLoadObjectList().
-	 */
-	public function testLoadObjectList() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * @todo Implement testLoadRow().
 	 */
-	public function testLoadRow() {
+	public function testLoadRow()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -235,31 +284,53 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement testLoadRowList().
 	 */
-	public function testLoadRowList() {
+	public function testLoadRowList()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * @todo Implement testLoadNextRow().
+	 * @todo Implement testQuery().
 	 */
-	public function testLoadNextRow() {
+	public function testQuery()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * @todo Implement testLoadNextObject().
+	 * @todo Implement testQueryBatch().
 	 */
-	public function testLoadNextObject() {
+	public function testQueryBatch()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
 	/**
-	 * @todo Implement testInsertObject().
+	 * @todo Implement testSelect().
 	 */
-	public function testInsertObject() {
+	public function testSelect()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testSetUTF().
+	 */
+	public function testSetUTF()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * @todo Implement testTest().
+	 */
+	public function testTest()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
@@ -267,57 +338,10 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @todo Implement testUpdateObject().
 	 */
-	public function testUpdateObject() {
+	public function testUpdateObject()
+	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 
-	/**
-	 * @todo Implement testInsertid().
-	 */
-	public function testInsertid() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetVersion().
-	 */
-	public function testGetVersion() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetCollation().
-	 */
-	public function testGetCollation() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetTableList().
-	 */
-	public function testGetTableList() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetTableCreate().
-	 */
-	public function testGetTableCreate() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo Implement testGetTableFields().
-	 */
-	public function testGetTableFields() {
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
 }
-?>
