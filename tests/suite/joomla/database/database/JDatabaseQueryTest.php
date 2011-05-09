@@ -166,7 +166,7 @@ class JDatabaseQueryTest extends PHPUnit_Framework_TestCase {
 				'getVersion',
 				'hasUTF',
 				'insertId',
-				'nameQuote',
+				'quoteName',
 				'query',
 				'queryBatch',
 				'select',
@@ -184,7 +184,7 @@ class JDatabaseQueryTest extends PHPUnit_Framework_TestCase {
 		$dbo->expects(
 			$this->any()
 		)
-		->method('nameQuote')
+		->method('quoteName')
 		->with($this->anything())
 		->will(
 			$this->returnValue(

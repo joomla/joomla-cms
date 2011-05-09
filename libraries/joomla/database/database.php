@@ -166,7 +166,7 @@ abstract class JDatabase
 	}
 
 	/**
-	 * Magic method to provide method alias support for quote() and nameQuote().
+	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
 	 * @param   array   $args    The array of arguments passed to the method.
@@ -187,7 +187,8 @@ abstract class JDatabase
 				return $this->quote($args[0], isset($args[1]) ? $args[1] : true);
 				break;
 			case 'nq':
-				return $this->nameQuote($args[0]);
+			case 'qn':
+				return $this->quoteName($args[0]);
 				break;
 		}
 	}
@@ -499,7 +500,7 @@ abstract class JDatabase
 		$values = array();
 
 		// Create the base insert statement.
-		$statement = 'INSERT INTO '.$this->nameQuote($table).' (%s) VALUES (%s)';
+		$statement = 'INSERT INTO '.$this->quoteName($table).' (%s) VALUES (%s)';
 
 		// Iterate over the object variables to build the query fields and values.
 		foreach (get_object_vars($object) as $k => $v)
@@ -515,7 +516,7 @@ abstract class JDatabase
 			}
 
 			// Prepare and sanitize the fields and values for the database query.
-			$fields[] = $this->nameQuote($k);
+			$fields[] = $this->quoteName($k);
 			$values[] = $this->isQuoted($k) ? $this->quote($v) : (int) $v;
 		}
 
@@ -876,6 +877,21 @@ abstract class JDatabase
 	}
 
 	/**
+	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
+	 *
+	 * @param   string  $text    The string to quote.
+	 * @param   bool    $escape  True to escape the string, false to leave it unchanged.
+	 *
+	 * @return  string  The quoted input string.
+	 *
+	 * @since   11.1
+	 */
+	public function quote($text, $escape = true)
+	{
+		return '\''.($escape ? $this->escape($text) : $text).'\'';
+	}
+
+	/**
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
@@ -885,7 +901,7 @@ abstract class JDatabase
 	 *
 	 * @since   11.1
 	 */
-	public function nameQuote($name)
+	public function quoteName($name)
 	{
 		// Don't quote names with dot-notation.
 		if (strpos($name, '.') !== false) {
@@ -901,21 +917,6 @@ abstract class JDatabase
 				return $q{0}.$name.$q{1};
 			}
 		}
-	}
-
-	/**
-	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
-	 *
-	 * @param   string  $text    The string to quote.
-	 * @param   bool    $escape  True to escape the string, false to leave it unchanged.
-	 *
-	 * @return  string  The quoted input string.
-	 *
-	 * @since   11.1
-	 */
-	public function quote($text, $escape = true)
-	{
-		return '\''.($escape ? $this->escape($text) : $text).'\'';
 	}
 
 	/**
@@ -975,7 +976,7 @@ abstract class JDatabase
 		$where  = '';
 
 		// Create the base update statement.
-		$statement = 'UPDATE '.$this->nameQuote($table).' SET %s WHERE %s';
+		$statement = 'UPDATE '.$this->quoteName($table).' SET %s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -987,7 +988,7 @@ abstract class JDatabase
 
 			// Set the primary key to the WHERE clause instead of a field to update.
 			if ($k == $key) {
-				$where = $this->nameQuote($k).'='.$this->quote($v);
+				$where = $this->quoteName($k).'='.$this->quote($v);
 				continue;
 			}
 
@@ -1008,7 +1009,7 @@ abstract class JDatabase
 			}
 
 			// Add the field to be updated.
-			$fields[] = $this->nameQuote($k).'='.$val;
+			$fields[] = $this->quoteName($k).'='.$val;
 		}
 
 		// We don't have any fields to update.
@@ -1565,6 +1566,25 @@ abstract class JDatabase
 		JLog::add('JDatabase::loadResultArray() is deprecated. Use JDatabase::getColumn().', JLog::WARNING, 'deprecated');
 
 		return $this->loadColumn($offset);
+	}
+
+	/**
+	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
+	 * risks and reserved word conflicts.
+	 *
+	 * @param   string  $name  The identifier name to wrap in quotes.
+	 *
+	 * @return  string  The quote wrapped name.
+	 *
+	 * @since   11.1
+	 * @deprecated  11.1
+	 */
+	public function nameQuote($name)
+	{
+		// Deprecation warning.
+		JLog::add('JDatabase::nameQuote() is deprecated. Use JDatabase::quoteName().', JLog::WARNING, 'deprecated');
+
+		return $this->quoteName($name);
 	}
 
 	/**

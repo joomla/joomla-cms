@@ -211,7 +211,7 @@ abstract class JDatabaseQuery
 	protected $order = null;
 
 	/**
-	 * Magic method to provide method alias support for quote() and nameQuote().
+	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
 	 * @param   array   $args    The array of arguments passed to the method.
