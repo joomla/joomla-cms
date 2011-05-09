@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.UnitTest
+ * @package    Joomla.UnitTest
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 require_once 'PHPUnit/Extensions/Database/TestCase.php';
@@ -14,42 +14,40 @@ require_once 'PHPUnit/Extensions/Database/DataSet/MysqlXmlDataSet.php';
 /**
  * Test case class for Joomla Unit Testing
  *
- * @package	Joomla.UnitTest
- *
+ * @package  Joomla.UnitTest
  */
 abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCase
 {
-
 	public static $database;
 
 	public static $dbo;
 
 	/**
-	 * @var factoryState
+	 * @var  factoryState
 	 */
 	protected $factoryState = array ();
 
 	/**
-	 * @var errorState
+	 * @var  errorState
 	 */
 	protected $savedErrorState;
 
 	/**
-	 * @var actualError
+	 * @var  actualError
 	 */
 	protected static $actualError;
 
 	/**
 	 * Saves the current state of the JError error handlers.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	protected function saveErrorHandlers()
 	{
 		$this->savedErrorState = array ();
-		$this->savedErrorState[E_NOTICE] = JError :: getErrorHandling(E_NOTICE);
-		$this->savedErrorState[E_WARNING] = JError :: getErrorHandling(E_WARNING);
-		$this->savedErrorState[E_ERROR] = JError :: getErrorHandling(E_ERROR);
+		$this->savedErrorState[E_NOTICE] = JError::getErrorHandling(E_NOTICE);
+		$this->savedErrorState[E_WARNING] = JError::getErrorHandling(E_WARNING);
+		$this->savedErrorState[E_ERROR] = JError::getErrorHandling(E_ERROR);
 	}
 
 	public static function setUpBeforeClass()
@@ -58,12 +56,12 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		jimport('joomla.database.table');
 
 		// Load the config if available.
-		@ include_once JPATH_TESTS . '/config.php';
+		@include_once JPATH_TESTS . '/config.php';
 		if (class_exists('JTestConfig')) {
 			$config = new JTestConfig;
 		}
 
-		if (!is_object(self :: $dbo)) {
+		if (!is_object(self::$dbo)) {
 			$options = array (
 				'driver' => isset ($config) ? $config->dbtype : 'mysql',
 				'host' => isset ($config) ? $config->host : '127.0.0.1',
@@ -73,15 +71,16 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 				'prefix' => isset ($config) ? $config->dbprefix : 'jos_'
 			);
 
-			self :: $dbo = JDatabase :: getInstance($options);
+			self::$dbo = JDatabase::getInstance($options);
 
-			if (JError :: isError(self :: $dbo)) {
+			if (JError::isError(self::$dbo)) {
 				//ignore errors
 				define('DB_NOT_AVAILABLE', true);
 			}
 		}
-		self :: $database = JFactory :: $database;
-		JFactory :: $database = self :: $dbo;
+
+		self::$database = JFactory::$database;
+		JFactory::$database = self::$dbo;
 	}
 
 	public static function tearDownAfterClass()
@@ -92,21 +91,24 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @param	array	araay of values and options to set the handlers
+	 * @param   array  $errorHandlers  araay of values and options to set the handlers
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
 		$mode = null;
 		$options = null;
 
-		foreach ($errorHandlers as $type => $params) {
+		foreach ($errorHandlers as $type => $params)
+		{
 			$mode = $params['mode'];
+
 			if (isset ($params['options'])) {
-				JError :: setErrorHandling($type, $mode, $params['options']);
-			} else {
-				JError :: setErrorHandling($type, $mode);
+				JError::setErrorHandling($type, $mode, $params['options']);
+			}
+			else {
+				JError::setErrorHandling($type, $mode);
 			}
 		}
 	}
@@ -165,14 +167,14 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function saveFactoryState()
 	{
-		$this->savedFactoryState['application'] = JFactory :: $application;
-		$this->savedFactoryState['config'] = JFactory :: $config;
-		$this->savedFactoryState['session'] = JFactory :: $session;
-		$this->savedFactoryState['language'] = JFactory :: $language;
-		$this->savedFactoryState['document'] = JFactory :: $document;
-		$this->savedFactoryState['acl'] = JFactory :: $acl;
+		$this->savedFactoryState['application'] = JFactory::$application;
+		$this->savedFactoryState['config'] = JFactory::$config;
+		$this->savedFactoryState['session'] = JFactory::$session;
+		$this->savedFactoryState['language'] = JFactory::$language;
+		$this->savedFactoryState['document'] = JFactory::$document;
+		$this->savedFactoryState['acl'] = JFactory::$acl;
 		//$this->savedFactoryState['database'] = JFactory::$database;
-		$this->savedFactoryState['mailer'] = JFactory :: $mailer;
+		$this->savedFactoryState['mailer'] = JFactory::$mailer;
 	}
 
 	/**
@@ -182,14 +184,14 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 */
 	protected function restoreFactoryState()
 	{
-		JFactory :: $application = $this->savedFactoryState['application'];
-		JFactory :: $config = $this->savedFactoryState['config'];
-		JFactory :: $session = $this->savedFactoryState['session'];
-		JFactory :: $language = $this->savedFactoryState['language'];
-		JFactory :: $document = $this->savedFactoryState['document'];
-		JFactory :: $acl = $this->savedFactoryState['acl'];
+		JFactory::$application = $this->savedFactoryState['application'];
+		JFactory::$config = $this->savedFactoryState['config'];
+		JFactory::$session = $this->savedFactoryState['session'];
+		JFactory::$language = $this->savedFactoryState['language'];
+		JFactory::$document = $this->savedFactoryState['document'];
+		JFactory::$acl = $this->savedFactoryState['acl'];
 		//JFactory::$database = $this->savedFactoryState['database'];
-		JFactory :: $mailer = $this->savedFactoryState['mailer'];
+		JFactory::$mailer = $this->savedFactoryState['mailer'];
 	}
 
 	/**
@@ -215,6 +217,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 		);
 
 		$pdo = new PDO($options['driver'].':host='.$options['host'].';dbname='.$options['database'], $options['user'], $options['password']);
+
 		return $this->createDefaultDBConnection($pdo, $options['database']);
 	}
 
