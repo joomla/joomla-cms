@@ -86,29 +86,67 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	{
 		return array(
        		'array-element' => array(
-					array(
-						'name' => 'FROM',
-						'elements' => array('field1', 'field2'),
-						'glue' => ','
-						),
-					array(
-						'name' => 'FROM',
-						'elements' => array('field1', 'field2'),
-						'glue' => ','
-						)
+				array(
+					'name' => 'FROM',
+					'elements' => array('field1', 'field2'),
+					'glue' => ','
+				),
+				array(
+					'name' => 'FROM',
+					'elements' => array('field1', 'field2'),
+					'glue' => ','
+				)
 			),
-        		'non-array-element' => array(
-					array(
-						'name' => 'TABLE',
-						'elements' => 'my_table_name',
-						'glue' => ','
-						),
-					array(
-						'name' => 'TABLE',
-						'elements' => array('my_table_name'),
-						'glue' => ','
-						)
+    		'non-array-element' => array(
+				array(
+					'name' => 'TABLE',
+					'elements' => 'my_table_name',
+					'glue' => ','
+				),
+				array(
+					'name' => 'TABLE',
+					'elements' => array('my_table_name'),
+					'glue' => ','
+				)
 			)
+		);
+	}
+
+	/**
+	 * Test data for test__toString.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function dataTestToString()
+	{
+		return array(
+			// name, elements, glue, expected.
+			array(
+				'FROM',
+				'table1',
+				',',
+				"\nFROM table1"
+			),
+			array(
+				'SELECT',
+				array('column1', 'column2'),
+				',',
+				"\nSELECT column1,column2"
+			),
+			array(
+				'()',
+				array('column1', 'column2'),
+				',',
+				"\n(column1,column2)"
+			),
+			array(
+				'CONCAT()',
+				array('column1', 'column2'),
+				',',
+				"\nCONCAT(column1,column2)"
+			),
 		);
 	}
 
@@ -143,22 +181,24 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test the __toString magic method.
 	 *
-	 * @param   array   $element   base element values
-	 * @param   array   $append    append element values
-	 * @param   array   $expected  expected element values for elements field after append
-	 * @param   string  $string    expected value of toString
+	 * @param   string	$name      The name of the element.
+	 * @param   mixed	$elements  String or array.
+	 * @param   string	$glue      The glue for elements.
+	 * @param   string  $expected  The expected value.
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @dataProvider  dataTestAppend
+	 * @dataProvider  dataTestToString
 	 */
-	public function test__toString($element, $append, $expected, $string)
+	public function test__toString($name, $elements, $glue, $expected)
 	{
-		$baseElement = new JDatabaseQueryElement($element['name'], $element['elements'], $element['glue']);
-		$appendElement = new JDatabaseQueryElement($append['name'], $append['elements'], $append['glue']);
-		$baseElement->append($appendElement);
-		$this->assertEquals($string, $baseElement->__toString());
+		$e = new JDatabaseQueryElement($name, $elements, $glue);
+
+		$this->assertThat(
+			(string) $e,
+			$this->equalTo($expected)
+		);
 	}
 
 	/**
