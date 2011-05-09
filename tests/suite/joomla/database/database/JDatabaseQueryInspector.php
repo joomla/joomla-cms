@@ -42,6 +42,19 @@ class JDatabaseQueryInspector extends JDatabaseQuery
 	}
 
 	/**
+	 * Gets any property from the class.
+	 *
+	 * @param   string  $property  The name of the class property.
+	 *
+	 * @return  mixed   The value of the class property.
+	 * @since   11.1
+	 */
+	public function get($property)
+	{
+		return $this->$property;
+	}
+
+	/**
 	 * Dummy method to just return the text.
 	 *
 	 * @param   string  The string to be escaped.
