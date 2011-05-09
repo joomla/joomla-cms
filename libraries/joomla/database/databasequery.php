@@ -806,7 +806,7 @@ abstract class JDatabaseQuery
 			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return '\''.($escape ? $this->db->escape($text) : $text).'\'';
+		return $this->db->quote(($escape ? $this->db->escape($text) : $text));
 	}
 
 	/**
