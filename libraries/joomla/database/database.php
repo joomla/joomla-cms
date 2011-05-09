@@ -893,9 +893,11 @@ abstract class JDatabase
 		}
 		else {
 			$q = $this->nameQuote;
+
 			if (strlen($q) == 1) {
 				return $q.$name.$q;
-			} else {
+			}
+			else {
 				return $q{0}.$name.$q{1};
 			}
 		}
