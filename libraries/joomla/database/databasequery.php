@@ -743,12 +743,13 @@ abstract class JDatabaseQuery
 			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
+		$result = $this->db->getNullDate($quoted);
+
 		if ($quoted) {
-			$this->db->quote($this->db->getNullDate($quoted));
+			return $this->db->quote($result);
 		}
-		else {
-			$this->db->getNullDate($quoted);
-		}
+
+		return $result;
 	}
 
 	/**
