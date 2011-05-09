@@ -256,6 +256,103 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string	The completed query.
+	 *
+	 * @since   11.1
+	 */
+	public function __toString()
+	{
+		$query = '';
+
+		switch ($this->type)
+		{
+			case 'element':
+				$query .= (string) $this->element;
+				break;
+
+			case 'select':
+				$query .= (string) $this->select;
+				$query .= (string) $this->from;
+				if ($this->join) {
+					// special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
+				if ($this->where) {
+					$query .= (string) $this->where;
+				}
+
+				if ($this->group) {
+					$query .= (string) $this->group;
+				}
+
+				if ($this->having) {
+					$query .= (string) $this->having;
+				}
+
+				if ($this->order) {
+					$query .= (string) $this->order;
+				}
+
+				break;
+
+			case 'delete':
+				$query .= (string) $this->delete;
+				$query .= (string) $this->from;
+
+				if ($this->join) {
+					// special case for joins
+					foreach ($this->join as $join)
+					{
+						$query .= (string) $join;
+					}
+				}
+
+				if ($this->where) {
+					$query .= (string) $this->where;
+				}
+
+				break;
+
+			case 'update':
+				$query .= (string) $this->update;
+				$query .= (string) $this->set;
+
+				if ($this->where) {
+					$query .= (string) $this->where;
+				}
+
+				break;
+
+			case 'insert':
+				$query .= (string) $this->insert;
+
+				// Set method
+				if ($this->set) {
+					$query .= (string) $this->set;
+				}
+				// Columns-Values method
+				else if ($this->values) {
+					if ($this->columns) {
+						$query .= (string) $this->columns;
+					}
+
+					$query .= 'VALUES ';
+					$query .= (string) $this->values;
+				}
+
+				break;
+		}
+
+		return $query;
+	}
+
+	/**
 	 * Casts a value to a char.
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
@@ -632,6 +729,66 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Get the null or zero representation of a timestamp for the database driver.
+	 *
+	 * @param   boolean  $quoted  Optionally wraps the null date in database quotes (true by default).
+	 *
+	 * @return  string  Null or zero representation of a timestamp.
+	 *
+	 * @since   11.1
+	 */
+	public function nullDate($quoted = true)
+	{
+		if (!($this->db instanceof JDatabase)) {
+			throw new DatabaseException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
+		}
+
+		if ($quoted) {
+			$this->db->quote($this->db->getNullDate($quoted));
+		}
+		else {
+			$this->db->getNullDate($quoted);
+		}
+	}
+
+	/**
+	 * Add a ordering column to the ORDER clause of the query.
+	 *
+	 * @param   mixed  $columns  A string or array of ordering columns.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function order($columns)
+	{
+		if (is_null($this->order)) {
+			$this->order = new JDatabaseQueryElement('ORDER BY', $columns);
+		}
+		else {
+			$this->order->append($columns);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add an OUTER JOIN clause to the query.
+	 *
+	 * @param   string  $conditions  A string or array of conditions.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   11.1
+	 */
+	public function outerJoin($conditions)
+	{
+		$this->join('OUTER', $conditions);
+
+		return $this;
+	}
+
+	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
 	 *
 	 * @param   string  $text    The string to quote.
@@ -669,62 +826,6 @@ abstract class JDatabaseQuery
 		}
 
 		return $this->db->quoteName($name);
-	}
-
-	/**
-	 * Add an OUTER JOIN clause to the query.
-	 *
-	 * @param   string  $conditions  A string or array of conditions.
-	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function outerJoin($conditions)
-	{
-		$this->join('OUTER', $conditions);
-
-		return $this;
-	}
-
-	/**
-	 * Get the null or zero representation of a timestamp for the database driver.
-	 *
-	 * @param   boolean  $quoted  Optionally wraps the null date in database quotes (true by default).
-	 *
-	 * @return  string  Null or zero representation of a timestamp.
-	 *
-	 * @since   11.1
-	 */
-	public function nullDate($quoted = true)
-	{
-		if ($quoted) {
-			return $this->quote($this->null_date);
-		}
-		else {
-			return $this->null_date;
-		}
-	}
-
-	/**
-	 * Add a ordering column to the ORDER clause of the query.
-	 *
-	 * @param   mixed  $columns  A string or array of ordering columns.
-	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function order($columns)
-	{
-		if (is_null($this->order)) {
-			$this->order = new JDatabaseQueryElement('ORDER BY', $columns);
-		}
-		else {
-			$this->order->append($columns);
-		}
-
-		return $this;
 	}
 
 	/**
@@ -853,102 +954,5 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Magic function to convert the query to a string.
-	 *
-	 * @return  string	The completed query.
-	 *
-	 * @since   11.1
-	 */
-	public function __toString()
-	{
-		$query = '';
-
-		switch ($this->type)
-		{
-			case 'element':
-				$query .= (string) $this->element;
-				break;
-
-			case 'select':
-				$query .= (string) $this->select;
-				$query .= (string) $this->from;
-				if ($this->join) {
-					// special case for joins
-					foreach ($this->join as $join)
-					{
-						$query .= (string) $join;
-					}
-				}
-
-				if ($this->where) {
-					$query .= (string) $this->where;
-				}
-
-				if ($this->group) {
-					$query .= (string) $this->group;
-				}
-
-				if ($this->having) {
-					$query .= (string) $this->having;
-				}
-
-				if ($this->order) {
-					$query .= (string) $this->order;
-				}
-
-				break;
-
-			case 'delete':
-				$query .= (string) $this->delete;
-				$query .= (string) $this->from;
-
-				if ($this->join) {
-					// special case for joins
-					foreach ($this->join as $join)
-					{
-						$query .= (string) $join;
-					}
-				}
-
-				if ($this->where) {
-					$query .= (string) $this->where;
-				}
-
-				break;
-
-			case 'update':
-				$query .= (string) $this->update;
-				$query .= (string) $this->set;
-
-				if ($this->where) {
-					$query .= (string) $this->where;
-				}
-
-				break;
-
-			case 'insert':
-				$query .= (string) $this->insert;
-
-				// Set method
-				if ($this->set) {
-					$query .= (string) $this->set;
-				}
-				// Columns-Values method
-				else if ($this->values) {
-					if ($this->columns) {
-						$query .= (string) $this->columns;
-					}
-
-					$query .= 'VALUES ';
-					$query .= (string) $this->values;
-				}
-
-				break;
-		}
-
-		return $query;
 	}
 }
