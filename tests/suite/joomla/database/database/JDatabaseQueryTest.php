@@ -5,6 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once dirname(__FILE__).'/JDatabaseQueryInspector.php';
+
 require_once JPATH_PLATFORM.'/joomla/database/database/mysqliquery.php';
 
 /**
@@ -24,7 +26,8 @@ class JDatabaseQueryTest extends PHPUnit_Framework_TestCase {
 	 *
 	 * @access protected
 	 */
-	protected function setUp() {
+	protected function setUp()
+	{
 		$this->object = new JDatabaseQueryMySQLi;
 	}
 
@@ -131,5 +134,70 @@ class JDatabaseQueryTest extends PHPUnit_Framework_TestCase {
 	public function test__toString() {
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Tests the quoteName method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testQuoteName()
+	{
+		$dbo = $this->getMock(
+			'JDatabase',
+			array(
+				'connected',
+				'escape',
+				'explain',
+				'fetchArray',
+				'fetchAssoc',
+				'fetchObject',
+				'freeResult',
+				'getAffectedRows',
+				'getCollation',
+				'getNumRows',
+				'getQuery',
+				'getTableColumns',
+				'getTableCreate',
+				'getTableKeys',
+				'getTableList',
+				'getVersion',
+				'hasUTF',
+				'insertId',
+				'nameQuote',
+				'query',
+				'queryBatch',
+				'select',
+				'setUTF',
+				'transactionCommit',
+				'transactionRollback',
+				'transactionStart',
+				'test',
+			),
+			array(),
+			'',
+			false
+		);
+
+		$dbo->expects(
+			$this->any()
+		)
+		->method('nameQuote')
+		->with($this->anything())
+		->will(
+			$this->returnValue(
+				'success'
+			)
+		);
+
+		$q = new JDatabaseQueryInspector($dbo);
+
+		$this->assertThat(
+			$q->quoteName('anything'),
+			$this->equalTo('success'),
+			'The quoteName method should be a proxy for the JDatabase::escape method.'
+		);
 	}
 }
