@@ -445,6 +445,14 @@ abstract class JDatabaseQuery
 				$this->order = null;
 				break;
 
+			case 'columns':
+				$this->columns = null;
+				break;
+
+			case 'values':
+				$this->values = null;
+				break;
+
 			default:
 				$this->type = null;
 				$this->select = null;
