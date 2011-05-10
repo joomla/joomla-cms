@@ -33,7 +33,7 @@ class JDocumentError extends JDocument
 	 * @param   string  $type        (either HTML or text)
 	 * @param   array   $attributes  Associative array of attributes
 	 */
-	protected function __construct($options = array())
+	public function __construct($options = array())
 	{
 		parent::__construct($options);
 
