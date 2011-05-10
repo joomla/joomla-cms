@@ -53,7 +53,6 @@
 				<field
 					name="homeText"
 					type="text"
-					default="Home"
 					label="MOD_BREADCRUMBS_FIELD_HOMETEXT_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_HOMETEXT_DESC" />
 				<field

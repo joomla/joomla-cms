@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-May-2011 Jean-Marie Simonet
+ #$ [#25845] *Breadcrumbs never use the language string for Home
+
 09-May-2011 Jean-Marie Simonet
  [#25830] *404 - page not found - error.php - for template beez_20 - not working properly
  
