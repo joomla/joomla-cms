@@ -12,25 +12,29 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Tree Node Class.
  *
- * @package 	Joomla.Platform
- * @subpackage	Base
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Base
+ * @since       11.1
  */
 class JNode extends JObject
 {
 
 	/**
-	 * @var Parent node
+	 * @var    object  Parent node.
+	 * @since  11.1
 	 */
 	protected $_parent = null;
 
 	/**
-	 * @var Array of Children
+	 * @var    array  Array of Children
+	 * @since  11.1
 	 */
 	protected $_children = array();
 
 	/**
 	 * Constructor
+	 *
+	 * @since  11.1
 	 */
 	function __construct()
 	{
@@ -43,6 +47,9 @@ class JNode extends JObject
 	 * If the child already has a parent, the link is unset
 	 *
 	 * @param JNode the child to be added
+	 *
+	 * @return
+	 * @since       11.1
 	 */
 	function addChild(&$child)
 	{
@@ -57,7 +64,10 @@ class JNode extends JObject
 	 *
 	 * If the node already has a parent, the link is unset
 	 *
-	 * @param JNode|null the parent to be setted
+	 * @param    JNode|null  The parent to be set
+	 *
+	 * @return
+	 * @since    11.1
 	 */
 	function setParent(&$parent)
 	{
@@ -79,7 +89,8 @@ class JNode extends JObject
 	/**
 	 * Get the children of this node
 	 *
-	 * @return	array	the children
+	 * @return  array    The children
+	 * @since   11.1
 	 */
 	function &getChildren()
 	{
@@ -89,7 +100,8 @@ class JNode extends JObject
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return JNode|null the parent
+	 * @return  mixed   JNode object with the parent or null for no parent
+	 * @since   11.1
 	 */
 	function &getParent()
 	{
@@ -99,7 +111,8 @@ class JNode extends JObject
 	/**
 	 * Test if this node has children
 	 *
-	 * @return bool
+	 * @return   bool
+	 * @since    11.1
 	 */
 	function hasChildren()
 	{
@@ -109,7 +122,8 @@ class JNode extends JObject
 	/**
 	 * Test if this node has a parent
 	 *
-	 * @return bool
+	 * @return  bool
+	 * @since   11.1
 	 */
 	function hasParent()
 	{

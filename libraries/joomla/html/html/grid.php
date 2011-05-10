@@ -12,23 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for creating HTML Grids
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlGrid
 {
 	/**
 	 * Display a boolean setting widget.
 	 *
-	 * @param	integer	The row index.
-	 * @param	integer	The value of the boolean field.
-	 * @param	string	Task to turn the boolean setting on.
-	 * @param	string	Task to turn the boolean setting off.
+	 * @param   integer  The row index.
+	 * @param   integer  The value of the boolean field.
+	 * @param   string   Task to turn the boolean setting on.
+	 * @param   string   Task to turn the boolean setting off.
 	 *
-	 * @return	string	The boolean setting widget.
-	 * @since	1.0
+	 * @return  string   The boolean setting widget.
+	 * @since	11.1
 	 */
 	static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
@@ -55,14 +54,14 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @param	string	The link title
-	 * @param	string	The order field for the column
-	 * @param	string	The current direction
-	 * @param	string	The selected ordering
-	 * @param	string	An optional task override
-	 * @param	string	An optional direction for the new column
+	 * @param   string   The link title
+	 * @param   string   The order field for the column
+	 * @param   string   The current direction
+	 * @param   string   The selected ordering
+	 * @param   string   An optional task override
+	 * @param   string   An optional direction for the new column
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task=NULL, $new_direction='asc')
 	{
@@ -89,12 +88,12 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @param int The row index
-	 * @param int The record id
-	 * @param boolean
-	 * @param string The name of the form element
+	 * @param   integer The row index
+	 * @param   integer The record id
+	 * @param   boolean
+	 * @param   string The name of the form element
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public static function id($rowNum, $recId, $checkedOut=false, $name='cid')
 	{
@@ -168,13 +167,13 @@ abstract class JHtmlGrid
 	}
 
 	/**
-	 * @param	mixed $value	Either the scalar value, or an object (for backward compatibility, deprecated)
-	 * @param	int $i
-	 * @param	string $img1	Image for a positive or on value
-	 * @param	string $img0	Image for the empty or off value
-	 * @param	string $prefix	An optional prefix for the task
+	 * @param   mixed    $value	Either the scalar value, or an object (for backward compatibility, deprecated)
+	 * @param   integer  $i
+	 * @param   string   $img1	Image for a positive or on value
+	 * @param   string   $img0	Image for the empty or off value
+	 * @param   string   $prefix	An optional prefix for the task
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function published($value, $i, $img1 = 'tick.png', $img0 = 'publish_x.png', $prefix='')
 	{

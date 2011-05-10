@@ -12,27 +12,27 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cache litestorage handler
  *
- * @package		Joomla.Platform
- * @subpackage	Cache
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheStorageCachelite extends JCacheStorage
 {
 	/**
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	protected static $CacheLiteInstance = null;
 
 	/**
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	protected $_root;
 
 	/**
 	 * Constructor
 	 *
-	 * @param array $options optional parameters
-	 * @since	11.1
+	 * @param   array    $options optional parameters
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -59,8 +59,8 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * Instantiates the appropriate CacheLite object.
 	 * Only initializes the engine if it does not already exist.
 	 * Note this is a protected method
-	 * @param array $options optional parameters
-	 * @since		11.1
+	 * @param   array    $options optional parameters
+	 * @since       11.1
 	 */
 	protected function initCache($cloptions)
 	{
@@ -72,11 +72,11 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Get cached data from a file by id and group
 	 *
-	 * @param	string	$id			The cache data id
-	 * @param	string	$group		The cache data group
-	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
-	 * @return	mixed	Boolean false on failure or a cached data string
-	 * @since	11.1
+	 * @param   string   $id			The cache data id
+	 * @param   string   $group		The cache data group
+	 * @param   boolean  $checkTime	True to verify cache time expiration threshold
+	 * @return  mixed    Boolean false on failure or a cached data string
+	 * @since   11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -91,8 +91,8 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return	array data
-	 * @since	11.1
+	 * @return  array    data
+	 * @since   11.1
 	 */
 
 	public function getAll()
@@ -120,11 +120,11 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Store the data to a file by id and group
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	string	$data	The data to store in cache
-	 * @return	boolean	True on success, false otherwise
-	 * @since	11.1
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group	The cache data group
+	 * @param   string   $data	The data to store in cache
+	 * @return  boolean  True on success, false otherwise
+	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -156,10 +156,10 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Remove a cached data file by id and group
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	boolean	True on success, false otherwise
-	 * @since	11.1
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group	The cache data group
+	 * @return  boolean  True on success, false otherwise
+	 * @since   11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -179,10 +179,10 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
-	 * @return	boolean	True on success, false otherwise
-	 * @since	11.1
+	 * @param   string   $group	The cache data group
+	 * @param   string   $mode	The mode for cleaning cache [group|notgroup]
+	 * @return  boolean  True on success, false otherwise
+	 * @since   11.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -227,7 +227,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 * Garbage collect expired cache data
 	 *
 	 * @return boolean  True on success, false otherwise.
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function gc()
 	{
@@ -257,8 +257,8 @@ class JCacheStorageCachelite extends JCacheStorage
 	/**
 	 * Test to see if the cache storage is available.
 	 *
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	11.1
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public static function test()
 	{

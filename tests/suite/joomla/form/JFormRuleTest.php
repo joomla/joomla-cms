@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM.'/joomla/form/formrule.php';
  * Test class for JForm.
  *
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  */
 class JFormRuleTest extends JoomlaTestCase {
 	/**

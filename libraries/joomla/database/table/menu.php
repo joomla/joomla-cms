@@ -14,9 +14,9 @@ jimport('joomla.database.tablenested');
 /**
  * Menu table
  *
- * @package		Joomla.Platform
- * @subpackage	Table
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableMenu extends JTableNested
 {
@@ -36,10 +36,12 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param	array $hash		named array
-	 * @return	mixed			null is operation was satisfactory, otherwise returns an error
+	 * @param   array  $hash  named array
+	 *
+	 * @return  mixed  null is operation was satisfactory, otherwise returns an error
+	 *
 	 * @see		JTable:bind
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -73,9 +75,9 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded check function
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @see		JTable::check
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -118,9 +120,9 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded store function
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @see		JTable::store
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{

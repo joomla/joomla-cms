@@ -15,9 +15,9 @@ jimport('joomla.base.adapterinstance');
 /**
  * Template installer
  *
- * @package		Joomla.Platform
- * @subpackage	Installer
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerTemplate extends JAdapterInstance
 {
@@ -28,9 +28,9 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param	string	$path the path where to find language files
+	 * @param   string  $path the path where to find language files
 	 *
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function loadLanguage($path=null)
 	{
@@ -62,8 +62,8 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function install()
 	{
@@ -245,8 +245,8 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom update method for components
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function update()
 	{
@@ -256,10 +256,10 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param	int		$id		The extension ID
+	 * @param   integer  $id		The extension ID
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function uninstall($id)
 	{
@@ -366,7 +366,7 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Discover existing but uninstalled templates
 	 *
-	 * @return Array JExtensionTable list
+	 * @return  array  JExtensionTable list
 	 */
 	function discover()
 	{
@@ -479,7 +479,7 @@ class JInstallerTemplate extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function refreshManifestCache()
 	{

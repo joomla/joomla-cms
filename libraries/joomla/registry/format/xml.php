@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XML format handler for JRegistry.
  *
- * @package		Joomla.Platform
- * @subpackage	Registry
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryFormatXML extends JRegistryFormat
 {
@@ -23,10 +23,10 @@ class JRegistryFormatXML extends JRegistryFormat
 	 *	-	If more than two levels of nested groups are necessary, since INI is not
 	 *		useful, XML or another format should be used.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	XML formatted string.
-	 * @since	11.1
+	 * @param   object   Data source object.
+	 * @param   array    Options used by the formatter.
+	 * @return  string   XML formatted string.
+	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -59,10 +59,10 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Parse a XML formatted string and convert it into an object.
 	 *
-	 * @param	string	XML formatted string to convert.
-	 * @param	array	Options used by the formatter.
-	 * @return	object	Data object.
-	 * @since	11.1
+	 * @param   string   XML formatted string to convert.
+	 * @param   array    Options used by the formatter.
+	 * @return  object   Data object.
+	 * @since   11.1
 	 */
 	public function stringToObject($data, $options = array())
 	{
@@ -82,8 +82,8 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to get a PHP native value for a SimpleXMLElement object. -- called recursively
 	 *
-	 * @param	object	SimpleXMLElement object for which to get the native value.
-	 * @return	mixed	Native value of the SimpleXMLElement object.
+	 * @param   object   SimpleXMLElement object for which to get the native value.
+	 * @return  mixed    Native value of the SimpleXMLElement object.
 	 * @since	2.0
 	 */
 	protected function _getValueFromNode($node)
@@ -124,10 +124,10 @@ class JRegistryFormatXML extends JRegistryFormat
 	/**
 	 * Method to build a level of the XML string -- called recursively
 	 *
-	 * @param	object	SimpleXMLElement object to attach children.
-	 * @param	object	Object that represents a node of the xml document.
-	 * @param	string	The name to use for node elements.
-	 * @return	void
+	 * @param   object   SimpleXMLElement object to attach children.
+	 * @param   object   Object that represents a node of the XML document.
+	 * @param   string   The name to use for node elements.
+	 * @return  void
 	 * @since	2.0
 	 */
 	protected function _getXmlChildren(& $node, $var, $nodeName)

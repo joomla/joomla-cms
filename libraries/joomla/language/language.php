@@ -21,9 +21,9 @@ jimport('joomla.filesystem.stream');
 /**
  * Languages/translation handler class
  *
- * @package		Joomla.Platform
- * @subpackage	Language
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ * @since       11.1
  */
 class JLanguage extends JObject
 {
@@ -31,8 +31,8 @@ class JLanguage extends JObject
 	/**
 	 * Debug language, If true, highlights if string isn't found
 	 *
-	 * @var		boolean
-	 * @since	11.1
+	 * @var    boolean
+	 * @since  11.1
 	 */
 	protected $debug = false;
 
@@ -41,136 +41,136 @@ class JLanguage extends JObject
 	 *
 	 * The default language is used when a language file in the requested language does not exist.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $default	= 'en-GB';
 
 	/**
 	 * An array of orphaned text
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $orphans = array();
 
 	/**
 	 * Array holding the language metadata
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $metadata = null;
 
 	/**
 	 * Array|boolean holding the language locale
 	 *
-	 * @var		array|boolean
-	 * @since	11.1
+	 * @var    array|boolean
+	 * @since  11.1
 	 */
 	protected $locale = null;
 
 	/**
 	 * The language to load
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $lang = null;
 
 	/**
 	 * List of language files that have been loaded
 	 *
-	 * @var		array of arrays
-	 * @since	11.1
+	 * @var    array of arrays
+	 * @since  11.1
 	 */
 	protected $paths = array();
 
 	/**
 	 * List of language files that are in error state
 	 *
-	 * @var		array of string
-	 * @since	11.1
+	 * @var    array of string
+	 * @since  11.1
 	 */
 	protected $errorfiles = array();
 
 	/**
 	 * Translations
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $strings = null;
 
 	/**
 	 * An array of used text, used during debugging
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $used = array();
 
 	/**
 	 * Counter for number of loads
 	 *
-	 * @var		integer
-	 * @since	11.1
+	 * @var    integer
+	 * @since  11.1
 	 */
 	protected $counter = 0;
 
 	/**
 	 * An array used to store overrides
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $override = array();
 
 	/**
 	 * Name of the transliterator function for this language
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $transliterator = null;
 
 	/**
 	 * Name of the pluralSuffixesCallback function for this language
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $pluralSuffixesCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $ignoredSearchWordsCallback = null;
 
 	/**
 	 * Name of the lowerLimitSearchWordCallback function for this language
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $lowerLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the uppperLimitSearchWordCallback function for this language
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $upperLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the searchDisplayedCharactersNumberCallback function for this language
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $searchDisplayedCharactersNumberCallback = null;
 
@@ -249,10 +249,10 @@ class JLanguage extends JObject
 	/**
 	 * Returns a language object
 	 *
-	 * @param	string 	$lang  The language to use.
-	 * @param	boolean	$debug	The debug mode
-	 * @return	JLanguage	The Language object.
-	 * @since	11.1
+	 * @param   string  $lang  The language to use.
+	 * @param   bool    $debug	The debug mode
+	 * @return  object  JLanguage	The Language object.
+	 * @since   11.1
 	 */
 	public static function getInstance($lang, $debug=false)
 	{
@@ -265,12 +265,12 @@ class JLanguage extends JObject
 	/**
 	 * Translate function, mimics the php gettext (alias _) function
 	 *
-	 * @param	string		$string	The string to translate
-	 * @param	boolean		$jsSafe		Make the result javascript safe
-	 * @param	boolean		$interpretBackslashes		Interpret \t and \n
-	 * @return	string		The translation of the string
+	 * @param   string  $string	The string to translate
+	 * @param   bool    $jsSafe		Make the result javascript safe
+	 * @param   bool    $interpretBackslashes		Interpret \t and \n
+	 * @return  string  The translation of the string
 	 * @note	The function checks if $jsSafe is true then if $interpretBackslashes is true
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function _($string, $jsSafe = false, $interpretBackSlashes = true)
 	{
@@ -321,9 +321,9 @@ class JLanguage extends JObject
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents"
 	 *
-	 * @param	string	$string	The string to transliterate
-	 * @return	string	The transliteration of the string
-	 * @since	11.1
+	 * @param   string  $string	The string to transliterate
+	 * @return  string  The transliteration of the string
+	 * @since   11.1
 	 */
 	public function transliterate($string)
 	{
@@ -342,8 +342,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for transliteration function
 	 *
-	 * @return	string|function Function name or the actual function for PHP 5.3
-	 * @since	11.1
+	 * @return  string  function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function getTransliterator()
 	{
@@ -353,8 +353,8 @@ class JLanguage extends JObject
 	/**
 	 * Set the transliteration function
 	 *
-	 * @return	string|function Function name or the actual function for PHP 5.3
-	 * @since	11.1
+	 * @return  string  function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function setTransliterator($function)
 	{
@@ -368,9 +368,9 @@ class JLanguage extends JObject
 	 *
 	 * This method return an array of suffixes for plural rules
 	 *
-	 * @param	int	$count	The count number
-	 * @return	array	The array of suffixes
-	 * @since	11.1
+	 * @param   integer  $count	The count number
+	 * @return  array  The array of suffixes
+	 * @since   11.1
 	 */
 	public function getPluralSuffixes($count) {
 		if ($this->pluralSuffixesCallback !== null) {
@@ -384,8 +384,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for pluralSuffixesCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 * @deprecated
 	 */
 	public function getPluralSufficesCallback() {
@@ -394,8 +394,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for pluralSuffixesCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 *
 	 */
 	public function getPluralSuffixesCallback() {
@@ -405,8 +405,8 @@ class JLanguage extends JObject
 	/**
 	 * Set the pluralSuffixes function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function setPluralSuffixesCallback($function) {
 		$previous = $this->pluralSuffixesCallback;
@@ -419,8 +419,8 @@ class JLanguage extends JObject
 	 *
 	 * This method returns an array of ignored search words
 	 *
-	 * @return	array	The array of ignored search words
-	 * @since	11.1
+	 * @return  array  The array of ignored search words
+	 * @since   11.1
 	 */
 	public function getIgnoredSearchWords() {
 		if ($this->ignoredSearchWordsCallback !== null) {
@@ -434,8 +434,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for ignoredSearchWordsCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function getIgnoredSearchWordsCallback() {
 		return $this->ignoredSearchWordsCallback;
@@ -444,8 +444,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the ignoredSearchWordsCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function setIgnoredSearchWordsCallback($function) {
 		$previous = $this->ignoredSearchWordsCallback;
@@ -458,8 +458,8 @@ class JLanguage extends JObject
 	 *
 	 * This method returns a lower limit integer for length of search words
 	 *
-	 * @return	integer	The lower limit integer for length of search words (3 if no value was set for a specific language)
-	 * @since	11.1
+	 * @return  integer  The lower limit integer for length of search words (3 if no value was set for a specific language)
+	 * @since   11.1
 	 */
 	public function getLowerLimitSearchWord() {
 		if ($this->lowerLimitSearchWordCallback !== null) {
@@ -473,8 +473,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for lowerLimitSearchWordCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function getLowerLimitSearchWordCallback() {
 		return $this->lowerLimitSearchWordCallback;
@@ -483,8 +483,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the lowerLimitSearchWordCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function setLowerLimitSearchWordCallback($function) {
 		$previous = $this->lowerLimitSearchWordCallback;
@@ -497,8 +497,8 @@ class JLanguage extends JObject
 	 *
 	 * This method returns an upper limit integer for length of search words
 	 *
-	 * @return	integer	The upper limit integer for length of search words (20 if no value was set for a specific language)
-	 * @since	11.1
+	 * @return  integer  The upper limit integer for length of search words (20 if no value was set for a specific language)
+	 * @since   11.1
 	 */
 	public function getUpperLimitSearchWord() {
 		if ($this->upperLimitSearchWordCallback !== null) {
@@ -512,8 +512,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for upperLimitSearchWordCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function getUpperLimitSearchWordCallback() {
 		return $this->upperLimitSearchWordCallback;
@@ -522,8 +522,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the upperLimitSearchWordCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function setUpperLimitSearchWordCallback($function) {
 		$previous = $this->upperLimitSearchWordCallback;
@@ -536,8 +536,8 @@ class JLanguage extends JObject
 	 *
 	 * This method returns the number of characters displayed during research
 	 *
-	 * @return	integer	The number of characters displayed during research (200 if no value was set for a specific language)
-	 * @since	11.1
+	 * @return  integer  The number of characters displayed during research (200 if no value was set for a specific language)
+	 * @since   11.1
 	 */
 	public function getSearchDisplayedCharactersNumber() {
 		if ($this->searchDisplayedCharactersNumberCallback !== null) {
@@ -551,8 +551,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for searchDisplayedCharactersNumberCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function getSearchDisplayedCharactersNumberCallback() {
 		return $this->searchDisplayedCharactersNumberCallback;
@@ -561,8 +561,8 @@ class JLanguage extends JObject
 	/**
 	 * Setter for the searchDisplayedCharactersNumberCallback function
 	 *
-	 * @return      string|function Function name or the actual function for PHP 5.3
-	 * @since       11.1
+	 * @return  string|function Function name or the actual function for PHP 5.3
+	 * @since   11.1
 	 */
 	public function setSearchDisplayedCharactersNumberCallback($function) {
 		$previous = $this->searchDisplayedCharactersNumberCallback;
@@ -704,10 +704,10 @@ class JLanguage extends JObject
 	/**
 	 * Parses a language file
 	 *
-	 * @param	string	$filename	The name of the file.
+	 * @param   string  $filename	The name of the file.
 	 *
-	 * @return	array	The array of parsed strings.
-	 * @since	11.1
+	 * @return  array  The array of parsed strings.
+	 * @since   11.1
 	 */
 	protected function parse($filename)
 	{
@@ -805,8 +805,8 @@ class JLanguage extends JObject
 	/**
 	 * Determine who called JLanguage or JText
 	 *
-	 * @return	array Caller information
-	 * @since	11.1
+	 * @return  array  Caller information
+	 * @since   11.1
 	 */
 	protected function getCallerInfo()
 	{
@@ -844,8 +844,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for Name
 	 *
-	 * @return	string Official name element of the language
-	 * @since	11.1
+	 * @return  string  Official name element of the language
+	 * @since   11.1
 	 */
 	public function getName() {
 		return $this->metadata['name'];
@@ -875,8 +875,8 @@ class JLanguage extends JObject
 	/**
 	 * Get a list of language files that are in error state
 	 *
-	 * @return	array
-	 * @since	11.1
+	 * @return  array
+	 * @since   11.1
 	 */
 	public function getErrorFiles()
 	{
@@ -886,8 +886,8 @@ class JLanguage extends JObject
 	/**
 	 * Getter for the language tag (as defined in RFC 3066)
 	 *
-	 * @return	string The language tag
-	 * @since	11.1
+	 * @return  string  The language tag
+	 * @since   11.1
 	 */
 	public function getTag() {
 		return $this->metadata['tag'];
@@ -896,8 +896,8 @@ class JLanguage extends JObject
 	/**
 	 * Get the RTL property
 	 *
-	 * @return	boolean True is it an RTL language
-	 * @since	11.1
+	 * @return  boolean  True is it an RTL language
+	 * @since   11.1
 	 */
 	public function isRTL()
 	{
@@ -907,8 +907,8 @@ class JLanguage extends JObject
 	/**
 	 * Set the Debug property
 	 *
-	 * @return	boolean Previous value
-	 * @since	11.1
+	 * @return  boolean Previous value
+	 * @since   11.1
 	 */
 	public function setDebug($debug)
 	{
@@ -920,8 +920,8 @@ class JLanguage extends JObject
 	/**
 	 * Get the Debug property
 	 *
-	 * @return	boolean True is in debug mode
-	 * @since	11.1
+	 * @return  boolean  True is in debug mode
+	 * @since   11.1
 	 */
 	public function getDebug()
 	{
@@ -931,8 +931,8 @@ class JLanguage extends JObject
 	/**
 	 * Get the default language code
 	 *
-	 * @return	string Language code
-	 * @since	11.1
+	 * @return  string  Language code
+	 * @since   11.1
 	 */
 	public function getDefault()
 	{
@@ -942,8 +942,8 @@ class JLanguage extends JObject
 	/**
 	 * Set the default language code
 	 *
-	 * @return	string Previous value
-	 * @since	11.1
+	 * @return  string  Previous value
+	 * @since   11.1
 	 */
 	public function setDefault($lang)
 	{
@@ -955,8 +955,8 @@ class JLanguage extends JObject
 	/**
 	 * Get the list of orphaned strings if being tracked
 	 *
-	 * @return	array Orphaned text
-	 * @since	11.1
+	 * @return  array  Orphaned text
+	 * @since   11.1
 	 */
 	public function getOrphans()
 	{
@@ -968,8 +968,8 @@ class JLanguage extends JObject
 	 *
 	 * Used strings are those strings requested and found either as a string or a constant
 	 *
-	 * @return	array	Used strings
-	 * @since	11.1
+	 * @return  array  Used strings
+	 * @since   11.1
 	 */
 	public function getUsed()
 	{
@@ -979,9 +979,9 @@ class JLanguage extends JObject
 	/**
 	 * Determines is a key exists
 	 *
-	 * @param	key $key	The key to check
-	 * @return	boolean True, if the key exists
-	 * @since	11.1
+	 * @param   key   $key	The key to check
+	 * @return  bool  True, if the key exists
+	 * @since   11.1
 	 */
 	function hasKey($string)
 	{
@@ -992,10 +992,10 @@ class JLanguage extends JObject
 	/**
 	 * Returns a associative array holding the metadata
 	 *
-	 * @param	string	The name of the language
-	 * @return	mixed	If $lang exists return key/value pair with the language metadata,
+	 * @param   string  The name of the language
+	 * @return  mixed  If $lang exists return key/value pair with the language metadata,
 	 *				otherwise return NULL
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public static function getMetadata($lang)
 	{
@@ -1029,11 +1029,11 @@ class JLanguage extends JObject
 	/**
 	 * Get the path to a language
 	 *
-	 * @param	string $basePath  The basepath to use
-	 * @param	string $language	The language tag
+	 * @param   string  $basePath  The basepath to use
+	 * @param   string  $language	The language tag
 	 *
-	 * @return	string	language related path or null
-	 * @since	11.1
+	 * @return  string  language related path or null
+	 * @since   11.1
 	 */
 	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
 	{
@@ -1049,10 +1049,10 @@ class JLanguage extends JObject
 	 *
 	 * Once called, the language still needs to be loaded using JLanguage::load()
 	 *
-	 * @param	string	$lang	Language code
+	 * @param   string  $lang	Language code
 	 *
-	 * @return	string	Previous value
-	 * @since	11.1
+	 * @return  string  Previous value
+	 * @since   11.1
 	 */
 	public function setLanguage($lang)
 	{
@@ -1066,8 +1066,8 @@ class JLanguage extends JObject
 	/**
 	 * Get the language locale based on current language
 	 *
-	 * @return	array|false	The locale according to the language
-	 * @since	11.1
+	 * @return  array  false	The locale according to the language
+	 * @since   11.1
 	 */
 	public function getLocale()
 	{
@@ -1089,8 +1089,8 @@ class JLanguage extends JObject
 	/**
 	 * Get the first day of the week for this language
 	 *
-	 * @return	int	The first day of the week according to the language
-	 * @since	11.1
+	 * @return  integer  The first day of the week according to the language
+	 * @since   11.1
 	 */
 	public function getFirstDay()
 	{
@@ -1100,10 +1100,10 @@ class JLanguage extends JObject
 	/**
 	 * Searches for language directories within a certain base dir
 	 *
-	 * @param	string	$dir	directory of files
-	 * @return	array	Array holding the found languages as filename => real name pairs
+	 * @param   string   $dir	directory of files
+	 * @return  array    Array holding the found languages as filename => real name pairs
 	 * @deprecated use parseLanguageFiles instead
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public static function _parseLanguageFiles($dir = null)
 	{
@@ -1113,10 +1113,10 @@ class JLanguage extends JObject
 	/**
 	 * Searches for language directories within a certain base dir
 	 *
-	 * @param	string	$dir	directory of files
+	 * @param   string  $dir	directory of files
 	 *
-	 * @return	array	Array holding the found languages as filename => real name pairs
-	 * @since	11.1
+	 * @return  array  Array holding the found languages as filename => real name pairs
+	 * @since   11.1
 	 */
 	public static function parseLanguageFiles($dir = null)
 	{
@@ -1136,10 +1136,10 @@ class JLanguage extends JObject
 	/**
 	 * Parses XML files for language information
 	 *
-	 * @param	string	$dir	Directory of files
-	 * @return	array	Array holding the found languages as filename => metadata array
+	 * @param   string  $dir	Directory of files
+	 * @return  array  Array holding the found languages as filename => metadata array
 	 * @deprecated use parseXMLLanguageFiles instead
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public static function _parseXMLLanguageFiles($dir = null)
 	{
@@ -1149,9 +1149,9 @@ class JLanguage extends JObject
 	/**
 	 * Parses XML files for language information
 	 *
-	 * @param	string	$dir	Directory of files
-	 * @return	array	Array holding the found languages as filename => metadata array
-	 * @since	11.1
+	 * @param   string  $dir	Directory of files
+	 * @return  array  Array holding the found languages as filename => metadata array
+	 * @since   11.1
 	 */
 	public static function parseXMLLanguageFiles($dir = null)
 	{
@@ -1176,11 +1176,11 @@ class JLanguage extends JObject
 	/**
 	 * Parse XML file for language information.
 	 *
-	 * @param	string	$path	Path to the xml files
+	 * @param   string  $path	Path to the XML files
 	 *
-	 * @return	array	Array holding the found metadata as a key => value pair
+	 * @return  array  Array holding the found metadata as a key => value pair
 	 * @deprecated use parseXMLLanguageFile instead
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public static function _parseXMLLanguageFile($path)
 	{
@@ -1190,10 +1190,10 @@ class JLanguage extends JObject
 	/**
 	 * Parse XML file for language information.
 	 *
-	 * @param	string	$path	Path to the xml files
+	 * @param   string  $path	Path to the XML files
 	 *
-	 * @return	array	Array holding the found metadata as a key => value pair
-	 * @since	11.1
+	 * @return  array  Array holding the found metadata as a key => value pair
+	 * @since   11.1
 	 */
 	public static function parseXMLLanguageFile($path)
 	{

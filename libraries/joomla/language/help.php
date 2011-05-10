@@ -12,21 +12,21 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Help system class
  *
- * @package		Joomla.Platform
- * @subpackage	Language
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ * @since       11.1
  */
 class JHelp
 {
 	/**
 	 * Create a URL for a given help key reference
 	 *
-	 * @param	string	$ref			The name of the help screen (its key reference)
-	 * @param	boolean	$useComponent	Use the help file in the component directory
-	 * @param	string	$override		Use this URL instead of any other
-	 * @param	string	$component		Name of component (or null for current component)
+	 * @param   string   $ref			The name of the help screen (its key reference)
+	 * @param   boolean  $useComponent	Use the help file in the component directory
+	 * @param   string   $override		Use this URL instead of any other
+	 * @param   string   $component		Name of component (or null for current component)
 	 *
-	 * @return	string
+	 * @return  string
 	 * @sicne	1.5
 	 */
 	static function createURL($ref, $useComponent = false, $override = null, $component = null)
@@ -139,11 +139,11 @@ class JHelp
 	/**
 	 * Builds a list of the help sites which can be used in a select option.
 	 *
-	 * @param	string	$pathToXml	Path to an xml file.
-	 * @param	string	$selected	Language tag to select (if exists).
+	 * @param   string   $pathToXml	Path to an XML file.
+	 * @param   string   $selected	Language tag to select (if exists).
 	 *
-	 * @return	array	An array of arrays (text, value, selected).
-	 * @since	11.1
+	 * @return  array  An array of arrays (text, value, selected).
+	 * @since   11.1
 	 */
 	static function createSiteList($pathToXml, $selected = null)
 	{

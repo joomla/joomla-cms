@@ -18,9 +18,9 @@ defined('JPATH_PLATFORM') or die;
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package		Joomla.Platform
- * @subpackage	FileSystem
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JArchiveGzip extends JObject
 {
@@ -45,12 +45,12 @@ class JArchiveGzip extends JObject
 	/**
 	* Extract a Gzip compressed file to a given path
 	*
-	* @param	string	$archive		Path to ZIP archive to extract
-	* @param	string	$destination	Path to extract archive to
-	* @param	array	$options		Extraction options [unused]
+	* @param   string   $archive		Path to ZIP archive to extract
+	* @param   string   $destination	Path to extract archive to
+	* @param   array    $options		Extraction options [unused]
 	*
-	* @return	boolean	True if successful
-	* @since	11.1
+	* @return  boolean  True if successful
+	* @since   11.1
 	*/
 	public function extract($archive, $destination, $options = array ())
 	{
@@ -126,8 +126,8 @@ class JArchiveGzip extends JObject
 	/**
 	 * Get file data offset for archive
 	 *
-	 * @return	int		Data position marker for archive
-	 * @since	11.1
+	 * @return  integer  Data position marker for archive
+	 * @since   11.1
 	 */
 	function _getFilePosition()
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Data for JForm tests.
  *
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  */
 class JFormDataHelper
 {
@@ -554,7 +554,7 @@ class JFormDataHelper
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  */
 function jFormDataFilter($value)
 {

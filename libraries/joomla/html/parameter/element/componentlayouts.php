@@ -14,14 +14,14 @@ require_once dirname(__FILE__).DS.'list.php';
 /**
  * Parameter to display a list of the layouts for a component view from the extension or default template overrides.
  *
- * @package		Joomla.Platform
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @deprecated  User JForm instead
  */
 class JElementComponentLayouts extends JElementList
 {
 	/**
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'ComponentLayouts';
 

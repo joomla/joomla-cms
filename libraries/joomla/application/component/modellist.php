@@ -14,17 +14,17 @@ jimport('joomla.application.component.model');
 /**
  * Model class for handling lists of items.
  *
- * @package		Joomla.Platform
- * @subpackage	Application
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 class JModelList extends JModel
 {
 	/**
 	 * Internal memory based cache array of data.
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $cache = array();
 
@@ -32,31 +32,31 @@ class JModelList extends JModel
 	 * Context string for the model type.  This is used to handle uniqueness
 	 * when dealing with the getStoreId() method and caching data structures.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $context = null;
 
 	/**
 	 * Valid filter fields or ordering.
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $filter_fields = array();
 
 	/**
 	 * An internal cache for the last query used.
 	 *
-	 * @var		JDatabaseQuery
-	 * @since	11.1
+	 * @var    JDatabaseQuery
+	 * @since  11.1
 	 */
 	protected $query = array();
 
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 */
 	public function __construct($config = array())
@@ -79,8 +79,8 @@ class JModelList extends JModel
 	 *
 	 * This method ensures that the query is contructed only once for a given state of the model.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	11.1
+	 * @return  JDatabaseQuery  A JDatabaseQuery object
+	 * @since   11.1
 	 */
 	protected function _getListQuery()
 	{
@@ -102,8 +102,8 @@ class JModelList extends JModel
 	/**
 	 * Method to get an array of data items.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	11.1
+	 * @return  mixed    An array of data items on success, false on failure.
+	 * @since   11.1
 	 */
 	public function getItems()
 	{
@@ -134,8 +134,8 @@ class JModelList extends JModel
 	/**
 	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return	object	A JDatabaseQuery object to retrieve the data set.
-	 * @since	11.1
+	 * @return  JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.
+	 * @since   11.1
 	 */
 	protected function getListQuery()
 	{
@@ -148,8 +148,8 @@ class JModelList extends JModel
 	/**
 	 * Method to get a JPagination object for the data set.
 	 *
-	 * @return	object	A JPagination object for the data set.
-	 * @since	11.1
+	 * @return  JPagination  A JPagination object for the data set.
+	 * @since   11.1
 	 */
 	public function getPagination()
 	{
@@ -179,9 +179,9 @@ class JModelList extends JModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	An identifier string to generate the store id.
-	 * @return	string	A store id.
-	 * @since	11.1
+	 * @param   string   An identifier string to generate the store id.
+	 * @return  string   A store id.
+	 * @since   11.1
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -197,8 +197,8 @@ class JModelList extends JModel
 	/**
 	 * Method to get the total number of items for the data set.
 	 *
-	 * @return	integer	The total number of items available in the data set.
-	 * @since	11.1
+	 * @return  integer  The total number of items available in the data set.
+	 * @since   11.1
 	 */
 	public function getTotal()
 	{
@@ -229,8 +229,8 @@ class JModelList extends JModel
 	/**
 	 * Method to get the starting number of items for the data set.
 	 *
-	 * @return	integer	The starting number of items available in the data set.
-	 * @since	11.1
+	 * @return  integer  The starting number of items available in the data set.
+	 * @since   11.1
 	 */
 	public function getstart()
 	{
@@ -263,9 +263,9 @@ class JModelList extends JModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param	string	An optional ordering field.
-	 * @param	string	An optional direction (asc|desc).
-	 * @since	11.1
+	 * @param   string   An optional ordering field.
+	 * @param   string   An optional direction (asc|desc).
+	 * @since   11.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -308,13 +308,13 @@ class JModelList extends JModel
 	 * This is the same as the method in JApplication except that this also can optionally
 	 *    force you back to the first page when a filter has changed
 	 *
-	 * @param	string	The key of the user state variable.
-	 * @param	string	The name of the variable passed in a request.
-	 * @param	string	The default value for the variable if not found. Optional.
-	 * @param	string	Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
-	 * @param	boolean	If true, the limitstart in request is set to zero
-	 * @return	The request user state.
-	 * @since	11.1
+	 * @param   string   The key of the user state variable.
+	 * @param   string   The name of the variable passed in a request.
+	 * @param   string   The default value for the variable if not found. Optional.
+	 * @param   string   Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
+	 * @param   boolean  If true, the limitstart in request is set to zero
+	 * @return  The request user state.
+	 * @since   11.1
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
 	{

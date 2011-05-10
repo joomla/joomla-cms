@@ -14,9 +14,9 @@ jimport('joomla.database.table');
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  * @link		http://docs.joomla.org/JTableNested
  */
 class JTableNested extends JTable
@@ -78,7 +78,7 @@ class JTableNested extends JTable
 	protected $_location_id;
 
 	/**
-	 * @var	array	An array to cache values in recursive processes.
+	 * @var   array  An array to cache values in recursive processes.
 	 */
 	protected $_cache = array();
 
@@ -87,7 +87,7 @@ class JTableNested extends JTable
 	/**
 	 * Sets the debug level on or off
 	 *
-	 * @param	int	0 = off, 1 = on
+	 * @param   integer  0 = off, 1 = on
 	 */
 	public function debug($level)
 	{
@@ -97,10 +97,10 @@ class JTableNested extends JTable
 	/**
 	 * Method to get an array of nodes from a given node to its root.
 	 *
-	 * @param	integer	Primary key of the node for which to get the path.
-	 * @param	boolean	Only select diagnostic data for the nested sets.
-	 * @return	mixed	Boolean false on failure or array of node objects on success.
-	 * @since	11.1
+	 * @param   integer  Primary key of the node for which to get the path.
+	 * @param   boolean  Only select diagnostic data for the nested sets.
+	 * @return  mixed    Boolean false on failure or array of node objects on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/getPath
 	 */
 	public function getPath($pk = null, $diagnostic = false)
@@ -135,10 +135,10 @@ class JTableNested extends JTable
 	/**
 	 * Method to get a node and all its child nodes.
 	 *
-	 * @param	integer	Primary key of the node for which to get the tree.
-	 * @param	boolean	Only select diagnostic data for the nested sets.
-	 * @return	mixed	Boolean false on failure or array of node objects on success.
-	 * @since	11.1
+	 * @param   integer  Primary key of the node for which to get the tree.
+	 * @param   boolean  Only select diagnostic data for the nested sets.
+	 * @return  mixed    Boolean false on failure or array of node objects on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/getTree
 	 */
 	public function getTree($pk = null, $diagnostic = false)
@@ -172,9 +172,9 @@ class JTableNested extends JTable
 	/**
 	 * Method to determine if a node is a leaf node in the tree (has no children).
 	 *
-	 * @param	integer	Primary key of the node to check.
-	 * @return	boolean	True if a leaf node.
-	 * @since	11.1
+	 * @param   integer  Primary key of the node to check.
+	 * @return  boolean  True if a leaf node.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/isLeaf
 	 */
 	public function isLeaf($pk = null)
@@ -198,10 +198,10 @@ class JTableNested extends JTable
 	 * save the new location to the database, but will set it in the object so
 	 * that when the node is stored it will be stored in the new location.
 	 *
-	 * @param	integer	The primary key of the node to reference new location by.
-	 * @param	string	Location type string. ['before', 'after', 'first-child', 'last-child']
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer  The primary key of the node to reference new location by.
+	 * @param   string   Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/setLocation
 	 */
 	public function setLocation($referenceId, $position = 'after')
@@ -225,11 +225,11 @@ class JTableNested extends JTable
 	 * Method to move a row in the ordering sequence of a group of rows defined by an SQL WHERE clause.
 	 * Negative numbers move the row up in the sequence and positive numbers move it down.
 	 *
-	 * @param	integer	The direction and magnitude to move the row in the ordering sequence.
-	 * @param	string	WHERE clause to use for limiting the selection of rows to compact the
+	 * @param   integer  The direction and magnitude to move the row in the ordering sequence.
+	 * @param   string   WHERE clause to use for limiting the selection of rows to compact the
 	 *					ordering values.
-	 * @return	mixed	Boolean true on success.
-	 * @since	11.1
+	 * @return  mixed    Boolean true on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTable/move
 	 */
 	public function move($delta, $where = '')
@@ -271,11 +271,11 @@ class JTableNested extends JTable
 	/**
 	 * Method to move a node and its children to a new location in the tree.
 	 *
-	 * @param	integer	The primary key of the node to reference new location by.
-	 * @param	string	Location type string. ['before', 'after', 'first-child', 'last-child']
-	 * @param	integer	The primary key of the node to move.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer  The primary key of the node to reference new location by.
+	 * @param   string   Location type string. ['before', 'after', 'first-child', 'last-child']
+	 * @param   integer  The primary key of the node to move.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/moveByReference
 	 */
 
@@ -487,10 +487,10 @@ class JTableNested extends JTable
 	/**
 	 * Method to delete a node, and optionally its child nodes, from the table.
 	 *
-	 * @param	integer	The primary key of the node to delete.
-	 * @param	boolean	True to delete child nodes, false to move them up a level.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer  The primary key of the node to delete.
+	 * @param   boolean  True to delete child nodes, false to move them up a level.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/delete
 	 */
 	public function delete($pk = null, $children = true)
@@ -616,8 +616,8 @@ class JTableNested extends JTable
 	/**
 	 * Asset that the nested set data is valid.
 	 *
-	 * @return	boolean	True if the instance is sane and able to be stored in the database.
-	 * @since	11.1
+	 * @return  boolean  True if the instance is sane and able to be stored in the database.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTable/check
 	 */
 	public function check()
@@ -660,9 +660,9 @@ class JTableNested extends JTable
 	/**
 	 * Method to store a node in the database table.
 	 *
-	 * @param	boolean	True to update null values as well.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   boolean  True to update null values as well.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/store
 	 */
 	public function store($updateNulls = false)
@@ -813,12 +813,12 @@ class JTableNested extends JTable
 	 * allow you to set a publishing state higher than any ancestor node and will
 	 * not allow you to set a publishing state on a node with a checked out child.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * @param   mixed    An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer The user id of the user performing the operation.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/publish
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -948,9 +948,9 @@ class JTableNested extends JTable
 	/**
 	 * Method to move a node one position to the left in the same level.
 	 *
-	 * @param	integer	Primary key of the node to move.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer  Primary key of the node to move.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/orderUp
 	 */
 	public function orderUp($pk)
@@ -1042,9 +1042,9 @@ class JTableNested extends JTable
 	/**
 	 * Method to move a node one position to the right in the same level.
 	 *
-	 * @param	integer	Primary key of the node to move.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer  Primary key of the node to move.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/orderDown
 	 */
 	public function orderDown($pk)
@@ -1137,7 +1137,7 @@ class JTableNested extends JTable
 	/**
 	 * Gets the ID of the root item in the tree
 	 *
-	 * @return	mixed	The ID of the root row, or false and the internal error is set.
+	 * @return  mixed    The ID of the root row, or false and the internal error is set.
 	 */
 	public function getRootId()
 	{
@@ -1224,12 +1224,12 @@ class JTableNested extends JTable
 	/**
 	 * Method to recursively rebuild the whole nested set tree.
 	 *
-	 * @param	integer	The root of the tree to rebuild.
-	 * @param	integer	The left id to start with in building the tree.
-	 * @param	integer	The level to assign to the current nodes.
-	 * @param	string	The path to the current nodes.
-	 * @return	integer	1 + value of root rgt on success, false on failure
-	 * @since	11.1
+	 * @param   integer  The root of the tree to rebuild.
+	 * @param   integer  The left id to start with in building the tree.
+	 * @param   integer  The level to assign to the current nodes.
+	 * @param   string   The path to the current nodes.
+	 * @return  integer  1 + value of root rgt on success, false on failure
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/rebuild
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
@@ -1308,9 +1308,9 @@ class JTableNested extends JTable
 	 * Method to rebuild the node's path field from the alias values of the
 	 * nodes from the current node to the root node of the tree.
 	 *
-	 * @param	integer	Primary key of the node for which to get the path.
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @param   integer  Primary key of the node for which to get the path.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTableNested/rebuildPath
 	 */
 	public function rebuildPath($pk = null)
@@ -1367,11 +1367,11 @@ class JTableNested extends JTable
 	/**
 	 * Method to update order of table rows
 	 *
-	 * @param	array	id's of rows to be reordered
-	 * @param	array	lft values of rows to be reordered
+	 * @param   array    id's of rows to be reordered
+	 * @param   array    lft values of rows to be reordered
 	 *
-	 * @return	integer	1 + value of root rgt on success, false on failure
-	 * @since	11.1
+	 * @return  integer  1 + value of root rgt on success, false on failure
+	 * @since   11.1
 	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
@@ -1412,10 +1412,10 @@ class JTableNested extends JTable
 	/**
 	 * Method to get nested set properties for a node in the tree.
 	 *
-	 * @param	integer	Value to look up the node by.
-	 * @param	string	Key to look up the node by.
-	 * @return	mixed	Boolean false on failure or node object on success.
-	 * @since	11.1
+	 * @param   integer  Value to look up the node by.
+	 * @param   string   Key to look up the node by.
+	 * @return  mixed    Boolean false on failure or node object on success.
+	 * @since   11.1
 	 */
 	protected function _getNode($id, $key = null)
 	{
@@ -1466,13 +1466,13 @@ class JTableNested extends JTable
 	 * for SQL WHERE clauses for updating left and right id values to make room for
 	 * the node as well as the new left and right ids for the node.
 	 *
-	 * @param	object	A node object with at least a 'lft' and 'rgt' with
+	 * @param   object   A node object with at least a 'lft' and 'rgt' with
 	 *					which to make room in the tree around for a new node.
-	 * @param	integer	The width of the node for which to make room in the tree.
-	 * @param	string	The position relative to the reference node where the room
+	 * @param   integer  The width of the node for which to make room in the tree.
+	 * @param   string   The position relative to the reference node where the room
 	 *					should be made.
-	 * @return	mixed	Boolean false on failure or data object on success.
-	 * @since	11.1
+	 * @return  mixed    Boolean false on failure or data object on success.
+	 * @since   11.1
 	 */
 	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
 	{

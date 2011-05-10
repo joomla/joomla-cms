@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a menu item element
  *
- * @package		Joomla.Platform
- * @subpackage	Parameter
- * @since		11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  Use Jform instead
  */
 
 class JElementMenuItem extends JElement
@@ -23,7 +23,7 @@ class JElementMenuItem extends JElement
 	/**
 	* Element name
 	*
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = 'MenuItem';
 

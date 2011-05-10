@@ -14,11 +14,10 @@ defined('JPATH_PLATFORM') or die;
  *
  * The JElement is the base class for all JElement types
  *
- * @abstract
- * @package		Joomla.Platform
- * @subpackage		Parameter
- * @since		11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  Use JForm instead
  */
 class JElement extends JObject
 {
@@ -28,21 +27,19 @@ class JElement extends JObject
 	* This has to be set in the final
 	* renderer classes.
 	*
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = null;
 
 	/**
 	* Reference to the object that instantiated the element
 	*
-	* @var		object
+	* @var    object
 	*/
 	protected $_parent = null;
 
 	/**
 	 * Constructor
-	 *
-	 * @access protected
 	 */
 	public function __construct($parent = null)
 	{
@@ -52,7 +49,7 @@ class JElement extends JObject
 	/**
 	* Get the element name
 	*
-	* @return	string	type of the parameter
+	* @return  string  type of the parameter
 	*/
 	public function getName() {
 		return $this->_name;

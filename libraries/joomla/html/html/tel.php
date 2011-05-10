@@ -11,9 +11,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering telephone numbers.
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlTel
 {
@@ -23,13 +23,14 @@ abstract class JHtmlTel
 	 * By default, the ITU-T format will automatically be used.
 	 * However, one of the allowed unit types may also be used instead.
 	 *
-	 * @param	int		$number		The integers in a phone number with dot separated country code
-	 * 								ccc.nnnnnnn where ccc represents country code and nnn represents the local number.
-	 * @param	string	$displayplanThe numbering plan used to display the numbers.
-	 * @param	string	$layout		Optional user defined layout to be used.
+	 * @param   integer  $number       The integers in a phone number with dot separated country code
+	 *                                 ccc.nnnnnnn where ccc represents country code and nnn represents the local number.
+	 * @param   string   $displayplan  The numbering plan used to display the numbers.
+	 * @param   string   $layout       Optional user defined layout to be used.
 	 *
-	 * @return	string	$display 	The formatted telephone number.
-	 * @since	11.1
+	 * @return  string  The formatted telephone number.
+	 *
+	 * @since   11.1
 	 */
 	public static function tel($number, $displayplan)
 	{

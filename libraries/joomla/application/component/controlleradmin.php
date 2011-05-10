@@ -17,37 +17,36 @@ jimport('joomla.application.component.controller');
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @abstract
- * @package		Joomla.Platform
- * @subpackage	Application
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 class JControllerAdmin extends JController
 {
 	/**
-	 * @var		string	The URL option for the component.
-	 * @since	11.1
+	 * @var    string	The URL option for the component.
+	 * @since  11.1
 	 */
 	protected $option;
 
 	/**
-	 * @var		string	The prefix to use with controller messages.
-	 * @since	11.1
+	 * @var    string	The prefix to use with controller messages.
+	 * @since  11.1
 	 */
 	protected $text_prefix;
 
 	/**
-	 * @var		string	The URL view list variable.
-	 * @since	11.1
+	 * @var    string	The URL view list variable.
+	 * @since  11.1
 	 */
 	protected $view_list;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param   array An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -84,7 +83,9 @@ class JControllerAdmin extends JController
 	/**
 	 * Removes an item.
 	 *
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function delete()
 	{
@@ -118,11 +119,11 @@ class JControllerAdmin extends JController
 	/**
 	 * Display is not supported by this controller.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   bool   $cachable   If true, the view output will be cached
+	 * @param   array  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	11.1
+	 * @return  JController  A JController object to support chaining.
+	 * @since   11.1
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -132,7 +133,9 @@ class JControllerAdmin extends JController
 	/**
 	 * Method to publish a list of taxa
 	 *
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function publish()
 	{
@@ -186,7 +189,9 @@ class JControllerAdmin extends JController
 	/**
 	 * Changes the order of one or more records.
 	 *
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function reorder()
 	{
@@ -216,7 +221,9 @@ class JControllerAdmin extends JController
 	/**
 	 * Method to save the submitted ordering values for records.
 	 *
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function saveorder()
 	{
@@ -255,7 +262,9 @@ class JControllerAdmin extends JController
 	/**
 	 * Check in of one or more records.
 	 *
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	public function checkin()
 	{
@@ -280,5 +289,4 @@ class JControllerAdmin extends JController
 			return true;
 		}
 	}
-
 }

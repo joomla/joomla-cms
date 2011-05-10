@@ -12,10 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for form elements
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @version		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @version     11.1
  */
 abstract class JHtmlForm
 {
@@ -24,9 +23,8 @@ abstract class JHtmlForm
 	 *
 	 * Use in conjuction with JRequest::checkToken
 	 *
-	 * @static
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function token()
 	{

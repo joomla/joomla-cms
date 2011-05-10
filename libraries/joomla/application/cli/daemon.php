@@ -16,9 +16,9 @@ jimport('joomla.filesystem.folder');
 /**
  * Class to turn JCli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @package		Joomla.Platform
- * @subpackage	Application
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 class JDaemon extends JCli
 {
@@ -54,8 +54,6 @@ class JDaemon extends JCli
 
 	/**
 	 * Class constructor.
-	 *
-	 * @param   array  $config  A configuration array.
 	 *
 	 * @return  void
 	 *
@@ -146,7 +144,7 @@ class JDaemon extends JCli
 	 * Check to see if the daemon is active.  This does not assume that $this daemon is active, but
 	 * only if an instance of the application is active as a daemon.
 	 *
-	 * @return  bool
+	 * @return  bool  True if daemon is active.
 	 *
 	 * @since   11.1
 	 */
@@ -294,7 +292,7 @@ class JDaemon extends JCli
 	/**
 	 * Spawn daemon process.
 	 *
-	 * @return  bool
+	 * @return  bool  True if successfully spawned
 	 *
 	 * @since   11.1
 	 */
@@ -345,7 +343,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to change the identity of the daemon process and resources.
 	 *
-	 * @return  bool
+	 * @return  bool  True if identitye successfully changed
 	 *
 	 * @since   11.1
 	 * @see     posix_setuid()

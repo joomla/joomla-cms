@@ -12,32 +12,31 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Cache storage helper functions.
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	Cache
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheStorageHelper
 {
 	/**
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public $group = '';
 
 	/**
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public $size = 0;
 
 	/**
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public $count = 0;
 
 	/**
 	 * Constructor
 	 *
-	 * @param	array	$options	options
+	 * @param   array  $options	options
 	 */
 	public function __construct($group)
 	{
@@ -47,9 +46,9 @@ class JCacheStorageHelper
 	/**
 	 * Increase cache items count.
 	 *
-	 * @param	string	$size	Cached item size
-	 * @param	string	$group	The cache data group
-	 * @since	11.1
+	 * @param   string  $size	Cached item size
+	 * @param   string  $group	The cache data group
+	 * @since   11.1
 	 */
 	public function updateSize($size)
 	{

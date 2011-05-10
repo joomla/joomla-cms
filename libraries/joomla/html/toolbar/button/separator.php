@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a button separator
  *
- * @package		Joomla.Platform
- * @subpackage		HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonSeparator extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @var		string
+	 * @var   string
 	 */
 	protected $_name = 'Separator';
 

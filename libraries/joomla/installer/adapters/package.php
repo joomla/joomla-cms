@@ -17,9 +17,9 @@ jimport('joomla.installer.packagemanifest');
 /**
  * Package installer
  *
- * @package		Joomla.Platform
- * @subpackage	Installer
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerPackage extends JAdapterInstance
 {
@@ -42,8 +42,8 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function install()
 	{
@@ -222,7 +222,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		$xml =JFactory::getXML($manifestFile);
 
-		// If we cannot load the xml file return false
+		// If we cannot load the XML file return false
 		if (!$xml)
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
@@ -320,7 +320,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function refreshManifestCache()
 	{

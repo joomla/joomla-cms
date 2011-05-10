@@ -14,9 +14,9 @@ jimport('joomla.database.tablenested');
 /**
  * Category table
  *
- * @package		Joomla.Platform
- * @subpackage	Table
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableCategory extends JTableNested
 {
@@ -35,7 +35,7 @@ class JTableCategory extends JTableNested
 	 * The default name is in the form `table_name.id`
 	 * where id is the value of the primary key of the table.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	protected function _getAssetName()
 	{
@@ -46,8 +46,8 @@ class JTableCategory extends JTableNested
 	/**
 	 * Method to return the title to use for the asset table.
 	 *
-	 * @return	string
-	 * @since	11.1
+	 * @return  string
+	 * @since   11.1
 	 */
 	protected function _getAssetTitle()
 	{
@@ -57,7 +57,7 @@ class JTableCategory extends JTableNested
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @return	int
+	 * @return  integer
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
@@ -105,9 +105,10 @@ class JTableCategory extends JTableNested
 	/**
 	 * Override check function
 	 *
-	 * @return	boolean
+	 * @return  bool
+	 *
 	 * @see		JTable::check
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -131,10 +132,12 @@ class JTableCategory extends JTableNested
 	/**
 	 * Overloaded bind function.
 	 *
-	 * @param	array		named array
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array  named array
+	 *
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 *
 	 * @see		JTable:bind
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -162,10 +165,11 @@ class JTableCategory extends JTableNested
 	/**
 	 * Overriden JTable::store to set created/modified and user id.
 	 *
-	 * @param	boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{

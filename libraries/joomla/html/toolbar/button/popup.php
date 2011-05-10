@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a popup window button
  *
- * @package		Joomla.Platform
- * @subpackage		HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonPopup extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'Popup';
 
@@ -47,9 +47,9 @@ class JButtonPopup extends JButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @param		string	$name	Button name
-	 * @return		string	Button CSS Id
-	 * @since		11.1
+	 * @param   string	$name	Button name
+	 * @return  string	Button CSS Id
+	 * @since       11.1
 	 */
 	public function fetchId($type, $name)
 	{
@@ -59,9 +59,9 @@ class JButtonPopup extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param	object	$definition	Button definition
-	 * @return	string	JavaScript command string
-	 * @since	11.1
+	 * @param   object   $definition	Button definition
+	 * @return  string   JavaScript command string
+	 * @since   11.1
 	 */
 	protected function _getCommand($name, $url, $width, $height, $top, $left)
 	{

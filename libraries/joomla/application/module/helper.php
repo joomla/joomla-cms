@@ -15,20 +15,19 @@ jimport('joomla.application.component.helper');
 /**
  * Module helper class
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	Application
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 abstract class JModuleHelper
 {
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @param	string	The name of the module
-	 * @param	string	The title of the module, optional
+	 * @param   string  The name of the module
+	 * @param   string  The title of the module, optional
 	 *
-	 * @return	object	The Module object
+	 * @return  object  The Module object
 	 */
 	public static function &getModule($name, $title = null)
 	{
@@ -70,9 +69,9 @@ abstract class JModuleHelper
 	/**
 	 * Get modules by position
 	 *
-	 * @param string	$position	The position of the module
+	 * @param   string  $position	The position of the module
 	 *
-	 * @return array	An array of module objects
+	 * @return  array  An array of module objects
 	 */
 	public static function &getModules($position)
 	{
@@ -106,9 +105,9 @@ abstract class JModuleHelper
 	/**
 	 * Checks if a module is enabled
 	 *
-	 * @param	string	The module name
+	 * @param   string  The module name
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	public static function isEnabled($module)
 	{
@@ -119,10 +118,10 @@ abstract class JModuleHelper
 	/**
 	 * Render the module.
 	 *
-	 * @param	object	A module object.
-	 * @param	array	An array of attributes for the module (probably from the XML).
+	 * @param   object  A module object.
+	 * @param   array   An array of attributes for the module (probably from the XML).
 	 *
-	 * @return	string	The HTML content of the module output.
+	 * @return  string  The HTML content of the module output.
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
@@ -149,8 +148,7 @@ abstract class JModuleHelper
 		if (!$module->user && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
-			// 1.5 or Core then
-			// 1.6 3PD
+			// 1.5 or Core then 1.6 3PD
 				$lang->load($module->module, JPATH_BASE, null, false, false)
 			||	$lang->load($module->module, dirname($path), null, false, false)
 			||	$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false)
@@ -215,11 +213,10 @@ abstract class JModuleHelper
 	/**
 	 * Get the path to a layout for a module
 	 *
-	 * @static
-	 * @param	string	$module	The name of the module
-	 * @param	string	$layout	The name of the module layout. If alternative layout, in the form template:filename.
-	 * @return	string	The path to the module layout
-	 * @since	11.1
+	 * @param   string  $module	The name of the module
+	 * @param   string  $layout	The name of the module layout. If alternative layout, in the form template:filename.
+	 * @return  string  The path to the module layout
+	 * @since   11.1
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
@@ -250,7 +247,7 @@ abstract class JModuleHelper
 	/**
 	 * Load published modules
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	protected static function &_load()
 	{
@@ -365,14 +362,13 @@ abstract class JModuleHelper
 	* 'safeuri'		id created from $cacheparams->modeparams array,
 	* 'id'			module sets own cache id's
 	*
-	* @static
-	* @param	object	$module	Module object
-	* @param	object	$moduleparams module parameters
-	* @param	object	$cacheparams module cache parameters - id or url parameters, depending on the module cache mode
-	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their
+	* @param   object  $module	Module object
+	* @param   object  $moduleparams module parameters
+	* @param   object  $cacheparams module cache parameters - id or url parameters, depending on the module cache mode
+	* @param   array   $params - parameters for given mode - calculated id or an array of safe url parameters and their
 	* 					variable types, for valid values see {@link JFilterInput::clean()}.
 	*
-	* @since	11.1
+	* @since   11.1
 	*/
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{

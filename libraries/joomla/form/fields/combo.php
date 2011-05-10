@@ -17,25 +17,25 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Platform
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldCombo extends JFormFieldList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $type = 'Combo';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	11.1
+	 * @return  string   The field input markup.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{

@@ -12,10 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a textarea element
  *
- * @package		Joomla.Platform
- * @subpackage		Parameter
- * @since		11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  Use JForm instead
  */
 
 class JElementTextarea extends JElement
@@ -23,7 +23,7 @@ class JElementTextarea extends JElement
 	/**
 	* Element name
 	*
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = 'Textarea';
 

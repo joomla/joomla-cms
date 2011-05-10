@@ -14,31 +14,30 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @abstract
- * @package		Joomla.Platform
- * @subpackage	Application
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since      11.1
  */
 class JView extends JObject
 {
 	/**
 	 * The name of the view
 	 *
-	 * @var		array
+	 * @var    array
 	 */
 	protected $_name = null;
 
 	/**
 	 * Registered models
 	 *
-	 * @var		array
+	 * @var    array
 	 */
 	protected $_models = array();
 
 	/**
 	 * The base path of the view
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_basePath = null;
 
@@ -52,21 +51,21 @@ class JView extends JObject
 	/**
 	 * Layout name
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_layout = 'default';
 
 	/**
 	 * Layout extension
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_layoutExt = 'php';
 
 	/**
 	 * Layout template
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_layoutTemplate = '_';
 
@@ -170,7 +169,7 @@ class JView extends JObject
 	/**
 	* Execute and display a template script.
 	*
-	* @param string The name of the template file to parse;
+	* @param   string The name of the template file to parse;
 	* automatically searches through the template paths.
 	*
 	* @throws object An JError object.
@@ -285,8 +284,8 @@ class JView extends JObject
 	* </code>
 	*
 	*
-	* @param string The name for the reference in the view.
-	* @param mixed The referenced variable.
+	* @param   string The name for the reference in the view.
+	* @param   mixed The referenced variable.
 	*
 	* @return bool True on success, false on failure.
 	*/
@@ -307,8 +306,8 @@ class JView extends JObject
 	 * If escaping mechanism is either htmlspecialchars or htmlentities, uses
 	 * {@link $_encoding} setting.
 	 *
-	 * @param  mixed The output to escape.
-	 * @return mixed The escaped value.
+	 * @param   mixed The output to escape.
+	 * @return  mixed    The escaped value.
 	 */
 	function escape($var)
 	{
@@ -322,9 +321,9 @@ class JView extends JObject
 	/**
 	 * Method to get data from a registered model or a property of the view
 	 *
-	 * @param	string	The name of the method to call on the model or the property to get
-	 * @param	string	The name of the model to reference or the default value [optional]
-	 * @return mixed	The return value of the method
+	 * @param   string   The name of the method to call on the model or the property to get
+	 * @param   string   The name of the model to reference or the default value [optional]
+	 * @return  mixed    The return value of the method
 	 */
 	public function get($property, $default = null)
 	{
@@ -361,8 +360,8 @@ class JView extends JObject
 	/**
 	 * Method to get the model object
 	 *
-	 * @param	string	The name of the model (optional)
-	 * @return	mixed	JModel object
+	 * @param   string   The name of the model (optional)
+	 * @return  mixed    JModel object
 	 */
 	public function getModel($name = null)
 	{
@@ -375,7 +374,7 @@ class JView extends JObject
 	/**
 	* Get the layout.
 	*
-	* @return string The layout name
+	* @return  string   The layout name
 	*/
 	public function getLayout()
 	{
@@ -385,7 +384,7 @@ class JView extends JObject
 	/**
 	* Get the layout template.
 	*
-	* @return string The layout template name
+	* @return  string   The layout template name
 	*/
 	public function getLayoutTemplate()
 	{
@@ -398,8 +397,8 @@ class JView extends JObject
 	 * The model name by default parsed using the classname, or it can be set
 	 * by passing a $config['name'] in the class constructor
 	 *
-	 * @return	string The name of the model
-	 * @since	11.1
+	 * @return  string   The name of the model
+	 * @since   11.1
 	 */
 	public function getName()
 	{
@@ -428,9 +427,10 @@ class JView extends JObject
 	 * referenced by the name without JModel, eg. JModelCategory is just
 	 * Category.
 	 *
-	 * @param	object		The model to add to the view.
-	 * @param	boolean		Is this the default model?
-	 * @return	object		The added model
+	 * @param   object   $model   The model to add to the view.
+	 * @param   boolean  $default  Is this the default model?
+	 *
+	 * @return  object   The added model
 	 */
 	public function setModel(&$model, $default = false)
 	{
@@ -446,9 +446,9 @@ class JView extends JObject
 	/**
 	* Sets the layout name to use
 	*
-	* @param	string	The layout name or a string in format <template>:<layout file>
-	* @return	string 	Previous value
-	* @since	11.1
+	* @param   string  The layout name or a string in format <template>:<layout file>
+	* @return  string  Previous value
+	* @since   11.1
 	*/
 
 	public function setLayout($layout)
@@ -472,9 +472,9 @@ class JView extends JObject
 	/**
 	 * Allows a different extension for the layout files to be used
 	 *
-	 * @param	string	The extension
-	 * @return	string	Previous value
-	 * @since	11.1
+	 * @param   string   The extension
+	 * @return  string   Previous value
+	 * @since   11.1
 	 */
 	public function setLayoutExt($value)
 	{
@@ -488,7 +488,7 @@ class JView extends JObject
 	/**
 	 * Sets the _escape() callback.
 	 *
-	 * @param mixed The callback for _escape() to use.
+	 * @param   mixed The callback for _escape() to use.
 	 */
 	function setEscape($spec)
 	{
@@ -498,7 +498,7 @@ class JView extends JObject
 	/**
 	 * Adds to the stack of view script paths in LIFO order.
 	 *
-	 * @param string|array The directory (-ies) to add.
+	 * @param   string|array The directory (-ies) to add.
 	 * @return void
 	 */
 	function addTemplatePath($path)
@@ -509,7 +509,7 @@ class JView extends JObject
 	/**
 	 * Adds to the stack of helper script paths in LIFO order.
 	 *
-	 * @param string|array The directory (-ies) to add.
+	 * @param   string|array The directory (-ies) to add.
 	 * @return void
 	 */
 	function addHelperPath($path)
@@ -520,9 +520,9 @@ class JView extends JObject
 	/**
 	 * Load a template file -- first look in the templates folder for an override
 	 *
-	 * @param	string	The name of the template source file ...
+	 * @param   string   The name of the template source file ...
 	 * 					automatically searches the template paths and compiles as needed.
-	 * @return string The output of the the template script.
+	 * @return  string   The output of the the template script.
 	 */
 	public function loadTemplate($tpl = null)
 	{
@@ -596,7 +596,7 @@ class JView extends JObject
 	/**
 	 * Load a helper file
 	 *
-	 * @param string The name of the helper source file ...
+	 * @param   string The name of the helper source file ...
 	 * automatically searches the helper paths and compiles as needed.
 	 * @return boolean Returns true if the file was loaded
 	 */
@@ -619,8 +619,8 @@ class JView extends JObject
 	/**
 	* Sets an entire array of search paths for templates or resources.
 	*
-	* @param string 		The type of path to set, typically 'template'.
-	* @param string|array	The new set of search paths.  If null or false, resets to the current directory only.
+	* @param   string 		The type of path to set, typically 'template'.
+	* @param   string|array	The new set of search paths.  If null or false, resets to the current directory only.
 	*/
 	protected function _setPath($type, $path)
 	{
@@ -652,7 +652,7 @@ class JView extends JObject
 	/**
 	* Adds to the search path for templates and resources.
 	*
-	* @param string|array The directory or stream to search.
+	* @param   string|array The directory or stream to search.
 	*/
 	protected function _addPath($type, $path)
 	{

@@ -12,24 +12,24 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocumentRenderer_RSS is a feed that implements RSS 2.0 Specification
  *
- * @package		Joomla.Platform
- * @subpackage	Document
+ * @package     Joomla.Platform
+ * @subpackage  Document
  * @see			http://www.rssboard.org/rss-specification
- * @since		11.1
+ * @since       11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
 {
 	/**
 	 * Renderer mime type
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_mime = "application/rss+xml";
 
 	/**
 	 * Render the feed
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function render()
 	{
@@ -182,7 +182,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	/**
 	 * Convert links in a text from relative to absolute
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function _relToAbs($text)
 	{

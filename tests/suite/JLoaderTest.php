@@ -107,12 +107,12 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
-	 * @param	string	$filePath		Path to object
-	 * @param	string	$base			Path to location of object
-	 * @param	string	$libraries		Which libraries to use
-	 * @param	bool	$expect			Result of import (True = success)
-	 * @param	string	$message		Failure message
-	 * @param	bool	$useDefaults	Use the default function arguments
+	 * @param   string	$filePath		Path to object
+	 * @param   string	$base			Path to location of object
+	 * @param   string	$libraries		Which libraries to use
+	 * @param   bool	$expect			Result of import (True = success)
+	 * @param   string	$message		Failure message
+	 * @param   bool	$useDefaults	Use the default function arguments
 	 *
 	 * @group   JLoader
 	 * @covers  JLoader::import
@@ -188,9 +188,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	/**
 	 * This tests the convenience function jimport.
 	 *
-	 * @param	string	$object		Name of object to be imported
-	 * @param	bool	$expect		Expected result
-	 * @param	string	$message	Failure message to be displayed
+	 * @param   string	$object		Name of object to be imported
+	 * @param   bool	$expect		Expected result
+	 * @param   string	$message	Failure message to be displayed
 	 *
 	 * @return void
 	 * @dataProvider casesJimport

@@ -117,7 +117,7 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	 * Sets the JError error handlers to callback mode and points them at the test
 	 * logging method.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -151,9 +151,9 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param	JException	The JException object from JError
+	 * @param   JException	The JException object from JError
 	 *
-	 * @return	bool	To not continue with JError processing
+	 * @return  bool	To not continue with JError processing
 	 */
 	static function errorCallback($error)
 	{

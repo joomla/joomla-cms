@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @package		Joomla.Platform
- * @subpackage	Plugin
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Plugin
+ * @since       11.1
  */
 abstract class JPluginHelper
 {
@@ -22,11 +22,11 @@ abstract class JPluginHelper
 	 * Get the plugin data of a specific type if no specific plugin is specified
 	 * otherwise only the specific plugin data is returned.
 	 *
-	 * @param	string	$type	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param	string	$plugin	The plugin name.
+	 * @param   string   $type	The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string   $plugin	The plugin name.
 	 *
-	 * @return	mixed	An array of plugin data objects, or a plugin data object.
-	 * @since	11.1
+	 * @return  mixed    An array of plugin data objects, or a plugin data object.
+	 * @since   11.1
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
@@ -57,11 +57,11 @@ abstract class JPluginHelper
 	/**
 	 * Checks if a plugin is enabled.
 	 *
-	 * @param	string	$type	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param	string	$plugin	The plugin name.
+	 * @param   string   $type	The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string   $plugin	The plugin name.
 	 *
-	 * @return	boolean
-	 * @since	11.1
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	public static function isEnabled($type, $plugin = null)
 	{
@@ -73,13 +73,13 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific pugin is loaded.
 	 *
-	 * @param	string		$type	The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param	string		$plugin	The plugin name.
-	 * @param	boolean		$autocreate
-	 * @param	JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
+	 * @param   string   $type	The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string   $plugin	The plugin name.
+	 * @param   bool     $autocreate
+	 * @param   JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return	boolean		True on success.
-	 * @since	11.1
+	 * @return  boolean		True on success.
+	 * @since   11.1
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
 	{
@@ -118,12 +118,12 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param	JPlugin		$plugin		The plugin.
-	 * @param	boolean		$autocreate
-	 * @param	JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
+	 * @param   JPlugin		$plugin		The plugin.
+	 * @param   boolean  	$autocreate
+	 * @param   JDispatcher	$dispatcher	Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return	boolean		True on success.
-	 * @since	11.1
+	 * @return  boolean		True on success.
+	 * @since   11.1
 	 */
 	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
 	{
@@ -170,8 +170,8 @@ abstract class JPluginHelper
 	/**
 	 * Loads the published plugins.
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	protected static function _load()
 	{

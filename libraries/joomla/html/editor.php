@@ -14,9 +14,9 @@ jimport('joomla.event.dispatcher');
 /**
  * JEditor class to handle WYSIWYG editors
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JEditor extends JObservable
 {
@@ -51,7 +51,7 @@ class JEditor extends JObservable
 	/**
 	 * Constructor
 	 *
-	 * @param	string	The editor name
+	 * @param   string  The editor name
 	 */
 	public function __construct($editor = 'none')
 	{
@@ -62,8 +62,8 @@ class JEditor extends JObservable
 	 * Returns the global Editor object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param	string	$editor  The editor to use.
-	 * @return	JEditor	The Editor object.
+	 * @param   string  $editor  The editor to use.
+	 * @return  object  JEditor	The Editor object.
 	 */
 	public static function getInstance($editor = 'none')
 	{
@@ -112,17 +112,17 @@ class JEditor extends JObservable
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	$name		The control name.
-	 * @param	string	$html		The contents of the text area.
-	 * @param	string	$width		The width of the text area (px or %).
-	 * @param	string	$height		The height of the text area (px or %).
-	 * @param	int		$col		The number of columns for the textarea.
-	 * @param	int		$row		The number of rows for the textarea.
-	 * @param	boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param	string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param	string	$asset
-	 * @param	object	$author
-	 * @param	array	$params		Associative array of editor parameters.
+	 * @param   string   $name		The control name.
+	 * @param   string   $html		The contents of the text area.
+	 * @param   string   $width		The width of the text area (px or %).
+	 * @param   string   $height		The height of the text area (px or %).
+	 * @param   integer  $col		The number of columns for the textarea.
+	 * @param   integer  $row		The number of rows for the textarea.
+	 * @param   boolean  $buttons	True and the editor buttons will be displayed.
+	 * @param   string   $id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset
+	 * @param   object   $author
+	 * @param   array    $params		Associative array of editor parameters.
 	 */
 	public function display($name, $html, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
@@ -167,7 +167,7 @@ class JEditor extends JObservable
 	/**
 	 * Save the editor content
 	 *
-	 * @param	string	The name of the editor control
+	 * @param   string  The name of the editor control
 	 */
 	public function save($editor)
 	{
@@ -197,9 +197,9 @@ class JEditor extends JObservable
 	/**
 	 * Get the editor contents
 	 *
-	 * @param	string	$editor	The name of the editor control
+	 * @param   string  $editor	The name of the editor control
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function getContent($editor)
 	{
@@ -224,10 +224,10 @@ class JEditor extends JObservable
 	/**
 	 * Set the editor contents
 	 *
-	 * @param	string	$editor	The name of the editor control
-	 * @param	string	$html	The contents of the text area
+	 * @param   string  $editor	The name of the editor control
+	 * @param   string  $html	The contents of the text area
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function setContent($editor, $html)
 	{
@@ -253,8 +253,8 @@ class JEditor extends JObservable
 	/**
 	 * Get the editor buttons
 	 *
-	 * @param	string	$editor		The name of the editor.
-	 * @param	mixed	$buttons	Can be boolean or array, if boolean defines if the buttons are
+	 * @param   string  $editor		The name of the editor.
+	 * @param   mixed   $buttons	Can be boolean or array, if boolean defines if the buttons are
 	 * 								displayed, if array defines a list of buttons not to show.
 	 *
 	 * @since   11.1
@@ -295,10 +295,10 @@ class JEditor extends JObservable
 	/**
 	 * Load the editor
 	 *
-	 * @param	array	$config	Associative array of editor config paramaters
+	 * @param   array  $config	Associative array of editor config paramaters
 	 *
-	 * @return	mixed
-	 * @since	11.1
+	 * @return  mixed
+	 * @since   11.1
 	 */
 	protected function _loadEditor($config = array())
 	{

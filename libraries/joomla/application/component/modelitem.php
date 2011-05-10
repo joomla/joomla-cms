@@ -14,23 +14,23 @@ jimport('joomla.application.component.model');
 /**
  * Prototype item model.
  *
- * @package		Joomla.Platform
- * @subpackage	Application
- * @version		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 abstract class JModelItem extends JModel
 {
 	/**
 	 * An item.
 	 *
-	 * @var		array
+	 * @var    array
 	 */
 	protected $_item = null;
 
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'group.type';
 
@@ -41,8 +41,8 @@ abstract class JModelItem extends JModel
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$context	A prefix for the store id.
-	 * @return	string		A store id.
+	 * @param   string   $context	A prefix for the store id.
+	 * @return  string   	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{

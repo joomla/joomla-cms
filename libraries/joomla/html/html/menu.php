@@ -12,28 +12,27 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class working with menu select lists
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlMenu
 {
 	/**
-	 * @var	array	Cached array of the menus.
+	 * @var    array  Cached array of the menus.
 	 */
 	protected static $menus = null;
 
 	/**
-	 * @var	array	Cached array of the menus items.
+	 * @var    array  Cached array of the menus items.
 	 */
 	protected static $items = null;
 
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return	string
-	 * @since	11.1
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function menus()
 	{
@@ -54,9 +53,9 @@ abstract class JHtmlMenu
 	/**
 	 * Returns an array of menu items groups by menu.
 	 *
-	 * @param	array	An array of configuration options.
+	 * @param   array  An array of configuration options.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function menuitems($config = array())
 	{
@@ -128,12 +127,12 @@ abstract class JHtmlMenu
 	/**
 	 * Displays an HTML select list of menu items.
 	 *
-	 * @param	string	The name of the control.
-	 * @param	string	The value of the selected option.
-	 * @param	string	Attributes for the control.
-	 * @param	array	An array of options for the control.
+	 * @param   string   The name of the control.
+	 * @param   string   The value of the selected option.
+	 * @param   string   Attributes for the control.
+	 * @param   array    An array of options for the control.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function menuitemlist($name, $selected = null, $attribs = null, $config = array())
 	{

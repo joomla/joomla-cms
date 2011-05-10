@@ -17,25 +17,25 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an SQL select list of menu
  *
- * @package		Joomla.Platform
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldSQL extends JFormFieldList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $type = 'SQL';
 
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	11.1
+	 * @return  array  The field option objects.
+	 * @since   11.1
 	 */
 	protected function getOptions()
 	{
@@ -66,7 +66,7 @@ class JFormFieldSQL extends JFormFieldList
 			foreach($items as $item) {
  				if ($translate == true) {
 					$options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
-				} 
+				}
 				else {
 					$options[] = JHtml::_('select.option', $item->$key, $item->$value);
 				}

@@ -12,16 +12,15 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a calendar element
  *
- * @package		Joomla.Platform
- * @subpackage	Parameter
- * @since		11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated	Use JForm instead.
  */
 class JElementCalendar extends JElement
 {
 	/**
-	* Element name
-	* @var		string
+	* @var    string  Element named
 	*/
 	protected $_name = 'Calendar';
 

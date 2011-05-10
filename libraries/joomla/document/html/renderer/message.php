@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument system message renderer
  *
- * @package		Joomla.Platform
- * @subpackage	Document
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererMessage extends JDocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string
 	 *
-	 * @param	string $name	(unused)
-	 * @param	array $params	Associative array of values
+	 * @param   string  $name	(unused)
+	 * @param   array  $params	Associative array of values
 	 *
-	 * @return	string			The output of the script
+	 * @return  string  The output of the script
 	 */
 	public function render($name, $params = array (), $content = null)
 	{

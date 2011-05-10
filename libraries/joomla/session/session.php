@@ -20,9 +20,9 @@ JLoader::register('JSessionStorage', dirname(__FILE__).DS.'storage.php');
  * Based on the standart PHP session handling mechanism it provides
  * more advanced features such as expire timeouts.
  *
- * @package		Joomla.Platform
- * @subpackage	Session
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ * @since       11.1
  */
 class JSession extends JObject
 {
@@ -70,8 +70,8 @@ class JSession extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param string $storage
-	 * @param array	$options	optional parameters
+	 * @param   string  $storage
+	 * @param   array   $options	optional parameters
 	 */
 	public function __construct($store = 'none', $options = array())
 	{
@@ -122,8 +122,8 @@ class JSession extends JObject
 	 * Returns the global Session object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return	JSession	The Session object.
-	 * @since	11.1
+	 * @return  object  JSession	The Session object.
+	 * @since   11.1
 	 */
 	public static function getInstance($handler, $options)
 	{
@@ -139,7 +139,7 @@ class JSession extends JObject
 	/**
 	 * Get current state of session
 	 *
-	 * @return string The session state
+	 * @return  string  The session state
 	 */
 	public function getState()
 	{
@@ -149,7 +149,7 @@ class JSession extends JObject
 	/**
 	 * Get expiration time in minutes
 	 *
-	 * @return integer The session expiration time in minutes
+	 * @return  integer  The session expiration time in minutes
 	 */
 	public function getExpire()
 	{
@@ -163,7 +163,7 @@ class JSession extends JObject
 	 * has been generated the system will check the post request to see if
 	 * it is present, if not it will invalidate the session.
 	 *
-	 * @param	boolean  If true, force a new token to be created
+	 * @param   boolean  If true, force a new token to be created
 	 *
 	 * @return  string	The session token
 	 */
@@ -184,11 +184,11 @@ class JSession extends JObject
 	 * Method to determine if a token exists in the session. If not the
 	 * session will be set to expired
 	 *
-	 * @param  string	Hashed token to be verified
-	 * @param  boolean  If true, expires the session
+	 * @param   string	Hashed token to be verified
+	 * @param   boolean  If true, expires the session
 	 *
-	 * @return boolean
-	 * @since  11.1
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	public function hasToken($tCheck, $forceExpire = true)
 	{
@@ -209,8 +209,8 @@ class JSession extends JObject
 	/**
 	 * Method to determine a hash for anti-spoofing variable names
 	 *
-	 * @return	string  Hashed var name
-	 * @since		11.1
+	 * @return  string  Hashed var name
+	 * @since       11.1
 	 */
 	public static function getFormToken($forceNew = false)
 	{
@@ -224,7 +224,7 @@ class JSession extends JObject
 	/**
 	 * Get session name
 	 *
-	 * @return string The session name
+	 * @return  string  The session name
 	 */
 	public function getName()
 	{
@@ -238,7 +238,7 @@ class JSession extends JObject
 	/**
 	 * Get session id
 	 *
-	 * @return string The session name
+	 * @return  string  The session name
 	 */
 	public function getId()
 	{
@@ -252,7 +252,7 @@ class JSession extends JObject
 	/**
 	 * Get the session handlers
 	 *
-	 * @return array An array of available session handlers
+	 * @return  array  An array of available session handlers
 	 */
 	public static function getStores()
 	{
@@ -294,9 +294,9 @@ class JSession extends JObject
 	/**
 	 * Get data from the session store
 	 *
-	 * @param	string  Name of a variable
-	 * @param	mixed	Default value of a variable if not set
-	 * @param	string  Namespace to use, default to 'default'
+	 * @param   string  Name of a variable
+	 * @param   mixed   Default value of a variable if not set
+	 * @param   string  Namespace to use, default to 'default'
 	 *
 	 * @return  mixed	Value of a variable
 	 */
@@ -319,9 +319,9 @@ class JSession extends JObject
 	/**
 	 * Set data into the session store.
 	 *
-	 * @param	string  Name of a variable.
-	 * @param	mixed	Value of a variable.
-	 * @param	string  Namespace to use, default to 'default'.
+	 * @param   string  Name of a variable.
+	 * @param   mixed   Value of a variable.
+	 * @param   string  Namespace to use, default to 'default'.
 	 *
 	 * @return  mixed	Old value of a variable.
 	 */
@@ -348,8 +348,8 @@ class JSession extends JObject
 	/**
 	 * Check whether data exists in the session store
 	 *
-	 * @param	string	Name of variable
-	 * @param	string	Namespace to use, default to 'default'
+	 * @param   string  Name of variable
+	 * @param   string  Namespace to use, default to 'default'
 	 * @return  boolean  True if the variable exists
 	 */
 	public function has($name, $namespace = 'default')
@@ -369,7 +369,7 @@ class JSession extends JObject
 	 *
 	 * @param  string  Name of variable
 	 * @param  string  Namespace to use, default to 'default'
-	 * @return mixed	The value from session or NULL if not set
+	 * @return  mixed  The value from session or NULL if not set
 	 */
 	public function clear($name, $namespace = 'default')
 	{
@@ -414,10 +414,6 @@ class JSession extends JObject
 
 		session_cache_limiter('none');
 		session_start();
-
-		// Send modified header for IE 6.0 Security Policy
-		// Joomla! 1.6: Moved to configurable plugin due to security concerns
-		// header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
 		return true;
 	}
@@ -550,7 +546,7 @@ class JSession extends JObject
 	/**
 	 * Create a session id
 	 *
-	 * @return string Session ID
+	 * @return  string  Session ID
 	 */
 	protected function _createId()
 	{
@@ -588,7 +584,7 @@ class JSession extends JObject
 	/**
 	 * Create a token-string
 	 *
-	 * @param	int	length of string
+	 * @param   integer  length of string
 	 *
 	 * @return  string  generated token
 	 */
@@ -643,7 +639,7 @@ class JSession extends JObject
 	/**
 	 * Set additional session options
 	 *
-	 * @param	array	list of parameter
+	 * @param   array  list of parameter
 	 *
 	 * @return  boolean  true on success
 	 */
@@ -688,7 +684,7 @@ class JSession extends JObject
 	 *
 	 * If one check failed, session data has to be cleaned.
 	 *
-	 * @param	boolean  reactivate session
+	 * @param   boolean  reactivate session
 	 *
 	 * @return  boolean  true on success
 	 * @see		http://shiflett.org/articles/the-truth-about-sessions

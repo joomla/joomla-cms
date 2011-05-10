@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Registry
+ * @subpackage  Registry
  */
 class JRegistryInspector extends JRegistry
 {

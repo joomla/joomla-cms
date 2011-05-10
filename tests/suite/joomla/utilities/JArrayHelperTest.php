@@ -982,12 +982,12 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	/**
 	 * test sorting an array of objects.
 	 *
-	 * @param	array	$input		Input array of objects
-	 * @param	mixed	$key		Key to sort on
-	 * @param	mixed	$direction	Ascending (1) or Descending(-1)
-	 * @param	array	$expect		The expected results
-	 * @param	string	$message	The failure message
-	 * @param	bool	$defaults	Use the defaults (true) or full argument list
+	 * @param   array	$input		Input array of objects
+	 * @param   mixed	$key		Key to sort on
+	 * @param   mixed	$direction	Ascending (1) or Descending(-1)
+	 * @param   array	$expect		The expected results
+	 * @param   string	$message	The failure message
+	 * @param   bool	$defaults	Use the defaults (true) or full argument list
 	 *
 	 * @return void
 	 * @dataProvider getTestSortObjectData

@@ -74,12 +74,12 @@ class JCli
 	}
 
 	/**
-	 * Returns a reference to the global JCli object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global JCli object, only creating it if it
+	 * doesn't already exist.
 	 *
 	 * This method must be invoked as: $cli = JCli::getInstance();
 	 *
-	 * @return  JCli
-	 *
+	 * @return  JCli  A JCli object
 	 * @since   11.1
 	 */
 	public static function & getInstance()

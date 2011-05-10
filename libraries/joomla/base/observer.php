@@ -12,25 +12,28 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Abstract observer class to implement the observer design pattern
  *
- * @abstract
- * @package		Joomla.Platform
- * @subpackage	Base
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Base
+ * @since       11.1
  */
 abstract class JObserver extends JObject
 {
 	/**
 	 * Event object to observe.
 	 *
-	 * @var		object
+	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_subject = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param	object		$subject	The object to observe.
-	 * @return	void
+	 * @param   object  $subject  The object to observe.
+	 *
+	 * @return  JObserver
+	 *
+	 * @since   11.1
 	 */
 	public function __construct(&$subject)
 	{
@@ -44,10 +47,10 @@ abstract class JObserver extends JObject
 	/**
 	 * Method to update the state of observable objects
 	 *
-	 * @abstract	Implement in child classes
-	 * @param		array		$args		An array of arguments to pass to the listener.
+	 * @param   array  $args  An array of arguments to pass to the listener.
 	 *
-	 * @return		mixed
+	 * @return  mixed
+	 * @since   11.1
 	 */
 	public abstract function update(&$args);
 }

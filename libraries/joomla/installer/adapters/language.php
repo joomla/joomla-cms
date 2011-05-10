@@ -14,15 +14,14 @@ jimport('joomla.base.adapterinstance');
 /**
  * Language installer
  *
- * @package		Joomla.Platform
- * @subpackage	Installer
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerLanguage extends JAdapterInstance
 {
 	/**
-	 * Core language pack flag
-	 * @var		boolean
+	 * @var    boolean  Core language pack flag
 	 */
 	protected $_core = false;
 
@@ -32,8 +31,8 @@ class JInstallerLanguage extends JAdapterInstance
 	 * the ability to install multiple distinct packs in one install. The
 	 * preferred method is to use a package to install multiple language packs.
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function install()
 	{
@@ -248,8 +247,8 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return boolean True on success, false on failure
-	 * @since 11.1
+	 * @return  boolean  True on success, false on failure
+	 * @since   11.1
 	 */
 	public function update()
 	{
@@ -400,10 +399,10 @@ class JInstallerLanguage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param	string	$tag		The tag of the language to uninstall
-	 * @param	int		$clientId	The id of the client (unused)
-	 * @return	mixed	Return value for uninstall method in component uninstall file
-	 * @since	11.1
+	 * @param   string   $tag		The tag of the language to uninstall
+	 * @param   integer  $clientId	The id of the client (unused)
+	 * @return  mixed    Return value for uninstall method in component uninstall file
+	 * @since   11.1
 	 */
 	public function uninstall($eid)
 	{
@@ -421,7 +420,7 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		// check that the language is not protected, Normally en-GB.
+		// Check that the language is not protected, Normally en-GB.
 		$protected  = $extension->get('protected');
 		if ($protected == 1) {
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LANG_UNINSTALL_PROTECTED'));
@@ -577,7 +576,7 @@ class JInstallerLanguage extends JAdapterInstance
 	 * Refreshes the extension table cache
 	 *
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function refreshManifestCache()
 	{

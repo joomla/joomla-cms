@@ -15,21 +15,20 @@ defined('JPATH_PLATFORM') or die;
  *
  * This class has influences and some method logic from the Horde Auth package
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	User
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 abstract class JUserHelper
 {
 	/**
 	 * Method to add a user to a group.
 	 *
-	 * @param	integer		$userId		The id of the user.
-	 * @param	integer		$groupId	The id of the group.
+	 * @param   integer  $userId		The id of the user.
+	 * @param   integer  $groupId	The id of the group.
 	 *
-	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	11.1
+	 * @return  mixed    	Boolean true on success, JException on error.
+	 * @since   11.1
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
@@ -83,9 +82,9 @@ abstract class JUserHelper
 	/**
 	 * Method to get a list of groups a user is in.
 	 *
-	 * @param	integer		$userId		The id of the user.
-	 * @return	mixed		Array on success, JException on error.
-	 * @since	11.1
+	 * @param   integer  $userId		The id of the user.
+	 * @return  mixed  Array on success, JException on error.
+	 * @since   11.1
 	 */
 	public static function getUserGroups($userId)
 	{
@@ -98,10 +97,10 @@ abstract class JUserHelper
 	/**
 	 * Method to remove a user from a group.
 	 *
-	 * @param	integer		$userId		The id of the user.
-	 * @param	integer		$groupId	The id of the group.
-	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	11.1
+	 * @param   integer  $userId		The id of the user.
+	 * @param   integer  $groupId	The id of the group.
+	 * @return  mixed  Boolean true on success, JException on error.
+	 * @since   11.1
 	 */
 	public static function removeUserFromGroup($userId, $groupId)
 	{
@@ -136,11 +135,11 @@ abstract class JUserHelper
 	/**
 	 * Method to set the groups for a user.
 	 *
-	 * @param	integer		$userId		The id of the user.
-	 * @param	array		$groups		An array of group ids to put the user in.
+	 * @param   integer  $userId		The id of the user.
+	 * @param   array    $groups		An array of group ids to put the user in.
 	 *
-	 * @return	mixed		Boolean true on success, JException on error.
-	 * @since	11.1
+	 * @return  mixed  Boolean true on success, JException on error.
+	 * @since   11.1
 	 */
 	public static function setUserGroups($userId, $groups)
 	{
@@ -216,10 +215,10 @@ abstract class JUserHelper
 	/**
 	 * Method to activate a user
 	 *
-	 * @param	string	$activation	Activation string
+	 * @param   string   $activation	Activation string
 	 *
-	 * @return	boolean			True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public static function activateUser($activation)
 	{
@@ -263,9 +262,9 @@ abstract class JUserHelper
 	/**
 	 * Returns userid if a user exists
 	 *
-	 * @param string The username to search on
+	 * @param   string The username to search on
 	 *
-	 * @return int The user id or 0 if not found
+	 * @return  integer  The user id or 0 if not found
 	 */
 	public static function getUserId($username)
 	{
@@ -280,17 +279,17 @@ abstract class JUserHelper
 	/**
 	 * Formats a password using the current encryption.
 	 *
-	 * @param	string	$plaintext	The plaintext password to encrypt.
-	 * @param	string	$salt		The salt to use to encrypt the password. []
+	 * @param   string   $plaintext	The plaintext password to encrypt.
+	 * @param   string   $salt		The salt to use to encrypt the password. []
 	 *								If not present, a new salt will be
 	 *								generated.
-	 * @param	string	$encryption	The kind of pasword encryption to use.
+	 * @param   string   $encryption	The kind of pasword encryption to use.
 	 *								Defaults to md5-hex.
-	 * @param	boolean	$show_encrypt  Some password systems prepend the kind of
+	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
 	 *								encryption to the crypted password ({SHA},
 	 *								etc). Defaults to false.
 	 *
-	 * @return string  The encrypted password.
+	 * @return  string  The encrypted password.
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
@@ -376,15 +375,15 @@ abstract class JUserHelper
 	 * of an existing password, or for encryption types that use the plaintext
 	 * in the generation of the salt.
 	 *
-	 * @param string $encryption  The kind of pasword encryption to use.
+	 * @param   string   $encryption  The kind of pasword encryption to use.
 	 *							Defaults to md5-hex.
-	 * @param string $seed		The seed to get the salt from (probably a
+	 * @param   string   $seed		The seed to get the salt from (probably a
 	 *							previously generated password). Defaults to
 	 *							generating a new seed.
-	 * @param string $plaintext	The plaintext password that we're generating
+	 * @param   string   $plaintext	The plaintext password that we're generating
 	 *							a salt for. Defaults to none.
 	 *
-	 * @return string  The generated or extracted salt.
+	 * @return  string  The generated or extracted salt.
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
@@ -462,10 +461,9 @@ abstract class JUserHelper
 	/**
 	 * Generate a random password
 	 *
-	 * @static
-	 * @param	int		$length	Length of the password to generate
-	 * @return	string			Random Password
-	 * @since	11.1
+	 * @param   integer  $length	Length of the password to generate
+	 * @return  string  Random Password
+	 * @since   11.1
 	 */
 	public static function genRandomPassword($length = 8)
 	{
@@ -488,10 +486,10 @@ abstract class JUserHelper
 	/**
 	 * Converts to allowed 64 characters for APRMD5 passwords.
 	 *
-	 * @param string  $value
-	 * @param integer $count
+	 * @param   string  $value
+	 * @param   integer  $count
 	 *
-	 * @return string  $value converted to the 64 MD5 characters.
+	 * @return  string  $value converted to the 64 MD5 characters.
 	 * @since   11.1
 	 */
 	protected static function _toAPRMD5($value, $count)
@@ -511,12 +509,12 @@ abstract class JUserHelper
 	/**
 	 * Converts hexadecimal string to binary data.
 	 *
-	 * @param string $hex  Hex data.
+	 * @param   string   $hex  Hex data.
 	 *
-	 * @return string  Binary data.
+	 * @return  string  Binary data.
 	 * @since   11.1
 	 */
-	protected static function _bin($hex)
+	private static function _bin($hex)
 	{
 		$bin = '';
 		$length = strlen($hex);

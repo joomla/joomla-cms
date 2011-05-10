@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM.'/joomla/form/formfield.php';
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  */
 class JFormInspector extends JForm
 {
@@ -67,7 +67,7 @@ class JFormInspector extends JForm
 	}
 
 	/**
-	 * @return	array	Return the protected options array.
+	 * @return  array	Return the protected options array.
 	 */
 	public function getOptions()
 	{
@@ -102,7 +102,7 @@ class JFormInspector extends JForm
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  */
 class JFormFieldInspector extends JFormField
 {

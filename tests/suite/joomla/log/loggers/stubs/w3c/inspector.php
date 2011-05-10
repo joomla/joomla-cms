@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Log
+ * @subpackage  Log
  */
 class JLoggerW3CInspector extends JLoggerW3C
 {

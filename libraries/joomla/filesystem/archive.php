@@ -12,21 +12,20 @@ defined('JPATH_PLATFORM') or die;
 /**
  * An Archive handling class
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	FileSystem
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JArchive
 {
 	/**
 	 * Extract an archive file to a directory.
 	 *
-	 * @param	string	$archivename	The name of the archive file
-	 * @param	string	$extractdir		Directory to unpack into
+	 * @param   string  $archivename  The name of the archive file
+	 * @param   string  $extractdir   Directory to unpack into
 	 *
-	 * @return	boolean	True for success
-	 * @since	11.1
+	 * @return  boolean  True for success
+	 * @since   11.1
 	 */
 	public static function extract($archivename, $extractdir)
 	{
@@ -158,10 +157,10 @@ class JArchive
 	/**
 	 * Get a file compression adapter.
 	 *
-	 * @param	string	$type	The type of adapter (bzip2|gzip|tar|zip).
+	 * @param   string   $type	The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return	JObject
-	 * @since	11.1
+	 * @return  object  JObject
+	 * @since   11.1
 	 */
 	public static function getAdapter($type)
 	{

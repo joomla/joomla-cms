@@ -156,7 +156,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 * @param   array  $element   values for base element
 	 * @param   array  $expected  values for expected fields
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   11.1
 	 * @dataProvider  dataTestConstruct

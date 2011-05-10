@@ -14,15 +14,15 @@ jimport('joomla.database.tableasset');
 /**
  * Content table
  *
- * @package		Joomla.Platform
- * @subpackage	Table
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableContent extends JTable
 {
 	/**
-	 * @param	database	A database connector object
-	 * @since	11.1
+	 * @param   database	A database connector object
+	 * @since   11.1
 	 */
 	function __construct(&$db)
 	{
@@ -34,8 +34,8 @@ class JTableContent extends JTable
 	 * The default name is in the form `table_name.id`
 	 * where id is the value of the primary key of the table.
 	 *
-	 * @return	string
-	 * @since	11.1
+	 * @return  string
+	 * @since   11.1
 	 */
 	protected function _getAssetName()
 	{
@@ -46,8 +46,8 @@ class JTableContent extends JTable
 	/**
 	 * Method to return the title to use for the asset table.
 	 *
-	 * @return	string
-	 * @since	11.1
+	 * @return  string
+	 * @since   11.1
 	 */
 	protected function _getAssetTitle()
 	{
@@ -57,8 +57,8 @@ class JTableContent extends JTable
 	/**
 	 * Get the parent asset id for the record
 	 *
-	 * @return	int
-	 * @since	11.1
+	 * @return   integer
+	 * @since   11.1
 	 */
 	protected function _getAssetParentId($table = null, $id = null)
 	{
@@ -92,11 +92,11 @@ class JTableContent extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param	array		$hash named array
+	 * @param   array  $hash named array
 	 *
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see		JTable:bind
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -137,9 +137,9 @@ class JTableContent extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @see		JTable::check
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -199,10 +199,11 @@ class JTableContent extends JTable
 	/**
 	 * Overriden JTable::store to set modified data and user id.
 	 *
-	 * @param	boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @return  boolean  True on success.
+	 *
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -238,13 +239,13 @@ class JTableContent extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param	integer The user id of the user performing the operation.
+	 * @param   mixed    An optional array of primary key values to update.  If not
+	 *					 set the instance property value is used.
+	 * @param   integer  The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer  The user id of the user performing the operation.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	11.1
+	 * @return  bool  True on success.
+	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -314,8 +315,8 @@ class JTableContent extends JTable
 	/**
 	 * Converts record to XML
 	 *
-	 * @param	boolean	Map foreign keys to text values
-	 * @since	11.1
+	 * @param   bool  Map foreign keys to text values
+	 * @since   11.1
 	 */
 	function toXML($mapKeysToText=false)
 	{

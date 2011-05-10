@@ -15,65 +15,64 @@ defined('JPATH_PLATFORM') or die;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @package		Joomla.Platform
- * @subpackage	Filter
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Filter
+ * @since       11.1
  */
 class JFilterInput extends JObject
 {
 	/**
-	 * @var		array	An array of permitted tags.
-	 * @since	11.1
+	 * @var    array	An array of permitted tags.
+	 * @since  11.1
 	 */
 	var $tagsArray;
 
 	/**
-	 * @var		array	An array of permitted tag attributes.
-	 * @since	11.1
+	 * @var    array	An array of permitted tag attributes.
+	 * @since  11.1
 	 */
 	var $attrArray;
 
 	/**
-	 * @var		int		WhiteList method = 0 (default), BlackList method = 1
-	 * @since	11.1
+	 * @var    int		WhiteList method = 0 (default), BlackList method = 1
+	 * @since  11.1
 	 */
 	var $tagsMethod;
 
 	/**
-	 * @var		int		WhiteList method = 0 (default), BlackList method = 1
-	 * @since	11.1
+	 * @var    int		WhiteList method = 0 (default), BlackList method = 1
+	 * @since   11.1
 	 */
 	var $attrMethod;
 
 	/**
-	 * @var		int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * @since	11.1
+	 * @var    int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @since  11.1
 	 */
 	var $xssAuto;
 
 	/**
-	 * @var		array	A list of the default blacklisted tags.
-	 * @since	11.1
+	 * @var    array	A list of the default blacklisted tags.
+	 * @since  11.1
 	 */
 	var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
 
 	/**
-	 * @var		array	A list of the default blacklisted tag attributes.
-	 * @since	11.1
+	 * @var    array	A list of the default blacklisted tag attributes.
+	 * @since   11.1
 	 */
 	var $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
 
 	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
 	 *
-	 * @access	protected
-	 * @param	array	$tagsArray	List of user-defined tags
-	 * @param	array	$attrArray	List of user-defined attributes
-	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
-	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
-	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * @param   array    $tagsArray   List of user-defined tags
+	 * @param   array    $attrArray   List of user-defined attributes
+	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
+	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
+	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 *
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
@@ -92,13 +91,15 @@ class JFilterInput extends JObject
 	/**
 	 * Returns an input filter object, only creating it if it doesn't already exist.
 	 *
-	 * @param	array	$tagsArray	List of user-defined tags
-	 * @param	array	$attrArray	List of user-defined attributes
-	 * @param	int		$tagsMethod	WhiteList method = 0, BlackList method = 1
-	 * @param	int		$attrMethod	WhiteList method = 0, BlackList method = 1
-	 * @param	int		$xssAuto	Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * @return	object	The JFilterInput object.
-	 * @since	11.1
+	 * @param   array    $tagsArray   List of user-defined tags
+	 * @param   array    $attrArray   List of user-defined attributes
+	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
+	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
+	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 *
+	 * @return  object  The JFilterInput object.
+	 *
+	 * @since   11.1
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
 	{
@@ -121,11 +122,12 @@ class JFilterInput extends JObject
 	 * Method to be called by another php script. Processes for XSS and
 	 * specified bad code.
 	 *
-	 * @param	mixed	$source	Input string/array-of-string to be 'cleaned'
-	 * @param	string	$type	Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
-	 * @return	mixed	'Cleaned' version of input parameter
-	 * @since	11.1
-	 * @static
+	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
+	 * @param   string  $type  Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 *
+	 * @return  mixed  'Cleaned' version of input parameter
+	 *
+	 * @since   11.1
 	 */
 	public function clean($source, $type='string')
 	{
@@ -271,10 +273,10 @@ class JFilterInput extends JObject
 	/**
 	 * Function to determine if contents of an attribute are safe
 	 *
-	 * @param	array	$attrSubSet	A 2 element array for attribute's name, value
+	 * @param   array  $attrSubSet  A 2 element array for attribute's name, value
 	 *
-	 * @return	boolean True if bad code is detected
-	 * @since	11.1
+	 * @return  boolean  True if bad code is detected
+	 * @since   11.1
 	 */
 	public static function checkAttribute($attrSubSet)
 	{
@@ -287,10 +289,10 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param	string	$source	Input string to be 'cleaned'
+	 * @param   string  $source	Input string to be 'cleaned'
 	 *
-	 * @return	string	'Cleaned' version of input parameter
-	 * @since	11.1
+	 * @return  string  'Cleaned' version of input parameter
+	 * @since   11.1
 	 */
 	protected function _remove($source)
 	{
@@ -308,9 +310,11 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a string of certain tags
 	 *
-	 * @param	string	Input string to be 'cleaned'
-	 * @return	string	'Cleaned' version of input parameter
-	 * @since	11.1
+	 * @param   string  Input string to be 'cleaned'
+	 *
+	 * @return  string  'Cleaned' version of input parameter
+	 *
+	 * @since   11.1
 	 */
 	protected function _cleanTags($source)
 	{
@@ -508,9 +512,11 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a tag of certain attributes
 	 *
-	 * @param	array	$attrSet	Array of attribute pairs to filter
-	 * @return	array	Filtered array of attribute pairs
-	 * @since	11.1
+	 * @param   array  $attrSet	Array of attribute pairs to filter
+	 *
+	 * @return  array  Filtered array of attribute pairs
+	 *
+	 * @since   11.1
 	 */
 	protected function _cleanAttributes($attrSet)
 	{
@@ -587,9 +593,11 @@ class JFilterInput extends JObject
 	/**
 	 * Try to convert to plaintext
 	 *
-	 * @param	string	$source The source string.
-	 * @return	string	Plaintext string
-	 * @since	11.1
+	 * @param   string  $source The source string.
+	 *
+	 * @return  string  Plaintext string
+	 *
+	 * @since   11.1
 	 */
 	protected function _decode($source)
 	{

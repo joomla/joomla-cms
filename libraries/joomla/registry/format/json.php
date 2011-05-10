@@ -12,19 +12,19 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JSON format handler for JRegistry.
  *
- * @package		Joomla.Platform
- * @subpackage	Registry
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryFormatJSON extends JRegistryFormat
 {
 	/**
 	 * Converts an object into a JSON formatted string.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	JSON formatted string.
-	 * @since	11.1
+	 * @param   object   Data source object.
+	 * @param   array    Options used by the formatter.
+	 * @return  string   JSON formatted string.
+	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -36,9 +36,9 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 *
 	 * If the string is not in JSON format, this method will attempt to parse it as INI format.
 	 *
-	 * @param	string	JSON formatted string to convert.
-	 * @param	array	Options used by the formatter.
-	 * @return	object	Data object.
+	 * @param   string   JSON formatted string to convert.
+	 * @param   array    Options used by the formatter.
+	 * @return  object   Data object.
 	 */
 	public function stringToObject($data, $process_sections = false)
 	{

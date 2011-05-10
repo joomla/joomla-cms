@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension object
  *
- * @package		Joomla.Platform
- * @subpackage	Installer
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JExtension extends JObject
 {

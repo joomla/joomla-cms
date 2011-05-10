@@ -67,8 +67,8 @@ defined('JPATH_PLATFORM') or die;
  * using datatype ANY (e.g. XHTML). With a DOM implementation you can
  * handle this.
  *
- * @package		Joomla.Platform
- * @subpackage	Utilities
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
  * @since   11.1
  * @deprecated
  */
@@ -135,14 +135,14 @@ class JSimpleXML extends JObject
 	/**
 	 * Interprets a string of XML into an object
 	 *
-	 * This function will take the well-formed xml string data and return an object of class
-	 * JSimpleXMLElement with properties containing the data held within the xml document.
+	 * This function will take the well-formed XML string data and return an object of class
+	 * JSimpleXMLElement with properties containing the data held within the XML document.
 	 * If any errors occur, it returns FALSE.
 	 *
-	 * @param string  Well-formed xml string data
-	 * @param string  currently ignored
+	 * @param   string  Well-formed XML string data
+	 * @param   string  currently ignored
 	 *
-	 * @return object JSimpleXMLElement
+	 * @return  object  JSimpleXMLElement
 	 */
 	function loadString($string, $classname = null) {
 		$this->_parse($string);
@@ -156,9 +156,9 @@ class JSimpleXML extends JObject
 	 * to an object  of class JSimpleXMLElement. If any errors occur during file access or
 	 * interpretation, the function returns FALSE.
 	 *
-	 * @param string  Path to xml file containing a well-formed XML document
-	 * @param string  currently ignored
-	 * @return boolean True if successful, false if file empty
+	 * @param   string  Path to XML file containing a well-formed XML document
+	 * @param   string  currently ignored
+	 * @return  boolean  True if successful, false if file empty
 	 */
 	function loadFile($path, $classname = null)
 	{
@@ -187,9 +187,9 @@ class JSimpleXML extends JObject
 	 * This new object can then be used as a native JSimpleXML element. If any errors occur,
 	 * it returns FALSE.
 	 *
-	 * @param string	DOM  document
-	 * @param string	currently ignored
-	 * @return object	JSimpleXMLElement
+	 * @param   string  DOM  document
+	 * @param   string  currently ignored
+	 * @return  object  JSimpleXMLElement
 	 */
 	function importDOM($node, $classname = null) {
 		return false;
@@ -238,9 +238,9 @@ class JSimpleXML extends JObject
 	/**
 	 * Handles an XML parsing error
 	 *
-	 * @param int $code XML Error Code
-	 * @param int $line Line on which the error happened
-	 * @param int $col Column on which the error happened
+	 * @param   integer  $code XML Error Code
+	 * @param   integer  $line Line on which the error happened
+	 * @param   integer  $col Column on which the error happened
 	 */
 	protected function _handleError($code, $line, $col)
 	{
@@ -250,7 +250,8 @@ class JSimpleXML extends JObject
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return object
+	 * @return  object
+	 * @since   11.1
 	 */
 	protected function _getStackLocation()
 	{
@@ -266,8 +267,8 @@ class JSimpleXML extends JObject
 	 * Handler function for the start of a tag
 	 *
 	 * @param resource $parser
-	 * @param string $name
-	 * @param array $attrs
+	 * @param   string  $name
+	 * @param   array   $attrs
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
@@ -299,8 +300,8 @@ class JSimpleXML extends JObject
 	/**
 	 * Handler function for the end of a tag
 	 *
-	 * @param resource $parser
-	 * @param string $name
+	 * @param   resource  $parser
+	 * @param   string    $name
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -311,8 +312,8 @@ class JSimpleXML extends JObject
 	/**
 	 * Handler function for the character data within a tag
 	 *
-	 * @param resource $parser
-	 * @param string $data
+	 * @param   resource  $parser
+	 * @param   string    $data
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -338,8 +339,8 @@ class JSimpleXML extends JObject
  * To loop through all of the direct children of a specific tag for this object, it
  * is probably easier to use the arrays of the specific tag names, as explained above.
  *
- * @package		Joomla.Platform
- * @subpackage	Utilities
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
  * @since   11.1
  * @deprecated
  */
@@ -383,9 +384,9 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Constructor, sets up all the default values
 	 *
-	 * @param string $name
-	 * @param array $attrs
-	 * @param int $parents
+	 * @param   string   $name
+	 * @param   array    $attrs
+	 * @param   integer  $parents
 	 *
 	 * @return JSimpleXMLElement
 	 */
@@ -404,7 +405,7 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the name of the element
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public function name() {
 		return $this->_name;
@@ -413,9 +414,9 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the an attribute of the element
 	 *
-	 * @param string $attribute	The name of the attribute
+	 * @param   string  $attribute	The name of the attribute
 	 *
-	 * @return mixed If an attribute is given will return the attribute if it exist.
+	 * @return  mixed  If an attribute is given will return the attribute if it exist.
 	 *				If no attribute is given will return the complete attributes array
 	 */
 	public function attributes($attribute = null)
@@ -430,7 +431,7 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the data of the element
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public function data() {
 		return $this->_data;
@@ -439,8 +440,8 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Set the data of the element
 	 *
-	 * @param	string $data
-	 * @return string
+	 * @param   string  $data
+	 * @return  string
 	 */
 	public function setData($data) {
 		$this->_data = $data;
@@ -449,7 +450,7 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get the children of the element
 	 *
-	 * @return array
+	 * @return  array
 	 */
 	public function children() {
 		return $this->_children;
@@ -467,8 +468,8 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Adds an attribute to the element
 	 *
-	 * @param string $name
-	 * @param array  $attrs
+	 * @param   string  $name
+	 * @param   array   $attrs
 	 */
 	function addAttribute($name, $value)
 	{
@@ -479,7 +480,7 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Removes an attribute from the element
 	 *
-	 * @param string $name
+	 * @param   string  $name
 	 */
 	function removeAttribute($name)
 	{
@@ -489,9 +490,9 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Adds a direct child to the element
 	 *
-	 * @param string	$name
-	 * @param array		$attrs
-	 * @param int		$level
+	 * @param   string   $name
+	 * @param   array    $attrs
+	 * @param   integer  $level
 	 *
 	 * @return JSimpleXMLElement	The added child object
 	 */
@@ -545,8 +546,8 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Get an element in the document by / separated path
 	 *
-	 * @param	string	$path	The / separated path to the element
-	 * @return	object	JSimpleXMLElement
+	 * @param   string   $path	The / separated path to the element
+	 * @return  object   JSimpleXMLElement
 	 */
 	function getElementByPath($path)
 	{
@@ -581,8 +582,8 @@ class JSimpleXMLElement extends JObject
 	 * Traverses the tree calling the $callback(JSimpleXMLElement
 	 * $this, mixed $args=array()) function with each JSimpleXMLElement.
 	 *
-	 * @param string $callback function name
-	 * @param array $args
+	 * @param   string  $callback function name
+	 * @param   array   $args
 	 */
 	function map($callback, $args=array())
 	{
@@ -599,7 +600,7 @@ class JSimpleXMLElement extends JObject
 	/**
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	function toString($whitespace=true)
 	{

@@ -18,25 +18,25 @@ jimport('joomla.form.helper');
 /**
  * Form Field to display a list of the layouts for a component view from the extension or template overrides.
  *
- * @package		Joomla.Platform
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldComponentLayout extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $type = 'ComponentLayout';
 
 	/**
 	 * Method to get the field input.
 	 *
-	 * @return	string	The field input.
-	 * @since	11.1
+	 * @return  string   The field input.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
@@ -139,7 +139,7 @@ class JFormFieldComponentLayout extends JFormField
 
 				foreach ($component_layouts as $i=>$file)
 			{
-					// Attempt to load the xml file.
+					// Attempt to load the XML file.
 					if (!$xml = simplexml_load_file($file)) {
 						unset($component_layouts[$i]);
 
@@ -188,7 +188,7 @@ class JFormFieldComponentLayout extends JFormField
 						}
 						foreach ($files as $i => $file)
 						{
-							// Remove layout files that exist in the component folder or that have xml files
+							// Remove layout files that exist in the component folder or that have XML files
 							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
 							|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
 							{

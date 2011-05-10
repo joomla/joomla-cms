@@ -120,9 +120,9 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Testing sendMail().
 	 *
-	 * @param	array	Input arguments for array
-	 * @param	array	Arguments received by array
-	 * @param	bool	Expected result of method call
+	 * @param   array	Input arguments for array
+	 * @param   array	Arguments received by array
+	 * @param   bool	Expected result of method call
 	 *
 	 * @return void
 	 * @dataProvider casesSendMail
@@ -206,9 +206,9 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Testing sendAdminMail().
 	 *
-	 * @param	array	Arguments for method call
-	 * @param	array	Arguments received by method
-	 * @param	bool	Expected return from call
+	 * @param   array	Arguments for method call
+	 * @param   array	Arguments received by method
+	 * @param   bool	Expected return from call
 	 *
 	 * @return void
 	 *
@@ -285,8 +285,8 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Testing getToken().
 	 *
-	 * @param	bool	Input to getToken call
-	 * @param	bool	Expected results from getToken
+	 * @param   bool	Input to getToken call
+	 * @param   bool	Expected results from getToken
 	 *
 	 * @return void
 	 *
@@ -330,8 +330,8 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Test parseAttributes
 	 *
-	 * @param	string	tag to be parsed
-	 * @param	array	resulting array of attribute values
+	 * @param   string	tag to be parsed
+	 * @param   array	resulting array of attribute values
 	 *
 	 * @return void
 	 *
@@ -365,9 +365,9 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Testing isWinOS().
 	 *
-	 * @param	bool	return value from mock
+	 * @param   bool	return value from mock
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @dataProvider casesWinOS
 	 */
@@ -417,9 +417,9 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Test dump
 	 *
-	 * @param	mixed	variable to be dumped
-	 * @param	bool	Should text be htmlsafe
-	 * @param	string	expected result
+	 * @param   mixed	variable to be dumped
+	 * @param   bool	Should text be htmlsafe
+	 * @param   string	expected result
 	 *
 	 * @return void
 	 * @dataProvider casesDump
@@ -480,8 +480,8 @@ class JUtilityTest extends JoomlaTestCase
 	/**
 	 * Test return_bytes
 	 *
-	 * @param	string	Descirption of size in multiples of 1024
-	 * @param	int		Size in bytes
+	 * @param   string	Descirption of size in multiples of 1024
+	 * @param   int		Size in bytes
 	 *
 	 * @return void
 	 * @dataProvider casesReturnBytes

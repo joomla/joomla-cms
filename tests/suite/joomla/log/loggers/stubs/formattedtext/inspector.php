@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Log
+ * @subpackage  Log
  */
 class JLoggerFormattedTextInspector extends JLoggerFormattedText
 {

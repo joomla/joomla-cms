@@ -14,9 +14,9 @@ jimport('joomla.filesystem.stream');
 /**
  * Bzip2 format adapter for the JArchive class
  *
- * @package		Joomla.Platform
- * @subpackage	FileSystem
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JArchiveBzip2 extends JObject
 {
@@ -29,8 +29,8 @@ class JArchiveBzip2 extends JObject
 	/**
 	 * Constructor tries to load the bz2 extension if not loaded
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	public function __construct()
 	{
@@ -48,12 +48,12 @@ class JArchiveBzip2 extends JObject
 	/**
 	* Extract a Bzip2 compressed file to a given path
 	*
-	* @param	string	$archive		Path to Bzip2 archive to extract
-	* @param	string	$destination	Path to extract archive to
-	* @param	array	$options		Extraction options [unused]
+	* @param   string   $archive		Path to Bzip2 archive to extract
+	* @param   string   $destination	Path to extract archive to
+	* @param   array    $options		Extraction options [unused]
 	*
-	* @return	boolean	True if successful
-	* @since	11.1
+	* @return  boolean  True if successful
+	* @since   11.1
 	*/
 	public function extract($archive, $destination, $options = array ())
 	{

@@ -37,7 +37,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Saves the current state of the JError error handlers.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	protected function saveErrorHandlers()
 	{
@@ -50,9 +50,9 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Sets the JError error handlers.
 	 *
-	 * @param	array	araay of values and options to set the handlers
+	 * @param   array	araay of values and options to set the handlers
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	protected function setErrorHandlers( $errorHandlers )
 	{
@@ -77,7 +77,7 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	 * Sets the JError error handlers to callback mode and points them at the test
 	 * logging method.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	protected function setErrorCallback( $testName )
 	{
@@ -120,9 +120,9 @@ abstract class JoomlaTestCase extends PHPUnit_Framework_TestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param	JException	The JException object from JError
+	 * @param   JException	The JException object from JError
 	 *
-	 * @return	bool	To not continue with JError processing
+	 * @return  bool	To not continue with JError processing
 	 */
 	static function errorCallback( $error )
 	{

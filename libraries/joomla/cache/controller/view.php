@@ -12,22 +12,23 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache view type object
  *
- * @package		Joomla.Platform
- * @subpackage	Cache
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheControllerView extends JCacheController
 {
 	/**
 	 * Get the cached view data
 	 *
-	 * @param	object	$view	The view object to cache output for
-	 * @param	string	$method	The method name of the view method to cache output for
-	 * @param	string	$group	The cache data group
-	 * @param	string	$id		The cache data id
+	 * @param   object  $view	The view object to cache output for
+	 * @param   string  $method	The method name of the view method to cache output for
+	 * @param   string  $group	The cache data group
+	 * @param   string  $id		The cache data id
 	 *
-	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	11.1
+	 * @return  boolean  True if the cache is hit (false else)
+	 *
+	 * @since   11.1
 	 */
 	public function get(&$view, $method, $id=false, $wrkarounds=true)
 	{
@@ -111,11 +112,12 @@ class JCacheControllerView extends JCacheController
 	/**
 	 * Generate a view cache id.
 	 *
-	 * @param	object	$view	The view object to cache output for
-	 * @param	string	$method	The method name to cache for the view object
+	 * @param   object  $view	The view object to cache output for
+	 * @param   string  $method	The method name to cache for the view object
 	 *
-	 * @return	string	MD5 Hash : view cache id
-	 * @since	11.1
+	 * @return  string  MD5 Hash : view cache id
+	 *
+	 * @since   11.1
 	 */
 	protected function _makeId(&$view, $method)
 	{

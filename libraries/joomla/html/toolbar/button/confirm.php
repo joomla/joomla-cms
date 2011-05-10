@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a standard button with a confirm dialog
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonConfirm extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'Confirm';
 
@@ -44,8 +44,8 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @return	string	Button CSS Id
-	 * @since	11.1
+	 * @return  string  Button CSS Id
+	 * @since   11.1
 	 */
 	public function fetchId($type='Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -55,10 +55,10 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param	object	$definition	Button definition
+	 * @param   object  $definition	Button definition
 	 *
-	 * @return	string	JavaScript command string
-	 * @since	11.1
+	 * @return  string  JavaScript command string
+	 * @since   11.1
 	 */
 	protected function _getCommand($msg, $name, $task, $list)
 	{

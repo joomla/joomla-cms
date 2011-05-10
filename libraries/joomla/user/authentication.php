@@ -29,9 +29,9 @@ define('JAUTHENTICATE_STATUS_FAILURE', 4);
 /**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
- * @package		Joomla.Platform
- * @subpackage	User
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthentication extends JObservable
 {
@@ -52,7 +52,7 @@ class JAuthentication extends JObservable
 	 * Returns the global authentication object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return object The global JAuthentication object
+	 * @return  object  The global JAuthentication object
 	 * @since   11.1
 	 */
 	public static function getInstance()
@@ -74,8 +74,8 @@ class JAuthentication extends JObservable
 	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
-	 * @param array	Array holding the user credentials
-	 * @return mixed	Integer userid for valid user if credentials are valid or
+	 * @param   array  Array holding the user credentials
+	 * @return  mixed  Integer userid for valid user if credentials are valid or
 	 *					boolean false if they are not
 	 * @since   11.1
 	 */
@@ -140,9 +140,9 @@ class JAuthentication extends JObservable
 /**
  * Authorisation response class, provides an object for storing user and error details
  *
- * @package		Joomla.Platform
- * @subpackage	User
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  User
+ * @since       11.1
  */
 class JAuthenticationResponse extends JObject
 {
@@ -248,8 +248,10 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param string $name The type of the response
+	 * @param   string  $name  The type of the response
 	 * @since   11.1
 	 */
-	function __construct() { }
+	function __construct()
+	{
+	}
 }

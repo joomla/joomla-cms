@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a custom button
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonCustom extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'Custom';
 
@@ -33,8 +33,8 @@ class JButtonCustom extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @return	string	Button CSS Id
-	 * @since	11.1
+	 * @return  string  Button CSS Id
+	 * @since   11.1
 	 */
 	public function fetchId($type='Custom', $html = '', $id = 'custom')
 	{

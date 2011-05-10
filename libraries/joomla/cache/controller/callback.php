@@ -14,9 +14,9 @@ jimport('joomla.cache.controller');
 /**
  * Joomla! Cache callback type object
  *
- * @package		Joomla.Platform
- * @subpackage	Cache
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheControllerCallback extends JCacheController
 {
@@ -31,8 +31,9 @@ class JCacheControllerCallback extends JCacheController
 	 *	- Function name as a string eg. 'foo' for function foo()
 	 *	- Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
-	 * @return	mixed	Result of the callback
-	 * @since	11.1
+	 * @return  mixed  Result of the callback
+	 *
+	 * @since   11.1
 	 */
 	public function call()
 	{
@@ -46,14 +47,15 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * @param	mixed	Callback or string shorthand for a callback
-	 * @param	array	Callback arguments
-	 * @param	string	Cache id
-	 * @param	boolean	Perform workarounds on data?
-	 * @param	array	Workaround options
+	 * @param   mixed    Callback or string shorthand for a callback
+	 * @param   array    Callback arguments
+	 * @param   string   Cache id
+	 * @param   boolean  Perform workarounds on data?
+	 * @param   array    Workaround options
 	 *
-	 * @return	mixed	Result of the callback
-	 * @since	11.1
+	 * @return  mixed  Result of the callback
+	 *
+	 * @since   11.1
 	 */
 	public function get($callback, $args=array(), $id=false, $wrkarounds=false, $woptions=array())
 	{
@@ -148,11 +150,12 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Generate a callback cache id
 	 *
-	 * @param	callback	$callback	Callback to cache
-	 * @param	array		$args	Arguments to the callback method to cache
+	 * @param   callback  $callback  Callback to cache
+	 * @param   array     $args      Arguments to the callback method to cache
 	 *
-	 * @return	string	MD5 Hash : function cache id
-	 * @since	11.1
+	 * @return  string  MD5 Hash : function cache id
+	 *
+	 * @since   11.1
 	 */
 	protected function _makeId($callback, $args)
 	{

@@ -15,16 +15,15 @@ jimport('joomla.database.table');
  * Update table
  * Stores updates temporarily
  *
- * @package		Joomla.Platform
- * @subpackage	Table
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableUpdate extends JTable
 {
 	/**
 	 * Contructor
 	 *
-	 * @access protected
 	 * @param database A database connector object
 	 */
 	function __construct( &$db ) {
@@ -34,11 +33,11 @@ class JTableUpdate extends JTable
 	/**
 	* Overloaded check function
 	*
-	* @access public
-	* @return boolean True if the object is ok
-	* @see JTable:bind
+	* @return  boolean  True if the object is ok
+	*
+	* @see     JTable:bind
 	*/
-	function check()
+	public function check()
 	{
 		// check for valid name
 		if (trim( $this->name ) == '' || trim( $this->element ) == '') {
@@ -51,13 +50,14 @@ class JTableUpdate extends JTable
 	/**
 	* Overloaded bind function
 	*
-	* @access public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 11.1
+	* @param   array  $hash named array
+	*
+	* @return  null|string  null is operation was satisfactory, otherwise returns an error
+	*
+	* @see     JTable:bind
+	* @since   11.1
 	*/
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (isset( $array['params'] ) && is_array($array['params']))
 		{

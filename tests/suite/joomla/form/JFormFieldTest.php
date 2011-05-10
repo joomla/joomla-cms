@@ -16,7 +16,7 @@ require_once JPATH_PLATFORM.'/joomla/form/formfield.php';
  * Test class for JForm.
  *
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  */
 class JFormFieldTest extends JoomlaTestCase
 {

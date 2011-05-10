@@ -12,16 +12,16 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Renders a standard button
  *
- * @package		Joomla.Platform
- * @subpackage		HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonStandard extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'Standard';
 
@@ -43,8 +43,8 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @return	string	Button CSS Id
-	 * @since	11.1
+	 * @return  string  Button CSS Id
+	 * @since   11.1
 	 */
 	public function fetchId($type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -54,12 +54,12 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param	string	$name	The task name as seen by the user
-	 * @param	string	$task	The task used by the application
-	 * @param	???		$list
+	 * @param   string   $name	The task name as seen by the user
+	 * @param   string   $task	The task used by the application
+	 * @param   ???		$list
 	 *
-	 * @return	string	JavaScript command string
-	 * @since	11.1
+	 * @return  string   JavaScript command string
+	 * @since   11.1
 	 */
 	protected function _getCommand($name, $task, $list)
 	{

@@ -16,9 +16,9 @@ jimport('joomla.filesystem.path');
  * Provides a storage for filesystem's paths where JForm's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @package		Joomla.Platform
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormHelper
 {
@@ -33,8 +33,8 @@ class JFormHelper
 	 *		- /path/2
 	 * </code>
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 *
 	 */
 	protected static $paths;
@@ -50,19 +50,20 @@ class JFormHelper
 	 *			{KEY}: {OBJECT}
 	 * </code>
 	 *
-	 * @var		array
-	 * @since	11.1
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected static $entities = array();
 
 	/**
 	 * Method to load a form field object given a type.
 	 *
-	 * @param	string	$type	The field type.
-	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
+	 * @param   string   $type  The field type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return	mixed	JFormField object on success, false otherwise.
-	 * @since	11.1
+	 * @return  mixed  JFormField object on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public static function loadFieldType($type, $new = true)
 	{
@@ -72,11 +73,11 @@ class JFormHelper
 	/**
 	 * Method to load a form rule object given a type.
 	 *
-	 * @param	string	$type	The rule type.
-	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
+	 * @param   string   $type  The rule type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return	mixed	JFormRule object on success, false otherwise.
-	 * @since	11.1
+	 * @return  mixed  JFormRule object on success, false otherwise.
+	 * @since   11.1
 	 */
 	public static function loadRuleType($type, $new = true)
 	{
@@ -88,11 +89,12 @@ class JFormHelper
 	 * Each type is loaded only once and then used as a prototype for other objects of same type.
 	 * Please, use this method only with those entities which support types (forms don't support them).
 	 *
-	 * @param	string	$type	The entity type.
-	 * @param	boolean	$new	Flag to toggle whether we should get a new instance of the object.
+	 * @param   string   $type  The entity type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return	mixed	Entity object on success, false otherwise.
-	 * @since	11.1
+	 * @return  mixed  Entity object on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	protected static function loadType($entity, $type, $new = true)
 	{
@@ -122,9 +124,11 @@ class JFormHelper
 	 * Attempt to import the JFormField class file if it isn't already imported.
 	 * You can use this method outside of JForm for loading a field for inheritance or composition.
 	 *
-	 * @param	string	Type of a field whose class should be loaded.
-	 * @return	mixed	Class name on success or false otherwise.
-	 * @since	11.1
+	 * @param   string  $type  Type of a field whose class should be loaded.
+	 *
+	 * @return  mixed  Class name on success or false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public static function loadFieldClass($type)
 	{
@@ -135,9 +139,11 @@ class JFormHelper
 	 * Attempt to import the JFormRule class file if it isn't already imported.
 	 * You can use this method outside of JForm for loading a rule for inheritance or composition.
 	 *
-	 * @param	string	Type of a rule whose class should be loaded.
-	 * @return	mixed	Class name on success or false otherwise.
-	 * @since	11.1
+	 * @param   string  $type  Type of a rule whose class should be loaded.
+	 *
+	 * @return  mixed  Class name on success or false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public static function loadRuleClass($type)
 	{
@@ -149,10 +155,12 @@ class JFormHelper
 	 * Currently, it makes sense to use this method for the "field" and "rule" entities
 	 * (but you can support more entities in your subclass).
 	 *
-	 * @param	string	One of the form entities (field or rule).
-	 * @param	string	Type of an entity.
+	 * @param   string  $entity  One of the form entities (field or rule).
+	 * @param   string  $type    Type of an entity.
 	 *
-	 * @return	mixed	Class name on success or false otherwise.
+	 * @return  mixed  Class name on success or false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	protected static function loadClass($entity, $type)
 	{
@@ -191,10 +199,11 @@ class JFormHelper
 	/**
 	 * Method to add a path to the list of field include paths.
 	 *
-	 * @param	mixed	$new	A path or array of paths to add.
+	 * @param   mixed  $new  A path or array of paths to add.
 	 *
-	 * @return	array	The list of paths that have been added.
-	 * @since	11.1
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   11.1
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -204,10 +213,11 @@ class JFormHelper
 	/**
 	 * Method to add a path to the list of form include paths.
 	 *
-	 * @param	mixed	$new	A path or array of paths to add.
+	 * @param   mixed  $new  A path or array of paths to add.
 	 *
-	 * @return	array	The list of paths that have been added.
-	 * @since	11.1
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   11.1
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -217,10 +227,11 @@ class JFormHelper
 	/**
 	 * Method to add a path to the list of rule include paths.
 	 *
-	 * @param	mixed	$new	A path or array of paths to add.
+	 * @param   mixed  $new  A path or array of paths to add.
 	 *
-	 * @return	array	The list of paths that have been added.
-	 * @since	11.1
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   11.1
 	 */
 	public static function addRulePath($new = null)
 	{
@@ -231,11 +242,11 @@ class JFormHelper
 	 * Method to add a path to the list of include paths for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
-	 * @param	string	Form's entity name for which paths will be added.
-	 * @param	mixed	A path or array of paths to add.
+	 * @param   string  $entity  Form's entity name for which paths will be added.
+	 * @param   mixed   $new     A path or array of paths to add.
 	 *
-	 * @return	array	The list of paths that have been added.
-	 * @since	11.1
+	 * @return  array  The list of paths that have been added.
+	 * @since   11.1
 	 */
 	protected static function addPath($entity, $new = null)
 	{

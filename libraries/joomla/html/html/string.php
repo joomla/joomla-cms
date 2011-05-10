@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML helper class for rendering manipulated strings.
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlString
 {
@@ -24,10 +24,9 @@ abstract class JHtmlString
 	 * word, it will find the first space that is within the limit and
 	 * truncate at that point. This method is UTF-8 safe.
 	 *
-	 * @static
-	 * @param	string	$text		The text to truncate.
-	 * @param	int		$length		The maximum length of the text.
-	 * @return	string	The truncated text.
+	 * @param   string   $text		The text to truncate.
+	 * @param   integer  $length		The maximum length of the text.
+	 * @return  string   The truncated text.
 	 */
 	public static function truncate($text, $length = 0)
 	{
@@ -88,12 +87,11 @@ abstract class JHtmlString
 	 *
 	 *	eg. Transform "Really long title" to "Really...title"
 	 *
-	 * @static
-	 * @param	string	$text		The text to abridge.
-	 * @param	int		$length		The maximum length of the text.
-	 * @param	int		$intro		The maximum length of the intro text.
+	 * @param   string   $text		The text to abridge.
+	 * @param   integer  $length		The maximum length of the text.
+	 * @param   integer  $intro		The maximum length of the intro text.
 	 *
-	 * @return	string	The abridged text.
+	 * @return  string   The abridged text.
 	 */
 	public static function abridge($text, $length = 50, $intro = 30)
 	{

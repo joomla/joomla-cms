@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument Modules renderer
  *
- * @package		Joomla.Platform
- * @subpackage	Document
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererModules extends JDocumentRenderer
 {
 	/**
 	 * Renders multiple modules script and returns the results as a string
 	 *
-	 * @param	string	$name		The position of the modules to render
-	 * @param	array	$params		Associative array of values
-	 * @return	string	The output of the script
+	 * @param   string  $name		The position of the modules to render
+	 * @param   array   $params		Associative array of values
+	 * @return  string  The output of the script
 	 */
 	public function render($position, $params = array(), $content = null)
 	{

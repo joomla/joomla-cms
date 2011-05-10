@@ -174,7 +174,7 @@ class JHttp
 	 * @param   string  Command to send to the server.
 	 * @param   mixed   Valid response code or array of response codes.
 	 *
-	 * @return 	bool  True on success.
+	 * @return  bool  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  JException
@@ -242,7 +242,7 @@ class JHttp
 	/**
 	 * Method to get a response object from a server response.
 	 *
-	 * @return	JHttpResponse
+	 * @return  JHttpResponse
 	 *
 	 * @since   11.1
 	 * @throws  JException

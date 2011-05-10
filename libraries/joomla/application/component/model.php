@@ -15,53 +15,57 @@ defined('JPATH_PLATFORM') or die;
  * Acts as a Factory class for application specific objects and
  * provides many supporting API functions.
  *
- * @package		Joomla.Platform
- * @subpackage	Application
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 abstract class JModel extends JObject
 {
 	/**
 	 * Indicates if the internal state has been set
 	 *
-	 * @var		boolean
-	 * @since	11.1
+	 * @var    boolean
+	 * @since  11.1
 	 */
 	protected $__state_set	= null;
 
 	/**
 	 * Database Connector
 	 *
-	 * @var		object
-	 * @since	11.1
+	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_db;
 
 	/**
 	 * The model (base) name
 	 *
-	 * @var		string
-	 * @since	11.1 (replaces _name variable in 11.1
+	 * @var    string
+	 * @note   Replaces _name variable in 11.1
+	 * @since  11.1
 	 */
 	protected $name;
 
 	/**
-	 * @var		string	The URL option for the component.
-	 * @since	11.1
+	 * The option for the component
+	 *
+	 * @var    string	The URL option for the component.
+	 * @since  11.1
 	 */
 	protected $option = null;
 
 	/**
 	 * A state object
 	 *
-	 * @var string
-	 * @since	11.1 (replaces _state variable in 11.1
+	 * @var    string
+	 * @note   Replaces _state variable in 11.1
+	 * @since  11.1
 	 */
 	protected $state;
 
 	/**
 	 * @var		string	The event to trigger when cleaning cache.
-	 * @since	1.6.2
+	 * @since	11.1
 	 */
 	protected $event_clean_cache = null;
 
@@ -69,11 +73,11 @@ abstract class JModel extends JObject
 	 * Add a directory where JModel should search for models. You may
 	 * either pass a string or an array of directories.
 	 *
-	 * @param	string	$path	A path to search.
-	 * @param	string	$prefix	A prefix for models.
+	 * @param   string  $path	A path to search.
+	 * @param   string  $prefix	A prefix for models.
 	 *
-	 * @return	array	An array with directory elements. If prefix is equal to '', all directories are returned.
-	 * @since	11.1
+	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
+	 * @since   11.1
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
 	{
@@ -109,10 +113,10 @@ abstract class JModel extends JObject
 	/**
 	 * Adds to the stack of model table paths in LIFO order.
 	 *
-	 * @param	string|array $path	The directory (-ies) to add.
+	 * @param   mixed  $path  The directory as a string or directories as an array to add.
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function addTablePath($path)
 	{
@@ -145,12 +149,12 @@ abstract class JModel extends JObject
 	/**
 	 * Returns a Model object, always creating it
 	 *
-	 * @param	string	$type	The model type to instantiate
-	 * @param	string	$prefix	Prefix for the model class name. Optional.
-	 * @param	array	$config	Configuration array for model. Optional.
+	 * @param   string  $type	The model type to instantiate
+	 * @param   string  $prefix	Prefix for the model class name. Optional.
+	 * @param   array   $config	Configuration array for model. Optional.
 	 *
-	 * @return	mixed	A model object, or false on failure
-	 * @since	11.1
+	 * @return  mixed   A model object or false on failure
+	 * @since   11.1
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
@@ -188,10 +192,10 @@ abstract class JModel extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param	array	$config	An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
-	 * @return	JModel
-	 * @since	11.1
+	 * @return  JModel  A JModel object
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -257,12 +261,12 @@ abstract class JModel extends JObject
 	/**
 	 * Gets an array of objects from the results of database query.
 	 *
-	 * @param	string	$query		The query.
-	 * @param	int		$limitstart	Offset.
-	 * @param	int		$limit		The number of records.
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
 	 *
-	 * @return	array	An array of results.
-	 * @since	11.1
+	 * @return  array  An array of results.
+	 * @since   11.1
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
@@ -275,10 +279,10 @@ abstract class JModel extends JObject
 	/**
 	 * Returns a record count for the query
 	 *
-	 * @param	string	$query	The query.
+	 * @param    string  $query  The query.
 	 *
-	 * @return	int
-	 * @since	11.1
+	 * @return   integer  Number of rows for query
+	 * @since    11.1
 	 */
 	protected function _getListCount($query)
 	{
@@ -316,7 +320,7 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get the database connector object
 	 *
-	 * @return	object JDatabase connector object
+	 * @return  JDatabase  JDatabase connector object
 	 */
 	public function getDbo()
 	{
@@ -327,10 +331,10 @@ abstract class JModel extends JObject
 	 * Method to get the model name
 	 *
 	 * The model name. By default parsed using the classname or it can be set
-	 * by passing a $config['name'] in the class constructor
+	 *                 by passing a $config['name'] in the class constructor
 	 *
-	 * @return	string The name of the model
-	 * @since	11.1
+	 * @return  string  The name of the model
+	 * @since   11.1
 	 */
 	public function getName()
 	{
@@ -350,11 +354,11 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param	string	$property	Optional parameter name
-	 * @param	mixed	$default	Optional default value
+	 * @param   string  $property  Optional parameter name
+	 * @param   mixed   $default   Optional default value
 	 *
-	 * @return	object	The property where specified, the state object where omitted
-	 * @since	11.1
+	 * @return  object  The property where specified, the state object where omitted
+	 * @since   11.1
 	 */
 	public function getState($property = null, $default = null)
 	{
@@ -372,12 +376,12 @@ abstract class JModel extends JObject
 	/**
 	 * Method to get a table object, load it if necessary.
 	 *
-	 * @param	string	$name		The table name. Optional.
-	 * @param	string	$prefix		The class prefix. Optional.
-	 * @param	array	$options	Configuration array for model. Optional.
+	 * @param   string   $name     The table name. Optional.
+	 * @param   string   $prefix   The class prefix. Optional.
+	 * @param   array    $options  Configuration array for model. Optional.
 	 *
-	 * @return	object	The table
-	 * @since	11.1
+	 * @return  JTable  A JTable object
+	 * @since   11.1
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -403,8 +407,8 @@ abstract class JModel extends JObject
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	protected function populateState()
 	{
@@ -413,10 +417,10 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set the database connector object
 	 *
-	 * @param	object	&$db	A JDatabase based object
+	 * @param   object  &$db	A JDatabase based object
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	public function setDbo(&$db)
 	{
@@ -426,11 +430,11 @@ abstract class JModel extends JObject
 	/**
 	 * Method to set model state variables
 	 *
-	 * @param	string	$property	The name of the property
-	 * @param	mixed	$value		The value of the property to set
+	 * @param   string  $property	The name of the property
+	 * @param   mixed   $value		The value of the property to set
 	 *
-	 * @return	mixed	The previous value of the property
-	 * @since	11.1
+	 * @return  mixed   The previous value of the property
+	 * @since   11.1
 	 */
 	public function setState($property, $value = null)
 	{

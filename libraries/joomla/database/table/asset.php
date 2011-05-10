@@ -14,9 +14,9 @@ jimport('joomla.database.tablenested');
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  * @link		http://docs.joomla.org/JTableAsset
  */
 class JTableAsset extends JTableNested
@@ -58,9 +58,9 @@ class JTableAsset extends JTableNested
 	/**
 	 * Method to load an asset by it's name.
 	 *
-	 * @param	string	The name of the asset.
+	 * @param   string  The name of the asset.
 	 *
-	 * @return	int
+	 * @return  integer
 	 */
 	public function loadByName($name)
 	{
@@ -86,9 +86,10 @@ class JTableAsset extends JTableNested
 	/**
 	 * Asset that the nested set data is valid.
 	 *
-	 * @return	boolean	True if the instance is sane and able to be stored in the database.
-	 * @since	11.1
+	 * @return  bool  True if the instance is sane and able to be stored in the database.
+	 *
 	 * @link	http://docs.joomla.org/JTable/check
+	 * @since   11.1
 	 */
 	public function check()
 	{

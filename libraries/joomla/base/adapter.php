@@ -17,51 +17,51 @@ jimport('joomla.filesystem.folder');
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @package		Joomla.Platform
- * @subpackage	Base
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Base
+ * @since       11.1
  */
 class JAdapter extends JObject
 {
 	/**
-	 * @var		array	Associative array of adapters
-	 * @since	11.1
+	 * @var    array	Associative array of adapters
+	 * @since  11.1
 	 */
 	protected $_adapters = array();
 
 	/**
-	 * @var		string	Adapter Folder
-	 * @since	11.1
+	 * @var    string	Adapter Folder
+	 * @since  11.1
 	 */
 	protected $_adapterfolder = 'adapters';
 
 	/**
-	 * @var		string	Adapter Class Prefix
-	 * @since	11.1
+	 * @var    string	Adapter Class Prefix
+	 * @since  11.1
 	 */
 	protected $_classprefix = 'J';
 
 	/**
-	 * @var		string	Base Path for the adapter instance
-	 * @since	11.1
+	 * @var    string	Base Path for the adapter instance
+	 * @since  11.1
 	 */
 	protected $_basepath = null;
 
 	/**
-	 * @var		object	Database Connector Object
-	 * @since	11.1
+	 * @var    object	Database Connector Object
+	 * @since  11.1
 	 */
 	protected $_db;
 
 	/**
 	 * Constructor
 	 *
-	 * @param	string	$basepath		Base Path of the adapters
-	 * @param	string	$classprefix	Class prefix of adapters
-	 * @param	string	$adapterfolder	Name of folder to append to base path
+	 * @param   string   $basepath      Base Path of the adapters
+	 * @param   string   $classprefix   Class prefix of adapters
+	 * @param   string   $adapterfolder Name of folder to append to base path
 	 *
-	 * @return	JAdapter
-	 * @since	11.1
+	 * @return  JAdapter  JAdapter object
+	 * @since   11.1
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
@@ -75,8 +75,8 @@ class JAdapter extends JObject
 	/**
 	 * Get the database connector object
 	 *
-	 * @return	object	Database connector object
-	 * @since	11.1
+	 * @return  object  Database connector object
+	 * @since   11.1
 	 */
 	public function getDBO()
 	{
@@ -86,12 +86,12 @@ class JAdapter extends JObject
 	/**
 	 * Set an adapter by name
 	 *
-	 * @param	string	$name		Adapter name
-	 * @param	object	$adapter	Adapter object
-	 * @param	array	$options	Adapter options
+	 * @param   string  $name		Adapter name
+	 * @param   object  $adapter	Adapter object
+	 * @param   array   $options	Adapter options
 	 *
-	 * @return	boolean True if successful
-	 * @since	11.1
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	public function setAdapter($name, &$adapter = null, $options = Array())
 	{
@@ -121,11 +121,11 @@ class JAdapter extends JObject
 	/**
 	 * Return an adapter.
 	 *
-	 * @param 	string 	$name		Name of adapter to return
-	 * @param 	array 	$options	Adapter options
+	 * @param   string  $name     Name of adapter to return
+	 * @param   array   $options  Adapter options
 	 *
-	 * @return 	object 	Adapter of type 'name' or false
-	 * @since	11.1
+	 * @return  object  Adapter of type 'name' or false
+	 * @since   11.1
 	 */
 	public function getAdapter($name, $options = Array())
 	{
@@ -143,10 +143,10 @@ class JAdapter extends JObject
 	/**
 	 * Loads all adapters.
 	 *
-	 * @params	array	$options	Adapter options
+	 * @param   array  $options  Adapter options
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 * @since   11.1
 	 */
 	public function loadAllAdapters($options = array())
 	{

@@ -54,7 +54,7 @@ class JInput
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @return  void
+	 * @return  JInput
 	 *
 	 * @since   11.1
 	 */
@@ -130,7 +130,7 @@ class JInput
 	 * Gets an array of values from the request.
 	 *
 	 * @param   array   $vars        Associative array of keys and filter types to apply.
-	 * @param	mixed	$datasource  Array to retrieve data from, or null
+	 * @param   mixed	$datasource  Array to retrieve data from, or null
 	 *
 	 * @return  mixed  The filtered input data.
 	 *

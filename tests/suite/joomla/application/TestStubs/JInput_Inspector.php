@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
 
 /**
  * @package		Joomla.UnitTest
- * @subpackage	Application
+ * @subpackage  Application
  */
 class JInputInspector extends JInput
 {

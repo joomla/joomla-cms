@@ -12,44 +12,45 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Cache page type object
  *
- * @package		Joomla.Platform
- * @subpackage	Cache
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheControllerPage extends JCacheController
 {
 	/**
 	 * ID property for the cache page object.
 	 *
-	 * @var		integer
-	 * @since	11.1
+	 * @var    integer
+	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
 	 * Cache group
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
 	 * Cache lock test
 	 *
-	 * @var		object
-	 * @since	11.1
+	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_locktest = null;
 
 	/**
 	 * Get the cached page data
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
 	 *
-	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	11.1
+	 * @return  boolean  True if the cache is hit (false else)
+	 *
+	 * @since   11.1
 	 */
 	public function get($id=false, $group='page', $wrkarounds=true)
 	{
@@ -108,8 +109,9 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @return	boolean	True if cache stored
-	 * @since	11.1
+	 * @return  boolean  True if cache stored
+	 *
+	 * @since   11.1
 	 */
 	public function store($wrkarounds=true)
 	{
@@ -147,8 +149,9 @@ class JCacheControllerPage extends JCacheController
 	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request
 	 * 			hash ... perhaps hashed with a serialized request
 	 *
-	 * @return	string	MD5 Hash : page cache id
-	 * @since	11.1
+	 * @return  string   MD5 Hash : page cache id
+	 *
+	 * @since   11.1
 	 */
 	protected function _makeId()
 	{
@@ -159,8 +162,9 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * There is no change in page data so send a not modified header and die gracefully
 	 *
-	 * @return	void
-	 * @since	11.1
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function _noChange()
 	{
@@ -174,7 +178,8 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Set the ETag header in the response
 	 *
-	 * @return	void
+	 * @return  void
+	 *
 	 * @since	11.1
 	 */
 	protected function _setEtag($etag)

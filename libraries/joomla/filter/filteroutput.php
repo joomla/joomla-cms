@@ -12,10 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JFilterOutput
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	Filter
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Filter
+ * @since       11.1
  */
 class JFilterOutput
 {
@@ -25,9 +24,9 @@ class JFilterOutput
 	* Object parameters that are non-string, array, object or start with underscore
 	* will be converted
 	*
-	* @param object An object to be parsed
-	* @param int The optional quote style for the htmlspecialchars function
-	* @param string|array An optional single field name or array of field names not
+	* @param   object An object to be parsed
+	* @param   integer The optional quote style for the htmlspecialchars function
+	* @param   string|array An optional single field name or array of field names not
 	*					to be parsed (eg, for a textarea)
 	* @since   11.1
 	*/
@@ -55,11 +54,10 @@ class JFilterOutput
 	/**
 	 * This method processes a string and replaces all instances of & with &amp; in links only.
 	 *
-	 * @static
-	 * @param	string	$input	String to process
+	 * @param   string  $input	String to process
 	 *
-	 * @return	string	Processed string
-	 * @since	11.1
+	 * @return  string  Processed string
+	 * @since   11.1
 	 */
 	public static function linkXHTMLSafe($input)
 	{
@@ -71,9 +69,9 @@ class JFilterOutput
 	 * This method processes a string and replaces all accented UTF-8 characters by unaccented
 	 * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercased.
 	 *
-	 * @param	string	$input	String to process
-	 * @return	string	Processed string
-	 * @since	11.1
+	 * @param   string  $input	String to process
+	 * @return  string  Processed string
+	 * @since   11.1
 	 */
 	public static function stringURLSafe($string)
 	{
@@ -98,10 +96,9 @@ class JFilterOutput
 	/**
 	 * This method implements unicode slugs instead of transliteration.
 	 *
-	 * @static
-	 * @param	string	$input	String to process
-	 * @return	string	Processed string
-	 * @since	11.1
+	 * @param   string  $input	String to process
+	 * @return  string  Processed string
+	 * @since   11.1
 	*/
 	public static function stringURLUnicodeSlug($string)
 	{
@@ -130,11 +127,10 @@ class JFilterOutput
 	}
 
 	/**
-	* Replaces &amp; with & for xhtml compliance
+	* Replaces &amp; with & for XHTML compliance
 	*
 	* @todo There must be a better way???
 	*
-	* @static
 	* @since   11.1
 	*/
 	public static function ampReplace($text)
@@ -152,10 +148,10 @@ class JFilterOutput
 	/**
 	 * Callback method for replacing & with &amp; in a string
 	 *
-	 * @param	string	$m	String to process
+	 * @param   string  $m	String to process
 	 *
-	 * @return	string	Replaced string
-	 * @since	11.1
+	 * @return  string  Replaced string
+	 * @since   11.1
 	 */
 	public static function _ampReplaceCallback($m)
 	{

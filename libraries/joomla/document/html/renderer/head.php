@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JDocument head renderer
  *
- * @package		Joomla.Platform
- * @subpackage	Document
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererHead extends JDocumentRenderer
 {
 	/**
 	 * Renders the document head and returns the results as a string
 	 *
-	 * @param	string $name	(unused)
-	 * @param	array $params	Associative array of values
-	 * @return	string			The output of the script
+	 * @param   string  $name	(unused)
+	 * @param   array   $params	Associative array of values
+	 * @return  string  The output of the script
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
@@ -36,9 +36,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 	}
 
 	/**
-	 * Generates the head html and return the results as a string
+	 * Generates the head HTML and return the results as a string
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public function fetchHead(&$document)
 	{

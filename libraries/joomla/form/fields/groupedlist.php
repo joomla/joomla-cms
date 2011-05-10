@@ -15,25 +15,25 @@ jimport('joomla.form.formfield');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Platform
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldGroupedList extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	11.1
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $type = 'GroupedList';
 
 	/**
 	 * Method to get the field option groups.
 	 *
-	 * @return	array	The field option objects as a nested array in groups.
-	 * @since	11.1
+	 * @return  array  The field option objects as a nested array in groups.
+	 * @since   11.1
 	 */
 	protected function getGroups()
 	{
@@ -126,8 +126,8 @@ class JFormFieldGroupedList extends JFormField
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	11.1
+	 * @return  string  The field input markup.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{

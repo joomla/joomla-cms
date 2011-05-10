@@ -14,9 +14,9 @@ jimport('joomla.database.databasequery');
 /**
  * Query Building Class.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  */
 class JDatabaseQuerySQLAzure extends JDatabaseQuery
 {

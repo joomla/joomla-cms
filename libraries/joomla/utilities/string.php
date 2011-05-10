@@ -39,10 +39,9 @@ jimport('phputf8.strcasecmp');
  * Wraps the phputf8 library
  * All functions assume the validity of utf-8 strings.
  *
- * @static
- * @package		Joomla.Platform
- * @subpackage	Utilities
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
+ * @since       11.1
  */
 abstract class JString
 {
@@ -70,9 +69,11 @@ abstract class JString
 	 * UTF-8 aware alternative to strrpos
 	 * Finds position of last occurrence of a string
 	 *
-	 * @param $str - string String being examined
-	 * @param $search - string String being searced for
-	 * @return mixed Number of characters before the last match or FALSE on failure
+	 * @param   $str - string String being examined
+	 * @param   $search - string String being searced for
+	 *
+	 * @return  mixed  Number of characters before the last match or FALSE on failure
+	 *
 	 * @see http://www.php.net/strrpos
 	 */
 	public static function strrpos($str, $search, $offset = false)
@@ -151,10 +152,10 @@ abstract class JString
 	 * UTF-8 aware alternative to str_ireplace
 	 * Case-insensitive version of str_replace
 	 *
-	 * @param string string to search
-	 * @param string existing string to replace
-	 * @param string new string to replace with
-	 * @param int optional count value to be passed by referene
+	 * @param   string string to search
+	 * @param   string existing string to replace
+	 * @param   string new string to replace with
+	 * @param   integer optional count value to be passed by referene
 	 * @see http://www.php.net/str_ireplace
 	 */
 	public static function str_ireplace($search, $replace, $str, $count = NULL)
@@ -282,12 +283,12 @@ abstract class JString
 	 * UTF-8 aware alternative to strcspn
 	 * Find length of initial segment not matching mask
 	 *
-	 * @param string
-	 * @param string the mask
-	 * @param int Optional starting character position (in characters)
-	 * @param int Optional length
+	 * @param   string
+	 * @param   string the mask
+	 * @param   integer Optional starting character position (in characters)
+	 * @param   integer Optional length
 	 *
-	 * @return int the length of the initial segment of str1 which does not contain any of the characters in str2
+	 * @return  integer  the length of the initial segment of str1 which does not contain any of the characters in str2
 	 * @see http://www.php.net/strcspn
 	 */
 	public static function strcspn($str, $mask, $start = NULL, $length = NULL)
@@ -324,8 +325,8 @@ abstract class JString
 	 * UTF-8 aware alternative to strrev
 	 * Reverse a string
 	 *
-	 * @param string String to be reversed
-	 * @return string The string in reverse character order
+	 * @param   string String to be reversed
+	 * @return  string   The string in reverse character order
 	 * @see http://www.php.net/strrev
 	*/
 	public static function strrev($str)
@@ -466,8 +467,8 @@ abstract class JString
 	 * UTF-8 aware alternative to ucfirst
 	 * Make a string's first character uppercase
 	 *
-	 * @param string
-	 * @return string with first character as upper case (if applicable)
+	 * @param   string
+	 * @return  string   with first character as upper case (if applicable)
 	 * @see http://www.php.net/ucfirst
 	*/
 	public static function ucfirst($str)
@@ -480,8 +481,8 @@ abstract class JString
 	 * UTF-8 aware alternative to ucwords
 	 * Uppercase the first character of each word in a string
 	 *
-	 * @param string
-	 * @return string with first char of each word uppercase
+	 * @param   string
+	 * @return  string   with first char of each word uppercase
 	 * @see http://www.php.net/ucwords
 	*/
 	public static function ucwords($str)

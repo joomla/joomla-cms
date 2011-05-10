@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * XCache session storage handler
  *
- * @package		Joomla.Platform
+ * @package     Joomla.Platform
  * @subpackage	Cache
  * @since		11.1
  */

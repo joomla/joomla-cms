@@ -14,8 +14,8 @@ jimport('joomla.database.table');
 /**
  * Viewlevels table class.
  *
- * @package		Joomla.Platform
- * @subpackage	Database
+ * @package     Joomla.Platform
+ * @subpackage  Database
  * @version		1.0
  */
 class JTableViewlevel extends JTable
@@ -23,9 +23,11 @@ class JTableViewlevel extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param	object	Database object
-	 * @return	void
-	 * @since	11.1
+	 * @param   object  Database object
+	 *
+	 * @return  JTableViewlevel
+	 *
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -35,10 +37,12 @@ class JTableViewlevel extends JTable
 	/**
 	 * Method to bind the data.
 	 *
-	 * @param	array		$array		The data to bind.
-	 * @param	mixed		$ignore		An array or space separated list of fields to ignore.
-	 * @return	boolean		True on success, false on failure.
-	 * @since	11.1
+	 * @param   array  $array   The data to bind.
+	 * @param   mixed  $ignore  An array or space separated list of fields to ignore.
+	 *
+	 * @return  bool  True on success, false on failure.
+	 *
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -55,8 +59,9 @@ class JTableViewlevel extends JTable
 	/**
 	 * Method to check the current record to save
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
 	 */
 	public function check()
 	{

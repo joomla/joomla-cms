@@ -12,20 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * APC cache storage handler
  *
- * @package		Joomla.Platform
- * @subpackage	Cache
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheStorageApc extends JCacheStorage
 {
 	/**
 	 * Get cached data from APC by id and group
 	 *
-	 * @param	string	$id			The cache data id
-	 * @param	string	$group		The cache data group
-	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
-	 * @return	mixed	Boolean false on failure or a cached data string
-	 * @since	11.1
+	 * @param   string   $id			The cache data id
+	 * @param   string   $group		The cache data group
+	 * @param   boolean  $checkTime	True to verify cache time expiration threshold
+	 *
+	 * @return  mixed    Boolean false on failure or a cached data string
+	 *
+	 * @since   11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -36,8 +38,9 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return	array data
-	 * @since	11.1
+	 * @return  array  data
+	 *
+	 * @since   11.1
 	 */
 	public function getAll()
 	{
@@ -75,11 +78,13 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Store the data to APC by id and group
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	string	$data	The data to store in cache
-	 * @return	boolean	True on success, false otherwise
-	 * @since	11.1
+	 * @param   string  $id		The cache data id
+	 * @param   string  $group	The cache data group
+	 * @param   string  $data	The data to store in cache
+	 *
+	 * @return  boolean  True on success, false otherwise
+	 *
+	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -90,10 +95,12 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	boolean	True on success, false otherwise
-	 * @since	11.1
+	 * @param   string  $id		The cache data id
+	 * @param   string  $group	The cache data group
+	 *
+	 * @return  boolean  True on success, false otherwise
+	 *
+	 * @since   11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -107,10 +114,12 @@ class JCacheStorageApc extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
-	 * @return	boolean	True on success, false otherwise
-	 * @since	11.1
+	 * @param   string  $group	The cache data group
+	 * @param   string  $mode	The mode for cleaning cache [group|notgroup]
+	 *
+	 * @return  boolean  True on success, false otherwise
+	 *
+	 * @since   11.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -130,8 +139,9 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Force garbage collect expired cache data as items are removed only on fetch!
 	 *
-	 * @return boolean  True on success, false otherwise.
-	 * @since	11.1
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function gc()
 	{
@@ -160,11 +170,13 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Lock cached item - override parent as this is more efficient
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	integer	$locktime Cached item max lock time
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	11.1
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group	The cache data group
+	 * @param   integer  $locktime Cached item max lock time
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function lock($id,$group,$locktime)
 	{
@@ -204,11 +216,13 @@ class JCacheStorageApc extends JCacheStorage
 	/**
 	 * Unlock cached item - override parent for cacheid compatibility with lock
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	integer	$locktime Cached item max lock time
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	11.1
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group	The cache data group
+	 * @param   integer  $locktime Cached item max lock time
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   11.1
 	 */
 	public function unlock($id,$group=null)
 	{

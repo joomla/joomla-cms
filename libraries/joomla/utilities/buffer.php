@@ -15,9 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
- * @package		Joomla.Platform
- * @subpackage	Utilities
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Utilities
+ * @since       11.1
  */
 class JBuffer
 {

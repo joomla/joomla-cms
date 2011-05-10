@@ -104,9 +104,9 @@ class JDatabaseMySqlExporterInspector extends JDatabaseExporterMySql
 	/**
 	 * Exposes the protected withStructure method.
 	 *
-	 * @param	boolean	$setting	True to export the structure, false to not.
+	 * @param   boolean	$setting	True to export the structure, false to not.
 	 *
-	 * @return	void
+	 * @return  void
 	 * @since	11.1
 	 */
 	public function withStructure($setting = true)

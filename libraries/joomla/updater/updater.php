@@ -17,9 +17,9 @@ jimport('joomla.base.adapter');
 
 /**
  * Updater Class
- * @package		Joomla.Platform
- * @subpackage	Update
- * @since 11.1
+ * @package     Joomla.Platform
+ * @subpackage  Update
+ * @since       11.1
  */
 class JUpdater extends JAdapter {
 
@@ -35,8 +35,7 @@ class JUpdater extends JAdapter {
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @return	object	An installer object
-	 *
+	 * @return  object  An installer object
 	 */
 	public static function &getInstance()
 	{

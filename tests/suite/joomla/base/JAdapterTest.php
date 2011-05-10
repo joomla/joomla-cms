@@ -18,15 +18,12 @@ require_once JPATH_PLATFORM.'/joomla/base/adapter.php';
 class JAdapterTest extends JoomlaDatabaseTestCase {
 	/**
 	 * @var	JAdapter
-	 * @access protected
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access protected
 	 */
 	protected function setUp() {
 		//$this->object = new JAdapter;
@@ -35,8 +32,6 @@ class JAdapterTest extends JoomlaDatabaseTestCase {
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @access protected
 	 */
 	protected function tearDown() {
 	}

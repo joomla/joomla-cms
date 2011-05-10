@@ -27,9 +27,9 @@ class JSimpleXMLTest extends JoomlaTestCase
 	/**
 	 * Receives the callback from JError and logs the required error information for the test.
 	 *
-	 * @param	JException	The JException object from JError
+	 * @param   JException	The JException object from JError
 	 *
-	 * @return	bool	To not continue with JError processing
+	 * @return  bool	To not continue with JError processing
 	 */
 	static function errorCallback( $error )
 	{

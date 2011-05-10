@@ -32,13 +32,13 @@ abstract class JFactory
 	 * Returns the global {@link JApplication} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param mixed	 $id     A client identifier or name.
-	 * @param array	 $config An optional associative array of configuration settings.
-	 * @param string $prefix application prefix
-	 *
-	 * @see JApplication
+	 * @param   mixed   $id     A client identifier or name.
+	 * @param   array   $config An optional associative array of configuration settings.
+	 * @param   string  $prefix application prefix
 	 *
 	 * @return JApplication	object
+	 *
+	 * @see    JApplication
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix='J')
 	{
@@ -87,7 +87,7 @@ abstract class JFactory
 	 * Returns the global {@link JSession} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param array $options An array containing session options
+	 * @param   array  $options  An array containing session options
 	 *
 	 * @see JSession
 	 *
@@ -144,7 +144,7 @@ abstract class JFactory
 	 * Returns the global {@link JUser} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param int $id The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 * @param   integer  $id  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
 	 * @see JUser
 	 * @return JUser object
@@ -171,13 +171,13 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JCache} object
 	 *
-	 * @param string $group   The cache group name
-	 * @param string $handler The handler to use
-	 * @param string $storage The storage method
+	 * @param   string  $group    The cache group name
+	 * @param   string  $handler  The handler to use
+	 * @param   string  $storage  The storage method
 	 *
-	 * @see JCache
+	 * @return  JCache object
 	 *
-	 * @return JCache object
+	 * @see     JCache
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
@@ -267,11 +267,11 @@ abstract class JFactory
 	/**
 	 * Get a parsed XML Feed Source
 	 *
-	 * @param string $url        url for feed source
-	 * @param int    $cache_time time to cache feed for (using internal cache mechanism)
+	 * @param   string   $url         url for feed source
+	 * @param   integer  $cache_time  time to cache feed for (using internal cache mechanism)
 	 *
-	 * @return mixed SimplePie parsed object on success, false on failure
-	 * @since: 11.1
+	 * @return  mixed  SimplePie parsed object on success, false on failure
+	 * @since   11.1
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
@@ -304,10 +304,10 @@ abstract class JFactory
 	/**
 	 * Get an XML document
 	 *
-	 * @param string $type    The type of xml parser needed 'DOM', 'RSS' or 'Simple'
-	 * @param array  $options ['rssUrl'] the rss url to parse when using "RSS", ['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
+	 * @param   string  $type     The type of XML parser needed 'DOM', 'RSS' or 'Simple'
+	 * @param   array   $options  ['rssUrl'] the rss url to parse when using "RSS", ['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 *
-	 * @return object Parsed XML document object
+	 * @return  object  Parsed XML document object
 	 * @deprecated
 	 */
 	public static function getXMLParser($type = '', $options = array())
@@ -343,10 +343,10 @@ abstract class JFactory
 	/**
 	 * Reads a XML file.
 	 *
-	 * @param string  $data   Full path and file name.
-	 * @param boolean $isFile true to load a file | false to load a string.
+	 * @param   string  $data   Full path and file name.
+	 * @param   boolean  $isFile true to load a file | false to load a string.
 	 *
-	 * @return mixed JXMLElement on success | false on error.
+	 * @return  mixed    JXMLElement on success | false on error.
 	 * @todo This may go in a separate class - error reporting may be improved.
 	 */
 	public static function getXML($data, $isFile = true)
@@ -357,11 +357,11 @@ abstract class JFactory
 		libxml_use_internal_errors(true);
 
 		if ($isFile) {
-			// Try to load the xml file
+			// Try to load the XML file
 			$xml = simplexml_load_file($data, 'JXMLElement');
 		}
 		else {
-			// Try to load the xml string
+			// Try to load the XML string
 			$xml = simplexml_load_string($data, 'JXMLElement');
 		}
 
@@ -385,7 +385,7 @@ abstract class JFactory
 	/**
 	 * Get an editor object
 	 *
-	 * @param string $editor The editor to load, depends on the editor plugins that are installed
+	 * @param   string  $editor The editor to load, depends on the editor plugins that are installed
 	 *
 	 * @return JEditor object
 	 */
@@ -405,7 +405,7 @@ abstract class JFactory
 	/**
 	 * Return a reference to the {@link JURI} object
 	 *
-	 * @param string $uri uri name
+	 * @param   string  $uri uri name
 	 *
 	 * @see JURI
 	 *
@@ -422,8 +422,8 @@ abstract class JFactory
 	/**
 	 * Return the {@link JDate} object
 	 *
-	 * @param mixed $time     The initial time for the JDate object
-	 * @param mixed $tzOffset The timezone offset.
+	 * @param   mixed  $time     The initial time for the JDate object
+	 * @param   mixed  $tzOffset The timezone offset.
 	 *
 	 * @see JDate
 	 *
@@ -520,7 +520,7 @@ abstract class JFactory
 	/**
 	 * Create a session object
 	 *
-	 * @param array $options An array containing session options
+	 * @param   array  $options An array containing session options
 	 *
 	 * @return JSession object
 	 * @since   11.1
@@ -588,8 +588,8 @@ abstract class JFactory
 	/**
 	 * Create a mailer object
 	 *
-	 * @return JMail object
-	 * @since  11.1
+	 * @return  JMail object
+	 * @since   11.1
 	 */
 	protected static function _createMailer()
 	{
@@ -685,15 +685,15 @@ abstract class JFactory
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 *
-	 * @param	boolean	$use_prefix		Prefix the connections for writing
-	 * @param	boolean	$use_network	Use network if available for writing; use false to disable (e.g. FTP, SCP)
-	 * @param	string	$ua				UA User agent to use
-	 * @param	boolean	$uamask			User agent masking (prefix Mozilla)
+	 * @param   boolean  $use_prefix		Prefix the connections for writing
+	 * @param   boolean  $use_network	Use network if available for writing; use false to disable (e.g. FTP, SCP)
+	 * @param   string   $ua				UA User agent to use
+	 * @param   boolean  $uamask			User agent masking (prefix Mozilla)
 	 *
 	 * @see JStream
 	 *
-	 * @return	JStream
-	 * @since	11.1
+	 * @return  JStream
+	 * @since   11.1
 	 */
 	public static function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
 	{

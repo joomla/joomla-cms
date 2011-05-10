@@ -138,9 +138,9 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	/**
 	 * This checks the compatibility testing method.
 	 *
-	 * @param	string	$input		Version
-	 * @param	bool	$expect		expected result of version check
-	 * @param	string	$message	Test failure message
+	 * @param   string	$input		Version
+	 * @param   bool	$expect		expected result of version check
+	 * @param   string	$message	Test failure message
 	 *
 	 * @return void
 	 * @dataProvider casesCompatibility

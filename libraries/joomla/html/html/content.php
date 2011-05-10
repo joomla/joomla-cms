@@ -12,18 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class to fire onContentPrepare for non-article based content.
  *
- * @package		Joomla.Platform
- * @subpackage	HTML
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlContent
 {
 	/**
 	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
-	 * @param	string	The content to be transformed.
-	 * @param	array	The content params.
-	 * @return	string	The content after transformation.
+	 * @param   string   The content to be transformed.
+	 * @param   array    The content params.
+	 * @return  string   The content after transformation.
 	 */
 	public static function prepare($text, $params = null)
 	{

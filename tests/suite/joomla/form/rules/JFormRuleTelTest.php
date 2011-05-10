@@ -11,7 +11,7 @@ defined('JPATH_PLATFORM') or die;
  * Test class for JForm.
  *
  * @package		Joomla.UnitTest
- * @subpackage	Form
+ * @subpackage  Form
  *
  */
 class JFormRuleTelTest extends JoomlaTestCase

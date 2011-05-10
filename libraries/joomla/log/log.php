@@ -199,14 +199,14 @@ class JLog
 	 * This method must be invoked as:
 	 * 		<pre>$log = JLog::getInstance($file, $options, $path);</pre>
 	 *
-	 * @param  string  $file     The filename of the log file.
-	 * @param  array   $options  The object configuration array.
-	 * @param  string  $path     The base path for the log file.
+	 * @param   string  $file     The filename of the log file.
+	 * @param   array   $options  The object configuration array.
+	 * @param   string  $path     The base path for the log file.
 	 *
-	 * @return	    JLog
+	 * @return  JLog
 	 *
-	 * @deprecated  11.2
-	 * @since	    11.1
+	 * @deprecated
+	 * @since   11.1
 	 */
 	public static function getInstance($file = 'error.php', $options = null, $path = null)
 	{
@@ -269,11 +269,11 @@ class JLog
 	/**
 	 * Method to add an entry to the log file.
 	 *
-	 * @param       array    Array of values to map to the format string for the log file.
+	 * @param   array  $entry  Array of values to map to the format string for the log file.
 	 *
-	 * @return      boolean  True on success.
+	 * @return  boolean  True on success.
 	 *
-	 * @deprecated  11.2
+	 * @deprecated
 	 * @since       11.1
 	 */
 	public function addEntry($entry)

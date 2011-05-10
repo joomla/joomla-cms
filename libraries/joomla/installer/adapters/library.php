@@ -15,17 +15,17 @@ jimport('joomla.base.adapterinstance');
 /**
  * Library installer
  *
- * @package		Joomla.Platform
- * @subpackage	Installer
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerLibrary extends JAdapterInstance
 {
 	/**
 	 * Custom loadLanguage method
 	 *
-	 * @param	string	$path the path where to find language files
-	 * @since	11.1
+	 * @param   string  $path the path where to find language files
+	 * @since   11.1
 	 */
 	public function loadLanguage($path=null)
 	{
@@ -47,8 +47,8 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function install()
 	{
@@ -175,8 +175,8 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return boolean True on success
-	 * @since  11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function update()
 	{
@@ -207,10 +207,10 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param	string	$id	The id of the library to uninstall
+	 * @param   string   $id	The id of the library to uninstall
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public function uninstall($id)
 	{
@@ -245,7 +245,7 @@ class JInstallerLibrary extends JAdapterInstance
 
 			$xml = JFactory::getXML($manifestFile);
 
-			// If we cannot load the xml file return null
+			// If we cannot load the XML file return null
 			if ( ! $xml)
 			{
 				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_LIB_UNINSTALL_LOAD_MANIFEST'));
@@ -299,8 +299,8 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover method
 	 *
-	 * @return array(JExtension) list of extensions available
-	 * @since 11.1
+	 * @return  array  JExtension) list of extensions available
+	 * @since   11.1
 	 */
 	public function discover()
 	{
@@ -325,10 +325,10 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Custom discover_install method
 	 *
-	 * @param int $id The id of the extension to install
+	 * @param   integer  $id The id of the extension to install
 	 *
 	 * @return void
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function discover_install()
 	{
@@ -365,7 +365,7 @@ class JInstallerLibrary extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	public function refreshManifestCache()
 	{

@@ -30,8 +30,8 @@ class JRegistryFormatPHPTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Convert an array into an object.
 	 *
-	 * @param	array
-	 * @return	object
+	 * @param   array
+	 * @return  object
 	 */
 	private static function _objectFactory($properties)
 	{

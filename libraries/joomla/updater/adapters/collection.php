@@ -13,7 +13,7 @@ jimport('joomla.updater.updateadapter');
 
 /**
  * Collection Update Adapter Class
- * @since 11.1
+ * @since   11.1
  */
 class JUpdaterCollection extends JUpdateAdapter {
 	/**
@@ -44,7 +44,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return object
+	 * @return  object
+	 * @since   11.1
 	 */
 	protected function _getStackLocation()
 	{
@@ -54,7 +55,7 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 	/**
 	 * Get the parent tag
-	 * @return string parent
+	 * @return  string   parent
 	 */
 	protected function _getParent()
 	{
@@ -63,9 +64,9 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 	/**
 	 * Opening an XML element
-	 * @param object parser object
-	 * @param string name of element that is opened
-	 * @param array array of attributes for the element
+	 * @param   object parser object
+	 * @param   string name of element that is opened
+	 * @param   array array of attributes for the element
 	 *
 	 */
 	public function _startElement($parser, $name, $attrs = Array())
@@ -133,8 +134,8 @@ class JUpdaterCollection extends JUpdateAdapter {
 	/**
 	 * Closing an XML element
 	 * Note: This is a protected function though has to be exposed externally as a callback
-	 * @param object parser object
-	 * @param string name of the element closing
+	 * @param   object parser object
+	 * @param   string name of the element closing
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -156,9 +157,9 @@ class JUpdaterCollection extends JUpdateAdapter {
 
 	/*
 	 * Find an update
-	 * @param array options to use; update_site_id: the unique ID of the update site to look at
+	 * @param   array options to use; update_site_id: the unique ID of the update site to look at
 	 *
-	 * @return array update_sites and updates discovered
+	 * @return  array    update_sites and updates discovered
 	 */
 	public function findUpdate($options)
 	{

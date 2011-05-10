@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * INI format handler for JRegistry.
  *
- * @package		Joomla.Platform
- * @subpackage	Registry
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
@@ -26,10 +26,10 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *		levels deep.  Therefore we will only go through the first two levels of
 	 *		the object.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	INI formatted string.
-	 * @since	11.1
+	 * @param   object   Data source object.
+	 * @param   array    Options used by the formatter.
+	 * @return  string   INI formatted string.
+	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -61,11 +61,11 @@ class JRegistryFormatINI extends JRegistryFormat
 	/**
 	 * Parse an INI formatted string and convert it into an object.
 	 *
-	 * @param	string	INI formatted string to convert.
-	 * @param	mixed	An array of options used by the formatter, or a boolean setting to process sections.
+	 * @param   string   INI formatted string to convert.
+	 * @param   mixed    An array of options used by the formatter, or a boolean setting to process sections.
 	 *
-	 * @return	object	Data object.
-	 * @since	11.1
+	 * @return  object   Data object.
+	 * @since   11.1
 	 *
 	 */
 	public function stringToObject($data, $options = array())
@@ -179,9 +179,9 @@ class JRegistryFormatINI extends JRegistryFormat
 	/**
 	 * Method to get a value in an INI format.
 	 *
-	 * @param	mixed	The value to convert to INI format.
-	 * @return	string	The value in INI format.
-	 * @since	11.1
+	 * @param   mixed    The value to convert to INI format.
+	 * @return  string   The value in INI format.
+	 * @since   11.1
 	 */
 	protected function _getValueAsINI($value)
 	{

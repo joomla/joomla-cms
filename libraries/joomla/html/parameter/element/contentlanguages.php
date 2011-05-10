@@ -14,25 +14,25 @@ require_once dirname(__FILE__).'/list.php';
 /**
  * Renders a select list of Asset Groups
  *
- * @package		Joomla.Platform
- * @subpackage	Parameter
- * @since		11.1
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated .Use JForm instead
  */
 class JElementContentLanguages extends JElementList
 {
 	/**
 	* Element name
 	*
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = 'ContentLanguages';
 
 	/**
 	 * Get the options for the element
 	 *
-	 * @param	object $node
-	 * @return	array
+	 * @param   object   $node
+	 * @return  array
 	 */
 	protected function _getOptions(&$node)
 	{

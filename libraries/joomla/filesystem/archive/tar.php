@@ -18,9 +18,9 @@ defined('JPATH_PLATFORM') or die;
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package		Joomla.Platform
- * @subpackage	FileSystem
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JArchiveTar extends JObject
 {
@@ -67,12 +67,12 @@ class JArchiveTar extends JObject
 	/**
 	* Extract a ZIP compressed file to a given path
 	*
-	* @param	string	$archive		Path to ZIP archive to extract
-	* @param	string	$destination	Path to extract archive into
-	* @param	array	$options		Extraction options [unused]
+	* @param   string   $archive		Path to ZIP archive to extract
+	* @param   string   $destination	Path to extract archive into
+	* @param   array    $options		Extraction options [unused]
 	*
-	* @return	boolean	True if successful
-	* @since	11.1
+	* @return  boolean  True if successful
+	* @since   11.1
 	*/
 	public function extract($archive, $destination, $options = array ())
 	{
@@ -128,7 +128,7 @@ class JArchiveTar extends JObject
 	 *         'size'  --  Original file size
 	 *         'type'  --  File type
 	 * </pre>
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	protected function _getTarInfo(& $data)
 	{

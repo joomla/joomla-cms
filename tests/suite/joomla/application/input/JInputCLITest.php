@@ -18,7 +18,6 @@ require_once JPATH_PLATFORM.'/joomla/application/input/cli.php';
 class JInputCLITest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @access protected
 	 */
 	protected $inspector;
 

@@ -14,9 +14,9 @@ jimport('joomla.form.formfield');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Platform
- * @subpackage	Form
- * @since		11.1
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldTest extends JFormField
 {
@@ -30,7 +30,7 @@ class JFormFieldTest extends JFormField
 	/**
 	 * Method to get the field input.
 	 *
-	 * @return	string		The field input.
+	 * @return  string		The field input.
 	 */
 	protected function getInput()
 	{
