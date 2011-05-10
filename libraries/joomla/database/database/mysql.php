@@ -480,7 +480,7 @@ class JDatabaseMySQL extends JDatabase
 
 			// Increment the query counter and add the query to the object queue.
 			$this->count++;
-			$this->_log[] = $sql;
+			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
 		}
@@ -746,7 +746,7 @@ class JDatabaseMySQL extends JDatabase
 				$this->cursor = mysql_query($query, $this->connection);
 				if ($this->debug) {
 					$this->count++;
-					$this->_log[] = $query;
+					$this->log[] = $query;
 				}
 				if (!$this->cursor) {
 					$error = 1;
