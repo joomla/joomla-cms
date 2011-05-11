@@ -28,7 +28,7 @@ class MediaViewMediaList extends JView
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		$lang	= JFactory::getLanguage();
-		
+
 		JHtml::_('behavior.framework', true);
 
 		$document = JFactory::getDocument();

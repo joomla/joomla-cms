@@ -115,11 +115,11 @@ class MessagesModelMessage extends JModelAdmin
 					$db->setQuery($query)->query();
 				}
 			}
-		
+
 			// Get the user name for an existing messasge.
 			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from)) {
 				$this->item->set('from_user_name', $fromUser->name);
-			}		
+			}
 		}
 		return $this->item;
 	}

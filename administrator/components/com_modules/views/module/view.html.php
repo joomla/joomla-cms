@@ -67,7 +67,7 @@ class ModulesViewModule extends JView
 			JToolBarHelper::apply('module.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('module.save', 'JTOOLBAR_SAVE');
 		}
-		if (!$checkedOut && $canDo->get('core.create')) {		
+		if (!$checkedOut && $canDo->get('core.create')) {
 			JToolBarHelper::custom('module.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 			// If an existing item, can save to a copy.

@@ -67,7 +67,7 @@ class ContentViewFeatured extends JView
 			JToolBarHelper::custom('articles.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 			JToolBarHelper::custom('featured.delete','remove.png','remove_f2.png','JTOOLBAR_REMOVE', true);
 		}
-		
+
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'articles.delete','JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
@@ -75,7 +75,7 @@ class ContentViewFeatured extends JView
 			JToolBarHelper::divider();
 			JToolBarHelper::trash('articles.trash','JTOOLBAR_TRASH');
 		}
-		
+
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_content');
 			JToolBarHelper::divider();

@@ -251,7 +251,7 @@ class ContentModelArticles extends JModelList
 		// Return the result
 		return $db->loadObjectList();
 	}
-	
+
 	/**
 	 * Method to get a list of articles.
 	 * Overridden to add a check for access levels.
@@ -275,5 +275,5 @@ class ContentModelArticles extends JModelList
 			}
 		}
 		return $items;
-	}	
+	}
 }

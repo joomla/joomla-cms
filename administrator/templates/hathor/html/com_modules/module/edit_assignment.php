@@ -58,20 +58,20 @@ $menuTypes = MenusHelper::getMenuLinks();
 			<button type="button" id="jform_toggle" class="jform-rightbtn" onclick="$$('.chk-menulink').each(function(el) { el.checked = !el.checked; });">
 				<?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
 			</button>
-			
+
 			<div class="clr"></div>
-			
+
 			<div id="menu-assignment">
-			
-			<?php echo JHtml::_('tabs.start','module-menu-assignment-tabs', array('useCookie'=>1));?> 
-			
-			<?php foreach ($menuTypes as &$type) : 
+
+			<?php echo JHtml::_('tabs.start','module-menu-assignment-tabs', array('useCookie'=>1));?>
+
+			<?php foreach ($menuTypes as &$type) :
 				echo JHtml::_('tabs.panel', $type->title ? $type->title : $type->menutype, $type->menutype.'-details');
-				
+
 				$count 	= count($type->links);
 				$i		= 0;
 				if ($count) :
-				?>					
+				?>
 				<ul class="menu-links">
 					<?php
 					foreach ($type->links as $link) :
@@ -93,14 +93,14 @@ $menuTypes = MenusHelper::getMenuLinks();
 					</li>
 					<?php if ($count > 20 && ++$i == ceil($count/2)) :?>
 					</ul><ul class="menu-links">
-					<?php endif; ?>						
+					<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
 				<div class="clr"></div>
-				<?php endif; ?>					
+				<?php endif; ?>
 			<?php endforeach; ?>
-			
+
 			<?php echo JHtml::_('tabs.end');?>
-			
+
 			</div>
 		</fieldset>

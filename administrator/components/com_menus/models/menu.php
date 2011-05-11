@@ -204,7 +204,7 @@ class MenusModelMenu extends JModelForm
 
 		// Clean the cache
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -236,7 +236,7 @@ class MenusModelMenu extends JModelForm
 
 		// Clean the cache
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -283,5 +283,5 @@ class MenusModelMenu extends JModelForm
 	function cleanCache() {
 		parent::cleanCache('com_modules');
 		parent::cleanCache('mod_menu');
-	}	
+	}
 }

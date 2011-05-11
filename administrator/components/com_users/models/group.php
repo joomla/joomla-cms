@@ -115,7 +115,7 @@ class UsersModelGroup extends JModelAdmin
 	{
 		// Include the content plugins for events.
 		JPluginHelper::importPlugin('user');
-		
+
 		// Check the super admin permissions for group
 		// We get the parent group permissions and then check the group permissions manually
 		// We have to calculate the group permissions manually because we haven't saved the group yet
@@ -124,7 +124,7 @@ class UsersModelGroup extends JModelAdmin
 		$rules = JAccess::getAssetRules('root.1')->getData('core.admin');
 		// Get the value for the current group (will be true (allowed), false (denied), or null (inherit)
 		$groupSuperAdmin = $rules['core.admin']->allow($data['id']);
-		
+
 		// We only need to change the $groupSuperAdmin if the parent is true or false. Otherwise, the value set in the rule takes effect.
 		if ($parentSuperAdmin === false) {
 			// If parent is false (Denied), effective value will always be false
@@ -148,7 +148,7 @@ class UsersModelGroup extends JModelAdmin
 				return false;
 			}
 		}
-		
+
 		// Check for super-admin changing self to be non-super-admin
 		// First, are we a super admin>
 		if ($iAmSuperAdmin) {
@@ -161,7 +161,7 @@ class UsersModelGroup extends JModelAdmin
 				foreach ($otherGroups as $otherGroup) {
 					$otherSuperAdmin = ($otherSuperAdmin) ? $otherSuperAdmin : JAccess::checkGroup($otherGroup, 'core.admin');
 				}
-				// If we would not otherwise have super admin permissions 
+				// If we would not otherwise have super admin permissions
 				// and the current group does not have super admin permissions, throw an exception
 				if ((!$otherSuperAdmin) && (!$groupSuperAdmin)) {
 					try
@@ -176,7 +176,7 @@ class UsersModelGroup extends JModelAdmin
 				}
 			}
 		}
-		
+
 		// Proceed with the save
 		return parent::save($data);
 	}

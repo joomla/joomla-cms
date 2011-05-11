@@ -76,18 +76,18 @@ class InstallerModelDiscover extends InstallerModel
 		$dbo->setQuery($query);
 		$installedtmp = $dbo->loadObjectList();
 		$extensions = Array();
-	
+
 		foreach($installedtmp as $install)
 		{
 			$key = implode(':', Array($install->type, $install->element, $install->folder, $install->client_id));
 			$extensions[$key] = $install;
 		}
 		unset($installedtmp);
-				
-		
+
+
 		foreach($results as $result) {
 			// check if we have a match on the element
-			$key = implode(':', Array($result->type, $result->element, $result->folder, $result->client_id));				
+			$key = implode(':', Array($result->type, $result->element, $result->folder, $result->client_id));
 			if(!array_key_exists($key, $extensions))
 			{
 				$result->store(); // put it into the table

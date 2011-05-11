@@ -197,7 +197,7 @@ class ContentHelper
 			else {
 				$filter = JFilterInput::getInstance();
 			}
-			
+
 			$text = $filter->clean($text, 'html');
 		}
 

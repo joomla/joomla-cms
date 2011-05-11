@@ -40,7 +40,7 @@ class UsersControllerGroup extends JControllerForm
 	{
 		return (JFactory::getUser()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
 	}
-	
+
 	/**
 	 * Overrides JControllerForm::allowEdit
 	 *
@@ -64,5 +64,5 @@ class UsersControllerGroup extends JControllerForm
 
 		return parent::allowEdit($data, $key);
 	}
-	
+
 }

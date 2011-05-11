@@ -39,14 +39,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				return ;
 			}
 			$user = JFactory::getUser();
-	
+
 			if (!empty($record->catid)) {
 				return $user->authorise('core.delete', 'com_newsfeed.category.'.(int) $record->catid);
 			}
 			else {
 				return parent::canDelete($record);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -217,7 +217,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	function publish(&$pks, $value = 1)
 	{
 		$result = parent::publish($pks, $value);
-		
+
 		// Clean extra cache for newsfeeds
 		$this->cleanCache('feed_parser');
 

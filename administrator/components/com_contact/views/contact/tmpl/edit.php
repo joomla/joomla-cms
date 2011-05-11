@@ -50,14 +50,14 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('published'); ?></li>
 
 				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>					
+				<?php echo $this->form->getInput('access'); ?></li>
 
 				<li><?php echo $this->form->getLabel('ordering'); ?>
 				<?php echo $this->form->getInput('ordering'); ?></li>
 
 				<li><?php echo $this->form->getLabel('featured'); ?>
 				<?php echo $this->form->getInput('featured'); ?></li>
-				
+
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
@@ -77,7 +77,7 @@ JHtml::_('behavior.formvalidation');
 
 			<fieldset class="panelform">
 				<ul class="adminformlist">
-				
+
 					<li><?php echo $this->form->getLabel('created_by'); ?>
 					<?php echo $this->form->getInput('created_by'); ?></li>
 
@@ -102,7 +102,7 @@ JHtml::_('behavior.formvalidation');
 					<?php endif; ?>
 
 				</ul>
-			</fieldset>		
+			</fieldset>
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
 
 

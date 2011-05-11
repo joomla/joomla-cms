@@ -57,19 +57,19 @@ class LanguagesViewLanguages extends JView
 		if ($canDo->get('core.create')) {
 			JToolBarHelper::addNew('language.add','JTOOLBAR_NEW');
 		}
-		
+
 		if ($canDo->get('core.edit')) {
 			JToolBarHelper::editList('language.edit','JTOOLBAR_EDIT');
 			JToolBarHelper::divider();
 		}
-		
+
 		if ($canDo->get('core.edit.state')) {
 			if ($this->state->get('filter.published') != 2) {
 				JToolBarHelper::publishList('languages.publish','JTOOLBAR_PUBLISH');
 				JToolBarHelper::unpublishList('languages.unpublish','JTOOLBAR_UNPUBLISH');
 			}
 		}
-			
+
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'languages.delete','JTOOLBAR_EMPTY_TRASH');
 			JToolBarHelper::divider();
@@ -77,7 +77,7 @@ class LanguagesViewLanguages extends JView
 			JToolBarHelper::trash('languages.trash','JTOOLBAR_TRASH');
 			JToolBarHelper::divider();
 		}
-				
+
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_languages');
 			JToolBarHelper::divider();

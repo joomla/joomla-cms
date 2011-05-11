@@ -27,7 +27,7 @@ abstract class modLoggedHelper
 		// Initialise variables
 		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
-		$query = new JDatabaseQuery;
+		$query = $db->getQuery(true);
 
 		$query->select('s.time, s.client_id, u.id, u.name, u.username');
 		$query->from('#__session AS s');
@@ -45,7 +45,7 @@ abstract class modLoggedHelper
 		foreach($results as $k => $result)
 		{
 			$results[$k]->logoutLink = '';
-			
+
 			if($user->authorise('core.manage', 'com_users'))
 			{
 				$results[$k]->editLink = JRoute::_('index.php?option=com_users&task=user.edit&id='.$result->id);

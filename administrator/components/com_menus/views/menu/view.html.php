@@ -63,7 +63,7 @@ class MenusViewMenu extends JView
 			}
 			JToolBarHelper::save('menu.save', 'JTOOLBAR_SAVE');
 		}
-		
+
 		// If user can edit, can save the item.
 		if (!$isNew && $canDo->get('core.edit')) {
 			JToolBarHelper::apply('menu.apply','JTOOLBAR_APPLY');

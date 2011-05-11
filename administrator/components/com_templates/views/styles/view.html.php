@@ -65,17 +65,17 @@ class TemplatesViewStyles extends JView
 		}
 		if ($canDo->get('core.create') && $isSite) {
 			JToolBarHelper::addNew('styles.duplicate', 'JTOOLBAR_DUPLICATE');
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete') && $isSite) {
 			JToolBarHelper::deleteList('', 'styles.delete','JTOOLBAR_DELETE');
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_templates');
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 		}
 		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 	}

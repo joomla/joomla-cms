@@ -52,7 +52,7 @@ class CacheModelCache extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
-		
+
 		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int');
 		$this->setState('clientId', $clientId == 1 ? 1 : 0);
 
@@ -118,7 +118,7 @@ class CacheModelCache extends JModelList
 
 		jimport('joomla.cache.cache');
 		$cache = JCache::getInstance('', $options);
-		
+
 		return $cache;
 	}
 

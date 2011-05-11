@@ -83,7 +83,7 @@ class RedirectViewLinks extends JView
 			JToolBarHelper::deleteList('', 'links.delete','JTOOLBAR_EMPTY_TRASH');
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('links.trash','JTOOLBAR_TRASH');
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_redirect');

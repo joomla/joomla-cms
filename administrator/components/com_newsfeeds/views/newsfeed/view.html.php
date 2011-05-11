@@ -63,7 +63,7 @@ class NewsfeedsViewNewsfeed extends JView
 			JToolBarHelper::apply('newsfeed.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('newsfeed.save', 'JTOOLBAR_SAVE');
 		}
-		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){		
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){
 			JToolBarHelper::custom('newsfeed.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.

@@ -10,13 +10,13 @@
 
 // No direct access.
 defined('_JEXEC') or die; ?>
- 
+
 <?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
- 
+
 	<fieldset class="panelform">
 	<legend class="element-invisible"><?php echo JText::_('COM_CONTENT_FIELDSET_PUBLISHING'); ?></legend>
 		<ul class="adminformlist">
-		
+
 			<li><?php echo $this->form->getLabel('created_user_id'); ?>
 			<?php echo $this->form->getInput('created_user_id'); ?></li>
 
@@ -30,7 +30,7 @@ defined('_JEXEC') or die; ?>
 				<li><?php echo $this->form->getLabel('modified_time'); ?>
 				<?php echo $this->form->getInput('modified_time'); ?></li>
 			<?php endif; ?>
-			
+
 		</ul>
 	</fieldset>
 

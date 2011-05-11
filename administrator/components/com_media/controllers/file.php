@@ -37,7 +37,7 @@ class MediaControllerFile extends JController
 		$file		= JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder		= JRequest::getVar('folder', '', '', 'path');
 		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
-		
+
 
 		// Set FTP credentials, if given
 		jimport('joomla.client.helper');
@@ -61,7 +61,7 @@ class MediaControllerFile extends JController
 				JError::raiseNotice(100, JText::_($err));
 				return false;
 			}
-			
+
 			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
 
 			// Trigger the onContentBeforeSave event.

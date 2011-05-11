@@ -26,12 +26,12 @@ JHtml::_('behavior.noframes');
 <link href="templates/<?php echo $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
 <!-- Load additional CSS styles for colors -->
-<?php 
-	if (!$this->params->get('colourChoice')) : 
+<?php
+	if (!$this->params->get('colourChoice')) :
 		$colour = 'standard';
 	else :
 		$colour = htmlspecialchars($this->params->get('colourChoice'));
-	endif; 
+	endif;
 ?>
 <link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
 

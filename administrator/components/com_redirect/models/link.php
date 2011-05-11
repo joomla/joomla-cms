@@ -24,7 +24,7 @@ class RedirectModelLink extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected $text_prefix = 'COM_REDIRECT';
-	
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
@@ -35,13 +35,13 @@ class RedirectModelLink extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		
+
 			if ($record->published != -2) {
 				return false;
 			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.admin', 'com_redirect');
-		
+
 	}
 
 	/**
@@ -60,8 +60,8 @@ class RedirectModelLink extends JModelAdmin
 			return $user->authorise('core.admin', 'com_redirect');
 
 	}
-	
-	
+
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *

@@ -177,7 +177,7 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function batchCopy($value, $pks)
 	{
-		
+
 		$categoryId	= (int) $value;
 
 		$table	= $this->getTable();
@@ -203,7 +203,7 @@ class ContentModelArticle extends JModelAdmin
 			$this->setError(JText::_('JGLOBAL_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 			return false;
 		}
-		
+
 		// Check that user has create permission for categories
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.create', 'com_content')) {
@@ -241,7 +241,7 @@ class ContentModelArticle extends JModelAdmin
 
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
-			
+
 			// Alter the title & alias
 			list($title, $alias) = $this->generateNewTitle($categoryId, $table->alias, $table->title);
 			$table->title   = $title;
@@ -252,7 +252,7 @@ class ContentModelArticle extends JModelAdmin
 				$this->setError($table->getError());
 				return false;
 			}
-			
+
 			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());
@@ -262,7 +262,7 @@ class ContentModelArticle extends JModelAdmin
 
 		// Clean the cache
 		$this->cleanCache();
-				
+
 		return true;
 	}
 
@@ -277,7 +277,7 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function batchMove($value, $pks)
 	{
-		
+
 		$categoryId	= (int) $value;
 
 		$table	= $this->getTable();
@@ -303,7 +303,7 @@ class ContentModelArticle extends JModelAdmin
 			$this->setError(JText::_('JGLOBAL_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 			return false;
 		}
-		
+
 		// Check that user has create and edit permission for articles
 		$user	= JFactory::getUser();
 		if (!$user->authorise('core.create', 'com_content')) {
@@ -351,10 +351,10 @@ class ContentModelArticle extends JModelAdmin
 
 		// Clean the cache
 		$this->cleanCache();
-				
+
 		return true;
 	}
-	
+
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
@@ -568,10 +568,10 @@ class ContentModelArticle extends JModelAdmin
 				if (!is_array($old_featured = $db->loadResultArray())) {
 					throw new Exception($db->getErrorMsg());
 				}
-				
+
 				// we diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
-				
+
 				// Featuring.
 				$tuples = array();
 				foreach ($new_featured as $pk) {
@@ -660,5 +660,5 @@ class ContentModelArticle extends JModelAdmin
 		parent::cleanCache('mod_articles_latest');
 		parent::cleanCache('mod_articles_news');
 		parent::cleanCache('mod_articles_popular');
-	}	
+	}
 }

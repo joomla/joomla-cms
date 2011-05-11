@@ -81,7 +81,7 @@ class ModulesViewModules extends JView
 			JToolBarHelper::divider();
 		} else if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('modules.trash','JTOOLBAR_TRASH');
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {

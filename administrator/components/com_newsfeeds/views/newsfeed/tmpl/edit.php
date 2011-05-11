@@ -34,7 +34,7 @@ JHtml::_('behavior.keepalive');
 			<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?></li>
-            
+
    			<li><?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?></li>
 
@@ -69,7 +69,7 @@ JHtml::_('behavior.keepalive');
 
 			<fieldset class="panelform">
 			<ul class="adminformlist">
-				
+
 				<li><?php echo $this->form->getLabel('created_by'); ?>
 				<?php echo $this->form->getInput('created_by'); ?></li>
 

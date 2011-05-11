@@ -215,7 +215,7 @@ class PluginsModelPlugin extends JModelAdmin
 				' WHERE (type =' .$db->Quote('plugin'). 'AND folder='. $db->Quote($folder) . ')';
 		$db->setQuery($query);
 		$elements = $db->loadResultArray();
-		
+
 		foreach ($elements as $elementa)
 		{
 				$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_ADMINISTRATOR, null, false, false)
@@ -223,7 +223,7 @@ class PluginsModelPlugin extends JModelAdmin
 			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_PLUGINS.'/'.$folder.'/'.$elementa, $lang->getDefault(), false, false);
 		}
-		
+
 		if (empty($folder) || empty($element)) {
 			$app = JFactory::getApplication();
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins',false));
@@ -238,13 +238,13 @@ class PluginsModelPlugin extends JModelAdmin
 				return false;
 			}
 		}
-		
+
 		// Load the core and/or local language file(s).
 			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, $lang->getDefault(), false, false);
-		
+
 
 		if (file_exists($formFile)) {
 			// Get the plugin form.
@@ -324,5 +324,5 @@ class PluginsModelPlugin extends JModelAdmin
 	function cleanCache() {
 		parent::cleanCache('com_plugins', 0);
 		parent::cleanCache('com_plugins', 1);
-	}	
+	}
 }

@@ -30,7 +30,7 @@ if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CO
  */
 
 // System includes.
-require_once JPATH_LIBRARIES.'/joomla/import.php';
+require_once JPATH_LIBRARIES.'/import.php';
 
 // Pre-Load configuration.
 require_once JPATH_CONFIGURATION.'/configuration.php';
@@ -63,6 +63,8 @@ if (JDEBUG) {
 jimport('joomla.application.menu');
 jimport('joomla.user.user');
 jimport('joomla.environment.uri');
+jimport('joomla.filter.filterinput');
+jimport('joomla.filter.filteroutput');
 jimport('joomla.html.html');
 jimport('joomla.html.parameter');
 jimport('joomla.utilities.utility');
@@ -70,3 +72,4 @@ jimport('joomla.event.event');
 jimport('joomla.event.dispatcher');
 jimport('joomla.language.language');
 jimport('joomla.utilities.string');
+jimport('joomla.utilities.arrayhelper');

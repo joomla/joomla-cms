@@ -39,14 +39,14 @@ class WeblinksModelWeblink extends JModelAdmin
 				return ;
 			}
 			$user = JFactory::getUser();
-	
+
 			if ($record->catid) {
 				return $user->authorise('core.delete', 'com_weblinks.category.'.(int) $record->catid);
 			}
 			else {
 				return parent::canDelete($record);
 			}
-		}	
+		}
 	}
 
 	/**

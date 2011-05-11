@@ -69,7 +69,7 @@ class TemplatesModelSource extends JModelForm
 	{
 		// Initialise variables.
 		$app = JFactory::getApplication();
-		
+
 		// Codemirror or Editor None should be enabled
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);

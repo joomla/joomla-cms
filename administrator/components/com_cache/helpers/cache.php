@@ -31,7 +31,7 @@ class CacheHelper
 		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
 		return $options;
 	}
-	
+
 	/**
 	 * Configure the Linkbar.
 	 *
@@ -47,7 +47,7 @@ class CacheHelper
 			'index.php?option=com_checkin',
 			$vName == 'com_checkin'
 		);
-			
+
 		JSubMenuHelper::addEntry(
 			JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
 			'index.php?option=com_cache',

@@ -82,7 +82,7 @@ class ConfigModelApplication extends JModelForm
 		{
 			jimport('joomla.access.rules');
 			$rules	= new JRules($data['rules']);
-				
+
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
 			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
@@ -92,8 +92,8 @@ class ConfigModelApplication extends JModelForm
 				$this->setError(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'));
 				return false;
 			}
-			
-			
+
+
 			$asset	= JTable::getInstance('asset');
 			if ($asset->loadByName('root.1'))
 			{

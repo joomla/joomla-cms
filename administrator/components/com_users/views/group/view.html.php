@@ -61,7 +61,7 @@ class UsersViewGroup extends JView
 			JToolBarHelper::apply('group.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('group.save','JTOOLBAR_SAVE');
 		}
-		if ($canDo->get('core.create')) {			
+		if ($canDo->get('core.create')) {
 			JToolBarHelper::custom('group.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.

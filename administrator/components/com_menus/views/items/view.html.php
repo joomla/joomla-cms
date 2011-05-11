@@ -97,7 +97,7 @@ class MenusViewItems extends JView
 											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
 											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, $lang->getDefault(), false, false)
 											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], $lang->getDefault(), false, false);
-											
+
 										}
 										else
 										{
@@ -187,12 +187,12 @@ class MenusViewItems extends JView
 		}
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::trash('items.trash','JTOOLBAR_TRASH');
-		}		
+		}
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'items.delete','JTOOLBAR_EMPTY_TRASH');
 		}
 
-		
+
 		if ($canDo->get('core.edit.state')) {
 			JToolBarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 			JToolBarHelper::divider();

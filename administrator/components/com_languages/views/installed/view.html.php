@@ -73,7 +73,7 @@ class LanguagesViewInstalled extends JView
 	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
-		
+
 		$canDo	= LanguagesHelper::getActions();
 
 		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
@@ -82,7 +82,7 @@ class LanguagesViewInstalled extends JView
 			JToolBarHelper::makeDefault('installed.setDefault','JTOOLBAR_DEFAULT');
 			JToolBarHelper::divider();
 		}
-		
+
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_languages');
 			JToolBarHelper::divider();

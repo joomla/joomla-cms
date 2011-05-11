@@ -30,7 +30,7 @@ $hide = JRequest::getInt('hidemainmenu');
 				?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
 			endif;
 		else :
-			?><?php echo $item[0]; ?><?php 
+			?><?php echo $item[0]; ?><?php
 		endif;
 	endif;
 	?>

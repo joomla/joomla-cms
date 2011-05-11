@@ -65,7 +65,7 @@ class UsersViewLevels extends JView
 		}
 		if ($canDo->get('core.admin')) {
 			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();			
+			JToolBarHelper::divider();
 		}
 		JToolBarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}

@@ -25,7 +25,7 @@ class MessagesHelper extends JController
 	 * @return	void
 	 * @since	1.6
 	 */
-	
+
 	public static function addSubmenu($vName)
 	{
 		JSubMenuHelper::addEntry(

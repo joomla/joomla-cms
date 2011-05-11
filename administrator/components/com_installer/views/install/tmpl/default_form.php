@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 			form.submit();
 		}
 	}
-        
+
 	Joomla.submitbutton3 = function(pressbutton) {
 		var form = document.getElementById('adminForm');
 

@@ -18,6 +18,6 @@ defined('_JEXEC') or die;
 </div>
 <div class="clr"></div>
 
-<?php 
+<?php
 $this->setLayout('edit');
 echo $this->loadTemplate();

@@ -50,13 +50,13 @@ JHtml::_('behavior.formvalidation');
 
 			<li><?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('featured'); ?>
 			<?php echo $this->form->getInput('featured'); ?></li>
 
@@ -76,7 +76,7 @@ JHtml::_('behavior.formvalidation');
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 				<ul class="adminformlist">
-				
+
 					<li><?php echo $this->form->getLabel('created_by'); ?>
 					<?php echo $this->form->getInput('created_by'); ?></li>
 
@@ -99,11 +99,11 @@ JHtml::_('behavior.formvalidation');
 						<li><?php echo $this->form->getLabel('modified'); ?>
 						<?php echo $this->form->getInput('modified'); ?></li>
 					<?php endif; ?>
-					
+
 				</ul>
-			</fieldset>		
+			</fieldset>
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
-	
+
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('COM_CONTACT_CONTACT_DETAILS'); ?></legend>
 				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>

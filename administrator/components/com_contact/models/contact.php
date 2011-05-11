@@ -30,14 +30,14 @@ class ContactModelContact extends JModelAdmin
 	 * @since	1.6
 	 */
 	protected function canDelete($record)
-	{ 
+	{
 		if (!empty($record->id)) {
 			if ($record->published != -2) {
 				return ;
-			}		
+			}
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_contact.category.'.(int) $record->catid);
-		}	
+		}
 	}
 
 	/**

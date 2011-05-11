@@ -23,7 +23,7 @@ class MediaViewMedia extends JView
 	{
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
-		
+
 		$lang	= JFactory::getLanguage();
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
@@ -46,7 +46,7 @@ class MediaViewMedia extends JView
 		});");
 
 		JHtml::_('script','system/mootree.js', true, true, false, false);
-		JHtml::_('stylesheet','system/mootree.css', array(), true);	
+		JHtml::_('stylesheet','system/mootree.css', array(), true);
 		if ($lang->isRTL()) :
 			JHtml::_('stylesheet','media/mootree_rtl.css', array(), true);
 		endif;

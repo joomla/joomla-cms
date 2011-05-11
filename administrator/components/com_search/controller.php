@@ -40,7 +40,7 @@ class SearchController extends JController
 
 		// Load the submenu.
 		SearchHelper::addSubmenu(JRequest::getCmd('view', 'searches'));
-		
+
 		parent::display();
 	}
 }

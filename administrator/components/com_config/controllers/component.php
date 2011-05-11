@@ -103,7 +103,7 @@ class ConfigControllerComponent extends JController
 			$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message, 'error');
 			return false;
 		}
-		
+
 		// Set the redirect based on the task.
 		switch ($this->getTask())
 		{
@@ -117,7 +117,7 @@ class ConfigControllerComponent extends JController
 				$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
 				break;
 		}
-		
+
 		return true;
 	}
 }

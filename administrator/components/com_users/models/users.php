@@ -161,7 +161,7 @@ class UsersModelUsers extends JModelList
 
 			// Get the counts from the database only for the users in the list.
 			$db		= $this->getDbo();
-			$query	= new JDatabaseQuery;
+			$query	= $db->getQuery(true);
 
 			// Join over the group mapping table.
 			$query->select('map.user_id, COUNT(map.group_id) AS group_count')

@@ -45,10 +45,10 @@ JHtml::_('behavior.formvalidation');
 
 			<li><?php echo $this->form->getLabel('state'); ?>
 			<?php echo $this->form->getInput('state'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('catid'); ?>
 			<?php echo $this->form->getInput('catid'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 
@@ -112,7 +112,7 @@ JHtml::_('behavior.formvalidation');
 		<?php echo $this->loadTemplate('params'); ?>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
-		
+
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"></div>

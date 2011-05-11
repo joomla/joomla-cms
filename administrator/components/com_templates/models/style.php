@@ -96,7 +96,7 @@ class TemplatesModelStyle extends JModelAdmin
 				return false;
 			}
 		}
-		
+
 		// Clean cache
 		$this->cleanCache();
 
@@ -150,7 +150,7 @@ class TemplatesModelStyle extends JModelAdmin
 				throw new Exception($table->getError());
 			}
 		}
-		
+
 		// Clean cache
 		$this->cleanCache();
 
@@ -374,7 +374,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$data['home'] = 0;
 		$data['assigned'] ='';
 		}
-		
+
 		// Bind the data.
 		if (!$table->bind($data)) {
 			$this->setError($table->getError());
@@ -515,7 +515,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Clean the cache.
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -569,7 +569,7 @@ class TemplatesModelStyle extends JModelAdmin
 
 		// Clean the cache.
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -583,7 +583,7 @@ class TemplatesModelStyle extends JModelAdmin
 	{
 		return (object) array('key' => $this->helpKey, 'url' => $this->helpURL);
 	}
-	
+
 	/**
 	 * Custom clean cache method
 	 *

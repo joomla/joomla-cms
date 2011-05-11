@@ -37,13 +37,13 @@ class CategoriesModelCategory extends JModelAdmin
 		if (!empty($record->id)) {
 			if ($record->published != -2) {
 				return ;
-			}		
+			}
 			$user = JFactory::getUser();
 
 			return $user->authorise('core.delete', $record->extension.'.category.'.(int) $record->id);
 
 		}
-	}			
+	}
 
 	/**
 	 * Method to test whether a record can be deleted.
@@ -342,9 +342,9 @@ class CategoriesModelCategory extends JModelAdmin
 			$orig_table = clone($this->getTable());
 			$orig_table->load( (int) $orig_data['id']);
 
-			if (((int) $data['parent_id'] === (int) $orig_table->parent_id) 
+			if (((int) $data['parent_id'] === (int) $orig_table->parent_id)
 			 && ($data['alias'] == $orig_table->alias)) {
-				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');	
+				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
 				$data['alias'] .= '-copy';
 			}
 		}
@@ -399,7 +399,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Clear the cache
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -421,7 +421,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Clear the cache
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -445,7 +445,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Clear the cache
 		$this->cleanCache();
-		
+
 		return true;
 
 	}
@@ -501,7 +501,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Clear the cache
 		$this->cleanCache();
-		
+
 		return true;
 	}
 
@@ -536,7 +536,7 @@ class CategoriesModelCategory extends JModelAdmin
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 

@@ -425,7 +425,7 @@ class JFormFieldMenuType extends JFormFieldList
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
 
 				$templateLayouts = JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true);
-				
+
 
 				foreach ($templateLayouts as $layout)
 				{

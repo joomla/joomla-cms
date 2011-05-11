@@ -75,7 +75,7 @@ class LoginController extends JController
 	public function logout()
 	{
 		JRequest::checkToken('default') or jexit(JText::_('JInvalid_Token'));
-				
+
 		$app = JFactory::getApplication();
 
 		$userid = JRequest::getInt('uid', null);

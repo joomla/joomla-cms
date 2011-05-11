@@ -221,7 +221,7 @@ class LanguagesModelLanguage extends JModelAdmin
 
 		return true;
 	}
-	
+
 	/**
 	 * Custom clean cache method
 	 *
@@ -232,5 +232,5 @@ class LanguagesModelLanguage extends JModelAdmin
 		parent::cleanCache('_system', 1);
 		parent::cleanCache('com_languages', 0);
 		parent::cleanCache('com_languages', 1);
-	}	
+	}
 }

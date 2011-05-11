@@ -101,12 +101,12 @@ class InstallerModelWarnings extends JModelList
 
 		$post_max_size = $this->return_bytes(ini_get('post_max_size'));
 		$upload_max_filesize = $this->return_bytes(ini_get('upload_max_filesize'));
-		
+
 		if($post_max_size < $upload_max_filesize)
 		{
 			$messages[] = Array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOST'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_UPLOADBIGGERTHANPOSTDESC'));
 		}
-			
+
 		if($post_max_size < (4 * 1024 * 1024)) // 4MB
 		{
 			$messages[] = Array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZE'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLPOSTSIZEDESC'));
@@ -116,8 +116,8 @@ class InstallerModelWarnings extends JModelList
 		{
 			$messages[] = Array('message'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'), 'description'=>JText::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZEDESC'));
 		}
-	
-	
+
+
 		return $messages;
 	}
 }

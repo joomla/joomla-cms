@@ -57,8 +57,8 @@ class UsersViewUser extends JView
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$canDo		= UsersHelper::getActions();
-		
-		
+
+
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 		JToolBarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), $isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'));
@@ -66,7 +66,7 @@ class UsersViewUser extends JView
 			JToolBarHelper::apply('user.apply','JTOOLBAR_APPLY');
 			JToolBarHelper::save('user.save','JTOOLBAR_SAVE');
 		}
-		if ($canDo->get('core.create')&&$canDo->get('core.manage')) {			
+		if ($canDo->get('core.create')&&$canDo->get('core.manage')) {
 			JToolBarHelper::custom('user.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		if (empty($this->item->id))  {

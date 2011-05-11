@@ -26,12 +26,12 @@ $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 <link href="templates/system/css/system.css" type="text/css" rel="stylesheet" type="text/css" />
 <link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
 
-<?php 
-	if (!$this->params->get('colourChoice')) : 
+<?php
+	if (!$this->params->get('colourChoice')) :
 		$colour = 'standard';
 	else :
 		$colour = htmlspecialchars($this->params->get('colourChoice'));
-	endif; 
+	endif;
 ?>
 <link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
 

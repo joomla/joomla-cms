@@ -64,7 +64,7 @@ class WeblinksViewWeblink extends JView
 			JToolBarHelper::apply('weblink.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('weblink.save', 'JTOOLBAR_SAVE');
 		}
-		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')))){			
+		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')))){
 			JToolBarHelper::custom('weblink.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		}
 		// If an existing item, can save to a copy.

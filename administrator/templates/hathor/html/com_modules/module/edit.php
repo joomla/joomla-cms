@@ -43,10 +43,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			<li><?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('showtitle'); ?>
 			<?php echo $this->form->getInput('showtitle'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('position'); ?>
 			<?php echo $this->form->getInput('custom_position'); ?>
 			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible"><?php echo JText::_('TPL_HATHOR_COM_MODULES_CUSTOM_POSITION_LABEL');?></label>
@@ -73,7 +73,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>
-			
+
 			<li><?php echo $this->form->getLabel('note'); ?>
 			<?php echo $this->form->getInput('note'); ?></li>
 
@@ -91,7 +91,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php echo $this->form->getInput('client_id'); ?></li>
 			</ul>
 			<div class="clr"></div>
-			
+
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
 					<span class="faux-label">
@@ -108,7 +108,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<div class="clr"></div>
 		</fieldset>
 	</div>
-		
+
 	<div class="col options-section">
 	<?php echo JHtml::_('sliders.start','module-sliders'); ?>
 
@@ -116,7 +116,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 	<?php echo JHtml::_('sliders.end'); ?>
 	</div>
-	
+
 	<?php if ($hasContent) : ?>
 		<div class="col main-section">
 		<fieldset class="adminform">

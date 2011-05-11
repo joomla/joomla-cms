@@ -188,7 +188,7 @@ $n			= count($this->items);
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	
+
 	<?php //Load the batch processing form. ?>
 	<?php echo $this->loadTemplate('batch'); ?>
 

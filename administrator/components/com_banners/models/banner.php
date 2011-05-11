@@ -46,7 +46,7 @@ class BannersModelBanner extends JModelAdmin
 			else {
 				return parent::canDelete($record);
 			}
-		}	
+		}
 	}
 
 	/**

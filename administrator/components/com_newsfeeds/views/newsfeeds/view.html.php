@@ -67,7 +67,7 @@ class NewsfeedsViewNewsfeeds extends JView
 			JToolBarHelper::archiveList('newsfeeds.archive','JTOOLBAR_ARCHIVE');
 		}
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::custom('newsfeeds.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);		
+			JToolBarHelper::custom('newsfeeds.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 			}
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
 			JToolBarHelper::deleteList('', 'newsfeeds.delete','JTOOLBAR_EMPTY_TRASH');

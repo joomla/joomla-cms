@@ -106,9 +106,9 @@ class CategoriesViewCategories extends JView
 			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 		}
 
-		// Load specific css component 
+		// Load specific css component
 		JHtml::_('stylesheet',$component.'/administrator/categories.css', array(), true);
-		
+
 		// Prepare the toolbar.
 		JToolBarHelper::title($title, 'categories '.substr($component,4).($section?"-$section":'').'-categories');
 

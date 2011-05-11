@@ -320,7 +320,7 @@ class LanguagesModelInstalled extends JModelList
 		$this->cleanCache();
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
-		
+
 		return true;
 	}
 

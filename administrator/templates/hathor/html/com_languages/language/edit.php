@@ -32,7 +32,7 @@ $canDo = LanguagesHelper::getActions();
 			<?php else : ?>
 				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?></legend>
 			<?php endif; ?>
-			
+
 			<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('title'); ?>
 			<?php echo $this->form->getInput('title'); ?></li>

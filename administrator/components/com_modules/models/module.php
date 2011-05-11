@@ -85,9 +85,9 @@ class ModulesModelModule extends JModelAdmin
 			if ($table->load($pk)) {
 
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules') || 
+				if (!$user->authorise('core.delete', 'com_modules') ||
 							$table->published != -2) {
-					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));	
+					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					//	throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					return;
 				}
@@ -158,7 +158,7 @@ class ModulesModelModule extends JModelAdmin
 				}
 				// Unpublish duplicate module
 				$table->published = 0;
-				
+
 				if (!$table->check() || !$table->store()) {
 					throw new Exception($table->getError());
 				}
@@ -544,7 +544,7 @@ class ModulesModelModule extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
-		
+
 		// Alter the title and published state for Save as Copy
 		if (JRequest::getVar('task') == 'save2copy') {
 			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
@@ -571,8 +571,8 @@ class ModulesModelModule extends JModelAdmin
 			$this->setError($table->getError());
 			return false;
 		}
-		
-		
+
+
 		// Trigger the onExtensionBeforeSave event.
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_modules.module', &$table, $isNew));
 		if (in_array(false, $result, true)) {
@@ -685,10 +685,10 @@ class ModulesModelModule extends JModelAdmin
 
 		// Clear modules cache
 		$this->cleanCache();
-		
+
 		// Clean module cache
 		parent::cleanCache($table->module, $table->client_id);
-		
+
 		return true;
 	}
 
@@ -708,7 +708,7 @@ class ModulesModelModule extends JModelAdmin
 
 		return $condition;
 	}
-	
+
 	/**
 	 * Custom clean cache method for different clients
 	 *
@@ -716,5 +716,5 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	function cleanCache() {
 		parent::cleanCache('com_modules', $this->getClient());
-	}	
+	}
 }

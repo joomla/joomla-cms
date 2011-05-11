@@ -176,7 +176,7 @@ class BannersTableBanner extends JTable
 				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 				return false;
 			}
-			
+
 			// Store the new row
 			parent::store($updateNulls);
 

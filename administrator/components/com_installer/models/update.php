@@ -115,7 +115,7 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Enables any disabled rows in #__update_sites table
 	 *
@@ -162,7 +162,7 @@ class InstallerModelUpdate extends JModelList
 
 			$result = $res & $result;
 		}
-		
+
 		// Set the final state
 		$this->setState('result', $result);
 	}
