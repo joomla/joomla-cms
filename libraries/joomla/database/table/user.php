@@ -137,7 +137,7 @@ class JTableUser extends JTable
 
 			// Get the titles for the user groups.
 			$this->_db->setQuery(
-				'SELECT '.$this->_db->quoteName('id').', '.$this->_db->nameQuote('title') .
+				'SELECT '.$this->_db->quoteName('id').', '.$this->_db->quoteName('title') .
 				' FROM '.$this->_db->quoteName('#__usergroups') .
 				' WHERE '.$this->_db->quoteName('id').' = '.implode(' OR '.$this->_db->quoteName('id').' = ', $this->groups)
 			);
