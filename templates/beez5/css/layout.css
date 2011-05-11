@@ -192,7 +192,7 @@ em
 {
         text-transform:none;
         font-weight:normal;
-       
+
 }
 
 #breadcrumbs span a:hover,
@@ -1848,7 +1848,7 @@ ul.tabs li a:focus
 {
         padding:15px 10px;
         margin-top:-1px;
-                
+
 }
 
 .tabcontent:focus
@@ -1985,7 +1985,7 @@ a.mod-articles-category-title
 }
 
 #main .cat-children
-{ 
+{
 	padding-left:5px
 }
 #main .cat-children ul dl dt,
@@ -2031,7 +2031,7 @@ a.mod-articles-category-title
 .stats-module dt,
 .stats-module dd
 {
-	padding:2px 0 2px 0 
+	padding:2px 0 2px 0
 }
 /* syndicate */
 
@@ -2057,26 +2057,26 @@ ul.pagenav li
 	margin:0;
 	border:solid 0px #cc0000;
 	position:relative;
-	
+
 }
 
-#main ul.pagenav li 
+#main ul.pagenav li
 {
 	line-height:2em
 }
 
 ul.pagenav li a
 {
-	border:solid 1px #ccc; 
-	display:inline; 
-	background:#eee; 
-	padding:2px; 
+	border:solid 1px #ccc;
+	display:inline;
+	background:#eee;
+	padding:2px;
 	text-decoration:none;
-	
+
 }
-ul.pagenav li.pagenav-prev 
+ul.pagenav li.pagenav-prev
 {float:left}
-ul.pagenav li.pagenav-next 
+ul.pagenav li.pagenav-next
 {float:right}
 
 /* pagebreak */
@@ -2084,7 +2084,7 @@ ul.pagenav li.pagenav-next
 #article-index
 {
 	width:25%;
-	float:right; 
+	float:right;
 	border:solid 1px #eee;
 	padding:10px;
 	margin: 10px 0px 20px 30px;
@@ -2108,7 +2108,7 @@ ul.pagenav li.pagenav-next
 /* mailto window */
 
 
-#mailto-window 
+#mailto-window
 {
 	background:#f5f5f5;
 	padding:15px;
@@ -2122,21 +2122,21 @@ ul.pagenav li.pagenav-next
 
 .mailto-close
 {
-	position:absolute; 
-	right:0; 
-	top:5px; 
+	position:absolute;
+	right:0;
+	top:5px;
 	background:none;
 
 
-	
-	
+
+
 }
 
 
-.mailto-close a 
+.mailto-close a
 {
 background:#f5f5f5 url(../images/close.png) no-repeat !important;
-min-width:25px; 
+min-width:25px;
 display:block;
 min-height:25px;
 overflow:visible

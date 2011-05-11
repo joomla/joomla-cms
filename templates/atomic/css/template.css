@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-/* A variation on Eric Meyer's CSS Reset: 
+/* A variation on Eric Meyer's CSS Reset:
    This is disbaled because the Blueprint framework already has it.
    You should enable it if you aren't using Blueprint.
 
@@ -55,9 +55,9 @@ abbr,acronym {
 /* Below are the CSS styles that aren't included with Blueprint. It's a good idea to keep them whether or not you use it unless you know what you're doing. */
 
 /* Text styles */
-.blog-featured h2 { 
+.blog-featured h2 {
 	font-size: 1.5em;
-	margin-bottom:0em; 
+	margin-bottom:0em;
 }
 p.readmore {
 	text-indent:0;

@@ -1124,7 +1124,7 @@ address
 {
         font-style:normal;
         margin:10px 0;
-        
+
 }
 
 address span
@@ -1238,17 +1238,17 @@ dl#content-pane.tabs {
         float:left;
         width:12em;
         padding:3px 0;
- 
-   
+
+
 }
 
 #users-profile-core dd,
 #users-profile-custom dd
 {
         padding:3px 0;
-      
 
-   
+
+
 }
 
 #member-profile fieldset,
@@ -1256,7 +1256,7 @@ dl#content-pane.tabs {
 {
         margin:10px 0 15px 0;
         padding:15px;
-        
+
 }
 
 #users-profile-core legend,
@@ -1702,7 +1702,7 @@ dl.weblink-count dt,
 dl.weblink-count dd
 {
         display:inline;
-      
+
 }
 
 /* ++++++++++++++  login  ++++++++++++++ */
@@ -1715,7 +1715,7 @@ dl.weblink-count dd
 #login-form fieldset
 {
         padding:0px;
-  
+
 }
 
 #login-form .inputbox
@@ -2059,21 +2059,21 @@ ul.pagenav li
 	padding:0px;
 	margin:0;
 }
-#main ul.pagenav li 
+#main ul.pagenav li
 {
 	line-height:2em
 }
 ul.pagenav li a
 {
-	border:solid 1px #ccc; 
-	display:inline; 
-	background:#eee; 
-	padding:2px; 
+	border:solid 1px #ccc;
+	display:inline;
+	background:#eee;
+	padding:2px;
 	text-decoration:none
 }
-ul.pagenav li.pagenav-prev 
+ul.pagenav li.pagenav-prev
 {float:left}
-ul.pagenav li.pagenav-next 
+ul.pagenav li.pagenav-next
 {float:right}
 
 /* pagebreak */
@@ -2081,7 +2081,7 @@ ul.pagenav li.pagenav-next
 #article-index
 {
 	width:25%;
-	float:right; 
+	float:right;
 	border:solid 1px #eee;
 	padding:10px;
 	margin: 10px 0px 20px 30px;
@@ -2105,7 +2105,7 @@ ul.pagenav li.pagenav-next
 /* mailto window */
 
 
-#mailto-window 
+#mailto-window
 {
 	background:#f5f5f5;
 	padding:15px;
@@ -2119,21 +2119,21 @@ ul.pagenav li.pagenav-next
 
 .mailto-close
 {
-	position:absolute; 
-	right:0; 
-	top:5px; 
+	position:absolute;
+	right:0;
+	top:5px;
 	background:none;
 
 
-	
-	
+
+
 }
 
 
-.mailto-close a 
+.mailto-close a
 {
 background:#f5f5f5 url(../images/close.png) no-repeat !important;
-min-width:25px; 
+min-width:25px;
 display:block;
 min-height:25px;
 overflow:visible

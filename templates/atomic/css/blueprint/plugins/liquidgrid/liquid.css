@@ -1,5 +1,5 @@
-/* -------------------------------------------------------------- 
-      
+/* --------------------------------------------------------------
+
    liquid.css
    * Sets up an easy-to-use grid of 24 columns that stretch
      to the window width or can also be fixed width.
@@ -14,7 +14,7 @@
 
    grid.css
    * Sets up an easy-to-use grid of 24 columns.
-   
+
    Based on work by:
    * Nathan Borror     [playgroundblues.com]
    * Jeff Croft        [jeffcroft.com]
@@ -22,12 +22,12 @@
    * Khoi Vinh         [subtraction.com]
 
    -----
-   
+
    By default, the grid is 80% of window width, with 24 columns.
 
    To make the grid fixed, simply change the .container width
    property to a pixel value. e.g., 960px.
-   
+
 -------------------------------------------------------------- */
 
 /* A container should group your entire grid. */
@@ -78,11 +78,11 @@
 .span-23	{ width: 95%; }
 .span-24	{ width: 100%; margin-right: 0; }
 
-.span-1>div, .span-2>div, .span-3>div, .span-4>div, 
-.span-5>div, .span-6>div, .span-7>div, .span-8>div, 
+.span-1>div, .span-2>div, .span-3>div, .span-4>div,
+.span-5>div, .span-6>div, .span-7>div, .span-8>div,
 .span-9>div, .span-10>div, .span-11>div, .span-12>div,
-.span-13>div, .span-14>div, .span-15>div, .span-16>div, 
-.span-17>div, .span-18>div, .span-19>div, .span-20>div, 
+.span-13>div, .span-14>div, .span-15>div, .span-16>div,
+.span-17>div, .span-18>div, .span-19>div, .span-20>div,
 .span-21>div, .span-22>div, .span-23>div, .span-24>div {
 	margin: 0 0.833em 0 0;
 	overflow: hidden;
@@ -94,8 +94,8 @@
 .append-3   { padding-right: 12%; }
 .append-4   { padding-right: 16%; }
 .append-5   { padding-right: 20%; }
-.append-6   { padding-right: 25%; }   
-.append-7   { padding-right: 29%; }   
+.append-6   { padding-right: 25%; }
+.append-7   { padding-right: 29%; }
 .append-8   { padding-right: 33%; }
 .append-9   { padding-right: 37%; }
 .append-10  { padding-right: 41%; }
@@ -116,27 +116,27 @@
 /* Add these to a column to prepend empty cols. */
 .prepend-1   { padding-left: 4%; }
 .prepend-2   { padding-left: 8%; }
-.prepend-3   { padding-left: 12%; }  
-.prepend-4   { padding-left: 16%; }   
-.prepend-5   { padding-left: 20%; }  
-.prepend-6   { padding-left: 25%; }  
-.prepend-7   { padding-left: 29%; }  
-.prepend-8   { padding-left: 33%; }  
-.prepend-9   { padding-left: 37%; }  
-.prepend-10  { padding-left: 41%; }  
-.prepend-11  { padding-left: 45%; }  
-.prepend-12  { padding-left: 50%; }  
-.prepend-13  { padding-left: 54%; }  
-.prepend-14  { padding-left: 58%; }  
-.prepend-15  { padding-left: 62%; }  
-.prepend-16  { padding-left: 66%; }  
-.prepend-17  { padding-left: 70%; }  
-.prepend-18  { padding-left: 75%; }  
-.prepend-19  { padding-left: 79%; }  
-.prepend-20  { padding-left: 83%; }  
-.prepend-21  { padding-left: 87%; }  
-.prepend-22  { padding-left: 91%; }  
-.prepend-23  { padding-left: 95%; }  
+.prepend-3   { padding-left: 12%; }
+.prepend-4   { padding-left: 16%; }
+.prepend-5   { padding-left: 20%; }
+.prepend-6   { padding-left: 25%; }
+.prepend-7   { padding-left: 29%; }
+.prepend-8   { padding-left: 33%; }
+.prepend-9   { padding-left: 37%; }
+.prepend-10  { padding-left: 41%; }
+.prepend-11  { padding-left: 45%; }
+.prepend-12  { padding-left: 50%; }
+.prepend-13  { padding-left: 54%; }
+.prepend-14  { padding-left: 58%; }
+.prepend-15  { padding-left: 62%; }
+.prepend-16  { padding-left: 66%; }
+.prepend-17  { padding-left: 70%; }
+.prepend-18  { padding-left: 75%; }
+.prepend-19  { padding-left: 79%; }
+.prepend-20  { padding-left: 83%; }
+.prepend-21  { padding-left: 87%; }
+.prepend-22  { padding-left: 91%; }
+.prepend-23  { padding-left: 95%; }
 
 
 /* Border on right hand side of a column. */
@@ -156,7 +156,7 @@
 }
 
 
-/* Use these classes on an element to push it into the 
+/* Use these classes on an element to push it into the
    next column, or to pull it into the previous column. */
 
 .pull-1  { margin-left: -3.333em; }
@@ -175,21 +175,21 @@
 /* Misc classes and elements
 -------------------------------------------------------------- */
 
-/* Use a .box to create a padded box inside a column.  */ 
-.box { 
-  padding: 1.5em; 
-  margin-bottom: 1.5em; 
-  background: #eee; 
+/* Use a .box to create a padded box inside a column.  */
+.box {
+  padding: 1.5em;
+  margin-bottom: 1.5em;
+  background: #eee;
 }
 
 /* Use this to create a horizontal ruler across a column. */
 hr {
-  background: #ddd; 
+  background: #ddd;
   color: #ddd;
-  width: 100%; 
+  width: 100%;
   height: 0.083em;
   margin: 0 0 1.583em;
-  border: none; 
+  border: none;
 }
 hr.space {
   background: #fff;

@@ -10,8 +10,8 @@
 @font-face {
 	font-family: 'Titillium Maps';
 	src: url("../fonts/TitilliumMaps29L002.eot");
-	src: local('Titillium Maps'), local('TitilliumMaps'), 
-		url("../fonts/TitilliumMaps29L002.otf") format("opentype"), 
+	src: local('Titillium Maps'), local('TitilliumMaps'),
+		url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
 		url("../fonts/TitilliumMaps29L002.woff") format("woff");
 }
 
@@ -628,7 +628,7 @@ min-height:300px
 ul#archive-items li.row0,
 ul#archive-items li.row1
 {
-	border-bottom:solid 1px #ddd 
+	border-bottom:solid 1px #ddd
 }
 
 .archive #adminForm fieldset
@@ -1450,12 +1450,12 @@ div.encyclopedia_col2 {
 	width:49%;
 	float:right;
 	padding-left:3px;
-	margin-left: 2px;	
-} 
+	margin-left: 2px;
+}
 div.encyclopedia_col2 p {
 	padding-left:3px;
-	margin-left: 2px;	
-} 
+	margin-left: 2px;
+}
 
 div.encyclopedia_links ul
 {

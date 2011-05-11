@@ -10,8 +10,8 @@
 @font-face {
 	font-family: 'Titillium Maps';
 	src: url("../fonts/TitilliumMaps29L002.eot");
-	src: local('Titillium Maps'), local('TitilliumMaps'), 
-		url("../fonts/TitilliumMaps29L002.otf") format("opentype"), 
+	src: local('Titillium Maps'), local('TitilliumMaps'),
+		url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
 		url("../fonts/TitilliumMaps29L002.woff") format("woff");
 }
 
@@ -604,7 +604,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visi
 ul#archive-items li.row0,
 ul#archive-items li.row1
 {
-	border-bottom:solid 1px #ddd 
+	border-bottom:solid 1px #ddd
 }
 
 .archive #adminForm fieldset
@@ -618,13 +618,13 @@ ul#archive-items li.row1
 
 .image-left
 {
-	
+
 		padding:2px
 }
 
 .image-right
 {
-	  
+
 		padding:2px
 }
 

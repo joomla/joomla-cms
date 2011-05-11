@@ -69,21 +69,21 @@ label.invalid { color: #ff0000; }
 }
 
 .button2-right {
-	
+
         float: left;
         margin-left: 5px;
 }
 
 .button2-left .image {
-      
+
 }
 
 .button2-left .readmore {
-        
+
 }
 
 .button2-left .pagebreak {
-       
+
 }
 
 /* Tooltips */
@@ -103,7 +103,7 @@ div.tooltip h4 {
         margin-top: -15px;
         padding-top: 15px;
         padding-bottom: 5px;
-      
+
 }
 
 div.tooltip p {
@@ -174,36 +174,36 @@ a img.calendar {
                 border-right:0;
 }
 
-#system-message dt 
-{ 
-	font-weight: bold; 
+#system-message dt
+{
+	font-weight: bold;
 }
-#system-message dd 
-{ 
+#system-message dd
+{
 	margin: 0 0 15px 0;
 	font-weight: bold;
 	text-indent: 0px;
 	padding:0
 }
-#system-message dd ul 
-{ 
-	color: #000; 
-	list-style: none; 
+#system-message dd ul
+{
+	color: #000;
+	list-style: none;
 	padding: 0px;
 }
 #system-message dd ul li
 {
-	line-height:1.5em 
+	line-height:1.5em
 }
 
 /* System Standard Messages */
-#system-message dt.message 
-{ 
-	position:absolute; 
+#system-message dt.message
+{
+	position:absolute;
 	top:-2000px;
 	left:-3000px;
 }
-	
+
 #system-message dd.message  ul
 {
 	background: #fff  url(../images/system/notice-info.png) no-repeat;
@@ -216,13 +216,13 @@ a img.calendar {
 #system-message dd.message ul li{background:none !important}
 
 /* System Error Messages */
-#system-message dt.error 
-{ 
+#system-message dt.error
+{
 	position:absolute;
 	top:-2000px;
-	left:-3000px; 
+	left:-3000px;
 }
-	
+
 #system-message dd.error ul
 {
 	background:#fff url(../images/system/notice-alert.png) no-repeat ;
@@ -235,35 +235,35 @@ a img.calendar {
 
 
 /* System Notice Messages */
-#system-message dt.notice 
-{ 
+#system-message dt.notice
+{
 	position:absolute;
 	top:-2000px;
 	left:-3000px;
 }
-	
+
 #system-message dd.notice  ul
-{ 
+{
 		background:#fff url(../images/system/notice-note.png) no-repeat ;
 		padding-left:40px;
 	    padding: 10px 10px 10px 40px;
 	    border-top: 2px solid #FAA528;
-	    border-bottom: 2px solid #FAA528; 
+	    border-bottom: 2px solid #FAA528;
 }
 #system-message dd.notice ul { color: #000;margin:10px 0 }
 
-#system-message 
+#system-message
 {
     margin-bottom: 0px;
     padding: 0;
 }
 
-#system-message dt 
+#system-message dt
 {
     font-weight: bold;
 }
 
-#system-message dd 
+#system-message dd
 {
     font-weight: bold;
     padding: 0;

@@ -192,7 +192,7 @@ form fieldset dd
 {
         float:right;
         width:12em;
-        padding:3px 0;  
+        padding:3px 0;
 }
 
 .profile-edit form#member-profile fieldset dt,
@@ -322,7 +322,7 @@ ul.tabs li {
 #login-form fieldset
 {
         padding:0px;
-  
+
 }
 
 #login-form .inputbox
@@ -459,7 +459,7 @@ ul.latestnews li a, ul.mostread li a {
 
 .content_rating {
 	text-align: right;
-	
+
 }
 
 ul.menu li ul li ul li ul li ul {

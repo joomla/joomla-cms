@@ -10,8 +10,8 @@
 @font-face {
 	font-family: 'Titillium Maps';
 	src: url("../fonts/TitilliumMaps29L002.eot");
-	src: local('Titillium Maps'), local('TitilliumMaps'), 
-		url("../fonts/TitilliumMaps29L002.otf") format("opentype"), 
+	src: local('Titillium Maps'), local('TitilliumMaps'),
+		url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
 		url("../fonts/TitilliumMaps29L002.woff") format("woff");
 }
 
@@ -584,7 +584,7 @@ ul.menu li ul li ul li ul li ul
 	border:solid 0px #eee !important;
 	padding-top:5px !important;
 	padding-bottom:10px !important;
-	background:#fff !important; 
+	background:#fff !important;
 }
 
 
@@ -671,7 +671,7 @@ ul.menu li.active  ul li.active  ul li.active  ul li.active  ul li.active a:visi
 ul#archive-items li.row0,
 ul#archive-items li.row1
 {
-	border-bottom:solid 1px #ddd 
+	border-bottom:solid 1px #ddd
 }
 
 .archive #adminForm fieldset
@@ -975,7 +975,7 @@ input.button,
 button.button,
 button.validate
 {
-	
+
 	background:#FFFFFF url(../images/nature/arrow1.gif) no-repeat left top;
 	border:1px solid #DDDDDD;
 	color:#444444;
@@ -1388,17 +1388,17 @@ table.pagenav tr,
 table.pagenav td
 {border:0 !important}
 
-.cat-children ul ul,  
+.cat-children ul ul,
 .categories-list ul ul
 {
-	list-style-type:none; 
+	list-style-type:none;
 
 }
 
 .cat-children ul ul ul,
 .categories-list ul ul ul
 {
-	
+
 
 }
 .categories-list .category-desc ul li

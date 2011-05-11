@@ -11,8 +11,8 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
  */
- 
- 
+
+
  #all
 {
 	text-align: right;
@@ -22,7 +22,7 @@
 {
 	float:right;
 }
- 
+
 
 #logo span
 {
@@ -278,8 +278,8 @@ form fieldset dd
 	float:right;
 	width:12em;
 	padding:3px 0;
- 
-   
+
+
 }
 
 .profile-edit form#member-profile fieldset dt,
@@ -454,7 +454,7 @@ ul.pagenav li.pagenav-prev {
 
 .content_rating {
 	text-align: right;
-	
+
 }
 
 ul.menu li ul li ul li ul li ul {

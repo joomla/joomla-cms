@@ -5,8 +5,8 @@
 @font-face {
 	font-family: 'Titillium Maps';
 	src: url("../fonts/TitilliumMaps29L002.eot");
-	src: local('Titillium Maps'), local('TitilliumMaps'), 
-		url("../fonts/TitilliumMaps29L002.otf") format("opentype"), 
+	src: local('Titillium Maps'), local('TitilliumMaps'),
+		url("../fonts/TitilliumMaps29L002.otf") format("opentype"),
 		url("../fonts/TitilliumMaps29L002.woff") format("woff");
 }
 
