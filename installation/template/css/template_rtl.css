@@ -94,15 +94,15 @@ fieldset#jform_db_old input {
 }
 
  /* System Messages */
- 
- #system-message dd ul { 
+
+ #system-message dd ul {
  background-position: 99.5% top;
  }
- 
+
  /**
  * System Standard Messages
  */
- 
+
 #system-message dd.message ul {
 	background-color: #C3D2E5;
 	background-image: url(../../../media/system/images/notice-info.png) no-repeat;

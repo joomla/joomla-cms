@@ -203,7 +203,7 @@
 					description="PLG_TINY_FIELD_HTMLWIDTH_DESC"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 				/>
-				
+
 				<field name="resizing" type="radio"
 					default="true"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
@@ -212,7 +212,7 @@
 					<option value="false">JOFF</option>
 					<option value="true">JON</option>
 				</field>
-				
+
 				<field name="resize_horizontal" type="radio"
 					default="false"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
@@ -448,7 +448,7 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-				
+
 				<field name="advlist" type="radio"
 					default="1"
 					description="PLG_TINY_FIELD_ADVLIST_DESC"

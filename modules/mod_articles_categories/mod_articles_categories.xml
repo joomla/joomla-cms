@@ -71,7 +71,7 @@
 				<option value="9">J9</option>
 				<option value="10">J10</option>
 		</field>
-			
+
 			<field name="maxlevel" type="list"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
@@ -89,7 +89,7 @@
 				<option value="9">J9</option>
 				<option value="10">J10</option>
 		</field>
-				
+
 		</fieldset>
 		<fieldset name="advanced">
 			<field name="layout" type="modulelayout"

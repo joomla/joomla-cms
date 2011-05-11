@@ -9,13 +9,13 @@
 			class="inputbox"
 			label="COM_CONTENT_ID_LABEL"
 			size="10"
-			default="0"			
+			default="0"
 			readonly="true" />
 
-		<field 
-			name="asset_id" 
-			type="hidden" 
-			filter="unset" />	
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset" />
 
 		<field
 			id="title"
@@ -69,10 +69,10 @@
 				value="-2">
 				JTRASHED</option>
 		</field>
-		
-		<field 
+
+		<field
 			id="featured"
-			name="featured" 
+			name="featured"
 			type="list"
 			label="JGLOBAL_FIELD_FEATURED_LABEL"
 			description="JGLOBAL_FIELD_FEATURED_DESC"
@@ -82,7 +82,7 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		
+
 		<field
 			id="catid"
 			name="catid"

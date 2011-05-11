@@ -135,7 +135,7 @@ var XMLParser = Editor.Parser = (function() {
     var tokenNr = 0, indented = 0;
     var currentTag = null, context = null;
     var consume;
-    
+
     function push(fs) {
       for (var i = fs.length - 1; i >= 0; i--)
         cc.push(fs[i]);
@@ -266,7 +266,7 @@ var XMLParser = Editor.Parser = (function() {
       copy: function(){
         var _cc = cc.concat([]), _tokenState = tokens.state, _context = context;
         var parser = this;
-        
+
         return function(input){
           cc = _cc.concat([]);
           tokenNr = indented = 0;

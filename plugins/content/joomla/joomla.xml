@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
 	<description>PLG_CONTENT_JOOMLA_XML_DESCRIPTION</description>
-	
+
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
 		<filename>index.html</filename>

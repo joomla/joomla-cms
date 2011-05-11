@@ -14,7 +14,7 @@
 	tinymce.create('tinymce.plugins.MediaPlugin', {
 		init : function(ed, url) {
 			var t = this;
-			
+
 			t.editor = ed;
 			t.url = url;
 
@@ -225,7 +225,7 @@
 
 		_buildObj : function(o, n) {
 			var ob, ed = this.editor, dom = ed.dom, p = this._parse(n.title), stc;
-			
+
 			stc = ed.getParam('media_strict', true) && o.type == 'application/x-shockwave-flash';
 
 			p.width = o.width = dom.getAttrib(n, 'width') || 100;
@@ -307,7 +307,7 @@
 						default:
 							dom.replace(t._createImg('mceItemFlash', n), n);
 					}
-					
+
 					return;
 				}
 
@@ -337,14 +337,14 @@
 						default:
 							dom.replace(t._createImg('mceItemFlash', n), n);
 					}
-				}			
+				}
 			});
 		},
 
 		_createImg : function(cl, n) {
 			var im, dom = this.editor.dom, pa = {}, ti = '', args;
 
-			args = ['id', 'name', 'width', 'height', 'bgcolor', 'align', 'flashvars', 'src', 'wmode', 'allowfullscreen', 'quality', 'data'];	
+			args = ['id', 'name', 'width', 'height', 'bgcolor', 'align', 'flashvars', 'src', 'wmode', 'allowfullscreen', 'quality', 'data'];
 
 			// Create image
 			im = dom.create('img', {

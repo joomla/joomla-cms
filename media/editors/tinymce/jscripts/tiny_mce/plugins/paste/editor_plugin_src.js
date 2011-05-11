@@ -293,7 +293,7 @@
 				}
 			}
 
-			// Check if we should use the new auto process method			
+			// Check if we should use the new auto process method
 			if (getParam(ed, "paste_auto_cleanup_on_paste")) {
 				// Is it's Opera or older FF use key handler
 				if (tinymce.isOpera || /Firefox\/2/.test(navigator.userAgent)) {
@@ -936,8 +936,8 @@
 				// plain text take the same style as the existing paragraph.)
 				if ((pos = h.indexOf("</p><p>")) != -1) {
 					rpos = h.lastIndexOf("</p><p>");
-					node = sel.getNode(); 
-					breakElms = [];		// Get list of elements to break 
+					node = sel.getNode();
+					breakElms = [];		// Get list of elements to break
 
 					do {
 						if (node.nodeType == 1) {

@@ -94,7 +94,7 @@
 
 			<fieldset
 				name="advanced">
-				
+
 				<field
 					name="layout"
 					type="modulelayout"

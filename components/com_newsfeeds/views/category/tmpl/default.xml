@@ -31,7 +31,7 @@
 		<field name="spacer1" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
-			
+
 		<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -40,7 +40,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_description" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
@@ -58,7 +58,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -81,7 +81,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_subcat_desc" type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
@@ -90,7 +90,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-		
+
 			<field id="show_cat_items"
 				name="show_cat_items"
 				type="list"
@@ -100,8 +100,8 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>	
-			
+			</field>
+
 	</fieldset>
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="spacer2" type="spacer" class="text"
@@ -116,18 +116,18 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-		
+
 			<field
 				id="show_headings"
 				name="show_headings"
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 				description="JGLOBAL_SHOW_HEADINGS_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>	
+			</field>
 
 			<field
 				id="show_articles"
@@ -135,7 +135,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -147,17 +147,17 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	 		
+
 			<field name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -169,13 +169,13 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-				
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-				
+
 			</field>
-			
+
 	</fieldset>
 
 	<fieldset name="newsfeed" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
@@ -214,6 +214,6 @@
 				size="6"
 			/>
 </fieldset>
-		
+
 </fields>
 </metadata>

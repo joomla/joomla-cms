@@ -301,7 +301,7 @@ var SqueezeBox = {
 			this.win.setStyles({
 				left: (scroll.x + (size.x - this.win.offsetWidth) / 2 - this.scrollOffset).toInt() + 'px',
 				top: (scroll.y + (size.y - this.win.offsetHeight) / 2).toInt() + 'px'
-				
+
 			});
 		}
 		return this.fireEvent('onMove', [this.overlay, this.win]);

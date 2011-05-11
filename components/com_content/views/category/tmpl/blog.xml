@@ -27,11 +27,11 @@
 <fields name="params">
 <fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
 
-			<field name="layout_type" 
+			<field name="layout_type"
 				type="hidden"
 				default="blog"
 			/>
-			
+
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -118,7 +118,7 @@
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-	
+
 			<field name="bloglayout" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
 			/>
@@ -158,10 +158,10 @@
 			</field>
 			<field name="subcategories" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_BLOG_EXTENDED_LABEL"
-			/>		
+			/>
 
 		<field name="show_subcategory_content" type="list"
-			
+
 				description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
 				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 			>

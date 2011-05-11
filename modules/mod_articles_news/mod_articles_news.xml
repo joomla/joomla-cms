@@ -122,14 +122,14 @@
 				<field
 					name="count"
 					type="text"
-					default="5"							
+					default="5"
 					label="MOD_ARTICLES_NEWS_FIELD_ITEMS_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ITEMS_DESC" />
 
 				<field
 					name="ordering"
 					type="list"
-					default="a.publish_up"					
+					default="a.publish_up"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC">
 					<option
@@ -137,11 +137,11 @@
 					<option
 						value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>
 					<option
-						value="a.ordering">MOD_ARTICLES_NEWS_FIELD_ORDERING_ORDERING</option>						
+						value="a.ordering">MOD_ARTICLES_NEWS_FIELD_ORDERING_ORDERING</option>
 					<option
 						value="rand()">MOD_ARTICLES_NEWS_FIELD_ORDERING_RANDOM</option>
 				</field>
-										
+
 			</fieldset>
 
 			<fieldset

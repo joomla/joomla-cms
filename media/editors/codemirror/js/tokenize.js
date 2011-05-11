@@ -43,7 +43,7 @@ function tokenizer(source, state) {
         source.next();
         return this.take("whitespace");
       }
-      
+
       if (source.applies(isWhiteSpace))
         type = "whitespace";
       else

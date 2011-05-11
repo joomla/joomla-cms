@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fieldset name="contact" addrulepath="components/com_contact/models/rules" label="COM_CONTACT_FORM_LABEL">
-		<field name="contact_name" 
+		<field name="contact_name"
 			type="text"
 			id="contact-name"
 			size="30"
@@ -10,7 +10,7 @@
 			filter="string"
 			required="true"
 		/>
-		<field name="contact_email" 
+		<field name="contact_email"
 			type="text"
 			id="contact-email"
 			size="30"
@@ -20,7 +20,7 @@
 			validate="contactemail"
 			required="true"
 		/>
-		<field name="contact_subject" 
+		<field name="contact_subject"
 			type="text"
 			id="contact-emailmsg"
 			size="60"
@@ -30,7 +30,7 @@
 			validate="contactemailsubject"
 			required="true"
 		/>
-		<field name="contact_message" 
+		<field name="contact_message"
 			type="textarea"
 			cols="50"
 			rows="10"
@@ -41,13 +41,13 @@
 			validate="contactemailmessage"
 			required="true"
 		/>
-		<field name="contact_email_copy" 
+		<field name="contact_email_copy"
 			type="checkbox"
 			id="contact-email-copy"
 			description="COM_CONTACT_CONTACT_EMAIL_A_COPY_DESC"
 			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
 			default="0"
 		/>
-		
+
 	</fieldset>
 </form>

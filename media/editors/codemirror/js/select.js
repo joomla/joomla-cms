@@ -318,7 +318,7 @@ var select = {};
         else
           end = middle - 1;
       }
-      
+
       if (start == 0) {
         var test1 = selRange(), test2 = test1.duplicate();
         try {

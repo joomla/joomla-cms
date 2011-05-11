@@ -37,7 +37,7 @@
 					type="list"
 					default="1"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
-					description="MOD_MENU_FIELD_STARTLEVEL_DESC" 
+					description="MOD_MENU_FIELD_STARTLEVEL_DESC"
 				>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -56,7 +56,7 @@
 					type="list"
 					default="0"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
-					description="MOD_MENU_FIELD_ENDLEVEL_DESC" 
+					description="MOD_MENU_FIELD_ENDLEVEL_DESC"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>

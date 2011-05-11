@@ -29,7 +29,7 @@
 			<field name="spacer1" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
-			
+
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -38,7 +38,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-		
+
 			<field name="show_description" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
@@ -56,7 +56,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -69,8 +69,8 @@
 				<option value="3">J3</option>
 				<option value="4">J4</option>
 				<option value="5">J5</option>
-				
-			</field>	
+
+			</field>
 
 			<field name="show_empty_categories" type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
@@ -80,7 +80,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_subcat_desc" type="list"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -89,7 +89,7 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 			<field name="show_cat_num_links" type="list"
 			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
@@ -98,23 +98,23 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 	</fieldset>
-	
+
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="spacer2" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
-			
-			<field	name="show_pagination_limit" type="list"			
+
+			<field	name="show_pagination_limit" type="list"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_headings" type="list"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
@@ -123,9 +123,9 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_link_description" type="list"
-			
+
 			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
 		>
@@ -133,18 +133,18 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-		
+
 		<field name="show_link_hits" type="list"
-			
+
 			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
 			label="JGLOBAL_HITS"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
-			
+
 		</field>
-			
+
 			<field name="show_pagination" type="list"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
@@ -154,12 +154,12 @@
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
-			
+
 			<field name="show_pagination_results" type="list"
-			
+
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC">
-			
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

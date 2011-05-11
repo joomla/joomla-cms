@@ -11,7 +11,7 @@
 (function() {
 	/**
 	 * Auto Resize
-	 * 
+	 *
 	 * This plugin automatically resizes the content area to fit its content height.
 	 * It will retain a minimum height, which is the height of the content area when
 	 * it's initialized.

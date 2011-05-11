@@ -85,7 +85,7 @@ Install.detectFtpRoot = function(el) {
 				alert(xhr.status+': '+r.message);
 			} else {
 				alert(xhr.status+': '+xhr.statusText);
-			}				
+			}
 		},
 		onSuccess: function(r) {
 			if (r) {
@@ -119,7 +119,7 @@ Install.verifyFtpSettings = function(el) {
 				alert(xhr.status+': '+r.message);
 			} else {
 				alert(xhr.status+': '+xhr.statusText);
-			}				
+			}
 		},
 		onSuccess: function(r) {
 			if (r) {

@@ -157,7 +157,7 @@
 			<option value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
 		</field>
-		
+
 		<field
 			name="show_vote"
 			type="list"
@@ -208,7 +208,7 @@
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
 		</field>
-		
+
 		<field
 			name="show_noauth"
 			type="list"
@@ -218,7 +218,7 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 		</field>
-		
+
 		</fieldset>
 	</fields>
 </metadata>

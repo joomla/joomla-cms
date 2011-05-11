@@ -59,7 +59,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_subcat_desc_cat" type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
@@ -68,7 +68,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_cat_items_cat" type="list"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
@@ -77,14 +77,14 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 </fieldset>
 <fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">
 			<field name="spacer1" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
-			
-			
+
+
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -93,7 +93,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_description" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
@@ -111,7 +111,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -134,8 +134,8 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
-						
+
+
 			<field name="show_subcat_desc" type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
@@ -144,7 +144,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_cat_items" type="list"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
@@ -156,7 +156,7 @@
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-				
+
 			<field name="spacer2" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
@@ -169,8 +169,8 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>		
-			
+			</field>
+
 			<field name="show_headings" type="list"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
@@ -266,19 +266,19 @@
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
-			
+
 			<field
 				name="show_pagination_results"
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-				
+
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-				
+
 			</field>
-			
+
 </fieldset>
 
 <fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL">

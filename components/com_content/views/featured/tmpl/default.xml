@@ -12,7 +12,7 @@
 <!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="advanced" label="COM_MENUS_LAYOUT_FEATURED_OPTIONS">
-			<field name="layout_type" 
+			<field name="layout_type"
 				type="hidden"
 				default="blog"
 			/>

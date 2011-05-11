@@ -43,18 +43,18 @@
 			default="0"
 			required="true"
 		/>
-		
+
 		<!-- Advanced Settings -->
 		<fieldset name="advanced">
 			<field name="site_metadesc" type="textarea" id="site_metadesc" class="text_area"
 				label="INSTL_SITE_METADESC_LABEL"
 				rows="3"
 			/>
-			
+
 			<field name="site_metakeys" type="textarea" id="site_metakeys" class="text_area"
 				label="INSTL_SITE_METAKEYS_LABEL"
 				rows="3"
 			/>
-		</fieldset>	
+		</fieldset>
 	</fieldset>
 </form>
