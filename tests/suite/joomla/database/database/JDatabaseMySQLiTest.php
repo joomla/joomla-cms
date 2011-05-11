@@ -68,7 +68,7 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the JDatabaseMySQL getEscaped method.
+	 * Tests the JDatabaseMySQL escape method.
 	 *
 	 * @param   string  $text   The string to be escaped.
 	 * @param   bool    $extra  Optional parameter to provide extra escaping.

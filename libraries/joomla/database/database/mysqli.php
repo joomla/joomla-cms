@@ -342,7 +342,7 @@ class JDatabaseMySQLi extends JDatabase
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
-			$this->setQuery('SHOW CREATE table '.$this->nameQuote($this->getEscaped($table)));
+			$this->setQuery('SHOW CREATE table '.$this->nameQuote($this->escape($table)));
 			$row = $this->loadRow();
 
 			// Populate the result array based on the create statements.
@@ -369,7 +369,7 @@ class JDatabaseMySQLi extends JDatabase
 		$query = $this->getQuery(true);
 
 		// Set the query to get the table fields statement.
-		$this->setQuery('SHOW FULL COLUMNS FROM '.$this->nameQuote($this->getEscaped($table)));
+		$this->setQuery('SHOW FULL COLUMNS FROM '.$this->nameQuote($this->escape($table)));
 		$fields = $this->loadObjectList();
 
 		// If we only want the type as the value add just that to the list.
