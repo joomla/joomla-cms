@@ -15,7 +15,7 @@ class ContactViewContact extends JView
 {
 	protected $state;
 	protected $item;
-	
+
 	public function display()
 	{
 		// Get model data.
@@ -36,7 +36,7 @@ class ContactViewContact extends JView
 		$params 	= $app->getParams();
 		$user		= JFactory::getUser();
 		$dispatcher =& JDispatcher::getInstance();
-		
+
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
 
@@ -70,7 +70,7 @@ class ContactViewContact extends JView
 		$rev = date('c',strtotime($item->modified));
 
 		JResponse::setHeader('Content-disposition','attachment; filename="'.$card_name.'.vcf"', true);
-		
+
 		$vcard = array();
 		$vcard[].= 'BEGIN:VCARD';
 		$vcard[].= 'VERSION:3.0';
@@ -90,5 +90,5 @@ class ContactViewContact extends JView
 		echo implode("\n",$vcard);
 		return true;
 	}
-}	
+}
 

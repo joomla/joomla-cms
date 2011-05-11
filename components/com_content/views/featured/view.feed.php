@@ -58,7 +58,7 @@ class ContentViewFeatured extends JView
 			$item->link			= $link;
 			$item->description	= $description;
 			$item->date			= $row->created;
-			
+
 			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
@@ -67,7 +67,7 @@ class ContentViewFeatured extends JView
 					$item->category[] = $item_category->title;
 				}
 			}
-			
+
 			$item->author		= $author;
 			if ($feedEmail == 'site') {
 				$item->authorEmail = $siteEmail;

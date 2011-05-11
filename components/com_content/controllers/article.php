@@ -272,7 +272,7 @@ class ContentControllerArticle extends JControllerForm
 
 		return $result;
 	}
-	
+
 	/**
 	 * Method to save a vote.
 	 *

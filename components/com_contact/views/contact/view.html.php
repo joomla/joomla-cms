@@ -36,14 +36,14 @@ class ContactViewContact extends JView
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$this->form	= $this->get('Form');
-		
+
 		// Get the parameters
 		$params = JComponentHelper::getParams('com_contact');
-		
+
 		if ($item) {
 			// If we found an item, merge the item parameters
 			$params->merge($item->params);
-			
+
 			// Get Category Model data
 			$categoryModel = JModel::getInstance('Category', 'ContactModel', array('ignore_request' => true));
 			$categoryModel->setState('category.id', $item->catid);
@@ -58,7 +58,7 @@ class ContactViewContact extends JView
 
 			return false;
 		}
-		
+
 		// check if access is not public
 		$groups	= $user->getAuthorisedViewLevels();
 
@@ -194,15 +194,15 @@ class ContactViewContact extends JView
 		else {
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
-		
+
 		$title = $this->params->get('page_title', '');
-		
+
 		$id = (int) @$menu->query['id'];
 
 		// if the menu item does not concern this contact
-		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id)) 
+		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id))
 		{
-			
+
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name) {
 				$title = $this->item->name;
@@ -240,7 +240,7 @@ class ContactViewContact extends JView
 		{
 			$this->document->setDescription($this->item->metadesc);
 		}
-		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description')) 
+		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
@@ -249,12 +249,12 @@ class ContactViewContact extends JView
 		{
 			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
-		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords')) 
+		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
-		if ($this->params->get('robots')) 
+		if ($this->params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}

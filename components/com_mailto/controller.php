@@ -60,7 +60,7 @@ class MailtoController extends JController
 		$MailFrom	= $app->getCfg('mailfrom');
 		$FromName	= $app->getCfg('fromname');
 
-		$link		= MailtoHelper::validateHash(JRequest::getCMD('link', '', 'post')); 
+		$link		= MailtoHelper::validateHash(JRequest::getCMD('link', '', 'post'));
 
 		// Verify that this is a local link
 		if (!$link || !JURI::isInternal($link)) {

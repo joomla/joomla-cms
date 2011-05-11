@@ -20,15 +20,15 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		if(!parent::test($element, $value, $group, $input, $form)){
 			return false;
 		}
-		
+
 		$params = JComponentHelper::getParams('com_contact');
 		$banned = $params->get('banned_email');
-		
+
 		foreach(explode(';', $banned) as $item){
 			if (JString::stristr($item, $value) !== false)
 					return false;
 		}
-		
+
 		return true;
 	}
 

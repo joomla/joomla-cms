@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <div class="contact-profile" id="users-profile-custom">
 	<dl>
 	<?php foreach ($fields as $profile) :
-		if ($profile->value) : 
+		if ($profile->value) :
 			echo '<dt>'.$profile->label.'</dt>';
 			$profile->text = htmlspecialchars($profile->value, ENT_COMPAT, 'UTF-8');
 

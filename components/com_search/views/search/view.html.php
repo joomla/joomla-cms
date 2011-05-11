@@ -70,12 +70,12 @@ class SearchViewSearch extends JView
 			$this->document->setDescription($params->get('menu-meta_description'));
 		}
 
-		if ($params->get('menu-meta_keywords')) 
+		if ($params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
 		}
 
-		if ($params->get('robots')) 
+		if ($params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $params->get('robots'));
 		}
@@ -168,12 +168,12 @@ class SearchViewSearch extends JView
 				$result->count		= $i + 1;
 			}
 		}
-		
+
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
 		if (isset($active->query['layout'])) {
 			$this->setLayout($active->query['layout']);
-		}	
+		}
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));

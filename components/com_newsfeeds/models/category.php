@@ -214,12 +214,12 @@ class NewsfeedsModelCategory extends JModelList
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry();
-			
+
 			if($active)
 			{
 				$params->loadJSON($active->params);
 			}
-			
+
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_items', 1) || $params->get('show_empty_categories', 0);
 			$categories = JCategories::getInstance('Newsfeeds', $options);

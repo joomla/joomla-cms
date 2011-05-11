@@ -24,7 +24,7 @@ defined('_JEXEC') or die;
 		<?php endif; ?>
 	</dt>
 	<?php if ($result->section) : ?>
-		<dd class="result-category">		
+		<dd class="result-category">
 			<span class="small<?php echo $this->pageclass_sfx; ?>">
 				(<?php echo $this->escape($result->section); ?>)
 			</span>

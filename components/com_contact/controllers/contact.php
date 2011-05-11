@@ -28,29 +28,29 @@ class ContactControllerContact extends JControllerForm
 		$model	= $this->getModel('contact');
 		$params = JComponentHelper::getParams('com_contact');
 		$id		= JRequest::getInt('id');
-		
+
 		// Get the data from POST
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		
+
 		$contact = $model->getItem($id);
 
-		
+
 		$params->merge($contact->params);
 
 		// Check for a valid session cookie
 		if($params->get('validate_session', 0)) {
 			if(JFactory::getSession()->getState() != 'active'){
 				JError::raiseWarning(403, JText::_('COM_CONTACT_SESSION_INVALID'));
-				
+
 				// Save the data in the session.
 				$app->setUserState('com_contact.contact.data', $data);
-				
+
 				// Redirect back to the contact form.
 				$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false));
 				return false;
 			}
 		}
-		
+
 		// Contact plugins
 		JPluginHelper::importPlugin('contact');
 		$dispatcher	= JDispatcher::getInstance();
@@ -63,7 +63,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		$validate = $model->validate($form,$data);
-				
+
 		if ($validate === false) {
 			// Get the validation messages.
 			$errors	= $model->getErrors();
@@ -75,33 +75,33 @@ class ContactControllerContact extends JControllerForm
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
-			
+
 			// Save the data in the session.
 			$app->setUserState('com_contact.contact.data', $data);
-			
+
 			// Redirect back to the contact form.
 			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false));
 			return false;
 		}
-		
+
 		// Validation succeeded, continue with custom handlers
 		$results	= $dispatcher->trigger('onValidateContact', array(&$contact, &$data));
-		
+
 		foreach ($results as $result) {
 			if (JError::isError($result)) {
 				return false;
 			}
 		}
-		
+
 		// Passed Validation: Process the contact plugins to integrate with other applications
 		$results = $dispatcher->trigger('onSubmitContact', array(&$contact, &$post));
-		
+
 		// Send the email
 		$sent = false;
 		if (!$params->get('custom_reply')) {
 			$sent = $this->_sendEmail($data, $contact);
 		}
-		
+
 		// Set the success message if it was a success
 		if (!JError::isError($sent)) {
 			$msg = JText::_('COM_CONTACT_EMAIL_THANKS');
@@ -109,7 +109,7 @@ class ContactControllerContact extends JControllerForm
 
 		// Flush the data from the session
 		$app->setUserState('com_contact.contact.data', null);
-		
+
 		// Redirect if it is set in the parameters, otherwise redirect back to where we came from
 		if ($contact->params->get('redirect')) {
 			$this->setRedirect($contact->params->get('redirect'), $msg);
@@ -119,7 +119,7 @@ class ContactControllerContact extends JControllerForm
 
 		return true;
 	}
-	
+
 	private function _sendEmail($data, $contact)
 	{
 			$app		= JFactory::getApplication();
@@ -137,7 +137,7 @@ class ContactControllerContact extends JControllerForm
 			$email		= $data['contact_email'];
 			$subject	= $data['contact_subject'];
 			$body		= $data['contact_message'];
-			
+
 			// Prepare email body
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JURI::base());
 			$body	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);

@@ -224,12 +224,12 @@ class WeblinksModelCategory extends JModelList
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry();
-			
+
 			if($active)
 			{
 				$params->loadJSON($active->params);
 			}
-			
+
 			$options = array();
 			$options['countItems'] = $params->get('show_cat_num_links_cat', 1) || $params->get('show_empty_categories', 0);
 			$categories = JCategories::getInstance('Weblinks', $options);

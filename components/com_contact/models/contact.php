@@ -25,9 +25,9 @@ class ContactModelContact extends JModelForm
 	 * @since	1.6
 	 */
 	protected $view_item = 'contact';
-	
+
 	protected $_item = null;
-	
+
 	/**
 	 * Model context string.
 	 *
@@ -53,7 +53,7 @@ class ContactModelContact extends JModelForm
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
-					
+
 		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))){
 			$this->setState('filter.published', 1);
@@ -65,7 +65,7 @@ class ContactModelContact extends JModelForm
 	 * Method to get the contact form.
 	 *
 	 * The base form is loaded from XML and then an event is fired
-	 * 
+	 *
 	 *
 	 * @param	array	$data		An optional array of data for the form to interrogate.
 	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
@@ -79,19 +79,19 @@ class ContactModelContact extends JModelForm
 		if (empty($form)) {
 			return false;
 		}
-		
+
 		$id = $this->getState('contact.id');
 		$params = $this->getState('params');
 		$contact = $this->_item[$id];
 		$params->merge($contact->params);
-		
+
 		if(!$params->get('show_email_copy', 0)){
 			$form->removeField('contact_email_copy');
 		}
-		
+
 		return $form;
 	}
-	
+
 	protected function loadFormData()
 	{
 		$data = (array)JFactory::getApplication()->getUserState('com_contact.contact.data', array());
@@ -203,7 +203,7 @@ class ContactModelContact extends JModelForm
 			}
 
 		}
-		
+
 		if ($this->_item[$pk])
 		{
 			if ($extendedData = $this->getContactQuery($pk)) {
@@ -245,11 +245,11 @@ class ContactModelContact extends JModelForm
 			try {
 				$db->setQuery($query);
 				$result = $db->loadObject();
-	
+
 				if ($error = $db->getErrorMsg()) {
 					throw new Exception($error);
 				}
-	
+
 				if (empty($result)) {
 						throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
@@ -269,10 +269,10 @@ class ContactModelContact extends JModelForm
 			if ($result) {
 				$user	= JFactory::getUser();
 				$groups	= implode(',', $user->getAuthorisedViewLevels());
-				
+
 				//get the content by the linked user
 				$query	= $db->getQuery(true);
-				$query->select('id, title, state, access, created'); 
+				$query->select('id, title, state, access, created');
 				$query->from('#__content');
 				$query->where('created_by = '.(int)$result->user_id);
 				$query->where('access IN ('. $groups.')');
@@ -292,7 +292,7 @@ class ContactModelContact extends JModelForm
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
 				$userModel = JModel::getInstance('User','UsersModel',array('ignore_request' => true));
 					$data = $userModel->getItem((int)$result->user_id);
-		
+
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');
 				// Get the dispatcher.
@@ -306,7 +306,7 @@ class ContactModelContact extends JModelForm
 				// Load the data into the form after the plugins have operated.
 				$form->bind($data);
 				$result->profile = $form;
-	
+
 				$this->contact = $result;
 				return $result;
 			}

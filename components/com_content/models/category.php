@@ -166,7 +166,7 @@ class ContentModelCategory extends JModelList
 		$this->setState('list.direction', $listOrder);
 
 		$this->setState('list.start', JRequest::getVar('limitstart', 0, '', 'int'));
-		
+
 		// set limit for query. If list, use parameter. If blog, add blog parameters for limit.
 		if ((JRequest::getCmd('layout') == 'blog') || $params->get('layout_type') == 'blog') {
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');

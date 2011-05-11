@@ -111,7 +111,7 @@ abstract class JHtmlUsers
 			if (is_file("$path/$file")) {
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
-			
+
 			if ($result) {
 				return htmlspecialchars($result['name']);
 			}
@@ -136,7 +136,7 @@ abstract class JHtmlUsers
 			if (is_file("$path/$file")) {
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
-			
+
 			if ($result) {
 				return htmlspecialchars($result['name']);
 			}

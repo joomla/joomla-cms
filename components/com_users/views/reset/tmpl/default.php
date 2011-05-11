@@ -33,7 +33,7 @@ JHtml::_('behavior.formvalidation');
 			</dl>
 		</fieldset>
 		<?php endforeach; ?>
-		
+
 		<div>
 			<button type="submit"><?php echo JText::_('JSUBMIT'); ?></button>
 			<?php echo JHtml::_('form.token'); ?>

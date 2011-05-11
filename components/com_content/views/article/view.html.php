@@ -107,7 +107,7 @@ class ContentViewArticle extends JView
 						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
 				return;
-			
+
 		}
 
 		if ($item->params->get('show_intro','1')=='1') {
@@ -208,12 +208,12 @@ class ContentViewArticle extends JView
 			$title = $this->item->title;
 		}
 		$this->document->setTitle($title);
-		
+
 		if ($this->item->metadesc)
 		{
 			$this->document->setDescription($this->item->metadesc);
 		}
-		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description')) 
+		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
@@ -222,12 +222,12 @@ class ContentViewArticle extends JView
 		{
 			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
-		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords')) 
+		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
-		
-		if ($this->params->get('robots')) 
+
+		if ($this->params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}

@@ -14,7 +14,7 @@
 abstract class MailtoHelper
 {
 	/**
-	 * Adds a URL to the mailto system and returns the hash 
+	 * Adds a URL to the mailto system and returns the hash
 	 *
 	 * @param string url
 	 * @return URL hash
@@ -78,8 +78,8 @@ abstract class MailtoHelper
 			$session->set('com_mailto.links', $mailto_links);
 			$cleaned = true;
 		}
-		
-		
+
+
 	}
 }
 

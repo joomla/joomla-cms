@@ -22,7 +22,7 @@ class JFormRuleContactEmailSubject extends JFormRule
 			if (JString::stristr($item, $value) !== false)
 					return false;
 		}
-		
+
 		return true;
 	}
 }
