@@ -173,7 +173,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 										<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_DESC'); ?>
 										</em>
 									</td>
-								</tr>																
+								</tr>
 							</table>
 						</div>
 						<div class="clr"></div>

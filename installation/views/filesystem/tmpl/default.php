@@ -106,7 +106,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 										<em>
 										<?php echo JText::_('INSTL_FTP_USER_DESC'); ?>
 										</em>
-									</td>	
+									</td>
 								</tr>
 								<tr>
 									<td>

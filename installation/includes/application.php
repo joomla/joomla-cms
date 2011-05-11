@@ -197,7 +197,7 @@ class JInstallation extends JApplication
 				}
 
 				$guess = trim($guess);
-			
+
 
 				$key = trim(strtoupper($key));
 				$key = preg_replace('#\s+#', '_', $key);
@@ -205,7 +205,7 @@ class JInstallation extends JApplication
 
 				// Prepare the text
 				$guesses[] = $key.'="'.$guess.'"';
-				
+
 			}
 
 			echo "\n\n# ".$file."\n\n";

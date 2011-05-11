@@ -121,7 +121,7 @@ class JInstallationControllerSetup extends JController
 		// Send the response.
 		$this->sendResponse($r);
 	}
-	
+
 	function removeFolder()
 	{
 		jimport('joomla.filesystem.folder');
@@ -138,7 +138,7 @@ class JInstallationControllerSetup extends JController
 			$this->sendResponse(new JException(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
 		}
 
-		// check whether we need to use FTP 
+		// check whether we need to use FTP
 		$useFTP = false;
 		if ((file_exists($path) && !is_writable($path))) {
 			$useFTP = true;
@@ -185,7 +185,7 @@ class JInstallationControllerSetup extends JController
 			$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT.'/joomla.xml') || JFile::delete(JPATH_ROOT.'/joomla.xml'));
 			ob_end_clean();
 		}
-		
+
 		// If an error was encountered return an error.
 		if (!$return) {
 			$this->sendResponse(new JException(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
