@@ -227,7 +227,7 @@ class JDatabaseExporterMySQL
 		if (empty($this->cache['columns'][$table])) {
 			// Get the details columns information.
 			$this->db->setQuery(
-				'SHOW FULL COLUMNS FROM '.$this->db->nameQuote($table)
+				'SHOW FULL COLUMNS FROM '.$this->db->quoteName($table)
 			);
 			$this->cache['columns'][$table] = $this->db->loadObjectList('Field');
 
@@ -274,7 +274,7 @@ class JDatabaseExporterMySQL
 		if (empty($this->cache['keys'][$table])) {
 			// Get the details columns information.
 			$this->db->setQuery(
-				'SHOW KEYS FROM '.$this->db->nameQuote($table)
+				'SHOW KEYS FROM '.$this->db->quoteName($table)
 			);
 			$this->cache['keys'][$table] = $this->db->loadObjectList();
 

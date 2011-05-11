@@ -467,7 +467,7 @@ abstract class JTable extends JObject
 				return false;
 			}
 			// Add the search tuple to the query.
-			$query->where($this->_db->nameQuote($field).' = '.$this->_db->quote($value));
+			$query->where($this->_db->quoteName($field).' = '.$this->_db->quote($value));
 		}
 
 		$this->_db->setQuery($query);
@@ -598,9 +598,9 @@ abstract class JTable extends JObject
 			$this->asset_id = (int) $asset->id;
 
 			$query = $this->_db->getQuery(true);
-			$query->update($this->_db->nameQuote($this->_tbl));
+			$query->update($this->_db->quoteName($this->_tbl));
 			$query->set('asset_id = '.(int) $this->asset_id);
-			$query->where($this->_db->nameQuote($k).' = '.(int) $this->$k);
+			$query->where($this->_db->quoteName($k).' = '.(int) $this->$k);
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->query()) {
@@ -656,7 +656,7 @@ abstract class JTable extends JObject
 		// If an ordering filter is set, attempt reorder the rows in the table based on the filter and value.
 		if ($orderingFilter) {
 			$filterValue = $this->$orderingFilter;
-			$this->reorder($orderingFilter ? $this->_db->nameQuote($orderingFilter).' = '.$this->_db->Quote($filterValue) : '');
+			$this->reorder($orderingFilter ? $this->_db->quoteName($orderingFilter).' = '.$this->_db->Quote($filterValue) : '');
 		}
 
 		// Set the error to empty and return true.
@@ -762,8 +762,8 @@ abstract class JTable extends JObject
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->nameQuote('checked_out').' = '.(int) $userId);
-		$query->set($this->_db->nameQuote('checked_out_time').' = '.$this->_db->quote($time));
+		$query->set($this->_db->quoteName('checked_out').' = '.(int) $userId);
+		$query->set($this->_db->quoteName('checked_out_time').' = '.$this->_db->quote($time));
 		$query->where($this->_tbl_key.' = '.$this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
@@ -811,8 +811,8 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->nameQuote('checked_out').' = 0');
-		$query->set($this->_db->nameQuote('checked_out_time').' = '.$this->_db->quote($this->_db->getNullDate()));
+		$query->set($this->_db->quoteName('checked_out').' = 0');
+		$query->set($this->_db->quoteName('checked_out_time').' = '.$this->_db->quote($this->_db->getNullDate()));
 		$query->where($this->_tbl_key.' = '.$this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
@@ -858,7 +858,7 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->nameQuote('hits').' = ('.$this->_db->nameQuote('hits').' + 1)');
+		$query->set($this->_db->quoteName('hits').' = ('.$this->_db->nameQuote('hits').' + 1)');
 		$query->where($this->_tbl_key.' = '.$this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
@@ -905,8 +905,8 @@ abstract class JTable extends JObject
 		$db = JFactory::getDBO();
 		$db->setQuery(
 			'SELECT COUNT(userid)' .
-			' FROM '.$db->nameQuote('#__session') .
-			' WHERE '.$db->nameQuote('userid').' = '.(int) $against
+			' FROM '.$db->quoteName('#__session') .
+			' WHERE '.$db->quoteName('userid').' = '.(int) $against
 		);
 		$checkedOut = (boolean) $db->loadResult();
 
@@ -1256,10 +1256,10 @@ abstract class JTable extends JObject
 			$query	= $this->_db->getQuery(true);
 
 			// Setup the basic query.
-			$query->select($this->_db->nameQuote($this->_tbl_key));
-			$query->from($this->_db->nameQuote($this->_tbl));
-			$query->where($this->_db->nameQuote($this->_tbl_key).' = '.$this->_db->quote($this->$k));
-			$query->group($this->_db->nameQuote($this->_tbl_key));
+			$query->select($this->_db->quoteName($this->_tbl_key));
+			$query->from($this->_db->quoteName($this->_tbl));
+			$query->where($this->_db->quoteName($this->_tbl_key).' = '.$this->_db->quote($this->$k));
+			$query->group($this->_db->quoteName($this->_tbl_key));
 
 			// For each join add the select and join clauses to the query object.
 			foreach($joins as $table)
@@ -1350,7 +1350,7 @@ abstract class JTable extends JObject
 	protected function _lock()
 	{
 		// Lock the table for writing.
-		$this->_db->setQuery('LOCK TABLES '.$this->_db->nameQuote($this->_tbl).' WRITE');
+		$this->_db->setQuery('LOCK TABLES '.$this->_db->quoteName($this->_tbl).' WRITE');
 		$this->_db->query();
 
 		// Check for a database error.

@@ -52,7 +52,7 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 			array(
 				'getErrorNum',
 				'getPrefix',
-				'nameQuote',
+				'quoteName',
 				'loadObjectList',
 				'quote',
 				'setQuery',
@@ -75,10 +75,10 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-		->method('nameQuote')
+		->method('quoteName')
 		->will(
 			$this->returnCallback(
-				array($this, 'callbackNameQuote')
+				array($this, 'callbackQuoteName')
 			)
 		);
 
@@ -168,14 +168,14 @@ class JDatabaseMySqlImporterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Callback for the dbo nameQuote method.
+	 * Callback for the dbo quoteName method.
 	 *
 	 * @param  string  $value  The value to be quoted.
 	 *
 	 * @return string  The value passed wrapped in MySQL quotes.
 	 * @since  11.1
 	 */
-	public function callbackNameQuote($value)
+	public function callbackQuoteName($value)
 	{
 		return "`$value`";
 	}

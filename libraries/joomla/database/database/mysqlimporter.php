@@ -137,7 +137,7 @@ class JDatabaseImporterMySQL
 	 */
 	protected function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE '.$this->db->nameQuote($table).
+		$sql = 'ALTER TABLE '.$this->db->quoteName($table).
 			' ADD COLUMN '.$this->getColumnSQL($field);
 
 		return $sql;
@@ -154,7 +154,7 @@ class JDatabaseImporterMySQL
 	 */
 	protected function getAddKeySQL($table, $keys)
 	{
-		$sql = 'ALTER TABLE '.$this->db->nameQuote($table).
+		$sql = 'ALTER TABLE '.$this->db->quoteName($table).
 			' ADD '.$this->getKeySQL($keys);
 
 		return $sql;
@@ -312,8 +312,8 @@ class JDatabaseImporterMySQL
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE '.$this->db->nameQuote($table).
-			' CHANGE COLUMN '.$this->db->nameQuote((string) $field['Field']).
+		$sql = 'ALTER TABLE '.$this->db->quoteName($table).
+			' CHANGE COLUMN '.$this->db->quoteName((string) $field['Field']).
 			' '.$this->getColumnSQL($field);
 
 		return $sql;
@@ -334,7 +334,7 @@ class JDatabaseImporterMySQL
 		if (empty($this->cache['columns'][$table])) {
 			// Get the details columns information.
 			$this->db->setQuery(
-				'SHOW FULL COLUMNS FROM '.$this->db->nameQuote($table)
+				'SHOW FULL COLUMNS FROM '.$this->db->quoteName($table)
 			);
 			$this->cache['columns'][$table] = $this->db->loadObjectList('Field');
 
@@ -373,7 +373,7 @@ class JDatabaseImporterMySQL
 		$fDefault	= isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra		= (string) $field['Extra'];
 
-		$sql = $this->db->nameQuote($fName).' '.$fType;
+		$sql = $this->db->quoteName($fName).' '.$fType;
 
 		if ($fNull == 'NO') {
 			if (in_array($fType, $blobs) || $fDefault === null) {
@@ -412,8 +412,8 @@ class JDatabaseImporterMySQL
 	 */
 	protected function getDropColumnSQL($table, $name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->nameQuote($table).
-			' DROP COLUMN '.$this->db->nameQuote($name);
+		$sql = 'ALTER TABLE '.$this->db->quoteName($table).
+			' DROP COLUMN '.$this->db->quoteName($name);
 
 		return $sql;
 	}
@@ -429,8 +429,8 @@ class JDatabaseImporterMySQL
 	 */
 	protected function getDropKeySQL($table, $name)
 	{
-		$sql = 'ALTER TABLE '.$this->db->nameQuote($table).
-			' DROP KEY '.$this->db->nameQuote($name);
+		$sql = 'ALTER TABLE '.$this->db->quoteName($table).
+			' DROP KEY '.$this->db->quoteName($name);
 
 		return $sql;
 	}
@@ -445,7 +445,7 @@ class JDatabaseImporterMySQL
 	 */
 	protected function getDropPrimaryKeySQL($table)
 	{
-		$sql = 'ALTER TABLE '.$this->db->nameQuote($table).
+		$sql = 'ALTER TABLE '.$this->db->quoteName($table).
 			' DROP PRIMARY KEY';
 
 		return $sql;
@@ -513,7 +513,7 @@ class JDatabaseImporterMySQL
 		$kColumns = array();
 
 		if ($nColumns == 1) {
-			$kColumns[] = $this->db->nameQuote($kColumn);
+			$kColumns[] = $this->db->quoteName($kColumn);
 		}
 		else {
 			foreach ($columns as $column) {
@@ -521,7 +521,7 @@ class JDatabaseImporterMySQL
 			}
 		}
 
-		$sql = $prefix.'KEY '.($kName != 'PRIMARY' ? $this->db->nameQuote($kName) : '').' ('.implode(',', $kColumns).')';
+		$sql = $prefix.'KEY '.($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '').' ('.implode(',', $kColumns).')';
 
 		return $sql;
 	}
@@ -541,7 +541,7 @@ class JDatabaseImporterMySQL
 		if (empty($this->cache['keys'][$table])) {
 			// Get the details columns information.
 			$this->db->setQuery(
-				'SHOW KEYS FROM '.$this->db->nameQuote($table)
+				'SHOW KEYS FROM '.$this->db->quoteName($table)
 			);
 			$this->cache['keys'][$table] = $this->db->loadObjectList();
 

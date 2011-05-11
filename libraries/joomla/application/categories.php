@@ -236,13 +236,13 @@ class JCategories
 		// i for item
 		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1) {
 			if ($this->_options['published'] == 1) {
-				$query->leftJoin($db->nameQuote($this->_table).' AS i ON i.'.$db->nameQuote($this->_field).' = c.id AND i.'.$this->_statefield.' = 1');
+				$query->leftJoin($db->quoteName($this->_table).' AS i ON i.'.$db->quoteName($this->_field).' = c.id AND i.'.$this->_statefield.' = 1');
 			}
 			else {
-				$query->leftJoin($db->nameQuote($this->_table).' AS i ON i.'.$db->nameQuote($this->_field).' = c.id');
+				$query->leftJoin($db->quoteName($this->_table).' AS i ON i.'.$db->quoteName($this->_field).' = c.id');
 			}
 
-			$query->select('COUNT(i.'.$db->nameQuote($this->_key).') AS numitems');
+			$query->select('COUNT(i.'.$db->quoteName($this->_key).') AS numitems');
 		}
 
 		// Group by

@@ -886,7 +886,7 @@ class JTableNested extends JTable
 				// Get any ancestor nodes that have a lower publishing state.
 				$query = $this->_db->getQuery(true)
 					->select('n.'.$k)
-					->from($this->_db->nameQuote($this->_tbl).' AS n')
+					->from($this->_db->quoteName($this->_tbl).' AS n')
 					->where('n.lft < '.(int) $node->lft)
 					->where('n.rgt > '.(int) $node->rgt)
 					->where('n.parent_id > 0')
@@ -915,7 +915,7 @@ class JTableNested extends JTable
 
 			// Update and cascade the publishing state.
 			$query = $this->_db->getQuery(true)
-				->update($this->_db->nameQuote($this->_tbl).' AS n')
+				->update($this->_db->quoteName($this->_tbl).' AS n')
 				->set('n.published = '.(int) $state)
 				->where(
 					'(n.lft > '.(int) $this->lft.' AND n.rgt < '.(int) $this->rgt.')' .

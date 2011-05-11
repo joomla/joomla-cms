@@ -137,9 +137,9 @@ class JTableUser extends JTable
 
 			// Get the titles for the user groups.
 			$this->_db->setQuery(
-				'SELECT '.$this->_db->nameQuote('id').', '.$this->_db->nameQuote('title') .
-				' FROM '.$this->_db->nameQuote('#__usergroups') .
-				' WHERE '.$this->_db->nameQuote('id').' = '.implode(' OR '.$this->_db->nameQuote('id').' = ', $this->groups)
+				'SELECT '.$this->_db->quoteName('id').', '.$this->_db->nameQuote('title') .
+				' FROM '.$this->_db->quoteName('#__usergroups') .
+				' WHERE '.$this->_db->quoteName('id').' = '.implode(' OR '.$this->_db->quoteName('id').' = ', $this->groups)
 			);
 			// Set the titles for the user groups.
 			$this->groups = $this->_db->loadAssocList('title','id');
@@ -274,8 +274,8 @@ class JTableUser extends JTable
 		{
 			// Delete the old user group maps.
 			$this->_db->setQuery(
-				'DELETE FROM '.$this->_db->nameQuote('#__user_usergroup_map') .
-				' WHERE '.$this->_db->nameQuote('user_id').' = '.(int) $this->id
+				'DELETE FROM '.$this->_db->quoteName('#__user_usergroup_map') .
+				' WHERE '.$this->_db->quoteName('user_id').' = '.(int) $this->id
 			);
 			$this->_db->query();
 
@@ -287,7 +287,7 @@ class JTableUser extends JTable
 
 			// Set the new user group maps.
 			$this->_db->setQuery(
-				'INSERT INTO '.$this->_db->nameQuote('#__user_usergroup_map').' ('.$this->_db->nameQuote('user_id').', '.$this->_db->nameQuote('group_id').')' .
+				'INSERT INTO '.$this->_db->quoteName('#__user_usergroup_map').' ('.$this->_db->quoteName('user_id').', '.$this->_db->quoteName('group_id').')' .
 				' VALUES ('.$this->id.', '.implode('), ('.$this->id.', ', $this->groups).')'
 			);
 			$this->_db->query();
@@ -322,8 +322,8 @@ class JTableUser extends JTable
 
 		// Delete the user.
 		$this->_db->setQuery(
-			'DELETE FROM '.$this->_db->nameQuote($this->_tbl).
-			' WHERE '.$this->_db->nameQuote($this->_tbl_key).' = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->quoteName($this->_tbl).
+			' WHERE '.$this->_db->quoteName($this->_tbl_key).' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -335,8 +335,8 @@ class JTableUser extends JTable
 
 		// Delete the user group maps.
 		$this->_db->setQuery(
-			'DELETE FROM '.$this->_db->nameQuote('#__user_usergroup_map') .
-			' WHERE '.$this->_db->nameQuote('user_id').' = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->quoteName('#__user_usergroup_map') .
+			' WHERE '.$this->_db->quoteName('user_id').' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -351,8 +351,8 @@ class JTableUser extends JTable
 		 */
 
 		$this->_db->setQuery(
-			'DELETE FROM '.$this->_db->nameQuote('#__messages_cfg') .
-			' WHERE '.$this->_db->nameQuote('user_id').' = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->quoteName('#__messages_cfg') .
+			' WHERE '.$this->_db->quoteName('user_id').' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -363,8 +363,8 @@ class JTableUser extends JTable
 		}
 
 		$this->_db->setQuery(
-			'DELETE FROM '.$this->_db->nameQuote('#__messages') .
-			' WHERE '.$this->_db->nameQuote('user_id_to').' = '.(int) $this->$k
+			'DELETE FROM '.$this->_db->quoteName('#__messages') .
+			' WHERE '.$this->_db->quoteName('user_id_to').' = '.(int) $this->$k
 		);
 		$this->_db->query();
 
@@ -402,9 +402,9 @@ class JTableUser extends JTable
 
 		// Update the database row for the user.
 		$this->_db->setQuery(
-			'UPDATE '.$this->_db->nameQuote($this->_tbl).
-			' SET '.$this->_db->nameQuote('lastvisitDate').' = '.$this->_db->Quote($this->_db->toSQLDate($date)) .
-			' WHERE '.$this->_db->nameQuote('id').' = '.(int) $userId
+			'UPDATE '.$this->_db->quoteName($this->_tbl).
+			' SET '.$this->_db->quoteName('lastvisitDate').' = '.$this->_db->Quote($this->_db->toSQLDate($date)) .
+			' WHERE '.$this->_db->quoteName('id').' = '.(int) $userId
 		);
 		$this->_db->query();
 
