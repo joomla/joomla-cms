@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.log.log');
+jimport('joomla.utilities.date');
 
 /**
  * Joomla! Log Entry class
@@ -91,6 +92,6 @@ class JLogEntry
 		}
 
 		// Get the date as a JDate object.
-		$this->date = JFactory::getDate(($date ? $date : 'now'));
+		$this->date = new JDate($date ? $date : 'now');
 	}
 }
