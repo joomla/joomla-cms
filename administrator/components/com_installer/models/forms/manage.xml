@@ -32,7 +32,7 @@
 				<option value="0">JSITE</option>
 				<option value="1">JADMINISTRATOR</option>
 			</field>
-			
+
 			<field type="list"
 				name="enabled"
 				hidden="true"

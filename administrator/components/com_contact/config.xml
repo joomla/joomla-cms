@@ -148,7 +148,7 @@
 		<field name="show_fax"
 			type="radio"
 			default="1"
-			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL" 
+			label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
 		>
 			<option value="0">JHIDE</option>
@@ -316,13 +316,13 @@
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC" />
 	</fieldset>
-	
-	<fieldset name="Category" 
+
+	<fieldset name="Category"
 			label="JCATEGORY"
 			description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
 	>
-			
-		<field 
+
+		<field
 			name="category_layout" type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
@@ -339,13 +339,13 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_description" type="radio"
 				default="1"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -355,11 +355,11 @@
 				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="maxLevel" type="list"
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
@@ -379,34 +379,34 @@
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
-						
+
+
 			<field name="show_subcat_desc" type="radio"
 				default="1"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_cat_items" type="radio"
 				default="1"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	
+
 	</fieldset>
-	
+
 			<fieldset name="categories"
 			label="JCATEGORIES"
 			description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
@@ -416,17 +416,17 @@
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="maxLevelcat" type="list"
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
-				<option value="-1">JALL</option>				
+				<option value="-1">JALL</option>
 				<option value="1">J1</option>
 				<option value="2">J2</option>
 				<option value="3">J3</option>
@@ -439,33 +439,33 @@
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_subcat_desc_cat" type="radio"
 				default="1"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="show_cat_items_cat" type="radio"
 				default="1"
 				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-	
+
 	</fieldset>
-	
+
 	<fieldset name="contacts"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
@@ -475,17 +475,17 @@
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-			</field>		
-			
+			</field>
+
 			<field name="show_headings" type="radio"
 				default="1"
 				description="JGLOBAL_SHOW_HEADINGS_DESC"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -495,7 +495,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_POSITION_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -505,7 +505,7 @@
 			label="JGLOBAL_EMAIL"
 			description="COM_CONTACT_FIELD_CONFIG_EMAIL_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -516,7 +516,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_PHONE_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -527,7 +527,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_MOBILE_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -538,7 +538,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_FAX_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -548,7 +548,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_SUBURB_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -559,7 +559,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_STATE_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -570,7 +570,7 @@
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			description="COM_CONTACT_FIELD_CONFIG_COUNTRY_DESC"
 		>
-			
+
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -580,23 +580,23 @@
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
 			>
-				
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
-			
+
 			<field
 				name="show_pagination_results"
 				type="radio"
 				default="1"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
-				
-				
+
+
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-				
+
 			</field>
 
 	</fieldset>

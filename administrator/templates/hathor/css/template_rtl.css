@@ -18,7 +18,7 @@ body {
 /**
  * CSS Reset
  */
- 
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -82,7 +82,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
  */
 
 div.checkin-tick {
-	text-indent: -9999px; 
+	text-indent: -9999px;
 }
 
 /**
@@ -569,7 +569,7 @@ th.ordering-col a {
 th.ordering-col a img {
 	margin-right: 4px;
 	margin-left: 4px;
-} 
+}
 
 /**
  * Adminlist Table layout
@@ -652,7 +652,7 @@ table.noshow fieldset {
  */
 a.saveorder {
 	float:left;
-	margin-left: 8px; 
+	margin-left: 8px;
 }
 
 a.saveorder.inactive {
@@ -740,7 +740,7 @@ div.pagination {
 }
 
 	/* The Go submittal button */
-.pagination button { 
+.pagination button {
 	margin-left: 20px;
 }
 
@@ -1107,7 +1107,7 @@ span.icon-16-locked {
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
-{  
+{
     margin:0 0 0 0px !important;
     padding:0 0 0 0px !important;
 }
@@ -1127,7 +1127,7 @@ span.icon-16-locked {
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
-{	
+{
 }
 
 #permissions-sliders ul#rules table.group-rules caption
@@ -1137,14 +1137,14 @@ span.icon-16-locked {
 #permissions-sliders ul#rules table.group-rules td
 {
     padding:4px;
-    vertical-align:middle; 
+    vertical-align:middle;
     text-align:right;
 }
 
-#permissions-sliders .panel 
+#permissions-sliders .panel
 {
     margin-bottom: 3px;
-    margin-right:0; 
+    margin-right:0;
 }
 
 ul#rules table.group-rules td label
@@ -1156,14 +1156,14 @@ table.group-rules td select
 {
 	margin:0 !important;
 }
-	
+
 #permissions-sliders ul#rules .mypanel
 {
 	padding:0px;
 }
 
-#permissions-sliders ul#rules 
-{	
+#permissions-sliders ul#rules
+{
 	padding:5px;
 }
 

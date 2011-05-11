@@ -18,7 +18,7 @@
 			<field name="menu_image" type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
-				
+
 			<field name="menu_text" type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
@@ -29,11 +29,11 @@
 			</field>
 
 		</fieldset>
-		
+
 		<fieldset name="page-options"
 			label="COM_MENUS_PAGE_OPTIONS_LABEL"
 		>
-			
+
 
 			<field name="page_title" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
@@ -47,7 +47,7 @@
 				<option value="0" class="no">JNO</option>
 				<option value="1" class="yes">JYES</option>
 			</field>
-			
+
 			<field name="page_heading" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC" />
@@ -55,10 +55,10 @@
 			<field name="pageclass_sfx" type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
 				description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC" />
-			
+
 
 		</fieldset>
-		
+
 		<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
 		>
 			<field name="menu-meta_description" type="textarea"

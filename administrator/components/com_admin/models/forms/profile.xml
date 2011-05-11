@@ -9,7 +9,7 @@
 			required="true"
 			size="30"
 		/>
-	
+
 		<field name="username" type="text"
 			class="inputbox"
 			description="COM_ADMIN_USER_FIELD_USERNAME_DESC"
@@ -17,7 +17,7 @@
 			required="true"
 			size="30"
 		/>
-	
+
 		<field name="password" type="password"
 			autocomplete="off"
 			class="inputbox"
@@ -26,7 +26,7 @@
 			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>
-	
+
 		<field name="password2" type="password"
 			autocomplete="off"
 			class="inputbox"
@@ -35,7 +35,7 @@
 			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
 		/>
-	
+
 		<field name="email" type="email"
 			class="inputbox"
 			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
@@ -44,7 +44,7 @@
 			size="30"
 			validate="email"
 		/>
-	
+
 		<field
 			name="registerDate"
 			type="calendar"
@@ -74,14 +74,14 @@
 			type="text"
 			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC"		
+			description ="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			readonly="true"
 			filter="unset"
 			/>
 
 	</fieldset>
-	
+
 	<fields name="params">
 
 		<!--  Basic user account settings. -->

@@ -11,7 +11,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>1.6.0</version>
 	<description>COM_WEBLINKS_XML_DESCRIPTION</description>
-	
+
 	<install> <!-- Runs on install -->
     	<sql>
         	<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>

@@ -105,13 +105,13 @@ input.text-area-order,
 .filter-search button:hover {
 	background-color: #383838;
 }
-div.current span.spacer > span.text label, 
-fieldset.adminform span.spacer > span.text label, 
+div.current span.spacer > span.text label,
+fieldset.adminform span.spacer > span.text label,
 fieldset.panelform span.spacer > span.text label {
 	color: #fff;
 }
 div.toolbar-list a:hover,
-div.toolbar-list a:focus, 
+div.toolbar-list a:focus,
 div.toolbar-list a:active {
 	color: #fff;
 }

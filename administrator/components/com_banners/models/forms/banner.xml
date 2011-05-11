@@ -4,7 +4,7 @@
 	<fieldset name="details"
 		addfieldpath="/administrator/components/com_banners/models/fields"
 	>
-		<field name="id" type="text" default="0" 
+		<field name="id" type="text" default="0"
 			readonly="true" class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL" 	description ="JGLOBAL_FIELD_ID_DESC" />
 

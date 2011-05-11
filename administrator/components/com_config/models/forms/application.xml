@@ -768,10 +768,10 @@
 				name="core.edit.state"
 				title="JACTION_EDITSTATE"
 				description="COM_CONFIG_ACTION_EDITSTATE_DESC" />
-			<action 
-				name="core.edit.own" 
-				title="JACTION_EDITOWN" 
-				description="COM_CONFIG_ACTION_EDITOWN_DESC" />				
+			<action
+				name="core.edit.own"
+				title="JACTION_EDITOWN"
+				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
 		</field>
 
 	</fieldset>

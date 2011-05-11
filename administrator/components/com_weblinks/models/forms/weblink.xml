@@ -4,7 +4,7 @@
 	-->
 <form>
 	<fieldset>
-		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL" 
+		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC"/>
 
@@ -35,12 +35,12 @@
 			label="WEBLINKS_DATE_LABEL" description="WEBLINKS_DATE_DESC"
 			filter="safehtml" />
 
-		<field name="hits" 
-			type="text" 
+		<field name="hits"
+			type="text"
 			class="readonly"
 			size="6" label="JGLOBAL_HITS"
-			description="COM_WEBLINKS_HITS_DESC" 
-			readonly="true" 
+			description="COM_WEBLINKS_HITS_DESC"
+			readonly="true"
 			filter="unset" />
 
 
@@ -137,7 +137,7 @@
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
 			</field>
-			
+
 			<field name="width" type="text"
 				class="inputbox validate-numeric" label="COM_WEBLINKS_FIELD_WIDTH_LABEL"
 				description="COM_WEBLINKS_FIELD_WIDTH_DESC" />
@@ -145,7 +145,7 @@
 			<field name="height" type="text"
 				class="inputbox validate-numeric" label="COM_WEBLINKS_FIELD_HEIGHT_LABEL"
 				description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
-				
+
 			<field name="count_clicks" type="list"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"

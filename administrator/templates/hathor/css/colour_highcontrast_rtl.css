@@ -59,8 +59,8 @@
  * Various Styles
  */
 
-div.checkin-tick { 
-	background: url(../images/admin/tick.png) 20px 50% no-repeat; 
+div.checkin-tick {
+	background: url(../images/admin/tick.png) 20px 50% no-repeat;
 }
 
 /**
@@ -85,7 +85,7 @@ div.toolbar-list a:hover {
 /**
  * Pane Slider pane Toggler styles
  */
-.pane-toggler  span { 
+.pane-toggler  span {
 	background: transparent url(../images/j_arrow_left.png) right 50% no-repeat;
 }
 
@@ -368,14 +368,14 @@ span.icon-16-locked {
 
 #permissions-sliders ul#rules table.group-rules td
 {
-    border-left:solid 1px #1b3f7c; 
-    border-right:solid 0px #1b3f7c; 
+    border-left:solid 1px #1b3f7c;
+    border-right:solid 0px #1b3f7c;
 }
 
 #permissions-sliders ul#rules table.group-rules th
 {
-    border-left:solid 1px #1b3f7c; 
-    border-right:solid 0px #1b3f7c; 
+    border-left:solid 1px #1b3f7c;
+    border-right:solid 0px #1b3f7c;
 }
 
 /**

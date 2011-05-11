@@ -4,7 +4,7 @@
 		name="templates"
 		label="COM_TEMPLATES_SUBMENU_TEMPLATES"
 		description="COM_TEMPLATES_CONFIG_FIELDSET_DESC">
-	
+
 		<field
 			name="template_positions_display"
 			type="radio"
@@ -17,7 +17,7 @@
 				value="1">JENABLED</option>
 		</field>
 	</fieldset>
-	
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"

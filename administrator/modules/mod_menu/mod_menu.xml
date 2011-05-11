@@ -21,7 +21,7 @@
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_menu.ini</language>
-		<language tag="en-GB">en-GB.mod_menu.sys.ini</language>	
+		<language tag="en-GB">en-GB.mod_menu.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MENU" />
 	<config>
@@ -37,7 +37,7 @@
 					type="text"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				
+
 				<field
 					name="shownew"
 					type="list"
@@ -47,7 +47,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-				
+
 				<field
 					name="showhelp"
 					type="list"
@@ -57,7 +57,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-				
+
 				<field
 					name="cache"
 					type="list"

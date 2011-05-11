@@ -115,7 +115,7 @@ body{
 	padding: 25px 0 0 5px;
 }
 
-#border-top .title{ 
+#border-top .title{
 	padding-right: 10px;
 	padding-left: 10px;
 	float: right;
@@ -246,7 +246,7 @@ div.col{
 	margin-right: 10px;
 }
 
-#form-login label{  
+#form-login label{
 float:right;
 	text-align: right;
 }
@@ -369,7 +369,7 @@ li#jform_access_label {
 	clear: right;
 }
 
-fieldset.adminform label, 
+fieldset.adminform label,
 fieldset.adminform span.faux-label {
 	padding: 0 0 0 5px;
 }
@@ -503,7 +503,7 @@ span.icon-16-locked {
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
-{  
+{
     margin:0 0 0 0px !important;
     padding:0 0 0 0px !important;
 }
@@ -519,7 +519,7 @@ span.icon-16-locked {
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
-{	
+{
 	border:solid 0px;
 }
 
@@ -530,11 +530,11 @@ span.icon-16-locked {
 #permissions-sliders ul#rules table.group-rules td
 {
     padding:4px;
-    vertical-align:middle; 
+    vertical-align:middle;
     text-align:right;
 }
 
-#permissions-sliders .panel 
+#permissions-sliders .panel
 {
 }
 
@@ -547,14 +547,14 @@ table.group-rules td select
 {
 	margin:0 !important;
 }
-	
+
 #permissions-sliders ul#rules .mypanel
 {
-	padding:0px; 
+	padding:0px;
 }
 
-#permissions-sliders ul#rules 
-{	
+#permissions-sliders ul#rules
+{
 	padding:5px;
 }
 
@@ -632,8 +632,8 @@ div.current select {
 	margin: 3px 2px 0 0;
 }
 
-.mod-desc { 
-	margin-right: 135px !important; 
+.mod-desc {
+	margin-right: 135px !important;
 	float: none !important;
 }
 
@@ -643,7 +643,7 @@ div#menu-assignment {
 
  div#menu-assignment ul.menu-links {
 	float: right;
-} 
+}
 
 div#menu-assignment h3 {
 	clear:right;

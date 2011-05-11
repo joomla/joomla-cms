@@ -108,7 +108,7 @@
 	</field>
 	<field
 		name="buttonspacer"
-		label="JGLOBAL_ACTION_PERMISSIONS_LABEL" 
+		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
 		description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 		type="spacer" />
 	<field
@@ -218,7 +218,7 @@
 	</fields>
 
 	<fields name="metadata">
-		
+
 		<field
 			name="author"
 			type="text"

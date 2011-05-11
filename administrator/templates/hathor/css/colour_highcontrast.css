@@ -1760,7 +1760,7 @@ a.grid_trash {
 /**
  * ACL PANEL STYLES
  */
- 
+
 /* All Tabs */
 
 tr.row1 {
@@ -1896,9 +1896,9 @@ table#acl-config th.acl-groups {
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
-{  
-    border:solid 0px #1b3f7c; 
-    background:#163365; 
+{
+    border:solid 0px #1b3f7c;
+    background:#163365;
 }
 
 ul#rules li .pane-sliders .panel h3.title
@@ -1918,38 +1918,38 @@ ul#rules li .pane-sliders .panel h3.title
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
-{	
+{
 	border:solid 0px;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down
-{ 
+{
 }
-    
+
 #permissions-sliders ul#rules li h3.pane-toggler-down span
-{ 
-}   
-        
+{
+}
+
 #permissions-sliders ul#rules .group-kind
 {
 	color:#fcff20;
 }
-            
+
 #permissions-sliders ul#rules table.group-rules caption
 {
 }
 
 #permissions-sliders ul#rules table.group-rules td
 {
-    border-right:solid 1px #1b3f7c; 
-    border-bottom:solid 1px #1b3f7c; 
+    border-right:solid 1px #1b3f7c;
+    border-bottom:solid 1px #1b3f7c;
 }
 
 #permissions-sliders ul#rules table.group-rules th
 {
-    background: #10254a; 
-    border-right:solid 1px #1b3f7c; 
-    border-bottom:solid 1px #1b3f7c; 
+    background: #10254a;
+    border-right:solid 1px #1b3f7c;
+    border-bottom:solid 1px #1b3f7c;
     color:#fcff20;
 }
 
@@ -1957,7 +1957,7 @@ ul#rules table.aclmodify-table
 {
 	border:solid 1px #fcff20;
 }
-	
+
 ul#rules table.group-rules td label
 {
 	border:solid 0px #1b3f7c;
@@ -1965,14 +1965,14 @@ ul#rules table.group-rules td label
 
 #permissions-sliders ul#rules .mypanel
 {
-	border:solid 0px #1b3f7c; 
+	border:solid 0px #1b3f7c;
 	/*background:#163365;  */
 }
 
 #permissions-sliders .mypanel table.group-rules caption
 {
 	/*border:solid 1px #10254a;*/
-}  
+}
 
 #permissions-sliders  ul#rules  table.group-rules td
 {
@@ -1980,7 +1980,7 @@ ul#rules table.group-rules td label
 }
 #permissions-sliders span.level
 {
-	color:#ffffff; 
+	color:#ffffff;
 	background-image:none;
 }
 
@@ -2059,7 +2059,7 @@ table.adminlist tbody tr:hover td.check-d {
 	/* Note: set up the font-size on the id and used 100% on the elements.
 	If ul/li/a are different ems, then the shifting back via non-js keyboard
 	doesn't work properly */
-	
+
 /**
  * Menu Styling
  */

@@ -193,7 +193,7 @@ span.unwritable  {
 .hidelabeltxt	{ text-indent: -9999em; }
 
 .nowrap {
-	white-space: nowrap; 
+	white-space: nowrap;
 }
 
 /* -- OVERALL STYLES ----------------------------- */
@@ -518,7 +518,7 @@ div.toolbar-list a {
 }
 
 div.toolbar-list a:hover,
-div.toolbar-list a:focus, 
+div.toolbar-list a:focus,
 div.toolbar-list a:active {
 	border-left: 1px solid #eee;
 	border-top: 1px solid #eee;
@@ -1066,7 +1066,7 @@ fieldset.adminform .menu-links input {
 	margin: 8px 5px 0 0;
 }
 
-button.jform-rightbtn { 
+button.jform-rightbtn {
 	float:right;
 	margin-right: 0;
 }
@@ -1077,14 +1077,14 @@ button.jform-rightbtn {
 }
 
 /* Field label widths - long label */
-fieldset.adminform.long label, 
+fieldset.adminform.long label,
 fieldset.adminform.long span.faux-label {
 	min-width: 180px;
 }
 fieldset.adminform.long input { }
 
 /* Field label widths - short label */
-fieldset.adminform label, 
+fieldset.adminform label,
 fieldset.adminform span.faux-label {
 	min-width: 135px;
 	padding: 0 5px 0 0;
@@ -2954,11 +2954,11 @@ ul.config-option-list fieldset {
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul
-{  
+{
     margin:0 0 0 0px !important;
     padding:0 0 0 0px !important;
-    border:solid 0px #ccc; 
-    background:#fff; 
+    border:solid 0px #ccc;
+    background:#fff;
     list-style-type:none;
 }
 
@@ -2995,27 +2995,27 @@ ul#rules li .pane-sliders .panel h3.title
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down a
-{	
+{
 	border:solid 0px;
 }
 
 #permissions-sliders ul#rules li h3.pane-toggler-down
 {
-	color:#000; 
+	color:#000;
 	/*background:#146295;*/
 }
-    
+
 #permissions-sliders ul#rules li h3.pane-toggler-down span
-{ 
+{
 	/*color:#fff; */
 }
-        
-        
+
+
 #permissions-sliders ul#rules .group-kind
 {
 	color:#025A8D;
 }
-            
+
 #permissions-sliders ul#rules table.group-rules
 {
     border-collapse:collapse;
@@ -3024,23 +3024,23 @@ ul#rules li .pane-sliders .panel h3.title
 
 #permissions-sliders ul#rules table.group-rules td
 {
-    border:solid 1px #ccc; 
+    border:solid 1px #ccc;
     padding:4px;
-    vertical-align:middle; 
+    vertical-align:middle;
     text-align:left;
     overflow:hidden
 }
 
 #permissions-sliders ul#rules table.group-rules th
 {
-    background:#ddd; 
-    border:solid 1px #ddd; 
-    font-size:0.9em; 
+    background:#ddd;
+    border:solid 1px #ddd;
+    font-size:0.9em;
     color:#025A8D;
     overflow:hidden
 }
 
-#permissions-sliders .panel 
+#permissions-sliders .panel
 {
     margin-bottom: 3px;
     margin-left:0;
@@ -3054,7 +3054,7 @@ ul#rules li .pane-sliders .panel h3.title
 }
 
 #permissions-sliders div.rule-notes
-	
+
 {
 	font-size: 1.091em;
 }
@@ -3063,7 +3063,7 @@ ul#rules table.aclmodify-table
 {
 	border:solid 1px #000
 }
-	
+
 ul#rules table.group-rules td label
 {
 	border:solid 0px #000;
@@ -3079,24 +3079,24 @@ table.group-rules td select
 {
 	margin:0 !important
 }
-	
+
 #permissions-sliders ul#rules .mypanel
 {
-	background:#ffffff; 
-	padding:0px; 
+	background:#ffffff;
+	padding:0px;
 }
 
 #permissions-sliders .mypanel table.group-rules
 {
 	margin: 5px;
-} 
+}
 
 #permissions-sliders .mypanel table.group-rules caption
 {
-}  
+}
 
-#permissions-sliders ul#rules 
-{	
+#permissions-sliders ul#rules
+{
 	padding:5px
 }
 
@@ -3119,7 +3119,7 @@ table.group-rules td select
 {
 	padding-left:20px;
 }
-	
+
 #permissions-sliders .pane-toggler-down span.level,
 #permissions-sliders .pane-toggler span.level
 {
@@ -3131,7 +3131,7 @@ table.group-rules td select
 #permissions-sliders ul#rules .panel h3
 {
 }
-	
+
 /* global_config permissions */
 
 #page-permissions  fieldset ul#rules  .pane-slider
@@ -3141,8 +3141,8 @@ table.group-rules td select
 #permissions-sliders
 {
 }
-	
-/* Debug acl styling */	
+
+/* Debug acl styling */
 .check-0,
 table.adminlist tbody td.check-0 {
 	background-color: #FFFFCF;

@@ -41,7 +41,7 @@ fieldset.adminform legend {
 	top: -0.6em;
 	left: 0.6em;
 }
-div.width-20 fieldset.adminform, div.width-30 fieldset.adminform, div.width-35 fieldset.adminform, div.width-40 fieldset.adminform, 
+div.width-20 fieldset.adminform, div.width-30 fieldset.adminform, div.width-35 fieldset.adminform, div.width-40 fieldset.adminform,
 div.width-45 fieldset.adminform, div.width-50 fieldset.adminform, div.width-55 fieldset.adminform, div.width-60 fieldset.adminform,
 div.width-65 fieldset.adminform, div.width-70 fieldset.adminform, div.width-80 fieldset.adminform, div.width-100 fieldset.adminform {
 	position: relative;
@@ -52,4 +52,4 @@ div.width-65 fieldset.adminform, div.width-70 fieldset.adminform, div.width-80 f
 }
 .pane-sliders {
 	margin: 20px 0 0 0;
-}	
+}

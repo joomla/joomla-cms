@@ -20,7 +20,7 @@
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_feed.ini</language>
-		<language tag="en-GB">en-GB.mod_feed.sys.ini</language>	
+		<language tag="en-GB">en-GB.mod_feed.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_FEED" />
 	<config>

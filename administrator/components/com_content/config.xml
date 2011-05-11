@@ -291,7 +291,7 @@
 		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
 		>
 
-		<field 
+		<field
 			name="category_layout" type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
@@ -397,7 +397,7 @@
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			>				
+			>
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
 				<option value="2">J2</option>
@@ -478,15 +478,15 @@
 			<option
 				value="1">JGLOBAL_ACROSS</option>
 		</field>
-		
+
 		<field name="spacer1"
 			type="spacer"
 			hr="true"
 			/>
 		<field name="subcategories" type="spacer" class="spacer"
 					label="JGLOBAL_SUBSLIDER_BLOG_EXTENDED_LABEL"
-			/>			
-		
+			/>
+
 		<field name="show_subcategory_content" type="list"
 				default="0"
 				description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
@@ -537,7 +537,7 @@
 				value="1">JSHOW</option>
 		</field>
 
-         
+
 
 		<field name="list_show_date"
 			type="list"
@@ -573,7 +573,7 @@
 		</field>
 
 	</fieldset>
-	
+
 	<fieldset name="shared"
 		label="COM_CONTENT_SHARED_LABEL"
 		description="COM_CONTENT_SHARED_DESC"
@@ -628,7 +628,7 @@
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
 			</field>
-			
+
 		<field name="show_pagination"
 			type="list"
 			default="2"
@@ -647,7 +647,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-		
+
 	</fieldset>
 
 	<fieldset name="integration"
