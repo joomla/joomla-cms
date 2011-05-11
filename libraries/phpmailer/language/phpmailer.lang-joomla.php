@@ -3,8 +3,6 @@
  * PHPMailer language file.
  * English Version
  */
-// no direct access
-defined('_JEXEC') or die;
 
 $PHPMAILER_LANG = array();
 
