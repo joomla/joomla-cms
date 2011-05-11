@@ -26,7 +26,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			
+
 			$this->assertTrue($this->isElementPresent("//ul[@id='menu-com-users-groups']"), 'Groups should be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)
@@ -165,7 +165,7 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		}
 		try
 		{
-			
+
 			$this->assertFalse($this->isElementPresent("//ul[@id='menu-com-users-groups']"), 'Groups should not be visible');
 		}
 			catch (PHPUnit_Framework_AssertionFailedError $e)

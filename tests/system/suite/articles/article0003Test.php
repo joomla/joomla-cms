@@ -354,7 +354,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->open($link, 'true');
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category not found"));
-		
+
 		echo "Change Park Blog category back to published\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();

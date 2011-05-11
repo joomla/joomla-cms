@@ -78,7 +78,7 @@ class modRandomImageHelper
 				{
 					if (preg_match('/'.$type.'/', $img)) {
 						$images[$i] = new stdClass;
-						
+
 						$images[$i]->name	= $img;
 						$images[$i]->folder	= $folder;
 						$i++;

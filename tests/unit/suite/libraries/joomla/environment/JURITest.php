@@ -90,7 +90,7 @@ class JURITest extends PHPUnit_Framework_TestCase {
 			$this->object->getPath(),
 			$this->equalTo('/path/file.html')
 		);
-		
+
 		$this->assertThat(
 			$this->object->getScheme(),
 			$this->equalTo('http')
@@ -104,7 +104,7 @@ class JURITest extends PHPUnit_Framework_TestCase {
 			$this->object->toString(),
 			$this->equalTo('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment')
 		);
-		
+
 		$this->object->setQuery('somevar=somevalue');
 		$this->object->setVar('somevar2', 'somevalue2');
 		$this->object->setScheme('ftp');
@@ -114,7 +114,7 @@ class JURITest extends PHPUnit_Framework_TestCase {
 		$this->object->setPort('8888');
 		$this->object->setFragment('someFragment');
 		$this->object->setPath('/this/is/a/path/to/a/file');
-		
+
 		$this->assertThat(
 			$this->object->toString(),
 			$this->equalTo('ftp://root:secret@www.example.org:8888/this/is/a/path/to/a/file?somevar=somevalue&somevar2=somevalue2#someFragment')
@@ -233,7 +233,7 @@ class JURITest extends PHPUnit_Framework_TestCase {
 
 	public function testGetUser() {
 		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
-		
+
 		$this->assertThat(
 			$this->object->getUser(),
 			$this->equalTo('someuser')
@@ -251,7 +251,7 @@ class JURITest extends PHPUnit_Framework_TestCase {
 
 	public function testGetPass() {
 		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
-		
+
 		$this->assertThat(
 			$this->object->getPass(),
 			$this->equalTo('somepass')

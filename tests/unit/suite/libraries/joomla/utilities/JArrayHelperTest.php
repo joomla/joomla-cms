@@ -995,7 +995,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 		$input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
 	{
 		// Skip for MAC until PHP sort bug is fixed
-		if (substr(php_uname(), 0, 6) != 'Darwin') 
+		if (substr(php_uname(), 0, 6) != 'Darwin')
 		{
 			if ($defaults) {
 				$output = JArrayHelper::sortObjects($input, $key);

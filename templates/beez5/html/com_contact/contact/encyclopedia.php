@@ -1,6 +1,6 @@
 <?php
  /**
- * $Id: 
+ * $Id:
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
@@ -28,25 +28,25 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<div class="encyclopedia_col1">
 		<?php if ($this->contact->image ) : ?>
 			<div class="contact-image">
-			<?php // We are going to use the contact address field for the main image caption. 
+			<?php // We are going to use the contact address field for the main image caption.
 				// If we have a caption load the caption behavior. ?>
 			<?php if ($this->contact->address) {
 				JHtml::_('behavior.caption');
 			}?>
 				<?php echo JHtml::_('image',$this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle','class' =>'caption','title'=> $this->contact->address)); ?>
 			</div>
-		<?php endif; ?> 	
+		<?php endif; ?>
 	</div>
 	<div class="encyclopedia_col2">
 		<?php // We are going to use some of the standard content fields in non standard ways. ?>
 				<div class="contact-miscinfo">
-	
+
 						<div class="contact-misc">
 							<?php echo $this->contact->misc; ?>
 						</div>
 					</div>
 
-		
+
 		<?php //Let's use position for the scientific name. ?>
 		<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
 			<p class="contact-position"><?php echo $this->contact->con_position; ?></p>
@@ -60,10 +60,10 @@ $cparams = JComponentHelper::getParams ('com_media');
 			<p class="contact-country"><?php echo $this->contact->country; ?></p>
 		<?php endif; ?>
 	</div>
-	
+
 <div class="clr"> </div>
 	<?php  if ($this->params->get('presentation_style')!='plain'):?>
-		<?php  echo  JHtml::_($this->params->get('presentation_style').'.start', 'contact-slider'); ?>	
+		<?php  echo  JHtml::_($this->params->get('presentation_style').'.start', 'contact-slider'); ?>
 	<?php endif ?>
 <div class="encyclopedia_links">
 <?php echo $this->loadTemplate('links'); ?>

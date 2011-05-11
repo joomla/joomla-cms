@@ -27,7 +27,7 @@ JHtml::_('behavior.keepalive');
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.logout" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
-		<?php echo JHtml::_('form.token'); ?>		
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
 <?php else : ?>

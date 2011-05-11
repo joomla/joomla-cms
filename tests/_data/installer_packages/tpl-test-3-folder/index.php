@@ -20,18 +20,18 @@ $this->setGenerator($setGeneratorTag);
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 <jdoc:include type="head" />
-  <meta name="copyright" content="<?php echo $app->getCfg('sitename');?>" />	
+  <meta name="copyright" content="<?php echo $app->getCfg('sitename');?>" />
   <link rel="stylesheet" href="<?php echo 'templates/'.$this->template; ?>/css/screen.css" type="text/css" media="screen" />
 </head>
 
-<body class="<?php echo $fontFamily;?>">				  
+<body class="<?php echo $fontFamily;?>">
 	<?php if ($this->getBuffer('message')) : ?>
 		<div class="error">
 			<jdoc:include type="message" />
 		</div>
 	<?php endif; ?>
-	
+
 	<jdoc:include type="component" />
-	
+
 </body>
 </html>

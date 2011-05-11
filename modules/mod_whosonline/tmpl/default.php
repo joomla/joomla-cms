@@ -11,7 +11,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<?php if ($showmode == 0 || $showmode == 2) : ?> 
+<?php if ($showmode == 0 || $showmode == 2) : ?>
 	<?php $guest = JText::plural('MOD_WHOSONLINE_GUESTS', $count['guest']); ?>
 	<?php $member = JText::plural('MOD_WHOSONLINE_MEMBERS', $count['user']); ?>
 	<p><?php echo JText::sprintf('MOD_WHOSONLINE_WE_HAVE', $guest, $member); ?></p>

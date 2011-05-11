@@ -10,7 +10,7 @@
 require_once 'SeleniumJoomlaTestCase.php';
 
 /**
- * 
+ *
  */
 class Cache0001Test extends SeleniumJoomlaTestCase
 {
@@ -22,7 +22,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		echo "Set caching to progressive.\n";
 		$this->setCache('on-full');
-		
+
 		echo "Test Single article.\n";
 		echo "Show the Australian Parks article layout in front end\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/single-article';
@@ -56,7 +56,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("link=Content Modules"));
-		
+
 
 		echo "Test Article Category List\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-blog';
@@ -72,8 +72,8 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->changeCategory('First Blog Post', 'Article Manager', 'Park Blog');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("link=*First Blog Post*"));	
-		
+		$this->assertTrue($this->isElementPresent("link=*First Blog Post*"));
+
 		echo "Test Article Category List\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list';
 		$this->open($link, 'true');
@@ -94,7 +94,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/featured-articles';
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("//div[@class='blog-featured']//h2[contains(., 'Beginners')]"));
-		
+
 		echo "Set Beginners to not be featured and check that it is no longer shown\n";
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
@@ -146,11 +146,11 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("//div[@class='archive']//h2/a[contains(., \"What's New\")]"));
 		$this->assertFalse($this->isElementPresent("//div[@class='archive']//h2/a[contains(., 'Australian Parks')]"));
-		
+
 		$this->gotoAdmin();
 		$this->doAdminLogout();
 	}
-	
+
 	function testContactCache()
 	{
 		$this->setUp();
@@ -159,7 +159,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		echo "Set caching to progressive.\n";
 		$this->setCache('on-full');
-		
+
 		echo "Check caching for Contact Categories\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/contact-component/contact-categories';
 		$this->open($link, 'true');
@@ -177,7 +177,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("link=Shop Site"));
-		
+
 		echo "Test Contact Category List\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/contact-component/contact-single-category';
 		$this->open($link, 'true');
@@ -247,7 +247,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//td[@class='item-title'][contains(.,'Buyer')]"));
 		$this->assertTrue($this->isElementPresent("//td[@class='item-title'][contains(.,'Shop Address')]"));
 	}
-	
+
 		function testWeblinksCache()
 	{
 		$this->setUp();
@@ -256,7 +256,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		echo "Set caching to progressive.\n";
 		$this->setCache('on-full');
-		
+
 		echo "Test Weblinks Category List\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/weblinks-component/weblinks-single-category';
 		$this->open($link, 'true');
@@ -275,7 +275,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("//table[@class='category'][contains(.,'OpenSourceMatters')]"));
 		$this->assertTrue($this->isElementPresent("//table[@class='category'][contains(.,'Joomla! - Forums')]"));
-		
+
 		echo "Check caching for Weblinks Categories\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/weblinks-component/weblinks-categories';
 		$this->open($link, 'true');
@@ -293,9 +293,9 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("link=Joomla! Specific Links"));
-		$this->assertTrue($this->isElementPresent("link=Other Resources"));	
+		$this->assertTrue($this->isElementPresent("link=Other Resources"));
 	}
-	
+
 	function testNewsFeedCache()
 	{
 		$this->setUp();
@@ -304,7 +304,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		echo "Set caching to progressive.\n";
 		$this->setCache('on-full');
-		
+
 		echo "Check caching for Newsfeed Categories\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/news-feeds-component/new-feed-categories';
 		$this->open($link, 'true');
@@ -319,7 +319,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->changeState('Sample Data-Newsfeeds', 'Newsfeeds', 'Category', 'publish');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("link=Sample Data-Newsfeeds"));		
+		$this->assertTrue($this->isElementPresent("link=Sample Data-Newsfeeds"));
 
 		echo "Check caching for Single Newsfeed\n";
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/news-feeds-component/single-news-feed';
@@ -355,9 +355,9 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("//td[@class='item-title'][contains(.,'Joomla! Announcements')]"));
 		$this->assertTrue($this->isElementPresent("//td[@class='item-title'][contains(.,'Joomla! Connect')]"));
-		
+
 	}
-	
+
 	function testModuleEnableCache()
 	{
 		$this->setUp();
@@ -366,7 +366,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogin();
 		echo "Set caching to progressive.\n";
 		$this->setCache('on-full');
-		
+
 		echo "Check that login form shown on home page \n";
 		$this->gotoSite();
 		$this->assertTrue($this->isElementPresent("//form[@id='login-form']"));
@@ -403,7 +403,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		echo "Set caching to off.\n";
 		$this->setCache('off');
 		$this->doAdminLogout();
-		
+
 	}
 
 }

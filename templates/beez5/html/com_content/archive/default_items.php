@@ -77,19 +77,19 @@ $params = &$this->params;
 		</dd>
 <?php endif; ?>
 <?php if ($params->get('show_author') && !empty($item->author )) : ?>
-	<dd class="createdby"> 
+	<dd class="createdby">
 		<?php $author =  $item->author; ?>
 		<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author);?>
 
 			<?php if (!empty($item->contactid ) &&  $params->get('link_author') == true):?>
-				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' , 
+				<?php 	echo JText::sprintf('COM_CONTENT_WRITTEN_BY' ,
 				 JHtml::_('link',JRoute::_('index.php?option=com_contact&view=contact&id='.$item->contactid),$author)); ?>
 
 			<?php else :?>
 				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 			<?php endif; ?>
 	</dd>
-<?php endif; ?>	
+<?php endif; ?>
 <?php if ($params->get('show_hits')) : ?>
 		<dd class="hits">
 		<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>

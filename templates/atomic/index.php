@@ -27,7 +27,7 @@ $app = JFactory::getApplication();
 		<!--[if lt IE 8]><link rel="stylesheet" href="blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection" />
     	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/blueprint/plugins/joomla-nav/screen.css" type="text/css" media="screen" />
-    	
+
 
 		<!-- The following line loads the template CSS file located in the template folder. -->
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template ?>/css/template.css" type="text/css" />
@@ -56,7 +56,7 @@ $app = JFactory::getApplication();
 		<?php if($this->countModules('atomic-topmenu')) : ?>
 			<jdoc:include type="modules" name="atomic-topmenu" style="container" />
 		<?php endif; ?>
-				
+
 		<div class="container">
 			<div class="span-16 append-1">
 			<?php if($this->countModules('atomic-topquote')) : ?>
@@ -70,7 +70,7 @@ $app = JFactory::getApplication();
 					<jdoc:include type="modules" name="atomic-bottomleft" style="bottommodule" />
 	        	</div>
 	        <?php endif; ?>
-	       
+
 	        <?php if($this->countModules('atomic-bottommiddle')) : ?>
 				<div class="span-7 last">
 	        		<jdoc:include type="modules" name="atomic-bottommiddle" style="bottommodule" />
@@ -82,7 +82,7 @@ $app = JFactory::getApplication();
 	        		<jdoc:include type="modules" name="atomic-sidebar" style="sidebar" />
 				</div>
 			<?php endif; ?>
-			
+
 			<div class="joomla-footer span-16 append-1">
 				<hr />
 				&copy;<?php echo date('Y'); ?> <?php echo $app->getCfg('sitename'); ?>

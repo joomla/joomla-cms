@@ -73,7 +73,7 @@ class JFolderTest_static extends PHPUnit_Framework_TestCase
 		mkdir(JPath::clean(JPATH_ROOT . "/tmp/test/test"), 0777, true);
 		file_put_contents(JPath::clean(JPATH_ROOT . "/tmp/test/test/index.html"), 'test');
 		file_put_contents(JPath::clean(JPATH_ROOT . "/tmp/test/test/index.txt"), 'test');
-		
+
 		$expected = array(
 			JPath::clean(JPATH_ROOT . "/tmp/test/index.txt"),
 			JPath::clean(JPATH_ROOT . "/tmp/test/test/index.txt"));
@@ -103,15 +103,15 @@ class JFolderTest_static extends PHPUnit_Framework_TestCase
 				JPath::clean("index.html")),
 			JFolder::files(JPath::clean(JPATH_ROOT . "/tmp/test"), 'index.html', false, false),
 			'Line: ' . __LINE__. ' non-recursive should return only file name of top folder file');
-			
+
 		$this->assertFalse(
 			JFolder::files('/this/is/not/a/path'), 'Line: ' . __LINE__. ' Non-existent path should return false');
-			
+
 		$this->assertEquals(
 			array(),
 			JFolder::files(JPath::clean(JPATH_ROOT . "/tmp/test"), 'nothing.here', true, true, array(), array()),
 			'Line: ' . __LINE__. ' When nothing matches the filter, should return empty array');
-			
+
 		$this->_cleanupTestFiles();
 	}
 
@@ -181,11 +181,11 @@ class JFolderTest_static extends PHPUnit_Framework_TestCase
 				JPath::clean("foo2"),
 			),
 			JFolder::folders(JPath::clean(JPATH_ROOT . "/tmp/test"), '.', false, false, array(), array()));
-		
+
 		$this->assertFalse(
 			JFolder::folders('this/is/not/a/path'),
 			'Line: ' . __LINE__. ' Non-existent path should return false');
-			
+
 		rmdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo2/bar2"));
 		rmdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo2/bar1"));
 		rmdir(JPath::clean(JPATH_ROOT . "/tmp/test/foo2"));
@@ -214,7 +214,7 @@ class JFolderTest_static extends PHPUnit_Framework_TestCase
 		$actual = JFolder::makeSafe($path);
 		$this->assertEquals($expect, $actual);
 	}
-	
+
 	/**
 	 * Convenience method to cleanup for testFiles
 	 */
@@ -226,10 +226,10 @@ class JFolderTest_static extends PHPUnit_Framework_TestCase
 		$this->_cleanupFile(JPath::clean(JPATH_ROOT . "/tmp/test/index.txt"));
 		$this->_cleanupFile(JPath::clean(JPATH_ROOT . "/tmp/test"));
 	}
-	
+
 	/**
 	 * Convenience method to clean up for files test
-	 * 
+	 *
 	 */
 	private function _cleanupFile($path) {
 		if (file_exists($path)) {
@@ -240,7 +240,7 @@ class JFolderTest_static extends PHPUnit_Framework_TestCase
 				rmdir($path);
 			}
 		}
-		
+
 	}
 }
 

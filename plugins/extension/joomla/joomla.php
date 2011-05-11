@@ -65,7 +65,7 @@ class plgExtensionJoomla extends JPlugin
 		$update_site_id = (int)$dbo->loadResult();
 
 		// if it doesn't exist, add it!
-		if (!$update_site_id) 
+		if (!$update_site_id)
 		{
 			$query->clear();
 			$query->insert('#__update_sites');
@@ -74,7 +74,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->set('location = '. $dbo->Quote($location));
 			$query->set('enabled = '. (int)$enabled);
 			$dbo->setQuery($query);
-			if ($dbo->query()) 
+			if ($dbo->query())
 			{
 				// link up this extension to the update site
 				$update_site_id = $dbo->insertid();
@@ -82,7 +82,7 @@ class plgExtensionJoomla extends JPlugin
 		}
 
 		// check if it has an update site id (creation might have faileD)
-		if ($update_site_id) 
+		if ($update_site_id)
 		{
 			$query->clear();
 			// look for an update site entry that exists

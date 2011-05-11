@@ -495,11 +495,11 @@ class JHtmlTest extends JoomlaTestCase
 		$http_host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null;
 		$script_name = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : null;
 		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '/index.php';	
-		$_SERVER['HTTP_USER_AGENT'] = 'mybrowser';	
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+		$_SERVER['HTTP_USER_AGENT'] = 'mybrowser';
 		// we generate a random template name so that we don't collide or hit anything
 		$template = 'mytemplate'.rand(1,10000);
-	
+
 		$result = JHtml::script('myfile.js', false, false, true, true);
 		$this->assertEquals(null, $result, 'Line: '.__LINE__.' Not found should return null');
 
@@ -507,7 +507,7 @@ class JHtmlTest extends JoomlaTestCase
 		// function script($filename, $path = 'media/system/js/', $mootools = true)
 		$result1 = JHtml::script('myfile.js', 'mypath/path', false);
 		$this->assertEquals(null, $result, 'Line: '.__LINE__.' Should return null with 1.5 signature');
-		
+
 		// we create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
 		$mock = $this->getMock('myMockObject', array('getTemplate'));
@@ -515,26 +515,26 @@ class JHtmlTest extends JoomlaTestCase
 			->method('getTemplate')
 			->will($this->returnValue($template));
 		JFactory::$application = $mock;
-		
+
 		$result2 = JHtml::script('myfile.js', true, false, true, true);
-		
+
 		// Test path-only returning 1 result
 		// Create folders and files
 		// we create the file that JHtml::image will look for
 		mkdir(JPATH_THEMES .'/'. $template .'/js/', 0777, true);
 		file_put_contents(JPATH_THEMES .'/'. $template .'/js/myfile.js', 'test');
-		
+
 		$result3 = JHtml::script('myfile.js', false, true, true, true);
 		$this->assertEquals('/templates/'.$template.'/js/myfile.js', $result3, 'Line: '.__LINE__.' Should return one match');
 
 		file_put_contents(JPATH_THEMES .'/'. $template .'/js/myfile_.js', 'test');
 		$result4 = JHtml::script('myfile.js', false, true, true, true);
-		$this->assertEquals(2, count($result4), 'Line: '.__LINE__.' Should return >1 match');					
-			
+		$this->assertEquals(2, count($result4), 'Line: '.__LINE__.' Should return >1 match');
+
 		// Restore saved values
 		$_SERVER['HTTP_HOST'] = $http_host;
 		$_SERVER['SCRIPT_NAME'] = $script_name;
-		
+
 		// Remove test files and folders
 		unlink(JPATH_THEMES .'/'. $template .'/js/myfile.js');
 		unlink(JPATH_THEMES .'/'. $template .'/js/myfile_.js');
@@ -612,12 +612,12 @@ class JHtmlTest extends JoomlaTestCase
 			$this->equalTo(JURI::base(true).'/templates/'.$template.'/css/'.$extension.'/'.$cssfilename),
 			'Line: '.__LINE__.' Stylesheet in the template directory failed'
 		);
-		
+
 		unlink(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'. $cssfilename);
 		rmdir(JPATH_THEMES .'/'. $template .'/css/'.$extension);
 		rmdir(JPATH_THEMES .'/'. $template .'/css');
 		rmdir(JPATH_THEMES .'/'. $template);
-		
+
 		$docMock2 = $this->getMock('myMockDoc2', array('addStylesheet'));
 
 		$docMock2->expects($this->once())
@@ -696,13 +696,13 @@ class JHtmlTest extends JoomlaTestCase
 
 		// Calling this method should cause addStylesheet method to be called once with arguments in with() above
 		JHtml::stylesheet('media/system/css/modal.css', array('media' => 'print', 'title' => 'sample title'));
-		
+
 		// Call stylesheet with old version 1.5 arguments
 		// function stylesheet($filename, $path = 'media/system/css/', $attribs = array())
 		// we create the file that JHtml::image will look for
 		mkdir(JPATH_THEMES .'/'. $template .'/css/'.$extension, 0777, true);
 		file_put_contents(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'.$cssfilename, 'test');
-		
+
 		$docMock4 = $this->getMock('myMockDoc4', array('addStylesheet'));
 
 		$docMock4->expects($this->once())
@@ -713,42 +713,42 @@ class JHtmlTest extends JoomlaTestCase
 				null,
 				array()
 		);
-		
+
 		JFactory::$document = $docMock4;
-		
+
 		JHtml::stylesheet($cssfilename, 'templates/'.$template.'/css/'.$extension.'/', array());
-	
+
 		unlink(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'. $cssfilename);
 		rmdir(JPATH_THEMES .'/'. $template .'/css/'.$extension);
 		rmdir(JPATH_THEMES .'/'. $template .'/css');
-		rmdir(JPATH_THEMES .'/'. $template);		
-		
+		rmdir(JPATH_THEMES .'/'. $template);
+
 		// Path only that returns null
 		$this->assertThat(
 			JHtml::stylesheet($extension.'/'.$element.'/nofile', null, true, true),
 			$this->equalTo(null),
 			'Line: '.__LINE__.' Path only with no match should return null'
 		);
-		
+
 		// Path only that returns > 1 match
 		mkdir(JPATH_THEMES .'/'. $template .'/css/'.$extension, 0777, true);
 		file_put_contents(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'.$cssfilename, 'test');
 		file_put_contents(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'.$cssfilename1, 'test');
-		
+
 		$result = JHtml::stylesheet($extension.'/'.$cssfilename, null, true, true);
 		$expected = array(JURI::root(true).'/templates/'.$template.'/css/'.$extension.'/'.$cssfilename,
 					JURI::root(true).'/templates/'.$template.'/css/'.$extension.'/'.$cssfilename1);
 		$this->assertTrue(is_array($result), 'Line: '.__LINE__.' Should return array of values');
-		$this->assertTrue(count($result) == 2, 'Line: '.__LINE__.' Count should be 2');	
+		$this->assertTrue(count($result) == 2, 'Line: '.__LINE__.' Count should be 2');
 		$this->assertEquals($expected[0], $result[0], 'Line: '.__LINE__.' Values should match');
 		$this->assertEquals($expected[1], $result[1], 'Line: '.__LINE__.' Values should match');
-		
+
 		unlink(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'. $cssfilename);
 		unlink(JPATH_THEMES .'/'. $template .'/css/'.$extension.'/'. $cssfilename1);
 		rmdir(JPATH_THEMES .'/'. $template .'/css/'.$extension);
 		rmdir(JPATH_THEMES .'/'. $template .'/css');
-		rmdir(JPATH_THEMES .'/'. $template);		
-		
+		rmdir(JPATH_THEMES .'/'. $template);
+
 		$_SERVER['HTTP_HOST'] = $http_host;
 		$_SERVER['SCRIPT_NAME'] = $script_name;
 

@@ -104,10 +104,10 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->select("jform_error_reporting", "label=Maximum");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
-		
+
 
 		$this->setCache($cfg->cache);
-		
+
 		// Check admin template -- change to hathor if specified in config file
 		if ($cfg->adminTemplate == 'hathor') {
 			$this->click("link=Template Manager");
@@ -118,7 +118,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 			$this->click("//li[@id='toolbar-save']/a/span");
 			$this->waitForPageToLoad("30000");
 		}
-		
+
 		$this->doAdminLogout();
 		$this->deleteAllVisibleCookies();
 	}

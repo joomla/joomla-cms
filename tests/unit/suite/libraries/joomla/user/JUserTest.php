@@ -161,7 +161,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 	{
 		return array(
 			'Publisher Create' => array(
-				43, 
+				43,
 				'core.create',
 				'com_content',
 				true,
@@ -216,7 +216,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 			$this->any())
 			->method('get')
 			->will($this->returnValue('test_root_user'));
-		JFactory::$config = $testConfig;			
+		JFactory::$config = $testConfig;
 		$user = new JUser(99);
 		$user->username = 'test_root_user';
 		$this->assertThat(
@@ -246,8 +246,8 @@ class JUserTest extends JoomlaDatabaseTestCase
 			$this->any())
 			->method('get')
 			->will($this->returnValue(99));
-		JFactory::$config = $testConfig;	
-		
+		JFactory::$config = $testConfig;
+
 		// Run through test cases
 		$user = new JUser($userId);
 		$this->assertThat(
@@ -307,8 +307,8 @@ class JUserTest extends JoomlaDatabaseTestCase
 			"Failed for user {$user->id}"
 		);
 	}
-	
-	public function testAuthorisedLevels() 
+
+	public function testAuthorisedLevels()
 	{
 		$user = new JUser(0);
 		$this->assertThat(
@@ -345,10 +345,10 @@ class JUserTest extends JoomlaDatabaseTestCase
 	{
 		$user = $this->object;
 		$user->setParam('testkey', 'testvalue');
-		$this->assertEquals('testvalue', $user->getParam('testkey', 'default'), 
+		$this->assertEquals('testvalue', $user->getParam('testkey', 'default'),
 			'Line: ' . __LINE__ . ' Param value should be correct');
 	}
-	
+
 	/**
 	 * Testing getParameters
 	 *
@@ -362,7 +362,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 			'This test has not been implemented yet.'
 		);
 	}
-	
+
 	/**
 	 * Testing setParameters
 	 *
@@ -558,7 +558,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 			$this->equalTo(true),
 			'JUser::save() did not get stopped when trying to save a new user when it was not supposed to'
 		);
-		
+
 		JFactory::$session->destroy();
 
 	}
@@ -581,7 +581,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 			->will($this->returnValue($this->object)
 		);
 		JFactory::$session = $mockSession;
-		
+
 		$testUser = new JUser();
 		$testUser->name = "Floyd Smoot";
 		$testUser->username = "Floyd";
@@ -597,7 +597,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 			$this->isFalse(),
 			'Cannot save without valid email'
 		);
-		
+
 		$this->assertThat(
 			$testUser->getErrors(),
 			$this->equalTo(
@@ -657,7 +657,7 @@ class JUserTest extends JoomlaDatabaseTestCase
 			$this->isFalse(),
 			'Line: ' . __LINE__ . " Id should not be found"
 		);
-		
+
 	}
 
 	/**

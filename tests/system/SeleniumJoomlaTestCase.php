@@ -669,7 +669,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 		echo "Close panel for group '$group'\n";
 		$this->click("//ul[@id='rules']//li/div[@class='panel']//h3[contains(.,'Public')]");
-		
+
 		if ($component == 'Global Configuration') {
 			$this->click("//li[@id='toolbar-save']/a/span");
 			$this->waitForPageToLoad("30000");
@@ -755,7 +755,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 		$this->gotoAdmin();
 	}
-	
+
 	function changeCategory($title = null, $menu = 'Article Manager', $newCategory = 'Uncategorised')
 	{
 		echo "Changing category for $title in $menu to $newCategory\n";
@@ -769,13 +769,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 		$this->select("jform_catid", "label=*$newCategory*");
 		$this->click("//li[@id='toolbar-save']/a/span");
-		$this->waitForPageToLoad("30000");	
-				
+		$this->waitForPageToLoad("30000");
+
 	}
 	/**
-	 * 
+	 *
 	 * Sets caching option
-	 * 
+	 *
 	 * @param string $level	Options are off, on-basic, on-full
 	 */
 	function setCache($level = 'off')

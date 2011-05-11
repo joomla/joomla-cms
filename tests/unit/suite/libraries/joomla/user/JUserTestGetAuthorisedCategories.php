@@ -14,7 +14,7 @@ require_once 'PHPUnit/Extensions/Database/DataSet/CsvDataSet.php';
 /**
  * Test class for JAccess getCategoriesByGroup and getCategoriesByUser methods
  * Note that this is separate from JAccessTest class because it requires different test data
- * 
+ *
  * @package		JoomlaFramework
  */
 
@@ -38,7 +38,7 @@ class JAccessTestGetCategories extends JoomlaDatabaseTestCase {
 		$assets = $this->getDataSet();
 		$this->_db = JFactory::getDbo();
 	}
-	
+
 	protected function getDataSet()
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
@@ -50,30 +50,30 @@ class JAccessTestGetCategories extends JoomlaDatabaseTestCase {
 		return $dataSet;
 	}
 
-	
+
 		public function testGetAuthorisedCategories() {
 			$user = new JUser(44);
 			$notAllowed = array(22,34,64,65,66,67,75);
 			$allowed = $user->getAuthorisedCategories('com_content', 'core.create');
 			$this->assertEquals(array(), array_intersect($allowed, $notAllowed), 'Line: ' . __LINE__ . ' User 44 in Group 6 not allowed in these categories');
 			$this->assertEquals(19, count($allowed), 'Line: ' . __LINE__ . ' User 44 in Group 6 allowed create for 19 categories');
-			
+
 			$user = new JUser(45);
 			$notAllowed = array(22,34,64,65,66,67,75,23,68,69,70,71);
 			$allowed = $user->getAuthorisedCategories('com_content', 'core.create');
 			$this->assertEquals(array(), array_intersect($allowed, $notAllowed), 'Line: ' . __LINE__ . ' User 45 in Groups 5,6 not allowed in these categories');
 			$this->assertEquals(14, count($allowed), 'Line: ' . __LINE__ . ' User 44 in Group 6 allowed create for 14 categories');
-			
+
 			$user = new JUser(46);
 			$this->assertThat(
 				$user->getAuthorisedCategories('com_content', 'core.create'),
 				$this->equalTo(array(67)),
-				'Line: ' . __LINE__ . ' User 46 in Group 2 only has create for category 67');	
+				'Line: ' . __LINE__ . ' User 46 in Group 2 only has create for category 67');
 
 			$user = new JUser(42);
 			$allowed = $user->getAuthorisedCategories('com_content', 'core.create');
 			$this->assertEquals(26, count($allowed), 'Line: ' . __LINE__ . ' User 42 should be allowed all categories');
-				
+
 		}
-	
+
 }

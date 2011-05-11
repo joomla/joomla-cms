@@ -71,7 +71,7 @@ class modLoginHelper
 
 		return base64_encode($url);
 	}
-	
+
 	static function getType()
 	{
 		$user = JFactory::getUser();

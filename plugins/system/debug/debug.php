@@ -32,7 +32,7 @@ class plgSystemDebug extends JPlugin
 
 		// Only if debugging is enabled
 		if (JDEBUG) {
-			$config  = JFactory::getConfig(); 
+			$config  = JFactory::getConfig();
 			$config->set('gzip', 0);
 			ob_start();
 			ob_implicit_flush(false);
@@ -56,7 +56,7 @@ class plgSystemDebug extends JPlugin
 			return;
 		}
 
-		// Load the language 
+		// Load the language
 		$this->loadLanguage();
 
 		// Capture output

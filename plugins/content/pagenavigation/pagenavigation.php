@@ -169,7 +169,7 @@ class plgContentPagenavigation extends JPlugin
 					;
 				}
 
-				
+
 
 				if ($row->next) {
 					$html .= '

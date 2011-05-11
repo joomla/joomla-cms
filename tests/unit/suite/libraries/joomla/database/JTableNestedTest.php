@@ -41,7 +41,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->_db = JFactory::getDbo();
 		$this->object = new JTableCategory($this->_db);
 		JFactory::$session = $this->getMock('JSession', array('_start'));
-		
+
 		// Set up a mock database to return db errors
 		$badDB = $this->getMock('JDatabaseMySQL', array('getErrorNum'), array(array('prefix' => 'jos_')));
 		$badDB->expects($this->any())
@@ -104,7 +104,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Get path of invalid id
 		$pathInvalid = $this->object->getPath(999);
 		$this->assertEquals(0, count($pathInvalid), 'Invalid path should have zero elements');
-		
+
 		// Get path database error
 		$badTable = new JTableCategory($this->badDB);
 		$this->assertFalse($badTable->getPath(1), 'Line: '.__LINE__.' Should fail with db error');
@@ -137,7 +137,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Get invalid node as tree
 		$treeInvalid = $this->object->getTree(99999);
 		$this->assertEquals(0, count($treeInvalid), 'Invalid tree should have 0 nodes');
-		
+
 		// Test with db error
 		$badTable = new JTableCategory($this->badDB);
 		$this->assertFalse($badTable->getTree(1), 'Line: '.__LINE__.' Should fail with db error');
@@ -394,7 +394,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$treeOriginalNew = $table->getTree('1');
 		$this->assertEquals(68, count($treeOriginalNew), 'Line: '.__LINE__.' Root tree should have 68 nodes');
 		$this->compareTrees($treeOriginal, $treeOriginalNew);
-		
+
 		// Test db error
 		$badTable = new JTableCategory($this->badDB);
 		$this->assertFalse($badTable->moveByReference('1','first-child'), 'Line: '.__LINE__.' Should fail with db error');
@@ -499,7 +499,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		// Check assets
 		$treeAssetsTemp = $assetsTable->getTree('1');
 		$this->assertEquals(146, count($treeAssetsTemp), 'Line: '.__LINE__.' After delete, assets root tree should have 146 nodes');
-		
+
 		// Check lock
 		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', $this->_db));
 		$lockedTable->expects($this->any())
@@ -565,7 +565,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertEquals('com.banners.category.999', $treeTemp[6]->name, 'Line: '.__LINE__.' New node should be in position 6');
 		$this->assertEquals('4', $treeTemp[6]->parent_id, 'Line: '.__LINE__.' New node should parent id of 4');
 		$this->assertEquals(2, $treeTemp[6]->level, 'Line: '.__LINE__.' New node level should be 2');
-		
+
 		// Test _location_id == 0
 		$table->reset();
 		$table->load('40');
@@ -576,14 +576,14 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$this->assertTrue($table->store(), 'Line: '.__LINE__.' Table store should succeed');
 		$treeTemp = $table->getTree('1');
 		$this->assertEquals('Test Location 0', $treeTemp[159]->title, 'Line: '.__LINE__.' New node should be in last position (159)');
-		
+
 		// Check lock
 		$lockedTable = $this->getMock('JTableCategory', array('_lock'), array('jos_categories', 'id', $this->_db));
 		$lockedTable->expects($this->any())
 			->method('_lock')
 			->will($this->returnValue(false));
 		$this->assertFalse($lockedTable->store('999'), 'Line: '.__LINE__.' Delete should fail because cannot lock');
-		
+
 	}
 
 	public function testPublish()
@@ -625,7 +625,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 
 		// Test with parent node unpublished
 		// Try to publish Extensions (20) with parent unpublished
-		
+
 		// Unpublish 19 and 20
 		$pks = array('19');
 		$table->publish($pks,'0');
@@ -636,7 +636,7 @@ class JTableNestedTest extends JoomlaDatabaseTestCase
 		$treeTemp = $table->getTree('1');
 		$this->assertEquals('20', $treeTemp[7]->id, 'Line: '.__LINE__.' Node 7 is id=20');
 		$this->assertEquals('0', $treeTemp[7]->published, 'Line: '.__LINE__.' Id 20 should not be published');
-		
+
 		// Test archive with parent node published
 		$pks = array('32');
 		$this->assertTrue($table->publish($pks, '2'), 'Line: '.__LINE__.' Should be able to archive even if parent is published');

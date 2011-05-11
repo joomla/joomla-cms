@@ -51,7 +51,7 @@ class plgContentPagebreak extends JPlugin
 	 * @since	1.6
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
-	{  
+	{
 		$canProceed = $context == 'com_content.article';
 
 		// Expression to search for.
@@ -181,34 +181,34 @@ class plgContentPagebreak extends JPlugin
 	 * @return	1.6
 	 */
 	protected function _createTOC(&$row, &$matches, &$page)
-	{   
+	{
 		$heading = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
 
-          
+
 		// TOC header.
 		$row->toc .= '<div id="article-index">';
-		
-		
+
+
 		if($this->params->get('article_index')==1)
 		{
 			$headingtext= JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
-	        
+
 			if($this->params->get('article_index_text'))
 	        {
 	        	htmlspecialchars($headingtext=$this->params->get('article_index_text'));
 	       	 }
 			$row->toc .='<h3>'.$headingtext.'</h3>';
-		
+
 		}
 
 		// TOC first Page link.
 		$row->toc .= '<ul>
 		<li>
-			
+
 			<a href="'. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart=') .'" class="toclink">'
 			. $heading .
 			'</a>
-			
+
 		</li>
 		';
 
@@ -234,11 +234,11 @@ class plgContentPagebreak extends JPlugin
 
 			$row->toc .= '
 				<li>
-					
+
 					<a href="'. $link .'" class="toclink">'
 					. $title .
 					'</a>
-				
+
 				</li>
 				';
 			$i++;
@@ -248,11 +248,11 @@ class plgContentPagebreak extends JPlugin
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=1&limitstart=');
 			$row->toc .= '
 			<li>
-				
+
 					<a href="'. $link .'" class="toclink">'
 					. JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') .
 					'</a>
-			
+
 			</li>
 			';
 		}

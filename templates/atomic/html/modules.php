@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
  * This module chrome file creates custom output for modules used with the Atomic template.
  * The first function wraps modules using the "container" style in a DIV. The second function
  * uses the "bottommodule" style to change the header on the bottom modules to H6. The third
- * function uses the "sidebar" style to change the header on the sidebar to H3. 
+ * function uses the "sidebar" style to change the header on the sidebar to H3.
  */
 
 function modChrome_container($module, &$params, &$attribs)

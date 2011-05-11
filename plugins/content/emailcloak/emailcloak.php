@@ -80,7 +80,7 @@ class plgContentEmailcloak extends JPlugin
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
 		// anyText
 		$searchText = '([\x20-\x7f][^<>]+)';
-		
+
 		//Any Image link
 		$searchImage	=	"(<img[^>]+>)";
 
@@ -150,7 +150,7 @@ class plgContentEmailcloak extends JPlugin
 			// Replace the found address with the js cloaked email
 			$text = substr_replace($text, $replacement, $regs[0][1], strlen($regs[0][0]));
 		}
-		
+
 	/*
 		 * Search for derivatives of link code <a href="mailto:email@amail.com">
 		 * <img anything></a>

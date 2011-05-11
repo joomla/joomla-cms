@@ -29,7 +29,7 @@ class plgContentLoadmodule extends JPlugin
 		if (strpos($article->text, 'loadposition') === false) {
 			return true;
 		}
-		
+
 		// expression to search for
 		$regex		= '/{loadposition\s+(.*?)}/i';
 		$matches	= array();
@@ -55,7 +55,7 @@ class plgContentLoadmodule extends JPlugin
 			$modules	= JModuleHelper::getModules($position);
 			$params		= array('style' => $style);
 			ob_start();
-		
+
 			foreach ($modules as $module) {
 				echo $renderer->render($module, $params);
 			}

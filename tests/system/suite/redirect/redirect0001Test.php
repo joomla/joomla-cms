@@ -34,7 +34,7 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
-		
+
 		echo "Go to front end and try bad url \n";
 		$this->gotoSite();
 		$this->open($badLink);
@@ -58,12 +58,12 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->select("filter_state", "label=- Select Status -");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
-		
+
 		echo "Go to front end and try bad URL now without redirect";
 		$this->gotoSite();
 		$this->open($badLink, "true"); // need true to allow selenium to load error page
 		$this->assertTrue($this->isElementPresent("//h2[contains(text(),'error')]"));
-		
+
 		echo "Go to back end and check that this link has been added as a redirect\n";
 		$this->gotoAdmin();
 		$this->doAdminLogin();

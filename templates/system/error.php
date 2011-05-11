@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 if (!isset($this->error)) {
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-	$this->debug = false; 
+	$this->debug = false;
 }
 //get language and direction
 $doc = JFactory::getDocument();

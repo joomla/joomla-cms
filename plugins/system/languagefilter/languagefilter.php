@@ -43,23 +43,23 @@ class plgSystemLanguageFilter extends JPlugin
 				self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
-	
+
 				$app->setLanguageFilter(true);
 				$uri = JFactory::getURI();
 				if (self::$mode_sef) {
 					// Get the route path from the request.
 					$path = JString::substr($uri->toString(), JString::strlen($uri->base()));
-	
+
 					// Apache mod_rewrite is Off
 					$path = JFactory::getConfig()->get('sef_rewrite') ? $path : JString::substr($path, 10);
-	
+
 					// Trim any spaces or slashes from the ends of the path and explode into segments.
 					$path  = JString::trim($path, '/ ');
 					$parts = explode('/', $path);
-	
+
 					// The language segment is always at the beginning of the route path if it exists.
 					$sef = $uri->getVar('lang');
-					
+
 					if (!empty($parts) && empty($sef)) {
 						$sef = reset($parts);
 					}
@@ -128,7 +128,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$test = true;
 					foreach ($vars as $key=>$value)
 					{
-						if ($uri->hasVar($key) && $uri->getVar($key) != $value) 
+						if ($uri->hasVar($key) && $uri->getVar($key) != $value)
 						{
 							$test = false;
 							break;
@@ -137,7 +137,7 @@ class plgSystemLanguageFilter extends JPlugin
 					if ($test) {
 						foreach ($vars as $key=>$value)
 						{
-							$uri->delVar($key); 
+							$uri->delVar($key);
 						}
 						$uri->delVar('Itemid');
 					}
@@ -179,7 +179,7 @@ class plgSystemLanguageFilter extends JPlugin
 			if (!isset(self::$sefs[$sef])) {
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setPath($sef . '/' . $path);
-				
+
 				$post = JRequest::get('POST');
 				if (JRequest::getMethod() != "POST" || count($post) == 0)
 				{

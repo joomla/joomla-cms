@@ -45,10 +45,10 @@ class modArchiveHelper
 			$created_year	= $date->format('Y');
 
 			$lists[$i] = new stdClass;
-			
+
 			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
 			$lists[$i]->text	= JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE',$month_name,$created_year);
-			
+
 			$i++;
 		}
 		return $lists;

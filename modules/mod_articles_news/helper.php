@@ -55,7 +55,7 @@ abstract class modArticlesNewsHelper
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 		if (trim($ordering) == 'rand()') {
-			$model->setState('list.direction', '');			
+			$model->setState('list.direction', '');
 		} else {
 			$model->setState('list.direction', 'DESC');
 		}
