@@ -1,22 +1,21 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Renders a menu item element
  *
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  Use Jform instead
  */
 
 class JElementMenuItem extends JElement
@@ -24,8 +23,7 @@ class JElementMenuItem extends JElement
 	/**
 	* Element name
 	*
-	* @access	protected
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = 'MenuItem';
 
@@ -40,7 +38,7 @@ class JElementMenuItem extends JElement
 			$where = ' WHERE 1';
 		}
 
-		// load the list of menu types
+		// Load the list of menu types
 		// TODO: move query to model
 		$query = 'SELECT menutype, title' .
 				' FROM #__menu_types' .
@@ -63,13 +61,13 @@ class JElementMenuItem extends JElement
 		$db->setQuery($query);
 		$menuItems = $db->loadObjectList();
 
-		// establish the hierarchy of the menu
+		// Establish the hierarchy of the menu
 		// TODO: use node model
 		$children = array();
 
 		if ($menuItems)
 		{
-			// first pass - collect children
+			// First pass - collect children
 			foreach ($menuItems as $v)
 			{
 				$pt	= $v->parent_id;
@@ -79,17 +77,17 @@ class JElementMenuItem extends JElement
 			}
 		}
 
-		// second pass - get an indent list of the items
+		// Second pass - get an indent list of the items
 		$list = JHtml::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0);
 
-		// assemble into menutype groups
+		// Assemble into menutype groups
 		$n = count($list);
 		$groupedList = array();
 		foreach ($list as $k => $v) {
 			$groupedList[$v->menutype][] = &$list[$k];
 		}
 
-		// assemble menu items to the array
+		// Assemble menu items to the array
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '', JText::_('JOPTION_SELECT_MENU_ITEM'));
 
@@ -107,7 +105,7 @@ class JElementMenuItem extends JElement
 				{
 					$item = &$groupedList[$type->menutype][$i];
 
-					//If menutype is changed but item is not saved yet, use the new type in the list
+					// If menutype is changed but item is not saved yet, use the new type in the list
 					if (JRequest::getString('option', '', 'get') == 'com_menus') {
 						$currentItemArray = JRequest::getVar('cid', array(0), '', 'array');
 						$currentItemId = (int) $currentItemArray[0];

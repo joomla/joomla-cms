@@ -1,55 +1,56 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla! Cache page type object
  *
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheControllerPage extends JCacheController
 {
 	/**
 	 * ID property for the cache page object.
 	 *
-	 * @var		integer
-	 * @since	1.6
+	 * @var    integer
+	 * @since  11.1
 	 */
-	private $_id;
+	protected $_id;
 
 	/**
 	 * Cache group
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  11.1
 	 */
-	private $_group;
+	protected $_group;
 
 	/**
 	 * Cache lock test
 	 *
-	 * @var		object
-	 * @since	1.6
+	 * @var    object
+	 * @since  11.1
 	 */
-	private $_locktest = null;
+	protected $_locktest = null;
 
 	/**
 	 * Get the cached page data
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	1.6
+	 * @param   string  $id     The cache data id
+	 * @param   string  $group  The cache data group
+	 *
+	 * @return  boolean  True if the cache is hit (false else)
+	 *
+	 * @since   11.1
 	 */
 	public function get($id=false, $group='page', $wrkarounds=true)
 	{
@@ -61,7 +62,7 @@ class JCacheControllerPage extends JCacheController
 			$id = $this->_makeId();
 		}
 
-		// If the etag matches the page id ... sent a no change header and exit : utilize browser cache
+		// If the etag matches the page id ... set a no change header and exit : utilize browser cache
 		if (!headers_sent() && isset($_SERVER['HTTP_IF_NONE_MATCH'])){
 			$etag = stripslashes($_SERVER['HTTP_IF_NONE_MATCH']);
 			if ($etag == $id) {
@@ -108,15 +109,16 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @return	boolean	True if cache stored
-	 * @since	1.6
+	 * @return  boolean  True if cache stored
+	 *
+	 * @since   11.1
 	 */
 	public function store($wrkarounds=true)
 	{
 		// Get page data from JResponse body
 		$data = JResponse::getBody();
 
-		// Get id and group and reset them placeholders
+		// Get id and group and reset the placeholders
 		$id		= $this->_id;
 		$group	= $this->_group;
 		$this->_id		= null;
@@ -144,12 +146,14 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Generate a page cache id
 	 *
-	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
+	 * @todo	TODO: Discuss whether this should be coupled to a data hash or a request
+	 * 			hash ... perhaps hashed with a serialized request
 	 *
-	 * @return	string	MD5 Hash : page cache id
-	 * @since	1.6
+	 * @return  string   MD5 Hash : page cache id
+	 *
+	 * @since   11.1
 	 */
-	private function _makeId()
+	protected function _makeId()
 	{
 		//return md5(JRequest::getURI());
 		return JCache::makeId();
@@ -158,10 +162,11 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * There is no change in page data so send a not modified header and die gracefully
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
-	private function _noChange()
+	protected function _noChange()
 	{
 		$app = JFactory::getApplication();
 
@@ -173,10 +178,11 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Set the ETag header in the response
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since	11.1
 	 */
-	private function _setEtag($etag)
+	protected function _setEtag($etag)
 	{
 		JResponse::setHeader('ETag', $etag, true);
 	}

@@ -1,25 +1,23 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Parameter base class
  *
  * The JElement is the base class for all JElement types
  *
- * @abstract
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  Use JForm instead
  */
 class JElement extends JObject
 {
@@ -29,23 +27,19 @@ class JElement extends JObject
 	* This has to be set in the final
 	* renderer classes.
 	*
-	* @access	protected
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = null;
 
 	/**
-	* reference to the object that instantiated the element
+	* Reference to the object that instantiated the element
 	*
-	* @access	protected
-	* @var		object
+	* @var    object
 	*/
 	protected $_parent = null;
 
 	/**
 	 * Constructor
-	 *
-	 * @access protected
 	 */
 	public function __construct($parent = null)
 	{
@@ -53,10 +47,9 @@ class JElement extends JObject
 	}
 
 	/**
-	* get the element name
+	* Get the element name
 	*
-	* @access	public
-	* @return	string	type of the parameter
+	* @return  string  type of the parameter
 	*/
 	public function getName() {
 		return $this->_name;

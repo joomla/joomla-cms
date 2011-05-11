@@ -1,53 +1,53 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Base
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Base
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract observable class to implement the observer design pattern
  *
- * @package		Joomla.Framework
- * @subpackage	Base
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Base
+ * @since       11.1
  */
 class JObservable extends JObject
 {
 	/**
 	 * An array of Observer objects to notify
 	 *
-	 * @access protected
-	 * @var array
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $_observers = array();
 
 	/**
 	 * The state of the observable object
 	 *
-	 * @access protected
-	 * @var mixed
+	 * @var    mixed
+	 * @since  11.1
 	 */
 	protected $_state = null;
 
 	/**
 	 * A multi dimensional array of [function][] = key for observers
 	 *
-	 * @access protected
-	 * @var array
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected $_methods = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @access protected - Make Sure it's not directly instansiated
+	 * Note: Make Sure it's not directly instansiated
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->_observers = array();
 	}
@@ -55,8 +55,8 @@ class JObservable extends JObject
 	/**
 	 * Get the state of the JObservable object
 	 *
-	 * @return	mixed	The state of the object.
-	 * @since	1.5
+	 * @return  mixed    The state of the object.
+	 * @since   11.1
 	 */
 	public function getState()
 	{
@@ -66,8 +66,8 @@ class JObservable extends JObject
 	/**
 	 * Update each attached observer object and return an array of their return values
 	 *
-	 * @return	array	Array of return values from the observers
-	 * @since	1.5
+	 * @return  array    Array of return values from the observers
+	 * @since   11.1
 	 */
 	public function notify()
 	{
@@ -83,10 +83,10 @@ class JObservable extends JObject
 	/**
 	 * Attach an observer object
 	 *
-	 * @param	object	$observer	An observer object to attach
+	 * @param   object   $observer  An observer object to attach
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public function attach($observer)
 	{
@@ -143,10 +143,10 @@ class JObservable extends JObject
 	/**
 	 * Detach an observer object
 	 *
-	 * @param	object	$observer	An observer object to detach.
+	 * @param   object   $observer  An observer object to detach.
 	 *
-	 * @return	boolean	True if the observer object was detached.
-	 * @since 1.5
+	 * @return  bool  True if the observer object was detached.
+	 * @since   11.1
 	 */
 	public function detach($observer)
 	{

@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.filesystem.file');
@@ -18,25 +18,25 @@ jimport('joomla.form.helper');
 /**
  * Form Field to display a list of the layouts for a component view from the extension or template overrides.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldComponentLayout extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $type = 'ComponentLayout';
 
 	/**
 	 * Method to get the field input.
 	 *
-	 * @return	string	The field input.
-	 * @since	1.6
+	 * @return  string   The field input.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
@@ -123,7 +123,7 @@ class JFormFieldComponentLayout extends JFormField
 
 			// Prepare the grouped list
 			$groups=array();
-			
+
 			// Add a Use Global option if useglobal="true" in XML file
 			if ($this->element['useglobal'] == 'true') {
 				$groups[JText::_('JOPTION_FROM_STANDARD')]['items'][]	= JHtml::_('select.option', '', JText::_('JGLOBAL_USE_GLOBAL'));
@@ -139,13 +139,13 @@ class JFormFieldComponentLayout extends JFormField
 
 				foreach ($component_layouts as $i=>$file)
 			{
-					// Attempt to load the xml file.
+					// Attempt to load the XML file.
 					if (!$xml = simplexml_load_file($file)) {
 						unset($component_layouts[$i]);
 
 						continue;
 			}
-				
+
 					// Get the help data from the XML file if present.
 					if (!$menu = $xml->xpath('layout[1]')) {
 						unset($component_layouts[$i]);
@@ -162,7 +162,7 @@ class JFormFieldComponentLayout extends JFormField
 					$groups['_']['items'][]	= JHtml::_('select.option', '_:'.$value, $text);
 				}
 			}
-						
+
 			// Loop on all templates
 			if ($templates)
 			{
@@ -180,7 +180,7 @@ class JFormFieldComponentLayout extends JFormField
 					if (is_dir($template_path) && ($files = JFolder::files($template_path, '^[^_]*\.php$', false, true)))
 					{
 						// Files with corresponding xml files are alternate menu items, not alternate layout files
-						// So we need to exclude these files
+						// so we need to exclude these files from the list.
 						$xml_files = JFolder::files($template_path, '^[^_]*\.xml$', false, true);
 						for ($j = 0, $count = count($xml_files); $j < $count; $j++)
 						{
@@ -188,7 +188,7 @@ class JFormFieldComponentLayout extends JFormField
 						}
 						foreach ($files as $i => $file)
 						{
-							// Remove layout files that exist in the component folder or that have xml files
+							// Remove layout files that exist in the component folder or that have XML files
 							if ((in_array(JFile::stripext(JFile::getName($file)), $component_layouts))
 							|| (in_array(JFile::stripext(JFile::getName($file)), $xml_files)))
 							{

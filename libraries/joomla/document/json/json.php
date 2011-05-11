@@ -1,21 +1,20 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Document
-* @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocumentJSON class, provides an easy interface to parse and display JSON output
  *
- * @package		Joomla.Framework
- * @subpackage	Document
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 
 jimport('joomla.document.document');
@@ -25,16 +24,14 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Document name
 	 *
-	 * @var		string
-	 * @access  protected
+	 * @var    string
 	 */
 	protected $_name = 'joomla';
 
 	/**
 	 * Class constructor
 	 *
-	 * @access public
-	 * @param	array	$options Associative array of options
+	 * @param   array  $options  Associative array of options
 	 */
 	public function __construct($options = array())
 	{
@@ -50,10 +47,10 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Render the document.
 	 *
-	 * @access public
-	 * @param boolean	$cache		If true, cache the output
-	 * @param array	$params		Associative array of attributes
-	 * @return	The rendered data
+	 * @param   boolean  $cache   If true, cache the output
+	 * @param   array    $params  Associative array of attributes
+	 *
+	 * @return  The rendered data
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -68,8 +65,7 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Get the document head data
 	 *
-	 * @access	public
-	 * @return	array	The document head data in array form
+	 * @return  array  The document head data in array form
 	 */
 	public function getHeadData()
 	{
@@ -78,8 +74,7 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Set the document head data
 	 *
-	 * @access	public
-	 * @param	array	$data	The document head data in array form
+	 * @param   array  $data  The document head data in array form
 	 */
 	public function setHeadData($data)
 	{
@@ -88,8 +83,7 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Returns the document name
 	 *
-	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	public function getName() {
 		return $this->_name;
@@ -98,8 +92,7 @@ class JDocumentJSON extends JDocument
 	/**
 	 * Sets the document name
 	 *
-	 * @param	string	$name	Document name
-	 * @access  public
+	 * @param   string  $name  Document name
 	 * @return  void
 	 */
 	public function setName($name = 'joomla') {

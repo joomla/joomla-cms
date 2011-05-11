@@ -1,28 +1,33 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 
 /**
  * Languages table.
  *
- * @package		Joomla.Framework
- * @subpackage	Table
- * @since		1.6
+ * @package		Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       11.1
  */
 class JTableLanguage extends JTable
 {
 	/**
 	 * Constructor
 	 *
-	 * @param	JDatabase
+	 * @param   JDatabase
+	 *
+	 * @return  JTableLanguage
+	 *
+	 * @since   11.1
 	 */
 	public function __construct(&$db)
 	{
@@ -32,7 +37,9 @@ class JTableLanguage extends JTable
 	/**
 	 * Overloaded check method to ensure data integrity
 	 *
-	 * @return boolean True on success
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
 	 */
 	public function check()
 	{

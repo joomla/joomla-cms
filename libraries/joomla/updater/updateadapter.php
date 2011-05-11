@@ -1,9 +1,23 @@
 <?php
+/**
+ * @package     Joomla.Platform
+ * @subpackage  Updater
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-// No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
+
+/**
+ * UpdateAdapter class.
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Update
+ * @since       11.1
+ */
 
 class JUpdateAdapter extends JAdapterInstance {
 	protected $xml_parser;
@@ -14,15 +28,21 @@ class JUpdateAdapter extends JAdapterInstance {
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return object
+	 * @return  object
+	 * @since   11.1
 	 */
 	protected function _getStackLocation()
 	{
 			return implode('->', $this->_stack);
 	}
 
+	/**
+	 * Gets the reference to the last tag
+	 *
+	 * @return  object
+	 * @since   11.1
+	 */
 	protected function _getLastTag() {
 		return $this->_stack[count($this->_stack) - 1];
 	}
-
 }

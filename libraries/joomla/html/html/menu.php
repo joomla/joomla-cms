@@ -1,40 +1,38 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage		HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class working with menu select lists
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlMenu
 {
 	/**
-	 * @var	array	Cached array of the menus.
+	 * @var    array  Cached array of the menus.
 	 */
 	protected static $menus = null;
 
 	/**
-	 * @var	array	Cached array of the menus items.
+	 * @var    array  Cached array of the menus items.
 	 */
 	protected static $items = null;
 
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return	string
-	 * @since	1.6
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function menus()
 	{
@@ -55,9 +53,9 @@ abstract class JHtmlMenu
 	/**
 	 * Returns an array of menu items groups by menu.
 	 *
-	 * @param	array	An array of configuration options.
+	 * @param   array  An array of configuration options.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function menuitems($config = array())
 	{
@@ -129,12 +127,12 @@ abstract class JHtmlMenu
 	/**
 	 * Displays an HTML select list of menu items.
 	 *
-	 * @param	string	The name of the control.
-	 * @param	string	The value of the selected option.
-	 * @param	string	Attributes for the control.
-	 * @param	array	An array of options for the control.
+	 * @param   string   The name of the control.
+	 * @param   string   The value of the selected option.
+	 * @param   string   Attributes for the control.
+	 * @param   array    An array of options for the control.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function menuitemlist($name, $selected = null, $attribs = null, $config = array())
 	{
@@ -214,9 +212,9 @@ abstract class JHtmlMenu
 
 		$mitems_temp = $mitems;
 
-		// establish the hierarchy of the menu
+		// Establish the hierarchy of the menu
 		$children = array();
-		// first pass - collect children
+		// First pass - collect children
 		foreach ($mitems as $v)
 		{
 			$id = $v->id;
@@ -225,7 +223,7 @@ abstract class JHtmlMenu
 			array_push($list, $v);
 			$children[$pt] = $list;
 		}
-		// second pass - get an indent list of the items
+		// Second pass - get an indent list of the items
 		$list = JHtmlMenu::TreeRecurse(intval($mitems[0]->parent_id), '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)

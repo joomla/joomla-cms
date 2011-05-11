@@ -1,11 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -14,50 +16,51 @@ jimport('joomla.application.component.controller');
 /**
  * Controller tailored to suit most form-based admin operations.
  *
- * @package		Joomla.Framework
- * @subpackage	Application
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 class JControllerForm extends JController
 {
 	/**
-	 * @var		string	The context for storing internal data, eg record.
-	 * @since	1.6
+	 * @var    string	The context for storing internal data, e.g. record.
+	 * @since  11.1
 	 */
 	protected $context;
 
 	/**
-	 * @var		string	The URL option for the component.
-	 * @since	1.6
+	 * @var    string	The URL option for the component.
+	 * @since  11.1
 	 */
 	protected $option;
 
 	/**
-	 * @var		string	The URL view item variable.
-	 * @since	1.6
+	 * @var    string	The URL view item variable.
+	 * @since  11.1
 	 */
 	protected $view_item;
 
 	/**
-	 * @var		string	The URL view list variable.
-	 * @since	1.6
+	 * @var    string	The URL view list variable.
+	 * @since  11.1
 	 */
 	protected $view_list;
 
 	/**
-	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @var    string	The prefix to use with controller messages.
+	 * @since  11.1
 	 */
 	protected $text_prefix;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return	JControllerForm
-	 * @see		JController
-	 * @since	1.6
+	 * @return  JControllerForm  A JControllerForm object
+	 *
+	 * @see     JController
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -89,7 +92,8 @@ class JControllerForm extends JController
 
 		// Guess the list view as the plural of the item view.
 		if (empty($this->view_list)) {
-			// @TODO Probably worth moving to an inflector class based on http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
+			// @TODO Probably worth moving to an inflector class based on
+			// http://kuwamoto.org/2007/12/17/improved-pluralizing-in-php-actionscript-and-ror/
 
 			// Simple pluralisation based on public domain snippet by Paul Osman
 			// For more complex types, just manually set the variable in your class.
@@ -121,8 +125,8 @@ class JControllerForm extends JController
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return	mixed	True if the record can be added, a JError object if not.
-	 * @since	1.6
+	 * @return  mixed  True if the record can be added, a JError object if not.
+	 * @since   11.1
 	 */
 	public function add()
 	{
@@ -154,10 +158,10 @@ class JControllerForm extends JController
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -171,11 +175,11 @@ class JControllerForm extends JController
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -187,11 +191,11 @@ class JControllerForm extends JController
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -208,10 +212,10 @@ class JControllerForm extends JController
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param	string	$key	The name of the primary key of the URL variable.
+	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return	Boolean	True if access level checks pass, false otherwise.
-	 * @since	1.6
+	 * @return  bool  True if access level checks pass, false otherwise.
+	 * @since   11.1
 	 */
 	public function cancel($key = null)
 	{
@@ -265,11 +269,11 @@ class JControllerForm extends JController
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @param	string	$key	The name of the primary key of the URL variable.
-	 * @param	string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return	Boolean	True if access level check and checkout passes, false otherwise.
-	 * @since	1.6
+	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 * @since   11.1
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
@@ -286,7 +290,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		// The urlVar may be different from the primary key to avoid data collisions.
+		// To avoid data collisions the urlVar may be different from the primary key.
 		if (empty($urlVar)) {
 			$urlVar = $key;
 		}
@@ -326,12 +330,12 @@ class JControllerForm extends JController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	$name	The model name. Optional.
-	 * @param	string	$prefix	The class prefix. Optional.
-	 * @param	array	$config	Configuration array for model. Optional.
+	 * @param   string  $name	The model name. Optional.
+	 * @param   string  $prefix	The class prefix. Optional.
+	 * @param   array   $config	Configuration array for model. Optional.
 	 *
-	 * @return	object	The model.
-	 * @since	1.6
+	 * @return  object  The model.
+	 * @since   11.1
 	 */
 	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -345,11 +349,11 @@ class JControllerForm extends JController
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param	int		$recordId	The primary key id for the item.
-	 * @param	string	$urlVar		The name of the URL variable for the id.
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
 	 *
-	 * @return	string	The arguments to append to the redirect URL.
-	 * @since	1.6
+	 * @return  string  The arguments to append to the redirect URL.
+	 * @since   11.1
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -376,8 +380,8 @@ class JControllerForm extends JController
 	/**
 	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return	string	The arguments to append to the redirect URL.
-	 * @since	1.6
+	 * @return  string  The arguments to append to the redirect URL.
+	 * @since   11.1
 	 */
 	protected function getRedirectToListAppend()
 	{
@@ -395,11 +399,11 @@ class JControllerForm extends JController
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param	JModel	$model		The data model object.
-	 * @param	array	$validData	The validated data.
+	 * @param   JModel	$model      The data model object.
+	 * @param   array   $validData  The validated data.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   11.1
 	 */
 	protected function postSaveHook(JModel &$model, $validData = array())
 	{
@@ -408,11 +412,11 @@ class JControllerForm extends JController
 	/**
 	 * Method to save a record.
 	 *
-	 * @param	string	$key	The name of the primary key of the URL variable.
-	 * @param	string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key	The name of the primary key of the URL variable.
+	 * @param   string  $urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return	Boolean	True if successful, false otherwise.
-	 * @since	1.6
+	 * @return  boolean  True if successful, false otherwise.
+	 * @since   11.1
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -434,7 +438,7 @@ class JControllerForm extends JController
 			$key = $table->getKeyName();
 		}
 
-		// The urlVar may be different from the primary key to avoid data collisions.
+		// To avoid data collisions the urlVar may be different from the primary key.
 		if (empty($urlVar)) {
 			$urlVar = $key;
 		}
@@ -445,7 +449,7 @@ class JControllerForm extends JController
 		$registry	= $session->get('registry');
 
 		if (!$this->checkEditId($context, $recordId)) {
-			// Somehow the person just went to the form and saved it - we don't allow that.
+			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));
@@ -460,7 +464,7 @@ class JControllerForm extends JController
 		if ($task == 'save2copy') {
 			// Check-in the original row.
 			if ($checkin  && $model->checkin($data[$key]) === false) {
-				// Check-in failed, go back to the item and display a notice.
+				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 				$this->setMessage($this->getError(), 'error');
 				$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $urlVar));
@@ -492,7 +496,7 @@ class JControllerForm extends JController
 			return false;
 		}
 
-		// Test if the data is valid.
+		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
@@ -533,12 +537,12 @@ class JControllerForm extends JController
 			return false;
 		}
 
-		// Save succeeded, check-in the record.
+		// Save succeeded, so check-in the record.
 		if ($checkin && $model->checkin($validData[$key]) === false) {
 			// Save the data in the session.
 			$app->setUserState($context.'.data', $validData);
 
-			// Check-in failed, go back to the record and display a notice.
+			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key));
@@ -556,7 +560,7 @@ class JControllerForm extends JController
 				$recordId = $model->getState($this->context.'.id');
 				$this->holdEditId($context, $recordId);
 				$app->setUserState($context.'.data', null);
-                                $model->checkout($recordId);
+				$model->checkout($recordId);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_item.$this->getRedirectToItemAppend($recordId, $key), false));

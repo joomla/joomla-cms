@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Client
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /** Error Codes:
  *  - 30 : Unable to connect to host
@@ -50,97 +49,80 @@ if (!defined('FTP_NATIVE')) {
 /**
  * FTP client class
  *
- * @package		Joomla.Framework
- * @subpackage	Client
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ * @since       11.1
  */
 class JFTP extends JObject
 {
 
 	/**
-	 * Server connection resource
-	 *
-	 * @access private
-	 * @var socket resource
+	 * @var    resource  Socket resource
+	 * @since  11.1
 	 */
 	var $_conn = null;
 
 	/**
-	 * Data port connection resource
-	 *
-	 * @access private
-	 * @var socket resource
+	 * @var    resource  Data port connection resource
+	 * @since  11.1
 	 */
 	var $_dataconn = null;
 
 	/**
-	 * Passive connection information
-	 *
-	 * @access private
-	 * @var array
+	 * @var    array  Passive connection information
+	 * @since  11.1
 	 */
 	var $_pasv = null;
 
 	/**
-	 * Response Message
-	 *
-	 * @access private
-	 * @var string
+	 * @var    string  Response Message
+	 * @since  11.1
 	 */
 	var $_response = null;
 
 	/**
-	 * Timeout limit
-	 *
-	 * @access private
-	 * @var int
+	 * @var    integer  Timeout limit
+	 * @since  11.1
 	 */
 	var $_timeout = 15;
 
 	/**
-	 * Transfer Type
-	 *
-	 * @access private
-	 * @var int
+	 * @var    integer  Transfer Type
+	 * @since  11.1
 	 */
 	var $_type = null;
 
 	/**
-	 * Native OS Type
-	 *
-	 * @access private
-	 * @var string
+	 * @var    string  Native OS Type
+	 * @since  11.1
 	 */
 	var $_OS = null;
 
 	/**
-	 * Array to hold ascii format file extensions
-	 *
-	 * @final
-	 * @access private
-	 * @var array
+	 * @var    array  Array to hold ascii format file extensions
+	 * @since   11.1
 	 */
 	var $_autoAscii = array ("asp", "bat", "c", "cpp", "csv", "h", "htm", "html", "shtml", "ini", "inc", "log", "php", "php3", "pl", "perl", "sh", "sql", "txt", "xhtml", "xml");
 
 	/**
 	 * Array to hold native line ending characters
 	 *
-	 * @final
-	 * @access private
-	 * @var array
+	 * @var    array
+	 * @since  11.1
 	 */
 	var $_lineEndings = array ('UNIX' => "\n", 'MAC' => "\r", 'WIN' => "\r\n");
 
 	/**
 	 * JFTP object constructor
 	 *
-	 * @access protected
-	 * @param array $options Associative array of options to set
-	 * @since 1.5
+	 * @param   array  $options  Associative array of options to set
+	 *
+	 * @return
+	 * @since   11.1
 	 */
 	function __construct($options=array()) {
 
-		// If default transfer type is no set, set it to autoascii detect
+		// If default transfer type is not set, set it to autoascii detect
 		if (!isset ($options['type'])) {
 			$options['type'] = FTP_BINARY;
 		}
@@ -161,6 +143,7 @@ class JFTP extends JObject
 			JLoader::load('JBuffer');
 		}
 
+		// @deprecated 11.1
 		// Register faked "destructor" in PHP4 to close all connections we might have made
 		if (version_compare(PHP_VERSION, '5') == -1) {
 			register_shutdown_function(array(&$this, '__destruct'));
@@ -172,8 +155,9 @@ class JFTP extends JObject
 	 *
 	 * Closes an existing connection, if we have one
 	 *
-	 * @access protected
-	 * @since 1.5
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	function __destruct() {
 		if (is_resource($this->_conn)) {
@@ -190,13 +174,14 @@ class JFTP extends JObject
 	 * If you do not use this option, you must quit() the current connection when you
 	 * are done, to free it for use by others.
 	 *
-	 * @param	string	$host		Host to connect to
-	 * @param	string	$port		Port to connect to
-	 * @param	array	$options	Array with any of these options: type=>[FTP_AUTOASCII|FTP_ASCII|FTP_BINARY], timeout=>(int)
-	 * @param	string	$user		Username to use for a connection
-	 * @param	string	$pass		Password to use for a connection
-	 * @return	JFTP	The FTP Client object.
-	 * @since 1.5
+	 * @param   string   $host     Host to connect to
+	 * @param   string   $port     Port to connect to
+	 * @param   array    $options  Array with any of these options: type=>[FTP_AUTOASCII|FTP_ASCII|FTP_BINARY], timeout=>(int)
+	 * @param   string   $user     Username to use for a connection
+	 * @param   string   $pass     Password to use for a connection
+	 *
+	 * @return  JFTP              The FTP Client object.
+	 * @since   11.1
 	 */
 	function getInstance($host = '127.0.0.1', $port = '21', $options = null, $user = null, $pass = null)
 	{
@@ -225,9 +210,10 @@ class JFTP extends JObject
 	/**
 	 * Set client options
 	 *
-	 * @access public
-	 * @param array $options Associative array of options to set
-	 * @return boolean True if successful
+	 * @param   array  $options  Associative array of options to set
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function setOptions($options) {
 
@@ -243,10 +229,11 @@ class JFTP extends JObject
 	/**
 	 * Method to connect to a FTP server
 	 *
-	 * @access public
-	 * @param string $host Host to connect to [Default: 127.0.0.1]
-	 * @param string $port Port to connect on [Default: port 21]
-	 * @return boolean True if successful
+	 * @param   string   $host   Host to connect to [Default: 127.0.0.1]
+	 * @param   string   $port   Port to connect on [Default: port 21]
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function connect($host = '127.0.0.1', $port = 21) {
 
@@ -259,7 +246,7 @@ class JFTP extends JObject
 			return true;
 		}
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			$this->_conn = @ftp_connect($host, $port, $this->_timeout);
 			if ($this->_conn === false) {
@@ -293,9 +280,8 @@ class JFTP extends JObject
 	/**
 	 * Method to determine if the object is connected to an FTP server
 	 *
-	 * @access	public
-	 * @return	boolean	True if connected
-	 * @since	1.5
+	 * @return  boolean  True if connected
+	 * @since   11.1
 	 */
 	function isConnected()
 	{
@@ -305,14 +291,15 @@ class JFTP extends JObject
 	/**
 	 * Method to login to a server once connected
 	 *
-	 * @access public
-	 * @param string $user Username to login to the server
-	 * @param string $pass Password to login to the server
-	 * @return boolean True if successful
+	 * @param   string   $user	Username to login to the server
+	 * @param   string   $pass	Password to login to the server
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function login($user = 'anonymous', $pass = 'jftp@joomla.org') {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_login($this->_conn, $user, $pass) === false) {
 				JError::raiseWarning('30', 'JFTP::login: Unable to login');
@@ -344,8 +331,8 @@ class JFTP extends JObject
 	/**
 	 * Method to quit and close the connection
 	 *
-	 * @access public
-	 * @return boolean True if successful
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function quit() {
 
@@ -365,12 +352,12 @@ class JFTP extends JObject
 	/**
 	 * Method to retrieve the current working directory on the FTP server
 	 *
-	 * @access public
-	 * @return string Current working directory
+	 * @return  string   Current working directory
+	 * @since   11.1
 	 */
 	function pwd() {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (($ret = @ftp_pwd($this->_conn)) === false) {
 				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_PWD_BAD_RESPONSE_NATIVE'));
@@ -398,8 +385,8 @@ class JFTP extends JObject
 	/**
 	 * Method to system string from the FTP server
 	 *
-	 * @access public
-	 * @return string System identifier string
+	 * @return  string   System identifier string
+	 * @since   11.1
 	 */
 	function syst() {
 
@@ -434,9 +421,10 @@ class JFTP extends JObject
 	/**
 	 * Method to change the current working directory on the FTP server
 	 *
-	 * @access public
-	 * @param string $path Path to change into on the server
-	 * @return boolean True if successful
+	 * @param   string   $path	Path to change into on the server
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function chdir($path) {
 
@@ -463,12 +451,12 @@ class JFTP extends JObject
 	 *
 	 * NOTE: This command not available on all servers
 	 *
-	 * @access public
-	 * @return boolean True if successful
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function reinit() {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_site($this->_conn, 'REIN') === false) {
 				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_REINIT_BAD_RESPONSE_NATIVE'));
@@ -489,14 +477,15 @@ class JFTP extends JObject
 	/**
 	 * Method to rename a file/folder on the FTP server
 	 *
-	 * @access public
-	 * @param string $from Path to change file/folder from
-	 * @param string $to Path to change file/folder to
-	 * @return boolean True if successful
+	 * @param   string   $from	Path to change file/folder from
+	 * @param   string   $to		Path to change file/folder to
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function rename($from, $to) {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_rename($this->_conn, $from, $to) === false) {
 				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_RENAME_BAD_RESPONSE_NATIVE'));
@@ -523,10 +512,11 @@ class JFTP extends JObject
 	/**
 	 * Method to change mode for a path on the FTP server
 	 *
-	 * @access public
-	 * @param string		$path	Path to change mode on
-	 * @param string/int	$mode	Octal value to change mode to, e.g. '0777', 0777 or 511
-	 * @return boolean		True if successful
+	 * @param   string   $path  Path to change mode on
+	 * @param   mixed    $mode  Octal value to change mode to, e.g. '0777', 0777 or 511 (string or integer)
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function chmod($path, $mode) {
 
@@ -540,7 +530,7 @@ class JFTP extends JObject
 			$mode = decoct($mode);
 		}
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_site($this->_conn, 'CHMOD '.$mode.' '.$path) === false) {
 				if ($this->_OS != 'WIN') {
@@ -564,13 +554,14 @@ class JFTP extends JObject
 	/**
 	 * Method to delete a path [file/folder] on the FTP server
 	 *
-	 * @access public
-	 * @param string $path Path to delete
-	 * @return boolean True if successful
+	 * @param   string   $path  Path to delete
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function delete($path) {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_delete($this->_conn, $path) === false) {
 				if (@ftp_rmdir($this->_conn, $path) === false) {
@@ -594,13 +585,14 @@ class JFTP extends JObject
 	/**
 	 * Method to create a directory on the FTP server
 	 *
-	 * @access public
-	 * @param string $path Directory to create
-	 * @return boolean True if successful
+	 * @param   string   $path Directory to create
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function mkdir($path) {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_mkdir($this->_conn, $path) === false) {
 				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_MKDIR_BAD_RESPONSE_NATIVE'));
@@ -620,13 +612,14 @@ class JFTP extends JObject
 	/**
 	 * Method to restart data transfer at a given byte
 	 *
-	 * @access public
-	 * @param int $point Byte to restart transfer at
-	 * @return boolean True if successful
+	 * @param   integer   $point   Byte to restart transfer at
+	 *
+	 * @return  boolean   True if successful
+	 * @since   11.1
 	 */
 	function restart($point) {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			if (@ftp_site($this->_conn, 'REST '.$point) === false) {
 				JError::raiseWarning('35', JText::_('JLIB_CLIENT_ERROR_JFTP_RESTART_BAD_RESPONSE_NATIVE'));
@@ -647,13 +640,14 @@ class JFTP extends JObject
 	/**
 	 * Method to create an empty file on the FTP server
 	 *
-	 * @access public
-	 * @param string $path Path local file to store on the FTP server
-	 * @return boolean True if successful
+	 * @param   string   $path  Path local file to store on the FTP server
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function create($path) {
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
 			// turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
@@ -697,19 +691,20 @@ class JFTP extends JObject
 	/**
 	 * Method to read a file from the FTP server's contents into a buffer
 	 *
-	 * @access public
-	 * @param string $remote Path to remote file to read on the FTP server
-	 * @param string $buffer Buffer variable to read file contents into
-	 * @return boolean True if successful
+	 * @param   string   $remote Path to remote file to read on the FTP server
+	 * @param   string   $buffer Buffer variable to read file contents into
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function read($remote, &$buffer) {
 
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_READ_BAD_RESPONSE_PASSIVE'));
 				return false;
@@ -770,19 +765,20 @@ class JFTP extends JObject
 	/**
 	 * Method to get a file from the FTP server and save it to a local file
 	 *
-	 * @access public
-	 * @param string $local Path to local file to save remote file as
-	 * @param string $remote Path to remote file to get on the FTP server
-	 * @return boolean True if successful
+	 * @param   string   $local	Local path to save remote file to
+	 * @param   string   $remote	Path to remote file to get on the FTP server
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function get($local, $remote) {
 
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_GET_PASSIVE'));
 				return false;
@@ -837,15 +833,15 @@ class JFTP extends JObject
 	/**
 	 * Method to store a file to the FTP server
 	 *
-	 * @access public
-	 * @param string $local Path to local file to store on the FTP server
-	 * @param string $remote FTP path to file to create
+	 * @param	string	$local	Path to local file to store on the FTP server
+	 * @param	string	$remote	FTP path to file to create
+	 *
 	 * @return boolean True if successful
 	 */
 	function store($local, $remote = null) {
 
-		// If remote file not given, use the filename of the local file in the current
-		// working directory
+		// If remote file is not given, use the filename of the local file in the current
+		// working directory.
 		if ($remote == null) {
 			$remote = basename($local);
 		}
@@ -853,9 +849,9 @@ class JFTP extends JObject
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_STORE_PASSIVE'));
 				return false;
@@ -870,7 +866,7 @@ class JFTP extends JObject
 
 		$this->_mode($mode);
 
-		// Check to see if the local file exists and open for reading if so
+		// Check to see if the local file exists and if so open it for reading
 		if (@ file_exists($local)) {
 			$fp = fopen($local, "rb");
 			if (!$fp) {
@@ -923,19 +919,20 @@ class JFTP extends JObject
 	/**
 	 * Method to write a string to the FTP server
 	 *
-	 * @access public
-	 * @param string $remote FTP path to file to write to
-	 * @param string $buffer Contents to write to the FTP server
-	 * @return boolean True if successful
+	 * @param   string   $remote   FTP path to file to write to
+	 * @param   string   $buffer   Contents to write to the FTP server
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function write($remote, $buffer) {
 
 		// Determine file type
 		$mode = $this->_findMode($remote);
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_WRITE_PASSIVE'));
 				return false;
@@ -994,20 +991,21 @@ class JFTP extends JObject
 	 * Method to list the filenames of the contents of a directory on the FTP server
 	 *
 	 * Note: Some servers also return folder names. However, to be sure to list folders on all
-	 * servers, you should use listDetails() instead, if you also need to deal with folders
+	 * servers, you should use listDetails() instead if you also need to deal with folders
 	 *
-	 * @access public
-	 * @param string $path Path local file to store on the FTP server
-	 * @return string Directory listing
+	 * @param   string   $path   Path local file to store on the FTP server
+	 *
+	 * @return  string   Directory listing
+	 * @since   11.1
 	 */
 	function listNames($path = null) {
 
 		// Initialise variables.
 		$data = null;
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_LISTNAMES_PASSIVE'));
 				return false;
@@ -1078,10 +1076,10 @@ class JFTP extends JObject
 	/**
 	 * Method to list the contents of a directory on the FTP server
 	 *
-	 * @access public
-	 * @param string $path Path local file to store on the FTP server
-	 * @param string $type Return type [raw|all|folders|files]
-	 * @param boolean $search Recursively search subdirectories
+	 * @param	string	$path	Path to the local file to be stored on the FTP server
+	 * @param 	string	$type	Return type [raw|all|folders|files]
+	 * @param 	boolean	$search	Recursively search subdirectories
+	 *
 	 * @return mixed : if $type is raw: string Directory listing, otherwise array of string with file-names
 	 */
 	function listDetails($path = null, $type = 'all') {
@@ -1094,9 +1092,9 @@ class JFTP extends JObject
 		// For now we will just set it to false
 		$recurse = false;
 
-		// If native FTP support is enabled lets use it...
+		// If native FTP support is enabled let's use it...
 		if (FTP_NATIVE) {
-			// turn passive mode on
+			// Turn passive mode on
 			if (@ftp_pasv($this->_conn, true) === false) {
 				JError::raiseWarning('36', JText::_('JLIB_CLIENT_ERROR_JFTP_LISTDETAILS_PASSIVE'));
 				return false;
@@ -1147,7 +1145,7 @@ class JFTP extends JObject
 			return $data;
 		}
 
-		// If we received the listing of an emtpy directory, we are done as well
+		// If we received the listing of an empty directory, we are done as well
 		if (empty($contents[0])) {
 			return $dir_list;
 		}
@@ -1276,9 +1274,9 @@ class JFTP extends JObject
 	/**
 	 * Send command to the FTP server and validate an expected response code
 	 *
-	 * @access private
-	 * @param string $cmd Command to send to the FTP server
-	 * @param mixed $expected Integer response code or array of integer response codes
+	 * @param	string	$cmd				Command to send to the FTP server
+	 * @param 	mixed	$expectedResponse	Integer response code or array of
+	 * 										integer response codes
 	 * @return boolean True if command executed successfully
 	 */
 	function _putCmd($cmd, $expectedResponse) {
@@ -1300,9 +1298,9 @@ class JFTP extends JObject
 	/**
 	 * Verify the response code from the server and log response if flag is set
 	 *
-	 * @access private
-	 * @param mixed $expected Integer response code or array of integer response codes
-	 * @return boolean True if response code from the server is expected
+	 * @param   mixed    $expected	Integer response code or array of integer response codes
+	 *
+	 * @return  boolean  True if response code from the server is expected
 	 */
 	function _verifyResponse($expected) {
 
@@ -1346,8 +1344,8 @@ class JFTP extends JObject
 	/**
 	 * Set server to passive mode and open a data port connection
 	 *
-	 * @access private
-	 * @return boolean True if successful
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function _passive() {
 
@@ -1414,9 +1412,10 @@ class JFTP extends JObject
 	/**
 	 * Method to find out the correct transfer mode for a specific file
 	 *
-	 * @access	private
-	 * @param	string	$fileName	Name of the file
-	 * @return	integer	Transfer-mode for this filetype [FTP_ASCII|FTP_BINARY]
+	 * @param   string   $fileName	Name of the file
+	 *
+	 * @return  integer  Transfer-mode for this filetype [FTP_ASCII|FTP_BINARY]
+	 * @since   11.1
 	 */
 	function _findMode($fileName) {
 		if ($this->_type == FTP_AUTOASCII) {
@@ -1439,10 +1438,11 @@ class JFTP extends JObject
 	/**
 	 * Set transfer mode
 	 *
-	 * @access private
-	 * @param int $mode Integer representation of data transfer mode [1:Binary|0:Ascii]
-	 *  Defined constants can also be used [FTP_BINARY|FTP_ASCII]
-	 * @return boolean True if successful
+	 * @param    integer   $mode   Integer representation of data transfer mode [1:Binary|0:Ascii]
+	 *                             Defined constants can also be used [FTP_BINARY|FTP_ASCII]
+	 *
+	 * @return  boolean  True if successful
+	 * @since   11.1
 	 */
 	function _mode($mode) {
 		if ($mode == FTP_BINARY) {

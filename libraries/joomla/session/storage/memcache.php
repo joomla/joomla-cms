@@ -1,23 +1,22 @@
 <?php
 /**
- * @version		$Id:eaccelerator.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		Joomla.Framework
- * @subpackage	Session
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Memcache session storage handler for PHP
  *
  * -- Inspired in both design and implementation by the Horde memcache handler --
  *
- * @package		Joomla.Framework
- * @subpackage	Session
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ * @since       11.1
  * @see http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageMemcache extends JSessionStorage
@@ -46,10 +45,9 @@ class JSessionStorageMemcache extends JSessionStorage
 	/**
 	* Constructor
 	*
-	* @access protected
-	* @param array $options optional parameters
+	* @param   array    $options optional parameters
 	*/
-	function __construct($options = array())
+	public function __construct($options = array())
 	{
 		if (!$this->test()) {
 			return JError::raiseError(404, JText::_('JLIB_SESSION_MEMCACHE_EXTENSION_NOT_AVAILABLE'));
@@ -79,12 +77,12 @@ class JSessionStorageMemcache extends JSessionStorage
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @access public
-	 * @param string $save_path	The path to the session object.
-	 * @param string $session_name  The name of the session.
+	 * @param   string   $save_path	The path to the session object.
+	 * @param   string   $session_name  The name of the session.
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function open($save_path, $session_name)
+	public function open($save_path, $session_name)
 	{
 		$this->_db = new Memcache;
 		for ($i=0, $n=count($this->_servers); $i < $n; $i++)
@@ -98,10 +96,9 @@ class JSessionStorageMemcache extends JSessionStorage
 	/**
 	 * Close the SessionHandler backend.
 	 *
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function close()
+	public function close()
 	{
 		return $this->_db->close();
 	}
@@ -110,11 +107,11 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * Read the data for a particular session identifier from the
 	 * SessionHandler backend.
 	 *
-	 * @access public
-	 * @param string $id  The session identifier.
-	 * @return string  The session data.
+	 * @param   string   $id  The session identifier.
+	 *
+	 * @return  string    The session data.
 	 */
-	function read($id)
+	public function read($id)
 	{
 		$sess_id = 'sess_'.$id;
 		$this->_setExpire($sess_id);
@@ -124,12 +121,12 @@ class JSessionStorageMemcache extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @access public
-	 * @param string $id			The session identifier.
-	 * @param string $session_data  The session data.
+	 * @param   string   $id			The session identifier.
+	 * @param   string   $session_data  The session data.
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function write($id, $session_data)
+	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_'.$id;
 		if ($this->_db->get($sess_id.'_expire')) {
@@ -149,11 +146,11 @@ class JSessionStorageMemcache extends JSessionStorage
 	 * Destroy the data for a particular session identifier in the
 	 * SessionHandler backend.
 	 *
-	 * @access public
-	 * @param string $id  The session identifier.
+	 * @param   string   $id  The session identifier.
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function destroy($id)
+	public function destroy($id)
 	{
 		$sess_id = 'sess_'.$id;
 		$this->_db->delete($sess_id.'_expire');
@@ -165,11 +162,10 @@ class JSessionStorageMemcache extends JSessionStorage
 	 *
 	 *	-- Not Applicable in memcache --
 	 *
-	 * @access public
-	 * @param integer $maxlifetime  The maximum age of a session.
+	 * @param   integer  $maxlifetime  The maximum age of a session.
 	 * @return boolean  True on success, false otherwise.
 	 */
-	function gc($maxlifetime = null)
+	public function gc($maxlifetime = null)
 	{
 		return true;
 	}
@@ -177,11 +173,9 @@ class JSessionStorageMemcache extends JSessionStorage
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
-	 * @static
-	 * @access public
 	 * @return boolean  True on success, false otherwise.
 	 */
-	static function test()
+	static public function test()
 	{
 		return (extension_loaded('memcache') && class_exists('Memcache'));
 	}
@@ -189,12 +183,10 @@ class JSessionStorageMemcache extends JSessionStorage
 	/**
 	 * Set expire time on each call since memcache sets it on cache creation.
 	 *
-	 * @access private
-	 *
-	 * @param string  $key		Cache key to expire.
-	 * @param integer $lifetime  Lifetime of the data in seconds.
+	 * @param   string  $key		Cache key to expire.
+	 * @param   integer  $lifetime  Lifetime of the data in seconds.
 	 */
-	function _setExpire($key)
+	protected function _setExpire($key)
 	{
 		$lifetime	= ini_get("session.gc_maxlifetime");
 		$expire		= $this->_db->get($key.'_expire');

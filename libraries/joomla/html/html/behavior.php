@@ -1,31 +1,33 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for javascript behaviors
  *
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @version		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @version		11.1
  */
 abstract class JHtmlBehavior
 {
 	/**
-	 * Method to load the mootools framework into the document head
+	 * Method to load the MooTools framework into the document head
 	 *
-	 * - If debugging mode is on an uncompressed version of mootools is included for easier debugging.
+	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
 	 *
-	 * @param	string	$extras	Mootools file to load
-	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 * @param   string   $extras	MooTools file to load
+	 * @param   boolean  $debug	Is debugging mode on? [optional]
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function framework($extras = false, $debug = null)
 	{
@@ -61,10 +63,10 @@ abstract class JHtmlBehavior
 	/**
 	 * Deprecated. Use JHtmlBehavior::framework() instead.
 	 *
-	 * @param	boolean	$debug	Is debugging mode on? [optional]
+	 * @param   boolean  $debug	Is debugging mode on? [optional]
 	 * @deprecated
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function mootools($debug = null)
 	{
@@ -74,19 +76,19 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function caption()
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -100,21 +102,21 @@ abstract class JHtmlBehavior
 	 * To enable form validation the form tag must have class="form-validate".
 	 * Each field that needs to be validated need to have class="validate".
 	 * Additional handlers can be added to the handler for username, password,
-	 * numberic and email. To use these add class="validate-email" and so on.
+	 * numeric and email. To use these add class="validate-email" and so on.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function formvalidation()
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -126,19 +128,19 @@ abstract class JHtmlBehavior
 	 * Add unobtrusive javascript support for submenu switcher support in
 	 * Global Configuration and System Information.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function switcher()
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -159,24 +161,24 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Add unobtrusive javascript support for a comboox effect.
+	 * Add unobtrusive javascript support for a combobox effect.
 	 *
 	 * Note that this control is only reliable in absolutely positioned elements.
 	 * Avoid using a combobox in a slider or dynamic pane.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function combobox()
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -200,13 +202,13 @@ abstract class JHtmlBehavior
 	 * - onShow			func	The default function for the show event, passes the tip element and the currently hovered element.
 	 * - onHide			func	The default function for the hide event, passes the currently hovered element.
 	 *
-	 * Uses the core Tips class in mootools.
+	 * Uses the core Tips class in MooTools.
 	 *
-	 * @param	string	$selector	The class selector for the tooltip.
-	 * @param	array	$params		An array of options for the tooltip.
+	 * @param   string   $selector	The class selector for the tooltip.
+	 * @param   array    $params		An array of options for the tooltip.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function tooltip($selector='.hasTip', $params = array())
 	{
@@ -216,7 +218,7 @@ abstract class JHtmlBehavior
 			$tips = array();
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework(true);
 
 		$sig = md5(serialize(array($selector,$params)));
@@ -272,11 +274,11 @@ abstract class JHtmlBehavior
 	 * - onShow
 	 * - onHide
 	 *
-	 * @param	string	$selector	The class selector for which a modal behaviour is to be applied.
-	 * @param	array	$params		An array of parameters for the modal behaviour.
+	 * @param   string  $selector	The class selector for which a modal behaviour is to be applied.
+	 * @param   array   $params		An array of parameters for the modal behaviour.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function modal($selector = 'a.modal', $params = array())
 	{
@@ -287,11 +289,11 @@ abstract class JHtmlBehavior
 
 		// Load the necessary files if they haven't yet been loaded
 		if (!isset($included)) {
-			// Include mootools framework
+			// Include MooTools framework
 			self::framework();
 
 			// Load the javascript and css
-			$uncompressed = JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
+			$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 			JHtml::_('script','system/modal'.$uncompressed.'.js', true, true);
 			JHtml::_('stylesheet','system/modal.css', array(), true);
 
@@ -331,6 +333,7 @@ abstract class JHtmlBehavior
 		// Attach modal behavior to document
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function() {
+
 			SqueezeBox.initialize(".$options.");
 			SqueezeBox.assign($$('".$selector."'), {
 				parse: 'rel'
@@ -346,18 +349,18 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for the advanced uploader.
 	 *
-	 * @param	string	$id
-	 * @param	array	$params	An array of options for the uploader.
-	 * @param	string	$upload_queue
+	 * @param   string  $id
+	 * @param   array   $params	An array of options for the uploader.
+	 * @param   string  $upload_queue
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function uploader($id='file-upload', $params = array(), $upload_queue='upload-queue')
 	{
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
-		
+
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
 		JHtml::_('script','system/swf'.$uncompressed.'.js', true, true);
 		JHtml::_('script','system/progressbar'.$uncompressed.'.js', true, true);
@@ -504,12 +507,12 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for a collapsible tree.
 	 *
-	 * @param	$id		string
-	 * @param	$params	array	An array of options.
-	 * @param	$root	array
+	 * @param   $id		string
+	 * @param   $params	array	An array of options.
+	 * @param   $root	array
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
@@ -519,7 +522,7 @@ abstract class JHtmlBehavior
 			$trees = array();
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$uncompressed	= JFactory::getConfig()->get('debug') ? '-uncompressed' : '';
@@ -571,14 +574,14 @@ abstract class JHtmlBehavior
 	/**
 	 * Add unobtrusive javascript support for a calendar control.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function calendar()
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
@@ -602,25 +605,25 @@ abstract class JHtmlBehavior
 	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function keepalive()
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$config		= JFactory::getConfig();
 		$lifetime	= ($config->get('lifetime') * 60000);
 		$refreshTime =  ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
-		//refresh time is 1 minute less than the liftime assined in the configuration.php file
+		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
 
 		// the longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0) {
@@ -645,26 +648,26 @@ abstract class JHtmlBehavior
 	/**
 	 * Break us out of any containing iframes
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   11.1
 	 */
 	public static function noframes($location='top.location.href')
 	{
 		static $loaded = false;
 
-		// only load once
+		// Only load once
 		if ($loaded) {
 			return;
 		}
 
-		// Include mootools framework
+		// Include MooTools framework
 		self::framework();
 
 		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; } else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
-		
+
 		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
 
 		$loaded = true;
@@ -673,10 +676,10 @@ abstract class JHtmlBehavior
 	/**
 	 * Internal method to get a JavaScript object notation string from an array
 	 *
-	 * @param	array	$array	The array to convert to JavaScript object notation
+	 * @param   array  $array	The array to convert to JavaScript object notation
 	 *
-	 * @return	string	JavaScript object notation representation of the array
-	 * @since	1.5
+	 * @return  string  JavaScript object notation representation of the array
+	 * @since   11.1
 	 */
 	protected static function _getJSObject($array=array())
 	{
@@ -700,16 +703,19 @@ abstract class JHtmlBehavior
 					$object .= 'window.getSize().y-80';
 					$object .= ' }';
 					$object .= ',';
-				} else {
+				}
+				else {
 					$object .= ' '.$k.': ';
 					$object .= ($v) ? 'true' : 'false';
 					$object .= ',';
 				}
-			} else if (!is_array($v) && !is_object($v)) {
+			}
+			else if (!is_array($v) && !is_object($v)) {
 				$object .= ' '.$k.': ';
 				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'".$v."'";
 				$object .= ',';
-			} else {
+			}
+			else {
 				$object .= ' '.$k.': '.JHtmlBehavior::_getJSObject($v).',';
 			}
 		}
@@ -726,8 +732,8 @@ abstract class JHtmlBehavior
 	/**
 	 * Internal method to translate the JavaScript Calendar
 	 *
-	 * @return	string	JavaScript that translates the object
-	 * @since	1.5
+	 * @return  string  JavaScript that translates the object
+	 * @since   11.1
 	 */
 	protected static function _calendartranslation()
 	{

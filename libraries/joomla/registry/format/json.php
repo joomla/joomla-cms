@@ -1,31 +1,30 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access.
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JSON format handler for JRegistry.
  *
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryFormatJSON extends JRegistryFormat
 {
 	/**
 	 * Converts an object into a JSON formatted string.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	JSON formatted string.
-	 * @since	1.6
+	 * @param   object   Data source object.
+	 * @param   array    Options used by the formatter.
+	 * @return  string   JSON formatted string.
+	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -37,9 +36,9 @@ class JRegistryFormatJSON extends JRegistryFormat
 	 *
 	 * If the string is not in JSON format, this method will attempt to parse it as INI format.
 	 *
-	 * @param	string	JSON formatted string to convert.
-	 * @param	array	Options used by the formatter.
-	 * @return	object	Data object.
+	 * @param   string   JSON formatted string to convert.
+	 * @param   array    Options used by the formatter.
+	 * @return  object   Data object.
 	 */
 	public function stringToObject($data, $process_sections = false)
 	{

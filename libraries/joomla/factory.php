@@ -1,19 +1,18 @@
 <?php
 /**
- * @version   $Id$
- * @package   Joomla.Framework
- * @copyright Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Framework Factory class
  *
- * @package Joomla.Framework
- * @since   1.5
+ * @package Joomla.Platform
+ * @since   11.1
  */
 abstract class JFactory
 {
@@ -33,11 +32,13 @@ abstract class JFactory
 	 * Returns the global {@link JApplication} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param mixed	 $id     A client identifier or name.
-	 * @param array	 $config An optional associative array of configuration settings.
-	 * @param string $prefix application prefix
+	 * @param   mixed   $id     A client identifier or name.
+	 * @param   array   $config An optional associative array of configuration settings.
+	 * @param   string  $prefix application prefix
 	 *
 	 * @return JApplication	object
+	 *
+	 * @see    JApplication
 	 */
 	public static function getApplication($id = null, $config = array(), $prefix='J')
 	{
@@ -63,13 +64,15 @@ abstract class JFactory
 	 * @param string $file The path to the configuration file
 	 * @param string $type The type of the configuration file
 	 *
+	 * @see JRegistry
+	 *
 	 * @return JRegistry object
 	 */
 	public static function getConfig($file = null, $type = 'PHP')
 	{
 		if (!self::$config) {
 			if ($file === null) {
-				$file = dirname(__FILE__).DS.'config.php';
+				$file = JPATH_PLATFORM.'/config.php';
 			}
 
 			self::$config = self::_createConfig($file, $type);
@@ -84,7 +87,9 @@ abstract class JFactory
 	 * Returns the global {@link JSession} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param array $options An array containing session options
+	 * @param   array  $options  An array containing session options
+	 *
+	 * @see JSession
 	 *
 	 * @return JSession object
 	 */
@@ -102,6 +107,8 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JLanguage} object, only creating it
 	 * if it doesn't already exist.
+	 *
+	 * @see JLanguage
 	 *
 	 * @return JLanguage object
 	 */
@@ -137,8 +144,9 @@ abstract class JFactory
 	 * Returns the global {@link JUser} object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param int $id The user to load - Can be an integer or string - If string, it is converted to ID automatically.
+	 * @param   integer  $id  The user to load - Can be an integer or string - If string, it is converted to ID automatically.
 	 *
+	 * @see JUser
 	 * @return JUser object
 	 */
 	public static function getUser($id = null)
@@ -163,11 +171,13 @@ abstract class JFactory
 	 *
 	 * Returns the global {@link JCache} object
 	 *
-	 * @param string $group   The cache group name
-	 * @param string $handler The handler to use
-	 * @param string $storage The storage method
+	 * @param   string  $group    The cache group name
+	 * @param   string  $handler  The handler to use
+	 * @param   string  $storage  The storage method
 	 *
-	 * @return JCache object
+	 * @return  JCache object
+	 *
+	 * @see     JCache
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
@@ -240,6 +250,8 @@ abstract class JFactory
 	 * Returns the global {@link JMail} object, only creating it
 	 * if it doesn't already exist
 	 *
+	 * @see JMail
+	 *
 	 * @return JMail object
 	 */
 	public static function getMailer()
@@ -255,12 +267,11 @@ abstract class JFactory
 	/**
 	 * Get a parsed XML Feed Source
 	 *
-	 * @param string $url        url for feed source
-	 * @param int    $cache_time time to cache feed for (using internal cache mechanism)
+	 * @param   string   $url         url for feed source
+	 * @param   integer  $cache_time  time to cache feed for (using internal cache mechanism)
 	 *
-	 * @return mixed SimplePie parsed object on success, false on failure
-	 * @since: 1.6
-	 * @static
+	 * @return  mixed  SimplePie parsed object on success, false on failure
+	 * @since   11.1
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
@@ -293,10 +304,10 @@ abstract class JFactory
 	/**
 	 * Get an XML document
 	 *
-	 * @param string $type    The type of xml parser needed 'DOM', 'RSS' or 'Simple'
-	 * @param array  $options ['rssUrl'] the rss url to parse when using "RSS", ['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
+	 * @param   string  $type     The type of XML parser needed 'DOM', 'RSS' or 'Simple'
+	 * @param   array   $options  ['rssUrl'] the rss url to parse when using "RSS", ['cache_time'] with 'RSS' - feed cache time. If not defined defaults to 3600 sec
 	 *
-	 * @return object Parsed XML document object
+	 * @return  object  Parsed XML document object
 	 * @deprecated
 	 */
 	public static function getXMLParser($type = '', $options = array())
@@ -332,10 +343,10 @@ abstract class JFactory
 	/**
 	 * Reads a XML file.
 	 *
-	 * @param string  $data   Full path and file name.
-	 * @param boolean $isFile true to load a file | false to load a string.
+	 * @param   string  $data   Full path and file name.
+	 * @param   boolean  $isFile true to load a file | false to load a string.
 	 *
-	 * @return mixed JXMLElement on success | false on error.
+	 * @return  mixed    JXMLElement on success | false on error.
 	 * @todo This may go in a separate class - error reporting may be improved.
 	 */
 	public static function getXML($data, $isFile = true)
@@ -346,11 +357,11 @@ abstract class JFactory
 		libxml_use_internal_errors(true);
 
 		if ($isFile) {
-			// Try to load the xml file
+			// Try to load the XML file
 			$xml = simplexml_load_file($data, 'JXMLElement');
 		}
 		else {
-			// Try to load the xml string
+			// Try to load the XML string
 			$xml = simplexml_load_string($data, 'JXMLElement');
 		}
 
@@ -374,7 +385,7 @@ abstract class JFactory
 	/**
 	 * Get an editor object
 	 *
-	 * @param string $editor The editor to load, depends on the editor plugins that are installed
+	 * @param   string  $editor The editor to load, depends on the editor plugins that are installed
 	 *
 	 * @return JEditor object
 	 */
@@ -394,10 +405,12 @@ abstract class JFactory
 	/**
 	 * Return a reference to the {@link JURI} object
 	 *
-	 * @param string $uri uri name
+	 * @param   string  $uri uri name
+	 *
+	 * @see JURI
 	 *
 	 * @return JURI object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getURI($uri = 'SERVER')
 	{
@@ -409,11 +422,13 @@ abstract class JFactory
 	/**
 	 * Return the {@link JDate} object
 	 *
-	 * @param mixed $time     The initial time for the JDate object
-	 * @param mixed $tzOffset The timezone offset.
+	 * @param   mixed  $time     The initial time for the JDate object
+	 * @param   mixed  $tzOffset The timezone offset.
+	 *
+	 * @see JDate
 	 *
 	 * @return JDate object
-	 * @since 1.5
+	 * @since   11.1
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
@@ -446,7 +461,7 @@ abstract class JFactory
 				$classname = 'JDate';
 			}
 		}
-		// $key = $time . '-' . $tzOffset;
+		$key = $time . '-' . $tzOffset;
 
 		//		if (!isset($instances[$classname][$key])) {
 		$tmp = new $classname($time, $tzOffset);
@@ -465,26 +480,39 @@ abstract class JFactory
 	/**
 	 * Create a configuration object
 	 *
-	 * @param string $file The path to the configuration file
-	 * @param string $type The type of the configuration file
+	 * @param   string  $file       The path to the configuration file.
+	 * @param   string  $type       The type of the configuration file.
+	 * @param   string  $namespace  The namespace of the configuration file.
 	 *
-	 * @return JRegistry object
-	 * @since 1.5
+	 * @return  JRegistry
+	 *
+	 * @since   11.1
 	 */
-	private static function _createConfig($file, $type = 'PHP')
+	protected static function _createConfig($file, $type = 'PHP', $namespace = '')
 	{
 		jimport('joomla.registry.registry');
 
-		include_once $file;
+		if (is_file($file)) {
+			include_once $file;
+		}
 
 		// Create the registry with a default namespace of config
 		$registry = new JRegistry();
 
-		// Create the JConfig object
-		$config = new JFrameworkConfig();
+		// Sanitize the namespace.
+		$namespace = ucfirst((string) preg_replace('/[^A-Z_]/i', '', $namespace));
 
-		// Load the configuration values into the registry
-		$registry->loadObject($config);
+		// Build the config name.
+		$name = 'JConfig'.$namespace;
+
+		// Handle the PHP configuration type.
+		if ($type == 'PHP' && class_exists($name)) {
+			// Create the JConfig object
+			$config = new $name();
+
+			// Load the configuration values into the registry
+			$registry->loadObject($config);
+		}
 
 		return $registry;
 	}
@@ -492,20 +520,20 @@ abstract class JFactory
 	/**
 	 * Create a session object
 	 *
-	 * @param array $options An array containing session options
+	 * @param   array  $options An array containing session options
 	 *
 	 * @return JSession object
-	 * @since 1.5
+	 * @since   11.1
 	 */
-	private static function _createSession($options = array())
+	protected static function _createSession($options = array())
 	{
 		jimport('joomla.session.session');
 
-		//get the editor configuration setting
+		// Get the editor configuration setting
 		$conf		= self::getConfig();
 		$handler	= $conf->get('session_handler', 'none');
 
-		// config time is in minutes
+		// Config time is in minutes
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
@@ -519,11 +547,13 @@ abstract class JFactory
 	/**
 	 * Create an database object
 	 *
+	 * @see JDatabase
+	 *
 	 * @return JDatabase object
 	 *
-	 * @since 1.5
+	 * @since   11.1
 	 */
-	private static function _createDbo()
+	protected static function _createDbo()
 	{
 		jimport('joomla.database.database');
 		jimport('joomla.database.table');
@@ -558,11 +588,10 @@ abstract class JFactory
 	/**
 	 * Create a mailer object
 	 *
-	 * @access private
-	 * @return JMail object
-	 * @since  1.5
+	 * @return  JMail object
+	 * @since   11.1
 	 */
-	private static function _createMailer()
+	protected static function _createMailer()
 	{
 		jimport('joomla.mail.mail');
 
@@ -607,10 +636,12 @@ abstract class JFactory
 	/**
 	 * Create a language object
 	 *
+	 * @see JLanguage
+	 *
 	 * @return JLanguage object
-	 * @since 1.5
+	 * @since   11.1
 	 */
-	private static function _createLanguage()
+	protected static function _createLanguage()
 	{
 		jimport('joomla.language.language');
 
@@ -625,16 +656,18 @@ abstract class JFactory
 	/**
 	 * Create a document object
 	 *
+	 * @see JDocument
+	 *
 	 * @return JDocument object
-	 * @since 1.5
+	 * @since   11.1
 	 */
-	private static function _createDocument()
+	protected static function _createDocument()
 	{
 		jimport('joomla.document.document');
 
 		$lang	= self::getLanguage();
 
-		//Keep backwards compatibility with Joomla! 1.0
+		// Keep backwards compatibility with Joomla! 1.0
 		$raw	= JRequest::getBool('no_html');
 		$type	= JRequest::getWord('format', $raw ? 'raw' : 'html');
 
@@ -652,13 +685,15 @@ abstract class JFactory
 	/**
 	 * Creates a new stream object with appropriate prefix
 	 *
-	 * @param	boolean	$use_prefix		Prefix the connections for writing
-	 * @param	boolean	$use_network	Use network if available for writing; use false to disable (e.g. FTP, SCP)
-	 * @param	string	$ua				UA User agent to use
-	 * @param	boolean	$uamask			User agent masking (prefix Mozilla)
+	 * @param   boolean  $use_prefix		Prefix the connections for writing
+	 * @param   boolean  $use_network	Use network if available for writing; use false to disable (e.g. FTP, SCP)
+	 * @param   string   $ua				UA User agent to use
+	 * @param   boolean  $uamask			User agent masking (prefix Mozilla)
 	 *
-	 * @return	JStream
-	 * @since	1.6
+	 * @see JStream
+	 *
+	 * @return  JStream
+	 * @since   11.1
 	 */
 	public static function getStream($use_prefix=true, $use_network=true,$ua=null, $uamask=false)
 	{

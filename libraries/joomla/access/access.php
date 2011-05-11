@@ -1,48 +1,51 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Access
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Access
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.access.rules');
+jimport('joomla.utilities.arrayhelper');
 
 /**
- * Class that handles all access authorization routines.
+ * Class that handles all access authorisation routines.
  *
- * @package		Joomla.Framework
- * @subpackage	User
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Access
+ * @since       11.1
  */
 class JAccess
 {
 	/**
-	 * @since	1.6
+	 * @var    array  Array of view levels
+	 * @since  11.1
 	 */
 	protected static $viewLevels = array();
 
 	/**
-	 * @since	1.6
+	 * @var    array  Array of rules for the asset
+	 * @since  11.1
 	 */
 	protected static $assetRules = array();
 
 	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param	integer	$userId	Id of the user for which to check authorisation.
-	 * @param	string	$action	The name of the action to authorise.
-	 * @param	mixed	$asset	Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 * @param   integer  $userId	Id of the user for which to check authorisation.
+	 * @param   string   $action	The name of the action to authorise.
+	 * @param   mixed    $asset	Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
-	 * @return	boolean	True if authorised.
-	 * @since	1.6
+	 * @return  boolean  True if authorised.
+	 * @since   11.1
 	 */
 	public static function check($userId, $action, $asset = null)
 	{
-		// Sanitize inputs.
+		// Sanitise inputs.
 		$userId = (int) $userId;
 
 		$action = strtolower(preg_replace('#[\s\-]+#', '.', trim($action)));
@@ -68,12 +71,12 @@ class JAccess
 	/**
 	 * Method to check if a group is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param	integer	$groupId	The path to the group for which to check authorisation.
-	 * @param	string	$action		The name of the action to authorise.
-	 * @param	mixed	$asset		Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 * @param   integer  $groupId  The path to the group for which to check authorisation.
+	 * @param   string   $action   The name of the action to authorise.
+	 * @param   mixed    $asset    Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
-	 * @return	boolean	True if authorised.
-	 * @since	1.6
+	 * @return  boolean  True if authorised.
+	 * @since   11.1
 	 */
 	public static function checkGroup($groupId, $action, $asset = null)
 	{
@@ -99,18 +102,18 @@ class JAccess
 	}
 
 	/**
-	 * Gets the parent groups that a leaf group belongs to in it's branch back to the root of the tree
+	 * Gets the parent groups that a leaf group belongs to in its branch back to the root of the tree
 	 * (including the leaf group id).
 	 *
-	 * @param	mixed	$groupId	An integer or array of integers representing the identities to check.
+	 * @param   mixed  $groupId  An integer or array of integers representing the identities to check.
 	 *
-	 * @return	mixed	True if allowed, false for an explicit deny, null for an implicit deny.
-	 * @since	1.6
+	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
+	 * @since   11.1
 	 */
 	protected static function getGroupPath($groupId)
 	{
 		static $groups, $paths;
-		
+
 		// Preload all groups
 		if (empty($groups)) {
 			$db		= JFactory::getDbo();
@@ -123,21 +126,21 @@ class JAccess
 		}
 
 		// Make sure groupId is valid
-		if (!array_key_exists($groupId, $groups)) 
+		if (!array_key_exists($groupId, $groups))
 		{
 			return array();
 		}
-		
+
 		// Get parent groups and leaf group
 		if (!isset($paths[$groupId])) {
 			$paths[$groupId] = array();
 			foreach($groups as $group) {
 				if ($group->lft <= $groups[$groupId]->lft && $group->rgt >= $groups[$groupId]->rgt) {
-					$paths[$groupId][] = $group->id; 
+					$paths[$groupId][] = $group->id;
 				}
 			}
 		}
-		
+
 		return $paths[$groupId];
 	}
 
@@ -146,11 +149,11 @@ class JAccess
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
-	 * @param	mixed	$asset		Integer asset id or the name of the asset as a string.
-	 * @param	boolean	$recursive	True to return the rules object with inherited rules.
+	 * @param   mixed    $asset       Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive   True to return the rules object with inherited rules.
 	 *
-	 * @return	object	JRules object for the asset.
-	 * @since	1.6
+	 * @return  JRules   JRules object for the asset.
+	 * @since   11.1
 	 */
 	public static function getAssetRules($asset, $recursive = false)
 	{
@@ -185,7 +188,7 @@ class JAccess
 			$query = $db->getQuery(true);
 			$query->select('rules');
 			$query->from('#__assets');
-			$query->where('parent_id=0');
+			$query->where('parent_id = 0');
 			$db->setQuery($query);
 			$result	= $db->loadResultArray();
 		}
@@ -198,15 +201,15 @@ class JAccess
 	}
 
 	/**
-	 * Method to return a list of user groups mapped to a user.  The returned list can optionally hold
+	 * Method to return a list of user groups mapped to a user. The returned list can optionally hold
 	 * only the groups explicitly mapped to the user or all groups both explicitly mapped and inherited
 	 * by the user.
 	 *
-	 * @param	integer	$userId		Id of the user for which to get the list of groups.
-	 * @param	boolean	$recursive	True to include inherited user groups.
+	 * @param   integer  $userId      Id of the user for which to get the list of groups.
+	 * @param   boolean  $recursive   True to include inherited user groups.
 	 *
-	 * @return	array	List of user group ids to which the user is mapped.
-	 * @since	1.6
+	 * @return  array    List of user group ids to which the user is mapped.
+	 * @since   11.1
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
@@ -224,28 +227,28 @@ class JAccess
  			}
  			// Registered user
  			else
- 			{			
+ 			{
 				$db = JFactory::getDbo();
-				
+
 				// Build the database query to get the rules for the asset.
 				$query	= $db->getQuery(true);
 				$query->select($recursive ? 'b.id' : 'a.id');
 				$query->from('#__user_usergroup_map AS map');
 				$query->where('map.user_id = '.(int) $userId);
 				$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
-	
+
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive) {
 					$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
-	
+
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
 				$result	= $db->loadResultArray();
-	
+
 				// Clean up any NULL or duplicate values, just in case
 				JArrayHelper::toInteger($result);
-	
+
 				if (empty($result)) {
 					$result = array('1');
 				}
@@ -263,17 +266,18 @@ class JAccess
 	/**
 	 * Method to return a list of user Ids contained in a Group
 	 *
-	 * @param	int		$groupId	The group Id
-	 * @param	boolean	$recursive	Recursively include all child groups (optional)
+	 * @param   integer   $groupId    The group Id
+	 * @param   boolean   $recursive  Recursively include all child groups (optional)
 	 *
-	 * @return	array
-	 * @since	1.6
-	 * @todo	This method should move somewhere else?
+	 * @return  array
+	 * @since   11.1
+	 *
+	 * @todo      This method should move somewhere else?
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
 	{
 		// Get a database object.
-		$db	= JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$test = $recursive ? '>=' : '=';
 
@@ -298,10 +302,10 @@ class JAccess
 	/**
 	 * Method to return a list of view levels for which the user is authorised.
 	 *
-	 * @param	integer	$userId	Id of the user for which to get the list of authorised view levels.
+	 * @param   integer  $userId	Id of the user for which to get the list of authorised view levels.
 	 *
-	 * @return	array	List of view levels for which the user is authorised.
-	 * @since	1.6
+	 * @return  array    List of view levels for which the user is authorised.
+	 * @since   11.1
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
@@ -330,7 +334,7 @@ class JAccess
 		// Initialise the authorised array.
 		$authorised = array(1);
 
-		// Find the authorized levels.
+		// Find the authorised levels.
 		foreach (self::$viewLevels as $level => $rule)
 		{
 			foreach ($rule as $id)
@@ -353,11 +357,11 @@ class JAccess
 	/**
 	 * Method to return a list of actions for which permissions can be set given a component and section.
 	 *
-	 * @param	string	$component	The component from which to retrieve the actions.
-	 * @param	string	$section	The name of the section within the component from which to retrieve the actions.
+	 * @param   string   $component	The component from which to retrieve the actions.
+	 * @param   string   $section	The name of the section within the component from which to retrieve the actions.
 	 *
-	 * @return	array	List of actions available for the given component and section.
-	 * @since	1.6
+	 * @return  array    List of actions available for the given component and section.
+	 * @since   11.1
 	 */
 	public static function getActions($component, $section = 'component')
 	{

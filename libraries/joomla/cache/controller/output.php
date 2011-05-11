@@ -1,49 +1,50 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Cache output type object
  *
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheControllerOutput extends JCacheController
 {
 	/**
-	 * @since	1.6
+	 * @since   11.1
 	 */
-	private $_id;
+	protected $_id;
 
 	/**
-	 * @since	1.6
+	 * @since   11.1
 	 */
-	private $_group;
+	protected $_group;
 
 	/**
-	 * @since	1.6
+	 * @since   11.1
 	 */
-	private $_locktest = null;
+	protected $_locktest = null;
 
 	/**
 	 * Start the cache
 	 *
-	 * @param	string	The cache data id
-	 * @param	string	The cache data group
-	 * @return	boolean	True if the cache is hit (false else)
-	 * @since	1.6
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group	The cache data group
+	 *
+	 * @return  boolean  True if the cache is hit (false else)
+	 * @since   11.1
 	 */
 	public function start($id, $group=null)
 	{
-		// If we have data in cache use that...
+		// If we have data in cache use that.
 		$data = $this->cache->get($id, $group);
 
 		$this->_locktest = new stdClass;
@@ -65,7 +66,7 @@ class JCacheControllerOutput extends JCacheController
 			}
 			return true;
 		} else {
-			// Nothing in cache... lets start the output buffer and start collecting data for next time.
+			// Nothing in cache... let's start the output buffer and start collecting data for next time.
 			if ($this->_locktest->locked == false) {
 				$this->_locktest = $this->cache->lock($id, $group);
 			}
@@ -83,8 +84,8 @@ class JCacheControllerOutput extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
-	 * @return	boolean	True if cache stored
-	 * @since	1.6
+	 * @return  boolean  True if cache stored
+	 * @since   11.1
 	 */
 	public function end()
 	{

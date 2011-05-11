@@ -1,22 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract Format for JRegistry
  *
- * @abstract
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 abstract class JRegistryFormat
 {
@@ -24,10 +22,10 @@ abstract class JRegistryFormat
 	 * Returns a reference to a Format object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param	string	The format to load
-	 * @return	object	Registry format handler
+	 * @param   string   The format to load
+	 * @return  object   Registry format handler
 	 * @throws	JException
-	 * @since	1.5
+	 * @since   11.1
 	 */
 	public static function getInstance($type)
 	{
@@ -61,20 +59,20 @@ abstract class JRegistryFormat
 	/**
 	 * Converts an object into a formatted string.
 	 *
-	 * @param	object	Data Source Object.
-	 * @param	array	An array of options for the formatter.
-	 * @return	string	Formatted string.
-	 * @since	1.5
+	 * @param   object   Data Source Object.
+	 * @param   array    An array of options for the formatter.
+	 * @return  string   Formatted string.
+	 * @since   11.1
 	 */
 	abstract public function objectToString($object, $options = null);
 
 	/**
 	 * Converts a formatted string into an object.
 	 *
-	 * @param	string	Formatted string
-	 * @param	array	An array of options for the formatter.
-	 * @return	object	Data Object
-	 * @since	1.5
+	 * @param   string   Formatted string
+	 * @param   array    An array of options for the formatter.
+	 * @return  object   Data Object
+	 * @since   11.1
 	 */
 	abstract public function stringToObject($data, $options = null);
 }

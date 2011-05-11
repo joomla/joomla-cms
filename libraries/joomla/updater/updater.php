@@ -1,16 +1,13 @@
 <?php
 /**
- * Joomla! Update System
+ * @package     Joomla.Platform
+ * @subpackage  Updater
  *
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Updater
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
@@ -20,7 +17,9 @@ jimport('joomla.base.adapter');
 
 /**
  * Updater Class
- * @since 1.6
+ * @package     Joomla.Platform
+ * @subpackage  Update
+ * @since       11.1
  */
 class JUpdater extends JAdapter {
 
@@ -28,7 +27,7 @@ class JUpdater extends JAdapter {
 	 * Constructor
 	 */
 	public function __construct() {
-		// adapter base path, class prefix
+		// Adapter base path, class prefix
 		parent::__construct(dirname(__FILE__),'JUpdater');
 	}
 
@@ -36,8 +35,7 @@ class JUpdater extends JAdapter {
 	 * Returns a reference to the global Installer object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @static
-	 * @return	object	An installer object
+	 * @return  object  An installer object
 	 */
 	public static function &getInstance()
 	{
@@ -51,13 +49,15 @@ class JUpdater extends JAdapter {
 
 	/**
 	 * Finds an update for an extension
+	 *
 	 * @param int Extension Identifier; if zero use all sites
+	 *
 	 * @return boolean If there are updates or not
 	 */
 	public function findUpdates($eid=0) {
 		$dbo = $this->getDBO();
 		$retval = false;
-		// push it into an array
+		// Push it into an array
 		if(!is_array($eid)) {
 			$query = 'SELECT DISTINCT update_site_id, type, location FROM #__update_sites WHERE enabled = 1';
 		} else {
@@ -71,7 +71,8 @@ class JUpdater extends JAdapter {
 			$result = &$results[$i];
 			$this->setAdapter($result['type']);
 			if(!isset($this->_adapters[$result['type']])) {
-				continue; // ignore update sites requiring adapters we don't have installed
+				// Ignore update sites requiring adapters we don't have installed
+				continue;
 			}
 			$update_result = $this->_adapters[$result['type']]->findUpdate($result);
 			if(is_array($update_result))
@@ -99,10 +100,10 @@ class JUpdater extends JAdapter {
 								'folder'=>strtolower($current_update->get('folder'))));
 						if(!$uid)
 						{
-							// set the extension id
+							// Set the extension id
 							if($eid)
 							{
-								// we have an installed extension, check the update is actually newer
+								// We have an installed extension, check the update is actually newer
 								$extension->load($eid);
 								$data = json_decode($extension->manifest_cache, true);
 								if(version_compare($current_update->version, $data['version'], '>') == 1)
@@ -112,7 +113,7 @@ class JUpdater extends JAdapter {
 								}
 							} else
 							{
-								// a potentially new extension to be installed
+								// A potentially new extension to be installed
 								$current_update->store();
 							}
 						} else
@@ -137,7 +138,7 @@ class JUpdater extends JAdapter {
 	/**
 	 * Multidimensional array safe unique test
 	 * Borrowed from PHP.net
-	 * @url http://au2.php.net/manual/en/function.array-unique.php
+	 * @see http://au2.php.net/manual/en/function.array-unique.php
 	 */
 	public function arrayUnique($myArray)
 	{

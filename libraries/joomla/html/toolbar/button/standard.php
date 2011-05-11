@@ -1,29 +1,27 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Renders a standard button
  *
- * @package		Joomla.Framework
- * @subpackage		HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonStandard extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'Standard';
 
@@ -45,9 +43,8 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
-	 * @return	string	Button CSS Id
-	 * @since	1.5
+	 * @return  string  Button CSS Id
+	 * @since   11.1
 	 */
 	public function fetchId($type='Standard', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -57,12 +54,12 @@ class JButtonStandard extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @access	private
-	 * @param	string	$name	The task name as seen by the user
-	 * @param	string	$task	The task used by the application
-	 * @param	???		$list
-	 * @return	string	JavaScript command string
-	 * @since	1.5
+	 * @param   string   $name	The task name as seen by the user
+	 * @param   string   $task	The task used by the application
+	 * @param   ???		$list
+	 *
+	 * @return  string   JavaScript command string
+	 * @since   11.1
 	 */
 	protected function _getCommand($name, $task, $list)
 	{
@@ -72,10 +69,10 @@ class JButtonStandard extends JButton
 
 		if ($list) {
 			$cmd = "javascript:if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
-		} else {
+		}
+		else {
 			$cmd = "javascript:Joomla.submitbutton('$task')";
 		}
-
 
 		return $cmd;
 	}

@@ -1,28 +1,30 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocument system message renderer
  *
- * @package		Joomla.Framework
- * @subpackage	Document
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererMessage extends JDocumentRenderer
 {
 	/**
 	 * Renders the error stack and returns the results as a string
 	 *
-	 * @param	string $name	(unused)
-	 * @param	array $params	Associative array of values
-	 * @return	string			The output of the script
+	 * @param   string  $name	(unused)
+	 * @param   array  $params	Associative array of values
+	 *
+	 * @return  string  The output of the script
 	 */
 	public function render($name, $params = array (), $content = null)
 	{

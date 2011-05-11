@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Event
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Event
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.observable');
 
@@ -17,11 +17,11 @@ jimport('joomla.base.observable');
  * This is the Observable part of the Observer design pattern
  * for the event architecture.
  *
- * @package		Joomla.Framework
- * @subpackage	Event
- * @since		1.5
- * @see			JPlugin
- * @link		http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
+ * @package     Joomla.Platform
+ * @subpackage  Event
+ * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
+ * @see	        JPlugin
+ * @since       11.1
  */
 class JDispatcher extends JObservable
 {
@@ -29,9 +29,8 @@ class JDispatcher extends JObservable
 	 * Returns the global Event Dispatcher object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @access	public
-	 * @return	JDispatcher		The EventDispatcher object.
-	 * @since	1.5
+	 * @return  JDispatcher  The EventDispatcher object.
+	 * @since   11.1
 	 */
 	public static function getInstance()
 	{
@@ -47,24 +46,24 @@ class JDispatcher extends JObservable
 	/**
 	 * Registers an event handler to the event dispatcher
 	 *
-	 * @access	public
-	 * @param	string	$event		Name of the event to register handler for
-	 * @param	string	$handler	Name of the event handler
-	 * @return	void
-	 * @since	1.5
+	 * @param   string   $event    Name of the event to register handler for
+	 * @param   string   $handler  Name of the event handler
+	 *
+	 * @return  void
+	 * @since   11.1
 	 */
 	public function register($event, $handler)
 	{
 		// Are we dealing with a class or function type handler?
 		if (function_exists($handler))
 		{
-			// Ok, function type event handler... lets attach it.
+			// Ok, function type event handler... let's attach it.
 			$method = array('event' => $event, 'handler' => $handler);
 			$this->attach($method);
 		}
 		elseif (class_exists($handler))
 		{
-			// Ok, class type event handler... lets instantiate and attach it.
+			// Ok, class type event handler... let's instantiate and attach it.
 			$this->attach(new $handler($this));
 		}
 		else
@@ -77,11 +76,12 @@ class JDispatcher extends JObservable
 	 * Triggers an event by dispatching arguments to all observers that handle
 	 * the event and returning their return values.
 	 *
-	 * @access	public
-	 * @param	string	$event		The event to trigger.
-	 * @param	array	$args		An array of arguments.
-	 * @return	array	An array of results from each function call.
-	 * @since	1.5
+	 * @param   string   $event  The event to trigger.
+	 * @param   array    $args   An array of arguments.
+	 *
+	 * @return  array  An array of results from each function call.
+	 *
+	 * @since   11.1
 	 */
 	public function trigger($event, $args = array())
 	{

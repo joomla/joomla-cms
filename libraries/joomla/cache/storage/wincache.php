@@ -1,27 +1,27 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * WINCACHE cache storage handler
  *
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheStorageWincache extends JCacheStorage
 {
 	/**
 	 * Constructor
 	 *
-	 * @param	array	$options optional parameters
+	 * @param   array    $options optional parameters
 	 */
 	public function __construct( $options = array() )
 	{
@@ -31,11 +31,11 @@ class JCacheStorageWincache extends JCacheStorage
 	/**
 	 * Get cached data from WINCACHE by id and group
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group		The cache data group
-	 * @param	boolean	$checkTime	True to verify cache time expiration threshold
-	 * @return	mixed	Boolean false on failure or a cached data string
-	 * @since	1.6
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group		The cache data group
+	 * @param   boolean  $checkTime	True to verify cache time expiration threshold
+	 * @return  mixed    Boolean false on failure or a cached data string
+	 * @since   11.1
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -47,8 +47,8 @@ class JCacheStorageWincache extends JCacheStorage
 	/**
 	 * Get all cached data
 	 *
-	 * @return	array data
-	 * @since	1.6
+	 * @return  array    data
+	 * @since   11.1
 	 */
 	public function getAll()
 	{
@@ -85,11 +85,11 @@ class JCacheStorageWincache extends JCacheStorage
 	/**
 	 * Store the data to WINCACHE by id and group
 	 *
-	 * @param	string	$id	The cache data id
-	 * @param	string	$group	The cache data group
-	 * @param	string	$data	The data to store in cache
-	 * @return	boolean	True on success, false otherwise
-	 * @since	1.6
+	 * @param   string   $id	The cache data id
+	 * @param   string   $group	The cache data group
+	 * @param   string   $data	The data to store in cache
+	 * @return  boolean  True on success, false otherwise
+	 * @since   11.1
 	 */
 	public function store($id, $group, $data)
 	{
@@ -100,10 +100,10 @@ class JCacheStorageWincache extends JCacheStorage
 	/**
 	 * Remove a cached data entry by id and group
 	 *
-	 * @param	string	$id		The cache data id
-	 * @param	string	$group	The cache data group
-	 * @return	boolean	True on success, false otherwise
-	 * @since	1.6
+	 * @param   string   $id		The cache data id
+	 * @param   string   $group	The cache data group
+	 * @return  boolean  True on success, false otherwise
+	 * @since   11.1
 	 */
 	public function remove($id, $group)
 	{
@@ -117,10 +117,10 @@ class JCacheStorageWincache extends JCacheStorage
 	 * group mode		: cleans all cache in the group
 	 * notgroup mode	: cleans all cache not in the group
 	 *
-	 * @param	string	$group	The cache data group
-	 * @param	string	$mode	The mode for cleaning cache [group|notgroup]
-	 * @return	boolean	True on success, false otherwise
-	 * @since	1.6
+	 * @param   string   $group	The cache data group
+	 * @param   string   $mode	The mode for cleaning cache [group|notgroup]
+	 * @return  boolean  True on success, false otherwise
+	 * @since   11.1
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -139,8 +139,8 @@ class JCacheStorageWincache extends JCacheStorage
 	/**
 	 * Force garbage collect expired cache data as items are removed only on get/add/delete/info etc
 	 *
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public function gc()
 	{

@@ -1,17 +1,36 @@
 <?php
 /**
- * @version			$Id: latin_transliteration.php
- * @package			Joomla.Framework
- * @subpackage		Language
- * @copyright		Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license			GNU General Public License version 2 or later; see LICENSE.txt
- * This file has to be saved as UTF8 no BOM
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// No direct access.
-defined('JPATH_BASE') or die;
 
+defined('JPATH_PLATFORM') or die;
+/**
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ * @since   11.1
+ */
+
+/**
+ * Class to transliterate strings
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Language
+ * @since       11.1
+ */
 class JLanguageTransliterate
 {
+	/**
+	 * Returns strings transliterated from UTF-8 to Latin
+	 *
+	 * @param   string   $string
+	 * @param   boolean  $case 	Optionally specify upper or lower case. Default to null.
+	 *
+	 * @return  string   transliterated string
+	 */
 	static function utf8_latin_to_ascii( $string, $case=0 ){
 
 		static $UTF8_LOWER_ACCENTS = NULL;

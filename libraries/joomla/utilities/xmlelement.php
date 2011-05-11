@@ -1,21 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage  Utilities
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Wrapper class for php SimpleXMLElement.
  *
- * @package		Joomla.Framework
+ * @package     Joomla.Platform
  * @subpackage  Utilities
- * @since		1.6
+ * @since       11.1
  */
 class JXMLElement extends SimpleXMLElement
 {
@@ -24,7 +23,7 @@ class JXMLElement extends SimpleXMLElement
 	 *
 	 * Warning: don't use getName() as it's broken up to php 5.2.3
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function name()
 	{
@@ -39,8 +38,9 @@ class JXMLElement extends SimpleXMLElement
 	/**
 	 * Legacy method to get the element data.
 	 *
-	 * @return		string
-	 * @deprecated	1.6 - Feb 5, 2010
+	 * @return  string
+	 *
+	 * @deprecated
 	 */
 	public function data()
 	{
@@ -50,9 +50,11 @@ class JXMLElement extends SimpleXMLElement
 	/**
 	 * Legacy method gets an elements attribute by name.
 	 *
-	 * @param		string
-	 * @return		string
-	 * @deprecated	1.6 - Feb 5, 2010
+	 * @param   string
+	 *
+	 * @return  string
+	 *
+	 * @deprecated
 	 */
 	public function getAttribute($name)
 	{
@@ -62,9 +64,10 @@ class JXMLElement extends SimpleXMLElement
 	/**
 	 * Return a well-formed XML string based on SimpleXML element
 	 *
-	 * @param	boolean	Should we use indentation and newlines ?
-	 * @param	integer	Indentaion level.
-	 * @return	string
+	 * @param   boolean  Should we use indentation and newlines ?
+	 * @param   integer  Indentaion level.
+	 *
+	 * @return  string
 	 */
 	public function asFormattedXML($compressed = false, $indent = "\t", $level = 0)
 	{

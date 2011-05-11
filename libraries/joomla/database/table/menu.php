@@ -1,21 +1,22 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.tablenested');
 
 /**
  * Menu table
  *
- * @package		Joomla.Framework
- * @subpackage	Table
- * @since		1.0
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableMenu extends JTableNested
 {
@@ -35,25 +36,28 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param	array $hash		named array
-	 * @return	mixed			null is operation was satisfactory, otherwise returns an error
+	 * @param   array  $hash  named array
+	 *
+	 * @return  mixed  null is operation was satisfactory, otherwise returns an error
+	 *
 	 * @see		JTable:bind
-	 * @since	1.5
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{
 		// Verify that the default home menu is not unset
-		if ($this->home=='1' && $this->language=='*' && ($array['home']=='0')) {
+		if ($this->home == '1' && $this->language == '*' && ($array['home'] == '0')) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT_DEFAULT'));
 			return false;
 		}
 		//Verify that the default home menu set to "all" languages" is not unset
-		if ($this->home=='1' && $this->language=='*' && ($array['language']!='*')) {
+		if ($this->home == '1' && $this->language == '*' && ($array['language'] != '*')) {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_CANNOT_UNSET_DEFAULT'));
 			return false;
 		}
+
 		// Verify that the default home menu is not unpublished
-		if ($this->home=='1' && $this->language=='*' && $array['published'] !='1') {
+		if ($this->home == '1' && $this->language == '*' && $array['published'] != '1') {
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'));
 			return false;
 		}
@@ -71,9 +75,9 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded check function
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @see		JTable::check
-	 * @since	1.5
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -116,12 +120,13 @@ class JTableMenu extends JTableNested
 	/**
 	 * Overloaded store function
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @see		JTable::store
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
 	{
+		$db = JFactory::getDBO();
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu','JTable');
 		if ($table->load(array('alias'=>$this->alias,'parent_id'=>$this->parent_id,'client_id'=>$this->client_id)) && ($table->id != $this->id || $this->id==0)) {
@@ -141,9 +146,9 @@ class JTableMenu extends JTableNested
 					$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_DEFAULT_CHECKIN_USER_MISMATCH'));
 					return false;
 				}
-				$table->home=0;
-				$table->checked_out=0;
-				$table->checked_out_time='0000-00-00 00:00:00';
+				$table->home = 0;
+				$table->checked_out = 0;
+				$table->checked_out_time = $db->getNullDate();
 				$table->store();
 			}
 		}

@@ -1,40 +1,38 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 require_once dirname(__FILE__).'/list.php';
 
 /**
  * Renders a select list of Asset Groups
  *
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated .Use JForm instead
  */
 class JElementContentLanguages extends JElementList
 {
 	/**
 	* Element name
 	*
-	* @access	protected
-	* @var		string
+	* @var    string
 	*/
 	protected $_name = 'ContentLanguages';
 
 	/**
 	 * Get the options for the element
 	 *
-	 * @param	object $node
-	 * @return	array
+	 * @param   object   $node
+	 * @return  array
 	 */
 	protected function _getOptions(&$node)
 	{

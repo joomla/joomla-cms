@@ -1,35 +1,33 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage		HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class working with content language select lists
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlContentLanguage
 {
 	/**
-	 * @var	array	Cached array of the content language items.
+	 * @var    array  Cached array of the content language items.
 	 */
 	protected static $items = null;
 
 	/**
 	 * Get a list of the available content language items.
 	 *
-	 * @return	string
-	 * @since	1.6
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function existing($all = false, $translate=false)
 	{

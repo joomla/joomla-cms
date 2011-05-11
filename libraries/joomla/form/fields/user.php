@@ -1,38 +1,38 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formfield');
 
 /**
  * Field to select a user id from a modal list.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  com_users
+ * @since       11.1
  */
 class JFormFieldUser extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $type = 'User';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string  The field input markup.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
@@ -103,8 +103,8 @@ class JFormFieldUser extends JFormField
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return	array|null	array of filtering groups or null.
-	 * @since	1.6
+	 * @return  mixed  array of filtering groups or null.
+	 * @since   11.1
 	 */
 	protected function getGroups()
 	{
@@ -112,11 +112,10 @@ class JFormFieldUser extends JFormField
 	}
 
 	/**
-	/**
 	 * Method to get the users to exclude from the list of users
 	 *
-	 * @return	array|null array of users to exclude or null to to not exclude them
-	 * @since	1.6
+	 * @return  mixed  array of users to exclude or null to to not exclude them
+	 * @since   11.1
 	 */
 	protected function getExcluded()
 	{

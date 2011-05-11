@@ -1,37 +1,35 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage		HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for categories
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlCategory
 {
 	/**
-	 * @var	array	Cached array of the category items.
+	 * @var    array  Cached array of the category items.
 	 */
 	protected static $items = array();
 
 	/**
 	 * Returns an array of categories for the given extension.
 	 *
-	 * @param	string	The extension option.
-	 * @param	array	An array of configuration options. By default, only published and unpulbished categories are returned.
+	 * @param   string  The extension option.
+	 * @param   array   An array of configuration options. By default, only published and unpulbished categories are returned.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function options($extension, $config = array('filter.published' => array(0,1)))
 	{
@@ -80,10 +78,10 @@ abstract class JHtmlCategory
 	/**
 	 * Returns an array of categories for the given extension.
 	 *
-	 * @param	string	The extension option.
-	 * @param	array	An array of configuration options. By default, only published and unpulbished categories are returned.
+	 * @param   string  The extension option.
+	 * @param   array   An array of configuration options. By default, only published and unpulbished categories are returned.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function categories($extension, $config = array('filter.published' => array(0,1)))
 	{

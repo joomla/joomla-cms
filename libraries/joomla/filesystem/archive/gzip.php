@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id:gzip.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		Joomla.Framework
- * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Gzip format adapter for the JArchive class
@@ -19,9 +18,9 @@ defined('JPATH_BASE') or die;
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @package		Joomla.Framework
- * @subpackage	FileSystem
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JArchiveGzip extends JObject
 {
@@ -46,12 +45,12 @@ class JArchiveGzip extends JObject
 	/**
 	* Extract a Gzip compressed file to a given path
 	*
-	* @param	string	$archive		Path to ZIP archive to extract
-	* @param	string	$destination	Path to extract archive to
-	* @param	array	$options		Extraction options [unused]
+	* @param   string   $archive		Path to ZIP archive to extract
+	* @param   string   $destination	Path to extract archive to
+	* @param   array    $options		Extraction options [unused]
 	*
-	* @return	boolean	True if successful
-	* @since	1.5
+	* @return  boolean  True if successful
+	* @since   11.1
 	*/
 	public function extract($archive, $destination, $options = array ())
 	{
@@ -70,14 +69,14 @@ class JArchiveGzip extends JObject
 				$this->set('error.message', 'Unable to read archive');
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
-	
+
 			$position = $this->_getFilePosition();
 			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
 			if (empty ($buffer)) {
 				$this->set('error.message', 'Unable to decompress data');
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
-	
+
 			if (JFile::write($destination, $buffer) === false) {
 				$this->set('error.message', 'Unable to write archive');
 				return JError::raiseWarning(100, $this->get('error.message'));
@@ -88,22 +87,22 @@ class JArchiveGzip extends JObject
 			// New style! streams!
 			$input = JFactory::getStream();
 			$input->set('processingmethod','gz'); // use gz
-	
+
 			if (!$input->open($archive)) {
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_READ'));
-	
+
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
-	
+
 			$output = JFactory::getStream();
-	
+
 			if (!$output->open($destination, 'w')) {
 				$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE'));
 				$input->close(); // close the previous file
-	
+
 				return JError::raiseWarning(100, $this->get('error.message'));
 			}
-	
+
 			$written = 0;
 			do
 			{
@@ -111,13 +110,13 @@ class JArchiveGzip extends JObject
 				if ($this->_data) {
 					if (!$output->write($this->_data)) {
 						$this->set('error.message', JText::_('JLIB_FILESYSTEM_GZIP_UNABLE_TO_WRITE_FILE'));
-	
+
 						return JError::raiseWarning(100, $this->get('error.message'));
 					}
 				}
 			}
 			while ($this->_data);
-	
+
 			$output->close();
 			$input->close();
 		}
@@ -127,8 +126,8 @@ class JArchiveGzip extends JObject
 	/**
 	 * Get file data offset for archive
 	 *
-	 * @return	int		Data position marker for archive
-	 * @since	1.5
+	 * @return  integer  Data position marker for archive
+	 * @since   11.1
 	 */
 	function _getFilePosition()
 	{

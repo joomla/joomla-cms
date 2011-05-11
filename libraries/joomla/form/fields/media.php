@@ -1,56 +1,56 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldMedia extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $type = 'Media';
 
 	/**
 	 * The initialised state of the document object.
 	 *
-	 * @var		boolean
-	 * @since	1.6
+	 * @var    boolean
+	 * @since  11.1
 	 */
 	protected static $initialised = false;
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string  The field input markup.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
 		$assetField	= $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField= $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$asset		= $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'] ;
-		if ($asset == "") {
+		if ($asset == '') {
 			 $asset = JRequest::getCmd('option');
 		}
-		
+
 		$link = (string) $this->element['link'];
 		if (!self::$initialised) {
 
@@ -114,7 +114,7 @@ class JFormFieldMedia extends JFormField
 		$html[] = '			'.JText::_('JLIB_FORM_BUTTON_SELECT').'</a>';
 		$html[] = '	</div>';
 		$html[] = '</div>';
-		
+
 		$html[] = '<div class="button2-left">';
 		$html[] = '	<div class="blank">';
 		$html[] = '		<a title="'.JText::_('JLIB_FORM_BUTTON_CLEAR').'"' .

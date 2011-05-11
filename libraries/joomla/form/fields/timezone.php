@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -17,25 +17,25 @@ JFormHelper::loadFieldClass('groupedlist');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldTimezone extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $type = 'Timezone';
 
 	/**
 	 * The list of available timezone groups to use.
 	 *
-	 * @var		array
-	 * @since	1.6
+	 * @var    array
+	 * @since  11.1
 	 */
 	protected static $zones = array(
 		'Africa', 'America', 'Antarctica', 'Arctic', 'Asia',
@@ -45,8 +45,8 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	/**
 	 * Method to get the field option groups.
 	 *
-	 * @return	array	The field option objects as a nested array in groups.
-	 * @since	1.6
+	 * @return  array  The field option objects as a nested array in groups.
+	 * @since   11.1
 	 */
 	protected function getGroups()
 	{

@@ -1,22 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage		HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for creating different select lists
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlList
 {
@@ -65,11 +63,11 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param	string $sql		SQL with ordering As value and 'name field' AS text
-	 * @param	integer	$chop	The length of the truncated headline
+	 * @param   string   $sql		SQL with ordering As value and 'name field' AS text
+	 * @param   integer  $chop	The length of the truncated headline
 	 *
-	 * @return	array	An array of objects formatted for JHtml list processing
-	 * @since	1.5
+	 * @return  array  An array of objects formatted for JHtml list processing
+	 * @since   11.1
 	 */
 	public static function genericordering($sql, $chop = '30')
 	{
@@ -131,14 +129,14 @@ abstract class JHtmlList
 	/**
 	 * Build the select list for Ordering derived from a query
 	 *
-	 * @param	int $value		The scalar value
-	 * @param	string $query
-	 * @param	string $attribs	HTML tag attributes
-	 * @param	int $neworder	1 if new and first, -1 if new and last, 0  or null if existing item
-	 * @param	string $prefix	An optional prefix for the task
+	 * @param   integer  $value		The scalar value
+	 * @param   string   $query
+	 * @param   string   $attribs	HTML tag attributes
+	 * @param   integer  $neworder	1 if new and first, -1 if new and last, 0  or null if existing item
+	 * @param   string   $prefix	An optional prefix for the task
 	 *
-	 * @return	string
-	 * @since	1.6
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, $chop = null)
 	{
@@ -178,7 +176,7 @@ abstract class JHtmlList
 
 		$and = '';
 		if ($reg) {
-		// does not include registered users in the list
+		// Does not include registered users in the list
 			$and = ' AND m.group_id != 2';
 		}
 

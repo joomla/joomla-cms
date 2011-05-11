@@ -1,12 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 // Import library dependencies
 jimport('joomla.application.component.helper');
@@ -14,20 +15,19 @@ jimport('joomla.application.component.helper');
 /**
  * Module helper class
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	Application
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 abstract class JModuleHelper
 {
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @param	string	The name of the module
-	 * @param	string	The title of the module, optional
+	 * @param   string  The name of the module
+	 * @param   string  The title of the module, optional
 	 *
-	 * @return	object	The Module object
+	 * @return  object  The Module object
 	 */
 	public static function &getModule($name, $title = null)
 	{
@@ -48,7 +48,7 @@ abstract class JModuleHelper
 			}
 		}
 
-		// if we didn't find it, and the name is mod_something, create a dummy object
+		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
 			$result				= new stdClass;
@@ -69,9 +69,9 @@ abstract class JModuleHelper
 	/**
 	 * Get modules by position
 	 *
-	 * @param string	$position	The position of the module
+	 * @param   string  $position	The position of the module
 	 *
-	 * @return array	An array of module objects
+	 * @return  array  An array of module objects
 	 */
 	public static function &getModules($position)
 	{
@@ -105,9 +105,9 @@ abstract class JModuleHelper
 	/**
 	 * Checks if a module is enabled
 	 *
-	 * @param	string	The module name
+	 * @param   string  The module name
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	public static function isEnabled($module)
 	{
@@ -118,10 +118,10 @@ abstract class JModuleHelper
 	/**
 	 * Render the module.
 	 *
-	 * @param	object	A module object.
-	 * @param	array	An array of attributes for the module (probably from the XML).
+	 * @param   object  A module object.
+	 * @param   array   An array of attributes for the module (probably from the XML).
 	 *
-	 * @return	strign	The HTML content of the module output.
+	 * @return  string  The HTML content of the module output.
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
@@ -148,8 +148,7 @@ abstract class JModuleHelper
 		if (!$module->user && file_exists($path))
 		{
 			$lang = JFactory::getLanguage();
-			// 1.5 or Core then
-			// 1.6 3PD
+			// 1.5 or Core then 1.6 3PD
 				$lang->load($module->module, JPATH_BASE, null, false, false)
 			||	$lang->load($module->module, dirname($path), null, false, false)
 			||	$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false)
@@ -180,12 +179,12 @@ abstract class JModuleHelper
 			$chrome[$chromePath] = true;
 		}
 
-		//make sure a style is set
+		// Make sure a style is set
 		if (!isset($attribs['style'])) {
 			$attribs['style'] = 'none';
 		}
 
-		//dynamically add outline style
+		// Dynamically add outline style
 		if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 			$attribs['style'] .= ' outline';
 		}
@@ -214,11 +213,10 @@ abstract class JModuleHelper
 	/**
 	 * Get the path to a layout for a module
 	 *
-	 * @static
-	 * @param	string	$module	The name of the module
-	 * @param	string	$layout	The name of the module layout. If alternative layout, in the form template:filename.
-	 * @return	string	The path to the module layout
-	 * @since	1.5
+	 * @param   string  $module	The name of the module
+	 * @param   string  $layout	The name of the module layout. If alternative layout, in the form template:filename.
+	 * @return  string  The path to the module layout
+	 * @since   11.1
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
@@ -249,7 +247,7 @@ abstract class JModuleHelper
 	/**
 	 * Load published modules
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	protected static function &_load()
 	{
@@ -272,7 +270,7 @@ abstract class JModuleHelper
 		if (!($clean = $cache->get($cacheid))) {
 			$db	= JFactory::getDbo();
 
-			$query = new JDatabaseQuery;
+			$query = $db->getQuery(true);
 			$query->select('id, title, module, position, content, showtitle, params, mm.menuid');
 			$query->from('#__modules AS m');
 			$query->join('LEFT','#__modules_menu AS mm ON mm.moduleid = m.id');
@@ -312,7 +310,7 @@ abstract class JModuleHelper
 			{
 				$module = &$modules[$i];
 
-				// The module is excluded if there is an explicit prohibition, or if
+				// The module is excluded if there is an explicit prohibition or if
 				// the Itemid is missing or zero and the module is in exclude mode.
 				$negHit	= ($negId === (int) $module->menuid)
 						|| (!$negId && (int)$module->menuid < 0);
@@ -335,7 +333,7 @@ abstract class JModuleHelper
 					$file				= $module->module;
 					$custom				= substr($file, 0, 4) == 'mod_' ?  0 : 1;
 					$module->user		= $custom;
-					// Custom module name is given by the title field, otherwise strip off "com_"
+					// Custom module name is given by the title field, otherwise strip off "mod_"
 					$module->name		= $custom ? $module->title : substr($file, 4);
 					$module->style		= null;
 					$module->position	= strtolower($module->position);
@@ -356,21 +354,21 @@ abstract class JModuleHelper
 	* Module cache helper
 	*
 	* Caching modes:
-	* to be set in XML:
-	* 'static' - one cache file for all pages with the same module parameters
-	* 'oldstatic' - 1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
-	* 'itemid' - changes on itemid change,
-	* to be called from inside the module:
-	* 'safeuri' - id created from $cacheparams->modeparams array,
-	* 'id' - module sets own cache id's
+	* To be set in XML:
+	* 'static'		one cache file for all pages with the same module parameters
+	* 'oldstatic'	1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
+	* 'itemid'		changes on itemid change,
+	* To be called from inside the module:
+	* 'safeuri'		id created from $cacheparams->modeparams array,
+	* 'id'			module sets own cache id's
 	*
-	* @static
-	* @param	object	$module	Module object
-	* @param	object	$moduleparams module parameters
-	* @param	object	$cacheparams module cache parameters - id or url parameters, depending on the module cache mode
-	* @param	array	$params - parameters for given mode - calculated id or an array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	* @param   object  $module	Module object
+	* @param   object  $moduleparams module parameters
+	* @param   object  $cacheparams module cache parameters - id or url parameters, depending on the module cache mode
+	* @param   array   $params - parameters for given mode - calculated id or an array of safe url parameters and their
+	* 					variable types, for valid values see {@link JFilterInput::clean()}.
 	*
-	* @since	1.6
+	* @since   11.1
 	*/
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
@@ -386,7 +384,7 @@ abstract class JModuleHelper
 		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
 		$conf = JFactory::getConfig();
 
-		// turn cache off for internal callers if parameters are set to off and for all loged in users
+		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if($moduleparams->get('owncache', null) === 0  || $conf->get('caching') == 0 || $user->get('id')) {
 			$cache->setCaching(false);
 		}
@@ -415,7 +413,7 @@ abstract class JModuleHelper
 					$uri = JRequest::get();
 					$safeuri = new stdClass();
 					foreach ($cacheparams->modeparams AS $key => $value) {
-						// use int filter for id/catid to clean out spamy slugs
+						// Use int filter for id/catid to clean out spamy slugs
 						if (isset($uri[$key])) {
 							$safeuri->$key = JRequest::_cleanVar($uri[$key], 0,$value);
 						}

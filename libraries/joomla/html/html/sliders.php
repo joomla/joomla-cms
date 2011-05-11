@@ -1,19 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for Sliders elements
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlSliders
 {
@@ -21,10 +22,10 @@ abstract class JHtmlSliders
 	/**
 	 * Creates a panes and loads the javascript behavior for it.
 	 *
-	 * @param	string	The pane identifier.
-	 * @param	array	An array of options.
-	 * @return	string
-	 * @since	1.6
+	 * @param   string  The pane identifier.
+	 * @param   array   An array of options.
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
@@ -35,8 +36,8 @@ abstract class JHtmlSliders
 	/**
 	 * Close the current pane.
 	 *
-	 * @return	string
-	 * @since	1.6
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function end()
 	{
@@ -46,10 +47,10 @@ abstract class JHtmlSliders
 	/**
 	 * Begins the display of a new panel.
 	 *
-	 * @param	string	Text to display.
-	 * @param	string	Identifier of the panel.
-	 * @return	string
-	 * @since	1.6
+	 * @param   string  Text to display.
+	 * @param   string  Identifier of the panel.
+	 * @return  string
+	 * @since   11.1
 	 */
 	public static function panel($text, $id)
 	{
@@ -59,10 +60,10 @@ abstract class JHtmlSliders
 	/**
 	 * Load the JavaScript behavior.
 	 *
-	 * @param	string	The pane identifier.
-	 * @param	array	Array of options.
-	 * @return	void
-	 * @since	1.6
+	 * @param   string  The pane identifier.
+	 * @param   array   Array of options.
+	 * @return  void
+	 * @since   11.1
 	 */
 	protected static function _loadBehavior($group, $params = array())
 	{

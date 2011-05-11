@@ -1,12 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.file');
 jimport('joomla.installer.extension');
@@ -14,48 +15,69 @@ jimport('joomla.installer.extension');
 /**
  * Joomla! Package Manifest File
  *
- * @package		Joomla.Framework
- * @subpackage	Installer
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JPackageManifest extends JObject
 {
-	/** @var string name Name of the package */
+	/**
+	 * @var string name Name of the package
+	 */
 	var $name = '';
 
-	/** @var string packagename Unique name of the package */
+	/**
+	 * @var string packagename Unique name of the package
+	 */
 	var $packagename = '';
 
-	/** @var string url Website for the package */
+	/**
+	 * @var string url Website for the package
+	 */
 	var $url = '';
 
-	/** @var string description Description for the package */
+	/**
+	 * @var string description Description for the package
+	 */
 	var $description = '';
 
-	/** @var string packager Packager of the package */
+	/**
+	 * @var string packager Packager of the package
+	 */
 	var $packager = '';
 
-	/** @var string packagerurl Packager's URL of the package */
+	/**
+	 * @var string packagerurl Packager's URL of the package
+	 */
 	var $packagerurl = '';
 
-	/** @var string update Update site for the package */
+	/**
+	 * @var string update Update site for the package
+	 */
 	var $update = '';
 
-	/** @var string version Version of the package */
+	/**
+	 * @var string version Version of the package
+	 */
 	var $version = '';
 
-	/** @var JExtension[] filelist List of files in this package */
+	/**
+	 *
+	 * @var JExtension[] filelist List of files in this package
+	 */
 	var $filelist = Array();
 
-	/** @var string manifest_file Path to the manifest file */
+	/**
+	 * @var string manifest_file Path to the manifest file
+	 */
 	var $manifest_file = '';
 
 	/**
 	 * Constructor
 	 *
-	 * @param	string	$xmlpath	Path to XML manifest file.
+	 * @param   string  $xmlpath	Path to XML manifest file.
 	 *
-	 * @return	JPackageManifest
+	 * @return  object  JPackageManifest
 	 * @since
 	 */
 	function __construct($xmlpath='')
@@ -68,10 +90,10 @@ class JPackageManifest extends JObject
 	/**
 	 * Load a manifest from an XML file
 	 *
-	 * @param	string	$xmlpath	Path to XML manifest file
+	 * @param   string  $xmlpath	Path to XML manifest file
 	 *
-	 * @return	boolean	Result of load
-	 * @since	1.6
+	 * @return  boolean	Result of load
+	 * @since   11.1
 	 */
 	function loadManifestFromXML($xmlfile)
 	{

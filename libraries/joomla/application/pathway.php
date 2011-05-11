@@ -1,39 +1,36 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Class to maintain a pathway.
  *
- * Main example of use so far is the mod_breadcrumbs module that keeps track of
- * the user's navigated path within the Joomla application.
+ * The user's navigated path within the application.
  *
- * @abstract
- * @package		Joomla.Framework
- * @subpackage	Application
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Application
+ * @since       11.1
  */
 class JPathway extends JObject
 {
 	/**
-	 * Array to hold the pathway item objects
-	 * @access private
+	 * @var    array  Array to hold the pathway item objects
+	 * @since  11.1
 	 */
-	var $_pathway = null;
+	protected $_pathway = null;
 
 	/**
-	 * Integer number of items in the pathway
-	 * @access private
+	 * @var    integer  Integer number of items in the pathway
+	 * @since  11.1
 	 */
-	var $_count = 0;
+	protected $_count = 0;
 
 	/**
 	 * Class constructor
@@ -47,13 +44,13 @@ class JPathway extends JObject
 	/**
 	 * Returns a JPathway object
 	 *
-	 * @access	public
-	 * @param	string		$client  The name of the client
-	 * @param	array		$options An associative array of options
-	 * @return	JPathway	A pathway object.
-	 * @since	1.5
+	 * @param   string  $client  The name of the client
+	 * @param   array   $options An associative array of options
+	 *
+	 * @return  JPathway  A JPathway object.
+	 * @since   11.1
 	 */
-	static function getInstance($client, $options = array())
+	public static function getInstance($client, $options = array())
 	{
 		static $instances;
 
@@ -90,11 +87,10 @@ class JPathway extends JObject
 	/**
 	 * Return the JPathWay items array
 	 *
-	 * @access public
-	 * @return array Array of pathway items
-	 * @since 1.5
+	 * @return  array  Array of pathway items
+	 * @since   11.1
 	 */
-	function getPathway()
+	public function getPathway()
 	{
 		$pw = $this->_pathway;
 
@@ -105,12 +101,12 @@ class JPathway extends JObject
 	/**
 	 * Set the JPathway items array.
 	 *
-	 * @access	public
-	 * @param	array	$pathway	An array of pathway objects.
-	 * @return	array	The previous pathway data.
-	 * @since	1.5
+	 * @param   array  $pathway	An array of pathway objects.
+	 *
+	 * @return  array  The previous pathway data.
+	 * @since   11.1
 	 */
-	function setPathway($pathway)
+	public function setPathway($pathway)
 	{
 		$oldPathway	= $this->_pathway;
 		$pathway	= (array) $pathway;
@@ -124,11 +120,10 @@ class JPathway extends JObject
 	/**
 	 * Create and return an array of the pathway names.
 	 *
-	 * @access public
-	 * @return array Array of names of pathway items
-	 * @since 1.5
+	 * @return  array  Array of names of pathway items
+	 * @since   11.1
 	 */
-	function getPathwayNames()
+	public function getPathwayNames()
 	{
 		// Initialise variables.
 		$names = array (null);
@@ -145,13 +140,13 @@ class JPathway extends JObject
 	/**
 	 * Create and add an item to the pathway.
 	 *
-	 * @access public
-	 * @param string $name
-	 * @param string $link
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @param   string  $name
+	 * @param   string  $link
+	 *
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
-	function addItem($name, $link='')
+	public function addItem($name, $link='')
 	{
 		// Initalize variables
 		$ret = false;
@@ -167,13 +162,13 @@ class JPathway extends JObject
 	/**
 	 * Set item name.
 	 *
-	 * @access public
-	 * @param integer $id
-	 * @param string $name
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @param   integer  $id
+	 * @param   string   $name
+	 *
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
-	function setItemName($id, $name)
+	public function setItemName($id, $name)
 	{
 		// Initalize variables
 		$ret = false;
@@ -189,13 +184,13 @@ class JPathway extends JObject
 	/**
 	 * Create and return a new pathway object.
 	 *
-	 * @access private
-	 * @param string $name Name of the item
-	 * @param string $link Link to the item
-	 * @return object Pathway item object
-	 * @since 1.5
+	 * @param   string   $name  Name of the item
+	 * @param   string   $link  Link to the item
+	 *
+	 * @return  JPathway  Pathway item object
+	 * @since   11.1
 	 */
-	function _makeItem($name, $link)
+	protected function _makeItem($name, $link)
 	{
 		$item = new stdClass();
 		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');

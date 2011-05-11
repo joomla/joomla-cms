@@ -1,13 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.html.html');
 jimport('joomla.form.formfield');
@@ -17,23 +17,23 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of categories
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldCategory extends JFormFieldList
 {
 	/**
-	 * @var		string	The form field type.
-	 * @since	1.6
+	 * @var    string	The form field type.
+	 * @since  11.1
 	 */
 	public $type = 'Category';
 
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return  array    The field option objects.
+	 * @since   11.1
 	 */
 	protected function getOptions()
 	{
@@ -58,7 +58,7 @@ class JFormFieldCategory extends JFormFieldList
 
 				// Get the current user object.
 				$user = JFactory::getUser();
-			
+
 				foreach($options as $i => $option)
 				{
 					// To take save or create in a category you need to have create rights for that category
@@ -68,7 +68,7 @@ class JFormFieldCategory extends JFormFieldList
 						unset($options[$i]);
 					}
 				}
-				
+
 			}
 
 			if (isset($this->element['show_root'])) {

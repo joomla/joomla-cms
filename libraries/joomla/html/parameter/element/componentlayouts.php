@@ -1,26 +1,27 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 require_once dirname(__FILE__).DS.'list.php';
 
 /**
  * Parameter to display a list of the layouts for a component view from the extension or default template overrides.
  *
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @deprecated  User JForm instead
  */
 class JElementComponentLayouts extends JElementList
 {
 	/**
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'ComponentLayouts';
 

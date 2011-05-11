@@ -1,35 +1,33 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Client
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Client helper class
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	Client
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Client
+ * @since       11.1
  */
 class JClientHelper
 {
 	/**
 	 * Method to return the array of client layer configuration options
 	 *
-	 * @param	string	Client name, currently only 'ftp' is supported
-	 * @param	boolean	Forces re-creation of the login credentials. Set this to
-	 *					true if login credentials in the session storage have changed
+	 * @param   string   $client  Client name, currently only 'ftp' is supported
+	 * @param   boolean  $force   Forces re-creation of the login credentials. Set this to
+	 *                              true if login credentials in the session storage have changed
 	 *
-	 * @return	array	Client layer configuration options, consisting of at least
-	 *					these fields: enabled, host, port, user, pass, root
-	 * @since	1.5
+	 * @return  array    Client layer configuration options, consisting of at least
+	 *                     these fields: enabled, host, port, user, pass, root
+	 * @since   11.1
 	 */
 	public static function getCredentials($client, $force=false)
 	{
@@ -66,7 +64,7 @@ class JClientHelper
 					break;
 			}
 
-			// If user and pass are not set in global config lets see if its in the session
+			// If user and pass are not set in global config lets see if they are in the session
 			if ($options['enabled'] == true && ($options['user'] == '' || $options['pass'] == '')) {
 				$session = JFactory::getSession();
 				$options['user'] = $session->get($client.'.user', null, 'JClientHelper');
@@ -88,12 +86,12 @@ class JClientHelper
 	/**
 	 * Method to set client login credentials
 	 *
-	 * @param	string	Client name, currently only 'ftp' is supported
-	 * @param	string	Username
-	 * @param	string	Password
+	 * @param   string   $client   Client name, currently only 'ftp' is supported
+	 * @param   string   $user     Username
+	 * @param   string   $pass     Password
 	 *
-	 * @return	boolean	True if the given login credentials have been set and are valid
-	 * @since	1.5
+	 * @return  boolean  True if the given login credentials have been set and are valid
+	 * @since   11.1
 	 */
 	public static function setCredentials($client, $user, $pass)
 	{
@@ -144,10 +142,10 @@ class JClientHelper
 	/**
 	 * Method to determine if client login credentials are present
 	 *
-	 * @static
-	 * @param	string	Client name, currently only 'ftp' is supported
-	 * @return	boolean	True if login credentials are available
-	 * @since	1.5
+	 * @param   string   Client name, currently only 'ftp' is supported
+	 *
+	 * @return  boolean  True if login credentials are available
+	 * @since   11.1
 	 */
 	public static function hasCredentials($client)
 	{
@@ -194,15 +192,16 @@ class JClientHelper
 	}
 
 	/**
-	 * Determine wether input fields for client settings need to be shown
+	 * Determine whether input fields for client settings need to be shown
 	 *
 	 * If valid credentials were passed along with the request, they are saved to the session.
-	 * This functions returns an exeption if invalid credentials have been given or if the
+	 * This functions returns an exception if invalid credentials have been given or if the
 	 * connection to the server failed for some other reason.
-
-	 * @static
-	 * @return	boolean|JExeption	True, if FTP settings should be shown, or an exeption
-	 * @since	1.5
+	 *
+	 * @param    string    $client
+	 *
+	 * @return   mixed     True, if FTP settings should be shown or an exception
+	 * @since   11.1
 	 */
 	public static function setCredentialsFromRequest($client)
 	{

@@ -1,29 +1,31 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Form
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('JPATH_BASE') or die;
+
+defined('JPATH_PLATFORM') or die;
+
 jimport('joomla.html.html');
 jimport('joomla.access.access');
 jimport('joomla.form.formfield');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package		Joomla.Framework
- * @subpackage	Form
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Form
+ * @since       11.1
  */
 class JFormFieldRules extends JFormField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since	1.6
+	 * @var    string
+	 * @since  11.1
 	 */
 	public $type = 'Rules';
 
@@ -32,13 +34,13 @@ class JFormFieldRules extends JFormField
 	 *
 	 * TODO: Add access check.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string  The field input markup.
+	 * @since   11.1
 	 */
 	protected function getInput()
 	{
 		JHtml::_('behavior.tooltip');
-		
+
 		// Initialise some field attributes.
 		$section	= $this->element['section'] ? (string) $this->element['section'] : '';
 		$component	= $this->element['component'] ? (string) $this->element['component'] : '';
@@ -76,14 +78,13 @@ class JFormFieldRules extends JFormField
 			$assetId = $this->form->getValue($assetField);
 		}
 
-		// Use the compact form for the content rules (to be deprecated).
-//		if (!empty($component) && $section != 'component') {
-//			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-//		}
+		// Use the compact form for the content rules (deprecated).
+		//if (!empty($component) && $section != 'component') {
+		//	return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
+		//}
 
-		//
+
 		// Full width format.
-		//
 
 		// Get the rules for just this asset (non-recursive).
 		$assetRules = JAccess::getAssetRules($assetId);
@@ -210,8 +211,6 @@ class JFormFieldRules extends JFormField
 											JText::_('JLIB_RULES_NOT_ALLOWED_LOCKED').'</span></span>';
 							}
 						}
-
-						//Now handle the groups with core.admin who always inherit an allow.
 					}
 					else if (!empty($component)) {
 						$html[] = '<span class="icon-16-allowed"><span class="icon-16-locked">'.
@@ -247,7 +246,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</div></div>';
 			$html[] = '</li>';
 
-		} // endforeach
+		}
 
 		$html[] = str_repeat('</ul></li>', $curLevel);
 		$html[] = '</ul><div class="rule-notes">';
@@ -268,8 +267,8 @@ class JFormFieldRules extends JFormField
 	/**
 	 * Get a list of the user groups.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   11.1
 	 */
 	protected function getUserGroups()
 	{
@@ -288,4 +287,3 @@ class JFormFieldRules extends JFormField
 		return $options;
 	}
 }
-

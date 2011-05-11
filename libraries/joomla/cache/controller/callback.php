@@ -1,22 +1,22 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.cache.controller');
 
 /**
  * Joomla! Cache callback type object
  *
- * @package		Joomla.Framework
- * @subpackage	Cache
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Cache
+ * @since       11.1
  */
 class JCacheControllerCallback extends JCacheController
 {
@@ -27,12 +27,13 @@ class JCacheControllerCallback extends JCacheController
 	 * as long as the first argument passed is the callback definition.
 	 *
 	 * The callback definition can be in several forms:
-	 *	- Standard PHP Callback array <http://php.net/callback> [recommended]
+	 *	- Standard PHP Callback array see <http://php.net/callback> [recommended]
 	 *	- Function name as a string eg. 'foo' for function foo()
 	 *	- Static method name as a string eg. 'MyClass::myMethod' for method myMethod() of class MyClass
 	 *
-	 * @return	mixed	Result of the callback
-	 * @since	1.6
+	 * @return  mixed  Result of the callback
+	 *
+	 * @since   11.1
 	 */
 	public function call()
 	{
@@ -46,13 +47,15 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Executes a cacheable callback if not found in cache else returns cached output and result
 	 *
-	 * @param	mixed	Callback or string shorthand for a callback
-	 * @param	array	Callback arguments
-	 * @param	string	Cache id
-	 * @param	boolean	Perform workarounds on data?
-	 * @param	array	Workaround options
-	 * @return	mixed	Result of the callback
-	 * @since	1.6
+	 * @param   mixed    Callback or string shorthand for a callback
+	 * @param   array    Callback arguments
+	 * @param   string   Cache id
+	 * @param   boolean  Perform workarounds on data?
+	 * @param   array    Workaround options
+	 *
+	 * @return  mixed  Result of the callback
+	 *
+	 * @since   11.1
 	 */
 	public function get($callback, $args=array(), $id=false, $wrkarounds=false, $woptions=array())
 	{
@@ -97,9 +100,9 @@ class JCacheControllerCallback extends JCacheController
 				$data = $this->cache->get($id);
 			}
 		}
-		
+
 		$coptions= array();
-		
+
 		if ($data !== false) {
 
 			$cached = unserialize(trim($data));
@@ -113,9 +116,9 @@ class JCacheControllerCallback extends JCacheController
 			if (!is_array($args)) {
 				$Args = !empty($args) ? array( &$args) : array();
 			} else {
-				 $Args = &$args;				
+				 $Args = &$args;
 			}
-			
+
 			if ($locktest->locked == false) $locktest = $this->cache->lock($id);
 			ob_start();
 			ob_implicit_flush(false);
@@ -147,12 +150,14 @@ class JCacheControllerCallback extends JCacheController
 	/**
 	 * Generate a callback cache id
 	 *
-	 * @param	callback	$callback	Callback to cache
-	 * @param	array		$args	Arguments to the callback method to cache
-	 * @return	string	MD5 Hash : function cache id
-	 * @since	1.6
+	 * @param   callback  $callback  Callback to cache
+	 * @param   array     $args      Arguments to the callback method to cache
+	 *
+	 * @return  string  MD5 Hash : function cache id
+	 *
+	 * @since   11.1
 	 */
-	private function _makeId($callback, $args)
+	protected function _makeId($callback, $args)
 	{
 		if (is_array($callback) && is_object($callback[0])) {
 			$vars = get_object_vars($callback[0]);

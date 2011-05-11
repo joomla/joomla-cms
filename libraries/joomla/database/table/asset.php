@@ -1,22 +1,22 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Database
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.tablenested');
 
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package		Joomla.Framework
- * @subpackage	Database
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ * @since       11.1
  * @link		http://docs.joomla.org/JTableAsset
  */
 class JTableAsset extends JTableNested
@@ -58,17 +58,17 @@ class JTableAsset extends JTableNested
 	/**
 	 * Method to load an asset by it's name.
 	 *
-	 * @param	string	The name of the asset.
+	 * @param   string  The name of the asset.
 	 *
-	 * @return	int
+	 * @return  integer
 	 */
 	public function loadByName($name)
 	{
 		// Get the asset id for the asset.
 		$this->_db->setQuery(
-			'SELECT `id`' .
-			' FROM `#__assets`' .
-			' WHERE `name` = '.$this->_db->Quote($name)
+			'SELECT '.$this->_db->nameQuote('id') .
+			' FROM '.$this->_db->nameQuote('#__assets') .
+			' WHERE '.$this->_db->nameQuote('name').' = '.$this->_db->Quote($name)
 		);
 		$assetId = (int) $this->_db->loadResult();
 		if (empty($assetId)) {
@@ -86,9 +86,10 @@ class JTableAsset extends JTableNested
 	/**
 	 * Asset that the nested set data is valid.
 	 *
-	 * @return	boolean	True if the instance is sane and able to be stored in the database.
-	 * @since	1.0
+	 * @return  bool  True if the instance is sane and able to be stored in the database.
+	 *
 	 * @link	http://docs.joomla.org/JTable/check
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -100,7 +101,7 @@ class JTableAsset extends JTableNested
 			$this->_db->setQuery(
 				'SELECT COUNT(id)' .
 				' FROM '.$this->_db->nameQuote($this->_tbl).
-				' WHERE `id` = '.$this->parent_id
+				' WHERE '.$this->_db->nameQuote('id').' = '.$this->parent_id
 			);
 			if ($this->_db->loadResult()) {
 				return true;

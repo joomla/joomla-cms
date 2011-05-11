@@ -1,21 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * DocumentRAW class, provides an easy interface to parse and display raw output
  *
- * @package		Joomla.Framework
- * @subpackage	Document
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 
 jimport('joomla.document.document');
@@ -24,12 +23,11 @@ class JDocumentRAW extends JDocument
 {
 
 	/**
-	 * Class constructore
+	 * Class constructor
 	 *
-	 * @access protected
-	 * @param	array	$options Associative array of options
+	 * @param   array  $options  Associative array of options
 	 */
-	function __construct($options = array())
+	protected function __construct($options = array())
 	{
 		parent::__construct($options);
 
@@ -43,12 +41,12 @@ class JDocumentRAW extends JDocument
 	/**
 	 * Render the document.
 	 *
-	 * @access public
-	 * @param boolean	$cache		If true, cache the output
-	 * @param array		$params		Associative array of attributes
+	 * @param   bool   $cache   If true, cache the output
+	 * @param   array  $params  Associative array of attributes
+	 *
 	 * @return	The rendered data
 	 */
-	function render($cache = false, $params = array())
+	public function render($cache = false, $params = array())
 	{
 		parent::render();
 		return $this->getBuffer();

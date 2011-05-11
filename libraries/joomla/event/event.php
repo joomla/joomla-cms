@@ -1,40 +1,42 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Event
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Event
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.observer');
 
 /**
  * JEvent Class
  *
- * @abstract
- * @package		Joomla.Framework
- * @subpackage	Event
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Event
+ * @since       11.1
  */
 abstract class JEvent extends JObserver
 {
 	/**
 	 * Method to trigger events.
+	 * The method first generates the even from the argument array. Then it unsets the argument
+	 * since the argument has no bearing on the event handler.
+	 * If the method exists it is called and returns its return value. If it does not exist it
+	 * returns null.
 	 *
-	 * @access public
-	 * @param array Arguments
-	 * @return mixed Routine return value
-	 * @since 1.5
+	 * @param   array  &$args  Arguments
+	 *
+	 * @return  mixed  Routine return value
+	 *
+	 * @since   11.1
 	 */
 	public function update(&$args)
 	{
-		/*
-		 * First lets get the event from the argument array.  Next we will unset the
-		 * event argument as it has no bearing on the method to handle the event.
-		 */
+		// First let's get the event from the argument array.  Next we will unset the
+		// event argument as it has no bearing on the method to handle the event.
 		$event = $args['event'];
 		unset($args['event']);
 
@@ -44,7 +46,8 @@ abstract class JEvent extends JObserver
 		 */
 		if (method_exists($this, $event)) {
 			return call_user_func_array(array($this, $event), $args);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}

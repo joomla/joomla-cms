@@ -1,19 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Menu Types table
  *
- * @package		Joomla.Framework
- * @subpackage	Table
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableMenuType extends JTable
 {
@@ -68,9 +69,9 @@ class JTableMenuType extends JTable
 	 * a new row will be inserted into the database with the properties from the
 	 * JTable instance.
 	 *
-	 * @param	boolean True to update fields even if they are null.
-	 * @return	boolean	True on success.
-	 * @since	1.0
+	 * @param   boolean True to update fields even if they are null.
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
@@ -138,10 +139,10 @@ class JTableMenuType extends JTable
 	/**
 	 * Method to delete a row from the database table by primary key value.
 	 *
-	 * @param	mixed	An optional primary key value to delete.  If not set the
+	 * @param   mixed    An optional primary key value to delete.  If not set the
 	 *					instance property value is used.
-	 * @return	boolean	True on success.
-	 * @since	1.0
+	 * @return  boolean  True on success.
+	 * @since   11.1
 	 * @link	http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)

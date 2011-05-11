@@ -1,30 +1,29 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access.
-defined( '_JEXEC' ) or die( 'Access denied' );
+defined('JPATH_PLATFORM') or die;
 
 /**
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated  Use JForm instead
 **/
 class JElementTemplateStyle extends JElement {
 
 	/**
 	* Element name
 	*
-	* @access	protected
-	* @var		string
+	* @var    string
 	**/
-	var	$_name = 'TemplateStyle';
+	protected	$_name = 'TemplateStyle';
+
 
 	public function fetchElement( $name, $value, &$node, $control_name )
 	{
@@ -40,11 +39,11 @@ class JElementTemplateStyle extends JElement {
 		array_unshift( $data, $default );
 
 		$selected = $this->_getSelected();
-		$html = JHtml::_( 'select.genericlist', $data, $control_name.'['.$name.']', 'class="inputbox" size="6"', 'id', 'description', $selected );
+		$html = JHTML::_( 'select.genericlist', $data, $control_name.'['.$name.']', 'class="inputbox" size="6"', 'id', 'description', $selected );
 		return $html;
 	}
 
-	private function _getSelected()
+	protected function _getSelected()
 	{
 		$id = JRequest::getVar( 'cid', 0 );
 		$db = JFactory::getDBO();

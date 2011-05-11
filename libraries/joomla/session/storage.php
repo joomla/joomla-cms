@@ -1,30 +1,28 @@
 <?php
 /**
- * @version		$Id:sessionstorage.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		Joomla.Framework
- * @subpackage	Session
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
-* Custom session storage handler for PHP
-*
-* @abstract
- * @package		Joomla.Framework
- * @subpackage	Session
- * @since		1.5
-* @see http://www.php.net/manual/en/function.session-set-save-handler.php
+ * Custom session storage handler for PHP
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ * @since       11.1
+ * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
  */
-class JSessionStorage extends JObject
+abstract class JSessionStorage extends JObject
 {
 	/**
 	* Constructor
 	*
-	* @param	array	$options	Optional parameters.
+	* @param   array  $options	Optional parameters.
 	*/
 	public function __construct($options = array())
 	{
@@ -35,10 +33,10 @@ class JSessionStorage extends JObject
 	 * Returns a session storage handler object, only creating it
 	 * if it doesn't already exist.
 	 *
-	 * @param	name		$name The session store to instantiate
+	 * @param   name		$name The session store to instantiate
 	 *
-	 * @return	database	A JSessionStorage object
-	 * @since 1.5
+	 * @return  database	A JSessionStorage object
+	 * @since   11.1
 	 */
 	public static function getInstance($name = 'none', $options = array())
 	{
@@ -73,7 +71,7 @@ class JSessionStorage extends JObject
 	/**
 	* Register the functions of this class with PHP's session handler
 	*
-	* @param array $options optional parameters
+	* @param   array  $options optional parameters
 	*/
 	public function register($options = array())
 	{
@@ -91,8 +89,9 @@ class JSessionStorage extends JObject
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param	string	$save_path		The path to the session object.
-	 * @param	string	$session_name	The name of the session.
+	 * @param   string  $save_path		The path to the session object.
+	 * @param   string  $session_name	The name of the session.
+	 *
 	 * @return boolean  True on success, false otherwise.
 	 */
 	public function open($save_path, $session_name)
@@ -114,8 +113,8 @@ class JSessionStorage extends JObject
 	 * Read the data for a particular session identifier from the
 	 * SessionHandler backend.
 	 *
-	 * @param string $id  The session identifier.
-	 * @return string  The session data.
+	 * @param   string  $id  The session identifier.
+	 * @return  string  The session data.
 	 */
 	public function read($id)
 	{
@@ -125,9 +124,10 @@ class JSessionStorage extends JObject
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param	string	$id				The session identifier.
-	 * @param	string	$session_data	The session data.
-	 * @return	boolean	True on success, false otherwise.
+	 * @param   string  $id				The session identifier.
+	 * @param   string  $session_data	The session data.
+	 *
+	 * @return  boolean  True on success, false otherwise.
 	 */
 	public function write($id, $session_data)
 	{
@@ -138,9 +138,9 @@ class JSessionStorage extends JObject
 	 * Destroy the data for a particular session identifier in the
 	 * SessionHandler backend.
 	 *
-	 * @param	string	$id  The session identifier.
+	 * @param   string  $id  The session identifier.
 	 *
-	 * @return	boolean	True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 */
 	public function destroy($id)
 	{
@@ -150,8 +150,8 @@ class JSessionStorage extends JObject
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @param	integer	$maxlifetime	The maximum age of a session.
-	 * @return	boolean	True on success, false otherwise.
+	 * @param   integer  $maxlifetime	The maximum age of a session.
+	 * @return  boolean  True on success, false otherwise.
 	 */
 	public function gc($maxlifetime = null)
 	{

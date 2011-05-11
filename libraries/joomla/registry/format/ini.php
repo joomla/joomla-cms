@@ -1,25 +1,24 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * INI format handler for JRegistry.
  *
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
-	private static $cache = array();
+	protected static $cache = array();
 
 	/**
 	 * Converts an object into an INI formatted string
@@ -27,10 +26,10 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *		levels deep.  Therefore we will only go through the first two levels of
 	 *		the object.
 	 *
-	 * @param	object	Data source object.
-	 * @param	array	Options used by the formatter.
-	 * @return	string	INI formatted string.
-	 * @since	1.5
+	 * @param   object   Data source object.
+	 * @param   array    Options used by the formatter.
+	 * @return  string   INI formatted string.
+	 * @since   11.1
 	 */
 	public function objectToString($object, $options = array())
 	{
@@ -62,10 +61,12 @@ class JRegistryFormatINI extends JRegistryFormat
 	/**
 	 * Parse an INI formatted string and convert it into an object.
 	 *
-	 * @param	string	INI formatted string to convert.
-	 * @param	mixed	An array of options used by the formatter, or a boolean setting to process sections.
-	 * @return	object	Data object.
-	 * @since	1.5
+	 * @param   string   INI formatted string to convert.
+	 * @param   mixed    An array of options used by the formatter, or a boolean setting to process sections.
+	 *
+	 * @return  object   Data object.
+	 * @since   11.1
+	 *
 	 */
 	public function stringToObject($data, $options = array())
 	{
@@ -74,6 +75,7 @@ class JRegistryFormatINI extends JRegistryFormat
 			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 		} else {
 			// Backward compatibility for 1.5 usage.
+			//@deprecated
 			$sections = (boolean) $options;
 		}
 
@@ -177,9 +179,9 @@ class JRegistryFormatINI extends JRegistryFormat
 	/**
 	 * Method to get a value in an INI format.
 	 *
-	 * @param	mixed	The value to convert to INI format.
-	 * @return	string	The value in INI format.
-	 * @since	1.6
+	 * @param   mixed    The value to convert to INI format.
+	 * @return  string   The value in INI format.
+	 * @since   11.1
 	 */
 	protected function _getValueAsINI($value)
 	{

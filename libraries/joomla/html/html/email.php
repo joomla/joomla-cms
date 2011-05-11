@@ -1,19 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class for cloaking email adresses
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlEmail
 {
@@ -24,12 +25,12 @@ abstract class JHtmlEmail
 	*/
 	public static function cloak($mail, $mailto=1, $text='', $email=1)
 	{
-		// convert text
+		// Convert text
 		$mail			= JHtmlEmail::_convertEncoding($mail);
-		// split email by @ symbol
+		// Split email by @ symbol
 		$mail			= explode('@', $mail);
 		$mail_parts		= explode('.', $mail[1]);
-		// random number
+		// Random number
 		$rand			= rand(1, 100000);
 
 		$replacement	= "\n <script type='text/javascript'>";
@@ -40,12 +41,12 @@ abstract class JHtmlEmail
 		$replacement	.= "\n addy". $rand ." = addy". $rand ." + '". implode("' + '&#46;' + '", $mail_parts) ."';";
 
 		if ($mailto) {
-			// special handling when mail text is different from mail addy
+			// Special handling when mail text is different from mail addy
 			if ($text) {
 				if ($email) {
-					// convert text
+					// Convert text
 					$text			= JHtmlEmail::_convertEncoding($text);
-					// split email by @ symbol
+					// Split email by @ symbol
 					$text			= explode('@', $text);
 					$text_parts		= explode('.', $text[1]);
 					$replacement	.= "\n var addy_text". $rand ." = '". @$text[0] ."' + '&#64;' + '". implode("' + '&#46;' + '", @$text_parts) ."';";
@@ -85,7 +86,7 @@ abstract class JHtmlEmail
 
 	protected static function _convertEncoding($text)
 	{
-		// replace vowels with character encoding
+		// Replace vowels with character encoding
 		$text	= str_replace('a', '&#97;', $text);
 		$text	= str_replace('e', '&#101;', $text);
 		$text	= str_replace('i', '&#105;', $text);

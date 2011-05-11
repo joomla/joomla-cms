@@ -1,16 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Document
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
-
-
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocumentRenderer_Atom is a feed that implements the atom specification
@@ -19,10 +16,10 @@ defined('JPATH_BASE') or die;
  * produce valid atom files. For example, you have to specify either an editor
  * for the feed or an author for every single feed item.
  *
- * @package		Joomla.Framework
- * @subpackage	Document
- * @see http://www.atomenabled.org/developers/syndication/atom-format-spec.php
- * @since	1.5
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @see         http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+ * @since       11.1
  */
 
  class JDocumentRendererAtom extends JDocumentRenderer
@@ -30,18 +27,16 @@ defined('JPATH_BASE') or die;
 	/**
 	 * Document mime type
 	 *
-	 * @var		string
-	 * @access	private
+	 * @var    string
 	 */
-	var $_mime = "application/atom+xml";
+	protected $_mime = "application/atom+xml";
 
 	/**
 	 * Render the feed
 	 *
-	 * @access public
-	 * @return string
+	 * @return  string
 	 */
-	function render()
+	public function render()
 	{
 		$app	= JFactory::getApplication();
 		$now	= JFactory::getDate();
@@ -50,7 +45,7 @@ defined('JPATH_BASE') or die;
 		$uri = JFactory::getURI();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
-		
+
 		$feed_title = htmlspecialchars(
 			$app->getCfg('sitename_pagetitles',0)?
 			JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title):
@@ -88,7 +83,7 @@ defined('JPATH_BASE') or die;
 		$feed.= "	<generator uri=\"http://joomla.org\" version=\"1.6\">".$data->getGenerator()."</generator>\n";
 		$feed.= '	<link rel="self" type="application/atom+xml" href="'.str_replace(' ','%20',$url.$syndicationURL)."\"/>\n";
 
-		for ($i=0, $count = count($data->items); $i < $count; $i++)
+		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
 			$feed.= "	<entry>\n";
 			$feed.= "		<title>".htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8')."</title>\n";

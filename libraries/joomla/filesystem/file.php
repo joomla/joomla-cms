@@ -1,48 +1,47 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
 
 /**
  * A File handling class
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	FileSystem
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JFile
 {
 	/**
 	 * Gets the extension of a file name
 	 *
-	 * @param	string	$file	The file name
+	 * @param   string  $file	The file name
 	 *
-	 * @return	string	The file extension
-	 * @since 1.5
+	 * @return  string  The file extension
+	 * @since   11.1
 	 */
 	public static function getExt($file)
 	{
 		$dot = strrpos($file, '.') + 1;
+
 		return substr($file, $dot);
 	}
 
 	/**
-	 * Strips the last extension off a file name
+	 * Strips the last extension off of a file name
 	 *
-	 * @param	string	$file The file name
+	 * @param   string  $file  The file name
 	 *
-	 * @return	string	The file name without the extension
-	 * @since 1.5
+	 * @return  string  The file name without the extension
+	 * @since   11.1
 	 */
 	public static function stripExt($file)
 	{
@@ -52,26 +51,27 @@ class JFile
 	/**
 	 * Makes file name safe to use
 	 *
-	 * @param	string	$file	The name of the file [not full path]
+	 * @param   string  $file	The name of the file [not full path]
 	 *
-	 * @return	string	The sanitised string
-	 * @since	1.5
+	 * @return  string  The sanitised string
+	 * @since   11.1
 	 */
 	public static function makeSafe($file)
 	{
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+
 		return preg_replace($regex, '', $file);
 	}
 
 	/**
 	 * Copies a file
 	 *
-	 * @param	string	$src	The path to the source file
-	 * @param	string	$dest	The path to the destination file
-	 * @param	string	$path	An optional base path to prefix to the file names
+	 * @param   string  $src   The path to the source file
+	 * @param   string  $dest  The path to the destination file
+	 * @param   string  $path  An optional base path to prefix to the file names
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams=false)
 	{
@@ -81,9 +81,10 @@ class JFile
 			$dest = JPath::clean($path.DS.$dest);
 		}
 
-		//Check src path
+		// Check src path
 		if (!is_readable($src)) {
 			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', $src));
+
 			return false;
 		}
 
@@ -92,6 +93,7 @@ class JFile
 
 			if (!$stream->copy($src, $dest)) {
 				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_STREAMS', $src, $dest, $stream->getError()));
+
 				return false;
 			}
 
@@ -112,9 +114,10 @@ class JFile
 					JFolder::create(dirname($dest));
 				}
 
-				//Translate the destination path for the FTP account
+				// Translate the destination path for the FTP account
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 				if (!$ftp->store($src, $dest)) {
+
 					// FTP connector throws an error
 					return false;
 				}
@@ -122,10 +125,12 @@ class JFile
 			} else {
 				if (!@ copy($src, $dest)) {
 					JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'));
+
 					return false;
 				}
 				$ret = true;
 			}
+
 			return $ret;
 		}
 	}
@@ -133,10 +138,10 @@ class JFile
 	/**
 	 * Delete a file or array of files
 	 *
-	 * @param	mixed	$file The file name or an array of file names
+	 * @param   mixed  $file  The file name or an array of file names
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public static function delete($file)
 	{
@@ -172,11 +177,13 @@ class JFile
 				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
 				if (!$ftp->delete($file)) {
 					// FTP connector throws an error
+
 					return false;
 				}
 			} else {
 				$filename	= basename($file);
 				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename));
+
 				return false;
 			}
 		}
@@ -187,12 +194,12 @@ class JFile
 	/**
 	 * Moves a file
 	 *
-	 * @param	string	$src	The path to the source file
-	 * @param	string	$dest	The path to the destination file
-	 * @param	string	$path	An optional base path to prefix to the file names
+	 * @param   string  $src   The path to the source file
+	 * @param   string  $dest  The path to the destination file
+	 * @param   string  $path  An optional base path to prefix to the file names
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public static function move($src, $dest, $path = '', $use_streams=false)
 	{
@@ -201,8 +208,9 @@ class JFile
 			$dest = JPath::clean($path.DS.$dest);
 		}
 
-		//Check src path
-		if (!is_readable($src)) { // && !is_writable($src)) { // file may not be writable by php if via ftp!
+		// Check src path
+		if (!is_readable($src)) {
+
 			return JText::_('JLIB_FILESYSTEM_CANNOT_FIND_SOURCE_FILE');
 		}
 
@@ -211,6 +219,7 @@ class JFile
 
 			if (!$stream->move($src, $dest)) {
 				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_MOVE_STREAMS', $stream->getError()));
+
 				return false;
 			}
 
@@ -225,18 +234,20 @@ class JFile
 				jimport('joomla.client.ftp');
 				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
-				//Translate path for the FTP account
+				// Translate path for the FTP account
 				$src	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
 				$dest	= JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest)) {
 					JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'));
+
 					return false;
 				}
 			} else {
 				if (!@ rename($src, $dest)) {
 					JError::raiseWarning(21, JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'));
+
 					return false;
 				}
 			}
@@ -248,14 +259,14 @@ class JFile
 	/**
 	 * Read the contents of a file
 	 *
-	 * @param	string	$filename	The full file path
-	 * @param	boolean	$incpath	Use include path
-	 * @param	int		$amount		Amount of file to read
-	 * @param	int		$chunksize	Size of chunks to read
-	 * @param	int		$offset		Offset of the file
+	 * @param   string   $filename   The full file path
+	 * @param   boolean  $incpath    Use include path
+	 * @param   integer  $amount     Amount of file to read
+	 * @param   integer  $chunksize  Size of chunks to read
+	 * @param   integer  $offset     Offset of the file
 	 *
-	 * @return	mixed	Returns file contents or boolean False if failed
-	 * @since	1.5
+	 * @return  mixed  Returns file contents or boolean False if failed
+	 * @since   11.1
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -267,6 +278,7 @@ class JFile
 
 		if (false === $fh = fopen($filename, 'rb', $incpath)) {
 			JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_READ_UNABLE_TO_OPEN_FILE', $filename));
+
 			return false;
 		}
 
@@ -285,7 +297,7 @@ class JFile
 		} else {
 			$data = '';
 			$x = 0;
-			// While its:
+			// While it's:
 			// 1: Not the end of the file AND
 			// 2a: No Max Amount set OR
 			// 2b: The length of the data is less than the max amount we want
@@ -301,11 +313,11 @@ class JFile
 	/**
 	 * Write contents to a file
 	 *
-	 * @param	string	$file The full file path
-	 * @param	string	$buffer The buffer to write
+	 * @param   string  $file The full file path
+	 * @param   string  $buffer The buffer to write
 	 *
-	 * @return	boolean True on success
-	 * @since	1.5
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public static function write($file, &$buffer, $use_streams=false)
 	{
@@ -318,7 +330,8 @@ class JFile
 
 		if ($use_streams) {
 			$stream = JFactory::getStream();
-			$stream->set('chunksize', (1024 * 1024 * 1024)); // beef up the chunk size to a meg
+			// Beef up the chunk size to a meg
+			$stream->set('chunksize', (1024 * 1024 * 1024));
 
 			if (!$stream->writeFile($file, $buffer)) {
 				JError::raiseWarning(21, JText::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', $file, $stream->getError()));
@@ -351,11 +364,11 @@ class JFile
 	/**
 	 * Moves an uploaded file to a destination folder
 	 *
-	 * @param string $src The name of the php (temporary) uploaded file
-	 * @param string $dest The path (including filename) to move the uploaded file to
+	 * @param   string  $src   The name of the php (temporary) uploaded file
+	 * @param   string  $dest  The path (including filename) to move the uploaded file to
 	 *
-	 * @return boolean True on success
-	 * @since 1.5
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
 	public static function upload($src, $dest, $use_streams=false)
 	{
@@ -390,7 +403,7 @@ class JFile
 				jimport('joomla.client.ftp');
 				$ftp = JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 
-				//Translate path for the FTP account
+				// Translate path for the FTP account
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Copy the file to the destination directory
@@ -419,10 +432,10 @@ class JFile
 	/**
 	 * Wrapper for the standard file_exists function
 	 *
-	 * @param	string	$file File path
+	 * @param   string  $file  File path
 	 *
-	 * @return	boolean	True if path is a file
-	 * @since	1.5
+	 * @return  boolean  True if path is a file
+	 * @since   11.1
 	 */
 	public static function exists($file)
 	{
@@ -432,16 +445,19 @@ class JFile
 	/**
 	 * Returns the name, without any path.
 	 *
-	 * @param	string	$file	File path
-	 * @return	string	filename
-	 * @since	1.5
+	 * @param   string  $file  File path
+	 *
+	 * @return  string  filename
+	 * @since   11.1
 	 */
 	public static function getName($file)
 	{
 		$slash = strrpos($file, DS);
 		if ($slash !== false) {
+
 			return substr($file, $slash + 1);
 		} else {
+
 			return $file;
 		}
 	}

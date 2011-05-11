@@ -1,35 +1,33 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Renders a calendar element
  *
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @since       11.1
+ * @deprecated	Use JForm instead.
  */
 class JElementCalendar extends JElement
 {
 	/**
-	* Element name
-	* @access	protected
-	* @var		string
+	* @var    string  Element named
 	*/
 	protected $_name = 'Calendar';
 
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
-		JHtml::_('behavior.calendar'); //load the calendar behavior
+		// Load the calendar behavior
+		JHtml::_('behavior.calendar');
 
 		$format	= ($node->attributes('format') ? $node->attributes('format') : '%Y-%m-%d');
 		$class	= $node->attributes('class') ? $node->attributes('class') : 'inputbox';

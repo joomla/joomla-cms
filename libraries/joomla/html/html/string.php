@@ -1,19 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access.
-defined('_JEXEC') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTML helper class for rendering manipulated strings.
  *
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlString
 {
@@ -23,10 +24,9 @@ abstract class JHtmlString
 	 * word, it will find the first space that is within the limit and
 	 * truncate at that point. This method is UTF-8 safe.
 	 *
-	 * @static
-	 * @param	string	$text		The text to truncate.
-	 * @param	int		$length		The maximum length of the text.
-	 * @return	string	The truncated text.
+	 * @param   string   $text		The text to truncate.
+	 * @param   integer  $length		The maximum length of the text.
+	 * @return  string   The truncated text.
 	 */
 	public static function truncate($text, $length = 0)
 	{
@@ -47,23 +47,23 @@ abstract class JHtmlString
 				$tmp = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
 			}
 
-			//put all opened tags into an array
+			// Put all opened tags into an array
 			preg_match_all ( "#<([a-z][a-z0-9]?)( .*)?(?!/)>#iU", $tmp, $result );
 			$openedtags = $result[1];
 			$openedtags = array_diff($openedtags, array("img", "hr", "br"));
 			$openedtags = array_values($openedtags);
 
-			//put all closed tags into an array
+			// Put all closed tags into an array
 			preg_match_all ( "#</([a-z]+)>#iU", $tmp, $result );
 			$closedtags = $result[1];
 			$len_opened = count ( $openedtags );
-			//all tags are closed
+			// All tags are closed
 			if( count ( $closedtags ) == $len_opened )
 			{
 				return $tmp.'...';
 			}
 			$openedtags = array_reverse ( $openedtags );
-			// close tags
+			// Close tags
 			for( $i = 0; $i < $len_opened; $i++ )
 			{
 				if ( !in_array ( $openedtags[$i], $closedtags ) )
@@ -87,11 +87,11 @@ abstract class JHtmlString
 	 *
 	 *	eg. Transform "Really long title" to "Really...title"
 	 *
-	 * @static
-	 * @param	string	$text		The text to abridge.
-	 * @param	int		$length		The maximum length of the text.
-	 * @param	int		$intro		The maximum length of the intro text.
-	 * @return	string	The abridged text.
+	 * @param   string   $text		The text to abridge.
+	 * @param   integer  $length		The maximum length of the text.
+	 * @param   integer  $intro		The maximum length of the intro text.
+	 *
+	 * @return  string   The abridged text.
 	 */
 	public static function abridge($text, $length = 50, $intro = 30)
 	{

@@ -1,12 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
 jimport('joomla.database.query');
@@ -16,13 +17,15 @@ jimport('joomla.installer.packagemanifest');
 /**
  * Package installer
  *
- * @package		Joomla.Framework
- * @subpackage	Installer
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Installer
+ * @since       11.1
  */
 class JInstallerPackage extends JAdapterInstance
 {
-	/** @var string method of system */
+	/**
+	 * @var string method of system
+	 */
 	protected $route = 'install';
 
 	public function loadLanguage($path)
@@ -39,20 +42,15 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom install method
 	 *
-	 * @access	public
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean  True on success
+	 * @since   11.1
 	 */
-	function install()
+	public function install()
 	{
 		// Get the extension manifest object
 		$this->manifest = $this->parent->getManifest();
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Manifest Document Setup Section
 
 		// Set the extensions name
 		$filter	= JFilterInput::getInstance();
@@ -86,12 +84,7 @@ class JInstallerPackage extends JAdapterInstance
 			return false;
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Filesystem Processing Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
+		// Filesystem Processing Section
 
 		if ($folder = $files->attributes()->folder)
 		{
@@ -111,12 +104,13 @@ class JInstallerPackage extends JAdapterInstance
 				jimport('joomla.installer.helper');
 				if (is_dir($file))
 				{
-					// if its actually a directory then fill it up
+					// If it's actually a directory then fill it up
 					$package = Array();
 					$package['dir'] = $file;
 					$package['type'] = JInstallerHelper::detectType($file);
 				}
-				else { // if its an archive
+				else {
+					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
 				$tmpInstaller = new JInstaller();
@@ -136,11 +130,8 @@ class JInstallerPackage extends JAdapterInstance
 		// Parse optional tags
 		$this->parent->parseLanguages($this->manifest->languages);
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Extension Registration
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Extension Registration
+
 		$row = JTable::getInstance('extension');
 		$eid = $row->find(Array('element'=>strtolower($this->get('element')),
 						'type'=>'package'));
@@ -150,15 +141,17 @@ class JInstallerPackage extends JAdapterInstance
 			$row->name = $this->get('name');
 			$row->type = 'package';
 			$row->element = $this->get('element');
-			$row->folder = ''; // There is no folder for modules
+			// There is no folder for modules
+			$row->folder = '';
 			$row->enabled = 1;
 			$row->protected = 0;
 			$row->access = 1;
 			$row->client_id = 0;
-			$row->custom_data = ''; // custom data
+			// custom data
+			$row->custom_data = '';
 			$row->params = $this->parent->getParams();
 		}
-		// update the manifest cache for the entry
+		// Update the manifest cache for the entry
 		$row->manifest_cache = $this->parent->generateManifestCache();
 
 		if (!$row->store())
@@ -168,11 +161,7 @@ class JInstallerPackage extends JAdapterInstance
 			return false;
 		}
 
-		/**
-		 * ---------------------------------------------------------------------------------------------
-		 * Finalization and Cleanup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
+		// Finalization and Cleanup Section
 
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = Array();
@@ -201,10 +190,10 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @access	public
 	 * @param	int		$id	The id of the package to uninstall
+	 *
 	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @since	11.1
 	 */
 	function uninstall($id)
 	{
@@ -233,7 +222,7 @@ class JInstallerPackage extends JAdapterInstance
 
 		$xml =JFactory::getXML($manifestFile);
 
-		// If we cannot load the xml file return false
+		// If we cannot load the XML file return false
 		if (!$xml)
 		{
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'));
@@ -281,16 +270,16 @@ class JInstallerPackage extends JAdapterInstance
 			JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MANIFEST_NOT_REMOVED'));
 		}
 
-		// return the result up the line
+		// Return the result up the line
 		return $retval;
 	}
 
-	private function _getExtensionID($type, $id, $client, $group)
+	protected function _getExtensionID($type, $id, $client, $group)
 	{
 		$db		= $this->parent->getDbo();
 		$result = $id;
 
-		$query = new JDatabaseQuery();
+		$query = $db->getQuery(true);
 		$query->select('extension_id');
 		$query->from('#__extensions');
 		$query->where('type = '. $db->Quote($type));
@@ -306,14 +295,14 @@ class JInstallerPackage extends JAdapterInstance
 			case 'library':
 			case 'package':
 			case 'component':
-				// components, packages and libraries don't have a folder or client
-				// included for completeness
+				// Components, packages and libraries don't have a folder or client.
+				// Included for completeness.
 				break;
 
 			case 'language':
 			case 'module':
 			case 'template':
-				// languages, modules and templates have a client but not a folder
+				// Languages, modules and templates have a client but not a folder
 				$client = JApplicationHelper::getClientInfo($client, true);
 				$query->where('client_id = '. (int)$client->id);
 				break;
@@ -322,8 +311,8 @@ class JInstallerPackage extends JAdapterInstance
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
-		// note: for templates, libraries and packages their unique name is their key
-		// this means they come out the same way they came in
+		// Note: For templates, libraries and packages their unique name is their key.
+		// This means they come out the same way they came in.
 		return $result;
 	}
 
@@ -331,7 +320,7 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Refreshes the extension table cache
 	 * @return  boolean result of operation, true if updated, false on failure
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	public function refreshManifestCache()
 	{

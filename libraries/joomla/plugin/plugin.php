@@ -1,59 +1,56 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Plugin
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.event.event');
 
 /**
  * JPlugin Class
  *
- * @abstract
- * @package		Joomla.Framework
- * @subpackage	Plugin
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Plugin
+ * @since       11.1
  */
 abstract class JPlugin extends JEvent
 {
 	/**
 	 * A JRegistry object holding the parameters for the plugin
 	 *
-	 * @var		A JRegistry object
-	 * @access	public
-	 * @since	1.5
+	 * @var    A JRegistry object
+	 * @since  11.1
 	 */
 	public $params = null;
 
 	/**
 	 * The name of the plugin
 	 *
-	 * @var		sring
-	 * @access	protected
+	 * @var    sring
 	 */
 	protected $_name = null;
 
 	/**
 	 * The plugin type
 	 *
-	 * @var		string
-	 * @access	protected
+	 * @var    string
 	 */
 	protected $_type = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param object $subject The object to observe
-	 * @param array  $config  An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'group', 'params', 'language'
 	 * (this list is not meant to be comprehensive).
-	 * @since 1.5
+	 *
+	 * @since   11.1
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -84,11 +81,11 @@ abstract class JPlugin extends JEvent
 	/**
 	 * Loads the plugin language file
 	 *
-	 * @access	public
-	 * @param	string	$extension	The extension for which a language file should be loaded
-	 * @param	string	$basePath	The basepath to use
-	 * @return	boolean	True, if the file has successfully loaded.
-	 * @since	1.5
+	 * @param   string   $extension	The extension for which a language file should be loaded
+	 * @param   string   $basePath	The basepath to use
+	 *
+	 * @return  boolean  True, if the file has successfully loaded.
+	 * @since   11.1
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
 	{

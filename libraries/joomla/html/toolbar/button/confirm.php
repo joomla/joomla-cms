@@ -1,29 +1,27 @@
 <?php
 /**
- * @version		$Id:confirm.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Renders a standard button with a confirm dialog
  *
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 class JButtonConfirm extends JButton
 {
 	/**
 	 * Button type
 	 *
-	 * @access	protected
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_name = 'Confirm';
 
@@ -46,9 +44,8 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the button CSS Id
 	 *
-	 * @access	public
-	 * @return	string	Button CSS Id
-	 * @since	1.5
+	 * @return  string  Button CSS Id
+	 * @since   11.1
 	 */
 	public function fetchId($type='Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
@@ -58,10 +55,10 @@ class JButtonConfirm extends JButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @access	private
-	 * @param	object	$definition	Button definition
-	 * @return	string	JavaScript command string
-	 * @since	1.5
+	 * @param   object  $definition	Button definition
+	 *
+	 * @return  string  JavaScript command string
+	 * @since   11.1
 	 */
 	protected function _getCommand($msg, $name, $task, $list)
 	{

@@ -1,31 +1,32 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Extended Utility class for all HTML drawing classes.
  *
- * @static
- * @package		Joomla.Framework
- * @subpackage	HTML
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ * @since       11.1
  */
 abstract class JHtmlRules
 {
 	/**
 	 * Displays a list of the available access sections
 	 *
-	 * @param	string	The form field name.
-	 * @param	string	The name of the selected section.
-	 * @param	string	Additional attributes to add to the select field.
-	 * @param	boolean	True to add "All Sections" option.
+	 * @param   string   The form field name.
+	 * @param   string   The name of the selected section.
+	 * @param   string   Additional attributes to add to the select field.
+	 * @param   boolean  True to add "All Sections" option.
 	 *
-	 * @return	string	The required HTML for the SELECT tag.
+	 * @return  string  The required HTML for the SELECT tag.
 	 */
 	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
@@ -157,7 +158,6 @@ abstract class JHtmlRules
 		foreach ($options as &$option)
 		{
 			// Pad the option text with spaces using depth level as a multiplier.
-			//$option->text = str_repeat('&#160;&#160;',$option->level).$option->text;
 
 			$option->identities = ($option->parents) ? explode(',', $option->parents.','.$option->value) : array($option->value);
 		}

@@ -1,29 +1,27 @@
 <?php
 /**
-* @version		$Id$
-* @package		Joomla.Framework
-* @subpackage	Table
-* @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
-* @license		GNU General Public License, see LICENSE.php
-*/
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-// Check to ensure this file is within the rest of the framework
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Extension table
  * Replaces plugins table
  *
- * @package		Joomla.Framework
- * @subpackage		Table
- * @since	1.6
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableExtension extends JTable
 {
 	/**
 	 * Contructor
 	 *
-	 * @access var
 	 * @param database A database connector object
 	 */
 	function __construct(&$db) {
@@ -33,9 +31,10 @@ class JTableExtension extends JTable
 	/**
 	* Overloaded check function
 	*
-	* @access public
-	* @return boolean True if the object is ok
-	* @see JTable:bind
+	* @return  boolean  True if the object is ok
+	*
+	* @see     JTable:bind
+	* @since   11.1
 	*/
 	function check()
 	{
@@ -50,11 +49,12 @@ class JTableExtension extends JTable
 	/**
 	* Overloaded bind function
 	*
-	* @access public
-	* @param array $hash named array
-	* @return null|string	null is operation was satisfactory, otherwise returns an error
-	* @see JTable:bind
-	* @since 1.5
+	* @param   array  $hash  Named array
+	*
+	* @return  null|string  null is operation was satisfactory, otherwise returns an error
+	*
+	* @see     JTable:bind
+	* @since   11.1
 	*/
 	function bind($array, $ignore = '')
 	{
@@ -92,11 +92,14 @@ class JTableExtension extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
+	 * @param   mixed    An optional array of primary key values to update.  If not
+	 *					 set the instance property value is used.
+	 * @param   integer  The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer  The user id of the user performing the operation.
+	 *
+	 * @return  bool  True on success.
+	 *
+	 * @since   11.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -134,8 +137,8 @@ class JTableExtension extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE `'.$this->_tbl.'`' .
-			' SET `enabled` = '.(int) $state .
+			'UPDATE '.$this->_db->nameQuote($this->_tbl).
+			' SET '.$this->_db->nameQuote('enabled').' = '.(int) $state .
 			' WHERE ('.$where.')' .
 			$checkin
 		);

@@ -1,28 +1,29 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * JDocument head renderer
  *
- * @package		Joomla.Framework
- * @subpackage	Document
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Document
+ * @since       11.1
  */
 class JDocumentRendererHead extends JDocumentRenderer
 {
 	/**
 	 * Renders the document head and returns the results as a string
 	 *
-	 * @param	string $name	(unused)
-	 * @param	array $params	Associative array of values
-	 * @return	string			The output of the script
+	 * @param   string  $name	(unused)
+	 * @param   array   $params	Associative array of values
+	 * @return  string  The output of the script
 	 */
 	public function render($head, $params = array(), $content = null)
 	{
@@ -35,16 +36,16 @@ class JDocumentRendererHead extends JDocumentRenderer
 	}
 
 	/**
-	 * Generates the head html and return the results as a string
+	 * Generates the head HTML and return the results as a string
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public function fetchHead(&$document)
 	{
 		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
-		// get line endings
+		// Get line endings
 		$lnEnd	= $document->_getLineEnd();
 		$tab	= $document->_getTab();
 		$tagEnd	= ' />';
@@ -71,7 +72,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			}
 		}
 
-		// dont add empty descriptions
+		// Don't add empty descriptions
 		$documentDescription = $document->getDescription();
 		if ($documentDescription) {
 			$buffer .= $tab.'<meta name="description" content="'.htmlspecialchars($documentDescription).'" />'.$lnEnd;

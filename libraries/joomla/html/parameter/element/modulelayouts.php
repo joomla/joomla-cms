@@ -1,21 +1,22 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  HTML
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 require_once dirname(__FILE__).'/list.php';
 
 /**
  * Parameter to display a list of the layouts for a module from the module or default template overrides.
  *
- * @package		Joomla.Framework
- * @subpackage	Parameter
- * @deprecated	JParameter is deprecated and will be removed in a future version. Use JForm instead.
+ * @package     Joomla.Platform
+ * @subpackage  Parameter
+ * @deprecated  Use JForm instead
  */
 class JElementModuleLayouts extends JElementList
 {
@@ -50,7 +51,7 @@ class JElementModuleLayouts extends JElementList
 			$module	= preg_replace('#\W#', '', $module);
 			$path1	= $base.DS.'modules'.DS.$module.DS.'tmpl';
 			$path2	= $base.DS.'templates'.DS.$template.DS.'html'.DS.$module;
-			$options[]	= JHtml::_('select.option', '', '');
+			$options[]	= JHTML::_('select.option', '', '');
 		}
 
 		if ($path1 && $path2) {
@@ -60,15 +61,15 @@ class JElementModuleLayouts extends JElementList
 
 			$files	= JFolder::files($path1, '^[^_]*\.php$');
 			foreach ($files as $file) {
-				$options[]	= JHtml::_('select.option', JFile::stripExt($file));
+				$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 			}
 
 			if (is_dir($path2) && $files = JFolder::files($path2, '^[^_]*\.php$')) {
-				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 				foreach ($files as $file) {
-					$options[]	= JHtml::_('select.option', JFile::stripExt($file));
+					$options[]	= JHTML::_('select.option', JFile::stripExt($file));
 				}
-				$options[]	= JHtml::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
+				$options[]	= JHTML::_('select.optgroup', JText::_('JOPTION_FROM_DEFAULT'));
 			}
 		}
 

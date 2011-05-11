@@ -1,21 +1,20 @@
 <?php
 /**
- * @version		$Id:database.php 6961 2007-03-15 16:06:53Z tcp $
- * @package		Joomla.Framework
- * @subpackage	Session
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Database session storage handler for PHP
  *
- * @package		Joomla.Framework
- * @subpackage	Session
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Session
+ * @since       11.1
  * @see			http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageDatabase extends JSessionStorage
@@ -25,10 +24,10 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Open the SessionHandler backend.
 	 *
-	 * @param	string	The path to the session object.
-	 * @param	string	The name of the session.
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @param   string   The path to the session object.
+	 * @param   string   The name of the session.
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public function open($save_path, $session_name)
 	{
@@ -38,8 +37,8 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Close the SessionHandler backend.
 	 *
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public function close()
 	{
@@ -50,9 +49,9 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Read the data for a particular session identifier from the
 	 * SessionHandler backend.
 	 *
-	 * @param	string	The session identifier.
-	 * @return	string	The session data.
-	 * @since	1.5
+	 * @param   string   The session identifier.
+	 * @return  string   The session data.
+	 * @since   11.1
 	 */
 	public function read($id)
 	{
@@ -74,10 +73,11 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Write session data to the SessionHandler backend.
 	 *
-	 * @param	string	The session identifier.
-	 * @param	string	The session data.
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @param   string   The session identifier.
+	 * @param   string   The session data.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public function write($id, $data)
 	{
@@ -114,9 +114,10 @@ class JSessionStorageDatabase extends JSessionStorage
 	 * Destroy the data for a particular session identifier in the
 	 * SessionHandler backend.
 	 *
-	 * @param	string	The session identifier.
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @param   string   The session identifier.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	public function destroy($id)
 	{
@@ -137,9 +138,9 @@ class JSessionStorageDatabase extends JSessionStorage
 	/**
 	 * Garbage collect stale sessions from the SessionHandler backend.
 	 *
-	 * @param	integer	The maximum age of a session.
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.5
+	 * @param   integer  The maximum age of a session.
+	 * @return  boolean  True on success, false otherwise.
+	 * @since   11.1
 	 */
 	function gc($lifetime = 1440)
 	{

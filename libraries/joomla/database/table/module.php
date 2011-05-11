@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Table
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.database.table');
 jimport('joomla.database.tableasset');
@@ -16,9 +15,9 @@ jimport('joomla.database.tableasset');
 /**
  * Module table
  *
- * @package		Joomla.Framework
- * @subpackage	Table
- * @since		1.0
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableModule extends JTable
 {
@@ -37,7 +36,7 @@ class JTableModule extends JTable
 	/**
 	 * Overloaded check function.
 	 *
-	 * @return	boolean	True if the object is ok
+	 * @return  boolean  True if the object is ok
 	 */
 	public function check()
 	{
@@ -61,10 +60,12 @@ class JTableModule extends JTable
 	/**
 	 * Overloaded bind function.
 	 *
-	 * @param	array		named array
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array  named array
+	 *
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 *
 	 * @see		JTable:bind
-	 * @since	1.5
+	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
 	{

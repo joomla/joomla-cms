@@ -1,21 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * PHP class format handler for JRegistry
  *
- * @package		Joomla.Framework
- * @subpackage	Registry
- * @since		1.5
+ * @package     Joomla.Platform
+ * @subpackage  Registry
+ * @since       11.1
  */
 class JRegistryFormatPHP extends JRegistryFormat {
 
@@ -23,9 +22,9 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	 * Converts an object into a php class string.
 	 *	- NOTE: Only one depth level is supported.
 	 *
-	 * @param	object	Data Source Object
-	 * @param	array	Parameters used by the formatter
-	 * @return	string	Config class formatted string
+	 * @param   object   Data Source Object
+	 * @param   array    Parameters used by the formatter
+	 * @return  string   Config class formatted string
 	 */
 	public function objectToString($object, $params = array())
 	{
@@ -54,7 +53,7 @@ class JRegistryFormatPHP extends JRegistryFormat {
 	/**
 	 * Placeholder method
 	 *
-	 * @return boolean True
+	 * @return  boolean  True
 	 */
 	function stringToObject($data, $namespace='')
 	{

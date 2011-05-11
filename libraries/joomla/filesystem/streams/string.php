@@ -1,14 +1,13 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	FileSystem
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access.
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.support.stringcontroller');
 
@@ -18,36 +17,36 @@ jimport('joomla.filesystem.support.stringcontroller');
  * This class allows you to use a PHP string like
  * you would normally use a regular stream wrapper
  *
- * @package		Joomla.Framework
- * @subpackage	FileSystem
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  FileSystem
+ * @since       11.1
  */
 class JStreamString
 {
-	private $_currentstring;
+	protected $_currentstring;
 
-	private $_path;
+	protected $_path;
 
-	private $_mode;
+	protected $_mode;
 
-	private $_options;
+	protected $_options;
 
-	private $_opened_path;
+	protected $_opened_path;
 
-	private $_pos;
+	protected $_pos;
 
-	private $_len;
+	protected $_len;
 
-	private $_stat;
+	protected $_stat;
 
 	/**
-	 * @param	$path
-	 * @param	$mode
-	 * @param	$options
-	 * @param	$opened_path
+	 * @param   $path
+	 * @param   $mode
+	 * @param   $options
+	 * @param   $opened_path
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	function stream_open($path, $mode, $options, &$opened_path)
 	{
@@ -67,7 +66,7 @@ class JStreamString
 
 	/**
 	 * @return
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	function stream_stat()
 	{
@@ -75,11 +74,11 @@ class JStreamString
 	}
 
 	/**
-	 * @param	$path
-	 * @param	$flags
+	 * @param   $path
+	 * @param   $flags
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	function url_stat($path, $flags = 0)
 	{
@@ -105,10 +104,10 @@ class JStreamString
 	}
 
 	/**
-	 * @param	$count
+	 * @param   $count
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	function stream_read($count)
 	{
@@ -119,8 +118,8 @@ class JStreamString
 	}
 
 	/**
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	function stream_write($data)
 	{
@@ -130,7 +129,7 @@ class JStreamString
 
 	/**
 	 * @return
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	function stream_tell()
 	{
@@ -138,8 +137,8 @@ class JStreamString
 	}
 
 	/**
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	function stream_eof()
 	{
@@ -151,17 +150,18 @@ class JStreamString
 	}
 
 	/**
-	 * @param	$offset
-	 * @param	$whence
+	 * @param   $offset
+	 * @param   $whence
 	 *
 	 * @return
-	 * @since	1.6
+	 * @since   11.1
 	 */
 	function stream_seek($offset, $whence)
 	{
-		//$whence: SEEK_SET, SEEK_CUR, SEEK_END
+		// $whence: SEEK_SET, SEEK_CUR, SEEK_END
 		if ($offset > $this->_len) {
-			return false; // we can't seek beyond our len
+			// We can't seek beyond our len.
+			return false;
 		}
 
 		switch($whence)
@@ -188,12 +188,13 @@ class JStreamString
 	}
 
 	/**
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   11.1
 	 */
 	function stream_flush()
 	{
-		return true; // we don't store data
+		// We don't store data.
+		return true;
 	}
 }
 

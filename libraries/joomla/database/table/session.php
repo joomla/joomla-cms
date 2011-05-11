@@ -1,19 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Platform
+ * @subpackage  Database
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Session table
  *
- * @package		Joomla.Framework
- * @subpackage	Table
- * @since		1.0
+ * @package     Joomla.Platform
+ * @subpackage  Table
+ * @since       11.1
  */
 class JTableSession extends JTable
 {
@@ -82,8 +83,9 @@ class JTableSession extends JTable
 	/**
 	* Purge old sessions
 	*
-	* @param int	Session age in seconds
-	* @return mixed Resource on success, null on fail
+	* @param   integer  Session age in seconds
+	*
+	* @return  mixed    Resource on success, null on fail
 	*/
 	function purge($maxLifetime = 1440)
 	{
@@ -97,8 +99,11 @@ class JTableSession extends JTable
 	/**
 	 * Find out if a user has a one or more active sessions
 	 *
-	 * @param int $userid The identifier of the user
-	 * @return boolean True if a session for this user exists
+	 * @param   integer  $userid The identifier of the user
+	 *
+	 * @return  boolean  True if a session for this user exists
+	 *
+	 * @since   11.1
 	 */
 	function exists($userid)
 	{
@@ -119,7 +124,6 @@ class JTableSession extends JTable
 	 *
 	 * We must override it because of the non-integer primary key
 	 *
-	 * @access public
 	 * @return true if successful otherwise returns and error message
 	 */
 	function delete($oid=null)

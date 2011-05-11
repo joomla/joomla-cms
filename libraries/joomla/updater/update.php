@@ -1,21 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Framework
- * @subpackage	Update
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Platform
+ * @subpackage  Updater
+ *
+ * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Update class.
  *
- * @package		Joomla.Framework
- * @subpackage	Update
- * @since		1.6
+ * @package     Joomla.Platform
+ * @subpackage  Update
+ * @since       11.1
  */
 class JUpdate extends JObject
 {
@@ -35,14 +34,15 @@ class JUpdate extends JObject
 	protected $relationships;
 	protected $targetplatform;
 
-	private $_xml_parser;
-	private $_stack = Array('base');
-	private $_state_store = Array();
+	protected $_xml_parser;
+	protected $_stack = Array('base');
+	protected $_state_store = Array();
 
 	/**
 	 * Gets the reference to the current direct parent
 	 *
-	 * @return object
+	 * @return  object
+	 * @since   11.1
 	 */
 	protected function _getStackLocation()
 	{
@@ -52,13 +52,12 @@ class JUpdate extends JObject
 	/**
 	 * Get the last position in stack count
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	protected function _getLastTag()
 	{
 		return $this->_stack[count($this->_stack) - 1];
 	}
-
 
 	/**
 	 * XML Start Element callback
@@ -66,22 +65,25 @@ class JUpdate extends JObject
 	 * @param object parser object
 	 * @param string name of the tag found
 	 * @param array attributes of the tag
+	 *
 	 */
 	public function _startElement($parser, $name, $attrs = Array())
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
-		// reset the data
+		// Reset the data
 		eval('$this->'. $tag .'->_data = "";');
-		//echo 'Opened: '; print_r($this->_stack); echo '<br />';
-		//print_r($attrs); echo '<br />';
+
 		switch($name) {
-			case 'UPDATE': // This is a new update; create a current update
+			// This is a new update; create a current update
+			case 'UPDATE':
 				$this->_current_update = new stdClass();
 				break;
-			case 'UPDATES': // don't do anything
+			// Don't do anything
+			case 'UPDATES':
 				break;
-			default: // for everything else there's...the default!
+			// For everything else there's...the default!
+			default:
 				$name = strtolower($name);
 				$this->_current_update->$name->_data = '';
 				foreach($attrs as $key=>$data) {
@@ -95,6 +97,7 @@ class JUpdate extends JObject
 	/**
 	 * Callback for closing the element
 	 * Note: This is public because it is called externally
+	 *
 	 * @param object parser object
 	 * @param string name of element that was closed
 	 */
@@ -103,7 +106,8 @@ class JUpdate extends JObject
 		array_pop($this->_stack);
 		switch($name)
 		{
-			case 'UPDATE': // closing update, find the latest version and check
+			// Closing update, find the latest version and check
+			case 'UPDATE':
 				$ver = new JVersion();
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if($product == $this->_current_update->targetplatform->name && $ver->RELEASE == $this->_current_update->targetplatform->version)
@@ -131,7 +135,7 @@ class JUpdate extends JObject
 				}
 				else if(isset($this->_current_update))
 				{
-					// the update might be for an older version of j!
+					// The update might be for an older version of j!
 					unset($this->_current_update);
 				}
 				break;
@@ -141,6 +145,10 @@ class JUpdate extends JObject
 	/**
 	 * Character Parser Function
 	 * Note: This is public because its called externally
+	 *
+	 * @param		$data
+	 * @param		$parser
+	 *
 	 */
 	public function _characterData($parser, $data) {
 		$tag = $this->_getLastTag();
