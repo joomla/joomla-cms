@@ -400,7 +400,7 @@ class JDatabaseMySQL extends JDatabase
 	{
 		// Set the query to get the tables statement.
 		$this->setQuery('SHOW TABLES');
-		$tables = $this->loadResultArray();
+		$tables = $this->loadColumn();
 
 		return $tables;
 	}

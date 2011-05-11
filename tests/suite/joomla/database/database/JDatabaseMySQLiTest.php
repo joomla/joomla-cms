@@ -262,7 +262,7 @@ class JDatabaseMySQLiTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadResultArray()
 	{
-		// TODO Check that this method proxies to "escape".
+		// TODO Check that this method proxies to "loadColumn".
 
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');

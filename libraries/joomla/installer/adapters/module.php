@@ -696,7 +696,7 @@ class JInstallerModule extends JAdapterInstance
 
 		try
 		{
-			$modules = $db->loadResultArray();
+			$modules = $db->loadColumn();
 		}
 		catch(JException $e)
 		{

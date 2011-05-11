@@ -1357,7 +1357,7 @@ class JInstallerComponent extends JAdapterInstance
 
 		$db->setQuery($query);
 
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 
 		// Check for error
 		if ($error = $db->getErrorMsg() || empty($ids)){
