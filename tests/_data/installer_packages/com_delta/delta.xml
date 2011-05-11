@@ -25,7 +25,7 @@
 		<filename>delta.php</filename>
 		<filename>metadata.xml</filename>
 		<folder>views</folder>
-		<folder>language</folder>	
+		<folder>language</folder>
 	</files>
 
 	<administration />

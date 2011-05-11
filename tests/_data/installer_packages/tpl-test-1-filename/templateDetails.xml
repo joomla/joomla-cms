@@ -15,16 +15,16 @@
 		<filename>css/screen.css</filename>
         <filename>index.html</filename>
         <filename>index.php</filename>
-		<filename>template_thumbnail.png</filename>		
+		<filename>template_thumbnail.png</filename>
 		<filename>templateDetails.xml</filename>
 	</files>
 	<positions>
 		<position>analytics</position>
 		<position>breadcrumbs</position>
-		<position>debug</position>		
-		<position>footer</position>		
-		<position>header</position>		
-		<position>left</position>		
+		<position>debug</position>
+		<position>footer</position>
+		<position>header</position>
+		<position>left</position>
 		<position>nav</position>
 		<position>right</position>
 		<position>syndicate</position>
@@ -38,35 +38,35 @@
 		<position>user7</position>
 		<position>user8</position>
 	</positions>
-	
+
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.tpl_test.ini</language>
 		<language tag="en-GB">en-GB/en-GB.tpl_test.sys.ini</language>
 	</languages>
-	
-	
+
+
 	<config>
 		<fields name="params">
-			<fieldset name="Basic">				
+			<fieldset name="Basic">
 				<field name="fontFamily" type="list" default="lucida-grande" label="Font Family" description="The font family to be used.">
 					<option value="arial">Arial</option>
 					<option value="arial-black">Arial Black</option>
-					<option value="courier">Courier New</option>			
+					<option value="courier">Courier New</option>
 					<option value="georgia">Georgia</option>
-					<option value="impact">Impact</option>			
-					<option value="lucida-console">Lucida Console</option>	
-					<option value="lucida-grande">Lucida Grande</option>								
+					<option value="impact">Impact</option>
+					<option value="lucida-console">Lucida Console</option>
+					<option value="lucida-grande">Lucida Grande</option>
 					<option value="lucida-sans">Lucida Sans</option>
-					<option value="palatino">Palatino</option>			
+					<option value="palatino">Palatino</option>
 					<option value="tahoma">Tahoma</option>
 					<option value="times">Times New Roman</option>
 					<option value="trebuchet">Trebuchet</option>
 					<option value="verdana">Verdana</option>
-				</field>						
+				</field>
 			</fieldset>
 			<fieldset name="Test">
 				<field name="setGeneratorTag" type="text" default="Joomla Engineering | http://JoomlaEngineering.com" label="Generator Meta Tag" description="Customize the generator meta tag output by your template." size="56" />
-			</fieldset>								
+			</fieldset>
 		</fields>
-	</config>	
+	</config>
 </install>
