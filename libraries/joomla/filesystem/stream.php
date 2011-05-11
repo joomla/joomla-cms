@@ -93,7 +93,7 @@ class JStream extends JObject
 	protected $_filesize;
 
 	/**
-	 * 
+	 *
 	 * @var    Context to use when opening the connection
 	 * @since  11.1
 	 */
