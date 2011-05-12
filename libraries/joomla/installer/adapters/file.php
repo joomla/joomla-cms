@@ -136,9 +136,9 @@ class JInstallerFile extends JAdapterInstance
 		// If it is, then update the table because if the files aren't there
 		// we can assume that it was (badly) uninstalled
 		// If it isn't, add an entry to extensions
-		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions` ' .
-				' WHERE type = '. $db->Quote('file') .' AND element = '.$db->Quote($element);
+		$query = $db->getQuery(true);
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
+		$query->where($query->qn('type').' = '.$query->q('file'))->where($query->qn('element').' = '.$query->q($element));
 		$db->setQuery($query);
 		try {
 			$db->Query();
@@ -366,11 +366,9 @@ class JInstallerFile extends JAdapterInstance
 		// Get a database connector object
 		$db = $this->parent->getDBO();
 
-		$query = 'SELECT `extension_id`' .
-				' FROM `#__extensions`' .
-				' WHERE element = '.$db->Quote($extension) .
-				' AND type = "file"';
-
+		$query = $db->getQuery(true);
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
+		$query->where($query->qn('type').' = '.$query->q('file'))->where($query->qn('element').' = '.$query->q($extension));
 		$db->setQuery($query);
 
 		try {

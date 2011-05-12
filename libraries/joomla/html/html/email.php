@@ -67,7 +67,7 @@ abstract class JHtmlEmail
 		$replacement	.= "\n //-->";
 		$replacement	.= '\n </script>';
 
-		// XHTML compliance `No Javascript` text handling
+		// XHTML compliance No Javascript text handling
 		$replacement	.= "<script type='text/javascript'>";
 		$replacement	.= "\n <!--";
 		$replacement	.= "\n document.write('<span style=\'display: none;\'>');";
