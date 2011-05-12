@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-May-2011 Mark Dexter
+ # Fix hard-coded jos table prefix in weblinks SQL install file
+
 12-May-2011 Jean-Marie Simonet
  #S [#25864] Split Language Manager: Installed Languages into separate views. Thanks Michael.
  
