@@ -73,7 +73,7 @@ class LanguagesModelInstalled extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0);
+		$clientId = JRequest::getInt('client');
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.

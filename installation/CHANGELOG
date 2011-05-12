@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-May-2011 Jean-Marie Simonet
+ #S [#25864] Split Language Manager: Installed Languages into separate views. Thanks Michael.
+ 
 10-May-2011 Jean-Marie Simonet
  #$ [#25845] *Breadcrumbs never use the language string for Home
  #$ [#25837] *Admin menu does not differentiate between default Home set to "All" and those set to a Content Language. Thanks Christophe.

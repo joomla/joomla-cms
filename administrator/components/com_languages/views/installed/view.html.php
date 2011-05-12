@@ -55,12 +55,14 @@ class LanguagesViewInstalled extends JView
 	function display($tpl = null)
 	{
 		// Get data from the model
-
 		$this->ftp			= $this->get('Ftp');
 		$this->option		= $this->get('Option');
 		$this->pagination	= $this->get('Pagination');
 		$this->rows			= $this->get('Data');
 		$this->state		= $this->get('State');
+
+		$document = JFactory::getDocument();
+		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
 
 		$this->addToolbar();
 		parent::display($tpl);

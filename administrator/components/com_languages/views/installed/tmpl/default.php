@@ -11,26 +11,16 @@ defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-$user	= JFactory::getUser();
-$userId	= $user->get('id');
-$client = $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+$user		= JFactory::getUser();
+$userId		= $user->get('id');
+$client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+$clientId	= $this->state->get('filter.client_id', 0);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed'); ?>" method="post" id="adminForm" name="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
 
 	<?php if ($this->ftp): ?>
 		<?php echo $this->loadTemplate('ftp');?>
 	<?php endif; ?>
-
-	<fieldset id="filter-bar">
-		<div class="filter-select fltrt">
-			<label for="filter_client_id">
-				<?php echo JText::_('COM_LANGUAGES_FILTER_CLIENT_LABEL'); ?>
-			</label>
-			<select id="filter_client_id" name="filter_client_id" class="inputbox" onchange="this.form.submit()">
-				<?php echo JHtml::_('select.options', JHtml::_('languages.clients'), 'value', 'text', $this->state->get('filter.client_id'));?>
-			</select>
-		</div>
-	</fieldset>
 
 	<table class="adminlist">
 		<thead>

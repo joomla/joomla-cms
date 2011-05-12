@@ -37,6 +37,7 @@ class LanguagesControllerInstalled extends JController
 			$type = 'error';
 		}
 		$client = $model->getClient();
-		$this->setredirect('index.php?option=com_languages&view=installed',$msg,$type);
+		$clientId = $model->getState('filter.client_id');
+		$this->setredirect('index.php?option=com_languages&view=installed&client='.$clientId,$msg,$type);
 	}
 }

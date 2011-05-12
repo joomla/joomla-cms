@@ -42,7 +42,8 @@ class LanguagesController extends JController
 		LanguagesHelper::addSubmenu(JRequest::getCmd('view', 'installed'));
 
 		$view	= JRequest::getCmd('view', 'languages');
-		$layout = JRequest::getCmd('layout', 'default');
+		$layout	= JRequest::getCmd('layout', 'default');
+		$client	= JRequest::getInt('client');
 		$id		= JRequest::getInt('id');
 
 		// Check for edit form.
