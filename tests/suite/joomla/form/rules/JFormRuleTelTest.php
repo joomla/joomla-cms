@@ -5,8 +5,6 @@
  * @package     Joomla.UnitTest
  */
 
-defined('JPATH_PLATFORM') or die;
-
 /**
  * Test class for JForm.
  *

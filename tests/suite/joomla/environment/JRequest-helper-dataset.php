@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
 class JRequestTest_DataSet {
 	/**
 	 * Tests for getVar.

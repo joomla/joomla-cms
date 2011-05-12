@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
-
 include_once JPATH_PLATFORM . '/joomla/utilities/utility.php';
 
 /**
