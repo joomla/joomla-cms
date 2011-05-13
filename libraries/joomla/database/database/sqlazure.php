@@ -156,7 +156,7 @@ class JDatabaseSQLAzure extends JDatabase
 			' WHERE TABLE_NAME = '.$query->quote($tableName)
 		);
 
-		return $this->loadResultArray();
+		return $this->loadColumn();
 	}
 
 	/**
@@ -439,7 +439,7 @@ class JDatabaseSQLAzure extends JDatabase
 	{
 		// Set the query to get the tables statement.
 		$this->setQuery('SELECT name FROM sysobjects WHERE xtype = \'U\';');
-		$tables = $this->loadResultArray();
+		$tables = $this->loadColumn();
 
 		return $tables;
 	}

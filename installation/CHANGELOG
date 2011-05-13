@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-May-2011 Mark Dexter
  # Fix hard-coded jos table prefix in weblinks SQL install file
+ # [#25866] Add support to log deprecated API
 
 12-May-2011 Jean-Marie Simonet
  #S [#25864] Split Language Manager: Installed Languages into separate views. Thanks Michael.

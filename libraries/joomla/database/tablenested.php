@@ -301,7 +301,7 @@ class JTableNested extends JTable
 		$query->from($this->_tbl);
 		$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
 		$this->_db->setQuery($query);
-		$children = $this->_db->loadResultArray();
+		$children = $this->_db->loadColumn();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -886,7 +886,7 @@ class JTableNested extends JTable
 				// Get any ancestor nodes that have a lower publishing state.
 				$query = $this->_db->getQuery(true)
 					->select('n.'.$k)
-					->from($this->_db->nameQuote($this->_tbl).' AS n')
+					->from($this->_db->quoteName($this->_tbl).' AS n')
 					->where('n.lft < '.(int) $node->lft)
 					->where('n.rgt > '.(int) $node->rgt)
 					->where('n.parent_id > 0')
@@ -895,7 +895,7 @@ class JTableNested extends JTable
 				// Just fetch one row (one is one too many).
 				$this->_db->setQuery($query, 0, 1);
 
-				$rows = $this->_db->loadResultArray();
+				$rows = $this->_db->loadColumn();
 
 				// Check for a database error.
 				if ($this->_db->getErrorNum()) {
@@ -915,7 +915,7 @@ class JTableNested extends JTable
 
 			// Update and cascade the publishing state.
 			$query = $this->_db->getQuery(true)
-				->update($this->_db->nameQuote($this->_tbl).' AS n')
+				->update($this->_db->quoteName($this->_tbl).' AS n')
 				->set('n.published = '.(int) $state)
 				->where(
 					'(n.lft > '.(int) $this->lft.' AND n.rgt < '.(int) $this->rgt.')' .
@@ -987,7 +987,7 @@ class JTableNested extends JTable
 		$query->from($this->_tbl);
 		$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
 		$this->_db->setQuery($query);
-		$children = $this->_db->loadResultArray();
+		$children = $this->_db->loadColumn();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -1082,7 +1082,7 @@ class JTableNested extends JTable
 		$query->from($this->_tbl);
 		$query->where('lft BETWEEN '.(int) $node->lft.' AND '.(int) $node->rgt);
 		$this->_db->setQuery($query);
-		$children = $this->_db->loadResultArray();
+		$children = $this->_db->loadColumn();
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
@@ -1151,7 +1151,7 @@ class JTableNested extends JTable
 		$query->where('parent_id = 0');
 		$this->_db->setQuery($query);
 
-		$result = $this->_db->loadResultArray();
+		$result = $this->_db->loadColumn();
 
 		if ($this->_db->getErrorNum())
 		{
@@ -1172,7 +1172,7 @@ class JTableNested extends JTable
 			$query->where('lft = 0');
 			$this->_db->setQuery($query);
 
-			$result = $this->_db->loadResultArray();
+			$result = $this->_db->loadColumn();
 			if ($this->_db->getErrorNum())
 			{
 				$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
@@ -1192,7 +1192,7 @@ class JTableNested extends JTable
 				$query->where('alias = '.$this->_db->quote('root'));
 				$this->_db->setQuery($query);
 
-				$result = $this->_db->loadResultArray();
+				$result = $this->_db->loadColumn();
 				if ($this->_db->getErrorNum())
 				{
 					$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_GETROOTID_FAILED', get_class($this), $this->_db->getErrorMsg()));
@@ -1333,7 +1333,7 @@ class JTableNested extends JTable
 		$query->order('p.lft');
 		$this->_db->setQuery($query);
 
-		$segments = $this->_db->loadResultArray();
+		$segments = $this->_db->loadColumn();
 
 		// Make sure to remove the root path if it exists in the list.
 		if ($segments[0] == 'root') {

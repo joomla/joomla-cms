@@ -52,7 +52,7 @@ class JFormRuleUsername extends JFormRule
 
 		// Get the extra field check attribute.
 		$userId = ($form instanceof JForm) ? $form->getValue('id') : '';
-		$query->where($db->nameQuote('id').' <> '.(int) $userId);
+		$query->where($db->quoteName('id').' <> '.(int) $userId);
 
 		// Set and query the database.
 		$db->setQuery($query);

@@ -89,7 +89,7 @@ class JTableUsergroup extends JTable
 			' WHERE parent_id='. (int)$parent_id .
 			' ORDER BY parent_id, title'
 		);
-		$children = $db->loadResultArray();
+		$children = $db->loadColumn();
 
 		// the right value of this node is the left value + 1
 		$right = $left + 1;
@@ -172,10 +172,10 @@ class JTableUsergroup extends JTable
 		// Select the category ID and it's children
 		$db->setQuery(
 			'SELECT c.id' .
-			' FROM '.$db->nameQuote($this->_tbl).' AS c' .
+			' FROM '.$db->quoteName($this->_tbl).' AS c' .
 			' WHERE c.lft >= '.(int) $this->lft.' AND c.rgt <= '.$this->rgt
 		);
-		$ids = $db->loadResultArray();
+		$ids = $db->loadColumn();
 		if (empty($ids)) {
 			return new JException(JText::_('JLIB_DATABASE_ERROR_DELETE_CATEGORY'));
 		}
@@ -185,7 +185,7 @@ class JTableUsergroup extends JTable
 
 		// Delete the category and it's children
 		$db->setQuery(
-			'DELETE FROM '.$db->nameQuote($this->_tbl).
+			'DELETE FROM '.$db->quoteName($this->_tbl).
 			' WHERE id IN ('.implode(',', $ids).')'
 		);
 		if (!$db->query()) {

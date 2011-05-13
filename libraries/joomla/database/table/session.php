@@ -138,7 +138,7 @@ class JTableSession extends JTable
 			$this->$k = $oid;
 		}
 
-		$query = 'DELETE FROM '.$this->_db->nameQuote($this->_tbl).
+		$query = 'DELETE FROM '.$this->_db->quoteName($this->_tbl).
 				' WHERE '.$this->_tbl_key.' = '. $this->_db->Quote($this->$k);
 		$this->_db->setQuery($query);
 

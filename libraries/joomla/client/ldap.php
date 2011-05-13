@@ -79,7 +79,7 @@ class JLDAP extends JObject
 	var $username = null;
 
 	/**
-	 * 
+	 *
 	 * @var    string  Password to connect to server
 	 * @since  11.1
 	 */
@@ -91,7 +91,7 @@ class JLDAP extends JObject
 	 */
 	var $_resource = null;
 	/**
-	 * 
+	 *
 	 * @var    string  Current DN
 	 * @since  11.1
 	 */
