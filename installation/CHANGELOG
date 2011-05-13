@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-May-2011 Jean-Marie Simonet
+$ [#25872] *Wrong tip for contact redirect
+
 12-May-2011 Mark Dexter
  # Fix hard-coded jos table prefix in weblinks SQL install file
  # [#25867] Sync platform to address language switching issues; update platform calls using deprecated API
