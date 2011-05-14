@@ -391,6 +391,8 @@ class JDateTest extends PHPUnit_Framework_TestCase
 	 **/
 	public function testToRFC822( $tz, $setTime, $local, $expected )
 	{
+		$language = JFactory::getLanguage();
+		$debug = $language->setDebug(true);
 		if( is_null($tz) )
 		{
 			$testJDate = new JDate($setTime);
@@ -404,6 +406,7 @@ class JDateTest extends PHPUnit_Framework_TestCase
 			$testJDate->toRFC822($local),
 			$this->equalTo($expected)
 		);
+		$language->setDebug($debug);
 	}
 
 	/**

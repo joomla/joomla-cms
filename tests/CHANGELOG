@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-May-2011 Christophe Demko
+ # [#25772] Librairie JDate translates month and day strings for RFC822 format which is not correct
+
 04-May-2011 Mark Dexter
 # Fix redirect test
 
