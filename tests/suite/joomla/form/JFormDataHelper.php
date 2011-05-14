@@ -81,6 +81,9 @@ class JFormDataHelper
 		<field
 			name="word" filter="word" />
 
+		<field
+			name="tel" filter="tel" />			
+			
 		<fields
 			name="params"
 			description="Optional Settings">
