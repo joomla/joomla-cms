@@ -30,6 +30,7 @@ $ -> Language fix or change
 14-May-2011 Jean-Marie Simonet
  # [#25082] Update Mootools to version 1.3.2. Thanks Rouven, Michael
  # [#25850] Incorrect ordering of plugins type filter. Thanks Dennis.
+ # [#25754] Removing double semi-colons. Thanks Dennis
  
 14-May-2011 Christophe Demko
  # [#25772] Librairie JDate translates month and day strings for RFC822 format which is not correct

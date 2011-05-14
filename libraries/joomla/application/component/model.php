@@ -311,10 +311,10 @@ abstract class JModel extends JObject
 
 		// Make sure we are returning a DBO object
 		if (!array_key_exists('dbo', $config)) {
-			$config['dbo'] = $this->getDbo();;
+			$config['dbo'] = $this->getDbo();
 		}
 
-		return JTable::getInstance($name, $prefix, $config);;
+		return JTable::getInstance($name, $prefix, $config);
 	}
 
 	/**

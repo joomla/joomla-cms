@@ -4154,7 +4154,7 @@ class GeSHi {
         $footer = $this->footer_content;
         if ($footer) {
             if ($this->header_type == GESHI_HEADER_PRE) {
-                $footer = str_replace("\n", '', $footer);;
+                $footer = str_replace("\n", '', $footer);
             }
             $footer = $this->replace_keywords($footer);
 
