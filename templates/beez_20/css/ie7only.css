@@ -25,4 +25,12 @@
 .login-fields input
 {width:14em}
 
+#close a
+{
+	cursor:pointer
+}
 
+#close a span
+{
+	line-height:normal
+}

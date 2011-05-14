@@ -200,3 +200,13 @@ dd.error
 
 dd.error
 {zoom:1}
+
+#close a
+{
+	cursor:pointer
+}
+
+#close a span
+{
+	line-height:normal
+}
