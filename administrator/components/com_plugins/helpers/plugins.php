@@ -79,7 +79,7 @@ class PluginsHelper
 		$query->select('DISTINCT(folder) AS value, folder AS text');
 		$query->from('#__extensions');
 		$query->where('`type` = '.$db->quote('plugin'));
-		$query->order('name');
+		$query->order('folder');
 
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
