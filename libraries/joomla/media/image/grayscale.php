@@ -37,7 +37,6 @@ class JImageFilterGrayScale extends JImageFilter
 			throw new MediaException();
 		}
 
-		// Perform grayscale filter.
 		imagefilter($handle, IMG_FILTER_GRAYSCALE);
 	}
 }

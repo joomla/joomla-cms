@@ -37,7 +37,6 @@ class JImageFilterSketchy extends JImageFilter
 			throw new MediaException();
 		}
 
-		// Perform sketchy filter.
 		imagefilter($handle, IMG_FILTER_MEAN_REMOVAL);
 	}
 }
