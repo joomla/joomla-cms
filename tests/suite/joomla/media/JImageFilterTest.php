@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM.'/joomla/media/image.php';
 require_once JPATH_PLATFORM.'/joomla/media/imagefilter.php';
 
 /**
@@ -15,7 +16,20 @@ require_once JPATH_PLATFORM.'/joomla/media/imagefilter.php';
  */
 class JImageFilterTest extends PHPUnit_Framework_TestCase
 {
+	
+	protected $img;
+	const IFILE = "suite/joomla/media/TestImages/koala.jpg";
+	const OFILE = "tmp/out.jpg";
+	
+	public function setUp()
+	{
+		$this->img = new JImage(self::IFILE);
+	}
+	
 	public function testFoo(){
-		
+		$options = array();
+		$options[IMG_FILTER_BRIGHTNESS] = 128;
+		$this->img->filter("brightness", $options);
+		$this->img->toFile(self::OFILE);
 	}
 }
