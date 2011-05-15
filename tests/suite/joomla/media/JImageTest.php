@@ -15,7 +15,80 @@ require_once JPATH_PLATFORM.'/joomla/media/image.php';
  */
 class JImageTest extends PHPUnit_Framework_TestCase
 {
-	public function testFoo(){
+	protected $img;
+	const IFILE = "suite/joomla/media/TestImages/koala.jpg";
+	const OFILE = "tmp/out.jpg";
+	
+	public function setUp()
+	{
+		$this->img = new JImage(self::IFILE);
+	}
+	
+	public function testLoadFromFile()
+	{
+		$this->markTestIncomplete();
+	}
+	
+	/**
+	 * Test the JImage::toFile to make sure that a new image is properly written
+	 * to file, when performing this test using a lossy compression we are not able 
+	 * to open and save the same image and then compare the checksums as the checksums
+	 * may have changed. Therefore we are limited to comparing the image properties.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testToFile()
+	{
+		$this->img->toFile(self::OFILE);
+		$a = JImage::getImageFileProperties(self::IFILE);
+		$b = JImage::getImageFileProperties($this->img->getPath(self::OFILE));
 		
+		// Make sure the properties are the same for both the source and target image
+		foreach(array_keys(get_object_vars($a)) as $property)
+			$this->assertTrue(($a->$property == $b->$property), 'Line: '.__LINE__);
+	}
+	
+	/**
+	 * Test the JImage::getHeight method to make sure it gives the correct
+	 * property from the source image
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetHeight()
+	{
+		$this->assertTrue(($this->img->getHeight() == 341), 'Line: '.__LINE__);
+	}
+	
+	/**
+	 * Test the JImage::getWidth method to make sure it gives the correct
+	 * property from the source image
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetWidth()
+	{
+		$this->assertTrue(($this->img->getWidth() == 500),  'Line: '.__LINE__);
+	}
+	
+	public function testIsTransparent(){
+		$this->markTestIncomplete();
+	}
+	
+	public function testResize(){
+		$this->markTestIncomplete();
+	}
+	
+	public function testCrop(){
+		$this->markTestIncomplete();
+	}
+	
+	public function testFilter(){
+		$this->markTestIncomplete();
 	}
 }

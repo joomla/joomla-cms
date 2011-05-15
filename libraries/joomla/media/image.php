@@ -630,4 +630,15 @@ class JImage
 					JLoader::register('JImageFilter'.ucfirst($name), $path);
 		}
 	}
+	
+	/**
+	 * Method to return the path
+	 * 
+	 * $return	string
+	 * 
+	 * @since	11.1
+	 */
+	public function getPath(){
+		return $this->path;
+	}
 }
