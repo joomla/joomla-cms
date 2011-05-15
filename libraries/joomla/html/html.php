@@ -234,7 +234,7 @@ abstract class JHtml
 	 * @param   boolean  path to file is relative to /media folder
 	 * @param   boolean  detect browser to include specific browser js files
 	 * @param   folder   folder name to search into (images, css, js, ...)
-	 * @see		JBrowser
+	 * @see     JBrowser
 	 *
 	 * @return  array  files to be included
 	 * @since   11.1
@@ -559,7 +559,7 @@ abstract class JHtml
 	 * @param   mixed   Time zone to be used for the date.  Special cases: boolean true for user
 	 *					setting, boolean false for server setting.
 	 * @return  string  A date translated by the given format and time zone.
-	 * @see		strftime
+	 * @see     strftime
 	 * @since   11.1
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian=false)

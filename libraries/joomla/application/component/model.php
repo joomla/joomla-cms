@@ -301,7 +301,7 @@ abstract class JModel extends JObject
 	 *
 	 * @return	mixed	Model object or boolean false if failed
 	 * @since	11.1
-	 * @see		JTable::getInstance
+	 * @see     JTable::getInstance
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{

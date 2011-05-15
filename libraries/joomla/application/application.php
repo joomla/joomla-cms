@@ -319,7 +319,7 @@ class JApplication extends JObject
 	 *
 	 * @return  void  Calls exit().
 	 *
-	 * @see		JApplication::enqueueMessage()
+	 * @see     JApplication::enqueueMessage()
 	 * @since   11.1
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false)

@@ -426,8 +426,8 @@ class JSession extends JObject
 	 * started after this method is called. It does not unset the session cookie.
 	 *
 	 * @return  boolean	true on success
-	 * @see	session_unset()
-	 * @see	session_destroy()
+	 * @see     session_unset()
+	 * @see     session_destroy()
 	 */
 	public function destroy()
 	{
@@ -457,7 +457,7 @@ class JSession extends JObject
 	 * Restart an expired or locked session.
 	 *
 	 * @return  boolean  true on success
-	 * @see	destroy
+	 * @see     destroy
 	 */
 	public function restart()
 	{
@@ -536,7 +536,7 @@ class JSession extends JObject
 	 * frames by ending the session as soon as all changes to session variables are
 	 * done.
 	 *
-	 * @see	session_write_close()
+	 * @see     session_write_close()
 	 */
 	public function close()
 	{
@@ -687,7 +687,7 @@ class JSession extends JObject
 	 * @param   boolean  reactivate session
 	 *
 	 * @return  boolean  true on success
-	 * @see		http://shiflett.org/articles/the-truth-about-sessions
+	 * @see     http://shiflett.org/articles/the-truth-about-sessions
 	 */
 	protected function _validate($restart = false)
 	{

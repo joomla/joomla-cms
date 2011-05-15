@@ -685,7 +685,7 @@ class JLanguage extends JObject
 	 * @param   bool    $overwrite  Not used??
 	 *
 	 * @return	boolean True if new strings have been added to the language
-	 * @see		JLanguage::load()
+	 * @see     JLanguage::load()
 	 * @since	11.1
 	 */
 	protected function loadLanguage($filename, $extension = 'unknown', $overwrite = true)

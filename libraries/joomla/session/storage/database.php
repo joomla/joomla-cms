@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Session
  * @since       11.1
- * @see			http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see     	http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageDatabase extends JSessionStorage
 {

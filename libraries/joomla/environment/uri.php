@@ -465,7 +465,7 @@ class JURI extends JObject
 	 *
 	 * @return  string  The resulting query string.
 	 * @since   11.1
-	 * @see	parse_str()
+	 * @see     parse_str()
 	 */
 	public static function buildQuery($params, $akey = null)
 	{
