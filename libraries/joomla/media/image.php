@@ -619,7 +619,7 @@ class JImage
 		self::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
 
 		// Define the expected folder in which to find input classes.
-		$folder = dirname(__FILE__).'/image';
+		$folder = dirname(__FILE__).'/filters';
 		
 		jimport('joomla.filesystem.folder');
 		foreach(JFolder::files($folder,"\.php$") as $entry){
