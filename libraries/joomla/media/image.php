@@ -249,7 +249,7 @@ class JImage
 	 * @see     JImageFilter
 	 * @throws  MediaException
 	 */
-	public function filter($type)
+	public function filter($type, $options = array())
 	{
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd')) {

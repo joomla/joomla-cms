@@ -29,7 +29,7 @@ class JImageFilterGrayScale extends JImageFilter
 	 *
 	 * @since   11.1
 	 */
-	function execute($handle)
+	function execute($handle, $options=array())
 	{
 		// Make sure the file handle is valid.
 		if ((!is_resource($handle) || get_resource_type($handle) != 'gd')) {
