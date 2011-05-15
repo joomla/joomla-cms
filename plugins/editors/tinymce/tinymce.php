@@ -73,7 +73,6 @@ class plgEditorTinymce extends JPlugin
 				$skin = "skin : \"default\",";
 		}
 
-		$compressed		= 0;
 		$cleanup_startup	= $this->params->def('cleanup_startup', 0);
 		$cleanup_save		= $this->params->def('cleanup_save', 2);
 		$entity_encoding	= $this->params->def('entity_encoding', 'raw');
@@ -478,22 +477,9 @@ class plgEditorTinymce extends JPlugin
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
-				if ($compressed) {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().$this->_basePath.
-							"/tiny_mce_gzip.js\"></script>\n";
-					$load .= "\t<script type=\"text/javascript\">
-					tinyMCE_GZ.init({
-					themes : \"$theme[$mode]\",
-					languages : \"". $langPrefix . "\"
-				});
-				</script>";
-				}
-				else {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().$this->_basePath.
-							"/tiny_mce.js\"></script>\n";
-				}
+				$load = "\t<script type=\"text/javascript\" src=\"".
+						JURI::root().$this->_basePath.
+						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -523,22 +509,9 @@ class plgEditorTinymce extends JPlugin
 				break;
 
 			case 1: /* Advanced mode*/
-				if ($compressed) {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().$this->_basePath.
-							"/tiny_mce_gzip.js\"></script>\n";
-					$load .= "\t<script type=\"text/javascript\">
-						tinyMCE_GZ.init({
-						themes : \"$theme[$mode]\",
-						languages : \"". $langPrefix . "\"
-					});
-				</script>";
-				}
-				else {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().$this->_basePath.
-							"/tiny_mce.js\"></script>\n";
-				}
+				$load = "\t<script type=\"text/javascript\" src=\"".
+						JURI::root().$this->_basePath.
+						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
 				"\t<script type=\"text/javascript\">
@@ -578,23 +551,9 @@ class plgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
-				if ($compressed) {
-					$load = "\t<script type=\"text/javascript\" src=\"".
-							JURI::root().$this->_basePath.
-							"/tiny_mce_gzip.js\"></script>\n";
-					$load .= "\t<script type=\"text/javascript\">
-				tinyMCE_GZ.init({
-					themes : \"$theme[$mode]\",
-					plugins : \"$plugins\",
-					languages : \"". $langPrefix . "\"
-				});
-				</script>";
-				}
-				else {
 				$load = "\t<script type=\"text/javascript\" src=\"".
 						JURI::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
-				}
 
 				$return = $load .
 				"\t<script type=\"text/javascript\">

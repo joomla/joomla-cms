@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-May-2011 Jean-Marie Simonet
+ #$ [#23490] Remove option to compress the JS for Tiny MCE. Thanks Rouven.
+
 14-May-2011 Jean-Marie Simonet
  # [#25082] Update Mootools to version 1.3.2. Thanks Rouven, Michael
  # [#25850] Incorrect ordering of plugins type filter. Thanks Dennis.
