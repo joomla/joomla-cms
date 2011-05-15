@@ -46,5 +46,5 @@ abstract class JImageFilter
 	 *
 	 * @since   11.1
 	 */
-	abstract public function execute(& $handle);
+	abstract public function execute($handle);
 }

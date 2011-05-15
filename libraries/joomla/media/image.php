@@ -11,6 +11,9 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.media.mediaexception');
 jimport('joomla.filesystem.file');
+jimport('joomla.log.log');
+
+JLoader::register('MediaException', JPATH_PLATFORM.'/joomla/media/mediaexception.php');
 
 /**
  * Class to manipulate an image.
@@ -382,7 +385,7 @@ class JImage
 
 			case 'image/jpeg':
 				// Make sure the image type is supported.
-				if (self::$formats[IMAGETYPE_JPEG]) {
+				if (!self::$formats[IMAGETYPE_JPEG]) {
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
 					throw new MediaException();
 				}
@@ -611,36 +614,20 @@ class JImage
 	{
 		// Determine which image types are supported by GD.
 		$info = gd_info();
-		self::$formats[IMAGETYPE_JPEG] = ($info['JPG Support']) ? true : false;
-		self::$formats[IMAGETYPE_PNG] = ($info['PNG Support']) ? true : false;
-		self::$formats[IMAGETYPE_GIF] = ($info['GIF Support']) ? true : false;
+		self::$formats[IMAGETYPE_JPEG] = ($info['JPEG Support']) 	 ? true : false;
+		self::$formats[IMAGETYPE_PNG]  = ($info['PNG Support']) 	 ? true : false;
+		self::$formats[IMAGETYPE_GIF]  = ($info['GIF Read Support']) ? true : false;
 
 		// Define the expected folder in which to find input classes.
 		$folder = dirname(__FILE__).'/image';
-
-		// Ignore the operation if the folder doesn't exist.
-		if (is_dir($folder)) {
-
-			// Open the folder.
-			$d = dir($folder);
-
-			// Iterate through the folder contents to search for input classes.
-			while (false !== ($entry = $d->read()))
-			{
-				// Only load for php files.
-				if (file_exists($folder.'/'.$entry) && (substr($entry, strrpos($entry, '.') + 1) == 'php')) {
-
+		
+		jimport('joomla.filesystem.folder');
+		foreach(JFolder::files($folder,"\.php$") as $entry){
 					// Get the name and full path for each file.
 					$name = preg_replace('#\.[^.]*$#', '', $entry);
 					$path = $folder.'/'.$entry;
-
 					// Register the class with the autoloader.
 					JLoader::register('JImageFilter'.ucfirst($name), $path);
-				}
-			}
-
-			// Close the folder.
-			$d->close();
 		}
 	}
 }
