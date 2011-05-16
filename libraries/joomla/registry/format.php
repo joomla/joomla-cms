@@ -24,7 +24,7 @@ abstract class JRegistryFormat
 	 *
 	 * @param   string   The format to load
 	 * @return  object   Registry format handler
-	 * @throws	JException
+	 * @throws  JException
 	 * @since   11.1
 	 */
 	public static function getInstance($type)

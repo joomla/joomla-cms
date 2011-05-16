@@ -29,37 +29,43 @@ jimport('joomla.utilities.arrayhelper');
 class JForm
 {
 	/**
-	 * @var    object  The JRegistry data store for form fields during display.
+	 * The JRegistry data store for form fields during display.
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $data;
 
 	/**
-	 * @var    array  The form object errors array.
+	 * The form object errors array.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $errors = array();
 
 	/**
-	 * @var    string  The name of the form instance.
+	 * The name of the form instance.
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $name;
 
 	/**
-	 * @var    array  The form object options for use in rendering and validation.
+	 * The form object options for use in rendering and validation.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $options = array();
 
 	/**
-	 * @var    object  The form XML definition.
+	 * The form XML definition.
+	 * @var    object
 	 * @since  11.1
 	 */
 	protected $xml;
 
 	/**
-	 * @var    array  Form instances.
+	 * Form instances.
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected static $forms = array();
@@ -67,8 +73,8 @@ class JForm
 	/**
 	 * Method to instantiate the form object.
 	 *
-	 * @param   string  $name		The name of the form.
-	 * @param   array   $options	An array of form options.
+	 * @param   string  $name     The name of the form.
+	 * @param   array   $options  An array of form options.
 	 *
 	 * @return  void
 	 *
@@ -89,7 +95,7 @@ class JForm
 	/**
 	 * Method to bind data to the form.
 	 *
-	 * @param   mixed  $data	An array or object of data to bind to the form.
+	 * @param   mixed  $data   An array or object of data to bind to the form.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -171,8 +177,8 @@ class JForm
 	/**
 	 * Method to filter the form data.
 	 *
-	 * @param   array   $data	An array of field values to filter.
-	 * @param   string  $group	The dot-separated form group path on which to filter the fields.
+	 * @param   array   $data    An array of field values to filter.
+	 * @param   string  $group   The dot-separated form group path on which to filter the fields.
 	 *
 	 * @return  mixed  Array or false.
 	 *
@@ -240,11 +246,11 @@ class JForm
 	/**
 	 * Method to get a form field represented as a JFormField object.
 	 *
-	 * @param   string  $name	The name of the form field.
-	 * @param   string  $group	The optional dot-separated form group path on which to find the field.
-	 * @param   mixed   $value	The optional value to use as the default for the field.
+	 * @param   string  $name   The name of the form field.
+	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
+	 * @param   mixed   $value  The optional value to use as the default for the field.
 	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 * @return  mixed   The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -305,9 +311,9 @@ class JForm
 	 * Method to get an array of JFormField objects in a given fieldset by name.  If no name is
 	 * given then all fields are returned.
 	 *
-	 * @param   string  $set  The optional name of the fieldset.
+	 * @param   string   $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  array    The array of JFormField objects in the fieldset.
 	 *
 	 * @since   11.1
 	 */
@@ -553,7 +559,7 @@ class JForm
 	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
 	 * @param   mixed   $default  The optional default value of the field value is empty.
 	 *
-	 * @return  mixed  The value of the field or the default value if empty.
+	 * @return  mixed   The value of the field or the default value if empty.
 	 *
 	 * @since   11.1
 	 */
@@ -579,10 +585,10 @@ class JForm
 	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
 	 * method will move on to the next field to load.
 	 *
-	 * @param   string  $data     The name of an XML string or object.
-	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
-	 *                            already exists with the same group/name.
-	 * @param   string  $xpath    An optional xpath to search for the fields.
+	 * @param   string   $data     The name of an XML string or object.
+	 * @param   string   $replace  Flag to toggle whether form fields should be replaced if a field
+	 *                             already exists with the same group/name.
+	 * @param   string   $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -682,10 +688,10 @@ class JForm
 	 * fields in the new XML file unless the $reset parameter has been set
 	 * to false.
 	 *
-	 * @param   string  $file		The filesystem path of an XML file.
-	 * @param   string  $replace	Flag to toggle whether form fields should be replaced if a field
-	 *								already exists with the same group/name.
-	 * @param   string  $xpath		An optional xpath to search for the fields.
+	 * @param   string   $file      The filesystem path of an XML file.
+	 * @param   string   $replace   Flag to toggle whether form fields should be replaced if a field
+	 *                              already exists with the same group/name.
+	 * @param   string   $xpath     An optional xpath to search for the fields.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
@@ -713,8 +719,8 @@ class JForm
 	/**
 	 * Method to remove a field from the form definition.
 	 *
-	 * @param   string  $name   The name of the form field for which remove.
-	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
+	 * @param   string   $name   The name of the form field for which remove.
+	 * @param   string   $group  The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -743,9 +749,9 @@ class JForm
 	/**
 	 * Method to remove a group from the form definition.
 	 *
-	 * @param   string  $group	The dot-separated form group path for the group to remove.
+	 * @param   string    $group    The dot-separated form group path for the group to remove.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean   True on success.
 	 *
 	 * @since   11.1
 	 */
@@ -860,10 +866,10 @@ class JForm
 	/**
 	 * Method to set an attribute value for a field XML element.
 	 *
-	 * @param   string  $name       The name of the form field for which to set the attribute value.
-	 * @param   string  $attribute  The name of the attribute for which to set a value.
-	 * @param   mixed   $value      The value to set for the attribute.
-	 * @param   string  $group      The optional dot-separated form group path on which to find the field.
+	 * @param   string   $name       The name of the form field for which to set the attribute value.
+	 * @param   string   $attribute  The name of the attribute for which to set a value.
+	 * @param   mixed    $value      The value to set for the attribute.
+	 * @param   string   $group      The optional dot-separated form group path on which to find the field.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -982,9 +988,9 @@ class JForm
 	 *
 	 * @param   array   $data   An array of field values to validate.
 	 * @param   string  $group  The optional dot-separated form group path on which to filter the
-	 * 							fields to be validated.
+	 *                          fields to be validated.
 	 *
-	 * @return  mixed  True on sucess.
+	 * @return  mixed   True on sucess.
 	 *
 	 * @since   11.1
 	 */
@@ -1253,7 +1259,7 @@ class JForm
 	 *
 	 * @param   string  $name  The name of the fieldset.
 	 *
-	 * @return  mixed  Boolean false on error or array of JXMLElement objects.
+	 * @return  mixed   Boolean false on error or array of JXMLElement objects.
 	 * @since   11.1
 	 */
 	protected function & findFieldsByFieldset($name)
@@ -1285,7 +1291,7 @@ class JForm
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  mixed  Boolean false on error or array of JXMLElement objects.
+	 * @return  mixed    Boolean false on error or array of JXMLElement objects.
 	 *
 	 * @since   11.1
 	 */
@@ -1352,7 +1358,7 @@ class JForm
 	 *
 	 * @param   string   $group  The dot-separated form group path on which to find the group.
 	 *
-	 * @return  mixed  An array of XML element objects for the group or boolean false on error.
+	 * @return  mixed    An array of XML element objects for the group or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1429,10 +1435,10 @@ class JForm
 	 * Method to load, setup and return a JFormField object based on field data.
 	 *
 	 * @param   string  $element  The XML element object representation of the form field.
-	 * @param   string  $group   The optional dot-separated form group path on which to find the field.
-	 * @param   mixed   $value   The optional value to use as the default for the field.
+	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
+	 * @param   mixed   $value    The optional value to use as the default for the field.
 	 *
-	 * @return  mixed  The JFormField object for the field or boolean false on error.
+	 * @return  mixed   The JFormField object for the field or boolean false on error.
 	 *
 	 * @since   11.1
 	 */
@@ -1494,7 +1500,7 @@ class JForm
 	 * @param   string   $type  The field type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  mixed  JFormField object on success, false otherwise.
+	 * @return  mixed    JFormField object on success, false otherwise.
 	 *
 	 * @since   11.1
 	 */
@@ -1504,13 +1510,13 @@ class JForm
 	}
 
 	/**
-	 * Proxy for {@link JFormHelper::loadRuleType()}.
+	 * Proxy for JFormHelper::loadRuleType().
 	 *
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
 	 * @return  mixed  JFormRule object on success, false otherwise.
-	 *
+	 * @see     JFormHelper::loadRuleType()
 	 * @since   11.1
 	 */
 	protected function loadRuleType($type, $new = true)
@@ -1521,7 +1527,7 @@ class JForm
 	/**
 	 * Method to synchronize any field, form or rule paths contained in the XML document.
 	 *
-	 * TODO:	Maybe we should receive all addXXXpaths attributes at once?
+	 * @todo    Maybe we should receive all addXXXpaths attributes at once?
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1668,11 +1674,12 @@ class JForm
 	}
 
 	/**
-	 * Proxy for {@link JFormHelper::addFormPath()}.
+	 * Proxy for JFormHelper::addFormPath().
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
+	 * @see     JFormHelper::addFormPath()
 	 *
 	 * @since   11.1
 	 */
@@ -1682,11 +1689,12 @@ class JForm
 	}
 
 	/**
-	 * Proxy for {@link JFormHelper::addRulePath()}.
+	 * Proxy for JFormHelper::addRulePath().
 	 *
 	 * @param   mixed  $new  A path or array of paths to add.
 	 *
 	 * @return  array  The list of paths that have been added.
+	 * @see JFormHelper::addRulePath()
 	 *
 	 * @since   11.1
 	 */
@@ -1703,12 +1711,12 @@ class JForm
 	 * @param   array   $options  An array of form options.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
 	 *                            already exists with the same group/name.
-	 * @param   string   $xpath   An optional xpath to search for the fields.
+	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  object  JForm instance.
 	 *
 	 * @since   11.1
-	 * @throws	Exception if an error occurs.
+	 * @throws  Exception if an error occurs.
 	 */
 	public static function getInstance($name, $data = null, $options = array(), $replace = true, $xpath = false)
 	{
@@ -1750,8 +1758,11 @@ class JForm
 	/**
 	 * Adds a new child SimpleXMLElement node to the source.
 	 *
-	 * @param   SimpleXMLElement	The source element on which to append.
-	 * @param   SimpleXMLElement	The new element to append.
+	 * @param   SimpleXMLElement   $source  The source element on which to append.
+	 * @param   SimpleXMLElement   $new     The new element to append.
+	 * 
+	 * @return  void
+	 * @throws  Exception if an error occurs.
 	 */
 	protected static function addNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
@@ -1771,6 +1782,14 @@ class JForm
 		}
 	}
 
+	/**
+	 * Adds a new child SimpleXMLElement node to the source.
+	 *
+	 * @param   SimpleXMLElement  $source  The source element on which to append.
+	 * @param   SimpleXMLElement  $new     The new element to append.
+	 * 
+	 * @return  void
+	 */	
 	protected static function mergeNode(SimpleXMLElement $source, SimpleXMLElement $new)
 	{
 		// Update the attributes of the child node.
@@ -1790,8 +1809,8 @@ class JForm
 	/**
 	 * Merges new elements into a source <fields> element.
 	 *
-	 * @param   SimpleXMLElement	The source element.
-	 * @param   SimpleXMLElement	The new element to merge.
+	 * @param   SimpleXMLElement   $source  The source element.
+	 * @param   SimpleXMLElement   $new     The new element to merge.
 	 *
 	 * @return  void
 	 * @since   11.1

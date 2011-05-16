@@ -458,7 +458,7 @@ class JDatabaseImporterMySQL
 	 *
 	 * @return  array	The lookup array. array({key name} => array(object, ...))
 	 * @since   11.1
-	 * @throws	Exception
+	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
 	{
