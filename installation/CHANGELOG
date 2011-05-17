@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-May-2011 Christophe Demko
+ # [#25894] *Fatal Error: JDocumentFeed disabled (Jean-Marie Simonet)
+
 15-May-2011 Jean-Marie Simonet
  #$ [#23490] Remove option to compress the JS for Tiny MCE. Thanks Rouven.
 
