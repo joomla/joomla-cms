@@ -484,8 +484,10 @@ class JApplication extends JObject
 	 * Gets a user state.
 	 *
 	 * @param   string  The path of the state.
+	 * @param   mixed   Optional default value, returned if the internal value is null.
 	 *
-	 * @return  mixed   The user state or null.
+	 * @return  mixed  The user state or null.
+	 *
 	 * @since   11.1
 	 */
 	public function getUserState($key, $default = null)
