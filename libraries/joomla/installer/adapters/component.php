@@ -1256,7 +1256,7 @@ class JInstallerComponent extends JAdapterInstance
 			$this->parent->pushStep(array ('type' => 'menu'));
 		}
 
-		$parent_id = $table->id;;
+		$parent_id = $table->id;
 
 		/*
 		 * Process SubMenus
@@ -1266,7 +1266,7 @@ class JInstallerComponent extends JAdapterInstance
 			return true;
 		}
 
-		$parent_id = $table->id;;
+		$parent_id = $table->id;
 
 		foreach ($this->manifest->administration->submenu->menu as $child) {
 			$data = array();
