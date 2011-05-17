@@ -270,9 +270,9 @@ class JDate extends DateTime
 	/**
 	 * Gets the date as a formatted string in a local calendar.
 	 *
-	 * @param   string   $format  	The date format specification string (see {@link PHP_MANUAL#date})
-	 * @param   boolean  $local   	True to return the date string in the local time zone, false to return it in GMT.
-	 * @param	boolean  $translate	True to translate localised strings
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
+	 * @param	boolean  $translate  True to translate localised strings
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
@@ -286,9 +286,9 @@ class JDate extends DateTime
 	/**
 	 * Gets the date as a formatted string.
 	 *
-	 * @param   string   $format  	The date format specification string (see {@link PHP_MANUAL#date})
-	 * @param   boolean  $local		True to return the date string in the local time zone, false to return it in GMT.
-	 * @param	boolean  $translate	True to translate localised strings
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   boolean  $translate  True to translate localised strings
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
@@ -296,8 +296,7 @@ class JDate extends DateTime
 	 */
 	public function format($format, $local = false, $translate = true)
 	{
-		if ($translate)
-		{
+		if ($translate) {
 			// Do string replacements for date format options that can be translated.
 			$format = preg_replace('/(^|[^\\\])D/', "\\1".self::DAY_ABBR, $format);
 			$format = preg_replace('/(^|[^\\\])l/', "\\1".self::DAY_NAME, $format);
@@ -313,18 +312,20 @@ class JDate extends DateTime
 		// Format the date.
 		$return = parent::format($format);
 
-		if ($translate)
-		{
+		if ($translate) {
 			// Manually modify the month and day strings in the formated time.
 			if (strpos($return, self::DAY_ABBR) !== false) {
 				$return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
 			}
+
 			if (strpos($return, self::DAY_NAME) !== false) {
 				$return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
 			}
+
 			if (strpos($return, self::MONTH_ABBR) !== false) {
 				$return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
 			}
+
 			if (strpos($return, self::MONTH_NAME) !== false) {
 				$return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
 			}
