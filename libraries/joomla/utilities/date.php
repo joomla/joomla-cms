@@ -270,35 +270,39 @@ class JDate extends DateTime
 	/**
 	 * Gets the date as a formatted string in a local calendar.
 	 *
-	 * @param   string   $format  The date format specification string (see {@link PHP_MANUAL#date})
-	 * @param   boolean  $local   True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
+	 * @param	boolean  $translate  True to translate localised strings
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
 	 * @since   11.1
 	 */
-	public function calendar($format, $local = false)
+	public function calendar($format, $local = false, $translate = true)
 	{
-		return $this->format($format, $local);
+		return $this->format($format, $local, $translate);
 	}
 
 	/**
 	 * Gets the date as a formatted string.
 	 *
-	 * @param   string   $format  The date format specification string (see {@link PHP_MANUAL#date})
-	 * @param   boolean  $local   True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param   boolean  $local      True to return the date string in the local time zone, false to return it in GMT.
+	 * @param   boolean  $translate  True to translate localised strings
 	 *
 	 * @return  string   The date string in the specified format format.
 	 *
 	 * @since   11.1
 	 */
-	public function format($format, $local = false)
+	public function format($format, $local = false, $translate = true)
 	{
-		// Do string replacements for date format options that can be translated.
-		$format = preg_replace('/(^|[^\\\])D/', "\\1".self::DAY_ABBR, $format);
-		$format = preg_replace('/(^|[^\\\])l/', "\\1".self::DAY_NAME, $format);
-		$format = preg_replace('/(^|[^\\\])M/', "\\1".self::MONTH_ABBR, $format);
-		$format = preg_replace('/(^|[^\\\])F/', "\\1".self::MONTH_NAME, $format);
+		if ($translate) {
+			// Do string replacements for date format options that can be translated.
+			$format = preg_replace('/(^|[^\\\])D/', "\\1".self::DAY_ABBR, $format);
+			$format = preg_replace('/(^|[^\\\])l/', "\\1".self::DAY_NAME, $format);
+			$format = preg_replace('/(^|[^\\\])M/', "\\1".self::MONTH_ABBR, $format);
+			$format = preg_replace('/(^|[^\\\])F/', "\\1".self::MONTH_NAME, $format);
+		}
 
 		// If the returned time should not be local use GMT.
 		if ($local == false) {
@@ -308,18 +312,23 @@ class JDate extends DateTime
 		// Format the date.
 		$return = parent::format($format);
 
-		// Manually modify the month and day strings in the formated time.
-		if (strpos($return, self::DAY_ABBR) !== false) {
-			$return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
-		}
-		if (strpos($return, self::DAY_NAME) !== false) {
-			$return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
-		}
-		if (strpos($return, self::MONTH_ABBR) !== false) {
-			$return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
-		}
-		if (strpos($return, self::MONTH_NAME) !== false) {
-			$return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
+		if ($translate) {
+			// Manually modify the month and day strings in the formated time.
+			if (strpos($return, self::DAY_ABBR) !== false) {
+				$return = str_replace(self::DAY_ABBR, $this->dayToString(parent::format('w'), true), $return);
+			}
+
+			if (strpos($return, self::DAY_NAME) !== false) {
+				$return = str_replace(self::DAY_NAME, $this->dayToString(parent::format('w')), $return);
+			}
+
+			if (strpos($return, self::MONTH_ABBR) !== false) {
+				$return = str_replace(self::MONTH_ABBR, $this->monthToString(parent::format('n'), true), $return);
+			}
+
+			if (strpos($return, self::MONTH_NAME) !== false) {
+				$return = str_replace(self::MONTH_NAME, $this->monthToString(parent::format('n')), $return);
+			}
 		}
 
 		if ($local == false) {
@@ -468,7 +477,7 @@ class JDate extends DateTime
 	public function toISO8601($local = false)
 	{
 
-		return $this->format(DateTime::RFC3339, $local);
+		return $this->format(DateTime::RFC3339, $local, false);
 	}
 
 	/**
@@ -484,7 +493,7 @@ class JDate extends DateTime
 	public function toMySQL($local = false)
 	{
 
-		return $this->format('Y-m-d H:i:s', $local);
+		return $this->format('Y-m-d H:i:s', $local, false);
 	}
 
 	/**
@@ -500,7 +509,7 @@ class JDate extends DateTime
 	 */
 	public function toRFC822($local = false)
 	{
-		return $this->format(DateTime::RFC2822, $local);
+		return $this->format(DateTime::RFC2822, $local, false);
 	}
 
 	/**
