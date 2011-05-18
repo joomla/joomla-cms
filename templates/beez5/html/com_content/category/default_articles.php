@@ -151,7 +151,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php endforeach; ?>
 		</tbody>
 	</table>
+<?php endif; ?>
 
+<?php // Code to add a link to submit an article. ?>
+<?php if ($this->category->getParams()->get('access-create')) : ?>
+	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
+<?php  endif; ?>
+
+<?php // Add pagination links ?>
+<?php if (!empty($this->items)) : ?>
 	<?php if (($this->params->def('show_pagination', 2) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>
 	<div class="pagination">
 
