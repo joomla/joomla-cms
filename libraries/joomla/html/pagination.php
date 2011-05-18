@@ -486,10 +486,10 @@ class JPagination extends JObject
 		if ($app->isAdmin())
 		{
 			if ($item->base > 0) {
-				return "<a title=\"".$item->text."\" onclick=\"document.adminForm.." . $this->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=".$item->base."; Joomla.submitform();return false;\">".$item->text."</a>";
 			}
 			else {
-				return "<a title=\"".$item->text."\" onclick=\"document.adminForm.." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
+				return "<a title=\"".$item->text."\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=0; Joomla.submitform();return false;\">".$item->text."</a>";
 			}
 		}
 		else {
