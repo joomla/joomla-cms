@@ -65,7 +65,7 @@ abstract class JModel extends JObject
 
 	/**
 	 * @var		string	The event to trigger when cleaning cache.
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	protected $event_clean_cache = null;
 
@@ -127,11 +127,11 @@ abstract class JModel extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @param	string	$type	The resource type to create the filename for.
-	 * @param	array	$parts	An associative array of filename information.
+	 * @param    string	$type	The resource type to create the filename for.
+	 * @param    array	$parts	An associative array of filename information.
 	 *
-	 * @return	string	The filename
-	 * @since	11.1
+	 * @return   string     The filename
+	 * @since    11.1
 	 */
 	protected static function _createFileName($type, $parts = array())
 	{
@@ -295,12 +295,12 @@ abstract class JModel extends JObject
 	/**
 	 * Method to load and return a model object.
 	 *
-	 * @param	string	$name	The name of the view
-	 * @param	string  $prefix	The class prefix. Optional.
-	 * @param	array	$config	Configuration settings to pass to JTable::getInsance
+	 * @param    string	$name	The name of the view
+	 * @param    string  $prefix	The class prefix. Optional.
+	 * @param    array	$config	Configuration settings to pass to JTable::getInsance
 	 *
-	 * @return	mixed	Model object or boolean false if failed
-	 * @since	11.1
+	 * @return   mixed	Model object or boolean false if failed
+	 * @since    11.1
 	 * @see     JTable::getInstance
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
@@ -444,12 +444,12 @@ abstract class JModel extends JObject
 	/**
 	 * Clean the cache
 	 *
-	 * @param	string	$group		The cache group
-	 * @param	string	$client_id	The ID of the client
+	 * @param    string	$group		The cache group
+	 * @param    string	$client_id	The ID of the client
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since    1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

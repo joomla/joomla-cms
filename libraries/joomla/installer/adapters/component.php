@@ -907,7 +907,7 @@ class JInstallerComponent extends JAdapterInstance
 	 * @param   integer  $id	The unique extension id of the component to uninstall
 	 *
 	 * @return  mixed  Return value for uninstall method in component uninstall file
-	 * @since	1.0
+	 * @since    1.0
 	 */
 	public function uninstall($id)
 	{

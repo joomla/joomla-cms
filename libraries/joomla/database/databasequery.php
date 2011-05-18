@@ -39,9 +39,9 @@ class JDatabaseQueryElement
 	/**
 	 * Constructor.
 	 *
-	 * @param   string	$name      The name of the element.
-	 * @param   mixed	$elements  String or array.
-	 * @param   string	$glue      The glue for elements.
+	 * @param   string     $name      The name of the element.
+	 * @param   mixed      $elements  String or array.
+	 * @param   string     $glue      The glue for elements.
 	 *
 	 * @return  JDatabaseQueryElement
 	 *

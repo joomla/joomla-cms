@@ -213,7 +213,7 @@ abstract class JModelForm extends JModel
 	 * @param   object  $form		The form to validate against.
 	 * @param   array   $data		The data to validate.
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
-	 * @since	1.1
+	 * @since    1.1
 	 */
 	function validate($form, $data)
 	{

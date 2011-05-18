@@ -1072,15 +1072,15 @@ class JStream extends JObject
 	/**
 	 * Copy a file from src to dest
 	 *
-	 * @param	string	$src
-	 * @param	string	$dest
-	 * @param			$context
-	 * @param	boolean	$user_prefix
-	 * @param	boolean	$relative
+	 * @param    string	$src
+	 * @param    string	$dest
+	 * @param    $context
+	 * @param    boolean	$user_prefix
+	 * @param    boolean	$relative
 	 *
-	 * @return	mixed
+	 * @return   mixed
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	function copy($src, $dest, $context=null, $use_prefix=true, $relative=false)
 	{

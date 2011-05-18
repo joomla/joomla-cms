@@ -421,8 +421,8 @@ class JDatabaseImporterMySQL
 	/**
 	 * Get the SQL syntax to drop a key.
 	 *
-	 * @param   string	$table  The table name.
-	 * @param   string	$field  The name of the key to drop.
+	 * @param   string     $table  The table name.
+	 * @param   string     $field  The name of the key to drop.
 	 *
 	 * @return  string
 	 * @since   11.1
@@ -438,7 +438,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Get the SQL syntax to drop a key.
 	 *
-	 * @param   string	$table  The table name.
+	 * @param   string     $table  The table name.
 	 *
 	 * @return  string
 	 * @since   11.1
@@ -557,7 +557,7 @@ class JDatabaseImporterMySQL
 	/**
 	 * Get the real name of the table, converting the prefix wildcard string if present.
 	 *
-	 * @param   string	$table  The name of the table.
+	 * @param   string     $table  The name of the table.
 	 *
 	 * @return  string	The real name of the table.
 	 * @since   11.1

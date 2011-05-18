@@ -679,10 +679,10 @@ class JView extends JObject
 	/**
 	 * Create the filename for a resource
 	 *
-	 * @param	string	The resource type to create the filename for
-	 * @param	array	An associative array of filename information
+	 * @param    string	The resource type to create the filename for
+	 * @param    array	An associative array of filename information
 	 *
-	 * @return	string	The filename
+	 * @return   string     The filename
 	 * @since   11.1
 	 */
 	protected function _createFileName($type, $parts = array())

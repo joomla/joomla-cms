@@ -78,7 +78,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return The Html code
 	 *
-	 * @since	1.
+	 * @since    1.
 	 */
 	public static function state($states, $value, $i, $prefix = '', $enabled = true, $translate=true, $checkbox='cb')
 	{

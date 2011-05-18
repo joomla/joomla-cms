@@ -674,9 +674,9 @@ class JURI extends JObject
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *
-	 * @param	string $uri The URI path to clean.
-	 * @return	string Cleaned and resolved URI path.
-	 * @since	11.1
+	 * @param    string $uri The URI path to clean.
+	 * @return   string Cleaned and resolved URI path.
+	 * @since    11.1
 	 */
 	protected function _cleanPath($path)
 	{

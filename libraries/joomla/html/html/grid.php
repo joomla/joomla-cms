@@ -27,7 +27,7 @@ abstract class JHtmlGrid
 	 * @param   string   Task to turn the boolean setting off.
 	 *
 	 * @return  string   The boolean setting widget.
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{

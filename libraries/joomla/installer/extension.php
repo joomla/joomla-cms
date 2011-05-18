@@ -19,43 +19,69 @@ defined('JPATH_PLATFORM') or die;
 class JExtension extends JObject
 {
 	/**
-	 * @var string $filename Filename of the extension
+	 * Filename of the extension
+	 * 
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $filename = '';
 	/**
-	 * @var string $type Type of the extension
+	 * Type of the extension
+	 * 
+	 * @var    string
+	 * @since  11.1 
 	 */
 	var $type = '';
 	/**
-	 * @var string $id Unique Identifier for the extension
-	 * */
+	 * Unique Identifier for the extension
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
 	var $id = '';
 	/**
-	 *  @var boolean $published The status of the extension
-	 *  */
+	 * The status of the extension
+	 *
+	 *  @var    boolean
+	 *  @since  11.1
+	 */
 	var $published = false;
 	/**
-	 * @var string $client String representation of client. Valid for modules, templates and languages.
-	 * 					set by default to site
+	 * String representation of client. Valid for modules, templates and languages.
+	 * Set by default to site.
+	 * 
+	 * @var    string
+	 * @since  11.1
 	 */
 	var $client = 'site';
 	/**
-	 * @var string $group The group name of the plugin. Not used for other known extension types (only plugins)
+	 * The group name of the plugin. Not used for other known extension types (only plugins)
+	 * 
+	 * @var string 
+	 * @since  11.1
 	 */
 	var $group =  '';
 	/**
-	 *  @var Object $manifest_cache An object representation of the manifest file
-	 *  							Stored metadata
+	 * An object representation of the manifest file stored metadata
+	 * 
+	 * @var object
+	 * @since  11.1
 	 */
 	var $manifest_cache = null;
 	/**
-	 * @var Object $params An object representation of the extension params
+	 * An object representation of the extension params
+	 * 
+	 * @var    object
+	 * @since  11.1
 	 */
 	var $params = null;
 
 	/**
 	 * Constructor
-	 * @param JXMLElement $element a JXMLElement from which to load data from
+	 * 
+	 * @param  JXMLElement $element A JXMLElement from which to load data from
+	 * 
+	 * @since  11.1
 	 */
 	function __construct(JXMLElement $element = null)
 	{

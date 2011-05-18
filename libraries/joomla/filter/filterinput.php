@@ -632,7 +632,7 @@ class JFilterInput extends JObject
 	 * @param   string  $source The source string.
 	 * 
 	 * @return  string  Filtered string
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	protected function _escapeAttributeValues($source)
 	{

@@ -589,12 +589,12 @@ class JLanguage extends JObject
 	 *
 	 * This is a simple, quick check for the directory that should contain language files for the given user.
 	 *
-	 * @param	string  $lang      Language to check.
-	 * @param	string  $basePath  Optional path to check.
+	 * @param    string  $lang      Language to check.
+	 * @param    string  $basePath  Optional path to check.
 	 *
-	 * @return	boolean  True if the language exists.
+	 * @return   boolean  True if the language exists.
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	public static function exists($lang, $basePath = JPATH_BASE)
 	{
@@ -623,15 +623,15 @@ class JLanguage extends JObject
 	/**
 	 * Loads a single language file and appends the results to the existing strings
 	 *
-	 * @param	string  $extension  The extension for which a language file should be loaded.
-	 * @param	string  $basePath   The basepath to use.
-	 * @param	string  $lang       The language to load, default null for the current language.
-	 * @param	bool    $reload     Flag that will force a language to be reloaded if set to true.
-	 * @param	bool    $default    Flag that force the default language to be loaded if the current does not exist.
+	 * @param    string  $extension  The extension for which a language file should be loaded.
+	 * @param    string  $basePath   The basepath to use.
+	 * @param    string  $lang       The language to load, default null for the current language.
+	 * @param    bool    $reload     Flag that will force a language to be reloaded if set to true.
+	 * @param    bool    $default    Flag that force the default language to be loaded if the current does not exist.
 	 *
-	 * @return	boolean  True, if the file has successfully loaded.
+	 * @return   boolean  True, if the file has successfully loaded.
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
@@ -680,13 +680,13 @@ class JLanguage extends JObject
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param	string  $filename   The name of the file.
-	 * @param	string  $extension  The name of the extension.
+	 * @param    string  $filename   The name of the file.
+	 * @param    string  $extension  The name of the extension.
 	 * @param   bool    $overwrite  Not used??
 	 *
-	 * @return	boolean True if new strings have been added to the language
+	 * @return   boolean True if new strings have been added to the language
 	 * @see     JLanguage::load()
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	protected function loadLanguage($filename, $extension = 'unknown', $overwrite = true)
 	{
@@ -811,12 +811,12 @@ class JLanguage extends JObject
 	/**
 	 * Get a metadata language property.
 	 *
-	 * @param	string  $property  The name of the property.
-	 * @param	mixed   $default   The default value.
+	 * @param    string  $property  The name of the property.
+	 * @param    mixed   $default   The default value.
 	 *
-	 * @return	mixed The value of the property.
+	 * @return   mixed The value of the property.
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	public function get($property, $default = null)
 	{
@@ -883,11 +883,11 @@ class JLanguage extends JObject
 	/**
 	 * Get a list of language files that have been loaded.
 	 *
-	 * @param	string  $extension  An option extension name.
+	 * @param    string  $extension  An option extension name.
 	 *
-	 * @return	array
+	 * @return   array
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	public function getPaths($extension = null)
 	{
@@ -1057,11 +1057,11 @@ class JLanguage extends JObject
 	/**
 	 * Returns a list of known languages for an area
 	 *
-	 * @param	string  $basePath  The basepath to use
+	 * @param    string  $basePath  The basepath to use
 	 *
-	 * @return	array  key/value pair with the language file and real name.
+	 * @return   array  key/value pair with the language file and real name.
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	public static function getKnownLanguages($basePath = JPATH_BASE)
 	{

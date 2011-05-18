@@ -184,7 +184,7 @@ class JSession extends JObject
 	 * Method to determine if a token exists in the session. If not the
 	 * session will be set to expired
 	 *
-	 * @param   string	Hashed token to be verified
+	 * @param   string     Hashed token to be verified
 	 * @param   boolean  If true, expires the session
 	 *
 	 * @return  boolean
