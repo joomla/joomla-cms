@@ -92,8 +92,11 @@ class ContentViewForm extends JView
 		}
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
-		if ($app->getCfg('sitename_pagetitles', 0)) {
+		if ($app->getCfg('sitename_pagetitles', 0) == 1) {
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
 

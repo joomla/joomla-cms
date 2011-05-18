@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 18-May-2011 Christophe Demko
  # [#25679] Typo of pagination parts (as default value) (bill richardson, masanori yamamoto)
+ # [#25447] New feature: Add Site name after Page title (Piotr Mocko)
 
 17-May-2011 Christophe Demko
  # [#25894] *Fatal Error: JDocumentFeed disabled (Jean-Marie Simonet)

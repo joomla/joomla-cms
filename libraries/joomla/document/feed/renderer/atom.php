@@ -46,11 +46,17 @@ defined('JPATH_PLATFORM') or die;
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
 
-		$feed_title = htmlspecialchars(
-			$app->getCfg('sitename_pagetitles',0)?
-			JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title):
-			$data->title
-		, ENT_COMPAT, 'UTF-8');
+		if ($app->getCfg('sitename_pagetitles', 0) == 1) {
+			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $data->title);
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+			$title = JText::sprintf('JPAGETITLE', $data->title, $app->getCfg('sitename'));
+		}
+		else {
+			$title = $data->title;
+		}
+		
+		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
 		if ($data->language!="") {
