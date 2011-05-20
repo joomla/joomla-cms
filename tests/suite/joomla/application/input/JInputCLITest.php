@@ -151,8 +151,8 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 
 		// Test the get method.
 		$this->assertThat(
-			$this->inspector->server->get('PWD'),
-			$this->identicalTo($_SERVER['PWD']),
+			$this->inspector->server->get('PHP_SELF'),
+			$this->identicalTo($_SERVER['PHP_SELF']),
 			'Line: '.__LINE__.'.'
 		);
 	}
