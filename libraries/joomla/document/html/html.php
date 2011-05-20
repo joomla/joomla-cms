@@ -188,9 +188,9 @@ class JDocumentHTML extends JDocument
 	 */
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
-		$attribs = JArrayHelper::toString($attribs);
-		$generatedTag = '<link href="'.$href.'" '.$relType.'="'.$relation.'" '.$attribs;
-		$this->_links[] = $generatedTag;
+		$this->_links[$href]['relation']	= $relation;
+		$this->_links[$href]['relType']		= $relType;
+		$this->_links[$href]['attribs']		= $attribs;
 	}
 
 	/**
@@ -207,7 +207,7 @@ class JDocumentHTML extends JDocument
 	public function addFavicon($href, $type = 'image/vnd.microsoft.icon', $relation = 'shortcut icon')
 	{
 		$href = str_replace('\\', '/', $href);
-		$this->_links[] = '<link href="'.$href.'" rel="'.$relation.'" type="'.$type.'"';
+		$this->addHeadLink($href, $relation, 'rel', array('type' => $type));
 	}
 
 	/**
