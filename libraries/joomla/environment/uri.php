@@ -123,16 +123,13 @@ class JURI extends JObject
 	{
 		static $instances = array();
 
-		if (!isset($instances[$uri]))
-		{
+		if (!isset($instances[$uri])) {
 			// Are we obtaining the URI from the server?
-			if ($uri == 'SERVER')
-			{
+			if ($uri == 'SERVER') {
 				// Determine if the request was over SSL (HTTPS).
 				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
 					$https = 's://';
-				}
-				else {
+				} else {
 					$https = '://';
 				}
 
@@ -140,14 +137,11 @@ class JURI extends JObject
 				// to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
 				// are present, we will assume we are running on apache.
 
-				if (!empty($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI']))
-				{
+				if (!empty($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI'])) {
 					// To build the entire URI we need to prepend the protocol, and the http host
 					// to the URI string.
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-				}
-				else
-				{
+				} else {
 					// Since we do not have REQUEST_URI to work with, we will assume we are
 					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 					// QUERY_STRING environment variables.
@@ -160,9 +154,7 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
-			}
-			else
-			{
+			} else {
 				// We were given a URI
 				$theURI = $uri;
 			}
@@ -186,12 +178,10 @@ class JURI extends JObject
 		static $base;
 
 		// Get the base request path.
-		if (!isset($base))
-		{
+		if (!isset($base)) {
 			$config = JFactory::getConfig();
 			$live_site = $config->get('live_site');
-			if (trim($live_site) != '')
-			{
+			if (trim($live_site) != '') {
 				$uri = self::getInstance($live_site);
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 				$base['path'] = rtrim($uri->toString(array('path')), '/\\');
@@ -199,22 +189,17 @@ class JURI extends JObject
 				if (JPATH_BASE == JPATH_ADMINISTRATOR) {
 					$base['path'] .= '/administrator';
 				}
-			}
-			else
-			{
+			} else {
 				$uri			= self::getInstance();
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
-				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
-				{
+				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI'])) {
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
 					// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
 					// because PHP will not work with PATH_INFO at all.
 					$script_name =  $_SERVER['PHP_SELF'];
-				}
-				else
-				{
+				} else {
 					// Others
 					$script_name =  $_SERVER['SCRIPT_NAME'];
 				}
@@ -239,8 +224,7 @@ class JURI extends JObject
 		static $root;
 
 		// Get the scheme
-		if (!isset($root))
-		{
+		if (!isset($root)) {
 			$uri			= self::getInstance(self::base());
 			$root['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 			$root['path']	= rtrim($uri->toString(array('path')), '/\\');
@@ -265,8 +249,7 @@ class JURI extends JObject
 		static $current;
 
 		// Get the current URL.
-		if (!isset($current))
-		{
+		if (!isset($current)) {
 			$uri	= self::getInstance();
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		}
@@ -351,6 +334,7 @@ class JURI extends JObject
 	 *
 	 * @param   string  $name Name of the query variable to set.
 	 * @param   string  $value Value of the query variable.
+	 *
 	 * @return  string  Previous value for the query variable.
 	 * @since   11.1
 	 */
@@ -369,6 +353,7 @@ class JURI extends JObject
 	 * Checks if variable exists.
 	 *
 	 * @param   string $name Name of the query variable to check.
+	 *
 	 * @return  bool exists.
 	 * @since   11.1
 	 */
@@ -399,12 +384,13 @@ class JURI extends JObject
 	 * Removes an item from the query string variables if it exists.
 	 *
 	 * @param   string  $name Name of variable to remove.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function delVar($name)
 	{
-		if (array_key_exists($name, $this->_vars))
-		{
+		if (array_key_exists($name, $this->_vars)) {
 			unset($this->_vars[$name]);
 
 			//empty the query
@@ -416,18 +402,18 @@ class JURI extends JObject
 	 * Sets the query to a supplied string in format:
 	 *		foo=bar&x=y
 	 *
-	 * @param   mixed (array|string) $query The query string.
+	 * @param   mixed(array|string) $query The query string.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setQuery($query)
 	{
-		if (is_array($query))
-		{
+		if (is_array($query)) {
 			$this->_vars = $query;
 		} else {
-			if (strpos($query, '&amp;') !== false)
-			{
-				$query = str_replace('&amp;','&',$query);
+			if (strpos($query, '&amp;') !== false) {
+				$query = str_replace('&amp;', '&', $query);
 			}
 			parse_str($query, $this->_vars);
 		}
@@ -438,6 +424,8 @@ class JURI extends JObject
 
 	/**
 	 * Returns flat query string.
+	 *
+	 * @param	boolean	$toArray
 	 *
 	 * @return  string  Query string.
 	 * @since   11.1
@@ -489,6 +477,8 @@ class JURI extends JObject
 	 *		ie. http, https, ftp, etc...
 	 *
 	 * @param   string  $scheme The URI scheme.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setScheme($scheme)
@@ -512,6 +502,8 @@ class JURI extends JObject
 	 * Set URI username.
 	 *
 	 * @param   string  $user The URI username.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setUser($user)
@@ -535,6 +527,8 @@ class JURI extends JObject
 	 * Set URI password.
 	 *
 	 * @param   string  $pass The URI password.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setPass($pass)
@@ -558,6 +552,8 @@ class JURI extends JObject
 	 * Set URI host.
 	 *
 	 * @param   string  $host The URI host.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setHost($host)
@@ -580,6 +576,8 @@ class JURI extends JObject
 	 * Set URI port.
 	 *
 	 * @param   integer  $port The URI port number.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setPort($port)
@@ -602,6 +600,8 @@ class JURI extends JObject
 	 * Set the URI path string.
 	 *
 	 * @param   string  $path The URI path string.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setPath($path)
@@ -626,6 +626,8 @@ class JURI extends JObject
 	 *		everything after the "#".
 	 *
 	 * @param   string  $anchor The URI anchor string.
+	 *
+	 * @return	void
 	 * @since   11.1
 	 */
 	public function setFragment($anchor)
@@ -648,6 +650,7 @@ class JURI extends JObject
 	 * Checks if the supplied URL is internal
 	 *
 	 * @param   string   $url The URL to check.
+	 *
 	 * @return  boolean  True if Internal.
 	 * @since   11.1
 	 */
@@ -670,7 +673,8 @@ class JURI extends JObject
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *
-	 * @param	string $uri The URI path to clean.
+	 * @param	string $path The URI path to clean.
+	 *
 	 * @return	string Cleaned and resolved URI path.
 	 * @since	11.1
 	 */
@@ -680,17 +684,13 @@ class JURI extends JObject
 
 		for ($i = 0, $n = count($path); $i < $n; $i ++)
 		{
-			if ($path[$i] == '.' OR $path[$i] == '..')
-			{
-				if(($path[$i] == '.') OR ($path[$i] == '..' AND $i == 1 AND $path[0] == ''))
-				{
+			if ($path[$i] == '.' OR $path[$i] == '..') {
+				if (($path[$i] == '.') OR ($path[$i] == '..' AND $i == 1 AND $path[0] == '')) {
 					unset ($path[$i]);
 					$path = array_values($path);
 					$i --;
 					$n --;
-				}
-				elseif ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != '')))
-				{
+				} elseif ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != ''))) {
 					unset ($path[$i]);
 					unset ($path[$i -1]);
 					$path = array_values($path);
