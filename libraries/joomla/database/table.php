@@ -122,14 +122,14 @@ abstract class JTable extends JObject
 		if ($cache === null) {
 			// Lookup the fields for this table only once.
 			$name	= $this->_tbl;
-			$fields	= $this->_db->getTableFields($name, false);
+			$fields	= $this->_db->getTableColumns($name, false);
 
-			if (!isset($fields[$name])) {
+			if (empty($fields)) {
 				$e = new JException(JText::_('JLIB_DATABASE_ERROR_COLUMNS_NOT_FOUND'));
 				$this->setError($e);
 				return false;
 			}
-			$cache = $fields[$name];
+			$cache = $fields;
 		}
 
 		return $cache;
