@@ -76,19 +76,64 @@ class JImageTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(($this->img->getWidth() == 500),  'Line: '.__LINE__);
 	}
 	
-	public function testIsTransparent(){
+	/**
+	 * Test the JImage::isTransparent method to make sure it gives the correct
+	 * result if the image has an alpha channel
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testIsTransparent()
+	{
 		$this->markTestIncomplete();
 	}
 	
-	public function testResize(){
+	/**
+	 * Test the JImage::resize method to make sure it behaves correctly
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testResize()
+	{
 		$this->markTestIncomplete();
 	}
 	
-	public function testCrop(){
+	/**
+	 * Test the JImage::rotate method to make sure it behaves correctly
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testRotate()
+	{
 		$this->markTestIncomplete();
 	}
 	
-	public function testFilter(){
+	/**
+	 * Test the JImage::crop method to make sure it behaves correctly
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testCrop()
+	{
+		$this->markTestIncomplete();
+	}
+	
+	/**
+	 * Test the JImage::filter method to make sure it behaves correctly
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testFilter()
+	{
 		$this->markTestIncomplete();
 	}
 }
