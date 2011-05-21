@@ -519,6 +519,7 @@ class JImage
 	 * Method to rotate the current image.
 	 *
 	 * @param   integer  $angle
+	 * @param   integer  $background   The background color to use when areas are added due to rotation
 	 * @param   bool     $createNew    If true the current image will be cloned, rotated and returned; else
 	 *                                 the current image will be rotated and returned.
 	 *
@@ -527,7 +528,7 @@ class JImage
 	 * @since   11.1
 	 * @throws  MediaException
 	 */
-	function rotate($angle, $createNew = true)
+	function rotate($angle, $background = -1, $createNew = true)
 	{
 		// Make sure the file handle is valid.
 		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd')) {
@@ -552,7 +553,7 @@ class JImage
 		);
 		
 		// Rotate the image
-		$handle = imagerotate($handle, $angle, 0);
+		$handle = imagerotate($handle, $angle, $background);
 		
 		// If we are resizing to a new image, create a new JImage object.
 		if ($createNew) {
