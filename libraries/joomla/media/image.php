@@ -518,7 +518,7 @@ class JImage
 	/**
 	 * Method to rotate the current image.
 	 *
-	 * @param   integer  $angle
+	 * @param   mixed    $angle
 	 * @param   integer  $background   The background color to use when areas are added due to rotation
 	 * @param   bool     $createNew    If true the current image will be cloned, rotated and returned; else
 	 *                                 the current image will be rotated and returned.
@@ -535,6 +535,9 @@ class JImage
 			JLog::add('The image is invalid.', JLog::ERROR);
 			throw new MediaException();
 		}
+		
+		// Sanitize input
+		$angle = floatval($angle);
 		
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
