@@ -529,7 +529,41 @@ class JImage
 	 */
 	function rotate($angle, $createNew = true)
 	{
+		// Make sure the file handle is valid.
+		if ((!is_resource($this->handle) || get_resource_type($this->handle) != 'gd')) {
+			JLog::add('The image is invalid.', JLog::ERROR);
+			throw new MediaException();
+		}
 		
+		// Create the new truecolor image handle.
+		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
+
+		// Allow transparency for the new image handle.
+		imagealphablending($handle, false);
+		imagesavealpha($handle, true);
+		
+		// Copy the image
+		imagecopy(
+				$handle,
+				$this->handle,
+				0, 0, 0, 0,
+				$this->getWidth(),
+				$this->getHeight()
+		);
+		
+		// Rotate the image
+		$handle = imagerotate($handle, $angle, 0);
+		
+		// If we are resizing to a new image, create a new JImage object.
+		if ($createNew) {
+			$new = new JImage($handle);
+			return $new;
+		}
+		// Swap out the current handle for the new image handle.
+		else {
+			$this->handle = $handle;
+			return $this;
+		}
 	}
 
 	/**
