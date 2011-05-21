@@ -514,6 +514,23 @@ class JImage
 			return $this;
 		}
 	}
+	
+	/**
+	 * Method to rotate the current image.
+	 *
+	 * @param   integer  $angle
+	 * @param   bool     $createNew    If true the current image will be cloned, rotated and returned; else
+	 *                                 the current image will be rotated and returned.
+	 *
+	 * @return  JImage
+	 *
+	 * @since   11.1
+	 * @throws  MediaException
+	 */
+	function rotate($angle, $createNew = true)
+	{
+		
+	}
 
 	/**
 	 * Method to write the current image out to a file.
