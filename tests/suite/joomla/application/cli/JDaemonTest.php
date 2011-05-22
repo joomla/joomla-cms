@@ -21,6 +21,13 @@ class JDaemonTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		// Skip this test suite if PCNTL  extension is not available
+		if(!extension_loaded("PCNTL")){
+		   $this->markTestSkipped(
+              'The PCNTL extension is not available.'
+            );
+		}
+
 		// Include the inspector.
 		include_once JPATH_TESTS.'/suite/joomla/application/cli/TestStubs/JDaemon_Inspector.php';
 
