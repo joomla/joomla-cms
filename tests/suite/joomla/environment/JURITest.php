@@ -71,8 +71,25 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInstance()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$return = JURI::getInstance('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+		$this->object->parse('http://someuser:somepass@www.example.com:80/path/file.html?var=value#fragment');
+
+		$this->assertThat(
+			$return,
+			$this->equalTo($this->object)
+		);
+
+		$this->object->parse('http://www.example.com:80/joomla/index.php?var=value 10');
+		$_SERVER['HTTP_HOST'] = 'www.example.com:80';
+		$_SERVER['SCRIPT_NAME'] = '/joomla/index.php';
+		$_SERVER['PHP_SELF'] = '/joomla/index.php';
+		$_SERVER['REQUEST_URI'] = '/joomla/index.php?var=value 10';
+
+		$return = JURI::getInstance();
+		$this->assertThat(
+			$return,
+			$this->equalTo($this->object)
+		);
 	}
 
 	/**
@@ -97,8 +114,10 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRoot()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			JURI::root(FALSE, '/administrator'),
+			$this->equalTo('http://www.example.com:80/administrator/')
+		);
 	}
 
 	/**
@@ -110,8 +129,10 @@ class JURITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCurrent()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			JURI::current(),
+			$this->equalTo('http://www.example.com:80/joomla/index.php')
+		);
 	}
 
 	/**
