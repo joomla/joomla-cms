@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  */
 class JInstallationControllerSetup extends JController
 {
-	function loadSampleData()
+	public function loadSampleData()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
@@ -56,7 +56,7 @@ class JInstallationControllerSetup extends JController
 		$this->sendResponse($r);
 	}
 
-	function detectFtpRoot()
+	public function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
@@ -89,7 +89,7 @@ class JInstallationControllerSetup extends JController
 		$this->sendResponse($r);
 	}
 
-	function verifyFtpSettings()
+	public function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JRequest::checkToken('request') or $this->sendResponse(new JException(JText::_('JINVALID_TOKEN'), 403));
@@ -122,7 +122,7 @@ class JInstallationControllerSetup extends JController
 		$this->sendResponse($r);
 	}
 
-	function removeFolder()
+	public function removeFolder()
 	{
 		jimport('joomla.filesystem.folder');
 
@@ -167,11 +167,9 @@ class JInstallationControllerSetup extends JController
 			$return = $ftp->delete($file);
 
 			// Delete the extra XML file while we're at it
-			if ($return)
-			{
+			if ($return) {
 				$file = JPath::clean($options->ftp_root.'/joomla.xml');
-				if (file_exists($file))
-				{
+				if (file_exists($file)) {
 					$return = $ftp->delete($file);
 				}
 			}
@@ -204,16 +202,15 @@ class JInstallationControllerSetup extends JController
 	 * can be a JException object for when an error has occurred or
 	 * a JObject for a good response.
 	 *
-	 * @access	public
-	 * @param	object	JObject on success, JException on failure.
+	 * @param	object $response	JObject on success, JException on failure.
+	 *
 	 * @return	void
 	 * @since	1.6
 	 */
-	function sendResponse($response)
+	public function sendResponse($response)
 	{
 		// Check if we need to send an error code.
-		if (JError::isError($response))
-		{
+		if (JError::isError($response)) {
 			// Send the appropriate error code response.
 			JResponse::setHeader('status', $response->getCode());
 			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -243,15 +240,12 @@ class JInstallationJsonResponse
 		$this->token = JUtility::getToken(true);
 
 		// Check if we are dealing with an error.
-		if (JError::isError($state))
-		{
+		if (JError::isError($state)) {
 			// Prepare the error response.
 			$this->error	= true;
 			$this->header	= JText::_('INSTL_HEADER_ERROR');
 			$this->message	= $state->getMessage();
-		}
-		else
-		{
+		} else {
 			// Prepare the response data.
 			$this->error	= false;
 			$this->data		= $state;

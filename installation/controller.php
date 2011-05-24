@@ -22,10 +22,10 @@ class JInstallationController extends JController
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param	boolean	$cachable	If true, the view output will be cached
+	 * @param	array	$urlparams	An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return	JController	This object to support chaining.
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -38,7 +38,7 @@ class JInstallationController extends JController
 		$document	= JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		if (file_exists( JPATH_CONFIGURATION . DS . 'configuration.php' ) && (filesize( JPATH_CONFIGURATION . DS . 'configuration.php' ) > 10) && file_exists( JPATH_INSTALLATION . DS . 'index.php' )) {
+		if (file_exists(JPATH_CONFIGURATION.'/configuration.php') && (filesize(JPATH_CONFIGURATION.'/configuration.php') > 10) && file_exists(JPATH_INSTALLATION.'/index.php')) {
 			$default_view	= 'remove';
 		} else {
 			$default_view	= 'language';

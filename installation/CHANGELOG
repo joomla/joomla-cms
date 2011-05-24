@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-May-2011 Mark Dexter
+ # [#25908] Code Style improvements for the installation
+
 18-May-2011 Christophe Demko
  # [#25679] Typo of pagination parts (as default value) (bill richardson, masanori yamamoto)
  # [#25447] New feature: Add Site name after Page title (Piotr Mocko)

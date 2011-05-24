@@ -22,9 +22,8 @@ class JInstallationViewLanguage extends JView
 	/**
 	 * Display the view
 	 *
-	 * @access	public
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$state = $this->get('State');
 		$form  = $this->get('Form');

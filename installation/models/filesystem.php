@@ -23,11 +23,12 @@ class JInstallationModelFilesystem extends JModel
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair.
 	 *
-	 * @param	array	Configuration options.
+	 * @param	array	$options	Configuration options.
+	 *
 	 * @return	mixed	Filesystem root for given FTP user, or boolean false if not found.
 	 * @since	1.6
 	 */
-	function detectFtpRoot($options)
+	public function detectFtpRoot($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -64,7 +65,7 @@ class JInstallationModelFilesystem extends JModel
 		}
 
 		// Get just the folder names from the list of folder data.
-		for($i = 0, $n = count($cwdFolders); $i < $n; $i++)
+		for ($i = 0, $n = count($cwdFolders); $i < $n; $i++)
 		{
 			$cwdFolders[$i] = $cwdFolders[$i]['name'];
 		}
@@ -79,7 +80,7 @@ class JInstallationModelFilesystem extends JModel
 		// Search through the segments of JPATH_SITE looking for root possibilities.
 		$parts = explode(DS, JPATH_SITE);
 		$tmp = '';
-		for($i = count($parts) - 1; $i >= 0; $i--)
+		for ($i = count($parts) - 1; $i >= 0; $i--)
 		{
 			$tmp = '/'.$parts[$i].$tmp;
 			if (in_array($parts[$i], $cwdFolders)) {
@@ -90,7 +91,7 @@ class JInstallationModelFilesystem extends JModel
 		// Check all possible paths for the real Joomla installation by comparing version files.
 		$rootPath = false;
 		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
-		foreach($paths as $tmp)
+		foreach ($paths as $tmp)
 		{
 			$filePath = rtrim($tmp, '/').'/libraries/joomla/version.php';
 			$buffer = null;
@@ -116,11 +117,12 @@ class JInstallationModelFilesystem extends JModel
 	/**
 	 * Verify the FTP settings as being functional and correct.
 	 *
-	 * @param	array	Configuration options.
+	 * @param	array	$options	Configuration options.
+	 *
 	 * @return	mixed	Filesystem root for given FTP user, or boolean false if not found.
 	 * @since	1.6
 	 */
-	function verifyFtpSettings($options)
+	public function verifyFtpSettings($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -239,11 +241,11 @@ class JInstallationModelFilesystem extends JModel
 	/**
 	 * Check the webserver user permissions for writing files/folders
 	 *
-	 * @static
 	 * @return	boolean	True if correct permissions exist
+	 *
 	 * @since	1.5
 	 */
-	function checkPermissions()
+	public static function checkPermissions()
 	{
 		if (!is_writable(JPATH_ROOT.'/tmp')) {
 			return false;
@@ -270,13 +272,16 @@ class JInstallationModelFilesystem extends JModel
 	/**
 	 * Verify the FTP configuration values are valid
 	 *
-	 * @static
 	 * @param	string	$user	Username of the ftp user to determine root for
 	 * @param	string	$pass	Password of the ftp user to determine root for
+	 * @param	string	$root
+	 * @param	string	$host
+	 * @param	string	$port
+	 *
 	 * @return	mixed	Boolean true on success or JError object on fail
 	 * @since	1.5
 	 */
-	function checkSettings($user, $pass, $root, $host = '127.0.0.1', $port = '21')
+	public static function checkSettings($user, $pass, $root, $host = '127.0.0.1', $port = '21')
 	{
 		jimport('joomla.client.ftp');
 		$ftp = JFTP::getInstance($host, $port);
@@ -392,10 +397,11 @@ class JInstallationModelFilesystem extends JModel
 	 *
 	 * @param string $path The full file path
 	 * @param string $buffer The buffer to write
+	 *
 	 * @return boolean True on success
 	 * @since 1.5
 	 */
-	function setFolderPermissions($folder, $options)
+	public function setFolderPermissions($folder, $options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -414,8 +420,7 @@ class JInstallationModelFilesystem extends JModel
 			$ftpFlag = false;
 		}
 
-		if ($ftpFlag == true)
-		{
+		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$client = JFTP::getInstance($options['ftp_host'], $options['ftp_port']);
@@ -427,23 +432,18 @@ class JInstallationModelFilesystem extends JModel
 			/*
 			 * chmod using ftp
 			 */
-			if (!$client->chmod($path, '0755'))
-			{
+			if (!$client->chmod($path, '0755')) {
 				$ret = false;
 			}
 
 			$client->quit();
 			$ret = true;
-		} else
-		{
-
+		} else {
 			$path = JPath::clean(JPATH_SITE.DS.$folder);
 
-			if (!@ chmod($path, octdec('0755')))
-			{
+			if (!@ chmod($path, octdec('0755'))) {
 				$ret = false;
-			} else
-			{
+			} else {
 				$ret = true;
 			}
 		}
@@ -455,9 +455,11 @@ class JInstallationModelFilesystem extends JModel
 	 * Inserts ftp variables to mainframe registry
 	 * Needed to activate ftp layer for file operations in safe mode
 	 *
-	 * @param array The post values
+	 * @param	array	$vars	The post values
+	 *
+	 * @return	void
 	 */
-	function setFTPCfg($vars)
+	public function setFTPCfg($vars)
 	{
 		$app	= JFactory::getApplication();
 		$arr = array();
@@ -481,13 +483,11 @@ class JInstallationModelFilesystem extends JModel
 		$ftpRoot = $app->getCfg('ftp_root');
 
 		// Do NOT use ftp if it is not enabled
-		if ($app->getCfg(ftp_enable) != 1)
-		{
+		if ($app->getCfg(ftp_enable) != 1) {
 			$ftpFlag = false;
 		}
 
-		if ($ftpFlag == true)
-		{
+		if ($ftpFlag == true) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = JFTP::getInstance($app->getCfg('ftp_host'), $app->getCfg('ftp_port'));
@@ -497,15 +497,13 @@ class JInstallationModelFilesystem extends JModel
 			$path = JPath::clean(str_replace(JPATH_SITE, $ftpRoot, $path), '/');
 
 			// do the ftp chmod
-			if (!$ftp->chmod($path, $mode))
-			{
+			if (!$ftp->chmod($path, $mode)) {
 				// FTP connector throws an error
 				return false;
 			}
 			$ftp->quit();
 			$ret = true;
-		} else
-		{
+		} else {
 			$ret = @ chmod($path, $mode);
 		}
 

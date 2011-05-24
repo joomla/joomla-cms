@@ -17,7 +17,7 @@ class JHtmlInstallation
 {
 	/**
 	 */
-	static function stepbar($on = 1)
+	public static function stepbar($on = 1)
 	{
 		$html = '<h1>'.JText::_('INSTL_STEPS_TITLE').'</h1>' .
 			'<div class="step-'.($on == 1 ? 'on' : 'off').'">'.JText::_('INSTL_STEP_1_LABEL').'</div>' .

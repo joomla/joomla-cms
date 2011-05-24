@@ -21,7 +21,10 @@ require_once JPATH_INSTALLATION.'/helpers/database.php';
  */
 class JInstallationModelConfiguration extends JModel
 {
-	function setup($options)
+	/**
+	 * @return boolean
+	 */
+	public function setup($options)
 	{
 		// Get the options as a JObject for easier handling.
 		$options = JArrayHelper::toObject($options, 'JObject');
@@ -154,8 +157,7 @@ class JInstallationModelConfiguration extends JModel
 			$useFTP = false;
 		}
 
-		if ($useFTP == true)
-		{
+		if ($useFTP == true) {
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			jimport('joomla.filesystem.path');
@@ -174,9 +176,7 @@ class JInstallationModelConfiguration extends JModel
 			}
 
 			$ftp->quit();
-		}
-		else
-		{
+		} else {
 			if ($canWrite) {
 				file_put_contents($path, $buffer);
 				$session = JFactory::getSession();

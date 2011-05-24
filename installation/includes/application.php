@@ -27,9 +27,10 @@ class JInstallation extends JApplication
 	/**
 	* Class constructor
 	*
-	* @access protected
-	* @param	array An optional associative array of configuration settings.
+	* @param	array $config	An optional associative array of configuration settings.
 	* Recognized key values include 'clientId' (this list is not meant to be comprehensive).
+	*
+	* @return	void
 	*/
 	public function __construct(array $config = array())
 	{
@@ -104,7 +105,9 @@ class JInstallation extends JApplication
 	/**
 	 * Initialise the application.
 	 *
-	 * @param	$options	array
+	 * @param	array	$options
+	 *
+	 * @return	void
 	 */
 	public function initialise(array $options = array())
 	{
@@ -112,30 +115,24 @@ class JInstallation extends JApplication
 		$forced = $this->getLocalise();
 
 		// Check the request data for the language.
-		if (empty($options['language']))
-		{
+		if (empty($options['language'])) {
 			$requestLang = JRequest::getCmd('lang', null);
-			if (!is_null($requestLang))
-			{
+			if (!is_null($requestLang)) {
 				$options['language'] = $requestLang;
 			}
 		}
 
 		// Check the session for the language.
-		if (empty($options['language']))
-		{
+		if (empty($options['language'])) {
 			$sessionLang = JFactory::getSession()->get('setup.language');
-			if (!is_null($sessionLang))
-			{
+			if (!is_null($sessionLang)) {
 				$options['language'] = $sessionLang;
 			}
 		}
 
 		// This could be a first-time visit - try to determine what the client accepts.
-		if (empty($options['language']))
-		{
-			if (!empty($forced['language']))
-			{
+		if (empty($options['language'])) {
+			if (!empty($forced['language'])) {
 				$options['language'] = $forced['language'];
 			} else {
 				jimport('joomla.language.helper');
@@ -147,8 +144,7 @@ class JInstallation extends JApplication
 		}
 
 		// Give the user English
-		if (empty($options['language']))
-		{
+		if (empty($options['language'])) {
 			$options['language'] = 'en-GB';
 		}
 
@@ -159,6 +155,9 @@ class JInstallation extends JApplication
 		$conf->set('sampledata', $forced['sampledata']);
 	}
 
+	/**
+	 * @return	void
+	 */
 	public static function debugLanguage()
 	{
 		ob_start();
@@ -205,7 +204,6 @@ class JInstallation extends JApplication
 
 				// Prepare the text
 				$guesses[] = $key.'="'.$guess.'"';
-
 			}
 
 			echo "\n\n# ".$file."\n\n";
@@ -222,8 +220,10 @@ class JInstallation extends JApplication
 	/**
 	 * Set configuration values
 	 *
-	 * @param	array	Array of configuration values
-	 * @param	string	The namespace
+	 * @param	array	$vars		Array of configuration values
+	 * @param	string	$namespace	The namespace
+	 *
+	 * @return	void
 	 */
 	public function setCfg(array $vars = array(), $namespace = 'config')
 	{
@@ -232,6 +232,8 @@ class JInstallation extends JApplication
 
 	/**
 	 * Create the configuration registry
+	 *
+	 * @return	void
 	 */
 	public function _createConfiguration()
 	{
@@ -248,8 +250,7 @@ class JInstallation extends JApplication
 	*/
 	public function getTemplate($params = false)
 	{
-		if ((bool) $params)
-		{
+		if ((bool) $params) {
 			$template = new stdClass();
 			$template->template = 'template';
 			$template->params = new JRegistry;
@@ -261,7 +262,8 @@ class JInstallation extends JApplication
 	/**
 	 * Create the user session
 	 *
-	 * @param	string	The sessions name
+	 * @param	string	$name	The sessions name
+	 *
 	 * @return	object	JSession
 	 */
 	public function & _createSession($name)
@@ -270,8 +272,7 @@ class JInstallation extends JApplication
 		$options['name'] = $name;
 
 		$session = JFactory::getSession($options);
-		if (!is_a($session->get('registry'), 'JRegistry'))
-		{
+		if (!is_a($session->get('registry'), 'JRegistry')) {
 			// Registry has been corrupted somehow
 			$session->set('registry', new JRegistry('session'));
 		}
@@ -289,14 +290,12 @@ class JInstallation extends JApplication
 	{
 		$xml = JFactory::getXML(JPATH_SITE.DS.'installation'.DS.'localise.xml');
 
-		if( ! $xml)
-		{
+		if (!$xml) {
 			return false;
 		}
 
 		// Check that it's a localise file
-		if ($xml->getName() != 'localise')
-		{
+		if ($xml->getName() != 'localise') {
 			return false;
 		}
 
@@ -308,12 +307,13 @@ class JInstallation extends JApplication
 		$ret['sampledata'] = (string)$xml->sampledata;
 
 		return $ret;
-
 	}
 
 /**
  	* Returns the installed language files in the administrative and
  	* front-end area.
+ 	*
+ 	* @param	boolean	$db
  	*
  	* @return array Array with installed language packs in admin and site area
  	*/
@@ -329,8 +329,7 @@ class JInstallation extends JApplication
  		$path = JLanguage::getLanguagePath(JPATH_SITE);
  		$langfiles['site'] = JFolder::folders($path);
 
- 		if($db)
- 		{
+ 		if ($db) {
  			$langfiles_disk = $langfiles;
  			$langfiles = Array();
  			$langfiles['admin'] = Array();
@@ -341,19 +340,17 @@ class JInstallation extends JApplication
  			$query->where('type = '.$db->quote('language'));
  			$db->setQuery($query);
  			$langs = $db->loadObjectList();
- 			foreach($langs as $lang)
+ 			foreach ($langs as $lang)
  			{
  				switch($lang->client_id)
  				{
  					case 0: // site
- 						if(in_array($lang->element, $langfiles_disk['site']))
- 						{
+ 						if (in_array($lang->element, $langfiles_disk['site'])) {
  							$langfiles['site'][] = $lang->element;
  						}
  						break;
  					case 1: // administrator
- 						if(in_array($lang->element, $langfiles_disk['admin']))
- 						{
+ 						if (in_array($lang->element, $langfiles_disk['admin'])) {
  							$langfiles['admin'][] = $lang->element;
  						}
  						break;
@@ -363,4 +360,4 @@ class JInstallation extends JApplication
 
  		return $langfiles;
  	}
- }
+}
