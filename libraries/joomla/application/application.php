@@ -79,7 +79,7 @@ class JApplication extends JObject
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A configuration array including optional elements such as session
-	 *                          session_name, clientId and others. This is not exhaustive.
+	 *                   session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
 	 */
@@ -89,11 +89,11 @@ class JApplication extends JObject
 		jimport('joomla.error.profiler');
 
 		// Set the view name.
-		$this->_name = $this->getName();
+		$this->_name		= $this->getName();
 
 		// Only set the clientId if available.
 		if (isset($config['clientId'])) {
-			$this->_clientId = $config['clientId'];
+		$this->_clientId	= $config['clientId'];
 		}
 
 		// Enable sessions by default.
@@ -241,7 +241,7 @@ class JApplication extends JObject
 	 * mapping them to a component. If the component does not exist, it handles
 	 * determining a default component to dispatch.
 	 *
-	 * @param   string  $component  The component to dispatch.
+	 * @param   string  $component	The component to dispatch.
 	 *
 	 * @return  void
 	 *
@@ -303,7 +303,7 @@ class JApplication extends JObject
 	 *
 	 * @param    integer  $code  Exit code
 	 *
-	 * @return   void     Exits the application.
+	 * @return   void  Exits the application.
 	 *
 	 * @since    11.1
 	 */
@@ -328,7 +328,7 @@ class JApplication extends JObject
 	 *
 	 * @return  void  Calls exit().
 	 *
-	 * @see     JApplication::enqueueMessage()
+	 * @see		JApplication::enqueueMessage()
 	 *
 	 * @since   11.1
 	 */
@@ -358,7 +358,7 @@ class JApplication extends JObject
 				// It's relative to where we are now, so lets add that.
 				$parts = explode('/', $uri->toString(Array('path')));
 				array_pop($parts);
-				$path = implode('/', $parts).'/';
+				$path = implode('/',$parts).'/';
 				$url = $prefix . $path . $url;
 			}
 		}
@@ -623,14 +623,44 @@ class JApplication extends JObject
 		// Get the global JAuthentication object.
 		jimport('joomla.user.authentication');
 
-		$authenticate = JAuthentication::getInstance();
-		$response	= $authenticate->authenticate($credentials, $options);
+		$response	= JAuthentication::authenticate($credentials, $options);
 
 		if ($response->status === JAUTHENTICATE_STATUS_SUCCESS) {
+			// validate that the user should be able to login (different to being authenticated)
+			// this permits authentication plugins blocking the user
+			$authorisations = JAuthentication::authorise($response, $options);
+			foreach($authorisation as $authorisation)
+			{
+				if(in_array($authorisation->status, Array(JAUTHENTICATE_STATUS_EXPIRED,JAUTHENTICATE_STATUS_DENIED)))
+				{
+					// Trigger onUserAuthorisationFailure Event.
+					$this->triggerEvent('onUserAuthorisationFailure', array((array)$authorisation));
+
+					// If silent is set, just return false.
+					if (isset($options['silent']) && $options['silent']) {
+						return false;
+					}
+			
+					// Return the error.
+					switch($authorisation->status)
+					{
+						case JAUTHENTICATION_STATUS_EXPIRED:
+							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+							break;
+						case JAUTHENTICATION_STATUS_DENIED:
+							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+							break;
+						default:
+							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+							break;
+					}
+				}
+			}
+			
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
-			// OK, the credentials are authenticated.  Lets fire the onLogin event.
+			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array)$response, $options));
 
 			/*
@@ -674,8 +704,8 @@ class JApplication extends JObject
 
 		// If status is success, any error will have been raised by the user plugin
 		if ($response->status !== JAUTHENTICATE_STATUS_SUCCESS) {
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_LOGIN_AUTHENTICATE'));
-		}
+			JError::raiseWarning('102001', JText::_('JLIB_LOGIN_AUTHENTICATE'));
+	}
 
 		return false;
 	}
@@ -804,8 +834,8 @@ class JApplication extends JObject
 	/**
 	 * Returns the application JPathway object.
 	 *
-	 * @param   string    $name     The name of the application.
-	 * @param   array     $options  An optional associative array of configuration settings.
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JPathway  A JPathway object
 	 *
@@ -904,7 +934,7 @@ class JApplication extends JObject
 	 * If a new session, a session id is generated and a record is created in
 	 * the #__sessions table.
 	 *
-	 * @param   string    $name  The sessions name.
+	 * @param   string  $name  The sessions name.
 	 *
 	 * @return  JSession  JSession on success. May call exit() on database error.
 	 *

@@ -10,28 +10,49 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.observable');
+jimport('joomla.plugin.helper');
+jimport('joomla.event.dispatcher');
 
+// Shared success status
 /**
- * This is the status code returned when the authentication is success.
+ * This is the status code returned when the authentication is success (permit login)
  */
 define('JAUTHENTICATE_STATUS_SUCCESS', 1);
 
+// These are for authentication purposes (username and password is valid)
 /**
- * Status to indicate cancellation of authentication.
+ * Status to indicate cancellation of authentication (unused)
  */
 define('JAUTHENTICATE_STATUS_CANCEL', 2);
 
 /**
- * This is the status code returned when the authentication failed
+ * This is the status code returned when the authentication failed (prevent login if no success)
  */
 define('JAUTHENTICATE_STATUS_FAILURE', 4);
+
+// These are for authorisation purposes (can the user login)
+/**
+ * This is the status code returned when the account has expired (prevent login)
+ */
+define('JAUTHENTICATE_STATUS_EXPIRED', 8);
+
+/**
+ * This is the status code returned when the account has been denied (prevent login)
+ */
+define('JAUTHENTICATE_STATUS_DENIED', 16);
+
+/**
+ * This is the status code returned when the account doesn't exist (not an error)
+ */
+define('JAUTHENTICATE_STATUS_UNKNOWN', 32);
+
 
 /**
  * Authenthication class, provides an interface for the Joomla authentication system
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @package		Joomla.Platform
+ * @subpackage	User
+ * @since		11.1
  */
 class JAuthentication extends JObservable
 {
@@ -78,16 +99,14 @@ class JAuthentication extends JObservable
 	 * Finds out if a set of login credentials are valid by asking all obvserving
 	 * objects to run their respective authentication routines.
 	 *
-	 * @param   array  $credentials  Array holding the user credentials
-	 * @param   array  $options      Array of options
-	 *
-	 * @return  mixed  Integer userid for valid user if credentials are valid or
-	 *                 boolean false if they are not
-	 *
+	 * @param array	Array holding the user credentials
+	 * @param array Array holding user options
+	 * @return JAuthenticationResponse Response object with status variable filled 
+	 *                                 in for last plugin or first successful plugin
 	 * @see     JAuthenticationResponse
 	 * @since   11.1
 	 */
-	public function authenticate($credentials, $options)
+	public static function authenticate($credentials, $options=Array())
 	{
 		// Initialise variables.
 		$auth = false;
@@ -130,28 +149,46 @@ class JAuthentication extends JObservable
 			}
 		}
 
-		if (empty($response->username)) {
-			$response->username = $credentials['username'];
-		}
+				if (empty($response->username)) {
+					$response->username = $credentials['username'];
+				}
 
-		if (empty($response->fullname)) {
-			$response->fullname = $credentials['username'];
-		}
+				if (empty($response->fullname)) {
+					$response->fullname = $credentials['username'];
+				}
 
-		if (empty($response->password)) {
-			$response->password = $credentials['password'];
-		}
+				if (empty($response->password)) {
+					$response->password = $credentials['password'];
+				}
 
 		return $response;
+	}
+	
+	/**
+	 * Authorises that a particular user should be able to login
+	 * 
+	 * @access public
+	 * @param JAuthenticationResponse username of the user to authorise
+	 * @param Array list of options 
+	 * @return Array[JAuthenticationResponse] results of authorisation
+	 * @since  11.1
+	 */
+	public static function authorise($response, $options=Array())
+	{
+		// Get plugins
+		$plugins = JPluginHelper::getPlugin('authentication');
+		$dispatcher = JDispatcher::getInstance();
+		$results = $dispatcher->trigger('onUserAuthorisation', Array($response, $options));
+		return $results;
 	}
 }
 
 /**
- * Authorisation response class, provides an object for storing user and error details
+ * Authentication response class, provides an object for storing user and error details
  *
- * @package     Joomla.Platform
- * @subpackage  User
- * @since       11.1
+ * @package		Joomla.Platform
+ * @subpackage	User
+ * @since		11.1
  */
 class JAuthenticationResponse extends JObject
 {
@@ -208,7 +245,7 @@ class JAuthenticationResponse extends JObject
 	 *
 	 * @var    string
 	 * @since  11.1
-	 *
+	 * 
 	 */
 	public $fullname		= '';
 
@@ -269,7 +306,7 @@ class JAuthenticationResponse extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string  $name  The type of the response
+	 * @param string $name The type of the response
 	 *
 	 * @return  JAuthenticationResponse
 	 *
