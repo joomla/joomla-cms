@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#25915] inconsistent beahviour com_content / com_wrapper
  # [#25790] Some queries not correctly dealing with trash
  # [#25925] Platform sync: new getUserState default argument; JAccess:getActions fix
+ # [#25462] Unable to run scriptfile on plg_editors-xtd type plugin
 
 24-May-2011 Mark Dexter
  # [#25908] Code Style improvements for the installation
