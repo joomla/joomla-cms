@@ -94,7 +94,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Passed Validation: Process the contact plugins to integrate with other applications
-		$results = $dispatcher->trigger('onSubmitContact', array(&$contact, &$post));
+		$results = $dispatcher->trigger('onSubmitContact', array(&$contact, &$data));
 
 		// Send the email
 		$sent = false;
