@@ -92,7 +92,17 @@ class MenusViewItem extends JView
 		JToolBarHelper::divider();
 
 		// Get the help information for the menu item.
+		$lang = JFactory::getLanguage();
+
 		$help = $this->get('Help');
-		JToolBarHelper::help($help->key, $help->local, $help->url);
+		if ($lang->hasKey($help->url)) {
+			$debug = $lang->setDebug(false);
+			$url = JText::_($help->url);
+			$lang->setDebug($debug);
+		}
+		else {
+			$url = $help->url;
+		}
+		JToolBarHelper::help($help->key, $help->local, $url);
 	}
 }

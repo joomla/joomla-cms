@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#25790] Some queries not correctly dealing with trash
  # [#25925] Platform sync: new getUserState default argument; JAccess:getActions fix
  # [#25462] Unable to run scriptfile on plg_editors-xtd type plugin
+ # [#25941] Menu Item Help URL Not Translated
 
 24-May-2011 Mark Dexter
  # [#25908] Code Style improvements for the installation
