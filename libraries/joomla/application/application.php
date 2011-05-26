@@ -484,20 +484,22 @@ class JApplication extends JObject
 	 * Gets a user state.
 	 *
 	 * @param   string  The path of the state.
+	 * @param   mixed   Optional default value, returned if the internal value is null.
 	 *
-	 * @return  mixed   The user state or null.
+	 * @return  mixed  The user state or null.
+	 *
 	 * @since   11.1
 	 */
-	public function getUserState($key)
+	public function getUserState($key, $default = null)
 	{
 		$session	= JFactory::getSession();
 		$registry	= $session->get('registry');
 
 		if (!is_null($registry)) {
-			return $registry->get($key);
+			return $registry->get($key, $default);
 		}
 
-		return null;
+		return $default;
 	}
 
 	/**
@@ -534,8 +536,7 @@ class JApplication extends JObject
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
-		$old_state = $this->getUserState($key);
-		$cur_state = (!is_null($old_state)) ? $old_state : $default;
+		$cur_state = $this->getUserState($key, $default);
 		$new_state = JRequest::getVar($request, null, 'default', $type);
 
 		// Save the new value only if it was set in this request.

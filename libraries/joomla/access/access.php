@@ -36,11 +36,12 @@ class JAccess
 	/**
 	 * Method to check if a user is authorised to perform an action, optionally on an asset.
 	 *
-	 * @param   integer  $userId	Id of the user for which to check authorisation.
-	 * @param   string   $action	The name of the action to authorise.
-	 * @param   mixed    $asset	Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
+	 * @param   integer  $userId  Id of the user for which to check authorisation.
+	 * @param   string   $action  The name of the action to authorise.
+	 * @param   mixed    $asset   Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
 	 * @return  boolean  True if authorised.
+	 *
 	 * @since   11.1
 	 */
 	public static function check($userId, $action, $asset = null)
@@ -76,6 +77,7 @@ class JAccess
 	 * @param   mixed    $asset    Integer asset id or the name of the asset as a string.  Defaults to the global asset node.
 	 *
 	 * @return  boolean  True if authorised.
+	 *
 	 * @since   11.1
 	 */
 	public static function checkGroup($groupId, $action, $asset = null)
@@ -108,6 +110,7 @@ class JAccess
 	 * @param   mixed  $groupId  An integer or array of integers representing the identities to check.
 	 *
 	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
+	 *
 	 * @since   11.1
 	 */
 	protected static function getGroupPath($groupId)
@@ -126,8 +129,7 @@ class JAccess
 		}
 
 		// Make sure groupId is valid
-		if (!array_key_exists($groupId, $groups))
-		{
+		if (!array_key_exists($groupId, $groups)) {
 			return array();
 		}
 
@@ -149,10 +151,11 @@ class JAccess
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
 	 *
-	 * @param   mixed    $asset       Integer asset id or the name of the asset as a string.
-	 * @param   boolean  $recursive   True to return the rules object with inherited rules.
+	 * @param   mixed    $asset      Integer asset id or the name of the asset as a string.
+	 * @param   boolean  $recursive  True to return the rules object with inherited rules.
 	 *
 	 * @return  JRules   JRules object for the asset.
+	 *
 	 * @since   11.1
 	 */
 	public static function getAssetRules($asset, $recursive = false)
@@ -205,10 +208,11 @@ class JAccess
 	 * only the groups explicitly mapped to the user or all groups both explicitly mapped and inherited
 	 * by the user.
 	 *
-	 * @param   integer  $userId      Id of the user for which to get the list of groups.
-	 * @param   boolean  $recursive   True to include inherited user groups.
+	 * @param   integer  $userId     Id of the user for which to get the list of groups.
+	 * @param   boolean  $recursive  True to include inherited user groups.
 	 *
 	 * @return  array    List of user group ids to which the user is mapped.
+	 *
 	 * @since   11.1
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
@@ -218,16 +222,13 @@ class JAccess
 		// Creates a simple unique string for each parameter combination:
 		$storeId = $userId.':'.(int) $recursive;
 
-		if (!isset($results[$storeId]))
-		{
+		if (!isset($results[$storeId])) {
 			// Guest user
-			if (empty($userId))
-			{
+			if (empty($userId)) {
 				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
  			}
  			// Registered user
- 			else
- 			{
+ 			else {
 				$db = JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
@@ -270,6 +271,7 @@ class JAccess
 	 * @param   boolean   $recursive  Recursively include all child groups (optional)
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 *
 	 * @todo      This method should move somewhere else?
@@ -302,9 +304,10 @@ class JAccess
 	/**
 	 * Method to return a list of view levels for which the user is authorised.
 	 *
-	 * @param   integer  $userId	Id of the user for which to get the list of authorised view levels.
+	 * @param   integer  $userId  Id of the user for which to get the list of authorised view levels.
 	 *
-	 * @return  array    List of view levels for which the user is authorised.
+	 * @return  array  List of view levels for which the user is authorised.
+	 *
 	 * @since   11.1
 	 */
 	public static function getAuthorisedViewLevels($userId)
@@ -357,17 +360,19 @@ class JAccess
 	/**
 	 * Method to return a list of actions for which permissions can be set given a component and section.
 	 *
-	 * @param   string   $component	The component from which to retrieve the actions.
-	 * @param   string   $section	The name of the section within the component from which to retrieve the actions.
+	 * @param   string   $component  The component from which to retrieve the actions.
+	 * @param   string   $section    The name of the section within the component from which to retrieve the actions.
 	 *
 	 * @return  array    List of actions available for the given component and section.
+	 *
 	 * @since   11.1
+	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a valid file (or create a getActionsFromFile method).
 	 */
 	public static function getActions($component, $section = 'component')
 	{
 		$actions = array();
 
-		if (is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml')) {
+		if (defined('JPATH_ADMINISTRATOR') && is_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml')) {
 			$xml = simplexml_load_file(JPATH_ADMINISTRATOR.'/components/'.$component.'/access.xml');
 
 			foreach ($xml->children() as $child)
