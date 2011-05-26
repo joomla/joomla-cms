@@ -24,13 +24,13 @@ function iFrameHeight() {
 </script>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
-	<h2>
+	<h1>
 		<?php if ($this->escape($this->params->get('page_heading'))) :?>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
 		<?php else : ?>
 			<?php echo $this->escape($this->params->get('page_title')); ?>
 		<?php endif; ?>
-	</h2>
+	</h1>
 <?php endif; ?>
 <iframe <?php echo $this->wrapper->load; ?>
 	id="blockrandom"

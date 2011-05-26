@@ -30,6 +30,7 @@ $ -> Language fix or change
 26-May-2011 Mark Dexter
  # [#25733] Direct access as no defined('_JEXEC') or die; in com_mailto/helpers/mailto.php
  # [#25919] com_contact: onSubmitContact $post variable
+ # [#25915] inconsistent beahviour com_content / com_wrapper
 
 24-May-2011 Mark Dexter
  # [#25908] Code Style improvements for the installation
