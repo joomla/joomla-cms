@@ -35,7 +35,7 @@ JHtml::_('behavior.formvalidation');
 		<?php endforeach; ?>
 
 		<div>
-			<button type="submit"><?php echo JText::_('JSUBMIT'); ?></button>
+			<button type="submit" class="validate"><?php echo JText::_('JSUBMIT'); ?></button>
 			<?php echo JHtml::_('form.token'); ?>
 		</div>
 	</form>

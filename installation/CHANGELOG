@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#25462] Unable to run scriptfile on plg_editors-xtd type plugin
  # [#25941] Menu Item Help URL Not Translated
  # Revert 25790 (breaks Featured Articles)
+ # [#25452] No JavaScript form validation on users reset and remind page
 
 24-May-2011 Mark Dexter
  # [#25908] Code Style improvements for the installation
