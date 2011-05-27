@@ -389,11 +389,16 @@ class JCache extends JObject
 	 * @since   11.1
 	 */
 	public function &_getStorage()
-	{
-		if (!isset($this->_handler)) {
-			$this->_handler = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-		}
-		return $this->_handler;
+	{	
+		$hash = md5(serialize($this->_options));
+	
+		if (isset(self::$_handler[$hash])) {
+			return self::$_handler[$hash];
+ 		}
+		
+		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
+		
+		return self::$_handler[$hash];
 	}
 
 	/**
