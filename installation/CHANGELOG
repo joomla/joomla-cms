@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2011 Mark Dexter
+ # [#26004] *Back-end language change broken by framework patch in tracker #25925
+
 26-May-2011 Mark Dexter
  # [#25733] Direct access as no defined('_JEXEC') or die; in com_mailto/helpers/mailto.php
  # [#25919] com_contact: onSubmitContact $post variable

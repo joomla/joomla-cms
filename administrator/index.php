@@ -31,7 +31,7 @@ $app = JFactory::getApplication('administrator');
 
 // Initialise the application.
 $app->initialise(array(
-	'language' => $app->getUserState('application.lang', 'lang')
+	'language' => $app->getUserState('application.lang')
 ));
 
 // Mark afterIntialise in the profiler.
