@@ -38,14 +38,14 @@ defined('_JEXEC') or die;
 	<tbody>
 	<?php foreach ($users as $user) : ?>
 		<tr>
-			<td>
+			<th scope="row">
 				<?php if (isset($user->editLink)) :?>
 					<a href="<?php echo $user->editLink; ?>">
 						<?php echo $user->name;?></a>
 				<?php else :
 					echo $user->name;
 				endif; ?>
-			</td>
+			</th>
 			<td class="center">
 				<?php
 					if($user->client_id) {
