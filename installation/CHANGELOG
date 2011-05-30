@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26004] *Back-end language change broken by framework patch in tracker #25925
  # [#25956] Improve accessibility in admin modules
  # [#25904] loadposition: modules with double slashes and slash dollar return without leading slash
+ # [#25675] module messages not displayed if they are defined before the "jdoc:include message" tag in the template
 
 26-May-2011 Mark Dexter
  # [#25733] Direct access as no defined('_JEXEC') or die; in com_mailto/helpers/mailto.php
