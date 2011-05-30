@@ -228,20 +228,6 @@ span.unwritable  {
 	padding: 7px 10px 0 0;
 }
 
-#border-bottom {
-	clear: both;
-	background: url(../images/j_bottom.png) repeat-x;
-}
-
-#border-bottom div {
-	background: url(../images/j_corner_br.png) 100% 0 no-repeat;
-}
-
-#border-bottom div div {
-	background: url(../images/j_corner_bl.png) no-repeat;
-	height: 11px;
-}
-
 #header-box {
 	border: 1px solid #ccc;
 	background: #f0f0f0;
@@ -265,13 +251,22 @@ p.footer-tip {
 
 /* Body */
 #content-box {
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+	border: 1px solid #ccc;
+	border-top: 0px;
 	float: left;
 	width: 99.85%;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	margin-bottom: 5px;
 }
 
-#content-box .padding {
+#element-box {
+	margin-bottom: 11px;
+}
+
+#element-box,
+#toolbar-box,
+#submenu-box {
 	padding: 10px 10px 0 10px;
 }
 
@@ -280,8 +275,11 @@ p.footer-tip {
 	margin-bottom: 10px;
 }
 
-#submenu-box {
+#toolbar-box .m {
 	background: #f4f4f4;
+}
+
+#submenu-box {
 	margin-bottom: 10px;
 }
 
@@ -438,17 +436,14 @@ textarea#message {
 
 /* Page titles */
 div.pagetitle {
-	height: 48px;
-	padding-left: 70px;
+	padding-left: 60px;
 	background-repeat: no-repeat;
-	background-position: 10px 0px;
-	display: table-cell;
-	vertical-align: middle;
+	margin-left: 10px;
 }
 
 div.pagetitle h2 {
-	line-height: 24px;
-	font-size: 1.7em;
+	line-height: 48px;
+	font-size: 2em;
 	font-weight: bold;
 	color: #146295;
 	margin: 0;
@@ -681,10 +676,6 @@ div.current span.faux-label {
 
 div.current fieldset {
 	border: none 0;
-}
-
-div.current fieldset.adminform {
-	border: 1px #ccc solid;
 }
 
 div.current fieldset.radio {
@@ -954,7 +945,7 @@ span.readonly {
 }
 
 #jform-imp {
-	min-width: 70px;
+	width: 70px;
 }
 
 .mod-desc { margin-left: 135px !important; float: none !important;}
@@ -2098,7 +2089,7 @@ a.jgrid:hover {	text-decoration: none;}
 .icon-32-delete-style				{	background-image: url(../images/toolbar/icon-32-delete-style.png);	}
 .icon-32-purge						{	background-image: url(../images/toolbar/icon-32-purge.png);	}
 .icon-32-remove						{	background-image: url(../images/toolbar/icon-32-remove.png);	}
-.icon-32-featured			{	background-image: url(../images/toolbar/icon-32-featured.png);	}
+.icon-32-featured					{	background-image: url(../images/toolbar/icon-32-featured.png);	}
 .toolbar-inactive					{	background-position: 0px 32px;  }
 
 /* -- HEADER ICON STYLES ----------------------------- */
@@ -2314,6 +2305,8 @@ a.jgrid:hover {	text-decoration: none;}
 }
 
 a.icon-16-menu span img {
+	height: 16px;
+	width: 16px;
 	vertical-align: bottom;
 }
 
@@ -3182,4 +3175,56 @@ dl.tabs dt h3 a:link {
 .red {
 	font-weight: bold;
 	color: #c00;
+}
+
+/** rounded corners **/
+div#element-box div.section-box div.m {
+	background: #fbfbfb;
+}
+
+div.t, div.b {
+	height: 6px;
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+	background-color: #f8f8f8;
+}
+
+div.m {
+	border: 1px solid #ccc;
+	padding: 0 8px;
+	background-color: #f4f4f4;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#submenu-box div.m {
+	padding: 6px 8px;
+}
+
+.wbg {
+	background-color: #fff!important;
+}
+
+div#toolbar-box div.m {
+  padding: 5px 0 10px;
+}
+
+div#element-box div.m {
+  padding: 10px;
+}
+
+div#element-box div.section-box {
+  background: #f4f4f4;
+}
+
+/* login */
+
+div#element-box.login  {
+	background-color: #ffffff;
+}
+
+div#element-box.login div#section-box {
+	background-color: #f4f4f4;
 }

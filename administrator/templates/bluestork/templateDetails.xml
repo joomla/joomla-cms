@@ -48,17 +48,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="useRoundedCorners"
-					type="list"
-					default="1"
-					label="TPL_BLUESTORK_FIELD_ROUNDED_LABEL"
-					description="TPL_BLUESTORK_FIELD_ROUNDED_DESC">
-					<option
-						value="0">JDISABLED</option>
-					<option
-						value="1">JENABLED</option>
-				</field>
-				<field
 					name="showSiteName"
 					type="list"
 					default="0"
