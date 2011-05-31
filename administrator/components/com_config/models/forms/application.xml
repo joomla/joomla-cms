@@ -747,6 +747,10 @@
 				title="JACTION_LOGIN_ADMIN"
 				description="COM_CONFIG_ACTION_LOGIN_ADMIN_DESC" />
 			<action
+				name="core.login.offline"
+				title="JACTION_LOGIN_OFFLINE"
+				description="COM_CONFIG_ACTION_LOGIN_OFFLINE_DESC" />
+			<action
 				name="core.admin"
 				title="JACTION_ADMIN_GLOBAL"
 				description="COM_CONFIG_ACTION_ADMIN_DESC" />

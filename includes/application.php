@@ -226,7 +226,7 @@ final class JSite extends JApplication
 					$file = 'index';
 				}
 
-				if ($this->getCfg('offline') && !$user->authorise('core.admin')) {
+				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
 					$uri		= JFactory::getURI();
 					$return		= (string)$uri;
 					$this->setUserState('users.login.form.data',array( 'return' => $return ) );
