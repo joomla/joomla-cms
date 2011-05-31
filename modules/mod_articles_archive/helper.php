@@ -39,15 +39,17 @@ class modArchiveHelper
 		$lists	= array();
 		foreach ($rows as $row) {
 			$date = JFactory::getDate($row->created);
-
+			
 			$created_month	= $date->format('n');
-			$month_name	= $date->format('F');
 			$created_year	= $date->format('Y');
+
+			$created_year_cal	= JHTML::_('date', $row->created, 'Y');
+			$month_name_cal	= JHTML::_('date', $row->created, 'F');
 
 			$lists[$i] = new stdClass;
 
 			$lists[$i]->link	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
-			$lists[$i]->text	= JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE',$month_name,$created_year);
+			$lists[$i]->text	= JText::sprintf('MOD_ARTICLES_ARCHIVE_DATE', $month_name_cal, $created_year_cal);
 
 			$i++;
 		}

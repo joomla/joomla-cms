@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-May-2011 Jean-Marie Simonet
+ # [#26012] *Archives Module & Related Articles Module do not use localised calendar date
+ 
 30-May-2011 Mark Dexter
  # [#26004] *Back-end language change broken by framework patch in tracker #25925
  # [#25956] Improve accessibility in admin modules
