@@ -165,11 +165,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Plugins", $this->getTable("//table[@class=\"adminlist\"].16.1"));
 
 		echo "change the order of categories and click Save Order\n";
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/input", "4");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[11]/td[4]/input", "3");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[15]/td[4]/input", "2");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[16]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[4]/td[4]/input", "5");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[5]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[11]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[15]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[16]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
 
@@ -182,11 +182,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//dl[@id='system-message'][contains(., 'success')]"));
 
 		echo "put the categories back in the original order and click Save Order\n";
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[4]/td[4]/input", "5");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[5]/td[4]/input", "4");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[6]/td[4]/input", "3");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[10]/td[4]/input", "2");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[16]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[4]/td[4]/input", "5");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[5]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[10]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[16]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
 
@@ -238,15 +238,13 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		echo "Change sort to Access and Language and make sure all three are disabled\n";
 		$this->click("link=Access");
 		$this->waitForPageToLoad("30000");
-		//$this->assertTrue($this->isElementPresent("//div[@id='element-box']/div[2]/form/table/thead/tr/th[4]/a[2]"));
-		//$this->assertTrue($this->isElementPresent("//div[@id='element-box']/div[2]/form/table/tbody/tr[2]/td[4]/span[2]/span/span"));
+
 		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'saveorder')][@class = 'saveorder']"));
 		$this->assertTrue($this->isElementPresent("//input[@class='text-area-order'][@disabled='disabled']"));
 		$this->assertFalse($this->isElementPresent("//span[@class='state downarrow']"));
 		$this->click("link=Language");
 		$this->waitForPageToLoad("30000");
-		//$this->assertTrue($this->isElementPresent("//div[@id='element-box']/div[2]/form/table/thead/tr/th[4]/a[2]"));
-		//$this->assertTrue($this->isElementPresent("//div[@id='element-box']/div[2]/form/table/tbody/tr[2]/td[4]/span[2]/span/span"));
+
 		$this->assertFalse($this->isElementPresent("//a[contains(@href, 'saveorder')][@class = 'saveorder']"));
 		$this->assertTrue($this->isElementPresent("//input[@class='text-area-order'][@disabled='disabled']"));
 		$this->assertFalse($this->isElementPresent("//span[@class='state downarrow']"));
@@ -264,10 +262,11 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].9.1"));
 
 		echo "Reverse the order of 4 articles\n";
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[6]/td[4]/input", "4");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[7]/td[4]/input", "3");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[8]/td[4]/input", "2");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[9]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
+		
 		echo "Click Save Order and check that the order changed\n";
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
@@ -278,10 +277,10 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Article Category List", $this->getTable("//table[@class='adminlist'].6.1"));
 
 		echo "Change the ordering back and click Save Order\n";
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[6]/td[4]/input", "4");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[7]/td[4]/input", "3");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[8]/td[4]/input", "2");
-		$this->type("//div[@id='element-box']/div[2]/form/table/tbody/tr[9]/td[4]/input", "1");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[6]/td[4]/input", "4");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[7]/td[4]/input", "3");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[8]/td[4]/input", "2");
+		$this->type("//form[@id='adminForm']/table/tbody/tr[9]/td[4]/input", "1");
 		$this->click("//a[contains(@href, 'saveorder')][@class = 'saveorder']");
 		$this->waitForPageToLoad("30000");
 

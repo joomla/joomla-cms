@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-May-2011 Mark Dexter
+ # Fix failing system test from change in bluestork template
+
 17-May-2011 Christophe Demko
  # [#25894] *Fatal Error: JDocumentFeed disabled (Jean-Marie Simonet)
 
