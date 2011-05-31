@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#25675] module messages not displayed if they are defined before the "jdoc:include message" tag in the template
  # [#25921] Optimize the bluestork template
  # [#25246] Move the example plugins to the test folder
+ # [#25687] Embedded image converted to data in RSS feed : data URI get's corrupted
 
 26-May-2011 Mark Dexter
  # [#25733] Direct access as no defined('_JEXEC') or die; in com_mailto/helpers/mailto.php
