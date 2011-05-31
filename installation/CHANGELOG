@@ -30,6 +30,7 @@ $ -> Language fix or change
 31-May-2011 Mark Dexter
  # [#25058] While the site is offline managers and administrators can't login.
  # [#25905] Purge Expired Cache remove administrator/cache/index.html file
+ # [#25971] Administrator language file en-GB.com_languages.ini. unclosed 'em' tag at Definition COM_LANGUAGES_FIELD_LANG_CODE_DESC text
 
 31-May-2011 Jean-Marie Simonet
  # [#26012] *Archives Module & Related Articles Module do not use localised calendar date
