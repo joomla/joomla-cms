@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#25477] Missing $key argument in call to ::allowSave() in JControllerForm::save()
  # [#25988] Fix missing author contact itemid in com_content
  # [#25730] Incorrect call of onUserBeforeSave while blocking/activating user in backend, plugins aren't loaded for activating user in backend
+ # [#25720] JHTML::tooltip quote problem
 
 26-May-2011 Mark Dexter
  # [#25733] Direct access as no defined('_JEXEC') or die; in com_mailto/helpers/mailto.php
