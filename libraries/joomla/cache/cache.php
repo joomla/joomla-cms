@@ -504,14 +504,30 @@ class JCache extends JObject
 
 		// Document head data
 		if ($loptions['nohead'] != 1) {
-			$cached['head'] = $document->getHeadData();
 
 			if ($loptions['modulemode'] == 1) {
-					unset($cached['head']['title']);
-					unset($cached['head']['description']);
-					unset($cached['head']['link']);
-					unset($cached['head']['metaTags']);
+					$headnow = $document->getHeadData();
+					$unset = array('title', 'description', 'link', 'metaTags');
+					
+					foreach ($unset AS $un) {
+						unset($headnow[$un]);
+						unset($options['headerbefore'][$un]);
+					}
+					
+					$cached['head'] = array();
+					
+					// only store what this module has added 
+					foreach ($headnow AS $now=>$value) {
+						$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array() );
+						if (!empty($newvalue)) {
+							$cached['head'][$now] = $newvalue;
+						}
+					}
+
+			} else {
+					$cached['head'] = $document->getHeadData();
 			}
+			
 		}
 
 		// Pathway data
