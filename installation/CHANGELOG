@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+========== VERSION 1.7 APLHA RELEASED ==========
+
 31-May-2011 Mark Dexter
  # [#25058] While the site is offline managers and administrators can't login.
  # [#25905] Purge Expired Cache remove administrator/cache/index.html file
