@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-June-2011 Jean-Marie Simonet
+ #$ [#26023] *Preventing setting more than 1 default home menu item per menu
+
 ========== VERSION 1.7 APLHA RELEASED ==========
 
 31-May-2011 Mark Dexter
