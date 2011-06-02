@@ -151,6 +151,11 @@ class JTableMenu extends JTableNested
 				$table->checked_out_time = $db->getNullDate();
 				$table->store();
 			}
+			// Verify that the home page for this menu is unique.
+			if ($table->load(array('home'=>'1', 'menutype'=>$this->menutype)) && ($table->id != $this->id || $this->id==0)) {
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
+				return false;
+			}
 		}
 		if(!parent::store($updateNulls)) {
 			return false;
