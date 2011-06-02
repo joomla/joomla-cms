@@ -199,7 +199,7 @@ class JLoggerFormattedText extends JLogger
 			$head[] = '#<?php die(\'Forbidden.\'); ?>';
 		}
 		$head[] = '#Date: '.gmdate('Y-m-d H:i:s').' UTC';
-		$head[] = '#Software: '.JVersion::getLongVersion();
+		$head[] = '#Software: '.JPlatform::getLongVersion();
 		$head[] = '';
 
 		// Prepare the fields string
