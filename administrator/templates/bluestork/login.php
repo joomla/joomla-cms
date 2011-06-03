@@ -20,6 +20,13 @@ if ($this->direction == 'rtl') {
 	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
 }
 
+/** Load specific language related css */
+$lang = JFactory::getLanguage();
+$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+if (JFile::exists($file)) {
+	$doc->addStyleSheet($file);
+}
+
 JHtml::_('behavior.noframes');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

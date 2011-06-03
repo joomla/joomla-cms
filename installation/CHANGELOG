@@ -27,10 +27,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-June-2011 Jean-Marie Simonet
+[#26035] *Adding the possibility for language packs to include a css file for back-end font change
+
 01-June-2011 Jean-Marie Simonet
  #$ [#26023] *Preventing setting more than 1 default home menu item per menu
 
-========== VERSION 1.7 APLHA RELEASED ==========
+========== VERSION 1.7 ALPHA RELEASED ==========
 
 31-May-2011 Mark Dexter
  # [#25058] While the site is offline managers and administrators can't login.

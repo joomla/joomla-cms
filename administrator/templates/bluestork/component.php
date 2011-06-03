@@ -19,6 +19,13 @@ if ($this->direction == 'rtl') {
 	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
 }
 
+/** Load specific language related css */
+$lang = JFactory::getLanguage();
+$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+if (JFile::exists($file)) {
+	$doc->addStyleSheet($file);
+}
+
 if ($this->direction == 'textBig') {
 	$doc->addStyleSheet('templates/'.$this->template.'/css/textbig.css');
 }

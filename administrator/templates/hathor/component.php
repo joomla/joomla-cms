@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
 $lang = JFactory::getLanguage();
 $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 || $lang->load('tpl_hathor', JPATH_ADMINISTRATOR.DS.'templates/hathor/language');
+$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 
 ?>
 
@@ -40,6 +41,11 @@ $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 	<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
 	<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>_rtl.css" rel="stylesheet" type="text/css" />
 <?php endif; ?>
+
+<!-- Load specific language related css -->
+<?php if (JFile::exists($file)) : ?>
+	<link href="<?php echo $file ?>" rel="stylesheet" type="text/css" />
+<?php  endif; ?>
 
 <!-- Load additional CSS styles for bold Text -->
 <?php if ($this->params->get('boldText')) : ?>

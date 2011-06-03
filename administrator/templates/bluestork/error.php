@@ -20,6 +20,13 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 if ($this->direction == 'rtl') {
 	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
 }
+
+/** Load specific language related css */
+$lang = JFactory::getLanguage();
+$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+if (JFile::exists($file)) {
+	$doc->addStyleSheet($file);
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
