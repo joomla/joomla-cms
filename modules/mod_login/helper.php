@@ -40,7 +40,7 @@ class modLoginHelper
 		if (!$url)
 		{
 			// stay on the same page
-			$uri = JFactory::getURI();
+			$uri = clone JFactory::getURI();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
 			if ($router->getMode() == JROUTER_MODE_SEF)
