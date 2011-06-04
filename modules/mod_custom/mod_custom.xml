@@ -37,6 +37,8 @@
 					<option
 						value="1">JYes</option>
 				</field>
+				<field name="backgroundimage" type="media"
+					label="MOD_CUSTOM_FIELD_BACKGROUNDIMAGE_LABEL" description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">
