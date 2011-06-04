@@ -41,6 +41,7 @@ $ -> Language fix or change
  + Feature [#22590] Make copy/move consistent across components
  + Feature [#25313] Update TinyMCE to version 3.4.2
  # [#25852] Cache and mod_menu problem
+ # [#26039] Latest News Module redirects to incorrect login URL
  
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
