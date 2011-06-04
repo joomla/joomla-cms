@@ -90,10 +90,10 @@ class JInstallationModelFilesystem extends JModel
 
 		// Check all possible paths for the real Joomla installation by comparing version files.
 		$rootPath = false;
-		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
+		$checkValue = file_get_contents(JPATH_ROOT.'/includes/version.php');
 		foreach ($paths as $tmp)
 		{
-			$filePath = rtrim($tmp, '/').'/libraries/joomla/version.php';
+			$filePath = rtrim($tmp, '/').'/includes/version.php';
 			$buffer = null;
 			@ $ftp->read($filePath, $buffer);
 			if ($buffer == $checkValue) {
@@ -192,14 +192,14 @@ class JInstallationModelFilesystem extends JModel
 
 		// Verify RETR function
 		$buffer = null;
-		if ($ftp->read($root.'/libraries/joomla/version.php', $buffer) === false) {
+		if ($ftp->read($root.'/includes/version.php', $buffer) === false) {
 			$ftp->quit();
 			$this->setError(JText::_('INSTL_FTP_NORETR'));
 			return false;
 		}
 
 		// Verify valid root path, part two
-		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
+		$checkValue = file_get_contents(JPATH_ROOT.'/includes/version.php');
 		if ($buffer !== $checkValue) {
 			$ftp->quit();
 			$this->setError(JText::_('INSTL_FTP_INVALIDROOT'));
@@ -347,14 +347,14 @@ class JInstallationModelFilesystem extends JModel
 
 		// Verify RETR function
 		$buffer = null;
-		if ($ftp->read($root.'/libraries/joomla/version.php', $buffer) === false) {
+		if ($ftp->read($root.'/includes/version.php', $buffer) === false) {
 			$ftp->quit();
 			$this->setError(JText::_('INSTL_FTP_NORETR'));
 			return false;
 		}
 
 		// Verify valid root path, part two
-		$checkValue = file_get_contents(JPATH_LIBRARIES.DS.'joomla'.DS.'version.php');
+		$checkValue = file_get_contents(JPATH_ROOT.'/includes/version.php');
 		if ($buffer !== $checkValue) {
 			$ftp->quit();
 			$this->setError(JText::_('INSTL_FTP_INVALIDROOT'));

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jun-2011 Mark Dexter
+ # [#26028] Fix backward incompatible changes to JVersion
+
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
  + Feature [#25987] JToolBarHelper functions for Save and Create New and Save as Copy (Joseph LeBlanc).

@@ -30,14 +30,19 @@ if (!defined('IS_UNIX')) {
 	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
 }
 
-// Import the platform version library if necessary.
-if (!class_exists('JVersion')) {
-    require_once JPATH_PLATFORM.'/version.php';
-}
-
 // Import the library loader if necessary.
 if (!class_exists('JLoader')) {
     require_once JPATH_PLATFORM.'/loader.php';
+}
+
+// Register the JPlatform version class for lazy loading.
+if (!class_exists('JPlatform')) {
+	JLoader::register('JPlatform', JPATH_PLATFORM.'/joomla/platform.php');
+}
+
+// Define the Joomla Platform version if not already defined.
+if (!defined('JPLATFORM')) {
+	define('JPLATFORM', JPlatform::getShortVersion());
 }
 
 /**

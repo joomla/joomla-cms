@@ -25,9 +25,14 @@ if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CO
 	exit();
 }
 
-/*
- * Joomla! system startup
- */
+//
+// Joomla system startup.
+//
+
+// Import the cms version library if necessary.
+if (!class_exists('JVersion')) {
+    require JPATH_ROOT.'/includes/version.php';
+}
 
 // System includes.
 require_once JPATH_LIBRARIES.'/import.php';

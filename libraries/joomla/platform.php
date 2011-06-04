@@ -8,27 +8,22 @@
 
 defined('JPATH_PLATFORM') or die;
 
-// Define the Joomla Platform version if not already defined.
-if (!defined('JVERSION')) {
-	define('JVERSION', JVersion::getShortVersion());
-}
-
 /**
  * Version information class for the Joomla Platform.
  *
  * @package  Joomla.Platform
  * @since    11.1
  */
-final class JVersion
+final class JPlatform
 {
 	// Product name.
 	const PRODUCT = 'Joomla Platform';
 	// Release version.
-	const RELEASE = '1.7';
+	const RELEASE = '11';
 	// Maintenance version.
-	const MAINTENANCE = '0';
+	const MAINTENANCE = '1';
 	// Development STATUS.
-	const STATUS = 'Alpha';
+	const STATUS = 'Stable';
 	// Build number.
 	const BUILD = 0;
 	// Code name.
@@ -56,7 +51,7 @@ final class JVersion
 	 */
 	public static function isCompatible($minimum)
 	{
-		return (version_compare(JVERSION, $minimum, 'eq') == 1);
+		return (version_compare(JPLATFORM, $minimum, 'eq') == 1);
 	}
 
 	/**
@@ -68,7 +63,7 @@ final class JVersion
 	 */
 	public static function getShortVersion()
 	{
-		return JVersion::RELEASE.'.'.JVersion::MAINTENANCE;
+		return self::RELEASE.'.'.self::MAINTENANCE;
 	}
 
 	/**
@@ -80,8 +75,8 @@ final class JVersion
 	 */
 	public static function getLongVersion()
 	{
-		return JVersion::PRODUCT.' '. JVersion::RELEASE.'.'.JVersion::MAINTENANCE.' '
-				. JVersion::STATUS.' [ '.JVersion::CODE_NAME.' ] '.JVersion::RELEASE_DATE.' '
-				.JVersion::RELEASE_TIME.' '.JVersion::RELEASE_TIME_ZONE;
+		return self::PRODUCT.' '. self::RELEASE.'.'.self::MAINTENANCE.' '
+				. self::STATUS.' [ '.self::CODE_NAME.' ] '.self::RELEASE_DATE.' '
+				.self::RELEASE_TIME.' '.self::RELEASE_TIME_ZONE;
 	}
 }
