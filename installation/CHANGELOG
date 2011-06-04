@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jun-2011 Jean-Marie Simonet
+ # [#25873] *Featured Articles Menu Option does not show option to select category as intended
+ 
 04-Jun-2011 Mark Dexter
  # [#26028] Fix backward incompatible changes to JVersion
  # [#25634] Extension Manager: wrong installer method called during update

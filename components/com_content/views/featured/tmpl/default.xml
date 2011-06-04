@@ -12,6 +12,18 @@
 <!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 <fieldset name="advanced" label="COM_MENUS_LAYOUT_FEATURED_OPTIONS">
+			<field
+			name="featured_categories"
+			type="category"
+			extension="com_content"
+			multiple="true"
+			size="10"
+			default=""
+			label="COM_CONTENT_FEATURED_CATEGORIES_LABEL"
+			description="COM_CONTENT_FEATURED_CATEGORIES_DESC" >
+			<option value="">JOPTION_ALL_CATEGORIES</option>
+			</field>
+			
 			<field name="layout_type"
 				type="hidden"
 				default="blog"
