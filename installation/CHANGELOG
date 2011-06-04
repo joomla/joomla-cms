@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#25634] Extension Manager: wrong installer method called during update
  # [#25635] Extension Manager: possibility to set redirect during update
  # [#25923] Possible error in JModuleHelper
+ # [#24338] Autoupdate fails for components after applying a patch from issue #24305
 
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.

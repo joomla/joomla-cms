@@ -23,7 +23,7 @@ class JUpdateAdapter extends JAdapterInstance {
 	protected $xml_parser;
 	protected $_stack = Array('base');
 	protected $_update_site_id = 0;
-	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION');
+	protected $_updatecols = Array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT_ID', 'VERSION', 'DESCRIPTION');
 
 	/**
 	 * Gets the reference to the current direct parent
