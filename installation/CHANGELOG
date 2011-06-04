@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#26028] Fix backward incompatible changes to JVersion
  # [#25634] Extension Manager: wrong installer method called during update
  # [#25635] Extension Manager: possibility to set redirect during update
+ # [#25923] Possible error in JModuleHelper
 
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
@@ -45,8 +46,6 @@ $ -> Language fix or change
 
 01-Jun-2011 Jean-Marie Simonet
  #$ [#26023] *Preventing setting more than 1 default home menu item per menu
-
-========== VERSION 1.7 ALPHA RELEASED ==========
 
 31-May-2011 Mark Dexter
  # [#25058] While the site is offline managers and administrators can't login.
