@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jun-2011 Mark Dexter
  # [#26028] Fix backward incompatible changes to JVersion
  # [#25634] Extension Manager: wrong installer method called during update
+ # [#25635] Extension Manager: possibility to set redirect during update
 
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
