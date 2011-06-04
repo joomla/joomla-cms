@@ -30,6 +30,7 @@ $ -> Language fix or change
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
  + Feature [#25987] JToolBarHelper functions for Save and Create New and Save as Copy (Joseph LeBlanc).
+ + Feature [#25732] Add JFormRuleOptions rule to validate type="list" parameters (Mark Dexter).
  
 03-Jun-2011 Jean-Marie Simonet
  + [#26035] *Adding the possibility for language packs to include a css file for back-end font change
