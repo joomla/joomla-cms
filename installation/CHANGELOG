@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 04-Jun-2011 Jean-Marie Simonet
  # [#25873] *Featured Articles Menu Option does not show option to select category as intended
+ - [#26013] The Flag Image for the Language Tamil ( ta) is Incorrect
  
 04-Jun-2011 Mark Dexter
  # [#26028] Fix backward incompatible changes to JVersion
