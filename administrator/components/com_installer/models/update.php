@@ -204,12 +204,12 @@ class InstallerModelUpdate extends JModelList
 		$update->set('type', $package['type']);
 
 		// Install the package
-		if (!$installer->install($package['dir'])) {
-			// There was an error installing the package
+		if (!$installer->update($package['dir'])) {
+			// There was an error updating the package
 			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', JText::_('COM_INSTALLER_TYPE_TYPE_'.strtoupper($package['type'])));
 			$result = false;
 		} else {
-			// Package installed sucessfully
+			// Package updated successfully
 			$msg = JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_'.strtoupper($package['type'])));
 			$result = true;
 		}
