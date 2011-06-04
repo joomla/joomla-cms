@@ -73,4 +73,23 @@ class WeblinksControllerWeblink extends JControllerForm
 			return parent::allowEdit($data, $key);
 		}
 	}
+
+	/**
+	 * Method to run batch operations.
+	 *
+	 * @return	void
+	 * @since	1.7
+	 */
+	public function batch($model)
+	{
+		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		// Set the model
+		$model	= $this->getModel('Weblink', '', array());
+		
+		// Preset the redirect
+		$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks'.$this->getRedirectToListAppend(), false));
+
+		return parent::batch($model);
+	}
 }

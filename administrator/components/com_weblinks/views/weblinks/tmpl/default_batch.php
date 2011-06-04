@@ -1,8 +1,8 @@
 <?php
 /**
- * @version		$Id: default_batch.php 21020 2011-03-27 06:52:01Z infograf768 $
+ * @version		$Id$
  * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @subpackage	com_weblinks
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 $published = $this->state->get('filter.published');
 ?>
 <fieldset class="batch">
-	<legend><?php echo JText::_('COM_CONTENT_BATCH_OPTIONS');?></legend>
+	<legend><?php echo JText::_('COM_WEBLINKS_BATCH_OPTIONS');?></legend>
 	<?php echo JHtml::_('batch.access');?>
 
 	<?php if ($published >= 0) : ?>
-		<?php echo JHtml::_('batch.item', 'com_content', $published);?>
+		<?php echo JHtml::_('batch.item', 'com_weblinks', $published);?>
 	<?php endif; ?>
-	<button type="submit" onclick="Joomla.submitbutton('article.batch');">
+	<button type="submit" onclick="Joomla.submitbutton('weblink.batch');">
 		<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 	</button>
 	<button type="button" onclick="document.id('batch-category-id').value='';document.id('batch-access').value=''">

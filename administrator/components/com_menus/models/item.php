@@ -142,43 +142,6 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	 * Batch access level changes for a group of rows.
-	 *
-	 * @param	int		$value	The new value matching an Asset Group ID.
-	 * @param	array	$pks	An array of row IDs.
-	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
-	 * @since	1.6
-	 */
-	protected function batchAccess($value, $pks)
-	{
-		// Check that user has edit permission for menus
-		$user	= JFactory::getUser();
-		if (!$user->authorise('core.edit', 'com_menus')) {
-			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_EDIT'));
-			return false;
-		}
-		$table = $this->getTable();
-
-		foreach ($pks as $pk)
-		{
-			$table->reset();
-			$table->load($pk);
-			$table->access = (int) $value;
-
-			if (!$table->store()) {
-				$this->setError($table->getError());
-				return false;
-			}
-		}
-
-		// Clean the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Batch copy menu items to a new menu or parent.
 	 *
 	 * @param	int		$value	The new menu or sub-item.
@@ -224,7 +187,7 @@ class MenusModelItem extends JModelAdmin
 		// Check that user has create permission for menus
 		$user	= JFactory::getUser();
 		if (!$user->authorise('core.create', 'com_menus')) {
-			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 			return false;
 		}
 
@@ -298,9 +261,9 @@ class MenusModelItem extends JModelAdmin
 
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
-			$table->level		= null;
+			$table->level	= null;
 			$table->lft		= null;
-			$table->rgt	= null;
+			$table->rgt		= null;
 
 			// Alter the title & alias
 			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
@@ -380,12 +343,12 @@ class MenusModelItem extends JModelAdmin
 		// Check that user has create and edit permission for menus
 		$user	= JFactory::getUser();
 		if (!$user->authorise('core.create', 'com_menus')) {
-			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 			return false;
 		}
 
 		if (!$user->authorise('core.edit', 'com_menus')) {
-			$this->setError(JText::_('JGLOBAL_BATCH_MENU_ITEM_CANNOT_EDIT'));
+			$this->setError(JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 			return false;
 		}
 

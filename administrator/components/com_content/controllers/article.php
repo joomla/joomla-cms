@@ -121,28 +121,16 @@ class ContentControllerArticle extends JControllerForm
 	 * @return	void
 	 * @since	1.6
 	 */
-	function batch()
+	public function batch($model)
 	{
 		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app	= JFactory::getApplication();
+		// Set the model
 		$model	= $this->getModel('Article', '', array());
-		$vars	= JRequest::getVar('batch', array(), 'post', 'array');
-		$cid	= JRequest::getVar('cid', array(), 'post', 'array');
-
+		
 		// Preset the redirect
 		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles'.$this->getRedirectToListAppend(), false));
 
-		// Attempt to run the batch operation.
-		if ($model->batch($vars, $cid)) {
-			$this->setMessage(JText::_('JGLOBAL_BATCH_SUCCESS'));
-
-			return true;
-		}
-		else {
-			$this->setMessage(JText::sprintf('JGLOBAL_ERROR_BATCH_FAILED', $model->getError()));
-			return false;
-		}
+		return parent::batch($model);
 	}
 }

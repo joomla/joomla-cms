@@ -451,61 +451,6 @@ class CategoriesModelCategory extends JModelAdmin
 	}
 
 	/**
-	 * Method to perform batch operations on a category or a set of categories.
-	 *
-	 * @param	array	An array of commands to perform.
-	 * @param	array	An array of category ids.
-	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.6
-	 */
-	function batch($commands, $pks)
-	{
-		// Sanitize user ids.
-		$pks = array_unique($pks);
-		JArrayHelper::toInteger($pks);
-
-		// Remove any values of zero.
-		if (array_search(0, $pks, true)) {
-			unset($pks[array_search(0, $pks, true)]);
-		}
-
-		if (empty($pks)) {
-			$this->setError(JText::_('COM_CATEGORIES_NO_ITEM_SELECTED'));
-			return false;
-		}
-
-		$done = false;
-
-		if (!empty($commands['assetgroup_id'])) {
-			if (!$this->batchAccess($commands['assetgroup_id'], $pks)) {
-				return false;
-			}
-			$done = true;
-		}
-
-		if (!empty($commands['category_id'])) {
-			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
-
-			if ($cmd == 'c' && !$this->batchCopy($commands['category_id'], $pks)) {
-				return false;
-			} else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks)) {
-				return false;
-			}
-			$done = true;
-		}
-
-		if (!$done) {
-			$this->setError(JText::_('JGLOBAL_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-			return false;
-		}
-
-		// Clear the cache
-		$this->cleanCache();
-
-		return true;
-	}
-
-	/**
 	 * Batch access level changes for a group of rows.
 	 *
 	 * @param	int		The new value matching an Asset Group ID.
@@ -522,7 +467,7 @@ class CategoriesModelCategory extends JModelAdmin
 		foreach ($pks as $pk) {
 			if (!$user->authorise('core.edit', $extension.'.category.'.$pk)) {
 				// Error since user cannot edit this category
-				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_EDIT'));
+				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
 				return false;
 			}
 		}
@@ -579,7 +524,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$user->authorise('core.create', $extension.'.category.'.$parentId);
 			if (!$canCreate) {
 				// Error since user cannot create in parent category
-				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
+				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 				return false;
 			}
 		}
@@ -592,7 +537,7 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 			// Make sure we can create in root
 			elseif (!$user->authorise('core.create', $extension)) {
-				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
+				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 				return false;
 			}
 		}
@@ -735,7 +680,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$user->authorise('core.create', $extension.'.category.'.$parentId);
 			if (!$canCreate) {
 				// Error since user cannot create in parent category
-				$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_CREATE'));
+				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 				return false;
 			}
 
@@ -744,7 +689,7 @@ class CategoriesModelCategory extends JModelAdmin
 			foreach ($pks as $pk) {
 				if (!$user->authorise('core.edit', $extension.'.category.'.$pk)) {
 					// Error since user cannot edit this category
-					$this->setError(JText::_('JGLOBAL_BATCH_CATEGORY_CANNOT_EDIT'));
+					$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
 					return false;
 				}
 			}
