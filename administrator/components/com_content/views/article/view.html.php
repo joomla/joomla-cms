@@ -76,7 +76,7 @@ class ContentViewArticle extends JView
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
 			JToolBarHelper::apply('article.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('article.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('article.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CANCEL');
 		}
 		else {
@@ -89,14 +89,14 @@ class ContentViewArticle extends JView
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
 					if ($canDo->get('core.create')) {
-						JToolBarHelper::custom('article.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+						JToolBarHelper::save2new('article.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 					}
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::custom('article.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+				JToolBarHelper::save2copy('article.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
 			}
 
 			JToolBarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');

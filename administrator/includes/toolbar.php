@@ -467,6 +467,37 @@ abstract class JToolBarHelper
 	}
 
 	/**
+	 * Writes a save and create new button for a given option.
+	 * Save and create operation leads to a save and then add action.
+	 *
+	 * @param string $task
+	 * @param string $alt
+	 * @since 1.6
+	 */
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
+	{
+		$bar = JToolBar::getInstance('toolbar');
+		// Add a save and create new button.
+		$bar->appendButton('Standard', 'save-new', $alt, $task, false);
+	}
+
+	/**
+	 * Writes a save as copy button for a given option.
+	 * Save as copy operation leads to a save after clearing the key,
+	 * then returns user to edit mode with new key.
+	 *
+	 * @param string $task
+	 * @param string $alt
+	 * @since 1.6
+	 */
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
+	{
+		$bar = JToolBar::getInstance('toolbar');
+		// Add a save and create new button.
+		$bar->appendButton('Standard', 'save-copy', $alt, $task, false);
+	}
+
+	/**
 	 * Writes a cancel button and invokes a cancel operation (eg a checkin).
 	 *
 	 * @param	string	$task	An override for the task.
