@@ -30,8 +30,6 @@ function init() {
 
 	document.getElementById('hrefbrowsercontainer').innerHTML = getBrowserHTML('hrefbrowser','href','file','advlink');
 	document.getElementById('popupurlbrowsercontainer').innerHTML = getBrowserHTML('popupurlbrowser','popupurl','file','advlink');
-	document.getElementById('linklisthrefcontainer').innerHTML = getLinkListHTML('linklisthref','href');
-	document.getElementById('anchorlistcontainer').innerHTML = getAnchorListHTML('anchorlist','href');
 	document.getElementById('targetlistcontainer').innerHTML = getTargetListHTML('targetlist','target');
 
 	// Link list
@@ -40,6 +38,13 @@ function init() {
 		document.getElementById("linklisthrefrow").style.display = 'none';
 	else
 		document.getElementById("linklisthrefcontainer").innerHTML = html;
+
+	// Anchor list
+	html = getAnchorListHTML('anchorlist','href');
+	if (html == "")
+		document.getElementById("anchorlistrow").style.display = 'none';
+	else
+		document.getElementById("anchorlistcontainer").innerHTML = html;
 
 	// Resize some elements
 	if (isVisible('hrefbrowser'))
@@ -52,7 +57,7 @@ function init() {
 	if (elm != null && elm.nodeName == "A")
 		action = "update";
 
-	formObj.insert.value = tinyMCEPopup.getLang(action, 'Insert', true);
+	formObj.insert.value = tinyMCEPopup.getLang(action, 'Insert', true); 
 
 	setPopupControlsDisabled(true);
 
@@ -360,20 +365,22 @@ function setAttrib(elm, attrib, value) {
 }
 
 function getAnchorListHTML(id, target) {
-	var inst = tinyMCEPopup.editor;
-	var nodes = inst.dom.select('a.mceItemAnchor,img.mceItemAnchor'), name, i;
-	var html = "";
+	var ed = tinyMCEPopup.editor, nodes = ed.dom.select('a'), name, i, len, html = "";
 
-	html += '<select id="' + id + '" name="' + id + '" class="mceAnchorList" o2nfocus="tinyMCE.addSelectAccessibility(event, this, window);" onchange="this.form.' + target + '.value=';
-	html += 'this.options[this.selectedIndex].value;">';
-	html += '<option value="">---</option>';
-
-	for (i=0; i<nodes.length; i++) {
-		if ((name = inst.dom.getAttrib(nodes[i], "name")) != "")
+	for (i=0, len=nodes.length; i<len; i++) {
+		if ((name = ed.dom.getAttrib(nodes[i], "name")) != "")
 			html += '<option value="#' + name + '">' + name + '</option>';
 	}
 
-	html += '</select>';
+	if (html == "")
+		return "";
+
+	html = '<select id="' + id + '" name="' + id + '" class="mceAnchorList"'
+		+ ' onchange="this.form.' + target + '.value=this.options[this.selectedIndex].value"'
+		+ '>'
+		+ '<option value="">---</option>'
+		+ html
+		+ '</select>';
 
 	return html;
 }
@@ -389,7 +396,6 @@ function insertAction() {
 
 	// Remove element if there is no href
 	if (!document.forms[0].href.value) {
-		tinyMCEPopup.execCommand("mceBeginUndoLevel");
 		i = inst.selection.getBookmark();
 		inst.dom.remove(elm, 1);
 		inst.selection.moveToBookmark(i);
@@ -398,12 +404,10 @@ function insertAction() {
 		return;
 	}
 
-	tinyMCEPopup.execCommand("mceBeginUndoLevel");
-
 	// Create new anchor elements
 	if (elm == null) {
 		inst.getDoc().execCommand("unlink", false, null);
-		tinyMCEPopup.execCommand("CreateLink", false, "#mce_temp_url#", {skip_undo : 1});
+		tinyMCEPopup.execCommand("mceInsertLink", false, "#mce_temp_url#", {skip_undo : 1});
 
 		elementArray = tinymce.grep(inst.dom.select("a"), function(n) {return inst.dom.getAttrib(n, 'href') == '#mce_temp_url#';});
 		for (i=0; i<elementArray.length; i++)

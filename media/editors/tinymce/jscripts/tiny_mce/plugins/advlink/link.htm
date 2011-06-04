@@ -11,7 +11,7 @@
 </head>
 <body id="advlink" style="display: none" role="application" onload="javascript:mcTabs.displayTab('general_tab','general_panel', true);" aria-labelledby="app_label">
 	<span class="mceVoiceLabel" id="app_label" style="display:none;">{#advlink_dlg.title}</span>
-    <form onsubmit="insertAction();return false;" action="#">
+	<form onsubmit="insertAction();return false;" action="#">
 		<div class="tabs" role="presentation">
 			<ul>
 				<li id="general_tab" class="current" aria-controls="general_panel" ><span><a href="javascript:mcTabs.displayTab('general_tab','general_panel');" onmousedown="return false;">{#advlink_dlg.general_tab}</a></span></li>
@@ -28,19 +28,19 @@
 
 					<table border="0" cellpadding="4" cellspacing="0" role="presentation">
 						<tr>
-						  <td class="nowrap"><label id="hreflabel" for="href">{#advlink_dlg.url}</label></td>
-						  <td><table border="0" cellspacing="0" cellpadding="0">
-								<tr>
-								  <td><input id="href" name="href" type="text" class="mceFocus" value="" onchange="selectByValue(this.form,'linklisthref',this.value);" aria-required="true" /></td>
-								  <td id="hrefbrowsercontainer">&nbsp;</td>
-								</tr>
-							  </table></td>
+							<td class="nowrap"><label id="hreflabel" for="href">{#advlink_dlg.url}</label></td>
+								<td><table border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td><input id="href" name="href" type="text" class="mceFocus" value="" onchange="selectByValue(this.form,'linklisthref',this.value);" aria-required="true" /></td>
+								<td id="hrefbrowsercontainer">&nbsp;</td>
+							</tr>
+							</table></td>
 						</tr>
 						<tr id="linklisthrefrow">
 							<td class="column1"><label for="linklisthref">{#advlink_dlg.list}</label></td>
 							<td colspan="2" id="linklisthrefcontainer"><select id="linklisthref"><option value=""></option></select></td>
 						</tr>
-						<tr>
+						<tr id="anchorlistrow">
 							<td class="column1"><label for="anchorlist">{#advlink_dlg.anchor_names}</label></td>
 							<td colspan="2" id="anchorlistcontainer"><select id="anchorlist"><option value=""></option></select></td>
 						</tr>
@@ -333,6 +333,6 @@
 			<input type="submit" id="insert" name="insert" value="{#insert}" />
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
 		</div>
-    </form>
+	</form>
 </body>
 </html>

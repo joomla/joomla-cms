@@ -202,7 +202,7 @@ function generateWebColors() {
 
 	for (i=0; i<colors.length; i++) {
 		h += '<td bgcolor="' + colors[i] + '" width="10" height="10">'
-			+ '<a href="javascript:insertAction();" role="option" tabindex="-1" aria-labelledby="web_colors_' + i + '" onfocus="showColor(\'' + colors[i] +  '\');" onmouseover="showColor(\'' + colors[i] +  '\');" style="display:block;width:10px;height:10px;overflow:hidden;">';
+			+ '<a href="javascript:insertAction();" role="option" tabindex="-1" aria-labelledby="web_colors_' + i + '" onfocus="showColor(\'' + colors[i] + '\');" onmouseover="showColor(\'' + colors[i] + '\');" style="display:block;width:10px;height:10px;overflow:hidden;">';
 		if (tinyMCEPopup.editor.forcedHighContrastMode) {
 			h += '<canvas class="mceColorSwatch" height="10" width="10" data-color="' + colors[i] + '"></canvas>';
 		}
@@ -238,7 +238,7 @@ function generateNamedColors() {
 
 	for (n in named) {
 		v = named[n];
-		h += '<a href="javascript:insertAction();" role="option" tabindex="-1" aria-labelledby="named_colors_' + i + '" onfocus="showColor(\'' + n + '\',\'' + v + '\');" onmouseover="showColor(\'' + n +  '\',\'' + v + '\');" style="background-color: ' + n + '">';
+		h += '<a href="javascript:insertAction();" role="option" tabindex="-1" aria-labelledby="named_colors_' + i + '" onfocus="showColor(\'' + n + '\',\'' + v + '\');" onmouseover="showColor(\'' + n + '\',\'' + v + '\');" style="background-color: ' + n + '">';
 		if (tinyMCEPopup.editor.forcedHighContrastMode) {
 			h += '<canvas class="mceColorSwatch" height="10" width="10" data-color="' + colors[i] + '"></canvas>';
 		}
@@ -256,9 +256,9 @@ function generateNamedColors() {
 
 function enableKeyboardNavigation(el) {
 	tinyMCEPopup.editor.windowManager.createInstance('tinymce.ui.KeyboardNavigation', {
-    	root: el,
-    	items: tinyMCEPopup.dom.select('a', el)    	
-    }, tinyMCEPopup.dom);
+		root: el,
+		items: tinyMCEPopup.dom.select('a', el)
+	}, tinyMCEPopup.dom);
 }
 
 function dechex(n) {

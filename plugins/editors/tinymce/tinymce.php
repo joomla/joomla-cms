@@ -73,39 +73,7 @@ class plgEditorTinymce extends JPlugin
 				$skin = "skin : \"default\",";
 		}
 
-		$cleanup_startup	= $this->params->def('cleanup_startup', 0);
-		$cleanup_save		= $this->params->def('cleanup_save', 2);
 		$entity_encoding	= $this->params->def('entity_encoding', 'raw');
-
-		if ($cleanup_startup) {
-			$cleanup_startup = 'true';
-		}
-		else {
-			$cleanup_startup = 'false';
-		}
-
-		switch ($cleanup_save)
-		{
-			case '0':
-				// Never clean up on save.
-				$cleanup = 'false';
-				break;
-
-			case '1':
-				// Clean up front end edits only.
-				if ($app->isadmin()) {
-					$cleanup = 'false';
-				}
-				else {
-					$cleanup = 'true';
-				}
-
-				break;
-
-			default:
-				// Always clean up on save
-				$cleanup = 'true';
-		}
 
 		$langMode			= $this->params->def('lang_mode', 0);
 		$langPrefix			= $this->params->def('lang_code', 'en');
@@ -494,8 +462,6 @@ class plgEditorTinymce extends JPlugin
 					// Cleanup/Output
 					inline_styles : true,
 					gecko_spellcheck : true,
-					cleanup : $cleanup,
-					cleanup_on_startup : $cleanup_startup,
 					entity_encoding : \"$entity_encoding\",
 					$forcenewline
 					// URL
@@ -526,8 +492,6 @@ class plgEditorTinymce extends JPlugin
 					// Cleanup/Output
 					inline_styles : true,
 					gecko_spellcheck : true,
-					cleanup : $cleanup,
-					cleanup_on_startup : $cleanup_startup,
 					entity_encoding : \"$entity_encoding\",
 					extended_valid_elements : \"$elements\",
 					$forcenewline
@@ -570,8 +534,6 @@ class plgEditorTinymce extends JPlugin
 					// Cleanup/Output
 					inline_styles : true,
 					gecko_spellcheck : true,
-					cleanup : $cleanup,
-					cleanup_on_startup : $cleanup_startup,
 					entity_encoding : \"$entity_encoding\",
 					extended_valid_elements : \"$elements\",
 					$forcenewline

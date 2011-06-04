@@ -53,7 +53,6 @@ function insertAction() {
 	var inst = tinyMCEPopup.editor;
 	var elm = inst.selection.getNode();
 
-	tinyMCEPopup.execCommand("mceBeginUndoLevel");
 	setAllAttribs(elm);
 	tinyMCEPopup.execCommand("mceEndUndoLevel");
 	tinyMCEPopup.close();
@@ -72,21 +71,7 @@ function setAttrib(elm, attrib, value) {
 			value = valueElm.value;
 	}
 
-	if (value != "") {
-		dom.setAttrib(elm, attrib.toLowerCase(), value);
-
-		if (attrib == "style")
-			attrib = "style.cssText";
-
-		if (attrib.substring(0, 2) == 'on')
-			value = 'return true;' + value;
-
-		if (attrib == "class")
-			attrib = "className";
-
-		elm[attrib]=value;
-	} else
-		elm.removeAttribute(attrib);
+	dom.setAttrib(elm, attrib.toLowerCase(), value);
 }
 
 function setAllAttribs(elm) {

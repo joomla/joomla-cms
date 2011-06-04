@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#24338] Autoupdate fails for components after applying a patch from issue #24305
  # [#25085] Media Manager changes directory after file upload or directory creation
  + Feature [#22590] Make copy/move consistent across components
+ + Feature [#25313] Update TinyMCE to version 3.4.2
 
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
