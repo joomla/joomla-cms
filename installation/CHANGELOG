@@ -27,6 +27,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 1.7.0 Alpha Release [04-June-2011] ------------------
+
 04-Jun-2011 Jean-Marie Simonet
  # [#25873] *Featured Articles Menu Option does not show option to select category as intended
  - [#26013] The Flag Image for the Language Tamil ( ta) is Incorrect
