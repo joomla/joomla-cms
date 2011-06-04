@@ -30,6 +30,11 @@ class plgSystemDebug extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
+		// Log the deprecated API.
+		if ($this->params->get('log-deprecated')) {
+			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+		}
+
 		// Only if debugging is enabled
 		if (JDEBUG) {
 			$config  = JFactory::getConfig();
@@ -124,7 +129,7 @@ class plgSystemDebug extends JPlugin
 
 			$db	= JFactory::getDbo();
 
-			echo '<h4>'.JText::sprintf('PLG_DEBUG_QUERIES_LOGGED',  $db->getTicker()).'</h4>';
+			echo '<h4>'.JText::sprintf('PLG_DEBUG_QUERIES_LOGGED',  $db->getCount()).'</h4>';
 
 			if ($log = $db->getLog()) {
 				echo '<ol>';

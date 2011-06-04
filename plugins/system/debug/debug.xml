@@ -119,6 +119,18 @@
 				/>
 			</fieldset>
 
+			<fieldset name="logging"
+				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL">
+
+				<field name="log-deprecated" type="radio"
+					default="0"
+					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
+					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
+				>
+					<option value="1">JYes</option>
+					<option value="0">JNo</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>
