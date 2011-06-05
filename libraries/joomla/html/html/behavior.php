@@ -345,6 +345,23 @@ abstract class JHtmlBehavior
 
 		return;
 	}
+	
+	/**
+	 * JavaScript behavior to allow shift select in grids
+	 *
+	 * @param	string	$id Id of the form element that the multiselect behavior should be applied to
+	 *
+	 * @return  void
+	 * @since   11.1
+	 */
+	public static function multiselect($id = 'adminForm')
+	{
+		// Include MooTools framework
+		self::framework();
+		JHtml::_('script','system/multiselect.js', true, true);
+ 
+		return;
+	}
 
 	/**
 	 * Add unobtrusive javascript support for the advanced uploader.
