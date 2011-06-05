@@ -628,7 +628,7 @@ abstract class JHtml
  	 * @return  string
 	 * @since   11.1
 	 */
- 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class='hasTip')
+ 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
  	{
  		if (is_array($title))
  		{
@@ -654,9 +654,10 @@ abstract class JHtml
  				$title = '';
  			}
  		}
- 		$tooltip	= addslashes(htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8'));
-		$title		= addslashes(htmlspecialchars($title,	ENT_COMPAT, 'UTF-8'));
-		$alt 		= addslashes(htmlspecialchars($alt,		ENT_COMPAT, 'UTF-8'));
+ 		
+ 		$tooltip	= htmlspecialchars($tooltip,	ENT_COMPAT, 'UTF-8');
+		$title		= htmlspecialchars($title,		ENT_COMPAT, 'UTF-8');
+		$alt 		= htmlspecialchars($alt,		ENT_COMPAT, 'UTF-8');
 
 		if (!$text) {
 			$text = self::image($image, $alt, null, true);

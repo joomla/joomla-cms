@@ -21,18 +21,11 @@ class JXMLElement extends SimpleXMLElement
 	/**
 	 * Get the name of the element.
 	 *
-	 * Warning: don't use getName() as it's broken up to php 5.2.3
-	 *
 	 * @return  string
 	 */
 	public function name()
 	{
-		if (version_compare(phpversion(), '5.2.3', '>')) {
-			return (string) $this->getName();
-		}
-
-		// Workaround php bug number 41867, fixed in 5.2.4
-		return (string) $this->aaa->getName();
+		return (string) $this->getName();
 	}
 
 	/**

@@ -196,8 +196,10 @@ class JInstallerPlugin extends JAdapterInstance
 				// Load the file
 				include_once $manifestScriptFile;
 			}
+			// If a dash is present in the group name, remove it
+			$groupClass = str_replace('-', '', $group);
 			// Set the class name
-			$classname = 'plg'.$group.$element.'InstallerScript';
+			$classname = 'plg'.$groupClass.$element.'InstallerScript';
 			if (class_exists($classname))
 			{
 				// Create a new instance

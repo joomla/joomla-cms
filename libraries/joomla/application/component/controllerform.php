@@ -478,7 +478,7 @@ class JControllerForm extends JController
 		}
 
 		// Access check.
-		if (!$this->allowSave($data)) {
+		if (!$this->allowSave($data, $key)) {
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));

@@ -92,6 +92,43 @@ Joomla.isEmail = function(text) {
 };
 
 /**
+ * Render messages send via JSON
+ *
+ * @param	object
+ * @return	void
+ */
+Joomla.renderMessages = function(messages) {
+	var container = document.id('system-message-container');
+	var children = $$('#system-message-container > *');
+	children.destroy();
+	var dl = new Element('dl', {
+		id: 'system-message'
+	});
+	Object.each(messages, function (item, type) {
+		var dt = new Element('dt', {
+			'class': type,
+			html: type
+		});
+		dt.inject(dl);
+		var dd = new Element('dd', {
+			'class': type
+		});
+		dd.addClass('message');
+		var list = new Element('ul');
+
+		Array.each(item, function (item, index, object) {
+			var li = new Element('li', {
+				html: item
+			});
+			li.inject(list);
+		}, this);
+		list.inject(dd);
+		dd.inject(dl);
+	}, this);
+	dl.inject(container);
+};
+
+/**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php
  *
  * Writes a dynamically generated list

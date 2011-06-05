@@ -193,7 +193,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	public function _relToAbs($text)
 	{
 		$base = JURI::base();
-		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
+		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;
 	}

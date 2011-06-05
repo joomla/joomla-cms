@@ -388,6 +388,47 @@ class JFormTest extends JoomlaTestCase
 		);
 
 		$this->assertThat(
+			$form->filterField($form->findField('tel'), '222.3333333333'),
+			$this->equalTo('222.3333333333'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);
+		$this->assertThat(
+			$form->filterField($form->findField('tel'), '+222.3333333333'),
+			$this->equalTo('222.3333333333'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);
+		$this->assertThat(
+			$form->filterField($form->findField('tel'), '+2,2,2.3,3,3,3,3,3,3,3,3,3,3,3'),
+			$this->equalTo('222.333333333333'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);		
+		$this->assertThat(
+			$form->filterField($form->findField('tel'), '33333333333'),
+			$this->equalTo('.33333333333'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);
+		$this->assertThat(
+			$form->filterField($form->findField('tel'), '222333333333333'),
+			$this->equalTo('222.333333333333'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);				
+		$this->assertThat(
+			$form->filterField($form->findField('tel'), '1 (202) 555-5555'),
+			$this->equalTo('1.2025555555'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);
+		$this->assertThat(
+			$form->filterField($form->findField('tel'), '+222.33333333333x444'),
+			$this->equalTo('222.33333333333'),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);
+		$this->assertThat(	
+			$form->filterField($form->findField('tel'), 'ABCabc/?.!*x'),
+			$this->equalTo(''),
+			'Line:'.__LINE__.' The tel filter should be correctly applied.'
+		);	
+			
+		$this->assertThat(
 			$form->filterField($form->findField('server_utc'), 'foo'),
 			$this->equalTo(''),
 			'Line:'.__LINE__.' A non-date for a server_utc filter should return nothing.'
