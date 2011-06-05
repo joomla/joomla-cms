@@ -264,6 +264,7 @@ class MenusModelItem extends JModelAdmin
 			$table->level	= null;
 			$table->lft		= null;
 			$table->rgt		= null;
+			$table->home	= 0;
 
 			// Alter the title & alias
 			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
@@ -980,11 +981,12 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		// Alter the title & alias for save as copy.
+		// Alter the title & alias for save as copy.  Also, unset the home record.
 		if(!$isNew && $data['id'] == 0){
 			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-			$table->title = $title;
-			$table->alias = $alias;
+			$table->title	= $title;
+			$table->alias	= $alias;
+			$table->home	= 0;
 		}
 
 		// Check the data.
