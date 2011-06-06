@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jun-2011 Jean-Marie Simonet
+ $ [#26055] Category spelling error in help text. Thanks Bill.
+
 05-Jun-2011 Jean-Marie Simonet
  # [#26051] Copy tasks allow multiple home menu items to be set. Thanks Michael.
 
