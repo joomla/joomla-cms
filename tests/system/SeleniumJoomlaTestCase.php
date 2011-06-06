@@ -839,7 +839,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		if ($command == 'waitForPageToLoad' && (!isset($arguments[1]) || $arguments[1] !== false))
 		{
 			try {
-				$this->assertFalse($this->isTextPresent("( ! ) Notice"), "**Warning: PHP Notice found on page!");
+				$this->assertFalse($this->isTextPresent("( ! ) Notice") || $this->isTextPresent("( ! ) Warning"), "**Warning: PHP Notice found on page!");
 			}
 			catch (PHPUnit_Framework_AssertionFailedError $e) {
 				echo "**Warning: PHP Notice found on page\n";

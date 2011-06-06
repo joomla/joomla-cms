@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Jun-2011 Mark Dexter
  # Fix doInstall for AJAX changes made to installation screens
+ ^ Modify SeleniumJoomlaTestCase to check for PHP warnings as well as notices
 
 30-May-2011 Mark Dexter
  # Fix failing system test from change in bluestork template
