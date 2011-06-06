@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 06-Jun-2011 Mark Dexter
  + [#25977] Improve the installation (Rouven Weßling)
+ + [#26046] Rename administrator/help/helpsites-1.6.xml File
 
 06-Jun-2011 Jean-Marie Simonet
  $ [#26055] Category spelling error in help text. Thanks Bill.
