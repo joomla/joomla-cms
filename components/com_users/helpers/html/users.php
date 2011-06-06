@@ -47,7 +47,7 @@ abstract class JHtmlUsers
 			$version = new JVersion();
 			$jver = explode( '.', $version->getShortVersion() );
 
-			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites-'.$jver[0].$jver[1].'.xml';
+			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';
 
 			$text = $value;
 			if (!empty($pathToXml) && $xml = JFactory::getXML($pathToXml))

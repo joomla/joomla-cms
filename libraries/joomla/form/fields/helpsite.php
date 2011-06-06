@@ -47,7 +47,7 @@ class JFormFieldHelpsite extends JFormFieldList
 		// Merge any additional options in the XML definition.
 		$options = array_merge(
 			parent::getOptions(),
-			JHelp::createSiteList(JPATH_ADMINISTRATOR.'/help/helpsites-'.$jver[0].$jver[1].'.xml', $this->value)
+			JHelp::createSiteList(JPATH_ADMINISTRATOR.'/help/helpsites.xml', $this->value)
 		);
 
 		return $options;
