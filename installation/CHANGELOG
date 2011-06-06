@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jun-2011 Mark Dexter
+ + [#25977] Improve the installation (Rouven Weßling)
+
 06-Jun-2011 Jean-Marie Simonet
  $ [#26055] Category spelling error in help text. Thanks Bill.
  # [#26052] Improve com_categories batchCopy. Thanks Michael.
@@ -52,8 +55,8 @@ $ -> Language fix or change
  # [#25923] Possible error in JModuleHelper
  # [#24338] Autoupdate fails for components after applying a patch from issue #24305
  # [#25085] Media Manager changes directory after file upload or directory creation
- + Feature [#22590] Make copy/move consistent across components
- + Feature [#25313] Update TinyMCE to version 3.4.2
+ + Feature [#22590] Make copy/move consistent across components (Michael Babker)
+ + Feature [#25313] Update TinyMCE to version 3.4.2 (Rouven Weßling)
  # [#25852] Cache and mod_menu problem
  # [#26039] Latest News Module redirects to incorrect login URL
  

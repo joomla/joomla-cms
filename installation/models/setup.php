@@ -50,9 +50,10 @@ class JInstallationModelSetup extends JModel
 		$options = array_merge($old, (array)$options);
 		$session->set('setup.options', $options);
 
-		// If the setup language is set in the options, set it separately in the session.
+		// If the setup language is set in the options, set it separately in the session and JLanguage.
 		if (!empty($options['language'])) {
 			$session->set('setup.language', $options['language']);
+			JFactory::getLanguage()->setLanguage($options['language']);
 		}
 
 		return $options;

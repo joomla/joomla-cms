@@ -463,7 +463,7 @@ class JInstallationModelFilesystem extends JModel
 	{
 		$app	= JFactory::getApplication();
 		$arr = array();
-		$arr[ftp_enable] = $vars['ftp_enable'];
+		$arr['ftp_enable'] = $vars['ftp_enable'];
 		$arr['ftp_user'] = $vars['ftp_user'];
 		$arr['ftp_pass'] = $vars['ftp_pass'];
 		$arr['ftp_root'] = $vars['ftp_root'];

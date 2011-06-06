@@ -85,9 +85,11 @@ class JInstallation extends JApplication
 		$contents = ob_get_contents();
 		ob_end_clean();
 
+		$file = JRequest::getCmd('tmpl', 'index');
+
 		$params = array(
 			'template'	=> 'template',
-			'file'		=> 'index.php',
+			'file'		=> $file.'.php',
 			'directory' => JPATH_THEMES,
 			'params'	=> '{}'
 		);

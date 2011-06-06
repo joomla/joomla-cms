@@ -126,7 +126,7 @@ class JInstallationControllerSetup extends JController
 		// Attempt to initialise the database.
 		$return = $database->initialise($vars);
 
-		// Ensure a language was set.
+		// Check if the databasa was initialised
 		if (!$return) {
 			$this->setMessage($database->getError(), 'notice');
 			$this->setRedirect('index.php?view=database');

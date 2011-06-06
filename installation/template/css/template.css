@@ -34,8 +34,9 @@ a:hover {
 
 h1, h2, h3, h4, h5,
 #header3 span,
-.step-on, .step-off, .step-grey,
+.step-grey,
 .step,
+.steptitle,
 .button1-left a,
 .button1-right a {
 	font-family: Arial, Helvetica, sans-serif;
@@ -118,24 +119,15 @@ td.item + td {
 	padding-right: 5px;
 }
 
-#footer1 {
-	background: url(../images/j_bottom.png) repeat-x;
-}
-
-#footer2 {
-	background: url(../images/j_corner_br.png) 100% 0 no-repeat;
-}
-
-#footer3 {
-	background: url(../images/j_corner_bl.png) no-repeat;
-	height: 11px;
-}
-
 #content-box {
   float: none !important;
   float: left;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 11px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 #content-pad {
@@ -161,19 +153,17 @@ td.item + td {
 	background: url(../images/j_divider.png) 0 100% repeat-x;
 }
 
-.step-on, .step-off, .step-grey {
+.step,
+.step-grey {
 	padding-top: 10px;
 	padding-bottom: 12px;
 	font-size: 12px;
 	font-weight: bold;
 	background: url(../images/j_divider.png) 0 100% repeat-x;
-}
-
-.step-off {
 	color: #333;
 }
 
-.step-on {
+.step.active {
 	color: #f48b06;
 }
 
@@ -194,7 +184,7 @@ td.item + td {
 	margin-bottom: 10px;
 }
 
-span.step {
+.steptitle {
 	font-size: 20px;
 	line-height: 30px;
 	color: #025A8D;
@@ -250,8 +240,6 @@ span.step {
 	float: left;
 	background: url(../images/j_button1_collate.png) 100% 0 no-repeat;
 }
-
-
 
 .button1-left a,
 .button1-right a {
@@ -387,8 +375,9 @@ div.moofx-slider {
 }
 
 .final-table {
-	width: 100%;
 	text-align: center;
+	margin-top: 90px;
+	margin-right: 20px;
 }
 
 td em {
@@ -415,34 +404,42 @@ input.hidden {
 
 /* corners */
 
-div#stepbar {
+#stepbar {
   background: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+#step {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 div#installer {
   background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+div.install-body {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 div#installer div.install-body div.m {
-	background: #fbfbfb;
-
-}
-
-div.t, div.b {
-  height: 6px;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+  background: #fbfbfb;
 }
 
 div.m {
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
   padding: 0 8px;
-}
-
-div#step div.m {
-  padding: 0;
 }
 
 div#installer div.m {
@@ -450,87 +447,16 @@ div#installer div.m {
   padding-bottom: 0px;
 }
 
-div#stepbar div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
-}
-
-div#stepbar div.t div.t {
-   background: url(../images/j_crn_tr_dark.png) 100% 0 no-repeat;
-}
-
-div#stepbar div.t div.t div.t {
-   background: url(../images/j_crn_tl_dark.png) 0 0 no-repeat;
-}
-
-div#stepbar div.b {
-  background: url(../images/j_border.png) 0 100% repeat-x;
-}
-
-div#stepbar div.b div.b {
-   background: url(../images/j_crn_br_dark.png) 100% 0 no-repeat;
-}
-
-div#stepbar div.b div.b div.b {
-   background: url(../images/j_crn_bl_dark.png) 0 0 no-repeat;
-}
-
 div#step,
 div#installer div.install-body {
   background: #fbfbfb;
 }
 
-div#step div.t,
-div#installer div.install-body div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
-}
-
-div#step div.t div.t,
-div#installer div.install-body div.t div.t {
-   background: url(../images/j_crn_tr_med.png) 100% 0 no-repeat;
-}
-
-div#step div.t div.t div.t,
-div#installer div.install-body div.t div.t div.t {
-   background: url(../images/j_crn_tl_med.png) 0 0 no-repeat;
-}
-
-div#step div.b,
-div#installer div.install-body div.b {
-  background: url(../images/j_border.png) 0 100% repeat-x;
-}
-
-div#step div.b div.b,
-div#installer div.install-body div.b div.b {
-   background: url(../images/j_crn_br_med.png) 100% 0 no-repeat;
-}
-
-div#step div.b div.b div.b,
-div#installer div.install-body div.b div.b div.b {
-   background: url(../images/j_crn_bl_med.png) 0 0 no-repeat;
-}
-
-div#installer div.t {
-  background: url(../images/j_border.png) 0 0 repeat-x;
-}
-
-div#installer div.t div.t {
-   background: url(../images/j_crn_tr_light.png) 100% 0 no-repeat;
-}
-
-div#installer div.t div.t div.t {
-   background: url(../images/j_crn_tl_light.png) 0 0 no-repeat;
-}
-
-div#installer div.b {
-  background: url(../images/j_border.png) 0 100% repeat-x;
-}
-
-div#installer div.b div.b {
-   background: url(../images/j_crn_br_light.png) 100% 0 no-repeat;
-}
-
-div#installer div.b div.b div.b {
-   background: url(../images/j_crn_bl_light.png) 0 0 no-repeat;
+.remove {
+	text-align: center;
+	margin-top: 90px;
+	margin-right: 20px;
+	margin-bottom: 90px;
 }
 
 /* make the radio buttons vertical to make room for long language strings */
@@ -612,5 +538,5 @@ div.inlineError {
 
 /* required field star color */
 .star {
-	color:#cc0000;
+	color: #cc0000;
 }
