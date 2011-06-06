@@ -60,9 +60,10 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// check for category selection
-		if (is_array($featuredCategories = $params->get('featured_categories'))) {
-			$this->setState('filter.frontpage.categories', $featuredCategories);
-		}
+		if ($params->get('featured_categories') && implode(',', $params->get('featured_categories'))  == true) {
+			$featuredCategories = $params->get('featured_categories');
+ 			$this->setState('filter.frontpage.categories', $featuredCategories);
+ 		}
 	}
 
 	/**

@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ [#26055] Category spelling error in help text. Thanks Bill.
  # [#26052] Improve com_categories batchCopy. Thanks Michael.
  # [#26025] Article - save as copy. Thanks Michael.
+ # [#25873] *Featured Articles Menu Option does not show option to select category as intended
 
 05-Jun-2011 Jean-Marie Simonet
  # [#26051] Copy tasks allow multiple home menu items to be set. Thanks Michael.
