@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jun-2011 Christophe Demko
+ + [#25409] Examples for the editor, search & system plugins. (Peter Nurse)
+
 06-Jun-2011 Mark Dexter
  + [#25977] Improve the installation (Rouven Weßling)
  + [#26046] Rename administrator/help/helpsites-1.6.xml File
