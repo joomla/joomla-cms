@@ -29,15 +29,15 @@ class DoInstall extends SeleniumJoomlaTestCase
 		echo "Page through screen 1\n";
 		$this->open($cfg->path ."/installation/index.php");
 		$this->click("link=Next");
-		$this->waitForPageToLoad("30000");
+		$this->waitforElement("//h2[contains(text(), 'Recommended settings')]");
 
 		echo "Page through screen 2\n";
 		$this->click("link=Next");
-		$this->waitForPageToLoad("30000");
+		$this->waitforElement("//a[contains(text(), 'GNU GENERAL PUBLIC LICENSE')]");
 
 		echo "Page through screen 3\n";
 		$this->click("link=Next");
-		$this->waitForPageToLoad("30000");
+		$this->waitforElement("//select[@id='jform_db_type']");
 
 		echo "Enter database information\n";
 		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'MySQL';
@@ -48,11 +48,12 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->type("jform_db_name", $cfg->db_name);
 		$this->click("jform_db_old0");
 		$this->click("link=Next");
-		$this->waitForPageToLoad("30000");
+		$this->waitforElement("//select[@id='jform_ftp_enable']");
 
 		echo "Enter site information\n";
 		$this->click("link=Next");
-		$this->waitForPageToLoad("30000");
+		$this->waitforElement("//input[@id='jform_site_name']");
+
 		$this->type("jform_site_name", $cfg->site_name);
 		$this->type("jform_admin_user", $cfg->username);
 		$this->type("jform_admin_email", $cfg->admin_email);
@@ -66,21 +67,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 			$this->click("instDefault");
 
 			// wait up to 30 seconds for success message on sample data
-			for ($second = 0; ; $second++) {
-				if ($second >= 30) {
-					$this->fail('timeout');
-				}
-
-				try {
-					if (stripos($this->getValue("instDefault"),'SUCCESS')) {
-						break;
-					}
-				}
-				catch (Exception $e) {
-				}
-
-				sleep(1);
-			}
+			$this->waitforElement("//input[contains(@value, 'installed success')]");
 		}
 		else {
 			echo "Install without sample data\n";
@@ -88,8 +75,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 
 		echo "Finish installation\n";
 		$this->click("link=Next");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue(true);
+		$this->waitforElement("//h2[contains(text(), 'Joomla! is now installed')]");
 
 		echo "Login to back end\n";
 		$this->gotoAdmin();
@@ -104,7 +90,6 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->select("jform_error_reporting", "label=Maximum");
 		$this->click("//li[@id='toolbar-save']/a/span");
 		$this->waitForPageToLoad("30000");
-
 
 		$this->setCache($cfg->cache);
 

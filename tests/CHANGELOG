@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jun-2011 Mark Dexter
+ # Fix doInstall for AJAX changes made to installation screens
+
 30-May-2011 Mark Dexter
  # Fix failing system test from change in bluestork template
 
