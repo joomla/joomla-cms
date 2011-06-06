@@ -222,6 +222,13 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
+		// Alter the title for save as copy
+		if (JRequest::getVar('task') == 'save2copy') {
+			list($title,$alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
+			$data['title']	= $title;
+			$data['alias']	= $alias;
+		}
+
 		if (parent::save($data)) {
 			if (isset($data['featured'])) {
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);

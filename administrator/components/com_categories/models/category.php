@@ -338,15 +338,9 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
-			$orig_data	= JRequest::getVar('jform', array(), 'post', 'array');
-			$orig_table = clone($this->getTable());
-			$orig_table->load( (int) $orig_data['id']);
-
-			if (((int) $data['parent_id'] === (int) $orig_table->parent_id)
-			 && ($data['alias'] == $orig_table->alias)) {
-				$data['title'] .= ' '.JText::_('JGLOBAL_COPY');
-				$data['alias'] .= '-copy';
-			}
+			list($title,$alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+			$data['title']	= $title;
+			$data['alias']	= $alias;
 		}
 
 		// Bind the data.
@@ -616,6 +610,11 @@ class CategoriesModelCategory extends JModelAdmin
 			$table->lft			= null;
 			$table->rgt			= null;
 
+			// Alter the title & alias
+			list($title,$alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			$table->title   = $title;
+			$table->alias   = $alias;
+
 			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());
@@ -782,5 +781,36 @@ class CategoriesModelCategory extends JModelAdmin
 				parent::cleanCache($extension);
 				break;
 		}
+	}
+
+	/**
+	 * Method to change the title & alias.
+	 *
+	 * @param	int     The value of the parent category ID.
+	 * @param   sting   The value of the category alias.
+	 * @param   sting   The value of the category title.
+	 *
+	 * @return	array   Contains title and alias.
+	 * @since	1.7
+	 */
+	function generateNewTitle(&$parent_id, &$alias, &$title)
+	{
+		// Alter the title & alias
+		$catTable = JTable::getInstance('Category', 'JTable');
+		while ($catTable->load(array('alias'=>$alias, 'parent_id'=>$parent_id))) {
+			$m = null;
+			if (preg_match('#-(\d+)$#', $alias, $m)) {
+				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
+			} else {
+				$alias .= '-2';
+			}
+			if (preg_match('#\((\d+)\)$#', $title, $m)) {
+				$title = preg_replace('#\(\d+\)$#', '('.($m[1] + 1).')', $title);
+			} else {
+				$title .= ' (2)';
+			}
+		}
+
+		return array($title, $alias);
 	}
 }
