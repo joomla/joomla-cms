@@ -284,58 +284,6 @@ table.adminlist {
 border-top: 1px solid #fff;
 }
 
-div#submenu-box div.t div.t {
-   background: url(../images/j_crn_tr_black.png) 100% 0 no-repeat;
-}
-
-div#submenu-box div.t div.t div.t {
-   background: url(../images/j_crn_tl_black.png) 0 0 no-repeat;
-}
-
-div#submenu-box div.b div.b {
-   background: url(../images/j_crn_br_black.png) 100% 0 no-repeat;
-}
-
-div#submenu-box div.b div.b div.b {
-   background: url(../images/j_crn_bl_black.png) 0 0 no-repeat;
-}
-
-
-div#toolbar-box div.t div.t,
-div#element-box div.section-box div.t div.t {
-   background: url(../images/j_crn_tr_black.png) 100% 0 no-repeat;
-}
-
-div#toolbar-box div.t div.t div.t,
-div#element-box div.section-box div.t div.t div.t {
-   background: url(../images/j_crn_tl_black.png) 0 0 no-repeat;
-}
-div#toolbar-box div.b div.b,
-div#element-box div.section-box div.b div.b {
-   background: url(../images/j_crn_br_black.png) 100% 0 no-repeat;
-}
-
-div#toolbar-box div.b div.b div.b,
-div#element-box div.section-box div.b div.b div.b {
-   background: url(../images/j_crn_bl_black.png) 0 0 no-repeat;
-}
-
-div#element-box div.t div.t {
-   background: url(../images/j_crn_tr_black.png) 100% 0 no-repeat;
-}
-
-div#element-box div.t div.t div.t {
-   background: url(../images/j_crn_tl_black.png) 0 0 no-repeat;
-}
-
-div#element-box div.b div.b {
-   background: url(../images/j_crn_br_black.png) 100% 0 no-repeat;
-}
-
-div#element-box div.b div.b div.b {
-   background: url(../images/j_crn_bl_black.png) 0 0 no-repeat;
-}
-
 .mooTree_selected {
 	background-color:#999999 !important;
 }

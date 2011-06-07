@@ -2554,10 +2554,6 @@ div#config #submenu {
 	padding: 0
 }
 
-div#config #submenu-box div.t {
-	background: transparent url(../images/j_border.png) 0 0 repeat-x;
-}
-
 div#config div.t,
 div#config div.b {
 	height: 6px;
@@ -2566,30 +2562,10 @@ div#config div.b {
 	padding: 0;
 }
 
-div#config #submenu-box div.t div.t {
-	background: transparent url(../images/j_crn_tr_dark.png) no-repeat scroll 100% 0;
-}
-
-div#config #submenu-box div.t div.t div.t {
-	background: transparent url(../images/j_crn_tl_dark.png) no-repeat scroll 0;
-}
-
 div#config div.m {
 	border-left: 1px solid #CCC;
 	border-right: 1px solid #CCC;
 	padding: 0 8px;
-}
-
-div#config #submenu-box div.b {
-	background: transparent url(../images/j_border.png) repeat-x scroll 0 100%;
-}
-
-div#config #submenu-box div.b div.b {
-	background: transparent url(../images/j_crn_br_dark.png) no-repeat scroll 100% 0;
-}
-
-div#config #submenu-box div.b div.b div.b {
-	background: transparent url(../images/j_crn_bl_dark.png) no-repeat scroll 0;
 }
 
 div#config #submenu li {
