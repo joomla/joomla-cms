@@ -40,6 +40,99 @@ class MenusModelMenus extends JModelList
 	}
 
 	/**
+	 * Overrides the getItems method to attach additional metrics to the list.
+	 *
+	 * @return	mixed	An array of data items on success, false on failure.
+	 * @since	1.6.1
+	 */
+	public function getItems()
+	{
+		// Get a storage key.
+		$store = $this->getStoreId('getItems');
+
+		// Try to load the data from internal storage.
+		if (!empty($this->cache[$store])) {
+			return $this->cache[$store];
+		}
+
+		// Load the list items.
+		$items = parent::getItems();
+
+		// If emtpy or an error, just return.
+		if (empty($items)) {
+			return array();
+		}
+
+		// Getting the following metric by joins is WAY TOO SLOW.
+		// Faster to do three queries for very large menu trees.
+
+		// Get the menu types of menus in the list.
+		$db = $this->getDbo();
+		$menuTypes = JArrayHelper::getColumn($items, 'menutype');
+
+		// Quote the strings.
+		$menuTypes = implode(
+			',',
+			array_map(array($db, 'quote'), $menuTypes)
+		);
+
+		// Get the published menu counts.
+		$query = $db->getQuery(true)
+			->select('m.menutype, COUNT(DISTINCT m.id) AS count_published')
+			->from('#__menu AS m')
+			->where('m.published = 1')
+			->where('m.menutype IN ('.$menuTypes.')')
+			->group('m.menutype')
+			;
+		$db->setQuery($query);
+		$countPublished = $db->loadAssocList('menutype', 'count_published');
+
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Get the unpublished menu counts.
+		$query->clear('where')
+			->where('m.published = 0')
+			->where('m.menutype IN ('.$menuTypes.')')
+			;
+		$db->setQuery($query);
+		$countUnpublished = $db->loadAssocList('menutype', 'count_published');
+
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Get the trashed menu counts.
+		$query->clear('where')
+			->where('m.published = -2')
+			->where('m.menutype IN ('.$menuTypes.')')
+			;
+		$db->setQuery($query);
+		$countTrashed = $db->loadAssocList('menutype', 'count_published');
+
+		if ($db->getErrorNum()) {
+			$this->setError($db->getErrorMsg());
+			return false;
+		}
+
+		// Inject the values back into the array.
+		foreach ($items as $item)
+		{
+			$item->count_published		= isset($countPublished[$item->menutype]) ? $countPublished[$item->menutype] : 0;
+			$item->count_unpublished	= isset($countUnpublished[$item->menutype]) ? $countUnpublished[$item->menutype] : 0;
+			$item->count_trashed		= isset($countTrashed[$item->menutype]) ? $countTrashed[$item->menutype] : 0;
+		}
+
+		// Add the items to the internal cache.
+		$this->cache[$store] = $items;
+
+		return $this->cache[$store];
+	}
+
+	/**
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return	string	An SQL query
@@ -53,19 +146,6 @@ class MenusModelMenus extends JModelList
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from('`#__menu_types` AS a');
-
-		// Self join to find the number of published menu items in the menu.
-		$query->select('COUNT(DISTINCT m1.id) AS count_published');
-		$query->join('LEFT', '`#__menu` AS m1 ON m1.menutype = a.menutype AND m1.published = 1');
-
-
-		// Self join to find the number of unpublished menu items in the menu.
-		$query->select('COUNT(DISTINCT m2.id) AS count_unpublished');
-		$query->join('LEFT', '`#__menu` AS m2 ON m2.menutype = a.menutype AND m2.published = 0');
-
-		// Self join to find the number of trashed menu items in the menu.
-		$query->select('COUNT(DISTINCT m3.id) AS count_trashed');
-		$query->join('LEFT', '`#__menu` AS m3 ON m3.menutype = a.menutype AND m3.published = -2');
 
 		$query->group('a.id');
 

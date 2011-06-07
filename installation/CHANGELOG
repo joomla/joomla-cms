@@ -32,6 +32,7 @@ $ -> Language fix or change
  
 07-Jun-2011 Christophe Demko
  + [#25409] Examples for the editor, search & system plugins. (Peter Nurse)
+ # [#26041] Menu type manager slows down considerably as menu tree gets larger (Andrew Eddie)
 
 06-Jun-2011 Mark Dexter
  + [#25977] Improve the installation (Rouven Weßling)
