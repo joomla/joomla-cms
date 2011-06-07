@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jun-2011 Jean-Marie Simonet
+ $ Updating site en-GB.lib_joomla.ini
+ 
 07-Jun-2011 Christophe Demko
  + [#25409] Examples for the editor, search & system plugins. (Peter Nurse)
 
