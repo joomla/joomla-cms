@@ -58,7 +58,7 @@ defined('_JEXEC') or die;
 <?php else : ?>
 	<tbody>
 		<tr>
-			<td colspan="3">
+			<td colspan="4">
 				<p class="noresults"><?php echo JText::_('MOD_LATEST_NO_MATCHING_RESULTS');?></p>
 			</td>
 		</tr>
