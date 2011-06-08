@@ -34,7 +34,7 @@ class WeblinksModelWeblink extends JModelItem
 	 *
 	 * @since	1.6
 	 */
-	public function populateState()
+	protected function populateState()
 	{
 		$app = JFactory::getApplication();
 		$params	= $app->getParams();
