@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#26062] gray bars in Firefox/Safari above and under the Submenue in adminlists (Rouven Weßling)
  # [#26065] Bluestork clean up (Rouven Weßling)
  # [#26097] rev 21483 - file modal.js not updated (Rouven Weßling)
+ # [#26095] Follow on to 25462 for plugin uninstall (Michael Babker)
 
 07-Jun-2011 Jean-Marie Simonet
  $ Updating site en-GB.lib_joomla.ini
