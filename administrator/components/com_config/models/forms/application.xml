@@ -369,6 +369,7 @@
 			filter="string"
 			cols="60"
 			rows="3" />
+
 		<field
 			name="MetaRights"
 			type="textarea"
@@ -377,18 +378,6 @@
 			filter="string"
 			cols="60"
 			rows="2" />
-		<field
-			name="MetaTitle"
-			type="radio"
-			default="1"
-			label="COM_CONFIG_FIELD_METATITLE_LABEL"
-			description="COM_CONFIG_FIELD_METATITLE_DESC"
-			filter="integer">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
-		</field>
 
 		<field
 			name="MetaAuthor"

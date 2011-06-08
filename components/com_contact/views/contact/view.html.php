@@ -262,10 +262,6 @@ class ContactViewContact extends JView
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaTitle') == '1') {
-			$this->document->setMetaData('title', $this->item->name);
-		}
-
 		$mdata = $this->item->metadata->toArray();
 
 		foreach ($mdata as $k => $v)

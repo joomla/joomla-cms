@@ -200,10 +200,6 @@ class ContactViewCategory extends JView
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaTitle') == '1') {
-			$this->document->setMetaData('title', $this->category->getMetadata()->get('page_title'));
-		}
-
 		if ($app->getCfg('MetaAuthor') == '1') {
 			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
 		}

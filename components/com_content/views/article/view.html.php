@@ -235,11 +235,6 @@ class ContentViewArticle extends JView
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaTitle') == '1')
-		{
-			$this->document->setMetaData('title', $this->item->title);
-		}
-
 		if ($app->getCfg('MetaAuthor') == '1')
 		{
 			$this->document->setMetaData('author', $this->item->author);

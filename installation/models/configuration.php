@@ -106,7 +106,6 @@ class JInstallationModelConfiguration extends JModel
 		/* Meta Settings */
 		$registry->set('MetaDesc', $options->site_metadesc);
 		$registry->set('MetaKeys', $options->site_metakeys);
-		$registry->set('MetaTitle', 1);
 		$registry->set('MetaAuthor', 1);
 
 		/* SEO Settings */
