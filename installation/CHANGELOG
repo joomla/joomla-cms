@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#26067] Wrong colspan in admin/mod_latest when there are no results
  # [#26083] Update SqueezeBox to version 1.2
  # [#23410] Remove <meta name="title">
+ # [#26085] *Uninstalling/discovering 4 core components kills their admin menu translations and links
 
 08-Jun-2011 Christophe Demko
  # [#26062] gray bars in Firefox/Safari above and under the Submenue in adminlists (Rouven Weßling)

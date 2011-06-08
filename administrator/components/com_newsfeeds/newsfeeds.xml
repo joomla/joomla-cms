@@ -26,17 +26,16 @@
 		</language>
 	</languages>
 	<administration>
-		<menu img="class:newsfeeds">Newsfeeds</menu>
+		<menu img="class:newsfeeds">com_newsfeeds</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
-			<menu link="index.php?option=com_newsfeeds" view="feeds" img="class:newsfeeds"
-				alt="Newsfeeds/Feeds">Newsfeeds</menu>
-			<menu link="index.php?option=com_categories&amp;extension=com_newsfeeds"
-				view="categories" img="class:newsfeeds-cat" alt="Newsfeeds/Categories">Categories
-			</menu>
+			<menu link="option=com_newsfeeds" view="feeds" img="class:newsfeeds"
+				alt="Newsfeeds/Feeds">com_newsfeeds_feeds</menu>
+			<menu link="option=com_categories&amp;extension=com_newsfeeds"
+				view="categories" img="class:newsfeeds-cat" alt="Newsfeeds/Categories">com_newsfeeds_categories</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>

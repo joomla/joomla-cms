@@ -22,21 +22,20 @@
 		<folder>models</folder>
 	</files>
 	<administration>
-		<menu>Banners</menu>
+		<menu>com_banners</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
-			<menu link="index.php?option=com_banners" view="banners" img="class:banners"
-				alt="Banners/Banners">Banners</menu>
-			<menu link="index.php?option=com_categories&amp;extension=com_banners"
-				view="categories" img="class:banners-cat" alt="Banners/Categories">Categories
-			</menu>
-			<menu link="index.php?option=com_banners&amp;view=clients" view="clients"
-				img="class:banners-clients" alt="Banners/Clients">Clients</menu>
-			<menu link="index.php?option=com_banners&amp;view=tracks" view="tracks"
-				img="class:banners-tracks" alt="Banners/Tracks">Tracks</menu>
+			<menu link="option=com_banners" view="banners" img="class:banners"
+				alt="Banners/Banners">com_banners_banners</menu>
+			<menu link="option=com_categories&amp;extension=com_banners"
+				view="categories" img="class:banners-cat" alt="Banners/Categories">com_banners_categories</menu>
+			<menu link="option=com_banners&amp;view=clients" view="clients"
+				img="class:banners-clients" alt="Banners/Clients">com_banners_clients</menu>
+			<menu link="option=com_banners&amp;view=tracks" view="tracks"
+				img="class:banners-tracks" alt="Banners/Tracks">com_banners_tracks</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>

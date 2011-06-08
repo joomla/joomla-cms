@@ -39,17 +39,16 @@
 		</language>
 	</languages>
 	<administration>
-		<menu img="class:weblinks">Weblinks</menu>
+		<menu img="class:weblinks">com_weblinks</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
-			<menu link="index.php?option=com_weblinks" view="links" img="class:weblinks"
-				alt="Weblinks/Links">Links</menu>
-			<menu link="index.php?option=com_categories&amp;extension=com_weblinks"
-				view="categories" img="class:weblinks-cat" alt="Weblinks/Categories">Categories
-			</menu>
+			<menu link="option=com_weblinks" view="links" img="class:weblinks"
+				alt="Weblinks/Links">com_weblinks_links</menu>
+			<menu link="option=com_categories&amp;extension=com_weblinks"
+				view="categories" img="class:weblinks-cat" alt="Weblinks/Categories">com_weblinks_categories</menu>
 		</submenu>
 		<files folder="admin">
 			<filename>access.xml</filename>
