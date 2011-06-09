@@ -73,6 +73,20 @@ class JDatabaseQueryElement
 		}
 	}
 
+
+	/**
+	 * Magic function to convert the query element to a string.
+	 *
+	 * @param   String
+	 * @return  mixed
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		return isset($this->$name) ? $this->$name : null;
+        }
+
 	/**
 	 * Appends element parts to the internal list.
 	 *
