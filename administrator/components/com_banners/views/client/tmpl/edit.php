@@ -39,10 +39,10 @@ $canDo	= BannersHelper::getActions();
 				<li><?php echo $this->form->getLabel('email'); ?>
 				<?php echo $this->form->getInput('email'); ?></li>
 
-				<?php if ($canDo->get('core.edit.state')) { ?>
-						<li><?php echo $this->form->getLabel('state'); ?>
-						<?php echo $this->form->getInput('state'); ?></li>
-				<?php }?>
+				<?php if ($canDo->get('core.edit.state')) : ?>
+					<li><?php echo $this->form->getLabel('state'); ?>
+					<?php echo $this->form->getInput('state'); ?></li>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('purchase_type'); ?>
 				<?php echo $this->form->getInput('purchase_type'); ?></li>
@@ -67,10 +67,12 @@ $canDo	= BannersHelper::getActions();
 		<fieldset class="panelform">
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-				<li><?php if (!$field->hidden): ?>
-					<?php echo $field->label; ?>
-				<?php endif; ?>
-				<?php echo $field->input; ?></li>
+				<li>
+					<?php if (!$field->hidden): ?>
+						<?php echo $field->label; ?>
+					<?php endif; ?>
+					<?php echo $field->input; ?>
+				</li>
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>
@@ -88,10 +90,10 @@ $canDo	= BannersHelper::getActions();
 		</fieldset>
 
 	<?php echo JHtml::_('sliders.end'); ?>
-</div>
-
-<div class="clr"></div>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
+</div>
+
+<div class="clr"></div>
 </form>

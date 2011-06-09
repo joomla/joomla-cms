@@ -38,50 +38,50 @@ JHtml::_('behavior.keepalive');
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_CATEGORIES_FIELDSET_DETAILS');?></legend>
-				<ul class="adminformlist">
-					<li><?php echo $this->form->getLabel('title'); ?>
-					<?php echo $this->form->getInput('title'); ?></li>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('title'); ?>
+				<?php echo $this->form->getInput('title'); ?></li>
 
-					<li><?php echo $this->form->getLabel('alias'); ?>
-					<?php echo $this->form->getInput('alias'); ?></li>
+				<li><?php echo $this->form->getLabel('alias'); ?>
+				<?php echo $this->form->getInput('alias'); ?></li>
 
-					<li><?php echo $this->form->getLabel('extension'); ?>
-					<?php echo $this->form->getInput('extension'); ?></li>
+				<li><?php echo $this->form->getLabel('extension'); ?>
+				<?php echo $this->form->getInput('extension'); ?></li>
 
-					<li><?php echo $this->form->getLabel('parent_id'); ?>
-					<?php echo $this->form->getInput('parent_id'); ?></li>
+				<li><?php echo $this->form->getLabel('parent_id'); ?>
+				<?php echo $this->form->getInput('parent_id'); ?></li>
 
-					<li><?php echo $this->form->getLabel('published'); ?>
-					<?php echo $this->form->getInput('published'); ?></li>
+				<li><?php echo $this->form->getLabel('published'); ?>
+				<?php echo $this->form->getInput('published'); ?></li>
 
-					<li><?php echo $this->form->getLabel('access'); ?>
-					<?php echo $this->form->getInput('access'); ?></li>
+				<li><?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?></li>
 
-					<?php if ($this->canDo->get('core.admin')): ?>
+				<?php if ($this->canDo->get('core.admin')): ?>
 					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
       					<button type="button" onclick="document.location.href='#access-rules';">
       					<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
     				</li>
-    				<?php endif; ?>
+    			<?php endif; ?>
 
-					<li><?php echo $this->form->getLabel('language'); ?>
-					<?php echo $this->form->getInput('language'); ?></li>
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
 
-					<li><?php echo $this->form->getLabel('id'); ?>
-					<?php echo $this->form->getInput('id'); ?></li>
-				</ul>
+				<li><?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?></li>
+			</ul>
 
-				<div class="clr"></div>
-				<?php echo $this->form->getLabel('description'); ?>
-				<div class="clr"></div>
-				<?php echo $this->form->getInput('description'); ?>
-				<div class="clr"></div>
+			<div class="clr"></div>
+			<?php echo $this->form->getLabel('description'); ?>
+			<div class="clr"></div>
+			<?php echo $this->form->getInput('description'); ?>
+			<div class="clr"></div>
 		</fieldset>
 	</div>
 
 	<div class="col options-section">
 
-		<?php echo JHtml::_('sliders.start','plugin-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start','categories-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 			<?php echo $this->loadTemplate('options'); ?>
 			<div class="clr"></div>
 
@@ -92,10 +92,10 @@ JHtml::_('behavior.keepalive');
 			</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>
-		</div>
-		<div class="clr"></div>
+	</div>
+	<div class="clr"></div>
 
-		<?php if ($this->canDo->get('core.admin')): ?>
+	<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="col rules-section">
 
 			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
@@ -111,8 +111,8 @@ JHtml::_('behavior.keepalive');
 		</div>
 	<?php endif; ?>
 	<div>
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
 <div class="clr"></div>

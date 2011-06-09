@@ -47,10 +47,10 @@ foreach ($fieldSets as $name => $fieldSet) :
 	<ul class="adminformlist">
 
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-		<li><?php echo $field->label; ?>
+			<li><?php echo $field->label; ?>
 			<?php echo $field->input; ?></li>
-
 		<?php endforeach; ?>
+
 		<li><?php echo $this->form->getLabel('note'); ?>
 		<?php echo $this->form->getInput('note'); ?></li>
 	</ul>

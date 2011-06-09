@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
+
 $field		= JRequest::getCmd('field');
 $function	= 'jSelectUser_'.$field;
 $listOrder	= $this->escape($this->state->get('list.ordering'));

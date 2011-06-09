@@ -76,7 +76,7 @@ $n			= count($this->items);
 		<thead>
 			<tr>
 				<th class="checkmark-col">
-					<input type="checkbox" name="checkall-toggle" id="toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?> " onclick="checkAll(this)" />
+					<input type="checkbox" name="checkall-toggle" id="toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -106,9 +106,9 @@ $n			= count($this->items);
 			<?php
 			$originalOrders = array();
 			foreach ($this->items as $i => $item) :
-				$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
+				$orderkey	= array_search($item->id, $this->ordering[$item->parent_id]);
 				$canEdit	= $user->authorise('core.edit',			$extension.'.category.'.$item->id);
-				$canCheckin	= $user->authorise('core.manage',	'com_checkin') || $item->checked_out==$user->get('id');
+				$canCheckin	= $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 				$canEditOwn	= $user->authorise('core.edit.own',		$extension.'.category.'.$item->id) && $item->created_user_id == $userId;
 				$canChange	= $user->authorise('core.edit.state',	$extension.'.category.'.$item->id) && $canCheckin;
 			?>
@@ -173,6 +173,7 @@ $n			= count($this->items);
 <?php echo $this->pagination->getListFooter(); ?>
 	<div class="clr"> </div>
 
+	<?php //Load the batch processing form. ?>
 	<?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="extension" value="<?php echo $extension;?>" />

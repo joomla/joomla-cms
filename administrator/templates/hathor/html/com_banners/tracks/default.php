@@ -10,6 +10,7 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
 JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers'.DS.'html');
 JHtml::_('behavior.tooltip');
 JHtml::_('script','system/multiselect.js',false,true);
@@ -103,13 +104,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $item->category_title;?>
 				</td>
 				<td>
-					<?php echo $item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNER_CLICK');?>
+					<?php echo $item->track_type==1 ? JText::_('COM_BANNERS_IMPRESSION'): JText::_('COM_BANNERS_CLICK');?>
 				</td>
 				<td>
 					<?php echo $item->count;?>
 				</td>
 				<td>
-					<?php echo $item->track_date;?>
+					<?php echo JHtml::_('date',$item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
 				</td>
 			</tr>
 		<?php endforeach; ?>

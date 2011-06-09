@@ -74,7 +74,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 		<thead>
 			<tr>
 				<th class="checkmark-col">
-					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('TPL_HATHOR_CHECKMARK_ALL'); ?>" onclick="checkAll(this)" />
+					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="checkAll(this)" />
 				</th>
 				<th class="title">
 					<?php echo JHtml::_('grid.sort',  'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
@@ -107,14 +107,14 @@ $saveOrder	= $listOrder == 'a.ordering';
 		<?php
 		$n = count($this->items);
 		foreach ($this->items as $i => $item) :
-			$ordering	= ($listOrder == 'a.ordering');
+			$ordering	= $listOrder == 'a.ordering';
 			$canCreate	= $user->authorise('core.create',		'com_contact.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_contact.category.'.$item->catid);
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
+			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 			$canEditOwn	= $user->authorise('core.edit.own',		'com_contact.category.'.$item->catid) && $item->created_by == $userId;
 			$canChange	= $user->authorise('core.edit.state',	'com_contact.category.'.$item->catid) && $canCheckin;
 
-			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&='. (int)$item->catid);
+			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -126,9 +126,9 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php endif; ?>
 					<?php if ($canEdit || $canEditOwn) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id='.(int) $item->id); ?>">
-							<?php echo $this->escape($item->name); ?></a>
+						<?php echo $this->escape($item->name); ?></a>
 					<?php else : ?>
-							<?php echo $this->escape($item->name); ?>
+						<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
 					<p class="smallsub">
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>

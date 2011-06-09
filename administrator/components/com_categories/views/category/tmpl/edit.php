@@ -20,7 +20,8 @@ JHtml::_('behavior.keepalive');
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
+	Joomla.submitbutton = function(task)
+	{
 		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
@@ -52,6 +53,7 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
+
 				<?php if ($this->canDo->get('core.admin')): ?>
 					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
 					<div class="button2-left"><div class="blank">
@@ -60,6 +62,7 @@ JHtml::_('behavior.keepalive');
 		      		</div></div>
 		    		</li>
 				<?php endif; ?>
+
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
@@ -87,16 +90,17 @@ JHtml::_('behavior.keepalive');
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"></div>
+
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="width-100 fltlft">
 
 			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 			<?php echo JHtml::_('sliders.panel',JText::_('COM_CATEGORIES_FIELDSET_RULES'), 'access-rules'); ?>
-				<fieldset class="panelform">
-					<?php echo $this->form->getLabel('rules'); ?>
-					<?php echo $this->form->getInput('rules'); ?>
-				</fieldset>
+			<fieldset class="panelform">
+				<?php echo $this->form->getLabel('rules'); ?>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 
 			<?php echo JHtml::_('sliders.end'); ?>
 		</div>

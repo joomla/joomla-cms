@@ -33,6 +33,7 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 			<?php echo JHtml::_( 'select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
 		</fieldset>
 	<?php endif; ?>
+
 	<button type="submit" onclick="submitbutton('category.batch');">
 		<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 	</button>

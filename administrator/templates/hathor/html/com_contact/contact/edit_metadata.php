@@ -31,12 +31,8 @@ foreach ($fieldSets as $name => $fieldSet) :
 				<?php echo $this->form->getInput('xreference'); ?></li>
 			<?php endif; ?>
 			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-				<li>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-				</li>
+				<li><?php echo $field->label; ?>
+				<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
 		</ul>
 	</fieldset>

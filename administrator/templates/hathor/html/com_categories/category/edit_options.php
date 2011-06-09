@@ -20,8 +20,10 @@ defined('_JEXEC') or die; ?>
 			<li><?php echo $this->form->getLabel('created_user_id'); ?>
 			<?php echo $this->form->getInput('created_user_id'); ?></li>
 
-			<li><?php echo $this->form->getLabel('created_time'); ?>
-			<?php echo $this->form->getInput('created_time'); ?></li>
+			<?php if (intval($this->item->created_time)) : ?>
+				<li><?php echo $this->form->getLabel('created_time'); ?>
+				<?php echo $this->form->getInput('created_time'); ?></li>
+			<?php endif; ?>
 
 			<?php if ($this->item->modified_user_id) : ?>
 				<li><?php echo $this->form->getLabel('modified_user_id'); ?>
@@ -39,10 +41,10 @@ defined('_JEXEC') or die; ?>
 foreach ($fieldSets as $name => $fieldSet) :
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL';
 	echo JHtml::_('sliders.panel',JText::_($label), $name.'-options');
-		if (isset($fieldSet->description) && trim($fieldSet->description)) :
-			echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-		endif;
-		?>
+	if (isset($fieldSet->description) && trim($fieldSet->description)) :
+		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+	endif;
+	?>
 	<fieldset class="panelform">
 	<legend class="element-invisible"><?php echo JText::_($label); ?></legend>
 	<ul class="adminformlist">
@@ -50,9 +52,10 @@ foreach ($fieldSets as $name => $fieldSet) :
 			<li><?php echo $field->label; ?>
 			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
+
        	<li><?php echo $this->form->getLabel('note'); ?>
 		<?php echo $this->form->getInput('note'); ?></li>
-
 	</ul>
+
 	</fieldset>
 <?php endforeach; ?>
