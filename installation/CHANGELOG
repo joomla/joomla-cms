@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 09-Jun-2011 Jean-Marie Simonet
  # Updating installation languages xmls to version 1.7
+ #$ Deleting redundant lang string from Rev 21463
  
 08-Jun-2011 Mark Dexter
  # [#24826] ACL bug in Contact component backend
