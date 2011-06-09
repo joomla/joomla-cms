@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: ta-IN.xml 00001 2011-04-24 21:00:00Z imanickam $ -->
 <metafile
-	version="1.6"
+	version="1.7"
 	client="installation">
 	<name>Tamil (INDIA)</name>
-	<version>1.6.2</version>
+	<version>1.7.0</version>
 	<creationDate>2011-01-20</creationDate>
 	<author>Ilagnayeru 'MIG' Manickam, Elango Samy Manim</author>
 	<authorEmail>manickam_mig@yahoo.com; elango@taskosoft.com</authorEmail>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: nl-NL.xml 1.6 -->
 <metafile
-	version="1.6"
+	version="1.7"
 	client="installation">
 	<name>Nederlands nl-NL</name>
-	<version>1.6.1</version>
+	<version>1.7.0</version>
 	<creationDate>August 2011</creationDate>
 	<author>Dutch Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>

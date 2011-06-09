@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: da-DK.xml 149 2010-12-24 12:13:36Z ot2sen $ -->
 <metafile
-	version="1.6"
+	version="1.7"
 	client="installation">
 	<name>Danish (DK)</name>
-	<version>1.6.1</version>
+	<version>1.7.0</version>
 	<creationDate>2010-10-14</creationDate>
 	<author>Danish Translation project</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>

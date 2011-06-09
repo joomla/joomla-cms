@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id: zh-TW.xml 14543 2010-02-04 04:29:34Z eddychang $ -->
 <metafile
-	version="1.6"
+	version="1.7"
 	client="installation">
 	<name>Traditional Chinese (Taiwan)</name>
-	<version>1.6.1</version>
+	<version>1.7.0</version>
 	<creationDate>2010-12-15</creationDate>
 	<author>Joomla! Taiwan</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
