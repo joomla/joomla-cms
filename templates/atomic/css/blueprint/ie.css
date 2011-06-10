@@ -34,3 +34,4 @@ input.checkbox, input.radio {position:relative;top:.25em;}
 form.inline div, form.inline p {vertical-align:middle;}
 form.inline input.checkbox, form.inline input.radio, form.inline input.button, form.inline button {margin:0.5em 0;}
 button, input.button {position:relative;top:0.25em;}
+tbody tr.even td {background:#e5ecf9;}
