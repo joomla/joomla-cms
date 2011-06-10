@@ -28,7 +28,8 @@ $ -> Language fix or change
 ! -> Note
 
 10-Jun-2011 Jean-Marie Simonet
-# [#26118] *Multibyte spaces search broken. Thanks Chris and Jonathan.
+ # [#26118] *Multibyte spaces search broken. Thanks Chris and Jonathan.
+ # Updating admin components xmls to version 1.7
 
 09-Jun-2011 Mark Dexter
  # [#26089] Sync admin layouts (hathor)
