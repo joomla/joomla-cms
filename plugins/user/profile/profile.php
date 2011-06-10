@@ -50,30 +50,34 @@ class plgUserProfile extends JPlugin
 		{
 			$userId = isset($data->id) ? $data->id : 0;
 
-			// Load the profile data from the database.
-			$db = JFactory::getDbo();
-			$db->setQuery(
-				'SELECT profile_key, profile_value FROM #__user_profiles' .
-				' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
-				' ORDER BY ordering'
-			);
-			$results = $db->loadRowList();
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				$this->_subject->setError($db->getErrorMsg());
-				return false;
+			if (!isset($data->profile) and $userId > 0) {
+				
+				// Load the profile data from the database.
+				$db = JFactory::getDbo();
+				$db->setQuery(
+					'SELECT profile_key, profile_value FROM #__user_profiles' .
+					' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
+					' ORDER BY ordering'
+				);
+				$results = $db->loadRowList();
+	
+				// Check for a database error.
+				if ($db->getErrorNum())
+				{
+					$this->_subject->setError($db->getErrorMsg());
+					return false;
+				}
+	
+				// Merge the profile data.
+				$data->profile = array();
+	
+				foreach ($results as $v)
+				{
+					$k = str_replace('profile.', '', $v[0]);
+					$data->profile[$k] = $v[1];
+				}
 			}
-
-			// Merge the profile data.
-			$data->profile = array();
-
-			foreach ($results as $v)
-			{
-				$k = str_replace('profile.', '', $v[0]);
-				$data->profile[$k] = $v[1];
-			}
+			
 			if (!JHtml::isRegistered('users.url')) {
 				JHtml::register('users.url', array(__CLASS__, 'url'));
 			}

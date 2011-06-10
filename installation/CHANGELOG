@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#26084] Don't always load Mootools (More) in the backend - this time for real (Rouven Weßling)
  # [#26112] Remove unnecessary file from CodeMirror (Rouven Weßling)
  # [#26069] Don't render <meta name="rights"> when it has no content. (Rune Sjøen)
+ # [#25275] User profile fields are empty after submitting form with error in user fieldset (Piotr Mocko)
 
 10-Jun-2011 Mark Dexter
  + [#25041] Module Menu Assignment Enhancements (David Harvard)
