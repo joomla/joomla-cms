@@ -722,7 +722,7 @@ abstract class JFactory
 				$prefix .= $SCPOptions['root'];
 			}
 			else {
-				$prefix = JPATH_ROOT.DS;
+				$prefix = JPATH_ROOT . '/';
 			}
 
 			$retval = new JStream($prefix, JPATH_ROOT, $context);

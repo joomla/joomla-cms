@@ -83,7 +83,7 @@ class JDocumentError extends JDocument
 		$directory	= isset($params['directory']) ? $params['directory'] : 'templates';
 		$template	= isset($params['template']) ? JFilterInput::getInstance()->clean($params['template'], 'cmd') : 'system';
 
-		if (!file_exists($directory.DS.$template.DS.$file)) {
+		if (!file_exists($directory . '/' . $template . '/' . $file)) {
 			$template = 'system';
 		}
 
@@ -94,7 +94,7 @@ class JDocumentError extends JDocument
 		$this->error	= $this->_error;
 
 		// load
-		$data = $this->_loadTemplate($directory.DS.$template, $file);
+		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
 		parent::render();
 		return $data;
@@ -113,14 +113,14 @@ class JDocumentError extends JDocument
 		$contents = '';
 
 		// Check to see if we have a valid template file
-		if (file_exists($directory.DS.$filename))
+		if (file_exists($directory . '/' . $filename))
 		{
 			// Store the file path
-			$this->_file = $directory.DS.$filename;
+			$this->_file = $directory . '/' . $filename;
 
 			// Get the file content
 			ob_start();
-			require_once $directory.DS.$filename;
+			require_once $directory . '/' . $filename;
 			$contents = ob_get_contents();
 			ob_end_clean();
 		}

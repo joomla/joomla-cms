@@ -197,7 +197,7 @@ class InstallerModelUpdate extends JModelList
 		$tmp_dest	= $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package	= JInstallerHelper::unpack($tmp_dest.DS.$p_file);
+		$package	= JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
 		$installer	= JInstaller::getInstance();
@@ -229,7 +229,7 @@ class InstallerModelUpdate extends JModelList
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
 			$config = JFactory::getConfig();
-			$package['packagefile'] = $config->get('tmp_path').DS.$package['packagefile'];
+			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);

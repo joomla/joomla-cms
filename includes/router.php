@@ -241,7 +241,7 @@ class JRouterSite extends JRouter
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
 
 			// Use the component routing handler if it exists
-			$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
+			$path = JPATH_SITE . '/components/' . $component . '/router.php';
 
 			if (file_exists($path) && count($segments)) {
 				if ($component != "com_search") { // Cheap fix on searches
@@ -300,7 +300,7 @@ class JRouterSite extends JRouter
 		$tmp		= '';
 
 		// Use the component routing handler if it exists
-		$path = JPATH_SITE.DS.'components'.DS.$component.DS.'router.php';
+		$path = JPATH_SITE . '/components/' . $component . '/router.php';
 
 		// Use the custom routing handler if it exists
 		if (file_exists($path) && !empty($query)) {

@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jun-2011 Christophe Demko
+ # [#25248] Systematic elimination of DS as directory separator - Final round
+
 10-Jun-2011 Mark Dexter
  + [#25041] Module Menu Assignment Enhancements (David Harvard)
 

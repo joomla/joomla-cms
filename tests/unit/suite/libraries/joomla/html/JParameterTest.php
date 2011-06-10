@@ -43,8 +43,8 @@ class JParameterTest extends PHPUnit_Framework_TestCase
 
 		$expected = array(
 			// addElementPath appends the slash for some reason.
-			dirname(__FILE__).DS,
-			JPATH_LIBRARIES.DS.'joomla'.DS.'html/parameter/element'
+			dirname(__FILE__) . '/',
+			JPATH_LIBRARIES . '/joomla/html/parameter/element'
 		);
 
 		$this->assertThat(

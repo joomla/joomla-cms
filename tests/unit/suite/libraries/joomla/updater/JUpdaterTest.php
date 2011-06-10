@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'updater' . DS . 'updater.php';
+require_once JPATH_BASE . '/libraries/joomla/updater/updater.php';
 
 /**
  * Test class for JUpdater.

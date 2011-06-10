@@ -20,7 +20,7 @@ class modRandomImageHelper
 		$i			= count($images);
 		$random		= mt_rand(0, $i - 1);
 		$image		= $images[$random];
-		$size		= getimagesize (JPATH_BASE.DS.$image->folder .DS. $image->name);
+		$size		= getimagesize (JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
 
 		if ($width == '') {
@@ -57,7 +57,7 @@ class modRandomImageHelper
 		$files	= array();
 		$images	= array();
 
-		$dir = JPATH_BASE.DS.$folder;
+		$dir = JPATH_BASE . '/' . $folder;
 
 		// check if directory exists
 		if (is_dir($dir))
@@ -74,7 +74,7 @@ class modRandomImageHelper
 			$i = 0;
 			foreach ($files as $img)
 			{
-				if (!is_dir($dir .DS. $img))
+				if (!is_dir($dir . '/' . $img))
 				{
 					if (preg_match('/'.$type.'/', $img)) {
 						$images[$i] = new stdClass;

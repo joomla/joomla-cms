@@ -10,8 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'helpers'.DS.'route.php';
-JModel::addIncludePath(JPATH_SITE.DS.'components'.DS.'com_weblinks'.DS.'models', 'WeblinksModel');
+require_once JPATH_SITE . '/components/com_weblinks/helpers/route.php';
+JModel::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'WeblinksModel');
 
 class modWeblinksHelper
 {

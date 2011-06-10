@@ -188,7 +188,7 @@ class JDocumentFeed extends JDocument
 
 		// set filename for rss feeds
 		$file = strtolower(str_replace('.', '', $type));
-		$file = $cache_path.DS.$file.'_'.$option.'.xml';
+		$file = $cache_path . '/' . $file.'_'.$option.'.xml';
 
 
 		// Instantiate feed renderer and set the mime encoding

@@ -66,10 +66,10 @@ abstract class JInstallerHelper
 
 		// Set the target path if not given
 		if (!$target) {
-			$target = $config->get('tmp_path').DS.self::getFilenameFromURL($url);
+			$target = $config->get('tmp_path') . '/' . self::getFilenameFromURL($url);
 		}
 		else {
-			$target = $config->get('tmp_path').DS.basename($target);
+			$target = $config->get('tmp_path') . '/' . basename($target);
 		}
 
 		// Initialise contents buffer
@@ -116,7 +116,7 @@ abstract class JInstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = JPath::clean(dirname($p_filename).DS.$tmpdir);
+		$extractdir = JPath::clean(dirname($p_filename) . '/' . $tmpdir);
 		$archivename = JPath::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -145,9 +145,9 @@ abstract class JInstallerHelper
 
 		if (count($dirList) == 1)
 		{
-			if (JFolder::exists($extractdir.DS.$dirList[0]))
+			if (JFolder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = JPath::clean($extractdir.DS.$dirList[0]);
+				$extractdir = JPath::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -253,10 +253,10 @@ abstract class JInstallerHelper
 		if (is_file($package)) {
 			JFile::delete($package);
 		}
-		elseif (is_file(JPath::clean($config->get('tmp_path').DS.$package)))
+		elseif (is_file(JPath::clean($config->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			JFile::delete(JPath::clean($config->get('tmp_path').DS.$package));
+			JFile::delete(JPath::clean($config->get('tmp_path') . '/' . $package));
 		}
 	}
 

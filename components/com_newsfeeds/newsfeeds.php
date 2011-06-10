@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 // Require the com_content helper library
 jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT.'/helpers/route.php';
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.DS.'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 $controller	= JController::getInstance('Newsfeeds');
 $controller->execute(JRequest::getCmd('task'));

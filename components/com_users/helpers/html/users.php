@@ -166,9 +166,9 @@ abstract class JHtmlUsers
 			if ($title)
 			{
 					$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS .DS.'editors'.DS.$value, null, false, false)
+				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, false)
 				||	$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS .DS.'editors'.DS.$value, $lang->getDefault(), false, false);
+				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, $lang->getDefault(), false, false);
 				$lang->load($title.'.sys');
 				return JText::_($title);
 			}

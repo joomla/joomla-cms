@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
-JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcut to parameters.
 $params = $this->item->params;
@@ -22,7 +22,7 @@ if ($templateparams->get('html5') != 1) :
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
 
 else :
-	JHtml::addIncludePath(JPATH_COMPONENT.DS.'helpers');
+	JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <article class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>

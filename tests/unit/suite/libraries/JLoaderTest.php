@@ -40,8 +40,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->bogusPath = JPATH_BASE.DS.'tests/unit/objects';
-		$this->bogusFullPath = JPATH_BASE.DS.'tests/unit/objects/bogusload.php';
+		$this->bogusPath = JPATH_BASE . '/tests/unit/objects';
+		$this->bogusFullPath = JPATH_BASE . '/tests/unit/objects/bogusload.php';
 	}
 
 	/**
@@ -88,7 +88,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			),
 			'bogus' => array(
 				'bogusload',
-				JPATH_BASE.DS.'tests/unit/objects',
+				JPATH_BASE . '/tests/unit/objects',
 				'',
 				true,
 				'bogusload.php should load properly',

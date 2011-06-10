@@ -290,7 +290,7 @@ class JInstallation extends JApplication
 	 */
 	public function getLocalise()
 	{
-		$xml = JFactory::getXML(JPATH_SITE.DS.'installation'.DS.'localise.xml');
+		$xml = JFactory::getXML(JPATH_SITE . '/installation/localise.xml');
 
 		if (!$xml) {
 			return false;
@@ -324,7 +324,7 @@ class JInstallation extends JApplication
  		jimport('joomla.filesystem.folder');
 
  		// Read the files in the admin area
- 		$path = JLanguage::getLanguagePath(JPATH_SITE.DS.'administrator');
+ 		$path = JLanguage::getLanguagePath(JPATH_SITE . '/administrator');
  		$langfiles['admin'] = JFolder::folders($path);
 
  		// Read the files in the site area

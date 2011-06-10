@@ -1,8 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'session' . DS . 'storage.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'session' . DS . 'storage' . DS . 'apc.php';
+require_once JPATH_BASE . '/libraries/joomla/session/storage.php';
+require_once JPATH_BASE . '/libraries/joomla/session/storage/apc.php';
 
 /**
  * Test class for JSessionStorageApc.

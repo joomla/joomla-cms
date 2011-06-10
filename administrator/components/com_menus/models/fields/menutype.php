@@ -412,19 +412,19 @@ class JFormFieldMenuType extends JFormFieldList
 
 		// get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
-		$folders = JFolder::folders(JPATH_SITE.DS.'templates','',false,true);
+		$folders = JFolder::folders(JPATH_SITE . '/templates','',false,true);
 		// Array to hold association between template file names and templates
 		$templateName = array();
 		foreach($folders as $folder)
 		{
-			if (JFolder::exists($folder.DS.'html'.DS.$component.DS.$view)) {
+			if (JFolder::exists($folder . '/html/' . $component . '/' . $view)) {
 				$template = JFile::getName($folder);
 					$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
 
-				$templateLayouts = JFolder::files($folder.DS.'html'.DS.$component.DS.$view, '.xml$', false, true);
+				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
 
 				foreach ($templateLayouts as $layout)

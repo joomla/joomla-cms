@@ -1,8 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'filesystem' . DS . 'path.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'html' . DS . 'html.php';
+require_once JPATH_BASE . '/libraries/joomla/filesystem/path.php';
+require_once JPATH_BASE . '/libraries/joomla/html/html.php';
 
 /**
  * Test class for JHtml.

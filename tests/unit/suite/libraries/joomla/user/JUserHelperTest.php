@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'user' . DS . 'helper.php';
+require_once JPATH_BASE . '/libraries/joomla/user/helper.php';
 
 /**
  * Test class for JUserHelper.

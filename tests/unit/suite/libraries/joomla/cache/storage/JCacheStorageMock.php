@@ -8,7 +8,7 @@
  * @version $Id$
  *
  */
-JLoader::register('JCacheStorage', JPATH_LIBRARIES.DS.'joomla'.DS.'cache'.DS.'storage.php');
+JLoader::register('JCacheStorage', JPATH_LIBRARIES . '/joomla/cache/storage.php');
 
 /**
  * Mock of JCacheStorage Backend Class.  Used for testing of cache handlers.

@@ -58,7 +58,7 @@ class MediaControllerFile extends JController
 			// The request is valid
 			$err = null;
 
-			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
+			$filepath = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . strtolower($file['name']));
 
 			if (!MediaHelper::canUpload($file, $err))
 			{

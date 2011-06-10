@@ -40,7 +40,7 @@ class JHtmlIcon
 
 	static function email($article, $params, $attribs = array())
 	{
-		require_once(JPATH_SITE.DS.'components'.DS.'com_mailto'.DS.'helpers'.DS.'mailto.php');
+		require_once(JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
 		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();

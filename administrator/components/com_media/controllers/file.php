@@ -62,7 +62,7 @@ class MediaControllerFile extends JController
 				return false;
 			}
 
-			$filepath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.strtolower($file['name']));
+			$filepath = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . strtolower($file['name']));
 
 			// Trigger the onContentBeforeSave event.
 			JPluginHelper::importPlugin('content');
@@ -164,7 +164,7 @@ class MediaControllerFile extends JController
 						continue;
 					}
 
-					$fullPath = JPath::clean(COM_MEDIA_BASE.DS.$folder.DS.$path);
+					$fullPath = JPath::clean(COM_MEDIA_BASE . '/' . $folder . '/' . $path);
 					$object_file = new JObject(array('filepath' => $fullPath));
 					if (is_file($fullPath))
 					{

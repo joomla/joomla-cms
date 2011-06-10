@@ -109,7 +109,7 @@ class BannersHelper
 			return false;
 		}
 
-		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . DS . 'tables');
+		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 		foreach ($rows as $row) {
 			$purchase_type = $row->purchase_type;

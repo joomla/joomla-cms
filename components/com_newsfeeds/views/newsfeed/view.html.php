@@ -81,7 +81,7 @@ class NewsfeedsViewNewsfeed extends JView
 		$item->parent_slug = $item->category_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// check if cache directory is writeable
-		$cacheDir = JPATH_CACHE.DS;
+		$cacheDir = JPATH_CACHE . '/';
 
 		if (!is_writable($cacheDir)) {
 			JError::raiseNotice('0', JText::_('COM_NEWSFEEDS_CACHE_DIRECTORY_UNWRITABLE'));

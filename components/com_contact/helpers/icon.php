@@ -23,7 +23,7 @@ class JHtmlIcon
 
 	static function email($contact, $params, $attribs = array())
 	{
-		require_once(JPATH_SITE.DS.'components'.DS.'com_mailto'.DS.'helpers'.DS.'mailto.php');
+		require_once(JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
 		$uri	= JURI::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
 		$link	= $base.JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid) , false);

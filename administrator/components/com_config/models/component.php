@@ -34,7 +34,7 @@ class ConfigModelComponent extends JModelForm
 
 		// Set an alternative path for the configuration file.
 		if ($path = JRequest::getString('path')) {
-			$path = JPath::clean(JPATH_SITE.DS.$path);
+			$path = JPath::clean(JPATH_SITE . '/' . $path);
 			JPath::check($path);
 			$this->setState('component.path', $path);
 		}

@@ -116,8 +116,8 @@ class JInstallationModelConfiguration extends JModel
 
 		/* Feed Settings */
 		$registry->set('feed_limit', 10);
-		$registry->set('log_path', JPATH_ROOT.DS.'logs');
-		$registry->set('tmp_path', JPATH_ROOT.DS.'tmp');
+		$registry->set('log_path', JPATH_ROOT . '/logs');
+		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
 
 		/* Session Setting */
 		$registry->set('lifetime', 15);
@@ -128,13 +128,13 @@ class JInstallationModelConfiguration extends JModel
 
 
 		// Build the configuration file path.
-		$path = JPATH_CONFIGURATION.DS.'configuration.php';
+		$path = JPATH_CONFIGURATION . '/configuration.php';
 
 		// Determine if the configuration file path is writable.
 		if (file_exists($path)) {
 			$canWrite = is_writable($path);
 		} else {
-			$canWrite = is_writable(JPATH_CONFIGURATION.DS);
+			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
 		}
 
 		/*

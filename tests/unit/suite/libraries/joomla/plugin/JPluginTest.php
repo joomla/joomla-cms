@@ -1,7 +1,7 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'plugin' . DS . 'plugin.php';
+require_once JPATH_BASE . '/libraries/joomla/plugin/plugin.php';
 
 /**
  * Test class for JPlugin.

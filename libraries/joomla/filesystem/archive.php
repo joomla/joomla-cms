@@ -70,7 +70,7 @@ class JArchive
 
 				if ($adapter) {
 					$config		= JFactory::getConfig();
-					$tmpfname	= $config->get('tmp_path').DS.uniqid('gzip');
+					$tmpfname	= $config->get('tmp_path') . '/' . uniqid('gzip');
 					$gzresult	= $adapter->extract($archivename, $tmpfname);
 
 					if (JError::isError($gzresult)) {
@@ -92,7 +92,7 @@ class JArchive
 						JFolder::create($path);
 						$result = JFile::copy(
 							$tmpfname,
-							$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1
+							$path . '/' . JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1
 						);
 					}
 
@@ -112,7 +112,7 @@ class JArchive
 
 				if ($adapter) {
 					$config		= JFactory::getConfig();
-					$tmpfname	= $config->get('tmp_path').DS.uniqid('bzip2');
+					$tmpfname	= $config->get('tmp_path') . '/' . uniqid('bzip2');
 					$bzresult	= $adapter->extract($archivename, $tmpfname);
 
 					if (JError::isError($bzresult)) {
@@ -133,7 +133,7 @@ class JArchive
 						JFolder::create($path);
 						$result = JFile::copy(
 							$tmpfname,
-							$path.DS.JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1
+							$path . '/' . JFile::stripExt(JFile::getName(strtolower($archivename))), null, 1
 						);
 					}
 
@@ -175,7 +175,7 @@ class JArchive
 			$class = 'JArchive'.ucfirst($type);
 
 			if (!class_exists($class)) {
-				$path = dirname(__FILE__).DS.'archive'.DS.strtolower($type).'.php';
+				$path = dirname(__FILE__) . '/archive/' . strtolower($type).'.php';
 				if (file_exists($path)) {
 					require_once $path;
 				}

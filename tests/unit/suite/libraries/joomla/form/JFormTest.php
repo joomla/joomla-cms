@@ -60,7 +60,7 @@ class JFormTest extends JoomlaTestCase
 		$paths = JForm::addFieldPath();
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'fields';
+		$valid = JPATH_LIBRARIES . '/joomla/form/fields';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -90,7 +90,7 @@ class JFormTest extends JoomlaTestCase
 		$paths = JForm::addFormPath();
 
 		// The default path is the class file folder/forms
-		$valid = JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'forms';
+		$valid = JPATH_LIBRARIES . '/joomla/form/forms';
 
 		$this->assertThat(
 			in_array($valid, $paths),
@@ -120,7 +120,7 @@ class JFormTest extends JoomlaTestCase
 		$paths = JForm::addRulePath();
 
 		// The default path is the class file folder/rules
-		$valid = JPATH_LIBRARIES.DS.'joomla'.DS.'form'.DS.'rules';
+		$valid = JPATH_LIBRARIES . '/joomla/form/rules';
 
 		$this->assertThat(
 			in_array($valid, $paths),

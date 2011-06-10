@@ -8,7 +8,7 @@
  * @license   GNU General Public License
  */
 require_once 'PHPUnit/Framework.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'utilities' . DS . 'simplecrypt.php';
+require_once JPATH_BASE . '/libraries/joomla/utilities/simplecrypt.php';
 
 /**
  * Test class for JSimpleCrypt.

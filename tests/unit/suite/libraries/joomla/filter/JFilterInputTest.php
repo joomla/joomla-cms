@@ -8,7 +8,7 @@
  * @license		GNU General Public License
  */
 
-//require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'filter' . DS . 'filterinput.php';
+//require_once JPATH_BASE . '/libraries/joomla/filter/filterinput.php';
 
 /**
  * JFilterInputTest

@@ -34,7 +34,7 @@ class JRequestTest_Clean extends PHPUnit_Framework_TestCase
 	}
 
 	public static function setUpBeforeClass() {
-		require_once dirname(__FILE__).DS.'JFilterInput-mock-general.php';
+		require_once dirname(__FILE__) . '/JFilterInput-mock-general.php';
 		$filter = &JFilterInput::getInstance();
 		self::$filter = JFilterInput::getInstance();
 		$filter = new JFilterInputJRequest;

@@ -411,7 +411,7 @@ class JInstallationModelFilesystem extends JModel
 		$ftpRoot = $options->ftpRoot;
 
 		// Determine if the path is "chmodable".
-		if (!JPath::canChmod(JPath::clean(JPATH_SITE.DS.$folder))) {
+		if (!JPath::canChmod(JPath::clean(JPATH_SITE . '/' . $folder))) {
 			$ftpFlag = true;
 		}
 
@@ -439,7 +439,7 @@ class JInstallationModelFilesystem extends JModel
 			$client->quit();
 			$ret = true;
 		} else {
-			$path = JPath::clean(JPATH_SITE.DS.$folder);
+			$path = JPath::clean(JPATH_SITE . '/' . $folder);
 
 			if (!@ chmod($path, octdec('0755'))) {
 				$ret = false;

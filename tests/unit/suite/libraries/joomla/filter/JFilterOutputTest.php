@@ -14,7 +14,7 @@ require_once 'PHPUnit/Framework.php';
 require_once JPATH_BASE . '/libraries/joomla/utilities/string.php';
 
 
-//require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'filter' . DS . 'filteroutput.php';
+//require_once JPATH_BASE . '/libraries/joomla/filter/filteroutput.php';
 /**
  * FilterTestObject
  *

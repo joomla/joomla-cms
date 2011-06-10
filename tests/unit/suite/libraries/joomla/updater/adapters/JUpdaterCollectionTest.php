@@ -1,8 +1,8 @@
 <?php
 require_once 'PHPUnit/Framework.php';
 
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'updater' . DS . 'updateadapter.php';
-require_once JPATH_BASE. DS . 'libraries' . DS . 'joomla' . DS . 'updater' . DS . 'adapters' . DS . 'collection.php';
+require_once JPATH_BASE . '/libraries/joomla/updater/updateadapter.php';
+require_once JPATH_BASE . '/libraries/joomla/updater/adapters/collection.php';
 
 /**
  * Test class for JUpdaterCollection.

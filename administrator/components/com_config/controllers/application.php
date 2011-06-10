@@ -152,7 +152,7 @@ class ConfigControllerApplication extends JController
 
 		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false) {
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
-		} else if (!JFile::write(JPATH_BASE.DS.'help'.DS.'helpsites.xml', $data)) {
+		} else if (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data)) {
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
 		} else {
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));

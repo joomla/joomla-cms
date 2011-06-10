@@ -105,7 +105,7 @@ $saveOrder	= ($listOrder == 'ordering');
 			$canChange	= $user->authorise('core.edit.state',	'com_plugins') && $canCheckin;
 			// $lang = JFactory::getLanguage();
 			// $lang->load($item->name, JPATH_ADMINISTRATOR)
-			// || $lang->load ($item->name, JPATH_PLUGINS.DS.$item->folder.DS.$item->element);
+			// || $lang->load ($item->name, JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

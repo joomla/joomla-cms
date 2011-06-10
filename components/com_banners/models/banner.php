@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.application.component.helper');
 
-JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . DS .'tables');
+JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
 /**
  * Banner model for the Joomla Banners component.

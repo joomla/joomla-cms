@@ -56,7 +56,7 @@ $this->direction = $doc->direction;
 		 <link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo htmlspecialchars($color); ?>.css" type="text/css" />
 		<?php if ($this->direction == 'rtl') : ?>
 			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/template_rtl.css" type="text/css" />
-			<?php if (file_exists(JPATH_SITE. DS . '/templates/beez_20/css/' . $color . '_rtl.css')) :?>
+			<?php if (file_exists(JPATH_SITE . '/templates/beez_20/css/' . $color . '_rtl.css')) :?>
 				<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/beez_20/css/<?php echo $color ?>_rtl.css" type="text/css" />
 			<?php endif; ?>
 		<?php endif; ?>

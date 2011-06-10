@@ -28,7 +28,7 @@ class InstallerViewDefault extends JView
 	{
 		$app = JFactory::getApplication();
 		parent::__construct($config);
-		$this->_addPath('template', $this->_basePath.DS.'views'.DS.'default'.DS.'tmpl');
+		$this->_addPath('template', $this->_basePath . '/views/default/tmpl');
 		$this->_addPath('template', JPATH_THEMES.'/'.$app->getTemplate().'/html/com_installer/default');
 	}
 

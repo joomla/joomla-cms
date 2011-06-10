@@ -107,7 +107,7 @@ class plgEditorTinymce extends JPlugin
 
 		$content_css = '';
 
-		$templates_path = JPATH_SITE.DS.'templates';
+		$templates_path = JPATH_SITE . '/templates';
 		// loading of css file for 'styles' dropdown
 		if ( $content_css_custom ) {
 			// If URL, just pass it to $content_css
@@ -119,7 +119,7 @@ class plgEditorTinymce extends JPlugin
 				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.$content_css_custom)) {
+				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom)) {
 					$msg = sprintf (JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
@@ -130,11 +130,11 @@ class plgEditorTinymce extends JPlugin
 			if ($use_content_css) {
 				// first check templates folder for default template
 				// if no editor.css file in templates folder, check system template folder
-				if (!file_exists($templates_path.DS.$template.DS.'css'.DS.'editor.css')) {
+				if (!file_exists($templates_path . '/' . $template . '/css/editor.css')) {
 					$template = 'system';
 
 					// if no editor.css file in system folder, show alert
-					if (!file_exists($templates_path.DS.'system'.DS.'css'.DS.'editor.css')) {
+					if (!file_exists($templates_path . '/system/css/editor.css')) {
 						JError::raiseNotice('SOME_ERROR_CODE', JText::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'));
 					}
 					else {

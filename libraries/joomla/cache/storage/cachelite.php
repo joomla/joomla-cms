@@ -44,7 +44,7 @@ class JCacheStorageCachelite extends JCacheStorage
 		$this->_root	= $options['cachebase'];
 
 		$cloptions = array(
-			'cacheDir' 					=> $this->_root.DS,
+			'cacheDir' 					=> $this->_root . '/',
 			'lifeTime' 					=> $this->_lifetime,
 			'fileLocking'   			=> $this->_locking,
 			'automaticCleaningFactor'	=> isset($options['autoclean']) ? $options['autoclean'] : 200,
@@ -92,7 +92,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	public function get($id, $group, $checkTime = true)
 	{
 		$data = false;
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
+		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$data = self::$CacheLiteInstance->get($this->rawname, $group);
 
@@ -118,11 +118,11 @@ class JCacheStorageCachelite extends JCacheStorage
 
 		foreach ($folders as $folder)
 		{
-			$files = JFolder::files($path.DS.$folder);
+			$files = JFolder::files($path . '/' . $folder);
 			$item = new JCacheStorageHelper($folder);
 
 			foreach ($files as $file) {
-				$item->updateSize(filesize($path.DS.$folder.DS.$file)/1024);
+				$item->updateSize(filesize($path . '/' . $folder . '/' . $file)/1024);
 			}
 
 			$data[$folder] = $item;
@@ -144,7 +144,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
-		$dir = $this->_root.DS.$group;
+		$dir = $this->_root . '/' . $group;
 
 		// If the folder doesn't exist try to create it
 		if (!is_dir($dir)) {
@@ -158,7 +158,7 @@ class JCacheStorageCachelite extends JCacheStorage
 			return false;
 		}
 
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
+		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$success = self::$CacheLiteInstance->save($data, $this->rawname, $group);
 
@@ -182,7 +182,7 @@ class JCacheStorageCachelite extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
-		self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
+		self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 		$this->_getCacheId($id, $group);
 		$success = self::$CacheLiteInstance->remove($this->rawname, $group);
 
@@ -227,11 +227,11 @@ class JCacheStorageCachelite extends JCacheStorage
 				break;
 
 			case 'group':
-				if (is_dir($this->_root.DS.$group)) {
+				if (is_dir($this->_root . '/' . $group)) {
 					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
+					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
- 					$return = JFolder::delete($this->_root.DS.$group);
+ 					$return = JFolder::delete($this->_root . '/' . $group);
  				}
 				else {
 					$success = true;
@@ -240,9 +240,9 @@ class JCacheStorageCachelite extends JCacheStorage
 				break;
 
 			default:
-				if (is_dir($this->_root.DS.$group)) {
+				if (is_dir($this->_root . '/' . $group)) {
 					$clmode = $group;
-					self::$CacheLiteInstance->setOption('cacheDir', $this->_root.DS.$group.DS);
+					self::$CacheLiteInstance->setOption('cacheDir', $this->_root . '/' . $group . '/');
 					$success = self::$CacheLiteInstance->clean($group, $clmode);
 				}
 				else {
@@ -273,19 +273,19 @@ class JCacheStorageCachelite extends JCacheStorage
 		self::$CacheLiteInstance->setOption('automaticCleaningFactor', 1);
 		self::$CacheLiteInstance->setOption('hashedDirectoryLevel', 1);
 		$test 		= self::$CacheLiteInstance;
-		$success1 	= self::$CacheLiteInstance->_cleanDir($this->_root.DS, false, 'old');
+		$success1 	= self::$CacheLiteInstance->_cleanDir($this->_root . '/', false, 'old');
 
-		if (!($dh = opendir($this->_root.DS))) {
+		if (!($dh = opendir($this->_root . '/'))) {
 			return false;
 		}
 
 		while ($file = readdir($dh))
 		{
 			if (($file != '.') && ($file != '..') && ($file != '.svn')) {
-				$file2 = $this->_root.DS.$file;
+				$file2 = $this->_root . '/' . $file;
 
 				if (is_dir($file2)) {
-					$result = ($result and (self::$CacheLiteInstance->_cleanDir($file2.DS, false, 'old')));
+					$result = ($result and (self::$CacheLiteInstance->_cleanDir($file2 . '/', false, 'old')));
 				}
 			}
 		}

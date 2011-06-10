@@ -133,7 +133,7 @@ class InstallerModelInstall extends JModel
 		// Cleanup the install files
 		if (!is_file($package['packagefile'])) {
 			$config = JFactory::getConfig();
-			$package['packagefile'] = $config->get('tmp_path').DS.$package['packagefile'];
+			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -178,7 +178,7 @@ class InstallerModelInstall extends JModel
 
 		// Build the appropriate paths
 		$config		= JFactory::getConfig();
-		$tmp_dest	= $config->get('tmp_path').DS.$userfile['name'];
+		$tmp_dest	= $config->get('tmp_path') . '/' . $userfile['name'];
 		$tmp_src	= $userfile['tmp_name'];
 
 		// Move uploaded file
@@ -259,7 +259,7 @@ class InstallerModelInstall extends JModel
 		$tmp_dest	= $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest.DS.$p_file);
+		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		return $package;
 	}

@@ -167,7 +167,7 @@ class LanguagesModelInstalled extends JModelList
 			$data	= array ();
 
 			foreach($langlist as $lang){
-				$file = $path.DS.$lang.DS.$lang.'.xml';
+				$file = $path . '/' . $lang . '/' . $lang.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject();
 				$row->language = $lang;
