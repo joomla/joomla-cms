@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<localise version="1.6" client="installation" >
+<localise version="1.7" client="installation" >
 	<forceLang></forceLang>
 	<helpurl></helpurl>
 	<debug>0</debug>
