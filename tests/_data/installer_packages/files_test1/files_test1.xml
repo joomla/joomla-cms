@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="file" version="1.6" method="upgrade">
+<extension type="file" version="1.7" method="upgrade">
 	<!-- Note: we can use method="upgrade" to ensure an upgrade regardless of
 	if it is a new install or an actual upgrade; Normal installs will
 	behave like an install but upgrades will be treated appropriately even
@@ -12,7 +12,7 @@
 	<authorUrl>http://www.example.org</authorUrl>
 	<copyright>(C) 2008 Copyright Info</copyright>
 	<license>License Info</license>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<creationDate>August 2010</creationDate>
 	<description>FILES_TEST1_XML_DESCRIPTION</description>
 

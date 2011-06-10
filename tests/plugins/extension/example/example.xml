@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.6" type="plugin" group="extension">
+<extension version="1.7" type="plugin" group="extension">
 	<name>plg_extension_example</name>
 	<author>Joomla! Project</author>
 	<creationDate>September 2008</creationDate>

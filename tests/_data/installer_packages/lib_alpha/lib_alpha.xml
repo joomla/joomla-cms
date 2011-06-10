@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="1.6" method="upgrade">
+<extension type="library" version="1.7" method="upgrade">
 	<name>lib_alpha</name>
 	<libraryname>alpha</libraryname>
 	<description>LIB_ALPHA_XML_DESCRIPTION</description>
@@ -9,7 +9,7 @@
 	<authorUrl>http://www.example.org</authorUrl>
 	<copyright>(C) 2008 Copyright Info</copyright>
 	<license>License Info</license>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
 	<updateservers>http://update.joomla.org/libraries/alpha</updateservers>

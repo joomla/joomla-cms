@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="package" version="1.6">
+<extension type="package" version="1.7">
 	<name>Everything Demonstration</name>
 	<packagename>everything</packagename>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<url>http://www.joomla.org</url>
 	<packager>Sam Moffatt</packager>
 	<packagerurl>http://www.sammoffatt.com.au</packagerurl>
