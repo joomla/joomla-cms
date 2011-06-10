@@ -34,6 +34,7 @@ $ -> Language fix or change
  # Updating site components xmls to version 1.7
  # Updating admin templates xmls to version 1.7
  # Updating main en-GB and localise xmls to version 1.7
+ + Adding default empty en-GB.override.ini
  
 09-Jun-2011 Mark Dexter
  # [#26089] Sync admin layouts (hathor)
