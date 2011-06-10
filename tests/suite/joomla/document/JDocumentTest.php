@@ -181,24 +181,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * This is an empty test for code coverage reasons (the method is empty)
-	 */
-	public function testGetHeadData()
-	{
-		$this->object = new JDocument;
-		$this->object->getHeadData();
-	}
-
-	/**
-	 * This is an empty test for code coverage reasons (the method is empty)
-	 */
-	public function testSetHeadData()
-	{
-		$this->object = new JDocument;
-		$this->object->setHeadData(array());
-	}
-
-	/**
 	 * Test getBuffer
 	 */
 	public function testGetBuffer()
