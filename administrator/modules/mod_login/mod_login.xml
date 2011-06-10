@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="1.6.0"
+	version="1.7"
 	client="administrator">
 	<name>mod_login</name>
 	<author>Joomla! Project</author>
@@ -10,7 +10,7 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<description>MOD_LOGIN_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_login">mod_login.php</filename>

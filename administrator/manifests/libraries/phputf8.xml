@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="1.6">
+<extension type="library" version="1.7">
 	<name>phputf8</name>
 	<libraryname>phputf8</libraryname>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<description>Classes for UTF8</description>
 	<creationDate>2008</creationDate>
 	<copyright>Copyright various authors</copyright>

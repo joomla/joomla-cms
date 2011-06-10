@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="1.6">
+<extension type="library" version="1.7">
 	<name>PHPMailer</name>
 	<libraryname>phpmailer</libraryname>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<description>Classes for sending email</description>
 	<creationDate>2008</creationDate>
 	<copyright>Copyright (C) PHPMailer.</copyright>
