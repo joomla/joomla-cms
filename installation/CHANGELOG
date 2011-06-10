@@ -30,6 +30,7 @@ $ -> Language fix or change
 10-Jun-2011 Christophe Demko
  # [#25248] Systematic elimination of DS as directory separator - Final round
  # [#26107] RTL issues with trunk (Ofer Cohen)
+ # [#26121] wrong output of mod_custom (Mark Visser)
 
 10-Jun-2011 Mark Dexter
  + [#25041] Module Menu Assignment Enhancements (David Harvard)
