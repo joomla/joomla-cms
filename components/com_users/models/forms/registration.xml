@@ -37,7 +37,7 @@
 			filter="raw"
 			label="COM_USERS_REGISTER_PASSWORD1_LABEL"
 			message="COM_USERS_REGISTER_PASSWORD1_MESSAGE"
-			required="required"
+			required="true"
 			size="30"
 			validate="equals"
 		/>
@@ -49,7 +49,7 @@
 			filter="raw"
 			label="COM_USERS_REGISTER_PASSWORD2_LABEL"
 			message="COM_USERS_REGISTER_PASSWORD2_MESSAGE"
-			required="required"
+			required="true"
 			size="30"
 		/>
 

@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#25248] Systematic elimination of DS as directory separator - Final round
  # [#26107] RTL issues with trunk (Ofer Cohen)
  # [#26121] wrong output of mod_custom (Mark Visser)
+ # [#24137] Decide and document what value the required attribute takes for JForm. (Rune Sjøen)
 
 10-Jun-2011 Mark Dexter
  + [#25041] Module Menu Assignment Enhancements (David Harvard)
