@@ -13,7 +13,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6, including alpha and beta versions.
+Joomla! 1.6 and 1.7, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -39,6 +39,7 @@ $ -> Language fix or change
  # Updating plugins xmls to version 1.7
  # Updating site templates xmls to version 1.7
  # Updating tests xmls to version 1.7
+ # Updating some occurrences of Joomla! 1.6 to Joomla! 1.7 (more TODO)
  
 09-Jun-2011 Mark Dexter
  # [#26089] Sync admin layouts (hathor)

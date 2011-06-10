@@ -8,7 +8,7 @@
 	<author>Joomla! Japanese Translation Team</author>
 	<copyright>Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Joomla! 1.6のインストール用日本語ランゲージファイルです。</description>
+	<description>Joomla! 1.7のインストール用日本語ランゲージファイルです。</description>
 	<files>
 		<filename>ja-JP.ini</filename>
 	</files>
