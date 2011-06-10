@@ -211,7 +211,7 @@ table.adminlist .pagination{
 
 .pagination div.limit{
 	float: right;
-	margin: 0 0 0 10px;
+	margin: 0 10px 0 0;
 }
 
 .button2-left .page a, .button2-right .page a, .button2-left .page span, .button2-right .page span, .button2-left .blank a, .button2-right .blank a, .button2-left .blank span, .button2-right .blank span{
@@ -372,6 +372,10 @@ li#jform_access_label {
 fieldset.adminform label,
 fieldset.adminform span.faux-label {
 	padding: 0 0 0 5px;
+}
+
+fieldset.adminform ul.checklist li {
+	float:right;
 }
 
 fieldset.panelform label,
