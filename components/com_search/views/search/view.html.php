@@ -40,7 +40,6 @@ class SearchViewSearch extends JView
 		$areas	= $this->get('areas');
 		$state		= $this->get('state');
 		$searchword = $state->get('keyword');
-
 		$params = $app->getParams();
 
 		$menus	= $app->getMenu();
@@ -139,8 +138,9 @@ class SearchViewSearch extends JView
 					$needle = $searchword;
 				}
 				else {
-					$searchwords = preg_split("/\s+/u", $searchword);
-					$needle = $searchwords[0];
+					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
+					$searchwords = preg_split("/\s+/u", $searchworda);
+ 					$needle = $searchwords[0];
 				}
 
 				$row = SearchHelper::prepareSearchContent($row, $needle);
@@ -188,6 +188,7 @@ class SearchViewSearch extends JView
 
 		$this->assign('ordering',		$state->get('ordering'));
 		$this->assign('searchword',		$searchword);
+		$this->assign('origkeyword',	$state->get('origkeyword'));
 		$this->assign('searchphrase',	$state->get('match'));
 		$this->assign('searchareas',	$areas);
 

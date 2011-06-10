@@ -88,6 +88,10 @@ class SearchModelSearch extends JModel
 	function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
 		if (isset($keyword)) {
+			$this->setState('origkeyword', $keyword);
+			if($match !== 'exact') {
+				$keyword 		= preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
+			}
 			$this->setState('keyword', $keyword);
 		}
 
