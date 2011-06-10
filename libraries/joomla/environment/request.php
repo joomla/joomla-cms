@@ -163,12 +163,12 @@ class JRequest
 	 *
 	 * See getVar() for more in-depth documentation on the parameters.
 	 *
-	 * @param	string	$name		Variable name.
-	 * @param	string	$default	Default value if the variable does not exist.
-	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * @param    string	$name		Variable name.
+	 * @param    string	$default	Default value if the variable does not exist.
+	 * @param    string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return	integer	Requested variable.
-	 * @since	11.1
+	 * @return   integer	Requested variable.
+	 * @since    11.1
 	 */
 	public static function getInt($name, $default = 0, $hash = 'default')
 	{
@@ -182,12 +182,12 @@ class JRequest
 	 *
 	 * See getVar() for more in-depth documentation on the parameters.
 	 *
-	 * @param	string	$name		Variable name.
-	 * @param	string	$default	Default value if the variable does not exist.
-	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * @param    string	$name		Variable name.
+	 * @param    string	$default	Default value if the variable does not exist.
+	 * @param    string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return	float  Requested variable.
-	 * @since	11.1
+	 * @return   float  Requested variable.
+	 * @since    11.1
 	 */
 	public static function getFloat($name, $default = 0.0, $hash = 'default')
 	{
@@ -201,12 +201,12 @@ class JRequest
 	 *
 	 * See getVar() for more in-depth documentation on the parameters.
 	 *
-	 * @param	string	$name		Variable name.
-	 * @param	string	$default	Default value if the variable does not exist.
-	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * @param    string	$name		Variable name.
+	 * @param    string	$default	Default value if the variable does not exist.
+	 * @param    string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return	bool  Requested variable.
-	 * @since	11.1
+	 * @return   bool  Requested variable.
+	 * @since    11.1
 	 */
 	public static function getBool($name, $default = false, $hash = 'default')
 	{
@@ -220,12 +220,12 @@ class JRequest
 	 *
 	 * See getVar() for more in-depth documentation on the parameters.
 	 *
-	 * @param	string	$name		Variable name.
-	 * @param	string	$default	Default value if the variable does not exist.
-	 * @param	string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
+	 * @param    string	$name		Variable name.
+	 * @param    string	$default	Default value if the variable does not exist.
+	 * @param    string	$hash		Where the var should come from (POST, GET, FILES, COOKIE, METHOD).
 	 *
-	 * @return	string  Requested variable.
-	 * @since	11.1
+	 * @return   string  Requested variable.
+	 * @since    11.1
 	 */
 	public static function getWord($name, $default = '', $hash = 'default')
 	{

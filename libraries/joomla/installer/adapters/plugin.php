@@ -420,8 +420,8 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return   boolean  True on success
+	 * @since    11.1
 	 */
 	function update()
 	{

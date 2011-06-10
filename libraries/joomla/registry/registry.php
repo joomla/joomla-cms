@@ -269,7 +269,7 @@ class JRegistry
 	 * Set a registry value.
 	 *
 	 * @param   string   Registry Path (e.g. joomla.content.showauthor)
-	 * @param   mixed	Value of entry
+	 * @param   mixed      Value of entry
 	 * @return  mixed	The value of the that has been set.
 	 * @since   11.1
 	 */

@@ -313,8 +313,8 @@ class JFile
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string  $file The full file path
-	 * @param   string  $buffer The buffer to write
+	 * @param   string   $file    The full file path
+	 * @param   string   $buffer  The buffer to write
 	 *
 	 * @return  boolean  True on success
 	 * @since   11.1

@@ -271,7 +271,7 @@ abstract class JFolder
 	/**
 	 * Delete a folder.
 	 *
-	 * @param   string  $path  The path to the folder to delete.
+	 * @param   string   $path  The path to the folder to delete.
 	 *
 	 * @return  boolean  True on success.
 	 * @since   11.1
