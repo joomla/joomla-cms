@@ -22,43 +22,50 @@ defined('JPATH_PLATFORM') or die;
 class JFilterInput extends JObject
 {
 	/**
-	 * @var    array	An array of permitted tags.
+	 * An array of permitted tags.
+	 * @var    array
 	 * @since  11.1
 	 */
 	var $tagsArray;
 
 	/**
-	 * @var    array	An array of permitted tag attributes.
+	 * An array of permitted tag attributes.
+	 * @var    array
 	 * @since  11.1
 	 */
 	var $attrArray;
 
 	/**
-	 * @var    int		WhiteList method = 0 (default), BlackList method = 1
+	 * Method for tags
+	 * @var    integer    WhiteList method = 0 (default), BlackList method = 1
 	 * @since  11.1
 	 */
 	var $tagsMethod;
 
 	/**
-	 * @var    int		WhiteList method = 0 (default), BlackList method = 1
+	 * Method for attributes 
+	 * @var     integer    WhiteList method = 0 (default), BlackList method = 1
 	 * @since   11.1
 	 */
 	var $attrMethod;
 
 	/**
-	 * @var    int		Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * Autoclean
+	 * @var    integer     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @since  11.1
 	 */
 	var $xssAuto;
 
 	/**
-	 * @var    array	A list of the default blacklisted tags.
+	 * Blacklisted tags
+	 * @var    array       A list of the default blacklisted tags.
 	 * @since  11.1
 	 */
 	var $tagBlacklist = array ('applet', 'body', 'bgsound', 'base', 'basefont', 'embed', 'frame', 'frameset', 'head', 'html', 'id', 'iframe', 'ilayer', 'layer', 'link', 'meta', 'name', 'object', 'script', 'style', 'title', 'xml');
 
 	/**
-	 * @var    array	A list of the default blacklisted tag attributes.
+	 * Black listed attributes
+	 * @var    array     A list of the default blacklisted tag attributes.
 	 * @since   11.1
 	 */
 	var $attrBlacklist = array ('action', 'background', 'codebase', 'dynsrc', 'lowsrc'); // also will strip ALL event handlers
@@ -123,7 +130,7 @@ class JFilterInput extends JObject
 	 * specified bad code.
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type  Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   string  $type     Return type for the variable (INT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
@@ -242,7 +249,7 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to iteratively remove all unwanted tags and attributes
 	 *
-	 * @param   string  $source	Input string to be 'cleaned'
+	 * @param   string  $source   Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 * @since   11.1
@@ -263,7 +270,7 @@ class JFilterInput extends JObject
 	/**
 	 * Internal method to strip a string of certain tags
 	 *
-	 * @param   string  Input string to be 'cleaned'
+	 * @param   string   $source   Input string to be 'cleaned'
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
@@ -575,9 +582,10 @@ class JFilterInput extends JObject
 	/**
 	 * Escape < > and " inside attribute values
 	 *
-	 * @param	string	$source The source string.
-	 * @return	string	Filtered string
-	 * @since	1.6
+	 * @param   string  $source The source string.
+	 * 
+	 * @return  string  Filtered string
+	 * @since    11.1
 	 */
 	protected function _escapeAttributeValues($source)
 	{
@@ -621,9 +629,10 @@ class JFilterInput extends JObject
 	/**
 	 * Remove CSS Expressions in the form of <property>:expression(...)
 	 *
-	 * @param	string	$source The source string.
-	 * @return	string	Filtered string
-	 * @since	1.6
+	 * @param   string    $source The source string.
+	 * 
+	 * @return  string    Filtered string
+	 * @since   11.1
 	 */
 	protected function _stripCSSExpressions($source)
 	{

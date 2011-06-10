@@ -64,7 +64,7 @@ class JTableModule extends JTable
 	 *
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 *
-	 * @see		JTable:bind
+	 * @see     JTable:bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')

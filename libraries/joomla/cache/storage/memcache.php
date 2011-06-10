@@ -367,7 +367,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	/**
 	 * Lock cache index
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 * @return boolean  True on success, false otherwise.
 	 */
 	protected function lockindex()

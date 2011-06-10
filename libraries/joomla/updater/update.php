@@ -146,8 +146,8 @@ class JUpdate extends JObject
 	 * Character Parser Function
 	 * Note: This is public because its called externally
 	 *
-	 * @param		$data
-	 * @param		$parser
+	 * @param    $data
+	 * @param    $parser
 	 *
 	 */
 	public function _characterData($parser, $data) {

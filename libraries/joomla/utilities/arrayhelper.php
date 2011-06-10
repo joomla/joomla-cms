@@ -314,7 +314,7 @@ class JArrayHelper
 	 *
 	 * @return  integer  	Comparison status
 	 * @since   11.1
-	 * @see		JArrayHelper::sortObjects()
+	 * @see     JArrayHelper::sortObjects()
 	 */
 	protected static function _sortObjects(&$a, &$b)
 	{

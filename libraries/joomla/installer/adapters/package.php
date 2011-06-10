@@ -190,10 +190,10 @@ class JInstallerPackage extends JAdapterInstance
 	/**
 	 * Custom uninstall method
 	 *
-	 * @param	int		$id	The id of the package to uninstall
+	 * @param    integer  $id	The id of the package to uninstall
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return   boolean  True on success
+	 * @since    11.1
 	 */
 	function uninstall($id)
 	{

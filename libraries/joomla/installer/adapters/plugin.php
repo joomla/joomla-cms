@@ -196,8 +196,10 @@ class JInstallerPlugin extends JAdapterInstance
 				// Load the file
 				include_once $manifestScriptFile;
 			}
+			// If a dash is present in the group name, remove it
+			$groupClass = str_replace('-', '', $group);
 			// Set the class name
-			$classname = 'plg'.$group.$element.'InstallerScript';
+			$classname = 'plg'.$groupClass.$element.'InstallerScript';
 			if (class_exists($classname))
 			{
 				// Create a new instance
@@ -418,8 +420,8 @@ class JInstallerPlugin extends JAdapterInstance
 	/**
 	 * Custom update method
 	 *
-	 * @return	boolean	True on success
-	 * @since	11.1
+	 * @return   boolean  True on success
+	 * @since    11.1
 	 */
 	function update()
 	{

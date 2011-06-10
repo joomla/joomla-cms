@@ -27,7 +27,7 @@ define('JERROR_ILLEGAL_MODE', 3);
  *	- Sebastian Mordziol	<argh@php-tools.net>
  *	- Stephan Schmidt		<scst@php-tools.net>
  *
- * @package	Joomla.Platform
+ * @package     Joomla.Platform
  * @subpackage  Error
  * @since       11.1
  * @deprecated
@@ -35,9 +35,9 @@ define('JERROR_ILLEGAL_MODE', 3);
 abstract class JError
 {
 	/**
-	 * @var    bool  True to enable legacy error handling using JError, false to use exception handling.  This flag
-	 *               is present to allow an easy transition into exception handling for code written against the
-	 *               existing JError API in Joomla.
+	 * @var    boolean  True to enable legacy error handling using JError, false to use exception handling.  This flag
+	 *                  is present to allow an easy transition into exception handling for code written against the
+	 *                  existing JError API in Joomla.
 	 * @since  11.1
 	 */
 	public static $legacy = false;
@@ -60,7 +60,7 @@ abstract class JError
 	 * Method to determine if a value is an exception object.  This check supports
 	 * both JException and PHP5 Exception objects
 	 *
-	 * @param   mixed  &$object  Object to check
+	 * @param   mixed    &$object  Object to check
 	 *
 	 * @return  boolean  True if argument is an exception, false otherwise.
 	 * @since   11.1
@@ -76,8 +76,8 @@ abstract class JError
 	 *
 	 * @params   boolean  $unset
 	 *
-	 * @return  mixed  Last exception object in the error stack or boolean false if none exist
-	 * @since   11.1
+	 * @return   mixed    Last exception object in the error stack or boolean false if none exist
+	 * @since    11.1
 	 */
 	public static function getError($unset = false)
 	{
@@ -129,7 +129,7 @@ abstract class JError
 	 * @return  mixed    The JException object
 	 * @since   11.1
 	 *
-	 * @see		JException
+	 * @see         JException
 	 */
 	public static function raise($level, $code, $msg, $info = null, $backtrace = false)
 	{

@@ -92,22 +92,6 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * This method does nothing.
-	 */
-	public function testGetHeadData()
-	{
-		$this->object->getHeadData();
-	}
-
-	/**
-	 * This method does nothing.
-	 */
-	public function testSetHeadData()
-	{
-		$this->object->setHeadData('Head Data');
-	}
-
-	/**
 	 * We test both at once
 	 */
 	public function testGetAndSetName()

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Document
- * @see			http://www.rssboard.org/rss-specification
+ * @see     	http://www.rssboard.org/rss-specification
  * @since       11.1
  */
 class JDocumentRendererRSS extends JDocumentRenderer
@@ -193,7 +193,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	public function _relToAbs($text)
 	{
 		$base = JURI::base();
-		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
+		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;
 	}

@@ -141,8 +141,8 @@ class JCli
 	/**
 	 * Write a string to standard output.
 	 *
-	 * @param   string  $text  The text to display.
-	 * @param   bool    $nl    True to append a new line at the end of the output string.
+	 * @param   string   $text  The text to display.
+	 * @param   boolean  $nl    True to append a new line at the end of the output string.
 	 *
 	 * @return  void
 	 *

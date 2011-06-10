@@ -40,7 +40,7 @@ class JTableMenu extends JTableNested
 	 *
 	 * @return  mixed  null is operation was satisfactory, otherwise returns an error
 	 *
-	 * @see		JTable:bind
+	 * @see     JTable:bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -76,7 +76,7 @@ class JTableMenu extends JTableNested
 	 * Overloaded check function
 	 *
 	 * @return  boolean
-	 * @see		JTable::check
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
 	public function check()
@@ -121,7 +121,7 @@ class JTableMenu extends JTableNested
 	 * Overloaded store function
 	 *
 	 * @return  boolean
-	 * @see		JTable::store
+	 * @see     JTable::store
 	 * @since   11.1
 	 */
 	public function store($updateNulls = false)
@@ -150,6 +150,11 @@ class JTableMenu extends JTableNested
 				$table->checked_out = 0;
 				$table->checked_out_time = $db->getNullDate();
 				$table->store();
+			}
+			// Verify that the home page for this menu is unique.
+			if ($table->load(array('home'=>'1', 'menutype'=>$this->menutype)) && ($table->id != $this->id || $this->id==0)) {
+				$this->setError(JText::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
+				return false;
 			}
 		}
 		if(!parent::store($updateNulls)) {
