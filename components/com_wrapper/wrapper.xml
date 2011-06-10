@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 	<!-- $Id$ -->
-<extension type="component" version="1.6.0" method="upgrade">
+<extension type="component" version="1.7" method="upgrade">
 	<name>com_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
@@ -10,7 +10,7 @@
 		LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>1.6.0</version>
+	<version>1.7.0</version>
 	<description>COM_WRAPPER_XML_DESCRIPTION</description>
 	<files folder="site">
 		<filename>controller.php</filename>
