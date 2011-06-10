@@ -38,17 +38,21 @@
 				var d = ed.getDoc(), b = d.body, de = d.documentElement, DOM = tinymce.DOM, resizeHeight = t.autoresize_min_height, myHeight;
 
 				// Get height differently depending on the browser used
-				myHeight = tinymce.isIE ? b.scrollHeight : de.offsetHeight;
-
-				// Bottom margin
-				myHeight = t.bottom_margin + myHeight;
+				myHeight = tinymce.isIE ? b.scrollHeight : d.body.offsetHeight;
 
 				// Don't make it smaller than the minimum height
 				if (myHeight > t.autoresize_min_height)
 					resizeHeight = myHeight;
 
+				// If a maximum height has been defined don't exceed this height
+				if (t.autoresize_max_height && myHeight > t.autoresize_max_height) {
+					resizeHeight = t.autoresize_max_height;
+					ed.getBody().style.overflowY = "auto";
+				} else
+					ed.getBody().style.overflowY = "hidden";
+
 				// Resize content element
-				if ( resizeHeight !== oldSize ) {
+				if (resizeHeight !== oldSize) {
 					DOM.setStyle(DOM.get(ed.id + '_ifr'), 'height', resizeHeight + 'px');
 					oldSize = resizeHeight;
 				}
@@ -63,10 +67,15 @@
 			t.editor = ed;
 
 			// Define minimum height
-			t.autoresize_min_height = ed.getElement().offsetHeight;
+			t.autoresize_min_height = parseInt( ed.getParam('autoresize_min_height', ed.getElement().offsetHeight) );
 
-			// Add margin at the bottom for better UX
-			t.bottom_margin = parseInt( ed.getParam('autoresize_bottom_margin', 50) );
+			// Define maximum height	
+			t.autoresize_max_height = parseInt( ed.getParam('autoresize_max_height', 0) );
+
+			// Add padding at the bottom for better UX
+			ed.onInit.add(function(ed){
+				ed.dom.setStyle(ed.getBody(), 'paddingBottom', ed.getParam('autoresize_bottom_margin', 50) + 'px');
+			});
 
 			// Add appropriate listeners for resizing content area
 			ed.onChange.add(resize);

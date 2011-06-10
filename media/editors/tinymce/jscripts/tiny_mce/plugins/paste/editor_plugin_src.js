@@ -76,7 +76,7 @@
 			// This function executes the process handlers and inserts the contents
 			// force_rich overrides plain text mode set by user, important for pasting with execCommand
 			function process(o, force_rich) {
-				var dom = ed.dom, rng, nodes;
+				var dom = ed.dom, rng;
 
 				// Execute pre process handlers
 				t.onPreProcess.dispatch(t, o);
@@ -89,11 +89,9 @@
 				if (tinymce.isGecko) {
 					rng = ed.selection.getRng(true);
 					if (rng.startContainer == rng.endContainer && rng.startContainer.nodeType == 3) {
-						nodes = dom.select('p,h1,h2,h3,h4,h5,h6,pre', o.node);
-
 						// Is only one block node and it doesn't contain word stuff
-						if (nodes.length == 1 && o.content.indexOf('__MCE_ITEM__') === -1)
-							dom.remove(nodes.reverse(), true);
+						if (o.node.childNodes.length === 1 && /^(p|h[1-6]|pre)$/i.test(o.node.firstChild.nodeName) && o.content.indexOf('__MCE_ITEM__') === -1)
+							dom.remove(o.node.firstChild, true);
 					}
 				}
 
@@ -101,7 +99,7 @@
 				t.onPostProcess.dispatch(t, o);
 
 				// Serialize content
-				o.content = ed.serializer.serialize(o.node, {getInner : 1});
+				o.content = ed.serializer.serialize(o.node, {getInner : 1, forced_root_block : ''});
 
 				// Plain text option active?
 				if ((!force_rich) && (ed.pasteAsPlainText)) {
@@ -172,13 +170,14 @@
 				if (body != ed.getDoc().body)
 					posY = dom.getPos(ed.selection.getStart(), body).y;
 				else
-					posY = body.scrollTop + dom.getViewPort().y;
+					posY = body.scrollTop + dom.getViewPort(ed.getWin()).y;
 
 				// Styles needs to be applied after the element is added to the document since WebKit will otherwise remove all styles
+				// If also needs to be in view on IE or the paste would fail
 				dom.setStyles(n, {
 					position : 'absolute',
-					left : -10000,
-					top : posY,
+					left : tinymce.isGecko ? -40 : 0, // Need to move it out of site on Gecko since it will othewise display a ghost resize rect for the div
+					top : posY - 25,
 					width : 1,
 					height : 1,
 					overflow : 'hidden'
@@ -359,8 +358,17 @@
 			}
 
 			// IE9 adds BRs before/after block elements when contents is pasted from word or for example another browser
-			if (tinymce.isIE && document.documentMode >= 9)
+			if (tinymce.isIE && document.documentMode >= 9) {
+				// IE9 adds BRs before/after block elements when contents is pasted from word or for example another browser
 				process([[/(?:<br>&nbsp;[\s\r\n]+|<br>)*(<\/?(h[1-6r]|p|div|address|pre|form|table|tbody|thead|tfoot|th|tr|td|li|ol|ul|caption|blockquote|center|dl|dt|dd|dir|fieldset)[^>]*>)(?:<br>&nbsp;[\s\r\n]+|<br>)*/g, '$1']]);
+
+				// IE9 also adds an extra BR element for each soft-linefeed and it also adds a BR for each word wrap break
+				process([
+					[/<br><br>/g, '<BR><BR>'], // Replace multiple BR elements with uppercase BR to keep them intact
+					[/<br>/g, ' '], // Replace single br elements with space since they are word wrap BR:s
+					[/<BR><BR>/g, '<br>'], // Replace back the double brs but into a single BR
+				]);
+			}
 
 			// Detect Word content and process it more aggressive
 			if (/class="?Mso|style="[^"]*\bmso-|w:WordDocument/i.test(h) || o.wordContent) {
