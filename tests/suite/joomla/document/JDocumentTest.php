@@ -128,9 +128,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetInstance().
-	 */
 	public function testGetInstance() {
 		$this->object = JDocument::getInstance();
 
@@ -152,9 +149,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetType().
-	 */
 	public function testSetType()
 	{
 		$this->object = new JDocument;
@@ -166,9 +160,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetType().
-	 */
 	public function testGetType()
 	{
 		$this->object = new JDocument;
@@ -211,9 +202,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetMetaData().
-	 */
 	public function testGetMetaData()
 	{
 		$this->object = new JDocument;
@@ -274,9 +262,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testAddScript().
-	 */
 	public function testAddScript()
 	{
 		$this->object = new JDocument;
@@ -316,9 +301,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testAddScriptDeclaration().
-	 */
 	public function testAddScriptDeclaration()
 	{
 		$this->object = new JDocument;
@@ -345,9 +327,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testAddStyleSheet().
-	 */
 	public function testAddStyleSheet()
 	{
 		$this->object = new JDocument;
@@ -372,9 +351,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testAddStyleDeclaration().
-	 */
 	public function testAddStyleDeclaration()
 	{
 		$this->object = new JDocument;
@@ -401,9 +377,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetCharset().
-	 */
 	public function testSetCharset()
 	{
 		$this->object = new JDocument;
@@ -416,9 +389,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetCharset().
-	 */
 	public function testGetCharset()
 	{
 		$this->object = new JDocument;
@@ -431,9 +401,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetLanguage().
-	 */
 	public function testSetLanguage()
 	{
 		$this->object = new JDocument;
@@ -446,9 +413,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetLanguage().
-	 */
 	public function testGetLanguage()
 	{
 		$this->object = new JDocument;
@@ -461,9 +425,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetDirection().
-	 */
 	public function testSetDirection()
 	{
 		$this->object = new JDocument;
@@ -476,9 +437,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetDirection().
-	 */
 	public function testGetDirection()
 	{
 		$this->object = new JDocument;
@@ -491,9 +449,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetTitle().
-	 */
 	public function testSetTitle()
 	{
 		$this->object = new JDocument;
@@ -506,9 +461,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetTitle().
-	 */
 	public function testGetTitle()
 	{
 		$this->object = new JDocument;
@@ -521,9 +473,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetBase().
-	 */
 	public function testSetBase()
 	{
 		$this->object = new JDocument;
@@ -536,9 +485,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetBase().
-	 */
 	public function testGetBase()
 	{
 		$this->object = new JDocument;
@@ -551,9 +497,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetDescription().
-	 */
 	public function testSetDescription()
 	{
 		$this->object = new JDocument;
@@ -566,9 +509,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetDescription().
-	 */
 	public function testGetDescription()
 	{
 		$this->object = new JDocument;
@@ -581,9 +521,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetLink().
-	 */
 	public function testSetLink()
 	{
 		$this->object = new JDocument;
@@ -596,9 +533,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetLink().
-	 */
 	public function testGetLink()
 	{
 		$this->object = new JDocument;
@@ -611,9 +545,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetGenerator().
-	 */
 	public function testSetGenerator()
 	{
 		$this->object = new JDocument;
@@ -626,9 +557,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetGenerator().
-	 */
 	public function testGetGenerator()
 	{
 		$this->object = new JDocument;
@@ -641,9 +569,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetModifiedDate().
-	 */
 	public function testSetModifiedDate()
 	{
 		$this->object = new JDocument;
@@ -656,9 +581,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testGetModifiedDate().
-	 */
 	public function testGetModifiedDate()
 	{
 		$this->object = new JDocument;
@@ -671,9 +593,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetMimeEncoding().
-	 */
 	public function testSetMimeEncoding()
 	{
 		$this->object = new JDocument;
@@ -699,9 +618,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('zip',$document->getMimeEncoding(),'getMimeEncoding should be zip');
  	}
 
-	/**
-	 * @todo Implement testSetLineEnd().
-	 */
 	public function testSetLineEnd()
 	{
 		$this->object = new JDocument;
@@ -736,9 +652,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	/**
-	 * @todo Implement test_getLineEnd().
-	 */
 	public function test_getLineEnd()
 	{
 		$this->object = new JDocument;
@@ -751,9 +664,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testSetTab().
-	 */
 	public function testSetTab()
 	{
 		$this->object = new JDocument;
@@ -767,9 +677,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 
 	}
 
-	/**
-	 * @todo Implement test_getTab().
-	 */
 	public function test_getTab()
 	{
 		$this->object = new JDocument;
@@ -782,9 +689,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testLoadRenderer().
-	 */
 	public function testLoadRenderer()
 	{
 		$this->object = new JDocument;
@@ -796,9 +700,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testParse().
-	 */
 	public function testParse()
 	{
 		$this->object = new JDocument;
@@ -809,9 +710,6 @@ class JDocumentTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
-	/**
-	 * @todo Implement testRender().
-	 */
 	public function testRender()
 	{
 		$this->object = new JDocument;
