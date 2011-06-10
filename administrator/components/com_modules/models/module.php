@@ -371,15 +371,7 @@ class ModulesModelModule extends JModelAdmin
 				$assignment = '-';
 			}
 			else {
-				if ($assigned[0] > 0) {
-					$assignment = +1;
-				}
-				else if ($assigned[0] < 0) {
-					$assignment = -1;
-				}
-				else {
-					$assignment = 0;
-				}
+				$assignment = $table->assignment;
 			}
 
 			$this->_cache[$pk]->assigned = $assigned;
