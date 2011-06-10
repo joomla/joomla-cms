@@ -360,4 +360,28 @@ class JArrayHelper
 
 		return 0;
 	}
+
+	/**
+	 * Multidimensional array safe unique test
+	 * Borrowed from PHP.net
+	 * @see http://au2.php.net/manual/en/function.array-unique.php
+	 */
+	public static function arrayUnique($myArray)
+	{
+		if (!is_array($myArray)) {
+			return $myArray;
+		}
+
+		foreach ($myArray as &$myvalue){
+			$myvalue=serialize($myvalue);
+		}
+
+		$myArray=array_unique($myArray);
+
+		foreach ($myArray as &$myvalue){
+			$myvalue=unserialize($myvalue);
+		}
+
+		return $myArray;
+	}
 }
