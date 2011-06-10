@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#24137] Decide and document what value the required attribute takes for JForm. (Rune Sjøen)
  # [#26119] Update TinyMCE to version 3.4.3 (Rouven Weßling)
  # [#26084] Don't always load Mootools (More) in the backend - this time for real (Rouven Weßling)
+ # [#26112] Remove unnecessary file from CodeMirror (Rouven Weßling)
 
 10-Jun-2011 Mark Dexter
  + [#25041] Module Menu Assignment Enhancements (David Harvard)
