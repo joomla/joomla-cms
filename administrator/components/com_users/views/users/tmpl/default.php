@@ -17,7 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('script','system/multiselect.js',false,true);
 
-$canDo		= UsersHelper::getActions();
+$canDo 		= UsersHelper::getActions();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();

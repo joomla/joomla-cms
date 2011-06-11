@@ -56,14 +56,15 @@ $canDo		= MenusHelper::getActions();
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-                <li><?php echo $this->form->getLabel('title'); ?>
+
+				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
 				<?php if ($this->item->type =='url'): ?>
 					<?php $this->form->setFieldAttribute('link','readonly','false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
-				<?php endif ?>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?></li>
@@ -97,8 +98,8 @@ $canDo		= MenusHelper::getActions();
 					<?php if ($this->item->type == 'component') : ?>
 					<li><?php echo $this->form->getLabel('home'); ?>
 					<?php echo $this->form->getInput('home'); ?></li>
-					<?php endif ?>
-				<?php endif ?>
+					<?php endif; ?>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
@@ -116,7 +117,7 @@ $canDo		= MenusHelper::getActions();
 <div class="col options-section">
 	<?php echo JHtml::_('sliders.start','menu-sliders-'.$this->item->id); ?>
 	<?php //Load  parameters.
-			echo $this->loadTemplate('options'); ?>
+		echo $this->loadTemplate('options'); ?>
 
 		<div class="clr"></div>
 
@@ -128,11 +129,12 @@ $canDo		= MenusHelper::getActions();
 		<?php endif; ?>
 
 	<?php echo JHtml::_('sliders.end'); ?>
-</div>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
 	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
+</div>
 </form>
 
 <div class="clr"></div>

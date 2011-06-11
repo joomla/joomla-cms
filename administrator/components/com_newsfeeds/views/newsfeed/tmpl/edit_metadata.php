@@ -33,6 +33,6 @@ foreach ($fieldSets as $name => $fieldSet) :
 			<li><?php echo $field->label; ?>
 			<?php echo $field->input; ?></li>
 		<?php endforeach; ?>
-		</ul>
+	</ul>
 	</fieldset>
 <?php endforeach; ?>

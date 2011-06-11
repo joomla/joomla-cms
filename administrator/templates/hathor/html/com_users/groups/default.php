@@ -80,11 +80,17 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		<?php foreach ($this->items as $i => $item) :
 			$canCreate	= $user->authorise('core.create',		'com_users');
 			$canEdit	= $user->authorise('core.edit',			'com_users');
+			// If this group is super admin and this user is not super admin, $canEdit is false
+			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin'))) {
+				$canEdit = false;
+			}
 			$canChange	= $user->authorise('core.edit.state',	'com_users');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					<?php if ($canEdit) : ?>
+						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+					<?php endif; ?>
 				</td>
 				<td>
 					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>

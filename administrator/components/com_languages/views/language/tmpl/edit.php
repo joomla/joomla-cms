@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-$canDo		= LanguagesHelper::getActions();
+$canDo = LanguagesHelper::getActions();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -29,6 +29,8 @@ $canDo		= LanguagesHelper::getActions();
 		<fieldset class="adminform">
 			<?php if ($this->item->lang_id) : ?>
 				<legend><?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?></legend>
+			<?php else : ?>
+				<legend><?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?></legend>
 			<?php endif; ?>
 
 			<?php echo $this->form->getLabel('title'); ?>

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Jun-2011 Christophe Demko
  # [#26135] Remove wrong background on bluestork login (Rouven Weßling)
+ # [#26128] Sync admin layouts (hathor) (Rouven Weßling, Andrea Tarr)
 
 11-Jun-2011 Jean-Marie Simonet
  - # Revert [#25041] Module Menu Assignment Enhancements. Breaks 1.6.x existing sites. See feature tracker.

@@ -23,22 +23,21 @@ JHtml::_('behavior.keepalive');
 	{
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
-		}
-		else {
+		} else {
 			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
-<div class="col main-section">
-	<fieldset class="adminform">
-		<legend><?php echo empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED') : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id); ?></legend>
-		<ul class="adminformlist">
+	<div class="col main-section">
+		<fieldset class="adminform">
+			<legend><?php echo empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED') : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id); ?></legend>
+			<ul class="adminformlist">
 			<li><?php echo $this->form->getLabel('name'); ?>
 			<?php echo $this->form->getInput('name'); ?></li>
 
-			<li><?php echo $this->form->getLabel('alias'); ?>
+   			<li><?php echo $this->form->getLabel('alias'); ?>
 			<?php echo $this->form->getInput('alias'); ?></li>
 
 			<li><?php echo $this->form->getLabel('link'); ?>
@@ -61,73 +60,63 @@ JHtml::_('behavior.keepalive');
 
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
-		</ul>
-
-	</fieldset>
-</div>
-
-<div class="col options-section">
-	<?php echo JHtml::_('sliders.start','content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-
-		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
-	<fieldset class="panelform">
-		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-		<ul class="adminformlist">
-			<li><?php echo $this->form->getLabel('numarticles'); ?>
-			<?php echo $this->form->getInput('numarticles'); ?></li>
-
-			<li><?php echo $this->form->getLabel('cache_time'); ?>
-			<?php echo $this->form->getInput('cache_time'); ?></li>
-
-			<li><?php echo $this->form->getLabel('rtl'); ?>
-			<?php echo $this->form->getInput('rtl'); ?></li>
-
-			<li><?php echo $this->form->getLabel('created_by'); ?>
-			<?php echo $this->form->getInput('created_by'); ?></li>
-
-			<li><?php echo $this->form->getLabel('created_by_alias'); ?>
-			<?php echo $this->form->getInput('created_by_alias'); ?></li>
-
-			<li><?php echo $this->form->getLabel('created'); ?>
-			<?php echo $this->form->getInput('created'); ?></li>
-
-			<li><?php echo $this->form->getLabel('publish_up'); ?>
-			<?php echo $this->form->getInput('publish_up'); ?></li>
-
-			<li><?php echo $this->form->getLabel('publish_down'); ?>
-			<?php echo $this->form->getInput('publish_down'); ?></li>
-
-			<?php if ($this->item->modified_by) : ?>
-				<li><?php echo $this->form->getLabel('modified_by'); ?>
-				<?php echo $this->form->getInput('modified_by'); ?></li>
-
-				<li><?php echo $this->form->getLabel('modified'); ?>
-				<?php echo $this->form->getInput('modified'); ?></li>
-			<?php endif; ?>
-
-			<li><?php echo $this->form->getLabel('numarticles'); ?>
-			<?php echo $this->form->getInput('numarticles'); ?></li>
-
-			<li><?php echo $this->form->getLabel('cache_time'); ?>
-			<?php echo $this->form->getInput('cache_time'); ?></li>
-
-			<li><?php echo $this->form->getLabel('rtl'); ?>
-			<?php echo $this->form->getInput('rtl'); ?></li>
-
-			<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
-			<?php //echo $this->form->getInput('xreference'); ?></li>
-		</ul>
+			</ul>
 		</fieldset>
+	</div>
 
-		<?php echo $this->loadTemplate('params'); ?>
+	<div class="col options-section">
+		<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
-	<?php echo JHtml::_('sliders.end'); ?>
-</div>
+			<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
+			<ul class="adminformlist">
+				<li><?php echo $this->form->getLabel('created_by'); ?>
+				<?php echo $this->form->getInput('created_by'); ?></li>
 
-<div class="clr"></div>
+				<li><?php echo $this->form->getLabel('created_by_alias'); ?>
+				<?php echo $this->form->getInput('created_by_alias'); ?></li>
 
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+				<li><?php echo $this->form->getLabel('created'); ?>
+				<?php echo $this->form->getInput('created'); ?></li>
+
+				<li><?php echo $this->form->getLabel('publish_up'); ?>
+				<?php echo $this->form->getInput('publish_up'); ?></li>
+
+				<li><?php echo $this->form->getLabel('publish_down'); ?>
+				<?php echo $this->form->getInput('publish_down'); ?></li>
+
+				<?php if ($this->item->modified_by) : ?>
+					<li><?php echo $this->form->getLabel('modified_by'); ?>
+					<?php echo $this->form->getInput('modified_by'); ?></li>
+
+					<li><?php echo $this->form->getLabel('modified'); ?>
+					<?php echo $this->form->getInput('modified'); ?></li>
+				<?php endif; ?>
+
+				<li><?php echo $this->form->getLabel('numarticles'); ?>
+				<?php echo $this->form->getInput('numarticles'); ?></li>
+
+				<li><?php echo $this->form->getLabel('cache_time'); ?>
+				<?php echo $this->form->getInput('cache_time'); ?></li>
+
+				<li><?php echo $this->form->getLabel('rtl'); ?>
+				<?php echo $this->form->getInput('rtl'); ?></li>
+
+				<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
+				<?php //echo $this->form->getInput('xreference'); ?></li>
+			</ul>
+			</fieldset>
+
+			<?php echo $this->loadTemplate('params'); ?>
+
+			<?php echo $this->loadTemplate('metadata'); ?>
+
+		<?php echo JHtml::_('sliders.end'); ?>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
+
+	<div class="clr"></div>
 </form>

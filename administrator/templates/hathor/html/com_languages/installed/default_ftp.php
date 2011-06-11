@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 ?>
-	<fieldset class="adminform" title="<?php echo JText::_('COM_LANGUAGES_FTP_TITLE');?>">
+	<fieldset class="adminform" title="<?php echo JText::_('COM_LANGUAGES_FTP_TITLE'); ?>">
 		<legend><?php echo JText::_('COM_LANGUAGES_FTP_TITLE'); ?></legend>
 
 		<?php echo JText::_('COM_LANGUAGES_FTP_DESC'); ?>

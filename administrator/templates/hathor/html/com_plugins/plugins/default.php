@@ -20,7 +20,7 @@ $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state',	'com_plugins');
-$saveOrder	= ($listOrder == 'ordering');
+$saveOrder	= $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&view=plugins'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
@@ -103,9 +103,6 @@ $saveOrder	= ($listOrder == 'ordering');
 			$canEdit	= $user->authorise('core.edit',			'com_plugins');
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_plugins') && $canCheckin;
-			// $lang = JFactory::getLanguage();
-			// $lang->load($item->name, JPATH_ADMINISTRATOR)
-			// || $lang->load ($item->name, JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element);
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">

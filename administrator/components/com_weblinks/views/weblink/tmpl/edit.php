@@ -32,43 +32,46 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK') : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id); ?></legend>
 			<ul class="adminformlist">
-			<li><?php echo $this->form->getLabel('title'); ?>
-			<?php echo $this->form->getInput('title'); ?></li>
+				<li><?php echo $this->form->getLabel('title'); ?>
+				<?php echo $this->form->getInput('title'); ?></li>
 
-			<li><?php echo $this->form->getLabel('alias'); ?>
-			<?php echo $this->form->getInput('alias'); ?></li>
+				<li><?php echo $this->form->getLabel('alias'); ?>
+				<?php echo $this->form->getInput('alias'); ?></li>
 
-			<li><?php echo $this->form->getLabel('url'); ?>
-			<?php echo $this->form->getInput('url'); ?></li>
+				<li><?php echo $this->form->getLabel('url'); ?>
+				<?php echo $this->form->getInput('url'); ?></li>
 
-			<li><?php echo $this->form->getLabel('catid'); ?>
-			<?php echo $this->form->getInput('catid'); ?></li>
+				<li><?php echo $this->form->getLabel('catid'); ?>
+				<?php echo $this->form->getInput('catid'); ?></li>
 
-			<li><?php echo $this->form->getLabel('state'); ?>
-			<?php echo $this->form->getInput('state'); ?></li>
+				<li><?php echo $this->form->getLabel('state'); ?>
+				<?php echo $this->form->getInput('state'); ?></li>
 
-			<li><?php echo $this->form->getLabel('access'); ?>
-			<?php echo $this->form->getInput('access'); ?></li>
+				<li><?php echo $this->form->getLabel('access'); ?>
+				<?php echo $this->form->getInput('access'); ?></li>
 
-			<li><?php echo $this->form->getLabel('ordering'); ?>
-			<?php echo $this->form->getInput('ordering'); ?></li>
+				<li><?php echo $this->form->getLabel('ordering'); ?>
+				<?php echo $this->form->getInput('ordering'); ?></li>
 
-			<li><?php echo $this->form->getLabel('language'); ?>
-			<?php echo $this->form->getInput('language'); ?></li>
-			<li><?php echo $this->form->getLabel('id'); ?>
-			<?php echo $this->form->getInput('id'); ?></li>
+				<li><?php echo $this->form->getLabel('language'); ?>
+				<?php echo $this->form->getInput('language'); ?></li>
+
+				<li><?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
 
-			<?php echo $this->form->getLabel('description'); ?>
-			<div class="clr"></div>
-			<?php echo $this->form->getInput('description'); ?>
-
+			<div>
+				<?php echo $this->form->getLabel('description'); ?>
+				<div class="clr"></div>
+				<?php echo $this->form->getInput('description'); ?>
+			</div>
 		</fieldset>
 	</div>
-	<div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start','newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
-		<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+	<div class="width-40 fltrt">
+		<?php echo JHtml::_('sliders.start', 'weblink-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+
+		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 		<fieldset class="panelform">
 			<ul class="adminformlist">

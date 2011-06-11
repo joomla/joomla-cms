@@ -78,7 +78,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td>
 					<span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>">
-						<?php echo $item->name; ?></span>
+						<?php echo $item->name; ?>
+					</span>
 				</td>
 				<td class="center">
 					<?php echo $item->client; ?>
@@ -101,7 +102,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<span class="editlinktip hasTip" title="<?php echo addslashes(htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION').'::'.$item->author_info)); ?>">
-						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?></span>
+						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
+					</span>
 				</td>
 				<td class="center">
 					<?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>

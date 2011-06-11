@@ -69,7 +69,6 @@ JHtml::_('behavior.keepalive');
 
 			<fieldset class="panelform">
 			<ul class="adminformlist">
-
 				<li><?php echo $this->form->getLabel('created_by'); ?>
 				<?php echo $this->form->getInput('created_by'); ?></li>
 
@@ -104,8 +103,7 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
 				<?php //echo $this->form->getInput('xreference'); ?></li>
-
-				</ul>
+			</ul>
 			</fieldset>
 
 			<?php echo $this->loadTemplate('params'); ?>

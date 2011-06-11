@@ -24,6 +24,7 @@ $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_menus');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 ?>
+<?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
@@ -80,7 +81,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 		</div>
 	</fieldset>
 	<div class="clr"> </div>
-
+<?php //Set up the grid heading. ?>
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -121,14 +122,12 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 		<?php
 		$originalOrders = array();
 		foreach ($this->items as $i => $item) :
-			// $lang = JFactory::getLanguage();
-			// $lang->load($item->componentname, JPATH_ADMINISTRATOR);
 			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 			$canCreate	= $user->authorise('core.create',		'com_menus');
 			$canEdit	= $user->authorise('core.edit',			'com_menus');
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')|| $item->checked_out==0;
 			$canChange	= $user->authorise('core.edit.state',	'com_menus') && $canCheckin;
-		?>
+			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -146,10 +145,14 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php endif; ?>
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
 						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
-						<?php if (empty($item->note)) : ?>
-							<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
-						<?php else : ?>
-							<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+						<?php if ($item->type !='url') : ?>
+							<?php if (empty($item->note)) : ?>
+								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+							<?php else : ?>
+								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
+							<?php endif; ?>
+						<?php elseif($item->type =='url' && $item->note) : ?>
+							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 						<?php endif; ?></p>
 				</td>
 				<td class="center">
@@ -209,6 +212,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 	<?php echo $this->pagination->getListFooter(); ?>
 	<div class="clr"> </div>
 
+	<?php //Load the batch processing form. ?>
 	<?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="task" value="" />

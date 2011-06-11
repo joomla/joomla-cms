@@ -55,11 +55,14 @@ JHtml::_('behavior.formvalidation');
 			<!-- Plugin metadata -->
 			<?php if ($this->item->xml) : ?>
 				<?php if ($text = trim($this->item->xml->description)) : ?>
+
 					<label id="jform_extdescription-lbl">
 						<?php echo JText::_('JGLOBAL_DESCRIPTION'); ?>
-						</label>
-						<div class="clr"></div>
-						<span class="readonly plg-desc"><?php echo JText::_($text); ?></span>
+					</label>
+					<div class="clr"></div>
+					<span class="readonly plg-desc">
+						<?php echo JText::_($text); ?>
+					</span>
 
 				<?php endif; ?>
 			<?php else : ?>

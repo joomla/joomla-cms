@@ -130,7 +130,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endif;?>
 				</td>
 				<td class="center">
-					<?php echo $item->lang_id; ?>
+					<?php echo $this->escape($item->lang_id); ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

@@ -52,7 +52,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
 				<td class="center"><?php echo $item->client; ?></td>
 				<td class="center">
-					<span class="editlinktip hasTip" title="<?php echo JText::_('COM_INSTALLER_AUTHOR_INFORMATION');?>::<?php echo $item->author_info; ?>">
+					<span class="editlinktip hasTip" title="<?php echo addslashes(htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION').'::'.$item->author_info)); ?>">
 						<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 					</span>
 				</td>
@@ -66,7 +66,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php else : ?>
 		<p>
 			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
-		</p><p>
+		</p>
+		<p>
 			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
 		</p>
 	<?php endif; ?>

@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 		if (isset($fieldSet->description) && trim($fieldSet->description)) :
 			echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 		endif;
-		?>
+	?>
 		<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_($label) ?></legend>
 			<?php $hidden_fields = ''; ?>
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 				<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
-		<?php echo $hidden_fields; ?>
+			<?php echo $hidden_fields; ?>
 		</fieldset>
 <?php
 	}

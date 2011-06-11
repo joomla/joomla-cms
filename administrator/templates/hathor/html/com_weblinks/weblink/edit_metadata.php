@@ -26,7 +26,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 				<?php echo $this->form->getInput('metadesc'); ?></li>
 
 				<li><?php echo $this->form->getLabel('metakey'); ?>
-				<?php echo $this->form->getInput('metakey'); ?><li>
+				<?php echo $this->form->getInput('metakey'); ?></li>
 
 				<li><?php echo $this->form->getLabel('xreference'); ?>
 				<?php echo $this->form->getInput('xreference'); ?></li>

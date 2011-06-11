@@ -17,7 +17,7 @@ $userId		= $user->get('id');
 $client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
 $clientId	= $this->state->get('filter.client_id', 0);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
 
 	<?php if ($this->ftp): ?>
 		<?php echo $this->loadTemplate('ftp');?>
@@ -70,7 +70,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<?php echo JHtml::_('languages.id',$i,$row->language);?>
 				</td>
 				<td>
-					<?php echo $row->name;?>
+					<?php echo $this->escape($row->name); ?>
 				</td>
 				<td class="center">
 					<?php echo $client;?>
@@ -79,16 +79,16 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<?php echo JHtml::_('jgrid.isdefault', $row->published, $i, 'installed.',  !$row->published && $canChange);?>
 				</td>
 				<td class="center">
-					<?php echo $row->version; ?>
+					<?php echo $this->escape($row->version); ?>
 				</td>
 				<td class="center">
-					<?php echo $row->creationDate; ?>
+					<?php echo $this->escape($row->creationDate); ?>
 				</td>
 				<td class="center">
-					<?php echo $row->author; ?>
+					<?php echo $this->escape($row->author); ?>
 				</td>
 				<td class="center">
-					<?php echo $row->authorEmail; ?>
+					<?php echo $this->escape($row->authorEmail); ?>
 				</td>
 			</tr>
 		<?php endforeach;?>

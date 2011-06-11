@@ -75,7 +75,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 					<?php echo JHtml::_('languages.id',$i,$row->language);?>
 				</td>
 				<td width="25%">
-					<?php echo $this->escape($row->name);?>
+					<?php echo $this->escape($row->name); ?>
 				</td>
 				<td align="center">
 					<?php echo $client;?>

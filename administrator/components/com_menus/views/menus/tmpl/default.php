@@ -84,7 +84,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo $this->escape($item->title); ?></a>
 					<p class="smallsub">(<span><?php echo JText::_('COM_MENUS_MENU_MENUTYPE_LABEL') ?></span>
 						<?php if ($canEdit) : ?>
-							<?php echo '<a href="'. JRoute::_('index.php?option=com_menus&task=menu.edit&id='.$item->id).' title='.$this->escape($item->description).'">'.
+							<?php echo '<a href="'.JRoute::_('index.php?option=com_menus&task=menu.edit&id='.$item->id).' title='.$this->escape($item->description).'">'.
 							$this->escape($item->menutype).'</a>'; ?>)
 						<?php else : ?>
 							<?php echo $this->escape($item->menutype)?>)
@@ -121,7 +121,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						endforeach;
 					endif;
 					?>
-					</ul>
+				</ul>
 				</td>
 				<td class="center">
 					<?php echo $item->id; ?>

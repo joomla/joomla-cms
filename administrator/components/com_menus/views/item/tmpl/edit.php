@@ -24,13 +24,13 @@ JHtml::_('behavior.modal');
 		if (task == 'item.setType' || task == 'item.setMenuType') {
 			if(task == 'item.setType') {
 				document.id('item-form').elements['jform[type]'].value = type;
-				document.getElementById('fieldtype').value = 'type';
+				document.id('fieldtype').value = 'type';
 			} else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
-			Joomla.submitform('item.setType', document.getElementById('item-form'));
+			Joomla.submitform('item.setType', document.id('item-form'));
 		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
-			Joomla.submitform(task, document.getElementById('item-form'));
+			Joomla.submitform(task, document.id('item-form'));
 		} else {
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field){
@@ -49,7 +49,6 @@ JHtml::_('behavior.modal');
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></legend>
 			<ul class="adminformlist">
-
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
@@ -128,11 +127,12 @@ JHtml::_('behavior.modal');
 		<?php endif; ?>
 
 	<?php echo JHtml::_('sliders.end'); ?>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo $this->form->getInput('component_id'); ?>
 	<?php echo JHtml::_('form.token'); ?>
+	<input type="hidden" id="fieldtype" name="fieldtype" value="" />
 </div>
-<input type="hidden" id="fieldtype" name="fieldtype" value="" />
 </form>
 
 

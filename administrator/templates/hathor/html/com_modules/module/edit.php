@@ -16,6 +16,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
+
 $script = "Joomla.submitbutton = function(task)
 	{
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
@@ -78,8 +79,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php echo $this->form->getInput('note'); ?></li>
 
 			<?php if ($this->item->id) : ?>
-			<li><?php echo $this->form->getLabel('id'); ?>
-			<?php echo $this->form->getInput('id'); ?></li>
+				<li><?php echo $this->form->getLabel('id'); ?>
+				<?php echo $this->form->getInput('id'); ?></li>
 			<?php endif; ?>
 
 			<li><?php echo $this->form->getLabel('module'); ?>

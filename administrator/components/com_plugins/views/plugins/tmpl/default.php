@@ -129,7 +129,7 @@ $saveOrder	= $listOrder == 'ordering';
 						<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="text-area-order" />
 					<?php else : ?>
 						<?php echo $item->ordering; ?>
-					<?php  endif; ?>
+					<?php endif; ?>
 				</td>
 
 				<td class="nowrap center">

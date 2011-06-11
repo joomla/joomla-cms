@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-JHtml::_('script','system/multiselect.js',false,true);
+JHtml::_('script','system/multiselect.js', false, true);
 
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
@@ -23,7 +23,7 @@ $canOrder	= $user->authorise('core.edit.state', 'com_weblinks.category');
 $saveOrder	= $listOrder == 'a.ordering';
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_weblinks&view=weblinks'); ?>" method="post" name="adminForm" id="adminForm">
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -109,11 +109,9 @@ $saveOrder	= $listOrder == 'a.ordering';
 		</thead>
 
 		<tbody>
-		<?php
-		$n = count($this->items);
-		foreach ($this->items as $i => $item) :
+		<?php foreach ($this->items as $i => $item) :
 			$ordering	= ($listOrder == 'a.ordering');
-			$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_weblinks&task=edit&type=other&cid[]='. $item->catid);
+			$item->cat_link	= JRoute::_('index.php?option=com_categories&extension=com_weblinks&task=edit&type=other&cid[]='. $item->catid);
 			$canCreate	= $user->authorise('core.create',		'com_weblinks.category.'.$item->catid);
 			$canEdit	= $user->authorise('core.edit',			'com_weblinks.category.'.$item->catid);
 			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id') || $item->checked_out==0;
@@ -173,7 +171,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php endif;?>
 				</td>
 				<td class="center">
-					<?php echo $item->id; ?>
+					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
 			<?php endforeach; ?>

@@ -64,11 +64,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	</table>
 	<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
 	<?php else : ?>
-	<p>
-		<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
-	</p><p>
-		<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
-	</p>
+		<p>
+			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+		</p>
+		<p>
+			<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
+		</p>
 	<?php endif; ?>
 
 	<div>

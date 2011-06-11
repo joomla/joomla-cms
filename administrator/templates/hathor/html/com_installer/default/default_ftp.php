@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 	<?php echo JText::_('COM_INSTALLER_MSG_DESCFTP'); ?>
 
 	<?php if (JError::isError($this->ftp)): ?>
-		<p><?php echo JText::_($this->ftp->message); ?></p>
+		<p><?php echo JText::_($this->ftp->getMessage()); ?></p>
 	<?php endif; ?>
 
 	<ul class="adminformlist">

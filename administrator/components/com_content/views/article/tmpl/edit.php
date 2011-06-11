@@ -69,6 +69,7 @@ JHtml::_('behavior.keepalive');
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
+
 			<div class="clr"></div>
 			<?php echo $this->form->getLabel('articletext'); ?>
 			<div class="clr"></div>
@@ -117,16 +118,17 @@ JHtml::_('behavior.keepalive');
 				</ul>
 			</fieldset>
 
-			<?php $fieldSets = $this->form->getFieldsets('attribs');?>
-			<?php foreach ($fieldSets as $name => $fieldSet) :?>
-				<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options');?>
-				<?php if (isset($fieldSet->description) && trim($fieldSet->description)) :?>
+			<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
+			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options'); ?>
+				<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 					<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
-				<?php endif;?>
+				<?php endif; ?>
 				<fieldset class="panelform">
 					<ul class="adminformlist">
 					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-						<li><?php echo $field->label; ?><?php echo $field->input; ?></li>
+						<li><?php echo $field->label; ?>
+						<?php echo $field->input; ?></li>
 					<?php endforeach; ?>
 					</ul>
 				</fieldset>
@@ -146,7 +148,6 @@ JHtml::_('behavior.keepalive');
 			<?php echo JHtml::_('sliders.start','permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
 
 				<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
-
 				<fieldset class="panelform">
 					<?php echo $this->form->getLabel('rules'); ?>
 					<?php echo $this->form->getInput('rules'); ?>
