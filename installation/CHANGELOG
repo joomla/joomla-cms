@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2011 Jean-Marie Simonet
+ - # Revert [#25041] Module Menu Assignment Enhancements. Breaks 1.6.x existing sites. See feature tracker.
+
 10-Jun-2011 Christophe Demko
  # [#25248] Systematic elimination of DS as directory separator - Final round
  # [#26107] RTL issues with trunk (Ofer Cohen)
