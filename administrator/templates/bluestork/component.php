@@ -26,11 +26,11 @@ if (JFile::exists($file)) {
 	$doc->addStyleSheet($file);
 }
 
-if ($this->direction == 'textBig') {
+if ($this->params->get('textBig')) {
 	$doc->addStyleSheet('templates/'.$this->template.'/css/textbig.css');
 }
 
-if ($this->direction == 'highContrast') {
+if ($this->params->get('highContrast')) {
 	$doc->addStyleSheet('templates/'.$this->template.'/css/highcontrast.css');
 }
 ?>

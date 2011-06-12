@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jun-2011 Jean-Marie Simonet
+ # [#26137] Fix parameter conditions for bluestork css files. Thanks Andrea.
+
 12-Jun-2011 Christophe Demko
  # [#26135] Remove wrong background on bluestork login (Rouven Weßling)
  # [#26128] Sync admin layouts (hathor) (Rouven Weßling, Andrea Tarr)
