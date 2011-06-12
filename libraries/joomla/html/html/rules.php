@@ -148,7 +148,7 @@ abstract class JHtmlRules
 			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
 			' , GROUP_CONCAT(b.id SEPARATOR \',\') AS parents' .
 			' FROM #__usergroups AS a' .
-			' LEFT JOIN `#__usergroups` AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
+			' LEFT JOIN #__usergroups AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
 			' GROUP BY a.id' .
 			' ORDER BY a.lft ASC'
 		);

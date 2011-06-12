@@ -323,7 +323,7 @@ class JAccess
 			// Build the base query.
 			$query	= $db->getQuery(true);
 			$query->select('id, rules');
-			$query->from('`#__viewlevels`');
+			$query->from($query->qn('#__viewlevels'));
 
 			// Set the query for execution.
 			$db->setQuery((string) $query);
