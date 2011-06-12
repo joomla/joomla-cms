@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Jun-2011 Jean-Marie Simonet
  # [#26137] Fix parameter conditions for bluestork css files. Thanks Andrea.
+ # [#26146] Bluestork admin error.php not loading css files. Thanks bug squad ;)
 
 12-Jun-2011 Christophe Demko
  # [#26135] Remove wrong background on bluestork login (Rouven Weßling)

@@ -11,28 +11,18 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
-
-$doc->addStyleSheet('templates/system/css/system.css');
-$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
-
-if ($this->direction == 'rtl') {
-	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
-}
-
-/** Load specific language related css */
-$lang = JFactory::getLanguage();
-$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
-if (JFile::exists($file)) {
-	$doc->addStyleSheet($file);
-}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>" >
 <head>
-	<jdoc:include type="head" />
 
+	<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
+	<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
+
+	<?php if ($this->direction == 'rtl') : ?>
+		<link href="templates/<?php echo  $this->template ?>/css/template_rtl.css" rel="stylesheet" type="text/css" />
+	<?php endif; ?>
+	
 	<!--[if gte IE 7]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie7.css" rel="stylesheet" type="text/css" />
 	<![endif]-->
