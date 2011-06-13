@@ -1,6 +1,6 @@
 // MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/f04c978bcdfd762ce3cc0d21a61c819d
-// Or build this file again with packager using: packager build More/More More/Events.Pseudos More/Class.Refactor More/Class.Binds More/Class.Occlude More/Chain.Wait More/Array.Extras More/Date More/Date.Extras More/Number.Format More/Object.Extras More/String.Extras More/String.QueryString More/URI More/URI.Relative More/Hash More/Hash.Extras More/Element.Forms More/Elements.From More/Element.Event.Pseudos More/Element.Event.Pseudos.Keys More/Element.Delegation More/Element.Measure More/Element.Pin More/Element.Position More/Element.Shortcuts More/Form.Request More/Form.Request.Append More/Form.Validator More/Form.Validator.Inline More/Form.Validator.Extras More/OverText More/Fx.Elements More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Scroll More/Fx.Slide More/Fx.SmoothScroll More/Fx.Sort More/Drag More/Drag.Move More/Slider More/Sortables More/Request.JSONP More/Request.Queue More/Request.Periodical More/Assets More/Color More/Group More/Hash.Cookie More/IframeShim More/HtmlTable More/HtmlTable.Zebra More/HtmlTable.Sort More/HtmlTable.Select More/Keyboard More/Keyboard.Extras More/Mask More/Scroller More/Tips More/Spinner More/Locale More/Locale.Set.From More/Locale.en-US.Date More/Locale.en-US.Form.Validator More/Locale.en-US.Number More/Locale.ar.Date More/Locale.ar.Form.Validator More/Locale.ca-CA.Date More/Locale.ca-CA.Form.Validator More/Locale.cs-CZ.Date More/Locale.cs-CZ.Form.Validator More/Locale.da-DK.Date More/Locale.da-DK.Form.Validator More/Locale.de-CH.Date More/Locale.de-CH.Form.Validator More/Locale.de-DE.Date More/Locale.de-DE.Form.Validator More/Locale.de-DE.Number More/Locale.en-GB.Date More/Locale.es-AR.Date More/Locale.es-AR.Form.Validator More/Locale.es-ES.Date More/Locale.es-ES.Form.Validator More/Locale.et-EE.Date More/Locale.et-EE.Form.Validator More/Locale.EU.Number More/Locale.fa.Date More/Locale.fa.Form.Validator More/Locale.fi-FI.Date More/Locale.fi-FI.Form.Validator More/Locale.fi-FI.Number More/Locale.fr-FR.Date More/Locale.fr-FR.Form.Validator More/Locale.fr-FR.Number More/Locale.he-IL.Date More/Locale.he-IL.Form.Validator More/Locale.he-IL.Number More/Locale.hu-HU.Date More/Locale.hu-HU.Form.Validator More/Locale.it-IT.Date More/Locale.it-IT.Form.Validator More/Locale.ja-JP.Date More/Locale.ja-JP.Form.Validator More/Locale.ja-JP.Number More/Locale.nl-NL.Date More/Locale.nl-NL.Form.Validator More/Locale.nl-NL.Number More/Locale.no-NO.Date More/Locale.no-NO.Form.Validator More/Locale.pl-PL.Date More/Locale.pl-PL.Form.Validator More/Locale.pt-BR.Date More/Locale.pt-BR.Form.Validator More/Locale.pt-PT.Date More/Locale.pt-PT.Form.Validator More/Locale.ru-RU-unicode.Date More/Locale.ru-RU-unicode.Form.Validator More/Locale.si-SI.Date More/Locale.si-SI.Form.Validator More/Locale.sv-SE.Date More/Locale.sv-SE.Form.Validator More/Locale-uk-UA.Date More/Locale.uk-UA.Form.Validator More/Locale.zh-CH.Date More/Locale.zh-CH.Form.Validator
+// Load this file's selection again by visiting: http://mootools.net/more/9cc6f160bc261365539063600b3d6bfe 
+// Or build this file again with packager using: packager build More/More More/Events.Pseudos More/Class.Refactor More/Class.Binds More/Class.Occlude More/Chain.Wait More/Array.Extras More/Date More/Date.Extras More/Number.Format More/Object.Extras More/String.Extras More/String.QueryString More/URI More/URI.Relative More/Hash More/Hash.Extras More/Element.Forms More/Elements.From More/Element.Event.Pseudos More/Element.Event.Pseudos.Keys More/Element.Delegation More/Element.Measure More/Element.Pin More/Element.Position More/Element.Shortcuts More/Form.Request More/Form.Request.Append More/Form.Validator More/Form.Validator.Inline More/Form.Validator.Extras More/OverText More/Fx.Elements More/Fx.Accordion More/Fx.Move More/Fx.Reveal More/Fx.Scroll More/Fx.Slide More/Fx.SmoothScroll More/Fx.Sort More/Drag More/Drag.Move More/Slider More/Sortables More/Request.JSONP More/Request.Queue More/Request.Periodical More/Assets More/Color More/Group More/Hash.Cookie More/IframeShim More/Table More/HtmlTable More/HtmlTable.Zebra More/HtmlTable.Sort More/HtmlTable.Select More/Keyboard More/Keyboard.Extras More/Mask More/Scroller More/Tips More/Spinner More/Locale More/Locale.Set.From More/Locale.en-US.Date More/Locale.en-US.Form.Validator More/Locale.en-US.Number More/Locale.ar.Date More/Locale.ar.Form.Validator More/Locale.ca-CA.Date More/Locale.ca-CA.Form.Validator More/Locale.cs-CZ.Date More/Locale.cs-CZ.Form.Validator More/Locale.da-DK.Date More/Locale.da-DK.Form.Validator More/Locale.de-CH.Date More/Locale.de-CH.Form.Validator More/Locale.de-DE.Date More/Locale.de-DE.Form.Validator More/Locale.de-DE.Number More/Locale.en-GB.Date More/Locale.es-AR.Date More/Locale.es-AR.Form.Validator More/Locale.es-ES.Date More/Locale.es-ES.Form.Validator More/Locale.et-EE.Date More/Locale.et-EE.Form.Validator More/Locale.EU.Number More/Locale.fa.Date More/Locale.fa.Form.Validator More/Locale.fi-FI.Date More/Locale.fi-FI.Form.Validator More/Locale.fi-FI.Number More/Locale.fr-FR.Date More/Locale.fr-FR.Form.Validator More/Locale.fr-FR.Number More/Locale.he-IL.Date More/Locale.he-IL.Form.Validator More/Locale.he-IL.Number More/Locale.hu-HU.Date More/Locale.hu-HU.Form.Validator More/Locale.it-IT.Date More/Locale.it-IT.Form.Validator More/Locale.ja-JP.Date More/Locale.ja-JP.Form.Validator More/Locale.ja-JP.Number More/Locale.nl-NL.Date More/Locale.nl-NL.Form.Validator More/Locale.nl-NL.Number More/Locale.no-NO.Date More/Locale.no-NO.Form.Validator More/Locale.pl-PL.Date More/Locale.pl-PL.Form.Validator More/Locale.pt-BR.Date More/Locale.pt-BR.Form.Validator More/Locale.pt-PT.Date More/Locale.pt-PT.Form.Validator More/Locale.ru-RU-unicode.Date More/Locale.ru-RU-unicode.Form.Validator More/Locale.si-SI.Date More/Locale.si-SI.Form.Validator More/Locale.sv-SE.Date More/Locale.sv-SE.Form.Validator More/Locale.uk-UA.Date More/Locale.uk-UA.Form.Validator More/Locale.zh-CH.Date More/Locale.zh-CH.Form.Validator
 /*
 ---
 
@@ -20,6 +20,7 @@ authors:
   - Tim Wienk
   - Christoph Pojer
   - Aaron Newton
+  - Jacob Thornton
 
 requires:
   - Core/MooTools
@@ -30,8 +31,8 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.3.0.1',
-	'build': '6dce99bed2792dffcbbbb4ddc15a1fb9a41994b5'
+	'version': '1.3.2.1',
+	'build': 'e586bcd2496e9b22acfde32e12f84d49ce09e59d'
 };
 
 
@@ -40,7 +41,7 @@ MooTools.More = {
 
 name: Events.Pseudos
 
-description: Adds the functionallity to add pseudo events
+description: Adds the functionality to add pseudo events
 
 license: MIT-style license
 
@@ -59,7 +60,6 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 	var storeKey = 'monitorEvents:';
 
 	var storageOf = function(object){
-
 		return {
 			store: object.store ? function(key, value){
 				object.store(storeKey + key, value);
@@ -75,21 +75,31 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 		};
 	};
 
-
 	var splitType = function(type){
-		if (type.indexOf(':') == -1) return null;
+		if (type.indexOf(':') == -1 || !pseudos) return null;
 
 		var parsed = Slick.parse(type).expressions[0][0],
-			parsedPseudos = parsed.pseudos;
+			parsedPseudos = parsed.pseudos,
+			l = parsedPseudos.length,
+			splits = [];
 
-		return (pseudos && pseudos[parsedPseudos[0].key]) ? {
-			event: parsed.tag,
-			value: parsedPseudos[0].value,
-			pseudo: parsedPseudos[0].key,
-			original: type
-		} : null;
+		while (l--) if (pseudos[parsedPseudos[l].key]){
+			splits.push({
+				event: parsed.tag,
+				value: parsedPseudos[l].value,
+				pseudo: parsedPseudos[l].key,
+				original: type
+			});
+		}
+
+		return splits.length ? splits : null;
 	};
 
+	var mergePseudoOptions = function(split){
+		return Object.merge.apply(this, split.map(function(item){
+			return pseudos[item.pseudo].options || {};
+		}));
+	};
 
 	return {
 
@@ -99,22 +109,31 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 
 			var storage = storageOf(this),
 				events = storage.retrieve(type, []),
-				pseudoArgs = Array.from(pseudos[split.pseudo]),
-				proxy = pseudoArgs[1];
+				eventType = split[0].event,
+				options = mergePseudoOptions(split),
+				stack = fn,
+				eventOptions = options[eventType] || {},
+				args = Array.slice(arguments, 2),
+				self = this,
+				monitor;
 
-			var self = this;
-			var monitor = function(){
-				pseudoArgs[0].call(self, split, fn, arguments, proxy);
-			};
+			if (eventOptions.args) args.append(Array.from(eventOptions.args));
+			if (eventOptions.base) eventType = eventOptions.base;
+			if (eventOptions.onAdd) eventOptions.onAdd(this);
+
+			split.each(function(item){
+				var stackFn = stack;
+				stack = function(){
+					(eventOptions.listener || pseudos[item.pseudo].listener).call(self, item, stackFn, arguments, monitor, options);
+				};
+			});
+			monitor = stack.bind(this);
 
 			events.include({event: fn, monitor: monitor});
 			storage.store(type, events);
 
-			var eventType = split.event;
-			if (proxy && proxy[eventType]) eventType = proxy[eventType].base;
-
-			addEvent.call(this, type, fn, internal);
-			return addEvent.call(this, eventType, monitor, internal);
+			addEvent.apply(this, [type, fn].concat(args));
+			return addEvent.apply(this, [eventType, monitor].concat(args));
 		},
 
 		removeEvent: function(type, fn){
@@ -122,18 +141,21 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 			if (!split) return removeEvent.call(this, type, fn);
 
 			var storage = storageOf(this),
-				events = storage.retrieve(type),
-				pseudoArgs = Array.from(pseudos[split.pseudo]),
-				proxy = pseudoArgs[1];
-
+				events = storage.retrieve(type);
 			if (!events) return this;
 
-			var eventType = split.event;
-			if (proxy && proxy[eventType]) eventType = proxy[eventType].base;
+			var eventType = split[0].event,
+				options = mergePseudoOptions(split),
+				eventOptions = options[eventType] || {},
+				args = Array.slice(arguments, 2);
 
-			removeEvent.call(this, type, fn);
+			if (eventOptions.args) args.append(Array.from(eventOptions.args));
+			if (eventOptions.base) eventType = eventOptions.base;
+			if (eventOptions.onRemove) eventOptions.onRemove(this);
+
+			removeEvent.apply(this, [type, fn].concat(args));
 			events.each(function(monitor, i){
-				if (!fn || monitor.event == fn) removeEvent.call(this, eventType, monitor.monitor);
+				if (!fn || monitor.event == fn) removeEvent.apply(this, [eventType, monitor.monitor].concat(args));
 				delete events[i];
 			}, this);
 
@@ -149,19 +171,49 @@ Events.Pseudos = function(pseudos, addEvent, removeEvent){
 
 var pseudos = {
 
-	once: function(split, fn, args){
-		fn.apply(this, args);
-		this.removeEvent(split.original, fn);
+	once: {
+		listener: function(split, fn, args, monitor){
+			fn.apply(this, args);
+			this.removeEvent(split.event, monitor)
+				.removeEvent(split.original, fn);
+		}
+	},
+
+	throttle: {
+		listener: function(split, fn, args){
+			if (!fn._throttled){
+				fn.apply(this, args);
+				fn._throttled = setTimeout(function(){
+					fn._throttled = false;
+				}, split.value || 250);
+			}
+		}
+	},
+
+	pause: {
+		listener: function(split, fn, args){
+			clearTimeout(fn._pause);
+			fn._pause = fn.delay(split.value || 250, this, args);
+		}
 	}
 
 };
 
-Events.definePseudo = function(key, fn){
-	pseudos[key] = fn;
+Events.definePseudo = function(key, listener){
+	pseudos[key] = Type.isFunction(listener) ? {listener: listener} : listener;
+	return this;
+};
+
+Events.lookupPseudo = function(key){
+	return pseudos[key];
 };
 
 var proto = Events.prototype;
 Events.implement(Events.Pseudos(pseudos, proto.addEvent, proto.removeEvent));
+
+['Request', 'Fx'].each(function(klass){
+	if (this[klass]) this[klass].implement(Events.prototype);
+});
 
 })();
 
@@ -194,18 +246,14 @@ Class.refactor = function(original, refactors){
 
 	Object.each(refactors, function(item, name){
 		var origin = original.prototype[name];
-		if (origin && origin.$origin) origin = origin.$origin;
-		if (origin && typeof item == 'function'){
-			original.implement(name, function(){
-				var old = this.previous;
-				this.previous = origin;
-				var value = item.apply(this, arguments);
-				this.previous = old;
-				return value;
-			});
-		} else {
-			original.implement(name, item);
-		}
+		origin = (origin && origin.$origin) || origin || function(){};
+		original.implement(name, (typeof item == 'function') ? function(){
+			var old = this.previous;
+			this.previous = origin;
+			var value = item.apply(this, arguments);
+			this.previous = old;
+			return value;
+		} : item);
 	});
 
 	return original;
@@ -237,7 +285,8 @@ provides: [Class.Binds]
 */
 
 Class.Mutators.Binds = function(binds){
-	return binds;
+	if (!this.prototype.initialize) this.implement('initialize', function(){});
+	return Array.from(binds).concat(this.prototype.Binds || []);
 };
 
 Class.Mutators.initialize = function(initialize){
@@ -280,8 +329,8 @@ Class.Occlude = new Class({
 	occlude: function(property, element){
 		element = document.id(element || this.element);
 		var instance = element.retrieve(property || this.property);
-		if (instance && this.occluded != null)
-			return this.occluded = instance;
+		if (instance && !this.occluded)
+			return (this.occluded = instance);
 
 		this.occluded = false;
 		element.store(property || this.property, this);
@@ -322,20 +371,16 @@ provides: [Chain.Wait]
 		wait: function(duration){
 			return this.chain(function(){
 				this.callChain.delay(duration == null ? 500 : duration, this);
+				return this;
 			}.bind(this));
 		}
 	};
 
 	Chain.implement(wait);
 
-	if (this.Fx){
-		Fx.implement(wait);
-		['Css', 'Tween', 'Elements'].each(function(cls){
-			if (Fx[cls]) Fx[cls].implement(wait);
-		});
-	}
+	if (this.Fx) Fx.implement(wait);
 
-	if (this.Element && this.Fx){
+	if (this.Element && Element.implement && this.Fx){
 		Element.implement({
 
 			chains: function(effects){
@@ -377,11 +422,15 @@ authors:
 
 requires:
   - Core/Array
+  - MooTools.More
 
 provides: [Array.Extras]
 
 ...
 */
+
+(function(nil){
+
 Array.implement({
 
 	min: function(){
@@ -399,7 +448,7 @@ Array.implement({
 	sum: function(){
 		var result = 0, l = this.length;
 		if (l){
-			while(l--) result += this[l];
+			while (l--) result += this[l];
 		}
 		return result;
 	},
@@ -418,22 +467,23 @@ Array.implement({
 	},
 
 	reduce: function(fn, value){
-		var undefined;
 		for (var i = 0, l = this.length; i < l; i++){
-			if (i in this) value = value === undefined ? this[i] : fn.call(null, value, this[i], i, this);
+			if (i in this) value = value === nil ? this[i] : fn.call(null, value, this[i], i, this);
 		}
 		return value;
 	},
 
 	reduceRight: function(fn, value){
-		var i = this.length, undefined;
+		var i = this.length;
 		while (i--){
-			if (i in this) value = value === undefined ? this[i] : fn.call(null, value, this[i], i, this);
+			if (i in this) value = value === nil ? this[i] : fn.call(null, value, this[i], i, this);
 		}
 		return value;
 	}
 
 });
+
+})();
 
 
 /*
@@ -465,12 +515,14 @@ var defined = function(value){
 	return value != null;
 };
 
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
 Object.extend({
 
-	getFromPath: function(source, key){
-		var parts = key.split('.');
+	getFromPath: function(source, parts){
+		if (typeof parts == 'string') parts = parts.split('.');
 		for (var i = 0, l = parts.length; i < l; i++){
-			if (source.hasOwnProperty(parts[i])) source = source[parts[i]];
+			if (hasOwnProperty.call(source, parts[i])) source = source[parts[i]];
 			else return null;
 		}
 		return source;
@@ -478,20 +530,20 @@ Object.extend({
 
 	cleanValues: function(object, method){
 		method = method || defined;
-		for (key in object) if (!method(object[key])){
+		for (var key in object) if (!method(object[key])){
 			delete object[key];
 		}
 		return object;
 	},
 
 	erase: function(object, key){
-		if (object.hasOwnProperty(key)) delete object[key];
+		if (hasOwnProperty.call(object, key)) delete object[key];
 		return object;
 	},
 
 	run: function(object){
 		var args = Array.slice(arguments, 1);
-		for (key in object) if (object[key].apply){
+		for (var key in object) if (object[key].apply){
 			object[key].apply(object, args);
 		}
 		return object;
@@ -725,6 +777,7 @@ Locale.define('en-US', 'Date', {
 	shortTime: '%I:%M%p',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 0,
 
 	// Date.Extras
 	ordinal: function(dayOfMonth){
@@ -784,9 +837,9 @@ requires:
   - Core/Array
   - Core/String
   - Core/Number
-  - /Locale
-  - /Locale.en-US.Date
-  - /MooTools.More
+  - MooTools.More
+  - Locale
+  - Locale.en-US.Date
 
 provides: [Date]
 
@@ -797,7 +850,7 @@ provides: [Date]
 
 var Date = this.Date;
 
-Date.Methods = {
+var DateMethods = Date.Methods = {
 	ms: 'Milliseconds',
 	year: 'FullYear',
 	min: 'Minutes',
@@ -812,26 +865,26 @@ Date.Methods = {
 	Date.Methods[method.toLowerCase()] = method;
 });
 
-var pad = function(what, length, string){
-	if (!string) string = '0';
-	return new Array(length - String(what).length + 1).join(string) + what;
+var pad = function(n, digits, string){
+	if (digits == 1) return n;
+	return n < Math.pow(10, digits - 1) ? (string || '0') + pad(n, digits - 1, string) : n;
 };
 
 Date.implement({
 
 	set: function(prop, value){
 		prop = prop.toLowerCase();
-		var m = Date.Methods;
-		if (m[prop]) this['set' + m[prop]](value);
+		var method = DateMethods[prop] && 'set' + DateMethods[prop];
+		if (method && this[method]) this[method](value);
 		return this;
 	}.overloadSetter(),
 
 	get: function(prop){
 		prop = prop.toLowerCase();
-		var m = Date.Methods;
-		if (m[prop]) return this['get' + m[prop]]();
+		var method = DateMethods[prop] && 'get' + DateMethods[prop];
+		if (method && this[method]) return this[method]();
 		return null;
-	},
+	}.overloadGetter(),
 
 	clone: function(){
 		return new Date(this.get('time'));
@@ -886,8 +939,55 @@ Date.implement({
 			- Date.UTC(this.get('year'), 0, 1)) / Date.units.day();
 	},
 
-	getWeek: function(){
-		return (this.get('dayofyear') / 7).ceil();
+	setDay: function(day, firstDayOfWeek){
+		if (firstDayOfWeek == null){
+			firstDayOfWeek = Date.getMsg('firstDayOfWeek');
+			if (firstDayOfWeek === '') firstDayOfWeek = 1;
+		}
+
+		day = (7 + Date.parseDay(day, true) - firstDayOfWeek) % 7;
+		var currentDay = (7 + this.get('day') - firstDayOfWeek) % 7;
+
+		return this.increment('day', day - currentDay);
+	},
+
+	getWeek: function(firstDayOfWeek){
+		if (firstDayOfWeek == null){
+			firstDayOfWeek = Date.getMsg('firstDayOfWeek');
+			if (firstDayOfWeek === '') firstDayOfWeek = 1;
+		}
+
+		var date = this,
+			dayOfWeek = (7 + date.get('day') - firstDayOfWeek) % 7,
+			dividend = 0,
+			firstDayOfYear;
+
+		if (firstDayOfWeek == 1){
+			// ISO-8601, week belongs to year that has the most days of the week (i.e. has the thursday of the week)
+			var month = date.get('month'),
+				startOfWeek = date.get('date') - dayOfWeek;
+
+			if (month == 11 && startOfWeek > 28) return 1; // Week 1 of next year
+
+			if (month == 0 && startOfWeek < -2){
+				// Use a date from last year to determine the week
+				date = new Date(date).decrement('day', dayOfWeek);
+				dayOfWeek = 0;
+			}
+
+			firstDayOfYear = new Date(date.get('year'), 0, 1).get('day') || 7;
+			if (firstDayOfYear > 4) dividend = -7; // First week of the year is not week 1
+		} else {
+			// In other cultures the first week of the year is always week 1 and the last week always 53 or 54.
+			// Days in the same week can have a different weeknumber if the week spreads across two years.
+			firstDayOfYear = new Date(date.get('year'), 0, 1).get('day');
+		}
+
+		dividend += date.get('dayofyear');
+		dividend += 6 - dayOfWeek; // Add days so we calculate the current date's week as a full week
+		dividend += (7 + firstDayOfYear - firstDayOfWeek) % 7; // Make up for first week of the year not being a full week
+
+		return (dividend / 7);
 	},
 
 	getOrdinal: function(day){
@@ -928,8 +1028,12 @@ Date.implement({
 
 	format: function(f){
 		if (!this.isValid()) return 'invalid date';
-		f = f || '%x %X';
-		f = formats[f.toLowerCase()] || f; // replace short-hand with actual format
+		if (!f) f = '%x %X';
+
+		var formatLower = f.toLowerCase();
+		if (formatters[formatLower]) return formatters[formatLower](this); // it's a formatter!
+		f = formats[formatLower] || f; // replace short-hand with actual format
+
 		var d = this;
 		return f.replace(/%([a-z%])/gi,
 			function($0, $1){
@@ -938,7 +1042,7 @@ Date.implement({
 					case 'A': return Date.getMsg('days')[d.get('day')];
 					case 'b': return Date.getMsg('months_abbr')[d.get('month')];
 					case 'B': return Date.getMsg('months')[d.get('month')];
-					case 'c': return d.format('%a %b %d %H:%m:%S %Y');
+					case 'c': return d.format('%a %b %d %H:%M:%S %Y');
 					case 'd': return pad(d.get('date'), 2);
 					case 'e': return pad(d.get('date'), 2, ' ');
 					case 'H': return pad(d.get('hr'), 2);
@@ -953,13 +1057,13 @@ Date.implement({
 					case 'p': return Date.getMsg(d.get('ampm'));
 					case 's': return Math.round(d / 1000);
 					case 'S': return pad(d.get('seconds'), 2);
+					case 'T': return d.format('%H:%M:%S');
 					case 'U': return pad(d.get('week'), 2);
 					case 'w': return d.get('day');
 					case 'x': return d.format(Date.getMsg('shortDate'));
 					case 'X': return d.format(Date.getMsg('shortTime'));
 					case 'y': return d.get('year').toString().substr(2);
 					case 'Y': return d.get('year');
-					/*<1.2compat>*/case 'T': return d.get('GMTOffset');/*</1.2compat>*/
 					case 'z': return d.get('GMTOffset');
 					case 'Z': return d.get('Timezone');
 				}
@@ -972,28 +1076,50 @@ Date.implement({
 		return this.format('iso8601');
 	}
 
+}).alias({
+	toJSON: 'toISOString',
+	compare: 'diff',
+	strftime: 'format'
 });
-
-
-Date.alias('toJSON', 'toISOString');
-Date.alias('compare', 'diff');
-Date.alias('strftime', 'format');
 
 var formats = {
 	db: '%Y-%m-%d %H:%M:%S',
 	compact: '%Y%m%dT%H%M%S',
-	iso8601: '%Y-%m-%dT%H:%M:%S%T',
-	rfc822: '%a, %d %b %Y %H:%M:%S %Z',
 	'short': '%d %b %H:%M',
 	'long': '%B %d, %Y %H:%M'
 };
 
-var parsePatterns = [];
-var nativeParse = Date.parse;
+// The day and month abbreviations are standardized, so we cannot use simply %a and %b because they will get localized
+var rfcDayAbbr = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+	rfcMonthAbbr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+var formatters = {
+	rfc822: function(date){
+		return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %Z');
+	},
+	rfc2822: function(date){
+		return rfcDayAbbr[date.get('day')] + date.format(', %d ') + rfcMonthAbbr[date.get('month')] + date.format(' %Y %H:%M:%S %z');
+	},
+	iso8601: function(date){
+		return (
+			date.getUTCFullYear() + '-' +
+			pad(date.getUTCMonth() + 1, 2) + '-' +
+			pad(date.getUTCDate(), 2) + 'T' +
+			pad(date.getUTCHours(), 2) + ':' +
+			pad(date.getUTCMinutes(), 2) + ':' +
+			pad(date.getUTCSeconds(), 2) + '.' +
+			pad(date.getUTCMilliseconds(), 3) + 'Z'
+		);
+	}
+};
+
+
+var parsePatterns = [],
+	nativeParse = Date.parse;
 
 var parseWord = function(type, word, num){
-	var ret = -1;
-	var translated = Date.getMsg(type + 's');
+	var ret = -1,
+		translated = Date.getMsg(type + 's');
 	switch (typeOf(word)){
 		case 'object':
 			ret = translated[word.get(type)];
@@ -1013,6 +1139,9 @@ var parseWord = function(type, word, num){
 
 	return (num) ? translated.indexOf(ret) : ret;
 };
+
+var startCentury = 1900,
+	startYear = 70;
 
 Date.extend({
 
@@ -1057,7 +1186,12 @@ Date.extend({
 			var bits = pattern.re.exec(from);
 			return (bits) ? (parsed = pattern.handler(bits)) : false;
 		});
-		return parsed || new Date(nativeParse(from));
+
+		if (!(parsed && parsed.isValid())){
+			parsed = new Date(nativeParse(from));
+			if (!(parsed && parsed.isValid())) parsed = new Date(from.toInt());
+		}
+		return parsed;
 	},
 
 	parseDay: function(day, num){
@@ -1088,33 +1222,35 @@ Date.extend({
 
 	defineFormat: function(name, format){
 		formats[name] = format;
+		return this;
 	},
 
 	defineFormats: function(formats){
 		for (var name in formats) Date.defineFormat(name, formats[name]);
+		return this;
 	},
 
-//<1.2compat>
-	parsePatterns: parsePatterns, // this is deprecated
-//</1.2compat>
+	//<1.2compat>
+	parsePatterns: parsePatterns,
+	//</1.2compat>
 
 	defineParser: function(pattern){
 		parsePatterns.push((pattern.re && pattern.handler) ? pattern : build(pattern));
+		return this;
 	},
 
 	defineParsers: function(){
 		Array.flatten(arguments).each(Date.defineParser);
+		return this;
 	},
 
 	define2DigitYearStart: function(year){
 		startYear = year % 100;
 		startCentury = year - startYear;
+		return this;
 	}
 
 });
-
-var startCentury = 1900;
-var startYear = 70;
 
 var regexOf = function(type){
 	return new RegExp('(?:' + Date.getMsg(type).map(function(name){
@@ -1123,11 +1259,13 @@ var regexOf = function(type){
 };
 
 var replacers = function(key){
-	switch(key){
+	switch (key){
+		case 'T':
+			return '%H:%M:%S';
 		case 'x': // iso8601 covers yyyy-mm-dd, so just check if month is first
 			return ((Date.orderIndex('month') == 1) ? '%m[-./]%d' : '%d[-./]%m') + '([-./]%y)?';
 		case 'X':
-			return '%H([.:]%M)?([.:]%S([.:]%s)?)? ?%p? ?%T?';
+			return '%H([.:]%M)?([.:]%S([.:]%s)?)? ?%p? ?%z?';
 	}
 	return null;
 };
@@ -1142,7 +1280,7 @@ var keys = {
 	p: /[ap]\.?m\.?/,
 	y: /\d{2}|\d{4}/,
 	Y: /\d{4}/,
-	T: /Z|[+-]\d{2}(?::?\d{2})?/
+	z: /Z|[+-]\d{2}(?::?\d{2})?/
 };
 
 keys.m = keys.I;
@@ -1191,7 +1329,7 @@ var build = function(format){
 
 			if (year != null) handle.call(date, 'y', year); // need to start in the right year
 			if ('d' in bits) handle.call(date, 'd', 1);
-			if ('m' in bits || 'b' in bits || 'B' in bits) handle.call(date, 'm', 1);
+			if ('m' in bits || bits.b || bits.B) handle.call(date, 'm', 1);
 
 			for (var key in bits) handle.call(date, key, bits[key]);
 			return date;
@@ -1202,7 +1340,7 @@ var build = function(format){
 var handle = function(key, value){
 	if (!value) return this;
 
-	switch(key){
+	switch (key){
 		case 'a': case 'A': return this.set('day', Date.parseDay(value, true));
 		case 'b': case 'B': return this.set('mo', Date.parseMonth(value, true));
 		case 'd': return this.set('date', value);
@@ -1218,7 +1356,7 @@ var handle = function(key, value){
 			value = +value;
 			if (value < 100) value += startCentury + (value < startYear ? 100 : 0);
 			return this.set('year', value);
-		case 'T':
+		case 'z':
 			if (value == 'Z') value = '+00';
 			var offset = value.match(/([+-])(\d{2}):?(\d{2})?/);
 			offset = (offset[1] + '1') * (offset[2] * 60 + (+offset[3] || 0)) + this.getTimezoneOffset();
@@ -1235,7 +1373,9 @@ Date.defineParsers(
 	'%d%o( %b( %Y)?)?( %X)?', // "31st", "31st December", "31 Dec 1999", "31 Dec 1999 11:59pm"
 	'%b( %d%o)?( %Y)?( %X)?', // Same as above with month and day switched
 	'%Y %b( %d%o( %X)?)?', // Same as above with year coming first
-	'%o %b %d %X %T %Y' // "Thu Oct 22 08:11:23 +0000 2009"
+	'%o %b %d %X %z %Y', // "Thu Oct 22 08:11:23 +0000 2009"
+	'%T', // %H:%M:%S
+	'%H:%M( ?%p)?' // "11:05pm", "11:05 am" and "11:05"
 );
 
 Locale.addEvent('change', function(language){
@@ -1270,36 +1410,33 @@ provides: [Date.Extras]
 
 Date.implement({
 
-	timeDiffInWords: function(relative_to){
-		return Date.distanceOfTimeInWords(this, relative_to || new Date);
+	timeDiffInWords: function(to){
+		return Date.distanceOfTimeInWords(this, to || new Date);
 	},
 
-	timeDiff: function(to, joiner){
+	timeDiff: function(to, separator){
 		if (to == null) to = new Date;
-		var delta = ((to - this) / 1000).toInt();
-		if (!delta) return '0s';
+		var delta = ((to - this) / 1000).floor().abs();
 
-		var durations = {s: 60, m: 60, h: 24, d: 365, y: 0};
-		var duration, vals = [];
+		var vals = [],
+			durations = [60, 60, 24, 365, 0],
+			names = ['s', 'm', 'h', 'd', 'y'],
+			value, duration;
 
-		for (var step in durations){
-			if (!delta) break;
-			if ((duration = durations[step])){
-				vals.unshift((delta % duration) + step);
-				delta = (delta / duration).toInt();
-			} else {
-				vals.unshift(delta + step);
+		for (var item = 0; item < durations.length; item++){
+			if (item && !delta) break;
+			value = delta;
+			if ((duration = durations[item])){
+				value = (delta % duration);
+				delta = (delta / duration).floor();
 			}
+			vals.unshift(value + (names[item] || ''));
 		}
 
-		return vals.join(joiner || ':');
+		return vals.join(separator || ':');
 	}
 
-});
-
-Date.alias('timeAgoInWords', 'timeDiffInWords');
-
-Date.extend({
+}).extend({
 
 	distanceOfTimeInWords: function(from, to){
 		return Date.getTimePhrase(((to - from) / 1000).toInt());
@@ -1335,20 +1472,17 @@ Date.extend({
 		return Date.getMsg(msg + suffix, delta).substitute({delta: delta});
 	}
 
-});
-
-
-Date.defineParsers(
+}).defineParsers(
 
 	{
 		// "today", "tomorrow", "yesterday"
 		re: /^(?:tod|tom|yes)/i,
 		handler: function(bits){
 			var d = new Date().clearTime();
-			switch(bits[0]){
+			switch (bits[0]){
 				case 'tom': return d.increment();
 				case 'yes': return d.decrement();
-				default: 	return d;
+				default: return d;
 			}
 		}
 	},
@@ -1367,7 +1501,7 @@ Date.defineParsers(
 		}
 	}
 
-);
+).alias('timeAgoInWords', 'timeDiffInWords');
 
 
 /*
@@ -1425,22 +1559,13 @@ Locale.define('en-US', 'Number', {
 
 /*
 ---
-
 name: Number.Format
-
 description: Extends the Number Type object to include a number formatting method.
-
 license: MIT-style license
-
-authors:
-  - Arian Stolwijk
-
-requires:
-  - Core/Number
-  - /Locale.en-US.Number
-
-provides: [Number.Extras]
-
+authors: [Arian Stolwijk]
+requires: [Core/Number, Locale.en-US.Number]
+# Number.Extras is for compatibility
+provides: [Number.Format, Number.Extras]
 ...
 */
 
@@ -1450,7 +1575,7 @@ Number.implement({
 	format: function(options){
 		// Thanks dojo and YUI for some inspiration
 		var value = this;
-		if (!options) options = {};
+		options = options ? Object.clone(options) : {};
 		var getOption = function(key){
 			if (options[key] != null) return options[key];
 			return Locale.get('Number.' + key);
@@ -1463,10 +1588,10 @@ Number.implement({
 			decimals = getOption('decimals');
 
 		if (negative){
-			var negativeLocale = Locale.get('Number.negative') || {};
+			var negativeLocale = getOption('negative') || {};
 			if (negativeLocale.prefix == null && negativeLocale.suffix == null) negativeLocale.prefix = '-';
-			Object.each(negativeLocale, function(value, key){
-				options[key] = (key == 'prefix' || key == 'suffix') ? (getOption(key) + value) : value;
+			['prefix', 'suffix'].each(function(key){
+				if (negativeLocale[key]) options[key] = getOption(key) + negativeLocale[key];
 			});
 
 			value = -value;
@@ -1475,14 +1600,13 @@ Number.implement({
 		var prefix = getOption('prefix'),
 			suffix = getOption('suffix');
 
-		if (decimals > 0 && decimals <= 20) value = value.toFixed(decimals);
-		if (precision >= 1 && precision <= 21) value = value.toPrecision(precision);
+		if (decimals !== '' && decimals >= 0 && decimals <= 20) value = value.toFixed(decimals);
+		if (precision >= 1 && precision <= 21) value = (+value).toPrecision(precision);
 
 		value += '';
-
+		var index;
 		if (getOption('scientific') === false && value.indexOf('e') > -1){
 			var match = value.split('e'),
-				index,
 				zeros = +match[1];
 			value = match[0].replace('.', '');
 
@@ -1559,6 +1683,7 @@ authors:
 requires:
   - Core/String
   - Core/Array
+  - MooTools.More
 
 provides: [String.Extras]
 
@@ -1623,15 +1748,15 @@ tidy = {
 };
 
 var walk = function(string, replacements){
-	var result = string;
+	var result = string, key;
 	for (key in replacements) result = result.replace(replacements[key], key);
 	return result;
 };
 
 var getRegexForTag = function(tag, contents){
 	tag = tag || '';
-	var regstr = contents ? "<" + tag + "(?!\\w)[^>]*>([\\s\\S]*?)<\/" + tag + "(?!\\w)>" : "<\/?" + tag + "([^>]+)?>";
-	reg = new RegExp(regstr, "gi");
+	var regstr = contents ? "<" + tag + "(?!\\w)[^>]*>([\\s\\S]*?)<\/" + tag + "(?!\\w)>" : "<\/?" + tag + "([^>]+)?>",
+		reg = new RegExp(regstr, "gi");
 	return reg;
 };
 
@@ -1668,6 +1793,20 @@ String.implement({
 
 	tidy: function(){
 		return walk(this, tidy);
+	},
+
+	truncate: function(max, trail, atChar){
+		var string = this;
+		if (trail == null && arguments.length == 1) trail = '…';
+		if (string.length > max){
+			string = string.substring(0, max);
+			if (atChar){
+				var index = string.lastIndexOf(atChar);
+				if (index != -1) string = string.substr(0, index);
+			}
+			if (trail) string += trail;
+		}
+		return string;
 	}
 
 });
@@ -1713,11 +1852,11 @@ String.implement({
 		if (!vars.length) return object;
 
 		vars.each(function(val){
-			var index = val.indexOf('='),
-				value = val.substr(index + 1),
-				keys = index < 0 ? [''] : val.substr(0, index).match(/([^\]\[]+|(\B)(?=\]))/g),
+			var index = val.indexOf('=') + 1,
+				value = index ? val.substr(index) : '',
+				keys = index ? val.substr(0, index - 1).match(/([^\]\[]+|(\B)(?=\]))/g) : [val],
 				obj = object;
-
+			if (!keys) return;
 			if (decodeValues) value = decodeURIComponent(value);
 			keys.each(function(key, i){
 				if (decodeKeys) key = decodeURIComponent(key);
@@ -1855,7 +1994,7 @@ var URI = this.URI = new Class({
 	},
 
 	get: function(part, base){
-		switch(part){
+		switch (part){
 			case 'value': return this.combine(this.parsed, base ? base.parsed : false);
 			case 'data' : return this.getData();
 		}
@@ -2367,17 +2506,15 @@ provides: [Element.Event.Pseudos]
 
 (function(){
 
-var pseudos = {
+var pseudos = {},
+	copyFromEvents = ['once', 'throttle', 'pause'],
+	count = copyFromEvents.length;
 
-	once: function(split, fn, args){
-		fn.apply(this, args);
-		this.removeEvent(split.original, fn);
-	}
+while (count--) pseudos[copyFromEvents[count]] = Events.lookupPseudo(copyFromEvents[count]);
 
-};
-
-Event.definePseudo = function(key, fn, proxy){
-	pseudos[key] = [fn, proxy];
+Event.definePseudo = function(key, listener){
+	pseudos[key] = Type.isFunction(listener) ? {listener: listener} : listener;
+	return this;
 };
 
 var proto = Element.prototype;
@@ -2391,7 +2528,7 @@ var proto = Element.prototype;
 
 name: Element.Event.Pseudos.Keys
 
-description: Adds functionallity fire events if certain keycombinations are pressed
+description: Adds functionality fire events if certain keycombinations are pressed
 
 license: MIT-style license
 
@@ -2495,29 +2632,121 @@ provides: [Element.Delegation]
 ...
 */
 
+(function(){
 
-Event.definePseudo('relay', function(split, fn, args, proxy){
-	var event = args[0];
-	var check = proxy ? proxy.condition : null;
+var eventListenerSupport = !(window.attachEvent && !window.addEventListener),
+	nativeEvents = Element.NativeEvents;
 
-	for (var target = event.target; target && target != this; target = target.parentNode){
-		var finalTarget = document.id(target);
-		if (Slick.match(target, split.value) && (!check || check.call(finalTarget, event))){
-			if (finalTarget) fn.call(finalTarget, event, finalTarget);
-			return;
-		}
+nativeEvents.focusin = 2;
+nativeEvents.focusout = 2;
+
+var check = function(split, target, event){
+	var elementEvent = Element.Events[split.event], condition;
+	if (elementEvent) condition = elementEvent.condition;
+	return Slick.match(target, split.value) && (!condition || condition.call(target, event));
+};
+
+var bubbleUp = function(split, event, fn){
+	for (var target = event.target; target && target != this; target = document.id(target.parentNode)){
+		if (target && check(split, target, event)) return fn.call(target, event, target);
 	}
+};
 
-}, {
+var formObserver = function(eventName){
+
+	var $delegationKey = '$delegation:';
+
+	return {
+		base: 'focusin',
+
+		onRemove: function(element){
+			element.retrieve($delegationKey + 'forms', []).each(function(el){
+				el.retrieve($delegationKey + 'listeners', []).each(function(listener){
+					el.removeEvent(eventName, listener);
+				});
+				el.eliminate($delegationKey + eventName + 'listeners')
+					.eliminate($delegationKey + eventName + 'originalFn');
+			});
+		},
+
+		listener: function(split, fn, args, monitor, options){
+			var event = args[0],
+				forms = this.retrieve($delegationKey + 'forms', []),
+				target = event.target,
+				form = (target.get('tag') == 'form') ? target : event.target.getParent('form');
+				
+			if (!form) return;
+				
+			var formEvents = form.retrieve($delegationKey + 'originalFn', []),
+				formListeners = form.retrieve($delegationKey + 'listeners', []),
+				self = this;
+
+			forms.include(form);
+			this.store($delegationKey + 'forms', forms);
+
+			if (!formEvents.contains(fn)){
+				var formListener = function(event){
+					bubbleUp.call(self, split, event, fn);
+				};
+				form.addEvent(eventName, formListener);
+
+				formEvents.push(fn);
+				formListeners.push(formListener);
+
+				form.store($delegationKey + eventName + 'originalFn', formEvents)
+					.store($delegationKey + eventName + 'listeners', formListeners);
+			}
+		}
+	};
+};
+
+var inputObserver = function(eventName){
+	return {
+		base: 'focusin',
+		listener: function(split, fn, args){
+			var events = {blur: function(){
+				this.removeEvents(events);
+			}}, self = this;
+			events[eventName] = function(event){
+				bubbleUp.call(self, split, event, fn);
+			};
+			args[0].target.addEvents(events);
+		}
+	};
+};
+
+var eventOptions = {
 	mouseenter: {
-		base: 'mouseover',
-		condition: Element.Events.mouseenter.condition
+		base: 'mouseover'
 	},
 	mouseleave: {
-		base: 'mouseout',
-		condition: Element.Events.mouseleave.condition
+		base: 'mouseout'
+	},
+	focus: {
+		base: 'focus' + (eventListenerSupport ? '' : 'in'),
+		args: [true]
+	},
+	blur: {
+		base: eventListenerSupport ? 'blur' : 'focusout',
+		args: [true]
 	}
+};
+
+if (!eventListenerSupport) Object.append(eventOptions, {
+	submit: formObserver('submit'),
+	reset: formObserver('reset'),
+	change: inputObserver('change'),
+	select: inputObserver('select')
 });
+
+Event.definePseudo('relay', {
+	listener: function(split, fn, args){
+		bubbleUp.call(this, split, args[0], fn);
+	},
+	options: eventOptions
+});
+
+})();
 
 
 /*
@@ -2568,23 +2797,23 @@ var calculateEdgeSize = function(edge, styles){
 	return total;
 };
 
+var isVisible = function(el){
+	return !!(!el || el.offsetHeight || el.offsetWidth);
+};
+
 
 Element.implement({
 
 	measure: function(fn){
-		var visibility = function(el){
-			return !!(!el || el.offsetHeight || el.offsetWidth);
-		};
-		if (visibility(this)) return fn.apply(this);
+		if (isVisible(this)) return fn.call(this);
 		var parent = this.getParent(),
-			restorers = [],
 			toMeasure = [];
-		while (!visibility(parent) && parent != document.body){
+		while (!isVisible(parent) && parent != document.body){
 			toMeasure.push(parent.expose());
 			parent = parent.getParent();
 		}
-		var restore = this.expose();
-		var result = fn.apply(this);
+		var restore = this.expose(),
+			result = fn.call(this);
 		restore();
 		toMeasure.each(function(restore){
 			restore();
@@ -2651,7 +2880,8 @@ Element.implement({
 		}, options);
 
 		var styles = {},
-			size = {width: 0, height: 0};
+			size = {width: 0, height: 0},
+			dimensions;
 
 		if (options.mode == 'vertical'){
 			delete size.width;
@@ -2661,16 +2891,19 @@ Element.implement({
 			delete options.planes.height;
 		}
 
-
 		getStylesList(options.styles, options.planes).each(function(style){
 			styles[style] = this.getStyle(style).toInt();
 		}, this);
 
 		Object.each(options.planes, function(edges, plane){
 
-			var capitalized = plane.capitalize();
-			styles[plane] = this.getStyle(plane).toInt();
-			size['total' + capitalized] = styles[plane];
+			var capitalized = plane.capitalize(),
+				style = this.getStyle(plane);
+
+			if (style == 'auto' && !dimensions) dimensions = this.getDimensions();
+
+			style = styles[plane] = (style == 'auto') ? dimensions[plane] : style.toInt();
+			size['total' + capitalized] = style;
 
 			edges.each(function(edge){
 				var edgesize = calculateEdgeSize(edge, styles);
@@ -2726,7 +2959,7 @@ provides: [Element.Pin]
 		supportsPositionFixed = (test.offsetTop === 0);
 		test.dispose();
 		supportTested = true;
-	}
+	};
 
 	Element.implement({
 
@@ -2735,7 +2968,9 @@ provides: [Element.Pin]
 			if (this.getStyle('display') == 'none') return this;
 
 			var pinnedPosition,
-				scroll = window.getScroll();
+				scroll = window.getScroll(),
+				parent,
+				scrollFixer;
 
 			if (enable !== false){
 				pinnedPosition = this.getPosition(supportsPositionFixed ? document.body : this.getOffsetParent());
@@ -2749,8 +2984,8 @@ provides: [Element.Pin]
 						this.setStyle('position', 'fixed').setStyles(currentPosition);
 					} else {
 
-						var parent = this.getOffsetParent(),
-							position = this.getPosition(parent),
+						parent = this.getOffsetParent();
+						var position = this.getPosition(parent),
 							styles = this.getStyles('left', 'top');
 
 						if (parent && styles.left == 'auto' || styles.top == 'auto') this.setPosition(position);
@@ -2761,7 +2996,7 @@ provides: [Element.Pin]
 							y: styles.top.toInt() - scroll.y
 						};
 
-						var scrollFixer = function(){
+						scrollFixer = function(){
 							if (!this.retrieve('pin:_pinned')) return;
 							var scroll = window.getScroll();
 							this.setStyles({
@@ -2779,13 +3014,13 @@ provides: [Element.Pin]
 			} else {
 				if (!this.retrieve('pin:_pinned')) return this;
 
-				var parent = this.getParent(),
-					offsetParent = (parent.getComputedStyle('position') != 'static' ? parent : parent.getOffsetParent());
+				parent = this.getParent();
+				var offsetParent = (parent.getComputedStyle('position') != 'static' ? parent : parent.getOffsetParent());
 
 				pinnedPosition = this.getPosition(offsetParent);
 
 				this.store('pin:_pinned', false);
-				var scrollFixer = this.retrieve('pin:_scrollFixer');
+				scrollFixer = this.retrieve('pin:_scrollFixer');
 				if (!scrollFixer){
 					this.setStyles({
 						position: 'absolute',
@@ -2805,11 +3040,15 @@ provides: [Element.Pin]
 			return this.pin(false);
 		},
 
-		togglepin: function(){
+		togglePin: function(){
 			return this.pin(!this.retrieve('pin:_pinned'));
 		}
 
 	});
+
+//<1.2compat>
+Element.alias('togglepin', 'togglePin');
+//</1.2compat>
 
 })();
 
@@ -2827,219 +3066,228 @@ license: MIT-style license
 
 authors:
   - Aaron Newton
+  - Jacob Thornton
 
 requires:
+  - Core/Options
   - Core/Element.Dimensions
-  - /Element.Measure
+  - Element.Measure
 
 provides: [Element.Position]
 
 ...
 */
 
-(function(){
+(function(original){
 
-var original = Element.prototype.position;
+var local = Element.Position = {
+
+	options: {/*
+		edge: false,
+		returnPos: false,
+		minimum: {x: 0, y: 0},
+		maximum: {x: 0, y: 0},
+		relFixedPosition: false,
+		ignoreMargins: false,
+		ignoreScroll: false,
+		allowNegative: false,*/
+		relativeTo: document.body,
+		position: {
+			x: 'center', //left, center, right
+			y: 'center' //top, center, bottom
+		},
+		offset: {x: 0, y: 0}
+	},
+
+	getOptions: function(element, options){
+		options = Object.merge({}, local.options, options);
+		local.setPositionOption(options);
+		local.setEdgeOption(options);
+		local.setOffsetOption(element, options);
+		local.setDimensionsOption(element, options);
+		return options;
+	},
+
+	setPositionOption: function(options){
+		options.position = local.getCoordinateFromValue(options.position);
+	},
+
+	setEdgeOption: function(options){
+		var edgeOption = local.getCoordinateFromValue(options.edge);
+		options.edge = edgeOption ? edgeOption :
+			(options.position.x == 'center' && options.position.y == 'center') ? {x: 'center', y: 'center'} :
+			{x: 'left', y: 'top'};
+	},
+
+	setOffsetOption: function(element, options){
+		var parentOffset = {x: 0, y: 0},
+			offsetParent = element.measure(function(){
+				return document.id(this.getOffsetParent());
+			}),
+			parentScroll = offsetParent.getScroll();
+
+		if (!offsetParent || offsetParent == element.getDocument().body) return;
+		parentOffset = offsetParent.measure(function(){
+			var position = this.getPosition();
+			if (this.getStyle('position') == 'fixed'){
+				var scroll = window.getScroll();
+				position.x += scroll.x;
+				position.y += scroll.y;
+			}
+			return position;
+		});
+
+		options.offset = {
+			parentPositioned: offsetParent != document.id(options.relativeTo),
+			x: options.offset.x - parentOffset.x + parentScroll.x,
+			y: options.offset.y - parentOffset.y + parentScroll.y
+		};
+	},
+
+	setDimensionsOption: function(element, options){
+		options.dimensions = element.getDimensions({
+			computeSize: true,
+			styles: ['padding', 'border', 'margin']
+		});
+	},
+
+	getPosition: function(element, options){
+		var position = {};
+		options = local.getOptions(element, options);
+		var relativeTo = document.id(options.relativeTo) || document.body;
+
+		local.setPositionCoordinates(options, position, relativeTo);
+		if (options.edge) local.toEdge(position, options);
+
+		var offset = options.offset;
+		position.left = ((position.x >= 0 || offset.parentPositioned || options.allowNegative) ? position.x : 0).toInt();
+		position.top = ((position.y >= 0 || offset.parentPositioned || options.allowNegative) ? position.y : 0).toInt();
+
+		local.toMinMax(position, options);
+
+		if (options.relFixedPosition || relativeTo.getStyle('position') == 'fixed') local.toRelFixedPosition(relativeTo, position);
+		if (options.ignoreScroll) local.toIgnoreScroll(relativeTo, position);
+		if (options.ignoreMargins) local.toIgnoreMargins(position, options);
+
+		position.left = Math.ceil(position.left);
+		position.top = Math.ceil(position.top);
+		delete position.x;
+		delete position.y;
+
+		return position;
+	},
+
+	setPositionCoordinates: function(options, position, relativeTo){
+		var offsetY = options.offset.y,
+			offsetX = options.offset.x,
+			calc = (relativeTo == document.body) ? window.getScroll() : relativeTo.getPosition(),
+			top = calc.y,
+			left = calc.x,
+			winSize = window.getSize();
+
+		switch(options.position.x){
+			case 'left': position.x = left + offsetX; break;
+			case 'right': position.x = left + offsetX + relativeTo.offsetWidth; break;
+			default: position.x = left + ((relativeTo == document.body ? winSize.x : relativeTo.offsetWidth) / 2) + offsetX; break;
+		}
+
+		switch(options.position.y){
+			case 'top': position.y = top + offsetY; break;
+			case 'bottom': position.y = top + offsetY + relativeTo.offsetHeight; break;
+			default: position.y = top + ((relativeTo == document.body ? winSize.y : relativeTo.offsetHeight) / 2) + offsetY; break;
+		}
+	},
+
+	toMinMax: function(position, options){
+		var xy = {left: 'x', top: 'y'}, value;
+		['minimum', 'maximum'].each(function(minmax){
+			['left', 'top'].each(function(lr){
+				value = options[minmax] ? options[minmax][xy[lr]] : null;
+				if (value != null && ((minmax == 'minimum') ? position[lr] < value : position[lr] > value)) position[lr] = value;
+			});
+		});
+	},
+
+	toRelFixedPosition: function(relativeTo, position){
+		var winScroll = window.getScroll();
+		position.top += winScroll.y;
+		position.left += winScroll.x;
+	},
+
+	toIgnoreScroll: function(relativeTo, position){
+		var relScroll = relativeTo.getScroll();
+		position.top -= relScroll.y;
+		position.left -= relScroll.x;
+	},
+
+	toIgnoreMargins: function(position, options){
+		position.left += options.edge.x == 'right'
+			? options.dimensions['margin-right']
+			: (options.edge.x != 'center'
+				? -options.dimensions['margin-left']
+				: -options.dimensions['margin-left'] + ((options.dimensions['margin-right'] + options.dimensions['margin-left']) / 2));
+
+		position.top += options.edge.y == 'bottom'
+			? options.dimensions['margin-bottom']
+			: (options.edge.y != 'center'
+				? -options.dimensions['margin-top']
+				: -options.dimensions['margin-top'] + ((options.dimensions['margin-bottom'] + options.dimensions['margin-top']) / 2));
+	},
+
+	toEdge: function(position, options){
+		var edgeOffset = {},
+			dimensions = options.dimensions,
+			edge = options.edge;
+
+		switch(edge.x){
+			case 'left': edgeOffset.x = 0; break;
+			case 'right': edgeOffset.x = -dimensions.x - dimensions.computedRight - dimensions.computedLeft; break;
+			// center
+			default: edgeOffset.x = -(Math.round(dimensions.totalWidth / 2)); break;
+		}
+
+		switch(edge.y){
+			case 'top': edgeOffset.y = 0; break;
+			case 'bottom': edgeOffset.y = -dimensions.y - dimensions.computedTop - dimensions.computedBottom; break;
+			// center
+			default: edgeOffset.y = -(Math.round(dimensions.totalHeight / 2)); break;
+		}
+
+		position.x += edgeOffset.x;
+		position.y += edgeOffset.y;
+	},
+
+	getCoordinateFromValue: function(option){
+		if (typeOf(option) != 'string') return option;
+		option = option.toLowerCase();
+
+		return {
+			x: option.test('left') ? 'left'
+				: (option.test('right') ? 'right' : 'center'),
+			y: option.test(/upper|top/) ? 'top'
+				: (option.test('bottom') ? 'bottom' : 'center')
+		};
+	}
+
+};
 
 Element.implement({
 
 	position: function(options){
-		//call original position if the options are x/y values
-		if (options && (options.x != null || options.y != null)){
-			return original ? original.apply(this, arguments) : this;
+		if (options && (options.x != null || options.y != null)) {
+			return (original ? original.apply(this, arguments) : this);
 		}
+		var position = this.setStyle('position', 'absolute').calculatePosition(options);
+		return (options && options.returnPos) ? position : this.setStyles(position);
+	},
 
-		Object.each(options || {}, function(v, k){
-			if (v == null) delete options[k];
-		});
-
-		options = Object.merge({
-			// minimum: { x: 0, y: 0 },
-			// maximum: { x: 0, y: 0},
-			relativeTo: document.body,
-			position: {
-				x: 'center', //left, center, right
-				y: 'center' //top, center, bottom
-			},
-			offset: {x: 0, y: 0}/*,
-			edge: false,
-			returnPos: false,
-			relFixedPosition: false,
-			ignoreMargins: false,
-			ignoreScroll: false,
-			allowNegative: false*/
-		}, options);
-
-		//compute the offset of the parent positioned element if this element is in one
-		var parentOffset = {x: 0, y: 0},
-			parentPositioned = false;
-
-		/* dollar around getOffsetParent should not be necessary, but as it does not return
-		 * a mootools extended element in IE, an error occurs on the call to expose. See:
-		 * http://mootools.lighthouseapp.com/projects/2706/tickets/333-element-getoffsetparent-inconsistency-between-ie-and-other-browsers */
-		var offsetParent = this.measure(function(){
-			return document.id(this.getOffsetParent());
-		});
-		if (offsetParent && offsetParent != this.getDocument().body){
-			parentOffset = offsetParent.measure(function(){
-				return this.getPosition();
-			});
-			parentPositioned = offsetParent != document.id(options.relativeTo);
-			options.offset.x = options.offset.x - parentOffset.x;
-			options.offset.y = options.offset.y - parentOffset.y;
-		}
-
-		//upperRight, bottomRight, centerRight, upperLeft, bottomLeft, centerLeft
-		//topRight, topLeft, centerTop, centerBottom, center
-		var fixValue = function(option){
-			if (typeOf(option) != 'string') return option;
-			option = option.toLowerCase();
-			var val = {};
-
-			if (option.test('left')){
-				val.x = 'left';
-			} else if (option.test('right')){
-				val.x = 'right';
-			} else {
-				val.x = 'center';
-			}
-
-			if (option.test('upper') || option.test('top')){
-				val.y = 'top';
-			} else if (option.test('bottom')){
-				val.y = 'bottom';
-			} else {
-				val.y = 'center';
-			}
-
-			return val;
-		};
-
-		options.edge = fixValue(options.edge);
-		options.position = fixValue(options.position);
-		if (!options.edge){
-			if (options.position.x == 'center' && options.position.y == 'center') options.edge = {x:'center', y:'center'};
-			else options.edge = {x:'left', y:'top'};
-		}
-
-		this.setStyle('position', 'absolute');
-		var rel = document.id(options.relativeTo) || document.body,
-				calc = rel == document.body ? window.getScroll() : rel.getPosition(),
-				top = calc.y, left = calc.x;
-
-		var dim = this.getDimensions({
-			computeSize: true,
-			styles:['padding', 'border','margin']
-		});
-
-		var pos = {},
-			prefY = options.offset.y,
-			prefX = options.offset.x,
-			winSize = window.getSize();
-
-		switch(options.position.x){
-			case 'left':
-				pos.x = left + prefX;
-				break;
-			case 'right':
-				pos.x = left + prefX + rel.offsetWidth;
-				break;
-			default: //center
-				pos.x = left + ((rel == document.body ? winSize.x : rel.offsetWidth)/2) + prefX;
-				break;
-		}
-
-		switch(options.position.y){
-			case 'top':
-				pos.y = top + prefY;
-				break;
-			case 'bottom':
-				pos.y = top + prefY + rel.offsetHeight;
-				break;
-			default: //center
-				pos.y = top + ((rel == document.body ? winSize.y : rel.offsetHeight)/2) + prefY;
-				break;
-		}
-
-		if (options.edge){
-			var edgeOffset = {};
-
-			switch(options.edge.x){
-				case 'left':
-					edgeOffset.x = 0;
-					break;
-				case 'right':
-					edgeOffset.x = -dim.x-dim.computedRight-dim.computedLeft;
-					break;
-				default: //center
-					edgeOffset.x = -(dim.totalWidth/2);
-					break;
-			}
-
-			switch(options.edge.y){
-				case 'top':
-					edgeOffset.y = 0;
-					break;
-				case 'bottom':
-					edgeOffset.y = -dim.y-dim.computedTop-dim.computedBottom;
-					break;
-				default: //center
-					edgeOffset.y = -(dim.totalHeight/2);
-					break;
-			}
-
-			pos.x += edgeOffset.x;
-			pos.y += edgeOffset.y;
-		}
-
-		pos = {
-			left: ((pos.x >= 0 || parentPositioned || options.allowNegative) ? pos.x : 0).toInt(),
-			top: ((pos.y >= 0 || parentPositioned || options.allowNegative) ? pos.y : 0).toInt()
-		};
-
-		var xy = {left: 'x', top: 'y'};
-
-		['minimum', 'maximum'].each(function(minmax){
-			['left', 'top'].each(function(lr){
-				var val = options[minmax] ? options[minmax][xy[lr]] : null;
-				if (val != null && ((minmax == 'minimum') ? pos[lr] < val : pos[lr] > val)) pos[lr] = val;
-			});
-		});
-
-		if (rel.getStyle('position') == 'fixed' || options.relFixedPosition){
-			var winScroll = window.getScroll();
-			pos.top+= winScroll.y;
-			pos.left+= winScroll.x;
-		}
-		if (options.ignoreScroll){
-			var relScroll = rel.getScroll();
-			pos.top -= relScroll.y;
-			pos.left -= relScroll.x;
-		}
-
-		if (options.ignoreMargins){
-			pos.left += (
-				options.edge.x == 'right' ? dim['margin-right'] :
-				options.edge.x == 'center' ? -dim['margin-left'] + ((dim['margin-right'] + dim['margin-left'])/2) :
-					- dim['margin-left']
-			);
-			pos.top += (
-				options.edge.y == 'bottom' ? dim['margin-bottom'] :
-				options.edge.y == 'center' ? -dim['margin-top'] + ((dim['margin-bottom'] + dim['margin-top'])/2) :
-					- dim['margin-top']
-			);
-		}
-
-		pos.left = Math.ceil(pos.left);
-		pos.top = Math.ceil(pos.top);
-		if (options.returnPos) return pos;
-		else this.setStyles(pos);
-		return this;
+	calculatePosition: function(options){
+		return local.getPosition(this, options);
 	}
 
 });
 
-})();
+})(Element.prototype.position);
 
 
 /*
@@ -3106,11 +3354,14 @@ Element.implement({
 Document.implement({
 
 	clearSelection: function(){
-		if (document.selection && document.selection.empty){
-			document.selection.empty();
-		} else if (window.getSelection){
+		if (window.getSelection){
 			var selection = window.getSelection();
 			if (selection && selection.removeAllRanges) selection.removeAllRanges();
+		} else if (document.selection && document.selection.empty){
+			try {
+				//IE fails here if selected element is not in dom
+				document.selection.empty();
+			} catch(e){}
 		}
 	}
 
@@ -3155,7 +3406,7 @@ var IframeShim = new Class({
 		zIndex: null,
 		margin: 0,
 		offset: {x: 0, y: 0},
-		browsers: ((Browser.ie && Browser.version == 6) || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
+		browsers: (Browser.ie6 || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
 	},
 
 	property: 'IframeShim',
@@ -3286,7 +3537,7 @@ var Mask = new Class({
 		onShow: function(){},
 		onHide: function(){},
 		onDestroy: function(){},
-		onClick: function(){},
+		onClick: function(event){},
 		inject: {
 			where: 'after',
 			target: null,
@@ -3313,12 +3564,12 @@ var Mask = new Class({
 		this.element = new Element('div', {
 			'class': this.options['class'],
 			id: this.options.id || 'mask-' + String.uniqueID(),
-			styles: Object.merge(this.options.style, {
+			styles: Object.merge({}, this.options.style, {
 				display: 'none'
 			}),
 			events: {
-				click: function(){
-					this.fireEvent('click');
+				click: function(event){
+					this.fireEvent('click', event);
 					if (this.options.hideOnClick) this.hide();
 				}.bind(this)
 			}
@@ -3333,7 +3584,7 @@ var Mask = new Class({
 
 	inject: function(target, where){
 		where = where || (this.options.inject ? this.options.inject.where : '') || this.target == document.body ? 'inside' : 'after';
-		target = target || (this.options.inject ? this.options.inject.target : '') || this.target;
+		target = target || (this.options.inject && this.options.inject.target) || this.target;
 
 		this.element.inject(target, where);
 
@@ -3369,6 +3620,7 @@ var Mask = new Class({
 
 		var dim = this.target.getComputedSize(opt);
 		if (this.target == document.body){
+			this.element.setStyles({width: 0, height: 0});
 			var win = window.getScrollSize();
 			if (dim.totalHeight < win.y) dim.totalHeight = win.y;
 			if (dim.totalWidth < win.x) dim.totalWidth = win.x;
@@ -3716,10 +3968,10 @@ if (!window.Form) window.Form = {};
 
 		Implements: [Options, Events, Class.Occlude],
 
-		options: {
-			//onFailure: function(){},
-			//onSuccess: #function(){}, //aliased to onComplete,
-			//onSend: function(){}
+		options: {/*
+			onFailure: function(){},
+			onSuccess: function(){}, // aliased to onComplete,
+			onSend: function(){}*/
 			requestOptions: {
 				evalScripts: true,
 				useSpinner: true,
@@ -3733,19 +3985,24 @@ if (!window.Form) window.Form = {};
 
 		property: 'form.request',
 
-		initialize: function(form, update, options){
+		initialize: function(form, target, options){
 			this.element = document.id(form);
 			if (this.occlude()) return this.occluded;
-			this.update = document.id(update);
-			this.setOptions(options);
-			this.makeRequest();
-			if (this.options.resetForm){
-				this.request.addEvent('success', function(){
-					Function.attempt(function(){ this.element.reset(); }.bind(this));
-					if (window.OverText) OverText.update();
-				}.bind(this));
+			this.setOptions(options)
+				.setTarget(target)
+				.attach();
+		},
+
+		setTarget: function(target){
+			this.target = document.id(target);
+			if (!this.request){
+				this.makeRequest();
+			} else {
+				this.request.setOptions({
+					update: this.target
+				});
 			}
-			this.attach();
+			return this;
 		},
 
 		toElement: function(){
@@ -3753,65 +4010,75 @@ if (!window.Form) window.Form = {};
 		},
 
 		makeRequest: function(){
+			var self = this;
 			this.request = new Request.HTML(Object.merge({
-					update: this.update,
+					update: this.target,
 					emulation: false,
 					spinnerTarget: this.element,
 					method: this.element.get('method') || 'post'
 			}, this.options.requestOptions)).addEvents({
 				success: function(tree, elements, html, javascript){
 					['complete', 'success'].each(function(evt){
-						this.fireEvent(evt, [this.update, tree, elements, html, javascript]);
-					}, this);
-				}.bind(this),
+						self.fireEvent(evt, [self.target, tree, elements, html, javascript]);
+					});
+				},
 				failure: function(){
-					this.fireEvent('complete', arguments).fireEvent('failure', arguments);
-				}.bind(this),
+					self.fireEvent('complete', arguments).fireEvent('failure', arguments);
+				},
 				exception: function(){
-					this.fireEvent('failure', arguments);
-				}.bind(this)
+					self.fireEvent('failure', arguments);
+				}
 			});
+			return this.attachReset();
+		},
+
+		attachReset: function(){
+			if (!this.options.resetForm) return this;
+			this.request.addEvent('success', function(){
+				Function.attempt(function(){
+					this.element.reset();
+				}.bind(this));
+				if (window.OverText) OverText.update();
+			}.bind(this));
+			return this;
 		},
 
 		attach: function(attach){
-			attach = attach != null ? attach : true;
-			method = attach ? 'addEvent' : 'removeEvent';
-
+			var method = (attach != false) ? 'addEvent' : 'removeEvent';
 			this.element[method]('click:relay(button, input[type=submit])', this.saveClickedButton.bind(this));
 
 			var fv = this.element.retrieve('validator');
 			if (fv) fv[method]('onFormValidate', this.onFormValidate);
 			else this.element[method]('submit', this.onSubmit);
+
+			return this;
 		},
 
 		detach: function(){
-			this.attach(false);
-			return this;
+			return this.attach(false);
 		},
 
 		//public method
 		enable: function(){
-			this.attach();
-			return this;
+			return this.attach();
 		},
 
 		//public method
 		disable: function(){
-			this.detach();
-			return this;
+			return this.detach();
 		},
 
-		onFormValidate: function(valid, form, e){
+		onFormValidate: function(valid, form, event){
 			//if there's no event, then this wasn't a submit event
-			if (!e) return;
+			if (!event) return;
 			var fv = this.element.retrieve('validator');
 			if (valid || (fv && !fv.options.stopOnFailure)){
-				if (e && e.stop) e.stop();
+				event.stop();
 				this.send();
 			}
 		},
 
-		onSubmit: function(e){
+		onSubmit: function(event){
 			var fv = this.element.retrieve('validator');
 			if (fv){
 				//form validator was created after Form.Request
@@ -3820,16 +4087,16 @@ if (!window.Form) window.Form = {};
 				this.element.validate();
 				return;
 			}
-			if (e) e.stop();
+			if (event) event.stop();
 			this.send();
 		},
 
 		saveClickedButton: function(event, target){
-			if (!this.options.sendButtonClicked) return;
-			if (!target.get('name')) return;
-			this.options.extraData[target.get('name')] = target.get('value') || true;
+			var targetName = target.get('name');
+			if (!targetName || !this.options.sendButtonClicked) return;
+			this.options.extraData[targetName] = target.get('value') || true;
 			this.clickedCleaner = function(){
-				delete this.options.extraData[target.get('name')];
+				delete this.options.extraData[targetName];
 				this.clickedCleaner = function(){};
 			}.bind(this);
 		},
@@ -3837,55 +4104,33 @@ if (!window.Form) window.Form = {};
 		clickedCleaner: function(){},
 
 		send: function(){
-			var str = this.element.toQueryString().trim();
-			var data = Object.toQueryString(this.options.extraData);
+			var str = this.element.toQueryString().trim(),
+				data = Object.toQueryString(this.options.extraData);
+
 			if (str) str += "&" + data;
 			else str = data;
+
 			this.fireEvent('send', [this.element, str.parseQueryString()]);
-			this.request.send({data: str, url: this.element.get("action")});
+			this.request.send({
+				data: str,
+				url: this.options.requestOptions.url || this.element.get('action')
+			});
 			this.clickedCleaner();
 			return this;
 		}
 
 	});
 
-	Element.Properties.formRequest = {
-
-		set: function(){
-			var opt = Array.link(arguments, {options: Type.isObject, update: Type.isElement, updateId: Type.isString});
-			var update = opt.update || opt.updateId;
-			var updater = this.retrieve('form.request');
-			if (update){
-				if (updater) updater.update = document.id(update);
-				this.store('form.request:update', update);
-			}
-			if (opt.options){
-				if (updater) updater.setOptions(opt.options);
-				this.store('form.request:options', opt.options);
-			}
-			return this;
-		},
-
-		get: function(){
-			var opt = Array.link(arguments, {options: Type.isObject, update: Type.isElement, updateId: Type.isString});
-			var update = opt.update || opt.updateId;
-			if (opt.options || update || !this.retrieve('form.request')){
-				if (opt.options || !this.retrieve('form.request:options')) this.set('form.request', opt.options);
-				if (update) this.set('form.request', update);
-				this.store('form.request', new Form.Request(this, this.retrieve('form.request:update'), this.retrieve('form.request:options')));
-			}
-			return this.retrieve('form.request');
+	Element.implement('formUpdate', function(update, options){
+		var fq = this.retrieve('form.request');
+		if (!fq) {
+			fq = new Form.Request(this, update, options);
+		} else {
+			if (update) fq.setTarget(update);
+			if (options) fq.setOptions(options).makeRequest();
 		}
-
-	};
-
-	Element.implement({
-
-		formUpdate: function(update, options){
-			this.get('formRequest', update, options).send();
-			return this;
-		}
-
+		fq.send();
+		return this;
 	});
 
 })();
@@ -3914,6 +4159,22 @@ provides: [Fx.Reveal]
 
 ...
 */
+
+(function(){
+
+
+var hideTheseOf = function(object){
+	var hideThese = object.options.hideInputs;
+	if (window.OverText){
+		var otClasses = [null];
+		OverText.each(function(ot){
+			otClasses.include('.' + ot.options.labelClass);
+		});
+		if (otClasses) hideThese += otClasses.join(', ');
+	}
+	return (hideThese) ? object.element.getElements(hideThese) : null;
+};
+
 
 Fx.Reveal = new Class({
 
@@ -3960,7 +4221,7 @@ Fx.Reveal = new Class({
 					overflow: 'hidden'
 				});
 
-				var hideThese = this.options.hideInputs ? this.element.getElements(this.options.hideInputs) : null;
+				var hideThese = hideTheseOf(this);
 				if (hideThese) hideThese.setStyle('visibility', 'hidden');
 
 				this.$chain.unshift(function(){
@@ -4022,7 +4283,7 @@ Fx.Reveal = new Class({
 
 				this.element.setStyles(zero);
 
-				var hideThese = this.options.hideInputs ? this.element.getElements(this.options.hideInputs) : null;
+				var hideThese = hideTheseOf(this);
 				if (hideThese) hideThese.setStyle('visibility', 'hidden');
 
 				this.$chain.unshift(function(){
@@ -4060,7 +4321,7 @@ Fx.Reveal = new Class({
 
 	cancel: function(){
 		this.parent.apply(this, arguments);
-		this.element.style.cssText = this.cssText;
+		if (this.cssText != null) this.element.style.cssText = this.cssText;
 		this.hiding = false;
 		this.showing = false;
 		return this;
@@ -4120,6 +4381,8 @@ Element.implement({
 
 });
 
+})();
+
 
 /*
 ---
@@ -4177,11 +4440,11 @@ Form.Request.Append = new Class({
 						}
 					}).adopt(kids);
 				}
-				container.inject(this.update, this.options.inject);
+				container.inject(this.target, this.options.inject);
 				if (this.options.requestOptions.evalScripts) Browser.exec(javascript);
 				this.fireEvent('beforeEffect', container);
 				var finish = function(){
-					this.fireEvent('success', [container, this.update, tree, elements, html, javascript]);
+					this.fireEvent('success', [container, this.target, tree, elements, html, javascript]);
 				}.bind(this);
 				if (this.options.useReveal){
 					container.set('reveal', this.options.revealOptions).get('reveal').chain(finish);
@@ -4194,6 +4457,7 @@ Form.Request.Append = new Class({
 				this.fireEvent('failure', xhr);
 			}.bind(this)
 		});
+		this.attachReset();
 	}
 
 });
@@ -4232,7 +4496,7 @@ Locale.define('en-US', 'FormValidator', {
 	dateSuchAs: 'Please enter a valid date such as {date}',
 	dateInFormatMDY: 'Please enter a valid date such as MM/DD/YYYY (i.e. "12/31/1999")',
 	email: 'Please enter a valid email address. For example "fred@domain.com".',
-	url: 'Please enter a valid URL such as http://www.google.com.',
+	url: 'Please enter a valid URL such as http://www.example.com.',
 	currencyDollar: 'Please enter a valid $ amount. For example $100.00 .',
 	oneRequired: 'Please enter something for at least one of these inputs.',
 	errorPrefix: 'Error: ',
@@ -4290,13 +4554,13 @@ provides: [Form.Validator, InputValidator, FormValidator.BaseValidators]
 */
 if (!window.Form) window.Form = {};
 
-var InputValidator = new Class({
+var InputValidator = this.InputValidator = new Class({
 
 	Implements: [Options],
 
 	options: {
 		errorMsg: 'Validation failed.',
-		test: function(field){return true;}
+		test: Function.from(true)
 	},
 
 	initialize: function(className, options){
@@ -4305,22 +4569,31 @@ var InputValidator = new Class({
 	},
 
 	test: function(field, props){
-		if (document.id(field)) return this.options.test(document.id(field), props || this.getProps(field));
-		else return false;
+		field = document.id(field);
+		return (field) ? this.options.test(field, props || this.getProps(field)) : false;
 	},
 
 	getError: function(field, props){
+		field = document.id(field);
 		var err = this.options.errorMsg;
-		if (typeOf(err) == 'function') err = err(document.id(field), props || this.getProps(field));
+		if (typeOf(err) == 'function') err = err(field, props || this.getProps(field));
 		return err;
 	},
 
 	getProps: function(field){
-		if (!document.id(field)) return {};
-		return field.get('validatorProps');
+		field = document.id(field);
+		return (field) ? field.get('validatorProps') : {};
 	}
 
 });
+
+Element.Properties.validators = {
+
+	get: function(){
+		return (this.get('data-validators') || this.className).clean().split(' ');
+	}
+
+};
 
 Element.Properties.validatorProps = {
 
@@ -4331,14 +4604,14 @@ Element.Properties.validatorProps = {
 	get: function(props){
 		if (props) this.set(props);
 		if (this.retrieve('$moo:validatorProps')) return this.retrieve('$moo:validatorProps');
-		if (this.getProperty('$moo:validatorProps')){
+		if (this.getProperty('data-validator-properties') || this.getProperty('validatorProps')){
 			try {
-				this.store('$moo:validatorProps', JSON.decode(this.getProperty('$moo:validatorProps')));
+				this.store('$moo:validatorProps', JSON.decode(this.getProperty('validatorProps') || this.getProperty('data-validator-properties')));
 			}catch(e){
 				return {};
 			}
 		} else {
-			var vals = this.get('class').split(' ').filter(function(cls){
+			var vals = this.get('validators').filter(function(cls){
 				return cls.test(':');
 			});
 			if (!vals.length){
@@ -4363,7 +4636,7 @@ Element.Properties.validatorProps = {
 
 Form.Validator = new Class({
 
-	Implements:[Options, Events],
+	Implements: [Options, Events],
 
 	Binds: ['onSubmit'],
 
@@ -4422,8 +4695,7 @@ Form.Validator = new Class({
 	},
 
 	onSubmit: function(event){
-		if (!this.validate(event) && event) event.preventDefault();
-		else this.reset();
+		if (this.validate(event)) this.reset();
 	},
 
 	reset: function(){
@@ -4434,7 +4706,9 @@ Form.Validator = new Class({
 	validate: function(event){
 		var result = this.getFields().map(function(field){
 			return this.validateField(field, true);
-		}, this).every(function(v){ return v;});
+		}, this).every(function(v){
+			return v;
+		});
 		this.fireEvent('formValidate', [result, this.element, event]);
 		if (this.options.stopOnFailure && !result && event) event.preventDefault();
 		return result;
@@ -4450,32 +4724,33 @@ Form.Validator = new Class({
 			warned = this.element.getElement('.warning');
 		}
 		if (field && (!failed || force || field.hasClass('validation-failed') || (failed && !this.options.serial))){
-			var validators = field.className.split(' ').some(function(cn){
+			var validationTypes = field.get('validators');
+			var validators = validationTypes.some(function(cn){
 				return this.getValidator(cn);
 			}, this);
 			var validatorsFailed = [];
-			field.className.split(' ').each(function(className){
+			validationTypes.each(function(className){
 				if (className && !this.test(className, field)) validatorsFailed.include(className);
 			}, this);
 			passed = validatorsFailed.length === 0;
-			if (validators && !field.hasClass('warnOnly')){
+			if (validators && !this.hasValidator(field, 'warnOnly')){
 				if (passed){
 					field.addClass('validation-passed').removeClass('validation-failed');
-					this.fireEvent('elementPass', field);
+					this.fireEvent('elementPass', [field]);
 				} else {
 					field.addClass('validation-failed').removeClass('validation-passed');
 					this.fireEvent('elementFail', [field, validatorsFailed]);
 				}
 			}
 			if (!warned){
-				var warnings = field.className.split(' ').some(function(cn){
-					if (cn.test('^warn-') || field.hasClass('warnOnly'))
+				var warnings = validationTypes.some(function(cn){
+					if (cn.test('^warn'))
 						return this.getValidator(cn.replace(/^warn-/,''));
 					else return null;
 				}, this);
 				field.removeClass('warning');
-				var warnResult = field.className.split(' ').map(function(cn){
-					if (cn.test('^warn-') || field.hasClass('warnOnly'))
+				var warnResult = validationTypes.map(function(cn){
+					if (cn.test('^warn'))
 						return this.test(cn.replace(/^warn-/,''), field, true);
 					else return null;
 				}, this);
@@ -4488,18 +4763,22 @@ Form.Validator = new Class({
 		field = document.id(field);
 		if ((this.options.ignoreHidden && !field.isVisible()) || (this.options.ignoreDisabled && field.get('disabled'))) return true;
 		var validator = this.getValidator(className);
-		warn = warn != null ? warn : false;
-		if (field.hasClass('warnOnly')) warn = true;
-		var isValid = field.hasClass('ignoreValidation') || (validator ? validator.test(field) : true);
-		if (validator) this.fireEvent('elementValidate', [isValid, field, className, warn]);
+		if (warn != null) warn = false;
+		if (this.hasValidator(field, 'warnOnly')) warn = true;
+		var isValid = this.hasValidator(field, 'ignoreValidation') || (validator ? validator.test(field) : true);
+		if (validator && field.isVisible()) this.fireEvent('elementValidate', [isValid, field, className, warn]);
 		if (warn) return true;
 		return isValid;
+	},
+
+	hasValidator: function(field, value){
+		return field.get('validators').contains(value);
 	},
 
 	resetField: function(field){
 		field = document.id(field);
 		if (field){
-			field.className.split(' ').each(function(className){
+			field.get('validators').each(function(className){
 				if (className.test('^warn-')) className = className.replace(/^warn-/, '');
 				field.removeClass('validation-failed');
 				field.removeClass('warning');
@@ -4616,8 +4895,7 @@ Form.Validator.addAllThese([
 			else return '';
 		},
 		test: function(element, props){
-			//if the value is <= than the maxLength value, element passes test
-			return (element.get('value').length <= (props.maxLength || 10000));
+			return element.get('value').length <= (props.maxLength || 10000);
 		}
 	}],
 
@@ -4668,28 +4946,40 @@ Form.Validator.addAllThese([
 		},
 		test: function(element, props){
 			if (Form.Validator.getValidator('IsEmpty').test(element)) return true;
-			var d;
-			if (Date.parse){
-				var format = props.dateFormat || '%x';
-				d = Date.parse(element.get('value'));
-				var formatted = d.format(format);
+			var dateLocale = Locale.getCurrent().sets.Date,
+				dateNouns = new RegExp([dateLocale.days, dateLocale.days_abbr, dateLocale.months, dateLocale.months_abbr].flatten().join('|'), 'i'),
+				value = element.get('value'),
+				wordsInValue = value.match(/[a-z]+/gi);
+
+				if (wordsInValue && !wordsInValue.every(dateNouns.exec, dateNouns)) return false;
+
+				var date = Date.parse(value),
+					format = props.dateFormat || '%x',
+					formatted = date.format(format);
+
 				if (formatted != 'invalid date') element.set('value', formatted);
-				return !isNaN(d);
-			} else {
-				var regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-				if (!regex.test(element.get('value'))) return false;
-				d = new Date(element.get('value').replace(regex, '$1/$2/$3'));
-				return (parseInt(RegExp.$1, 10) == (1 + d.getMonth())) &&
-					(parseInt(RegExp.$2, 10) == d.getDate()) &&
-					(parseInt(RegExp.$3, 10) == d.getFullYear());
-			}
+				return date.isValid();
 		}
 	}],
 
 	['validate-email', {
 		errorMsg: Form.Validator.getMsg.pass('email'),
 		test: function(element){
-			return Form.Validator.getValidator('IsEmpty').test(element) || (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i).test(element.get('value'));
+			/*
+			var chars = "[a-z0-9!#$%&'*+/=?^_`{|}~-]",
+				local = '(?:' + chars + '\\.?){0,63}' + chars,
+
+				label = '[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?',
+				hostname = '(?:' + label + '\\.)*' + label;
+
+				octet = '(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)',
+				ipv4 = '\\[(?:' + octet + '\\.){3}' + octet + '\\]',
+
+				domain = '(?:' + hostname + '|' + ipv4 + ')';
+
+			var regex = new RegExp('^' + local + '@' + domain + '$', 'i');
+			*/
+			return Form.Validator.getValidator('IsEmpty').test(element) || (/^(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]\.?){0,63}[a-z0-9!#$%&'*+\/=?^_`{|}~-]@(?:(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)*[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\])$/i).test(element.get('value'));
 		}
 	}],
 
@@ -4703,10 +4993,6 @@ Form.Validator.addAllThese([
 	['validate-currency-dollar', {
 		errorMsg: Form.Validator.getMsg.pass('currencyDollar'),
 		test: function(element){
-			// [$]1[##][,###]+[.##]
-			// [$]1###+[.##]
-			// [$]0.##
-			// [$].##
 			return Form.Validator.getValidator('IsEmpty').test(element) || (/^\$?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/).test(element.get('value'));
 		}
 	}],
@@ -4727,17 +5013,16 @@ Form.Validator.addAllThese([
 Element.Properties.validator = {
 
 	set: function(options){
-		var validator = this.retrieve('validator');
-		if (validator) validator.setOptions(options);
-		return this.store('$moo:validator:options', options);
+		this.get('validator').setOptions(options);
 	},
 
-	get: function(options){
-		if (options || !this.retrieve('validator')){
-			if (options || !this.retrieve('$moo:validator:options')) this.set('validator', options);
-			this.store('validator', new Form.Validator(this, this.retrieve('$moo:validator:options')));
+	get: function(){
+		var validator = this.retrieve('validator');
+		if (!validator){
+			validator = new Form.Validator(this);
+			this.store('validator', validator);
 		}
-		return this.retrieve('validator');
+		return validator;
 	}
 
 };
@@ -4746,14 +5031,18 @@ Element.implement({
 
 	validate: function(options){
 		if (options) this.set('validator', options);
-		return this.get('validator', options).validate();
+		return this.get('validator').validate();
 	}
 
 });
+
+
 //<1.2compat>
 //legacy
 var FormValidator = Form.Validator;
 //</1.2compat>
+
+
 
 
 /*
@@ -4841,10 +5130,15 @@ Form.Validator.Inline = new Class({
 
 	showAdvice: function(className, field){
 		var advice = this.getAdvice(className, field);
-		if (advice && !field.retrieve('$moo:' + this.getPropName(className))
-				&& (advice.getStyle('display') == 'none'
-				|| advice.getStyle('visiblity') == 'hidden'
-				|| advice.getStyle('opacity') == 0)){
+		if (
+			advice &&
+			!field.retrieve('$moo:' + this.getPropName(className)) &&
+			(
+				advice.getStyle('display') == 'none' ||
+				advice.getStyle('visiblity') == 'hidden' ||
+				advice.getStyle('opacity') == 0
+			)
+		){
 			field.store('$moo:' + this.getPropName(className), true);
 			this.options.showError(advice);
 			this.fireEvent('showAdvice', [field, advice, className]);
@@ -4868,7 +5162,7 @@ Form.Validator.Inline = new Class({
 		field = document.id(field);
 		if (!field) return this;
 		this.parent(field);
-		field.className.split(' ').each(function(className){
+		field.get('validators').each(function(className){
 			this.hideAdvice(className, field);
 		}, this);
 		return this;
@@ -4877,7 +5171,7 @@ Form.Validator.Inline = new Class({
 	getAllAdviceMessages: function(field, force){
 		var advice = [];
 		if (field.hasClass('ignoreValidation') && !force) return advice;
-		var validators = field.className.split(' ').some(function(cn){
+		var validators = field.get('validators').some(function(cn){
 			var warner = cn.test('^warn-') || field.hasClass('warnOnly');
 			if (warner) cn = cn.replace(/^warn-/, '');
 			var validator = this.getValidator(cn);
@@ -5194,10 +5488,10 @@ requires:
   - Core/Options
   - Core/Events
   - Core/Element.Event
-  - /Class.Binds
-  - /Class.Occlude
-  - /Element.Position
-  - /Element.Shortcuts
+  - Class.Binds
+  - Class.Occlude
+  - Element.Position
+  - Element.Shortcuts
 
 provides: [OverText]
 
@@ -5216,6 +5510,7 @@ var OverText = new Class({
 		onTextHide: function(textEl, inputEl){},
 		onTextShow: function(textEl, inputEl){}, */
 		element: 'label',
+		labelClass: 'overTxtLabel',
 		positionOptions: {
 			position: 'upperLeft',
 			edge: 'upperLeft',
@@ -5232,13 +5527,15 @@ var OverText = new Class({
 	property: 'OverText',
 
 	initialize: function(element, options){
-		this.element = document.id(element);
+		element = this.element = document.id(element);
+
 		if (this.occlude()) return this.occluded;
 		this.setOptions(options);
-		this.attach(this.element);
+
+		this.attach(element);
 		OverText.instances.push(this);
+
 		if (this.options.poll) this.poll();
-		return this;
 	},
 
 	toElement: function(){
@@ -5246,40 +5543,44 @@ var OverText = new Class({
 	},
 
 	attach: function(){
-		var val = this.options.textOverride || this.element.get('alt') || this.element.get('title');
-		if (!val) return;
-		this.text = new Element(this.options.element, {
-			'class': 'overTxtLabel',
+		var element = this.element,
+			options = this.options,
+			value = options.textOverride || element.get('alt') || element.get('title');
+
+		if (!value) return this;
+
+		var text = this.text = new Element(options.element, {
+			'class': options.labelClass,
 			styles: {
 				lineHeight: 'normal',
 				position: 'absolute',
 				cursor: 'text'
 			},
-			html: val,
+			html: value,
 			events: {
-				click: this.hide.pass(this.options.element == 'label', this)
+				click: this.hide.pass(options.element == 'label', this)
 			}
-		}).inject(this.element, 'after');
-		if (this.options.element == 'label'){
-			if (!this.element.get('id')) this.element.set('id', 'input_' + new Date().getTime());
-			this.text.set('for', this.element.get('id'));
+		}).inject(element, 'after');
+
+		if (options.element == 'label'){
+			if (!element.get('id')) element.set('id', 'input_' + String.uniqueID());
+			text.set('for', element.get('id'));
 		}
 
-		if (this.options.wrap){
-			this.textHolder = new Element('div', {
+		if (options.wrap){
+			this.textHolder = new Element('div.overTxtWrapper', {
 				styles: {
 					lineHeight: 'normal',
 					position: 'relative'
-				},
-				'class':'overTxtWrapper'
-			}).adopt(this.text).inject(this.element, 'before');
+				}
+			}).grab(text).inject(element, 'before');
 		}
 
 		return this.enable();
 	},
 
 	destroy: function(){
-		this.element.eliminate('OverTextDiv').eliminate('OverText');
+		this.element.eliminate(this.property); // Class.Occlude storage
 		this.disable();
 		if (this.text) this.text.destroy();
 		if (this.textHolder) this.textHolder.destroy();
@@ -5311,7 +5612,7 @@ var OverText = new Class({
 
 	wrap: function(){
 		if (this.options.element == 'label'){
-			if (!this.element.get('id')) this.element.set('id', 'input_' + new Date().getTime());
+			if (!this.element.get('id')) this.element.set('id', 'input_' + String.uniqueID());
 			this.text.set('for', this.element.get('id'));
 		}
 	},
@@ -5326,11 +5627,14 @@ var OverText = new Class({
 		//pause on focus
 		//resumeon blur
 		if (this.poller && !stop) return this;
-		var test = function(){
-			if (!this.pollingPaused) this.assert(true);
-		}.bind(this);
-		if (stop) clearInterval(this.poller);
-		else this.poller = test.periodical(this.options.pollInterval, this);
+		if (stop){
+			clearInterval(this.poller);
+		} else {
+			this.poller = (function(){
+				if (!this.pollingPaused) this.assert(true);
+			}).periodical(this.options.pollInterval, this);
+		}
+
 		return this;
 	},
 
@@ -5340,8 +5644,8 @@ var OverText = new Class({
 	},
 
 	focus: function(){
-		if (this.text && (!this.text.isDisplayed() || this.element.get('disabled'))) return;
-		this.hide();
+		if (this.text && (!this.text.isDisplayed() || this.element.get('disabled'))) return this;
+		return this.hide();
 	},
 
 	hide: function(suppressFocus, force){
@@ -5369,19 +5673,22 @@ var OverText = new Class({
 		return this;
 	},
 
-	assert: function(suppressFocus){
-		this[this.test() ? 'show' : 'hide'](suppressFocus);
+	test: function(){
+		return !this.element.get('value');
 	},
 
-	test: function(){
-		var v = this.element.get('value');
-		return !v;
+	assert: function(suppressFocus){
+		return this[this.test() ? 'show' : 'hide'](suppressFocus);
 	},
 
 	reposition: function(){
 		this.assert(true);
 		if (!this.element.isVisible()) return this.stopPolling().hide();
-		if (this.text && this.test()) this.text.position(Object.merge(this.options.positionOptions, {relativeTo: this.element}));
+		if (this.text && this.test()){
+			this.text.position(Object.merge(this.options.positionOptions, {
+				relativeTo: this.element
+			}));
+		}
 		return this;
 	}
 
@@ -5392,9 +5699,8 @@ OverText.instances = [];
 Object.append(OverText, {
 
 	each: function(fn){
-		return OverText.instances.map(function(ot, i){
-			if (ot.element && ot.text) return fn.apply(OverText, [ot, i]);
-			return null; //the input or the text was destroyed
+		return OverText.instances.each(function(ot, i){
+			if (ot.element && ot.text) fn.call(OverText, ot, i);
 		});
 	},
 
@@ -5422,11 +5728,6 @@ Object.append(OverText, {
 
 });
 
-if (window.Fx && Fx.Reveal){
-	Fx.Reveal.implement({
-		hideInputs: Browser.ie ? 'select, input, textarea, object, embed, .overTxtLabel' : false
-	});
-}
 
 
 /*
@@ -5545,7 +5846,7 @@ Fx.Accordion = new Class({
 		alwaysHide: false,
 		trigger: 'click',
 		initialDisplayFx: true,
-		returnHeightToAuto: true
+		resetHeight: true
 	},
 
 	initialize: function(){
@@ -5561,43 +5862,45 @@ Fx.Accordion = new Class({
 		});
 		this.parent(params.elements, params.options);
 
-		this.togglers = $$(params.togglers);
+		var options = this.options,
+			togglers = this.togglers = $$(params.togglers);
+
 		this.previous = -1;
 		this.internalChain = new Chain();
 
-		if (this.options.alwaysHide) this.options.wait = true;
+		if (options.alwaysHide) this.options.link = 'chain';
 
-		if (this.options.show || this.options.show === 0){
-			this.options.display = false;
-			this.previous = this.options.show;
+		if (options.show || this.options.show === 0){
+			options.display = false;
+			this.previous = options.show;
 		}
 
-		if (this.options.start){
-			this.options.display = false;
-			this.options.show = false;
+		if (options.start){
+			options.display = false;
+			options.show = false;
 		}
 
-		this.effects = {};
+		var effects = this.effects = {};
 
-		if (this.options.opacity) this.effects.opacity = 'fullOpacity';
-		if (this.options.width) this.effects.width = this.options.fixedWidth ? 'fullWidth' : 'offsetWidth';
-		if (this.options.height) this.effects.height = this.options.fixedHeight ? 'fullHeight' : 'scrollHeight';
+		if (options.opacity) effects.opacity = 'fullOpacity';
+		if (options.width) effects.width = options.fixedWidth ? 'fullWidth' : 'offsetWidth';
+		if (options.height) effects.height = options.fixedHeight ? 'fullHeight' : 'scrollHeight';
 
-		for (var i = 0, l = this.togglers.length; i < l; i++) this.addSection(this.togglers[i], this.elements[i]);
+		for (var i = 0, l = togglers.length; i < l; i++) this.addSection(togglers[i], this.elements[i]);
 
 		this.elements.each(function(el, i){
-			if (this.options.show === i){
-				this.fireEvent('active', [this.togglers[i], el]);
+			if (options.show === i){
+				this.fireEvent('active', [togglers[i], el]);
 			} else {
-				for (var fx in this.effects) el.setStyle(fx, 0);
+				for (var fx in effects) el.setStyle(fx, 0);
 			}
 		}, this);
 
-		if (this.options.display || this.options.display === 0 || this.options.initialDisplayFx === false){
-			this.display(this.options.display, this.options.initialDisplayFx);
+		if (options.display || options.display === 0 || options.initialDisplayFx === false){
+			this.display(options.display, options.initialDisplayFx);
 		}
 
-		if (this.options.fixedHeight !== false) this.options.returnHeightToAuto = false;
+		if (options.fixedHeight !== false) options.resetHeight = false;
 		this.addEvent('complete', this.internalChain.callChain.bind(this.internalChain));
 	},
 
@@ -5607,32 +5910,36 @@ Fx.Accordion = new Class({
 		this.togglers.include(toggler);
 		this.elements.include(element);
 
-		var test = this.togglers.contains(toggler);
-		var idx = this.togglers.indexOf(toggler);
-		var displayer = this.display.pass(idx, this);
+		var togglers = this.togglers,
+			options = this.options,
+			test = togglers.contains(toggler),
+			idx = togglers.indexOf(toggler),
+			displayer = this.display.pass(idx, this);
 
 		toggler.store('accordion:display', displayer)
-			.addEvent(this.options.trigger, displayer);
+			.addEvent(options.trigger, displayer);
 
-		if (this.options.height) element.setStyles({'padding-top': 0, 'border-top': 'none', 'padding-bottom': 0, 'border-bottom': 'none'});
-		if (this.options.width) element.setStyles({'padding-left': 0, 'border-left': 'none', 'padding-right': 0, 'border-right': 'none'});
+		if (options.height) element.setStyles({'padding-top': 0, 'border-top': 'none', 'padding-bottom': 0, 'border-bottom': 'none'});
+		if (options.width) element.setStyles({'padding-left': 0, 'border-left': 'none', 'padding-right': 0, 'border-right': 'none'});
 
 		element.fullOpacity = 1;
-		if (this.options.fixedWidth) element.fullWidth = this.options.fixedWidth;
-		if (this.options.fixedHeight) element.fullHeight = this.options.fixedHeight;
+		if (options.fixedWidth) element.fullWidth = options.fixedWidth;
+		if (options.fixedHeight) element.fullHeight = options.fixedHeight;
 		element.setStyle('overflow', 'hidden');
 
-		if (!test){
-			for (var fx in this.effects) element.setStyle(fx, 0);
+		if (!test) for (var fx in this.effects){
+			element.setStyle(fx, 0);
 		}
 		return this;
 	},
 
 	removeSection: function(toggler, displayIndex){
-		var idx = this.togglers.indexOf(toggler);
-		var element = this.elements[idx];
+		var togglers = this.togglers,
+			idx = togglers.indexOf(toggler),
+			element = this.elements[idx];
+
 		var remover = function(){
-			this.togglers.erase(toggler);
+			togglers.erase(toggler);
 			this.elements.erase(element);
 			this.detach(toggler);
 		}.bind(this);
@@ -5657,42 +5964,51 @@ Fx.Accordion = new Class({
 
 	display: function(index, useFx){
 		if (!this.check(index, useFx)) return this;
-		useFx = useFx != null ? useFx : true;
-		index = (typeOf(index) == 'element') ? this.elements.indexOf(index) : index;
-		if (index == this.previous && !this.options.alwaysHide) return this;
-		if (this.options.returnHeightToAuto){
-			var prev = this.elements[this.previous];
+
+		var obj = {},
+			elements = this.elements,
+			options = this.options,
+			effects = this.effects;
+
+		if (useFx == null) useFx = true;
+		if (typeOf(index) == 'element') index = elements.indexOf(index);
+		if (index == this.previous && !options.alwaysHide) return this;
+
+		if (options.resetHeight){
+			var prev = elements[this.previous];
 			if (prev && !this.selfHidden){
-				for (var fx in this.effects){
-					prev.setStyle(fx, prev[this.effects[fx]]);
-				}
+				for (var fx in effects) prev.setStyle(fx, prev[effects[fx]]);
 			}
 		}
 
-		if ((this.timer && this.options.wait) || (index === this.previous && !this.options.alwaysHide)) return this;
+		if ((this.timer && options.link == 'chain') || (index === this.previous && !options.alwaysHide)) return this;
+
 		this.previous = index;
-		var obj = {};
-		this.elements.each(function(el, i){
+		this.selfHidden = false;
+
+		elements.each(function(el, i){
 			obj[i] = {};
 			var hide;
 			if (i != index){
 				hide = true;
-			} else if (this.options.alwaysHide && ((el.offsetHeight > 0 && this.options.height) || el.offsetWidth > 0 && this.options.width)){
+			} else if (options.alwaysHide && ((el.offsetHeight > 0 && options.height) || el.offsetWidth > 0 && options.width)){
 				hide = true;
 				this.selfHidden = true;
 			}
 			this.fireEvent(hide ? 'background' : 'active', [this.togglers[i], el]);
-			for (var fx in this.effects) obj[i][fx] = hide ? 0 : el[this.effects[fx]];
+			for (var fx in effects) obj[i][fx] = hide ? 0 : el[effects[fx]];
+			if (!useFx && !hide && options.resetHeight) obj[i].height = 'auto';
 		}, this);
 
 		this.internalChain.clearChain();
 		this.internalChain.chain(function(){
-			if (this.options.returnHeightToAuto && !this.selfHidden){
-				var el = this.elements[index];
+			if (options.resetHeight && !this.selfHidden){
+				var el = elements[index];
 				if (el) el.setStyle('height', 'auto');
-			};
+			}
 		}.bind(this));
-		return useFx ? this.start(obj) : this.set(obj);
+
+		return useFx ? this.start(obj) : this.set(obj).internalChain.callChain();
 	}
 
 });
@@ -5772,7 +6088,7 @@ Fx.Move = new Class({
 		if (topLeft.top == 'auto' || topLeft.left == 'auto'){
 			element.setPosition(element.getPosition(element.getOffsetParent()));
 		}
-		return this.parent(element.position(Object.merge(this.options, destination, {returnPos: true})));
+		return this.parent(element.position(Object.merge({}, this.options, destination, {returnPos: true})));
 	}
 
 });
@@ -5862,7 +6178,8 @@ Fx.Scroll = new Class({
 	set: function(){
 		var now = Array.flatten(arguments);
 		if (Browser.firefox) now = [Math.round(now[0]), Math.round(now[1])]; // not needed anymore in newer firefox versions
-		this.element.scrollTo(now[0] + this.options.offset.x, now[1] + this.options.offset.y);
+		this.element.scrollTo(now[0], now[1]);
+		return this;
 	},
 
 	compute: function(from, to, delta){
@@ -5873,45 +6190,54 @@ Fx.Scroll = new Class({
 
 	start: function(x, y){
 		if (!this.check(x, y)) return this;
+		var scroll = this.element.getScroll();
+		return this.parent([scroll.x, scroll.y], [x, y]);
+	},
+
+	calculateScroll: function(x, y){
 		var element = this.element,
 			scrollSize = element.getScrollSize(),
 			scroll = element.getScroll(),
-			size = element.getSize();
+			size = element.getSize(),
+			offset = this.options.offset,
 			values = {x: x, y: y};
 
 		for (var z in values){
 			if (!values[z] && values[z] !== 0) values[z] = scroll[z];
 			if (typeOf(values[z]) != 'number') values[z] = scrollSize[z] - size[z];
-			values[z] += this.options.offset[z];
+			values[z] += offset[z];
 		}
 
-		return this.parent([scroll.x, scroll.y], [values.x, values.y]);
+		return [values.x, values.y];
 	},
 
 	toTop: function(){
-		return this.start(false, 0);
+		return this.start.apply(this, this.calculateScroll(false, 0));
 	},
 
 	toLeft: function(){
-		return this.start(0, false);
+		return this.start.apply(this, this.calculateScroll(0, false));
 	},
 
 	toRight: function(){
-		return this.start('right', false);
+		return this.start.apply(this, this.calculateScroll('right', false));
 	},
 
 	toBottom: function(){
-		return this.start(false, 'bottom');
+		return this.start.apply(this, this.calculateScroll(false, 'bottom'));
 	},
 
-	toElement: function(el){
-		var position = document.id(el).getPosition(this.element),
-			scroll = isBody(this.element) ? {x: 0, y: 0} : this.element.getScroll();
-		return this.start(position.x + scroll.x, position.y + scroll.y);
+	toElement: function(el, axes){
+		axes = axes ? Array.from(axes) : ['x', 'y'];
+		var scroll = isBody(this.element) ? {x: 0, y: 0} : this.element.getScroll();
+		var position = Object.map(document.id(el).getPosition(this.element), function(value, axis){
+			return axes.contains(axis) ? value + scroll[axis] : false;
+		});
+		return this.start.apply(this, this.calculateScroll(position.x, position.y));
 	},
 
-	scrollIntoView: function(el, axes, offset){
-		axes = axes ? Array.from(axes) : ['x','y'];
+	toElementEdge: function(el, axes, offset){
+		axes = axes ? Array.from(axes) : ['x', 'y'];
 		el = document.id(el);
 		var to = {},
 			position = el.getPosition(this.element),
@@ -5923,7 +6249,7 @@ Fx.Scroll = new Class({
 				y: position.y + size.y
 			};
 
-		['x','y'].each(function(axis){
+		['x', 'y'].each(function(axis){
 			if (axes.contains(axis)){
 				if (edge[axis] > scroll[axis] + containerSize[axis]) to[axis] = edge[axis] - containerSize[axis];
 				if (position[axis] < scroll[axis]) to[axis] = position[axis];
@@ -5936,7 +6262,7 @@ Fx.Scroll = new Class({
 		return this;
 	},
 
-	scrollToCenter: function(el, axes, offset){
+	toElementCenter: function(el, axes, offset){
 		axes = axes ? Array.from(axes) : ['x', 'y'];
 		el = document.id(el);
 		var to = {},
@@ -5945,9 +6271,9 @@ Fx.Scroll = new Class({
 			scroll = this.element.getScroll(),
 			containerSize = this.element.getSize();
 
-		['x','y'].each(function(axis){
+		['x', 'y'].each(function(axis){
 			if (axes.contains(axis)){
-				to[axis] = position[axis] - (containerSize[axis] - size[axis])/2;
+				to[axis] = position[axis] - (containerSize[axis] - size[axis]) / 2;
 			}
 			if (to[axis] == null) to[axis] = scroll[axis];
 			if (offset && offset[axis]) to[axis] = to[axis] + offset[axis];
@@ -5959,9 +6285,20 @@ Fx.Scroll = new Class({
 
 });
 
+//<1.2compat>
+Fx.Scroll.implement({
+	scrollToCenter: function(){
+		return this.toElementCenter.apply(this, arguments);
+	},
+	scrollIntoView: function(){
+		return this.toElementEdge.apply(this, arguments);
+	}
+});
+//</1.2compat>
+
 function isBody(element){
 	return (/^(?:body|html)$/i).test(element.tagName);
-};
+}
 
 })();
 
@@ -6002,26 +6339,31 @@ Fx.Slide = new Class({
 	},
 
 	initialize: function(element, options){
-		this.addEvent('complete', function(){
-			this.open = (this.wrapper['offset' + this.layout.capitalize()] != 0);
-			if (this.open && this.options.resetHeight) this.wrapper.setStyle('height', '');
-		}, true);
-
-		this.element = this.subject = document.id(element);
+		element = this.element = this.subject = document.id(element);
 		this.parent(options);
-		var wrapper = this.element.retrieve('wrapper');
-		var styles = this.element.getStyles('margin', 'position', 'overflow');
+		options = this.options;
 
-		if (this.options.hideOverflow) styles = Object.append(styles, {overflow: 'hidden'});
-		if (this.options.wrapper) wrapper = document.id(this.options.wrapper).setStyles(styles);
+		var wrapper = element.retrieve('wrapper'),
+			styles = element.getStyles('margin', 'position', 'overflow');
 
-		this.wrapper = wrapper || new Element('div', {
+		if (options.hideOverflow) styles = Object.append(styles, {overflow: 'hidden'});
+		if (options.wrapper) wrapper = document.id(options.wrapper).setStyles(styles);
+
+		if (!wrapper) wrapper = new Element('div', {
 			styles: styles
-		}).wraps(this.element);
+		}).wraps(element);
 
-		this.element.store('wrapper', this.wrapper).setStyle('margin', 0);
+		element.store('wrapper', wrapper).setStyle('margin', 0);
+		if (element.getStyle('overflow') == 'visible') element.setStyle('overflow', 'hidden');
+
 		this.now = [];
 		this.open = true;
+		this.wrapper = wrapper;
+
+		this.addEvent('complete', function(){
+			this.open = (wrapper['offset' + this.layout.capitalize()] != 0);
+			if (this.open && this.options.resetHeight) wrapper.setStyle('height', '');
+		}, true);
 	},
 
 	vertical: function(){
@@ -6051,11 +6393,13 @@ Fx.Slide = new Class({
 	start: function(how, mode){
 		if (!this.check(how, mode)) return this;
 		this[mode || this.options.mode]();
-		var margin = this.element.getStyle(this.margin).toInt();
-		var layout = this.wrapper.getStyle(this.layout).toInt();
-		var caseIn = [[margin, layout], [0, this.offset]];
-		var caseOut = [[margin, layout], [-this.offset, 0]];
-		var start;
+
+		var margin = this.element.getStyle(this.margin).toInt(),
+			layout = this.wrapper.getStyle(this.layout).toInt(),
+			caseIn = [[margin, layout], [0, this.offset]],
+			caseOut = [[margin, layout], [-this.offset, 0]],
+			start;
+
 		switch (how){
 			case 'in': start = caseIn; break;
 			case 'out': start = caseOut; break;
@@ -6158,6 +6502,10 @@ provides: [Fx.SmoothScroll]
 
 	Extends: Fx.Scroll,
 
+	options: {
+		axes: ['x', 'y']
+	},
+
 	initialize: function(options, context){
 		context = context || document;
 		this.doc = context.getDocument();
@@ -6172,6 +6520,11 @@ provides: [Fx.SmoothScroll]
 			var anchor = link.href.substr(location.length);
 			if (anchor) this.useLink(link, anchor);
 		}, this);
+
+		this.addEvent('complete', function(){
+			win.location.hash = this.anchor;
+			this.element.scrollTo(this.to[0], this.to[1]);
+		}, true);
 	},
 
 	useLink: function(link, anchor){
@@ -6181,9 +6534,11 @@ provides: [Fx.SmoothScroll]
 			if (!el) return;
 
 			event.preventDefault();
-			this.toElement(el).chain(function(){
+			this.toElement(el, this.options.axes).chain(function(){
 				this.fireEvent('scrolledTo', [link, el]);
 			}.bind(this));
+
+			this.anchor = anchor;
 
 		}.bind(this));
 
@@ -6282,8 +6637,9 @@ Fx.Sort = new Class({
 			if (newOrder.length > this.elements.length)
 				newOrder.splice(this.elements.length-1, newOrder.length - this.elements.length);
 		}
-		var margin = top = left = 0;
-		newOrder.each(function(item, index){
+		var margin = 0;
+		top = left = 0;
+		newOrder.each(function(item){
 			var newPos = {};
 			if (vert){
 				newPos.top = top - current[item].top - margin;
@@ -6327,6 +6683,10 @@ Fx.Sort = new Class({
 		return this.elements.map(function(el, index){
 			return index;
 		});
+	},
+
+	getCurrentOrder: function(){
+		return this.currentOrder;
 	},
 
 	forward: function(){
@@ -6472,12 +6832,6 @@ var Drag = new Class({
 		var limit = options.limit;
 		this.limit = {x: [], y: []};
 
-		var styles = this.element.getStyles('left', 'right', 'top', 'bottom');
-		this._invert = {
-			x: options.modifiers.x == 'left' && styles.left == 'auto' && !isNaN(styles.right.toInt()) && (options.modifiers.x = 'right'),
-			y: options.modifiers.y == 'top' && styles.top == 'auto' && !isNaN(styles.bottom.toInt()) && (options.modifiers.y = 'bottom')
-		};
-
 		var z, coordinates;
 		for (z in options.modifiers){
 			if (!options.modifiers[z]) continue;
@@ -6494,7 +6848,6 @@ var Drag = new Class({
 			else this.value.now[z] = this.element[options.modifiers[z]];
 
 			if (options.invert) this.value.now[z] *= -1;
-			if (this._invert[z]) this.value.now[z] *= -1;
 
 			this.mouse.pos[z] = event.page[z] - this.value.now[z];
 
@@ -6544,7 +6897,6 @@ var Drag = new Class({
 			this.value.now[z] = this.mouse.now[z] - this.mouse.pos[z];
 
 			if (options.invert) this.value.now[z] *= -1;
-			if (this._invert[z]) this.value.now[z] *= -1;
 
 			if (options.limit && this.limit[z]){
 				if ((this.limit[z][1] || this.limit[z][1] === 0) && (this.value.now[z] > this.limit[z][1])){
@@ -6658,10 +7010,9 @@ Drag.Move = new Class({
 			this.container = document.id(this.container.getDocument().body);
 
 		if (this.options.style){
-			if (this.options.modifiers.x == "left" && this.options.modifiers.y == "top"){
-				var parentStyles,
-					parent = element.getOffsetParent();
-				var styles = element.getStyles('left', 'top');
+			if (this.options.modifiers.x == 'left' && this.options.modifiers.y == 'top'){
+				var parent = element.getOffsetParent(),
+					styles = element.getStyles('left', 'top');
 				if (parent && (styles.left == 'auto' || styles.top == 'auto')){
 					element.setPosition(element.getPosition(parent));
 				}
@@ -6754,9 +7105,21 @@ Drag.Move = new Class({
 		};
 	},
 
+	getDroppableCoordinates: function(element){
+		var position = element.getCoordinates();
+		if (element.getStyle('position') == 'fixed'){
+			var scroll = window.getScroll();
+			position.left += scroll.x;
+			position.right += scroll.x;
+			position.top += scroll.y;
+			position.bottom += scroll.y;
+		}
+		return position;
+	},
+
 	checkDroppables: function(){
 		var overed = this.droppables.filter(function(el, i){
-			el = this.positions ? this.positions[i] : el.getCoordinates();
+			el = this.positions ? this.positions[i] : this.getDroppableCoordinates(el);
 			var now = this.mouse.now;
 			return (now.x > el.left && now.x < el.right && now.y < el.bottom && now.y > el.top);
 		}, this).getLast();
@@ -6829,8 +7192,7 @@ var Slider = new Class({
 		onChange: function(intStep){},
 		onComplete: function(strStep){},*/
 		onTick: function(position){
-			if (this.options.snap) position = this.toPosition(this.step);
-			this.knob.setStyle(this.property, position);
+			this.setKnobPosition(position);
 		},
 		initialStep: 0,
 		snap: false,
@@ -6843,32 +7205,33 @@ var Slider = new Class({
 
 	initialize: function(element, knob, options){
 		this.setOptions(options);
+		options = this.options;
 		this.element = document.id(element);
-		this.knob = document.id(knob);
+		knob = this.knob = document.id(knob);
 		this.previousChange = this.previousEnd = this.step = -1;
-		var offset, limit = {}, modifiers = {'x': false, 'y': false};
-		switch (this.options.mode){
+
+		var limit = {},
+			modifiers = {x: false, y: false};
+
+		switch (options.mode){
 			case 'vertical':
 				this.axis = 'y';
 				this.property = 'top';
-				offset = 'offsetHeight';
+				this.offset = 'offsetHeight';
 				break;
 			case 'horizontal':
 				this.axis = 'x';
 				this.property = 'left';
-				offset = 'offsetWidth';
+				this.offset = 'offsetWidth';
 		}
 
-		this.full = this.element.measure(function(){
-			this.half = this.knob[offset] / 2;
-			return this.element[offset] - this.knob[offset] + (this.options.offset * 2);
-		}.bind(this));
+		this.setSliderDimensions();
+		this.setRange(options.range);
 
-		this.setRange(this.options.range);
-
-		this.knob.setStyle('position', 'relative').setStyle(this.property, - this.options.offset);
+		if (knob.getStyle('position') == 'static') knob.setStyle('position', 'relative');
+		knob.setStyle(this.property, -options.offset);
 		modifiers[this.axis] = this.property;
-		limit[this.axis] = [- this.options.offset, this.full - this.options.offset];
+		limit[this.axis] = [-options.offset, this.full - options.offset];
 
 		var dragOptions = {
 			snap: 0,
@@ -6888,14 +7251,11 @@ var Slider = new Class({
 				this.end();
 			}.bind(this)
 		};
-		if (this.options.snap){
-			dragOptions.grid = Math.ceil(this.stepWidth);
-			dragOptions.limit[this.axis][1] = this.full;
-		}
+		if (options.snap) this.setSnap(dragOptions);
 
-		this.drag = new Drag(this.knob, dragOptions);
+		this.drag = new Drag(knob, dragOptions);
 		this.attach();
-		if (this.options.initialStep != null) this.set(this.options.initialStep)
+		if (options.initialStep != null) this.set(options.initialStep);
 	},
 
 	attach: function(){
@@ -6906,9 +7266,38 @@ var Slider = new Class({
 	},
 
 	detach: function(){
-		this.element.removeEvent('mousedown', this.clickedElement);
-		this.element.removeEvent('mousewheel', this.scrolledElement);
+		this.element.removeEvent('mousedown', this.clickedElement)
+			.removeEvent('mousewheel', this.scrolledElement);
 		this.drag.detach();
+		return this;
+	},
+
+	autosize: function(){
+		this.setSliderDimensions()
+			.setKnobPosition(this.toPosition(this.step));
+		this.drag.options.limit[this.axis] = [-this.options.offset, this.full - this.options.offset];
+		if (this.options.snap) this.setSnap();
+		return this;
+	},
+
+	setSnap: function(options){
+		if (!options) options = this.drag.options;
+		options.grid = Math.ceil(this.stepWidth);
+		options.limit[this.axis][1] = this.full;
+		return this;
+	},
+
+	setKnobPosition: function(position){
+		if (this.options.snap) position = this.toPosition(this.step);
+		this.knob.setStyle(this.property, position);
+		return this;
+	},
+
+	setSliderDimensions: function(){
+		this.full = this.element.measure(function(){
+			this.half = this.knob[this.offset] / 2;
+			return this.element[this.offset] - this.knob[this.offset] + (this.options.offset * 2);
+		}.bind(this));
 		return this;
 	},
 
@@ -6917,10 +7306,9 @@ var Slider = new Class({
 		if (!((this.range > 0) ^ (step > this.max))) step = this.max;
 
 		this.step = Math.round(step);
-		this.checkStep();
-		this.fireEvent('tick', this.toPosition(this.step));
-		this.end();
-		return this;
+		return this.checkStep()
+			.fireEvent('tick', this.toPosition(this.step))
+			.end();
 	},
 
 	setRange: function(range, pos){
@@ -6930,49 +7318,57 @@ var Slider = new Class({
 		this.steps = this.options.steps || this.full;
 		this.stepSize = Math.abs(this.range) / this.steps;
 		this.stepWidth = this.stepSize * this.full / Math.abs(this.range);
-		this.set(Array.pick([pos, this.step]).floor(this.min).max(this.max));
+		if (range) this.set(Array.pick([pos, this.step]).floor(this.min).max(this.max));
 		return this;
 	},
 
 	clickedElement: function(event){
 		if (this.isDragging || event.target == this.knob) return;
 
-		var dir = this.range < 0 ? -1 : 1;
-		var position = event.page[this.axis] - this.element.getPosition()[this.axis] - this.half;
-		position = position.limit(-this.options.offset, this.full -this.options.offset);
+		var dir = this.range < 0 ? -1 : 1,
+			position = event.page[this.axis] - this.element.getPosition()[this.axis] - this.half;
+
+		position = position.limit(-this.options.offset, this.full - this.options.offset);
 
 		this.step = Math.round(this.min + dir * this.toStep(position));
-		this.checkStep();
-		this.fireEvent('tick', position);
-		this.end();
+
+		this.checkStep()
+			.fireEvent('tick', position)
+			.end();
 	},
 
 	scrolledElement: function(event){
 		var mode = (this.options.mode == 'horizontal') ? (event.wheel < 0) : (event.wheel > 0);
-		this.set(mode ? this.step - this.stepSize : this.step + this.stepSize);
+		this.set(this.step + (mode ? -1 : 1) * this.stepSize);
 		event.stop();
 	},
 
 	draggedKnob: function(){
-		var dir = this.range < 0 ? -1 : 1;
-		var position = this.drag.value.now[this.axis];
+		var dir = this.range < 0 ? -1 : 1,
+			position = this.drag.value.now[this.axis];
+
 		position = position.limit(-this.options.offset, this.full -this.options.offset);
+
 		this.step = Math.round(this.min + dir * this.toStep(position));
 		this.checkStep();
 	},
 
 	checkStep: function(){
-		if (this.previousChange != this.step){
-			this.previousChange = this.step;
-			this.fireEvent('change', this.step);
+		var step = this.step;
+		if (this.previousChange != step){
+			this.previousChange = step;
+			this.fireEvent('change', step);
 		}
+		return this;
 	},
 
 	end: function(){
-		if (this.previousEnd !== this.step){
-			this.previousEnd = this.step;
-			this.fireEvent('complete', this.step + '');
+		var step = this.step;
+		if (this.previousEnd !== step){
+			this.previousEnd = step;
+			this.fireEvent('complete', step + '');
 		}
+		return this;
 	},
 
 	toStep: function(position){
@@ -7002,6 +7398,7 @@ authors:
   - Tom Occhino
 
 requires:
+  - Core/Fx.Morph
   - /Drag.Move
 
 provides: [Sortables]
@@ -7017,13 +7414,15 @@ var Sortables = new Class({
 		onSort: function(element, clone){},
 		onStart: function(element, clone){},
 		onComplete: function(element){},*/
-		snap: 4,
 		opacity: 1,
 		clone: false,
 		revert: false,
 		handle: false,
+		dragOptions: {}/*<1.2compat>*/,
+		snap: 4,
 		constrain: false,
 		preventDefault: false
+		/*</1.2compat>*/
 	},
 
 	initialize: function(lists, options){
@@ -7065,7 +7464,7 @@ var Sortables = new Class({
 
 	addLists: function(){
 		Array.flatten(arguments).each(function(list){
-			this.lists.push(list);
+			this.lists.include(list);
 			this.addItems(list.getChildren());
 		}, this);
 		return this;
@@ -7098,6 +7497,8 @@ var Sortables = new Class({
 			position: 'absolute',
 			visibility: 'hidden',
 			width: element.getStyle('width')
+		}).addEvent('mousedown', function(event){
+			element.fireEvent('mousedown', event);
 		});
 		//prevent the duplicated radio inputs from unchecking the real one
 		if (clone.get('html').test('radio')){
@@ -7132,7 +7533,7 @@ var Sortables = new Class({
 		if (
 			!this.idle ||
 			event.rightClick ||
-			['button', 'input'].contains(event.target.get('tag'))
+			['button', 'input', 'a'].contains(event.target.get('tag'))
 		) return;
 
 		this.idle = false;
@@ -7141,11 +7542,14 @@ var Sortables = new Class({
 		this.list = element.getParent();
 		this.clone = this.getClone(event, element);
 
-		this.drag = new Drag.Move(this.clone, {
+		this.drag = new Drag.Move(this.clone, Object.merge({
+			/*<1.2compat>*/
 			preventDefault: this.options.preventDefault,
 			snap: this.options.snap,
 			container: this.options.constrain && this.element.getParent(),
-			droppables: this.getDroppables(),
+			/*</1.2compat>*/
+			droppables: this.getDroppables()
+		}, this.options.dragOptions)).addEvents({
 			onSnap: function(){
 				event.stop();
 				this.clone.setStyle('visibility', 'visible');
@@ -7153,7 +7557,7 @@ var Sortables = new Class({
 				this.fireEvent('start', [this.element, this.clone]);
 			}.bind(this),
 			onEnter: this.insert.bind(this),
-			onCancel: this.reset.bind(this),
+			onCancel: this.end.bind(this),
 			onComplete: this.end.bind(this)
 		});
 
@@ -7165,24 +7569,31 @@ var Sortables = new Class({
 		this.drag.detach();
 		this.element.set('opacity', this.opacity);
 		if (this.effect){
-			var dim = this.element.getStyles('width', 'height');
-			var pos = this.clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
-			this.effect.element = this.clone;
+			var dim = this.element.getStyles('width', 'height'),
+				clone = this.clone,
+				pos = clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
+
+			var destroy = function(){
+				this.removeEvent('cancel', destroy);
+				clone.destroy();
+			};
+
+			this.effect.element = clone;
 			this.effect.start({
 				top: pos.top,
 				left: pos.left,
 				width: dim.width,
 				height: dim.height,
 				opacity: 0.25
-			}).chain(this.reset.bind(this));
+			}).addEvent('cancel', destroy).chain(destroy);
 		} else {
-			this.reset();
+			this.clone.destroy();
 		}
+		this.reset();
 	},
 
 	reset: function(){
 		this.idle = true;
-		this.clone.destroy();
 		this.fireEvent('complete', this.element);
 	},
 
@@ -7226,6 +7637,7 @@ authors:
 requires:
   - Core/Element
   - Core/Request
+  - MooTools.More
 
 provides: [Request.JSONP]
 
@@ -7236,8 +7648,7 @@ Request.JSONP = new Class({
 
 	Implements: [Chain, Events, Options],
 
-	options: {
-	/*
+	options: {/*
 		onRequest: function(src, scriptElement){},
 		onComplete: function(data){},
 		onSuccess: function(data){},
@@ -7291,39 +7702,37 @@ Request.JSONP = new Class({
 
 		if (src.length > 2083) this.fireEvent('error', src);
 
-		var script = this.getScript(src).inject(options.injectScript);
-
-		this.fireEvent('request', [script.get('src'), script]);
-
 		Request.JSONP.request_map['request_' + index] = function(){
 			this.success(arguments, index);
 		}.bind(this);
 
-		if (options.timeout){
-			(function(){
-				if (this.running) this.fireEvent('timeout', [script.get('src'), script]).fireEvent('failure').cancel();
-			}).delay(options.timeout, this);
-		}
+		var script = this.getScript(src).inject(options.injectScript);
+		this.fireEvent('request', [src, script]);
+
+		if (options.timeout) this.timeout.delay(options.timeout, this);
 
 		return this;
 	},
 
 	getScript: function(src){
-		return this.script = new Element('script', {
+		if (!this.script) this.script = new Element('script', {
 			type: 'text/javascript',
+			async: true,
 			src: src
 		});
+		return this.script;
 	},
 
 	success: function(args, index){
-		if (!this.running) return false;
+		if (!this.running) return;
 		this.clear()
 			.fireEvent('complete', args).fireEvent('success', args)
 			.callChain();
 	},
 
 	cancel: function(){
-		return this.running ? this.clear().fireEvent('cancel') : this;
+		if (this.running) this.clear().fireEvent('cancel');
+		return this;
 	},
 
 	isRunning: function(){
@@ -7331,8 +7740,19 @@ Request.JSONP = new Class({
 	},
 
 	clear: function(){
-		if (this.script) this.script.destroy();
 		this.running = false;
+		if (this.script){
+			this.script.destroy();
+			this.script = null;
+		}
+		return this;
+	},
+
+	timeout: function(){
+		if (this.running){
+			this.running = false;
+			this.fireEvent('timeout', [this.script.get('src'), this.script]).fireEvent('failure').cancel();
+		}
 		return this;
 	}
 
@@ -7388,8 +7808,9 @@ Request.Queue = new Class({
 	},
 
 	initialize: function(options){
+		var requests;
 		if (options){
-			var requests = options.requests;
+			requests = options.requests;
 			delete options.requests;
 		}
 		this.setOptions(options);
@@ -7634,19 +8055,19 @@ provides: [Assets]
 var Asset = {
 
 	javascript: function(source, properties){
-		properties = Object.append({
-			document: document
-		}, properties);
+		if (!properties) properties = {};
 
-		if (properties.onLoad){
-			properties.onload = properties.onLoad;
-			delete properties.onLoad;
-		}
+		var script = new Element('script', {src: source, type: 'text/javascript'}),
+			doc = properties.document || document,
+			loaded = 0,
+			loadEvent = properties.onload || properties.onLoad;
 
-		var script = new Element('script', {src: source, type: 'text/javascript'});
-		var load = properties.onload || function(){},
-			doc = properties.document;
+		var load = loadEvent ? function(){ // make sure we only call the event once
+			if (++loaded == 1) loadEvent.call(this);
+		} : function(){};
+
 		delete properties.onload;
+		delete properties.onLoad;
 		delete properties.document;
 
 		return script.addEvents({
@@ -7658,39 +8079,40 @@ var Asset = {
 	},
 
 	css: function(source, properties){
-		properties = properties || {};
-		var onload = properties.onload || properties.onLoad;
-		if (onload){
-			properties.events = properties.events || {};
-			properties.events.load = onload;
-			delete properties.onload;
-			delete properties.onLoad;
-		}
-		return new Element('link', Object.merge({
+		if (!properties) properties = {};
+
+		var link = new Element('link', {
 			rel: 'stylesheet',
 			media: 'screen',
 			type: 'text/css',
 			href: source
-		}, properties)).inject(document.head);
+		});
+
+		var load = properties.onload || properties.onLoad,
+			doc = properties.document || document;
+
+		delete properties.onload;
+		delete properties.onLoad;
+		delete properties.document;
+
+		if (load) link.addEvent('load', load);
+		return link.set(properties).inject(doc.head);
 	},
 
 	image: function(source, properties){
-		properties = Object.merge({
-			onload: function(){},
-			onabort: function(){},
-			onerror: function(){}
-		}, properties);
-		var image = new Image();
-		var element = document.id(image) || new Element('img');
+		if (!properties) properties = {};
+
+		var image = new Image(),
+			element = document.id(image) || new Element('img');
+
 		['load', 'abort', 'error'].each(function(name){
-			var type = 'on' + name;
-			var cap = name.capitalize();
-			if (properties['on' + cap]){
-				properties[type] = properties['on' + cap];
-				delete properties['on' + cap];
-			}
-			var event = properties[type];
+			var type = 'on' + name,
+				cap = 'on' + name.capitalize(),
+				event = properties[type] || properties[cap] || function(){};
+
+			delete properties[cap];
 			delete properties[type];
+
 			image[type] = function(){
 				if (!image) return;
 				if (!element.parentNode){
@@ -7702,20 +8124,25 @@ var Asset = {
 				element.fireEvent(name, element, 1);
 			};
 		});
+
 		image.src = element.src = source;
 		if (image && image.complete) image.onload.delay(1);
 		return element.set(properties);
 	},
 
 	images: function(sources, options){
+		sources = Array.from(sources);
+
+		var fn = function(){},
+			counter = 0;
+
 		options = Object.merge({
-			onComplete: function(){},
-			onProgress: function(){},
-			onError: function(){},
+			onComplete: fn,
+			onProgress: fn,
+			onError: fn,
 			properties: {}
 		}, options);
-		sources = Array.from(sources);
-		var counter = 0;
+
 		return new Elements(sources.map(function(source, index){
 			return Asset.image(source, Object.append(options.properties, {
 				onload: function(){
@@ -7755,6 +8182,7 @@ requires:
   - Core/Number
   - Core/Hash
   - Core/Function
+  - MooTools.More
 
 provides: [Color]
 
@@ -7819,15 +8247,15 @@ Color.implement({
 
 });
 
-var $RGB = function(r, g, b){
+this.$RGB = function(r, g, b){
 	return new Color([r, g, b], 'rgb');
 };
 
-var $HSB = function(h, s, b){
+this.$HSB = function(h, s, b){
 	return new Color([h, s, b], 'hsb');
 };
 
-var $HEX = function(hex){
+this.$HEX = function(hex){
 	return new Color(hex, 'hex');
 };
 
@@ -8025,6 +8453,65 @@ Hash.each(Hash.prototype, function(method, name){
 
 /*
 ---
+name: Table
+description: LUA-Style table implementation.
+license: MIT-style license
+authors:
+  - Valerio Proietti
+requires: [Core/Array]
+provides: [Table]
+...
+*/
+
+(function(){
+
+var Table = this.Table = function(){
+
+	this.length = 0;
+	var keys = [],
+	    values = [];
+	
+	this.set = function(key, value){
+		var index = keys.indexOf(key);
+		if (index == -1){
+			var length = keys.length;
+			keys[length] = key;
+			values[length] = value;
+			this.length++;
+		} else {
+			values[index] = value;
+		}
+		return this;
+	};
+
+	this.get = function(key){
+		var index = keys.indexOf(key);
+		return (index == -1) ? null : values[index];
+	};
+
+	this.erase = function(key){
+		var index = keys.indexOf(key);
+		if (index != -1){
+			this.length--;
+			keys.splice(index, 1);
+			return values.splice(index, 1)[0];
+		}
+		return null;
+	};
+
+	this.each = this.forEach = function(fn, bind){
+		for (var i = 0, l = this.length; i < l; i++) fn.call(bind, keys[i], values[i], this);
+	};
+	
+};
+
+if (this.Type) new Type('Table', Table);
+
+})();
+
+
+/*
+---
 
 script: HtmlTable.js
 
@@ -8065,8 +8552,9 @@ var HtmlTable = new Class({
 	property: 'HtmlTable',
 
 	initialize: function(){
-		var params = Array.link(arguments, {options: Type.isObject, table: Type.isElement});
+		var params = Array.link(arguments, {options: Type.isObject, table: Type.isElement, id: Type.isString});
 		this.setOptions(params.options);
+		if (!params.table && params.id) params.table = document.id(params.id);
 		this.element = params.table || new Element('table', this.options.properties);
 		if (this.occlude()) return this.occluded;
 		this.build();
@@ -8080,18 +8568,15 @@ var HtmlTable = new Class({
 
 		if (this.options.headers.length) this.setHeaders(this.options.headers);
 		else this.thead = document.id(this.element.tHead);
-		if (this.thead) this.head = document.id(this.thead.rows[0]);
 
+		if (this.thead) this.head = this.getHead();
 		if (this.options.footers.length) this.setFooters(this.options.footers);
+
 		this.tfoot = document.id(this.element.tFoot);
 		if (this.tfoot) this.foot = document.id(this.tfoot.rows[0]);
 
 		this.options.rows.each(function(row){
 			this.push(row);
-		}, this);
-
-		['adopt', 'inject', 'wraps', 'grab', 'replaces', 'dispose'].each(function(method){
-				this[method] = this.element[method].bind(this.element);
 		}, this);
 	},
 
@@ -8105,12 +8590,21 @@ var HtmlTable = new Class({
 	},
 
 	set: function(what, items){
-		var target = (what == 'headers') ? 'tHead' : 'tFoot';
-		this[target.toLowerCase()] = (document.id(this.element[target]) || new Element(target.toLowerCase()).inject(this.element, 'top')).empty();
-		var data = this.push(items, {}, this[target.toLowerCase()], what == 'headers' ? 'th' : 'td');
-		if (what == 'headers') this.head = document.id(this.thead.rows[0]);
-		else this.foot = document.id(this.thead.rows[0]);
+		var target = (what == 'headers') ? 'tHead' : 'tFoot',
+			lower = target.toLowerCase();
+
+		this[lower] = (document.id(this.element[target]) || new Element(lower).inject(this.element, 'top')).empty();
+		var data = this.push(items, {}, this[lower], what == 'headers' ? 'th' : 'td');
+
+		if (what == 'headers') this.head = this.getHead();
+		else this.foot = this.getHead();
+
 		return data;
+	},
+
+	getHead: function(){
+		var rows = this.thead.rows;
+		return rows.length > 1 ? $$(rows) : rows.length ? document.id(rows[0]) : false;
 	},
 
 	setHeaders: function(headers){
@@ -8123,31 +8617,43 @@ var HtmlTable = new Class({
 		return this;
 	},
 
-	push: function(row, rowProperties, target, tag){
-		if (typeOf(row) == "element" && row.get('tag') == 'tr'){
-			row.inject(target || this.body);
+	push: function(row, rowProperties, target, tag, where){
+		if (typeOf(row) == 'element' && row.get('tag') == 'tr'){
+			row.inject(target || this.body, where);
 			return {
 				tr: row,
 				tds: row.getChildren('td')
 			};
 		}
+
 		var tds = row.map(function(data){
 			var td = new Element(tag || 'td', data ? data.properties : {}),
-				type = (data ? data.content : '') || data,
-				element = document.id(type);
-			if (typeOf(type) != 'string' && element) td.adopt(element);
-			else td.set('html', type);
+				content = (data ? data.content : '') || data,
+				type = typeOf(content);
+
+			if (['element', 'array', 'collection', 'elements'].contains(type)) td.adopt(content);
+			else td.set('html', content);
 
 			return td;
 		});
 
 		return {
-			tr: new Element('tr', rowProperties).inject(target || this.body).adopt(tds),
+			tr: new Element('tr', rowProperties).inject(target || this.body, where).adopt(tds),
 			tds: tds
 		};
 	}
 
 });
+
+
+['adopt', 'inject', 'wraps', 'grab', 'replaces', 'dispose'].each(function(method){
+	HtmlTable.implement(method, function(){
+		this.element[method].apply(this.element, arguments);
+		return this;
+	});
+});
+
+
 
 
 /*
@@ -8191,6 +8697,11 @@ HtmlTable = Class.refactor(HtmlTable, {
 		Array.each(this.body.rows, this.zebra, this);
 	},
 
+	setRowStyle: function(row, i){
+		if (this.previous) this.previous(row, i);
+		this.zebra(row, i);
+	},
+
 	zebra: function(row, i){
 		return row[((i % 2) ? 'remove' : 'add')+'Class'](this.options.classZebra);
 	},
@@ -8218,6 +8729,7 @@ license: MIT-style license
 authors:
   - Harald Kirschner
   - Aaron Newton
+  - Jacob Thornton
 
 requires:
   - Core/Hash
@@ -8248,7 +8760,8 @@ HtmlTable = Class.refactor(HtmlTable, {
 		classGroup: 'table-tr-group',
 		classCellSort: 'table-td-sort',
 		classSortSpan: 'table-th-sort-span',
-		sortable: false
+		sortable: false,
+		thSelector: 'th'
 	},
 
 	initialize: function (){
@@ -8266,160 +8779,187 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	attachSorts: function(attach){
-		this.element.removeEvents('click:relay(th)');
-		this.element[attach !== false ? 'addEvent' : 'removeEvent']('click:relay(th)', this.bound.headClick);
+		this.detachSorts();
+		if (attach !== false) this.element.addEvent('click:relay(' + this.options.thSelector + ')', this.bound.headClick);
+	},
+
+	detachSorts: function(){
+		this.element.removeEvents('click:relay(' + this.options.thSelector + ')');
 	},
 
 	setHeaders: function(){
 		this.previous.apply(this, arguments);
-		if (this.sortEnabled) this.detectParsers();
+		if (this.sortEnabled) this.setParsers();
 	},
 
-	detectParsers: function(force){
-		if (!this.head) return;
-		var parsers = this.options.parsers,
-			rows = this.body.rows;
+	setParsers: function(){
+		this.parsers = this.detectParsers();
+	},
 
-		// auto-detect
-		this.parsers = $$(this.head.cells).map(function(cell, index){
-			if (!force && (cell.hasClass(this.options.classNoSort) || cell.retrieve('htmltable-parser'))) return cell.retrieve('htmltable-parser');
-			var thDiv = new Element('div');
-			Array.each(cell.childNodes, function(node){
-				thDiv.adopt(node);
-			});
-			thDiv.inject(cell);
-			var sortSpan = new Element('span', {'html': '&#160;', 'class': this.options.classSortSpan}).inject(thDiv, 'top');
+	detectParsers: function(){
+		return this.head && this.head.getElements(this.options.thSelector).flatten().map(this.detectParser, this);
+	},
 
-			this.sortSpans.push(sortSpan);
-
-			var parser = parsers[index],
-					cancel;
-			switch (typeOf(parser)){
-				case 'function': parser = {convert: parser}; cancel = true; break;
-				case 'string': parser = parser; cancel = true; break;
-			}
-			if (!cancel){
-				Object.some(HtmlTable.Parsers, function(current){
-					var match = current.match;
-					if (!match) return false;
-					for (var i = 0, j = rows.length; i < j; i++){
-						var cell = document.id(rows[i].cells[index]);
-						var text = cell ? cell.get('html').clean() : '';
-						if (text && match.test(text)){
-							parser = current;
-							return true;
-						}
+	detectParser: function(cell, index){
+		if (cell.hasClass(this.options.classNoSort) || cell.retrieve('htmltable-parser')) return cell.retrieve('htmltable-parser');
+		var thDiv = new Element('div');
+		thDiv.adopt(cell.childNodes).inject(cell);
+		var sortSpan = new Element('span', {'class': this.options.classSortSpan}).inject(thDiv, 'top');
+		this.sortSpans.push(sortSpan);
+		var parser = this.options.parsers[index],
+			rows = this.body.rows,
+			cancel;
+		switch (typeOf(parser)){
+			case 'function': parser = {convert: parser}; cancel = true; break;
+			case 'string': parser = parser; cancel = true; break;
+		}
+		if (!cancel){
+			HtmlTable.ParserPriority.some(function(parserName){
+				var current = HtmlTable.Parsers[parserName],
+					match = current.match;
+				if (!match) return false;
+				for (var i = 0, j = rows.length; i < j; i++){
+					var cell = document.id(rows[i].cells[index]),
+						text = cell ? cell.get('html').clean() : '';
+					if (text && match.test(text)){
+						parser = current;
+						return true;
 					}
-				});
-			}
-
-			if (!parser) parser = this.options.defaultParser;
-			cell.store('htmltable-parser', parser);
-			return parser;
-		}, this);
+				}
+			});
+		}
+		if (!parser) parser = this.options.defaultParser;
+		cell.store('htmltable-parser', parser);
+		return parser;
 	},
 
 	headClick: function(event, el){
 		if (!this.head || el.hasClass(this.options.classNoSort)) return;
-		var index = Array.indexOf(this.head.cells, el);
-		this.sort(index);
-		return false;
+		return this.sort(Array.indexOf(this.head.getElements(this.options.thSelector).flatten(), el) % this.body.rows[0].cells.length);
+	},
+
+	serialize: function() {
+		var previousSerialization = this.previous.apply(this, arguments) || {};
+		if (this.options.sortable) {
+			previousSerialization.sortIndex = this.sorted.index;
+			previousSerialization.sortReverse = this.sorted.reverse;
+		}
+		return previousSerialization;
+	},
+
+	restore: function(tableState) {
+		if(this.options.sortable && tableState.sortIndex) {
+			this.sort(tableState.sortIndex, tableState.sortReverse);
+		}
+		this.previous.apply(this, arguments);
+	},
+
+	setSortedState: function(index, reverse){
+		if (reverse != null) this.sorted.reverse = reverse;
+		else if (this.sorted.index == index) this.sorted.reverse = !this.sorted.reverse;
+		else this.sorted.reverse = this.sorted.index == null;
+
+		if (index != null) this.sorted.index = index;
+	},
+
+	setHeadSort: function(sorted){
+		var head = $$(!this.head.length ? this.head.cells[this.sorted.index] : this.head.map(function(row){
+			return row.getElements(this.options.thSelector)[this.sorted.index];
+		}, this).clean());
+		if (!head.length) return;
+		if (sorted){
+			head.addClass(this.options.classHeadSort);
+			if (this.sorted.reverse) head.addClass(this.options.classHeadSortRev);
+			else head.removeClass(this.options.classHeadSortRev);
+		} else {
+			head.removeClass(this.options.classHeadSort).removeClass(this.options.classHeadSortRev);
+		}
+	},
+
+	setRowSort: function(data, pre){
+		var count = data.length,
+			body = this.body,
+			group,
+			rowIndex;
+
+		while (count){
+			var item = data[--count],
+				position = item.position,
+				row = body.rows[position];
+
+			if (row.disabled) continue;
+			if (!pre){
+				group = this.setGroupSort(group, row, item);
+				this.setRowStyle(row, count);
+			}
+			body.appendChild(row);
+
+			for (rowIndex = 0; rowIndex < count; rowIndex++){
+				if (data[rowIndex].position > position) data[rowIndex].position--;
+			}
+		}
+	},
+
+	setRowStyle: function(row, i){
+		this.previous(row, i);
+		row.cells[this.sorted.index].addClass(this.options.classCellSort);
+	},
+
+	setGroupSort: function(group, row, item){
+		if (group == item.value) row.removeClass(this.options.classGroupHead).addClass(this.options.classGroup);
+		else row.removeClass(this.options.classGroup).addClass(this.options.classGroupHead);
+		return item.value;
+	},
+
+	getParser: function(){
+		var parser = this.parsers[this.sorted.index];
+		return typeOf(parser) == 'string' ? HtmlTable.Parsers[parser] : parser;
 	},
 
 	sort: function(index, reverse, pre){
 		if (!this.head) return;
-		var classCellSort = this.options.classCellSort;
-		var classGroup = this.options.classGroup,
-			classGroupHead = this.options.classGroupHead;
 
 		if (!pre){
-			if (index != null){
-				if (this.sorted.index == index){
-					this.sorted.reverse = !(this.sorted.reverse);
-				} else {
-					if (this.sorted.index != null){
-						this.sorted.reverse = false;
-						this.head.cells[this.sorted.index].removeClass(this.options.classHeadSort).removeClass(this.options.classHeadSortRev);
-					} else {
-						this.sorted.reverse = true;
-					}
-					this.sorted.index = index;
-				}
-			} else {
-				index = this.sorted.index;
-			}
-
-			if (reverse != null) this.sorted.reverse = reverse;
-
-			var head = document.id(this.head.cells[index]);
-			if (head){
-				head.addClass(this.options.classHeadSort);
-				if (this.sorted.reverse) head.addClass(this.options.classHeadSortRev);
-				else head.removeClass(this.options.classHeadSortRev);
-			}
-
-			this.body.getElements('td').removeClass(this.options.classCellSort);
+			this.clearSort();
+			this.setSortedState(index, reverse);
+			this.setHeadSort(true);
 		}
 
-		var parser = this.parsers[index];
-		if (typeOf(parser) == 'string') parser = HtmlTable.Parsers[parser];
+		var parser = this.getParser();
 		if (!parser) return;
 
+		var rel;
 		if (!Browser.ie){
-			var rel = this.body.getParent();
+			rel = this.body.getParent();
 			this.body.dispose();
 		}
 
-		var data = Array.map(this.body.rows, function(row, i){
-			var value = parser.convert.call(document.id(row.cells[index]));
-
-			return {
-				position: i,
-				value: value,
-				toString: function(){
-					return value.toString();
-				}
-			};
-		}, this);
-		data.reverse(true);
-
-		data.sort(function(a, b){
+		var data = this.parseData(parser).sort(function(a, b){
 			if (a.value === b.value) return 0;
 			return a.value > b.value ? 1 : -1;
 		});
 
-		if (!this.sorted.reverse) data.reverse(true);
+		if (this.sorted.reverse == (parser == HtmlTable.Parsers['input-checked'])) data.reverse(true);
+		this.setRowSort(data, pre);
 
-		var i = data.length, body = this.body;
-		var j, position, entry, group;
+		if (rel) rel.grab(this.body);
+		this.fireEvent('stateChanged');
+		return this.fireEvent('sort', [this.body, this.sorted.index]);
+	},
 
-		while (i){
-			var item = data[--i];
-			position = item.position;
-			var row = body.rows[position];
-			if (row.disabled) continue;
+	parseData: function(parser){
+		return Array.map(this.body.rows, function(row, i){
+			var value = parser.convert.call(document.id(row.cells[this.sorted.index]));
+			return {
+				position: i,
+				value: value
+			};
+		}, this);
+	},
 
-			if (!pre){
-				if (group === item.value){
-					row.removeClass(classGroupHead).addClass(classGroup);
-				} else {
-					group = item.value;
-					row.removeClass(classGroup).addClass(classGroupHead);
-				}
-				if (this.options.zebra) this.zebra(row, i);
-
-				row.cells[index].addClass(classCellSort);
-			}
-
-			body.appendChild(row);
-			for (j = 0; j < i; j++){
-				if (data[j].position > position) data[j].position--;
-			}
-		};
-		data = null;
-		if (rel) rel.grab(body);
-
-		return this.fireEvent('sort', [body, index]);
+	clearSort: function(){
+		this.setHeadSort(false);
+		this.body.getElements('td').removeClass(this.options.classCellSort);
 	},
 
 	reSort: function(){
@@ -8430,7 +8970,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	enableSort: function(){
 		this.element.addClass(this.options.classSortable);
 		this.attachSorts(true);
-		this.detectParsers();
+		this.setParsers();
 		this.sortEnabled = true;
 		return this;
 	},
@@ -8438,13 +8978,17 @@ HtmlTable = Class.refactor(HtmlTable, {
 	disableSort: function(){
 		this.element.removeClass(this.options.classSortable);
 		this.attachSorts(false);
-		this.sortSpans.each(function(span){ span.destroy(); });
+		this.sortSpans.each(function(span){
+			span.destroy();
+		});
 		this.sortSpans.empty();
 		this.sortEnabled = false;
 		return this;
 	}
 
 });
+
+HtmlTable.ParserPriority = ['date', 'input-checked', 'input-value', 'float', 'number'];
 
 HtmlTable.Parsers = {
 
@@ -8499,7 +9043,7 @@ HtmlTable.Parsers = {
 	'string': {
 		match: null,
 		convert: function(){
-			return this.get('text').stripTags();
+			return this.get('text').stripTags().toLowerCase();
 		}
 	},
 	'title': {
@@ -8517,6 +9061,9 @@ HtmlTable.Parsers = new Hash(HtmlTable.Parsers);
 
 HtmlTable.defineParsers = function(parsers){
 	HtmlTable.Parsers = Object.append(HtmlTable.Parsers, parsers);
+	for (var parser in parsers){
+		HtmlTable.ParserPriority.unshift(parser);
+	}
 };
 
 
@@ -8567,31 +9114,11 @@ provides: [Keyboard]
 
 		initialize: function(options){
 			if (options && options.manager){
-				this.manager = options.manager;
+				this._manager = options.manager;
 				delete options.manager;
 			}
 			this.setOptions(options);
-			this.setup();
-		},
-		setup: function(){
-			this.addEvents(this.options.events);
-			//if this is the root manager, nothing manages it
-			if (Keyboard.manager && !this.manager) Keyboard.manager.manage(this);
-			if (this.options.active) this.activate();
-		},
-
-		handle: function(event, type){
-			//Keyboard.stop(event) prevents key propagation
-			if (event.preventKeyboardPropagation) return;
-
-			var bubbles = !!this.manager;
-			if (bubbles && this.activeKB){
-				this.activeKB.handle(event, type);
-				if (event.preventKeyboardPropagation) return;
-			}
-			this.fireEvent(type, event);
-
-			if (!bubbles && this.activeKB) this.activeKB.handle(event, type);
+			this._setup();
 		},
 
 		addEvent: function(type, fn, internal){
@@ -8610,61 +9137,61 @@ provides: [Keyboard]
 			if (instance){
 				if (instance.isActive()) return this;
 				//if we're stealing focus, store the last keyboard to have it so the relinquish command works
-				if (this.activeKB && instance != this.activeKB){
-					this.previous = this.activeKB;
+				if (this._activeKB && instance != this._activeKB){
+					this.previous = this._activeKB;
 					this.previous.fireEvent('deactivate');
 				}
 				//if we're enabling a child, assign it so that events are now passed to it
-				this.activeKB = instance.fireEvent('activate');
+				this._activeKB = instance.fireEvent('activate');
 				Keyboard.manager.fireEvent('changed');
-			} else if (this.manager){
+			} else if (this._manager){
 				//else we're enabling ourselves, we must ask our parent to do it for us
-				this.manager.activate(this);
+				this._manager.activate(this);
 			}
 			return this;
 		},
 
 		isActive: function(){
-			return this.manager ? (this.manager.activeKB == this) : (Keyboard.manager == this);
+			return this._manager ? (this._manager._activeKB == this) : (Keyboard.manager == this);
 		},
 
 		deactivate: function(instance){
 			if (instance){
-				if (instance === this.activeKB){
-					this.activeKB = null;
+				if (instance === this._activeKB){
+					this._activeKB = null;
 					instance.fireEvent('deactivate');
 					Keyboard.manager.fireEvent('changed');
 				}
-			} else if (this.manager){
-				this.manager.deactivate(this);
+			} else if (this._manager){
+				this._manager.deactivate(this);
 			}
 			return this;
 		},
 
 		relinquish: function(){
-			if (this.isActive() && this.manager && this.manager.previous) this.manager.activate(this.manager.previous);
+			if (this.isActive() && this._manager && this._manager.previous) this._manager.activate(this._manager.previous);
+			else this.deactivate();
+			return this;
 		},
 
 		//management logic
 		manage: function(instance){
-			if (instance.manager && instance.manager != Keyboard.manager && this != Keyboard.manager) instance.manager.drop(instance);
-			this.instances.push(instance);
-			instance.manager = this;
-			if (!this.activeKB) this.activate(instance);
-		},
-
-		_disable: function(instance){
-			if (this.activeKB == instance) this.activeKB = null;
+			if (instance._manager) instance._manager.drop(instance);
+			this._instances.push(instance);
+			instance._manager = this;
+			if (!this._activeKB) this.activate(instance);
+			return this;
 		},
 
 		drop: function(instance){
-			this._disable(instance);
-			this.instances.erase(instance);
-			Keyboard.manager.manage(instance);
-			if (this.activeKB == instance && this.previous && this.instances.contains(this.previous)) this.activate(this.previous);
+			instance.relinquish();
+			this._instances.erase(instance);
+			if (this._activeKB == instance){
+				if (this.previous && this._instances.contains(this.previous)) this.activate(this.previous);
+				else this._activeKB = this._instances[0];
+			}
+			return this;
 		},
-
-		instances: [],
 
 		trace: function(){
 			Keyboard.trace(this);
@@ -8672,6 +9199,38 @@ provides: [Keyboard]
 
 		each: function(fn){
 			Keyboard.each(this, fn);
+		},
+
+		/*
+			PRIVATE METHODS
+		*/
+
+		_instances: [],
+
+		_disable: function(instance){
+			if (this._activeKB == instance) this._activeKB = null;
+		},
+
+		_setup: function(){
+			this.addEvents(this.options.events);
+			//if this is the root manager, nothing manages it
+			if (Keyboard.manager && !this._manager) Keyboard.manager.manage(this);
+			if (this.options.active) this.activate();
+			else this.relinquish();
+		},
+
+		_handle: function(event, type){
+			//Keyboard.stop(event) prevents key propagation
+			if (event.preventKeyboardPropagation) return;
+
+			var bubbles = !!this._manager;
+			if (bubbles && this._activeKB){
+				this._activeKB._handle(event, type);
+				if (event.preventKeyboardPropagation) return;
+			}
+			this.fireEvent(type, event);
+
+			if (!bubbles && this._activeKB) this._activeKB._handle(event, type);
 		}
 
 	});
@@ -8713,7 +9272,7 @@ provides: [Keyboard]
 		var current = keyboard || Keyboard.manager;
 		while (current){
 			fn.run(current);
-			current = current.activeKB;
+			current = current._activeKB;
 		}
 	};
 
@@ -8741,7 +9300,7 @@ provides: [Keyboard]
 		});
 
 		if (!regex.test(event.key)) keys.push(event.key);
-		Keyboard.manager.handle(event, event.type + ':keys(' + keys.join('+') + ')');
+		Keyboard.manager._handle(event, event.type + ':keys(' + keys.join('+') + ')');
 	};
 
 	document.addEvents({
@@ -8787,13 +9346,13 @@ Keyboard.implement({
 		}
 	*/
 	addShortcut: function(name, shortcut){
-		this.shortcuts = this.shortcuts || [];
-		this.shortcutIndex = this.shortcutIndex || {};
+		this._shortcuts = this._shortcuts || [];
+		this._shortcutIndex = this._shortcutIndex || {};
 
 		shortcut.getKeyboard = Function.from(this);
 		shortcut.name = name;
-		this.shortcutIndex[name] = shortcut;
-		this.shortcuts.push(shortcut);
+		this._shortcutIndex[name] = shortcut;
+		this._shortcuts.push(shortcut);
 		if (shortcut.keys) this.addEvent(shortcut.keys, shortcut.handler);
 		return this;
 	},
@@ -8807,8 +9366,8 @@ Keyboard.implement({
 		var shortcut = this.getShortcut(name);
 		if (shortcut && shortcut.keys){
 			this.removeEvent(shortcut.keys, shortcut.handler);
-			delete this.shortcutIndex[name];
-			this.shortcuts.erase(shortcut);
+			delete this._shortcutIndex[name];
+			this._shortcuts.erase(shortcut);
 		}
 		return this;
 	},
@@ -8819,11 +9378,11 @@ Keyboard.implement({
 	},
 
 	getShortcuts: function(){
-		return this.shortcuts || [];
+		return this._shortcuts || [];
 	},
 
 	getShortcut: function(name){
-		return (this.shortcutIndex || {})[name];
+		return (this._shortcutIndex || {})[name];
 	}
 
 });
@@ -8909,36 +9468,46 @@ HtmlTable = Class.refactor(HtmlTable, {
 		this.previous.apply(this, arguments);
 		if (this.occluded) return this.occluded;
 
-		this._selectedRows = new Elements();
+		this.selectedRows = new Elements();
 
-		this._bound = {
-			mouseleave: this._mouseleave.bind(this),
-			clickRow: this._clickRow.bind(this)
+		this.bound = {
+			mouseleave: this.mouseleave.bind(this),
+			clickRow: this.clickRow.bind(this),
+			activateKeyboard: function() {
+				if (this.keyboard && this.selectEnabled) this.keyboard.activate();
+			}.bind(this)
 		};
 
 		if (this.options.selectable) this.enableSelect();
 	},
 
+	empty: function(){
+		this.selectNone();
+		return this.previous();
+	},
+
 	enableSelect: function(){
-		this._selectEnabled = true;
-		this._attachSelects();
+		this.selectEnabled = true;
+		this.attachSelects();
 		this.element.addClass(this.options.classSelectable);
+		return this;
 	},
 
 	disableSelect: function(){
-		this._selectEnabled = false;
-		this._attachSelects(false);
+		this.selectEnabled = false;
+		this.attachSelects(false);
 		this.element.removeClass(this.options.classSelectable);
+		return this;
 	},
 
 	push: function(){
 		var ret = this.previous.apply(this, arguments);
-		this._updateSelects();
+		this.updateSelects();
 		return ret;
 	},
 
 	isSelected: function(row){
-		return this._selectedRows.contains(row);
+		return this.selectedRows.contains(row);
 	},
 
 	toggleRow: function(row){
@@ -8952,24 +9521,48 @@ HtmlTable = Class.refactor(HtmlTable, {
 		if (!this.options.allowMultiSelect) this.selectNone();
 
 		if (!this.isSelected(row)){
-			this._selectedRows.push(row);
+			this.selectedRows.push(row);
 			row.addClass(this.options.classRowSelected);
-			this.fireEvent('rowFocus', [row, this._selectedRows]);
+			this.fireEvent('rowFocus', [row, this.selectedRows]);
+			this.fireEvent('stateChanged');
 		}
 
-		this._focused = row;
+		this.focused = row;
 		document.clearSelection();
 
 		return this;
 	},
 
+	getSelected: function(){
+		return this.selectedRows;
+	},
+
+	serialize: function() {
+		var previousSerialization = this.previous.apply(this, arguments) || {};
+		if (this.options.selectable) {
+			previousSerialization.selectedRows = this.selectedRows.map(function(row) {
+				return Array.indexOf(this.body.rows, row);
+			}.bind(this));
+		}
+		return previousSerialization;
+	},
+
+	restore: function(tableState) {
+		if(this.options.selectable && tableState.selectedRows) {
+			tableState.selectedRows.each(function(index) {
+				this.selectRow(this.body.rows[index]);
+			}.bind(this));
+		}
+		this.previous.apply(this, arguments);
+	},
+
 	deselectRow: function(row, _nocheck){
 		if (!this.isSelected(row) || (!_nocheck && !this.body.getChildren().contains(row))) return;
 
-		this._selectedRows = new Elements(Array.from(this._selectedRows).erase(row));
+		this.selectedRows = new Elements(Array.from(this.selectedRows).erase(row));
 		row.removeClass(this.options.classRowSelected);
-		this.fireEvent('rowUnfocus', [row, this._selectedRows]);
-
+		this.fireEvent('rowUnfocus', [row, this.selectedRows]);
+		this.fireEvent('stateChanged');
 		return this;
 	},
 
@@ -8998,7 +9591,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 			endRow = tmp;
 		}
 
-		for(var i = startRow; i <= endRow; i++) this[method](rows[i], true);
+		for (var i = startRow; i <= endRow; i++) this[method](rows[i], true);
 
 		return this;
 	},
@@ -9007,43 +9600,47 @@ HtmlTable = Class.refactor(HtmlTable, {
 		this.selectRange(startRow, endRow, true);
 	},
 
+	getSelected: function(){
+		return this.selectedRows;
+	},
+
 /*
 	Private methods:
 */
 
-	_enterRow: function(row){
-		if (this._hovered) this._hovered = this._leaveRow(this._hovered);
-		this._hovered = row.addClass(this.options.classRowHovered);
+	enterRow: function(row){
+		if (this.hovered) this.hovered = this.leaveRow(this.hovered);
+		this.hovered = row.addClass(this.options.classRowHovered);
 	},
 
-	_leaveRow: function(row){
+	leaveRow: function(row){
 		row.removeClass(this.options.classRowHovered);
 	},
 
-	_updateSelects: function(){
+	updateSelects: function(){
 		Array.each(this.body.rows, function(row){
 			var binders = row.retrieve('binders');
-			if ((binders && this._selectEnabled) || (!binders && !this._selectEnabled)) return;
+			if (!binders && !this.selectEnabled) return;
 			if (!binders){
 				binders = {
-					mouseenter: this._enterRow.pass([row], this),
-					mouseleave: this._leaveRow.pass([row], this)
+					mouseenter: this.enterRow.pass([row], this),
+					mouseleave: this.leaveRow.pass([row], this)
 				};
-				row.store('binders', binders).addEvents(binders);
-			} else {
-				row.removeEvents(binders);
+				row.store('binders', binders);
 			}
+			if (this.selectEnabled) row.addEvents(binders);
+			else row.removeEvents(binders);
 		}, this);
 	},
 
-	_shiftFocus: function(offset, event){
-		if (!this._focused) return this.selectRow(this.body.rows[0], event);
-		var to = this._getRowByOffset(offset);
-		if (to === null || this._focused == this.body.rows[to]) return this;
+	shiftFocus: function(offset, event){
+		if (!this.focused) return this.selectRow(this.body.rows[0], event);
+		var to = this.getRowByOffset(offset);
+		if (to === null || this.focused == this.body.rows[to]) return this;
 		this.toggleRow(this.body.rows[to], event);
 	},
 
-	_clickRow: function(event, row){
+	clickRow: function(event, row){
 		var selecting = (event.shift || event.meta || event.control) && this.options.shiftForMultiSelect;
 		if (!selecting && !(event.rightClick && this.isSelected(row) && this.options.allowMultiSelect)) this.selectNone();
 
@@ -9051,16 +9648,16 @@ HtmlTable = Class.refactor(HtmlTable, {
 		else this.toggleRow(row);
 
 		if (event.shift){
-			this.selectRange(this._rangeStart || this.body.rows[0], row, this._rangeStart ? !this.isSelected(row) : true);
-			this._focused = row;
+			this.selectRange(this.rangeStart || this.body.rows[0], row, this.rangeStart ? !this.isSelected(row) : true);
+			this.focused = row;
 		}
-		this._rangeStart = row;
+		this.rangeStart = row;
 	},
 
-	_getRowByOffset: function(offset){
-		if (!this._focused) return 0;
+	getRowByOffset: function(offset){
+		if (!this.focused) return 0;
 		var rows = Array.clone(this.body.rows),
-			index = rows.indexOf(this._focused) + offset;
+			index = rows.indexOf(this.focused) + offset;
 
 		if (index < 0) index = null;
 		if (index >= rows.length) index = null;
@@ -9068,21 +9665,24 @@ HtmlTable = Class.refactor(HtmlTable, {
 		return index;
 	},
 
-	_attachSelects: function(attach){
+	attachSelects: function(attach){
 		attach = attach != null ? attach : true;
 
 		var method = attach ? 'addEvents' : 'removeEvents';
 		this.element[method]({
-			mouseleave: this._bound.mouseleave
+			mouseleave: this.bound.mouseleave,
+			click: this.bound.activateKeyboard
 		});
 
 		this.body[method]({
-			'click:relay(tr)': this._bound.clickRow,
-			'contextmenu:relay(tr)': this._bound.clickRow
+			'click:relay(tr)': this.bound.clickRow,
+			'contextmenu:relay(tr)': this.bound.clickRow
 		});
 
 		if (this.options.useKeyboard || this.keyboard){
-			if (!this.keyboard){
+			if (!this.keyboard) this.keyboard = new Keyboard();
+			if (!this.selectKeysDefined) {
+				this.selectKeysDefined = true;
 				var timer, held;
 
 				var move = function(offset){
@@ -9090,15 +9690,15 @@ HtmlTable = Class.refactor(HtmlTable, {
 						clearTimeout(timer);
 						e.preventDefault();
 
-						var to = this.body.rows[this._getRowByOffset(offset)];
+						var to = this.body.rows[this.getRowByOffset(offset)];
 						if (e.shift && to && this.isSelected(to)){
-							this.deselectRow(this._focused);
-							this._focused = to;
+							this.deselectRow(this.focused);
+							this.focused = to;
 						} else {
 							if (to && (!this.options.allowMultiSelect || !e.shift)){
 								this.selectNone();
 							}
-							this._shiftFocus(offset, e);
+							this.shiftFocus(offset, e);
 						}
 
 						if (held){
@@ -9117,17 +9717,14 @@ HtmlTable = Class.refactor(HtmlTable, {
 					clearTimeout(timer);
 					held = false;
 				};
-
-				this.keyboard = new Keyboard({
-					events: {
-						'keydown:shift+up': move(-1),
-						'keydown:shift+down': move(1),
-						'keyup:shift+up': clear,
-						'keyup:shift+down': clear,
-						'keyup:up': clear,
-						'keyup:down': clear
-					},
-					active: true
+				
+				this.keyboard.addEvents({
+					'keydown:shift+up': move(-1),
+					'keydown:shift+down': move(1),
+					'keyup:shift+up': clear,
+					'keyup:shift+down': clear,
+					'keyup:up': clear,
+					'keyup:down': clear
 				});
 
 				var shiftHint = '';
@@ -9153,11 +9750,11 @@ HtmlTable = Class.refactor(HtmlTable, {
 			}
 			this.keyboard[attach ? 'activate' : 'deactivate']();
 		}
-		this._updateSelects();
+		this.updateSelects();
 	},
 
-	_mouseleave: function(){
-		if (this._hovered) this._leaveRow(this._hovered);
+	mouseleave: function(){
+		if (this.hovered) this.leaveRow(this.hovered);
 	}
 
 });
@@ -9182,6 +9779,7 @@ requires:
   - Core/Options
   - Core/Element.Event
   - Core/Element.Dimensions
+  - MooTools.More
 
 provides: [Scroller]
 
@@ -9216,7 +9814,7 @@ var Scroller = new Class({
 
 	start: function(){
 		this.listener.addEvents({
-			mouseenter: this.bound.attach,
+			mouseover: this.bound.attach,
 			mouseleave: this.bound.detach
 		});
 		return this;
@@ -9224,7 +9822,7 @@ var Scroller = new Class({
 
 	stop: function(){
 		this.listener.removeEvents({
-			mouseenter: this.bound.attach,
+			mouseover: this.bound.attach,
 			mouseleave: this.bound.detach
 		});
 		this.detach();
@@ -9403,15 +10001,17 @@ this.Tips = new Class({
 	},
 
 	elementEnter: function(event, element){
-		this.container.empty();
-
-		['title', 'text'].each(function(value){
-			var content = element.retrieve('tip:' + value);
-			if (content) this.fill(new Element('div', {'class': 'tip-' + value}).inject(this.container), content);
-		}, this);
-
 		clearTimeout(this.timer);
 		this.timer = (function(){
+			this.container.empty();
+
+			['title', 'text'].each(function(value){
+				var content = element.retrieve('tip:' + value);
+				var div = this['_' + value + 'Element'] = new Element('div', {
+						'class': 'tip-' + value
+					}).inject(this.container);
+				if (content) this.fill(div, content);
+			}, this);
 			this.show(element);
 			this.position((this.options.fixed) ? {page: element.getPosition()} : event);
 		}).delay(this.options.showDelay, this);
@@ -9421,6 +10021,22 @@ this.Tips = new Class({
 		clearTimeout(this.timer);
 		this.timer = this.hide.delay(this.options.hideDelay, this, element);
 		this.fireForParent(event, element);
+	},
+
+	setTitle: function(title){
+		if (this._titleElement){
+			this._titleElement.empty();
+			this.fill(this._titleElement, title);
+		}
+		return this;
+	},
+
+	setText: function(text){
+		if (this._textElement){
+			this._textElement.empty();
+			this.fill(this._textElement, text);
+		}
+		return this;
 	},
 
 	fireForParent: function(event, element){
@@ -9516,7 +10132,7 @@ Locale.Set.from = function(set, type){
 	if (!type && typeOf(set) == 'string') type = 'json';
 	if (parsers[type]) set = parsers[type](set);
 
-	locale = new Locale.Set;
+	var locale = new Locale.Set;
 
 	locale.sets = set.sets || {};
 
@@ -9526,7 +10142,7 @@ Locale.Set.from = function(set, type){
 	}
 
 	return locale;
-}
+};
 
 })();
 
@@ -9594,7 +10210,7 @@ Locale.define('ar', 'FormValidator', {
 	dateSuchAs: 'الرجاء إدخال تاريخ صحيح كالتالي {date}',
 	dateInFormatMDY: 'الرجاء إدخال تاريخ صحيح (مثال, 31-12-1999)',
 	email: 'الرجاء إدخال بريد إلكتروني صحيح.',
-	url: 'الرجاء إدخال عنوان إلكتروني صحيح مثل http://www.google.com',
+	url: 'الرجاء إدخال عنوان إلكتروني صحيح مثل http://www.example.com',
 	currencyDollar: 'الرجاء إدخال قيمة $ صحيحة. مثال, 100.00$',
 	oneRequired: 'الرجاء إدخال قيمة في أحد هذه الحقول على الأقل.',
 	errorPrefix: 'خطأ: ',
@@ -9636,6 +10252,7 @@ Locale.define('ca-CA', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 0,
 
 	// Date.Extras
 	ordinal: '',
@@ -9693,7 +10310,7 @@ Locale.define('ca-CA', 'FormValidator', {
 	dateSuchAs: 'Per favor introdueix una data valida com {date}',
 	dateInFormatMDY: 'Per favor introdueix una data valida com DD/MM/YYYY (p.e. "31/12/1999")',
 	email: 'Per favor, introdueix una adreça de correu electronic valida. Per exemple, "fred@domain.com".',
-	url: 'Per favor introdueix una URL valida com http://www.google.com.',
+	url: 'Per favor introdueix una URL valida com http://www.example.com.',
 	currencyDollar: 'Per favor introdueix una quantitat valida de €. Per exemple €100,00 .',
 	oneRequired: 'Per favor introdueix alguna cosa per al menys una d´aquestes entrades.',
 	errorPrefix: 'Error: ',
@@ -9742,7 +10359,7 @@ provides: [Locale.cs-CZ.Date]
 // one -> n is 1;            1
 // few -> n in 2..4;         2-4
 // other -> everything else  0, 5-999, 1.31, 2.31, 5.31...
-var pluralize = function (n, one, few, other) {
+var pluralize = function (n, one, few, other){
 	if (n == 1) return one;
 	else if (n == 2 || n == 3 || n == 4) return few;
 	else return other;
@@ -9761,37 +10378,38 @@ Locale.define('cs-CZ', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'dop.',
 	PM: 'odp.',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '.',
 
 	lessThanMinuteAgo: 'před chvílí',
 	minuteAgo: 'přibližně před minutou',
-	minutesAgo: function(delta) { return 'před {delta} ' + pluralize(delta, 'minutou', 'minutami', 'minutami'); },
+	minutesAgo: function(delta){ return 'před {delta} ' + pluralize(delta, 'minutou', 'minutami', 'minutami'); },
 	hourAgo: 'přibližně před hodinou',
-	hoursAgo: function(delta) { return 'před {delta} ' + pluralize(delta, 'hodinou', 'hodinami', 'hodinami'); },
+	hoursAgo: function(delta){ return 'před {delta} ' + pluralize(delta, 'hodinou', 'hodinami', 'hodinami'); },
 	dayAgo: 'před dnem',
-	daysAgo: function(delta) { return 'před {delta} ' + pluralize(delta, 'dnem', 'dny', 'dny'); },
+	daysAgo: function(delta){ return 'před {delta} ' + pluralize(delta, 'dnem', 'dny', 'dny'); },
 	weekAgo: 'před týdnem',
-	weeksAgo: function(delta) { return 'před {delta} ' + pluralize(delta, 'týdnem', 'týdny', 'týdny'); },
+	weeksAgo: function(delta){ return 'před {delta} ' + pluralize(delta, 'týdnem', 'týdny', 'týdny'); },
 	monthAgo: 'před měsícem',
-	monthsAgo: function(delta) { return 'před {delta} ' + pluralize(delta, 'měsícem', 'měsíci', 'měsíci'); },
+	monthsAgo: function(delta){ return 'před {delta} ' + pluralize(delta, 'měsícem', 'měsíci', 'měsíci'); },
 	yearAgo: 'před rokem',
-	yearsAgo: function(delta) { return 'před {delta} ' + pluralize(delta, 'rokem', 'lety', 'lety'); },
+	yearsAgo: function(delta){ return 'před {delta} ' + pluralize(delta, 'rokem', 'lety', 'lety'); },
 
 	lessThanMinuteUntil: 'za chvíli',
 	minuteUntil: 'přibližně za minutu',
-	minutesUntil: function(delta) { return 'za {delta} ' + pluralize(delta, 'minutu', 'minuty', 'minut'); },
+	minutesUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'minutu', 'minuty', 'minut'); },
 	hourUntil: 'přibližně za hodinu',
-	hoursUntil: function(delta) { return 'za {delta} ' + pluralize(delta, 'hodinu', 'hodiny', 'hodin'); },
+	hoursUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'hodinu', 'hodiny', 'hodin'); },
 	dayUntil: 'za den',
-	daysUntil: function(delta) { return 'za {delta} ' + pluralize(delta, 'den', 'dny', 'dnů'); },
+	daysUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'den', 'dny', 'dnů'); },
 	weekUntil: 'za týden',
-	weeksUntil: function(delta) { return 'za {delta} ' + pluralize(delta, 'týden', 'týdny', 'týdnů'); },
+	weeksUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'týden', 'týdny', 'týdnů'); },
 	monthUntil: 'za měsíc',
-	monthsUntil: function(delta) { return 'za {delta} ' + pluralize(delta, 'měsíc', 'měsíce', 'měsíců'); },
+	monthsUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'měsíc', 'měsíce', 'měsíců'); },
 	yearUntil: 'za rok',
-	yearsUntil: function(delta) { return 'za {delta} ' + pluralize(delta, 'rok', 'roky', 'let'); }
+	yearsUntil: function(delta){ return 'za {delta} ' + pluralize(delta, 'rok', 'roky', 'let'); }
 });
 
 })();
@@ -9830,7 +10448,7 @@ Locale.define('cs-CZ', 'FormValidator', {
 	dateSuchAs: 'Zadejte prosím platné datum jako {date}',
 	dateInFormatMDY: 'Zadejte prosím platné datum jako MM / DD / RRRR (tj. "12/31/1999")',
 	email: 'Zadejte prosím platnou e-mailovou adresu. Například "fred@domain.com".',
-	url: 'Zadejte prosím platnou URL adresu jako http://www.google.com.',
+	url: 'Zadejte prosím platnou URL adresu jako http://www.example.com.',
 	currencyDollar: 'Zadejte prosím platnou částku. Například $100.00.',
 	oneRequired: 'Zadejte prosím alespoň jednu hodnotu pro tyto položky.',
 	errorPrefix: 'Chyba: ',
@@ -9888,6 +10506,7 @@ Locale.define('da-DK', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '.',
@@ -9956,7 +10575,7 @@ Locale.define('da-DK', 'FormValidator', {
 	dateSuchAs: 'Skriv en gyldig dato som {date}',
 	dateInFormatMDY: 'Skriv dato i formatet DD-MM-YYYY (f.eks. "31-12-1999")',
 	email: 'Skriv en gyldig e-mail adresse. F.eks "fred@domain.com".',
-	url: 'Skriv en gyldig URL adresse. F.eks "http://www.google.com".',
+	url: 'Skriv en gyldig URL adresse. F.eks "http://www.example.com".',
 	currencyDollar: 'Skriv et gldigt beløb. F.eks Kr.100.00 .',
 	oneRequired: 'Et eller flere af felterne i denne formular skal udfyldes.',
 	errorPrefix: 'Fejl: ',
@@ -10015,6 +10634,7 @@ Locale.define('de-DE', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'vormittags',
 	PM: 'nachmittags',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '.',
@@ -10107,7 +10727,7 @@ Locale.define('de-CH', 'FormValidator', {
 	dateSuchAs: 'Geben Sie bitte ein g&uuml;ltiges Datum ein. Wie zum Beispiel {date}',
 	dateInFormatMDY: 'Geben Sie bitte ein g&uuml;ltiges Datum ein. Wie zum Beispiel TT.MM.JJJJ (z.B. &quot;31.12.1999&quot;)',
 	email: 'Geben Sie bitte eine g&uuml;ltige E-Mail Adresse ein. Wie zum Beispiel &quot;maria@bernasconi.ch&quot;.',
-	url: 'Geben Sie bitte eine g&uuml;ltige URL ein. Wie zum Beispiel http://www.google.ch.',
+	url: 'Geben Sie bitte eine g&uuml;ltige URL ein. Wie zum Beispiel http://www.example.com.',
 	currencyDollar: 'Geben Sie bitte einen g&uuml;ltigen Betrag in Schweizer Franken ein. Wie zum Beispiel 100.00 CHF .',
 	oneRequired: 'Machen Sie f&uuml;r mindestens eines der Eingabefelder einen Eintrag.',
 	errorPrefix: 'Fehler: ',
@@ -10155,37 +10775,37 @@ provides: [Locale.de-DE.Form.Validator]
 
 Locale.define('de-DE', 'FormValidator', {
 
-	required: 'Dieses Eingabefeld muss ausgef&uuml;llt werden.',
+	required: 'Dieses Eingabefeld muss ausgefüllt werden.',
 	minLength: 'Geben Sie bitte mindestens {minLength} Zeichen ein (Sie haben nur {length} Zeichen eingegeben).',
 	maxLength: 'Geben Sie bitte nicht mehr als {maxLength} Zeichen ein (Sie haben {length} Zeichen eingegeben).',
-	integer: 'Geben Sie in diesem Eingabefeld bitte eine ganze Zahl ein. Dezimalzahlen (z.B. &quot;1.25&quot;) sind nicht erlaubt.',
-	numeric: 'Geben Sie in diesem Eingabefeld bitte nur Zahlenwerte (z.B. &quot;1&quot;, &quot;1.1&quot;, &quot;-1&quot; oder &quot;-1.1&quot;) ein.',
+	integer: 'Geben Sie in diesem Eingabefeld bitte eine ganze Zahl ein. Dezimalzahlen (z.B. "1.25") sind nicht erlaubt.',
+	numeric: 'Geben Sie in diesem Eingabefeld bitte nur Zahlenwerte (z.B. "1", "1.1", "-1" oder "-1.1") ein.',
 	digits: 'Geben Sie in diesem Eingabefeld bitte nur Zahlen und Satzzeichen ein (z.B. eine Telefonnummer mit Bindestrichen und Punkten ist erlaubt).',
 	alpha: 'Geben Sie in diesem Eingabefeld bitte nur Buchstaben (a-z) ein. Leerzeichen und andere Zeichen sind nicht erlaubt.',
 	alphanum: 'Geben Sie in diesem Eingabefeld bitte nur Buchstaben (a-z) und Zahlen (0-9) ein. Leerzeichen oder andere Zeichen sind nicht erlaubt.',
-	dateSuchAs: 'Geben Sie bitte ein g&uuml;ltiges Datum ein (z.B. &quot;{date}&quot;).',
-	dateInFormatMDY: 'Geben Sie bitte ein g&uuml;ltiges Datum im Format TT.MM.JJJJ ein (z.B. &quot;31.12.1999&quot;).',
-	email: 'Geben Sie bitte eine g&uuml;ltige E-Mail-Adresse ein (z.B. &quot;max@mustermann.de&quot;).',
-	url: 'Geben Sie bitte eine g&uuml;ltige URL ein (z.B. &quot;http://www.google.de&quot;).',
-	currencyDollar: 'Geben Sie bitte einen g&uuml;ltigen Betrag in EURO ein (z.B. 100.00&#8364;).',
-	oneRequired: 'Bitte f&uuml;llen Sie mindestens ein Eingabefeld aus.',
+	dateSuchAs: 'Geben Sie bitte ein gültiges Datum ein (z.B. "{date}").',
+	dateInFormatMDY: 'Geben Sie bitte ein gültiges Datum im Format TT.MM.JJJJ ein (z.B. "31.12.1999").',
+	email: 'Geben Sie bitte eine gültige E-Mail-Adresse ein (z.B. "max@mustermann.de").',
+	url: 'Geben Sie bitte eine gültige URL ein (z.B. "http://www.example.com").',
+	currencyDollar: 'Geben Sie bitte einen gültigen Betrag in EURO ein (z.B. 100.00€).',
+	oneRequired: 'Bitte füllen Sie mindestens ein Eingabefeld aus.',
 	errorPrefix: 'Fehler: ',
 	warningPrefix: 'Warnung: ',
 
 	// Form.Validator.Extras
 	noSpace: 'Es darf kein Leerzeichen in diesem Eingabefeld sein.',
-	reqChkByNode: 'Es wurden keine Elemente gew&auml;hlt.',
-	requiredChk: 'Dieses Feld muss ausgef&uuml;llt werden.',
-	reqChkByName: 'Bitte w&auml;hlen Sie ein {label}.',
-	match: 'Dieses Eingabefeld muss mit dem {matchName} Eingabefeld &uuml;bereinstimmen.',
+	reqChkByNode: 'Es wurden keine Elemente gewählt.',
+	requiredChk: 'Dieses Feld muss ausgefüllt werden.',
+	reqChkByName: 'Bitte wählen Sie ein {label}.',
+	match: 'Dieses Eingabefeld muss mit dem {matchName} Eingabefeld übereinstimmen.',
 	startDate: 'Das Anfangsdatum',
 	endDate: 'Das Enddatum',
 	currendDate: 'Das aktuelle Datum',
-	afterDate: 'Das Datum sollte zur gleichen Zeit oder sp&auml;ter sein als {label}.',
-	beforeDate: 'Das Datum sollte zur gleichen Zeit oder fr&uuml;her sein als {label}.',
-	startMonth: 'W&auml;hlen Sie bitte einen Anfangsmonat',
-	sameMonth: 'Diese zwei Datumsangaben m&uuml;ssen im selben Monat sein - Sie m&uuml;ssen eines von beiden ver&auml;ndern.',
-	creditcard: 'Die eingegebene Kreditkartennummer ist ung&uuml;ltig. Bitte &uuml;berpr&uuml;fen Sie diese und versuchen Sie es erneut. {length} Zahlen eingegeben.'
+	afterDate: 'Das Datum sollte zur gleichen Zeit oder später sein als {label}.',
+	beforeDate: 'Das Datum sollte zur gleichen Zeit oder früher sein als {label}.',
+	startMonth: 'Wählen Sie bitte einen Anfangsmonat',
+	sameMonth: 'Diese zwei Datumsangaben müssen im selben Monat sein - Sie müssen eines von beiden verändern.',
+	creditcard: 'Die eingegebene Kreditkartennummer ist ungültig. Bitte überprüfen Sie diese und versuchen Sie es erneut. {length} Zahlen eingegeben.'
 
 });
 
@@ -10310,6 +10930,7 @@ Locale.define('es-ES', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -10403,7 +11024,7 @@ Locale.define('es-AR', 'FormValidator', {
 	dateSuchAs: 'Por favor ingrese una fecha válida como {date}',
 	dateInFormatMDY: 'Por favor ingrese una fecha válida, utulizando el formato DD/MM/YYYY (p.e. "31/12/1999")',
 	email: 'Por favor, ingrese una dirección de e-mail válida. Por ejemplo, "fred@dominio.com".',
-	url: 'Por favor ingrese una URL válida como http://www.google.com.',
+	url: 'Por favor ingrese una URL válida como http://www.example.com.',
 	currencyDollar: 'Por favor ingrese una cantidad válida de pesos. Por ejemplo $100,00 .',
 	oneRequired: 'Por favor ingrese algo para por lo menos una de estas entradas.',
 	errorPrefix: 'Error: ',
@@ -10459,7 +11080,7 @@ Locale.define('es-ES', 'FormValidator', {
 	dateSuchAs: 'Por favor introduce una fecha v&aacute;lida como {date}',
 	dateInFormatMDY: 'Por favor introduce una fecha v&aacute;lida como DD/MM/YYYY (p.e. "31/12/1999")',
 	email: 'Por favor, introduce una direcci&oacute;n de email v&aacute;lida. Por ejemplo, "fred@domain.com".',
-	url: 'Por favor introduce una URL v&aacute;lida como http://www.google.com.',
+	url: 'Por favor introduce una URL v&aacute;lida como http://www.example.com.',
 	currencyDollar: 'Por favor introduce una cantidad v&aacute;lida de €. Por ejemplo €100,00 .',
 	oneRequired: 'Por favor introduce algo para por lo menos una de estas entradas.',
 	errorPrefix: 'Error: ',
@@ -10515,6 +11136,7 @@ Locale.define('et-EE', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -10583,7 +11205,7 @@ Locale.define('et-EE', 'FormValidator', {
 	dateSuchAs: 'Palun sisestage kehtiv kuupäev kujul {date}',
 	dateInFormatMDY: 'Palun sisestage kehtiv kuupäev kujul MM.DD.YYYY (näiteks: "12.31.1999").',
 	email: 'Palun sisestage kehtiv e-maili aadress (näiteks: "fred@domain.com").',
-	url: 'Palun sisestage kehtiv URL (näiteks: http://www.google.com).',
+	url: 'Palun sisestage kehtiv URL (näiteks: http://www.example.com).',
 	currencyDollar: 'Palun sisestage kehtiv $ summa (näiteks: $100.00).',
 	oneRequired: 'Palun sisestage midagi vähemalt ühele antud väljadest.',
 	errorPrefix: 'Viga: ',
@@ -10707,7 +11329,7 @@ Locale.define('fa', 'FormValidator', {
 	dateSuchAs: 'لطفا یک تاریخ معتبر مانند {date} وارد کنید.',
 	dateInFormatMDY: 'لطفا یک تاریخ معتبر به شکل MM/DD/YYYY وارد کنید (مانند "12/31/1999").',
 	email: 'لطفا یک آدرس ایمیل معتبر وارد کنید. برای مثال "fred@domain.com".',
-	url: 'لطفا یک URL معتبر مانند http://www.google.com وارد کنید.',
+	url: 'لطفا یک URL معتبر مانند http://www.example.com وارد کنید.',
 	currencyDollar: 'لطفا یک محدوده معتبر برای این بخش وارد کنید مانند 100.00$ .',
 	oneRequired: 'لطفا حداقل یکی از فیلدها را پر کنید.',
 	errorPrefix: 'خطا: ',
@@ -10769,6 +11391,7 @@ Locale.define('fi-FI', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '.',
@@ -10837,7 +11460,7 @@ Locale.define('fi-FI', 'FormValidator', {
 	dateSuchAs: 'Ole hyvä ja anna kelvollinen päivmäärä, kuten esimerkiksi {date}',
 	dateInFormatMDY: 'Ole hyvä ja anna kelvollinen päivämäärä muodossa pp/kk/vvvv (kuten "12/31/1999")',
 	email: 'Ole hyvä ja anna kelvollinen sähköpostiosoite (kuten esimerkiksi "matti@meikalainen.com").',
-	url: 'Ole hyvä ja anna kelvollinen URL, kuten esimerkiksi http://www.google.fi.',
+	url: 'Ole hyvä ja anna kelvollinen URL, kuten esimerkiksi http://www.example.com.',
 	currencyDollar: 'Ole hyvä ja anna kelvollinen eurosumma (kuten esimerkiksi 100,00 EUR) .',
 	oneRequired: 'Ole hyvä ja syötä jotakin ainakin johonkin näistä kentistä.',
 	errorPrefix: 'Virhe: ',
@@ -10923,6 +11546,7 @@ Locale.define('fr-FR', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: function(dayOfMonth){
@@ -10994,7 +11618,7 @@ Locale.define('fr-FR', 'FormValidator', {
 	dateSuchAs: 'Veuillez saisir une date correcte comme {date}',
 	dateInFormatMDY: 'Veuillez saisir une date correcte, au format JJ/MM/AAAA (ex : "31/11/1999").',
 	email: 'Veuillez saisir une adresse de courrier &eacute;lectronique. Par example "fred@domaine.com".',
-	url: 'Veuillez saisir une URL, comme http://www.google.com.',
+	url: 'Veuillez saisir une URL, comme http://www.example.com.',
 	currencyDollar: 'Veuillez saisir une quantit&eacute; correcte. Par example 100,00&euro;.',
 	oneRequired: 'Veuillez s&eacute;lectionner au moins une de ces options.',
 	errorPrefix: 'Erreur : ',
@@ -11080,6 +11704,7 @@ Locale.define('he-IL', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 0,
 
 	// Date.Extras
 	ordinal: '',
@@ -11148,7 +11773,7 @@ Locale.define('he-IL', 'FormValidator', {
 	dateSuchAs: 'נא להזין תאריך חוקי, כמו {date}',
 	dateInFormatMDY: 'נא להזין תאריך חוקי בפורמט MM/DD/YYYY (כמו "12/31/1999")',
 	email: 'נא להזין כתובת אימייל חוקית. לדוגמה: "fred@domain.com".',
-	url: 'נא להזין כתובת אתר חוקית, כמו http://www.google.com.',
+	url: 'נא להזין כתובת אתר חוקית, כמו http://www.example.com.',
 	currencyDollar: 'נא להזין סכום דולרי חוקי. לדוגמה $100.00.',
 	oneRequired: 'נא לבחור לפחות בשדה אחד.',
 	errorPrefix: 'שגיאה: ',
@@ -11237,6 +11862,7 @@ Locale.define('hu-HU', 'Date', {
 	shortTime: '%I:%M',
 	AM: 'de.',
 	PM: 'du.',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '.',
@@ -11305,7 +11931,7 @@ Locale.define('hu-HU', 'FormValidator', {
 	dateSuchAs: 'Valós dátum megadása szükséges (pl. {date}).',
 	dateInFormatMDY: 'Valós dátum megadása szükséges ÉÉÉÉ.HH.NN. formában. (pl. "1999.12.31.")',
 	email: 'Valós e-mail cím megadása szükséges (pl. "fred@domain.hu").',
-	url: 'Valós URL megadása szükséges (pl. http://www.google.com).',
+	url: 'Valós URL megadása szükséges (pl. http://www.example.com).',
 	currencyDollar: 'Valós pénzösszeg megadása szükséges (pl. 100.00 Ft.).',
 	oneRequired: 'Az alábbi mezők legalább egyikének kitöltése kötelező.',
 	errorPrefix: 'Hiba: ',
@@ -11363,6 +11989,7 @@ Locale.define('it-IT', 'Date', {
 	shortTime: '%H.%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: 'º',
@@ -11420,7 +12047,7 @@ Locale.define('it-IT', 'FormValidator', {
 	dateSuchAs: 'Inserire una data valida del tipo {date}',
 	dateInFormatMDY: 'Inserire una data valida nel formato MM/GG/AAAA (es.: "12/31/1999")',
 	email: 'Inserire un indirizzo email valido. Per esempio "nome@dominio.com".',
-	url: 'Inserire un indirizzo valido. Per esempio "http://www.dominio.com".',
+	url: 'Inserire un indirizzo valido. Per esempio "http://www.example.com".',
 	currencyDollar: 'Inserire un importo valido. Per esempio "$100.00".',
 	oneRequired: 'Completare almeno uno dei campi richiesti.',
 	errorPrefix: 'Errore: ',
@@ -11476,6 +12103,7 @@ Locale.define('ja-JP', 'Date', {
 	shortTime: '%H:%M',
 	AM: '午前',
 	PM: '午後',
+	firstDayOfWeek: 0,
 
 	// Date.Extras
 	ordinal: '',
@@ -11634,6 +12262,7 @@ Locale.define('nl-NL', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: 'e',
@@ -11704,7 +12333,7 @@ Locale.define('nl-NL', 'FormValidator', {
 	dateSuchAs: 'Vul een geldige datum in, zoals {date}',
 	dateInFormatMDY: 'Vul een geldige datum, in het formaat MM/DD/YYYY (bijvoorbeeld "12/31/1999")',
 	email: 'Vul een geldig e-mailadres in. Bijvoorbeeld "fred@domein.nl".',
-	url: 'Vul een geldige URL in, zoals http://www.google.nl.',
+	url: 'Vul een geldige URL in, zoals http://www.example.com.',
 	currencyDollar: 'Vul een geldig $ bedrag in. Bijvoorbeeld $100.00 .',
 	oneRequired: 'Vul iets in bij in ieder geval een van deze velden.',
 	warningPrefix: 'Waarschuwing: ',
@@ -11783,6 +12412,7 @@ Locale.define('no-NO', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	lessThanMinuteAgo: 'kortere enn et minutt siden',
 	minuteAgo: 'omtrent et minutt siden',
@@ -11828,7 +12458,7 @@ Locale.define('no-NO', 'FormValidator', {
 	dateSuchAs: 'Vennligst skriv inn en gyldig dato, som {date}',
 	dateInFormatMDY: 'Vennligst skriv inn en gyldig dato, i formatet MM/DD/YYYY (for eksempel "12/31/1999")',
 	email: 'Vennligst skriv inn en gyldig epost-adresse. For eksempel "espen@domene.no".',
-	url: 'Vennligst skriv inn en gyldig URL, for eksempel http://www.google.no.',
+	url: 'Vennligst skriv inn en gyldig URL, for eksempel http://www.example.com.',
 	currencyDollar: 'Vennligst fyll ut et gyldig $ belÃ¸p. For eksempel $100.00 .',
 	oneRequired: 'Vennligst fyll ut noe i minst ett av disse feltene.',
 	errorPrefix: 'Feil: ',
@@ -11870,6 +12500,7 @@ Locale.define('pl-PL', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'nad ranem',
 	PM: 'po południu',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: function(dayOfMonth){
@@ -11928,7 +12559,7 @@ Locale.define('pl-PL', 'FormValidator', {
 	dateSuchAs: 'Prosimy podać prawidłową datę w formacie: {date}',
 	dateInFormatMDY: 'Prosimy podać poprawną date w formacie DD.MM.RRRR (i.e. "12.01.2009")',
 	email: 'Prosimy podać prawidłowy adres e-mail, np. "jan@domena.pl".',
-	url: 'Prosimy podać prawidłowy adres URL, np. http://www.google.pl.',
+	url: 'Prosimy podać prawidłowy adres URL, np. http://www.example.com.',
 	currencyDollar: 'Prosimy podać prawidłową sumę w PLN. Dla przykładu: 100.00 PLN.',
 	oneRequired: 'Prosimy wypełnić chociaż jedno z pól.',
 	errorPrefix: 'Błąd: ',
@@ -11984,6 +12615,7 @@ Locale.define('pt-PT', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: 'º',
@@ -12081,7 +12713,7 @@ Locale.define('pt-BR', 'FormValidator', {
 	dateSuchAs: 'Digite uma data válida, como {date}',
 	dateInFormatMDY: 'Digite uma data válida, como DD/MM/YYYY (por exemplo, "31/12/1999")',
 	email: 'Digite um endereço de email válido. Por exemplo "nome@dominio.com".',
-	url: 'Digite uma URL válida. Exemplo: http://www.google.com.',
+	url: 'Digite uma URL válida. Exemplo: http://www.example.com.',
 	currencyDollar: 'Digite um valor em dinheiro válido. Exemplo: R$100,00 .',
 	oneRequired: 'Digite algo para pelo menos um desses campos.',
 	errorPrefix: 'Erro: ',
@@ -12138,7 +12770,7 @@ Locale.define('pt-PT', 'FormValidator', {
 	dateSuchAs: 'Digite uma data válida, como {date}',
 	dateInFormatMDY: 'Digite uma data válida, como DD/MM/YYYY (p.ex. "31/12/1999")',
 	email: 'Digite um endereço de email válido. Por exemplo "fred@domain.com".',
-	url: 'Digite uma URL válida, como http://www.google.com.',
+	url: 'Digite uma URL válida, como http://www.example.com.',
 	currencyDollar: 'Digite um valor válido $. Por exemplo $ 100,00. ',
 	oneRequired: 'Digite algo para pelo menos um desses insumos.',
 	errorPrefix: 'Erro: ',
@@ -12203,6 +12835,7 @@ Locale.define('ru-RU', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -12279,7 +12912,7 @@ Locale.define('ru-RU', 'FormValidator', {
 	dateSuchAs: 'Пожалуйста, введите корректную дату {date}',
 	dateInFormatMDY: 'Пожалуйста, введите дату в формате ММ/ДД/ГГГГ (например "12/31/1999")',
 	email: 'Пожалуйста, введите корректный емейл-адрес. Для примера "fred@domain.com".',
-	url: 'Пожалуйста, введите правильную ссылку вида http://www.google.com.',
+	url: 'Пожалуйста, введите правильную ссылку вида http://www.example.com.',
 	currencyDollar: 'Пожалуйста, введите сумму в долларах. Например: $100.00 .',
 	oneRequired: 'Пожалуйста, выберите хоть что-нибудь в одном из этих полей.',
 	errorPrefix: 'Ошибка: ',
@@ -12333,6 +12966,7 @@ Locale.define('si-SI', 'Date', {
 	shortTime: '%H.%M',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '.',
@@ -12403,7 +13037,7 @@ Locale.define('si-SI', 'FormValidator', {
 	dateSuchAs: 'Prosim, vnesite pravilen datum kot {date}',
 	dateInFormatMDY: 'Prosim, vnesite pravilen datum kot MM.DD.YYYY (primer "12.31.1999")',
 	email: 'Prosim, vnesite pravilen email naslov. Na primer "fred@domain.com".',
-	url: 'Prosim, vnesite pravilen URL kot http://www.google.com.',
+	url: 'Prosim, vnesite pravilen URL kot http://www.example.com.',
 	currencyDollar: 'Prosim, vnesit epravilno vrednost €. Primer 100,00€ .',
 	oneRequired: 'Prosimo, vnesite nekaj za vsaj eno izmed teh polj.',
 	errorPrefix: 'Napaka: ',
@@ -12460,6 +13094,7 @@ Locale.define('sv-SE', 'Date', {
 	shortTime: '%H:%M',
 	AM: '',
 	PM: '',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -12516,7 +13151,7 @@ Locale.define('sv-SE', 'FormValidator', {
 	dateSuchAs: 'Ange ett giltigt datum som t.ex. {date}',
 	dateInFormatMDY: 'Ange ett giltigt datum som t.ex. YYYY-MM-DD (i.e. "1999-12-31")',
 	email: 'Ange en giltig e-postadress. Till exempel "erik@domain.com".',
-	url: 'Ange en giltig webbadress som http://www.google.com.',
+	url: 'Ange en giltig webbadress som http://www.example.com.',
 	currencyDollar: 'Ange en giltig belopp. Exempelvis 100,00.',
 	oneRequired: 'Vänligen ange minst ett av dessa alternativ.',
 	errorPrefix: 'Fel: ',
@@ -12542,7 +13177,7 @@ Locale.define('sv-SE', 'FormValidator', {
 /*
 ---
 
-name: Locale-uk-UA.Date
+name: Locale.uk-UA.Date
 
 description: Date messages for Ukrainian (utf-8).
 
@@ -12554,7 +13189,7 @@ authors:
 requires:
   - /Locale
 
-provides: [Locale-uk-UA.Date]
+provides: [Locale.uk-UA.Date]
 
 ...
 */
@@ -12585,6 +13220,7 @@ Locale.define('uk-UA', 'Date', {
 	shortTime: '%H:%M',
 	AM: 'до полудня',
 	PM: 'по полудню',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -12655,7 +13291,7 @@ Locale.define('uk-UA', 'FormValidator', {
 	dateSuchAs: 'Введіть коректну дату {date}.',
 	dateInFormatMDY: 'Введіть дату в форматі ММ/ДД/РРРР (наприклад "12/31/2009").',
 	email: 'Введіть коректну адресу електронної пошти (наприклад "name@domain.com").',
-	url: 'Введіть коректне інтернет-посилання (наприклад http://www.google.com).',
+	url: 'Введіть коректне інтернет-посилання (наприклад http://www.example.com).',
 	currencyDollar: 'Введіть суму в доларах (наприклад "$100.00").',
 	oneRequired: 'Заповніть одне з полів.',
 	errorPrefix: 'Помилка: ',
@@ -12702,9 +13338,9 @@ provides: [Locale.zh-CH.Date]
 Locale.define('zh-CHS', 'Date', {
 
 	months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
-	months_abbr: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+	months_abbr: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'],
 	days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
-	days_abbr: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+	days_abbr: ['日', '一', '二', '三', '四', '五', '六'],
 
 	// Culture's date order: YYYY-MM-DD
 	dateOrder: ['year', 'month', 'date'],
@@ -12712,6 +13348,7 @@ Locale.define('zh-CHS', 'Date', {
 	shortTime: '%I:%M%p',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -12750,7 +13387,9 @@ Locale.define('zh-CHS', 'Date', {
 Locale.define('zh-CHT', 'Date', {
 
 	months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+	months_abbr: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十', '十一', '十二'],
 	days: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+	days_abbr: ['日', '一', '二', '三', '四', '五', '六'],
 
 	// Culture's date order: YYYY-MM-DD
 	dateOrder: ['year', 'month', 'date'],
@@ -12758,6 +13397,7 @@ Locale.define('zh-CHT', 'Date', {
 	shortTime: '%I:%M%p',
 	AM: 'AM',
 	PM: 'PM',
+	firstDayOfWeek: 1,
 
 	// Date.Extras
 	ordinal: '',
@@ -12828,7 +13468,7 @@ Locale.define('zh-CHS', 'FormValidator', {
 	dateSuchAs: '请输入合法的日期格式，如：{date}。',
 	dateInFormatMDY: '请输入合法的日期格式，例如：YYYY-MM-DD ("2010-12-31")。',
 	email: '请输入合法的电子信箱地址，例如："fred@domain.com"。',
-	url: '请输入合法的 Url 地址，例如：http://www.google.com。',
+	url: '请输入合法的 Url 地址，例如：http://www.example.com。',
 	currencyDollar: '请输入合法的货币符号，例如：￥100.0',
 	oneRequired: '请至少选择一项。',
 	errorPrefix: '错误：',
@@ -12865,7 +13505,7 @@ Locale.define('zh-CHT', 'FormValidator', {
 	dateSuchAs: '請輸入合法的日期格式，如：{date}。 ',
 	dateInFormatMDY: '請輸入合法的日期格式，例如：YYYY-MM-DD ("2010-12-31")。 ',
 	email: '請輸入合法的電子信箱地址，例如："fred@domain.com"。 ',
-	url: '請輸入合法的Url 地址，例如：http://www.google.com。 ',
+	url: '請輸入合法的Url 地址，例如：http://www.example.com。 ',
 	currencyDollar: '請輸入合法的貨幣符號，例如：￥100.0',
 	oneRequired: '請至少選擇一項。 ',
 	errorPrefix: '錯誤：',
