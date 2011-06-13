@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jun-2011 Mark Dexter
+ # [#26158] Cannot create menu items
+
 12-Jun-2011 Jean-Marie Simonet
  # [#26137] Fix parameter conditions for bluestork css files. Thanks Andrea.
  # [#26146] Bluestork admin error.php not loading css files. Thanks bug squad ;)
