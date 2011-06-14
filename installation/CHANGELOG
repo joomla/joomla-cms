@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#26153] Modals inaccessible because JFile isn't loaded. Thanks Rouven
  # [#26136] Add back borders in editor for codemirror. Thanks Andrea.
  $ [#26101] pagebreak or page break. Thanks Bill.
+ # [#26160] com_content archive view does not display the parent category. Thanks Christophe.
  
 13-Jun-2011 Mark Dexter
  # [#26158] Cannot create menu items
