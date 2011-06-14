@@ -11,6 +11,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+
 // Get additional language strings prefixed with TPL_HATHOR
 $lang = JFactory::getLanguage();
 $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)

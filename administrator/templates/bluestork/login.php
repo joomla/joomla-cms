@@ -10,6 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
 

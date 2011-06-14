@@ -11,6 +11,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+
 $app = JFactory::getApplication();
 JHtml::_('behavior.noframes');
 $lang = JFactory::getLanguage();

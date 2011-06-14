@@ -10,6 +10,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
+
 $doc = JFactory::getDocument();
 
 $doc->addStyleSheet('templates/system/css/system.css');

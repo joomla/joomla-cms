@@ -10,6 +10,9 @@
 
 // no direct access
 defined('_JEXEC') or die;
+
+jimport('joomla.filesystem.file');
+
 $app	= JFactory::getApplication();
 $lang = JFactory::getLanguage();
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
