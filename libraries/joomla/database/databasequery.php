@@ -353,6 +353,19 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Magic function to get protected variable value
+	 *
+	 * @param   String
+	 * @return  mixed
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		return isset($this->$name) ? $this->$name : null;
+        }
+	
+	/**
 	 * Casts a value to a char.
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
