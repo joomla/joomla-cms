@@ -333,3 +333,8 @@ body.contentpane,
 .manager {
 	background: #000;
 }
+
+/* -- Codemirror Editor  ----------- */
+div.editor-border, div.CodeMirror-wrapping {
+	background-color: #ffffff;
+}

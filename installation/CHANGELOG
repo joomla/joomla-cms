@@ -30,6 +30,7 @@ $ -> Language fix or change
 13-Jun-2011 Jean-Marie Simonet
  $ Added missing lang strings
  # [#26153] Modals inaccessible because JFile isn't loaded. Thanks Rouven
+ # [#26136] Add back borders in editor for codemirror. Thanks Andrea.
  
 13-Jun-2011 Mark Dexter
  # [#26158] Cannot create menu items

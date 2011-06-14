@@ -3198,3 +3198,8 @@ div#element-box div.section-box {
 div#element-box.login  {
 	background-color: #ffffff;
 }
+
+/* -- Codemirror Editor  ----------- */
+div.CodeMirror-wrapping {
+	border: 1px solid #cccccc;
+}

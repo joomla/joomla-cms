@@ -2250,3 +2250,9 @@ table.adminlist tbody tr:hover td.check-d {
 input:-webkit-autofill {
 	background-color: #163365 !important;
 }
+
+/* -- Codemirror Editor  ----------- */
+div.editor-border, div.CodeMirror-wrapping {
+	border: 1px solid #163365;
+	background-color: #ffffff;
+}

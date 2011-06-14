@@ -2133,3 +2133,8 @@ table.adminlist tbody td.check-d {
 	border-bottom: 1px solid #fff;
 	color: #000;
 }
+
+/* -- Codemirror Editor  ----------- */
+div.CodeMirror-wrapping {
+	border: 1px solid #000000;
+}
