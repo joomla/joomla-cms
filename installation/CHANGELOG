@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ Added missing lang strings
  # [#26153] Modals inaccessible because JFile isn't loaded. Thanks Rouven
  # [#26136] Add back borders in editor for codemirror. Thanks Andrea.
+ $ [#26101] pagebreak or page break. Thanks Bill.
  
 13-Jun-2011 Mark Dexter
  # [#26158] Cannot create menu items
