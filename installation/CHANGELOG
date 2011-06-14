@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jun-2011 Jean-Marie Simonet
+ $ Added missing lang strings
+ 
 13-Jun-2011 Mark Dexter
  # [#26158] Cannot create menu items
 
