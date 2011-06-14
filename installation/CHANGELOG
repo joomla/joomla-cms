@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Jun-2011 Christophe Demko
+ # [#26070] The com_categories component is looking in the 3rd party component directory for a category.xml file
+
 13-Jun-2011 Jean-Marie Simonet
  $ Added missing lang strings
  # [#26153] Modals inaccessible because JFile isn't loaded. Thanks Rouven

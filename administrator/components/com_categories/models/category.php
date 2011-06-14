@@ -265,7 +265,14 @@ class CategoriesModelCategory extends JModelAdmin
 		// Get the component form if it exists
 		jimport('joomla.filesystem.path');
 		$name = 'category'.($section ? ('.'.$section):'');
-		$path = JPath::clean(JPATH_ADMINISTRATOR."/components/$component/$name.xml");
+
+		// Looking first in the component models/forms folder
+		$path = JPath::clean(JPATH_ADMINISTRATOR."/components/$component/models/forms/$name.xml");
+
+		// Old way: looking in the component folder
+		if (!file_exists($path)) {
+			$path = JPath::clean(JPATH_ADMINISTRATOR."/components/$component/$name.xml");
+		}
 
 		if (file_exists($path)) {
 			$lang->load($component, JPATH_BASE, null, false, false);
