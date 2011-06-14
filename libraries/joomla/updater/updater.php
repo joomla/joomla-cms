@@ -14,6 +14,8 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.archive');
 jimport('joomla.filesystem.path');
 jimport('joomla.base.adapter');
+jimport('joomla.utilities.arrayhelper');
+jimport('joomla.log.log');
 
 /**
  * Updater Class
@@ -79,7 +81,7 @@ class JUpdater extends JAdapter {
 			{
 				if(array_key_exists('update_sites',$update_result) && count($update_result['update_sites']))
 				{
-					$results = $this->arrayUnique(array_merge($results, $update_result['update_sites']));
+					$results = JArrayHelper::arrayUnique(array_merge($results, $update_result['update_sites']));
 					$result_count = count($results);
 				}
 				if(array_key_exists('updates', $update_result) && count($update_result['updates']))
@@ -139,24 +141,13 @@ class JUpdater extends JAdapter {
 	 * Multidimensional array safe unique test
 	 * Borrowed from PHP.net
 	 * @see http://au2.php.net/manual/en/function.array-unique.php
+	 *
+	 * @deprecated	11.1	Use JArrayHelper::arrayUnique() instead.
 	 */
 	public function arrayUnique($myArray)
 	{
-		if (!is_array($myArray)) {
-			return $myArray;
-		}
-
-		foreach ($myArray as &$myvalue){
-			$myvalue=serialize($myvalue);
-		}
-
-		$myArray=array_unique($myArray);
-
-		foreach ($myArray as &$myvalue){
-			$myvalue=unserialize($myvalue);
-		}
-
-		return $myArray;
+		JLog::add('JUpdater::arrayUnique() is deprecated. See JArrayHelper::arrayUnique().', JLog::WARNING, 'deprecated');
+		return JArrayHelper::arrayUnique($myArray);
 	}
 
 	public function update($id)
