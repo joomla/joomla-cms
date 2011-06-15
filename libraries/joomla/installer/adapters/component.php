@@ -1227,7 +1227,7 @@ class JInstallerComponent extends JAdapterInstance
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->parent->pushStep(array ('type' => 'menu'));
+			$this->parent->pushStep(array ('type' => 'menu', 'id' => $component_id));
 		}
 		// No menu element was specified, Let's make a generic menu item
 		else {
@@ -1253,7 +1253,7 @@ class JInstallerComponent extends JAdapterInstance
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->parent->pushStep(array ('type' => 'menu'));
+			$this->parent->pushStep(array ('type' => 'menu', 'id' => $component_id));
 		}
 
 		$parent_id = $table->id;
@@ -1327,7 +1327,7 @@ class JInstallerComponent extends JAdapterInstance
 			 * Since we have created a menu item, we add it to the installation step stack
 			 * so that if we have to rollback the changes we can undo it.
 			 */
-			$this->parent->pushStep(array ('type' => 'menu'));
+			$this->parent->pushStep(array ('type' => 'menu', 'id' => $component_id));
 		}
 
 		return true;
@@ -1393,9 +1393,9 @@ class JInstallerComponent extends JAdapterInstance
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
-	protected function _rollback_menu()
+	protected function _rollback_menu($step)
 	{
-		return true;
+		return $this->_removeAdminMenus((object)array('extension_id' => $step['id']));
 	}
 
 	/**
