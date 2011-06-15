@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jun-2011 Christophe Demko
+ + [#26073] Make single contact view ready to use dynamic forms
+
 14-Jun-2011 Christophe Demko
  # [#26070] The com_categories component is looking in the 3rd party component directory for a category.xml file
 
