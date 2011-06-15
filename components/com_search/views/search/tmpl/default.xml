@@ -9,7 +9,18 @@
 		</message>
 	</layout>
 
-	<!-- Add fields to the parameters object for the layout. -->
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request">
+
+			<field name="searchword" type="text"
+				description="COM_SEARCH_FIELD_DESC"
+				label="COM_SEARCH_FIELD_LABEL"
+				required="true"
+			/>
+		</fieldset>
+	</fields>
+	<!-- Add fields to the parameters object for the layout. -->	
 	<fields name="params">
 
 		<!-- Basic options. -->
@@ -34,6 +45,34 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+			
+			<field name="spacer1" type="spacer" class="text"
+			label="COM_SEARCH_SAVED_SEARCH_OPTIONS"
+			/>
+			
+			<!-- Add fields to define saved search. -->
+
+			<field name="searchphrase" type="radio"
+				default="0"
+				description="COM_SEARCH_FOR_DESC"
+				label="COM_SEARCH_FOR_LABEL"
+			>
+				<option value="0">COM_SEARCH_ALL_WORDS</option>
+				<option value="1">COM_SEARCH_ANY_WORDS</option>
+				<option value="2">COM_SEARCH_EXACT_PHRASE</option>
+			</field>
+			<field name="ordering" type="list"
+				default="0"
+				description="COM_SEARCH_ORDERING_DESC"
+				label="COM_SEARCH_ORDERING_LABEL"
+			>
+				<option value="newest">COM_SEARCH_NEWEST_FIRST</option>
+				<option value="oldest">COM_SEARCH_OLDEST_FIRST</option>
+				<option value="popular">COM_SEARCH_MOST_POPULAR</option>
+				<option value="alpha">COM_SEARCH_ALPHABETICAL</option>
+				<option value="category">JCATEGORY</option>
+			</field>			
+			
 		</fieldset>
 	</fields>
 </metadata>
