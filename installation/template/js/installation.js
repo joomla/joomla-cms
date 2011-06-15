@@ -13,12 +13,14 @@ if (typeof(Install) === 'undefined') {
 
 Install.submitform = function() {
 	var url = baseUrl+'?tmpl=body';
-	var content = document.id('main-content');
 	var form = document.id('adminForm');
 
 	var req = new Request.JSON({
 		method: 'post',
 		url: url,
+		onRequest: function() {
+			Install.spinner.show(true);
+		},
 		onSuccess: function(r) {
 			var lang = $$('html').getProperty('lang')[0];
 			if (r.messages) {
@@ -31,6 +33,7 @@ Install.submitform = function() {
 			}
 		},
 		onFailure: function(xhr) {
+			Install.spinner.hide(true);
 			var r = JSON.decode(xhr.responseText);
 			if (r) {
 				Joomla.replaceTokens(r.token);
@@ -50,6 +53,7 @@ Install.goToPage = function(page) {
 		url: url,
 		onSuccess: function (r) {
 			document.id('rightpad').empty().adopt(r);
+			Install.spinner.hide(true);
 
 			//Re-attach the validator
 			var forms = $$('form.form-validate');
@@ -82,7 +86,10 @@ Install.addToggler = function () {
 	}); 
 };
 
-window.addEvent('domready', Install.addToggler);
+window.addEvent('domready', function() {
+	Install.addToggler;
+	Install.spinner = new Spinner('rightpad');
+});
 
 /**
  * Method to install sample data via AJAX request.

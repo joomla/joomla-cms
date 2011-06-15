@@ -540,3 +540,17 @@ div.inlineError {
 .star {
 	color: #cc0000;
 }
+
+/* Spinner */
+.spinner {
+	position: absolute;
+	opacity: 0.9;
+	z-index: 999;
+	background: #fff;
+}
+
+.spinner-img {
+	background: url('../images/spinner.gif') no-repeat;
+	width: 66px;
+	height: 66px;
+}

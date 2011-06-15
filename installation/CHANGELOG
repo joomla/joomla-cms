@@ -32,6 +32,7 @@ $ -> Language fix or change
  + [#26120] [patch] JToolBar cleanup for Save and Create New and Save as Copy
  + [#26072] Add ability to save a search in a menu item
  + [#21905] Mass Mail - exclude disabled user
+ # [#26162] Add spinner to the installation (Rouven Weßling)
 
 14-Jun-2011 Christophe Demko
  # [#26070] The com_categories component is looking in the 3rd party component directory for a category.xml file
