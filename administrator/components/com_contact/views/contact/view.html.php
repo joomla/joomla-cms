@@ -66,7 +66,7 @@ class ContactViewContact extends JView
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)) {
 				JToolBarHelper::apply('contact.apply', 'JTOOLBAR_APPLY');
 				JToolBarHelper::save('contact.save', 'JTOOLBAR_SAVE');
-				JToolBarHelper::custom('contact.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+				JToolBarHelper::save2new('contact.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 			}
 
 			JToolBarHelper::cancel('contact.cancel', 'JTOOLBAR_CANCEL');
@@ -81,14 +81,14 @@ class ContactViewContact extends JView
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
 					if ($canDo->get('core.create')) {
-						JToolBarHelper::custom('contact.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+						JToolBarHelper::save2new('contact.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 					}
 				}
 			}
 
 			// If checked out, we can still save
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::custom('contact.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+				JToolBarHelper::save2copy('contact.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
 			}
 
 			JToolBarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');

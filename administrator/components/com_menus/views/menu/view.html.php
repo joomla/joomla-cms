@@ -72,7 +72,7 @@ class MenusViewMenu extends JView
 
 		// If the user can create new items, allow them to see Save & New
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('menu.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('menu.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 		if ($isNew) {
 			JToolBarHelper::cancel('menu.cancel', 'JTOOLBAR_CANCEL');

@@ -63,11 +63,11 @@ class UsersViewLevel extends JView
 			JToolBarHelper::save('level.save','JTOOLBAR_SAVE');
 		}
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('level.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('level.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')){
-				JToolBarHelper::custom('level.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+				JToolBarHelper::save2copy('level.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
 			}
 		if (empty($this->item->id)){
 				JToolBarHelper::cancel('level.cancel','JTOOLBAR_CANCEL');

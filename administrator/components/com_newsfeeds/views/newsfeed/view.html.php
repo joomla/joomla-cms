@@ -64,11 +64,11 @@ class NewsfeedsViewNewsfeed extends JView
 			JToolBarHelper::save('newsfeed.save', 'JTOOLBAR_SAVE');
 		}
 		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){
-			JToolBarHelper::custom('newsfeed.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('newsfeed.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('newsfeed.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::save2copy('newsfeed.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
 		}
 
 		if (empty($this->item->id))  {

@@ -70,7 +70,7 @@ class LanguagesViewLanguage extends JView
 
 		// If an existing item, can save to a copy only if we have create rights.
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::custom('language.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('language.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 
 		if ($isNew) {

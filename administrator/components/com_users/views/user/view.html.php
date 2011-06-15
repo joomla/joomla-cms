@@ -67,7 +67,7 @@ class UsersViewUser extends JView
 			JToolBarHelper::save('user.save','JTOOLBAR_SAVE');
 		}
 		if ($canDo->get('core.create')&&$canDo->get('core.manage')) {
-			JToolBarHelper::custom('user.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('user.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 		if (empty($this->item->id))  {
 			JToolBarHelper::cancel('user.cancel','JTOOLBAR_CANCEL');

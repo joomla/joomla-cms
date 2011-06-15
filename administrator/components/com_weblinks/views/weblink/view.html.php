@@ -65,11 +65,11 @@ class WeblinksViewWeblink extends JView
 			JToolBarHelper::save('weblink.save', 'JTOOLBAR_SAVE');
 		}
 		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')))){
-			JToolBarHelper::custom('weblink.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('weblink.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 		// If an existing item, can save to a copy.
 		if (!$isNew && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)) {
-			JToolBarHelper::custom('weblink.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::save2copy('weblink.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
 		}
 		if (empty($this->item->id)) {
 			JToolBarHelper::cancel('weblink.cancel', 'JTOOLBAR_CANCEL');

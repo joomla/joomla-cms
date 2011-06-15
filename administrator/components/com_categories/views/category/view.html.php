@@ -105,7 +105,7 @@ class CategoriesViewCategory extends JView
 		if ($isNew && $canDo->get('core.create')) {
 			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
-			JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('category.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 
 		// If not checked out, can save the item.
@@ -113,13 +113,13 @@ class CategoriesViewCategory extends JView
 			JToolBarHelper::apply('category.apply', 'JTOOLBAR_APPLY');
 			JToolBarHelper::save('category.save', 'JTOOLBAR_SAVE');
 			if ($canDo->get('core.create')) {
-				JToolBarHelper::custom('category.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+				JToolBarHelper::save2new('category.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 			}
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::custom('category.save2copy', 'save-copy.png', 'save-copy_f2.png', 'JTOOLBAR_SAVE_AS_COPY', false);
+			JToolBarHelper::save2copy('category.save2copy', 'JTOOLBAR_SAVE_AS_COPY');
 		}
 
 		if (empty($this->item->id))  {

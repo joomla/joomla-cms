@@ -70,7 +70,7 @@ class RedirectViewLink extends JView
 		// not change the Old URL.
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create')) {
-			JToolBarHelper::custom('link.save2new', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
+			JToolBarHelper::save2new('link.save2new', 'JTOOLBAR_SAVE_AND_NEW');
 		}
 
 		if (empty($this->item->id)) {
