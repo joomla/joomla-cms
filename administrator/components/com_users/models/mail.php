@@ -83,6 +83,7 @@ class UsersModelMail extends JModelAdmin
 		$grp		= array_key_exists('group',$data) ? intval($data['group']) : 0;
 		$recurse	= array_key_exists('recurse',$data) ? intval($data['recurse']) : 0;
 		$bcc		= array_key_exists('bcc',$data) ? intval($data['bcc']) : 0;
+		$disabled	= array_key_exists('disabled',$data) ? intval($data['disabled']) : 0;
 		$message_body = array_key_exists('message',$data) ? $data['message'] : '';
 
 		// automatically removes html formatting
@@ -111,6 +112,10 @@ class UsersModelMail extends JModelAdmin
 			} else {
 				$query->where('id IN (' . implode(',', $to) . ')');
 			}
+		}
+
+		if($disabled == 0){
+			$query->where("block = 0");
 		}
 
 		$db->setQuery($query);
