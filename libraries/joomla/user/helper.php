@@ -108,10 +108,11 @@ abstract class JUserHelper
 		$user = JUser::getInstance((int) $userId);
 
 		// Remove the user from the group if necessary.
-		if (in_array($groupId, $user->groups))
+        $key = array_search($groupId, $user->groups);
+		if ($key !== false)
 		{
 			// Remove the user from the group.
-			unset($user->groups[$groupId]);
+			unset($user->groups[$key]);
 
 			// Store the user object.
 			if (!$user->save()) {
