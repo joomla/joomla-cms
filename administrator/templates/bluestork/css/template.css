@@ -523,6 +523,7 @@ div.toolbar-list a:active {
 	color: #0B55C4;
 }
 
+
 /* -- MASSMAIL STYLES ----------------------------- */
 
 td#mm_pane {
@@ -676,6 +677,10 @@ div.current span.faux-label {
 
 div.current fieldset {
 	border: none 0;
+}
+
+div.current fieldset.adminform { 	 
+	border: 1px #ccc solid;
 }
 
 div.current fieldset.radio {
