@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jun-2011 Mark Dexter
+ # [#26124] Namespace the checkAll() function
+
 17-Jun-2011 Christophe Demko
  # [#24887] Incorrect redirection after saving an admin module (Rune Sjøen)
  # [#26164] More Hathor/Bluestork/Installation sync and cleanup (Rouven Weßling)

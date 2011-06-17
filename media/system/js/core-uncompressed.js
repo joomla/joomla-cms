@@ -92,6 +92,39 @@ Joomla.isEmail = function(text) {
 };
 
 /**
+ * USED IN: all list forms.
+ *
+ * Toggles the check state of a group of boxes
+ *
+ * Checkboxes must have an id attribute in the form cb0, cb1...
+ *
+ * @param	mixed	The number of box to 'check', for a checkbox element
+ * @param	string	An alternative field name
+ */
+Joomla.checkAll = function(checkbox, stub) {
+	if (!stub) {
+		stub = 'cb';
+	}
+	if (checkbox.form) {
+		var c = 0;
+		for (var i = 0, n = checkbox.form.elements.length; i < n; i++) {
+			var e = checkbox.form.elements[i];
+			if (e.type == checkbox.type) {
+				if ((stub && e.id.indexOf(stub) == 0) || !stub) {
+					e.checked = checkbox.checked;
+					c += (e.checked == true ? 1 : 0);
+				}
+			}
+		}
+		if (checkbox.form.boxchecked) {
+			checkbox.form.boxchecked.value = c;
+		}
+		return true;
+	}
+	return false;
+}
+
+/**
  * Render messages send via JSON
  *
  * @param	object
@@ -270,6 +303,8 @@ function getSelectedValue(frmName, srcListName) {
  *
  * @param	mixed	The number of box to 'check', for a checkbox element
  * @param	string	An alternative field name
+ *
+ * @deprecated	11.1 This function will be removed in a future version. Use Joomla.checkAll() instead.
  */
 function checkAll(checkbox, stub) {
 	if (!stub) {
@@ -369,6 +404,8 @@ function isChecked(isitchecked) {
 
 /**
  * Default function. Usually would be overriden by the component
+ *
+ * @deprecated	11.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
 	submitform(pressbutton);
@@ -376,6 +413,8 @@ function submitbutton(pressbutton) {
 
 /**
  * Submit the admin form
+ *
+ * @deprecated	11.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
 	if (pressbutton) {
