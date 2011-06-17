@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#24887] Incorrect redirection after saving an admin module (Rune Sjøen)
  # [#26164] More Hathor/Bluestork/Installation sync and cleanup (Rouven Weßling)
  # [#26159] Multiselect failing depending on selection (Rouven Weßling)
+ # [#25703] com_contact - Line is missing in default_form.php
 
 16-Jun-2011 Christophe Demko
  ^ Commit #21329 breaks commit #21093 ([#25571] admin templates does not add a border on fielset when using tabs)

@@ -58,6 +58,7 @@ JHtml::_('behavior.tooltip');
 					<input type="hidden" name="option" value="com_contact" />
 					<input type="hidden" name="task" value="contact.submit" />
 					<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
+					<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>" />
 					<?php echo JHtml::_( 'form.token' ); ?>
 				</dd>
 			</dl>

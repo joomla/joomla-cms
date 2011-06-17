@@ -27,7 +27,8 @@ class ContactControllerContact extends JControllerForm
 		$app	= JFactory::getApplication();
 		$model	= $this->getModel('contact');
 		$params = JComponentHelper::getParams('com_contact');
-		$id		= JRequest::getInt('id');
+		$stub	= JRequest::getString('id');
+		$id		= (int)$stub;
 
 		// Get the data from POST
 		$data = JRequest::getVar('jform', array(), 'post', 'array');
@@ -46,7 +47,7 @@ class ContactControllerContact extends JControllerForm
 				$app->setUserState('com_contact.contact.data', $data);
 
 				// Redirect back to the contact form.
-				$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false));
+				$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$stub, false));
 				return false;
 			}
 		}
@@ -80,7 +81,7 @@ class ContactControllerContact extends JControllerForm
 			$app->setUserState('com_contact.contact.data', $data);
 
 			// Redirect back to the contact form.
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$stub, false));
 			return false;
 		}
 
@@ -114,7 +115,7 @@ class ContactControllerContact extends JControllerForm
 		if ($contact->params->get('redirect')) {
 			$this->setRedirect($contact->params->get('redirect'), $msg);
 		} else {
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$id, false), $msg);
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$stub, false), $msg);
 		}
 
 		return true;
@@ -125,9 +126,9 @@ class ContactControllerContact extends JControllerForm
 			$app		= JFactory::getApplication();
 			$params 	= JComponentHelper::getParams('com_contact');
 			if ($contact->email_to == '' && $contact->user_id != 0) {
-			$contact_user = JUser::getInstance($contact->user_id);
-			$contact->email_to = $contact_user->get('email');
-		}
+				$contact_user = JUser::getInstance($contact->user_id);
+				$contact->email_to = $contact_user->get('email');
+			}
 			$mailfrom	= $app->getCfg('mailfrom');
 			$fromname	= $app->getCfg('fromname');
 			$sitename	= $app->getCfg('sitename');
