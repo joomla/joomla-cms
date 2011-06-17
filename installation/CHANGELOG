@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 16-Jun-2011 Christophe Demko
  ^ Commit #21329 breaks commit #21093 ([#25571] admin templates does not add a border on fielset when using tabs)
+ # [#24887] Incorrect redirection after saving an admin module (Rune Sjøen)
 
 16-Jun-2011 Jean-Marie Simonet
  $ Alpha Ordering ini strings in com_search ini and com_users.ini. Updating xx-XX
