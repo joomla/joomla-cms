@@ -64,12 +64,8 @@ JHtml::_('behavior.formvalidation');
 				<?php echo $this->form->getInput('type'); ?></li>
 
 				<?php foreach($this->form->getFieldset('image') as $field): ?>
-					<li>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-					</li>
+					<li><?php echo $field->label; ?>
+						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
 
 				<li><div id="custom">
@@ -106,12 +102,8 @@ JHtml::_('behavior.formvalidation');
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('publish') as $field): ?>
-				<li>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-				</li>
+				<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>
@@ -121,12 +113,8 @@ JHtml::_('behavior.formvalidation');
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 			<ul class="adminformlist">
 				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-					<?php if ($field->hidden): ?>
-						<li><?php echo $field->input; ?></li>
-					<?php else : ?>
-						<li><?php echo $field->label; ?>
+					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
-					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
 		</fieldset>

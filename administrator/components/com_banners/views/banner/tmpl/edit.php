@@ -66,9 +66,7 @@ JHtml::_('behavior.formvalidation');
 				<li>
 				<div id="image">
 					<?php foreach($this->form->getFieldset('image') as $field): ?>
-						<?php if (!$field->hidden): ?>
-							<?php echo $field->label; ?>
-						<?php endif; ?>
+						<?php echo $field->label; ?>
 						<?php echo $field->input; ?>
 					<?php endforeach; ?>
 				</div>
@@ -107,12 +105,8 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 		<ul class="adminformlist">
 			<?php foreach($this->form->getFieldset('publish') as $field): ?>
-				<li>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
-					<?php endif; ?>
-					<?php echo $field->input; ?>
-				</li>
+				<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>
@@ -121,10 +115,8 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 			<ul class="adminformlist">
 				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-					<?php if (!$field->hidden): ?>
-						<li><?php echo $field->label; ?></li>
-					<?php endif; ?>
-					<li><?php echo $field->input; ?></li>
+					<li><?php echo $field->label; ?>
+						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
 			</ul>
 		</fieldset>

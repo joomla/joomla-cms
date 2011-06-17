@@ -55,10 +55,8 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 		<div id="content-box">
 			<div id="content-pad">
 				<div id="stepbar">
-					<div class="m">
-						<?php echo JHtml::_('installation.stepbar'); ?>
-						<div class="box"></div>
-					</div>
+					<?php echo JHtml::_('installation.stepbar'); ?>
+					<div class="box"></div>
 				</div>
 				<div id="warning">
 					<noscript>

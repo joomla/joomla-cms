@@ -13,7 +13,6 @@ $app	= JFactory::getApplication();
 $style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 ?>
 <div id="submenu-box">
-<div class="m">
 	<div class="submenu-box">
 		<div class="submenu-pad">
 			<ul id="submenu" class="media">
@@ -26,5 +25,4 @@ $style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 
 		</div>
 	</div>
 	<div class="clr"></div>
-</div>
 </div>

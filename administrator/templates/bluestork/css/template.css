@@ -2559,14 +2559,6 @@ div#config #submenu {
 	padding: 0
 }
 
-div#config div.t,
-div#config div.b {
-	height: 6px;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-}
-
 div#config div.m {
 	border-left: 1px solid #CCC;
 	border-right: 1px solid #CCC;
@@ -3161,15 +3153,7 @@ div#element-box div.section-box div.m {
 	background: #fbfbfb;
 }
 
-div.t, div.b {
-	height: 6px;
-	padding: 0;
-	margin: 0;
-	overflow: hidden;
-	background-color: #f8f8f8;
-}
-
-div.m {
+.submenu-box, div.m {
 	border: 1px solid #ccc;
 	padding: 0 8px;
 	background-color: #f4f4f4;
@@ -3178,7 +3162,7 @@ div.m {
 	border-radius: 10px;
 }
 
-#submenu-box div.m {
+.submenu-box, #submenu-box div.m {
 	padding: 6px 8px;
 }
 

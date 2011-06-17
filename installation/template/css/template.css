@@ -153,6 +153,11 @@ td.item + td {
 	background: url(../images/j_divider.png) 0 100% repeat-x;
 }
 
+#stepbar > * {
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
 .step,
 .step-grey {
 	padding-top: 10px;

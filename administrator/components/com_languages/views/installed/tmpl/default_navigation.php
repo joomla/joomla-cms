@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 $client	= $this->state->get('filter.client_id', 0);
 ?>
 <div id="submenu-box">
-<div class="m">
 	<div class="submenu-box">
 		<div class="submenu-pad">
 			<ul id="submenu" class="languages">
@@ -27,5 +26,4 @@ $client	= $this->state->get('filter.client_id', 0);
 		</div>
 	</div>
 	<div class="clr"></div>
-</div>
 </div>
