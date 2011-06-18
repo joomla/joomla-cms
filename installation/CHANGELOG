@@ -30,6 +30,7 @@ $ -> Language fix or change
 18-Jun-2011 Jean-Marie Simonet
 # [#26179] Joomla 1.7.0 find updates and proposes 1.6.3. Thanks Christophe
 - [#26103] Empty file administrator/components/com_weblinks/helpers/html/weblink.php. Thanks Mark.
+# [#26188] Update TinyMCE to version 3.4.1. Thanks Rouven.
 
 17-Jun-2011 Mark Dexter
  # [#26124] Namespace the checkAll() function

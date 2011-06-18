@@ -5,9 +5,9 @@
 	var tinymce = {
 		majorVersion : '3',
 
-		minorVersion : '4.3',
+		minorVersion : '4.3.1',
 
-		releaseDate : '2011-06-09',
+		releaseDate : '2011-06-16',
 
 		_init : function() {
 			var t = this, d = document, na = navigator, ua = na.userAgent, i, nl, n, base, p, v;
@@ -27,6 +27,8 @@
 			t.isAir = /adobeair/i.test(ua);
 
 			t.isIDevice = /(iPad|iPhone)/.test(ua);
+			
+			t.isIOS5 = t.isIDevice && ua.match(/AppleWebKit\/(\d*)/)[1]>=534;
 
 			// TinyMCE .NET webcontrol might be setting the values for TinyMCE
 			if (win.tinyMCEPreInit) {
@@ -482,6 +484,7 @@
 	// Describe the different namespaces
 
 	})(window);
+
 
 
 tinymce.create('tinymce.util.Dispatcher', {
@@ -1028,7 +1031,7 @@ tinymce.create('static tinymce.util.XHR', {
 }());
 (function(tinymce) {
 	var namedEntities, baseEntities, reverseEntities,
-		attrsCharsRegExp = /[&\"\u007E-\uD7FF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
+		attrsCharsRegExp = /[&<>\"\u007E-\uD7FF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
 		textCharsRegExp = /[<>&\u007E-\uD7FF]|[\uD800-\uDBFF][\uDC00-\uDFFF]/g,
 		rawCharsRegExp = /[<>&\"\']/g,
 		entityRegExp = /&(#x|#)?([\w]+);/g,
@@ -1223,10 +1226,10 @@ tinymce.html.Styles = function(settings, schema) {
 
 	settings = settings || {};
 
-	encodingItems = '\\" \\\' \\; \\: ; : _'.split(' ');
+	encodingItems = '\\" \\\' \\; \\: ; : \uFEFF'.split(' ');
 	for (i = 0; i < encodingItems.length; i++) {
-		encodingLookup[encodingItems[i]] = '_' + i;
-		encodingLookup['_' + i] = encodingItems[i];
+		encodingLookup[encodingItems[i]] = '\uFEFF' + i;
+		encodingLookup['\uFEFF' + i] = encodingItems[i];
 	}
 
 	function toHex(match, r, g, b) {
@@ -1321,7 +1324,7 @@ tinymce.html.Styles = function(settings, schema) {
 			// It will also decode the \" \' if keep_slashes is set to fale or omitted
 			function decode(str, keep_slashes) {
 				if (isEncoded) {
-					str = str.replace(/_[0-9]/g, function(str) {
+					str = str.replace(/\uFEFF[0-9]/g, function(str) {
 						return encodingLookup[str];
 					});
 				}
@@ -1334,7 +1337,7 @@ tinymce.html.Styles = function(settings, schema) {
 
 			if (css) {
 				// Encode \" \' % and ; and : inside strings so they don't interfere with the style parsing
-				css = css.replace(/\\[\"\';:_]/g, encode).replace(/\"[^\"]+\"|\'[^\']+\'/g, function(str) {
+				css = css.replace(/\\[\"\';:\uFEFF]/g, encode).replace(/\"[^\"]+\"|\'[^\']+\'/g, function(str) {
 					return str.replace(/[;:]/g, encode);
 				});
 
@@ -1401,7 +1404,7 @@ tinymce.html.Styles = function(settings, schema) {
 			var css = '', name, value;
 
 			function serializeStyles(name) {
-				var styleList, i, l, name, value;
+				var styleList, i, l, value;
 
 				styleList = schema.styles[name];
 				if (styleList) {
@@ -1436,7 +1439,7 @@ tinymce.html.Styles = function(settings, schema) {
 };
 
 (function(tinymce) {
-	var transitional = {}, boolAttrMap, blockElementsMap, shortEndedElementsMap, nonEmptyElementsMap,
+	var transitional = {}, boolAttrMap, blockElementsMap, shortEndedElementsMap, nonEmptyElementsMap, customElementsMap = {},
 		whiteSpaceElementsMap, selfClosingElementsMap, makeMap = tinymce.makeMap, each = tinymce.each;
 
 	function split(str, delim) {
@@ -1787,10 +1790,16 @@ tinymce.html.Styles = function(settings, schema) {
 			if (custom_elements) {
 				each(split(custom_elements), function(rule) {
 					var matches = customElementRegExp.exec(rule),
-						cloneName = matches[1] === '~' ? 'span' : 'div',
+						inline = matches[1] === '~',
+						cloneName = inline ? 'span' : 'div',
 						name = matches[2];
 
 					children[name] = children[cloneName];
+					customElementsMap[name] = cloneName;
+
+					// If it's not marked as inline then add it to valid block elements
+					if (!inline)
+						blockElementsMap[name] = {};
 
 					// Add custom elements at span/div positions
 					each(children, function(element, child) {
@@ -1927,6 +1936,10 @@ tinymce.html.Styles = function(settings, schema) {
 				if (element.pattern.test(name))
 					return element;
 			}
+		};
+
+		self.getCustomElements = function() {
+			return customElementsMap;
 		};
 
 		self.addValidElements = addValidElements;
@@ -3291,7 +3304,7 @@ tinymce.html.Writer = function(settings) {
 		},
 
 		DOMUtils : function(d, s) {
-			var t = this, globalStyle;
+			var t = this, globalStyle, name;
 
 			t.doc = d;
 			t.win = window;
@@ -3322,7 +3335,7 @@ tinymce.html.Writer = function(settings) {
 				}
 			}
 
-			if (isIE) {
+			if (isIE && s.schema) {
 				// Add missing HTML 4/5 elements to IE
 				('abbr article aside audio canvas ' +
 				'details figcaption figure footer ' +
@@ -3331,6 +3344,11 @@ tinymce.html.Writer = function(settings) {
 				'time video').replace(/\w+/g, function(name) {
 					d.createElement(name);
 				});
+
+				// Create all custom elements
+				for (name in s.schema.getCustomElements()) {
+					d.createElement(name);
+				}
 			}
 
 			tinymce.addUnload(t.destroy, t);
@@ -9411,8 +9429,7 @@ tinymce.create('tinymce.ui.Separator:tinymce.ui.Control', {
 
 			l = DOM.encode(s.label || '');
 			h = '<a role="button" id="' + this.id + '" href="javascript:;" class="' + cp + ' ' + cp + 'Enabled ' + s['class'] + (l ? ' ' + cp + 'Labeled' : '') +'" onmousedown="return false;" onclick="return false;" aria-labelledby="' + this.id + '_voice" title="' + DOM.encode(s.title) + '">';
-
-			if (s.image)
+			if (s.image && !(this.editor  &&this.editor.forcedHighContrastMode) )
 				h += '<img class="mceIcon" src="' + s.image + '" alt="' + DOM.encode(s.title) + '" />' + l;
 			else
 				h += '<span class="mceIcon ' + s['class'] + '"></span>' + (l ? '<span class="' + cp + 'Label">' + l + '</span>' : '');
@@ -10931,10 +10948,10 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 			if (!t.getElement())
 				return;
 
-			// Is a iPad/iPhone, then skip initialization. We need to sniff here since the
-			// browser says it has contentEditable support but there is no visible caret
-			// We will remove this check ones Apple implements full contentEditable support
-			if (tinymce.isIDevice)
+			// Is a iPad/iPhone and not on iOS5, then skip initialization. We need to sniff 
+			// here since the browser says it has contentEditable support but there is no visible
+			// caret We will remove this check ones Apple implements full contentEditable support
+			if (tinymce.isIDevice && !tinymce.isIOS5)
 				return;
 
 			// Add hidden input for non input elements inside form elements
@@ -12988,7 +13005,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 					value += '{$caret}';
 
 				// Replace the caret marker with a span bookmark element
-				value = value.replace(/\{\$caret\}/, bookmarkHtml)
+				value = value.replace(/\{\$caret\}/, bookmarkHtml);
 
 				// Insert node maker where we will insert the new HTML and get it's parent
 				if (!selection.isCollapsed())
@@ -13047,7 +13064,14 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 					// Get the outer/inner HTML depending on if we are in the root and parser and serialize that
 					value = parentNode == rootNode ? rootNode.innerHTML : dom.getOuterHTML(parentNode);
-					value = serializer.serialize(parser.parse(value.replace(/<span (id="mce_marker"|id=mce_marker).+<\/span>/i, serializer.serialize(fragment))));
+					value = serializer.serialize(
+						parser.parse(
+							// Need to replace by using a function since $ in the contents would otherwise be a problem
+							value.replace(/<span (id="mce_marker"|id=mce_marker).+<\/span>/i, function() {
+								return serializer.serialize(fragment);
+							})
+						)
+					);
 
 					// Set the inner/outer HTML depending on if we are in the root or not
 					if (parentNode == rootNode)
@@ -14227,7 +14251,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 				ed.onMouseDown.add(c.hideMenu, c);
 			} else {
 				cls = t._cls.button || tinymce.ui.Button;
-				c = new cls(id, s);
+				c = new cls(id, s, ed);
 			}
 
 			return t.add(c);
