@@ -349,6 +349,21 @@ abstract class JHtmlBehavior
 
 		return;
 	}
+	
+	/**
+	 * JavaScript behavior to allow shift select in grids
+	 *
+	 * @return  void
+	 * @since   11.1
+	 */
+	public static function multiselect()
+	{
+		// Include MooTools framework
+		self::framework();
+		JHtml::_('script','system/multiselect.js', true, true);
+
+		return;
+	}
 
 	/**
 	 * Add unobtrusive javascript support for the advanced uploader.

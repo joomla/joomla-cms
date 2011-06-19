@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
-JHtml::_('script','system/multiselect.js',false,true);
+JHtml::_('behavior.multiselect');
 
 $client 	= $this->state->get('filter.client_id') ? 'administrator' : 'site';
 $user 		= JFactory::getUser();
