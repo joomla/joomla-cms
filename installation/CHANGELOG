@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jun-2011 Christophe Demko
+ # [#25116] icon as image file instead of document in media manager
+
 18-Jun-2011 Jean-Marie Simonet
 # [#26179] Joomla 1.7.0 find updates and proposes 1.6.3. Thanks Christophe
 - [#26103] Empty file administrator/components/com_weblinks/helpers/html/weblink.php. Thanks Mark.

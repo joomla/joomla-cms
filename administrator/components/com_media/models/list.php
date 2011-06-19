@@ -123,6 +123,7 @@ class MediaModelList extends JModel
 						case 'odg':
 						case 'bmp':
 						case 'jpeg':
+						case 'ico':
 							$info = @getimagesize($tmp->path);
 							$tmp->width		= @$info[0];
 							$tmp->height	= @$info[1];
