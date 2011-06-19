@@ -171,10 +171,7 @@ final class JSite extends JApplication
 					} else {
 						$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
 					}
-					$rights =  $this->getCfg('MetaRights');
-					if ($rights) {
-						$document->setMetaData('rights', $rights);
-					}
+					$document->setMetaData('rights', $this->getCfg('MetaRights'));
 					if ($router->getMode() == JROUTER_MODE_SEF) {
 						$document->setBase(JURI::current());
 					}
