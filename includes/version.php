@@ -61,7 +61,7 @@ final class JVersion
 	 */
 	public function isCompatible($minimum)
 	{
-		return (version_compare(JVERSION, $minimum, 'eq') == 1);
+		return version_compare(JVERSION, $minimum, 'ge');
 	}
 
 	/**

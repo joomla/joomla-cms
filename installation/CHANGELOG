@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#26189] Plugin uninstall uses incorrect sql (Kevin Griffiths & Sam Moffatt)
  # [#24629] mod_menu can create invalid id attribute HTML (Rouven Weßling)
  # [#26192] Use local storage for tabs (Rouven Weßling)
+ # [#26076] Joomla 1.7 alpha (Rune Sjøen, bill richardson)
 
 18-Jun-2011 Jean-Marie Simonet
 # [#26179] Joomla 1.7.0 find updates and proposes 1.6.3. Thanks Christophe
