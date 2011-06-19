@@ -215,11 +215,11 @@ abstract class JModelForm extends JModel
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 * @since	1.1
 	 */
-	function validate($form, $data)
+	function validate($form, $data, $group=null)
 	{
 		// Filter and validate the form data.
 		$data	= $form->filter($data);
-		$return	= $form->validate($data);
+		$return	= $form->validate($data, $group);
 
 		// Check for an error.
 		if (JError::isError($return)) {
