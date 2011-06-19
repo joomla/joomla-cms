@@ -74,11 +74,11 @@ abstract class JHtmlTabs
 			// Include MooTools framework
 			JHtml::_('behavior.framework', true);
 
-			$display = (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
 			$options = '{';
 			$opt['onActive']			= (isset($params['onActive'])) ? $params['onActive'] : null ;
 			$opt['onBackground']		= (isset($params['onBackground'])) ? $params['onBackground'] : null ;
-			$opt['display']				= (isset($params['useCookie']) && $params['useCookie']) ? JRequest::getInt('jpanetabs_' . $group, $display, 'cookie') : $display ;
+			$opt['display']				= (isset($params['startOffset'])) ? (int)$params['startOffset'] : null ;
+			$opt['useStorage']			= (isset($params['useCookie']) && $params['useCookie']) ? 'true' : null ;
 			$opt['titleSelector']		= "'dt.tabs'";
 			$opt['descriptionSelector']	= "'dd.tabs'";
 			foreach ($opt as $k => $v)
@@ -92,7 +92,11 @@ abstract class JHtmlTabs
 			}
 			$options .= '}';
 
-			$js = '	window.addEvent(\'domready\', function(){ $$(\'dl#'.$group.'.tabs\').each(function(tabs){ new JTabs(tabs, '.$options.'); }); });';
+			$js = '	window.addEvent(\'domready\', function(){
+						$$(\'dl#'.$group.'.tabs\').each(function(tabs){
+							new JTabs(tabs, '.$options.');
+						});
+					});';
 
 			$document = JFactory::getDocument();
 			$document->addScriptDeclaration($js);
