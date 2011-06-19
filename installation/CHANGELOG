@@ -40,6 +40,7 @@ $ -> Language fix or change
  ^ [#26079] Turn multiselect into a behavior (Rouven Weßling)
  # [#25981] Missed time offset in RSS/Atom feeds in 1.6.x (Sergey Novikov)
  # [#25701] One item in #__content in sample data checked out (Ramindu Deshapriya)
+ - Removed useless files (commit 21553: [#26164] More Hathor/Bluestork/Installation sync and cleanup)
 
 18-Jun-2011 Jean-Marie Simonet
 # [#26179] Joomla 1.7.0 find updates and proposes 1.6.3. Thanks Christophe
