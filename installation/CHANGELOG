@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#25116] icon as image file instead of document in media manager
  # [#26184] Don't render meta elements without content (Rouven Weßling)
  ^ [#23165] Make index.html's valid (Rouven Weßling)
+ # [#26181] Some minor fixes for the installation (Rouven Weßling)
 
 18-Jun-2011 Jean-Marie Simonet
 # [#26179] Joomla 1.7.0 find updates and proposes 1.6.3. Thanks Christophe

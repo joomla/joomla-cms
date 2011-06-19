@@ -14,12 +14,18 @@ if (typeof(Install) === 'undefined') {
 Install.submitform = function() {
 	var url = baseUrl+'?tmpl=body';
 	var form = document.id('adminForm');
+	
+	if (Install.busy) {
+		return false;
+	}
 
 	var req = new Request.JSON({
 		method: 'post',
 		url: url,
 		onRequest: function() {
 			Install.spinner.show(true);
+			Install.busy = true;
+			Joomla.removeMessages();
 		},
 		onSuccess: function(r) {
 			var lang = $$('html').getProperty('lang')[0];
@@ -34,6 +40,7 @@ Install.submitform = function() {
 		},
 		onFailure: function(xhr) {
 			Install.spinner.hide(true);
+			Install.busy = false;
 			var r = JSON.decode(xhr.responseText);
 			if (r) {
 				Joomla.replaceTokens(r.token);
@@ -54,6 +61,7 @@ Install.goToPage = function(page) {
 		onSuccess: function (r) {
 			document.id('rightpad').empty().adopt(r);
 			Install.spinner.hide(true);
+			Install.busy = false;
 
 			//Re-attach the validator
 			var forms = $$('form.form-validate');
