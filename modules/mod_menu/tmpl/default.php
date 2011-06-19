@@ -22,29 +22,30 @@ defined('_JEXEC') or die;
 ?>>
 <?php
 foreach ($list as $i => &$item) :
-	$class = '';
+	$class = 'item-'.$item->id;
 	if ($item->id == $active_id) {
-		$class .= 'current ';
+		$class .= ' current';
 	}
 
 	if (	$item->type == 'alias' &&
 			in_array($item->params->get('aliasoptions'),$path)
 		||	in_array($item->id, $path)) {
-	  $class .= 'active ';
+		$class .= ' active';
 	}
+
 	if ($item->deeper) {
-		$class .= 'deeper ';
+		$class .= 'deeper';
 	}
 
 	if ($item->parent) {
-		$class .= 'parent ';
+		$class .= ' parent';
 	}
 
 	if (!empty($class)) {
 		$class = ' class="'.trim($class) .'"';
 	}
 
-	echo '<li id="item-'.$item->id.'"'.$class.'>';
+	echo '<li'.$class.'>';
 
 	// Render the menu item.
 	switch ($item->type) :
