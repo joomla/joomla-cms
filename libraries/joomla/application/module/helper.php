@@ -24,24 +24,25 @@ abstract class JModuleHelper
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @param   string  The name of the module
-	 * @param   string  The title of the module, optional
+	 * @param   string  $name   The name of the module
+	 * @param   string  $title  The title of the module, optional
 	 *
 	 * @return  object  The Module object
+	 * 
+	 * @since   11.1
 	 */
 	public static function &getModule($name, $title = null)
 	{
 		$result		= null;
 		$modules	= JModuleHelper::_load();
 		$total		= count($modules);
+		
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the name of the module
-			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
-			{
+			if ($modules[$i]->name == $name || $modules[$i]->module == $name) {
 				// Match the title if we're looking for a specific instance of the module
-				if (!$title || $modules[$i]->title == $title)
-				{
+				if (!$title || $modules[$i]->title == $title) {
 					$result = &$modules[$i];
 					break;	// Found it
 				}
@@ -49,8 +50,7 @@ abstract class JModuleHelper
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null($result) && substr($name, 0, 4) == 'mod_')
-		{
+		if (is_null($result) && substr($name, 0, 4) == 'mod_') {
 			$result				= new stdClass;
 			$result->id			= 0;
 			$result->title		= '';
@@ -69,9 +69,11 @@ abstract class JModuleHelper
 	/**
 	 * Get modules by position
 	 *
-	 * @param   string  $position	The position of the module
+	 * @param   string  $position  The position of the module
 	 *
 	 * @return  array  An array of module objects
+	 * 
+	 * @since   11.1
 	 */
 	public static function &getModules($position)
 	{
@@ -88,10 +90,9 @@ abstract class JModuleHelper
 				$result[] = &$modules[$i];
 			}
 		}
-		if (count($result) == 0)
-		{
-			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
-			{
+		
+		if (count($result) == 0) {
+			if (JRequest::getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display')) {
 				$result[0] = JModuleHelper::getModule('mod_'.$position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
@@ -105,27 +106,36 @@ abstract class JModuleHelper
 	/**
 	 * Checks if a module is enabled
 	 *
-	 * @param   string  The module name
+	 * @param   string  $module  The module name
 	 *
 	 * @return  boolean
+	 * 
+	 * @since   11.1
 	 */
 	public static function isEnabled($module)
 	{
 		$result = JModuleHelper::getModule($module);
-		return (!is_null($result));
+		
+		return !is_null($result);
 	}
 
 	/**
 	 * Render the module.
 	 *
-	 * @param   object  A module object.
-	 * @param   array   An array of attributes for the module (probably from the XML).
+	 * @param   object  $module   A module object.
+	 * @param   array   $attribs  An array of attributes for the module (probably from the XML).
 	 *
 	 * @return  string  The HTML content of the module output.
+	 * 
+	 * @since   11.1
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
+		
+		if (constant('JDEBUG')) {
+			JProfiler::getInstance('Application')->mark('beforeRenderModule '.$module->module.' ('.$module->title.')'); 
+		}
 
 		$option = JRequest::getCmd('option');
 		$app	= JFactory::getApplication();
@@ -145,8 +155,7 @@ abstract class JModuleHelper
 		$path = JPATH_BASE.'/modules/'.$module->module.'/'.$module->module.'.php';
 
 		// Load the module
-		if (!$module->user && file_exists($path))
-		{
+		if (!$module->user && file_exists($path)) {
 			$lang = JFactory::getLanguage();
 			// 1.5 or Core then 1.6 3PD
 				$lang->load($module->module, JPATH_BASE, null, false, false)
@@ -154,14 +163,11 @@ abstract class JModuleHelper
 			||	$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false)
 			||	$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
 
-
-
 			$content = '';
 			ob_start();
 			require $path;
 			$module->content = ob_get_contents().$content;
 			ob_end_clean();
-
 		}
 
 		// Load the module chrome functions
@@ -171,11 +177,12 @@ abstract class JModuleHelper
 
 		require_once JPATH_THEMES.'/system/html/modules.php';
 		$chromePath = JPATH_THEMES.'/'.$app->getTemplate().'/html/modules.php';
-		if (!isset($chrome[$chromePath]))
-		{
+		
+		if (!isset($chrome[$chromePath])) {
 			if (file_exists($chromePath)) {
 				require_once $chromePath;
 			}
+			
 			$chrome[$chromePath] = true;
 		}
 
@@ -194,8 +201,7 @@ abstract class JModuleHelper
 			$chromeMethod = 'modChrome_'.$style;
 
 			// Apply chrome and render module
-			if (function_exists($chromeMethod))
-			{
+			if (function_exists($chromeMethod)) {
 				$module->style = $attribs['style'];
 
 				ob_start();
@@ -207,23 +213,29 @@ abstract class JModuleHelper
 
 		$app->scope = $scope; //revert the scope
 
+		if (constant('JDEBUG')) {
+			JProfiler::getInstance('Application')->mark('afterRenderModule '.$module->module.' ('.$module->title.')'); 
+		}
+		
 		return $module->content;
 	}
 
 	/**
 	 * Get the path to a layout for a module
 	 *
-	 * @param   string  $module	The name of the module
-	 * @param   string  $layout	The name of the module layout. If alternative layout, in the form template:filename.
+	 * @param   string  $module  The name of the module
+	 * @param   string  $layout  The name of the module layout. If alternative layout, in the form template:filename.
+	 * 
 	 * @return  string  The path to the module layout
+	 * 
 	 * @since   11.1
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
 		$template = JFactory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
-		if (strpos($layout, ':') !== false )
-		{
+		
+		if (strpos($layout, ':') !== false ) {
 			// Get the template and file name from the string
 			$temp = explode(':', $layout);
 			$template = ($temp[0] == '_') ? $template : $temp[0];
@@ -245,9 +257,11 @@ abstract class JModuleHelper
 	}
 
 	/**
-	 * Load published modules
+	 * Load published modules.
 	 *
 	 * @return  array
+	 * 
+	 * @since   11.1
 	 */
 	protected static function &_load()
 	{
@@ -298,7 +312,7 @@ abstract class JModuleHelper
 			$modules = $db->loadObjectList();
 			$clean	= array();
 
-			if($db->getErrorNum()){
+			if ($db->getErrorNum()){
 				JError::raiseWarning(500, JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $db->getErrorMsg()));
 				return $clean;
 			}
@@ -315,8 +329,7 @@ abstract class JModuleHelper
 				$negHit	= ($negId === (int) $module->menuid)
 						|| (!$negId && (int)$module->menuid < 0);
 
-				if (isset($dupes[$module->id]))
-				{
+				if (isset($dupes[$module->id])) {
 					// If this item has been excluded, keep the duplicate flag set,
 					// but remove any item from the cleaned array.
 					if ($negHit) {
@@ -324,11 +337,11 @@ abstract class JModuleHelper
 					}
 					continue;
 				}
+				
 				$dupes[$module->id] = true;
 
 				// Only accept modules without explicit exclusions.
-				if (!$negHit)
-				{
+				if (!$negHit) {
 					//determine if this is a custom module
 					$file				= $module->module;
 					$custom				= substr($file, 0, 4) == 'mod_' ?  0 : 1;
@@ -340,7 +353,9 @@ abstract class JModuleHelper
 					$clean[$module->id]	= $module;
 				}
 			}
+			
 			unset($dupes);
+			
 			// Return to simple indexing that matches the query order.
 			$clean = array_values($clean);
 
@@ -362,30 +377,32 @@ abstract class JModuleHelper
 	* 'safeuri'		id created from $cacheparams->modeparams array,
 	* 'id'			module sets own cache id's
 	*
-	* @param   object  $module	Module object
-	* @param   object  $moduleparams module parameters
-	* @param   object  $cacheparams module cache parameters - id or url parameters, depending on the module cache mode
-	* @param   array   $params - parameters for given mode - calculated id or an array of safe url parameters and their
-	* 					variable types, for valid values see {@link JFilterInput::clean()}.
+	* @param   object  $module        Module object
+	* @param   object  $moduleparams  Module parameters
+	* @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	* @param   array   $params        Parameters for given mode - calculated id or an array of safe url parameters and their
+	*                                 variable types, for valid values see {@link JFilterInput::clean()}.
 	*
+	* @return  string
+	* 
 	* @since   11.1
 	*/
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
-		if(!isset ($cacheparams->modeparams)) {
-			$cacheparams->modeparams=null;
+		if (!isset ($cacheparams->modeparams)) {
+			$cacheparams->modeparams = null;
 		}
 
-		if(!isset ($cacheparams->cachegroup)) {
+		if (!isset ($cacheparams->cachegroup)) {
 			$cacheparams->cachegroup = $module->module;
 		}
 
-		$user = JFactory::getUser();
-		$cache = JFactory::getCache($cacheparams->cachegroup, 'callback');
-		$conf = JFactory::getConfig();
+		$user	= JFactory::getUser();
+		$cache	= JFactory::getCache($cacheparams->cachegroup, 'callback');
+		$conf	= JFactory::getConfig();
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if($moduleparams->get('owncache', null) === 0  || $conf->get('caching') == 0 || $user->get('id')) {
+		if ($moduleparams->get('owncache', null) === 0  || $conf->get('caching') == 0 || $user->get('id')) {
 			$cache->setCaching(false);
 		}
 
