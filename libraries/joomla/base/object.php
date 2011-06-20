@@ -168,7 +168,7 @@ class JObject
 	 * @param   string  $property  The name of the property.
 	 * @param   mixed   $value     The value of the property to set.
 	 *
-	 * @return  mixed   Previous value of the property.
+	 * @return  mixed  Previous value of the property.
 	 * @since   11.1
 	 */
 	public function set($property, $value = null)
@@ -208,7 +208,8 @@ class JObject
 	 *
 	 * @param   string  $error  Error message.
 	 *
-	 * @return  array   updated array of errors
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setError($error)
@@ -217,10 +218,10 @@ class JObject
 	}
 
 	/**
+	 * @return  string
 	 *
 	 * @note    Use magic method __toString()
 	 * @see     __toString()
-	 * @return  string
 	 * @since   11.1
 	 * @deprecated
 	 */

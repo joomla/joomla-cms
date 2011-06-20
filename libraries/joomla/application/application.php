@@ -315,8 +315,6 @@ class JApplication extends JObject
 	 * @param   string   $msgType  An optional message type. Defaults to message.
 	 * @param   boolean  $moved    True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
 	 *
-	 * @see       JApplication::enqueueMessage()
-	 *
 	 * @return  void  Calls exit().
 	 *
 	 * @see     JApplication::enqueueMessage()
@@ -399,6 +397,7 @@ class JApplication extends JObject
 	 * @param   string   $type  The message type. Default is message.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function enqueueMessage($msg, $type = 'message')
@@ -413,6 +412,7 @@ class JApplication extends JObject
 				$session->set('application.queue', null);
 			}
 		}
+
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
 	}
@@ -420,7 +420,8 @@ class JApplication extends JObject
 	/**
 	 * Get the system message queue.
 	 *
-	 * @return  ??    The system message queue.
+	 * @return  array  The system message queue.
+	 *
 	 * @since   11.1
 	 */
 	public function getMessageQueue()
@@ -435,6 +436,7 @@ class JApplication extends JObject
 				$session->set('application.queue', null);
 			}
 		}
+
 		return $this->_messageQueue;
 	}
 
@@ -463,6 +465,7 @@ class JApplication extends JObject
 	 * by passing a $config['name'] in the class constructor.
 	 *
 	 * @return  string  The name of the dispatcher.
+	 *
 	 * @since   11.1
 	 */
 	public function getName()
@@ -509,6 +512,7 @@ class JApplication extends JObject
 	 * @param   string  The value of the variable.
 	 *
 	 * @return  mixed   The previous state, if one existed.
+	 *
 	 * @since   11.1
 	 */
 	public function setUserState($key, $value)
@@ -532,6 +536,7 @@ class JApplication extends JObject
 	 * @param   string   $type     Filter for the variable, for valid values see {@link JFilterInput::clean()}. Optional.
 	 *
 	 * @return  The request user state.
+	 *
 	 * @since   11.1
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
@@ -557,6 +562,7 @@ class JApplication extends JObject
 	 * @param   mixed   $handler  The handler, a function or an instance of a event object.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public static function registerEvent($event, $handler)
@@ -572,6 +578,7 @@ class JApplication extends JObject
 	 * @param   array   $args   An array of arguments.
 	 *
 	 * @return  array  An array of results from each function call.
+	 *
 	 * @since   11.1
 	 */
 	function triggerEvent($event, $args=null)
@@ -597,6 +604,7 @@ class JApplication extends JObject
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   11.1
 	 */
 	public function login($credentials, $options = array())
@@ -671,6 +679,7 @@ class JApplication extends JObject
 	 * @param   array    $options  Array('clientid' => array of client id's)
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   11.1
 	 */
 	public function logout($userid = null, $options = array())
@@ -719,6 +728,7 @@ class JApplication extends JObject
 	 * @param   array    $params  An optional associative array of configuration settings
 	 *
 	 * @return  string   System is the fallback.
+	 *
 	 * @since   11.1
 	 */
 	public function getTemplate($params = false)
@@ -733,6 +743,7 @@ class JApplication extends JObject
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JRouter  A JRouter object
+	 *
 	 * @since   11.1
 	 */
 	static public function getRouter($name = null, array $options = array())
@@ -760,6 +771,7 @@ class JApplication extends JObject
 	 * @param   string  $string  String to process
 	 *
 	 * @return  string  Processed string
+	 *
 	 * @since   11.1
 	 */
 	static public function stringURLSafe($string)
@@ -783,6 +795,7 @@ class JApplication extends JObject
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JPathway  A JPathway object
+	 *
 	 * @since   11.1
 	 */
 	public function getPathway($name = null, $options = array())
@@ -808,6 +821,7 @@ class JApplication extends JObject
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
 	 * @return  JMenu  JMenu object.
+	 *
 	 * @since   11.1
 	 */
 	public function getMenu($name = null, $options = array())
@@ -832,6 +846,7 @@ class JApplication extends JObject
 	 * @param   string   $seed  Seed string.
 	 *
 	 * @return  string   A secure hash
+	 *
 	 * @since   11.1
 	 */
 	public static function getHash($seed)
@@ -847,6 +862,7 @@ class JApplication extends JObject
 	 * @param   string  $file  The path to the configuration file
 	 *
 	 * return   object  A JConfig object
+	 *
 	 * @since   11.1
 	 */
 	protected function _createConfiguration($file)
@@ -878,6 +894,7 @@ class JApplication extends JObject
 	 * @param   string  $name  The sessions name.
 	 *
 	 * @return  JSession  JSession on success. May call exit() on database error.
+	 *
 	 * @since   11.1
 	 */
 	protected function _createSession($name)
@@ -938,6 +955,7 @@ class JApplication extends JObject
 	 * If session is new, create session variables
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function checkSession()
@@ -986,6 +1004,7 @@ class JApplication extends JObject
 	 * Gets the client id of the current running application.
 	 *
 	 * @return  integer  A client identifier.
+	 *
 	 * @since   11.1
 	 */
 	public function getClientId()
@@ -997,6 +1016,7 @@ class JApplication extends JObject
 	 * Is admin interface?
 	 *
 	 * @return  boolean  True if this application is administrator.
+	 *
 	 * @since   11.1
 	 */
 	public function isAdmin()
@@ -1008,6 +1028,7 @@ class JApplication extends JObject
 	 * Is site interface?
 	 *
 	 * @return  boolean  True if this application is site.
+	 *
 	 * @since   11.1
 	 */
 	public function isSite()
@@ -1019,6 +1040,7 @@ class JApplication extends JObject
 	 * Method to determine if the host OS is  Windows
 	 *
 	 * @return  boolean  True if Windows OS
+	 *
 	 * @since   11.1
 	 */
 	static function isWinOS()
@@ -1030,6 +1052,7 @@ class JApplication extends JObject
 	 * Returns the response as a string.
 	 *
 	 * @return  string  The response
+	 *
 	 * @since   11.1
 	 */
 	public function __toString()

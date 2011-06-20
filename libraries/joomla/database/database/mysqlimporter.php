@@ -54,6 +54,7 @@ class JDatabaseImporterMySQL
 	 * Sets up the default options for the exporter.
 	 *
 	 * @return  JDatabaseImporterMySQL
+	 *
 	 * @since   11.1
 	 */
 	public function __construct()
@@ -80,6 +81,7 @@ class JDatabaseImporterMySQL
 	 * Set the output option for the exporter to XML format.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function asXml()
@@ -93,6 +95,7 @@ class JDatabaseImporterMySQL
 	 * Checks if all data and options are in order prior to exporting.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 * @throws  Exception if an error is encountered.
 	 */
@@ -117,6 +120,7 @@ class JDatabaseImporterMySQL
 	 * @param   mixed  $from  The data source to import.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function from($from)
@@ -133,6 +137,7 @@ class JDatabaseImporterMySQL
 	 * @param   SimpleXMLElement  $field  The XML field definition.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getAddColumnSQL($table, SimpleXMLElement $field)
@@ -150,6 +155,7 @@ class JDatabaseImporterMySQL
 	 * @param   array   $keys   An array of the fields pertaining to this key.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getAddKeySQL($table, $keys)
@@ -166,6 +172,7 @@ class JDatabaseImporterMySQL
 	 * @param   SimpleXMLElement  $structure
 	 *
 	 * @return  array
+	 *
 	 * @since   11.1
 	 */
 	protected function getAlterTableSQL(SimpleXMLElement $structure)
@@ -308,6 +315,7 @@ class JDatabaseImporterMySQL
 	 * @param   SimpleXMLElement
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
@@ -325,6 +333,7 @@ class JDatabaseImporterMySQL
 	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  array   An arry of the column specification for the table.
+	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
@@ -353,6 +362,7 @@ class JDatabaseImporterMySQL
 	 * @param   SimpleXMLElement  $field  The XML field definition.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getColumnSQL(SimpleXMLElement $field)
@@ -408,6 +418,7 @@ class JDatabaseImporterMySQL
 	 * @param   string  $name   The name of the field to drop.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getDropColumnSQL($table, $name)
@@ -421,10 +432,11 @@ class JDatabaseImporterMySQL
 	/**
 	 * Get the SQL syntax to drop a key.
 	 *
-	 * @param   string     $table  The table name.
-	 * @param   string     $field  The name of the key to drop.
+	 * @param   string  $table  The table name.
+	 * @param   string  $field  The name of the key to drop.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getDropKeySQL($table, $name)
@@ -438,9 +450,10 @@ class JDatabaseImporterMySQL
 	/**
 	 * Get the SQL syntax to drop a key.
 	 *
-	 * @param   string     $table  The table name.
+	 * @param   string  $table  The table name.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getDropPrimaryKeySQL($table)
@@ -457,6 +470,7 @@ class JDatabaseImporterMySQL
 	 * @param   array	$keys  An array of objects that comprise the keys for the table.
 	 *
 	 * @return  array	The lookup array. array({key name} => array(object, ...))
+	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 */
@@ -487,6 +501,7 @@ class JDatabaseImporterMySQL
 	 * @param   array	$columns  An array of SimpleXMLElement objects comprising the key.
 	 *
 	 * @return  string
+	 *
 	 * @since   11.1
 	 */
 	protected function getKeySQL($columns)
@@ -532,6 +547,7 @@ class JDatabaseImporterMySQL
 	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  array  An arry of the column specification for the table.
+	 *
 	 * @since   11.1
 	 * @throws  Exception
 	 * @todo    Move into database connector class.
@@ -557,9 +573,10 @@ class JDatabaseImporterMySQL
 	/**
 	 * Get the real name of the table, converting the prefix wildcard string if present.
 	 *
-	 * @param   string     $table  The name of the table.
+	 * @param   string  $table  The name of the table.
 	 *
 	 * @return  string	The real name of the table.
+	 *
 	 * @since   11.1
 	 */
 	protected function getRealTableName($table)
@@ -577,6 +594,7 @@ class JDatabaseImporterMySQL
 	 * Merges the incoming structure definition with the existing structure.
 	 *
 	 * @return  void
+	 *
 	 * @since   11.1
 	 * @throws  Exception on error.
 	 */
@@ -646,6 +664,7 @@ class JDatabaseImporterMySQL
 	 * @param   JDatabaseMySQL  $db  The database connector.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function setDbo(JDatabaseMySQL $db)
@@ -661,6 +680,7 @@ class JDatabaseImporterMySQL
 	 * @param   boolean  $setting  True to export the structure, false to not.
 	 *
 	 * @return  JDatabaseImporterMySQL  Method supports chaining.
+	 *
 	 * @since   11.1
 	 */
 	public function withStructure($setting = true)

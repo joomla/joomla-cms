@@ -56,11 +56,9 @@ class JModelList extends JModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 * 
 	 * @return  JModelList
-	 * 
-	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{

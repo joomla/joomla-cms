@@ -334,7 +334,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Count the modules based on the given condition
 	 *
-	 * @param   string     $condition	The condition to use
+	 * @param   string  $condition  The condition to use
 	 *
 	 * @return  integer  Number of modules found
 	 */
@@ -466,7 +466,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Parse a document template
 	 *
-	 * @return   The parsed contents of the template
+	 * @return  The parsed contents of the template
 	 */
 	protected function _parseTemplate()
 	{

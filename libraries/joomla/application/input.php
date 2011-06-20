@@ -129,8 +129,8 @@ class JInput
 	/**
 	 * Gets an array of values from the request.
 	 *
-	 * @param   array   $vars        Associative array of keys and filter types to apply.
-	 * @param   mixed      $datasource  Array to retrieve data from, or null
+	 * @param   array  $vars        Associative array of keys and filter types to apply.
+	 * @param   mixed  $datasource  Array to retrieve data from, or null
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
