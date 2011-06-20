@@ -44,7 +44,7 @@ class ContentViewFeatured extends JView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// url link to article
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid), false);
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
 
 			// strip html from feed item description text

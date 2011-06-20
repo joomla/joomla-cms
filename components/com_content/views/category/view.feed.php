@@ -44,8 +44,7 @@ class ContentViewCategory extends JView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// url link to article
-			// & used instead of &amp; as this is converted by feed creator
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid), false);
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
 			// strip html from feed item description text
 			// TODO: Only pull fulltext if necessary (actually, just get the necessary fields).
