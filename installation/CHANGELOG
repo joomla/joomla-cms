@@ -30,9 +30,10 @@ $ -> Language fix or change
 20-Jun-2011 Christophe Demko
  # [#26201] Broken newsfeeds when SEF URLs are off (Nikolai Plath)
  + [#25200] View Access Level not testing in Administrator Models (Amy Stephen)
+ + [#25250] Add support for OpenSearch to com_search (Rouven Weßling)
 
 20-Jun-2011 Andrew Eddie
- + Added feature [#26113] Add PHP and HTML modes to CodeMirror (Rouven We�ling).
+ + Added feature [#26113] Add PHP and HTML modes to CodeMirror (Rouven Weßling).
  + Added feature [#24930] Add to debug log information component and module start time and memory use when showing (Vladimir Serotyukov, Dennis Hermatski).
  # Fixed [#26077] JModelList casts $query to string unnecessarily making it impossible to implement Joomfish (Geraint Edwards).
 
@@ -1902,7 +1903,7 @@ $ Deleted some redundant ini string
  # [#23059] Incorrect table ordering behavior (Dennis Hermacki)
 
 31-Oct-2010 Christophe Demko
- # [#23073] Module position selection popup does not display administrator positions
+ # [#23073] Module position selection popup does not display administrator positions
 
 31-Oct-2010 Jean-Marie Simonet
  # [#23076] Plugin Edits not checking back in in Bluestork. Thanks Andrea.
@@ -2115,7 +2116,7 @@ $ Deleted some redundant ini string
  # [#22555] Use Joomla.submitbutton() instead of submitbutton() (Rouven Weßling)
  # [#22775] Router does not redirect correctly
  # [#22621] Boolean validation in JForm (Rune Sjøen)
- # [#22775] Router does not redirect correctly (removing accidently one line)
+ # [#22775] Router does not redirect correctly (removing accidently one line)
 
 8-Oct-2010 Christophe Demko
  # [#22759] Add version, date, author to Hathor (from Tracker # 22482) (thanks Andrea Tarr)
@@ -3476,7 +3477,7 @@ $ Deleted some redundant ini string
  # Fixed sample data
  # Fixed some hathor issues relative to [#20632]
  # Fixed issue [#20707] ContentModelArticles::getListQuery does not format ORDER BY clause correctly (thanks Amy Stephen)
- # Fixed issue [#20642] com_banners submits form even when required fields are not filled (thanks bill richardson)
+ # Fixed issue [#20642] com_banners submits form even when required fields are not filled (thanks bill richardson)
 
 30-May-2010 Jean-Marie Simonet
  # [#20679] Page column sort filter not working properly in module manager. Thanks Christophe.

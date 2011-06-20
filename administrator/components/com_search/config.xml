@@ -34,6 +34,21 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+
+		<field
+			name="opensearch_name"
+			type="text"
+			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
+			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_NAME_DESC"
+		/>
+
+		<field
+			name="opensearch_description"
+			type="textarea"
+			label="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
+			description="COM_SEARCH_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESC"
+			cols="30" rows="2"
+		/>
 	</fieldset>
 
 	<fieldset

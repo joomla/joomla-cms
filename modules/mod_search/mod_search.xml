@@ -84,6 +84,22 @@
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
 				<field
+					name="opensearch"
+					type="radio"
+					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
+					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
+					default="1">
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
+				</field>
+				<field
+					name="opensearch_title"
+					type="text"
+					label="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_LABEL"
+					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC" />
+				<field
 					name="set_itemid"
 					type="text"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
