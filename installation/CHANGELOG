@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 20-Jun-2011 Christophe Demko
  # [#26201] Broken newsfeeds when SEF URLs are off (Nikolai Plath)
+ + [#25200] View Access Level not testing in Administrator Models (Amy Stephen)
 
 20-Jun-2011 Andrew Eddie
  + Added feature [#26113] Add PHP and HTML modes to CodeMirror (Rouven We§ling).

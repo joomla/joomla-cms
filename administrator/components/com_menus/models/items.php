@@ -160,8 +160,9 @@ class MenusModelItems extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+		$user	= JFactory::getUser();
 
 		// Select all fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
@@ -227,6 +228,13 @@ class MenusModelItems extends JModelList
 			$query->where('a.access = '.(int) $access);
 		}
 
+		// Implement View Level Access
+		if (!$user->authorise('core.admin'))
+		{
+		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN ('.$groups.')');
+		}
+                
 		// Filter on the level.
 		if ($level = $this->getState('filter.level')) {
 			$query->where('a.level <= '.(int) $level);

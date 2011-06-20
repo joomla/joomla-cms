@@ -124,6 +124,7 @@ class WeblinksModelWeblinks extends JModelList
 		// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
+		$user	= JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -158,6 +159,13 @@ class WeblinksModelWeblinks extends JModelList
 			$query->where('a.access = '.(int) $access);
 		}
 
+		// Implement View Level Access
+		if (!$user->authorise('core.admin'))
+		{
+		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN ('.$groups.')');
+		}
+                
 		// Filter by published state
 		$published = $this->getState('filter.state');
 		if (is_numeric($published)) {
