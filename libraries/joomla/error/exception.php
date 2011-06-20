@@ -40,8 +40,8 @@ class JException extends Exception
 	protected $message = null;
 
 	/**
-	 * Additional info about the error relevant to the developer
-	 *  -      e.g. if a database connect fails, the dsn used
+	 * Additional info about the error relevant to the developer,
+	 * for example, if a database connect fails, the dsn used
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -204,7 +204,7 @@ class JException extends Exception
 	 *
 	 * @param   boolean  $public  If true, returns only the public properties
 	 *
-	 * @return  array    Object properties
+	 * @return  array  Object properties
 	 *
 	 * @see     get()
 	 * @since   11.1
@@ -227,10 +227,10 @@ class JException extends Exception
 	/**
 	 * Get the most recent error message
 	 *
-	 * @param   integer  $i Option error index
-	 * @param   boolean  $toString Indicates if JError objects should return their error message
+	 * @param   integer  $i         Option error index
+	 * @param   boolean  $toString  Indicates if JError objects should return their error message
 	 *
-	 * @return  string   Error message
+	 * @return  string  Error message
 	 *
 	 * @since   11.1
 	 */
@@ -277,7 +277,7 @@ class JException extends Exception
 	 * @param   string   $property  The name of the property
 	 * @param   mixed    $value     The value of the property to set
 	 *
-	 * @return  mixed    Previous value of the property
+	 * @return  mixed  Previous value of the property
 	 *
 	 * @see     setProperties()
 	 * @since   11.1

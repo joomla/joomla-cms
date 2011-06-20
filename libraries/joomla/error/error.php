@@ -60,7 +60,7 @@ abstract class JError
 	 * Method to determine if a value is an exception object.  This check supports
 	 * both JException and PHP5 Exception objects
 	 *
-	 * @param   mixed    &$object  Object to check
+	 * @param   mixed  &$object  Object to check
 	 *
 	 * @return  boolean  True if argument is an exception, false otherwise.
 	 * @since   11.1
@@ -74,10 +74,10 @@ abstract class JError
 	/**
 	 * Method for retrieving the last exception object in the error stack
 	 *
-	 * @params   boolean  $unset
+	 * @params  boolean  $unset
 	 *
-	 * @return   mixed    Last exception object in the error stack or boolean false if none exist
-	 * @since    11.1
+	 * @return  mixed  Last exception object in the error stack or boolean false if none exist
+	 * @since   11.1
 	 */
 	public static function getError($unset = false)
 	{

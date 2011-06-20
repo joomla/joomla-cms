@@ -124,7 +124,7 @@ class JProfiler extends JObject
 					$current_mem,
 					$current_mem - $this->_previous_mem,
 					$label
-					);
+				);
 		}
 		else {
 			$mark = sprintf(
@@ -133,7 +133,7 @@ class JProfiler extends JObject
 					$current,
 					$current - $this->_previous_time,
 					$label
-					);
+				);
 		}
 
 		$this->_previous_time = $current;

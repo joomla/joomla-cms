@@ -129,7 +129,8 @@ class JURI extends JObject
 				// Determine if the request was over SSL (HTTPS).
 				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
 					$https = 's://';
-				} else {
+				}
+				else {
 					$https = '://';
 				}
 
@@ -141,7 +142,8 @@ class JURI extends JObject
 					// To build the entire URI we need to prepend the protocol, and the http host
 					// to the URI string.
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-				} else {
+				}
+				else {
 					// Since we do not have REQUEST_URI to work with, we will assume we are
 					// running on IIS and will therefore need to work some magic with the SCRIPT_NAME and
 					// QUERY_STRING environment variables.
@@ -154,7 +156,8 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
-			} else {
+			}
+			else {
 				// We were given a URI
 				$theURI = $uri;
 			}
@@ -189,7 +192,8 @@ class JURI extends JObject
 				if (JPATH_BASE == JPATH_ADMINISTRATOR) {
 					$base['path'] .= '/administrator';
 				}
-			} else {
+			}
+			else {
 				$uri			= self::getInstance();
 				$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
@@ -199,7 +203,8 @@ class JURI extends JObject
 					// We shouldn't have user-supplied PATH_INFO in PHP_SELF in this case
 					// because PHP will not work with PATH_INFO at all.
 					$script_name =  $_SERVER['PHP_SELF'];
-				} else {
+				}
+				else {
 					// Others
 					$script_name =  $_SERVER['SCRIPT_NAME'];
 				}
@@ -332,10 +337,11 @@ class JURI extends JObject
 	 * Adds a query variable and value, replacing the value if it
 	 * already exists and returning the old value.
 	 *
-	 * @param   string  $name Name of the query variable to set.
-	 * @param   string  $value Value of the query variable.
+	 * @param   string  $name   Name of the query variable to set.
+	 * @param   string  $value  Value of the query variable.
 	 *
 	 * @return  string  Previous value for the query variable.
+	 *
 	 * @since   11.1
 	 */
 	public function setVar($name, $value)
@@ -355,6 +361,7 @@ class JURI extends JObject
 	 * @param   string $name Name of the query variable to check.
 	 *
 	 * @return  bool exists.
+	 *
 	 * @since   11.1
 	 */
 	public function hasVar($name)
@@ -386,6 +393,7 @@ class JURI extends JObject
 	 * @param   string  $name Name of variable to remove.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function delVar($name)
@@ -402,16 +410,18 @@ class JURI extends JObject
 	 * Sets the query to a supplied string in format:
 	 *		foo=bar&x=y
 	 *
-	 * @param   mixed(array|string) $query The query string.
+	 * @param   mixed(array|string)  $query  The query string.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setQuery($query)
 	{
 		if (is_array($query)) {
 			$this->_vars = $query;
-		} else {
+		}
+		else {
 			if (strpos($query, '&amp;') !== false) {
 				$query = str_replace('&amp;', '&', $query);
 			}
@@ -447,9 +457,10 @@ class JURI extends JObject
 	/**
 	 * Build a query from a array (reverse of the PHP parse_str()).
 	 *
-	 * @return  string  The resulting query string.
-	 * @since   11.1
+	 * @return  string  $params  The resulting query string.
+	 *
 	 * @see     parse_str()
+	 * @since   11.1
 	 */
 	public static function buildQuery($params)
 	{
@@ -479,6 +490,7 @@ class JURI extends JObject
 	 * @param   string  $scheme The URI scheme.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setScheme($scheme)
@@ -504,6 +516,7 @@ class JURI extends JObject
 	 * @param   string  $user The URI username.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setUser($user)
@@ -529,6 +542,7 @@ class JURI extends JObject
 	 * @param   string  $pass The URI password.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setPass($pass)
@@ -554,6 +568,7 @@ class JURI extends JObject
 	 * @param   string  $host The URI host.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setHost($host)
@@ -578,6 +593,7 @@ class JURI extends JObject
 	 * @param   integer  $port The URI port number.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setPort($port)
@@ -602,6 +618,7 @@ class JURI extends JObject
 	 * @param   string  $path The URI path string.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setPath($path)
@@ -628,6 +645,7 @@ class JURI extends JObject
 	 * @param   string  $anchor The URI anchor string.
 	 *
 	 * @return	void
+	 *
 	 * @since   11.1
 	 */
 	public function setFragment($anchor)
@@ -649,9 +667,10 @@ class JURI extends JObject
 	/**
 	 * Checks if the supplied URL is internal
 	 *
-	 * @param   string   $url The URL to check.
+	 * @param   string  $url  The URL to check.
 	 *
 	 * @return  boolean  True if Internal.
+	 *
 	 * @since   11.1
 	 */
 	public static function isInternal($url)
@@ -676,6 +695,7 @@ class JURI extends JObject
 	 * @param   string  $path  The URI path to clean.
 	 *
 	 * @return  string  Cleaned and resolved URI path.
+	 *
 	 * @since   11.1
 	 */
 	protected function _cleanPath($path)
@@ -690,7 +710,8 @@ class JURI extends JObject
 					$path = array_values($path);
 					$i --;
 					$n --;
-				} elseif ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != ''))) {
+				}
+				else if ($path[$i] == '..' AND ($i > 1 OR ($i == 1 AND $path[0] != ''))) {
 					unset ($path[$i]);
 					unset ($path[$i -1]);
 					$path = array_values($path);
