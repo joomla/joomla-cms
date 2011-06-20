@@ -126,6 +126,10 @@ abstract class JModuleHelper
 	public static function renderModule($module, $attribs = array())
 	{
 		static $chrome;
+		
+		if (constant('JDEBUG')) {
+			JProfiler::getInstance('Application')->mark('beforeRenderModule '.$module->module.' ('.$module->title.')'); 
+		}
 
 		$option = JRequest::getCmd('option');
 		$app	= JFactory::getApplication();
@@ -207,6 +211,10 @@ abstract class JModuleHelper
 
 		$app->scope = $scope; //revert the scope
 
+		if (constant('JDEBUG')) {
+			JProfiler::getInstance('Application')->mark('afterRenderModule '.$module->module.' ('.$module->title.')'); 
+		}
+		
 		return $module->content;
 	}
 

@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 20-Jun-2011 Andrew Eddie
  + Added feature [#26113] Add PHP and HTML modes to CodeMirror (Rouven We§ling).
+ + Added feature [#24930] Add to debug log information component and module start time and memory use when showing (Vladimir Serotyukov, Dennis Hermatski).
  # Fixed [#26077] JModelList casts $query to string unnecessarily making it impossible to implement Joomfish (Geraint Edwards).
 
 19-Jun-2011 Christophe Demko
