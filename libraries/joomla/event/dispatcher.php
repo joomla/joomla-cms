@@ -20,7 +20,7 @@ jimport('joomla.base.observable');
  * @package     Joomla.Platform
  * @subpackage  Event
  * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
- * @see	        JPlugin
+ * @see         JPlugin
  * @since       11.1
  */
 class JDispatcher extends JObservable

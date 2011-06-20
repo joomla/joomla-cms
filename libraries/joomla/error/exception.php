@@ -12,33 +12,36 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla! Exception object.
  *
- * @package	Joomla.Platform
+ * @package     Joomla.Platform
  * @subpackage  Error
  * @since       11.1
  */
 class JException extends Exception
 {
 	/**
-	 * @var    string  Error level
+	 * Error level
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $level		= null;
 
 	/**
-	 * @var    string  Error code
+	 * Error code
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $code = null;
 
 	/**
-	 * @var    string  Error message
+	 * Error message
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $message = null;
 
 	/**
-	 * Additional info about the error relevant to the developer
-	 *  - e.g. if a database connect fails, the dsn used
+	 * Additional info about the error relevant to the developer,
+	 * for example, if a database connect fails, the dsn used
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -224,8 +227,8 @@ class JException extends Exception
 	/**
 	 * Get the most recent error message
 	 *
-	 * @param   integer  $i Option error index
-	 * @param   boolean  $toString Indicates if JError objects should return their error message
+	 * @param   integer  $i         Option error index
+	 * @param   boolean  $toString  Indicates if JError objects should return their error message
 	 *
 	 * @return  string  Error message
 	 *
