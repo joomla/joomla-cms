@@ -98,7 +98,7 @@ class JObject
 	 *
 	 * @return  array
 	 *
-	 * @see		get()
+	 * @see     get()
 	 * @since   11.1
 	 */
 	public function getProperties($public = true)
@@ -208,7 +208,8 @@ class JObject
 	 *
 	 * @param   string  $error  Error message.
 	 *
-	 * @return  array  updated array or errors
+	 * @return  void
+	 *
 	 * @since   11.1
 	 */
 	public function setError($error)
@@ -219,10 +220,10 @@ class JObject
 	/**
 	 * @return  string
 	 *
+	 * @note    Use magic method __toString()
+	 * @see     __toString()
+	 * @since   11.1
 	 * @deprecated
-	 * @note   Use magic method __toString()
-	 * @see    __toString()
-	 * @since  11.1
 	 */
 	function toString()
 	{

@@ -492,10 +492,10 @@ class JDocument extends JObject
 	/**
 	 * Adds a stylesheet declaration to the page
 	 *
-	 * @param	string  $content  Style declarations
-	 * @param	string  $type     Type of stylesheet (defaults to 'text/css')
+	 * @param   string  $content  Style declarations
+	 * @param   string  $type     Type of stylesheet (defaults to 'text/css')
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
@@ -510,7 +510,7 @@ class JDocument extends JObject
 	/**
 	 * Sets the document charset
 	 *
-	 * @param	string  $type  Charset encoding string
+	 * @param   string  $type  Charset encoding string
 	 *
 	 * @return  void
 	 */
@@ -532,7 +532,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the global document language declaration. Default is English (en-gb).
 	 *
-	 * @param	string	$lang
+	 * @param   string	$lang
+	 *
+	 * @return  void
 	 */
 	public function setLanguage($lang = "en-gb")
 	{
@@ -552,7 +554,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the global document direction declaration. Default is left-to-right (ltr).
 	 *
-	 * @param	string	$lang
+	 * @param   string  $lang
+	 *
+	 * @return  void
 	 */
 	public function setDirection($dir = "ltr")
 	{
@@ -573,8 +577,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the title of the document
 	 *
-	 * @param	string	$title
+	 * @param   string	$title
 	 *
+	 * @return  void
 	 */
 	public function setTitle($title)
 	{
@@ -584,7 +589,7 @@ class JDocument extends JObject
 	/**
 	 * Return the title of the document.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function getTitle()
 	{
@@ -594,8 +599,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the base URI of the document
 	 *
-	 * @param	string	$base
+	 * @param  string  $base
 	 *
+	 * @return void
 	 */
 	public function setBase($base)
 	{
@@ -605,7 +611,7 @@ class JDocument extends JObject
 	/**
 	 * Return the base URI of the document.
 	 *
-	 * @return	string
+	 * @return  string
 	 *
 	 */
 	public function getBase()
@@ -616,8 +622,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the description of the document
 	 *
-	 * @param	string	$title
+	 * @param  string  $title
 	 *
+	 * @return void
 	 */
 	public function setDescription($description)
 	{
@@ -627,7 +634,7 @@ class JDocument extends JObject
 	/**
 	 * Return the title of the page.
 	 *
-	 * @return	string
+	 * @return  string
 	 *
 	 */
 	public function getDescription()
@@ -638,7 +645,7 @@ class JDocument extends JObject
 	/**
 	 * Sets the document link
 	 *
-	 * @param	string	$url  A url
+	 * @param  string  $url  A url
 	 *
 	 * @return  void
 	 */
@@ -660,7 +667,8 @@ class JDocument extends JObject
 	/**
 	 * Sets the document generator
 	 *
-	 * @param	string
+	 * @param  string
+	 *
 	 * @return  void
 	 */
 	public function setGenerator($generator)
@@ -681,7 +689,7 @@ class JDocument extends JObject
 	/**
 	 * Sets the document modified date
 	 *
-	 * @param	string
+	 * @param  string
 	 *
 	 * @return  void
 	 */
@@ -709,10 +717,10 @@ class JDocument extends JObject
 	 * ({@link http://www.w3.org/TR/xhtml-media-types/
 	 * http://www.w3.org/TR/xhtml-media-types/}) for more details.
 	 *
-	 * @param	string  $type
-	 * @param	bool    $sync  Should the type be synced with HTML?
+	 * @param   string  $type
+	 * @param   bool    $sync  Should the type be synced with HTML?
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function setMimeEncoding($type = 'text/html', $sync = true)
 	{
@@ -727,7 +735,7 @@ class JDocument extends JObject
 	/**
 	 * Return the document MIME encoding that is sent to the browser.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function getMimeEncoding()
 	{
@@ -737,7 +745,8 @@ class JDocument extends JObject
 	/**
 	 * Sets the line end style to Windows, Mac, Unix or a custom string.
 	 *
-	 * @param	string  $style  "win", "mac", "unix" or custom string.
+	 * @param   string  $style  "win", "mac", "unix" or custom string.
+	 *
 	 * @return  void
 	 */
 	public function setLineEnd($style)
@@ -761,7 +770,7 @@ class JDocument extends JObject
 	/**
 	 * Returns the lineEnd
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function _getLineEnd()
 	{
@@ -771,9 +780,9 @@ class JDocument extends JObject
 	/**
 	 * Sets the string used to indent HTML
 	 *
-	 * @param	string  $string  String used to indent ("\11", "\t", '  ', etc.).
+	 * @param   string  $string  String used to indent ("\11", "\t", '  ', etc.).
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function setTab($string)
 	{
@@ -783,7 +792,7 @@ class JDocument extends JObject
 	/**
 	 * Returns a string containing the unit for indenting HTML
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public function _getTab()
 	{
@@ -835,11 +844,11 @@ class JDocument extends JObject
 	/**
 	 * Outputs the document
 	 *
-	 * @param boolean	$cache		If true, cache the output
-	 * @param boolean	$compress	If true, compress the output
-	 * @param array		$params		Associative array of attributes
+	 * @param   boolean  $cache     If true, cache the output
+	 * @param   boolean  $compress  If true, compress the output
+	 * @param   array    $params    Associative array of attributes
 	 *
-	 * @return	The rendered data
+	 * @return  The rendered data
 	 */
 	public function render($cache = false, $params = array())
 	{
