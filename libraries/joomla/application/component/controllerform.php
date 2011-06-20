@@ -212,11 +212,9 @@ class JControllerForm extends JController
 	/**
 	 * Method to run batch operations.
 	 *
-	 * Extended classes can override this if necessary.
+	 * @param   object	$model  The model of the component being processed.
 	 *
-	 * @param   object   $model  The model of the component being processed.
-	 *
-	 * @return	void
+	 * @return	boolean	True if successful, false otherwise and internal error is set.
 	 * @since	11.1
 	 */
 	public function batch($model)

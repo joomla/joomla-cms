@@ -59,10 +59,12 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config	An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
-	 * @since  11.1
+	 * @return  JModelAdmin
+	 *
+	 * @see     JController
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -167,10 +169,10 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch access level changes for a group of rows.
 	 *
-	 * @param	int		$value	The new value matching an Asset Group ID.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int    $value  The new value matching an Asset Group ID.
+	 * @param	array  $pks    An array of row IDs.
 	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 * @return	booelan  True if successful, false otherwise and internal error is set.
 	 * @since	11.1
 	 */
 	protected function batchAccess($value, $pks)
@@ -206,10 +208,11 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch copy items to a new category or current.
 	 *
-	 * @param	int		$value	The new category.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int		$value  The new category.
+	 * @param	array	$pks    An array of row IDs.
 	 *
-	 * @return	boolean	True if successful, false otherwise and internal error is set.
+	 * @return	boolean  True if successful, false otherwise and internal error is set.
+	 *
 	 * @since	11.1
 	 */
 	protected function batchCopy($value, $pks)
@@ -240,9 +243,9 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		// Check that the user has create permission for component
-		$extension = JRequest::getCmd('option');
-		$user = JFactory::getUser();
+		// Check that the user has create permission for the component
+		$extension	= JRequest::getCmd('option');
+		$user		= JFactory::getUser();
 		if (!$user->authorise('core.create', $extension)) {
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
@@ -251,7 +254,7 @@ abstract class JModelAdmin extends JModelForm
 		// Parent exists so we let's proceed
 		while (!empty($pks))
 		{
-			// Pop the first id off the stack
+			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
 			$table->reset();
@@ -275,7 +278,7 @@ abstract class JModelAdmin extends JModelForm
 			$table->title   = $data['0'];
 			$table->alias   = $data['1'];
 
-			// Reset the id because we are making a copy.
+			// Reset the ID because we are making a copy
 			$table->id		= 0;
 
 			// New category ID
@@ -306,10 +309,11 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch move articles to a new category
 	 *
-	 * @param	int		$value	The new category ID.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int	   $value  The new category ID.
+	 * @param	array  $pks    An array of row IDs.
 	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 * @return	booelan  True if successful, false otherwise and internal error is set.
+	 *
 	 * @since	11.1
 	 */
 	protected function batchMove($value, $pks)
@@ -340,9 +344,9 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		// Check that user has create and edit permission for items
-		$extension = JRequest::getCmd('option');
-		$user	= JFactory::getUser();
+		// Check that user has create and edit permission for the component
+		$extension	= JRequest::getCmd('option');
+		$user		= JFactory::getUser();
 		if (!$user->authorise('core.create', $extension)) {
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
@@ -552,7 +556,7 @@ abstract class JModelAdmin extends JModelForm
 	 * @param	integer	$category_id	The id of the category.
 	 * @param   string	$alias			The alias.
 	 * @param   string	$title			The title.
-	 * 
+	 *
 	 * @return	array   Contains the modified title and alias.
 	 * @since	11.1
 	 */
@@ -560,7 +564,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
-		while($table->load(array('alias'=>$alias, 'catid'=>$category_id))){
+		while ($table->load(array('alias'=>$alias, 'catid'=>$category_id))) {
 			$m = null;
 			if (preg_match('#-(\d+)$#', $alias, $m)) {
 				$alias = preg_replace('#-(\d+)$#', '-'.($m[1] + 1).'', $alias);
