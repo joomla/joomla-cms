@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="joomla-platform" default="build" basedir=".">
+ <property name="source" value="libraries"/>
+
+ <target name="clean"
+         description="Clean up and create artifact directories">
+  <delete dir="${basedir}/build/api"/>
+  <delete dir="${basedir}/build/code-browser"/>
+  <delete dir="${basedir}/build/coverage"/>
+  <delete dir="${basedir}/build/logs"/>
+  <delete dir="${basedir}/build/pdepend"/>
+
+  <mkdir dir="${basedir}/build/api"/>
+  <mkdir dir="${basedir}/build/code-browser"/>
+  <mkdir dir="${basedir}/build/coverage"/>
+  <mkdir dir="${basedir}/build/logs"/>
+  <mkdir dir="${basedir}/build/pdepend"/>
+ </target>
+
+ <target name="phpunit"
+         description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
+  <exec executable="phpunit" failonerror="true"/>
+ </target>
+
+ <target name="parallelTasks"
+         description="Run the pdepend, phpmd, phpcpd, phpcs, phpdoc and phploc tasks in parallel using a maximum of 2 threads.">
+  <parallel threadCount="2">
+   <sequential>
+    <antcall target="pdepend"/>
+    <antcall target="phpmd"/>
+   </sequential>
+   <antcall target="phpcpd"/>
+   <antcall target="phpcs"/>
+   <antcall target="phpdoc"/>
+   <antcall target="phploc"/>
+  </parallel>
+ </target>
+
+ <target name="pdepend"
+         description="Generate jdepend.xml and software metrics charts using PHP_Depend">
+  <exec executable="pdepend">
+   <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+   <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+   <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+   <arg path="${source}" />
+  </exec>
+ </target>
+
+ <target name="phpmd"
+         description="Generate pmd.xml using PHPMD">
+  <exec executable="phpmd">
+   <arg path="${source}" />
+   <arg value="xml" />
+   <arg value="${basedir}/build/phpmd.xml" />
+   <arg value="--reportfile" />
+   <arg value="${basedir}/build/logs/pmd.xml" />
+  </exec>
+ </target>
+
+ <target name="phpcpd"
+         description="Generate pmd-cpd.xml using PHPCPD">
+  <exec executable="phpcpd">
+   <arg value="--log-pmd" />
+   <arg value="${basedir}/build/logs/pmd-cpd.xml" />
+   <arg path="${source}" />
+  </exec>
+ </target>
+
+ <target name="phploc"
+         description="Generate phploc.csv">
+  <exec executable="phploc">
+   <arg value="--log-csv" />
+   <arg value="${basedir}/build/logs/phploc.csv" />
+   <arg path="${source}" />
+  </exec>
+ </target>
+
+ <target name="phpcs"
+         description="Generate checkstyle.xml using PHP_CodeSniffer">
+  <exec executable="phpcs" output="/dev/null">
+   <arg value="--report=checkstyle" />
+   <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+   <arg value="--standard=${basedir}/build/phpcs.xml" />
+   <arg path="${source}" />
+  </exec>
+ </target>
+
+ <target name="phpdoc"
+         description="Generate API documentation using PHPDocumentor">
+  <exec executable="phpdox">
+   <arg value="-c" />
+   <arg path="${source}" />
+   <arg value="-d" />
+   <arg path="${basedir}/build/api" />
+   <arg value="-x" />
+   <arg path="${basedir}/build/logs" />
+   <arg value="-g" />
+   <arg value="html" />
+  </exec>
+ </target>
+
+ <target name="phpcb"
+         description="Aggregate tool output with PHP_CodeBrowser">
+  <exec executable="phpcb">
+   <arg value="--log" />
+   <arg path="${basedir}/build/logs" />
+   <arg value="--source" />
+   <arg path="${source}" />
+   <arg value="--output" />
+   <arg path="${basedir}/build/code-browser" />
+  </exec>
+ </target>
+
+ <target name="build" depends="clean,parallelTasks,phpunit,phpcb"/>
+</project>
