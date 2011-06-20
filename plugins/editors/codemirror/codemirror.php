@@ -138,7 +138,7 @@ class plgEditorCodemirror extends JPlugin
 
 		// Default syntax
 		$parserFile = 'parsexml.js';
-		$styleSheet = 'xmlcolors.css';
+		$styleSheet = array('xmlcolors.css');
 
 		// Look if we need special syntax coloring.
 		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax');
@@ -148,17 +148,22 @@ class plgEditorCodemirror extends JPlugin
 			{
 				case 'css':
 					$parserFile = 'parsecss.js';
-					$styleSheet = 'csscolors.css';
+					$styleSheet = array('csscolors.css');
 					break;
 
 				case 'js':
-					// @todo Do we edit javascript ?
 					$parserFile = array('tokenizejavascript.js', 'parsejavascript.js');
 					$styleSheet = 'jscolors.css';
 					break;
+					
+				case 'html':
+					$parserFile = array('parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'parsehtmlmixed.js');
+					$styleSheet = array('xmlcolors.css', 'jscolors.css', 'csscolors.css');
+					break;
 
 				case 'php':
-					// @todo CodeMirror comes with a parsephp.js file which has a BSD license - can we include this ?
+					$parserFile = array('parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'tokenizephp.js', 'parsephp.js', 'parsephphtmlmixed.js');
+					$styleSheet = array('xmlcolors.css', 'jscolors.css', 'csscolors.css', 'phpcolors.css');
 					break;
 
 				default:
@@ -166,13 +171,18 @@ class plgEditorCodemirror extends JPlugin
 					break;
 			} //switch
 		}
+		
+		foreach ($styleSheet as &$style)
+		{
+			$style = JURI::root(true).'/'.$this->_basePath.'/css/'.$style;
+		}
 
 		$options	= new stdClass;
 
 		$options->basefiles		= array('basefiles'.$compressed.'.js');
 		$options->path			= JURI::root(true).'/'.$this->_basePath.'js/';
 		$options->parserfile	= $parserFile;
-		$options->stylesheet	= JURI::root(true).'/'.$this->_basePath.'css/'.$styleSheet;
+		$options->stylesheet	= $styleSheet;
 		$options->height		= $height;
 		$options->width			= $width;
 		$options->continuousScanning = 500;
