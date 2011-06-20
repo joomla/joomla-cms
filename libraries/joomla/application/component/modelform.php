@@ -178,11 +178,14 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   object   A form object.
-	 * @param   mixed    The data expected for the form.
-	 * @param   string   The name of the plugin group to import (defaults to "content").
-	 * @throws  Exception if there is an error in the form event.
+	 * @param   object  $form   A form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
 	 * @since   11.1
+	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
@@ -210,16 +213,19 @@ abstract class JModelForm extends JModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   object  $form		The form to validate against.
-	 * @param   array   $data		The data to validate.
+	 * @param   object  $form   The form to validate against.
+	 * @param   array   $data   The data to validate.
+	 * @param   string  $group  The name of the field group to validate.
+	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
-	 * @since    1.1
+	 *
+	 * @since   1.1
 	 */
-	function validate($form, $data)
+	function validate($form, $data, $group = null)
 	{
 		// Filter and validate the form data.
 		$data	= $form->filter($data);
-		$return	= $form->validate($data);
+		$return	= $form->validate($data, $group);
 
 		// Check for an error.
 		if (JError::isError($return)) {
