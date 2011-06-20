@@ -227,8 +227,10 @@ class JControllerForm extends JController
 		// Attempt to run the batch operation.
 		if ($model->batch($vars, $cid)) {
 			$this->setMessage(JText::_('JLIB_APPLICATION_SUCCESS_BATCH'));
+
 			return true;
-		} else {
+		}
+		else {
 			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()));
 			return false;
 		}

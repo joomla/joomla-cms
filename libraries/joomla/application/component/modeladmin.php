@@ -59,10 +59,12 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config	An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @return  JModelAdmin
 	 *
 	 * @see     JController
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function __construct($config = array())
 	{
@@ -146,7 +148,8 @@ abstract class JModelAdmin extends JModelForm
 
 			if ($cmd == 'c' && !$this->batchCopy($commands['category_id'], $pks)) {
 				return false;
-			} else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks)) {
+			}
+			else if ($cmd == 'm' && !$this->batchMove($commands['category_id'], $pks)) {
 				return false;
 			}
 			$done = true;
@@ -166,10 +169,10 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch access level changes for a group of rows.
 	 *
-	 * @param	integer	$value	The new value matching an Asset Group ID.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int    $value  The new value matching an Asset Group ID.
+	 * @param	array  $pks    An array of row IDs.
 	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 * @return	booelan  True if successful, false otherwise and internal error is set.
 	 * @since	11.1
 	 */
 	protected function batchAccess($value, $pks)
@@ -184,7 +187,8 @@ abstract class JModelAdmin extends JModelForm
 
 		$table = $this->getTable();
 
-		foreach ($pks as $pk) {
+		foreach ($pks as $pk)
+		{
 			$table->reset();
 			$table->load($pk);
 			$table->access = (int) $value;
@@ -204,10 +208,11 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch copy items to a new category or current.
 	 *
-	 * @param	integer	$value	The new category.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int		$value  The new category.
+	 * @param	array	$pks    An array of row IDs.
 	 *
-	 * @return	boolean	True if successful, false otherwise and internal error is set.
+	 * @return	boolean  True if successful, false otherwise and internal error is set.
+	 *
 	 * @since	11.1
 	 */
 	protected function batchCopy($value, $pks)
@@ -225,7 +230,8 @@ abstract class JModelAdmin extends JModelForm
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 					return false;
 				}
@@ -259,7 +265,8 @@ abstract class JModelAdmin extends JModelForm
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					// Not fatal error
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
@@ -280,13 +287,13 @@ abstract class JModelAdmin extends JModelForm
 			// TODO: Deal with ordering?
 			//$table->ordering	= 1;
 
-			// Check the row
+			// Check the row.
 			if (!$table->check()) {
 				$this->setError($table->getError());
 				return false;
 			}
 
-			// Store the row
+			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());
 				return false;
@@ -302,10 +309,11 @@ abstract class JModelAdmin extends JModelForm
 	/**
 	 * Batch move articles to a new category
 	 *
-	 * @param	integer	$value	The new category ID.
-	 * @param	array	$pks	An array of row IDs.
+	 * @param	int	   $value  The new category ID.
+	 * @param	array  $pks    An array of row IDs.
 	 *
-	 * @return	booelan	True if successful, false otherwise and internal error is set.
+	 * @return	booelan  True if successful, false otherwise and internal error is set.
+	 *
 	 * @since	11.1
 	 */
 	protected function batchMove($value, $pks)
@@ -323,7 +331,8 @@ abstract class JModelAdmin extends JModelForm
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 					return false;
 				}
@@ -349,14 +358,16 @@ abstract class JModelAdmin extends JModelForm
 		}
 
 		// Parent exists so we let's proceed
-		foreach ($pks as $pk) {
+		foreach ($pks as $pk)
+		{
 			// Check that the row actually exists
 			if (!$table->load($pk)) {
 				if ($error = $table->getError()) {
 					// Fatal error
 					$this->setError($error);
 					return false;
-				} else {
+				}
+				else {
 					// Not fatal error
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
@@ -366,13 +377,13 @@ abstract class JModelAdmin extends JModelForm
 			// Set the new category ID
 			$table->catid = $categoryId;
 
-			// Check the row
+			// Check the row.
 			if (!$table->check()) {
 				$this->setError($table->getError());
 				return false;
 			}
 
-			// Store the row
+			// Store the row.
 			if (!$table->store()) {
 				$this->setError($table->getError());
 				return false;
