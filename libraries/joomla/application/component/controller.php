@@ -893,10 +893,10 @@ class JController extends JObject
 	/**
 	 * Unregister (unmap) a task in the class.
 	 *
-	 * @param	string  $task  The task.
+	 * @param    string  $task  The task.
 	 *
-	 * @return	JController  This object to support chaining.
-	 * @since	11.1
+	 * @return   JController  This object to support chaining.
+	 * @since    11.1
 	 */
 	public function unregisterTask($task)
 	{

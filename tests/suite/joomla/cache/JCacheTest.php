@@ -65,7 +65,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/tests/unit/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -75,7 +75,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'page',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/tests/unit/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -85,7 +85,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'view',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/tests/unit/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -95,7 +95,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'callback',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/tests/unit/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -145,7 +145,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -154,7 +154,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'page',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -163,7 +163,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'view',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -172,7 +172,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'callback',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -218,7 +218,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -228,7 +228,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'page',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -238,7 +238,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'view',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -248,7 +248,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'callback',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -294,7 +294,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -304,7 +304,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'page',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -314,7 +314,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'view',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -324,7 +324,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'callback',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -372,7 +372,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/tests/unit/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -386,7 +386,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'page',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/tests/unit/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 20 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -558,7 +558,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'file',
 				),
@@ -568,7 +568,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'apc',
 				),
@@ -578,7 +578,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'xcache',
 				),
@@ -588,7 +588,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'memcache',
 				),
@@ -598,7 +598,7 @@ class JCacheTest extends PHPUnit_Framework_TestCase
 				'output',
 				array(
 					'defaultgroup'	=> '',
-					'cachebase'		=> JPATH_BASE . '/unittest/cache',
+					'cachebase'		=> JPATH_BASE . '/cache',
 					'lifetime'		=> 15 * 60,	// minutes to seconds
 					'storage'		=> 'eaccelerator',
 				),

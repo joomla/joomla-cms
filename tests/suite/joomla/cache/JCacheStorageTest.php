@@ -14,7 +14,7 @@
  * @subpackage  Cache
  *
  */
-class JCacheStorageTest extends PHPUnit_Framework_TestCase
+class JCacheStorageTest extends JoomlaTestCase
 {
 	/**
 	 * @var	JCacheStorage
@@ -23,8 +23,10 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 	protected $object;
 
 	/**
-	 * @var errorState
+	 * @var errors
+	 * @access protected
 	 */
+	protected static $errors;
 	protected $savedErrorState;
 
 		/**
@@ -59,71 +61,13 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return	bool	To not continue with JError processing
 	 */
-	static function errorCallback( $error )
+	static function errorCallback( &$error )
 	{
 		JCacheStorageTest::$actualError['code'] = $error->get('code');
 		JCacheStorageTest::$actualError['msg'] = $error->get('message');
 		JCacheStorageTest::$actualError['info'] = $error->get('info');
 		return false;
 	}
-
-	/**
-	 * Sets the JError error handlers.
-	 *
-	 * @param	array	araay of values and options to set the handlers
-	 *
-	 * @return	void
-	 */
-	protected function setErrorHandlers($errorHandlers)
-	{
-		$mode = null;
-		$options = null;
-
-		foreach ($errorHandlers as $type => $params) {
-			$mode = $params['mode'];
-			if (isset ($params['options'])) {
-				JError :: setErrorHandling($type, $mode, $params['options']);
-			} else {
-				JError :: setErrorHandling($type, $mode);
-			}
-		}
-	}
-
-	/**
-	 * Sets the JError error handlers to callback mode and points them at the test
-	 * logging method.
-	 *
-	 * @return	void
-	 */
-	protected function setErrorCallback($testName)
-	{
-		$callbackHandlers = array (
-			E_NOTICE => array (
-				'mode' => 'callback',
-				'options' => array (
-					$testName,
-					'errorCallback'
-				)
-			),
-			E_WARNING => array (
-				'mode' => 'callback',
-				'options' => array (
-					$testName,
-					'errorCallback'
-				)
-			),
-			E_ERROR => array (
-				'mode' => 'callback',
-				'options' => array (
-					$testName,
-					'errorCallback'
-				)
-			),
-
-		);
-		$this->setErrorHandlers($callbackHandlers);
-	}
-
 
 	protected function setUp()
 	{
@@ -140,19 +84,6 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 		$this->eacceleratorAvailable = extension_loaded('eaccelerator') && function_exists('eaccelerator_get');
 		$this->memcacheAvailable = (extension_loaded('memcache') && class_exists('Memcache')) != true;
 		$this->xcacheAvailable = extension_loaded('xcache');
-	}
-
-	/**
-	 * Saves the current state of the JError error handlers.
-	 *
-	 * @return	void
-	 */
-	protected function saveErrorHandlers()
-	{
-		$this->savedErrorState = array ();
-		$this->savedErrorState[E_NOTICE] = JError :: getErrorHandling(E_NOTICE);
-		$this->savedErrorState[E_WARNING] = JError :: getErrorHandling(E_WARNING);
-		$this->savedErrorState[E_ERROR] = JError :: getErrorHandling(E_ERROR);
 	}
 
 	/**
@@ -251,7 +182,9 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->object = JCacheStorage::getInstance($handler, $options);
-		$config = JFactory::getConfig();
+		if (class_exists('JTestConfig')) {
+			$config = new JTestConfig;
+		}
 
 		$this->assertThat(
 			$this->object,
@@ -279,12 +212,13 @@ class JCacheStorageTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->object->_lifetime,
-			$this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60),
+//			$this->equalTo(empty($options['lifetime']) ? $config->get('cachetime')*60 : $options['lifetime']*60),
+			$this->equalTo(60),
 			'Unexpected value for _lifetime.'
 		);
 
 		$this->assertLessThan(
-			$config->get('lifetime'),
+			isset($config->cachetime) ? $config->cachetime : 900,
 			abs($this->object->_now - time()),
 			'Unexpected value for configuration lifetime.'
 		);

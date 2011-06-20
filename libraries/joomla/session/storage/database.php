@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Session
  * @since       11.1
- * @see			http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @see     	http://www.php.net/manual/en/function.session-set-save-handler.php
  */
 class JSessionStorageDatabase extends JSessionStorage
 {
@@ -62,11 +62,10 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Get the session data from the database table.
-		$db->setQuery(
-			'SELECT `data`' .
-			' FROM `#__session`' .
-			' WHERE `session_id` = '.$db->quote($id)
-		);
+		$query = $db->getQuery(true);
+		$query->select($query->qn('data'))->from($query->qn('#__session'));
+		$query->where($query->qn('session_id').' = '.$query->q($id));
+		$db->setQuery($query);
 		return (string) $db->loadResult();
 	}
 
@@ -88,11 +87,12 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Try to update the session data in the database table.
+		$query = $db->getQuery(true);
 		$db->setQuery(
-			'UPDATE `#__session`' .
-			' SET `data` = '.$db->quote($data).',' .
-			'	  `time` = '.(int) time() .
-			' WHERE `session_id` = '.$db->quote($id)
+			'UPDATE '.$query->qn('#__session') .
+			' SET '.$query->qn('data').' = '.$query->q($data).',' .
+			'	  '.$query->qn('time').' = '.(int) time() .
+			' WHERE '.$query->qn('session_id').' = '.$query->q($id)
 		);
 		if (!$db->query()) {
 			return false;
@@ -103,8 +103,8 @@ class JSessionStorageDatabase extends JSessionStorage
 		} else {
 			// If the session does not exist, we need to insert the session.
 			$db->setQuery(
-				'INSERT INTO `#__session` (`session_id`, `data`, `time`)' .
-				' VALUES ('.$db->quote($id).', '.$db->quote($data).', '.(int) time().')'
+				'INSERT INTO '.$query->qn('#__session').' ('.$query->qn('session_id').', '.$query->qn('data').', '.$query->qn('time').')' .
+				' VALUES ('.$query->q($id).', '.$query->q($data).', '.(int) time().')'
 			);
 			return (boolean) $db->query();
 		}
@@ -128,9 +128,10 @@ class JSessionStorageDatabase extends JSessionStorage
 		}
 
 		// Remove a session from the database.
+		$query = $db->getQuery(true);
 		$db->setQuery(
-			'DELETE FROM `#__session`' .
-			' WHERE `session_id` = '.$db->quote($id)
+			'DELETE FROM '.$query->qn('#__session') .
+			' WHERE '.$query->qn('session_id').' = '.$query->q($id)
 		);
 		return (boolean) $db->query();
 	}
@@ -154,9 +155,10 @@ class JSessionStorageDatabase extends JSessionStorage
 		$past = time() - $lifetime;
 
 		// Remove expired sessions from the database.
+		$query = $db->getQuery(true);
 		$db->setQuery(
-			'DELETE FROM `#__session`' .
-			' WHERE `time` < '.(int) $past
+			'DELETE FROM '.$query->qn('#__session') .
+			' WHERE '.$query->qn('time').' < '.(int) $past
 		);
 		return (boolean) $db->query();
 	}

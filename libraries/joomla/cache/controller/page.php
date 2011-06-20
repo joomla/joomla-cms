@@ -180,7 +180,7 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @return  void
 	 *
-	 * @since	11.1
+	 * @since    11.1
 	 */
 	protected function _setEtag($etag)
 	{

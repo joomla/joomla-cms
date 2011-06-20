@@ -215,8 +215,8 @@ class JTableUsergroup extends JTable
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
 		$db->setQuery(
-			'DELETE FROM `#__user_usergroup_map`' .
-			' WHERE `group_id` IN ('.implode(',', $ids).')'
+			'DELETE FROM '.$query->qn('#__user_usergroup_map') .
+			' WHERE '.$query->qn('group_id').' IN ('.implode(',', $ids).')'
 		);
 		$db->query();
 

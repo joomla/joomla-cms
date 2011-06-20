@@ -449,7 +449,7 @@ class JURI extends JObject
 	 *
 	 * @return  string  The resulting query string.
 	 * @since   11.1
-	 * @see	parse_str()
+	 * @see     parse_str()
 	 */
 	public static function buildQuery($params)
 	{
@@ -673,10 +673,10 @@ class JURI extends JObject
 	 * /foo/bar/../../boo.php => /boo.php
 	 * /foo/bar/.././/boo.php => /foo/boo.php
 	 *
-	 * @param	string $path The URI path to clean.
+	 * @param   string  $path  The URI path to clean.
 	 *
-	 * @return	string Cleaned and resolved URI path.
-	 * @since	11.1
+	 * @return  string  Cleaned and resolved URI path.
+	 * @since   11.1
 	 */
 	protected function _cleanPath($path)
 	{

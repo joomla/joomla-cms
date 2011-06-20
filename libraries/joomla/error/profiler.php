@@ -30,7 +30,7 @@ class JProfiler extends JObject
 	/**
 	 * The prefix to use in the output
 	 *
-	 * @var string
+	 * @var  string
 	 */
 	protected $_prefix = '';
 
@@ -65,7 +65,7 @@ class JProfiler extends JObject
 	/**
 	 * Constructor
 	 *
-	 * @param   string Prefix for mark messages
+	 * @param   string  $prefix  Prefix for mark messages
 	 */
 	public function __construct($prefix = '')
 	{

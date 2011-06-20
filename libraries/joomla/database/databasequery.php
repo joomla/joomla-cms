@@ -39,9 +39,9 @@ class JDatabaseQueryElement
 	/**
 	 * Constructor.
 	 *
-	 * @param   string	$name      The name of the element.
-	 * @param   mixed	$elements  String or array.
-	 * @param   string	$glue      The glue for elements.
+	 * @param   string     $name      The name of the element.
+	 * @param   mixed      $elements  String or array.
+	 * @param   string     $glue      The glue for elements.
 	 *
 	 * @return  JDatabaseQueryElement
 	 *
@@ -352,6 +352,19 @@ abstract class JDatabaseQuery
 		return $query;
 	}
 
+	/**
+	 * Magic function to get protected variable value
+	 *
+	 * @param   String
+	 * @return  mixed
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		return isset($this->$name) ? $this->$name : null;
+        }
+	
 	/**
 	 * Casts a value to a char.
 	 *

@@ -37,7 +37,7 @@ class JUtility
 	 *
 	 * @since       11.1
 	 * @deprecated  1.6
-	 * @see			JMail::sendMail()
+	 * @see     	JMail::sendMail()
 	 */
 	public static function sendMail($from, $fromname, $recipient, $subject, $body, $mode=0, $cc=null, $bcc=null, $attachment=null, $replyto=null, $replytoname=null)
 	{
@@ -63,7 +63,7 @@ class JUtility
 	 * @return  boolean  True on success
 	 *
 	 * @deprecated  1.6
-	 * @see			JMail::sendAdminMail()
+	 * @see     	JMail::sendAdminMail()
 	 */
 	public static function sendAdminMail($adminName, $adminEmail, $email, $type, $title, $author, $url = null)
 	{
@@ -83,7 +83,7 @@ class JUtility
 	 * @return  string
 	 *
 	 * @deprecated  1.6
-	 * @see			JApplication:getHash()
+	 * @see     	JApplication:getHash()
 	 */
 	public static function getHash($seed)
 	{
@@ -99,7 +99,7 @@ class JUtility
 	 *
 	 * @since       11.1
 	 * @deprecated  1.6
-	 * @see			JApplication:getHash()
+	 * @see     	JApplication:getHash()
 	 */
 	public static function getToken($forceNew = false)
 	{
@@ -144,7 +144,7 @@ class JUtility
 	 *
 	 * @since       11.1
 	 * @deprecated  1.6
-	 * @see			JApplication::isWinOS()
+	 * @see     	JApplication::isWinOS()
 	 */
 	public static function isWinOS()
 	{
@@ -182,7 +182,7 @@ class JUtility
 	 *
 	 * @since       11.1
 	 * @deprecated  1.6
-	 * @see			http://www.php.net/manual/en/function.array-unshift.php#40270
+	 * @see     	http://www.php.net/manual/en/function.array-unshift.php#40270
 	 */
 	function array_unshift_ref(&$array, &$value)
 	{
@@ -201,7 +201,7 @@ class JUtility
 	 *
 	 * @since       11.1
 	 * @deprecated  1.6
-	 * @see			JHtmlNumber::bytes
+	 * @see     	JHtmlNumber::bytes
 	 */
 	function return_bytes($val)
 	{

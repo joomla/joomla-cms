@@ -35,19 +35,22 @@ class JDaemon extends JCli
 	);
 
 	/**
-	 * @var    bool  True if the daemon is in the process of exiting.
+	 * Exiting status
+	 * @var    boolean  True if the daemon is in the process of exiting.
 	 * @since  11.1
 	 */
 	protected $exiting = false;
 
 	/**
-	 * @var    integer  The process id of the daemon.
+	 * The process id of the daemon.
+	 * @var    integer
 	 * @since  11.1
 	 */
 	protected $processId = 0;
 
 	/**
-	 * @var    bool  True if the daemon is currently running.
+	 * Running status
+	 * @var    boolean  True if the daemon is currently running.
 	 * @since  11.1
 	 */
 	protected $running = false;
@@ -144,7 +147,7 @@ class JDaemon extends JCli
 	 * Check to see if the daemon is active.  This does not assume that $this daemon is active, but
 	 * only if an instance of the application is active as a daemon.
 	 *
-	 * @return  bool  True if daemon is active.
+	 * @return  boolean  True if daemon is active.
 	 *
 	 * @since   11.1
 	 */
@@ -343,7 +346,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to change the identity of the daemon process and resources.
 	 *
-	 * @return  bool  True if identitye successfully changed
+	 * @return  boolean  True if identitye successfully changed
 	 *
 	 * @since   11.1
 	 * @see     posix_setuid()
@@ -399,7 +402,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to put the application into the background.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.1
 	 * @throws  ApplicationException
@@ -555,7 +558,7 @@ class JDaemon extends JCli
 	/**
 	 * Method to shut down the daemon and optionally restart it.
 	 *
-	 * @param   bool  $restart  True to restart the daemon on exit.
+	 * @param   boolean  $restart  True to restart the daemon on exit.
 	 *
 	 * @return  void
 	 *

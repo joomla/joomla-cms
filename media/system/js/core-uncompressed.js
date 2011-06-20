@@ -1,5 +1,5 @@
 /**
- * @version		$Id: core-uncompressed.js 20196 2011-01-09 02:40:25Z ian $
+ * @version		$Id: core-uncompressed.js 21463 2011-06-06 15:28:10Z dextercowley $
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -90,6 +90,39 @@ Joomla.isEmail = function(text) {
 	var regex = new RegExp("^[\\w-_\.]*[\\w-_\.]\@[\\w]\.+[\\w]+[\\w]$");
 	return regex.test(text);
 };
+
+/**
+ * USED IN: all list forms.
+ *
+ * Toggles the check state of a group of boxes
+ *
+ * Checkboxes must have an id attribute in the form cb0, cb1...
+ *
+ * @param	mixed	The number of box to 'check', for a checkbox element
+ * @param	string	An alternative field name
+ */
+Joomla.checkAll = function(checkbox, stub) {
+	if (!stub) {
+		stub = 'cb';
+	}
+	if (checkbox.form) {
+		var c = 0;
+		for (var i = 0, n = checkbox.form.elements.length; i < n; i++) {
+			var e = checkbox.form.elements[i];
+			if (e.type == checkbox.type) {
+				if ((stub && e.id.indexOf(stub) == 0) || !stub) {
+					e.checked = checkbox.checked;
+					c += (e.checked == true ? 1 : 0);
+				}
+			}
+		}
+		if (checkbox.form.boxchecked) {
+			checkbox.form.boxchecked.value = c;
+		}
+		return true;
+	}
+	return false;
+}
 
 /**
  * Render messages send via JSON
@@ -270,6 +303,8 @@ function getSelectedValue(frmName, srcListName) {
  *
  * @param	mixed	The number of box to 'check', for a checkbox element
  * @param	string	An alternative field name
+ *
+ * @deprecated	11.1 This function will be removed in a future version. Use Joomla.checkAll() instead.
  */
 function checkAll(checkbox, stub) {
 	if (!stub) {
@@ -369,6 +404,8 @@ function isChecked(isitchecked) {
 
 /**
  * Default function. Usually would be overriden by the component
+ *
+ * @deprecated	11.1 This function will be removed in a future version. Use Joomla.submitbutton() instead.
  */
 function submitbutton(pressbutton) {
 	submitform(pressbutton);
@@ -376,6 +413,8 @@ function submitbutton(pressbutton) {
 
 /**
  * Submit the admin form
+ *
+ * @deprecated	11.1 This function will be removed in a future version. Use Joomla.submitform() instead.
  */
 function submitform(pressbutton) {
 	if (pressbutton) {

@@ -71,7 +71,12 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 				'prefix' => isset ($config) ? $config->dbprefix : 'jos_'
 			);
 
-			self::$dbo = JDatabase::getInstance($options);
+			try {
+				self::$dbo = JDatabase::getInstance($options);
+			}
+
+			catch (DatabaseException $e) {
+			}
 
 			if (JError::isError(self::$dbo)) {
 				//ignore errors
@@ -81,6 +86,15 @@ abstract class JoomlaDatabaseTestCase extends PHPUnit_Extensions_Database_TestCa
 
 		self::$database = JFactory::$database;
 		JFactory::$database = self::$dbo;
+	}
+
+	protected function setUp()
+	{
+		if (defined('DB_NOT_AVAILABLE')) {
+			$this->markTestSkipped();
+		}
+
+		parent::setUp();
 	}
 
 	public static function tearDownAfterClass()

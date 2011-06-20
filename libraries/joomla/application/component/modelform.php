@@ -181,7 +181,7 @@ abstract class JModelForm extends JModel
 	 * @param   object   A form object.
 	 * @param   mixed    The data expected for the form.
 	 * @param   string   The name of the plugin group to import (defaults to "content").
-	 * @throws	Exception if there is an error in the form event.
+	 * @throws  Exception if there is an error in the form event.
 	 * @since   11.1
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
@@ -213,7 +213,7 @@ abstract class JModelForm extends JModel
 	 * @param   object  $form		The form to validate against.
 	 * @param   array   $data		The data to validate.
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
-	 * @since	1.1
+	 * @since    1.1
 	 */
 	function validate($form, $data)
 	{

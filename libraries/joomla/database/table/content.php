@@ -31,7 +31,7 @@ class JTableContent extends JTable
 
 	/**
 	 * Method to compute the default name of the asset.
-	 * The default name is in the form `table_name.id`
+	 * The default name is in the form table_name.id
 	 * where id is the value of the primary key of the table.
 	 *
 	 * @return  string
@@ -95,7 +95,7 @@ class JTableContent extends JTable
 	 * @param   array  $hash named array
 	 *
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see		JTable:bind
+	 * @see     JTable:bind
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -138,7 +138,7 @@ class JTableContent extends JTable
 	 * Overloaded check function
 	 *
 	 * @return  boolean
-	 * @see		JTable::check
+	 * @see     JTable::check
 	 * @since   11.1
 	 */
 	public function check()

@@ -37,7 +37,7 @@ abstract class JModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the name of the module
-			if ($modules[$i]->name == $name)
+			if ($modules[$i]->name == $name || $modules[$i]->module == $name)
 			{
 				// Match the title if we're looking for a specific instance of the module
 				if (!$title || $modules[$i]->title == $title)

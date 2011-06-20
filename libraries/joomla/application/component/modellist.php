@@ -57,7 +57,7 @@ class JModelList extends JModel
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
@@ -212,7 +212,7 @@ class JModelList extends JModel
 
 		// Load the total.
 		$query = $this->_getListQuery();
-		$total = (int) $this->_getListCount((string) $query);
+		$total = (int) $this->_getListCount( $query);
 
 		// Check for a database error.
 		if ($this->_db->getErrorNum()) {
