@@ -70,12 +70,11 @@ JHtml::_('behavior.noframes');
 				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
 			</noscript>
 	</div>
-</div>
-<div id="footer">
-	<p class="copyright">
-		<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
-		echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
-	</p>
-</div>
+	<div id="footer">
+		<p class="copyright">
+			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
+		</p>
+	</div>
 </body>
 </html>

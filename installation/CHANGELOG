@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 21-Jun-2011 Christophe Demko
  # [#26211] New opensearch feature generate non valid html output
+ # [#26212] Bluestork administrator login screen is not valid
 
 21-Jun-2011 Jean-Marie Simonet
  # [#26172] fatal error when calling $app->logout(); Thanks Nikolai
