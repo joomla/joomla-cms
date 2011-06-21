@@ -27,6 +27,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2011 Christophe Demko
+ # [#26211] New opensearch feature generate non valid html output
+
 21-Jun-2011 Jean-Marie Simonet
  # [#26172] fatal error when calling $app->logout(); Thanks Nikolai
  
