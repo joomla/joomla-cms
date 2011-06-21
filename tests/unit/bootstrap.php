@@ -50,7 +50,7 @@ require_once JPATH_TESTS.'/JoomlaDatabaseTestCase.php';
 
 // Include relative constants, JLoader and the jimport and jexit functions.
 require_once JPATH_BASE.'/includes/defines.php';
-require_once JPATH_LIBRARIES.'/joomla/import.php';
+require_once JPATH_LIBRARIES.'/import.php';
 
 // Include the Joomla session library.
 require_once JPATH_BASE.'/libraries/joomla/session/session.php';
