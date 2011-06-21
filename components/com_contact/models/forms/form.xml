@@ -83,10 +83,10 @@
 			size="30"
 		/>
 
-		<field name="email_to" type="text"
+		<field name="email_to" type="email"
 			description="CONTACT_INFORMATION_EMAIL_DESC"
 			label="CONTACT_INFORMATION_EMAIL_LABEL"
-			size="30"
+			size="30" validate="email" filter="string"
 		/>
 
 		<field name="address" type="textarea"

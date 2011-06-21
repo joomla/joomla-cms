@@ -11,7 +11,7 @@
 			required="true"
 		/>
 		<field name="contact_email"
-			type="text"
+			type="email"
 			id="contact-email"
 			size="30"
 			description="COM_CONTACT_EMAIL_DESC"
