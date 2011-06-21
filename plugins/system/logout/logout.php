@@ -31,7 +31,8 @@ class plgSystemLogout extends JPlugin
 	function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-
+		$this->loadLanguage();
+		
 		$hash = JUtility::getHash('plgSystemLogout');
 		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null ,'cookie'))
 		{
@@ -77,7 +78,6 @@ class plgSystemLogout extends JPlugin
 		// Make sure the error is a 403 and we are in the frontend.
 		if ($error->getCode() == 403 and $app->isSite()) {
 			// Redirect to the home page
-			$this->loadLanguage();
 			$app->redirect('index.php', JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), null, true, false);
 		}
 		else {
