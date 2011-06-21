@@ -23,7 +23,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo JText::_('COM_CACHE_NUM'); ?>
 			</th>
 			<th class="checkmark-col">
-				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="checkAll(this)" />
+				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 			</th>
 			<th class="title nowrap">
 				<?php echo JHtml::_('grid.sort',  'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>

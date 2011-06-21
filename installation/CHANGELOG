@@ -30,6 +30,7 @@ $ -> Language fix or change
 21-Jun-2011 Mark Dexter
  # [#26194] Replace calls to JRegistry::loadJSON (Michael Babker)
  # [#26196] Use field type email in com_contact (Rouven Weßling)
+ # [#26193] Actually use the namespaced version of checkAll() (Rouven Weßling)
 
 20-Jun-2011 Christophe Demko
  # [#26201] Broken newsfeeds when SEF URLs are off (Nikolai Plath)
