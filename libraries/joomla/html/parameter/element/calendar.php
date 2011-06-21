@@ -15,15 +15,27 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated	Use JForm instead.
+ * @deprecated  Use JForm instead.
  */
 class JElementCalendar extends JElement
 {
 	/**
 	* @var    string  Element named
-	*/
+	* 
+	* @since       11.1
+ 	* @deprecated
+ 	* 
+ 	* */
 	protected $_name = 'Calendar';
 
+	/**
+	* 
+	* 
+	* @since       11.1
+	* 
+ 	* @deprecated
+ 	* 
+ 	* */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		// Load the calendar behavior

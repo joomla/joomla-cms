@@ -30,7 +30,7 @@ class JInputFiles extends JInput
 	 * @param   mixed   $default  Default value to return if variable does not exist.
 	 * @param   string  $filter   Filter to apply to the value.
 	 *
-	 * @return  mixed  The filtered input value.
+	 * @return  mixed   The filtered input value.
 	 *
 	 * @since   11.1
 	 */

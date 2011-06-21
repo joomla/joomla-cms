@@ -11,43 +11,53 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.application.component.controller');
 
-// @TODO Add ability to set redirect manually to better cope with frontend usage.
-
 /**
  * Controller tailored to suit most form-based admin operations.
  *
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
+ * 
+ * @todo Add ability to set redirect manually to better cope with frontend usage.
  */
 class JControllerForm extends JController
 {
 	/**
-	 * @var    string	The context for storing internal data, e.g. record.
+	 * The context for storing internal data, e.g. record.
+	 * 
+	 * @var    string	
 	 * @since  11.1
 	 */
 	protected $context;
 
 	/**
-	 * @var    string	The URL option for the component.
+	 * The URL option for the component.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $option;
 
 	/**
-	 * @var    string	The URL view item variable.
+	 * The URL view item variable.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $view_item;
 
 	/**
-	 * @var    string	The URL view list variable.
+	 * The URL view list variable.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $view_list;
 
 	/**
-	 * @var    string	The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 * 
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected $text_prefix;
@@ -59,8 +69,8 @@ class JControllerForm extends JController
 	 *
 	 * @return  JControllerForm  A JControllerForm object
 	 *
-	 * @see     JController
 	 * @since   11.1
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
@@ -176,7 +186,7 @@ class JControllerForm extends JController
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key.
+	 * @param   string  $key   The name of the key for the primary key; default is id..
 	 *
 	 * @return  boolean
 	 * @since   11.1
@@ -297,7 +307,8 @@ class JControllerForm extends JController
 	 * Method to edit an existing record.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
+	 *                             (sometimes required to avoid router collisions).
 	 *
 	 * @return  boolean  True if access level check and checkout passes, false otherwise.
 	 * @since   11.1
@@ -357,9 +368,9 @@ class JControllerForm extends JController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string  $name	The model name. Optional.
-	 * @param   string  $prefix	The class prefix. Optional.
-	 * @param   array   $config	Configuration array for model. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
 	 * @since   11.1
@@ -408,6 +419,7 @@ class JControllerForm extends JController
 	 * Gets the URL arguments to append to a list redirect.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
+	 * 
 	 * @since   11.1
 	 */
 	protected function getRedirectToListAppend()
@@ -424,7 +436,8 @@ class JControllerForm extends JController
 	}
 
 	/**
-	 * Function that allows child controller access to model data after the data has been saved.
+	 * Function that allows child controller access to model data 
+	 * after the data has been saved.
 	 *
 	 * @param   JModel	$model      The data model object.
 	 * @param   array   $validData  The validated data.

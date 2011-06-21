@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Parameter
  * @since       11.1
- * @deprecated  Use Jorm instead
+ * @deprecated  Use JForm instead
  */
 
 class JElementList extends JElement
@@ -31,7 +31,9 @@ class JElementList extends JElement
 	 * Get the options for the element
 	 *
 	 * @param   object  The current XML node.
+	 * 
 	 * @return  array
+	 * @deprecated
 	 * @since   11.1
 	 */
 	protected function _getOptions(&$node)
@@ -53,6 +55,10 @@ class JElementList extends JElement
 	 * @param   mixed    The value of the field.
 	 * @param   object   The current XML node.
 	 * @param   string   The name of the HTML control.
+	 * 
+	 * @since   11.1
+	 * 
+	 * @deprecated
 	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{

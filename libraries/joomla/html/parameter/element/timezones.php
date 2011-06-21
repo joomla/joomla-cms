@@ -27,6 +27,12 @@ class JElementTimezones extends JElement
 	*/
 	protected $_name = 'Timezones';
 
+	/**
+	 *
+	 * @since   11.1
+	 * 
+	 * @deprecated
+	 */
 	public function fetchElement($name, $value, &$node, $control_name)
 	{
 		if (!strlen($value)) {

@@ -23,7 +23,8 @@ class JRegistry
 	/**
 	 * Registry Object
 	 *
-	 * @var object
+	 * @var     object
+	 * @since   11.1
 	 */
 	protected $data;
 
@@ -49,6 +50,8 @@ class JRegistry
 
 	/**
 	 * Magic function to clone the registry object.
+	 * 
+	 * @since  11.1
 	 */
 	public function __clone()
 	{
@@ -57,6 +60,8 @@ class JRegistry
 
 	/**
 	 * Magic function to render this object as a string using default args of toString method.
+	 * 
+	 * @since  11.1
 	 */
 	public function __toString()
 	{
@@ -64,12 +69,13 @@ class JRegistry
 	}
 
 	/**
-	 * Sets a default value if not alreay assigned.
+	 * Sets a default value if not already assigned.
 	 *
-	 * @param   string   The name of the parameter.
-	 * @param   string   An optional value for the parameter.
-	 * @param   string   An optional group for the parameter.
-	 * @return  string   The value set, or the default if the value was not previously set (or null).
+	 * @param   string   $key      The name of the parameter.
+	 * @param   string   $default  An optional value for the parameter.
+	 * @param   string             An optional group for the parameter.
+	 * 
+	 * @return  string             The value set, or the default if the value was not previously set (or null).
 	 * @since   11.1
 	 */
 	public function def($key, $default = '')
@@ -82,7 +88,8 @@ class JRegistry
 	/**
 	 * Check if a registry path exists.
 	 *
-	 * @param   string  Registry path (e.g. joomla.content.showauthor)
+	 * @param   string   $path  Registry path (e.g. joomla.content.showauthor)
+	 * 
 	 * @return  boolean
 	 * @since   11.1
 	 */
@@ -113,9 +120,10 @@ class JRegistry
 	/**
 	 * Get a registry value.
 	 *
-	 * @param   string   Registry path (e.g. joomla.content.showauthor)
-	 * @param   mixed    Optional default value, returned if the internal value is null.
-	 * @return  mixed    Value of entry or null
+	 * @param   string  $path     Registry path (e.g. joomla.content.showauthor)
+	 * @param   mixed   $default  Optional default value, returned if the internal value is null.
+	 * 
+	 * @return  mixed   Value of entry or null
 	 * @since   11.1
 	 */
 	public function get($path, $default = null)
@@ -157,8 +165,9 @@ class JRegistry
 	 * This method must be invoked as:
 	 *		<pre>$registry = JRegistry::getInstance($id);</pre>
 	 *
-	 * @param   string   An ID for the registry instance
-	 * @return  object   The JRegistry object.
+	 * @param   string  $id  An ID for the registry instance
+	 * 
+	 * @return  object  The JRegistry object.
 	 * @since   11.1
 	 */
 	public static function getInstance($id)
@@ -179,8 +188,9 @@ class JRegistry
 	/**
 	 * Load a associative array of values into the default namespace
 	 *
-	 * @param   array    Associative array of value to load
-	 * @param   string   The name of the namespace
+	 * @param   array   $array  Associative array of value to load
+	 * @param   string          The name of the namespace
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
@@ -194,8 +204,9 @@ class JRegistry
 	/**
 	 * Load the public variables of the object into the default namespace.
 	 *
-	 * @param   object   The object holding the publics to load
-	 * @param   string   Namespace to load the INI string into [optional]
+	 * @param   object  $object  The object holding the publics to load
+	 * @param   string           Namespace to load the INI string into [optional]
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
@@ -209,9 +220,10 @@ class JRegistry
 	/**
 	 * Load the contents of a file into the registry
 	 *
-	 * @param   string   Path to file to load
-	 * @param   string   Format of the file [optional: defaults to JSON]
-	 * @param   mixed    Options used by the formatter
+	 * @param   string  $file     Path to file to load
+	 * @param   string  $format   Format of the file [optional: defaults to JSON]
+	 * @param   mixed   $options  Options used by the formatter
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
@@ -227,9 +239,10 @@ class JRegistry
 	/**
 	 * Load a string into the registry
 	 *
-	 * @param   string   string to load into the registry
-	 * @param   string   format of the string
-	 * @param   mixed    Options used by the formatter
+	 * @param   string   $data     String to load into the registry
+	 * @param   string   $format   Format of the string
+	 * @param   mixed    $options  Options used by the formatter
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
@@ -247,7 +260,8 @@ class JRegistry
 	/**
 	 * Merge a JRegistry object into this one
 	 *
-	 * @param   object   Source JRegistry object ot merge
+	 * @param   object   $source  Source JRegistry object to merge
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
 	 */
@@ -268,9 +282,10 @@ class JRegistry
 	/**
 	 * Set a registry value.
 	 *
-	 * @param   string   Registry Path (e.g. joomla.content.showauthor)
-	 * @param   mixed      Value of entry
-	 * @return  mixed	The value of the that has been set.
+	 * @param   string   $path   Registry Path (e.g. joomla.content.showauthor)
+	 * @param   mixed    $value  Value of entry
+	 * 
+	 * @return  mixed    The value of the that has been set.
 	 * @since   11.1
 	 */
 	public function set($path, $value)
@@ -301,6 +316,7 @@ class JRegistry
 	 * Transforms a namespace to an array
 	 *
 	 * @param   string   Namespace to return [optional: null returns the default namespace]
+	 * 
 	 * @return  array    An associative array holding the namespace data
 	 * @since   11.1
 	 */
@@ -313,6 +329,7 @@ class JRegistry
 	 * Transforms a namespace to an object
 	 *
 	 * @param   string   Namespace to return [optional: null returns the default namespace]
+	 * 
 	 * @return  object   An an object holding the namespace data
 	 * @since   11.1
 	 */
@@ -324,8 +341,9 @@ class JRegistry
 	/**
 	 * Get a namespace in a given string format
 	 *
-	 * @param   string   Format to return the string in
-	 * @param   mixed    Parameters used by the formatter, see formatters for more info
+	 * @param   string  $format   Format to return the string in
+	 * @param   mixed   $options  Parameters used by the formatter, see formatters for more info
+	 * 
 	 * @return  string   Namespace in string format
 	 * @since   11.1
 	 */
@@ -340,8 +358,8 @@ class JRegistry
 	/**
 	 * Method to recursively bind data to a parent object.
 	 *
-	 * @param   object   $parent	The parent object on which to attach the data values.
-	 * @param   mixed    $data	An array or object of data to bind to the parent object.
+	 * @param   object   $parent  The parent object on which to attach the data values.
+	 * @param   mixed    $data    An array or object of data to bind to the parent object.
 	 *
 	 * @return  void
 	 * @since   11.1
@@ -368,7 +386,7 @@ class JRegistry
 	/**
 	 * Method to recursively convert an object of data to an array.
 	 *
-	 * @param   object   $data	An object of data to return as an array.
+	 * @param   object   $data  An object of data to return as an array.
 	 *
 	 * @return  array    Array representation of the input object.
 	 * @since   11.1
@@ -397,9 +415,10 @@ class JRegistry
 	 *
 	 * @param   string   XML formatted string to load into the registry
 	 * @param   string   Namespace to load the XML string into [optional]
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
-	 * @deprecated 1.6 - Oct 25, 2010
+	 * @deprecated
 	 */
 	public function loadXML($data, $namespace = null)
 	{
@@ -412,9 +431,10 @@ class JRegistry
 	 * @param   string   INI formatted string to load into the registry
 	 * @param   string   Namespace to load the INI string into [optional]
 	 * @param   mixed    An array of options for the formatter, or boolean to process sections.
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
-	 * @deprecated 1.6 - Oct 25, 2010
+	 * @deprecated
 	 */
 	public function loadINI($data, $namespace = null, $options = array())
 	{
@@ -424,10 +444,11 @@ class JRegistry
 	/**
 	 * Load an JSON string into the registry into the given namespace [or default if a namespace is not given]
 	 *
-	 * @param   string   JSON formatted string to load into the registry
+	 * @param   string   $data  JSON formatted string to load into the registry
+	 * 
 	 * @return  boolean  True on success
 	 * @since   11.1
-	 * @deprecated 1.6 - Oct 25, 2010
+	 * @deprecated
 	 */
 	public function loadJSON($data)
 	{
@@ -440,7 +461,7 @@ class JRegistry
 	 * @param   string   Name of the namespace to create
 	 * @return  boolean  True on success
 	 * @since   11.1
-	 * @deprecated 1.6 - Jan 19, 2010
+	 * @deprecated
 	 */
 	public function makeNameSpace($namespace)
 	{
@@ -452,7 +473,8 @@ class JRegistry
 	 * Get the list of namespaces
 	 *
 	 * @return  array    List of namespaces
-	 * @deprecated 1.6 - Jan 19, 2010
+	 * @since   11.1
+	 * @deprecated
 	 */
 	public function getNameSpaces()
 	{
@@ -465,8 +487,11 @@ class JRegistry
 	 *
 	 * @param   string   Registry path (e.g. joomla.content.showauthor)
 	 * @param   mixed    Optional default value
+	 * 
 	 * @return  mixed    Value of entry or null
-	 * @deprecated 1.6 - Jan 19, 2010
+	 * @since   11.1
+	 * 
+	 * @deprecated 1.6
 	 */
 	public function getValue($path, $default=null)
 	{
@@ -483,8 +508,11 @@ class JRegistry
 	 *
 	 * @param   string   Registry Path (e.g. joomla.content.showauthor)
 	 * @param   mixed    Value of entry
+	 * 
 	 * @return  mixed    The value after setting.
-	 * @deprecated 1.6 - Jan 19, 2010
+	 * 
+	 * @since   11.1
+	 * @deprecated 1.6
 	 */
 	public function setValue($path, $value)
 	{
@@ -503,8 +531,8 @@ class JRegistry
 	 *
 	 * @return  boolean  True.
 	 *
-	 * @deprecated  1.6 - Jun 17, 2010
-	 * @todo        Remove this method for the 1.7 release.
+	 * @deprecated
+	 * @since   11.1
 	 */
 	public function loadSetupFile()
 	{

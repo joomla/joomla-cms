@@ -43,6 +43,7 @@ abstract class JModuleHelper
 			if ($modules[$i]->name == $name || $modules[$i]->module == $name) {
 				// Match the title if we're looking for a specific instance of the module
 				if (!$title || $modules[$i]->title == $title) {
+					// Found it
 					$result = &$modules[$i];
 					break;	// Found it
 				}
@@ -210,8 +211,8 @@ abstract class JModuleHelper
 				ob_end_clean();
 			}
 		}
-
-		$app->scope = $scope; //revert the scope
+		//revert the scope
+		$app->scope = $scope;
 
 		if (constant('JDEBUG')) {
 			JProfiler::getInstance('Application')->mark('afterRenderModule '.$module->module.' ('.$module->title.')'); 
@@ -224,7 +225,8 @@ abstract class JModuleHelper
 	 * Get the path to a layout for a module
 	 *
 	 * @param   string  $module  The name of the module
-	 * @param   string  $layout  The name of the module layout. If alternative layout, in the form template:filename.
+	 * @param   string  $layout  The name of the module layout. If alternative
+	 *                           layout, in the form template:filename.
 	 * 
 	 * @return  string  The path to the module layout
 	 * 
@@ -342,12 +344,7 @@ abstract class JModuleHelper
 
 				// Only accept modules without explicit exclusions.
 				if (!$negHit) {
-					//determine if this is a custom module
-					$file				= $module->module;
-					$custom				= substr($file, 0, 4) == 'mod_' ?  0 : 1;
-					$module->user		= $custom;
-					// Custom module name is given by the title field, otherwise strip off "mod_"
-					$module->name		= $custom ? $module->title : substr($file, 4);
+					$module->name		=  substr($module->module , 4);
 					$module->style		= null;
 					$module->position	= strtolower($module->position);
 					$clean[$module->id]	= $module;
@@ -370,12 +367,12 @@ abstract class JModuleHelper
 	*
 	* Caching modes:
 	* To be set in XML:
-	* 'static'		one cache file for all pages with the same module parameters
-	* 'oldstatic'	1.5. definition of module caching, one cache file for all pages with the same module id and user aid,
-	* 'itemid'		changes on itemid change,
-	* To be called from inside the module:
-	* 'safeuri'		id created from $cacheparams->modeparams array,
-	* 'id'			module sets own cache id's
+	*    'static'      One cache file for all pages with the same module parameters
+	*    'oldstatic'   1.5 definition of module caching, one cache file for all pages
+	*                  with the same module id and user aid,
+	*    'itemid'      Changes on itemid change, to be called from inside the module:
+	*    'safeuri'     Id created from $cacheparams->modeparams array,
+	*    'id'          Module sets own cache id's
 	*
 	* @param   object  $module        Module object
 	* @param   object  $moduleparams  Module parameters
@@ -386,6 +383,8 @@ abstract class JModuleHelper
 	* @return  string
 	* 
 	* @since   11.1
+	* 
+	* @link JFilterInput::clean()
 	*/
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{

@@ -26,10 +26,11 @@ class JLanguageTransliterate
 	/**
 	 * Returns strings transliterated from UTF-8 to Latin
 	 *
-	 * @param   string   $string
-	 * @param   boolean  $case 	Optionally specify upper or lower case. Default to null.
+	 * @param   string   $string  String to transliterate
+	 * @param   boolean  $case    Optionally specify upper or lower case. Default to null.
 	 *
-	 * @return  string   transliterated string
+	 * @return  string   Transliterated string
+	 * @since   11.1
 	 */
 	static function utf8_latin_to_ascii( $string, $case=0 ){
 
